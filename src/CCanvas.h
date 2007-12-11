@@ -1,0 +1,103 @@
+/**********************************************************************************************
+    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
+
+**********************************************************************************************/
+
+#ifndef CCANVAS_H
+#define CCANVAS_H
+
+#include <QWidget>
+#include <QPointer>
+
+class IMap;
+class IMouse;
+class CMouseMoveMap;
+class CMouseSelMap;
+
+class CCanvas : public QWidget
+{
+    Q_OBJECT
+    public:
+
+        enum move_direction_e {eMoveLeft, eMoveRight, eMoveUp, eMoveDown};
+
+        CCanvas(QWidget * parent);
+        virtual ~CCanvas();
+
+        enum mouse_mode_e {
+              eMouseZoomArea    ///< use mouse to define a zoom area
+            , eMouseMoveArea    ///< use mouse to move the map
+            , eMouseSelectArea  ///< use mouse to select map tiles
+            //, eMouseNewWpt      ///< use mouse to add waypoints
+            //, eMouseEditWpt     ///< use mouse to select waypoints
+            //, eMouseMoveWpt     ///< use mouse to drag-n-drop waypoints
+            //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
+            //, eMouseCutTrack    ///< use mouse to cut a track into two pieces
+            //, eMouseEditRte     ///< use mouse to define a new route polyline
+            //, eMouseMoveRte     ///< use mouse to move route points
+            //, eMouseDelRte      ///< use mouse to delete route points
+        };
+
+
+        void loadMapSet(const QString& filename);
+
+        void zoom(bool in, const QPoint& p);
+
+        void move(move_direction_e dir);
+        /// change the current mouse mode
+        void setMouseMode(mouse_mode_e mode);
+
+    protected:
+        void paintEvent(QPaintEvent * e);
+        void resizeEvent(QResizeEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+        void wheelEvent(QWheelEvent * e);
+
+        /// set override cursor
+        void enterEvent(QEvent * event);
+        /// restore cursor
+        void leaveEvent(QEvent * event);
+
+        void draw(QPainter& p);
+
+    private:
+        friend class CMouseMoveMap;
+        friend class CMouseSelMap;
+
+        void mouseMoveEventCoord(QMouseEvent * e);
+
+        IMouse * mouse;
+        CMouseMoveMap * mouseMoveMap;
+        CMouseSelMap * mouseSelMap;
+
+        /// current mouse mode
+        mouse_mode_e mouseMode;
+
+        QPointer<IMap> map;
+
+        bool moveMap;
+
+        QPoint oldPoint;
+
+
+
+};
+
+#endif //CCANVAS_H
+

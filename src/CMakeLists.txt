@@ -1,0 +1,62 @@
+include(${QT_USE_FILE})
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+set(qlandkarte_SRCS
+    main.cpp
+    GeoMath.cpp
+    CCopyright.cpp
+    CMainWindow.cpp
+    CCanvas.cpp
+    IMouse.cpp
+    CMouseMoveMap.cpp
+    CMouseSelMap.cpp
+    IMap.cpp
+    CMapFile.cpp
+    CMapLevel.cpp
+    CMapRaster.cpp
+    CMegaMenu.cpp
+)
+
+set(qlandkarte_HDRS
+    version.h
+    GeoMath.h
+    CCopyright.h
+    CMainWindow.h
+    CCanvas.h
+    IMouse.h
+    CMouseMoveMap.h
+    CMouseSelMap.h
+    IMap.h
+    CMapNoMap.h
+    CMapFile.h
+    CMapLevel.h
+    CMapRaster.h
+    CMegaMenu.h
+)
+
+SET(qlandkarte_UIS
+    ICopyright.ui
+
+)
+
+SET(qlandkarte_RCS
+    resources.qrc
+)
+
+qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
+qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
+qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+add_executable( qlandkarte ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
+
+if(UNIX)
+  add_definitions(-Wall -O2)
+endif(UNIX)
+
+target_link_libraries(qlandkarte gdal proj ${QT_LIBRARIES})
+
+
+
