@@ -68,8 +68,6 @@ void CExportMapThread::setup(const XY& p1, const XY& p2, const QString& filename
         comment = comment.replace("_"," ");
     }
 
-    qDebug() << filename << exportPath << filebasename << comment;
-
 }
 
 void CExportMapThread::slotCancel()
