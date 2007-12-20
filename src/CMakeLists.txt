@@ -50,13 +50,13 @@ qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable( qlandkarte ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
+add_executable( QLandkarteGT ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
 
 if(UNIX)
   add_definitions(-Wall -O2)
 endif(UNIX)
 
-target_link_libraries(qlandkarte gdal proj ${QT_LIBRARIES})
+target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES})
 
 
 

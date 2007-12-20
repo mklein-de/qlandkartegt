@@ -34,7 +34,7 @@ CMainWindow::CMainWindow()
     theMainWindow = this;
 
     setObjectName("MainWidget");
-    setWindowTitle("QLandkarte 2");
+    setWindowTitle("QLandkarte GT");
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
 
     statusCoord = new QLabel(this);
@@ -151,9 +151,9 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
 
 void CMainWindow::slotLoadMapSet()
 {
-    QString filename = QFileDialog::getOpenFileName( 0, tr("Select *.map file")
+    QString filename = QFileDialog::getOpenFileName( 0, tr("Select *.qmap file")
                                                     ,pathMaps
-                                                    ,"Map Collection (*.map)"
+                                                    ,"Map Collection (*.qmap)"
                                                     );
     if(filename.isEmpty()) return;
 

@@ -73,7 +73,7 @@ void CExportMapThread::run()
     canceled = false;
     int cntLevel = 0, cntFile = 0;
 
-    // build export name by <BaseMapName>_<top [�]>_<left [�]>_<width [m]>x<height [m]>
+    // build export name by <BaseMapName>_<top [ï¿½]>_<left [ï¿½]>_<width [m]>x<height [m]>
     /*
         topLeft         p4
 
@@ -92,7 +92,7 @@ void CExportMapThread::run()
     int realHeight = ::distance(topLeft, p3, a1, a2);
 
     QString filenamebase = QString("%1%2_%3_%4x%5").arg(filename).arg(topLeft.v * RAD_TO_DEG).arg(topLeft.u * RAD_TO_DEG).arg(realWidth).arg(realHeight);
-    QSettings mapdef(filenamebase + ".map",QSettings::IniFormat);
+    QSettings mapdef(filenamebase + ".qmap",QSettings::IniFormat);
     mapdef.setValue("home/zoom",1);
 
     QVector<CMapLevel*> maplevels = theMap->maplevels;
@@ -266,6 +266,8 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
     // create map export thread handler
     thExportMap     = new CExportMapThread(this);
 
+
+    QDir path = QFileInfo(filename).absolutePath();
     // load map definition
     QSettings mapdef(filename,QSettings::IniFormat);
     int n = mapdef.value("main/levels",0).toInt();
@@ -283,7 +285,7 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
         if(files.count()){
             QString file;
             foreach(file,files){
-                maplevel->addMapFile(file);
+                maplevel->addMapFile(path.filePath(file));
             }
             maplevels << maplevel;
         }
