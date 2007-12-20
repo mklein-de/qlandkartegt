@@ -29,8 +29,8 @@ int main(int argc, char ** argv)
     GDALAllRegister();
 
     QApplication theApp(argc,argv);
-    QCoreApplication::setApplicationName("QLandkarte2");
-    QCoreApplication::setOrganizationName("QLandkarte2");
+    QCoreApplication::setApplicationName("QLandkarteGT");
+    QCoreApplication::setOrganizationName("QLandkarteGT");
 
     QSplashScreen *splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
     splash->show();

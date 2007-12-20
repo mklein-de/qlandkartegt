@@ -27,6 +27,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QProgressDialog>
+#include <QDir>
 
 class CMapLevel;
 class CExportMapThread;
@@ -64,6 +65,8 @@ class CMapRaster : virtual public IMap
 
         QString filename;
 
+        QString exportPath;
+
         QVector<CMapLevel*> maplevels;
 
         QPointer<CMapLevel> pMaplevel;
@@ -93,7 +96,7 @@ class CExportMapThread : public QThread
 
         ~CExportMapThread(){};
 
-        void setup(const XY& p1, const XY& p2);
+        void setup(const XY& p1, const XY& p2, const QString& filename, const QString& comment);
 
     signals:
         void sigSetMessage(const QString& msg);
@@ -109,9 +112,11 @@ class CExportMapThread : public QThread
 
     private:
         QMutex mutex;
-
         CMapRaster * theMap;
-        QString filename;
+
+        QDir exportPath;
+        QString filebasename;
+        QString comment;
         XY topLeft;
         XY bottomRight;
         double width;

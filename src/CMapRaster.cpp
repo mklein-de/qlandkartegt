@@ -43,20 +43,33 @@ CExportMapThread::CExportMapThread(CMapRaster * map)
     , canceled(false)
 {
 
-    filename = QFileInfo(map->filename).baseName();
     connect(this,SIGNAL(sigSetRange(int,int)),&map->progressExport,SLOT(setRange(int,int)));
     connect(this,SIGNAL(sigSetValue(int)),&map->progressExport,SLOT(setValue(int)));
     connect(this,SIGNAL(sigSetMessage(const QString &)),&map->progressExport,SLOT(setLabelText(const QString &)));
     connect(this,SIGNAL(sigDone(int)),&map->progressExport,SLOT(done(int)));
 
     connect(map->butCancelExport,SIGNAL(pressed()), this, SLOT(slotCancel()));
+
 };
 
-void CExportMapThread::setup(const XY& p1, const XY& p2)
+void CExportMapThread::setup(const XY& p1, const XY& p2, const QString& filename, const QString& c)
 {
     QMutexLocker lock(&mutex);
     topLeft     = p1;
     bottomRight = p2;
+
+    QFileInfo fi(filename);
+
+    filebasename    = fi.baseName();
+    exportPath      = fi.path();
+    comment         = c;
+    if(comment.isEmpty()){
+        comment = filebasename;
+        comment = comment.replace("_"," ");
+    }
+
+    qDebug() << filename << exportPath << filebasename << comment;
+
 }
 
 void CExportMapThread::slotCancel()
@@ -91,9 +104,25 @@ void CExportMapThread::run()
     int realWidth  = ::distance(topLeft, p4, a1, a2);
     int realHeight = ::distance(topLeft, p3, a1, a2);
 
-    QString filenamebase = QString("%1%2_%3_%4x%5").arg(filename).arg(topLeft.v * RAD_TO_DEG).arg(topLeft.u * RAD_TO_DEG).arg(realWidth).arg(realHeight);
-    QSettings mapdef(filenamebase + ".qmap",QSettings::IniFormat);
+    QSettings mapdef(exportPath.filePath(filebasename + ".qmap"),QSettings::IniFormat);
     mapdef.setValue("home/zoom",1);
+
+    mapdef.beginGroup("description");
+    mapdef.setValue("comment",comment);
+
+    QString str;
+    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, str);
+    str = str.replace("\260","");
+    mapdef.setValue("topleft",str);
+
+    GPS_Math_Deg_To_Str(bottomRight.u * RAD_TO_DEG, bottomRight.v * RAD_TO_DEG, str);
+    str = str.replace("\260","");
+    mapdef.setValue("bottomright",str);
+
+    mapdef.setValue("width",QString("%1 m").arg(realWidth));
+    mapdef.setValue("height",QString("%1 m").arg(realHeight));
+
+    mapdef.endGroup();
 
     QVector<CMapLevel*> maplevels = theMap->maplevels;
     QVector<CMapLevel*>::const_iterator maplevel = maplevels.begin();
@@ -142,7 +171,7 @@ void CExportMapThread::run()
             QRect intersect = exportarea.intersected(maparea).toRect();
 
             if(intersect.isValid()){
-                QString strFilename = QString("%1_%2_%3.tif").arg(filenamebase).arg(cntLevel).arg(cntFile);
+                QString strFilename = QString("%1_%2_%3.tif").arg(filebasename).arg(cntLevel).arg(cntFile);
 
                 files << QFileInfo(strFilename).fileName();
 
@@ -154,7 +183,7 @@ void CExportMapThread::run()
                 y2 = intersect.top();
 
                 // the original boundaries in [m]
-                qDebug() << intersect << x1 << y1 << x2 << y2;
+//                 qDebug() << intersect << x1 << y1 << x2 << y2;
 
                 x1 = (((x1 - (*mapfile)->xref1) / (*mapfile)->xscale) / (*mapfile)->tileWidth);
                 y1 = (((y1 - (*mapfile)->yref1) / (*mapfile)->yscale) / (*mapfile)->tileHeight);
@@ -163,7 +192,7 @@ void CExportMapThread::run()
                 y2 = (((y2 - (*mapfile)->yref1) / (*mapfile)->yscale + (*mapfile)->tileHeight)) / (*mapfile)->tileHeight;
 
                 // the boundaries in number of blocks
-                qDebug() << intersect << x1 << y1 << x2 << y2;
+//                 qDebug() << intersect << x1 << y1 << x2 << y2;
 
                 emit sigSetRange(0,(x2 - x1) * (y2 - y1));
 
@@ -177,7 +206,7 @@ void CExportMapThread::run()
 
                 GDALDriverManager * drvman  = GetGDALDriverManager();
                 GDALDriver  * driver        = drvman->GetDriverByName("GTiff");
-                GDALDataset * dataset       = driver->Create(strFilename.toLatin1(),
+                GDALDataset * dataset       = driver->Create(exportPath.filePath(strFilename).toLatin1(),
                                                              (x2 - x1) * (*mapfile)->tileWidth,
                                                              (y2 - y1) * (*mapfile)->tileHeight,
                                                              1,GDT_Byte,(char **)cimage_args);
@@ -319,6 +348,8 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
         zoom(zoomidx);
     }
     cfg.endGroup();
+
+    exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 }
 
 CMapRaster::~CMapRaster()
@@ -330,6 +361,8 @@ CMapRaster::~CMapRaster()
     cfg.setValue("lon",topLeft.u);
     cfg.setValue("lat",topLeft.v);
     cfg.endGroup();
+
+    cfg.setValue("path/export",exportPath);
 }
 
 
@@ -511,9 +544,6 @@ void CMapRaster::select(const QRect& rect)
 {
     if(pMaplevel.isNull()) return;
 
-    progressExport.setLabelText(tr("Export map ..."));
-    progressExport.show();
-
     XY p1,p2;
     p1.u = rect.left();
     p1.v = rect.top();
@@ -523,6 +553,24 @@ void CMapRaster::select(const QRect& rect)
     convertPt2Rad(p1.u, p1.v);
     convertPt2Rad(p2.u, p2.v);
 
-    thExportMap->setup(p1,p2);
+    QString filebase    = QString("%1_%2_%3").arg(QFileInfo(filename).baseName()).arg(p1.v * RAD_TO_DEG).arg(p1.u * RAD_TO_DEG);
+    filebase            = filebase.replace(".","");
+    QString fn = QFileDialog::getSaveFileName(0,tr("Select map collection filename...")
+                                               ,QDir(exportPath).filePath(filebase + ".qmap")
+                                               ,"*.qmap"
+                                             );
+    if(fn.isEmpty()){
+        return;
+    }
+
+    exportPath = QFileInfo(fn).path();
+
+
+    QString internalMapName = QInputDialog::getText(0,tr("Enter short description..."),QFileInfo(filename).baseName());
+
+    progressExport.setLabelText(tr("Export map ..."));
+    progressExport.show();
+
+    thExportMap->setup(p1,p2,fn,internalMapName);
     thExportMap->start();
 }
