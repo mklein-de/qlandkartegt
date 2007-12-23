@@ -23,6 +23,7 @@
 #include <ogr_spatialref.h>
 
 #include <QtCore>
+#include <QColor>
 
 CMapFile::CMapFile(const QString& filename, CMapLevel * parent)
     : QObject(parent)
@@ -73,6 +74,15 @@ CMapFile::CMapFile(const QString& filename, CMapLevel * parent)
     for(int i=0; i < pct->GetColorEntryCount(); ++i){
         const GDALColorEntry& e = *pct->GetColorEntry(i);
         colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+    }
+
+    int success = 0;
+    double idx = pBand->GetNoDataValue(&success);
+
+    if(success){
+        QColor tmp(colortable[idx]);
+        tmp.setAlpha(0);
+        colortable[idx] = tmp.rgba();
     }
 
     pBand->GetBlockSize(&tileWidth,&tileHeight);
