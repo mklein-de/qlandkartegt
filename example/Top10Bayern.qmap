@@ -1,21 +1,21 @@
-[main]
-levels=3
+[home]
+center=N49 01.449 E012 04.587
+zoom=1
 
 [level1]
-zoomLevelMin=1
-zoomLevelMax=4
 files=by010_n.tif|by010_s.tif
+zoomLevelMax=4
+zoomLevelMin=1
 
 [level2]
-zoomLevelMin=5
-zoomLevelMax=7
 files=by200.tif
+zoomLevelMax=7
+zoomLevelMin=5
 
 [level3]
-zoomLevelMin=8
-zoomLevelMax=20
 files=by500.tif
+zoomLevelMax=20
+zoomLevelMin=8
 
-[home]
-center=N49 01.926 E012 06.173
-zoom=8
+[main]
+levels=3
