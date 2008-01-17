@@ -24,8 +24,10 @@
 
 class QSplitter;
 class QLabel;
+class QToolBox;
 class CCanvas;
 class CMegaMenu;
+class CWptDB;
 
 class CMainWindow : public QMainWindow
 {
@@ -52,7 +54,11 @@ class CMainWindow : public QMainWindow
         /// the vertical splitter holding the canvas and track info view
         QSplitter * rightSplitter;
 
+        /// left hand context sensitive menu
         CMegaMenu * megaMenu;
+
+        /// left hand tool box
+        QToolBox  * toolbox;
         /// the map canvas
         CCanvas * canvas;
         /// coordinate label
@@ -61,6 +67,9 @@ class CMainWindow : public QMainWindow
         /// root path of all maps
         QString pathMaps;
         QString mapFile;
+
+        /// the waypoint data base
+        CWptDB * wptdb;
 
 
 };

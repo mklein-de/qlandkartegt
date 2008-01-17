@@ -22,6 +22,7 @@
 #include "CMegaMenu.h"
 #include "CCanvas.h"
 #include "CCopyright.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 
@@ -59,7 +60,9 @@ CMainWindow::CMainWindow()
 
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
-    leftSplitter->addWidget(new QWidget());
+
+    toolbox = new QToolBox(canvas);
+    leftSplitter->addWidget(toolbox);
 
     showMaximized();
 
@@ -92,6 +95,8 @@ CMainWindow::CMainWindow()
     if(!mapFile.isEmpty()){
         canvas->loadMapSet(QDir(pathMaps).filePath(mapFile));
     }
+
+    wptdb = new CWptDB(toolbox, this);
 
 }
 
