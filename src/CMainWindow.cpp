@@ -96,7 +96,9 @@ CMainWindow::CMainWindow()
         canvas->loadMapSet(QDir(pathMaps).filePath(mapFile));
     }
 
+    toolbox->addItem(new QWidget(this),"test1");
     wptdb = new CWptDB(toolbox, this);
+    toolbox->addItem(new QWidget(this),"test2");
 
 }
 

@@ -29,7 +29,7 @@
 CWptToolWidget::CWptToolWidget(QToolBox * parent)
     : QWidget(parent)
 {
-    parent->addItem(this,tr("Waypoints"));
+    parent->addItem(this,QIcon(":/icons/iconWaypoint16x16"),tr("Waypoints"));
 }
 
 CWptToolWidget::~CWptToolWidget()

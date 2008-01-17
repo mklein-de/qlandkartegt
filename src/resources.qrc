@@ -10,9 +10,11 @@
       <file>icons/iconMoveMap16x16.png</file>
       <file>icons/iconSelMap16x16.png</file>
       <file>icons/iconBack16x16.png</file>
+      <file>icons/iconWaypoint16x16.png</file>
 
       <file>icons/backGlobe128x128.png</file>
       <file>icons/backMap128x128.png</file>
+      <file>icons/backWaypoint128x128.png</file>
 
       <file>cursors/cursorMoveMap.png</file>
       <file>cursors/cursorSelMap.png</file>

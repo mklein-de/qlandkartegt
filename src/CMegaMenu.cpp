@@ -71,6 +71,7 @@ class CLabel : public QLabel
 const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] = {
      {0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps.")}
+    ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -89,6 +90,20 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconSelMap16x16",QObject::tr("Select Map"),&CMegaMenu::funcSelectArea,tr("Select area of map for upload.\nSelect area by pressing down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+};
+
+const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
+     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map.\nPress down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -257,6 +272,16 @@ void CMegaMenu::funcSwitchToMap()
 //     gpResources->mapdb().gainFocus();
     funcMoveArea();
 }
+
+void CMegaMenu::funcSwitchToWpt()
+{
+    menuTitle->setText(tr("<b>Waypoints ...</b>"));
+    setPixmap(QPixmap(":/icons/backWaypoint128x128"));
+    switchState(fsWpt);
+//     gpResources->mapdb().gainFocus();
+    funcMoveArea();
+}
+
 
 void CMegaMenu::funcMoveArea()
 {

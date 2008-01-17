@@ -53,6 +53,7 @@ class CMegaMenu : public QLabel
 
         void funcSwitchToMain();
         void funcSwitchToMap();
+        void funcSwitchToWpt();
 
         void funcMoveArea();
         void funcSelectArea();
@@ -82,6 +83,7 @@ class CMegaMenu : public QLabel
 
         static const func_key_state_t fsMain[];
         static const func_key_state_t fsMap[];
+        static const func_key_state_t fsWpt[];
 };
 
 #endif //CMEGAMENU_H
