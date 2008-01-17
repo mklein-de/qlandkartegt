@@ -24,6 +24,7 @@
 class QToolBox;
 class QWidget;
 
+/// base class for all database objects
 class IDB : public QObject
 {
     Q_OBJECT

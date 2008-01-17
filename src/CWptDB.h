@@ -23,6 +23,7 @@
 
 class CWptToolWidget;
 
+/// waypoint database
 class CWptDB : public IDB
 {
     Q_OBJECT

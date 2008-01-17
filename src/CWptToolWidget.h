@@ -24,6 +24,7 @@
 
 class QToolBox;
 
+/// waypoint tool view
 class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
 {
     Q_OBJECT

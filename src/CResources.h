@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+/// all global resources
 class CResources : public QObject
 {
     Q_OBJECT

@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+/// waypoint object
 class CWpt : public QObject
 {
     Q_OBJECT

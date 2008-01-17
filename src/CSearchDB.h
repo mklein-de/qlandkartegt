@@ -25,6 +25,7 @@
 
 class QHttp;
 
+/// search database
 class CSearchDB : public IDB
 {
     Q_OBJECT

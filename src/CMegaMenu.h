@@ -27,7 +27,7 @@ class CCanvas;
 class QLabel;
 class QGridLayout;
 
-
+/// the left hand context sensitive menu
 class CMegaMenu : public QLabel
 {
     Q_OBJECT
