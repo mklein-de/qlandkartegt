@@ -29,6 +29,7 @@ class CCanvas;
 class CMegaMenu;
 class CWptDB;
 class CSearchDB;
+class CResources;
 
 class CMainWindow : public QMainWindow
 {
@@ -69,6 +70,8 @@ class CMainWindow : public QMainWindow
         /// root path of all maps
         QString pathMaps;
         QString mapFile;
+
+        CResources * resources;
 
         /// the waypoint data base
         CWptDB * wptdb;

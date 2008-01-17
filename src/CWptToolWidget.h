@@ -20,10 +20,11 @@
 #define CWPTTOOLWIDGET_H
 
 #include <QWidget>
+#include "ui_IWptToolWidget.h"
 
 class QToolBox;
 
-class CWptToolWidget : public QWidget
+class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
 {
     Q_OBJECT
     public:

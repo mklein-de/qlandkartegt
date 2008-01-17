@@ -16,52 +16,43 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CSEARCHDB_H
-#define CSEARCHDB_H
+#ifndef CRESOURCES_H
+#define CRESOURCES_H
 
-#include "IDB.h"
+#include <QObject>
 
-#include <QList>
-
-class QHttp;
-
-class CSearchDB : public IDB
+class CResources : public QObject
 {
     Q_OBJECT
     public:
-        virtual ~CSearchDB();
+        virtual ~CResources();
 
-        struct result
-        {
-            qreal   lon;
-            qreal   lat;
-            QString label;
-        };
+        static CResources& self(){return *m_self;}
 
-        void search(const QString& str);
 
-        /// get iterator access to track point list
-        QList<result>::iterator begin(){return results.begin();}
-        /// get iterator access to track point list
-        QList<result>::iterator end(){return results.end();}
+        /// get HTTP proxy settings
+        /**
+            @param url a string to store the proxy's URL
+            @param port a 16bit unsigned integer to store the proxy's port
 
-    signals:
-        void sigStatus(const QString& msg);
-
-    private slots:
-        void slotSetupLink();
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
+            @return The method will return true if the proxy is enabled.
+        */
+        bool getHttpProxy(QString& url, quint16& port);
 
     private:
         friend class CMainWindow;
+        CResources(QObject * parent);
 
-        CSearchDB(QToolBox * tb, QObject * parent);
-        static CSearchDB * m_self;
+        static CResources * m_self;
 
-        QHttp * google;
-        QList<result> results;
+        /// use proxy for http requests
+        bool m_useHttpProxy;
+        /// the  proxy name or address
+        QString m_httpProxy;
+        /// the proxy port
+        quint16 m_httpProxyPort;
+
 };
 
-#endif //CSEARCHDB_H
+#endif //CRESOURCES_H
 

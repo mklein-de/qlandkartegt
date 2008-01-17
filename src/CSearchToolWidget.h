@@ -25,10 +25,11 @@
 #define CSEARCHTOOLWIDGET_H
 
 #include <QWidget>
+#include "ui_ISearchToolWidget.h"
 
 class QToolBox;
 
-class CSearchToolWidget : public QWidget
+class CSearchToolWidget : public QWidget, public Ui::ISearchToolWidget
 {
     Q_OBJECT
     public:

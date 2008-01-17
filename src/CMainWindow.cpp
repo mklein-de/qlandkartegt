@@ -22,6 +22,7 @@
 #include "CMegaMenu.h"
 #include "CCanvas.h"
 #include "CCopyright.h"
+#include "CResources.h"
 #include "CWptDB.h"
 #include "CSearchDB.h"
 
@@ -38,6 +39,8 @@ CMainWindow::CMainWindow()
     setObjectName("MainWidget");
     setWindowTitle("QLandkarte GT");
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
+
+    resources = new CResources(this);
 
     statusCoord = new QLabel(this);
     statusBar()->addPermanentWidget(statusCoord);
@@ -99,7 +102,6 @@ CMainWindow::CMainWindow()
 
     searchdb    = new CSearchDB(toolbox, this);
     wptdb       = new CWptDB(toolbox, this);
-    toolbox->addItem(new QWidget(this),"test2");
 
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }

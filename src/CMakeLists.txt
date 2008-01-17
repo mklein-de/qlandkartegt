@@ -1,10 +1,11 @@
-include(${QT_USE_FILE})
+include(${QT_USE_FILE} ${QT_QTNETWORK_INCLUDE_DIR})
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(qlandkarte_SRCS
     main.cpp
     GeoMath.cpp
+    CResources.cpp
     CCopyright.cpp
     CMainWindow.cpp
     CCanvas.cpp
@@ -27,6 +28,7 @@ set(qlandkarte_SRCS
 set(qlandkarte_HDRS
     version.h
     GeoMath.h
+    CResources.h
     CCopyright.h
     CMainWindow.h
     CCanvas.h
@@ -49,7 +51,8 @@ set(qlandkarte_HDRS
 
 SET(qlandkarte_UIS
     ICopyright.ui
-
+    IWptToolWidget.ui
+    ISearchToolWidget.ui
 )
 
 SET(qlandkarte_RCS
@@ -68,7 +71,7 @@ if(UNIX)
   add_definitions(-Wall -O2)
 endif(UNIX)
 
-target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES})
+target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES})
 
 
 

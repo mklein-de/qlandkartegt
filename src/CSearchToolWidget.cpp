@@ -28,6 +28,8 @@
 CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
     : QWidget(parent)
 {
+    setupUi(this);
+    setObjectName("Search");
     parent->addItem(this,QIcon(":/icons/iconSearch16x16"),tr("Search"));
 }
 

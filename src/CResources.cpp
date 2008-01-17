@@ -17,22 +17,42 @@
 
 **********************************************************************************************/
 
-#include "CWptDB.h"
-#include "CWptToolWidget.h"
+#include "CResources.h"
 
 #include <QtGui>
 
-CWptDB * CWptDB::m_self;
+CResources * CResources::m_self = 0;
 
-CWptDB::CWptDB(QToolBox * tb, QObject * parent)
-    : IDB(tb,parent)
+CResources::CResources(QObject * parent)
+    : QObject(parent)
+    , m_useHttpProxy(false)
+    , m_httpProxyPort(8080)
+
 {
-    m_self      = this;
-    toolview    = new CWptToolWidget(tb);
+    m_self = this;
+
+    QSettings cfg;
+
+    m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
+    m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
+    m_httpProxyPort   = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
+
 }
 
-CWptDB::~CWptDB()
+CResources::~CResources()
 {
+    QSettings cfg;
 
+    cfg.setValue("network/useProxy",m_useHttpProxy);
+    cfg.setValue("network/proxy/url",m_httpProxy);
+    cfg.setValue("network/proxy/port",m_httpProxyPort);
+
+}
+
+bool CResources::getHttpProxy(QString& url, quint16& port)
+{
+    url  = m_httpProxy;
+    port = m_httpProxyPort;
+    return m_useHttpProxy;
 }
 

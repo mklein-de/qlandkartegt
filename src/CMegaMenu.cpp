@@ -200,9 +200,7 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         funcSwitchToMain();
         funcMoveArea();
     }
-    else{
-        qDebug() << "CMegaMenu::switchByKeyWord() unknown keyword:" << key;
-    }
+
 }
 
 void CMegaMenu::keyPressEvent(QKeyEvent * e)
