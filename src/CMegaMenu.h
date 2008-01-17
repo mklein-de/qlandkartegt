@@ -37,6 +37,8 @@ class CMegaMenu : public QLabel
 
         void keyPressEvent(QKeyEvent * e);
 
+        void switchByKeyWord(const QString& key);
+
     protected:
         void mousePressEvent(QMouseEvent * e);
 

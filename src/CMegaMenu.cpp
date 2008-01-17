@@ -195,6 +195,13 @@ void CMegaMenu::switchState(const func_key_state_t statedef[11])
     current = statedef;
 }
 
+void CMegaMenu::switchByKeyWord(const QString& key)
+{
+    if(key == "Waypoints" && current != fsWpt){
+        funcSwitchToWpt();
+        funcMoveArea();
+    }
+}
 
 void CMegaMenu::keyPressEvent(QKeyEvent * e)
 {

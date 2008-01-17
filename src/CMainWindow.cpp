@@ -100,6 +100,7 @@ CMainWindow::CMainWindow()
     wptdb = new CWptDB(toolbox, this);
     toolbox->addItem(new QWidget(this),"test2");
 
+    connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }
 
 CMainWindow::~CMainWindow()
@@ -175,4 +176,10 @@ void CMainWindow::slotCopyright()
 {
     CCopyright dlg;
     dlg.exec();
+}
+
+void CMainWindow::slotToolBoxChanged(int idx)
+{
+    QString key = toolbox->widget(idx)->objectName();
+    megaMenu->switchByKeyWord(key);
 }

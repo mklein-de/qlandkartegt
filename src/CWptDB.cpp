@@ -29,6 +29,7 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
 {
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
+    toolview->setObjectName("Waypoints");
 }
 
 CWptDB::~CWptDB()
