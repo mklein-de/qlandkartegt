@@ -28,6 +28,7 @@ class QToolBox;
 class CCanvas;
 class CMegaMenu;
 class CWptDB;
+class CSearchDB;
 
 class CMainWindow : public QMainWindow
 {
@@ -71,6 +72,8 @@ class CMainWindow : public QMainWindow
 
         /// the waypoint data base
         CWptDB * wptdb;
+
+        CSearchDB * searchdb;
 
 
 };

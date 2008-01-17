@@ -20,6 +20,8 @@ set(qlandkarte_SRCS
     CWpt.cpp
     CWptDB.cpp
     CWptToolWidget.cpp
+    CSearchDB.cpp
+    CSearchToolWidget.cpp
 )
 
 set(qlandkarte_HDRS
@@ -41,6 +43,8 @@ set(qlandkarte_HDRS
     CWpt.h
     CWptDB.h
     CWptToolWidget.h
+    CSearchDB.h
+    CSearchToolWidget.h
 )
 
 SET(qlandkarte_UIS

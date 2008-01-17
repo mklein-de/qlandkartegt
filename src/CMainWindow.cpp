@@ -23,6 +23,7 @@
 #include "CCanvas.h"
 #include "CCopyright.h"
 #include "CWptDB.h"
+#include "CSearchDB.h"
 
 #include <QtGui>
 
@@ -96,8 +97,8 @@ CMainWindow::CMainWindow()
         canvas->loadMapSet(QDir(pathMaps).filePath(mapFile));
     }
 
-    toolbox->addItem(new QWidget(this),"test1");
-    wptdb = new CWptDB(toolbox, this);
+    searchdb    = new CSearchDB(toolbox, this);
+    wptdb       = new CWptDB(toolbox, this);
     toolbox->addItem(new QWidget(this),"test2");
 
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
@@ -183,3 +184,4 @@ void CMainWindow::slotToolBoxChanged(int idx)
     QString key = toolbox->widget(idx)->objectName();
     megaMenu->switchByKeyWord(key);
 }
+

@@ -16,26 +16,23 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
+#ifndef CSEARCHDB_H
+#define CSEARCHDB_H
 
 #include "IDB.h"
 
-#include <QtGui>
-
-IDB::IDB(QToolBox * tb, QObject * parent)
-    : QObject(parent)
-    , toolbox(tb)
+class CSearchDB : public IDB
 {
+    Q_OBJECT
+    public:
+        virtual ~CSearchDB();
 
-}
+    private:
+        friend class CMainWindow;
 
-IDB::~IDB()
-{
+        CSearchDB(QToolBox * tb, QObject * parent);
+        static CSearchDB * m_self;
+};
 
-}
+#endif //CSEARCHDB_H
 
-void IDB::gainFocus()
-{
-    if(toolview && toolbox->currentWidget() != toolview){
-        toolbox->setCurrentWidget(toolview);
-    }
-}
