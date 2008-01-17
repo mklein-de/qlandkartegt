@@ -24,6 +24,7 @@
 
 #include "CMegaMenu.h"
 #include "CCanvas.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -278,7 +279,7 @@ void CMegaMenu::funcSwitchToWpt()
     menuTitle->setText(tr("<b>Waypoints ...</b>"));
     setPixmap(QPixmap(":/icons/backWaypoint128x128"));
     switchState(fsWpt);
-//     gpResources->mapdb().gainFocus();
+    CWptDB::self().gainFocus();
     funcMoveArea();
 }
 

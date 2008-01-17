@@ -16,6 +16,7 @@ set(qlandkarte_SRCS
     CMapLevel.cpp
     CMapRaster.cpp
     CMegaMenu.cpp
+    IDB.cpp
     CWpt.cpp
     CWptDB.cpp
     CWptToolWidget.cpp
@@ -36,6 +37,7 @@ set(qlandkarte_HDRS
     CMapLevel.h
     CMapRaster.h
     CMegaMenu.h
+    IDB.h
     CWpt.h
     CWptDB.h
     CWptToolWidget.h

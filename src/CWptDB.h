@@ -19,12 +19,11 @@
 #ifndef CWPTDB_H
 #define CWPTDB_H
 
-#include <QObject>
+#include "IDB.h"
 
-class QToolBox;
 class CWptToolWidget;
 
-class CWptDB : public QObject
+class CWptDB : public IDB
 {
     Q_OBJECT
     public:
@@ -38,7 +37,6 @@ class CWptDB : public QObject
         CWptDB(QToolBox * tb, QObject * parent);
         static CWptDB * m_self;
 
-        CWptToolWidget * toolWidget;
 };
 
 #endif //CWPTDB_H

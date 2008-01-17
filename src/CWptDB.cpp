@@ -25,11 +25,10 @@
 CWptDB * CWptDB::m_self;
 
 CWptDB::CWptDB(QToolBox * tb, QObject * parent)
-    : QObject(parent)
+    : IDB(tb,parent)
 {
-    m_self = this;
-
-    toolWidget = new CWptToolWidget(tb);
+    m_self      = this;
+    toolview    = new CWptToolWidget(tb);
 }
 
 CWptDB::~CWptDB()
