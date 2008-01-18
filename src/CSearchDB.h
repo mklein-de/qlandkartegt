@@ -41,12 +41,14 @@ class CSearchDB : public IDB
 
         static CSearchDB& self(){return *m_self;}
 
+        /// start a query with given string
         void search(const QString& str);
-
         /// get iterator access to track point list
         QMap<QString,result_t>::iterator begin(){return results.begin();}
         /// get iterator access to track point list
         QMap<QString,result_t>::iterator end(){return results.end();}
+
+        result_t * getResultByKey(const QString& key);
 
     signals:
         void sigStatus(const QString& msg);

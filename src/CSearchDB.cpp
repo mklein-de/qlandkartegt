@@ -144,3 +144,9 @@ void CSearchDB::slotRequestFinished(int , bool error)
     emit sigFinished();
 }
 
+CSearchDB::result_t * CSearchDB::getResultByKey(const QString& key)
+{
+    if(!results.contains(key)) return 0;
+
+    return &results[key];
+}

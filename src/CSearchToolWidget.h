@@ -40,6 +40,7 @@ class CSearchToolWidget : public QWidget, public Ui::ISearchToolWidget
     private slots:
         void slotReturnPressed();
         void slotQueryFinished();
+        void slotItemClicked(QListWidgetItem* item);
 };
 
 #endif //CSEARCHTOOLWIDGET_H

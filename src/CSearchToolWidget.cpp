@@ -24,6 +24,9 @@
 
 #include "CSearchToolWidget.h"
 #include "CSearchDB.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
+
 #include <QtGui>
 
 CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
@@ -35,6 +38,8 @@ CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
     connect(lineInput, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
     connect(&CSearchDB::self(), SIGNAL(sigStatus(const QString&)), labelStatus, SLOT(setText(const QString&)));
     connect(&CSearchDB::self(), SIGNAL(sigFinished()), this, SLOT(slotQueryFinished()));
+
+    connect(listResults,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
     parent->addItem(this,QIcon(":/icons/iconSearch16x16"),tr("Search"));
 }
@@ -68,4 +73,12 @@ void CSearchToolWidget::slotQueryFinished()
         ++result;
     }
 
+}
+
+void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
+{
+    CSearchDB::result_t * result = CSearchDB::self().getResultByKey(item->text());
+    if(result){
+        theMainWindow->getCanvas()->move(result->lon, result->lat);
+    }
 }
