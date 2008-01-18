@@ -23,6 +23,7 @@
 
 class QToolBox;
 class QWidget;
+class QPainter;
 
 /// base class for all database objects
 class IDB : public QObject
@@ -32,7 +33,7 @@ class IDB : public QObject
         IDB(QToolBox * tb, QObject * parent);
         virtual ~IDB();
 
-        void gainFocus();
+        virtual void gainFocus();
 
     protected:
         QToolBox *  toolbox;

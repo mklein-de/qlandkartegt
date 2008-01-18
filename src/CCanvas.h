@@ -20,10 +20,12 @@
 #ifndef CCANVAS_H
 #define CCANVAS_H
 
+#include "IMap.h"
+
 #include <QWidget>
 #include <QPointer>
 
-class IMap;
+
 class IMouse;
 class CMouseMoveMap;
 class CMouseSelMap;
@@ -52,12 +54,20 @@ class CCanvas : public QWidget
             //, eMouseDelRte      ///< use mouse to delete route points
         };
 
-
         void loadMapSet(const QString& filename);
 
         void zoom(bool in, const QPoint& p);
 
+        /// scroll map into given direction
         void move(move_direction_e dir);
+
+        /// center to lon/lat coordinate
+        /**
+            @param lon the logitude in  [°]
+            @param lat the logitude in  [°]
+        */
+        void move(double lon, double lat);
+
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);
 
@@ -75,6 +85,7 @@ class CCanvas : public QWidget
         void leaveEvent(QEvent * event);
 
         void draw(QPainter& p);
+        void drawSearchResults(QPainter& p);
 
     private:
         friend class CMouseMoveMap;

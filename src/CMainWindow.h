@@ -40,6 +40,8 @@ class CMainWindow : public QMainWindow
 
         void setPositionInfo(const QString& info);
 
+        CCanvas * getCanvas(){return canvas;}
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 

@@ -25,6 +25,8 @@
 #include "CMouseMoveMap.h"
 #include "CMouseSelMap.h"
 
+#include "CSearchDB.h"
+
 #include <QtGui>
 
 
@@ -162,7 +164,26 @@ void CCanvas::draw(QPainter& p)
 {
     map->draw(p);
     mouse->draw(p);
+    drawSearchResults(p);
 }
+
+void CCanvas::drawSearchResults(QPainter& p)
+{
+    QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
+    while(result != CSearchDB::self().end()){
+        double u = result->lon * DEG_TO_RAD;
+        double v = result->lat * DEG_TO_RAD;
+        map->convertRad2Pt(u,v);
+
+        if(rect().contains(QPoint(u,v))){
+            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
+        }
+
+        ++result;
+    }
+
+}
+
 
 void CCanvas::wheelEvent(QWheelEvent * e)
 {
@@ -180,6 +201,15 @@ void CCanvas::loadMapSet(const QString& filename)
 void CCanvas::zoom(bool in, const QPoint& p)
 {
     map->zoom(in, p);
+    update();
+}
+
+void CCanvas::move(double lon, double lat)
+{
+    double u = lon * DEG_TO_RAD;
+    double v = lat * DEG_TO_RAD;
+    map->convertRad2Pt(u,v);
+    map->move(QPoint(u,v), rect().center());
     update();
 }
 

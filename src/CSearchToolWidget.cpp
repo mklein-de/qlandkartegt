@@ -23,6 +23,7 @@
 **********************************************************************************************/
 
 #include "CSearchToolWidget.h"
+#include "CSearchDB.h"
 #include <QtGui>
 
 CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
@@ -30,6 +31,11 @@ CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
 {
     setupUi(this);
     setObjectName("Search");
+
+    connect(lineInput, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
+    connect(&CSearchDB::self(), SIGNAL(sigStatus(const QString&)), labelStatus, SLOT(setText(const QString&)));
+    connect(&CSearchDB::self(), SIGNAL(sigFinished()), this, SLOT(slotQueryFinished()));
+
     parent->addItem(this,QIcon(":/icons/iconSearch16x16"),tr("Search"));
 }
 
@@ -38,3 +44,28 @@ CSearchToolWidget::~CSearchToolWidget()
 
 }
 
+void CSearchToolWidget::slotReturnPressed()
+{
+    QString line = lineInput->text().trimmed();
+    if(!line.isEmpty()){
+        CSearchDB::self().search(line);
+        lineInput->setEnabled(false);
+    }
+}
+
+
+void CSearchToolWidget::slotQueryFinished()
+{
+    lineInput->setEnabled(true);
+
+    listResults->clear();
+
+    QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
+    while(result != CSearchDB::self().end()){
+        QListWidgetItem * item = new QListWidgetItem(listResults);
+        item->setText(result->query);
+
+        ++result;
+    }
+
+}

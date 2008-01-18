@@ -25,6 +25,8 @@
 #include "CSearchDB.h"
 #include "CSearchToolWidget.h"
 #include "CResources.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -54,6 +56,10 @@ void CSearchDB::search(const QString& str)
 
     if(google == 0) return;
 
+    emit sigStatus("");
+
+    tmpResult.query = str;
+
     url.setPath("/maps/geo");
     url.addQueryItem("q",str);
     url.addQueryItem("output","csv");
@@ -82,12 +88,12 @@ void CSearchDB::slotSetupLink()
 
 void CSearchDB::slotRequestStarted(int )
 {
-//     lineInput->setEnabled(false);
+
 }
 
 void CSearchDB::slotRequestFinished(int , bool error)
 {
-//     lineInput->setEnabled(true);
+
     if(error){
         emit sigStatus(google->errorString());
 
@@ -96,27 +102,24 @@ void CSearchDB::slotRequestFinished(int , bool error)
     QString asw = google->readAll();
     asw = asw.simplified();
 
-    if(asw.isEmpty()) return;
+    if(asw.isEmpty()){
+        emit sigFinished();
+        return;
+    }
 
-//     labelStatus->clear();
-
-//     qDebug() << asw;
     QStringList values = asw.split(",");
 
     if(values.count() != 4){
         emit sigStatus(tr("Bad number of return paramters"));
     }
     else if(values[0] == "200"){
-        double longitude = values[3].toDouble();
-        double latitude  = values[2].toDouble();
-//         gpResources->canvas().move(longitude,latitude,lineInput->currentText());
 
-//         if(listQuery->findItems(lineInput->currentText(),Qt::MatchExactly).isEmpty()){
-//             QListWidgetItem *item = new QListWidgetItem(lineInput->currentText(),0);
-//             item->setData(Qt::UserRole,longitude);
-//             item->setData(Qt::UserRole + 1,latitude);
-//             listQuery->insertItem(0,item);
-//         }
+        tmpResult.lat = values[2].toDouble();
+        tmpResult.lon = values[3].toDouble();
+        results[tmpResult.query] = tmpResult;
+
+        theMainWindow->getCanvas()->move(tmpResult.lon, tmpResult.lat);
+
         emit sigStatus(tr("Success."));
     }
     else if(values[0] == "500"){
@@ -137,5 +140,7 @@ void CSearchDB::slotRequestFinished(int , bool error)
     else{
         emit sigStatus(asw);
     }
+
+    emit sigFinished();
 }
 

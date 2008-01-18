@@ -21,7 +21,7 @@
 
 #include "IDB.h"
 
-#include <QList>
+#include <QMap>
 
 class QHttp;
 
@@ -32,22 +32,25 @@ class CSearchDB : public IDB
     public:
         virtual ~CSearchDB();
 
-        struct result
+        struct result_t
         {
             qreal   lon;
             qreal   lat;
-            QString label;
+            QString query;
         };
+
+        static CSearchDB& self(){return *m_self;}
 
         void search(const QString& str);
 
         /// get iterator access to track point list
-        QList<result>::iterator begin(){return results.begin();}
+        QMap<QString,result_t>::iterator begin(){return results.begin();}
         /// get iterator access to track point list
-        QList<result>::iterator end(){return results.end();}
+        QMap<QString,result_t>::iterator end(){return results.end();}
 
     signals:
         void sigStatus(const QString& msg);
+        void sigFinished();
 
     private slots:
         void slotSetupLink();
@@ -61,7 +64,8 @@ class CSearchDB : public IDB
         static CSearchDB * m_self;
 
         QHttp * google;
-        QList<result> results;
+        result_t tmpResult;
+        QMap<QString,result_t> results;
 };
 
 #endif //CSEARCHDB_H

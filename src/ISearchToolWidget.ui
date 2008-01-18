@@ -19,7 +19,7 @@
    <item>
     <widget class="QLabel" name="labelStatus" >
      <property name="text" >
-      <string>TextLabel</string>
+      <string/>
      </property>
      <property name="wordWrap" >
       <bool>true</bool>
@@ -27,7 +27,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListView" name="listResults" />
+    <widget class="QListWidget" name="listResults" />
    </item>
   </layout>
  </widget>

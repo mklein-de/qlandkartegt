@@ -36,6 +36,10 @@ class CSearchToolWidget : public QWidget, public Ui::ISearchToolWidget
     public:
         CSearchToolWidget(QToolBox * parent);
         virtual ~CSearchToolWidget();
+
+    private slots:
+        void slotReturnPressed();
+        void slotQueryFinished();
 };
 
 #endif //CSEARCHTOOLWIDGET_H
