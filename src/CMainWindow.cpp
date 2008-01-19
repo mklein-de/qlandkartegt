@@ -25,6 +25,7 @@
 #include "CResources.h"
 #include "CWptDB.h"
 #include "CSearchDB.h"
+#include "CDlgConfig.h"
 
 #include <QtGui>
 
@@ -132,6 +133,11 @@ void CMainWindow::setupMenuBar()
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
+    menu->setTitle(tr("&Setup"));
+    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("Config"),this,SLOT(slotConfig()));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
     menu->setTitle(tr("&About"));
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("Copyright"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
@@ -187,3 +193,8 @@ void CMainWindow::slotToolBoxChanged(int idx)
     megaMenu->switchByKeyWord(key);
 }
 
+void CMainWindow::slotConfig()
+{
+    CDlgConfig dlg(this);
+    dlg.exec();
+}

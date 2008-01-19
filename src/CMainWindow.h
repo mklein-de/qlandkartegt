@@ -49,6 +49,7 @@ class CMainWindow : public QMainWindow
         void slotLoadMapSet();
         void slotCopyright();
         void slotToolBoxChanged(int idx);
+        void slotConfig();
 
     private:
         void setupMenuBar();

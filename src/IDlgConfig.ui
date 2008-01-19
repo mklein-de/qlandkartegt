@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>492</height>
+    <width>472</width>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -15,15 +15,203 @@
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
-       <string>Tab 1</string>
+       <string>Environment</string>
       </attribute>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QGroupBox" name="groupBox" >
+         <property name="title" >
+          <string>Font</string>
+         </property>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="labelFont" >
+            <property name="text" >
+             <string>ABCDEFGHabcdefgh123456789</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolFont" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2" >
+         <property name="title" >
+          <string>Units</string>
+         </property>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QRadioButton" name="radioMetric" >
+            <property name="text" >
+             <string>Metric</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioImperial" >
+            <property name="text" >
+             <string>Imperial</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_3" >
+         <property name="title" >
+          <string>Time</string>
+         </property>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QLabel" name="label_2" >
+            <property name="text" >
+             <string>Your sytem's hardware clock is set to UTC +</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinHour" >
+            <property name="minimum" >
+             <number>-12</number>
+            </property>
+            <property name="maximum" >
+             <number>12</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinMinutes" >
+            <property name="maximum" >
+             <number>45</number>
+            </property>
+            <property name="singleStep" >
+             <number>15</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_2" >
       <attribute name="title" >
-       <string>Tab 2</string>
+       <string>Network</string>
       </attribute>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QGroupBox" name="groupBox_4" >
+         <property name="title" >
+          <string>Proxy</string>
+         </property>
+         <layout class="QVBoxLayout" >
+          <item>
+           <widget class="QCheckBox" name="checkProxy" >
+            <property name="text" >
+             <string>enable</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" >
+            <item>
+             <widget class="QLabel" name="label" >
+              <property name="text" >
+               <string>URL</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineProxyURL" />
+            </item>
+            <item>
+             <widget class="QLabel" name="label_4" >
+              <property name="text" >
+               <string>Port</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="linePortURL" >
+              <property name="inputMask" >
+               <string>00000; </string>
+              </property>
+              <property name="text" >
+               <string>8080</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_5" >
+         <property name="title" >
+          <string>Browser</string>
+         </property>
+         <layout class="QVBoxLayout" >
+          <item>
+           <widget class="QComboBox" name="comboBrowser" >
+            <item>
+             <property name="text" >
+              <string>Firefox</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Konqueror</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>other (needs command line)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineBrowserCustom" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>my command %s</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5" >
+            <property name="text" >
+             <string>%s will be replaced by URL</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
