@@ -13,6 +13,7 @@
       <file>icons/iconWaypoint16x16.png</file>
       <file>icons/iconSearch16x16.png</file>
       <file>icons/iconBullseye16x16.png</file>
+      <file>icons/iconAdd16x16.png</file>
 
       <file>icons/backGlobe128x128.png</file>
       <file>icons/backMap128x128.png</file>
@@ -22,6 +23,7 @@
       <file>cursors/cursorSelMap.png</file>
       <file>cursors/cursorArrow.png</file>
       <file>cursors/cursorMove.png</file>
+      <file>cursors/cursorAdd.png</file>
 
     </qresource>
   </RCC>

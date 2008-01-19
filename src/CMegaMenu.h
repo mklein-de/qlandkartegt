@@ -60,6 +60,8 @@ class CMegaMenu : public QLabel
         void funcMoveArea();
         void funcSelectArea();
 
+        void funcNewWpt();
+
         QPointer<CCanvas>  canvas;
 
         QLabel * menuTitle;

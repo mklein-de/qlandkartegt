@@ -99,7 +99,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint.\nThe default position will be the\ncurrent cursor position.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -299,4 +299,9 @@ void CMegaMenu::funcMoveArea()
 void CMegaMenu::funcSelectArea()
 {
     canvas->setMouseMode(CCanvas::eMouseSelectArea);
+}
+
+void CMegaMenu::funcNewWpt()
+{
+    canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }

@@ -29,6 +29,7 @@
 class IMouse;
 class CMouseMoveMap;
 class CMouseSelMap;
+class CMouseAddWpt;
 
 class CCanvas : public QWidget
 {
@@ -44,7 +45,7 @@ class CCanvas : public QWidget
               eMouseZoomArea    ///< use mouse to define a zoom area
             , eMouseMoveArea    ///< use mouse to move the map
             , eMouseSelectArea  ///< use mouse to select map tiles
-            //, eMouseNewWpt      ///< use mouse to add waypoints
+            , eMouseAddWpt      ///< use mouse to add waypoints
             //, eMouseEditWpt     ///< use mouse to select waypoints
             //, eMouseMoveWpt     ///< use mouse to drag-n-drop waypoints
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
@@ -96,6 +97,7 @@ class CCanvas : public QWidget
         IMouse * mouse;
         CMouseMoveMap * mouseMoveMap;
         CMouseSelMap * mouseSelMap;
+        CMouseAddWpt * mouseAddWpt;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

@@ -24,6 +24,7 @@
 
 #include "CMouseMoveMap.h"
 #include "CMouseSelMap.h"
+#include "CMouseAddWpt.h"
 
 #include "CSearchDB.h"
 
@@ -72,6 +73,7 @@ CCanvas::CCanvas(QWidget * parent)
 
     mouseMoveMap = new CMouseMoveMap(this);
     mouseSelMap = new CMouseSelMap(this);
+    mouseAddWpt = new CMouseAddWpt(this);
     setMouseMode(eMouseMoveArea);
 }
 
@@ -97,9 +99,14 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 //             pfMouseReleaseEvent = &CCanvas::mouseReleaseZoomArea;
 //             break;
 //
+        case eMouseAddWpt:
+            mouse = mouseAddWpt;
+            break;
+
         case eMouseSelectArea:
             mouse = mouseSelMap;
             break;
+
         default:;
 
     }
