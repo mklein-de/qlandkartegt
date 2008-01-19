@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CDlgConfig.h"
+#include "CResources.h"
 
 CDlgConfig::CDlgConfig(QWidget * parent)
     : QDialog(parent)
@@ -30,3 +31,44 @@ CDlgConfig::~CDlgConfig()
 
 }
 
+void CDlgConfig::exec()
+{
+    CResources& resources = CResources::self();
+
+    checkProxy->setChecked(resources.m_useHttpProxy);
+    lineProxyURL->setText(resources.m_httpProxy);
+    lineProxyPort->setText(QString("%1").arg(resources.m_httpProxyPort));
+
+    labelFont->setFont(resources.m_mapfont);
+    radioMetric->setChecked(resources.m_doMetric);
+    radioImperial->setChecked(!resources.m_doMetric);
+    spinUTCOffset->setValue(resources.m_offsetUTC > 24 ? 0: resources.m_offsetUTC);
+    spinUTCOffsetFract->setValue(resources.m_offsetUTCfract);
+
+    comboBrowser->setCurrentIndex(resources.m_eBrowser);
+    lineBrowserCmd->setText(resources.cmdOther);
+
+    QDialog::exec();
+}
+
+void CDlgConfig::accept()
+{
+    CResources& resources = CResources::self();
+
+    resources.m_useHttpProxy   = checkProxy->isChecked();
+    resources.m_httpProxy      = lineProxyURL->text();
+    resources.m_httpProxyPort  = lineProxyPort->text().toUInt();
+
+    emit resources.sigProxyChanged();
+
+    resources.m_mapfont        = labelFont->font();
+    resources.m_doMetric       = radioMetric->isChecked();
+    resources.m_offsetUTC      = spinUTCOffset->value();
+    resources.m_offsetUTCfract = spinUTCOffsetFract->value();
+    resources.setUTCOffset(resources.m_offsetUTC, resources.m_offsetUTCfract);
+
+    resources.m_eBrowser = (CResources::bowser_e)comboBrowser->currentIndex();
+    resources.cmdOther = lineBrowserCmd->text();
+
+    QDialog::accept();
+}

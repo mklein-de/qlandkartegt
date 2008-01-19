@@ -83,7 +83,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinHour" >
+           <widget class="QSpinBox" name="spinUTCOffset" >
             <property name="minimum" >
              <number>-12</number>
             </property>
@@ -100,7 +100,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinMinutes" >
+           <widget class="QSpinBox" name="spinUTCOffsetFract" >
             <property name="maximum" >
              <number>45</number>
             </property>
@@ -152,7 +152,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="linePortURL" >
+             <widget class="QLineEdit" name="lineProxyPort" >
               <property name="inputMask" >
                <string>00000; </string>
               </property>
@@ -192,7 +192,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineBrowserCustom" >
+           <widget class="QLineEdit" name="lineBrowserCmd" >
             <property name="enabled" >
              <bool>false</bool>
             </property>

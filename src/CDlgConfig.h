@@ -28,6 +28,11 @@ class CDlgConfig : public QDialog, public Ui::IDlgConfig
     public:
         CDlgConfig(QWidget * parent);
         virtual ~CDlgConfig();
+
+    public slots:
+        void exec();
+        void accept();
+
 };
 
 #endif //CDLGCONFIG_H
