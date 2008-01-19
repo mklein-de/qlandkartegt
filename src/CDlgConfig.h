@@ -16,19 +16,19 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
+#ifndef CDLGCONFIG_H
+#define CDLGCONFIG_H
 
-#include "CDlgEditWpt.h"
+#include <QDialog>
+#include "ui_IDlgConfig.h"
 
-#include <QtGui>
-
-CDlgEditWpt::CDlgEditWpt(QWidget * parent)
-    : QDialog(parent)
+class CDlgConfig : public QDialog, public Ui::IDlgConfig
 {
-    setupUi(this);
-}
+    Q_OBJECT
+    public:
+        CDlgConfig(QWidget * parent);
+        virtual ~CDlgConfig();
+};
 
-CDlgEditWpt::~CDlgEditWpt()
-{
-
-}
+#endif //CDLGCONFIG_H
 

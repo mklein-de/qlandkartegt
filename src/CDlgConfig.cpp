@@ -17,17 +17,15 @@
 
 **********************************************************************************************/
 
-#include "CDlgEditWpt.h"
+#include "CDlgConfig.h"
 
-#include <QtGui>
-
-CDlgEditWpt::CDlgEditWpt(QWidget * parent)
+CDlgConfig::CDlgConfig(QWidget * parent)
     : QDialog(parent)
 {
     setupUi(this);
 }
 
-CDlgEditWpt::~CDlgEditWpt()
+CDlgConfig::~CDlgConfig()
 {
 
 }
