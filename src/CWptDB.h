@@ -44,6 +44,8 @@ class CWptDB : public IDB
         /// create a new waypoint
         void newWpt(double lon, double lat);
 
+        CWpt * getWptByKey(const QString& key);
+
     private:
         friend class CMainWindow;
 

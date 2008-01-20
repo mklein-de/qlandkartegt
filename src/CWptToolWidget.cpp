@@ -18,6 +18,11 @@
 **********************************************************************************************/
 
 #include "CWptToolWidget.h"
+#include "WptIcons.h"
+#include "CWpt.h"
+#include "CWptDB.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -27,6 +32,9 @@ CWptToolWidget::CWptToolWidget(QToolBox * parent)
     setupUi(this);
     setObjectName("Waypoints");
     parent->addItem(this,QIcon(":/icons/iconWaypoint16x16"),tr("Waypoints"));
+
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
+    connect(listWpts,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 }
 
 CWptToolWidget::~CWptToolWidget()
@@ -36,5 +44,24 @@ CWptToolWidget::~CWptToolWidget()
 
 void CWptToolWidget::slotDBChanged()
 {
+    listWpts->clear();
+
+    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()){
+        QListWidgetItem * item = new QListWidgetItem(listWpts);
+        item->setText((*wpt)->name);
+        item->setIcon(getWptIconByName((*wpt)->icon));
+        item->setData(Qt::UserRole, (*wpt)->key());
+        ++wpt;
+    }
+}
+
+void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
+{
+
+    CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
+    if(wpt){
+        theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
+    }
 
 }

@@ -87,6 +87,7 @@ class CCanvas : public QWidget
 
         void draw(QPainter& p);
         void drawSearchResults(QPainter& p);
+        void drawWaypoints(QPainter& p);
 
     private:
         friend class CMouseMoveMap;

@@ -34,6 +34,7 @@ class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
 
     private slots:
         void slotDBChanged();
+        void slotItemClicked(QListWidgetItem* item);
 };
 
 #endif //CWPTTOOLWIDGET_H

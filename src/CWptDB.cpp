@@ -60,3 +60,10 @@ void CWptDB::newWpt(double lon, double lat)
     emit sigChanged();
 }
 
+CWpt * CWptDB::getWptByKey(const QString& key)
+{
+    if(!wpts.contains(key)) return 0;
+
+    return wpts[key];
+
+}

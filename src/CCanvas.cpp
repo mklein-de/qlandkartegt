@@ -26,38 +26,14 @@
 #include "CMouseSelMap.h"
 #include "CMouseAddWpt.h"
 
+#include "CWpt.h"
 #include "CSearchDB.h"
+#include "CWptDB.h"
+
+#include "GeoMath.h"
+#include "WptIcons.h"
 
 #include <QtGui>
-
-
-static void GPS_Math_Deg_To_DegMin(double v, int32_t *d, double *m)
-{
-    int32_t sign;
-
-    if(v<(double)0.)
-    {
-        v *= (double)-1.;
-        sign = 1;
-    }
-    else{
-        sign = 0;
-    }
-
-    *d = (int32_t)v;
-    *m = (v-(double)*d) * (double)60.0;
-    if(*m>(double)59.999)
-    {
-        ++*d;
-        *m = (double)0.0;
-    }
-
-    if(sign){
-        *d = -*d;
-    }
-
-    return;
-}
 
 
 CCanvas::CCanvas(QWidget * parent)
@@ -172,6 +148,7 @@ void CCanvas::draw(QPainter& p)
     map->draw(p);
     mouse->draw(p);
     drawSearchResults(p);
+    drawWaypoints(p);
 }
 
 void CCanvas::drawSearchResults(QPainter& p)
@@ -191,6 +168,22 @@ void CCanvas::drawSearchResults(QPainter& p)
 
 }
 
+void CCanvas::drawWaypoints(QPainter& p)
+{
+    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()){
+        double u = (*wpt)->lon * DEG_TO_RAD;
+        double v = (*wpt)->lat * DEG_TO_RAD;
+        map->convertRad2Pt(u,v);
+
+        if(rect().contains(QPoint(u,v))){
+            p.drawPixmap(u-8 , v-8, getWptIconByName((*wpt)->icon));
+        }
+
+        ++wpt;
+    }
+
+}
 
 void CCanvas::wheelEvent(QWheelEvent * e)
 {
@@ -266,7 +259,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     y *= RAD_TO_DEG;
 
     qint32 degN,degE;
-    double minN,minE;
+    float minN,minE;
 
     GPS_Math_Deg_To_DegMin(y, &degN, &minN);
 
