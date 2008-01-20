@@ -21,8 +21,36 @@
 
 #include <QtCore>
 
+struct wpt_head_entry_t
+{
+    wpt_head_entry_t() : type(CWpt::eEnd), offset(0) {}
+    qint32      type;
+    quint32     offset;
+    QByteArray  data;
+};
+
+
+
 QDataStream& operator >>(QDataStream& s, CWpt& wpt)
 {
+    QIODevice * dev = s.device();
+    qint64      pos = dev->pos();
+
+    char magic[9];
+    s.readRawData(magic,9);
+    if(strncmp(magic,"QLWpt   ",9)){
+        dev->seek(pos);
+        throw(QObject::tr("This is not waypoint data."));
+    }
+
+    QList<wpt_head_entry_t> entries;
+
+    while(1){
+        wpt_head_entry_t entry;
+        s >> entry.type >> entry.offset;
+
+    }
+/*
     qint32 id;
 
     s >> id;
@@ -41,25 +69,73 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
 
         s >> id;
     }
-
+*/
     return s;
 }
 
+/*
+    32bit type
+    32bit offset
+    ....
+    eEnd
+    0x00000000
+
+*/
 QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 {
+    QList<wpt_head_entry_t> entries;
 
-    s << CWpt::eBase;
-    s << wpt._key_;
-    s << wpt.timestamp;
-    s << wpt.icon;
-    s << wpt.name;
-    s << wpt.comment;
-    s << wpt.lat;
-    s << wpt.lon;
-    s << wpt.altitude;
-    s << wpt.proximity;
+    // prepare base data
+    wpt_head_entry_t entryBase;
+    entryBase.type = CWpt::eBase;
+    QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
 
-    s << CWpt::eEnd;
+    s1 << wpt._key_;
+    s1 << wpt.sticky;
+    s1 << wpt.timestamp;
+    s1 << wpt.icon;
+    s1 << wpt.name;
+    s1 << wpt.comment;
+    s1 << wpt.lat;
+    s1 << wpt.lon;
+    s1 << wpt.altitude;
+    s1 << wpt.proximity;
+
+    entries << entryBase;
+
+    // prepare image data
+
+    // add terminator
+    wpt_head_entry_t entryEnd;
+    entryEnd.type = CWpt::eEnd;
+    entries << entryEnd;
+
+    // write magic key
+    s.writeRawData("QLWpt   ",9);
+
+    // calculate offset table
+    quint32 offset = entries.count() * 8 + 9;
+
+    QList<wpt_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()){
+        entry->offset = offset;
+        offset += entry->data.size() + sizeof(quint32);
+        ++entry;
+    }
+
+    // write offset table
+    entry = entries.begin();
+    while(entry != entries.end()){
+        s << entry->type << entry->offset;
+        ++entry;
+    }
+
+    // write entry data
+    entry = entries.begin();
+    while(entry != entries.end()){
+        s << entry->data;
+        ++entry;
+    }
 
     return s;
 }
@@ -89,7 +165,7 @@ const QString& CWpt::key()
     return _key_;
 }
 
-QString CWpt::filename()
+const QString CWpt::filename()
 {
     QDateTime ts;
     QString str;

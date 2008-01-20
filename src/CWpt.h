@@ -20,6 +20,9 @@
 #define CWPT_H
 
 #include <QObject>
+#include <QPixmap>
+#include <QString>
+#include <QList>
 
 /// waypoint object
 class CWpt : public QObject
@@ -30,7 +33,8 @@ class CWpt : public QObject
         virtual ~CWpt();
 
         const QString& key();
-        enum id_e {eEnd,eBase};
+        const QString filename();
+        enum id_e {eEnd,eBase,eImage};
 
     private:
         void genKey();
@@ -42,7 +46,8 @@ class CWpt : public QObject
         QString _key_;
 
     public:
-        uint    timestamp;
+        quint32 sticky;
+        quint32 timestamp;
         QString icon;
         QString name;
         QString comment;
@@ -51,8 +56,15 @@ class CWpt : public QObject
         float   altitude;
         float   proximity;
 
-        QString filename();
-
+        // images
+    private:
+        struct image_t
+        {
+            quint32 offset;
+            QString name;
+            QPixmap preview;
+        };
+        QList<image_t> images;
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

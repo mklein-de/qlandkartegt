@@ -34,6 +34,15 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
 {
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
+
+    CWpt * wpt = new CWpt(this);
+    QFile file("2008.01.20_15.57.52_xxx.wpt");
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    in >> *wpt;
+    file.close();
+
+    wpts[wpt->key()] = wpt;
 }
 
 CWptDB::~CWptDB()
@@ -56,6 +65,12 @@ void CWptDB::newWpt(double lon, double lat)
         return;
     }
     wpts[wpt->key()] = wpt;
+
+    QFile file(wpt->filename());
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out << *wpt;
+    file.close();
 
     emit sigChanged();
 }
