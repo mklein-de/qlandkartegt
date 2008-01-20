@@ -19,6 +19,7 @@
 #include "CMouseAddWpt.h"
 #include "CCanvas.h"
 #include "CDlgEditWpt.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 
@@ -41,11 +42,13 @@ void CMouseAddWpt::mouseMoveEvent(QMouseEvent * e)
 void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
-    CDlgEditWpt dlg(canvas);
-    dlg.exec();
+    double u = e->pos().x();
+    double v = e->pos().y();
+    canvas->map->convertPt2Rad(u,v);
+    CWptDB::self().newWpt(u*RAD_TO_DEG, v*RAD_TO_DEG);
+
 }
 
 void CMouseAddWpt::mouseReleaseEvent(QMouseEvent * e)
 {
-
 }

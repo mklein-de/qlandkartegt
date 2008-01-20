@@ -21,7 +21,11 @@
 
 #include "IDB.h"
 
+#include <QString>
+#include <QMap>
+
 class CWptToolWidget;
+class CWpt;
 
 /// waypoint database
 class CWptDB : public IDB
@@ -32,11 +36,21 @@ class CWptDB : public IDB
 
         static CWptDB& self(){return *m_self;}
 
+        /// get iterator access to track point list
+        QMap<QString,CWpt*> ::iterator begin(){return wpts.begin();}
+        /// get iterator access to track point list
+        QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
+
+        /// create a new waypoint
+        void newWpt(double lon, double lat);
+
     private:
         friend class CMainWindow;
 
         CWptDB(QToolBox * tb, QObject * parent);
         static CWptDB * m_self;
+
+        QMap<QString,CWpt*> wpts;
 
 };
 

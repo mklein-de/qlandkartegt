@@ -98,7 +98,7 @@ void CExportMapThread::run()
     p4.u = bottomRight.u;
     p4.v = topLeft.v;
 
-    double a1 = 0, a2 = 0;
+    float a1 = 0, a2 = 0;
     int realWidth  = ::distance(topLeft, p4, a1, a2);
     int realHeight = ::distance(topLeft, p3, a1, a2);
 
@@ -321,45 +321,41 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
         --n;
     }
 
-    // read configuration for this map
-    QSettings cfg;
-    QString group   = QFileInfo(filename).fileName();
-    cfg.beginGroup(group);
-    topLeft.u   = cfg.value("lon",1000).toDouble();
-    topLeft.v   = cfg.value("lat",1000).toDouble();
-
     // If no configuration is stored read values from the map definition's "home" section
     // zoom() has to be called in either case to setup / initialize all other internal parameters
-    if(topLeft.u > PI || topLeft.v > PI/2){
-        mapdef.beginGroup(QString("home"));
-        zoomidx = mapdef.value("zoom",1).toUInt();
-        zoom(zoomidx);
+    // If no configuration is stored read values from the map definition's "home" section
+    // zoom() has to be called in either case to setup / initialize all other internal parameters
+    mapdef.beginGroup(QString("home"));
+    zoomidx = mapdef.value("zoom",1).toUInt();
+    zoom(zoomidx);
 
-        QString pos = mapdef.value("center","").toString();
-        GPS_Math_Str_To_Deg(pos, topLeft.u, topLeft.v);
+    QString pos = mapdef.value("center","").toString();
+    float u = topLeft.u;
+    float v = topLeft.v;
+    GPS_Math_Str_To_Deg(pos, u, v);
 
-        topLeft.u *= DEG_TO_RAD;
-        topLeft.v *= DEG_TO_RAD;
-        mapdef.endGroup();
-    }
-    else{
-        zoom(zoomidx);
-    }
-    cfg.endGroup();
+    topLeft.u = u * DEG_TO_RAD;
+    topLeft.v = v * DEG_TO_RAD;
+    mapdef.endGroup();
 
+    QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 }
 
 CMapRaster::~CMapRaster()
 {
-    QString group = QFileInfo(filename).fileName();
+    QSettings mapdef(filename,QSettings::IniFormat);
+    mapdef.beginGroup(QString("home"));
+
+    mapdef.setValue("zoom",zoomidx);
+    QString pos;
+
+    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
+    pos = pos.replace("\260","");
+    mapdef.setValue("center",pos);
+    mapdef.endGroup();
 
     QSettings cfg;
-    cfg.beginGroup(group);
-    cfg.setValue("lon",topLeft.u);
-    cfg.setValue("lat",topLeft.v);
-    cfg.endGroup();
-
     cfg.setValue("path/export",exportPath);
 }
 

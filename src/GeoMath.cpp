@@ -23,13 +23,13 @@
 
 
 //Copyright (C) 1999 Alan Bleasby
-void GPS_Math_Deg_To_DegMin(double v, int32_t *d, double *m)
+void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
 {
     int32_t sign;
 
-    if(v<(double)0.)
+    if(v<(float)0.)
     {
-        v *= (double)-1.;
+        v *= (float)-1.;
         sign = 1;
     }
     else{
@@ -37,11 +37,11 @@ void GPS_Math_Deg_To_DegMin(double v, int32_t *d, double *m)
     }
 
     *d = (int32_t)v;
-    *m = (v-(double)*d) * (double)60.0;
-    if(*m>(double)59.999)
+    *m = (v-(float)*d) * (float)60.0;
+    if(*m>(float)59.999)
     {
         ++*d;
-        *m = (double)0.0;
+        *m = (float)0.0;
     }
 
     if(sign){
@@ -51,10 +51,10 @@ void GPS_Math_Deg_To_DegMin(double v, int32_t *d, double *m)
     return;
 }
 
-void GPS_Math_DegMin_To_Deg(const int32_t d, const double m, double& deg)
+void GPS_Math_DegMin_To_Deg(const int32_t d, const float m, float& deg)
 {
 
-    deg = ((double)abs(d)) + m / (double)60.0;
+    deg = ((float)abs(d)) + m / (float)60.0;
     if(d<0){
         deg = -deg;
     }
@@ -62,26 +62,27 @@ void GPS_Math_DegMin_To_Deg(const int32_t d, const double m, double& deg)
     return;
 }
 
-void GPS_Math_Str_To_Deg(const QString& str, double& lon, double& lat)
+bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat)
 {
     QRegExp re("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\W([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
     if(!re.exactMatch(str)){
         QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss"),QMessageBox::Ok,QMessageBox::NoButton);
-        return;
+        return false;
     }
 
     bool signLat    = re.cap(1) == "S";
     int degLat      = re.cap(2).toInt();
-    double minLat   = re.cap(3).toDouble();
+    float minLat   = re.cap(3).toDouble();
 
     GPS_Math_DegMin_To_Deg((signLat ? -degLat : degLat), minLat, lat);
 
     bool signLon    = re.cap(4) == "W";
     int degLon      = re.cap(5).toInt();
-    double minLon   = re.cap(6).toDouble();
+    float minLon   = re.cap(6).toDouble();
 
     GPS_Math_DegMin_To_Deg((signLon ? -degLon : degLon), minLon, lon);
 
+    return true;
 }
 
 
@@ -125,8 +126,8 @@ bool testPointInPolygon(const XY& pt, const QVector<XY>& poly1)
     int     npol;
     int     i = 0, j = 0;
     XY      p1, p2;          // the two points of the polyline close to pt
-    double  x = pt.u;
-    double  y = pt.v;
+    float  x = pt.u;
+    float  y = pt.v;
 
 
     npol = poly1.count();
@@ -184,25 +185,25 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
 }
 
 // from http://www.movable-type.co.uk/scripts/LatLongVincenty.html
-double distance(const XY& p1, const XY& p2, double& a1, double& a2)
+float distance(const XY& p1, const XY& p2, float& a1, float& a2)
 {
-    double cosSigma = 0.0;
-    double sigma = 0.0;
-    double sinAlpha = 0.0;
-    double cosSqAlpha = 0.0;
-    double cos2SigmaM = 0.0;
-    double sinSigma = 0.0;
-    double sinLambda = 0.0;
-    double cosLambda = 0.0;
+    float cosSigma = 0.0;
+    float sigma = 0.0;
+    float sinAlpha = 0.0;
+    float cosSqAlpha = 0.0;
+    float cos2SigmaM = 0.0;
+    float sinSigma = 0.0;
+    float sinLambda = 0.0;
+    float cosLambda = 0.0;
 
-    double a = 6378137.0, b = 6356752.3142,  f = 1.0/298.257223563;  // WGS-84 ellipsiod
-    double L = p2.u - p1.u;
+    float a = 6378137.0, b = 6356752.3142,  f = 1.0/298.257223563;  // WGS-84 ellipsiod
+    float L = p2.u - p1.u;
 
-    double U1 = atan((1-f) * tan(p1.v));
-    double U2 = atan((1-f) * tan(p2.v));
-    double sinU1 = sin(U1), cosU1 = cos(U1);
-    double sinU2 = sin(U2), cosU2 = cos(U2);
-    double lambda = L, lambdaP = 2*PI;
+    float U1 = atan((1-f) * tan(p1.v));
+    float U2 = atan((1-f) * tan(p2.v));
+    float sinU1 = sin(U1), cosU1 = cos(U1);
+    float sinU2 = sin(U2), cosU2 = cos(U2);
+    float lambda = L, lambdaP = 2*PI;
     unsigned iterLimit = 20;
 
     while ((fabs(lambda - lambdaP) > 1e-12) && (--iterLimit > 0)) {
@@ -224,27 +225,27 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
             cos2SigmaM = 0;  // equatorial line: cosSqAlpha=0 (§6)
         }
 
-        double C = f/16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+        float C = f/16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
         lambdaP = lambda;
         lambda = L + (1-C) * f * sinAlpha * (sigma + C*sinSigma*(cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     }
     if (iterLimit==0) return FP_NAN;  // formula failed to converge
 
-    double uSq = cosSqAlpha * (a*a - b*b) / (b*b);
-    double A = 1 + uSq/16384*(4096+uSq*(-768+uSq*(320-175*uSq)));
-    double B = uSq/1024 * (256+uSq*(-128+uSq*(74-47*uSq)));
-    double deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)-B/6*cos2SigmaM*(-3+4*sinSigma*sinSigma)*(-3+4*cos2SigmaM*cos2SigmaM)));
-    double s = b*A*(sigma-deltaSigma);
+    float uSq = cosSqAlpha * (a*a - b*b) / (b*b);
+    float A = 1 + uSq/16384*(4096+uSq*(-768+uSq*(320-175*uSq)));
+    float B = uSq/1024 * (256+uSq*(-128+uSq*(74-47*uSq)));
+    float deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)-B/6*cos2SigmaM*(-3+4*sinSigma*sinSigma)*(-3+4*cos2SigmaM*cos2SigmaM)));
+    float s = b*A*(sigma-deltaSigma);
 
     a1 = atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * 360 / TWOPI;
     a2 = atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda) * 360 / TWOPI;
     return s;
 }
 
-void GPS_Math_Deg_To_Str(const double& x, const double& y, QString& str)
+void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
 {
     qint32 degN,degE;
-    double minN,minE;
+    float minN,minE;
 
     GPS_Math_Deg_To_DegMin(y, &degN, &minN);
 

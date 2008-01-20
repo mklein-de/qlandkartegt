@@ -35,6 +35,9 @@ class IDB : public QObject
 
         virtual void gainFocus();
 
+    signals:
+        void sigChanged();
+
     protected:
         QToolBox *  toolbox;
         QWidget *   toolview;

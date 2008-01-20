@@ -19,16 +19,27 @@
 #ifndef CDLGEDITWPT_H
 #define CDLGEDITWPT_H
 
+
+
 #include <QDialog>
 
 #include "ui_IDlgEditWpt.h"
+
+class CWpt;
 
 class CDlgEditWpt : public QDialog, public Ui::IDlgEditWpt
 {
     Q_OBJECT
     public:
-        CDlgEditWpt(QWidget * parent);
+        CDlgEditWpt(CWpt &wpt, QWidget * parent);
         virtual ~CDlgEditWpt();
+
+    public slots:
+        int exec();
+        void accept();
+
+    private:
+        CWpt &wpt;
 };
 
 #endif //CDLGEDITWPT_H

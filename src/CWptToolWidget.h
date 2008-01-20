@@ -31,6 +31,9 @@ class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
     public:
         CWptToolWidget(QToolBox * parent);
         virtual ~CWptToolWidget();
+
+    private slots:
+        void slotDBChanged();
 };
 
 #endif //CWPTTOOLWIDGET_H

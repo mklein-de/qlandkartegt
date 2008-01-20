@@ -34,3 +34,7 @@ CWptToolWidget::~CWptToolWidget()
 
 }
 
+void CWptToolWidget::slotDBChanged()
+{
+
+}

@@ -43,6 +43,8 @@ CSearchDB::CSearchDB(QToolBox * tb, QObject * parent)
     toolview    = new CSearchToolWidget(tb);
 
     slotSetupLink();
+    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
+
 }
 
 CSearchDB::~CSearchDB()
@@ -142,6 +144,7 @@ void CSearchDB::slotRequestFinished(int , bool error)
     }
 
     emit sigFinished();
+    emit sigChanged();
 }
 
 CSearchDB::result_t * CSearchDB::getResultByKey(const QString& key)

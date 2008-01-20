@@ -23,13 +23,13 @@
 #include <QVector>
 
 
-extern void GPS_Math_Deg_To_DegMin(double v, int32_t *d, double *m);
-extern void GPS_Math_DegMin_To_Deg(const int32_t d, const double m, double& deg);
-extern void GPS_Math_Str_To_Deg(const QString& str, double& lon, double& lat);
-extern void GPS_Math_Deg_To_Str(const double& lon, const double& lat, QString& str);
+extern void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m);
+extern void GPS_Math_DegMin_To_Deg(const int32_t d, const float m, float& deg);
+extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat);
+extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
 
 extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2);
-extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
+extern float distance(const XY& p1, const XY& p2, float& a1, float& a2);
 
 #endif //GEOMATH_H
 

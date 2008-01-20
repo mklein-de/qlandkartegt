@@ -26,12 +26,14 @@ class CWpt : public QObject
 {
     Q_OBJECT
     public:
-        CWpt(const QString& name, QObject * parent);
         CWpt(QObject * parent);
         virtual ~CWpt();
 
-        const QString& key(){return _key_;}
+        const QString& key();
         enum id_e {eEnd,eBase};
+
+    private:
+        void genKey();
 
         // eBase: base information
     private:
@@ -44,10 +46,10 @@ class CWpt : public QObject
         QString icon;
         QString name;
         QString comment;
-        qreal   lat;
-        qreal   lon;
-        qreal   altitude;
-        qreal   proximity;
+        float   lat;
+        float   lon;
+        float   altitude;
+        float   proximity;
 
         QString filename();
 

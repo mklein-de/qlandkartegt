@@ -64,23 +64,29 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     return s;
 }
 
-CWpt::CWpt(const QString& name, QObject * parent)
-    : QObject(parent)
-    , timestamp(QDateTime::currentDateTime().toTime_t ())
-    , name(name)
-
-{
-    _key_ = QString("%1%2").arg(timestamp).arg(name);
-}
 
 CWpt::CWpt(QObject * parent)
     : QObject(parent)
+    , timestamp(QDateTime::currentDateTime().toTime_t ())
+    , icon("Star")
 {
+
 }
 
 CWpt::~CWpt()
 {
 
+}
+
+void CWpt::genKey()
+{
+    _key_ = QString("%1%2").arg(timestamp).arg(name);
+}
+
+const QString& CWpt::key()
+{
+    if(_key_.isEmpty()) genKey();
+    return _key_;
 }
 
 QString CWpt::filename()

@@ -38,6 +38,7 @@ CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
     connect(lineInput, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
     connect(&CSearchDB::self(), SIGNAL(sigStatus(const QString&)), labelStatus, SLOT(setText(const QString&)));
     connect(&CSearchDB::self(), SIGNAL(sigFinished()), this, SLOT(slotQueryFinished()));
+    connect(&CSearchDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     connect(listResults,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
@@ -63,6 +64,10 @@ void CSearchToolWidget::slotQueryFinished()
 {
     lineInput->setEnabled(true);
 
+}
+
+void CSearchToolWidget::slotDBChanged()
+{
     listResults->clear();
 
     QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();

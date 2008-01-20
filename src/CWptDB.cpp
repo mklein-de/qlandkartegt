@@ -19,6 +19,11 @@
 
 #include "CWptDB.h"
 #include "CWptToolWidget.h"
+#include "CDlgEditWpt.h"
+#include "CWpt.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
+
 
 #include <QtGui>
 
@@ -34,5 +39,24 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
 CWptDB::~CWptDB()
 {
 
+}
+
+void CWptDB::newWpt(double lon, double lat)
+{
+    CWpt * wpt = new CWpt(this);
+    wpt->lon = lon;
+    wpt->lat = lat;
+
+    QSettings cfg;
+    wpt->icon = cfg.value("waypoint/lastSymbol","Star").toString();
+
+    CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
+    if(dlg.exec() == QDialog::Rejected){
+        delete wpt;
+        return;
+    }
+    wpts[wpt->key()] = wpt;
+
+    emit sigChanged();
 }
 

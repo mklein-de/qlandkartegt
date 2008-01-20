@@ -5,6 +5,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(qlandkarte_SRCS
     main.cpp
     GeoMath.cpp
+    WptIcons.cpp
     CResources.cpp
     CCopyright.cpp
     CMainWindow.cpp
@@ -31,6 +32,7 @@ set(qlandkarte_SRCS
 set(qlandkarte_HDRS
     version.h
     GeoMath.h
+    WptIcons.h
     CResources.h
     CCopyright.h
     CMainWindow.h
