@@ -49,6 +49,8 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
         wpt_head_entry_t entry;
         s >> entry.type >> entry.offset;
         if(entry.type == CWpt::eEnd) break;
+
+        entries << entry;
     }
 /*
     qint32 id;
