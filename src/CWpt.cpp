@@ -81,7 +81,24 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
 
             case CWpt::eImage:
             {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                CWpt::image_t img;
 
+                wpt.images.clear();
+
+                s1 >> img.offset;
+                while(img.offset){
+                    wpt.images << img;
+                    s1 >> img.offset;
+                }
+
+                QList<CWpt::image_t>::iterator image = wpt.images.begin();
+                while(image != wpt.images.end()){
+                    s1.device()->seek(image->offset);
+                    s1 >> image->info;
+                    s1 >> image->pixmap;
+                    ++image;
+                }
                 break;
             }
 
@@ -97,7 +114,9 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 {
     QList<wpt_head_entry_t> entries;
 
+    //---------------------------------------
     // prepare base data
+    //---------------------------------------
     wpt_head_entry_t entryBase;
     entryBase.type = CWpt::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
@@ -115,13 +134,53 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
     entries << entryBase;
 
+    //---------------------------------------
     // prepare image data
+    //---------------------------------------
+    wpt_head_entry_t entryImage;
+    entryImage.type = CWpt::eImage;
+    QDataStream s2(&entryImage.data, QIODevice::WriteOnly);
 
-    // add terminator
+    // write place holder for image offset
+    QList<CWpt::image_t>::iterator image = wpt.images.begin();
+    while(image != wpt.images.end()){
+        s2 << (quint32)0;
+        ++image;
+    }
+    // offset terminator
+    s2 << (quint32)0;
+
+    // write image data and store the actual offset
+    image = wpt.images.begin();
+    while(image != wpt.images.end()){
+        image->offset = (quint32)s2.device()->pos();
+        s2 << image->info;
+        s2 << image->pixmap;
+        ++image;
+    }
+
+    // finally write image offset table
+    (quint32)s2.device()->seek(0);
+    image = wpt.images.begin();
+    while(image != wpt.images.end()){
+        s2 << image->offset;
+        ++image;
+    }
+
+    entries << entryImage;
+
+    //---------------------------------------
+    // prepare terminator
+    //---------------------------------------
     wpt_head_entry_t entryEnd;
     entryEnd.type = CWpt::eEnd;
     entries << entryEnd;
 
+    //---------------------------------------
+    //---------------------------------------
+    // now start to actually write data;
+    //---------------------------------------
+    //---------------------------------------
     // write magic key
     s.writeRawData("QLWpt   ",9);
 

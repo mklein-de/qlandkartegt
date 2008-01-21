@@ -97,7 +97,7 @@ void CDlgEditWpt::slotAddImage()
                                                 );
     if(filename.isEmpty()) return;
 
-    QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment") );
+    QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment"), QLineEdit::Normal, QFileInfo(filename).fileName());
 
 
     CWpt::image_t img;
@@ -131,7 +131,6 @@ void CDlgEditWpt::slotPrevImage()
 
 void CDlgEditWpt::showImage(int idx)
 {
-    qDebug() << idx << wpt.images.count();
     if(idx < 0) idx = 0;
 
     if(idx < wpt.images.count()){
