@@ -50,6 +50,13 @@ class CSearchDB : public IDB
 
         result_t * getResultByKey(const QString& key);
 
+        void loadGPX(CGpx& gpx){};
+        void saveGPX(CGpx& gpx){};
+
+        void loadQLB(QByteArray& data){};
+        void saveQLB(QByteArray& data){};
+
+
     signals:
         void sigStatus(const QString& msg);
         void sigFinished();

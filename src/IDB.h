@@ -24,6 +24,7 @@
 class QToolBox;
 class QWidget;
 class QPainter;
+class CGpx;
 
 /// base class for all database objects
 class IDB : public QObject
@@ -34,6 +35,12 @@ class IDB : public QObject
         virtual ~IDB();
 
         virtual void gainFocus();
+
+        virtual void loadGPX(CGpx& gpx) = 0;
+        virtual void saveGPX(CGpx& gpx) = 0;
+
+        virtual void loadQLB(QByteArray& data) = 0;
+        virtual void saveQLB(QByteArray& data) = 0;
 
     signals:
         void sigChanged();

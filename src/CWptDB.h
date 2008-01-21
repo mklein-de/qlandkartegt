@@ -46,6 +46,12 @@ class CWptDB : public IDB
 
         CWpt * getWptByKey(const QString& key);
 
+        void loadGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx);
+        void loadQLB(QByteArray& data);
+        void saveQLB(QByteArray& data);
+
+
     private:
         friend class CMainWindow;
 

@@ -35,18 +35,15 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
 
-    CWpt * wpt = new CWpt(this);
-    QFile file("2008.01.21_09.44.36_xxx.wpt");
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    in >> *wpt;
-    file.close();
-
-    qDebug() << wpt->name;
-
-    wpts[wpt->key()] = wpt;
-
-    emit sigChanged();
+//     CWpt * wpt = new CWpt(this);
+//     QFile file("2008.01.21_09.44.36_xxx.wpt");
+//     file.open(QIODevice::ReadOnly);
+//     QDataStream in(&file);
+//     in >> *wpt;
+//     file.close();
+//     wpts[wpt->key()] = wpt;
+//
+//     emit sigChanged();
 
 }
 
@@ -71,11 +68,11 @@ void CWptDB::newWpt(double lon, double lat)
     }
     wpts[wpt->key()] = wpt;
 
-    QFile file(wpt->filename());
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
-    out << *wpt;
-    file.close();
+//     QFile file(wpt->filename());
+//     file.open(QIODevice::WriteOnly);
+//     QDataStream out(&file);
+//     out << *wpt;
+//     file.close();
 
     emit sigChanged();
 }
@@ -87,3 +84,21 @@ CWpt * CWptDB::getWptByKey(const QString& key)
     return wpts[key];
 
 }
+
+void CWptDB::loadGPX(CGpx& gpx)
+{
+}
+
+void CWptDB::saveGPX(CGpx& gpx)
+{
+}
+
+void CWptDB::loadQLB(QByteArray& data)
+{
+}
+
+void CWptDB::saveQLB(QByteArray& data)
+{
+}
+
+

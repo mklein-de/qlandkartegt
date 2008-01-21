@@ -50,6 +50,9 @@ class CMainWindow : public QMainWindow
         void slotCopyright();
         void slotToolBoxChanged(int idx);
         void slotConfig();
+        void slotLoadData();
+        void slotSaveData();
+
 
     private:
         void setupMenuBar();

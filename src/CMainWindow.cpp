@@ -129,6 +129,9 @@ void CMainWindow::setupMenuBar()
     menu->setTitle(tr("&File"));
     menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
     menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
+    menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
+    menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
@@ -198,3 +201,12 @@ void CMainWindow::slotConfig()
     CDlgConfig dlg(this);
     dlg.exec();
 }
+
+void CMainWindow::slotLoadData()
+{
+}
+
+void CMainWindow::slotSaveData()
+{
+}
+
