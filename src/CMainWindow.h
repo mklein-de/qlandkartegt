@@ -75,14 +75,18 @@ class CMainWindow : public QMainWindow
 
         /// root path of all maps
         QString pathMaps;
+        /// root path of geo data
+        QString pathData;
+
         QString mapFile;
 
         CResources * resources;
 
         /// the waypoint data base
         CWptDB * wptdb;
-
+        /// the search database
         CSearchDB * searchdb;
+
 
 
 };

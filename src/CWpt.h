@@ -34,7 +34,7 @@ class CWpt : public QObject
 
         const QString& key();
         const QString filename();
-        enum id_e {eEnd,eBase,eImage};
+        enum type_e {eEnd,eBase,eImage};
 
     private:
         void genKey();

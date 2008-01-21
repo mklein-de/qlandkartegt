@@ -48,8 +48,8 @@ class CWptDB : public IDB
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
-        void loadQLB(QByteArray& data);
-        void saveQLB(QByteArray& data);
+        void loadQLB(CQlb& qlb);
+        void saveQLB(CQlb& qlb);
 
 
     private:

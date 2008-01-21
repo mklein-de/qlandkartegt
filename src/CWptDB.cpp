@@ -23,6 +23,7 @@
 #include "CWpt.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CQlb.h"
 
 
 #include <QtGui>
@@ -93,12 +94,29 @@ void CWptDB::saveGPX(CGpx& gpx)
 {
 }
 
-void CWptDB::loadQLB(QByteArray& data)
+void CWptDB::loadQLB(CQlb& qlb)
 {
+    QDataStream stream(&qlb.waypoints(),QIODevice::ReadOnly);
+
+    while(!stream.atEnd()){
+        CWpt * wpt = new CWpt(this);
+
+        stream >> *wpt;
+        qDebug() << wpt->name;
+        wpts[wpt->key()] = wpt;
+    }
+
+    emit sigChanged();
+
 }
 
-void CWptDB::saveQLB(QByteArray& data)
+void CWptDB::saveQLB(CQlb& qlb)
 {
+    QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end()){
+        qlb << *(*wpt);
+        ++wpt;
+    }
 }
 
 

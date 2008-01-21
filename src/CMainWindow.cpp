@@ -26,6 +26,7 @@
 #include "CWptDB.h"
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
+#include "CQlb.h"
 
 #include <QtGui>
 
@@ -94,6 +95,8 @@ CMainWindow::CMainWindow()
     rightSplitter->setSizes(sizes);
 
     pathMaps = cfg.value("path/maps",pathMaps).toString();
+    pathData = cfg.value("path/data","./").toString();
+
 
     mapFile = cfg.value("map/mapFile",mapFile).toString();
 
@@ -113,6 +116,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/maps",pathMaps);
+    cfg.setValue("path/data",pathData);
     cfg.setValue("map/mapFile",mapFile);
 }
 
@@ -204,9 +208,79 @@ void CMainWindow::slotConfig()
 
 void CMainWindow::slotLoadData()
 {
+    QString filter;
+    QString filename = QFileDialog::getOpenFileName( 0, tr("Select output file")
+                                                    ,pathData
+                                                    ,"QLandkarte (*.qlb);; GPS Exchange (*.gpx)"
+                                                    ,&filter
+                                                );
+    if(filename.isEmpty()) return;
+
+    QString ext = filename.right(4);
+
+    if(filter == "QLandkarte (*.qlb)"){
+        if(ext != ".qlb") filename += ".qlb";
+        ext = "QLB";
+    }
+    else if(filter == "GPS Exchange (*.gpx)"){
+        if(ext != ".gpx") filename += ".gpx";
+        ext = "GPX";
+    }
+    else{
+        filename += ".qlb";
+        ext = "QLB";
+    }
+
+    pathData = QFileInfo(filename).absolutePath();
+
+    if(ext == "QLB"){
+        CQlb qlb(this);
+        qlb.load(filename);
+
+        CWptDB::self().loadQLB(qlb);
+
+    }
+    else if(ext == "GPX"){
+//         CWptDB::self().saveGPX();
+    }
 }
 
 void CMainWindow::slotSaveData()
 {
+    QString filter;
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+                                                    ,pathData
+                                                    ,"QLandkarte (*.qlb);; GPS Exchange (*.gpx)"
+                                                    ,&filter
+                                                );
+    if(filename.isEmpty()) return;
+
+    QString ext = filename.right(4);
+
+    if(filter == "QLandkarte (*.qlb)"){
+        if(ext != ".qlb") filename += ".qlb";
+        ext = "QLB";
+    }
+    else if(filter == "GPS Exchange (*.gpx)"){
+        if(ext != ".gpx") filename += ".gpx";
+        ext = "GPX";
+    }
+    else{
+        filename += ".qlb";
+        ext = "QLB";
+    }
+
+    pathData = QFileInfo(filename).absolutePath();
+
+    if(ext == "QLB"){
+        CQlb qlb(this);
+        CWptDB::self().saveQLB(qlb);
+
+        qlb.save(filename);
+    }
+    else if(ext == "GPX"){
+//         CWptDB::self().saveGPX();
+    }
+
 }
 
