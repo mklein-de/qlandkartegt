@@ -23,6 +23,7 @@
 #include "ui_IWptToolWidget.h"
 
 class QToolBox;
+class QMenu;
 
 /// waypoint tool view
 class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
@@ -35,6 +36,11 @@ class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
     private slots:
         void slotDBChanged();
         void slotItemClicked(QListWidgetItem* item);
+        void slotContextMenu(const QPoint& pos);
+        void slotEdit();
+
+    private:
+        QMenu * contextMenu;
 };
 
 #endif //CWPTTOOLWIDGET_H

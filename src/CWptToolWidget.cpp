@@ -23,6 +23,7 @@
 #include "CWptDB.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CDlgEditWpt.h"
 
 #include <QtGui>
 
@@ -35,6 +36,12 @@ CWptToolWidget::CWptToolWidget(QToolBox * parent)
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listWpts,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
+
+    contextMenu = new QMenu(this);
+    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+
+    connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
+
 }
 
 CWptToolWidget::~CWptToolWidget()
@@ -58,10 +65,26 @@ void CWptToolWidget::slotDBChanged()
 
 void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 {
-
     CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
     if(wpt){
         theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
     }
+}
 
+
+void CWptToolWidget::slotContextMenu(const QPoint& pos)
+{
+    if(listWpts->currentItem()){
+        QPoint p = listWpts->mapToGlobal(pos);
+        contextMenu->exec(p);
+    }
+}
+
+void CWptToolWidget::slotEdit()
+{
+    CWpt * wpt = CWptDB::self().getWptByKey(listWpts->currentItem()->data(Qt::UserRole).toString());
+    if(wpt){
+        CDlgEditWpt dlg(*wpt,this);
+        dlg.exec();
+    }
 }

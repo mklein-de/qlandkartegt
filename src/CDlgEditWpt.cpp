@@ -27,8 +27,13 @@
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     : QDialog(parent)
     , wpt(wpt)
+    , idxImg(0)
 {
     setupUi(this);
+    connect(pushAdd, SIGNAL(clicked()), this, SLOT(slotAddImage()));
+    connect(pushDel, SIGNAL(clicked()), this, SLOT(slotDelImage()));
+    connect(pushNext, SIGNAL(clicked()), this, SLOT(slotNextImage()));
+    connect(pushPrev, SIGNAL(clicked()), this, SLOT(slotPrevImage()));
 }
 
 CDlgEditWpt::~CDlgEditWpt()
@@ -51,7 +56,12 @@ int CDlgEditWpt::exec()
     lineAltitude->setText(QString::number(wpt.altitude,'f',0));
     lineProximity->setText(QString::number(wpt.proximity,'f',1));
 
-    textComment->setPlainText(wpt.comment);
+    textComment->setHtml(wpt.comment);
+
+    if(wpt.images.count() != 0){
+        showImage(0);
+        pushDel->setEnabled(true);
+    }
 
     return QDialog::exec();
 }
@@ -74,7 +84,68 @@ void CDlgEditWpt::accept()
     wpt.name        = lineName->text();
     wpt.altitude    = lineAltitude->text().toFloat();
     wpt.proximity   = lineProximity->text().toFloat();
-    wpt.comment     = textComment->toPlainText();
+    wpt.comment     = textComment->toHtml();
 
     QDialog::accept();
+}
+
+void CDlgEditWpt::slotAddImage()
+{
+    QString filename = QFileDialog::getOpenFileName( 0, tr("Select image file")
+                                                    ,"./"
+                                                    ,"Image (*)"
+                                                );
+    if(filename.isEmpty()) return;
+
+    QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment") );
+
+
+    CWpt::image_t img;
+    img.info = info;
+    img.pixmap = QPixmap(filename);
+    wpt.images.push_back(img);
+    showImage(wpt.images.count() - 1);
+
+    pushDel->setEnabled(true);
+
+}
+
+void CDlgEditWpt::slotDelImage()
+{
+    wpt.images.removeAt(idxImg);
+    while(idxImg >= wpt.images.count()) --idxImg;
+    showImage(idxImg);
+
+    pushDel->setEnabled(wpt.images.count() != 0);
+}
+
+void CDlgEditWpt::slotNextImage()
+{
+    showImage(idxImg + 1);
+}
+
+void CDlgEditWpt::slotPrevImage()
+{
+    showImage(idxImg - 1);
+}
+
+void CDlgEditWpt::showImage(int idx)
+{
+    qDebug() << idx << wpt.images.count();
+    if(idx < 0) idx = 0;
+
+    if(idx < wpt.images.count()){
+        idxImg = idx;
+
+        CWpt::image_t& img = wpt.images[idx];
+        labelImage->setPixmap(img.pixmap);
+        labelInfo->setText(img.info);
+
+        pushNext->setEnabled(idx < (wpt.images.count() - 1) && wpt.images.count() != 1);
+        pushPrev->setEnabled(idx > 0);
+    }
+    else{
+        labelImage->setText(tr("no image"));
+        labelInfo->setText("");
+    }
 }

@@ -38,8 +38,16 @@ class CDlgEditWpt : public QDialog, public Ui::IDlgEditWpt
         int exec();
         void accept();
 
+    private slots:
+        void slotAddImage();
+        void slotDelImage();
+        void slotNextImage();
+        void slotPrevImage();
+
     private:
+        void showImage(int idx);
         CWpt &wpt;
+        qint32 idxImg;
 };
 
 #endif //CDLGEDITWPT_H

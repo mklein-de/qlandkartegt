@@ -39,8 +39,6 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
     char magic[9];
     s.readRawData(magic,9);
 
-    qDebug() << magic;
-
     if(strncmp(magic,"QLWpt   ",9)){
         dev->seek(pos);
         throw(QObject::tr("This is not waypoint data."));
@@ -87,7 +85,6 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 break;
             }
 
-
             default:;
         }
 
@@ -96,14 +93,6 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
     return s;
 }
 
-/*
-    32bit type
-    32bit offset
-    ....
-    eEnd
-    0x00000000
-
-*/
 QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 {
     QList<wpt_head_entry_t> entries;

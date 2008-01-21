@@ -43,6 +43,7 @@ class CWpt : public QObject
     private:
         friend QDataStream& operator >>(QDataStream& s, CWpt& wpt);
         friend QDataStream& operator <<(QDataStream& s, CWpt& wpt);
+        friend class CDlgEditWpt;
         QString _key_;
 
     public:
@@ -61,8 +62,8 @@ class CWpt : public QObject
         struct image_t
         {
             quint32 offset;
-            QString name;
-            QPixmap preview;
+            QString info;
+            QPixmap pixmap;
         };
         QList<image_t> images;
 };

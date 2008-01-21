@@ -14,7 +14,11 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="QListWidget" name="listWpts" />
+    <widget class="QListWidget" name="listWpts" >
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
