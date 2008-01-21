@@ -36,13 +36,18 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
     toolview    = new CWptToolWidget(tb);
 
     CWpt * wpt = new CWpt(this);
-    QFile file("2008.01.20_15.57.52_xxx.wpt");
+    QFile file("2008.01.21_09.44.36_xxx.wpt");
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     in >> *wpt;
     file.close();
 
+    qDebug() << wpt->name;
+
     wpts[wpt->key()] = wpt;
+
+    emit sigChanged();
+
 }
 
 CWptDB::~CWptDB()

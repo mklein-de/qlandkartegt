@@ -49,29 +49,48 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
         wpt_head_entry_t entry;
         s >> entry.type >> entry.offset;
         if(entry.type == CWpt::eEnd) break;
+        qDebug() << hex << entry.type << entry.offset;
 
         entries << entry;
     }
-/*
-    qint32 id;
 
-    s >> id;
-    while(id != CWpt::eEnd){
-        if(id == CWpt::eBase){
-            s >> wpt._key_;
-            s >> wpt.timestamp;
-            s >> wpt.icon;
-            s >> wpt.name;
-            s >> wpt.comment;
-            s >> wpt.lat;
-            s >> wpt.lon;
-            s >> wpt.altitude;
-            s >> wpt.proximity;
+    QList<wpt_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()){
+
+        switch(entry->type){
+            case CWpt::eBase:
+            {
+                qint64 o = pos + entry->offset;
+                dev->seek(o);
+                s >> entry->data;
+
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+
+                s1 >> wpt._key_;
+                s1 >> wpt.sticky;
+                s1 >> wpt.timestamp;
+                s1 >> wpt.icon;
+                s1 >> wpt.name;
+                s1 >> wpt.comment;
+                s1 >> wpt.lat;
+                s1 >> wpt.lon;
+                s1 >> wpt.altitude;
+                s1 >> wpt.proximity;
+
+                break;
+            }
+
+            case CWpt::eImage:
+            {
+
+                break;
+            }
+
+            default:;
         }
 
-        s >> id;
+        ++entry;
     }
-*/
     return s;
 }
 

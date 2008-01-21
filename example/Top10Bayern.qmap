@@ -1,6 +1,6 @@
 [home]
-center=" N49 17.117 E009 00.911 "
-zoom=12
+center=" N49 01.291 E012 05.401 "
+zoom=1
 
 [level1]
 files=by010_n.tif|by010_s.tif
