@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CDeviceTBDOE.h"
+#include "CWpt.h"
 
 #include <QtGui>
 #include <QtNetwork/QTcpSocket>
@@ -35,17 +36,37 @@ CDeviceTBDOE::~CDeviceTBDOE()
 
 void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 {
+    qint32 ack = -1;
     QTcpSocket socket;
-    socket.connectToHost("192.168.1.2",60000);
+    socket.connectToHost("192.168.1.2",4242);
     if(!socket.waitForConnected()){
         QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
 
+    QDataStream socketstream(&socket);
+
+    QList<CWpt*>::iterator wpt = wpts.begin();
+    while(wpt != wpts.end()){
+        QByteArray buf;
+        QDataStream s(&buf,QIODevice::WriteOnly);
+
+        s << *(*wpt);
+        socketstream << buf.size() << buf;
+        socket.flush();
+
+        while(socket.bytesAvailable() < (int)sizeof(ack)){
+            if (!socket.waitForReadyRead()) {
+                 QMessageBox::critical(0,tr("Error..."), tr("Response timeout."),QMessageBox::Abort,QMessageBox::Abort);
+                 return;
+            }
+        }
+        socketstream >> ack;
+        ++wpt;
+    }
 
 
     socket.disconnectFromHost();
-    socket.waitForDisconnected();
 }
 
 void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)

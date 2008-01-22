@@ -24,7 +24,53 @@
 #include <QString>
 #include <QList>
 
-/// waypoint object
+/// waypoint data object
+/**
+    The idea of this waypoint data onject is to provide an appendable data format, that
+    will fit all needs of the future. For the sake of backward compatibility <b>never append
+    an existing functional data block</b>. Define a new one. <b>And never assume a block other
+    than base to exist.</b> Use the type values from the offset table and read those functional
+    data block you understand.
+
+
+    Data structure for serialized waypoint objects:
+
+<pre>
+    "QLWpt   "\0                        // 9 bytes magic string
+    qint32 type, quint32 offset         // offset table for functional data blocks
+    ...        , ...                    // the type is one of CWpt:type_e, the offset
+    ...        , ...                    // is the number of bytes right from the beginning
+    0          , void                   // The table is terminated by eEnd (0)
+    QByteArray 1                        // Each functional data block is stored in it's own
+    ...                                 // byte array. You can randomly access these blocks
+    QByteArray N                        // by seeking the offset and stream the data into
+                                        // a QByteArray object.
+
+    functional data block eBase:
+    QString _key_;                      // unique key to identify the waypoint
+    quint32 sticky;                     // the sticky flag (always keep waypoint)
+    quint32 timestamp;                  // the creation timestamp of the waypoint
+    QString icon;                       // the icon type string
+    QString name;                       // waypoint name
+    QString comment;                    // waypoint comment (HTML)
+    float   lat;                        // latitude [°]
+    float   lon;                        // longitude [°]
+    float   altitude;                   // well, the altitude [m]
+    float   proximity;                  // a radius for proximity alerts [m]
+
+
+    functional data block eImage:
+    quint32 offset 1                    // for each image an offset into the functional data block
+    ...                                 // is stored.
+    quint32 offset N                    //
+    quint32 0                           // the offset table is terminated by a value of 0
+    QString info1, QPixmap image1       // each image is stored as QPixmap (some kind of png format)
+    ...          , ...                  // and a informational string.
+    QString infoN, QPixmap imageN
+
+
+</pre>
+*/
 class CWpt : public QObject
 {
     Q_OBJECT
