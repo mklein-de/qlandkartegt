@@ -38,7 +38,7 @@ void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 {
     qint32 ack = -1;
     QTcpSocket socket;
-    socket.connectToHost("192.168.1.2",4242);
+    socket.connectToHost("172.16.1.20",4242);
     if(!socket.waitForConnected()){
         QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
         return;

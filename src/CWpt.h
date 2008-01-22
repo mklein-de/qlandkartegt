@@ -53,8 +53,8 @@
     QString icon;                       // the icon type string
     QString name;                       // waypoint name
     QString comment;                    // waypoint comment (HTML)
-    float   lat;                        // latitude [Â°]
-    float   lon;                        // longitude [Â°]
+    float   lat;                        // latitude [°]
+    float   lon;                        // longitude [°]
     float   altitude;                   // well, the altitude [m]
     float   proximity;                  // a radius for proximity alerts [m]
 
@@ -65,7 +65,7 @@
     quint32 offset N                    //
     quint32 0                           // the offset table is terminated by a value of 0
     QString info1, QPixmap image1       // each image is stored as QPixmap (some kind of png format)
-    ...          , ...                  // and a informational string.
+    ...          , ...                  // and an informational string.
     QString infoN, QPixmap imageN
 
 
