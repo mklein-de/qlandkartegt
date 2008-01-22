@@ -47,7 +47,10 @@ CMapFile::CMapFile(const QString& filename, CMapLevel * parent)
     oSRS.exportToProj4(&ptr);
     strProj = ptr;
     strProj += " +nadgrids=./BETA2007.gsb";
+
+//     strProj = strProj.replace("+datum=potsdam","");
     qDebug() << strProj;
+
     pj = pj_init_plus(strProj.toLatin1());
 
     xsize_px = dataset->GetRasterXSize();

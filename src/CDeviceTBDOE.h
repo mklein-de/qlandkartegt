@@ -16,54 +16,21 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CWPTDB_H
-#define CWPTDB_H
+#ifndef CDEVICETBDOE_H
+#define CDEVICETBDOE_H
 
-#include "IDB.h"
+#include "IDevice.h"
 
-#include <QString>
-#include <QMap>
-
-class CWptToolWidget;
-class CWpt;
-
-/// waypoint database
-class CWptDB : public IDB
+class CDeviceTBDOE : public IDevice
 {
     Q_OBJECT
     public:
-        virtual ~CWptDB();
+        CDeviceTBDOE(QObject * parent);
+        virtual ~CDeviceTBDOE();
 
-        static CWptDB& self(){return *m_self;}
-
-        /// get iterator access to track point list
-        QMap<QString,CWpt*> ::iterator begin(){return wpts.begin();}
-        /// get iterator access to track point list
-        QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
-
-        /// create a new waypoint
-        void newWpt(double lon, double lat);
-
-        CWpt * getWptByKey(const QString& key);
-
-        void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
-        void loadQLB(CQlb& qlb);
-        void saveQLB(CQlb& qlb);
-
-        void upload();
-        void download();
-
-
-    private:
-        friend class CMainWindow;
-
-        CWptDB(QToolBox * tb, QObject * parent);
-        static CWptDB * m_self;
-
-        QMap<QString,CWpt*> wpts;
-
+        void uploadWpts(QList<CWpt*>& wpts);
+        void downloadWpts(QList<CWpt*>& wpts);
 };
 
-#endif //CWPTDB_H
+#endif //CDEVICETBDOE_H
 

@@ -16,43 +16,40 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef IDB_H
-#define IDB_H
 
-#include <QObject>
+#include "CDeviceTBDOE.h"
 
-class QToolBox;
-class QWidget;
-class QPainter;
-class CGpx;
-class CQlb;
+#include <QtGui>
+#include <QtNetwork/QTcpSocket>
 
-/// base class for all database objects
-class IDB : public QObject
+CDeviceTBDOE::CDeviceTBDOE(QObject * parent)
+    : IDevice(parent)
 {
-    Q_OBJECT
-    public:
-        IDB(QToolBox * tb, QObject * parent);
-        virtual ~IDB();
 
-        virtual void gainFocus();
+}
 
-        virtual void loadGPX(CGpx& gpx) = 0;
-        virtual void saveGPX(CGpx& gpx) = 0;
+CDeviceTBDOE::~CDeviceTBDOE()
+{
 
-        virtual void loadQLB(CQlb& qlb) = 0;
-        virtual void saveQLB(CQlb& qlb) = 0;
+}
 
-        virtual void upload() = 0;
-        virtual void download() = 0;
+void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
+{
+    QTcpSocket socket;
+    socket.connectToHost("192.168.1.2",60000);
+    if(!socket.waitForConnected()){
+        QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
+        return;
+    }
 
-    signals:
-        void sigChanged();
 
-    protected:
-        QToolBox *  toolbox;
-        QWidget *   toolview;
-};
 
-#endif //IDB_H
+    socket.disconnectFromHost();
+    socket.waitForDisconnected();
+}
+
+void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
+{
+
+}
 

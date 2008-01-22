@@ -61,6 +61,8 @@ class CMegaMenu : public QLabel
         void funcSelectArea();
 
         void funcNewWpt();
+        void funcUploadWpt();
+        void funcDownloadWpt();
 
         QPointer<CCanvas>  canvas;
 

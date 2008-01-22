@@ -1,34 +1,35 @@
 <!DOCTYPE RCC>
   <RCC version="1.0">
     <qresource>
-      <file>pics/splash.png</file>
+        <file>pics/splash.png</file>
 
-      <file>icons/iconOpenMap16x16.png</file>
-      <file>icons/iconExit16x16.png</file>
-      <file>icons/iconGlobe16x16.png</file>
-      <file>icons/iconMap16x16.png</file>
-      <file>icons/iconMoveMap16x16.png</file>
-      <file>icons/iconSelMap16x16.png</file>
-      <file>icons/iconBack16x16.png</file>
-      <file>icons/iconWaypoint16x16.png</file>
-      <file>icons/iconSearch16x16.png</file>
-      <file>icons/iconBullseye16x16.png</file>
-      <file>icons/iconAdd16x16.png</file>
-      <file>icons/iconConfig16x16.png</file>
-      <file>icons/iconFileLoad16x16.png</file>
-      <file>icons/iconFileSave16x16.png</file>
-      <file>icons/iconEdit16x16.png</file>
+        <file>icons/iconOpenMap16x16.png</file>
+        <file>icons/iconExit16x16.png</file>
+        <file>icons/iconGlobe16x16.png</file>
+        <file>icons/iconMap16x16.png</file>
+        <file>icons/iconMoveMap16x16.png</file>
+        <file>icons/iconSelMap16x16.png</file>
+        <file>icons/iconBack16x16.png</file>
+        <file>icons/iconWaypoint16x16.png</file>
+        <file>icons/iconSearch16x16.png</file>
+        <file>icons/iconBullseye16x16.png</file>
+        <file>icons/iconAdd16x16.png</file>
+        <file>icons/iconConfig16x16.png</file>
+        <file>icons/iconFileLoad16x16.png</file>
+        <file>icons/iconFileSave16x16.png</file>
+        <file>icons/iconEdit16x16.png</file>
+        <file>icons/iconUpload16x16.png</file>
+        <file>icons/iconDownload16x16.png</file>
 
-      <file>icons/backGlobe128x128.png</file>
-      <file>icons/backMap128x128.png</file>
-      <file>icons/backWaypoint128x128.png</file>
+        <file>icons/backGlobe128x128.png</file>
+        <file>icons/backMap128x128.png</file>
+        <file>icons/backWaypoint128x128.png</file>
 
-      <file>cursors/cursorMoveMap.png</file>
-      <file>cursors/cursorSelMap.png</file>
-      <file>cursors/cursorArrow.png</file>
-      <file>cursors/cursorMove.png</file>
-      <file>cursors/cursorAdd.png</file>
-
+        <file>cursors/cursorMoveMap.png</file>
+        <file>cursors/cursorSelMap.png</file>
+        <file>cursors/cursorArrow.png</file>
+        <file>cursors/cursorMove.png</file>
+        <file>cursors/cursorAdd.png</file>
 
         <file>icons/wpt/1st_aid15x15.png</file>
         <file>icons/wpt/airport15x15.png</file>

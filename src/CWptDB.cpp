@@ -24,6 +24,8 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CQlb.h"
+#include "CResources.h"
+#include "IDevice.h"
 
 
 #include <QtGui>
@@ -119,4 +121,21 @@ void CWptDB::saveQLB(CQlb& qlb)
     }
 }
 
+
+void CWptDB::upload()
+{
+    if(wpts.isEmpty()) return;
+
+    IDevice * dev = CResources::self().device();
+    if(dev){
+        QList<CWpt*> tmpwpts = wpts.values();
+        dev->uploadWpts(tmpwpts);
+    }
+
+}
+
+void CWptDB::download()
+{
+
+}
 

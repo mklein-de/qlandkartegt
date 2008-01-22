@@ -28,6 +28,8 @@ set(qlandkarte_SRCS
     CDlgConfig.cpp
     CDlgEditWpt.cpp
     CQlb.cpp
+    IDevice.cpp
+    CDeviceTBDOE.cpp
 )
 
 set(qlandkarte_HDRS
@@ -57,6 +59,8 @@ set(qlandkarte_HDRS
     CDlgConfig.h
     CDlgEditWpt.h
     CQlb.h
+    IDevice.h
+    CDeviceTBDOE.h
 )
 
 SET(qlandkarte_UIS

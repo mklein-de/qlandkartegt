@@ -22,6 +22,8 @@
 #include <QObject>
 #include <QFont>
 
+class IDevice;
+
 /// all global resources
 class CResources : public QObject
 {
@@ -48,6 +50,8 @@ class CResources : public QObject
         void setUTCOffset(int offset, int fract);
 
         uint32_t getUTCOffset(){return time_offset;}
+
+        IDevice * device(){return m_device;}
 
 
     signals:
@@ -93,6 +97,8 @@ class CResources : public QObject
 
         /// this offset is needed to correct time in seconds until Dec. 30th, 1989 12:00 to POSIX standard
         uint32_t time_offset;
+
+        IDevice * m_device;
 
 };
 

@@ -16,43 +16,17 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef IDB_H
-#define IDB_H
 
-#include <QObject>
+#include "IDevice.h"
 
-class QToolBox;
-class QWidget;
-class QPainter;
-class CGpx;
-class CQlb;
-
-/// base class for all database objects
-class IDB : public QObject
+IDevice::IDevice(QObject * parent)
+    : QObject(parent)
 {
-    Q_OBJECT
-    public:
-        IDB(QToolBox * tb, QObject * parent);
-        virtual ~IDB();
 
-        virtual void gainFocus();
+}
 
-        virtual void loadGPX(CGpx& gpx) = 0;
-        virtual void saveGPX(CGpx& gpx) = 0;
+IDevice::~IDevice()
+{
 
-        virtual void loadQLB(CQlb& qlb) = 0;
-        virtual void saveQLB(CQlb& qlb) = 0;
-
-        virtual void upload() = 0;
-        virtual void download() = 0;
-
-    signals:
-        void sigChanged();
-
-    protected:
-        QToolBox *  toolbox;
-        QWidget *   toolview;
-};
-
-#endif //IDB_H
+}
 

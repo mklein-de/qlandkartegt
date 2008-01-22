@@ -103,8 +103,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device.")}
+    ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device.")}
 };
 
 
@@ -304,4 +304,14 @@ void CMegaMenu::funcSelectArea()
 void CMegaMenu::funcNewWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
+}
+
+void CMegaMenu::funcUploadWpt()
+{
+    CWptDB::self().upload();
+}
+
+void CMegaMenu::funcDownloadWpt()
+{
+    CWptDB::self().download();
 }

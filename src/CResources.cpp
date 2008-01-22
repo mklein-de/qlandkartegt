@@ -18,8 +18,10 @@
 **********************************************************************************************/
 
 #include "CResources.h"
+#include "CDeviceTBDOE.h"
 
 #include <QtGui>
+
 
 CResources * CResources::m_self = 0;
 
@@ -64,6 +66,8 @@ CResources::CResources(QObject * parent)
     cmdOther          = cfg.value("network/browser/other","my command \"%s\"").toString();
 
     emit sigProxyChanged();
+
+    m_device = new CDeviceTBDOE(this);
 }
 
 CResources::~CResources()
