@@ -29,7 +29,7 @@ IMap::IMap(QObject * parent)
     , pjsrc(0)
     , pjtar(0)
 {
-    pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +no_defs");
+    pjtar   = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
