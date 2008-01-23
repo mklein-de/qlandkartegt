@@ -33,7 +33,9 @@ CResources::CResources(QObject * parent)
     , cmdFirefox("firefox \"%s\" &")
     , cmdKonqueror("kfmclient exec \"%s\"")
     , time_offset(0)
+    , m_device(0)
     , m_devIPPort(0)
+
 
 {
     m_self = this;

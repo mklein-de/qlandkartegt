@@ -77,10 +77,7 @@ bool CDeviceTBDOE::recv(packet_e& type, QByteArray& data)
 
 void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 {
-    qint32 ack = -1;
-
-
-    qDebug() << ipaddr << port;
+    packet_e type;
     socket.connectToHost(ipaddr,port);
     if(!socket.waitForConnected(timeout)){
         QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
@@ -97,14 +94,12 @@ void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
         s << *(*wpt);
         send(eWpt,buf);
 
-
-        while(socket.bytesAvailable() < (int)sizeof(ack)){
-            if (!socket.waitForReadyRead(10000)) {
-                 QMessageBox::critical(0,tr("Error..."), tr("Response timeout."),QMessageBox::Abort,QMessageBox::Abort);
-                 return;
-            }
+        buf.clear();
+        recv(type, buf);
+        if(type != eAck){
+            qDebug() << QString(buf);
         }
-        socketstream >> ack;
+
         ++wpt;
     }
 
