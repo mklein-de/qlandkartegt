@@ -23,6 +23,8 @@
 #include <QPixmap>
 #include <QString>
 #include <QList>
+#include <QFile>
+#include <QDir>
 
 /// waypoint data object
 /**
@@ -79,8 +81,10 @@ class CWpt : public QObject
         virtual ~CWpt();
 
         const QString& key();
-        const QString filename();
+        const QString filename(const QDir& dir = CWpt::path);
         enum type_e {eEnd,eBase,eImage};
+
+        static QDir& getWptPath(){return path;}
 
     private:
         void genKey();
@@ -112,10 +116,15 @@ class CWpt : public QObject
             QPixmap pixmap;
         };
         QList<image_t> images;
+
+        static QDir path;
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);
 QDataStream& operator <<(QDataStream& s, CWpt& wpt);
+
+void operator >>(QFile& s, CWpt& wpt);
+void operator <<(QFile& s, CWpt& wpt);
 
 #endif //CWPT_H
 

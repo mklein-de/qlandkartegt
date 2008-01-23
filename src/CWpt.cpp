@@ -21,6 +21,13 @@
 
 #include <QtCore>
 
+#ifndef _MKSTR_1
+#define _MKSTR_1(x)    #x
+#define _MKSTR(x)      _MKSTR_1(x)
+#endif
+
+QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
+
 struct wpt_head_entry_t
 {
     wpt_head_entry_t() : type(CWpt::eEnd), offset(0) {}
@@ -41,7 +48,8 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
 
     if(strncmp(magic,"QLWpt   ",9)){
         dev->seek(pos);
-        throw(QObject::tr("This is not waypoint data."));
+//         throw(QObject::tr("This is not waypoint data."));
+        return s;
     }
 
     QList<wpt_head_entry_t> entries;
@@ -211,6 +219,21 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     return s;
 }
 
+void operator >>(QFile& f, CWpt& wpt)
+{
+    f.open(QIODevice::ReadOnly);
+    QDataStream s(&f);
+    s >> wpt;
+}
+
+void operator <<(QFile& f, CWpt& wpt)
+{
+    f.open(QIODevice::WriteOnly);
+    QDataStream s(&f);
+    s << wpt;
+}
+
+
 
 CWpt::CWpt(QObject * parent)
     : QObject(parent)
@@ -236,7 +259,7 @@ const QString& CWpt::key()
     return _key_;
 }
 
-const QString CWpt::filename()
+const QString CWpt::filename(const QDir& dir)
 {
     QDateTime ts;
     QString str;
@@ -246,5 +269,5 @@ const QString CWpt::filename()
     str += name;
     str += ".wpt";
 
-    return str;
+    return dir.filePath(str);
 }
