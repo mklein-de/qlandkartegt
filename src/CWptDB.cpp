@@ -24,11 +24,13 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CQlb.h"
+#include "CGpx.h"
 #include "CResources.h"
 #include "IDevice.h"
 
 
 #include <QtGui>
+
 
 CWptDB * CWptDB::m_self;
 
@@ -90,6 +92,63 @@ CWpt * CWptDB::getWptByKey(const QString& key)
 
 void CWptDB::loadGPX(CGpx& gpx)
 {
+    const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
+    uint N = waypoints.count();
+    for(uint n = 0; n < N; ++n){
+        const QDomNode& waypoint = waypoints.item(n);
+
+//         CGarminWpt * w = new CGarminWpt(this);
+        CWpt * wpt = new CWpt(this);
+//         connect(w,SIGNAL(sigSelected(CGarminWpt*)),this,SLOT(slotSelectWpt(CGarminWpt*)));
+//
+        const QDomNamedNodeMap& attr = waypoint.attributes();
+        wpt->lon = attr.namedItem("lon").nodeValue().toDouble();
+        wpt->lat = attr.namedItem("lat").nodeValue().toDouble();
+        if(waypoint.namedItem("name").isElement()){
+            wpt->name = waypoint.namedItem("name").toElement().text();
+        }
+        if(waypoint.namedItem("cmt").isElement()){
+            wpt->comment = waypoint.namedItem("cmt").toElement().text();
+        }
+        if(waypoint.namedItem("desc").isElement()){
+            wpt->comment = waypoint.namedItem("desc").toElement().text();
+        }
+//         if(wpt.namedItem("link").isElement()){
+//             const QDomNode& link = wpt.namedItem("link");
+//             const QDomNamedNodeMap& attr = link.toElement().attributes();
+//             w->link = attr.namedItem("href").nodeValue();
+//         }
+//         if(wpt.namedItem("url").isElement()){
+//             w->link = wpt.namedItem("url").toElement().text();
+//         }
+        if(waypoint.namedItem("sym").isElement()){
+            wpt->icon =  waypoint.namedItem("sym").toElement().text();
+        }
+        if(waypoint.namedItem("ele").isElement()){
+            wpt->altitude = waypoint.namedItem("ele").toElement().text().toDouble();
+        }
+        if(waypoint.namedItem("time").isElement()){
+            QDateTime time = QDateTime::fromString(waypoint.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
+            time.setTimeSpec(Qt::UTC);
+            wpt->timestamp = time.toTime_t();// - gpResources->getUTCOffset();
+        }
+
+        if(waypoint.namedItem("extension").isElement()){
+            const QDomNode& ext = waypoint.namedItem("extension");
+            if(ext.namedItem("dist").isElement()){
+                wpt->proximity = ext.namedItem("dist").toElement().text().toDouble();
+            }
+        }
+
+        if(wpt->lat == 1000 || wpt->lon == 1000 || wpt->name.isEmpty()){
+            delete wpt;
+            continue;
+        }
+
+        wpts[wpt->key()] = wpt;
+    }
+
+    emit sigChanged();
 }
 
 void CWptDB::saveGPX(CGpx& gpx)
@@ -104,7 +163,7 @@ void CWptDB::loadQLB(CQlb& qlb)
         CWpt * wpt = new CWpt(this);
 
         stream >> *wpt;
-        qDebug() << wpt->name;
+//         qDebug() << wpt->name;
         wpts[wpt->key()] = wpt;
     }
 

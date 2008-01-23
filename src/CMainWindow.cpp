@@ -27,6 +27,7 @@
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
 #include "CQlb.h"
+#include "CGpx.h"
 
 #include <QtGui>
 
@@ -211,7 +212,7 @@ void CMainWindow::slotLoadData()
     QString filter;
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select output file")
                                                     ,pathData
-                                                    ,"QLandkarte (*.qlb);; GPS Exchange (*.gpx)"
+                                                    ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
                                                     ,&filter
                                                 );
     if(filename.isEmpty()) return;
@@ -236,12 +237,12 @@ void CMainWindow::slotLoadData()
     if(ext == "QLB"){
         CQlb qlb(this);
         qlb.load(filename);
-
         CWptDB::self().loadQLB(qlb);
-
     }
     else if(ext == "GPX"){
-//         CWptDB::self().saveGPX();
+        CGpx gpx(this);
+        gpx.load(filename);
+        CWptDB::self().loadGPX(gpx);
     }
 }
 
@@ -275,11 +276,12 @@ void CMainWindow::slotSaveData()
     if(ext == "QLB"){
         CQlb qlb(this);
         CWptDB::self().saveQLB(qlb);
-
         qlb.save(filename);
     }
     else if(ext == "GPX"){
-//         CWptDB::self().saveGPX();
+        CGpx gpx(this);
+        CWptDB::self().saveGPX(gpx);
+        gpx.save(filename);
     }
 
 }

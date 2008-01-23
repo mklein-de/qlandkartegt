@@ -1,4 +1,6 @@
-include(${QT_USE_FILE} ${QT_QTNETWORK_INCLUDE_DIR})
+include( ${QT_USE_FILE})
+include( ${QT_QTNETWORK_INCLUDE_DIR})
+include( ${QT_QTXML_INCLUDE_DIR})
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -29,6 +31,7 @@ set(qlandkarte_SRCS
     CDlgEditWpt.cpp
     CDlgWptIcon.cpp
     CQlb.cpp
+    CGpx.cpp
     IDevice.cpp
     CDeviceTBDOE.cpp
 )
@@ -61,6 +64,7 @@ set(qlandkarte_HDRS
     CDlgEditWpt.h
     CDlgWptIcon.h
     CQlb.h
+    CGpx.h
     IDevice.h
     CDeviceTBDOE.h
 )
@@ -90,7 +94,7 @@ if(UNIX)
   add_definitions(-Wall -O2)
 endif(UNIX)
 
-target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES})
+target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
 
 
 
