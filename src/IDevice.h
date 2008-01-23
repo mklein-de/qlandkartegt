@@ -28,11 +28,16 @@ class IDevice : public QObject
 {
     Q_OBJECT
     public:
-        IDevice(QObject * parent);
+        IDevice(const QString& devkey, QObject * parent);
         virtual ~IDevice();
+
+        const QString& getDevKey(){return devkey;}
 
         virtual void uploadWpts(QList<CWpt*>& wpts) = 0;
         virtual void downloadWpts(QList<CWpt*>& wpts) = 0;
+
+    private:
+        QString devkey;
 };
 
 #endif //IDEVICE_H

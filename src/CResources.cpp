@@ -33,6 +33,7 @@ CResources::CResources(QObject * parent)
     , cmdFirefox("firefox \"%s\" &")
     , cmdKonqueror("kfmclient exec \"%s\"")
     , time_offset(0)
+    , m_devIPPort(0)
 
 {
     m_self = this;
@@ -67,7 +68,12 @@ CResources::CResources(QObject * parent)
 
     emit sigProxyChanged();
 
-    m_device = new CDeviceTBDOE(this);
+    m_devKey          = cfg.value("device/key",m_devKey).toString();
+    m_devIPAddress    = cfg.value("device/ipAddr",m_devIPAddress).toString();
+    m_devIPPort       = cfg.value("device/ipPort",m_devIPPort).toUInt();
+    m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
+
+
 }
 
 CResources::~CResources()
@@ -87,6 +93,11 @@ CResources::~CResources()
     cfg.setValue("network/browser",m_eBrowser);
     cfg.setValue("network/browser/other",cmdOther);
 
+    cfg.setValue("device/key",m_devKey);
+    cfg.setValue("device/ipAddr",m_devIPAddress);
+    cfg.setValue("device/ipPort",m_devIPPort);
+    cfg.setValue("device/serialPort",m_devSerialPort);
+
 }
 
 bool CResources::getHttpProxy(QString& url, quint16& port)
@@ -99,4 +110,28 @@ bool CResources::getHttpProxy(QString& url, quint16& port)
 void CResources::setUTCOffset(int offset, int fract)
 {
 //     time_offset = TIME_OFFSET + offset * 3600 + fract * 60;
+}
+
+IDevice * CResources::device()
+{
+    // purge device if the key does not match
+    if(m_device && (m_device->getDevKey() != m_devKey)){
+        delete m_device;
+        m_device = 0;
+    }
+
+    // allocate new device
+    if(!m_device){
+        if(m_devKey == "QLandkarteM" && !m_devIPAddress.isEmpty() && m_devIPPort){
+            m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
+        }
+    }
+
+    // still noe device?
+    if(!m_device){
+        qWarning() << "no device";
+    //TODO: tell the user to setup the device
+    }
+
+    return m_device;
 }

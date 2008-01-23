@@ -51,7 +51,7 @@ class CResources : public QObject
 
         uint32_t getUTCOffset(){return time_offset;}
 
-        IDevice * device(){return m_device;}
+        IDevice * device();
 
 
     signals:
@@ -98,7 +98,18 @@ class CResources : public QObject
         /// this offset is needed to correct time in seconds until Dec. 30th, 1989 12:00 to POSIX standard
         uint32_t time_offset;
 
+        /// the device key for the desired device
+        QString m_devKey;
+        /// the actual device access object
+        /**
+            This can be different from m_devKey. In this case the next call
+            to device() will destroy it and load the correct one.
+        */
         IDevice * m_device;
+
+        QString m_devIPAddress;
+        quint16 m_devIPPort;
+        QString m_devSerialPort;
 
 };
 

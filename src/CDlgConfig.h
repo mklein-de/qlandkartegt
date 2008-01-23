@@ -33,6 +33,9 @@ class CDlgConfig : public QDialog, public Ui::IDlgConfig
         void exec();
         void accept();
 
+    private slots:
+        void slotCurrentDeviceChanged(int index);
+
 };
 
 #endif //CDLGCONFIG_H

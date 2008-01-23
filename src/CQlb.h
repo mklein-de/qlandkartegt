@@ -24,6 +24,17 @@
 
 class CWpt;
 
+/// qlandkarte binary to store privat geo data
+/**
+    The file will store data like waypoints, tracks, map selections. These elements will
+    be collected in a dedicated byte arra, e.g. all waypoints are serialized in wpts and so on.
+    These byte arrays a stored like:
+
+    qint32 eWpt, QByteArray wpts
+    ...
+    qint32 eEnd
+
+*/
 class CQlb : public QObject
 {
     Q_OBJECT
@@ -33,15 +44,23 @@ class CQlb : public QObject
 
         enum type_e {eEnd, eWpt};
 
+        /// collect wapoint data
+        /**
+            This will serialize the waypoint object to wpts
+        */
         CQlb& operator <<(CWpt& wpt);
 
+        /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
 
+        /// write collected data to file
         void save(const QString& filename);
 
+        /// read file and store elements in their designated byte arrays
         void load(const QString& filename);
 
     private:
+        /// byte array to hold all
         QByteArray wpts;
 
 };

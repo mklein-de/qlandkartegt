@@ -19,8 +19,9 @@
 
 #include "IDevice.h"
 
-IDevice::IDevice(QObject * parent)
+IDevice::IDevice(const QString& devkey, QObject * parent)
     : QObject(parent)
+    , devkey(devkey)
 {
 
 }

@@ -20,16 +20,57 @@
 #define CDEVICETBDOE_H
 
 #include "IDevice.h"
+#include <QtNetwork/QTcpSocket>
 
+/// device layer for QLandkarte M devices
+/**
+
+    Protocol specification:
+
+    QLandkarte M := host; QLandkarte GT := client
+
+    Each transaction is initiated by the client. A packet sent to the host is achnowledeged by
+    a packet from the host. The client has to wait for each packet to get achnowledeged. The host
+    and client will operate the socket as a QDataStream. Thus all objects sent will get serialized
+    according to Trolltech's spec.
+
+    The format of a packet is:
+
+    qint32 type, qint32 size, QByteArray data
+
+    The type will be an enumeration of type packet_e. The size value is needed by the receiving
+    socket to wait for the reception of all packet data.
+
+
+*/
 class CDeviceTBDOE : public IDevice
 {
     Q_OBJECT
     public:
-        CDeviceTBDOE(QObject * parent);
+        CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent);
         virtual ~CDeviceTBDOE();
 
         void uploadWpts(QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
+
+        enum packet_e {
+              eNone
+            , eError        ///< error occured
+            , eAck          ///<
+            , eReqAlive
+            , eAckAlive
+            , eWpt
+        };
+
+    private:
+        QString ipaddr;
+        quint16 port;
+        const int timeout;
+
+        QTcpSocket socket;
+
+        void send(const packet_e type, const QByteArray& data);
+        bool recv(packet_e& type, QByteArray& data);
 };
 
 #endif //CDEVICETBDOE_H

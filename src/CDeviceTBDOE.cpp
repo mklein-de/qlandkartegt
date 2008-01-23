@@ -21,10 +21,13 @@
 #include "CWpt.h"
 
 #include <QtGui>
-#include <QtNetwork/QTcpSocket>
 
-CDeviceTBDOE::CDeviceTBDOE(QObject * parent)
-    : IDevice(parent)
+
+CDeviceTBDOE::CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent)
+    : IDevice("QLandkarteM",parent)
+    , ipaddr(ipaddr)
+    , port(port)
+    , timeout(3000)
 {
 
 }
@@ -34,12 +37,52 @@ CDeviceTBDOE::~CDeviceTBDOE()
 
 }
 
+void CDeviceTBDOE::send(const packet_e type, const QByteArray& data)
+{
+    QByteArray packet;
+    QDataStream out(&packet,QIODevice::WriteOnly);
+    out << (qint32)type;
+    out << (qint32)0;
+    out << data;
+    out.device()->seek(sizeof(type));
+    out << (qint32)(packet.size() - 2 * sizeof(qint32));
+
+    socket.write(packet);
+}
+
+bool CDeviceTBDOE::recv(packet_e& type, QByteArray& data)
+{
+    qint32 size;
+    QDataStream in(&socket);
+
+    while(socket.bytesAvailable() < (int)(2 * sizeof(qint32))){
+        if (!socket.waitForReadyRead(timeout)) {
+                return false;
+        }
+    }
+
+    in >> (qint32&)type;
+    in >> size;
+
+    while(socket.bytesAvailable() < size){
+        if (!socket.waitForReadyRead(timeout)) {
+                return false;
+        }
+    }
+
+    in >> data;
+    return true;
+}
+
+
 void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 {
     qint32 ack = -1;
-    QTcpSocket socket;
-    socket.connectToHost("172.16.1.20",4242);
-    if(!socket.waitForConnected()){
+
+
+    qDebug() << ipaddr << port;
+    socket.connectToHost(ipaddr,port);
+    if(!socket.waitForConnected(timeout)){
         QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
@@ -52,11 +95,11 @@ void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
         QDataStream s(&buf,QIODevice::WriteOnly);
 
         s << *(*wpt);
-        socketstream << buf.size() << buf;
-        socket.flush();
+        send(eWpt,buf);
+
 
         while(socket.bytesAvailable() < (int)sizeof(ack)){
-            if (!socket.waitForReadyRead()) {
+            if (!socket.waitForReadyRead(10000)) {
                  QMessageBox::critical(0,tr("Error..."), tr("Response timeout."),QMessageBox::Abort,QMessageBox::Abort);
                  return;
             }
