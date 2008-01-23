@@ -27,6 +27,7 @@ set(qlandkarte_SRCS
     CSearchToolWidget.cpp
     CDlgConfig.cpp
     CDlgEditWpt.cpp
+    CDlgWptIcon.cpp
     CQlb.cpp
     IDevice.cpp
     CDeviceTBDOE.cpp
@@ -58,6 +59,7 @@ set(qlandkarte_HDRS
     CSearchToolWidget.h
     CDlgConfig.h
     CDlgEditWpt.h
+    CDlgWptIcon.h
     CQlb.h
     IDevice.h
     CDeviceTBDOE.h
@@ -69,6 +71,7 @@ SET(qlandkarte_UIS
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui
+    IDlgWptIcon.ui
 )
 
 SET(qlandkarte_RCS

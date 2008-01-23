@@ -16,40 +16,27 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CDLGEDITWPT_H
-#define CDLGEDITWPT_H
-
-
+#ifndef CDLGWPTICON_H
+#define CDLGWPTICON_H
 
 #include <QDialog>
+#include "ui_IDlgWptIcon.h"
 
-#include "ui_IDlgEditWpt.h"
+class QToolButton;
 
-class CWpt;
-
-class CDlgEditWpt : public QDialog, public Ui::IDlgEditWpt
+class CDlgWptIcon : public QDialog, public Ui::IDlgWptIcon
 {
     Q_OBJECT
     public:
-        CDlgEditWpt(CWpt &wpt, QWidget * parent);
-        virtual ~CDlgEditWpt();
-
-    public slots:
-        int exec();
-        void accept();
+        CDlgWptIcon(QToolButton& but);
+        virtual ~CDlgWptIcon();
 
     private slots:
-        void slotAddImage();
-        void slotDelImage();
-        void slotNextImage();
-        void slotPrevImage();
-        void slotSelectIcon();
+        void slotItemClicked(QListWidgetItem * item);
 
     private:
-        void showImage(int idx);
-        CWpt &wpt;
-        qint32 idxImg;
+        QToolButton& button;
 };
 
-#endif //CDLGEDITWPT_H
+#endif //CDLGWPTICON_H
 

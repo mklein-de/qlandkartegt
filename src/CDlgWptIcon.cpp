@@ -16,40 +16,48 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CDLGEDITWPT_H
-#define CDLGEDITWPT_H
 
+#include "CDlgWptIcon.h"
+#include "WptIcons.h"
 
+#include <QtGui>
 
-#include <QDialog>
-
-#include "ui_IDlgEditWpt.h"
-
-class CWpt;
-
-class CDlgEditWpt : public QDialog, public Ui::IDlgEditWpt
+CDlgWptIcon::CDlgWptIcon(QToolButton& but)
+    : QDialog(&but)
+    , button(but)
 {
-    Q_OBJECT
-    public:
-        CDlgEditWpt(CWpt &wpt, QWidget * parent);
-        virtual ~CDlgEditWpt();
+    setupUi(this);
 
-    public slots:
-        int exec();
-        void accept();
+    QString currentIcon = button.objectName();
+    QListWidgetItem * currentItem = 0;
 
-    private slots:
-        void slotAddImage();
-        void slotDelImage();
-        void slotNextImage();
-        void slotPrevImage();
-        void slotSelectIcon();
+    const wpt_icon_t * icon = wptIcons;
+    while(icon->name != 0){
+        QListWidgetItem * item = new QListWidgetItem(QPixmap(icon->icon), icon->name, listIcons);
+        if(currentIcon == icon->name){
+            currentItem = item;
+        }
+        ++icon;
+    }
 
-    private:
-        void showImage(int idx);
-        CWpt &wpt;
-        qint32 idxImg;
-};
+    if(currentItem){
+        listIcons->setCurrentItem(currentItem);
+        listIcons->scrollToItem(currentItem);
+    }
 
-#endif //CDLGEDITWPT_H
 
+    connect(listIcons, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
+}
+
+CDlgWptIcon::~CDlgWptIcon()
+{
+
+}
+
+void CDlgWptIcon::slotItemClicked(QListWidgetItem * item)
+{
+
+    button.setIcon(item->icon());
+    button.setObjectName(item->text());
+    accept();
+}

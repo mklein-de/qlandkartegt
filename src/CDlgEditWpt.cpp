@@ -21,6 +21,7 @@
 #include "CWpt.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
+#include "CDlgWptIcon.h"
 
 #include <QtGui>
 
@@ -34,6 +35,8 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushDel, SIGNAL(clicked()), this, SLOT(slotDelImage()));
     connect(pushNext, SIGNAL(clicked()), this, SLOT(slotNextImage()));
     connect(pushPrev, SIGNAL(clicked()), this, SLOT(slotPrevImage()));
+
+    connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
 }
 
 CDlgEditWpt::~CDlgEditWpt()
@@ -87,6 +90,12 @@ void CDlgEditWpt::accept()
     wpt.comment     = textComment->toHtml();
 
     QDialog::accept();
+}
+
+void CDlgEditWpt::slotSelectIcon()
+{
+    CDlgWptIcon dlg(*toolIcon);
+    dlg.exec();
 }
 
 void CDlgEditWpt::slotAddImage()
