@@ -46,6 +46,10 @@ class CWptDB : public IDB
 
         CWpt * getWptByKey(const QString& key);
 
+        void delWpt(const QStringList& keys);
+
+        void delWpt(const QString& key, bool silent = false);
+
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb);

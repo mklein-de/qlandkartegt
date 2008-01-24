@@ -33,11 +33,15 @@ class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
         CWptToolWidget(QToolBox * parent);
         virtual ~CWptToolWidget();
 
+    protected:
+        void keyPressEvent(QKeyEvent * e);
+
     private slots:
         void slotDBChanged();
         void slotItemClicked(QListWidgetItem* item);
         void slotContextMenu(const QPoint& pos);
         void slotEdit();
+        void slotDelete();
 
     private:
         QMenu * contextMenu;

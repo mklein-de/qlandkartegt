@@ -74,6 +74,12 @@ bool CDeviceTBDOE::recv(packet_e& type, QByteArray& data)
     return true;
 }
 
+bool CDeviceTBDOE::exchange(packet_e& type,QByteArray& data)
+{
+    send(type,data);
+    data.clear();
+    return recv(type,data);
+}
 
 void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 {
@@ -88,16 +94,18 @@ void CDeviceTBDOE::uploadWpts(QList<CWpt*>& wpts)
 
     QList<CWpt*>::iterator wpt = wpts.begin();
     while(wpt != wpts.end()){
-        QByteArray buf;
-        QDataStream s(&buf,QIODevice::WriteOnly);
+        QByteArray data;
+        QDataStream s(&data,QIODevice::WriteOnly);
 
         s << *(*wpt);
-        send(eWpt,buf);
 
-        buf.clear();
-        recv(type, buf);
+        if(!exchange(type = eWpt,data)){
+            QMessageBox::critical(0,tr("Error..."), tr("Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
+            return;
+        }
+
         if(type != eAck){
-            qDebug() << QString(buf);
+            qDebug() << QString(data);
         }
 
         ++wpt;

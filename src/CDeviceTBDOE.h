@@ -71,6 +71,7 @@ class CDeviceTBDOE : public IDevice
 
         void send(const packet_e type, const QByteArray& data);
         bool recv(packet_e& type, QByteArray& data);
+        bool exchange(packet_e& type,QByteArray& data);
 };
 
 #endif //CDEVICETBDOE_H

@@ -35,10 +35,11 @@ CWptToolWidget::CWptToolWidget(QToolBox * parent)
     parent->addItem(this,QIcon(":/icons/iconWaypoint16x16"),tr("Waypoints"));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
-    connect(listWpts,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listWpts,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -48,6 +49,18 @@ CWptToolWidget::~CWptToolWidget()
 {
 
 }
+
+void CWptToolWidget::keyPressEvent(QKeyEvent * e)
+{
+    if(e->key() == Qt::Key_Delete){
+        slotDelete();
+        e->accept();
+    }
+    else{
+        QWidget::keyPressEvent(e);
+    }
+}
+
 
 void CWptToolWidget::slotDBChanged()
 {
@@ -87,4 +100,16 @@ void CWptToolWidget::slotEdit()
         CDlgEditWpt dlg(*wpt,this);
         dlg.exec();
     }
+}
+
+void CWptToolWidget::slotDelete()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+    foreach(item,items){
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    CWptDB::self().delWpt(keys);
 }

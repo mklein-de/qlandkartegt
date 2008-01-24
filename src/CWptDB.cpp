@@ -74,6 +74,31 @@ CWpt * CWptDB::getWptByKey(const QString& key)
 
 }
 
+
+void CWptDB::delWpt(const QString& key, bool silent)
+{
+    if(!wpts.contains(key)) return;
+    if(wpts[key]->sticky){
+        QString msg = tr("Do you really want to delete the sticky waypoint '%1'").arg(wpts[key]->name);
+        if(QMessageBox::question(0,tr("Delete sticky waypoint ..."),msg, QMessageBox::Ok|QMessageBox::No, QMessageBox::No) == QMessageBox::No){
+            return;
+        }
+    }
+    delete wpts.take(key);
+    if(!silent) emit sigChanged();
+}
+
+void CWptDB::delWpt(const QStringList& keys)
+{
+    QString key;
+    foreach(key, keys){
+        delWpt(key,true);
+    }
+
+    emit sigChanged();
+}
+
+
 void CWptDB::loadGPX(CGpx& gpx)
 {
     const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
