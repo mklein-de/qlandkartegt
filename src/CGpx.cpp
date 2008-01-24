@@ -38,7 +38,7 @@ void CGpx::writeMetadata()
     QDomElement root = createElement("gpx");
     appendChild(root);
     root.setAttribute("version","1.1");
-    root.setAttribute("creator","QLandkarte");
+    root.setAttribute("creator","QLandkarteGT");
     root.setAttribute("xmlns","http://www.topografix.com/GPX/1/1");
     root.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
     root.setAttribute("xsi:schemaLocation","http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
@@ -48,10 +48,10 @@ void CGpx::writeMetadata()
 
     QDomElement link = createElement("link");
     metadata.appendChild(link);
-    link.setAttribute("href","http://qlandkarte.sourceforge.net/");
+    link.setAttribute("href","http://www.qlandkarte.org/");
     QDomElement text = createElement("text");
     link.appendChild(text);
-    QDomText _text_ = createTextNode("QLandkarte");
+    QDomText _text_ = createTextNode("QLandkarteGT");
     text.appendChild(_text_);
 
     QDomElement time = createElement("time");
@@ -77,15 +77,15 @@ void CGpx::save(const QString& filename)
             gpx.load(filename);
             const  QDomElement& docElem = gpx.documentElement();
             const QDomNamedNodeMap& attr = docElem.attributes();
-            if(attr.namedItem("creator").nodeValue() != "QLandkarte"){
+            if(attr.namedItem("creator").nodeValue() != "QLandkarteGT"){
                 throw tr("bad application");
             }
         }
         catch(const QString& msg){
             int res = QMessageBox::warning(0,tr("File exists ...")
-                                            ,tr("The file exists and it has not been created by QLandkarte. "
+                                            ,tr("The file exists and it has not been created by QLandkarte GT. "
                                                 "If you press 'yes' all data in this file will be lost. "
-                                                "Even if this file contains GPX data, QLandkarte might not "
+                                                "Even if this file contains GPX data, QLandkarte GT might not "
                                                 "load and store all elements of this file. Those elements "
                                                 "will be lost. I recommend to use another file. "
                                                 "<b>Do you really want to overwrite the file?</b>")
@@ -123,16 +123,5 @@ void CGpx::load(const QString& filename)
         throw tr("Not a GPX file: ") + filename;
     }
 
-/*
-    const QDomNamedNodeMap& attr = docElem.attributes();
-    if(attr.namedItem("version").nodeValue() != "1.1"){
-        QMessageBox::warning(0,tr("Wrong GPX version ...")
-                            ,tr("QLandkarte supports GPX files of version 1.1. The "
-                                "version of this file is different. I will try to load "
-                                "it, but some information will be lost.")
-                            ,QMessageBox::Yes,QMessageBox::NoButton);
-
-    }
-*/
 }
 

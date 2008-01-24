@@ -26,6 +26,8 @@
 #include <QFile>
 #include <QDir>
 
+#define WPT_NOFLOAT 1e25f
+
 /// waypoint data object
 /**
     The idea of this waypoint data onject is to provide an appendable data format, that
@@ -55,8 +57,8 @@
     QString icon;                       // the icon type string
     QString name;                       // waypoint name
     QString comment;                    // waypoint comment (HTML)
-    float   lat;                        // latitude [°]
-    float   lon;                        // longitude [°]
+    float   lat;                        // latitude [ï¿½]
+    float   lon;                        // longitude [ï¿½]
     float   altitude;                   // well, the altitude [m]
     float   proximity;                  // a radius for proximity alerts [m]
 
@@ -104,8 +106,9 @@ class CWpt : public QObject
         QString comment;
         float   lat;
         float   lon;
-        float   altitude;
-        float   proximity;
+        float   ele;
+        float   prx;
+        QString link;
 
         // images
     private:

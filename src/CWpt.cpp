@@ -81,8 +81,9 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.comment;
                 s1 >> wpt.lat;
                 s1 >> wpt.lon;
-                s1 >> wpt.altitude;
-                s1 >> wpt.proximity;
+                s1 >> wpt.ele;
+                s1 >> wpt.prx;
+                s1 >> wpt.link;
 
                 break;
             }
@@ -137,8 +138,9 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     s1 << wpt.comment;
     s1 << wpt.lat;
     s1 << wpt.lon;
-    s1 << wpt.altitude;
-    s1 << wpt.proximity;
+    s1 << wpt.ele;
+    s1 << wpt.prx;
+    s1 << wpt.link;
 
     entries << entryBase;
 
@@ -237,8 +239,14 @@ void operator <<(QFile& f, CWpt& wpt)
 
 CWpt::CWpt(QObject * parent)
     : QObject(parent)
-    , timestamp(QDateTime::currentDateTime().toTime_t ())
+    , sticky(false)
+    , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
     , icon("Star")
+    , lat(1000)
+    , lon(1000)
+    , ele(WPT_NOFLOAT)
+    , prx(WPT_NOFLOAT)
+
 {
 
 }

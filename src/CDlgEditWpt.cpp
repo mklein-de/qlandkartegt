@@ -56,8 +56,12 @@ int CDlgEditWpt::exec()
     linePosition->setText(pos);
 
     //TODO: that has to be metric/imperial
-    lineAltitude->setText(QString::number(wpt.altitude,'f',0));
-    lineProximity->setText(QString::number(wpt.proximity,'f',1));
+    if(wpt.ele != WPT_NOFLOAT){
+        lineAltitude->setText(QString::number(wpt.ele,'f',0));
+    }
+    if(wpt.prx != WPT_NOFLOAT){
+        lineProximity->setText(QString::number(wpt.prx,'f',1));
+    }
 
     textComment->setHtml(wpt.comment);
 
@@ -85,8 +89,9 @@ void CDlgEditWpt::accept()
     }
     wpt.icon        = toolIcon->objectName();
     wpt.name        = lineName->text();
-    wpt.altitude    = lineAltitude->text().toFloat();
-    wpt.proximity   = lineProximity->text().toFloat();
+
+    wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
+    wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
     wpt.comment     = textComment->toHtml();
 
     QDialog::accept();

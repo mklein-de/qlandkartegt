@@ -40,16 +40,6 @@ CWptDB::CWptDB(QToolBox * tb, QObject * parent)
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
 
-//     CWpt * wpt = new CWpt(this);
-//     QFile file("2008.01.21_09.44.36_xxx.wpt");
-//     file.open(QIODevice::ReadOnly);
-//     QDataStream in(&file);
-//     in >> *wpt;
-//     file.close();
-//     wpts[wpt->key()] = wpt;
-//
-//     emit sigChanged();
-
 }
 
 CWptDB::~CWptDB()
@@ -73,12 +63,6 @@ void CWptDB::newWpt(double lon, double lat)
     }
     wpts[wpt->key()] = wpt;
 
-//     QFile file(wpt->filename());
-//     file.open(QIODevice::WriteOnly);
-//     QDataStream out(&file);
-//     out << *wpt;
-//     file.close();
-
     emit sigChanged();
 }
 
@@ -97,10 +81,8 @@ void CWptDB::loadGPX(CGpx& gpx)
     for(uint n = 0; n < N; ++n){
         const QDomNode& waypoint = waypoints.item(n);
 
-//         CGarminWpt * w = new CGarminWpt(this);
         CWpt * wpt = new CWpt(this);
-//         connect(w,SIGNAL(sigSelected(CGarminWpt*)),this,SLOT(slotSelectWpt(CGarminWpt*)));
-//
+
         const QDomNamedNodeMap& attr = waypoint.attributes();
         wpt->lon = attr.namedItem("lon").nodeValue().toDouble();
         wpt->lat = attr.namedItem("lat").nodeValue().toDouble();
@@ -113,19 +95,19 @@ void CWptDB::loadGPX(CGpx& gpx)
         if(waypoint.namedItem("desc").isElement()){
             wpt->comment = waypoint.namedItem("desc").toElement().text();
         }
-//         if(wpt.namedItem("link").isElement()){
-//             const QDomNode& link = wpt.namedItem("link");
-//             const QDomNamedNodeMap& attr = link.toElement().attributes();
-//             w->link = attr.namedItem("href").nodeValue();
-//         }
-//         if(wpt.namedItem("url").isElement()){
-//             w->link = wpt.namedItem("url").toElement().text();
-//         }
+        if(waypoint.namedItem("link").isElement()){
+            const QDomNode& link = waypoint.namedItem("link");
+            const QDomNamedNodeMap& attr = link.toElement().attributes();
+            wpt->link = attr.namedItem("href").nodeValue();
+        }
+        if(waypoint.namedItem("url").isElement()){
+            wpt->link = waypoint.namedItem("url").toElement().text();
+        }
         if(waypoint.namedItem("sym").isElement()){
             wpt->icon =  waypoint.namedItem("sym").toElement().text();
         }
         if(waypoint.namedItem("ele").isElement()){
-            wpt->altitude = waypoint.namedItem("ele").toElement().text().toDouble();
+            wpt->ele = waypoint.namedItem("ele").toElement().text().toDouble();
         }
         if(waypoint.namedItem("time").isElement()){
             QDateTime time = QDateTime::fromString(waypoint.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
@@ -136,7 +118,7 @@ void CWptDB::loadGPX(CGpx& gpx)
         if(waypoint.namedItem("extension").isElement()){
             const QDomNode& ext = waypoint.namedItem("extension");
             if(ext.namedItem("dist").isElement()){
-                wpt->proximity = ext.namedItem("dist").toElement().text().toDouble();
+                wpt->prx = ext.namedItem("dist").toElement().text().toDouble();
             }
         }
 
@@ -153,6 +135,73 @@ void CWptDB::loadGPX(CGpx& gpx)
 
 void CWptDB::saveGPX(CGpx& gpx)
 {
+    QDomElement root = gpx.documentElement();
+    QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end()){
+        if((*wpt)->sticky){
+            ++wpt;
+            continue;
+        }
+        QDomElement waypoint = gpx.createElement("wpt");
+        root.appendChild(waypoint);
+        waypoint.setAttribute("lat",(*wpt)->lat);
+        waypoint.setAttribute("lon",(*wpt)->lon);
+
+        if((*wpt)->ele != 1e25f){
+            QDomElement ele = gpx.createElement("ele");
+            waypoint.appendChild(ele);
+            QDomText _ele_ = gpx.createTextNode(QString::number((*wpt)->ele));
+            ele.appendChild(_ele_);
+        }
+
+
+        QDateTime t = QDateTime::fromTime_t((*wpt)->timestamp);
+        QDomElement time = gpx.createElement("time");
+        waypoint.appendChild(time);
+        QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
+        time.appendChild(_time_);
+
+        QDomElement name = gpx.createElement("name");
+        waypoint.appendChild(name);
+        QDomText _name_ = gpx.createTextNode((*wpt)->name);
+        name.appendChild(_name_);
+
+        if(!(*wpt)->comment.isEmpty()){
+            QDomElement cmt = gpx.createElement("cmt");
+            waypoint.appendChild(cmt);
+            QDomText _cmt_ = gpx.createTextNode((*wpt)->comment);
+            cmt.appendChild(_cmt_);
+        }
+
+        if(!(*wpt)->link.isEmpty()){
+            QDomElement link = gpx.createElement("link");
+            waypoint.appendChild(link);
+            link.setAttribute("href",(*wpt)->link);
+            QDomElement text = gpx.createElement("text");
+            link.appendChild(text);
+            QDomText _text_ = gpx.createTextNode((*wpt)->name);
+            text.appendChild(_text_);
+        }
+
+        QDomElement sym = gpx.createElement("sym");
+        waypoint.appendChild(sym);
+        QDomText _sym_ = gpx.createTextNode((*wpt)->icon);
+        sym.appendChild(_sym_);
+
+        if((*wpt)->prx != 1e25f){
+            QDomElement extension = gpx.createElement("extension");
+            waypoint.appendChild(extension);
+
+            if((*wpt)->prx != 1e25f){
+                QDomElement dist = gpx.createElement("dist");
+                extension.appendChild(dist);
+                QDomText _dist_ = gpx.createTextNode(QString::number((*wpt)->prx));
+                dist.appendChild(_dist_);
+            }
+        }
+
+        ++wpt;
+    }
 }
 
 void CWptDB::loadQLB(CQlb& qlb)
@@ -161,9 +210,7 @@ void CWptDB::loadQLB(CQlb& qlb)
 
     while(!stream.atEnd()){
         CWpt * wpt = new CWpt(this);
-
         stream >> *wpt;
-//         qDebug() << wpt->name;
         wpts[wpt->key()] = wpt;
     }
 

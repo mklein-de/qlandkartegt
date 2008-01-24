@@ -210,7 +210,7 @@ void CMainWindow::slotConfig()
 void CMainWindow::slotLoadData()
 {
     QString filter;
-    QString filename = QFileDialog::getOpenFileName( 0, tr("Select output file")
+    QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
                                                     ,pathData
                                                     ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
                                                     ,&filter
@@ -251,7 +251,7 @@ void CMainWindow::slotSaveData()
     QString filter;
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
                                                     ,pathData
-                                                    ,"QLandkarte (*.qlb);; GPS Exchange (*.gpx)"
+                                                    ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
                                                     ,&filter
                                                 );
     if(filename.isEmpty()) return;
