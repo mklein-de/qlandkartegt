@@ -318,6 +318,7 @@ void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
             f.setBold(true);
 
             info = new QLabel(selWpt->name,this);
+            info->setAutoFillBackground(true);
             info->setFont(f);
             info->move(u + 10 ,v - 20);
             info->show();

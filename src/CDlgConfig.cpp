@@ -20,10 +20,13 @@
 #include "CDlgConfig.h"
 #include "CResources.h"
 
+#include <QtGui>
+
 CDlgConfig::CDlgConfig(QWidget * parent)
     : QDialog(parent)
 {
     setupUi(this);
+    connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
 }
 
 CDlgConfig::~CDlgConfig()
@@ -101,4 +104,14 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     else{
         groupDevice->setEnabled(false);
     }
+}
+
+void CDlgConfig::slotSelectFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, labelFont->font(), this);
+    if(ok){
+        labelFont->setFont(font);
+    }
+
 }
