@@ -53,6 +53,7 @@ class CResources : public QObject
 
         IDevice * device();
 
+        const QFont& getMapFont(){return m_mapfont;}
 
     signals:
         void sigProxyChanged();

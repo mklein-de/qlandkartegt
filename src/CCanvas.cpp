@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-
+#include "CResources.h"
 #include "CCanvas.h"
 #include "CMapNoMap.h"
 #include "CMapRaster.h"
@@ -39,7 +39,7 @@
 CCanvas::CCanvas(QWidget * parent)
     : QWidget(parent)
     , mouse(0)
-    , moveMap(false)
+    , info(0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -115,8 +115,10 @@ void CCanvas::paintEvent(QPaintEvent * e)
 
 void CCanvas::mouseMoveEvent(QMouseEvent * e)
 {
+    posMouse = e->pos();
 
     mouseMoveEventCoord(e);
+    mouseMoveEventWpt(e);
 
     mouse->mouseMoveEvent(e);
 }
@@ -160,7 +162,7 @@ void CCanvas::drawSearchResults(QPainter& p)
         map->convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
-            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
+            p.drawPixmap(u-16 , v-16, QPixmap(":/icons/iconBullseye16x16"));
         }
 
         ++result;
@@ -170,6 +172,17 @@ void CCanvas::drawSearchResults(QPainter& p)
 
 void CCanvas::drawWaypoints(QPainter& p)
 {
+    if(!selWpt.isNull()){
+        double u = selWpt->lon * DEG_TO_RAD;
+        double v = selWpt->lat * DEG_TO_RAD;
+        map->convertRad2Pt(u,v);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawEllipse(QRect(u - 11,  v - 11, 21, 21));
+
+    }
+
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()){
         double u = (*wpt)->lon * DEG_TO_RAD;
@@ -177,7 +190,7 @@ void CCanvas::drawWaypoints(QPainter& p)
         map->convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
-            p.drawPixmap(u-8 , v-8, getWptIconByName((*wpt)->icon));
+            p.drawPixmap(u-7 , v-7, getWptIconByName((*wpt)->icon));
         }
 
         ++wpt;
@@ -275,3 +288,45 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     theMainWindow->setPositionInfo(info);
 
 }
+
+void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
+{
+    CWpt * oldWpt = selWpt; selWpt = 0;
+
+    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()){
+        double u = (*wpt)->lon * DEG_TO_RAD;
+        double v = (*wpt)->lat * DEG_TO_RAD;
+        map->convertRad2Pt(u,v);
+
+        QPoint diff = posMouse - QPoint(u,v);
+        if(diff.manhattanLength() < 15){
+            selWpt = *wpt;
+            break;
+        }
+
+        ++wpt;
+    }
+
+    if(oldWpt != selWpt){
+        if(selWpt){
+            double u = selWpt->lon * DEG_TO_RAD;
+            double v = selWpt->lat * DEG_TO_RAD;
+            map->convertRad2Pt(u,v);
+
+            QFont f = CResources::self().getMapFont();
+            f.setBold(true);
+
+            info = new QLabel(selWpt->name,this);
+            info->setFont(f);
+            info->move(u + 10 ,v - 20);
+            info->show();
+        }
+        else if(info){
+            delete info;
+            info = 0;
+        }
+        update();
+    }
+}
+

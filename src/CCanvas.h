@@ -30,6 +30,8 @@ class IMouse;
 class CMouseMoveMap;
 class CMouseSelMap;
 class CMouseAddWpt;
+class CWpt;
+class QLabel;
 
 class CCanvas : public QWidget
 {
@@ -95,6 +97,7 @@ class CCanvas : public QWidget
         friend class CMouseAddWpt;
 
         void mouseMoveEventCoord(QMouseEvent * e);
+        void mouseMoveEventWpt(QMouseEvent * e);
 
         IMouse * mouse;
         CMouseMoveMap * mouseMoveMap;
@@ -106,12 +109,12 @@ class CCanvas : public QWidget
 
         QPointer<IMap> map;
 
-        bool moveMap;
+        /// current mouse position
+        QPoint posMouse;
 
-        QPoint oldPoint;
+        QPointer<CWpt> selWpt;
 
-
-
+        QLabel * info;
 };
 
 #endif //CCANVAS_H
