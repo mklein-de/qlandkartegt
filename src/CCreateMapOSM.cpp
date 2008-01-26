@@ -27,7 +27,7 @@
 CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     : QWidget(parent)
 {
-
+    setupUi(this);
 }
 
 CCreateMapOSM::~CCreateMapOSM()
