@@ -35,8 +35,7 @@
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
-    : pathMaps("./")
-    , mapFile("")
+    : mapFile("")
 {
     theMainWindow = this;
 
@@ -96,14 +95,13 @@ CMainWindow::CMainWindow()
     sizes << 200 << 50 << 50;
     rightSplitter->setSizes(sizes);
 
-    pathMaps = cfg.value("path/maps",pathMaps).toString();
     pathData = cfg.value("path/data","./").toString();
 
 
     mapFile = cfg.value("map/mapFile",mapFile).toString();
 
     if(!mapFile.isEmpty()){
-        canvas->loadMapSet(QDir(pathMaps).filePath(mapFile));
+        canvas->loadMapSet(QDir(CResources::self().pathMaps).filePath(mapFile));
     }
 
     searchdb    = new CSearchDB(toolbox, this);
@@ -117,7 +115,6 @@ CMainWindow::~CMainWindow()
     QSettings cfg;
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
-    cfg.setValue("path/maps",pathMaps);
     cfg.setValue("path/data",pathData);
     cfg.setValue("map/mapFile",mapFile);
 }
@@ -183,12 +180,12 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
 void CMainWindow::slotLoadMapSet()
 {
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select *.qmap file")
-                                                    ,pathMaps
+                                                    ,CResources::self().pathMaps
                                                     ,"Map Collection (*.qmap)"
                                                     );
     if(filename.isEmpty()) return;
 
-    pathMaps = QFileInfo(filename).absolutePath();
+    CResources::self().pathMaps = QFileInfo(filename).absolutePath();
     mapFile  = QFileInfo(filename).fileName();
 
     canvas->loadMapSet(filename);

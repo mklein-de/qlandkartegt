@@ -51,9 +51,14 @@ class CResources : public QObject
 
         uint32_t getUTCOffset(){return time_offset;}
 
+        /// get pointer to current device handler
         IDevice * device();
 
+        /// the font used for text on the map
         const QFont& getMapFont(){return m_mapfont;}
+
+        /// root path of all maps
+        QString pathMaps;
 
     signals:
         void sigProxyChanged();

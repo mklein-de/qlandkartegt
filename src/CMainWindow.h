@@ -74,8 +74,6 @@ class CMainWindow : public QMainWindow
         /// coordinate label
         QLabel * statusCoord;
 
-        /// root path of all maps
-        QString pathMaps;
         /// root path of geo data
         QString pathData;
 

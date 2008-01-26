@@ -34,6 +34,11 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
     public:
         CCreateMapOSM(QWidget * parent);
         virtual ~CCreateMapOSM();
+
+    private slots:
+        void slotCreate();
+
+
 };
 
 #endif //CCREATEMAPOSM_H

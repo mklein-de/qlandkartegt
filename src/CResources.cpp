@@ -27,6 +27,7 @@ CResources * CResources::m_self = 0;
 
 CResources::CResources(QObject * parent)
     : QObject(parent)
+    , pathMaps("./")
     , m_useHttpProxy(false)
     , m_httpProxyPort(8080)
     , m_eBrowser(eFirefox)
@@ -35,6 +36,7 @@ CResources::CResources(QObject * parent)
     , time_offset(0)
     , m_device(0)
     , m_devIPPort(0)
+
 
 
 {
@@ -75,7 +77,7 @@ CResources::CResources(QObject * parent)
     m_devIPPort       = cfg.value("device/ipPort",m_devIPPort).toUInt();
     m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
 
-
+    pathMaps        = cfg.value("path/maps",pathMaps).toString();
 }
 
 CResources::~CResources()
@@ -100,6 +102,7 @@ CResources::~CResources()
     cfg.setValue("device/ipPort",m_devIPPort);
     cfg.setValue("device/serialPort",m_devSerialPort);
 
+    cfg.setValue("path/maps",pathMaps);
 }
 
 bool CResources::getHttpProxy(QString& url, quint16& port)
