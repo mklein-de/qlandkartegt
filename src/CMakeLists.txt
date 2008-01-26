@@ -35,6 +35,7 @@ set(qlandkarte_SRCS
     CGpx.cpp
     IDevice.cpp
     CDeviceTBDOE.cpp
+    CCreateMapOSM.cpp
 )
 
 set(qlandkarte_HDRS
@@ -69,6 +70,7 @@ set(qlandkarte_HDRS
     CGpx.h
     IDevice.h
     CDeviceTBDOE.h
+    CCreateMapOSM.h
 )
 
 SET(qlandkarte_UIS
@@ -79,6 +81,7 @@ SET(qlandkarte_UIS
     IDlgEditWpt.ui
     IDlgWptIcon.ui
     IDlgCreateMap.ui
+    ICreateMapOSM.ui
 )
 
 SET(qlandkarte_RCS
