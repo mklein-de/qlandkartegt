@@ -22,7 +22,7 @@
 #include <QDialog>
 #include "ui_IDlgConfig.h"
 
-class CDlgConfig : public QDialog, public Ui::IDlgConfig
+class CDlgConfig : public QDialog, private Ui::IDlgConfig
 {
     Q_OBJECT
     public:

@@ -26,7 +26,7 @@ class QToolBox;
 class QMenu;
 
 /// waypoint tool view
-class CWptToolWidget : public QWidget, public Ui::IWptToolWidget
+class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 {
     Q_OBJECT
     public:

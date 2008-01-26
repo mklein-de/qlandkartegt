@@ -26,6 +26,7 @@
 #include "CWptDB.h"
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
+#include "CDlgCreateMap.h"
 #include "CQlb.h"
 #include "CGpx.h"
 
@@ -132,8 +133,6 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
-    menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
-    menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addSeparator();
@@ -141,9 +140,16 @@ void CMainWindow::setupMenuBar()
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
+    menu->setTitle(tr("&Maps"));
+    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create ..."),this,SLOT(slotCreateMap()));
+    menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("Config"),this,SLOT(slotConfig()));
     menuBar()->addMenu(menu);
+
 
     menu = new QMenu(this);
     menu->setTitle(tr("&About"));
@@ -286,3 +292,8 @@ void CMainWindow::slotSaveData()
 
 }
 
+void CMainWindow::slotCreateMap()
+{
+    CDlgCreateMap dlg(this);
+    dlg.exec();
+}

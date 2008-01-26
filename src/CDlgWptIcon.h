@@ -24,7 +24,7 @@
 
 class QToolButton;
 
-class CDlgWptIcon : public QDialog, public Ui::IDlgWptIcon
+class CDlgWptIcon : public QDialog, private Ui::IDlgWptIcon
 {
     Q_OBJECT
     public:

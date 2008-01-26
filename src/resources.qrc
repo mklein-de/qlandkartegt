@@ -21,6 +21,8 @@
         <file>icons/iconUpload16x16.png</file>
         <file>icons/iconDownload16x16.png</file>
         <file>icons/iconDelete16x16.png</file>
+        <file>icons/iconOSM16x16.png</file>
+        <file>icons/iconMapWizard16x16.png</file>
 
         <file>icons/backGlobe128x128.png</file>
         <file>icons/backMap128x128.png</file>

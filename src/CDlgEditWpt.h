@@ -27,7 +27,7 @@
 
 class CWpt;
 
-class CDlgEditWpt : public QDialog, public Ui::IDlgEditWpt
+class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
 {
     Q_OBJECT
     public:
