@@ -33,7 +33,7 @@ top/left</string>
          <item>
           <widget class="QLineEdit" name="lineTopLeft" >
            <property name="text" >
-            <string>N59° 59.251 E010° 17.157 </string>
+            <string> N59° 57.440 E010° 42.382  </string>
            </property>
           </widget>
          </item>
@@ -127,7 +127,7 @@ bottom/right</string>
          <item>
           <widget class="QLineEdit" name="lineBottomRight" >
            <property name="text" >
-            <string>N59° 43.553 E010° 57.366 </string>
+            <string> N59° 54.817 E010° 47.879 </string>
            </property>
           </widget>
          </item>
