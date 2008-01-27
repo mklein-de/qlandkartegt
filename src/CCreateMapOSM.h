@@ -53,6 +53,7 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
         GDALDataset * dataset;
         GDALRasterBand * band;
+
 };
 
 #endif //CCREATEMAPOSM_H
