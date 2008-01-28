@@ -25,6 +25,7 @@
 #include "ui_ICreateMapOSM.h"
 
 class QHttp;
+class QProgressDialog;
 
 class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 {
@@ -39,7 +40,7 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
     private:
         void getNextTile();
-        void addZoomLevel(int zoom, float lon1, float lat1, float lon2, float lat2);
+        void addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2);
 
         QHttp * link;
 
@@ -48,12 +49,8 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
         {
             zoomlevel_t() : dataset(0), band(0), zoom(-1){}
             zoomlevel_t(int zoom) : dataset(0), band(0), zoom(zoom){}
-            ~zoomlevel_t(){
-                if(dataset){
-                    dataset->FlushCache();
-                    delete dataset;
-                }
-            }
+            ~zoomlevel_t();
+
             GDALDataset * dataset;
             GDALRasterBand * band;
             int zoom;
@@ -73,17 +70,17 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
         QVector<zoomlevel_t> zoomlevels;
         QVector<tile_t> tiles;
 
+        int maxTiles;
 
-        int idxZoom;
-        int x1;
-        int x2;
-        int y1;
-        int y2;
-        int x;
-        int y;
+//         int idxZoom;
+//         int x1;
+//         int x2;
+//         int y1;
+//         int y2;
+//         int x;
+//         int y;
 
-        GDALDataset * dataset;
-        GDALRasterBand * band;
+        QProgressDialog * progress;
 
 };
 

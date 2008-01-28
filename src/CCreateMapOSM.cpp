@@ -296,10 +296,19 @@ static GDALColorEntry defaultColorTable[256] = {
 static GDALColorTable gdalColorTable;
 static QVector<QRgb>  qtColorTable(256);
 
+CCreateMapOSM::zoomlevel_t::~zoomlevel_t()
+{
+    if(dataset){
+        qDebug() << "~zoomlevel_t()";
+        dataset->FlushCache();
+        delete dataset;
+        dataset = 0;
+    }
+
+}
 CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     : QWidget(parent)
-    , dataset(0)
-    , band(0)
+    , progress(0)
 {
     setupUi(this);
     labelPath->setText(CResources::self().pathMaps);
@@ -330,123 +339,127 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
 
 CCreateMapOSM::~CCreateMapOSM()
 {
-    if(dataset) delete dataset;
+
 }
 
 void CCreateMapOSM::slotCreate()
 {
+    if(progress) return;
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
 
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
     GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1);
     GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2);
 
-    zoomlevels.clear();
-    addZoomLevel(13, lon1, lat1, lon2, lat2);
-    addZoomLevel(11, lon1, lat1, lon2, lat2);
-    addZoomLevel(9, lon1, lat1, lon2, lat2);
+    // reset tiles
+    tiles.clear();
+    // reset zoomlevels
+    zoomlevels.clear(); zoomlevels.resize(3);
 
-//
-//     // for 17th zoom level
-//     idxZoom = 0;
-//     x1 = (lon1 + 180) * (1<<zoomlevels[idxZoom]) / 360;
-//     x2 = (lon2 + 180) * (1<<zoomlevels[idxZoom]) / 360;
-//
-//     y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoomlevels[idxZoom]);
-//     y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoomlevels[idxZoom]);
-//
-//     link->setHost("tah.openstreetmap.org");
-//
-//     idxZoom = 0;
-//     while(zoomlevels[idxZoom] != 0){
-//
-//
-//         ++idxZoom;
-//     }
-//
-//     // setup GDAL GeoTiff image
-//     GDALDriverManager * drvman = GetGDALDriverManager();
-//     GDALDriver *        driver = drvman->GetDriverByName("GTiff");
-//
-//     if(dataset) delete dataset;
-//     dataset = driver->Create("test.tif",(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
-//     band    = dataset->GetRasterBand(1);
-//     band->SetColorTable(&gdalColorTable);
-//
-//     x = x1;
-//     y = y1;
+    addZoomLevel(0, 14, lon1, lat1, lon2, lat2);
+    addZoomLevel(1, 12, lon1, lat1, lon2, lat2);
+    addZoomLevel(2, 10, lon1, lat1, lon2, lat2);
 
-//     getNextTile();
+    maxTiles = tiles.count();
+    progress= new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
+
+    link->setHost("tah.openstreetmap.org");
+    getNextTile();
+
 }
 
-void CCreateMapOSM::getNextTile()
-{
 
-//     QUrl url;
-//     url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoomlevels[idxZoom]).arg(x).arg(y));
-//     qDebug() << url;
-//     link->get(url.toEncoded( ));
-}
-
-void CCreateMapOSM::addZoomLevel(int zoom, float lon1, float lat1, float lon2, float lat2)
+void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2)
 {
     int x = 0, y = 0;
-    zoomlevel_t z(zoom);
 
-    x1 = (lon1 + 180) * (1<<zoom) / 360;
-    x2 = (lon2 + 180) * (1<<zoom) / 360;
+    zoomlevel_t& z = zoomlevels[level];
 
-    y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoom);
-    y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoom);
+    int x1 = (lon1 + 180) * (1<<zoom) / 360;
+    int x2 = (lon2 + 180) * (1<<zoom) / 360;
+
+    int y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoom);
+    int y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoom);
 
     GDALDriverManager * drvman = GetGDALDriverManager();
     GDALDriver *        driver = drvman->GetDriverByName("GTiff");
 
-    QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(zoomlevels.count());
+    QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(level);
     z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
-    z.band    = dataset->GetRasterBand(1);
+    z.band    = z.dataset->GetRasterBand(1);
     z.band->SetColorTable(&gdalColorTable);
 
-    zoomlevels << z;
+
     for(y = y1; y <= y2; ++y){
         for(x = x1; x <= x2; ++x){
             tile_t t;
             t.url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
-            t.x         = x;
-            t.y         = y;
+            t.x         = x - x1;
+            t.y         = y - y1;
             t.zoom      = zoom;
-            t.zoomlevel = &zoomlevels.last();
+            t.zoomlevel = &z;
+
+            qDebug() << t.x << t.y;
 
             tiles << t;
         }
     }
+
 }
+
+void CCreateMapOSM::getNextTile()
+{
+    if(progress && progress->wasCanceled()){
+        tiles.clear();
+        // TODO: unlink files!
+        zoomlevels.clear();
+        delete progress; progress = 0;
+        return;
+    }
+
+    if(tiles.isEmpty()){
+        // TODO: write *.qmap
+        zoomlevels.clear();
+        delete progress; progress = 0;
+        return;
+    }
+
+
+    tile_t& t = tiles.first();
+    progress->setValue(maxTiles - tiles.count());
+    progress->setLabelText(tr("download: ") + t.url.toString());
+
+    link->get(t.url.toEncoded());
+}
+
 
 void CCreateMapOSM::slotRequestFinished(int id, bool error)
 {
     qDebug() << "slotRequestFinished(" <<  id << "," << error << ")";
 
-//     QImage img1,img2;
-//     img1.loadFromData(link->readAll());
-//     if(img1.format() == QImage::Format_Invalid){
-//         return;
-//     }
-//
-//     img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
-//     qDebug() << img2.format();
-//     band->WriteBlock(x - x1, y - y1, img2.bits());
-//
-//     if(++x > x2){
-//         x = x1;
-//         if(++y > y2){
-//             qDebug() << "done";
-//             dataset->FlushCache();
-//             delete dataset;
-//             dataset = 0;
-//             band    = 0;
-//             return;
-//         }
-//     }
-//
-//     getNextTile();
+    if(error){
+        QMessageBox::critical(this,tr("Failed to download tile!"), link->errorString(), QMessageBox::Retry|QMessageBox::Abort, QMessageBox::Retry);
+        return;
+    }
+
+    QImage img1,img2;
+    img1.loadFromData(link->readAll());
+    if(img1.format() == QImage::Format_Invalid){
+        // that:
+        // link->setHost("tah.openstreetmap.org")
+        // will cause a requestFinished() signal, too
+        qDebug() << "xxxxxxxxxxxxxxxxxxxxxxxxxx";
+        return;
+    }
+
+    img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
+    tile_t& t = tiles.first();
+
+    qDebug() << t.x << t.y;
+    t.zoomlevel->band->WriteBlock(t.x, t.y, img2.bits());
+
+    if(tiles.count()) tiles.pop_front();
+
+    getNextTile();
+
 }
