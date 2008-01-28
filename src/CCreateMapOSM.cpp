@@ -25,8 +25,6 @@
 #include <QtNetwork/QHttp>
 #include <math.h>
 
-#include <gdal_priv.h>
-
 static char * osm_image_args[] = {
      "BLOCKXSIZE=256"
     ,"BLOCKYSIZE=256"
@@ -321,6 +319,13 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     }
 
     connect(link,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+
+    // initialize color tables
+    for(int i=0; i<256; ++i){
+        gdalColorTable.SetColorEntry(i, &defaultColorTable[i]);
+        qtColorTable[i] = qRgba(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3,defaultColorTable[i].c4);
+    }
+
 }
 
 CCreateMapOSM::~CCreateMapOSM()
@@ -331,78 +336,117 @@ CCreateMapOSM::~CCreateMapOSM()
 void CCreateMapOSM::slotCreate()
 {
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
+
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
     GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1);
     GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2);
 
-    /// for 17th zoom level
-    zoomlevel = 14;
-    x1 = (lon1 + 180) * (1<<zoomlevel) / 360;
-    x2 = (lon2 + 180) * (1<<zoomlevel) / 360;
+    zoomlevels.clear();
+    addZoomLevel(13, lon1, lat1, lon2, lat2);
+    addZoomLevel(11, lon1, lat1, lon2, lat2);
+    addZoomLevel(9, lon1, lat1, lon2, lat2);
 
-    y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoomlevel);
-    y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoomlevel);
+//
+//     // for 17th zoom level
+//     idxZoom = 0;
+//     x1 = (lon1 + 180) * (1<<zoomlevels[idxZoom]) / 360;
+//     x2 = (lon2 + 180) * (1<<zoomlevels[idxZoom]) / 360;
+//
+//     y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoomlevels[idxZoom]);
+//     y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoomlevels[idxZoom]);
+//
+//     link->setHost("tah.openstreetmap.org");
+//
+//     idxZoom = 0;
+//     while(zoomlevels[idxZoom] != 0){
+//
+//
+//         ++idxZoom;
+//     }
+//
+//     // setup GDAL GeoTiff image
+//     GDALDriverManager * drvman = GetGDALDriverManager();
+//     GDALDriver *        driver = drvman->GetDriverByName("GTiff");
+//
+//     if(dataset) delete dataset;
+//     dataset = driver->Create("test.tif",(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
+//     band    = dataset->GetRasterBand(1);
+//     band->SetColorTable(&gdalColorTable);
+//
+//     x = x1;
+//     y = y1;
 
-    QString file = QString("http://tah.openstreetmap.org/Tiles/tile.php/%1/%2/%3.png").arg(zoomlevel).arg(x1).arg(y1);
-
-    qDebug() << x1 << y1 << x2 << y2;
-    qDebug() << (x2 - x1 + 1) * 256 << (y2 - y1 + 1) * 256;
-
-    link->setHost("tah.openstreetmap.org");
-
-    GDALDriverManager * drvman = GetGDALDriverManager();
-    GDALDriver *        driver = drvman->GetDriverByName("GTiff");
-
-    if(dataset) delete dataset;
-    dataset = driver->Create("test.tif",(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
-    band    = dataset->GetRasterBand(1);
-
-    for(int i=0; i<256; ++i){
-        gdalColorTable.SetColorEntry(i, &defaultColorTable[i]);
-        qtColorTable[i] = qRgba(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3,defaultColorTable[i].c4);
-    }
-    band->SetColorTable(&gdalColorTable);
-
-    x = x1;
-    y = y1;
-
-    getNextTile();
+//     getNextTile();
 }
 
 void CCreateMapOSM::getNextTile()
 {
 
-    QUrl url;
-    url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoomlevel).arg(x).arg(y));
-    qDebug() << url;
-    link->get(url.toEncoded( ));
+//     QUrl url;
+//     url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoomlevels[idxZoom]).arg(x).arg(y));
+//     qDebug() << url;
+//     link->get(url.toEncoded( ));
+}
+
+void CCreateMapOSM::addZoomLevel(int zoom, float lon1, float lat1, float lon2, float lat2)
+{
+    int x = 0, y = 0;
+    zoomlevel_t z(zoom);
+
+    x1 = (lon1 + 180) * (1<<zoom) / 360;
+    x2 = (lon2 + 180) * (1<<zoom) / 360;
+
+    y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoom);
+    y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoom);
+
+    GDALDriverManager * drvman = GetGDALDriverManager();
+    GDALDriver *        driver = drvman->GetDriverByName("GTiff");
+
+    QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(zoomlevels.count());
+    z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
+    z.band    = dataset->GetRasterBand(1);
+    z.band->SetColorTable(&gdalColorTable);
+
+    zoomlevels << z;
+    for(y = y1; y <= y2; ++y){
+        for(x = x1; x <= x2; ++x){
+            tile_t t;
+            t.url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
+            t.x         = x;
+            t.y         = y;
+            t.zoom      = zoom;
+            t.zoomlevel = &zoomlevels.last();
+
+            tiles << t;
+        }
+    }
 }
 
 void CCreateMapOSM::slotRequestFinished(int id, bool error)
 {
     qDebug() << "slotRequestFinished(" <<  id << "," << error << ")";
 
-    QImage img1,img2;
-    img1.loadFromData(link->readAll());
-    if(img1.format() == QImage::Format_Invalid){
-        return;
-    }
-
-    img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
-    qDebug() << img2.format();
-    band->WriteBlock(x - x1, y - y1, img2.bits());
-
-    if(++x > x2){
-        x = x1;
-        if(++y > y2){
-            qDebug() << "done";
-            dataset->FlushCache();
-            delete dataset;
-            dataset = 0;
-            band    = 0;
-            return;
-        }
-    }
-
-    getNextTile();
+//     QImage img1,img2;
+//     img1.loadFromData(link->readAll());
+//     if(img1.format() == QImage::Format_Invalid){
+//         return;
+//     }
+//
+//     img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
+//     qDebug() << img2.format();
+//     band->WriteBlock(x - x1, y - y1, img2.bits());
+//
+//     if(++x > x2){
+//         x = x1;
+//         if(++y > y2){
+//             qDebug() << "done";
+//             dataset->FlushCache();
+//             delete dataset;
+//             dataset = 0;
+//             band    = 0;
+//             return;
+//         }
+//     }
+//
+//     getNextTile();
 }

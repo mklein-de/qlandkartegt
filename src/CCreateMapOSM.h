@@ -20,12 +20,11 @@
 #define CCREATEMAPOSM_H
 
 #include <QWidget>
-
+#include <QUrl>
+#include <gdal_priv.h>
 #include "ui_ICreateMapOSM.h"
 
 class QHttp;
-class GDALDataset;
-class GDALRasterBand;
 
 class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 {
@@ -40,10 +39,42 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
     private:
         void getNextTile();
+        void addZoomLevel(int zoom, float lon1, float lat1, float lon2, float lat2);
 
         QHttp * link;
 
-        int zoomlevel;
+
+        struct zoomlevel_t
+        {
+            zoomlevel_t() : dataset(0), band(0), zoom(-1){}
+            zoomlevel_t(int zoom) : dataset(0), band(0), zoom(zoom){}
+            ~zoomlevel_t(){
+                if(dataset){
+                    dataset->FlushCache();
+                    delete dataset;
+                }
+            }
+            GDALDataset * dataset;
+            GDALRasterBand * band;
+            int zoom;
+        };
+
+        struct tile_t
+        {
+            tile_t() : zoomlevel(0), zoom(-1), x(-1), y(-1), done(false){};
+            zoomlevel_t * zoomlevel;
+            int zoom;
+            int x;
+            int y;
+            QUrl url;
+            bool done;
+        };
+
+        QVector<zoomlevel_t> zoomlevels;
+        QVector<tile_t> tiles;
+
+
+        int idxZoom;
         int x1;
         int x2;
         int y1;
