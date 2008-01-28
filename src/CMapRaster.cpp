@@ -84,7 +84,7 @@ void CExportMapThread::run()
     canceled = false;
     int cntLevel = 0, cntFile = 0;
 
-    // build export name by <BaseMapName>_<top [ï¿½]>_<left [ï¿½]>_<width [m]>x<height [m]>
+    // build export name by <BaseMapName>_<top [degree]>_<left [degree]>_<width [m]>x<height [m]>
     /*
         topLeft         p4
 

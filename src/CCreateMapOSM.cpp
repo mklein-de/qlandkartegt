@@ -346,6 +346,8 @@ CCreateMapOSM::~CCreateMapOSM()
 void CCreateMapOSM::slotCreate()
 {
     if(progress) return;
+    setEnabled(false);
+
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
 
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
@@ -357,25 +359,63 @@ void CCreateMapOSM::slotCreate()
     // reset zoomlevels
     zoomlevels.clear(); zoomlevels.resize(3);
 
-    addZoomLevel(0, 14, lon1, lat1, lon2, lat2);
-    addZoomLevel(1, 12, lon1, lat1, lon2, lat2);
-    addZoomLevel(2, 10, lon1, lat1, lon2, lat2);
+    // write *.qmap
+    float a1 = 0, a2 = 0;
+    XY p1,p2,p3,p4;
+    p1.u = lon1 * DEG_TO_RAD;
+    p1.v = lat1 * DEG_TO_RAD;
+    p3.u = lon2 * DEG_TO_RAD;
+    p3.v = lat2 * DEG_TO_RAD;
+    p2.u = p3.u;
+    p2.v = p1.v;
+    p4.u = p1.u;
+    p4.v = p3.v;
+
+    int realWidth  = ::distance(p1, p2, a1, a2);
+    int realHeight = ::distance(p1, p4, a1, a2);
+
+    QSettings mapdef(QString("%1.qmap").arg(QDir(labelPath->text()).filePath(lineName->text())),QSettings::IniFormat);
+    mapdef.setValue("home/zoom",1);
+    mapdef.setValue("home/center",lineTopLeft->text().replace("\260",""));
+
+
+    mapdef.beginGroup("description");
+    mapdef.setValue("comment",tr("OSM Map"));
+
+    QString str = lineTopLeft->text();
+    str = str.replace("\260","");
+    mapdef.setValue("topleft",str);
+
+    str = lineBottomRight->text();
+    str = str.replace("\260","");
+    mapdef.setValue("bottomright",str);
+
+    mapdef.setValue("width",QString("%1 m").arg(realWidth));
+    mapdef.setValue("height",QString("%1 m").arg(realHeight));
+
+    mapdef.endGroup(); // description
+
+    mapdef.setValue("main/levels",3);
+
+    addZoomLevel(3, 14, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(2, 11, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(1, 8, lon1, lat1, lon2, lat2, mapdef);
 
     maxTiles = tiles.count();
-    progress= new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
+    progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
+    progress->setLabelText(tr("Start download of files..."));
 
     link->setHost("tah.openstreetmap.org");
     getNextTile();
-
 }
 
 
-void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2)
+void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2, QSettings& mapdef)
 {
     int x = 0, y = 0;
     char * ptr = 0;
 
-    zoomlevel_t& z = zoomlevels[level];
+    zoomlevel_t& z = zoomlevels[level - 1];
 
     int x1 = (lon1 + 180) * (1<<zoom) / 360;
     int x2 = (lon2 + 180) * (1<<zoom) / 360;
@@ -389,6 +429,12 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
     QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(level);
     z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
 
+    mapdef.beginGroup(QString("level%1").arg(level));
+    mapdef.setValue("files",QString("%1%2.tif").arg(lineName->text()).arg(level));
+    mapdef.setValue("zoomLevelMin", (3 - level) * 4 + 1);
+    mapdef.setValue("zoomLevelMax", (3 - level) * 4 + 4);
+    mapdef.endGroup();
+
     // setup projection
     OGRSpatialReference oSRS;
     oSRS.importFromProj4("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs");
@@ -396,17 +442,19 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
     z.dataset->SetProjection(ptr);
     CPLFree(ptr);
 
-    double Ep = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
-    double Np =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
+    double Ep   = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
+//     double Np   =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
+    double Np   =  20037508.34 - (40075016.68 / (1<<zoom)) * y1;
     double resx = (40075016.68 / ((1<<zoom) * 256));
+//     double resy = (40074942.42 / ((1<<zoom) * 256));
     double resy = (40074942.42 / ((1<<zoom) * 256));
 
     double adfGeoTransform[6];
-    adfGeoTransform[0] = Ep;                                /* top left x */
+    adfGeoTransform[0] = Ep;                     /* top left x */
     adfGeoTransform[1] = resx;                   /* w-e pixel resolution */
-    adfGeoTransform[2] = 0;                                 /* rotation, 0 if image is "north up" */
-    adfGeoTransform[3] = Np;                                /* top left y */
-    adfGeoTransform[4] = 0;                                 /* rotation, 0 if image is "north up" */
+    adfGeoTransform[2] = 0;                      /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] = Np;                     /* top left y */
+    adfGeoTransform[4] = 0;                      /* rotation, 0 if image is "north up" */
     adfGeoTransform[5] = -resy;                  /* n-s pixel resolution */
     z.dataset->SetGeoTransform(adfGeoTransform);
 
@@ -426,34 +474,38 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
             tiles << t;
         }
     }
-
 }
 
 void CCreateMapOSM::getNextTile()
 {
     if(progress && progress->wasCanceled()){
-        tiles.clear();
         // TODO: unlink files!
-        zoomlevels.clear();
-        delete progress; progress = 0;
+        finishJob();
         return;
     }
 
     if(tiles.isEmpty()){
-        // TODO: write *.qmap
-        zoomlevels.clear();
-        delete progress; progress = 0;
+        finishJob();
         return;
     }
 
 
     tile_t& t = tiles.first();
     progress->setValue(maxTiles - tiles.count());
-    progress->setLabelText(tr("download: ") + t.url.toString());
+    QString msg = tr("download: ") + t.url.toString() + "\n";
+    msg += tr("tile %1 of %2").arg(maxTiles - tiles.count() + 1).arg(maxTiles);
+    progress->setLabelText(msg);
 
     link->get(t.url.toEncoded());
 }
 
+void CCreateMapOSM::finishJob()
+{
+    tiles.clear();
+    zoomlevels.clear();
+    delete progress; progress = 0;
+    setEnabled(true);
+}
 
 void CCreateMapOSM::slotRequestFinished(int id, bool error)
 {
