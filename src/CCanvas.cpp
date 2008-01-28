@@ -97,7 +97,7 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 void CCanvas::resizeEvent(QResizeEvent * e)
 {
     QWidget::resizeEvent(e);
-    map->resize(e->size());
+    if(map) map->resize(e->size());
 }
 
 void CCanvas::paintEvent(QPaintEvent * e)
@@ -147,7 +147,7 @@ void CCanvas::leaveEvent(QEvent * )
 
 void CCanvas::draw(QPainter& p)
 {
-    map->draw(p);
+    if(map) map->draw(p);
     mouse->draw(p);
     drawSearchResults(p);
     drawWaypoints(p);

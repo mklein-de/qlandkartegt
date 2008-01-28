@@ -97,6 +97,8 @@ CMainWindow::CMainWindow()
 
     pathData = cfg.value("path/data","./").toString();
 
+    searchdb    = new CSearchDB(toolbox, this);
+    wptdb       = new CWptDB(toolbox, this);
 
     mapFile = cfg.value("map/mapFile",mapFile).toString();
 
@@ -104,8 +106,6 @@ CMainWindow::CMainWindow()
         canvas->loadMapSet(QDir(CResources::self().pathMaps).filePath(mapFile));
     }
 
-    searchdb    = new CSearchDB(toolbox, this);
-    wptdb       = new CWptDB(toolbox, this);
 
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }

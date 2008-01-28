@@ -24,6 +24,7 @@
 #include <QtGui>
 #include <QtNetwork/QHttp>
 #include <math.h>
+#include <ogr_spatialref.h>
 
 static char * osm_image_args[] = {
      "BLOCKXSIZE=256"
@@ -372,6 +373,7 @@ void CCreateMapOSM::slotCreate()
 void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2)
 {
     int x = 0, y = 0;
+    char * ptr = 0;
 
     zoomlevel_t& z = zoomlevels[level];
 
@@ -386,9 +388,31 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
 
     QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(level);
     z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
+
+    // setup projection
+    OGRSpatialReference oSRS;
+    oSRS.importFromProj4("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs");
+    oSRS.exportToWkt(&ptr);
+    z.dataset->SetProjection(ptr);
+    CPLFree(ptr);
+
+    double Ep = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
+    double Np =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
+    double resx = (40075016.68 / ((1<<zoom) * 256));
+    double resy = (40074942.42 / ((1<<zoom) * 256));
+
+    double adfGeoTransform[6];
+    adfGeoTransform[0] = Ep;                                /* top left x */
+    adfGeoTransform[1] = resx;                   /* w-e pixel resolution */
+    adfGeoTransform[2] = 0;                                 /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] = Np;                                /* top left y */
+    adfGeoTransform[4] = 0;                                 /* rotation, 0 if image is "north up" */
+    adfGeoTransform[5] = -resy;                  /* n-s pixel resolution */
+    z.dataset->SetGeoTransform(adfGeoTransform);
+
+
     z.band    = z.dataset->GetRasterBand(1);
     z.band->SetColorTable(&gdalColorTable);
-
 
     for(y = y1; y <= y2; ++y){
         for(x = x1; x <= x2; ++x){
@@ -398,8 +422,6 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
             t.y         = y - y1;
             t.zoom      = zoom;
             t.zoomlevel = &z;
-
-            qDebug() << t.x << t.y;
 
             tiles << t;
         }
@@ -455,7 +477,6 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
     img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
     tile_t& t = tiles.first();
 
-    qDebug() << t.x << t.y;
     t.zoomlevel->band->WriteBlock(t.x, t.y, img2.bits());
 
     if(tiles.count()) tiles.pop_front();

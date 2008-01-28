@@ -340,6 +340,8 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
 
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
+
+    qDebug() << "done";
 }
 
 CMapRaster::~CMapRaster()
