@@ -366,8 +366,7 @@ void CCreateMapOSM::slotCreate()
         return;
     }
 
-    QString filename = QDir(labelPath->text()).filePath(lineName->text());
-
+    // get top left and bottom right coordinate
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
     if(!GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1)){
         return;
@@ -376,14 +375,20 @@ void CCreateMapOSM::slotCreate()
         return;
     }
 
-
+    // if we reach this point we disable the GUI
     setEnabled(false);
+
+    // build file base path/name for putput files
+    QString filename = QDir(labelPath->text()).filePath(lineName->text());
+
     // reset tiles
     tiles.clear();
     // reset zoomlevels
     zoomlevels.clear(); zoomlevels.resize(3);
 
-    // write *.qmap
+    // --------- write *.qmap -------------
+
+    // calculate real width and height
     float a1 = 0, a2 = 0;
     XY p1,p2,p3,p4;
     p1.u = lon1 * DEG_TO_RAD;
@@ -398,10 +403,10 @@ void CCreateMapOSM::slotCreate()
     int realWidth  = ::distance(p1, p2, a1, a2);
     int realHeight = ::distance(p1, p4, a1, a2);
 
+    // write basic data and description
     QSettings mapdef(QString("%1.qmap").arg(QDir(labelPath->text()).filePath(lineName->text())),QSettings::IniFormat);
     mapdef.setValue("home/zoom",1);
     mapdef.setValue("home/center",lineTopLeft->text().replace("\260",""));
-
 
     mapdef.beginGroup("description");
     mapdef.setValue("comment",lineComment->text());
@@ -421,11 +426,14 @@ void CCreateMapOSM::slotCreate()
 
     mapdef.setValue("main/levels",3);
 
+    // define zoomlevels, this will add tile definitions, too
     addZoomLevel(3, 17, lon1, lat1, lon2, lat2, mapdef);
     addZoomLevel(2, 14, lon1, lat1, lon2, lat2, mapdef);
     addZoomLevel(1, 11, lon1, lat1, lon2, lat2, mapdef);
 
     maxTiles = tiles.count();
+
+    // start download
     progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
     progress->setLabelText(tr("Calculating files ..."));
     qApp->processEvents();
@@ -443,18 +451,21 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
 
     zoomlevel_t& z = zoomlevels[level - 1];
 
+    // calculate tile indices
     int x1 = (lon1 + 180) * (1<<zoom) / 360;
     int x2 = (lon2 + 180) * (1<<zoom) / 360;
 
     int y1 = (1 - log(tan(lat1 * PI / 180) + 1 / cos(lat1 * PI / 180)) / PI) / 2 * (1<<zoom);
     int y2 = (1 - log(tan(lat2 * PI / 180) + 1 / cos(lat2 * PI / 180)) / PI) / 2 * (1<<zoom);
 
+    // greate GeoTiff dataset
     GDALDriverManager * drvman = GetGDALDriverManager();
     GDALDriver *        driver = drvman->GetDriverByName("GTiff");
 
     QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(level);
     z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,(char**)osm_image_args);
 
+    // write level information to *.qmap
     mapdef.beginGroup(QString("level%1").arg(level));
     mapdef.setValue("files",QString("%1%2.tif").arg(lineName->text()).arg(level));
     mapdef.setValue("zoomLevelMin", (3 - level) * 4 + 1);
@@ -468,6 +479,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     z.dataset->SetProjection(ptr);
     CPLFree(ptr);
 
+    // setup reference point
     double Ep   = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
     double Np   =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
     double resx = (40075016.68 / ((1<<zoom) * 256));
@@ -482,10 +494,11 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     adfGeoTransform[5] = -resy;                  /* n-s pixel resolution */
     z.dataset->SetGeoTransform(adfGeoTransform);
 
-
+    // initialize raster band with default colortable
     z.band    = z.dataset->GetRasterBand(1);
     z.band->SetColorTable(&gdalColorTable);
 
+    // add tile definitions to list
     for(y = y1; y <= y2; ++y){
         for(x = x1; x <= x2; ++x){
             tile_t t;
@@ -556,14 +569,14 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
         return;
     }
 
-
+    // convert image from 32bit png to indexed 8bit with default colortable
     img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
     tile_t& t = tiles.first();
 
+    // add converted image to raster band
     t.zoomlevel->band->WriteBlock(t.x, t.y, img2.bits());
 
     if(tiles.count()) tiles.pop_front();
-
     getNextTile();
 
 }

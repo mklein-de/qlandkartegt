@@ -106,6 +106,9 @@ CMainWindow::CMainWindow()
         canvas->loadMapSet(QDir(CResources::self().pathMaps).filePath(mapFile));
     }
 
+    connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+
 
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }

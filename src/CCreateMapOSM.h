@@ -27,7 +27,7 @@
 class QHttp;
 class QProgressDialog;
 class QSettings;
-
+/// download tiles from OSM and stitch them together
 class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 {
     Q_OBJECT
@@ -71,17 +71,10 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
         };
 
         QVector<zoomlevel_t> zoomlevels;
+
         QVector<tile_t> tiles;
 
         int maxTiles;
-
-//         int idxZoom;
-//         int x1;
-//         int x2;
-//         int y1;
-//         int y2;
-//         int x;
-//         int y;
 
         QProgressDialog * progress;
 

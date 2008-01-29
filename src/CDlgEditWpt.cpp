@@ -19,6 +19,7 @@
 
 #include "CDlgEditWpt.h"
 #include "CWpt.h"
+#include "CWptDB.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
 #include "CDlgWptIcon.h"
@@ -63,7 +64,7 @@ int CDlgEditWpt::exec()
         lineProximity->setText(QString::number(wpt.prx,'f',1));
     }
 
-    textComment->setHtml(wpt.comment);
+    textComment->setPlainText(wpt.comment);
 
     if(wpt.images.count() != 0){
         showImage(0);
@@ -92,7 +93,9 @@ void CDlgEditWpt::accept()
 
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
-    wpt.comment     = textComment->toHtml();
+    wpt.comment     = textComment->toPlainText();
+
+    emit CWptDB::self().sigChanged();
 
     QDialog::accept();
 }

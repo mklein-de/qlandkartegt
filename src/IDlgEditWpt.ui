@@ -133,6 +133,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="acceptRichText" >
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="0" >
