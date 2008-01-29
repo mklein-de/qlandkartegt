@@ -20,12 +20,12 @@
 #ifndef CMAPLEVEL_H
 #define CMAPLEVEL_H
 
+#include <projects.h>
 #include <QObject>
 #include <QVector>
 
 class CMapRaster;
 class CMapFile;
-
 /// data object to define a resolution level
 /**
 
@@ -66,8 +66,18 @@ class CMapLevel : public QObject
         /// maximum zoom level
         const quint32 max;
 
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+
     private:
         QVector<CMapFile*> mapfiles;
+
+        PJ * pjtar;
+        PJ * pjsrc;
+
+        double westbound;
+        double northbound;
+        double eastbound;
+        double southbound;
 };
 
 #endif //CMAPLEVEL_H

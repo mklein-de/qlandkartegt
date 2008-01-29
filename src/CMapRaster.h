@@ -57,6 +57,7 @@ class CMapRaster : virtual public IMap
         void zoom(bool zoomIn, const QPoint& p);
         void select(const QRect& rect);
 
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
     private:
         friend class CExportMapThread;

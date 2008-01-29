@@ -25,13 +25,20 @@ CMapLevel::CMapLevel(quint32 min, quint32 max, CMapRaster * parent)
     : QObject(parent)
     , min(min)
     , max(max)
+    , pjtar(0)
+    , pjsrc(0)
+    , westbound(180)
+    , northbound(-90)
+    , eastbound(-180)
+    , southbound(90)
 {
-
+    pjtar = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 }
 
 CMapLevel::~CMapLevel()
 {
-
+    if(pjtar) pj_free(pjtar);
+    if(pjsrc) pj_free(pjsrc);
 }
 
 void CMapLevel::addMapFile(const QString& filename)
@@ -39,4 +46,32 @@ void CMapLevel::addMapFile(const QString& filename)
     CMapFile * mapfile = new CMapFile(filename,this);
     mapfiles << mapfile;
     Q_ASSERT((*mapfiles.begin())->strProj == mapfile->strProj);
+    if(pjsrc == 0){
+        pjsrc = pj_init_plus(mapfile->strProj.toLatin1());
+    }
+
+    double n = 0, e = 0 , s = 0, w = 0;
+
+    w = mapfile->xref1;
+    n = mapfile->yref1;
+    pj_transform(pjsrc, pjtar, 1, 0, &w, &n, 0);
+
+    e = mapfile->xref2;
+    s = mapfile->yref2;
+    pj_transform(pjsrc, pjtar, 1, 0, &e, &s, 0);
+
+    if(w < westbound)   westbound = w;
+    if(e > eastbound)   eastbound = e;
+    if(n > northbound)  northbound = n;
+    if(s < southbound)  southbound = s;
+
 }
+
+void CMapLevel::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+    lon1 = westbound;
+    lat1 = northbound;
+    lon2 = eastbound;
+    lat2 = southbound;
+}
+

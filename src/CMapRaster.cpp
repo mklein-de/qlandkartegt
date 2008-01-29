@@ -323,8 +323,6 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
 
     // If no configuration is stored read values from the map definition's "home" section
     // zoom() has to be called in either case to setup / initialize all other internal parameters
-    // If no configuration is stored read values from the map definition's "home" section
-    // zoom() has to be called in either case to setup / initialize all other internal parameters
     mapdef.beginGroup(QString("home"));
     zoomidx = mapdef.value("zoom",1).toUInt();
     zoom(zoomidx);
@@ -570,3 +568,13 @@ void CMapRaster::select(const QRect& rect)
     thExportMap->setup(p1,p2,fn,internalMapName);
     thExportMap->start();
 }
+
+void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+    if(pMaplevel.isNull()){
+        lon1 = lat1 = lon2 = lat2 = 0;
+        return;
+    }
+
+    pMaplevel->dimensions(lon1, lat1, lon2, lat2);
+};

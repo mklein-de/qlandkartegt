@@ -94,6 +94,14 @@ class IMap : public QObject
         */
         virtual void select(const QRect& rect) = 0;
 
+        /// get the top left and bottom right corner
+        /**
+            @param lon1 reference to store westbound longitude in [rad]
+            @param lat1 reference to store northbound latitude in [rad]
+            @param lon2 reference to store eastbound longitude in [rad]
+            @param lat2 reference to store southbound latitude in [rad]
+        */
+        virtual void dimensions(double& lon1, double& lat1, double& lon2, double& lat2) = 0;
     protected:
         /// canvas / viewport rectangle [px]
         QRect rect;

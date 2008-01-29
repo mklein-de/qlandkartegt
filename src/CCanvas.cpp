@@ -248,6 +248,22 @@ void CCanvas::move(move_direction_e dir)
         case eMoveDown:
             p2.ry() -= height() / 4;
             break;
+
+        case eMoveCenter:
+            {
+                double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
+
+                map->dimensions(lon1, lat1, lon2, lat2);
+                lon1 += (lon2 - lon1)/2;
+                lat2 += (lat1 - lat2)/2;
+                map->convertRad2Pt(lon1,lat2);
+
+                p1.rx() = lon1;
+                p1.ry() = lat2;
+
+                p2 = geometry().center();
+            }
+            break;
     }
     map->move(p1, p2);
 

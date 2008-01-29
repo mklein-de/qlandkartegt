@@ -83,7 +83,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] = {
      {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map.\nPress down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconSelMap16x16",QObject::tr("Select Map"),&CMegaMenu::funcSelectArea,tr("Select area of map for upload.\nSelect area by pressing down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -97,7 +97,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
      {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map.\nPress down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint.\nThe default position will be the\ncurrent cursor position.")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -294,6 +294,11 @@ void CMegaMenu::funcSwitchToWpt()
 void CMegaMenu::funcMoveArea()
 {
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
+}
+
+void CMegaMenu::funcCenterMap()
+{
+    canvas->move(CCanvas::eMoveCenter);
 }
 
 void CMegaMenu::funcSelectArea()

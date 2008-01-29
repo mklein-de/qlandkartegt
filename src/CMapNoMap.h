@@ -37,6 +37,7 @@ class CMapNoMap : public IMap
         void move(const QPoint&, const QPoint&){};
         void zoom(bool, const QPoint&){};
         void select(const QRect&){};
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
 
 };
 

@@ -38,7 +38,7 @@ class CCanvas : public QWidget
     Q_OBJECT
     public:
 
-        enum move_direction_e {eMoveLeft, eMoveRight, eMoveUp, eMoveDown};
+        enum move_direction_e {eMoveLeft, eMoveRight, eMoveUp, eMoveDown, eMoveCenter};
 
         CCanvas(QWidget * parent);
         virtual ~CCanvas();

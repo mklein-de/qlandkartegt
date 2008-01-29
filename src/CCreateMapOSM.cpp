@@ -436,7 +436,7 @@ void CCreateMapOSM::slotCreate()
 }
 
 
-void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2, QSettings& mapdef)
+void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, double lon2, double lat2, QSettings& mapdef)
 {
     int x = 0, y = 0;
     char * ptr = 0;

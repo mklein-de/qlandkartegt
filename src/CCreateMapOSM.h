@@ -42,7 +42,7 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
     private:
         void getNextTile();
-        void addZoomLevel(int level, int zoom, float lon1, float lat1, float lon2, float lat2, QSettings& mapdef);
+        void addZoomLevel(int level, int zoom, double lon1, double lat1, double lon2, double lat2, QSettings& mapdef);
         void finishJob();
 
         QHttp * link;
