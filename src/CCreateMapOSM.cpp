@@ -397,9 +397,9 @@ void CCreateMapOSM::slotCreate()
 
     mapdef.setValue("main/levels",3);
 
-    addZoomLevel(3, 14, lon1, lat1, lon2, lat2, mapdef);
-    addZoomLevel(2, 11, lon1, lat1, lon2, lat2, mapdef);
-    addZoomLevel(1, 8, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(3, 17, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(2, 14, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(1, 11, lon1, lat1, lon2, lat2, mapdef);
 
     maxTiles = tiles.count();
     progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
@@ -437,16 +437,14 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
 
     // setup projection
     OGRSpatialReference oSRS;
-    oSRS.importFromProj4("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs");
+    oSRS.importFromProj4("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
     oSRS.exportToWkt(&ptr);
     z.dataset->SetProjection(ptr);
     CPLFree(ptr);
 
     double Ep   = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
-//     double Np   =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
-    double Np   =  20037508.34 - (40075016.68 / (1<<zoom)) * y1;
+    double Np   =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
     double resx = (40075016.68 / ((1<<zoom) * 256));
-//     double resy = (40074942.42 / ((1<<zoom) * 256));
     double resy = (40074942.42 / ((1<<zoom) * 256));
 
     double adfGeoTransform[6];
