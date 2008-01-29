@@ -313,7 +313,6 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
 {
     setupUi(this);
     labelPath->setText(CResources::self().pathMaps);
-    lineName->setText("testosm");
 
     connect(pushCreate, SIGNAL(clicked()), this, SLOT(slotCreate()));
 
@@ -336,6 +335,8 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
         qtColorTable[i] = qRgba(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3,defaultColorTable[i].c4);
     }
 
+    connect(toolPath, SIGNAL(clicked()), this, SLOT(slotSelectPath()));
+
 }
 
 CCreateMapOSM::~CCreateMapOSM()
@@ -346,14 +347,37 @@ CCreateMapOSM::~CCreateMapOSM()
 void CCreateMapOSM::slotCreate()
 {
     if(progress) return;
-    setEnabled(false);
+
+    // sanity check
+    if(lineTopLeft->text().isEmpty()){
+        QMessageBox::critical(this,tr("Information missing ..."), tr("The top left coordinate is missing"), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+    if(lineBottomRight->text().isEmpty()){
+        QMessageBox::critical(this,tr("Information missing ..."), tr("The bottom right coordinate is missing"), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+    if(lineName->text().isEmpty()){
+        QMessageBox::critical(this,tr("Information missing ..."), tr("The map name is missing."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+    if(lineComment->text().isEmpty()){
+        QMessageBox::critical(this,tr("Information missing ..."), tr("The comment is missing."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
 
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
 
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
-    GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1);
-    GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2);
+    if(!GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1)){
+        return;
+    }
+    if(!GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2)){
+        return;
+    }
 
+
+    setEnabled(false);
     // reset tiles
     tiles.clear();
     // reset zoomlevels
@@ -380,7 +404,7 @@ void CCreateMapOSM::slotCreate()
 
 
     mapdef.beginGroup("description");
-    mapdef.setValue("comment",tr("OSM Map"));
+    mapdef.setValue("comment",lineComment->text());
 
     QString str = lineTopLeft->text();
     str = str.replace("\260","");
@@ -487,7 +511,6 @@ void CCreateMapOSM::getNextTile()
         return;
     }
 
-
     tile_t& t = tiles.first();
     progress->setValue(maxTiles - tiles.count());
     QString msg = tr("download: ") + t.url.toString() + "\n";
@@ -510,7 +533,12 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
     qDebug() << "slotRequestFinished(" <<  id << "," << error << ")";
 
     if(error){
-        QMessageBox::critical(this,tr("Failed to download tile!"), link->errorString(), QMessageBox::Retry|QMessageBox::Abort, QMessageBox::Retry);
+        QMessageBox::StandardButton res = QMessageBox::critical(this,tr("Failed to download tile!"), link->errorString(), QMessageBox::Retry|QMessageBox::Abort, QMessageBox::Retry);
+        if(res == QMessageBox::Retry){
+            getNextTile();
+            return;
+        }
+        finishJob();
         return;
     }
 
@@ -519,10 +547,11 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
     if(img1.format() == QImage::Format_Invalid){
         // that:
         // link->setHost("tah.openstreetmap.org")
-        // will cause a requestFinished() signal, too
-        qDebug() << "xxxxxxxxxxxxxxxxxxxxxxxxxx";
+        // will cause a requestFinished() signal, too.
+        // let's ignore it
         return;
     }
+
 
     img2 = img1.convertToFormat(QImage::Format_Indexed8,qtColorTable);
     tile_t& t = tiles.first();
@@ -533,4 +562,13 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 
     getNextTile();
 
+}
+
+
+void CCreateMapOSM::slotSelectPath()
+{
+    QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text());
+    if(!path.isEmpty()){
+        labelPath->setText(path);
+    }
 }

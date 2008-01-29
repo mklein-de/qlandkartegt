@@ -38,6 +38,7 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
     private slots:
         void slotCreate();
         void slotRequestFinished(int , bool error);
+        void slotSelectPath();
 
     private:
         void getNextTile();
