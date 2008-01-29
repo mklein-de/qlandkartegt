@@ -18,13 +18,13 @@
 **********************************************************************************************/
 #ifndef GEOMATH_H
 #define GEOMATH_H
-#include <stdint.h>
+//#include <stdint.h>
 #include <projects.h>
 #include <QVector>
 
 
-extern void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m);
-extern void GPS_Math_DegMin_To_Deg(const int32_t d, const float m, float& deg);
+extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);
+extern void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg);
 extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat);
 extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
 

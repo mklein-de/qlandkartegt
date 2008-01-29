@@ -21,11 +21,16 @@
 #include <stdlib.h>
 #include <QtGui>
 
+#if WIN32
+#include <float.h>
+#define isnan _isnan
+#define FP_NAN NAN
+#endif
 
 //Copyright (C) 1999 Alan Bleasby
-void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
+void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m)
 {
-    int32_t sign;
+    qint32 sign;
 
     if(v<(float)0.)
     {
@@ -36,7 +41,7 @@ void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
         sign = 0;
     }
 
-    *d = (int32_t)v;
+    *d = (qint32)v;
     *m = (v-(float)*d) * (float)60.0;
     if(*m>(float)59.999)
     {
@@ -51,7 +56,7 @@ void GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
     return;
 }
 
-void GPS_Math_DegMin_To_Deg(const int32_t d, const float m, float& deg)
+void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg)
 {
 
     deg = ((float)abs(d)) + m / (float)60.0;
@@ -196,14 +201,14 @@ float distance(const XY& p1, const XY& p2, float& a1, float& a2)
     float sinLambda = 0.0;
     float cosLambda = 0.0;
 
-    float a = 6378137.0, b = 6356752.3142,  f = 1.0/298.257223563;  // WGS-84 ellipsiod
+    float a = 6378137.0f, b = 6356752.3142f,  f = 1.0f/298.257223563f;  // WGS-84 ellipsiod
     float L = p2.u - p1.u;
 
     float U1 = atan((1-f) * tan(p1.v));
     float U2 = atan((1-f) * tan(p2.v));
     float sinU1 = sin(U1), cosU1 = cos(U1);
     float sinU2 = sin(U2), cosU2 = cos(U2);
-    float lambda = L, lambdaP = 2*PI;
+    float lambda = L, lambdaP = (float)(2*PI);
     unsigned iterLimit = 20;
 
     while ((fabs(lambda - lambdaP) > 1e-12) && (--iterLimit > 0)) {
@@ -229,7 +234,7 @@ float distance(const XY& p1, const XY& p2, float& a1, float& a2)
         lambdaP = lambda;
         lambda = L + (1-C) * f * sinAlpha * (sigma + C*sinSigma*(cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     }
-    if (iterLimit==0) return FP_NAN;  // formula failed to converge
+    if (iterLimit==0) return 0;  // formula failed to converge
 
     float uSq = cosSqAlpha * (a*a - b*b) / (b*b);
     float A = 1 + uSq/16384*(4096+uSq*(-768+uSq*(320-175*uSq)));

@@ -9,4 +9,9 @@ set(VER_STEP      0)
 
 add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${VER_STEP})
 
+IF(WIN32)
+  LINK_DIRECTORIES( C:/Programme/FWTools1.3.9/lib )
+  INCLUDE_DIRECTORIES( C:/Programme/FWTools1.3.9/include )
+ENDIF(WIN32)
+
 add_subdirectory(./src)

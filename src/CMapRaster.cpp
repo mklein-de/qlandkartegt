@@ -240,7 +240,7 @@ void CExportMapThread::run()
                 pBandTar->SetColorTable(pBandSrc->GetColorTable());
 
                 // start to copy block by block
-                uint8_t * blockdata = new uint8_t[(*mapfile)->tileWidth * (*mapfile)->tileHeight];
+                quint8 * blockdata = new quint8[(*mapfile)->tileWidth * (*mapfile)->tileHeight];
                 quint32 n,m,progress = 0;
 
                 for(m = y1; m < y2; ++m){

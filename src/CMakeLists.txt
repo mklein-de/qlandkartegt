@@ -1,6 +1,6 @@
 include( ${QT_USE_FILE})
-include( ${QT_QTNETWORK_INCLUDE_DIR})
-include( ${QT_QTXML_INCLUDE_DIR})
+#include( ${QT_QTNETWORK_INCLUDE_DIR})
+#include( ${QT_QTXML_INCLUDE_DIR})
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -100,7 +100,18 @@ if(UNIX)
   add_definitions(-Wall -O2)
 endif(UNIX)
 
-target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
+#target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
+
+
+IF(UNIX)
+  add_definitions(-Wall -O2)
+  target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
+ENDIF(UNIX)
+
+IF(WIN32)
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+  target_link_libraries(QLandkarteGT gdal_i proj_i ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
+ENDIF(WIN32)
 
 
 

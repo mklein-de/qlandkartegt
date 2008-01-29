@@ -49,7 +49,7 @@ class CResources : public QObject
         */
         void setUTCOffset(int offset, int fract);
 
-        uint32_t getUTCOffset(){return time_offset;}
+        quint32 getUTCOffset(){return time_offset;}
 
         /// get pointer to current device handler
         IDevice * device();
@@ -102,7 +102,7 @@ class CResources : public QObject
         QString cmdOther;
 
         /// this offset is needed to correct time in seconds until Dec. 30th, 1989 12:00 to POSIX standard
-        uint32_t time_offset;
+        quint32 time_offset;
 
         /// the device key for the desired device
         QString m_devKey;
