@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>587</height>
+    <width>496</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -235,6 +235,14 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineTopLeft</tabstop>
+  <tabstop>lineBottomRight</tabstop>
+  <tabstop>toolPath</tabstop>
+  <tabstop>lineName</tabstop>
+  <tabstop>lineComment</tabstop>
+  <tabstop>pushCreate</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

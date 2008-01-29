@@ -26,7 +26,7 @@
 #include <math.h>
 #include <ogr_spatialref.h>
 
-static char * osm_image_args[] = {
+static const char * osm_image_args[] = {
      "BLOCKXSIZE=256"
     ,"BLOCKYSIZE=256"
     ,"TILED=YES"
@@ -427,9 +427,11 @@ void CCreateMapOSM::slotCreate()
 
     maxTiles = tiles.count();
     progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
-    progress->setLabelText(tr("Start download of files..."));
+    progress->setLabelText(tr("Calculating files ..."));
+    qApp->processEvents();
 
     link->setHost("tah.openstreetmap.org");
+//     link->setHost("tile.openstreetmap.org");
     getNextTile();
 }
 
@@ -451,7 +453,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
     GDALDriver *        driver = drvman->GetDriverByName("GTiff");
 
     QString filename = QString("%1%2.tif").arg(QDir(labelPath->text()).filePath(lineName->text())).arg(level);
-    z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,osm_image_args);
+    z.dataset = driver->Create(filename.toLatin1(),(x2 - x1 + 1) * 256,(y2 - y1 + 1) * 256,1,GDT_Byte,(char**)osm_image_args);
 
     mapdef.beginGroup(QString("level%1").arg(level));
     mapdef.setValue("files",QString("%1%2.tif").arg(lineName->text()).arg(level));
@@ -488,6 +490,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, float lon1, float lat1, fl
         for(x = x1; x <= x2; ++x){
             tile_t t;
             t.url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
+//             t.url.setPath(QString("/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
             t.x         = x - x1;
             t.y         = y - y1;
             t.zoom      = zoom;
@@ -518,6 +521,7 @@ void CCreateMapOSM::getNextTile()
     progress->setLabelText(msg);
 
     link->get(t.url.toEncoded());
+    qDebug() << ("http://tile.openstreetmap.org" + t.url.toString());
 }
 
 void CCreateMapOSM::finishJob()
