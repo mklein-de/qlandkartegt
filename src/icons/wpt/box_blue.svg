@@ -21,7 +21,34 @@
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient4128">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop4130" />
+      <stop
+         id="stop4136"
+         offset="0.5"
+         style="stop-color:#0000ff;stop-opacity:0.49803922;" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:0;"
+         offset="1"
+         id="stop4132" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4112">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop4114" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:0;"
+         offset="1"
+         id="stop4116" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -60,46 +87,30 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 7,14 L 1,11 L 1,4.9999996 L 7,7.9999996 L 7,14 L 7,14 z "
-       id="path13865"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.2407407,5.0925929 L 5.0925926,1.240741 L 13.759259,1.240741 L 9.9074079,5.0925929 L 1.2407407,5.0925929 L 1.2407407,5.0925929 z "
+       id="path4140" />
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 7,14 L 14,11 L 14,4.9999996 L 7,7.9999996 L 7,14 z "
-       id="path13867"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.2407407,5.0925929 L 1.2407407,13.759259 L 9.9074079,13.759259 L 9.9074079,5.0925929 L 1.2407407,5.0925929 L 1.2407407,5.0925929 z "
+       id="path4142" />
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 7,7.9999996 L 1,4.9999996 L 8,1.9999996 L 14,4.9999996 L 7,7.9999996"
-       id="path13869"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 9.9074079,13.759259 L 13.759259,9.896732 L 13.759259,1.240741 L 9.9074079,5.0925929 L 9.9074079,13.759259 z "
+       id="path4144"
+       sodipodi:nodetypes="ccccc" />
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="M 7,14 L 1,11 L 1,5 L 7,8 L 7,14 L 7,14 z "
-       id="path11915"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.48148149;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.2407407,5.0925926 L 5.0925926,1.2407407 L 13.759259,1.2407407 L 9.9074079,5.0925926 L 1.2407407,5.0925926 L 1.2407407,5.0925926 z "
+       id="path2165" />
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="M 7,14 L 14,11 L 14,5 L 7,8 L 7,14 z "
-       id="path11917"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.48148149;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.2407407,5.0925926 L 1.2407407,13.759259 L 9.9074079,13.759259 L 9.9074079,5.0925926 L 1.2407407,5.0925926 L 1.2407407,5.0925926 z "
+       id="path2167" />
     <path
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="M 7,8 L 1,5 L 8,2 L 14,5 L 7,8"
-       id="path11919"
-       inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/icons/wpt/box_blue15x15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#0000ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.48148149;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 9.9074079,13.759259 L 13.759259,9.8967317 L 13.759259,1.2407407 L 9.9074079,5.0925926 L 9.9074079,13.759259 z "
+       id="path2169"
+       sodipodi:nodetypes="ccccc" />
   </g>
 </svg>
