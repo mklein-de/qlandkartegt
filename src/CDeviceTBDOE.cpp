@@ -108,8 +108,6 @@ void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
 
     if(!acquire(tr("Upload waypoints ..."), wpts.count())) return;
 
-    QDataStream socketstream(&socket);
-
     int cnt = 0;
     QList<CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end() && !progress->wasCanceled()){

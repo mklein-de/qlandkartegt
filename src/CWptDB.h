@@ -64,6 +64,7 @@ class CWptDB : public IDB
         friend class CDlgEditWpt;
 
         CWptDB(QToolBox * tb, QObject * parent);
+        void addWpt(CWpt * wpt);
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;

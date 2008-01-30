@@ -99,6 +99,14 @@ void CWptDB::delWpt(const QStringList& keys)
 }
 
 
+void CWptDB::addWpt(CWpt * wpt)
+{
+    if(wpts.contains(wpt->key())){
+        delWpt(wpt->key(), true);
+    }
+    wpts[wpt->key()] = wpt;
+}
+
 void CWptDB::loadGPX(CGpx& gpx)
 {
     const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
@@ -152,7 +160,7 @@ void CWptDB::loadGPX(CGpx& gpx)
             continue;
         }
 
-        wpts[wpt->key()] = wpt;
+        addWpt(wpt);
     }
 
     emit sigChanged();
@@ -236,7 +244,7 @@ void CWptDB::loadQLB(CQlb& qlb)
     while(!stream.atEnd()){
         CWpt * wpt = new CWpt(this);
         stream >> *wpt;
-        wpts[wpt->key()] = wpt;
+        addWpt(wpt);
     }
 
     emit sigChanged();
@@ -271,7 +279,13 @@ void CWptDB::download()
     if(dev){
         QList<CWpt*> tmpwpts;
         dev->downloadWpts(tmpwpts);
+
+        CWpt * wpt;
+        foreach(wpt,tmpwpts){
+            addWpt(wpt);
+        }
     }
 
+    emit sigChanged();
 }
 

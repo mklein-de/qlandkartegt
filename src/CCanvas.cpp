@@ -330,14 +330,14 @@ void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
             double v = selWpt->lat * DEG_TO_RAD;
             map->convertRad2Pt(u,v);
 
-            QFont f = CResources::self().getMapFont();
-            f.setBold(true);
-
-            info = new QLabel(selWpt->name,this);
-            info->setAutoFillBackground(true);
-            info->setFont(f);
-            info->move(u + 10 ,v - 20);
-            info->show();
+//             QFont f = CResources::self().getMapFont();
+//             f.setBold(true);
+//
+//             info = new QLabel(selWpt->name,this);
+//             info->setAutoFillBackground(true);
+//             info->setFont(f);
+//             info->move(u + 10 ,v - 20);
+//             info->show();
         }
         else if(info){
             delete info;

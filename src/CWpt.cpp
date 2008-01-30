@@ -253,7 +253,7 @@ CWpt::CWpt(QObject * parent)
 
 CWpt::~CWpt()
 {
-
+    qDebug() << "CWpt::~CWpt()";
 }
 
 void CWpt::genKey()
