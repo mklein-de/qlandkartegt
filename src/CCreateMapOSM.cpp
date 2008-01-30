@@ -346,7 +346,7 @@ CCreateMapOSM::~CCreateMapOSM()
 
 void CCreateMapOSM::slotCreate()
 {
-    if(progress) return;
+    if(!progress.isNull()) return;
 
     // sanity check
     if(lineTopLeft->text().isEmpty()){
@@ -377,6 +377,16 @@ void CCreateMapOSM::slotCreate()
 
     // if we reach this point we disable the GUI
     setEnabled(false);
+
+    progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,0,this);
+    progress->setAttribute(Qt::WA_DeleteOnClose,true);
+    progress->setAutoReset(false);
+    progress->setAutoClose(false);
+    progress->setLabelText(tr("Calculating tiles ..."));
+    progress->setValue(0);
+
+    qApp->processEvents();
+
 
     // build file base path/name for putput files
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
@@ -432,11 +442,8 @@ void CCreateMapOSM::slotCreate()
     addZoomLevel(1, 11, lon1, lat1, lon2, lat2, mapdef);
 
     maxTiles = tiles.count();
+    progress->setMaximum(maxTiles);
 
-    // start download
-    progress = new QProgressDialog(tr("Download files ..."),tr("Abort"),0,tiles.count(),this);
-    progress->setLabelText(tr("Calculating files ..."));
-    qApp->processEvents();
 
     link->setHost("tah.openstreetmap.org");
 //     link->setHost("tile.openstreetmap.org");
@@ -541,8 +548,8 @@ void CCreateMapOSM::finishJob()
 {
     tiles.clear();
     zoomlevels.clear();
-    delete progress; progress = 0;
     setEnabled(true);
+    if(!progress.isNull()) progress->close();
 }
 
 void CCreateMapOSM::slotRequestFinished(int id, bool error)

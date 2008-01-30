@@ -22,6 +22,8 @@
 #include "IDevice.h"
 #include <QtNetwork/QTcpSocket>
 
+class QProgressDialog;
+
 /// device layer for QLandkarte M devices
 /**
 
@@ -50,28 +52,34 @@ class CDeviceTBDOE : public IDevice
         CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent);
         virtual ~CDeviceTBDOE();
 
-        void uploadWpts(QList<CWpt*>& wpts);
+        void uploadWpts(const QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
 
         enum packet_e {
               eNone
             , eError        ///< error occured
             , eAck          ///<
-            , eReqAlive
-            , eAckAlive
-            , eWpt
+            , eC2HAlive
+            , eH2CAlive
+            , eC2HWpt       ///< send waypoint data from client to host
+            , eH2CWptQuery  ///< request waypoint keys from host
+            , eH2CWpt       ///< request waypoint data from host
         };
 
     private:
+        bool acquire(const QString& operation, int max);
+        void send(const packet_e type, const QByteArray& data);
+        bool recv(packet_e& type, QByteArray& data);
+        bool exchange(packet_e& type,QByteArray& data);
+        void release();
+
         QString ipaddr;
         quint16 port;
         const int timeout;
 
         QTcpSocket socket;
 
-        void send(const packet_e type, const QByteArray& data);
-        bool recv(packet_e& type, QByteArray& data);
-        bool exchange(packet_e& type,QByteArray& data);
+
 };
 
 #endif //CDEVICETBDOE_H

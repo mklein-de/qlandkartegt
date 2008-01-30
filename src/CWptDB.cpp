@@ -267,6 +267,11 @@ void CWptDB::upload()
 
 void CWptDB::download()
 {
+    IDevice * dev = CResources::self().device();
+    if(dev){
+        QList<CWpt*> tmpwpts;
+        dev->downloadWpts(tmpwpts);
+    }
 
 }
 

@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "IDevice.h"
+#include <QtGui>
 
 IDevice::IDevice(const QString& devkey, QObject * parent)
     : QObject(parent)
@@ -29,5 +30,16 @@ IDevice::IDevice(const QString& devkey, QObject * parent)
 IDevice::~IDevice()
 {
 
+}
+
+void IDevice::createProgress(const QString& title, const QString& text, int max)
+{
+    if(!progress.isNull()) delete progress;
+    progress = new QProgressDialog(title,tr("Abort"),0,max);
+    progress->setAttribute(Qt::WA_DeleteOnClose,true);
+    progress->setAutoReset(false);
+    progress->setAutoClose(false);
+    progress->setLabelText(text);
+    progress->show();
 }
 

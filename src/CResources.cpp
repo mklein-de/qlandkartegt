@@ -135,7 +135,8 @@ IDevice * CResources::device()
     // still noe device?
     if(!m_device){
         qWarning() << "no device";
-    //TODO: tell the user to setup the device
+        // TODO: would be nicer to open the setup dialog
+        QMessageBox::critical(0,tr("No device."),tr("You have to select a device in Setup->Config->Device & Xfer"), QMessageBox::Abort, QMessageBox::Abort);
     }
 
     return m_device;

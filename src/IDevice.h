@@ -21,8 +21,10 @@
 
 #include <QObject>
 #include <QList>
+#include <QPointer>
 
 class CWpt;
+class QProgressDialog;
 
 class IDevice : public QObject
 {
@@ -33,11 +35,13 @@ class IDevice : public QObject
 
         const QString& getDevKey(){return devkey;}
 
-        virtual void uploadWpts(QList<CWpt*>& wpts) = 0;
+        virtual void uploadWpts(const QList<CWpt*>& wpts) = 0;
         virtual void downloadWpts(QList<CWpt*>& wpts) = 0;
 
-    private:
+    protected:
+        void createProgress(const QString& title, const QString& text, int max);
         QString devkey;
+        QPointer<QProgressDialog> progress;
 };
 
 #endif //IDEVICE_H

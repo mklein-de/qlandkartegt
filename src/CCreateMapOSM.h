@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include <QUrl>
+#include <QPointer>
 #include <gdal_priv.h>
 #include "ui_ICreateMapOSM.h"
 
@@ -76,7 +77,7 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
         int maxTiles;
 
-        QProgressDialog * progress;
+        QPointer<QProgressDialog> progress;
 
 };
 
