@@ -96,6 +96,8 @@ class CWpt : public QObject
         friend QDataStream& operator >>(QDataStream& s, CWpt& wpt);
         friend QDataStream& operator <<(QDataStream& s, CWpt& wpt);
         friend class CDlgEditWpt;
+        friend class CDlgWptEdit;
+        static QDir path;
         QString _key_;
 
     public:
@@ -110,8 +112,7 @@ class CWpt : public QObject
         float   prx;
         QString link;
 
-        // images
-    private:
+
         struct image_t
         {
             quint32 offset;
@@ -120,7 +121,7 @@ class CWpt : public QObject
         };
         QList<image_t> images;
 
-        static QDir path;
+
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

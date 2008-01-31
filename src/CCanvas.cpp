@@ -179,7 +179,7 @@ void CCanvas::drawWaypoints(QPainter& p)
 
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
-        p.drawEllipse(QRect(u - 11,  v - 11, 21, 21));
+        p.drawEllipse(QRect(u - 11,  v - 11, 22, 22));
 
     }
 
