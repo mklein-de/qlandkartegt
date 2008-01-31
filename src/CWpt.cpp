@@ -226,6 +226,7 @@ void operator >>(QFile& f, CWpt& wpt)
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
     s >> wpt;
+    f.close();
 }
 
 void operator <<(QFile& f, CWpt& wpt)
@@ -233,6 +234,7 @@ void operator <<(QFile& f, CWpt& wpt)
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
     s << wpt;
+    f.close();
 }
 
 
