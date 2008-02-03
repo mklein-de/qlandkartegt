@@ -29,6 +29,7 @@
 #include <QProgressDialog>
 #include <QDir>
 
+class CMapDEM;
 class CMapLevel;
 class CExportMapThread;
 
@@ -59,6 +60,8 @@ class CMapRaster : virtual public IMap
 
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
+        float getElevation(float lon, float lat);
+
     private:
         friend class CExportMapThread;
 
@@ -82,6 +85,8 @@ class CMapRaster : virtual public IMap
         QProgressDialog progressExport;
 
         QPushButton * butCancelExport;
+
+        CMapDEM * pDEM;
 
 };
 

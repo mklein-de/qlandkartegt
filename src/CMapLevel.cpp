@@ -19,7 +19,9 @@
 
 #include "CMapLevel.h"
 #include "CMapFile.h"
+#include "CMapDEM.h"
 #include "CMapRaster.h"
+#include "CWpt.h"
 
 CMapLevel::CMapLevel(quint32 min, quint32 max, CMapRaster * parent)
     : QObject(parent)
@@ -66,6 +68,7 @@ void CMapLevel::addMapFile(const QString& filename)
     if(s < southbound)  southbound = s;
 
 }
+
 
 void CMapLevel::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {

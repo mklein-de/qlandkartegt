@@ -26,6 +26,7 @@
 
 class CMapRaster;
 class CMapFile;
+
 /// data object to define a resolution level
 /**
 
@@ -56,6 +57,9 @@ class CMapLevel : public QObject
         /// add a GeoTiff file by filename
         void addMapFile(const QString& filename);
 
+        /// add a GeoTiff file with DEM data
+        void addDEMFile(const QString& filename);
+
         /// get iterator to first GeoTiff file in list
         QVector<CMapFile*>::const_iterator begin(){return mapfiles.begin();}
         /// end iterator of GeoTiff file list
@@ -78,6 +82,7 @@ class CMapLevel : public QObject
         double northbound;
         double eastbound;
         double southbound;
+
 };
 
 #endif //CMAPLEVEL_H

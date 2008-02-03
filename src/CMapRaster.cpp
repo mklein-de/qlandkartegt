@@ -20,6 +20,7 @@
 #include "CMapRaster.h"
 #include "CMapLevel.h"
 #include "CMapFile.h"
+#include "CMapDEM.h"
 #include "GeoMath.h"
 
 #include <QtGui>
@@ -284,6 +285,7 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
     , filename(filename)
     , pMaplevel(0)
     , zoomFactor(1)
+    , pDEM(0)
 
 {
     // setup export progress dialog
@@ -335,6 +337,12 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
     topLeft.u = u * DEG_TO_RAD;
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
+
+
+    QString fileDEM = mapdef.value("DEM/file","").toString();
+    if(!fileDEM.isEmpty()){
+        pDEM = new CMapDEM(path.filePath(fileDEM), this);
+    }
 
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
@@ -577,4 +585,13 @@ void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& la
     }
 
     pMaplevel->dimensions(lon1, lat1, lon2, lat2);
-};
+}
+
+float CMapRaster::getElevation(float lon, float lat)
+{
+    if(pDEM){
+        return pDEM->getElevation(lon,lat);
+    }
+    return IMap::getElevation(lon,lat);
+
+}

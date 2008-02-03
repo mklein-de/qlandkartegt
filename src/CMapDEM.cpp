@@ -94,5 +94,5 @@ CMapDEM::~CMapDEM()
 float CMapDEM::getElevation(float& lon, float& lat)
 {
 
-    return WPT_NOFLOAT;
+    return 0;
 }

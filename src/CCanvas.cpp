@@ -289,7 +289,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
     float ele = map->getElevation(x,y);
     if(ele != WPT_NOFLOAT){
-        info += QString(" ele: %1 m").arg(ele);
+        info += QString(" (ele: %1 m)").arg(ele);
     }
 
     qint32 degN,degE;
