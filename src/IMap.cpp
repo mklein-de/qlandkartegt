@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "IMap.h"
+#include "CWpt.h"
 
 #include <QtGui>
 #include <math.h>
@@ -94,6 +95,10 @@ void IMap::convertRad2Pt(double& u, double& v)
     convertM2Pt(u,v);
 }
 
+float IMap::getElevation(float lon, float lat)
+{
+    return WPT_NOFLOAT;
+}
 
 
 

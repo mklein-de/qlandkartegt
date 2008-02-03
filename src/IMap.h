@@ -102,6 +102,16 @@ class IMap : public QObject
             @param lat2 reference to store southbound latitude in [rad]
         */
         virtual void dimensions(double& lon1, double& lat1, double& lon2, double& lat2) = 0;
+
+        /// get the elevation of the given point
+        /**
+
+            @param lon the longitude in [rad]
+            @param lat the latitude in [rad]
+
+            @return The elevation at the point or WPT_NOFLOAT if no elevation data is loaded.
+        */
+        virtual float getElevation(float lon, float lat);
     protected:
         /// canvas / viewport rectangle [px]
         QRect rect;
