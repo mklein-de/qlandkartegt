@@ -1,6 +1,9 @@
+[DEM]
+file=dhmby25.tif
+
 [home]
-center=" N49 37.184 E010 39.669 "
-zoom=7
+center=" N49 02.123 E012 05.807 "
+zoom=1
 
 [level1]
 files=by010_n.tif|by010_s.tif

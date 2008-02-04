@@ -92,6 +92,9 @@ float CMapDEM::getElevation(float& lon, float& lat)
 
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
+//     u *= RAD_TO_DEG;
+//     v *= RAD_TO_DEG;
+
     int xoff = (u - xref1) / xscale;
     int yoff = (v - yref1) / yscale;
 

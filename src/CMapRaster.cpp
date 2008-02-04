@@ -222,8 +222,8 @@ void CExportMapThread::run()
                 double adfGeoTransform[6];
                 memset(adfGeoTransform,0,sizeof(adfGeoTransform));
 
-                double  Ep      = (*mapfile)->xref1 + x1 * (*mapfile)->tileWidth * (*mapfile)->xscale;
-                double  Np      = (*mapfile)->yref1 + y1 * (*mapfile)->tileHeight * (*mapfile)->yscale;
+                double  Ep = (*mapfile)->xref1 + x1 * (*mapfile)->tileWidth * (*mapfile)->xscale;
+                double  Np = (*mapfile)->yref1 + y1 * (*mapfile)->tileHeight * (*mapfile)->yscale;
 
                 adfGeoTransform[0] = Ep;                                /* top left x */
                 adfGeoTransform[1] = (*mapfile)->xscale;                /* w-e pixel resolution */
