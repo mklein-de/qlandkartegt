@@ -86,6 +86,19 @@ CMapDEM::~CMapDEM()
 
 float CMapDEM::getElevation(float& lon, float& lat)
 {
+    qint16 ele;
+    double u = lon;
+    double v = lat;
 
-    return 0;
+    pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
+
+    int xoff = (u - xref1) / xscale;
+    int yoff = (v - yref1) / yscale;
+
+    CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 1, 1, &ele, 1, 1, GDT_Int16, 1, 0, 0, 0, 0);
+    if(err == CE_Failure){
+        return WPT_NOFLOAT;
+    }
+
+    return (float)ele;
 }
