@@ -25,6 +25,10 @@
 
 class GDALDataset;
 
+/// data object for digital elevation models
+/**
+    The data is assumed to be 16bit per point.
+*/
 class CMapDEM : public QObject
 {
     Q_OBJECT
@@ -32,6 +36,11 @@ class CMapDEM : public QObject
         CMapDEM(const QString& filename, QObject * parent);
         virtual ~CMapDEM();
 
+        /// read elevation from file
+        /**
+            @param lon the longitude in [rad]
+            @param lat the latitude in [rad]
+        */
         float getElevation(float& lon, float& lat);
 
     private:
@@ -44,8 +53,10 @@ class CMapDEM : public QObject
         quint32 ysize_px;
         /// configuration string for projection
         QString strProj;
-        /// projection context
-        PJ * pj;
+        /// projection context of DEM data
+        PJ * pjsrc;
+        /// projection context for WGS84
+        PJ * pjtar;
 
         /// scale [px/m]
         double xscale;

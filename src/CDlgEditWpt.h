@@ -27,6 +27,7 @@
 
 class CWpt;
 
+/// dialog to edit waypoint properties
 class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
 {
     Q_OBJECT

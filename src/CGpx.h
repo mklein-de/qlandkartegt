@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QtXml/QDomDocument>
 
+/// handle geo data from GPX files
 class CGpx : public QObject, public QDomDocument
 {
     Q_OBJECT

@@ -33,6 +33,7 @@ class CMouseAddWpt;
 class CWpt;
 class QLabel;
 
+/// the map canvas area
 class CCanvas : public QWidget
 {
     Q_OBJECT
@@ -57,8 +58,10 @@ class CCanvas : public QWidget
             //, eMouseDelRte      ///< use mouse to delete route points
         };
 
+        /// load a map collection from it's definition file
         void loadMapSet(const QString& filename);
 
+        /// zoom in/out with a given point as static
         void zoom(bool in, const QPoint& p);
 
         /// scroll map into given direction

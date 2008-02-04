@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
-
+#include <projects.h>
 
 CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     : QObject(parent)
@@ -31,7 +31,8 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     , dataset(0)
     , xsize_px(0)
     , ysize_px(0)
-    , pj(0)
+    , pjsrc(0)
+    , pjtar(0)
     , xscale(0.0)
     , yscale(0.0)
     , xref1(0.0)
@@ -51,7 +52,8 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
 
     qDebug() << strProj;
 
-    pj = pj_init_plus(strProj.toLatin1());
+    pjsrc = pj_init_plus(strProj.toLatin1());
+    pjtar = pj_init_plus("+proj=longlat +datum=WGS84 +no_defs");
 
     xsize_px = dataset->GetRasterXSize();
     ysize_px = dataset->GetRasterYSize();
@@ -72,22 +74,13 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-
-//     int success = 0;
-//     double idx = pBand->GetNoDataValue(&success);
-//
-//     if(success){
-//         QColor tmp(colortable[idx]);
-//         tmp.setAlpha(0);
-//         colortable[idx] = tmp.rgba();
-//     }
-
     pBand->GetBlockSize(&tileWidth,&tileHeight);
 }
 
 CMapDEM::~CMapDEM()
 {
-    if(pj) pj_free(pj);
+    if(pjsrc) pj_free(pjsrc);
+    if(pjtar) pj_free(pjtar);
     if(dataset) delete dataset;
 }
 

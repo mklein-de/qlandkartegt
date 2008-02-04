@@ -22,6 +22,7 @@
 #include <QDialog>
 #include "ui_IDlgConfig.h"
 
+/// dialog to configure global parameters of QLandkarte
 class CDlgConfig : public QDialog, private Ui::IDlgConfig
 {
     Q_OBJECT

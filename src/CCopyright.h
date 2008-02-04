@@ -24,6 +24,7 @@
 
 #include "ui_ICopyright.h"
 
+/// dialog to display copyright information
 class CCopyright : public QDialog, private Ui::ICopyright
 {
     Q_OBJECT

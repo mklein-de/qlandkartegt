@@ -24,6 +24,7 @@
 
 class QToolButton;
 
+/// dialog to select waypoint icon
 class CDlgWptIcon : public QDialog, private Ui::IDlgWptIcon
 {
     Q_OBJECT

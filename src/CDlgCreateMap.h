@@ -25,6 +25,7 @@
 
 class CCreateMapOSM;
 
+/// dialog to hold several map creation dialogs
 class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
 {
     Q_OBJECT

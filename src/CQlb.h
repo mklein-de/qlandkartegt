@@ -49,13 +49,10 @@ class CQlb : public QObject
             This will serialize the waypoint object to wpts
         */
         CQlb& operator <<(CWpt& wpt);
-
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
-
         /// write collected data to file
         void save(const QString& filename);
-
         /// read file and store elements in their designated byte arrays
         void load(const QString& filename);
 

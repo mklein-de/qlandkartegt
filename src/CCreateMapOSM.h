@@ -28,7 +28,16 @@
 class QHttp;
 class QProgressDialog;
 class QSettings;
+
 /// download tiles from OSM and stitch them together
+/**
+    Tile are loaded from tah.openstreetmap.org. The user defines the
+    desired area via geo. coordinates of the top left and bottom right
+    corner. The tiles will be stitched together to one singel GeoTiff
+    file with a unified 8bit palette. Altogether three map files of
+    different resolution are created. To speak in OSM terms these area
+    from the zoom levels 17, 14 and 11.
+*/
 class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 {
     Q_OBJECT
@@ -48,35 +57,43 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 
         QHttp * link;
 
-
+        /// zoomlevel definition
         struct zoomlevel_t
         {
-            zoomlevel_t() : dataset(0), band(0), zoom(-1){}
-            zoomlevel_t(int zoom) : dataset(0), band(0), zoom(zoom){}
+            zoomlevel_t() : dataset(0), band(0){}
             ~zoomlevel_t();
 
+            /// the GeoTiff's dataset
             GDALDataset * dataset;
+            /// the GeoTiff's rasterband
             GDALRasterBand * band;
-            int zoom;
         };
 
+        /// tile definition
         struct tile_t
         {
             tile_t() : zoomlevel(0), zoom(-1), x(-1), y(-1), done(false){};
+            /// pointer to zoomlevel definition the tile is used in
             zoomlevel_t * zoomlevel;
+            /// OSM zoom level
             int zoom;
+            /// GeoTiff x offset
             int x;
+            /// GeoTiff y offset
             int y;
+            /// URL for download
             QUrl url;
+            /// will be true if tile is processed
             bool done;
         };
 
+        /// list of zoomlevel definitions used to create the map
         QVector<zoomlevel_t> zoomlevels;
-
+        /// list of tile definitions to download
         QVector<tile_t> tiles;
-
+        /// complete number of tiles to download
         int maxTiles;
-
+        /// show progress of all download transactions
         QPointer<QProgressDialog> progress;
 
 };

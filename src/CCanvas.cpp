@@ -47,9 +47,9 @@ CCanvas::CCanvas(QWidget * parent)
     map = new CMapNoMap(this);
 
 
-    mouseMoveMap = new CMouseMoveMap(this);
-    mouseSelMap = new CMouseSelMap(this);
-    mouseAddWpt = new CMouseAddWpt(this);
+    mouseMoveMap    = new CMouseMoveMap(this);
+    mouseSelMap     = new CMouseSelMap(this);
+    mouseAddWpt     = new CMouseAddWpt(this);
     setMouseMode(eMouseMoveArea);
 }
 
