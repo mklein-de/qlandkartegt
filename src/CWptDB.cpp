@@ -47,11 +47,12 @@ CWptDB::~CWptDB()
 
 }
 
-void CWptDB::newWpt(double lon, double lat)
+void CWptDB::newWpt(float lon, float lat, float ele)
 {
     CWpt * wpt = new CWpt(this);
-    wpt->lon = lon;
-    wpt->lat = lat;
+    wpt->lon = lon * RAD_TO_DEG;
+    wpt->lat = lat * RAD_TO_DEG;
+    wpt->ele = ele;
 
     QSettings cfg;
     wpt->icon = cfg.value("waypoint/lastSymbol","Star").toString();

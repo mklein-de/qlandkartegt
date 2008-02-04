@@ -42,7 +42,12 @@ class CWptDB : public IDB
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
 
         /// create a new waypoint
-        void newWpt(double lon, double lat);
+        /**
+            @param lon longitude in [rad]
+            @param lat latitude in [rad]
+            @param ele elevation in [m]
+        */
+        void newWpt(float lon, float lat, float ele);
 
         CWpt * getWptByKey(const QString& key);
 

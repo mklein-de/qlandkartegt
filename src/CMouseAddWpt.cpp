@@ -45,7 +45,8 @@ void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
     double u = e->pos().x();
     double v = e->pos().y();
     canvas->map->convertPt2Rad(u,v);
-    CWptDB::self().newWpt(u*RAD_TO_DEG, v*RAD_TO_DEG);
+    float ele = canvas->map->getElevation(u,v);
+    CWptDB::self().newWpt(u, v, ele);
 
 }
 
