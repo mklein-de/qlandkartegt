@@ -75,6 +75,25 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
     pBand->GetBlockSize(&tileWidth,&tileHeight);
+
+
+    qint16 dem[256 * 256];
+    pBand->RasterIO(GF_Read,0,0,256,256,dem,256,256,GDT_CInt16,0,0);
+    QImage img(256,256,QImage::Format_Indexed8);
+
+    int i;
+    QVector<QRgb> color;
+    for(i = 0; i < 256; ++i){
+        color << qRgba(i,i,i,20);
+    }
+    img.setColorTable(color);
+
+    uchar * p = img.bits();
+    for(i = 0; i < (256*256); i++){
+        *p++ = (dem[1] >> 8);
+    }
+
+    img.save("dem.png");
 }
 
 CMapDEM::~CMapDEM()
