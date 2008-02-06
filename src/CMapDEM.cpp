@@ -137,16 +137,16 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
     double yoff1_f = (_p1.v - yref1) / yscale;
 
     // 3. truncate floating point offset into integer offset
-    int xoff1 = xoff1_f; qDebug() << "xoff1:" << xoff1 << xoff1_f;
-    int yoff1 = yoff1_f; qDebug() << "yoff1:" << yoff1 << yoff1_f;
+    int xoff1 = xoff1_f; //qDebug() << "xoff1:" << xoff1 << xoff1_f;
+    int yoff1 = yoff1_f; //qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
     // 4. get floating point offset of bottom right corner
     double xoff2_f = (_p2.u - xref1) / xscale;
     double yoff2_f = (_p2.v - yref1) / yscale;
 
     // 5. round up (!) floating point offset into integer offset
-    int xoff2 = ceil(xoff2_f); qDebug() << "xoff2:" << xoff2 << xoff2_f;
-    int yoff2 = ceil(yoff2_f); qDebug() << "yoff2:" << yoff2 << yoff2_f;
+    int xoff2 = ceil(xoff2_f); //qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    int yoff2 = ceil(yoff2_f); //qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
     /*
         The defined area into DEM data (xoff1,yoff1,xoff2,yoff2) covers a larger or equal
@@ -161,17 +161,17 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
         This will be of advantag as QImage will process 32bit alligned bitmaps much faster.
     */
     int w1 = xoff2 - xoff1; while((w1 & 0x03) != 0) ++w1;
-    int h1 = yoff2 - yoff1; qDebug() << "w1:" << w1 << "h1:" << h1;
+    int h1 = yoff2 - yoff1; //qDebug() << "w1:" << w1 << "h1:" << h1;
 
     // bail out if this is getting too big
     if(w1 > 5000 || h1 > 5000) return;
 
     // now calculate the actual width and height of the viewport
     int w2 = w1 * xscale / my_xscale;
-    int h2 = h1 * yscale / my_yscale; qDebug() << "w2:" << w2 << "h2:" << h2;
+    int h2 = h1 * yscale / my_yscale; //qDebug() << "w2:" << w2 << "h2:" << h2;
 
     int pxx = (xoff1_f - xoff1) * xscale / my_xscale;
-    int pxy = (yoff1_f - yoff1) * yscale / my_yscale; qDebug() << "pxx:" << pxx << "pxy:" << pxy;
+    int pxy = (yoff1_f - yoff1) * yscale / my_yscale; //qDebug() << "pxx:" << pxx << "pxy:" << pxy;
 
     // read 16bit elevation data from GeoTiff
     qint16 * data = new qint16[w1 * h1];
@@ -213,6 +213,6 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
 
 
     p.drawPixmap(-pxx, -pxy, QPixmap::fromImage(img));
-    qDebug() << "--------------------------";
+//     qDebug() << "--------------------------";
 }
 
