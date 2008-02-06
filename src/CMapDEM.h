@@ -47,7 +47,7 @@ class CMapDEM : public QObject
         */
         float getElevation(float& lon, float& lat);
 
-        void draw(QPainter& p, const XY& p1, const XY& p2, const QSize& size);
+        void draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale);
 
     private:
         QString filename;

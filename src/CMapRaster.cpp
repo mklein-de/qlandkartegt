@@ -441,8 +441,8 @@ void CMapRaster::draw(QPainter& p)
     if(!foundMap){
         IMap::draw(p);
     }
-    if(pDEM){
-        pDEM->draw(p, topLeft, bottomRight, size);
+    else if(pDEM){
+        pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor);
     }
 }
 

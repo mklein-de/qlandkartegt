@@ -114,58 +114,62 @@ float CMapDEM::getElevation(float& lon, float& lat)
 }
 
 
-void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const QSize& size)
+void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale)
 {
     int i;
 //     qDebug() << (p1.u * RAD_TO_DEG) << (p1.v * RAD_TO_DEG);
 //     qDebug() << (p2.u * RAD_TO_DEG) << (p2.v * RAD_TO_DEG);
 //     qDebug() << size;
 
+    /*
+        Calculate are into DEM data to be read.
+    */
+
     XY _p1 = p1;
     XY _p2 = p2;
 
+    // 1. convert top left and bottom right point into the projection system used by the DEM data
     pj_transform(pjtar, pjsrc, 1, 0, &_p1.u, &_p1.v, 0);
     pj_transform(pjtar, pjsrc, 1, 0, &_p2.u, &_p2.v, 0);
 
-//     qDebug() << _p1.u << _p1.v << _p2.u << _p2.v;
+    // 2. get floating point offset of topleft corner
+    double xoff1_f = (_p1.u - xref1) / xscale;
+    double yoff1_f = (_p1.v - yref1) / yscale;
 
-    double fx = (_p2.u - _p1.u) / size.width();
-    double fy = (_p1.v - _p2.v) / size.height();
+    // 3. truncate floating point offset into integer offset
+    int xoff1 = xoff1_f; qDebug() << "xoff1:" << xoff1 << xoff1_f;
+    int yoff1 = yoff1_f; qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
-//     qDebug() << fx << fy;
+    // 4. get floating point offset of bottom right corner
+    double xoff2_f = (_p2.u - xref1) / xscale;
+    double yoff2_f = (_p2.v - yref1) / yscale;
 
-    double f_xoff = (_p1.u - xref1) / xscale;
-    double f_yoff = (_p1.v - yref1) / yscale;
+    // 5. round up (!) floating point offset into integer offset
+    int xoff2 = ceil(xoff2_f); qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    int yoff2 = ceil(yoff2_f); qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
-    int xoff = f_xoff;
-    int yoff = f_yoff;
+    /*
+        The defined area into DEM data (xoff1,yoff1,xoff2,yoff2) covers a larger or equal
+        area in world coordinates [m] than the current viewport.
 
-    f_xoff -= xoff;
-    f_yoff -= yoff;
+        Next the width and height of the area in the DEM data and the corresponding sceen
+        size is calculated.
+    */
 
-//     qDebug() << "1:" << fx  << fy;
-//     qDebug() << "2:" << (int)(f_xoff * xscale / fx)  << (int)(f_yoff * yscale / fy);
+    // calculate the width and the height of the are.
+    //
+    int w1 = xoff2 - xoff1; while((w1 & 0x03) != 0) ++w1;
+    int h1 = yoff2 - yoff1; qDebug() << "w1:" << w1 << "h1:" << h1;
 
-    int w1 =  (_p2.u - _p1.u) / xscale;
-    int h1 =  (_p2.v - _p1.v) / yscale;
+    if(w1 > 10000 || h1 > 10000) return;
 
-    if(w1 > 1000 || h1 > 1000) return;
-
-    int w2 = size.width() & 0xFFFFFFFC;
-    int h2 = size.height();
-
-//     qDebug() << ((double)w2/w1) << ((double)h2/h1);
+    int w2 = w1 * xscale / my_xscale;
+    int h2 = h1 * yscale / my_yscale; qDebug() << "w2:" << w2 << "h2:" << h2;
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-
-    QImage img(w2,h2,QImage::Format_Indexed8);
-    img.setColorTable(graytable);
-    img.fill(255);
-
-    qint16 * data = new qint16[w2 * h2];
-//     qDebug() << xoff1 << yoff1 << w1 << h1 << w2 << h2;
-    CPLErr err = pBand->RasterIO(GF_Read, xoff, yoff, w1, h1, data, w2, h2, GDT_Int16, 0, 0);
+    qint16 * data = new qint16[w1 * h1];
+    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data, w1, h1, GDT_Int16, 0, 0);
     if(err == CE_Failure){
         delete [] data;
         return;
@@ -174,23 +178,26 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const QSize& size)
     int min = 32768;
     int max = -32768;
 
-    for(i = 0; i < ((w2 * h2) - 1); i++){
+    for(i = 0; i < (w1 * h1); i++){
         int ele = data[i];
         if(ele < 0) continue;
         if(ele < min) min = ele;
         if(ele > max) max = ele;
     }
 
-
+    QImage img(w1,h1,QImage::Format_Indexed8);
+    img.setColorTable(graytable);
     uchar * pixel = img.bits();
-    for(i = 0; i < ((w2 * h2) - 1); i++){
+    for(i = 0; i < ((w1 * h1) - 1); i++){
         *pixel = ((data[i] - min) * 200 / (max -min));
         ++pixel;
     }
 
-    p.drawPixmap(-((f_xoff * xscale + xscale )/ fx), ((f_yoff * yscale + yscale) / fy), QPixmap::fromImage(img));
+    img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
-//     img.save("xxx.png");
+    p.drawPixmap(0, 0, QPixmap::fromImage(img));
 
     delete [] data;
+    qDebug() << "--------------------------";
 }
+
