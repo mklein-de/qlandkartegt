@@ -79,6 +79,8 @@ class CMapRaster : virtual public IMap
 
         /// top left corner as long / lat [rad]
         XY topLeft;
+        /// top bottom right as long / lat [rad]
+        XY bottomRight;
 
         CExportMapThread * thExportMap;
 

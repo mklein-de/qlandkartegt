@@ -21,9 +21,13 @@
 #define CMAPDEM_H
 
 #include <QObject>
+#include <QVector>
+#include <QRgb>
 #include <projects.h>
 
 class GDALDataset;
+class QPainter;
+class QSize;
 
 /// data object for digital elevation models
 /**
@@ -42,6 +46,8 @@ class CMapDEM : public QObject
             @param lat the latitude in [rad]
         */
         float getElevation(float& lon, float& lat);
+
+        void draw(QPainter& p, const XY& p1, const XY& p2, const QSize& size);
 
     private:
         QString filename;
@@ -75,6 +81,8 @@ class CMapDEM : public QObject
         qint32 tileWidth;
         /// height of GeoTiff tiles / blocks
         qint32 tileHeight;
+
+        QVector<QRgb> graytable;
 
 };
 

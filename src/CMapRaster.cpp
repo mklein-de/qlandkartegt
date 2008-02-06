@@ -383,6 +383,10 @@ void CMapRaster::draw(QPainter& p)
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
+    bottomRight.u = pt.u + size.width() * map->xscale * zoomFactor;
+    bottomRight.v = pt.v + size.height() * map->yscale * zoomFactor;
+    pj_transform(pjsrc,pjtar,1,0,&bottomRight.u,&bottomRight.v,0);
+
     // the viewport rectangel in [m]
     QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
 
@@ -436,6 +440,9 @@ void CMapRaster::draw(QPainter& p)
 
     if(!foundMap){
         IMap::draw(p);
+    }
+    if(pDEM){
+        pDEM->draw(p, topLeft, bottomRight, size);
     }
 }
 

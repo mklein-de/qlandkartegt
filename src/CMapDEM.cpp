@@ -25,6 +25,10 @@
 #include <ogr_spatialref.h>
 #include <projects.h>
 
+#define M 25
+
+// qint16 dem[256 * 256 * M * M];
+
 CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     : QObject(parent)
     , filename(filename)
@@ -76,24 +80,11 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     pBand = dataset->GetRasterBand(1);
     pBand->GetBlockSize(&tileWidth,&tileHeight);
 
-
-    qint16 dem[256 * 256];
-    pBand->RasterIO(GF_Read,0,0,256,256,dem,256,256,GDT_CInt16,0,0);
-    QImage img(256,256,QImage::Format_Indexed8);
-
     int i;
-    QVector<QRgb> color;
     for(i = 0; i < 256; ++i){
-        color << qRgba(i,i,i,20);
+//         graytable << qRgba(0,0,0, 255 - i);
+        graytable << qRgba(0,0,0,i);
     }
-    img.setColorTable(color);
-
-    uchar * p = img.bits();
-    for(i = 0; i < (256*256); i++){
-        *p++ = (dem[1] >> 8);
-    }
-
-    img.save("dem.png");
 }
 
 CMapDEM::~CMapDEM()
@@ -111,9 +102,6 @@ float CMapDEM::getElevation(float& lon, float& lat)
 
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
-//     u *= RAD_TO_DEG;
-//     v *= RAD_TO_DEG;
-
     int xoff = (u - xref1) / xscale;
     int yoff = (v - yref1) / yscale;
 
@@ -123,4 +111,86 @@ float CMapDEM::getElevation(float& lon, float& lat)
     }
 
     return (float)ele;
+}
+
+
+void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const QSize& size)
+{
+    int i;
+//     qDebug() << (p1.u * RAD_TO_DEG) << (p1.v * RAD_TO_DEG);
+//     qDebug() << (p2.u * RAD_TO_DEG) << (p2.v * RAD_TO_DEG);
+//     qDebug() << size;
+
+    XY _p1 = p1;
+    XY _p2 = p2;
+
+    pj_transform(pjtar, pjsrc, 1, 0, &_p1.u, &_p1.v, 0);
+    pj_transform(pjtar, pjsrc, 1, 0, &_p2.u, &_p2.v, 0);
+
+//     qDebug() << _p1.u << _p1.v << _p2.u << _p2.v;
+
+    double fx = (_p2.u - _p1.u) / size.width();
+    double fy = (_p1.v - _p2.v) / size.height();
+
+//     qDebug() << fx << fy;
+
+    double f_xoff = (_p1.u - xref1) / xscale;
+    double f_yoff = (_p1.v - yref1) / yscale;
+
+    int xoff = f_xoff;
+    int yoff = f_yoff;
+
+    f_xoff -= xoff;
+    f_yoff -= yoff;
+
+//     qDebug() << "1:" << fx  << fy;
+//     qDebug() << "2:" << (int)(f_xoff * xscale / fx)  << (int)(f_yoff * yscale / fy);
+
+    int w1 =  (_p2.u - _p1.u) / xscale;
+    int h1 =  (_p2.v - _p1.v) / yscale;
+
+    if(w1 > 1000 || h1 > 1000) return;
+
+    int w2 = size.width() & 0xFFFFFFFC;
+    int h2 = size.height();
+
+//     qDebug() << ((double)w2/w1) << ((double)h2/h1);
+
+    GDALRasterBand * pBand;
+    pBand = dataset->GetRasterBand(1);
+
+    QImage img(w2,h2,QImage::Format_Indexed8);
+    img.setColorTable(graytable);
+    img.fill(255);
+
+    qint16 * data = new qint16[w2 * h2];
+//     qDebug() << xoff1 << yoff1 << w1 << h1 << w2 << h2;
+    CPLErr err = pBand->RasterIO(GF_Read, xoff, yoff, w1, h1, data, w2, h2, GDT_Int16, 0, 0);
+    if(err == CE_Failure){
+        delete [] data;
+        return;
+    }
+
+    int min = 32768;
+    int max = -32768;
+
+    for(i = 0; i < ((w2 * h2) - 1); i++){
+        int ele = data[i];
+        if(ele < 0) continue;
+        if(ele < min) min = ele;
+        if(ele > max) max = ele;
+    }
+
+
+    uchar * pixel = img.bits();
+    for(i = 0; i < ((w2 * h2) - 1); i++){
+        *pixel = ((data[i] - min) * 200 / (max -min));
+        ++pixel;
+    }
+
+    p.drawPixmap(-((f_xoff * xscale + xscale )/ fx), ((f_yoff * yscale + yscale) / fy), QPixmap::fromImage(img));
+
+//     img.save("xxx.png");
+
+    delete [] data;
 }
