@@ -122,7 +122,7 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
 //     qDebug() << size;
 
     /*
-        Calculate are into DEM data to be read.
+        Calculate area of DEM data to be read.
     */
 
     XY _p1 = p1;
@@ -156,25 +156,35 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
         size is calculated.
     */
 
-    // calculate the width and the height of the are.
-    //
+    /*
+        Calculate the width and the height of the area. Extend width until it's a multiple of 4.
+        This will be of advantag as QImage will process 32bit alligned bitmaps much faster.
+    */
     int w1 = xoff2 - xoff1; while((w1 & 0x03) != 0) ++w1;
     int h1 = yoff2 - yoff1; qDebug() << "w1:" << w1 << "h1:" << h1;
 
-    if(w1 > 10000 || h1 > 10000) return;
+    // bail out if this is getting too big
+    if(w1 > 5000 || h1 > 5000) return;
 
+    // now calculate the actual width and height of the viewport
     int w2 = w1 * xscale / my_xscale;
     int h2 = h1 * yscale / my_yscale; qDebug() << "w2:" << w2 << "h2:" << h2;
 
+    int pxx = (xoff1_f - xoff1) * xscale / my_xscale;
+    int pxy = (yoff1_f - yoff1) * yscale / my_yscale; qDebug() << "pxx:" << pxx << "pxy:" << pxy;
+
+    // read 16bit elevation data from GeoTiff
+    qint16 * data = new qint16[w1 * h1];
+
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    qint16 * data = new qint16[w1 * h1];
     CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data, w1, h1, GDT_Int16, 0, 0);
     if(err == CE_Failure){
         delete [] data;
         return;
     }
 
+    // find minimum and maximum elevation within area
     int min = 32768;
     int max = -32768;
 
@@ -185,19 +195,24 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
         if(ele > max) max = ele;
     }
 
+    /* Convert 16bit elevation data into 8 bit indices into a gray scale table.
+       The dynamic will be 200 gray scales between min and max.
+    */
     QImage img(w1,h1,QImage::Format_Indexed8);
     img.setColorTable(graytable);
     uchar * pixel = img.bits();
     for(i = 0; i < ((w1 * h1) - 1); i++){
         *pixel = ((data[i] - min) * 200 / (max -min));
+//         *pixel = ((data[i] - min) * 255 / (max -min));
         ++pixel;
     }
+    delete [] data;
 
+    // Finally scale the image to viewport size. QT will do the smoothing
     img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
-    p.drawPixmap(0, 0, QPixmap::fromImage(img));
 
-    delete [] data;
+    p.drawPixmap(-pxx, -pxy, QPixmap::fromImage(img));
     qDebug() << "--------------------------";
 }
 

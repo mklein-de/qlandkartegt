@@ -33,6 +33,8 @@
 #include "GeoMath.h"
 #include "WptIcons.h"
 
+#include "CStatusCanvas.h"
+
 #include <QtGui>
 
 
@@ -40,6 +42,7 @@ CCanvas::CCanvas(QWidget * parent)
     : QWidget(parent)
     , mouse(0)
     , info(0)
+    , showShading(true)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -51,11 +54,18 @@ CCanvas::CCanvas(QWidget * parent)
     mouseSelMap     = new CMouseSelMap(this);
     mouseAddWpt     = new CMouseAddWpt(this);
     setMouseMode(eMouseMoveArea);
+
+    QSettings cfg;
+    showShading = cfg.value("canvas/showShading",showShading).toBool();
+
+    statusCanvas = new CStatusCanvas(this);
+    theMainWindow->statusBar()->addPermanentWidget(statusCanvas);
 }
 
 CCanvas::~CCanvas()
 {
-
+    QSettings cfg;
+    cfg.setValue("canvas/showShading",showShading);
 }
 
 void CCanvas::setMouseMode(mouse_mode_e mode)
@@ -147,7 +157,12 @@ void CCanvas::leaveEvent(QEvent * )
 
 void CCanvas::draw(QPainter& p)
 {
-    if(map) map->draw(p);
+    if(map){
+        map->draw(p);
+        if(showShading){
+            map->drawShading(p);
+        }
+    }
     mouse->draw(p);
     drawSearchResults(p);
     drawWaypoints(p);

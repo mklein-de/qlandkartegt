@@ -12,6 +12,7 @@ set(qlandkarte_SRCS
     CCopyright.cpp
     CMainWindow.cpp
     CCanvas.cpp
+    CStatusCanvas.cpp
     IMouse.cpp
     CMouseMoveMap.cpp
     CMouseSelMap.cpp
@@ -47,6 +48,7 @@ set(qlandkarte_HDRS
     CCopyright.h
     CMainWindow.h
     CCanvas.h
+    CStatusCanvas.h
     IMouse.h
     CMouseMoveMap.h
     CMouseSelMap.h
@@ -84,6 +86,7 @@ SET(qlandkarte_UIS
     IDlgWptIcon.ui
     IDlgCreateMap.ui
     ICreateMapOSM.ui
+    IStatusCanvas.ui
 )
 
 SET(qlandkarte_RCS

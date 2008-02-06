@@ -441,7 +441,12 @@ void CMapRaster::draw(QPainter& p)
     if(!foundMap){
         IMap::draw(p);
     }
-    else if(pDEM){
+}
+
+void CMapRaster::drawShading(QPainter& p)
+{
+    if(pDEM){
+        const CMapFile * map = *(pMaplevel->begin());
         pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor);
     }
 }

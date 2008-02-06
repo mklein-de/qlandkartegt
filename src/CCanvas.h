@@ -32,6 +32,7 @@ class CMouseSelMap;
 class CMouseAddWpt;
 class CWpt;
 class QLabel;
+class CStatusCanvas;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -98,6 +99,7 @@ class CCanvas : public QWidget
         friend class CMouseMoveMap;
         friend class CMouseSelMap;
         friend class CMouseAddWpt;
+        friend class CStatusCanvas;
 
         void mouseMoveEventCoord(QMouseEvent * e);
         void mouseMoveEventWpt(QMouseEvent * e);
@@ -118,6 +120,10 @@ class CCanvas : public QWidget
         QPointer<CWpt> selWpt;
 
         QLabel * info;
+
+        CStatusCanvas * statusCanvas;
+
+        bool showShading;
 };
 
 #endif //CCANVAS_H

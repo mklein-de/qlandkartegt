@@ -45,9 +45,6 @@ CMainWindow::CMainWindow()
 
     resources = new CResources(this);
 
-    statusCoord = new QLabel(this);
-    statusBar()->addPermanentWidget(statusCoord);
-
     setupMenuBar();
 
     // setup splitter views
@@ -70,6 +67,10 @@ CMainWindow::CMainWindow()
 
     toolbox = new QToolBox(canvas);
     leftSplitter->addWidget(toolbox);
+
+    statusCoord = new QLabel(this);
+    statusBar()->addPermanentWidget(statusCoord);
+
 
     showMaximized();
 
@@ -108,8 +109,6 @@ CMainWindow::CMainWindow()
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
-
-
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }
 

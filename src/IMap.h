@@ -44,6 +44,8 @@ class IMap : public QObject
         virtual void resize(const QSize& size);
         /// draw map
         virtual void draw(QPainter& p);
+        /// draw shading from elevation model
+        virtual void drawShading(QPainter&){}
         /// convert a point on the screen [px] to world coordinates [m]
         /**
             The conversion will be done in place.
