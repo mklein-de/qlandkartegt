@@ -275,6 +275,6 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     img.setColorTable(graytable1);
     uchar * pixel = img.bits();
     for(i = 0; i < (w1 * h1); ++i){
-        *pixel++ = 128 + data[i] * 128 / f;
+        *pixel++ = 128 + data[i] * 127 / f;
     }
 }
