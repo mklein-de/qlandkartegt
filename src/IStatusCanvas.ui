@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>114</width>
-    <height>24</height>
+    <width>219</width>
+    <height>25</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -26,12 +26,26 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QCheckBox" name="checkShading" >
-     <property name="toolTip" >
-      <string>Enable / disable map shading. There has to be digital elevation data in the current map collection, to see shading.</string>
+    <widget class="QRadioButton" name="radioNone" >
+     <property name="text" >
+      <string>none</string>
      </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="radioShading" >
      <property name="text" >
       <string>shading</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="radioContour" >
+     <property name="text" >
+      <string>contour</string>
      </property>
     </widget>
    </item>

@@ -29,11 +29,13 @@ IMap::IMap(QObject * parent)
     , zoomidx(1)
     , pjsrc(0)
     , pjtar(0)
+    , overlay(eNone)
 {
     pjtar   = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
+    overlay = (overlay_e)cfg.value("map/overlay",overlay).toInt();
 
 }
 
@@ -44,7 +46,7 @@ IMap::~IMap()
 
     QSettings cfg;
     cfg.setValue("map/zoom",zoomidx);
-
+    cfg.setValue("map/overlay",overlay);
 }
 
 void IMap::resize(const QSize& s)

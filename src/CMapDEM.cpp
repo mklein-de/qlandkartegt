@@ -82,9 +82,17 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
 
     int i;
     for(i = 0; i < 256; ++i){
-//         graytable << qRgba(0,0,0, 255 - i);
-        graytable << qRgba(0,0,0,i);
+        graytable2 << qRgba(0,0,0,i);
     }
+
+
+    for(i = 0; i < 128; ++i){
+        graytable1 << qRgba(0,0,0,(128 - i) << 1);
+    }
+    for(i = 128; i < 255; ++i){
+        graytable1 << qRgba(255,255,255,(i - 128) << 1);
+    }
+
 }
 
 CMapDEM::~CMapDEM()
@@ -114,12 +122,14 @@ float CMapDEM::getElevation(float& lon, float& lat)
 }
 
 
-void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale)
+void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale, IMap::overlay_e overlay)
 {
-    int i;
 //     qDebug() << (p1.u * RAD_TO_DEG) << (p1.v * RAD_TO_DEG);
 //     qDebug() << (p2.u * RAD_TO_DEG) << (p2.v * RAD_TO_DEG);
 //     qDebug() << size;
+
+
+    if(overlay == IMap::eNone) return;
 
     /*
         Calculate area of DEM data to be read.
@@ -164,12 +174,14 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
     int h1 = yoff2 - yoff1; //qDebug() << "w1:" << w1 << "h1:" << h1;
 
     // bail out if this is getting too big
-    if(w1 > 5000 || h1 > 5000) return;
+    if(w1 > 10000 || h1 > 10000) return;
 
     // now calculate the actual width and height of the viewport
     int w2 = w1 * xscale / my_xscale;
     int h2 = h1 * yscale / my_yscale; //qDebug() << "w2:" << w2 << "h2:" << h2;
 
+    // as the first point off the DEM data will not match exactly the given top left corner
+    // the bitmap has to be drawn with an offset.
     int pxx = (xoff1_f - xoff1) * xscale / my_xscale;
     int pxy = (yoff1_f - yoff1) * yscale / my_yscale; //qDebug() << "pxx:" << pxx << "pxy:" << pxy;
 
@@ -184,12 +196,40 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
         return;
     }
 
+    QImage img(w1,h1,QImage::Format_Indexed8);
+
+    if(overlay == IMap::eShading){
+        shading(img,data);
+    }
+    else if(overlay == IMap::eContour){
+        contour(img,data);
+    }
+    else{
+        qWarning() << "Unknown shading type";
+        delete [] data;
+        return;
+    }
+
+    delete [] data;
+
+    // Finally scale the image to viewport size. QT will do the smoothing
+    img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    p.drawPixmap(-pxx, -pxy, QPixmap::fromImage(img));
+//     qDebug() << "--------------------------";
+}
+
+void CMapDEM::shading(QImage& img, qint16 * data)
+{
+    int i;
+    int w1 = img.width();
+    int h1 = img.height();
     // find minimum and maximum elevation within area
     int min = 32768;
     int max = -32768;
+    int ele;
 
     for(i = 0; i < (w1 * h1); i++){
-        int ele = data[i];
+        ele = data[i];
         if(ele < 0) continue;
         if(ele < min) min = ele;
         if(ele > max) max = ele;
@@ -198,21 +238,43 @@ void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscal
     /* Convert 16bit elevation data into 8 bit indices into a gray scale table.
        The dynamic will be 200 gray scales between min and max.
     */
-    QImage img(w1,h1,QImage::Format_Indexed8);
-    img.setColorTable(graytable);
     uchar * pixel = img.bits();
+    img.setColorTable(graytable2);
     for(i = 0; i < ((w1 * h1) - 1); i++){
         *pixel = ((data[i] - min) * 200 / (max -min));
-//         *pixel = ((data[i] - min) * 255 / (max -min));
         ++pixel;
     }
-    delete [] data;
-
-    // Finally scale the image to viewport size. QT will do the smoothing
-    img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-
-
-    p.drawPixmap(-pxx, -pxy, QPixmap::fromImage(img));
-//     qDebug() << "--------------------------";
 }
 
+void CMapDEM::contour(QImage& img, qint16 * data)
+{
+    int w1 = img.width();
+    int h1 = img.height();
+
+    int r,c,i;
+    int diff = 0;
+    int idx  = 0;
+    int min  =  32768;
+    int max  = -32768;
+    for(r = 0; r < (h1 - 1); ++r){
+        for(c = 0; c < (w1 - 1); ++c){
+            diff  = data[idx +  1] - data[idx];
+            diff += data[idx + w1] - data[idx];
+            data[idx++] = diff;
+            if(diff < min) min = diff;
+            if(diff > max) max = diff;
+        }
+        data[idx++] = 0;
+    }
+    for(c = 0; c < w1; ++c){
+        data[idx++] = 0;
+    }
+
+    int f = abs(min) < abs(max) ? abs(max) : abs(min);
+
+    img.setColorTable(graytable1);
+    uchar * pixel = img.bits();
+    for(i = 0; i < (w1 * h1); ++i){
+        *pixel++ = 128 + data[i] * 128 / f;
+    }
+}

@@ -31,6 +31,8 @@ class CStatusCanvas : public QWidget, private Ui::IStatusCanvas
         CStatusCanvas(CCanvas * parent);
         virtual ~CStatusCanvas();
 
+        void updateShadingType();
+
     private slots:
         void slotShowShading(bool checked);
 

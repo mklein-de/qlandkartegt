@@ -37,6 +37,8 @@ class IMap : public QObject
         IMap(QObject * parent);
         virtual ~IMap();
 
+        enum overlay_e {eNone, eShading, eContour};
+
         /// change visible size of map
         /**
             @param size size of the new viewport (display) area [px]
@@ -44,8 +46,6 @@ class IMap : public QObject
         virtual void resize(const QSize& size);
         /// draw map
         virtual void draw(QPainter& p);
-        /// draw shading from elevation model
-        virtual void drawShading(QPainter&){}
         /// convert a point on the screen [px] to world coordinates [m]
         /**
             The conversion will be done in place.
@@ -114,6 +114,11 @@ class IMap : public QObject
             @return The elevation at the point or WPT_NOFLOAT if no elevation data is loaded.
         */
         virtual float getElevation(float lon, float lat);
+
+        virtual void setOverlay(enum overlay_e type){overlay = type;}
+
+        virtual overlay_e getOverlay(){return overlay;}
+
     protected:
         /// canvas / viewport rectangle [px]
         QRect rect;
@@ -133,6 +138,8 @@ class IMap : public QObject
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
         PJ * pjtar;
+
+        overlay_e overlay;
 };
 
 #endif //IMAP_H

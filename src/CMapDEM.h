@@ -25,12 +25,16 @@
 #include <QRgb>
 #include <projects.h>
 
+#include "IMap.h"
+
 class GDALDataset;
 class QPainter;
 class QSize;
+class QImage;
 
 /// data object for digital elevation models
 /**
+    Get the elevation for a given point or apply elevation shading to the canvas.
     The data is assumed to be 16bit per point.
 */
 class CMapDEM : public QObject
@@ -47,9 +51,12 @@ class CMapDEM : public QObject
         */
         float getElevation(float& lon, float& lat);
 
-        void draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale);
+        void draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale, IMap::overlay_e overlay);
 
     private:
+        void shading(QImage& img, qint16 * data);
+        void contour(QImage& img, qint16 * data);
+
         QString filename;
         /// instance of GDAL dataset
         GDALDataset * dataset;
@@ -82,7 +89,8 @@ class CMapDEM : public QObject
         /// height of GeoTiff tiles / blocks
         qint32 tileHeight;
 
-        QVector<QRgb> graytable;
+        QVector<QRgb> graytable1;
+        QVector<QRgb> graytable2;
 
 };
 

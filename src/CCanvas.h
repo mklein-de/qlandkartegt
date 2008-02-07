@@ -122,8 +122,6 @@ class CCanvas : public QWidget
         QLabel * info;
 
         CStatusCanvas * statusCanvas;
-
-        bool showShading;
 };
 
 #endif //CCANVAS_H

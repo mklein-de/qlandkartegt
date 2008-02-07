@@ -52,7 +52,6 @@ class CMapRaster : virtual public IMap
         virtual ~CMapRaster();
 
         void draw(QPainter& p);
-        void drawShading(QPainter&);
         void convertPt2M(double& u, double& v);
         void convertM2Pt(double& u, double& v);
         void move(const QPoint& old, const QPoint& next);

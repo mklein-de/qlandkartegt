@@ -42,7 +42,6 @@ CCanvas::CCanvas(QWidget * parent)
     : QWidget(parent)
     , mouse(0)
     , info(0)
-    , showShading(true)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -55,17 +54,12 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddWpt     = new CMouseAddWpt(this);
     setMouseMode(eMouseMoveArea);
 
-    QSettings cfg;
-    showShading = cfg.value("canvas/showShading",showShading).toBool();
-
     statusCanvas = new CStatusCanvas(this);
     theMainWindow->statusBar()->addPermanentWidget(statusCanvas);
 }
 
 CCanvas::~CCanvas()
 {
-    QSettings cfg;
-    cfg.setValue("canvas/showShading",showShading);
 }
 
 void CCanvas::setMouseMode(mouse_mode_e mode)
@@ -159,9 +153,6 @@ void CCanvas::draw(QPainter& p)
 {
     if(map){
         map->draw(p);
-        if(showShading){
-            map->drawShading(p);
-        }
     }
     mouse->draw(p);
     drawSearchResults(p);
@@ -222,8 +213,8 @@ void CCanvas::loadMapSet(const QString& filename)
 {
     delete map;
     map = new CMapRaster(filename,this);
-    qDebug() << map;
     map->resize(size());
+    statusCanvas->updateShadingType();
 }
 
 void CCanvas::zoom(bool in, const QPoint& p)
@@ -288,7 +279,7 @@ void CCanvas::move(move_direction_e dir)
 
 void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 {
-    QString info = QString("%1 %2, ").arg(e->x()).arg(e->y());
+    QString info; // = QString("%1 %2, ").arg(e->x()).arg(e->y());
 
     double x = e->x();
     double y = e->y();
