@@ -310,7 +310,7 @@ CMapRaster::CMapRaster(const QString& filename, QObject * parent)
         maplevel = new CMapLevel(min,max,this);
 
         // add GeoTiff files to map level
-        QStringList files = mapdef.value("files","").toString().split("|");
+        QStringList files = mapdef.value("files","").toString().split("|", QString::SkipEmptyParts);
         if(files.count()){
             QString file;
             foreach(file,files){

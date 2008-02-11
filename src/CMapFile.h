@@ -37,7 +37,7 @@ class CMapFile : public QObject
 {
     Q_OBJECT
     public:
-        CMapFile(const QString& filename, CMapLevel * parent);
+        CMapFile(const QString& filename, QObject * parent);
         virtual ~CMapFile();
 
         /// source file name
@@ -45,10 +45,12 @@ class CMapFile : public QObject
 
         /// instance of GDAL dataset
         GDALDataset * dataset;
+
         /// width in number of px
         quint32 xsize_px;
         /// height in number of px
         quint32 ysize_px;
+
         /// configuration string for projection
         QString strProj;
         /// projection context
@@ -58,6 +60,7 @@ class CMapFile : public QObject
         double xscale;
         /// scale [px/m]
         double yscale;
+
         /// reference point [m] (left hand side of map)
         double xref1;
         /// reference point [m] (top of map)
@@ -67,12 +70,21 @@ class CMapFile : public QObject
         /// reference point [m] (bottom of map)
         double yref2;
 
+        /// the longitude of the top left reference point [rad]
+        double lon1;
+        /// the latitude of the top left reference point [rad]
+        double lat1;
+        /// the longitude of the bottom right reference point [rad]
+        double lon2;
+        /// the latitude of the bottom right reference point [rad]
+        double lat2;
+
         /// QT representation of the GeoTiff's color table
         QVector<QRgb> colortable;
 
-        /// width of GeoTiff tiles / blocks
+        /// width of GeoTiff tiles / blocks [px]
         qint32 tileWidth;
-        /// height of GeoTiff tiles / blocks
+        /// height of GeoTiff tiles / blocks [px]
         qint32 tileHeight;
 
 };

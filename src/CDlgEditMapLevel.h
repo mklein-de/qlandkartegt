@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,29 +17,31 @@
 
 **********************************************************************************************/
 
-#include "CDlgCreateMap.h"
-#include "CCreateMapOSM.h"
-#include "CCreateMapQMAP.h"
+#ifndef CDLGEDITMAPLEVEL_H
+#define CDLGEDITMAPLEVEL_H
 
-CDlgCreateMap::CDlgCreateMap(QWidget * parent)
-    : QDialog(parent)
+#include <QDialog>
+#include "ui_IDlgEditMapLevel.h"
+
+class QTreeWidgetItem;
+
+class CDlgEditMapLevel : public QDialog, private Ui::IDlgEditMapLevel
 {
-    setupUi(this);
-    comboSource->insertItem(eNone,tr(""));
-    comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
-    comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
+    Q_OBJECT
+    public:
+        CDlgEditMapLevel(QTreeWidgetItem * item, const QString& path, QWidget * parent);
+        virtual ~CDlgEditMapLevel();
 
-    connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
+    public slots:
+        void accept();
 
-    widgetOSM  = new CCreateMapOSM(stackedWidget);
-    widgetQMAP = new CCreateMapQMAP(stackedWidget);
+    private slots:
+        void slotSelectFiles();
 
-    stackedWidget->insertWidget(eOSM, widgetOSM);
-    stackedWidget->insertWidget(eQMAP, widgetQMAP);
-}
+    private:
+        QTreeWidgetItem * item;
+        QString mapPath;
+};
 
-CDlgCreateMap::~CDlgCreateMap()
-{
-
-}
+#endif //CDLGEDITMAPLEVEL_H
 

@@ -89,6 +89,7 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     for(i = 0; i < 128; ++i){
         graytable1 << qRgba(0,0,0,(128 - i) << 1);
     }
+
     for(i = 128; i < 255; ++i){
         graytable1 << qRgba(255,255,255,(i - 128) << 1);
     }

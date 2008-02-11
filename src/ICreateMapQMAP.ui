@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>884</width>
-    <height>703</height>
+    <width>763</width>
+    <height>586</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -27,12 +27,15 @@
        <item>
         <widget class="QLabel" name="labelCurrentMap" >
          <property name="text" >
-          <string>TextLabel</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolOpen" >
+         <property name="toolTip" >
+          <string>Open existing *.qmap definition</string>
+         </property>
          <property name="text" >
           <string>...</string>
          </property>
@@ -40,6 +43,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolNew" >
+         <property name="toolTip" >
+          <string>Create new *.qmap definition.</string>
+         </property>
          <property name="text" >
           <string>...</string>
          </property>
@@ -55,9 +61,37 @@
       </widget>
      </item>
      <item row="1" column="1" >
-      <widget class="QLineEdit" name="lineEdit" />
+      <widget class="QLineEdit" name="lineComment" />
      </item>
      <item row="2" column="0" >
+      <widget class="QLabel" name="label_4" >
+       <property name="text" >
+        <string>DEM</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="labelDEMData" >
+         <property name="text" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolAddDEM" >
+         <property name="toolTip" >
+          <string>Add file for Digital Eleveation Model.</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0" >
       <widget class="QLabel" name="label_3" >
        <property name="text" >
         <string>map levels</string>
@@ -67,10 +101,10 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1" >
+     <item row="3" column="1" >
       <layout class="QHBoxLayout" >
        <item>
-        <widget class="QTreeWidget" name="treeWidget" >
+        <widget class="QTreeWidget" name="treeLevels" >
          <column>
           <property name="text" >
            <string>Level</string>
@@ -96,28 +130,27 @@
        <item>
         <layout class="QVBoxLayout" >
          <item>
-          <widget class="QPushButton" name="pushButton" >
+          <widget class="QPushButton" name="pushAdd" >
            <property name="text" >
             <string>add</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2" >
+          <widget class="QPushButton" name="pushEdit" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
            <property name="text" >
-            <string>up</string>
+            <string>edit</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3" >
-           <property name="text" >
-            <string>down</string>
+          <widget class="QPushButton" name="pushDel" >
+           <property name="enabled" >
+            <bool>false</bool>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_4" >
            <property name="text" >
             <string>del</string>
            </property>
@@ -136,39 +169,70 @@
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="QPushButton" name="pushUp" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>up</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushDown" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>down</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>75</width>
+             <height>271</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
       </layout>
      </item>
-     <item row="3" column="0" >
-      <widget class="QLabel" name="label_4" >
+     <item row="4" column="0" >
+      <widget class="QLabel" name="label_5" >
        <property name="text" >
-        <string>DEM</string>
+        <string>Summary</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
      </item>
-     <item row="3" column="1" >
-      <layout class="QHBoxLayout" >
-       <item>
-        <widget class="QLabel" name="label_5" >
-         <property name="text" >
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="toolButton" >
-         <property name="text" >
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     <item row="4" column="1" >
+      <widget class="QLabel" name="labelSummary" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
+    <widget class="QDialogButtonBox" name="buttonBoxSave" >
      <property name="standardButtons" >
       <set>QDialogButtonBox::Save</set>
      </property>

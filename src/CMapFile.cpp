@@ -25,7 +25,7 @@
 #include <QtCore>
 #include <QColor>
 
-CMapFile::CMapFile(const QString& filename, CMapLevel * parent)
+CMapFile::CMapFile(const QString& filename, QObject  * parent)
     : QObject(parent)
     , filename(filename)
     , dataset(0)
@@ -89,11 +89,24 @@ CMapFile::CMapFile(const QString& filename, CMapLevel * parent)
     }
 
     pBand->GetBlockSize(&tileWidth,&tileHeight);
+
+    PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
+
+    lon1 = xref1;
+    lat1 = yref1;
+    pj_transform(pj,pjWGS84,1,0,&lon1,&lat1,0);
+
+    lon2 = xref2;
+    lat2 = yref2;
+    pj_transform(pj,pjWGS84,1,0,&lon2,&lat2,0);
+
+    pj_free(pjWGS84);
 }
 
 CMapFile::~CMapFile()
 {
     if(pj) pj_free(pj);
     if(dataset) delete dataset;
+
 }
 

@@ -24,6 +24,7 @@
 #include "ui_IDlgCreateMap.h"
 
 class CCreateMapOSM;
+class CCreateMapQMAP;
 
 /// dialog to hold several map creation dialogs
 class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
@@ -35,10 +36,11 @@ class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
 
 
     private:
-        enum widget_e {eNone, eOSM};
+        enum widget_e {eNone, eOSM, eQMAP};
 
 
-        CCreateMapOSM * widgetOSM;
+        CCreateMapOSM  * widgetOSM;
+        CCreateMapQMAP * widgetQMAP;
 };
 
 #endif //CDLGCREATEMAP_H
