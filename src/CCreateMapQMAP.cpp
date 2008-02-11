@@ -59,7 +59,7 @@ CCreateMapQMAP::~CCreateMapQMAP()
 
 void CCreateMapQMAP::slotOpenMap()
 {
-    QString filename = QFileDialog::getSaveFileName(0,tr("Select map definition file..."), mapPath,"QLandkarte map (*.qmap)");
+    QString filename = QFileDialog::getOpenFileName(0,tr("Select map definition file..."), mapPath,"QLandkarte map (*.qmap)");
 
     if(filename.isEmpty()) return;
     mapPath = QFileInfo(filename).path();
