@@ -49,6 +49,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(buttonBoxSave, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotSaveMap()));
+    connect(toolAddDEM, SIGNAL(clicked()), this, SLOT(slotDEM()));
 }
 
 CCreateMapQMAP::~CCreateMapQMAP()
@@ -66,6 +67,9 @@ void CCreateMapQMAP::slotOpenMap()
 
     resetdlg();
     readqmap(filename);
+
+    pushAdd->setEnabled(true);
+    buttonBoxSave->setEnabled(true);
 }
 
 void CCreateMapQMAP::slotNewMap()
@@ -78,6 +82,9 @@ void CCreateMapQMAP::slotNewMap()
     resetdlg();
     mapPath = QFileInfo(filename).path();
     labelCurrentMap->setText(filename);
+
+    pushAdd->setEnabled(true);
+    buttonBoxSave->setEnabled(true);
 }
 
 void CCreateMapQMAP::slotSaveMap()
@@ -362,3 +369,12 @@ void CCreateMapQMAP::slotDown()
 }
 
 
+void CCreateMapQMAP::slotDEM()
+{
+    QString filename = QFileDialog::getOpenFileName(0,tr("Select elevation data file..."), mapPath,"DEM Data (*.tif)");
+
+    if(filename.isEmpty()) return;
+    mapPath = QFileInfo(filename).path();
+
+    labelDEMData->setText(QFileInfo(filename).fileName());
+}

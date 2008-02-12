@@ -42,6 +42,7 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
         void slotDel();
         void slotUp();
         void slotDown();
+        void slotDEM();
 
     private:
         friend class CDlgEditMapLevel;

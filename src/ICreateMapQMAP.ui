@@ -131,6 +131,9 @@
         <layout class="QVBoxLayout" >
          <item>
           <widget class="QPushButton" name="pushAdd" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
            <property name="text" >
             <string>add</string>
            </property>
@@ -233,6 +236,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBoxSave" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
      <property name="standardButtons" >
       <set>QDialogButtonBox::Save</set>
      </property>
