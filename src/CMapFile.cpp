@@ -36,6 +36,7 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     , yscale(0.0)
     , xref1(0.0)
     , yref1(0.0)
+    , ok(false)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0) return;
@@ -52,6 +53,7 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     qDebug() << strProj;
 
     pj = pj_init_plus(strProj.toLatin1());
+    if(pj == 0) return;
 
     xsize_px = dataset->GetRasterXSize();
     ysize_px = dataset->GetRasterYSize();
@@ -72,6 +74,7 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
+    if(pBand == 0) return;
 
     GDALColorTable * pct = pBand->GetColorTable();
     for(int i=0; i < pct->GetColorEntryCount(); ++i){
@@ -101,6 +104,8 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     pj_transform(pj,pjWGS84,1,0,&lon2,&lat2,0);
 
     pj_free(pjWGS84);
+
+    ok = true;
 }
 
 CMapFile::~CMapFile()

@@ -87,6 +87,8 @@ class CMapFile : public QObject
         /// height of GeoTiff tiles / blocks [px]
         qint32 tileHeight;
 
+        bool ok;
+
 };
 
 #endif //CMAPFILE_H

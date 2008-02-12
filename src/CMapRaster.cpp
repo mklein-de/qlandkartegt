@@ -377,7 +377,7 @@ void CMapRaster::draw(QPainter& p)
 
     bool foundMap = false;
 
-    const CMapFile * map = *(pMaplevel->begin());
+    const CMapFile * map = *pMaplevel->begin();
 
     // top left
     XY pt = topLeft;
@@ -443,7 +443,7 @@ void CMapRaster::draw(QPainter& p)
     }
 
     if(pDEM && (overlay != eNone)){
-        const CMapFile * map = *(pMaplevel->begin());
+        const CMapFile * map = *pMaplevel->begin();
         pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor, overlay);
     }
 

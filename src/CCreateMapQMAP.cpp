@@ -118,8 +118,13 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
     double      east    =  180.0 * DEG_TO_RAD;
 
     foreach(file, files){
-        qDebug() << QDir(mapPath).filePath(file).toUtf8();
         CMapFile map(QDir(mapPath).filePath(file).toUtf8(),this);
+        if(!map.ok){
+            QMessageBox::critical(this,tr("Error..."), tr("Failed to load file %1.").arg(file), QMessageBox::Ok, QMessageBox::Ok);
+            delete item;
+            return;
+        }
+
         if(!projection.isEmpty() && projection != map.strProj){
             QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the same projection."), QMessageBox::Ok, QMessageBox::Ok);
             delete item;

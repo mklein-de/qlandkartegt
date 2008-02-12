@@ -46,6 +46,10 @@ CMapLevel::~CMapLevel()
 void CMapLevel::addMapFile(const QString& filename)
 {
     CMapFile * mapfile = new CMapFile(filename,this);
+    if(mapfile && !mapfile->ok){
+        delete mapfile;
+        return;
+    }
     mapfiles << mapfile;
     Q_ASSERT((*mapfiles.begin())->strProj == mapfile->strProj);
     if(pjsrc == 0){
