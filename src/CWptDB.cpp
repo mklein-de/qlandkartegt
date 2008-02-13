@@ -32,7 +32,7 @@
 #include <QtGui>
 
 
-CWptDB * CWptDB::m_self;
+CWptDB * CWptDB::m_self = 0;
 
 CWptDB::CWptDB(QToolBox * tb, QObject * parent)
     : IDB(tb,parent)

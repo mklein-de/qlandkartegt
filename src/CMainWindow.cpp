@@ -23,6 +23,7 @@
 #include "CCanvas.h"
 #include "CCopyright.h"
 #include "CResources.h"
+#include "CMapDB.h"
 #include "CWptDB.h"
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
@@ -99,7 +100,9 @@ CMainWindow::CMainWindow()
     pathData = cfg.value("path/data","./").toString();
 
     searchdb    = new CSearchDB(toolbox, this);
+    mapdb       = new CMapDB(toolbox,this);
     wptdb       = new CWptDB(toolbox, this);
+
 
     mapFile = cfg.value("map/mapFile",mapFile).toString();
 

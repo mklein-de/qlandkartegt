@@ -27,6 +27,7 @@ class QLabel;
 class QToolBox;
 class CCanvas;
 class CMegaMenu;
+class CMapDB;
 class CWptDB;
 class CSearchDB;
 class CResources;
@@ -85,6 +86,8 @@ class CMainWindow : public QMainWindow
         CWptDB * wptdb;
         /// the search database
         CSearchDB * searchdb;
+        /// the map data base
+        CMapDB * mapdb;
 
 
 

@@ -20,6 +20,7 @@
 #include "CMegaMenu.h"
 #include "CCanvas.h"
 #include "CWptDB.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -200,6 +201,10 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         funcSwitchToMain();
         funcMoveArea();
     }
+    else if(key == "Maps" && current != fsMap){
+        funcSwitchToMap();
+        funcMoveArea();
+    }
 
 }
 
@@ -277,7 +282,7 @@ void CMegaMenu::funcSwitchToMap()
     menuTitle->setText(tr("<b>Maps ...</b>"));
     setPixmap(QPixmap(":/icons/backMap128x128"));
     switchState(fsMap);
-//     gpResources->mapdb().gainFocus();
+    CMapDB::self().gainFocus();
     funcMoveArea();
 }
 
