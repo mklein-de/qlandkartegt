@@ -88,6 +88,7 @@ set(qlandkarte_HDRS
 SET(qlandkarte_UIS
     ICopyright.ui
     IWptToolWidget.ui
+    IMapToolWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui

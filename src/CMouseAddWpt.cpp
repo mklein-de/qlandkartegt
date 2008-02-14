@@ -20,6 +20,7 @@
 #include "CCanvas.h"
 #include "CDlgEditWpt.h"
 #include "CWptDB.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -41,11 +42,13 @@ void CMouseAddWpt::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
+    IMap& map = CMapDB::self().getMap();
+
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     double u = e->pos().x();
     double v = e->pos().y();
-    canvas->map->convertPt2Rad(u,v);
-    float ele = canvas->map->getElevation(u,v);
+    map.convertPt2Rad(u,v);
+    float ele = map.getElevation(u,v);
     CWptDB::self().newWpt(u, v, ele);
 
 }

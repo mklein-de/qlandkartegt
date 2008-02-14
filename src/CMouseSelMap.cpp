@@ -19,7 +19,7 @@
 
 #include "CMouseSelMap.h"
 #include "CCanvas.h"
-#include "IMap.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -60,7 +60,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
     if(e->button() == Qt::LeftButton){
         selMap = false;
         resizeRect(e->pos());
-        canvas->map->select(rect.normalized());
+        CMapDB::self().getMap().select(rect.normalized());
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }

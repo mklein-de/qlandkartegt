@@ -19,12 +19,13 @@
 
 #include "IMap.h"
 #include "CWpt.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 #include <math.h>
 
 
-IMap::IMap(QObject * parent)
+IMap::IMap(CCanvas * parent)
     : QObject(parent)
     , zoomidx(1)
     , pjsrc(0)
@@ -37,6 +38,10 @@ IMap::IMap(QObject * parent)
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
     overlay = (overlay_e)cfg.value("map/overlay",overlay).toInt();
 
+    resize(parent->size());
+    connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
+
+    parent->update();
 }
 
 IMap::~IMap()

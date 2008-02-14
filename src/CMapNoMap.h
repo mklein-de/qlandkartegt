@@ -21,6 +21,8 @@
 #define CMAPNOMAP_H
 
 #include "IMap.h"
+
+#include "CCanvas.h"
 /// dummy render object
 /**
     This is used as place holder if no map is loaded
@@ -29,7 +31,7 @@ class CMapNoMap : public IMap
 {
     Q_OBJECT
     public:
-        CMapNoMap(QObject * parent) : IMap(parent){};
+        CMapNoMap(CCanvas * parent) : IMap(parent){};
         virtual ~CMapNoMap(){};
 
         void convertPt2M(double&, double&){};
@@ -38,7 +40,6 @@ class CMapNoMap : public IMap
         void zoom(bool, const QPoint&){};
         void select(const QRect&){};
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
-
 };
 
 #endif //CMAPNOMAP_H

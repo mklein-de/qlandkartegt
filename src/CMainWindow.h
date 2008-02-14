@@ -78,7 +78,7 @@ class CMainWindow : public QMainWindow
         /// root path of geo data
         QString pathData;
 
-        QString mapFile;
+//         QString mapFile;
 
         CResources * resources;
 

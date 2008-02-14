@@ -36,7 +36,6 @@
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
-    : mapFile("")
 {
     theMainWindow = this;
 
@@ -70,13 +69,22 @@ CMainWindow::CMainWindow()
     leftSplitter->addWidget(toolbox);
 
     statusCoord = new QLabel(this);
-    statusBar()->addPermanentWidget(statusCoord);
+    statusBar()->insertPermanentWidget(1,statusCoord);
 
+    QSettings cfg;
+    pathData = cfg.value("path/data","./").toString();
+
+    searchdb    = new CSearchDB(toolbox, this);
+    mapdb       = new CMapDB(toolbox, this);
+    wptdb       = new CWptDB(toolbox, this);
+
+    connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 
     showMaximized();
 
     // restore last session settings
-    QSettings cfg;
     QList<int> sizes = mainSplitter->sizes();
     sizes[0] = (int)(mainSplitter->width() * 0.1);
     sizes[1] = (int)(mainSplitter->width() * 0.9);
@@ -97,22 +105,6 @@ CMainWindow::CMainWindow()
     sizes << 200 << 50 << 50;
     rightSplitter->setSizes(sizes);
 
-    pathData = cfg.value("path/data","./").toString();
-
-    searchdb    = new CSearchDB(toolbox, this);
-    mapdb       = new CMapDB(toolbox,this);
-    wptdb       = new CWptDB(toolbox, this);
-
-
-    mapFile = cfg.value("map/mapFile",mapFile).toString();
-
-    if(!mapFile.isEmpty()){
-        canvas->loadMapSet(QDir(CResources::self().pathMaps).filePath(mapFile));
-    }
-
-    connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
-    connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
-    connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 }
 
 CMainWindow::~CMainWindow()
@@ -121,7 +113,6 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/data",pathData);
-    cfg.setValue("map/mapFile",mapFile);
 }
 
 void CMainWindow::setPositionInfo(const QString& info)
@@ -192,9 +183,7 @@ void CMainWindow::slotLoadMapSet()
     if(filename.isEmpty()) return;
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
-    mapFile  = QFileInfo(filename).fileName();
-
-    canvas->loadMapSet(filename);
+    CMapDB::self().openMap(filename,*canvas);
 
 }
 

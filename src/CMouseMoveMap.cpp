@@ -19,7 +19,7 @@
 
 #include "CMouseMoveMap.h"
 #include "CCanvas.h"
-#include "IMap.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -38,7 +38,7 @@ CMouseMoveMap::~CMouseMoveMap()
 void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 {
     if(moveMap){
-        canvas->map->move(oldPoint, e->pos());
+        CMapDB::self().getMap().move(oldPoint, e->pos());
         oldPoint = e->pos();
         canvas->update();
     }

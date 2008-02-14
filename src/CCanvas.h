@@ -32,7 +32,7 @@ class CMouseSelMap;
 class CMouseAddWpt;
 class CWpt;
 class QLabel;
-class CStatusCanvas;
+class QSize;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -59,9 +59,6 @@ class CCanvas : public QWidget
             //, eMouseDelRte      ///< use mouse to delete route points
         };
 
-        /// load a map collection from it's definition file
-        void loadMapSet(const QString& filename);
-
         /// zoom in/out with a given point as static
         void zoom(bool in, const QPoint& p);
 
@@ -77,6 +74,9 @@ class CCanvas : public QWidget
 
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);
+
+    signals:
+        void sigResize(const QSize& size);
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -112,16 +112,12 @@ class CCanvas : public QWidget
         /// current mouse mode
         mouse_mode_e mouseMode;
 
-        QPointer<IMap> map;
-
         /// current mouse position
         QPoint posMouse;
 
         QPointer<CWpt> selWpt;
 
         QLabel * info;
-
-        CStatusCanvas * statusCanvas;
 };
 
 #endif //CCANVAS_H

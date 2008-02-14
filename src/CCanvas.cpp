@@ -29,6 +29,7 @@
 #include "CWpt.h"
 #include "CSearchDB.h"
 #include "CWptDB.h"
+#include "CMapDB.h"
 
 #include "GeoMath.h"
 #include "WptIcons.h"
@@ -46,16 +47,11 @@ CCanvas::CCanvas(QWidget * parent)
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
-    map = new CMapNoMap(this);
-
-
     mouseMoveMap    = new CMouseMoveMap(this);
     mouseSelMap     = new CMouseSelMap(this);
     mouseAddWpt     = new CMouseAddWpt(this);
     setMouseMode(eMouseMoveArea);
 
-    statusCanvas = new CStatusCanvas(this);
-    theMainWindow->statusBar()->addPermanentWidget(statusCanvas);
 }
 
 CCanvas::~CCanvas()
@@ -101,7 +97,7 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 void CCanvas::resizeEvent(QResizeEvent * e)
 {
     QWidget::resizeEvent(e);
-    if(map) map->resize(e->size());
+    emit sigResize(e->size());
 }
 
 void CCanvas::paintEvent(QPaintEvent * e)
@@ -151,21 +147,22 @@ void CCanvas::leaveEvent(QEvent * )
 
 void CCanvas::draw(QPainter& p)
 {
-    if(map){
-        map->draw(p);
-    }
+    CMapDB::self().draw(p);
     mouse->draw(p);
     drawSearchResults(p);
     drawWaypoints(p);
 }
 
+
 void CCanvas::drawSearchResults(QPainter& p)
 {
+    IMap& map = CMapDB::self().getMap();
+
     QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
     while(result != CSearchDB::self().end()){
         double u = result->lon * DEG_TO_RAD;
         double v = result->lat * DEG_TO_RAD;
-        map->convertRad2Pt(u,v);
+        map.convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
             p.drawPixmap(u-16 , v-16, QPixmap(":/icons/iconBullseye16x16"));
@@ -178,10 +175,12 @@ void CCanvas::drawSearchResults(QPainter& p)
 
 void CCanvas::drawWaypoints(QPainter& p)
 {
+    IMap& map = CMapDB::self().getMap();
+
     if(!selWpt.isNull()){
         double u = selWpt->lon * DEG_TO_RAD;
         double v = selWpt->lat * DEG_TO_RAD;
-        map->convertRad2Pt(u,v);
+        map.convertRad2Pt(u,v);
 
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
@@ -193,7 +192,7 @@ void CCanvas::drawWaypoints(QPainter& p)
     while(wpt != CWptDB::self().end()){
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
-        map->convertRad2Pt(u,v);
+        map.convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
             p.drawPixmap(u-7 , v-7, getWptIconByName((*wpt)->icon));
@@ -209,31 +208,33 @@ void CCanvas::wheelEvent(QWheelEvent * e)
   zoom((e->delta() < 0), e->pos());
 }
 
-void CCanvas::loadMapSet(const QString& filename)
-{
-    delete map;
-    map = new CMapRaster(filename,this);
-    map->resize(size());
-    statusCanvas->updateShadingType();
-}
+// void CCanvas::loadMapSet(const QString& filename)
+// {
+//
+// //     map = new CMapRaster(filename,this);
+//     CMapDB::self().getMap().resize(size());
+//     statusCanvas->updateShadingType();
+// }
 
 void CCanvas::zoom(bool in, const QPoint& p)
 {
-    map->zoom(in, p);
+    CMapDB::self().getMap().zoom(in, p);
     update();
 }
 
 void CCanvas::move(double lon, double lat)
 {
+    IMap& map = CMapDB::self().getMap();
     double u = lon * DEG_TO_RAD;
     double v = lat * DEG_TO_RAD;
-    map->convertRad2Pt(u,v);
-    map->move(QPoint(u,v), rect().center());
+    map.convertRad2Pt(u,v);
+    map.move(QPoint(u,v), rect().center());
     update();
 }
 
 void CCanvas::move(move_direction_e dir)
 {
+    IMap& map = CMapDB::self().getMap();
     QPoint p1 = geometry().center();
     QPoint p2 = p1;
 
@@ -259,10 +260,10 @@ void CCanvas::move(move_direction_e dir)
             {
                 double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
 
-                map->dimensions(lon1, lat1, lon2, lat2);
+                map.dimensions(lon1, lat1, lon2, lat2);
                 lon1 += (lon2 - lon1)/2;
                 lat2 += (lat1 - lat2)/2;
-                map->convertRad2Pt(lon1,lat2);
+                map.convertRad2Pt(lon1,lat2);
 
                 p1.rx() = lon1;
                 p1.ry() = lat2;
@@ -271,7 +272,7 @@ void CCanvas::move(move_direction_e dir)
             }
             break;
     }
-    map->move(p1, p2);
+    map.move(p1, p2);
 
     update();
 }
@@ -279,19 +280,20 @@ void CCanvas::move(move_direction_e dir)
 
 void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 {
+    IMap& map = CMapDB::self().getMap();
     QString info; // = QString("%1 %2, ").arg(e->x()).arg(e->y());
 
     double x = e->x();
     double y = e->y();
-    map->convertPt2M(x,y);
+    map.convertPt2M(x,y);
 
     info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
 
     x = e->x();
     y = e->y();
-    map->convertPt2Rad(x,y);
+    map.convertPt2Rad(x,y);
 
-    float ele = map->getElevation(x,y);
+    float ele = map.getElevation(x,y);
     if(ele != WPT_NOFLOAT){
         info += QString(" (ele: %1 m)").arg(ele);
     }
@@ -319,13 +321,14 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
 void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
 {
+    IMap& map = CMapDB::self().getMap();
     CWpt * oldWpt = selWpt; selWpt = 0;
 
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()){
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
-        map->convertRad2Pt(u,v);
+        map.convertRad2Pt(u,v);
 
         QPoint diff = posMouse - QPoint(u,v);
         if(diff.manhattanLength() < 15){
@@ -340,7 +343,7 @@ void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
         if(selWpt){
             double u = selWpt->lon * DEG_TO_RAD;
             double v = selWpt->lat * DEG_TO_RAD;
-            map->convertRad2Pt(u,v);
+            map.convertRad2Pt(u,v);
 
 //             QFont f = CResources::self().getMapFont();
 //             f.setBold(true);

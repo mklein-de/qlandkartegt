@@ -1,32 +1,35 @@
 /**********************************************************************************************
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions
-  Ingenieure Kellermann, Voigt, Hoepfl, Eichler und Weidner, Partnerschaft
-  http://www.dspsolutions.de/
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Not defined
-  Email:       Not defined
-  Phone:       Not defined
-  FAX:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CMapDB.h
-
-  Module:
-
-  Description:
-
-  Created:     02/13/2008
-
-  (C) 2008
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
 #ifndef CMAPDB_H
 #define CMAPDB_H
 
 #include "IDB.h"
+#include "CMapNoMap.h"
+#include <QList>
+#include <QMap>
 
 
+class IMap;
+class QPainter;
+class CCanvas;
+class CMapNoMap;
+class CStatusCanvas;
 
 class CMapDB : public IDB
 {
@@ -34,7 +37,28 @@ class CMapDB : public IDB
     public:
         virtual ~CMapDB();
 
+        struct map_t
+        {
+            QString filename;
+            QString description;
+            QString key;
+        };
+
+
         static CMapDB& self(){return *m_self;}
+
+        /// open a map collection from disc
+        void openMap(const QString& filename, CCanvas& canvas);
+
+        void openMap(const QString& key);
+
+        const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
+
+        /// get current main map
+        IMap& getMap(){return visibleMaps.isEmpty() ? *defaultMap : *visibleMaps.at(0);}
+
+        /// draw visible maps
+        void draw(QPainter& p);
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
@@ -45,13 +69,31 @@ class CMapDB : public IDB
         void upload();
         void download();
 
-
     private:
         friend class CMainWindow;
 
         CMapDB(QToolBox * tb, QObject * parent);
 
+        void closeVisibleMaps();
+
         static CMapDB * m_self;
+
+        /// list of all visible maps
+        /**
+            All maps in this list a drawn from index 0 first to index N.
+            The map at index 0 is called main map. All other maps must use the
+            same projection as the main map.
+        */
+        QList<IMap*> visibleMaps;
+
+
+        /// a dictionary of previous opened maps
+        QMap<QString,map_t> knownMaps;
+
+        /// the default map if no map is selected
+        CMapNoMap * defaultMap;
+
+        CStatusCanvas * statusCanvas;
 };
 
 #endif //CMAPDB_H

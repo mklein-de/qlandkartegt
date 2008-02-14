@@ -32,6 +32,7 @@
 class CMapDEM;
 class CMapLevel;
 class CExportMapThread;
+class CCanvas;
 
 /// Render object for a GeoTiff raster map set
 /**
@@ -48,7 +49,7 @@ class CMapRaster : virtual public IMap
             @param filename full qualified path to a raster map definition
             @param parent   parent object for the usual Qt stuff
         */
-        CMapRaster(const QString& filename, QObject * parent);
+        CMapRaster(const QString& filename, CCanvas * parent);
         virtual ~CMapRaster();
 
         void draw(QPainter& p);
@@ -60,12 +61,11 @@ class CMapRaster : virtual public IMap
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(float lon, float lat);
 
+
     private:
         friend class CExportMapThread;
 
         void zoom(quint32& level);
-
-        QString filename;
 
         QString exportPath;
 

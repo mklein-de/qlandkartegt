@@ -22,6 +22,7 @@
 #include "CMapFile.h"
 #include "CMapDEM.h"
 #include "GeoMath.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -280,14 +281,14 @@ void CExportMapThread::run()
     qDebug() << "<<<< CExportMapThread::run()";
 }
 
-CMapRaster::CMapRaster(const QString& filename, QObject * parent)
+CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     : IMap(parent)
-    , filename(filename)
     , pMaplevel(0)
     , zoomFactor(1)
     , pDEM(0)
 
 {
+    filename = fn;
     // setup export progress dialog
     butCancelExport = new QPushButton(tr("Cancel"),&progressExport);
     progressExport.setCancelButton(butCancelExport);

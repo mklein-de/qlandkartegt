@@ -1,39 +1,40 @@
 /**********************************************************************************************
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions
-  Ingenieure Kellermann, Voigt, Hoepfl, Eichler und Weidner, Partnerschaft
-  http://www.dspsolutions.de/
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Not defined
-  Email:       Not defined
-  Phone:       Not defined
-  FAX:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CMapToolWidget.h
-
-  Module:
-
-  Description:
-
-  Created:     02/13/2008
-
-  (C) 2008
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
 #ifndef CMAPTOOLWIDGET_H
 #define CMAPTOOLWIDGET_H
 
 #include <QWidget>
+#include "ui_IMapToolWidget.h"
 
 class QToolBox;
 
-class CMapToolWidget : public QWidget//, private Ui::IWptToolWidget
+class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 {
     Q_OBJECT
     public:
         CMapToolWidget(QToolBox * parent);
         virtual ~CMapToolWidget();
+
+    private slots:
+        void slotDBChanged();
+        void slotItemClicked(QListWidgetItem* item);
+
 };
 
 #endif //CMAPTOOLWIDGET_H

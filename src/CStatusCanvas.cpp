@@ -19,7 +19,7 @@
 
 #include "CStatusCanvas.h"
 #include "CCanvas.h"
-#include "IMap.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -42,8 +42,7 @@ CStatusCanvas::~CStatusCanvas()
 
 void CStatusCanvas::updateShadingType()
 {
-    if(canvas->map == 0) return;
-    switch(canvas->map->getOverlay()){
+    switch(CMapDB::self().getMap().getOverlay()){
         case IMap::eNone:
             radioNone->setChecked(true);
             break;
@@ -58,17 +57,17 @@ void CStatusCanvas::updateShadingType()
 
 void CStatusCanvas::slotShowShading(bool checked)
 {
-    if(canvas->map == 0) return;
+    IMap& map = CMapDB::self().getMap();
 
     QString button = sender()->objectName();
     if(button == "radioNone"){
-        canvas->map->setOverlay(IMap::eNone);
+        map.setOverlay(IMap::eNone);
     }
     else if(button == "radioShading"){
-        canvas->map->setOverlay(IMap::eShading);
+        map.setOverlay(IMap::eShading);
     }
     else if(button == "radioContour"){
-        canvas->map->setOverlay(IMap::eContour);
+        map.setOverlay(IMap::eContour);
     }
 
     canvas->update();

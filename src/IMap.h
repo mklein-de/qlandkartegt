@@ -28,22 +28,18 @@
 #include <projects.h>
 
 class QPainter;
+class CCanvas;
 
 /// base class to any map render object
 class IMap : public QObject
 {
     Q_OBJECT
     public:
-        IMap(QObject * parent);
+        IMap(CCanvas * parent);
         virtual ~IMap();
 
         enum overlay_e {eNone, eShading, eContour};
 
-        /// change visible size of map
-        /**
-            @param size size of the new viewport (display) area [px]
-        */
-        virtual void resize(const QSize& size);
         /// draw map
         virtual void draw(QPainter& p);
         /// convert a point on the screen [px] to world coordinates [m]
@@ -119,7 +115,17 @@ class IMap : public QObject
 
         virtual overlay_e getOverlay(){return overlay;}
 
+        virtual const QString& getFilename(){return filename;}
+    public slots:
+        /// change visible size of map
+        /**
+            @param size size of the new viewport (display) area [px]
+        */
+        virtual void resize(const QSize& size);
+
+
     protected:
+        QString filename;
         /// canvas / viewport rectangle [px]
         QRect rect;
         /// canvas / viewport size
