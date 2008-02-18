@@ -20,15 +20,20 @@
 #define CTRACKTOOLWIDGET_H
 
 #include <QWidget>
+#include "ui_ITrackToolWidget.h"
 
 class QToolBox;
 
-class CTrackToolWidget : public QWidget
+class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 {
     Q_OBJECT
     public:
         CTrackToolWidget(QToolBox * parent);
         virtual ~CTrackToolWidget();
+
+    private slots:
+        void slotDBChanged();
+
 };
 
 #endif //CTRACKTOOLWIDGET_H

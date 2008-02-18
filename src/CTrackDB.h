@@ -50,6 +50,7 @@ class CTrackDB : public IDB
     private:
         friend class CMainWindow;
         CTrackDB(QToolBox * tb, QObject * parent);
+        quint32 cnt;
 
         static CTrackDB * m_self;
 

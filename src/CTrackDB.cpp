@@ -31,6 +31,7 @@ CTrackDB * CTrackDB::m_self = 0;
 
 CTrackDB::CTrackDB(QToolBox * tb, QObject * parent)
     : IDB(tb,parent)
+    , cnt(0)
 {
     m_self      = this;
     toolview    = new CTrackToolWidget(tb);
@@ -96,6 +97,9 @@ void CTrackDB::loadGPX(CGpx& gpx)
             trkpt = trkpt.nextSiblingElement("trkpt");
         }
 
+        if(track->getName().isEmpty()){
+            track->setName(tr("Track%1").arg(cnt++));
+        }
         track->rebuild(false);
         removeTrack(track->key());
         tracks[track->key()] = track;

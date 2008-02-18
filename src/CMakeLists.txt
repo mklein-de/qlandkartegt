@@ -95,6 +95,7 @@ SET(qlandkarte_UIS
     ICopyright.ui
     IWptToolWidget.ui
     IMapToolWidget.ui
+    ITrackToolWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui

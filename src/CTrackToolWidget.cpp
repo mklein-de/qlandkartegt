@@ -18,14 +18,18 @@
 **********************************************************************************************/
 
 #include "CTrackToolWidget.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
 
 #include <QtGui>
 
 CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
 {
-//     setupUi(this);
+    setupUi(this);
     setObjectName("Tracks");
     parent->addItem(this,QIcon(":/icons/iconTrack16x16"),tr("Tracks"));
+
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
 }
 
@@ -34,3 +38,16 @@ CTrackToolWidget::~CTrackToolWidget()
 
 }
 
+void CTrackToolWidget::slotDBChanged()
+{
+    listTracks->clear();
+
+    QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+    QMap<QString,CTrack*>::const_iterator track = tracks.begin();
+    while(track != tracks.end()){
+        QListWidgetItem * item = new QListWidgetItem(listTracks);
+        item->setText((*track)->getName());
+        item->setData(Qt::UserRole, (*track)->key());
+        ++track;
+    }
+}
