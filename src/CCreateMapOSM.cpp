@@ -20,6 +20,8 @@
 #include "CCreateMapOSM.h"
 #include "CResources.h"
 #include "GeoMath.h"
+#include "CMapDB.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -531,6 +533,9 @@ void CCreateMapOSM::getNextTile()
 
     if(tiles.isEmpty()){
         finishJob();
+        QString fn = QString("%1.qmap").arg(QDir(labelPath->text()).filePath(lineName->text()));
+        qDebug() << fn;
+        CMapDB::self().openMap(fn, *theMainWindow->getCanvas());
         return;
     }
 

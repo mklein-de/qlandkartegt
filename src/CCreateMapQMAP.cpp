@@ -21,6 +21,8 @@
 #include "CDlgEditMapLevel.h"
 #include "CMapFile.h"
 #include "GeoMath.h"
+#include "CMainWindow.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -95,6 +97,8 @@ void CCreateMapQMAP::slotSaveMap()
     }
 
     writeqmap(filename);
+
+    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
 }
 
 void CCreateMapQMAP::resetdlg()
