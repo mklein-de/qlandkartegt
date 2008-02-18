@@ -82,6 +82,7 @@ CMainWindow::CMainWindow()
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 
     showMaximized();
@@ -238,11 +239,13 @@ void CMainWindow::slotLoadData()
         CQlb qlb(this);
         qlb.load(filename);
         CWptDB::self().loadQLB(qlb);
+        CTrackDB::self().loadQLB(qlb);
     }
     else if(ext == "GPX"){
         CGpx gpx(this);
         gpx.load(filename);
         CWptDB::self().loadGPX(gpx);
+        CTrackDB::self().loadGPX(gpx);
     }
 }
 
@@ -276,11 +279,13 @@ void CMainWindow::slotSaveData()
     if(ext == "QLB"){
         CQlb qlb(this);
         CWptDB::self().saveQLB(qlb);
+        CTrackDB::self().saveQLB(qlb);
         qlb.save(filename);
     }
     else if(ext == "GPX"){
         CGpx gpx(this);
         CWptDB::self().saveGPX(gpx);
+        CTrackDB::self().saveGPX(gpx);
         gpx.save(filename);
     }
 

@@ -21,7 +21,9 @@
 
 #include "IDB.h"
 
+#include <QMap>
 class QToolBox;
+class CTrack;
 
 class CTrackDB : public IDB
 {
@@ -31,7 +33,7 @@ class CTrackDB : public IDB
 
         static CTrackDB& self(){return *m_self;}
 
-        void loadGPX(CGpx& gpx){};
+        void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx){};
         void loadQLB(CQlb& qlb){};
         void saveQLB(CQlb& qlb){};
@@ -39,11 +41,19 @@ class CTrackDB : public IDB
         void upload(){};
         void download(){};
 
+        void removeTrack(const QString& key, bool silent = false);
+
+        /// get access to track dictionary
+        QMap<QString,CTrack*>& getTracks(){return tracks;}
+
+
     private:
         friend class CMainWindow;
         CTrackDB(QToolBox * tb, QObject * parent);
 
         static CTrackDB * m_self;
+
+        QMap<QString,CTrack*> tracks;
 };
 
 #endif //CTRACKDB_H
