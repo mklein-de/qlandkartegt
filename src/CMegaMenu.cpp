@@ -21,6 +21,7 @@
 #include "CCanvas.h"
 #include "CWptDB.h"
 #include "CMapDB.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -220,6 +221,10 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         funcSwitchToMap();
         funcMoveArea();
     }
+    else if(key == "Tracks" && current != fsTrack){
+        funcSwitchToTrack();
+        funcMoveArea();
+    }
 
 }
 
@@ -315,7 +320,7 @@ void CMegaMenu::funcSwitchToTrack()
     menuTitle->setText(tr("<b>Tracks ...</b>"));
     setPixmap(QPixmap(":/icons/backTrack128x128"));
     switchState(fsTrack);
-//     CWptDB::self().gainFocus();
+    CTrackDB::self().gainFocus();
     funcMoveArea();
 }
 

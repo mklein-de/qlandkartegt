@@ -19,8 +19,13 @@
 
 #include "CTrackToolWidget.h"
 
+#include <QtGui>
+
 CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
 {
+//     setupUi(this);
+    setObjectName("Tracks");
+    parent->addItem(this,QIcon(":/icons/iconTrack16x16"),tr("Tracks"));
 
 }
 

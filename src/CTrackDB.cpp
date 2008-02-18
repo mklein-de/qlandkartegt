@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CTrackDB.h"
+#include "CTrackToolWidget.h"
 #include <QtGui>
 
 CTrackDB * CTrackDB::m_self = 0;
@@ -25,7 +26,8 @@ CTrackDB * CTrackDB::m_self = 0;
 CTrackDB::CTrackDB(QToolBox * tb, QObject * parent)
     : IDB(tb,parent)
 {
-    m_self = this;
+    m_self      = this;
+    toolview    = new CTrackToolWidget(tb);
 }
 
 CTrackDB::~CTrackDB()
