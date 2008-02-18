@@ -42,6 +42,7 @@ set(qlandkarte_SRCS
     CCreateMapQMAP.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
+    CTrack.cpp
     CTrackDB.cpp
     CTrackToolWidget.cpp
 )
@@ -85,6 +86,7 @@ set(qlandkarte_HDRS
     CCreateMapQMAP.h
     CMapDB.h
     CMapToolWidget.h
+    CTrack.h
     CTrackDB.h
     CTrackToolWidget.h
 )
