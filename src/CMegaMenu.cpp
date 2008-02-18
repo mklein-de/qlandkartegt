@@ -69,6 +69,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] = {
      {0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps.")}
     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
+    ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -106,6 +107,20 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device.")}
     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device.")}
+};
+
+const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] = {
+     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map.\nPress down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
 };
 
 
@@ -292,6 +307,15 @@ void CMegaMenu::funcSwitchToWpt()
     setPixmap(QPixmap(":/icons/backWaypoint128x128"));
     switchState(fsWpt);
     CWptDB::self().gainFocus();
+    funcMoveArea();
+}
+
+void CMegaMenu::funcSwitchToTrack()
+{
+    menuTitle->setText(tr("<b>Tracks ...</b>"));
+    setPixmap(QPixmap(":/icons/backTrack128x128"));
+    switchState(fsTrack);
+//     CWptDB::self().gainFocus();
     funcMoveArea();
 }
 

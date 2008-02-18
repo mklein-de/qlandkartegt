@@ -29,6 +29,7 @@ class CCanvas;
 class CMegaMenu;
 class CMapDB;
 class CWptDB;
+class CTrackDB;
 class CSearchDB;
 class CResources;
 
@@ -88,6 +89,8 @@ class CMainWindow : public QMainWindow
         CSearchDB * searchdb;
         /// the map data base
         CMapDB * mapdb;
+        /// the track data base
+        CTrackDB * trackdb;
 
 
 

@@ -25,6 +25,7 @@
 #include "CResources.h"
 #include "CMapDB.h"
 #include "CWptDB.h"
+#include "CTrackDB.h"
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
 #include "CDlgCreateMap.h"
@@ -77,6 +78,7 @@ CMainWindow::CMainWindow()
     searchdb    = new CSearchDB(toolbox, this);
     mapdb       = new CMapDB(toolbox, this);
     wptdb       = new CWptDB(toolbox, this);
+    trackdb     = new CTrackDB(toolbox, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
