@@ -195,12 +195,27 @@ void CCanvas::drawWaypoints(QPainter& p)
         map.convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
+            // draw waypoint icon
             p.drawPixmap(u-7 , v-7, getWptIconByName((*wpt)->icon));
-        }
 
+            if((*wpt)->prx != WPT_NOFLOAT){
+                double u1 = u;
+                double v1 = v;
+                map.convertPt2M(u1,v1);
+                double u2 = u1 + (*wpt)->prx;
+                double v2 = v1;
+                map.convertM2Pt(u2,v2);
+                double r = u2 - u;
+
+                p.setBrush(Qt::NoBrush);
+                p.setPen(QPen(Qt::white,3));
+                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
+                p.setPen(QPen(Qt::red,1));
+                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
+            }
+        }
         ++wpt;
     }
-
 }
 
 void CCanvas::wheelEvent(QWheelEvent * e)
