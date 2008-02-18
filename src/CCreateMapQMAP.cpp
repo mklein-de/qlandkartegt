@@ -35,6 +35,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     toolOpen->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
     toolNew->setIcon(QIcon(":/icons/iconNewMap16x16.png"));
     toolAddDEM->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
+    toolDelDEM->setIcon(QIcon(":/icons/iconDelete16x16.png"));
 
     QSettings cfg;
     mapPath = cfg.value("path/maps",mapPath).toString();
@@ -49,7 +50,8 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(buttonBoxSave, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotSaveMap()));
-    connect(toolAddDEM, SIGNAL(clicked()), this, SLOT(slotDEM()));
+    connect(toolAddDEM, SIGNAL(clicked()), this, SLOT(slotAddDEM()));
+    connect(toolDelDEM, SIGNAL(clicked()), this, SLOT(slotDelDEM()));
 }
 
 CCreateMapQMAP::~CCreateMapQMAP()
@@ -67,9 +69,6 @@ void CCreateMapQMAP::slotOpenMap()
 
     resetdlg();
     readqmap(filename);
-
-    pushAdd->setEnabled(true);
-    buttonBoxSave->setEnabled(true);
 }
 
 void CCreateMapQMAP::slotNewMap()
@@ -179,6 +178,7 @@ void CCreateMapQMAP::processLevelList()
     double south   =   90.0 * DEG_TO_RAD;
     double east    =  180.0 * DEG_TO_RAD;
 
+    int level = 1;
     int zoom = 0;
     QList<QTreeWidgetItem*> items = treeLevels->findItems(".*",Qt::MatchRegExp);
     QTreeWidgetItem * item;
@@ -192,6 +192,7 @@ void CCreateMapQMAP::processLevelList()
         item->setText(eMinZoom,QString("%1").arg(zoom));
         zoom += item->data(0,eZoom).toInt() - 1;
         item->setText(eMaxZoom,QString("%1").arg(zoom));
+        item->setText(eLevel,QString("%1").arg(level++));
     }
 
     QString str;
@@ -244,6 +245,9 @@ void CCreateMapQMAP::readqmap(const QString& filename)
     labelDEMData->setText(mapdef.value("DEM/file","").toString());
 
     processLevelList();
+
+    pushAdd->setEnabled(true);
+    buttonBoxSave->setEnabled(true);
 }
 
 void CCreateMapQMAP::writeqmap(const QString& filename)
@@ -369,7 +373,7 @@ void CCreateMapQMAP::slotDown()
 }
 
 
-void CCreateMapQMAP::slotDEM()
+void CCreateMapQMAP::slotAddDEM()
 {
     QString filename = QFileDialog::getOpenFileName(0,tr("Select elevation data file..."), mapPath,"DEM Data (*.tif)");
 
@@ -377,4 +381,9 @@ void CCreateMapQMAP::slotDEM()
     mapPath = QFileInfo(filename).path();
 
     labelDEMData->setText(QFileInfo(filename).fileName());
+}
+
+void CCreateMapQMAP::slotDelDEM()
+{
+    labelDEMData->setText("");
 }

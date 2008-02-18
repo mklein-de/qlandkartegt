@@ -136,6 +136,16 @@ void CMapDB::openMap(const QString& key)
     statusCanvas->updateShadingType();
 }
 
+void CMapDB::delKnownMap(const QStringList& keys)
+{
+    QString key;
+    foreach(key, keys){
+        knownMaps.remove(key);
+    }
+
+    emit sigChanged();
+}
+
 void CMapDB::loadGPX(CGpx& gpx)
 {
 }

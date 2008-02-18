@@ -23,6 +23,8 @@
 #include "ui_IMapToolWidget.h"
 
 class QToolBox;
+class QPoint;
+class QListWidgetItem;
 
 class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 {
@@ -34,6 +36,12 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
     private slots:
         void slotDBChanged();
         void slotItemClicked(QListWidgetItem* item);
+        void slotContextMenu(const QPoint& pos);
+        void slotEdit();
+        void slotDelete();
+
+    private:
+        QMenu * contextMenu;
 
 };
 

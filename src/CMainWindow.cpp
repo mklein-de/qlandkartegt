@@ -137,7 +137,7 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     menu->setTitle(tr("&Maps"));
     menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
-    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create ..."),this,SLOT(slotCreateMap()));
+    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create / Edit ..."),this,SLOT(slotCreateMap()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);

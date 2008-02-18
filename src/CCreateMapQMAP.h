@@ -32,6 +32,8 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
         CCreateMapQMAP(QWidget * parent);
         virtual ~CCreateMapQMAP();
 
+        void readqmap(const QString& filename);
+
     private slots:
         void slotOpenMap();
         void slotNewMap();
@@ -42,7 +44,8 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
         void slotDel();
         void slotUp();
         void slotDown();
-        void slotDEM();
+        void slotAddDEM();
+        void slotDelDEM();
 
     private:
         friend class CDlgEditMapLevel;
@@ -70,7 +73,6 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
         void mapData2Item(QTreeWidgetItem *& item);
         void processLevelList();
 
-        void readqmap(const QString& filename);
         void writeqmap(const QString& filename);
 
         QString mapPath;

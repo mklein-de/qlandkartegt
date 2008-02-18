@@ -19,6 +19,8 @@
 
 #include "CMapToolWidget.h"
 #include "CMapDB.h"
+#include "CDlgCreateMap.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 
@@ -31,6 +33,12 @@ CMapToolWidget::CMapToolWidget(QToolBox * parent)
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
+
+    contextMenu = new QMenu(this);
+    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
+
+    connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
 CMapToolWidget::~CMapToolWidget()
@@ -57,3 +65,36 @@ void CMapToolWidget::slotItemClicked(QListWidgetItem* item)
     QString key = item->data(Qt::UserRole).toString();
     CMapDB::self().openMap(key);
 }
+
+void CMapToolWidget::slotContextMenu(const QPoint& pos)
+{
+    if(listKnownMaps->currentItem()){
+        QPoint p = listKnownMaps->mapToGlobal(pos);
+        contextMenu->exec(p);
+    }
+}
+
+void CMapToolWidget::slotEdit()
+{
+    QListWidgetItem * item = listKnownMaps->currentItem();
+    if(item == 0) return;
+
+    QString key = item->data(Qt::UserRole).toString();
+    const CMapDB::map_t& map = CMapDB::self().getKnownMaps()[key];
+
+    CDlgCreateMap dlg(theMainWindow->getCanvas());
+    dlg.editMap(map.filename);
+}
+
+void CMapToolWidget::slotDelete()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listKnownMaps->selectedItems();
+    foreach(item,items){
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    CMapDB::self().delKnownMap(keys);
+}
+

@@ -34,6 +34,7 @@ class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
         CDlgCreateMap(QWidget * parent);
         virtual ~CDlgCreateMap();
 
+        void editMap(const QString& filename);
 
     private:
         enum widget_e {eNone, eOSM, eQMAP};

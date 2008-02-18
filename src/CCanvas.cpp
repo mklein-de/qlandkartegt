@@ -208,13 +208,6 @@ void CCanvas::wheelEvent(QWheelEvent * e)
   zoom((e->delta() < 0), e->pos());
 }
 
-// void CCanvas::loadMapSet(const QString& filename)
-// {
-//
-// //     map = new CMapRaster(filename,this);
-//     CMapDB::self().getMap().resize(size());
-//     statusCanvas->updateShadingType();
-// }
 
 void CCanvas::zoom(bool in, const QPoint& p)
 {

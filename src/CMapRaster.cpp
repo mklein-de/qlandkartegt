@@ -300,11 +300,11 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     QDir path = QFileInfo(filename).absolutePath();
     // load map definition
     QSettings mapdef(filename,QSettings::IniFormat);
-    int n = mapdef.value("main/levels",0).toInt();
+    int nLevels = mapdef.value("main/levels",0).toInt();
 
     // create map level list
     CMapLevel * maplevel = 0;
-    while(n){
+    for(int n=1; n <= nLevels; ++n){
         mapdef.beginGroup(QString("level%1").arg(n));
         quint32 min = mapdef.value("zoomLevelMin",-1).toUInt();
         quint32 max = mapdef.value("zoomLevelMax",-1).toUInt();
@@ -321,7 +321,6 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
         }
 
         mapdef.endGroup();
-        --n;
     }
 
     // If no configuration is stored read values from the map definition's "home" section

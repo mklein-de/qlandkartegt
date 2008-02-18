@@ -49,13 +49,14 @@ class CMapDB : public IDB
 
         /// open a map collection from disc
         void openMap(const QString& filename, CCanvas& canvas);
-
+        /// open a known map by it's key
         void openMap(const QString& key);
-
+        /// get access to known map dictionary
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
-
         /// get current main map
         IMap& getMap(){return visibleMaps.isEmpty() ? *defaultMap : *visibleMaps.at(0);}
+        /// delete known maps by keys
+        void delKnownMap(const QStringList& keys);
 
         /// draw visible maps
         void draw(QPainter& p);

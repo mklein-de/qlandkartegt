@@ -43,3 +43,9 @@ CDlgCreateMap::~CDlgCreateMap()
 
 }
 
+void CDlgCreateMap::editMap(const QString& filename)
+{
+    stackedWidget->setCurrentIndex(eQMAP);
+    widgetQMAP->readqmap(filename);
+    exec();
+}

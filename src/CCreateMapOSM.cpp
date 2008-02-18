@@ -437,9 +437,9 @@ void CCreateMapOSM::slotCreate()
     mapdef.setValue("main/levels",3);
 
     // define zoomlevels, this will add tile definitions, too
-    addZoomLevel(3, 17, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(1, 17, lon1, lat1, lon2, lat2, mapdef);
     addZoomLevel(2, 14, lon1, lat1, lon2, lat2, mapdef);
-    addZoomLevel(1, 11, lon1, lat1, lon2, lat2, mapdef);
+    addZoomLevel(3, 11, lon1, lat1, lon2, lat2, mapdef);
 
     maxTiles = tiles.count();
     progress->setMaximum(maxTiles);
@@ -456,7 +456,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     int x = 0, y = 0;
     char * ptr = 0;
 
-    zoomlevel_t& z = zoomlevels[level - 1];
+    zoomlevel_t& z = zoomlevels[level -1];
 
     // calculate tile indices
     int x1 = (lon1 + 180) * (1<<zoom) / 360;
@@ -475,8 +475,8 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     // write level information to *.qmap
     mapdef.beginGroup(QString("level%1").arg(level));
     mapdef.setValue("files",QString("%1%2.tif").arg(lineName->text()).arg(level));
-    mapdef.setValue("zoomLevelMin", (3 - level) * 4 + 1);
-    mapdef.setValue("zoomLevelMax", (3 - level) * 4 + 4);
+    mapdef.setValue("zoomLevelMin", (level - 1) * 4 + 1);
+    mapdef.setValue("zoomLevelMax", (level - 1) * 4 + 4);
     mapdef.endGroup();
 
     // setup projection

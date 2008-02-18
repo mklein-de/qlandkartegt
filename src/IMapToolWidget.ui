@@ -21,7 +21,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listKnownMaps" />
+    <widget class="QListWidget" name="listKnownMaps" >
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
