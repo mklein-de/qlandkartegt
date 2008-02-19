@@ -335,7 +335,6 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
     r.moveCenter(center);
 
     p.setPen(Qt::white);
-    f.setBold(true);
     p.setFont(f);
 
     p.drawText(r.topLeft() - QPoint(-1,-1), str);
