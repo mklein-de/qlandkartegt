@@ -109,7 +109,8 @@ void CCanvas::paintEvent(QPaintEvent * e)
     QPainter p;
     p.begin(this);
     p.fillRect(rect(),Qt::white);
-
+    p.setRenderHint(QPainter::Antialiasing,true);
+    p.setFont(CResources::self().getMapFont());
     draw(p);
 
     p.end();
@@ -144,6 +145,25 @@ void CCanvas::enterEvent(QEvent * )
 void CCanvas::leaveEvent(QEvent * )
 {
     QApplication::restoreOverrideCursor();
+}
+
+
+void CCanvas::print(QPrinter& printer)
+{
+    QPainter p;
+
+    qreal s1 = (qreal)printer.pageRect().size().width() / (qreal)size().width();
+    qreal s2 = (qreal)printer.pageRect().size().height() / (qreal)size().height();
+    qreal s = (s1 > s2) ? s2 : s1;
+
+    p.begin(&printer);
+    p.scale(s,s);
+    p.setClipRegion(rect());
+    p.setRenderHint(QPainter::Antialiasing,true);
+    p.setFont(CResources::self().getMapFont());
+    draw(p);
+    p.end();
+
 }
 
 
@@ -216,6 +236,17 @@ void CCanvas::drawWaypoints(QPainter& p)
                 p.setPen(QPen(Qt::red,1));
                 p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
             }
+
+            QFont f = CResources::self().getMapFont();
+            f.setBold(true);
+            QFontMetrics fm(f);
+            QRect r = fm.boundingRect((*wpt)->name);
+            r.moveTopLeft(QPoint(u,v) + QPoint(-r.width()/2,-r.height() - 5));
+
+            p.setFont(f);
+            p.setPen(Qt::black);
+            p.drawText(r,Qt::AlignCenter,(*wpt)->name);
+
         }
         ++wpt;
     }
@@ -433,24 +464,6 @@ void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
     }
 
     if(oldWpt != selWpt){
-        if(selWpt){
-            double u = selWpt->lon * DEG_TO_RAD;
-            double v = selWpt->lat * DEG_TO_RAD;
-            map.convertRad2Pt(u,v);
-
-//             QFont f = CResources::self().getMapFont();
-//             f.setBold(true);
-//
-//             info = new QLabel(selWpt->name,this);
-//             info->setAutoFillBackground(true);
-//             info->setFont(f);
-//             info->move(u + 10 ,v - 20);
-//             info->show();
-        }
-        else if(info){
-            delete info;
-            info = 0;
-        }
         update();
     }
 }

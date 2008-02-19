@@ -134,6 +134,8 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print"),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
+    menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
@@ -290,6 +292,19 @@ void CMainWindow::slotSaveData()
     }
 
 }
+
+void CMainWindow::slotPrint()
+{
+    QPrinter printer;
+    printer.setOrientation(QPrinter::Landscape);
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print Map"));
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+    canvas->print(printer);
+}
+
 
 void CMainWindow::slotCreateMap()
 {

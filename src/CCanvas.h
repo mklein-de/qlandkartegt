@@ -33,6 +33,7 @@ class CMouseAddWpt;
 class CWpt;
 class QLabel;
 class QSize;
+class QPrinter;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -71,6 +72,8 @@ class CCanvas : public QWidget
             @param lat the logitude in  [°]
         */
         void move(double lon, double lat);
+
+        void print(QPrinter& printer);
 
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);

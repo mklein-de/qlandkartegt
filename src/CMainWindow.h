@@ -55,7 +55,7 @@ class CMainWindow : public QMainWindow
         void slotLoadData();
         void slotSaveData();
         void slotCreateMap();
-
+        void slotPrint();
 
     private:
         void setupMenuBar();
@@ -78,8 +78,6 @@ class CMainWindow : public QMainWindow
 
         /// root path of geo data
         QString pathData;
-
-//         QString mapFile;
 
         CResources * resources;
 
