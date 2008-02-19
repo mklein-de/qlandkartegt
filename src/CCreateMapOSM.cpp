@@ -492,7 +492,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     double Ep   = -20037508.34 + (40075016.68 / (1<<zoom)) * x1;
     double Np   =  20037471.21 - (40074942.42 / (1<<zoom)) * y1;
     double resx = (40075016.68 / ((1<<zoom) * 256));
-    double resy = (40074942.42 / ((1<<zoom) * 256));
+    double resy = (40075016.68 / ((1<<zoom) * 256));
 
     double adfGeoTransform[6];
     adfGeoTransform[0] = Ep;                     /* top left x */
