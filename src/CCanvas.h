@@ -99,12 +99,14 @@ class CCanvas : public QWidget
         void drawWaypoints(QPainter& p);
         void drawTracks(QPainter& p);
 
+
     private:
         friend class CMouseMoveMap;
         friend class CMouseSelMap;
         friend class CMouseAddWpt;
         friend class CStatusCanvas;
 
+        void drawText(const QString& str, QPainter& p, const QPoint& center);
         void mouseMoveEventCoord(QMouseEvent * e);
         void mouseMoveEventWpt(QMouseEvent * e);
 

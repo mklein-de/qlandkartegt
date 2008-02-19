@@ -237,15 +237,7 @@ void CCanvas::drawWaypoints(QPainter& p)
                 p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
             }
 
-            QFont f = CResources::self().getMapFont();
-            f.setBold(true);
-            QFontMetrics fm(f);
-            QRect r = fm.boundingRect((*wpt)->name);
-            r.moveTopLeft(QPoint(u,v) + QPoint(-r.width()/2,-r.height() - 5));
-
-            p.setFont(f);
-            p.setPen(Qt::black);
-            p.drawText(r,Qt::AlignCenter,(*wpt)->name);
+            drawText((*wpt)->name,p,QPoint(u,v - 10));
 
         }
         ++wpt;
@@ -332,6 +324,29 @@ void CCanvas::drawTracks(QPainter& p)
 //
 //         }
     }
+}
+
+void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
+{
+    QFont           f = CResources::self().getMapFont();
+    QFontMetrics    fm(f);
+    QRect           r = fm.boundingRect(str);
+
+    r.moveCenter(center);
+
+    p.setPen(Qt::white);
+    f.setBold(true);
+    p.setFont(f);
+
+    p.drawText(r.topLeft() - QPoint(-1,-1), str);
+    p.drawText(r.topLeft() - QPoint(-1,+1), str);
+    p.drawText(r.topLeft() - QPoint(+1,-1), str);
+    p.drawText(r.topLeft() - QPoint(+1,+1), str);
+
+    p.setFont(f);
+    p.setPen(Qt::darkBlue);
+    p.drawText(r.topLeft(),str);
+
 }
 
 void CCanvas::wheelEvent(QWheelEvent * e)
