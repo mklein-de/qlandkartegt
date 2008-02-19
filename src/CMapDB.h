@@ -54,7 +54,10 @@ class CMapDB : public IDB
         /// get access to known map dictionary
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get current main map
-        IMap& getMap(){return visibleMaps.isEmpty() ? *defaultMap : *visibleMaps.at(0);}
+        IMap& getMap(){
+          theMap = visibleMaps.isEmpty() ? defaultMap : visibleMaps.at(0);
+          return *theMap;
+        }
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
 
@@ -95,6 +98,8 @@ class CMapDB : public IDB
         CMapNoMap * defaultMap;
 
         CStatusCanvas * statusCanvas;
+
+        QPointer<IMap> theMap;
 };
 
 #endif //CMAPDB_H

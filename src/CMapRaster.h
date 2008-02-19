@@ -41,7 +41,7 @@ class CCanvas;
     instance.
 
 */
-class CMapRaster : virtual public IMap
+class CMapRaster : public IMap
 {
     Q_OBJECT
     public:
