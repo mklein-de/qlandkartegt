@@ -23,6 +23,7 @@
 #include "ui_ITrackToolWidget.h"
 
 class QToolBox;
+class QListWidgetItem;
 
 class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 {
@@ -33,6 +34,11 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 
     private slots:
         void slotDBChanged();
+        void slotItemDoubleClicked(QListWidgetItem * item);
+        void slotItemClicked(QListWidgetItem * item);
+
+    private:
+        bool originator;
 
 };
 

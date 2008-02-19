@@ -42,6 +42,7 @@ class CTrackDB : public IDB
         void download(){};
 
         void removeTrack(const QString& key, bool silent = false);
+        void highlightTrack(const QString& key);
 
         /// get access to track dictionary
         QMap<QString,CTrack*>& getTracks(){return tracks;}

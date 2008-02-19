@@ -24,12 +24,18 @@
 #include <QtGui>
 
 CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
+    : QWidget(parent)
+    , originator(false)
 {
     setupUi(this);
     setObjectName("Tracks");
     parent->addItem(this,QIcon(":/icons/iconTrack16x16"),tr("Tracks"));
 
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
+
+    connect(listTracks,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listTracks,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+
 
 }
 
@@ -40,6 +46,8 @@ CTrackToolWidget::~CTrackToolWidget()
 
 void CTrackToolWidget::slotDBChanged()
 {
+    if(originator) return;
+
     listTracks->clear();
 
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
@@ -51,3 +59,17 @@ void CTrackToolWidget::slotDBChanged()
         ++track;
     }
 }
+
+void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
+{
+
+}
+
+
+void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
+{
+    originator = true;
+    CTrackDB::self().highlightTrack(item->data(Qt::UserRole).toString());
+    originator = false;
+}
+

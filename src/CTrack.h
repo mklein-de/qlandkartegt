@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QVector>
 #include <QColor>
+#include <QPolygon>
 #include "CWpt.h"
 
 class CTrack : public QObject
@@ -74,27 +75,49 @@ class CTrack : public QObject
         const QString& getName(){return name;}
         /// get unique track key
         const QString& key();
+
+        /// set the highlight flag
+        void setHighlight(bool yes){highlight = yes;}
+        /// get the value of the highlight flag
+        bool isHighlighted(){return highlight;}
+
         /// append point to track
         CTrack& operator<<(pt_t& pt);
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
 
+        QVector<pt_t>& getTrackPoints(){return track;};
+
+        QPolygon& getPolyline(){return polyline;}
     signals:
         void sigChanged();
 
     private:
         void genKey();
         static const QColor colors[];
-
+        /// unique key to address tarck
         QString _key_;
+        /// creation timestamp
         quint32 timestamp;
+        /// track name
         QString name;
+        /// a comment string
         QString comment;
+        /// the track line color
         QColor  color;
+        /// the track points
         QVector<pt_t> track;
 
+        /// set true to draw track highlighted
+        bool highlight;
+
+        /// total time covered by all track points
         quint32 totalTime;
+        /// total distance of track [m]
         double  totalDistance;
+
+        /// the Qt polyline for faster processing
+        QPolygon polyline;
 
 };
 

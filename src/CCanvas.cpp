@@ -27,9 +27,11 @@
 #include "CMouseAddWpt.h"
 
 #include "CWpt.h"
+#include "CTrack.h"
 #include "CSearchDB.h"
 #include "CWptDB.h"
 #include "CMapDB.h"
+#include "CTrackDB.h"
 
 #include "GeoMath.h"
 #include "WptIcons.h"
@@ -150,6 +152,7 @@ void CCanvas::draw(QPainter& p)
     CMapDB::self().draw(p);
     mouse->draw(p);
     drawSearchResults(p);
+    drawTracks(p);
     drawWaypoints(p);
 }
 
@@ -215,6 +218,88 @@ void CCanvas::drawWaypoints(QPainter& p)
             }
         }
         ++wpt;
+    }
+}
+
+void CCanvas::drawTracks(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
+    QMap<QString,CTrack*>::iterator track       = tracks.begin();
+    QMap<QString,CTrack*>::iterator highlighted = tracks.end();
+
+    while(track != tracks.end()){
+        QPolygon& line = (*track)->getPolyline();
+        line.clear();
+
+        QVector<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
+        QVector<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+        while(trkpt != trkpts.end()) {
+            double u = trkpt->lon * DEG_TO_RAD;
+            double v = trkpt->lat * DEG_TO_RAD;
+
+            map.convertRad2Pt(u,v);
+
+            // skip deleted points, however if they are selected the
+            // selection mark is shown
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+//                 if(pt->flags & CGarminTrack::eSelected) {
+//                     selected << pt->point;
+//                 }
+                ++trkpt; continue;
+            }
+
+            line << QPoint(u,v);
+
+            ++trkpt;
+        }
+
+        if(!rect().intersects(line.boundingRect())) {
+            ++track; continue;
+        }
+
+        if((*track)->isHighlighted()) {
+            // store highlighted track to draw it later
+            // it must be drawn above all other tracks
+            highlighted = track;
+        }
+        else {
+            // draw normal track
+            p.setPen(QPen((*track)->getColor(),3));
+            p.drawPolyline(line);
+            p.setPen(Qt::white);
+            p.drawPolyline(line);
+        }
+
+        ++track;
+    }
+
+    // if there is a highlighted track, draw it
+    if(highlighted != tracks.end()) {
+        track = highlighted;
+
+        QPolygon& line = (*track)->getPolyline();
+
+        // draw skunk line
+        p.setPen(QPen((*track)->getColor(),5));
+        p.drawPolyline(line);
+        p.setPen(Qt::white);
+        p.drawPolyline(line);
+
+        // draw bubbles
+        QPoint pt;
+        foreach(pt,line) {
+            p.setPen((*track)->getColor());
+            p.setBrush(Qt::white);
+            p.drawEllipse(pt.x() - 2 ,pt.y() - 2,5,5);
+
+        }
+//         foreach(pt,selected) {
+//             p.setPen(Qt::black);
+//             p.setBrush(Qt::red);
+//             p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
+//
+//         }
     }
 }
 

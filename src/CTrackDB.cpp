@@ -118,3 +118,15 @@ void CTrackDB::removeTrack(const QString& key, bool silent)
     if(!silent) emit sigChanged();
 }
 
+void CTrackDB::highlightTrack(const QString& key)
+{
+    QMap<QString,CTrack*>::iterator track = tracks.begin();
+    while(track != tracks.end()) {
+        (*track)->setHighlight(false);
+        ++track;
+    }
+
+    tracks[key]->setHighlight(true);
+    emit sigChanged();
+
+}

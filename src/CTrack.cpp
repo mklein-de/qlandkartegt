@@ -48,6 +48,7 @@ CTrack::CTrack(QObject * parent)
     : QObject(parent)
     , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
     , color(Qt::darkBlue)
+    , highlight(false)
 {
 
 }
