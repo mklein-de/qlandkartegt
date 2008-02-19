@@ -78,7 +78,7 @@
           <item>
            <widget class="QLabel" name="label_2" >
             <property name="text" >
-             <string>Your sytem's hardware clock is set to UTC +</string>
+             <string>Your system's hardware clock is set to UTC +</string>
             </property>
            </widget>
           </item>
