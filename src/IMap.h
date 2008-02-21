@@ -86,6 +86,12 @@ class IMap : public QObject
             @param p      define center (steady point) of the transformation
         */
         virtual void zoom(bool zoomIn, const QPoint& p) = 0;
+
+        /// zoom map to fit area
+        /**
+
+        */
+        virtual void zoom(double lon1, double lat1, double lon2, double lat2) = 0;
         /// select an area of the map for export [px]
         /**
             @param rect area within the current viewport

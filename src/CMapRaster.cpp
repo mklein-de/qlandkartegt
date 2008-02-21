@@ -553,6 +553,63 @@ void CMapRaster::zoom(quint32& level)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
+{
+    if(maplevels.isEmpty()){
+        pMaplevel   = 0;
+        pjsrc       = 0;
+        return;
+    }
+
+    qDebug() << lon1 << lat1 << lon2 << lat2;
+    double u[3];
+    double v[3];
+
+    double dU, dV;
+
+    quint32 level;
+    QVector<CMapLevel*>::iterator maplevel = maplevels.begin();
+    while(maplevel != maplevels.end()){
+        u[0] = lon1;
+        v[0] = lat1;
+        u[1] = lon2;
+        v[1] = lat1;
+        u[2] = lon1;
+        v[2] = lat2;
+
+        pj_transform(pjtar, pjsrc,3,0,u,v,0);
+        dU = u[1] - u[0];
+        dV = v[2] - v[0];
+
+        qDebug() << u[0] << v[0];
+        qDebug() << u[1] << v[1];
+        qDebug() << u[2] << v[2];
+        qDebug() << dU << dV;
+
+        const CMapFile * map = *(*maplevel)->begin();
+
+        for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level){
+            int z = level - (*maplevel)->min + 1;
+            double pxU = dU / (map->xscale * z);
+            double pxV = dV / (map->yscale * z);
+
+            if((pxU < size.width()) && (pxV < size.height())){
+                pMaplevel   = *maplevel;
+                pjsrc       = map->pj;
+                zoomFactor  = z;
+                double u = lon1 + (lon2 - lon1)/2;
+                double v = lat1 + (lat2 - lat1)/2;
+                convertRad2Pt(u,v);
+                move(QPoint(u,v), rect.center());
+                return;
+            }
+
+        }
+        qDebug() << "-----------";
+        ++maplevel;
+    }
+}
+
 void CMapRaster::select(const QRect& rect)
 {
     if(pMaplevel.isNull()) return;

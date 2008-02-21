@@ -57,6 +57,7 @@ class CMapRaster : public IMap
         void convertM2Pt(double& u, double& v);
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
+        void zoom(double lon1, double lat1, double lon2, double lat2);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(float lon, float lat);
