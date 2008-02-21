@@ -49,14 +49,17 @@ void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
 
+    QPixmap icon(15,15);
     listTracks->clear();
 
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::const_iterator track = tracks.begin();
     while(track != tracks.end()){
         QListWidgetItem * item = new QListWidgetItem(listTracks);
+        icon.fill((*track)->getColor());
         item->setText((*track)->getName());
         item->setData(Qt::UserRole, (*track)->key());
+        item->setIcon(icon);
         ++track;
     }
 }

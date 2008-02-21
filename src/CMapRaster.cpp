@@ -561,10 +561,8 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
         return;
     }
 
-    qDebug() << lon1 << lat1 << lon2 << lat2;
     double u[3];
     double v[3];
-
     double dU, dV;
 
     quint32 level;
@@ -580,11 +578,6 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
         pj_transform(pjtar, pjsrc,3,0,u,v,0);
         dU = u[1] - u[0];
         dV = v[2] - v[0];
-
-        qDebug() << u[0] << v[0];
-        qDebug() << u[1] << v[1];
-        qDebug() << u[2] << v[2];
-        qDebug() << dU << dV;
 
         const CMapFile * map = *(*maplevel)->begin();
 
@@ -605,7 +598,6 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
             }
 
         }
-        qDebug() << "-----------";
         ++maplevel;
     }
 }
