@@ -41,7 +41,9 @@ class CTrackDB : public IDB
         void upload(){};
         void download(){};
 
-        void removeTrack(const QString& key, bool silent = false);
+        void delTrack(const QString& key, bool silent = false);
+        void delTracks(const QStringList& keys);
+
         void highlightTrack(const QString& key);
 
         /// get access to track dictionary

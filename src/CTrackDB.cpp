@@ -101,7 +101,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
             track->setName(tr("Track%1").arg(cnt++));
         }
         track->rebuild(false);
-        removeTrack(track->key());
+        delTrack(track->key());
         tracks[track->key()] = track;
 
         connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
@@ -111,12 +111,23 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
 }
 
-void CTrackDB::removeTrack(const QString& key, bool silent)
+void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
     delete tracks.take(key);
     if(!silent) emit sigChanged();
 }
+
+void CTrackDB::delTracks(const QStringList& keys)
+{
+    QString key;
+    foreach(key,keys) {
+        if(!tracks.contains(key)) continue;
+        delete tracks.take(key);
+    }
+    emit sigChanged();
+}
+
 
 void CTrackDB::highlightTrack(const QString& key)
 {

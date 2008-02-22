@@ -24,6 +24,7 @@
 
 class QToolBox;
 class QListWidgetItem;
+class QMenu;
 
 class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 {
@@ -32,13 +33,23 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         CTrackToolWidget(QToolBox * parent);
         virtual ~CTrackToolWidget();
 
+
+    protected:
+        void keyPressEvent(QKeyEvent * e);
+
     private slots:
         void slotDBChanged();
         void slotItemDoubleClicked(QListWidgetItem * item);
         void slotItemClicked(QListWidgetItem * item);
+        void slotContextMenu(const QPoint& pos);
+        void slotEdit();
+        void slotDelete();
+
 
     private:
         bool originator;
+
+        QMenu * contextMenu;
 
 };
 

@@ -37,6 +37,11 @@ CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
     connect(listTracks,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
     connect(listTracks,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 
+    contextMenu = new QMenu(this);
+    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
+
+    connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
 }
 
@@ -98,4 +103,42 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
     CTrackDB::self().highlightTrack(item->data(Qt::UserRole).toString());
     originator = false;
 }
+
+
+void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
+{
+    if(e->key() == Qt::Key_Delete){
+        slotDelete();
+        e->accept();
+    }
+    else{
+        QWidget::keyPressEvent(e);
+    }
+}
+
+void CTrackToolWidget::slotContextMenu(const QPoint& pos)
+{
+    if(listTracks->currentItem()){
+        QPoint p = listTracks->mapToGlobal(pos);
+        contextMenu->exec(p);
+    }
+
+}
+
+void CTrackToolWidget::slotEdit()
+{
+}
+
+void CTrackToolWidget::slotDelete()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listTracks->selectedItems();
+    foreach(item,items){
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    CTrackDB::self().delTracks(keys);
+}
+
 

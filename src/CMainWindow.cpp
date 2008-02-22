@@ -212,13 +212,17 @@ void CMainWindow::slotConfig()
 
 void CMainWindow::slotLoadData()
 {
-    QString filter;
+    QSettings cfg;
+
+    QString filter =cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
                                                     ,pathData
                                                     ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
                                                     ,&filter
                                                 );
     if(filename.isEmpty()) return;
+
+    cfg.setValue("geodata/filter",filter);
 
     QString ext = filename.right(4);
 
@@ -253,13 +257,17 @@ void CMainWindow::slotLoadData()
 
 void CMainWindow::slotSaveData()
 {
-    QString filter;
+    QSettings cfg;
+
+    QString filter =cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
                                                     ,pathData
                                                     ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
                                                     ,&filter
                                                 );
     if(filename.isEmpty()) return;
+
+    cfg.setValue("geodata/filter",filter);
 
     QString ext = filename.right(4);
 
