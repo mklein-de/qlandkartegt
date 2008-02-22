@@ -14,13 +14,13 @@ IF(WIN32)
   INCLUDE_DIRECTORIES( C:/Programme/FWTools1.3.9/include )
 ENDIF(WIN32)
 
-FIND_PATH(GDAL_INCLUDE gdal.h PATHS /usr/include /usr/include/gdal)
-
 IF(UNIX)
+    FIND_PATH(GDAL_INCLUDE gdal.h /usr/include /usr/include/gdal)
     IF(NOT ${GDAL_INCLUDE} STREQUAL "/usr/include")
         INCLUDE_DIRECTORIES( ${GDAL_INCLUDE} )
     ENDIF(NOT ${GDAL_INCLUDE} STREQUAL "/usr/include")
     MESSAGE("Using " ${GDAL_INCLUDE} " for GDAL")
+
 ENDIF(UNIX)
 
 add_subdirectory(./src)
