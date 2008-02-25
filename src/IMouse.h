@@ -24,9 +24,12 @@
 #include <QObject>
 #include <QRect>
 #include <QPointer>
+
+#include "CTrack.h"
 class QMouseEvent;
 class CCanvas;
 class CWpt;
+
 
 /// Base class to all mouse function objects
 /**
@@ -73,9 +76,13 @@ class IMouse : public QObject
         void drawRect(QPainter& p);
         /// draw selected waypoint
         void drawSelWpt(QPainter& p);
+        /// draw selected track point
+        void drawSelTrkPt(QPainter& p);
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
+
+        void mouseMoveEventTrack(QMouseEvent * e);
 
         /// the functions mouse icon
         QCursor cursor;
@@ -85,6 +92,7 @@ class IMouse : public QObject
         QRect rect;
 
         QPointer<CWpt> selWpt;
+        CTrack::pt_t * selTrkPt;
 
 };
 

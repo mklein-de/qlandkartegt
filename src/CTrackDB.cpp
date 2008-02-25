@@ -80,7 +80,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
             if(trkpt.namedItem("time").isElement()) {
                 QDateTime time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
                 time.setTimeSpec(Qt::UTC);
-                pt.time = time.toTime_t() - CResources::self().getUTCOffset();
+                pt.timestamp = time.toTime_t() - CResources::self().getUTCOffset();
             }
 
             if(trkpt.namedItem("extension").isElement()) {
@@ -149,8 +149,8 @@ void CTrackDB::saveGPX(CGpx& gpx)
                 QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele));
                 ele.appendChild(_ele_);
             }
-            if(pt->time != 0x000000000 && pt->time != 0xFFFFFFFF) {
-                QDateTime t = QDateTime::fromTime_t(pt->time + CResources::self().getUTCOffset()).toUTC();
+            if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF) {
+                QDateTime t = QDateTime::fromTime_t(pt->timestamp + CResources::self().getUTCOffset()).toUTC();
                 QDomElement time = gpx.createElement("time");
                 trkpt.appendChild(time);
                 QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));

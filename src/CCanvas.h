@@ -103,13 +103,9 @@ class CCanvas : public QWidget
 
 
     private:
-//         friend class CMouseMoveMap;
-//         friend class CMouseSelMap;
-//         friend class CMouseAddWpt;
         friend class CStatusCanvas;
 
         void mouseMoveEventCoord(QMouseEvent * e);
-        void mouseMoveEventTrack(QMouseEvent * e);
 
         IMouse * mouse;
         CMouseMoveMap * mouseMoveMap;

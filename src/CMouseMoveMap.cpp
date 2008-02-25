@@ -44,6 +44,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
     }
 
     mouseMoveEventWpt(e);
+    mouseMoveEventTrack(e);
 }
 
 void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
@@ -70,5 +71,6 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 void CMouseMoveMap::draw(QPainter& p)
 {
     drawSelWpt(p);
+    drawSelTrkPt(p);
 }
 

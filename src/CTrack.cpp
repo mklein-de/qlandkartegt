@@ -126,7 +126,7 @@ void CTrack::rebuild(bool reindex)
     pt1->delta      = 0;
     pt1->speed      = -1;
     pt1->distance   = 0;
-    t1              = pt1->time;
+    t1              = pt1->timestamp;
 
     // process track
     while(++pt2 != track.end()) {
@@ -141,8 +141,8 @@ void CTrack::rebuild(bool reindex)
         }
 
         int dt = -1;
-        if(pt1->time != 0x00000000 && pt1->time != 0xFFFFFFFF) {
-            dt = pt2->time - pt1->time;
+        if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF) {
+            dt = pt2->timestamp - pt1->timestamp;
         }
 
         XY p1,p2;
@@ -156,7 +156,7 @@ void CTrack::rebuild(bool reindex)
         pt2->distance   = pt1->distance + pt2->delta;
         pt2->speed      = (dt > 0) ? pt2->delta / dt * 3.6 : 0;
 
-        t2              = pt2->time;
+        t2              = pt2->timestamp;
         totalDistance   = pt2->distance;
 
         pt1 = pt2;

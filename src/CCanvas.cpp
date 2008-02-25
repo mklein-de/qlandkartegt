@@ -265,6 +265,8 @@ void CCanvas::drawTracks(QPainter& p)
 
             map.convertRad2Pt(u,v);
 
+            trkpt->pt = QPoint(u,v);
+
             // skip deleted points, however if they are selected the
             // selection mark is shown
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
@@ -274,7 +276,8 @@ void CCanvas::drawTracks(QPainter& p)
                 ++trkpt; continue;
             }
 
-            line << QPoint(u,v);
+
+            line << trkpt->pt;
 
             ++trkpt;
         }
@@ -460,11 +463,3 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 }
 
 
-void CCanvas::mouseMoveEventTrack(QMouseEvent * e)
-{
-    CTrack * track = CTrackDB::self().highlightedTrack();
-    if(track == 0) return;
-
-
-
-}

@@ -44,7 +44,7 @@ class CTrack : public QObject
 
             };
 
-            pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), time(0),
+            pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
                      speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0){}
             qint32  idx;
             /// longitude [°]
@@ -53,7 +53,7 @@ class CTrack : public QObject
             float   lat;
             /// elevation [m]
             float   ele;
-            quint32 time;
+            quint32 timestamp;
 
             /// secondary data: the speed between this and the previous point
             float speed;
@@ -65,6 +65,8 @@ class CTrack : public QObject
             float distance;
             /// display flags
             quint32 flags;
+            /// projected point
+            QPoint pt;
 
         };
 

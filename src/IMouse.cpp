@@ -21,7 +21,9 @@
 #include "CCanvas.h"
 #include "CWptDB.h"
 #include "CMapDB.h"
+#include "CTrackDB.h"
 #include "CWpt.h"
+#include "CTrack.h"
 #include "CMainWindow.h"
 #include "CResources.h"
 #include <QtGui>
@@ -30,6 +32,7 @@ IMouse::IMouse(CCanvas * canvas)
     : QObject(canvas)
     , cursor(QPixmap(":/cursor/Arrow"))
     , canvas(canvas)
+    , selTrkPt(0)
 {
 
 }
@@ -113,6 +116,49 @@ void IMouse::drawSelWpt(QPainter& p)
     }
 }
 
+void IMouse::drawSelTrkPt(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    if(selTrkPt && !selWpt){
+        double u = selTrkPt->lon * DEG_TO_RAD;
+        double v = selTrkPt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
+
+        QString str;
+        if(selTrkPt->timestamp != 0x00000000 && selTrkPt->timestamp != 0xFFFFFFFF) {
+            QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp + CResources::self().getUTCOffset());
+            time.setTimeSpec(Qt::LocalTime);
+            str = time.toString();
+        }
+
+        if(selTrkPt->ele != WPT_NOFLOAT){
+            if(str.count()) str += "\n";
+            str += tr("elevation: %1 m").arg(selTrkPt->ele,0,'f',0);
+        }
+
+        QFont           f = CResources::self().getMapFont();
+        QFontMetrics    fm(f);
+        QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+        r1.moveTopLeft(QPoint(u + 45, v));
+
+        QRect           r2 = r1;
+        r2.setWidth(r1.width() + 4);
+        r2.moveLeft(r1.left() - 2);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawRect(r2);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+
+    }
+}
+
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
@@ -137,4 +183,35 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         theMainWindow->getCanvas()->update();
     }
 }
+
+void IMouse::mouseMoveEventTrack(QMouseEvent * e)
+{
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0) return;
+
+    int d1      = 20;
+    CTrack::pt_t * oldTrackPt = selTrkPt; selTrkPt    = 0;
+
+    QVector<CTrack::pt_t>& pts = track->getTrackPoints();
+    QVector<CTrack::pt_t>::iterator pt = pts.begin();
+    while(pt != pts.end()){
+        if(pt->flags & CTrack::pt_t::eDeleted) {
+            ++pt; continue;
+        }
+
+        int d2 = abs(e->pos().x() - pt->pt.x()) + abs(e->pos().y() - pt->pt.y());
+        if(d2 < d1) {
+            selTrkPt = &(*pt);
+            d1 = d2;
+        }
+
+        ++pt;
+    }
+
+    if(oldTrackPt != selTrkPt){
+        theMainWindow->getCanvas()->update();
+    }
+
+}
+
 
