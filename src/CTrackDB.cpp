@@ -111,6 +111,68 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
 }
 
+void CTrackDB::saveGPX(CGpx& gpx)
+{
+    QDomElement root = gpx.documentElement();
+    QMap<QString,CTrack*>::iterator track = tracks.begin();
+    while(track != tracks.end()) {
+        QDomElement trk = gpx.createElement("trk");
+        root.appendChild(trk);
+
+        QDomElement name = gpx.createElement("name");
+        trk.appendChild(name);
+        QDomText _name_ = gpx.createTextNode((*track)->getName());
+        name.appendChild(_name_);
+
+        QDomElement ext = gpx.createElement("extension");
+        trk.appendChild(ext);
+
+        QDomElement color = gpx.createElement("color");
+        ext.appendChild(color);
+        QDomText _color_ = gpx.createTextNode(QString::number((*track)->getColorIdx()));
+        color.appendChild(_color_);
+
+        QDomElement trkseg = gpx.createElement("trkseg");
+        trk.appendChild(trkseg);
+
+        QVector<CTrack::pt_t>& pts = (*track)->getTrackPoints();
+        QVector<CTrack::pt_t>::const_iterator pt = pts.begin();
+        while(pt != pts.end()) {
+            QDomElement trkpt = gpx.createElement("trkpt");
+            trkseg.appendChild(trkpt);
+            trkpt.setAttribute("lat",(double)pt->lat);
+            trkpt.setAttribute("lon",(double)pt->lon);
+
+            if(pt->ele != WPT_NOFLOAT) {
+                QDomElement ele = gpx.createElement("ele");
+                trkpt.appendChild(ele);
+                QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele));
+                ele.appendChild(_ele_);
+            }
+            if(pt->time != 0x000000000 && pt->time != 0xFFFFFFFF) {
+                QDateTime t = QDateTime::fromTime_t(pt->time + CResources::self().getUTCOffset()).toUTC();
+                QDomElement time = gpx.createElement("time");
+                trkpt.appendChild(time);
+                QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
+                time.appendChild(_time_);
+            }
+
+            QDomElement extension = gpx.createElement("extension");
+            trkpt.appendChild(extension);
+
+            QDomElement flags = gpx.createElement("flags");
+            extension.appendChild(flags);
+            QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags));
+            flags.appendChild(_flags_);
+
+            ++pt;
+        }
+
+        ++track;
+    }
+
+}
+
 void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
@@ -139,5 +201,17 @@ void CTrackDB::highlightTrack(const QString& key)
 
     tracks[key]->setHighlight(true);
     emit sigChanged();
+
+}
+
+CTrack* CTrackDB::highlightedTrack()
+{
+
+    QMap<QString,CTrack*>::iterator track = tracks.begin();
+    while(track != tracks.end()) {
+        if((*track)->isHighlighted()) return *track;
+        ++track;
+    }
+    return 0;
 
 }

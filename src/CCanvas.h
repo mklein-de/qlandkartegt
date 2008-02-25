@@ -78,6 +78,8 @@ class CCanvas : public QWidget
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);
 
+        static void drawText(const QString& str, QPainter& p, const QPoint& center);
+
     signals:
         void sigResize(const QSize& size);
 
@@ -101,14 +103,13 @@ class CCanvas : public QWidget
 
 
     private:
-        friend class CMouseMoveMap;
-        friend class CMouseSelMap;
-        friend class CMouseAddWpt;
+//         friend class CMouseMoveMap;
+//         friend class CMouseSelMap;
+//         friend class CMouseAddWpt;
         friend class CStatusCanvas;
 
-        void drawText(const QString& str, QPainter& p, const QPoint& center);
         void mouseMoveEventCoord(QMouseEvent * e);
-        void mouseMoveEventWpt(QMouseEvent * e);
+        void mouseMoveEventTrack(QMouseEvent * e);
 
         IMouse * mouse;
         CMouseMoveMap * mouseMoveMap;
@@ -120,8 +121,6 @@ class CCanvas : public QWidget
 
         /// current mouse position
         QPoint posMouse;
-
-        QPointer<CWpt> selWpt;
 
         QLabel * info;
 };

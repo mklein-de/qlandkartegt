@@ -121,8 +121,6 @@ void CCanvas::mouseMoveEvent(QMouseEvent * e)
     posMouse = e->pos();
 
     mouseMoveEventCoord(e);
-    mouseMoveEventWpt(e);
-
     mouse->mouseMoveEvent(e);
 }
 
@@ -170,10 +168,11 @@ void CCanvas::print(QPrinter& printer)
 void CCanvas::draw(QPainter& p)
 {
     CMapDB::self().draw(p);
-    mouse->draw(p);
     drawSearchResults(p);
     drawTracks(p);
     drawWaypoints(p);
+
+    mouse->draw(p);
 }
 
 
@@ -193,23 +192,12 @@ void CCanvas::drawSearchResults(QPainter& p)
 
         ++result;
     }
-
 }
 
 void CCanvas::drawWaypoints(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
 
-    if(!selWpt.isNull()){
-        double u = selWpt->lon * DEG_TO_RAD;
-        double v = selWpt->lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
-
-        p.setPen(QColor(100,100,255,200));
-        p.setBrush(QColor(255,255,255,200));
-        p.drawEllipse(QRect(u - 11,  v - 11, 22, 22));
-
-    }
 
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()){
@@ -218,8 +206,22 @@ void CCanvas::drawWaypoints(QPainter& p)
         map.convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))){
+            QPixmap icon = getWptIconByName((*wpt)->icon);
+            QPixmap back = QPixmap(icon.size());
+            back.fill(Qt::white);
+            back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));
             // draw waypoint icon
-            p.drawPixmap(u-7 , v-7, getWptIconByName((*wpt)->icon));
+            p.drawPixmap(u-8 , v-8, back);
+            p.drawPixmap(u-8 , v-7, back);
+            p.drawPixmap(u-8 , v-6, back);
+            p.drawPixmap(u-7 , v-8, back);
+
+            p.drawPixmap(u-7 , v-6, back);
+            p.drawPixmap(u-6 , v-8, back);
+            p.drawPixmap(u-6 , v-7, back);
+            p.drawPixmap(u-6 , v-6, back);
+
+            p.drawPixmap(u-7 , v-7, icon);
 
             if((*wpt)->prx != WPT_NOFLOAT){
                 double u1 = u;
@@ -457,28 +459,12 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
 }
 
-void CCanvas::mouseMoveEventWpt(QMouseEvent * e)
+
+void CCanvas::mouseMoveEventTrack(QMouseEvent * e)
 {
-    IMap& map = CMapDB::self().getMap();
-    CWpt * oldWpt = selWpt; selWpt = 0;
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0) return;
 
-    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()){
-        double u = (*wpt)->lon * DEG_TO_RAD;
-        double v = (*wpt)->lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
 
-        QPoint diff = posMouse - QPoint(u,v);
-        if(diff.manhattanLength() < 15){
-            selWpt = *wpt;
-            break;
-        }
 
-        ++wpt;
-    }
-
-    if(oldWpt != selWpt){
-        update();
-    }
 }
-

@@ -19,6 +19,11 @@
 
 #include "IMouse.h"
 #include "CCanvas.h"
+#include "CWptDB.h"
+#include "CMapDB.h"
+#include "CWpt.h"
+#include "CMainWindow.h"
+#include "CResources.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -52,3 +57,84 @@ void IMouse::drawRect(QPainter& p)
     p.setPen(QColor(150,150,255));
     p.drawRect(rect);
 }
+
+void IMouse::drawSelWpt(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    if(!selWpt.isNull()){
+        double u = selWpt->lon * DEG_TO_RAD;
+        double v = selWpt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawEllipse(QRect(u - 11,  v - 11, 22, 22));
+
+        QString str;
+        if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF) {
+            QDateTime time = QDateTime::fromTime_t(selWpt->timestamp + CResources::self().getUTCOffset());
+            time.setTimeSpec(Qt::LocalTime);
+            str = time.toString();
+        }
+
+        if(selWpt->ele != WPT_NOFLOAT){
+            if(str.count()) str += "\n";
+            str += tr("elevation: %1 m").arg(selWpt->ele,0,'f',0);
+        }
+
+        if(selWpt->comment.count()){
+            if(str.count()) str += "\n";
+
+            if(selWpt->comment.count() < 200){
+                str += selWpt->comment;
+            }
+            else{
+                str += selWpt->comment.left(197) + "...";
+            }
+
+        }
+
+        QFont           f = CResources::self().getMapFont();
+        QFontMetrics    fm(f);
+        QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+        r1.moveTopLeft(QPoint(u + 45, v));
+
+        QRect           r2 = r1;
+        r2.setWidth(r1.width() + 4);
+        r2.moveLeft(r1.left() - 2);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawRect(r2);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+
+    }
+}
+
+void IMouse::mouseMoveEventWpt(QMouseEvent * e)
+{
+    IMap& map = CMapDB::self().getMap();
+    CWpt * oldWpt = selWpt; selWpt = 0;
+
+    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()){
+        double u = (*wpt)->lon * DEG_TO_RAD;
+        double v = (*wpt)->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        QPoint diff = e->pos() - QPoint(u,v);
+        if(diff.manhattanLength() < 15){
+            selWpt = *wpt;
+            break;
+        }
+
+        ++wpt;
+    }
+
+    if(oldWpt != selWpt){
+        theMainWindow->getCanvas()->update();
+    }
+}
+

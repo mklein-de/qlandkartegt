@@ -42,6 +42,8 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
         oldPoint = e->pos();
         canvas->update();
     }
+
+    mouseMoveEventWpt(e);
 }
 
 void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
@@ -62,5 +64,11 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
         QApplication::restoreOverrideCursor();
         canvas->update();
     }
+}
+
+
+void CMouseMoveMap::draw(QPainter& p)
+{
+    drawSelWpt(p);
 }
 

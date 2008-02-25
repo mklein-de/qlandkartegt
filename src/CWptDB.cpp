@@ -178,8 +178,8 @@ void CWptDB::saveGPX(CGpx& gpx)
         }
         QDomElement waypoint = gpx.createElement("wpt");
         root.appendChild(waypoint);
-        waypoint.setAttribute("lat",(*wpt)->lat);
-        waypoint.setAttribute("lon",(*wpt)->lon);
+        waypoint.setAttribute("lat",(double)(*wpt)->lat);
+        waypoint.setAttribute("lon",(double)(*wpt)->lon);
 
         if((*wpt)->ele != 1e25f){
             QDomElement ele = gpx.createElement("ele");

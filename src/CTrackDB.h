@@ -34,7 +34,7 @@ class CTrackDB : public IDB
         static CTrackDB& self(){return *m_self;}
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx){};
+        void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb){};
         void saveQLB(CQlb& qlb){};
 
@@ -45,6 +45,17 @@ class CTrackDB : public IDB
         void delTracks(const QStringList& keys);
 
         void highlightTrack(const QString& key);
+        /// get highlighted track
+        /**
+            <b>WARNING</b> The object referenced by the returned
+            pointer might be subject to destruction at any time.
+            Thus you must use it temporarily or store it by a
+            QPointer object.
+
+            @return A pointer to the current highlighted track or 0.
+        */
+        CTrack* highlightedTrack();
+
 
         /// get access to track dictionary
         QMap<QString,CTrack*>& getTracks(){return tracks;}

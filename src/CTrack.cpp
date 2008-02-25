@@ -48,6 +48,7 @@ CTrack::CTrack(QObject * parent)
     : QObject(parent)
     , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
     , color(Qt::darkBlue)
+    , colorIdx(4)
     , highlight(false)
 {
 
@@ -61,7 +62,8 @@ CTrack::~CTrack()
 void CTrack::setColor(unsigned i)
 {
     if(i>16) i = 4;
-    color = colors[i];
+    colorIdx    = i;
+    color       = colors[i];
 }
 
 void CTrack::genKey()

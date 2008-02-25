@@ -23,8 +23,10 @@
 #include <QCursor>
 #include <QObject>
 #include <QRect>
+#include <QPointer>
 class QMouseEvent;
 class CCanvas;
+class CWpt;
 
 /// Base class to all mouse function objects
 /**
@@ -69,6 +71,11 @@ class IMouse : public QObject
         void resizeRect(const QPoint& p);
         /// actually draw the current capture rectangle
         void drawRect(QPainter& p);
+        /// draw selected waypoint
+        void drawSelWpt(QPainter& p);
+
+        /// choose waypoint close to cursor
+        void mouseMoveEventWpt(QMouseEvent * e);
 
         /// the functions mouse icon
         QCursor cursor;
@@ -76,6 +83,8 @@ class IMouse : public QObject
         CCanvas * canvas;
         /// capture rectangle
         QRect rect;
+
+        QPointer<CWpt> selWpt;
 
 };
 

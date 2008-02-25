@@ -36,6 +36,7 @@ class CMouseMoveMap : public IMouse
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
+        void draw(QPainter& p);
     private:
         /// true if left mouse button is pressed
         bool moveMap;

@@ -72,6 +72,7 @@ class CTrack : public QObject
         void setColor(unsigned i);
         /// get QT color
         const QColor& getColor(){return color;}
+        const unsigned getColorIdx(){return colorIdx;}
         /// set track name
         void setName(const QString& n){name = n;}
         /// get track name
@@ -108,6 +109,8 @@ class CTrack : public QObject
         QString comment;
         /// the track line color
         QColor  color;
+        /// the track line color by index
+        unsigned colorIdx;
         /// the track points
         QVector<pt_t> track;
 
