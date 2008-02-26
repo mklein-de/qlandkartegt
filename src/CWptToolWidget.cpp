@@ -114,3 +114,14 @@ void CWptToolWidget::slotDelete()
     }
     CWptDB::self().delWpt(keys);
 }
+
+void CWptToolWidget::selWptByKey(const QString& key)
+{
+    for(int i=0; i<listWpts->count(); ++i){
+        QListWidgetItem * item = listWpts->item(i);
+        if(item && item->data(Qt::UserRole) == key){
+            listWpts->setCurrentItem(item);
+        }
+    }
+}
+

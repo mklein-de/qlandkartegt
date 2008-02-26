@@ -81,7 +81,7 @@ class IMouse : public QObject
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
-
+        /// choose track point close to cursor
         void mouseMoveEventTrack(QMouseEvent * e);
 
         /// the functions mouse icon
@@ -91,7 +91,9 @@ class IMouse : public QObject
         /// capture rectangle
         QRect rect;
 
+        /// current selected waypoint
         QPointer<CWpt> selWpt;
+        /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
 
 };

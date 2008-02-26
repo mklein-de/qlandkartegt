@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CWpt.h"
+#include "CWptDB.h"
 
 #include <QtCore>
 
@@ -239,7 +240,7 @@ void operator <<(QFile& f, CWpt& wpt)
 
 
 
-CWpt::CWpt(QObject * parent)
+CWpt::CWpt(CWptDB * parent)
     : QObject(parent)
     , sticky(false)
     , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
@@ -248,7 +249,6 @@ CWpt::CWpt(QObject * parent)
     , lon(1000)
     , ele(WPT_NOFLOAT)
     , prx(WPT_NOFLOAT)
-
 {
 
 }

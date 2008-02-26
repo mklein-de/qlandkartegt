@@ -290,3 +290,10 @@ void CWptDB::download()
     emit sigChanged();
 }
 
+void CWptDB::selWptByKey(const QString& key)
+{
+    CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
+    if(t){
+        t->selWptByKey(key);
+    }
+}

@@ -33,6 +33,8 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         CWptToolWidget(QTabWidget * parent);
         virtual ~CWptToolWidget();
 
+        void selWptByKey(const QString& key);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 

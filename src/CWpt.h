@@ -28,6 +28,8 @@
 
 #define WPT_NOFLOAT 1e25f
 
+class CWptDB;
+
 /// waypoint data object
 /**
     The idea of this waypoint data onject is to provide an appendable data format, that
@@ -79,13 +81,12 @@ class CWpt : public QObject
 {
     Q_OBJECT
     public:
-        CWpt(QObject * parent);
+        CWpt(CWptDB * parent);
         virtual ~CWpt();
 
         const QString& key();
         const QString filename(const QDir& dir = CWpt::path);
         enum type_e {eEnd,eBase,eImage};
-
         static QDir& getWptPath(){return path;}
 
     private:

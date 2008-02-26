@@ -81,6 +81,7 @@ void CTrackToolWidget::slotDBChanged()
         QTime time;
         time = time.addSecs((*track)->getTotalTime());
         str += tr("\ntime: ") + time.toString("HH:mm:ss");
+        str += tr(", speed: %1 km/h").arg(distance * 3.6 / (*track)->getTotalTime(), 0, 'f', 2);
 
         item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());

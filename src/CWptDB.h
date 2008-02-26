@@ -49,10 +49,12 @@ class CWptDB : public IDB
         */
         void newWpt(float lon, float lat, float ele);
 
+        /// get pointer access to waypoint via it's key
         CWpt * getWptByKey(const QString& key);
 
+        /// delete several waypoints by their keys
         void delWpt(const QStringList& keys);
-
+        /// delete a waipoint by it's key
         void delWpt(const QString& key, bool silent = false);
 
         void loadGPX(CGpx& gpx);
@@ -63,6 +65,7 @@ class CWptDB : public IDB
         void upload();
         void download();
 
+        void selWptByKey(const QString& key);
 
     private:
         friend class CMainWindow;

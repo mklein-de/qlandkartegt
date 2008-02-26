@@ -20,6 +20,7 @@
 #include "CMouseMoveMap.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 
@@ -54,6 +55,10 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         QApplication::setOverrideCursor(cursor);
         moveMap     = true;
         oldPoint    = e->pos();
+
+        if(selWpt){
+            CWptDB::self().selWptByKey(selWpt->key());
+        }
     }
 }
 
