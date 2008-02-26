@@ -30,7 +30,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 {
     Q_OBJECT
     public:
-        CTrackToolWidget(QToolBox * parent);
+        CTrackToolWidget(QTabWidget * parent);
         virtual ~CTrackToolWidget();
 
 

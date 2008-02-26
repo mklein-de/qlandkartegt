@@ -189,17 +189,20 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track == 0) return;
 
-    int d1      = 20;
-    CTrack::pt_t * oldTrackPt = selTrkPt; selTrkPt    = 0;
 
-    QVector<CTrack::pt_t>& pts = track->getTrackPoints();
-    QVector<CTrack::pt_t>::iterator pt = pts.begin();
+    CTrack::pt_t * oldTrackPt = selTrkPt;
+    int d1      = 20;
+    selTrkPt    = 0;
+
+    QVector<CTrack::pt_t>& pts          = track->getTrackPoints();
+    QVector<CTrack::pt_t>::iterator pt  = pts.begin();
     while(pt != pts.end()){
         if(pt->flags & CTrack::pt_t::eDeleted) {
             ++pt; continue;
         }
 
-        int d2 = abs(e->pos().x() - pt->pt.x()) + abs(e->pos().y() - pt->pt.y());
+        int d2 = abs(e->pos().x() - pt->px.x()) + abs(e->pos().y() - pt->px.y());
+
         if(d2 < d1) {
             selTrkPt = &(*pt);
             d1 = d2;

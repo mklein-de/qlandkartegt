@@ -24,12 +24,13 @@
 
 #include <QtGui>
 
-CMapToolWidget::CMapToolWidget(QToolBox * parent)
+CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     : QWidget(parent)
 {
     setupUi(this);
     setObjectName("Maps");
-    parent->addItem(this,QIcon(":/icons/iconMap16x16"),tr("Maps"));
+    parent->addTab(this,QIcon(":/icons/iconMap16x16"),"");
+    parent->setTabToolTip(parent->indexOf(this), tr("Maps"));
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));

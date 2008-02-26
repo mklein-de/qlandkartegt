@@ -24,7 +24,7 @@
 
 class QSplitter;
 class QLabel;
-class QToolBox;
+class QTabWidget;
 class CCanvas;
 class CMegaMenu;
 class CMapDB;
@@ -70,7 +70,7 @@ class CMainWindow : public QMainWindow
         CMegaMenu * megaMenu;
 
         /// left hand tool box
-        QToolBox  * toolbox;
+        QTabWidget  * tabbar;
         /// the map canvas
         CCanvas * canvas;
         /// coordinate label

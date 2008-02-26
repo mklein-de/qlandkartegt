@@ -29,7 +29,7 @@ class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
 {
     Q_OBJECT
     public:
-        CSearchToolWidget(QToolBox * parent);
+        CSearchToolWidget(QTabWidget * parent);
         virtual ~CSearchToolWidget();
 
     private slots:

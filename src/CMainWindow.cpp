@@ -66,8 +66,8 @@ CMainWindow::CMainWindow()
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
-    toolbox = new QToolBox(canvas);
-    leftSplitter->addWidget(toolbox);
+    tabbar = new QTabWidget(canvas);
+    leftSplitter->addWidget(tabbar);
 
     statusCoord = new QLabel(this);
     statusBar()->insertPermanentWidget(1,statusCoord);
@@ -75,15 +75,15 @@ CMainWindow::CMainWindow()
     QSettings cfg;
     pathData = cfg.value("path/data","./").toString();
 
-    searchdb    = new CSearchDB(toolbox, this);
-    mapdb       = new CMapDB(toolbox, this);
-    wptdb       = new CWptDB(toolbox, this);
-    trackdb     = new CTrackDB(toolbox, this);
+    searchdb    = new CSearchDB(tabbar, this);
+    mapdb       = new CMapDB(tabbar, this);
+    wptdb       = new CWptDB(tabbar, this);
+    trackdb     = new CTrackDB(tabbar, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
-    connect(toolbox, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
+    connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 
     showMaximized();
 
@@ -200,7 +200,7 @@ void CMainWindow::slotCopyright()
 
 void CMainWindow::slotToolBoxChanged(int idx)
 {
-    QString key = toolbox->widget(idx)->objectName();
+    QString key = tabbar->widget(idx)->objectName();
     megaMenu->switchByKeyWord(key);
 }
 

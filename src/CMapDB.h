@@ -76,7 +76,7 @@ class CMapDB : public IDB
     private:
         friend class CMainWindow;
 
-        CMapDB(QToolBox * tb, QObject * parent);
+        CMapDB(QTabWidget * tb, QObject * parent);
 
         void closeVisibleMaps();
 

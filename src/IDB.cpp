@@ -21,9 +21,9 @@
 
 #include <QtGui>
 
-IDB::IDB(QToolBox * tb, QObject * parent)
+IDB::IDB(QTabWidget * tb, QObject * parent)
     : QObject(parent)
-    , toolbox(tb)
+    , tabbar(tb)
 {
 
 }
@@ -35,7 +35,7 @@ IDB::~IDB()
 
 void IDB::gainFocus()
 {
-    if(toolview && toolbox->currentWidget() != toolview){
-        toolbox->setCurrentWidget(toolview);
+    if(toolview && tabbar->currentWidget() != toolview){
+        tabbar->setCurrentWidget(toolview);
     }
 }

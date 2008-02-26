@@ -28,7 +28,7 @@
 CMapDB * CMapDB::m_self = 0;
 
 
-CMapDB::CMapDB(QToolBox * tb, QObject * parent)
+CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     : IDB(tb,parent)
 {
     m_self      = this;

@@ -21,7 +21,7 @@
 
 #include <QObject>
 
-class QToolBox;
+class QTabWidget;
 class QWidget;
 class QPainter;
 class CGpx;
@@ -32,7 +32,7 @@ class IDB : public QObject
 {
     Q_OBJECT
     public:
-        IDB(QToolBox * tb, QObject * parent);
+        IDB(QTabWidget * tb, QObject * parent);
         virtual ~IDB();
 
         virtual void gainFocus();
@@ -50,8 +50,8 @@ class IDB : public QObject
         void sigChanged();
 
     protected:
-        QToolBox *  toolbox;
-        QWidget *   toolview;
+        QTabWidget *  tabbar;
+        QWidget *  toolview;
 };
 
 #endif //IDB_H

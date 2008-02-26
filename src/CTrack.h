@@ -65,9 +65,8 @@ class CTrack : public QObject
             float distance;
             /// display flags
             quint32 flags;
-            /// projected point
-            QPoint pt;
-
+            /// the current location in pixel
+            QPoint px;
         };
 
         /// set color by id
@@ -95,6 +94,10 @@ class CTrack : public QObject
         QVector<pt_t>& getTrackPoints(){return track;};
 
         QPolygon& getPolyline(){return polyline;}
+        /// get the total distance of the track in [m]
+        double getTotalDistance(){return totalDistance;}
+        /// get the total time covered by the track in seconds
+        int getTotalTime(){return totalTime;}
     signals:
         void sigChanged();
 

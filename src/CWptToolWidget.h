@@ -30,7 +30,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 {
     Q_OBJECT
     public:
-        CWptToolWidget(QToolBox * parent);
+        CWptToolWidget(QTabWidget * parent);
         virtual ~CWptToolWidget();
 
     protected:

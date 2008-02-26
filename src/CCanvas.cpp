@@ -264,8 +264,7 @@ void CCanvas::drawTracks(QPainter& p)
             double v = trkpt->lat * DEG_TO_RAD;
 
             map.convertRad2Pt(u,v);
-
-            trkpt->pt = QPoint(u,v);
+            trkpt->px = QPoint(u,v);
 
             // skip deleted points, however if they are selected the
             // selection mark is shown
@@ -276,9 +275,7 @@ void CCanvas::drawTracks(QPainter& p)
                 ++trkpt; continue;
             }
 
-
-            line << trkpt->pt;
-
+            line << trkpt->px;
             ++trkpt;
         }
 

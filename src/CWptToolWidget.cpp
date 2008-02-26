@@ -27,12 +27,13 @@
 
 #include <QtGui>
 
-CWptToolWidget::CWptToolWidget(QToolBox * parent)
+CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     : QWidget(parent)
 {
     setupUi(this);
     setObjectName("Waypoints");
-    parent->addItem(this,QIcon(":/icons/iconWaypoint16x16"),tr("Waypoints"));
+    parent->addTab(this,QIcon(":/icons/iconWaypoint16x16"),"");
+    parent->setTabToolTip(parent->indexOf(this), tr("Waypoints"));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listWpts,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));

@@ -590,6 +590,7 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
                 zoomFactor  = z;
+                zoomidx     = pMaplevel->min + z - 1;
                 double u = lon1 + (lon2 - lon1)/2;
                 double v = lat1 + (lat2 - lat1)/2;
                 convertRad2Pt(u,v);

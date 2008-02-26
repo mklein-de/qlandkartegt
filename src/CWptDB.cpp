@@ -34,7 +34,7 @@
 
 CWptDB * CWptDB::m_self = 0;
 
-CWptDB::CWptDB(QToolBox * tb, QObject * parent)
+CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     : IDB(tb,parent)
 {
     m_self      = this;

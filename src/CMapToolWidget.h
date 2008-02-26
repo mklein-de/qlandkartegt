@@ -30,7 +30,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 {
     Q_OBJECT
     public:
-        CMapToolWidget(QToolBox * parent);
+        CMapToolWidget(QTabWidget * parent);
         virtual ~CMapToolWidget();
 
     private slots:

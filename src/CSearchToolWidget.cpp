@@ -24,7 +24,7 @@
 
 #include <QtGui>
 
-CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
+CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
     : QWidget(parent)
 {
     setupUi(this);
@@ -37,7 +37,8 @@ CSearchToolWidget::CSearchToolWidget(QToolBox * parent)
 
     connect(listResults,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
-    parent->addItem(this,QIcon(":/icons/iconSearch16x16"),tr("Search"));
+    parent->addTab(this,QIcon(":/icons/iconSearch16x16"),"");
+    parent->setTabToolTip(parent->indexOf(this), tr("Search"));
 }
 
 CSearchToolWidget::~CSearchToolWidget()

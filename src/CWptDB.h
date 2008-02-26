@@ -68,7 +68,7 @@ class CWptDB : public IDB
         friend class CMainWindow;
         friend class CDlgEditWpt;
 
-        CWptDB(QToolBox * tb, QObject * parent);
+        CWptDB(QTabWidget * tb, QObject * parent);
         void addWpt(CWpt * wpt);
         static CWptDB * m_self;
 

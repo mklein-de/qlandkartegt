@@ -24,13 +24,14 @@
 
 #include <QtGui>
 
-CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
+CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     : QWidget(parent)
     , originator(false)
 {
     setupUi(this);
     setObjectName("Tracks");
-    parent->addItem(this,QIcon(":/icons/iconTrack16x16"),tr("Tracks"));
+    parent->addTab(this,QIcon(":/icons/iconTrack16x16"),"");
+    parent->setTabToolTip(parent->indexOf(this), tr("Tracks"));
 
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
@@ -43,6 +44,9 @@ CTrackToolWidget::CTrackToolWidget(QToolBox * parent)
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
+    QFontMetrics fm(listTracks->font());
+    listTracks->setIconSize(QSize(15,3*fm.height()));
+
 }
 
 CTrackToolWidget::~CTrackToolWidget()
@@ -54,7 +58,8 @@ void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
 
-    QPixmap icon(15,15);
+    QFontMetrics fm(listTracks->font());
+    QPixmap icon(15,3*fm.height());
     listTracks->clear();
 
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
@@ -62,7 +67,22 @@ void CTrackToolWidget::slotDBChanged()
     while(track != tracks.end()){
         QListWidgetItem * item = new QListWidgetItem(listTracks);
         icon.fill((*track)->getColor());
-        item->setText((*track)->getName());
+
+        QString str     = (*track)->getName();
+        double distance = (*track)->getTotalDistance();
+        if(distance > 9999.9){
+            str += tr("\nlength: %1 km").arg(distance / 1000.0, 0, 'f', 3);
+        }
+        else{
+            str += tr("\nlength: %1 m").arg(distance,0 ,'f', 0);
+        }
+        str += tr(", points: %1").arg((*track)->getTrackPoints().count());
+
+        QTime time;
+        time = time.addSecs((*track)->getTotalTime());
+        str += tr("\ntime: ") + time.toString("HH:mm:ss");
+
+        item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);
         ++track;

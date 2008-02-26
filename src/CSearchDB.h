@@ -72,7 +72,7 @@ class CSearchDB : public IDB
     private:
         friend class CMainWindow;
 
-        CSearchDB(QToolBox * tb, QObject * parent);
+        CSearchDB(QTabWidget * tb, QObject * parent);
         static CSearchDB * m_self;
 
         QHttp * google;

@@ -29,7 +29,7 @@
 
 CTrackDB * CTrackDB::m_self = 0;
 
-CTrackDB::CTrackDB(QToolBox * tb, QObject * parent)
+CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
     : IDB(tb,parent)
     , cnt(0)
 {
@@ -105,10 +105,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
         tracks[track->key()] = track;
 
         connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-
     }
     emit sigChanged();
-
 }
 
 void CTrackDB::saveGPX(CGpx& gpx)
