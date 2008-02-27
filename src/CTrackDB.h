@@ -60,6 +60,8 @@ class CTrackDB : public IDB
         /// get access to track dictionary
         QMap<QString,CTrack*>& getTracks(){return tracks;}
 
+    signals:
+        void sigHighlightTrack(CTrack * track);
 
     private:
         friend class CMainWindow;

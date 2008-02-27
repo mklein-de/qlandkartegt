@@ -45,6 +45,7 @@ set(qlandkarte_SRCS
     CTrack.cpp
     CTrackDB.cpp
     CTrackToolWidget.cpp
+    CTrackEditWidget.cpp
 )
 
 set(qlandkarte_HDRS
@@ -89,6 +90,7 @@ set(qlandkarte_HDRS
     CTrack.h
     CTrackDB.h
     CTrackToolWidget.h
+    CTrackEditWidget.h
 )
 
 SET(qlandkarte_UIS
@@ -96,6 +98,7 @@ SET(qlandkarte_UIS
     IWptToolWidget.ui
     IMapToolWidget.ui
     ITrackToolWidget.ui
+    ITrackEditWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui
@@ -118,13 +121,6 @@ qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable( QLandkarteGT ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
-
-if(UNIX)
-  add_definitions(-Wall -O2)
-endif(UNIX)
-
-#target_link_libraries(QLandkarteGT gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
-
 
 IF(UNIX)
   add_definitions(-Wall -O2)

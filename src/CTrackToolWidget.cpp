@@ -18,9 +18,11 @@
 **********************************************************************************************/
 
 #include "CTrackToolWidget.h"
+#include "CTrackEditWidget.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "CMapDB.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 
@@ -148,6 +150,17 @@ void CTrackToolWidget::slotContextMenu(const QPoint& pos)
 
 void CTrackToolWidget::slotEdit()
 {
+    const QListWidgetItem* item = listTracks->currentItem();
+
+    if(item == 0) return;
+
+    if(trackedit.isNull()){
+        trackedit = new CTrackEditWidget(theMainWindow->getCanvas());
+        connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), trackedit, SLOT(slotSetTrack(CTrack*)));
+        theMainWindow->setTempWidget(trackedit);
+    }
+
+    trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
 }
 
 void CTrackToolWidget::slotDelete()

@@ -16,46 +16,29 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CTRACKTOOLWIDGET_H
-#define CTRACKTOOLWIDGET_H
+#ifndef CTRACKEDITWIDGET_H
+#define CTRACKEDITWIDGET_H
 
 #include <QWidget>
 #include <QPointer>
-#include "ui_ITrackToolWidget.h"
+#include "ui_ITrackEditWidget.h"
 
-class QToolBox;
-class QListWidgetItem;
-class QMenu;
-class CTrackEditWidget;
+class CTrack;
 
-class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
+class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
     Q_OBJECT
     public:
-        CTrackToolWidget(QTabWidget * parent);
-        virtual ~CTrackToolWidget();
+        CTrackEditWidget(QWidget * parent);
+        virtual ~CTrackEditWidget();
 
-
-    protected:
-        void keyPressEvent(QKeyEvent * e);
-
-    private slots:
-        void slotDBChanged();
-        void slotItemDoubleClicked(QListWidgetItem * item);
-        void slotItemClicked(QListWidgetItem * item);
-        void slotContextMenu(const QPoint& pos);
-        void slotEdit();
-        void slotDelete();
-
+    public slots:
+        void slotSetTrack(CTrack * t);
 
     private:
-        bool originator;
-
-        QMenu * contextMenu;
-
-        QPointer<CTrackEditWidget> trackedit;
+        QPointer<CTrack> track;
 
 };
 
-#endif //CTRACKTOOLWIDGET_H
+#endif //CTRACKEDITWIDGET_H
 

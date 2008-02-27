@@ -118,6 +118,11 @@ CMainWindow::~CMainWindow()
     cfg.setValue("path/data",pathData);
 }
 
+void CMainWindow::setTempWidget(QWidget * w)
+{
+    rightSplitter->addWidget(w);
+}
+
 void CMainWindow::setPositionInfo(const QString& info)
 {
     statusCoord->setText(info);

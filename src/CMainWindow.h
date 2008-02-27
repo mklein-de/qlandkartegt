@@ -44,6 +44,8 @@ class CMainWindow : public QMainWindow
 
         CCanvas * getCanvas(){return canvas;}
 
+        void setTempWidget(QWidget * w);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 

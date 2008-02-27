@@ -16,46 +16,36 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CTRACKTOOLWIDGET_H
-#define CTRACKTOOLWIDGET_H
 
-#include <QWidget>
-#include <QPointer>
-#include "ui_ITrackToolWidget.h"
+#include "CTrackEditWidget.h"
+#include "CTrack.h"
 
-class QToolBox;
-class QListWidgetItem;
-class QMenu;
-class CTrackEditWidget;
+#include <QtGui>
 
-class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
+CTrackEditWidget::CTrackEditWidget(QWidget * parent)
+    : QWidget(parent)
 {
-    Q_OBJECT
-    public:
-        CTrackToolWidget(QTabWidget * parent);
-        virtual ~CTrackToolWidget();
+    setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose,true);
 
+    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+    connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
-    protected:
-        void keyPressEvent(QKeyEvent * e);
+    QPixmap icon(16,8);
+    for(int i=0; i < 17; ++i) {
+        icon.fill(CTrack::colors[i]);
+        comboColor->addItem(icon,"",QVariant(i));
+    }
+}
 
-    private slots:
-        void slotDBChanged();
-        void slotItemDoubleClicked(QListWidgetItem * item);
-        void slotItemClicked(QListWidgetItem * item);
-        void slotContextMenu(const QPoint& pos);
-        void slotEdit();
-        void slotDelete();
+CTrackEditWidget::~CTrackEditWidget()
+{
 
+}
 
-    private:
-        bool originator;
-
-        QMenu * contextMenu;
-
-        QPointer<CTrackEditWidget> trackedit;
-
-};
-
-#endif //CTRACKTOOLWIDGET_H
-
+void CTrackEditWidget::slotSetTrack(CTrack * t)
+{
+    track = t;
+    lineName->setText(track->getName());
+    comboColor->setCurrentIndex(track->getColorIdx());
+}

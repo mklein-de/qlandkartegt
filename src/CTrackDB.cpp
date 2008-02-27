@@ -198,6 +198,8 @@ void CTrackDB::highlightTrack(const QString& key)
     }
 
     tracks[key]->setHighlight(true);
+
+    emit sigHighlightTrack(tracks[key]);
     emit sigChanged();
 
 }

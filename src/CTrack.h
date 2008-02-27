@@ -98,12 +98,14 @@ class CTrack : public QObject
         double getTotalDistance(){return totalDistance;}
         /// get the total time covered by the track in seconds
         int getTotalTime(){return totalTime;}
+
+        static const QColor colors[];
     signals:
         void sigChanged();
 
     private:
         void genKey();
-        static const QColor colors[];
+
         /// unique key to address tarck
         QString _key_;
         /// creation timestamp
