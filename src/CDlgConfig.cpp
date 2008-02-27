@@ -45,8 +45,6 @@ void CDlgConfig::exec()
     labelFont->setFont(resources.m_mapfont);
     radioMetric->setChecked(resources.m_doMetric);
     radioImperial->setChecked(!resources.m_doMetric);
-    spinUTCOffset->setValue(resources.m_offsetUTC > 24 ? 0: resources.m_offsetUTC);
-    spinUTCOffsetFract->setValue(resources.m_offsetUTCfract);
 
     comboBrowser->setCurrentIndex(resources.m_eBrowser);
     lineBrowserCmd->setText(resources.cmdOther);
@@ -80,9 +78,6 @@ void CDlgConfig::accept()
 
     resources.m_mapfont         = labelFont->font();
     resources.m_doMetric        = radioMetric->isChecked();
-    resources.m_offsetUTC       = spinUTCOffset->value();
-    resources.m_offsetUTCfract  = spinUTCOffsetFract->value();
-    resources.setUTCOffset(resources.m_offsetUTC, resources.m_offsetUTCfract);
 
     resources.m_eBrowser        = (CResources::bowser_e)comboBrowser->currentIndex();
     resources.cmdOther          = lineBrowserCmd->text();

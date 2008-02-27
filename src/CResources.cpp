@@ -49,19 +49,6 @@ CResources::CResources(QObject * parent)
     m_mapfont = QFont(family,size);
 
     m_doMetric        = cfg.value("environment/doMetric",true).toBool();
-    m_offsetUTC       = cfg.value("environment/UTCOffset",100).toInt();
-    m_offsetUTCfract  = cfg.value("environment/UTCOffsetFract",0).toInt();
-
-    if(m_offsetUTC == 100){
-        QMessageBox::information(0,tr("Time offset ...")
-                                ,tr("QLandkarte assumes that your hardware clock is "
-                                    "set to UTC time. You must setup the correct "
-                                    "time offset in 'Setup->Config'")
-                                ,QMessageBox::Ok,QMessageBox::NoButton);
-    }
-    else{
-        setUTCOffset(m_offsetUTC, m_offsetUTCfract);
-    }
 
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
     m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
@@ -87,8 +74,6 @@ CResources::~CResources()
     cfg.setValue("environment/mapfont/family",m_mapfont.family());
     cfg.setValue("environment/mapfont/size",m_mapfont.pointSize());
     cfg.setValue("environment/doMetric",m_doMetric);
-    cfg.setValue("environment/UTCOffset",m_offsetUTC);
-    cfg.setValue("environment/UTCOffsetFract",m_offsetUTCfract);
 
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);
@@ -112,10 +97,6 @@ bool CResources::getHttpProxy(QString& url, quint16& port)
     return m_useHttpProxy;
 }
 
-void CResources::setUTCOffset(int offset, int fract)
-{
-//     time_offset = TIME_OFFSET + offset * 3600 + fract * 60;
-}
 
 IDevice * CResources::device()
 {

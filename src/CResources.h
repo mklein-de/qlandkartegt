@@ -43,14 +43,6 @@ class CResources : public QObject
         */
         bool getHttpProxy(QString& url, quint16& port);
 
-        /// set time offset to UTC in multiples of hours
-        /**
-            @param offset the offset in multiple of hours
-        */
-        void setUTCOffset(int offset, int fract);
-
-        quint32 getUTCOffset(){return time_offset;}
-
         /// get pointer to current device handler
         IDevice * device();
 
@@ -87,10 +79,6 @@ class CResources : public QObject
         QFont m_mapfont;
         /// true for metric system, false for imperial
         bool m_doMetric;
-        /// offset to UTC in multiples of hours
-        qint32 m_offsetUTC;
-        /// offset to UTC fractional part
-        qint32 m_offsetUTCfract;
 
         /// the installed browser type
         bowser_e m_eBrowser;

@@ -290,7 +290,10 @@ void CCanvas::drawTracks(QPainter& p)
         }
         else {
             // draw normal track
-            p.setPen(QPen((*track)->getColor(),3));
+            QPen pen((*track)->getColor(),3);
+            pen.setCapStyle(Qt::RoundCap);
+            pen.setJoinStyle(Qt::RoundJoin);
+            p.setPen(pen);
             p.drawPolyline(line);
             p.setPen(Qt::white);
             p.drawPolyline(line);
@@ -306,7 +309,10 @@ void CCanvas::drawTracks(QPainter& p)
         QPolygon& line = (*track)->getPolyline();
 
         // draw skunk line
-        p.setPen(QPen((*track)->getColor(),5));
+        QPen pen((*track)->getColor(),5);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        p.setPen(pen);
         p.drawPolyline(line);
         p.setPen(Qt::white);
         p.drawPolyline(line);

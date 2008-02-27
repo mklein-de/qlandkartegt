@@ -75,7 +75,7 @@ void IMouse::drawSelWpt(QPainter& p)
 
         QString str;
         if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF) {
-            QDateTime time = QDateTime::fromTime_t(selWpt->timestamp + CResources::self().getUTCOffset());
+            QDateTime time = QDateTime::fromTime_t(selWpt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
         }
@@ -110,6 +110,7 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setBrush(QColor(255,255,255,200));
         p.drawRect(r2);
 
+        p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 
@@ -130,7 +131,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
 
         QString str;
         if(selTrkPt->timestamp != 0x00000000 && selTrkPt->timestamp != 0xFFFFFFFF) {
-            QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp + CResources::self().getUTCOffset());
+            QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
         }
@@ -153,6 +154,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         p.setBrush(QColor(255,255,255,200));
         p.drawRect(r2);
 
+        p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 

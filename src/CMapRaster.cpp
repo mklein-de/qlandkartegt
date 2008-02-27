@@ -355,7 +355,7 @@ CMapRaster::~CMapRaster()
     QSettings mapdef(filename,QSettings::IniFormat);
     mapdef.beginGroup(QString("home"));
 
-    mapdef.setValue("zoom",zoomidx);
+    mapdef.setValue("zoom",zoomidx < 1 ? 1 : zoomidx);
     QString pos;
 
     GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
