@@ -66,7 +66,7 @@ class CMapRaster : public IMap
     private:
         friend class CExportMapThread;
 
-        void zoom(quint32& level);
+        void zoom(qint32& level);
 
         QString exportPath;
 
@@ -74,7 +74,7 @@ class CMapRaster : public IMap
 
         QPointer<CMapLevel> pMaplevel;
 
-        quint32 zoomFactor;
+        float zoomFactor;
 
         /// top left corner as long / lat [rad]
         XY topLeft;

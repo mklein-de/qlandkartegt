@@ -63,9 +63,9 @@ class CMapLevel : public QObject
         QVector<CMapFile*>::const_iterator end(){return mapfiles.end();}
 
         /// minimum zoom level
-        const quint32 min;
+        const qint32 min;
         /// maximum zoom level
-        const quint32 max;
+        const qint32 max;
 
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 

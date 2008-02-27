@@ -139,7 +139,7 @@ class IMap : public QObject
         /// canvas / viewport size
         QSize size;
         /// absolute zoom factor (1...x)
-        quint32 zoomidx;
+        qint32 zoomidx;
 
         /// source projection of the current map file
         /**

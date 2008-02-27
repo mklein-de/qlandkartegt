@@ -447,6 +447,21 @@ void CMapRaster::draw(QPainter& p)
         pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor, overlay);
     }
 
+    if(zoomFactor < 1.0){
+        QString str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+
+        p.setPen(Qt::white);
+        p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+        p.drawText(9 ,23, str);
+        p.drawText(11,23, str);
+        p.drawText(9 ,25, str);
+        p.drawText(11,25, str);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(10,24,str);
+
+    }
 }
 
 
@@ -519,7 +534,7 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p0)
     topLeft = p2;
 }
 
-void CMapRaster::zoom(quint32& level)
+void CMapRaster::zoom(qint32& level)
 {
     if(maplevels.isEmpty()){
         pMaplevel   = 0;
@@ -528,7 +543,11 @@ void CMapRaster::zoom(quint32& level)
     }
 
     // no level less than 1
-    if(level < 1) level = 1;
+    if(level < 1){
+        zoomFactor  = 1.0 / - (level - 2);
+        qDebug() << "zoom:" << zoomFactor;
+        return;
+    }
 
     QVector<CMapLevel*>::const_iterator maplevel = maplevels.begin();
 
@@ -565,7 +584,7 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
     double v[3];
     double dU, dV;
 
-    quint32 level;
+    qint32 level;
     QVector<CMapLevel*>::iterator maplevel = maplevels.begin();
     while(maplevel != maplevels.end()){
         u[0] = lon1;
