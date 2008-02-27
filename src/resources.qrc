@@ -39,6 +39,13 @@
         <file>cursors/cursorMove.png</file>
         <file>cursors/cursorAdd.png</file>
 
+        <file>icons/wpt/custom1.png</file>
+        <file>icons/wpt/custom2.png</file>
+        <file>icons/wpt/custom3.png</file>
+        <file>icons/wpt/custom4.png</file>
+        <file>icons/wpt/custom5.png</file>
+
+
         <file>icons/wpt/1st_aid15x15.png</file>
         <file>icons/wpt/airport15x15.png</file>
         <file>icons/wpt/amusement_park15x15.png</file>
