@@ -63,6 +63,8 @@ void CTrackToolWidget::slotDBChanged()
     QPixmap icon(15,3*fm.height());
     listTracks->clear();
 
+    QListWidgetItem * highlighted = 0;
+
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::const_iterator track = tracks.begin();
     while(track != tracks.end()){
@@ -87,7 +89,17 @@ void CTrackToolWidget::slotDBChanged()
         item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);
+
+        if((*track)->isHighlighted()){
+            highlighted = item;
+        }
+
         ++track;
+    }
+
+    if(highlighted){
+        listTracks->setCurrentItem(highlighted);
+        slotEdit();
     }
 }
 
