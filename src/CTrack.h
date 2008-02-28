@@ -98,11 +98,8 @@ class CTrack : public QObject
         double getTotalDistance(){return totalDistance;}
         /// get the total time covered by the track in seconds
         int getTotalTime(){return totalTime;}
-
-        /// set the point of user focus
-        void  setPointOfFocus(qint32 idx);
-        /// get the current point of focus
-        QVector<pt_t>::iterator getPointOfFocus();
+        /// select tarckpoint by index
+        void selTrackpoint(int idx);
 
         static const QColor colors[];
     signals:

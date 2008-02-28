@@ -43,7 +43,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkRemoveDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckRemove(bool)));
     connect(checkResetDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckReset(bool)));
     connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
-    connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
 
 }
@@ -268,13 +267,6 @@ void CTrackEditWidget::slotApply()
     originator = false;
 }
 
-void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
-{
-    if(track.isNull()) return;
-    originator = true;
-    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
-    originator = false;
-}
 
 void CTrackEditWidget::slotPointSelectionChanged()
 {

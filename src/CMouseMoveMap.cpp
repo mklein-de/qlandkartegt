@@ -21,6 +21,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "CWptDB.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 
@@ -58,6 +59,11 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         if(selWpt){
             CWptDB::self().selWptByKey(selWpt->key());
+        }
+
+        CTrack * track = CTrackDB::self().highlightedTrack();
+        if(track && selTrkPt){
+            track->selTrackpoint(selTrkPt->idx);
         }
     }
 }

@@ -167,29 +167,19 @@ void CTrack::rebuild(bool reindex)
     emit sigChanged();
 }
 
-
-void  CTrack::setPointOfFocus(qint32 idx)
+void CTrack::selTrackpoint(int idx)
 {
-    QVector<pt_t>::iterator trkpt = track.begin();
-    while(trkpt != track.end()) {
-        trkpt->flags &= ~pt_t::eFocus;
+    // reset previous selections
+    QVector<CTrack::pt_t>& trkpts           = track;
+    QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end()) {
+        trkpt->flags &= ~CTrack::pt_t::eFocus;
+        trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
     }
-
-    if(idx < track.size()) {
-        track[idx].flags |= pt_t::eFocus;
+    if(idx < track.count()){
+        trkpts[idx].flags |= CTrack::pt_t::eFocus;
+        trkpts[idx].flags |= CTrack::pt_t::eSelected;
     }
-
     emit sigChanged();
 }
-
-QVector<CTrack::pt_t>::iterator CTrack::getPointOfFocus()
-{
-    QVector<pt_t>::iterator trkpt = track.begin();
-    while(trkpt != track.end()) {
-        if(trkpt->flags & pt_t::eFocus) break;
-        ++trkpt;
-    }
-    return trkpt;
-}
-
