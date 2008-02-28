@@ -38,7 +38,9 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotCheckRemove(bool checked);
         void slotApply();
         void slotPointSelectionChanged();
+        void slotPointSelection(QTreeWidgetItem * item);
         void slotPurge();
+        void slotUpdate();
 
     protected:
         void keyPressEvent(QKeyEvent * e);

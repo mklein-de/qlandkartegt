@@ -167,7 +167,7 @@ void CTrack::rebuild(bool reindex)
     emit sigChanged();
 }
 
-void CTrack::selTrackpoint(int idx)
+void CTrack::setPointOfFocus(int idx)
 {
     // reset previous selections
     QVector<CTrack::pt_t>& trkpts           = track;

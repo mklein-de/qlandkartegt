@@ -248,6 +248,7 @@ void CCanvas::drawWaypoints(QPainter& p)
 
 void CCanvas::drawTracks(QPainter& p)
 {
+    QPoint focus(-1,-1);
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
@@ -271,11 +272,16 @@ void CCanvas::drawTracks(QPainter& p)
                 selected << trkpt->px;
             }
 
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eFocus) {
+                focus = trkpt->px;
+            }
+
             // skip deleted points, however if they are selected the
             // selection mark is shown
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
                 ++trkpt; continue;
             }
+
 
             line << trkpt->px;
             ++trkpt;
@@ -332,6 +338,15 @@ void CCanvas::drawTracks(QPainter& p)
             p.setBrush(Qt::red);
             p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
 
+        }
+
+        if(focus != QPoint(-1,-1)){
+            p.setPen(QPen(Qt::white,3));
+            p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
+            p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
+            p.setPen(Qt::red);
+            p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
+            p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
         }
     }
 }

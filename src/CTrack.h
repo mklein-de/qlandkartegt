@@ -99,9 +99,10 @@ class CTrack : public QObject
         /// get the total time covered by the track in seconds
         int getTotalTime(){return totalTime;}
         /// select tarckpoint by index
-        void selTrackpoint(int idx);
+        void setPointOfFocus(int idx);
 
         static const QColor colors[];
+
     signals:
         void sigChanged();
 

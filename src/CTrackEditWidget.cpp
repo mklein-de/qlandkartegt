@@ -44,6 +44,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkResetDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckReset(bool)));
     connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
+    connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
 
 }
 
@@ -69,10 +70,27 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 {
     if(originator) return;
 
+    if(track){
+        disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+        disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
+    }
+
     track = t;
     if(track.isNull()){
+        close();
         return;
     }
+
+    connect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+    connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
+
+    slotUpdate();
+}
+
+void CTrackEditWidget::slotUpdate()
+{
+
+    if(originator) return;
 
     lineName->setText(track->getName());
     comboColor->setCurrentIndex(track->getColorIdx());
@@ -293,6 +311,13 @@ void CTrackEditWidget::slotPointSelectionChanged()
     originator = false;
 }
 
+void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
+{
+    if(track.isNull()) return;
+    originator = true;
+    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
+    originator = false;
+}
 
 void CTrackEditWidget::slotPurge()
 {

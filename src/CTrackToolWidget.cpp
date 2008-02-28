@@ -99,7 +99,6 @@ void CTrackToolWidget::slotDBChanged()
 
     if(highlighted){
         listTracks->setCurrentItem(highlighted);
-        slotEdit();
     }
 }
 

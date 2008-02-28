@@ -63,7 +63,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
         if(track && selTrkPt){
-            track->selTrackpoint(selTrkPt->idx);
+            track->setPointOfFocus(selTrkPt->idx);
         }
     }
 }
