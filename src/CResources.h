@@ -33,7 +33,6 @@ class CResources : public QObject
 
         static CResources& self(){return *m_self;}
 
-
         /// get HTTP proxy settings
         /**
             @param url a string to store the proxy's URL
@@ -48,6 +47,9 @@ class CResources : public QObject
 
         /// the font used for text on the map
         const QFont& getMapFont(){return m_mapfont;}
+
+        /// true for metric mode, false for imperial
+        bool doMetric(){return m_doMetric;}
 
         /// root path of all maps
         QString pathMaps;

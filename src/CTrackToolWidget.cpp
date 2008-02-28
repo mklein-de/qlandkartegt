@@ -48,7 +48,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     QFontMetrics fm(listTracks->font());
     listTracks->setIconSize(QSize(15,3*fm.height()));
-
 }
 
 CTrackToolWidget::~CTrackToolWidget()

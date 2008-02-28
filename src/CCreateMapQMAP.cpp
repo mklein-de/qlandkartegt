@@ -162,7 +162,7 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
     item->setData(0,eSouth, south);
     item->setData(0,eEast, east);
 
-    float a1,a2;
+    double a1,a2;
     XY p1, p2, p4;
     p1.u = west;
     p1.v = north;
@@ -205,7 +205,7 @@ void CCreateMapQMAP::processLevelList()
     GPS_Math_Deg_To_Str(east * RAD_TO_DEG, south * RAD_TO_DEG, bottomRight);
     str += tr("Bottom/right corner:\t\t%1\n").arg(bottomRight);
 
-    float a1,a2;
+    double a1,a2;
     XY p1, p2, p4;
     p1.u = west;
     p1.v = north;

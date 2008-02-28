@@ -100,7 +100,7 @@ void CExportMapThread::run()
     p4.u = bottomRight.u;
     p4.v = topLeft.v;
 
-    float a1 = 0, a2 = 0;
+    double a1 = 0, a2 = 0;
     int realWidth  = ::distance(topLeft, p4, a1, a2);
     int realHeight = ::distance(topLeft, p3, a1, a2);
 

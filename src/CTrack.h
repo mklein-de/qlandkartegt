@@ -60,7 +60,7 @@ class CTrack : public QObject
             /// secondary data: the distance between this and the previous point
             float delta;
             /// secondary data: the azimuth to the next point
-            float azimuth;
+            double azimuth;
             /// secondary data: the total distance of all visible points up to this point
             float distance;
             /// display flags
@@ -98,6 +98,11 @@ class CTrack : public QObject
         double getTotalDistance(){return totalDistance;}
         /// get the total time covered by the track in seconds
         int getTotalTime(){return totalTime;}
+
+        /// set the point of user focus
+        void  setPointOfFocus(qint32 idx);
+        /// get the current point of focus
+        QVector<pt_t>::iterator getPointOfFocus();
 
         static const QColor colors[];
     signals:

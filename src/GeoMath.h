@@ -29,7 +29,7 @@ extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat);
 extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
 
 extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2);
-extern float distance(const XY& p1, const XY& p2, float& a1, float& a2);
+extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
 
 #endif //GEOMATH_H
 

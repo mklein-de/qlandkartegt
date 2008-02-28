@@ -248,6 +248,7 @@ void CCanvas::drawWaypoints(QPainter& p)
 
 void CCanvas::drawTracks(QPainter& p)
 {
+    QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
@@ -266,12 +267,13 @@ void CCanvas::drawTracks(QPainter& p)
             map.convertRad2Pt(u,v);
             trkpt->px = QPoint(u,v);
 
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
+                selected << trkpt->px;
+            }
+
             // skip deleted points, however if they are selected the
             // selection mark is shown
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
-//                 if(pt->flags & CGarminTrack::eSelected) {
-//                     selected << pt->point;
-//                 }
                 ++trkpt; continue;
             }
 
@@ -325,12 +327,12 @@ void CCanvas::drawTracks(QPainter& p)
             p.drawEllipse(pt.x() - 2 ,pt.y() - 2,5,5);
 
         }
-//         foreach(pt,selected) {
-//             p.setPen(Qt::black);
-//             p.setBrush(Qt::red);
-//             p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
-//
-//         }
+        foreach(pt,selected) {
+            p.setPen(Qt::black);
+            p.setBrush(Qt::red);
+            p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
+
+        }
     }
 }
 

@@ -133,7 +133,7 @@ void CTrack::rebuild(bool reindex)
 
         // reset deleted points
         if(pt2->flags & pt_t::eDeleted) {
-            pt2->azimuth    = 0;
+            pt2->azimuth    = WPT_NOFLOAT;
             pt2->delta      = 0;
             pt2->speed      = -1;
             pt2->distance   = 0;
@@ -150,7 +150,7 @@ void CTrack::rebuild(bool reindex)
         p1.v = DEG_TO_RAD * pt1->lat;
         p2.u = DEG_TO_RAD * pt2->lon;
         p2.v = DEG_TO_RAD * pt2->lat;
-        float a2 = 0;
+        double a2 = 0;
 
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
@@ -165,5 +165,31 @@ void CTrack::rebuild(bool reindex)
     totalTime = t2 - t1;
 
     emit sigChanged();
+}
+
+
+void  CTrack::setPointOfFocus(qint32 idx)
+{
+    QVector<pt_t>::iterator trkpt = track.begin();
+    while(trkpt != track.end()) {
+        trkpt->flags &= ~pt_t::eFocus;
+        ++trkpt;
+    }
+
+    if(idx < track.size()) {
+        track[idx].flags |= pt_t::eFocus;
+    }
+
+    emit sigChanged();
+}
+
+QVector<CTrack::pt_t>::iterator CTrack::getPointOfFocus()
+{
+    QVector<pt_t>::iterator trkpt = track.begin();
+    while(trkpt != track.end()) {
+        if(trkpt->flags & pt_t::eFocus) break;
+        ++trkpt;
+    }
+    return trkpt;
 }
 

@@ -34,9 +34,33 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
     public slots:
         void slotSetTrack(CTrack * t);
+        void slotCheckReset(bool checked);
+        void slotCheckRemove(bool checked);
+        void slotApply();
+        void slotPointSelection(QTreeWidgetItem * item);
+        void slotPointSelectionChanged();
+        void slotPurge();
+
+    protected:
+        void keyPressEvent(QKeyEvent * e);
 
     private:
+        enum columns_e
+        {
+             eNum       = 0
+            ,eTime      = 1
+            ,eAltitude  = 2
+            ,eDelta     = 3
+            ,eAzimuth   = 4
+            ,eDistance  = 5
+            ,eSpeed     = 6
+            ,ePosition  = 7
+            ,eMaxColumn = 8
+        };
+
         QPointer<CTrack> track;
+
+        bool originator;
 
 };
 

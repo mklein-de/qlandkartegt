@@ -401,7 +401,7 @@ void CCreateMapOSM::slotCreate()
     // --------- write *.qmap -------------
 
     // calculate real width and height
-    float a1 = 0, a2 = 0;
+    double a1 = 0, a2 = 0;
     XY p1,p2,p3,p4;
     p1.u = lon1 * DEG_TO_RAD;
     p1.v = lat1 * DEG_TO_RAD;

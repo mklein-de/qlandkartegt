@@ -246,17 +246,22 @@ void CMainWindow::slotLoadData()
 
     pathData = QFileInfo(filename).absolutePath();
 
-    if(ext == "QLB"){
-        CQlb qlb(this);
-        qlb.load(filename);
-        CWptDB::self().loadQLB(qlb);
-        CTrackDB::self().loadQLB(qlb);
+    try{
+        if(ext == "QLB"){
+            CQlb qlb(this);
+            qlb.load(filename);
+            CWptDB::self().loadQLB(qlb);
+            CTrackDB::self().loadQLB(qlb);
+        }
+        else if(ext == "GPX"){
+            CGpx gpx(this);
+            gpx.load(filename);
+            CWptDB::self().loadGPX(gpx);
+            CTrackDB::self().loadGPX(gpx);
+        }
     }
-    else if(ext == "GPX"){
-        CGpx gpx(this);
-        gpx.load(filename);
-        CWptDB::self().loadGPX(gpx);
-        CTrackDB::self().loadGPX(gpx);
+    catch(const QString& msg){
+        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
 }
 
@@ -291,19 +296,23 @@ void CMainWindow::slotSaveData()
 
     pathData = QFileInfo(filename).absolutePath();
 
-    if(ext == "QLB"){
-        CQlb qlb(this);
-        CWptDB::self().saveQLB(qlb);
-        CTrackDB::self().saveQLB(qlb);
-        qlb.save(filename);
+    try{
+        if(ext == "QLB"){
+            CQlb qlb(this);
+            CWptDB::self().saveQLB(qlb);
+            CTrackDB::self().saveQLB(qlb);
+            qlb.save(filename);
+        }
+        else if(ext == "GPX"){
+            CGpx gpx(this);
+            CWptDB::self().saveGPX(gpx);
+            CTrackDB::self().saveGPX(gpx);
+            gpx.save(filename);
+        }
     }
-    else if(ext == "GPX"){
-        CGpx gpx(this);
-        CWptDB::self().saveGPX(gpx);
-        CTrackDB::self().saveGPX(gpx);
-        gpx.save(filename);
+    catch(const QString& msg){
+        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
-
 }
 
 void CMainWindow::slotPrint()
