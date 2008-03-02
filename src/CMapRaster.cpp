@@ -370,7 +370,7 @@ CMapRaster::~CMapRaster()
 
 void CMapRaster::draw(QPainter& p)
 {
-    if(pMaplevel.isNull()){
+    if(pMaplevel.isNull() || pjsrc == 0){
         IMap::draw(p);
         return;
     }
@@ -467,7 +467,7 @@ void CMapRaster::draw(QPainter& p)
 
 void CMapRaster::convertPt2M(double& u, double& v)
 {
-    if(pMaplevel.isNull()) return;
+    if(pMaplevel.isNull() || pjsrc == 0) return;
 
     const CMapFile * map = *pMaplevel->begin();
 
@@ -480,7 +480,7 @@ void CMapRaster::convertPt2M(double& u, double& v)
 
 void CMapRaster::convertM2Pt(double& u, double& v)
 {
-    if(pMaplevel.isNull()) return;
+    if(pMaplevel.isNull() || pjsrc == 0) return;
 
     const CMapFile * map = *pMaplevel->begin();
 
