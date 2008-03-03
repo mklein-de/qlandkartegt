@@ -17,6 +17,7 @@ set(qlandkarte_SRCS
     CMouseMoveMap.cpp
     CMouseSelMap.cpp
     CMouseAddWpt.cpp
+    CMouseMoveWpt.cpp
     IMap.cpp
     CMapDEM.cpp
     CMapFile.cpp
@@ -61,6 +62,7 @@ set(qlandkarte_HDRS
     CMouseMoveMap.h
     CMouseSelMap.h
     CMouseAddWpt.h
+    CMouseMoveWpt.h
     IMap.h
     CMapNoMap.h
     CMapDEM.h

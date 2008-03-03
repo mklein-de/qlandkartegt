@@ -48,6 +48,7 @@ class CTrack : public QObject
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
                      speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0){}
+            /// index counter for easy QVector access
             qint32  idx;
             /// longitude [°]
             float   lon;
@@ -55,6 +56,7 @@ class CTrack : public QObject
             float   lat;
             /// elevation [m]
             float   ele;
+            /// timestamp for track creation
             quint32 timestamp;
 
             /// secondary data: the speed between this and the previous point
@@ -92,9 +94,9 @@ class CTrack : public QObject
         CTrack& operator<<(pt_t& pt);
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
-
+        /// get list of track points
         QVector<pt_t>& getTrackPoints(){return track;};
-
+        /// get polyline representation of track
         QPolygon& getPolyline(){return polyline;}
         /// get the total distance of the track in [m]
         double getTotalDistance(){return totalDistance;}

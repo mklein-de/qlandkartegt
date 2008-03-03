@@ -119,10 +119,12 @@ void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()){
-        if(trkpt->lon < west)  west  = trkpt->lon;
-        if(trkpt->lon > east)  east  = trkpt->lon;
-        if(trkpt->lat < south) south = trkpt->lat;
-        if(trkpt->lat > north) north = trkpt->lat;
+        if(!(trkpt->flags & CTrack::pt_t::eDeleted)){
+            if(trkpt->lon < west)  west  = trkpt->lon;
+            if(trkpt->lon > east)  east  = trkpt->lon;
+            if(trkpt->lat < south) south = trkpt->lat;
+            if(trkpt->lat > north) north = trkpt->lat;
+        }
         ++trkpt;
     }
 

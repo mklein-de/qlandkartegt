@@ -25,6 +25,7 @@
 #include "CMouseMoveMap.h"
 #include "CMouseSelMap.h"
 #include "CMouseAddWpt.h"
+#include "CMouseMoveWpt.h"
 
 #include "CWpt.h"
 #include "CTrack.h"
@@ -52,6 +53,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseMoveMap    = new CMouseMoveMap(this);
     mouseSelMap     = new CMouseSelMap(this);
     mouseAddWpt     = new CMouseAddWpt(this);
+    mouseMoveWpt    = new CMouseMoveWpt(this);
     setMouseMode(eMouseMoveArea);
 
 }
@@ -79,6 +81,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 //
         case eMouseAddWpt:
             mouse = mouseAddWpt;
+            break;
+
+        case eMouseMoveWpt:
+            mouse = mouseMoveWpt;
             break;
 
         case eMouseSelectArea:

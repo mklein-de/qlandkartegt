@@ -106,7 +106,6 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
         ++entry;
     }
 
-
     return s;
 }
 
