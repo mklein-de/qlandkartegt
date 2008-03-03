@@ -42,6 +42,34 @@ CTrackDB::~CTrackDB()
 
 }
 
+CTrackToolWidget * CTrackDB::getToolWidget()
+{
+    return qobject_cast<CTrackToolWidget*>(toolview);
+}
+
+void CTrackDB::loadQLB(CQlb& qlb)
+{
+    QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
+
+    while(!stream.atEnd()){
+        CTrack * track = new CTrack(this);
+        stream >> *track;
+        addTrack(track);
+    }
+
+    emit sigChanged();
+
+}
+
+void CTrackDB::saveQLB(CQlb& qlb)
+{
+    QMap<QString, CTrack*>::const_iterator track = tracks.begin();
+    while(track != tracks.end()){
+        qlb << *(*track);
+        ++track;
+    }
+}
+
 void CTrackDB::loadGPX(CGpx& gpx)
 {
     const QDomNodeList& trks = gpx.elementsByTagName("trk");
@@ -97,14 +125,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
             trkpt = trkpt.nextSiblingElement("trkpt");
         }
 
-        if(track->getName().isEmpty()){
-            track->setName(tr("Track%1").arg(cnt++));
-        }
-        track->rebuild(false);
-        delTrack(track->key());
-        tracks[track->key()] = track;
-
-        connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+        addTrack(track);
     }
     emit sigChanged();
 }
@@ -169,6 +190,18 @@ void CTrackDB::saveGPX(CGpx& gpx)
         ++track;
     }
 
+}
+
+void CTrackDB::addTrack(CTrack* track)
+{
+    if(track->getName().isEmpty()){
+        track->setName(tr("Track%1").arg(cnt++));
+    }
+    track->rebuild(false);
+    delTrack(track->key());
+    tracks[track->key()] = track;
+
+    connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
 }
 
 void CTrackDB::delTrack(const QString& key, bool silent)

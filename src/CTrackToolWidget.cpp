@@ -162,7 +162,10 @@ void CTrackToolWidget::slotEdit()
 {
     const QListWidgetItem* item = listTracks->currentItem();
 
-    if(item == 0) return;
+    if(item == 0){
+        QMessageBox::information(0,tr("Edit track ..."), tr("You have to select a track first."),QMessageBox::Ok,QMessageBox::Ok);
+        return;
+    };
 
     if(trackedit.isNull()){
         trackedit = new CTrackEditWidget(theMainWindow->getCanvas());

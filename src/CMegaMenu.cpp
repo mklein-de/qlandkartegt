@@ -22,6 +22,7 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CTrackToolWidget.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -116,7 +117,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -353,4 +354,10 @@ void CMegaMenu::funcUploadWpt()
 void CMegaMenu::funcDownloadWpt()
 {
     CWptDB::self().download();
+}
+
+void CMegaMenu::funcEditTrack()
+{
+    CTrackToolWidget * toolview = CTrackDB::self().getToolWidget();
+    if(toolview) toolview->slotEdit();
 }

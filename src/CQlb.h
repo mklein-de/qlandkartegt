@@ -23,6 +23,7 @@
 #include <QByteArray>
 
 class CWpt;
+class CTrack;
 
 /// qlandkarte binary to store privat geo data
 /**
@@ -42,15 +43,20 @@ class CQlb : public QObject
         CQlb(QObject * parent);
         virtual ~CQlb();
 
-        enum type_e {eEnd, eWpt};
+        enum type_e {eEnd, eWpt, eTrack};
 
         /// collect wapoint data
         /**
             This will serialize the waypoint object to wpts
         */
         CQlb& operator <<(CWpt& wpt);
+
+        CQlb& operator <<(CTrack& trk);
+
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
+        /// get access to stored track data
+        QByteArray& tracks(){return trks;}
         /// write collected data to file
         void save(const QString& filename);
         /// read file and store elements in their designated byte arrays
@@ -59,6 +65,8 @@ class CQlb : public QObject
     private:
         /// byte array to hold all
         QByteArray wpts;
+        /// byte array to hold all
+        QByteArray trks;
 
 };
 

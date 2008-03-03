@@ -19,6 +19,7 @@
 
 #include "CQlb.h"
 #include "CWpt.h"
+#include "CTrack.h"
 
 #include <QtCore>
 
@@ -41,6 +42,14 @@ CQlb& CQlb::operator <<(CWpt& wpt)
     return *this;
 }
 
+CQlb& CQlb::operator <<(CTrack& trk)
+{
+    QDataStream stream(&trks, QIODevice::Append);
+    stream << trk;
+
+    return *this;
+}
+
 void CQlb::load(const QString& filename)
 {
     qint32 type;
@@ -56,6 +65,10 @@ void CQlb::load(const QString& filename)
 
             case eWpt:
                 stream >> wpts;
+                break;
+
+            case eTrack:
+                stream >> trks;
                 break;
 
             default:
@@ -76,6 +89,7 @@ void CQlb::save(const QString& filename)
     QDataStream stream(&file);
 
     stream << (qint32)eWpt << wpts;
+    stream << (qint32)eTrack << trks;
     stream << (qint32)eEnd;
 
     file.close();

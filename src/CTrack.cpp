@@ -22,6 +22,194 @@
 
 #include <QtGui>
 
+#ifndef _MKSTR_1
+#define _MKSTR_1(x)    #x
+#define _MKSTR(x)      _MKSTR_1(x)
+#endif
+
+QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
+
+struct trk_head_entry_t
+{
+    trk_head_entry_t() : type(CTrack::eEnd), offset(0) {}
+    qint32      type;
+    quint32     offset;
+    QByteArray  data;
+};
+
+QDataStream& operator >>(QDataStream& s, CTrack& track)
+{
+    QIODevice * dev = s.device();
+    qint64      pos = dev->pos();
+
+    char magic[9];
+    s.readRawData(magic,9);
+
+    if(strncmp(magic,"QLTrk   ",9)){
+        dev->seek(pos);
+        return s;
+    }
+
+    QList<trk_head_entry_t> entries;
+
+    while(1){
+        trk_head_entry_t entry;
+        s >> entry.type >> entry.offset;
+        entries << entry;
+        if(entry.type == CWpt::eEnd) break;
+    }
+
+    QList<trk_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()){
+        qint64 o = pos + entry->offset;
+        dev->seek(o);
+        s >> entry->data;
+
+        switch(entry->type){
+            case CTrack::eBase:
+            {
+
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+
+                s1 >> track._key_;
+                s1 >> track.timestamp;
+                s1 >> track.name;
+                s1 >> track.comment;
+                s1 >> track.colorIdx;
+
+                break;
+            }
+
+            case CTrack::eTrkPts:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                quint32 n, nTrkPts = 0;
+
+                track.track.clear();
+                s1 >> nTrkPts;
+                for(n = 0; n < nTrkPts; ++n){
+                    CTrack::pt_t trkpt;
+                    s1 >> trkpt.lon;
+                    s1 >> trkpt.lat;
+                    s1 >> trkpt.ele;
+                    s1 >> trkpt.timestamp;
+                    s1 >> trkpt.flags;
+
+                    track << trkpt;
+                }
+                break;
+            }
+
+            default:;
+        }
+
+        ++entry;
+    }
+
+
+    return s;
+}
+
+QDataStream& operator <<(QDataStream& s, CTrack& track)
+{
+    QList<trk_head_entry_t> entries;
+
+    //---------------------------------------
+    // prepare base data
+    //---------------------------------------
+    trk_head_entry_t entryBase;
+    entryBase.type = CTrack::eBase;
+    QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+
+    s1 << track.key();
+    s1 << track.timestamp;
+    s1 << track.name;
+    s1 << track.comment;
+    s1 << track.colorIdx;
+
+    entries << entryBase;
+
+    //---------------------------------------
+    // prepare trackpoint data
+    //---------------------------------------
+    trk_head_entry_t entryTrkPts;
+    entryTrkPts.type = CTrack::eTrkPts;
+    QDataStream s2(&entryTrkPts.data, QIODevice::WriteOnly);
+
+    QVector<CTrack::pt_t>& trkpts = track.getTrackPoints();
+    QVector<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+
+    s2 << (quint32)trkpts.size();
+
+    while(trkpt != trkpts.end()){
+        s2 << trkpt->lon;
+        s2 << trkpt->lat;
+        s2 << trkpt->ele;
+        s2 << trkpt->timestamp;
+        s2 << trkpt->flags;
+        ++trkpt;
+    }
+
+    entries << entryTrkPts;
+
+    //---------------------------------------
+    // prepare terminator
+    //---------------------------------------
+    trk_head_entry_t entryEnd;
+    entryEnd.type = CTrack::eEnd;
+    entries << entryEnd;
+
+    //---------------------------------------
+    //---------------------------------------
+    // now start to actually write data;
+    //---------------------------------------
+    //---------------------------------------
+    // write magic key
+    s.writeRawData("QLTrk   ",9);
+
+    // calculate offset table
+    quint32 offset = entries.count() * 8 + 9;
+
+    QList<trk_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()){
+        entry->offset = offset;
+        offset += entry->data.size() + sizeof(quint32);
+        ++entry;
+    }
+
+    // write offset table
+    entry = entries.begin();
+    while(entry != entries.end()){
+        s << entry->type << entry->offset;
+        ++entry;
+    }
+
+    // write entry data
+    entry = entries.begin();
+    while(entry != entries.end()){
+        s << entry->data;
+        ++entry;
+    }
+
+    return s;
+}
+
+void operator >>(QFile& f, CTrack& track)
+{
+    f.open(QIODevice::ReadOnly);
+    QDataStream s(&f);
+    s >> track;
+    f.close();
+}
+
+void operator <<(QFile& f, CTrack& track)
+{
+    f.open(QIODevice::WriteOnly);
+    QDataStream s(&f);
+    s << track;
+    f.close();
+}
+
 const QColor CTrack::colors[] =
 {
      Qt::black                   // 0

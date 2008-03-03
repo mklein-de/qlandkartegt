@@ -33,6 +33,8 @@ class CTrack : public QObject
         CTrack(QObject * parent);
         virtual ~CTrack();
 
+        enum type_e {eEnd,eBase,eTrkPts};
+
         struct pt_t {
 
             enum flag_e
@@ -107,7 +109,11 @@ class CTrack : public QObject
         void sigChanged();
 
     private:
+        friend QDataStream& operator >>(QDataStream& s, CTrack& track);
+        friend QDataStream& operator <<(QDataStream& s, CTrack& track);
         void genKey();
+
+        static QDir path;
 
         /// unique key to address tarck
         QString _key_;
@@ -136,6 +142,13 @@ class CTrack : public QObject
         QPolygon polyline;
 
 };
+
+QDataStream& operator >>(QDataStream& s, CTrack& track);
+QDataStream& operator <<(QDataStream& s, CTrack& track);
+
+void operator >>(QFile& f, CTrack& track);
+void operator <<(QFile& f, CTrack& track);
+
 
 #endif //CTRACK_H
 

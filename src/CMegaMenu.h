@@ -67,6 +67,8 @@ class CMegaMenu : public QLabel
         void funcUploadWpt();
         void funcDownloadWpt();
 
+        void funcEditTrack();
+
         QPointer<CCanvas>  canvas;
 
         QLabel * menuTitle;

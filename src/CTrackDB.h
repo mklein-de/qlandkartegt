@@ -24,6 +24,7 @@
 #include <QMap>
 class QToolBox;
 class CTrack;
+class CTrackToolWidget;
 
 class CTrackDB : public IDB
 {
@@ -35,12 +36,13 @@ class CTrackDB : public IDB
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
-        void loadQLB(CQlb& qlb){};
-        void saveQLB(CQlb& qlb){};
+        void loadQLB(CQlb& qlb);
+        void saveQLB(CQlb& qlb);
 
         void upload(){};
         void download(){};
 
+        void addTrack(CTrack* track);
         void delTrack(const QString& key, bool silent = false);
         void delTracks(const QStringList& keys);
 
@@ -60,6 +62,7 @@ class CTrackDB : public IDB
         /// get access to track dictionary
         QMap<QString,CTrack*>& getTracks(){return tracks;}
 
+        CTrackToolWidget * getToolWidget();
     signals:
         void sigHighlightTrack(CTrack * track);
 

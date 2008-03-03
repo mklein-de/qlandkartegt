@@ -35,6 +35,8 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         CTrackToolWidget(QTabWidget * parent);
         virtual ~CTrackToolWidget();
 
+    public slots:
+        void slotEdit();
 
     protected:
         void keyPressEvent(QKeyEvent * e);
@@ -44,7 +46,6 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotItemDoubleClicked(QListWidgetItem * item);
         void slotItemClicked(QListWidgetItem * item);
         void slotContextMenu(const QPoint& pos);
-        void slotEdit();
         void slotDelete();
 
 
