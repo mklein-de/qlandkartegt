@@ -135,6 +135,7 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
     menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
+    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create / Edit Map ..."),this,SLOT(slotCreateMap()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
@@ -142,12 +143,6 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print"),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
-    menuBar()->addMenu(menu);
-
-    menu = new QMenu(this);
-    menu->setTitle(tr("&Maps"));
-    menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
-    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create / Edit ..."),this,SLOT(slotCreateMap()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
