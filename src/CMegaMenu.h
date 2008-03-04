@@ -64,6 +64,7 @@ class CMegaMenu : public QLabel
         void funcSelectArea();
 
         void funcNewWpt();
+        void funcEditWpt();
         void funcMoveWpt();
         void funcUploadWpt();
         void funcDownloadWpt();

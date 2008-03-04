@@ -19,11 +19,20 @@
 #ifndef CMOUSEEDITWPT_H
 #define CMOUSEEDITWPT_H
 
-class CMouseEditWpt
+#include "IMouse.h"
+
+class CMouseEditWpt  : public IMouse
 {
+    Q_OBJECT
     public:
-        CMouseEditWpt();
+        CMouseEditWpt(CCanvas * canvas);
         virtual ~CMouseEditWpt();
+
+        void draw(QPainter& p);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+
 };
 
 #endif //CMOUSEEDITWPT_H

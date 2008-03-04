@@ -104,7 +104,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint. The default position will be the current cursor position.")}
-    ,{":/icons/iconEdit16x16",QObject::tr("Edit Waypoint"),0,tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint.")}
+    ,{":/icons/iconEdit16x16",QObject::tr("Edit Waypoint"),&CMegaMenu::funcEditWpt,tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint.")}
     ,{":/icons/iconWptMove16x16",QObject::tr("Move Waypoint"),&CMegaMenu::funcMoveWpt,tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device.")}
@@ -344,6 +344,11 @@ void CMegaMenu::funcSelectArea()
 void CMegaMenu::funcNewWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
+}
+
+void CMegaMenu::funcEditWpt()
+{
+    canvas->setMouseMode(CCanvas::eMouseEditWpt);
 }
 
 void CMegaMenu::funcMoveWpt()

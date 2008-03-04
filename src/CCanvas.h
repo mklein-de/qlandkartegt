@@ -31,6 +31,7 @@ class CMouseMoveMap;
 class CMouseSelMap;
 class CMouseAddWpt;
 class CMouseMoveWpt;
+class CMouseEditWpt;
 class CWpt;
 class QLabel;
 class QSize;
@@ -52,7 +53,7 @@ class CCanvas : public QWidget
             , eMouseMoveArea    ///< use mouse to move the map
             , eMouseSelectArea  ///< use mouse to select map tiles
             , eMouseAddWpt      ///< use mouse to add waypoints
-            //, eMouseEditWpt     ///< use mouse to select waypoints
+            , eMouseEditWpt     ///< use mouse to select waypoints
             , eMouseMoveWpt     ///< use mouse to drag-n-drop waypoints
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
             //, eMouseCutTrack    ///< use mouse to cut a track into two pieces
@@ -113,6 +114,7 @@ class CCanvas : public QWidget
         CMouseSelMap * mouseSelMap;
         CMouseAddWpt * mouseAddWpt;
         CMouseMoveWpt * mouseMoveWpt;
+        CMouseEditWpt * mouseEditWpt;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

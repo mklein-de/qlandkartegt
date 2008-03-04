@@ -18,10 +18,17 @@
 **********************************************************************************************/
 
 #include "CMouseEditWpt.h"
+#include "CDlgEditWpt.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
-CMouseEditWpt::CMouseEditWpt()
+
+#include <QtGui>
+
+CMouseEditWpt::CMouseEditWpt(CCanvas * canvas)
+    : IMouse(canvas)
 {
-
+    cursor = QCursor(QPixmap(":/cursors/cursorEdit"),0,0);
 }
 
 CMouseEditWpt::~CMouseEditWpt()
@@ -29,3 +36,26 @@ CMouseEditWpt::~CMouseEditWpt()
 
 }
 
+void CMouseEditWpt::mouseMoveEvent(QMouseEvent * e)
+{
+    mouseMoveEventWpt(e);
+}
+
+void CMouseEditWpt::mousePressEvent(QMouseEvent * e)
+{
+    if(e->button() == Qt::LeftButton){
+        if(!selWpt.isNull()){
+            CDlgEditWpt dlg(*selWpt,theMainWindow->getCanvas());
+            dlg.exec();
+        }
+    }
+}
+
+void CMouseEditWpt::mouseReleaseEvent(QMouseEvent * e)
+{
+}
+
+void CMouseEditWpt::draw(QPainter& p)
+{
+    drawSelWpt(p);
+}
