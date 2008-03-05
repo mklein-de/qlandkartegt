@@ -80,6 +80,4 @@ class CWptDB : public IDB
         QMap<QString,CWpt*> wpts;
 
 };
-
-#endif //CWPTDB_H
-
+#endif                           //CWPTDB_H

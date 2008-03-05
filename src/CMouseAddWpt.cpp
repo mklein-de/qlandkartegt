@@ -25,20 +25,23 @@
 #include <QtGui>
 
 CMouseAddWpt::CMouseAddWpt(CCanvas * canvas)
-    : IMouse(canvas)
+: IMouse(canvas)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorAdd"),0,0);
 }
+
 
 CMouseAddWpt::~CMouseAddWpt()
 {
 
 }
 
+
 void CMouseAddWpt::mouseMoveEvent(QMouseEvent * e)
 {
 
 }
+
 
 void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
@@ -52,6 +55,7 @@ void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
     CWptDB::self().newWpt(u, v, ele);
 
 }
+
 
 void CMouseAddWpt::mouseReleaseEvent(QMouseEvent * e)
 {

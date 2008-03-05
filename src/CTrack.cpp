@@ -45,14 +45,14 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLTrk   ",9)){
+    if(strncmp(magic,"QLTrk   ",9)) {
         dev->seek(pos);
         return s;
     }
 
     QList<trk_head_entry_t> entries;
 
-    while(1){
+    while(1) {
         trk_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -60,12 +60,12 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
     }
 
     QList<trk_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
 
-        switch(entry->type){
+        switch(entry->type) {
             case CTrack::eBase:
             {
 
@@ -87,7 +87,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
 
                 track.track.clear();
                 s1 >> nTrkPts;
-                for(n = 0; n < nTrkPts; ++n){
+                for(n = 0; n < nTrkPts; ++n) {
                     CTrack::pt_t trkpt;
                     s1 >> trkpt.lon;
                     s1 >> trkpt.lat;
@@ -108,6 +108,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
 
     return s;
 }
+
 
 QDataStream& operator <<(QDataStream& s, CTrack& track)
 {
@@ -140,7 +141,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
     s2 << (quint32)trkpts.size();
 
-    while(trkpt != trkpts.end()){
+    while(trkpt != trkpts.end()) {
         s2 << trkpt->lon;
         s2 << trkpt->lat;
         s2 << trkpt->ele;
@@ -170,7 +171,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<trk_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -178,20 +179,21 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         s << entry->data;
         ++entry;
     }
 
     return s;
 }
+
 
 void operator >>(QFile& f, CTrack& track)
 {
@@ -201,6 +203,7 @@ void operator >>(QFile& f, CTrack& track)
     f.close();
 }
 
+
 void operator <<(QFile& f, CTrack& track)
 {
     f.open(QIODevice::WriteOnly);
@@ -209,9 +212,10 @@ void operator <<(QFile& f, CTrack& track)
     f.close();
 }
 
+
 const QColor CTrack::colors[] =
 {
-     Qt::black                   // 0
+    Qt::black                    // 0
     ,Qt::darkRed                 // 1
     ,Qt::darkGreen               // 2
     ,Qt::darkYellow              // 3
@@ -230,21 +234,22 @@ const QColor CTrack::colors[] =
     ,Qt::transparent             // 16
 };
 
-
 CTrack::CTrack(QObject * parent)
-    : QObject(parent)
-    , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-    , color(Qt::darkBlue)
-    , colorIdx(4)
-    , highlight(false)
+: QObject(parent)
+, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+, color(Qt::darkBlue)
+, colorIdx(4)
+, highlight(false)
 {
 
 }
+
 
 CTrack::~CTrack()
 {
 
 }
+
 
 void CTrack::setColor(unsigned i)
 {
@@ -253,16 +258,19 @@ void CTrack::setColor(unsigned i)
     color       = colors[i];
 }
 
+
 void CTrack::genKey()
 {
     _key_ = QString("%1%2").arg(timestamp).arg(name);
 }
+
 
 const QString& CTrack::key()
 {
     if(_key_.isEmpty()) genKey();
     return _key_;
 }
+
 
 CTrack& CTrack::operator<<(pt_t& pt)
 {
@@ -274,6 +282,7 @@ CTrack& CTrack::operator<<(pt_t& pt)
 
     return *this;
 }
+
 
 void CTrack::rebuild(bool reindex)
 {
@@ -354,6 +363,7 @@ void CTrack::rebuild(bool reindex)
     emit sigChanged();
 }
 
+
 void CTrack::setPointOfFocus(int idx)
 {
     // reset previous selections
@@ -364,7 +374,7 @@ void CTrack::setPointOfFocus(int idx)
         trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
     }
-    if(idx < track.count()){
+    if(idx < track.count()) {
         trkpts[idx].flags |= CTrack::pt_t::eFocus;
         trkpts[idx].flags |= CTrack::pt_t::eSelected;
     }

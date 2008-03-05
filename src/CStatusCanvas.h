@@ -39,6 +39,4 @@ class CStatusCanvas : public QWidget, private Ui::IStatusCanvas
     private:
         CCanvas * canvas;
 };
-
-#endif //CSTATUSCANVAS_H
-
+#endif                           //CSTATUSCANVAS_H

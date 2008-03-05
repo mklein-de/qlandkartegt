@@ -42,11 +42,10 @@
 
 #include <QtGui>
 
-
 CCanvas::CCanvas(QWidget * parent)
-    : QWidget(parent)
-    , mouse(0)
-    , info(0)
+: QWidget(parent)
+, mouse(0)
+, info(0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -60,27 +59,29 @@ CCanvas::CCanvas(QWidget * parent)
 
 }
 
+
 CCanvas::~CCanvas()
 {
 }
+
 
 void CCanvas::setMouseMode(mouse_mode_e mode)
 {
     QApplication::restoreOverrideCursor();
 
-    switch(mode){
+    switch(mode) {
 
         case eMouseMoveArea:
             mouse = mouseMoveMap;
             break;
 
-//         case eMouseZoomArea:
-//             cursor = QCursor(cursorZoom,0,0);
-//             pfMousePressEvent   = &CCanvas::mousePressZoomArea;
-//             pfMouseMoveEvent    = &CCanvas::mouseMoveZoomArea;
-//             pfMouseReleaseEvent = &CCanvas::mouseReleaseZoomArea;
-//             break;
-//
+            //         case eMouseZoomArea:
+            //             cursor = QCursor(cursorZoom,0,0);
+            //             pfMousePressEvent   = &CCanvas::mousePressZoomArea;
+            //             pfMouseMoveEvent    = &CCanvas::mouseMoveZoomArea;
+            //             pfMouseReleaseEvent = &CCanvas::mouseReleaseZoomArea;
+            //             break;
+            //
         case eMouseAddWpt:
             mouse = mouseAddWpt;
             break;
@@ -100,7 +101,7 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
         default:;
 
     }
-    if(underMouse()){
+    if(underMouse()) {
         QApplication::setOverrideCursor(*mouse);
     }
     mouseMode = mode;
@@ -113,6 +114,7 @@ void CCanvas::resizeEvent(QResizeEvent * e)
     QWidget::resizeEvent(e);
     emit sigResize(e->size());
 }
+
 
 void CCanvas::paintEvent(QPaintEvent * e)
 {
@@ -128,6 +130,7 @@ void CCanvas::paintEvent(QPaintEvent * e)
     p.end();
 }
 
+
 void CCanvas::mouseMoveEvent(QMouseEvent * e)
 {
     posMouse = e->pos();
@@ -142,15 +145,18 @@ void CCanvas::mousePressEvent(QMouseEvent * e)
     mouse->mousePressEvent(e);
 }
 
+
 void CCanvas::mouseReleaseEvent(QMouseEvent * e)
 {
     mouse->mouseReleaseEvent(e);
 }
 
+
 void CCanvas::enterEvent(QEvent * )
 {
     QApplication::setOverrideCursor(*mouse);
 }
+
 
 void CCanvas::leaveEvent(QEvent * )
 {
@@ -193,12 +199,12 @@ void CCanvas::drawSearchResults(QPainter& p)
     IMap& map = CMapDB::self().getMap();
 
     QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
-    while(result != CSearchDB::self().end()){
+    while(result != CSearchDB::self().end()) {
         double u = result->lon * DEG_TO_RAD;
         double v = result->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(rect().contains(QPoint(u,v))){
+        if(rect().contains(QPoint(u,v))) {
             p.drawPixmap(u-16 , v-16, QPixmap(":/icons/iconBullseye16x16"));
         }
 
@@ -206,18 +212,18 @@ void CCanvas::drawSearchResults(QPainter& p)
     }
 }
 
+
 void CCanvas::drawWaypoints(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
 
-
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()){
+    while(wpt != CWptDB::self().end()) {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(rect().contains(QPoint(u,v))){
+        if(rect().contains(QPoint(u,v))) {
             QPixmap icon = getWptIconByName((*wpt)->icon);
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);
@@ -235,7 +241,7 @@ void CCanvas::drawWaypoints(QPainter& p)
 
             p.drawPixmap(u-7 , v-7, icon);
 
-            if((*wpt)->prx != WPT_NOFLOAT){
+            if((*wpt)->prx != WPT_NOFLOAT) {
                 double u1 = u;
                 double v1 = v;
                 map.convertPt2M(u1,v1);
@@ -258,6 +264,7 @@ void CCanvas::drawWaypoints(QPainter& p)
     }
 }
 
+
 void CCanvas::drawTracks(QPainter& p)
 {
     QPoint focus(-1,-1);
@@ -267,7 +274,7 @@ void CCanvas::drawTracks(QPainter& p)
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
     QMap<QString,CTrack*>::iterator highlighted = tracks.end();
 
-    while(track != tracks.end()){
+    while(track != tracks.end()) {
         QPolygon& line = (*track)->getPolyline();
         line.clear();
 
@@ -293,7 +300,6 @@ void CCanvas::drawTracks(QPainter& p)
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
                 ++trkpt; continue;
             }
-
 
             line << trkpt->px;
             ++trkpt;
@@ -352,7 +358,7 @@ void CCanvas::drawTracks(QPainter& p)
 
         }
 
-        if(focus != QPoint(-1,-1)){
+        if(focus != QPoint(-1,-1)) {
             p.setPen(QPen(Qt::white,3));
             p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
             p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
@@ -362,6 +368,7 @@ void CCanvas::drawTracks(QPainter& p)
         }
     }
 }
+
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
 {
@@ -385,9 +392,10 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
 
 }
 
+
 void CCanvas::wheelEvent(QWheelEvent * e)
 {
-  zoom((e->delta() < 0), e->pos());
+    zoom((e->delta() < 0), e->pos());
 }
 
 
@@ -396,6 +404,7 @@ void CCanvas::zoom(bool in, const QPoint& p)
     CMapDB::self().getMap().zoom(in, p);
     update();
 }
+
 
 void CCanvas::move(double lon, double lat)
 {
@@ -407,13 +416,14 @@ void CCanvas::move(double lon, double lat)
     update();
 }
 
+
 void CCanvas::move(move_direction_e dir)
 {
     IMap& map = CMapDB::self().getMap();
     QPoint p1 = geometry().center();
     QPoint p2 = p1;
 
-    switch(dir){
+    switch(dir) {
 
         case eMoveLeft:
             p2.rx() += width() / 4;
@@ -432,20 +442,20 @@ void CCanvas::move(move_direction_e dir)
             break;
 
         case eMoveCenter:
-            {
-                double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
+        {
+            double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
 
-                map.dimensions(lon1, lat1, lon2, lat2);
-                lon1 += (lon2 - lon1)/2;
-                lat2 += (lat1 - lat2)/2;
-                map.convertRad2Pt(lon1,lat2);
+            map.dimensions(lon1, lat1, lon2, lat2);
+            lon1 += (lon2 - lon1)/2;
+            lat2 += (lat1 - lat2)/2;
+            map.convertRad2Pt(lon1,lat2);
 
-                p1.rx() = lon1;
-                p1.ry() = lat2;
+            p1.rx() = lon1;
+            p1.ry() = lat2;
 
-                p2 = geometry().center();
-            }
-            break;
+            p2 = geometry().center();
+        }
+        break;
     }
     map.move(p1, p2);
 
@@ -456,7 +466,7 @@ void CCanvas::move(move_direction_e dir)
 void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
-    QString info; // = QString("%1 %2, ").arg(e->x()).arg(e->y());
+    QString info;                // = QString("%1 %2, ").arg(e->x()).arg(e->y());
 
     double x = e->x();
     double y = e->y();
@@ -469,7 +479,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     map.convertPt2Rad(x,y);
 
     float ele = map.getElevation(x,y);
-    if(ele != WPT_NOFLOAT){
+    if(ele != WPT_NOFLOAT) {
         info += QString(" (ele: %1 m)").arg(ele);
     }
 
@@ -493,5 +503,3 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     theMainWindow->setPositionInfo(info);
 
 }
-
-

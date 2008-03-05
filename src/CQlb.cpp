@@ -24,15 +24,17 @@
 #include <QtCore>
 
 CQlb::CQlb(QObject * parent)
-    : QObject(parent)
+: QObject(parent)
 {
 
 }
+
 
 CQlb::~CQlb()
 {
 
 }
+
 
 CQlb& CQlb::operator <<(CWpt& wpt)
 {
@@ -42,6 +44,7 @@ CQlb& CQlb::operator <<(CWpt& wpt)
     return *this;
 }
 
+
 CQlb& CQlb::operator <<(CTrack& trk)
 {
     QDataStream stream(&trks, QIODevice::Append);
@@ -49,6 +52,7 @@ CQlb& CQlb::operator <<(CTrack& trk)
 
     return *this;
 }
+
 
 void CQlb::load(const QString& filename)
 {
@@ -59,9 +63,9 @@ void CQlb::load(const QString& filename)
     QDataStream stream(&file);
 
     stream >> type;
-    while(type != eEnd){
+    while(type != eEnd) {
 
-        switch(type){
+        switch(type) {
 
             case eWpt:
                 stream >> wpts;
@@ -81,6 +85,7 @@ void CQlb::load(const QString& filename)
 
     file.close();
 }
+
 
 void CQlb::save(const QString& filename)
 {

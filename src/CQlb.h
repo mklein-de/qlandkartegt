@@ -69,6 +69,4 @@ class CQlb : public QObject
         QByteArray trks;
 
 };
-
-#endif //CQLB_H
-
+#endif                           //CQLB_H

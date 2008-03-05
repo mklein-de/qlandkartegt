@@ -23,8 +23,8 @@
 #include <QtGui>
 
 CDlgWptIcon::CDlgWptIcon(QToolButton& but)
-    : QDialog(&but)
-    , button(but)
+: QDialog(&but)
+, button(but)
 {
     setupUi(this);
 
@@ -32,27 +32,28 @@ CDlgWptIcon::CDlgWptIcon(QToolButton& but)
     QListWidgetItem * currentItem = 0;
 
     const wpt_icon_t * icon = wptIcons;
-    while(icon->name != 0){
+    while(icon->name != 0) {
         QListWidgetItem * item = new QListWidgetItem(QPixmap(icon->icon), icon->name, listIcons);
-        if(currentIcon == icon->name){
+        if(currentIcon == icon->name) {
             currentItem = item;
         }
         ++icon;
     }
 
-    if(currentItem){
+    if(currentItem) {
         listIcons->setCurrentItem(currentItem);
         listIcons->scrollToItem(currentItem);
     }
 
-
     connect(listIcons, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 }
+
 
 CDlgWptIcon::~CDlgWptIcon()
 {
 
 }
+
 
 void CDlgWptIcon::slotItemClicked(QListWidgetItem * item)
 {

@@ -48,13 +48,11 @@ class IDB : public QObject
 
         virtual void clear() = 0;
 
-    signals:
+        signals:
         void sigChanged();
 
     protected:
         QTabWidget *  tabbar;
         QWidget *  toolview;
 };
-
-#endif //IDB_H
-
+#endif                           //IDB_H

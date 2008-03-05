@@ -26,17 +26,17 @@
 #include <QColor>
 
 CMapFile::CMapFile(const QString& filename, QObject  * parent)
-    : QObject(parent)
-    , filename(filename)
-    , dataset(0)
-    , xsize_px(0)
-    , ysize_px(0)
-    , pj(0)
-    , xscale(0.0)
-    , yscale(0.0)
-    , xref1(0.0)
-    , yref1(0.0)
-    , ok(false)
+: QObject(parent)
+, filename(filename)
+, dataset(0)
+, xsize_px(0)
+, ysize_px(0)
+, pj(0)
+, xscale(0.0)
+, yscale(0.0)
+, xref1(0.0)
+, yref1(0.0)
+, ok(false)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0) return;
@@ -77,7 +77,7 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     if(pBand == 0) return;
 
     GDALColorTable * pct = pBand->GetColorTable();
-    for(int i=0; i < pct->GetColorEntryCount(); ++i){
+    for(int i=0; i < pct->GetColorEntryCount(); ++i) {
         const GDALColorEntry& e = *pct->GetColorEntry(i);
         colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
     }
@@ -85,7 +85,7 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     int success = 0;
     double idx = pBand->GetNoDataValue(&success);
 
-    if(success){
+    if(success) {
         QColor tmp(colortable[idx]);
         tmp.setAlpha(0);
         colortable[idx] = tmp.rgba();
@@ -108,10 +108,10 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     ok = true;
 }
 
+
 CMapFile::~CMapFile()
 {
     if(pj) pj_free(pj);
     if(dataset) delete dataset;
 
 }
-

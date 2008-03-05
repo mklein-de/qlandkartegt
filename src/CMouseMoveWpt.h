@@ -38,6 +38,4 @@ class CMouseMoveWpt : public IMouse
         bool moveWpt;
         QPoint newPos;
 };
-
-#endif //CMOUSEMOVEWPT_H
-
+#endif                           //CMOUSEMOVEWPT_H

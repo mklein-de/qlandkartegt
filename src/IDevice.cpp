@@ -21,16 +21,18 @@
 #include <QtGui>
 
 IDevice::IDevice(const QString& devkey, QObject * parent)
-    : QObject(parent)
-    , devkey(devkey)
+: QObject(parent)
+, devkey(devkey)
 {
 
 }
+
 
 IDevice::~IDevice()
 {
 
 }
+
 
 void IDevice::createProgress(const QString& title, const QString& text, int max)
 {
@@ -42,4 +44,3 @@ void IDevice::createProgress(const QString& title, const QString& text, int max)
     progress->setLabelText(text);
     progress->show();
 }
-

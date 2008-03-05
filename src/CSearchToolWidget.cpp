@@ -25,7 +25,7 @@
 #include <QtGui>
 
 CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
     setupUi(this);
     setObjectName("Search");
@@ -41,15 +41,17 @@ CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Search"));
 }
 
+
 CSearchToolWidget::~CSearchToolWidget()
 {
 
 }
 
+
 void CSearchToolWidget::slotReturnPressed()
 {
     QString line = lineInput->text().trimmed();
-    if(!line.isEmpty()){
+    if(!line.isEmpty()) {
         CSearchDB::self().search(line);
         lineInput->setEnabled(false);
     }
@@ -62,12 +64,13 @@ void CSearchToolWidget::slotQueryFinished()
 
 }
 
+
 void CSearchToolWidget::slotDBChanged()
 {
     listResults->clear();
 
     QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
-    while(result != CSearchDB::self().end()){
+    while(result != CSearchDB::self().end()) {
         QListWidgetItem * item = new QListWidgetItem(listResults);
         item->setText(result->query);
 
@@ -76,10 +79,11 @@ void CSearchToolWidget::slotDBChanged()
 
 }
 
+
 void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     CSearchDB::result_t * result = CSearchDB::self().getResultByKey(item->text());
-    if(result){
+    if(result) {
         theMainWindow->getCanvas()->move(result->lon, result->lat);
     }
 }

@@ -24,23 +24,24 @@
 #include "CGpx.h"
 #include "CResources.h"
 
-
 #include <QtGui>
 
 CTrackDB * CTrackDB::m_self = 0;
 
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
-    : IDB(tb,parent)
-    , cnt(0)
+: IDB(tb,parent)
+, cnt(0)
 {
     m_self      = this;
     toolview    = new CTrackToolWidget(tb);
 }
 
+
 CTrackDB::~CTrackDB()
 {
 
 }
+
 
 void CTrackDB::clear()
 {
@@ -48,16 +49,18 @@ void CTrackDB::clear()
     emit sigChanged();
 }
 
+
 CTrackToolWidget * CTrackDB::getToolWidget()
 {
     return qobject_cast<CTrackToolWidget*>(toolview);
 }
 
+
 void CTrackDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
 
-    while(!stream.atEnd()){
+    while(!stream.atEnd()) {
         CTrack * track = new CTrack(this);
         stream >> *track;
         addTrack(track);
@@ -67,14 +70,16 @@ void CTrackDB::loadQLB(CQlb& qlb)
 
 }
 
+
 void CTrackDB::saveQLB(CQlb& qlb)
 {
     QMap<QString, CTrack*>::const_iterator track = tracks.begin();
-    while(track != tracks.end()){
+    while(track != tracks.end()) {
         qlb << *(*track);
         ++track;
     }
 }
+
 
 void CTrackDB::loadGPX(CGpx& gpx)
 {
@@ -135,6 +140,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
     }
     emit sigChanged();
 }
+
 
 void CTrackDB::saveGPX(CGpx& gpx)
 {
@@ -198,9 +204,10 @@ void CTrackDB::saveGPX(CGpx& gpx)
 
 }
 
+
 void CTrackDB::addTrack(CTrack* track)
 {
-    if(track->getName().isEmpty()){
+    if(track->getName().isEmpty()) {
         track->setName(tr("Track%1").arg(cnt++));
     }
     track->rebuild(false);
@@ -210,12 +217,14 @@ void CTrackDB::addTrack(CTrack* track)
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
 }
 
+
 void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
     delete tracks.take(key);
     if(!silent) emit sigChanged();
 }
+
 
 void CTrackDB::delTracks(const QStringList& keys)
 {
@@ -242,6 +251,7 @@ void CTrackDB::highlightTrack(const QString& key)
     emit sigChanged();
 
 }
+
 
 CTrack* CTrackDB::highlightedTrack()
 {

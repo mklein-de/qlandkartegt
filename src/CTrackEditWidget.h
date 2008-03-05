@@ -48,7 +48,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
     private:
         enum columns_e
         {
-             eNum       = 0
+            eNum       = 0
             ,eTime      = 1
             ,eAltitude  = 2
             ,eDelta     = 3
@@ -64,6 +64,4 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         bool originator;
 
 };
-
-#endif //CTRACKEDITWIDGET_H
-
+#endif                           //CTRACKEDITWIDGET_H

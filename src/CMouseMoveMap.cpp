@@ -26,20 +26,22 @@
 #include <QtGui>
 
 CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
-    : IMouse(parent)
-    , moveMap(false)
+: IMouse(parent)
+, moveMap(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
 }
+
 
 CMouseMoveMap::~CMouseMoveMap()
 {
 
 }
 
+
 void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 {
-    if(moveMap){
+    if(moveMap) {
         CMapDB::self().getMap().move(oldPoint, e->pos());
         oldPoint = e->pos();
         canvas->update();
@@ -49,28 +51,30 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
     mouseMoveEventTrack(e);
 }
 
+
 void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton){
+    if(e->button() == Qt::LeftButton) {
         cursor = QCursor(QPixmap(":/cursors/cursorMove"));
         QApplication::setOverrideCursor(cursor);
         moveMap     = true;
         oldPoint    = e->pos();
 
-        if(selWpt){
+        if(selWpt) {
             CWptDB::self().selWptByKey(selWpt->key());
         }
 
         CTrack * track = CTrackDB::self().highlightedTrack();
-        if(track && selTrkPt){
+        if(track && selTrkPt) {
             track->setPointOfFocus(selTrkPt->idx);
         }
     }
 }
 
+
 void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(moveMap && (e->button() == Qt::LeftButton)){
+    if(moveMap && (e->button() == Qt::LeftButton)) {
         moveMap = false;
         cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
         QApplication::restoreOverrideCursor();
@@ -84,4 +88,3 @@ void CMouseMoveMap::draw(QPainter& p)
     drawSelWpt(p);
     drawSelTrkPt(p);
 }
-

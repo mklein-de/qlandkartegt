@@ -19,7 +19,6 @@
 
   (C) 2008
 
-
 **********************************************************************************************/
 #ifndef CCREATEMAPGEOTIFF_H
 #define CCREATEMAPGEOTIFF_H
@@ -33,6 +32,4 @@ class CCreateMapGeoTiff : public QWidget
         CCreateMapGeoTiff(QWidget * parent);
         virtual ~CCreateMapGeoTiff();
 };
-
-#endif //CCREATEMAPGEOTIFF_H
-
+#endif                           //CCREATEMAPGEOTIFF_H

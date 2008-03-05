@@ -81,6 +81,4 @@ class CMapLevel : public QObject
         double southbound;
 
 };
-
-#endif //CMAPLEVEL_H
-
+#endif                           //CMAPLEVEL_H

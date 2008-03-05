@@ -42,6 +42,4 @@ class CDlgEditMapLevel : public QDialog, private Ui::IDlgEditMapLevel
         QTreeWidgetItem * item;
         QString mapPath;
 };
-
-#endif //CDLGEDITMAPLEVEL_H
-
+#endif                           //CDLGEDITMAPLEVEL_H

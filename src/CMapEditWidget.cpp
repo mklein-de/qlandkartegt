@@ -22,9 +22,8 @@
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
 
-
 CMapEditWidget::CMapEditWidget(QWidget * parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose,true);
@@ -47,8 +46,8 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
 }
 
+
 CMapEditWidget::~CMapEditWidget()
 {
 
 }
-

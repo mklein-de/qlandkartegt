@@ -39,6 +39,4 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotSelectFont();
 
 };
-
-#endif //CDLGCONFIG_H
-
+#endif                           //CDLGCONFIG_H

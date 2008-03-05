@@ -60,12 +60,11 @@ class CTrackDB : public IDB
         */
         CTrack* highlightedTrack();
 
-
         /// get access to track dictionary
         QMap<QString,CTrack*>& getTracks(){return tracks;}
 
         CTrackToolWidget * getToolWidget();
-    signals:
+        signals:
         void sigHighlightTrack(CTrack * track);
 
     private:
@@ -77,6 +76,4 @@ class CTrackDB : public IDB
 
         QMap<QString,CTrack*> tracks;
 };
-
-#endif //CTRACKDB_H
-
+#endif                           //CTRACKDB_H

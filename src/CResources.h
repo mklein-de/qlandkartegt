@@ -54,7 +54,7 @@ class CResources : public QObject
         /// root path of all maps
         QString pathMaps;
 
-    signals:
+        signals:
         void sigProxyChanged();
 
     private:
@@ -64,11 +64,12 @@ class CResources : public QObject
 
         static CResources * m_self;
 
-        enum bowser_e   {eFirefox = 0
-                        ,eKonqueror = 1
-                        ,eOther = 2
-                        };
-
+        enum bowser_e
+        {
+            eFirefox = 0
+            ,eKonqueror = 1
+            ,eOther = 2
+        };
 
         /// use proxy for http requests
         bool m_useHttpProxy;
@@ -108,6 +109,4 @@ class CResources : public QObject
         QString m_devSerialPort;
 
 };
-
-#endif //CRESOURCES_H
-
+#endif                           //CRESOURCES_H

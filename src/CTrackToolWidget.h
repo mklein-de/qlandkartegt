@@ -48,7 +48,6 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotContextMenu(const QPoint& pos);
         void slotDelete();
 
-
     private:
         bool originator;
 
@@ -57,6 +56,4 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QPointer<CTrackEditWidget> trackedit;
 
 };
-
-#endif //CTRACKTOOLWIDGET_H
-
+#endif                           //CTRACKTOOLWIDGET_H

@@ -31,8 +31,8 @@ CSearchDB * CSearchDB::m_self;
 static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL9C0r5u06RhgW2EtRR8yuKglxlHgpZfC5_TdLXlJvIWgA";
 
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
-    : IDB(tb,parent)
-    , google(0)
+: IDB(tb,parent)
+, google(0)
 {
     m_self      = this;
     toolview    = new CSearchToolWidget(tb);
@@ -42,16 +42,19 @@ CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 
 }
 
+
 CSearchDB::~CSearchDB()
 {
 
 }
+
 
 void CSearchDB::clear()
 {
     results.clear();
     emit sigChanged();
 }
+
 
 void CSearchDB::search(const QString& str)
 {
@@ -71,6 +74,7 @@ void CSearchDB::search(const QString& str)
 
 }
 
+
 void CSearchDB::slotSetupLink()
 {
     QString url;
@@ -81,7 +85,7 @@ void CSearchDB::slotSetupLink()
 
     if(google) delete google;
     google = new QHttp(this);
-    if(enableProxy){
+    if(enableProxy) {
         google->setProxy(url,port);
     }
     google->setHost("maps.google.com");
@@ -89,15 +93,17 @@ void CSearchDB::slotSetupLink()
     connect(google,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
+
 void CSearchDB::slotRequestStarted(int )
 {
 
 }
 
+
 void CSearchDB::slotRequestFinished(int , bool error)
 {
 
-    if(error){
+    if(error) {
         emit sigStatus(google->errorString());
 
     }
@@ -105,17 +111,17 @@ void CSearchDB::slotRequestFinished(int , bool error)
     QString asw = google->readAll();
     asw = asw.simplified();
 
-    if(asw.isEmpty()){
+    if(asw.isEmpty()) {
         emit sigFinished();
         return;
     }
 
     QStringList values = asw.split(",");
 
-    if(values.count() != 4){
+    if(values.count() != 4) {
         emit sigStatus(tr("Bad number of return paramters"));
     }
-    else if(values[0] == "200"){
+    else if(values[0] == "200") {
 
         tmpResult.lat = values[2].toDouble();
         tmpResult.lon = values[3].toDouble();
@@ -125,28 +131,29 @@ void CSearchDB::slotRequestFinished(int , bool error)
 
         emit sigStatus(tr("Success."));
     }
-    else if(values[0] == "500"){
+    else if(values[0] == "500") {
         emit sigStatus(tr("Failed. Reason unknown."));
     }
-    else if(values[0] == "601"){
+    else if(values[0] == "601") {
         emit sigStatus(tr("Failed. Missing query string."));
     }
-    else if(values[0] == "602"){
+    else if(values[0] == "602") {
         emit sigStatus(tr("Failed. No location found."));
     }
-    else if(values[0] == "603"){
+    else if(values[0] == "603") {
         emit sigStatus(tr("Failed. No location because of legal matters."));
     }
-    else if(values[0] == "610"){
+    else if(values[0] == "610") {
         emit sigStatus(tr("Failed. Bad API key."));
     }
-    else{
+    else {
         emit sigStatus(asw);
     }
 
     emit sigFinished();
     emit sigChanged();
 }
+
 
 CSearchDB::result_t * CSearchDB::getResultByKey(const QString& key)
 {

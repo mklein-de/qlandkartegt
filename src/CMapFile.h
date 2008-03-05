@@ -90,6 +90,4 @@ class CMapFile : public QObject
         bool ok;
 
 };
-
-#endif //CMAPFILE_H
-
+#endif                           //CMAPFILE_H

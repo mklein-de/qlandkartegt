@@ -23,16 +23,18 @@
 #include <QtGui>
 
 CDlgConfig::CDlgConfig(QWidget * parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
     setupUi(this);
     connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
 }
 
+
 CDlgConfig::~CDlgConfig()
 {
 
 }
+
 
 void CDlgConfig::exec()
 {
@@ -59,12 +61,13 @@ void CDlgConfig::exec()
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
 
-//     if(resources.m_devKey == "QLandkarteM"){
-//         groupDevice->setEnabled(true);
-//     }
+    //     if(resources.m_devKey == "QLandkarteM"){
+    //         groupDevice->setEnabled(true);
+    //     }
 
     QDialog::exec();
 }
+
 
 void CDlgConfig::accept()
 {
@@ -93,19 +96,20 @@ void CDlgConfig::accept()
 
 void CDlgConfig::slotCurrentDeviceChanged(int index)
 {
-    if(comboDevice->itemData(index) == "QLandkarteM"){
+    if(comboDevice->itemData(index) == "QLandkarteM") {
         groupDevice->setEnabled(true);
     }
-    else{
+    else {
         groupDevice->setEnabled(false);
     }
 }
+
 
 void CDlgConfig::slotSelectFont()
 {
     bool ok = false;
     QFont font = QFontDialog::getFont(&ok, labelFont->font(), this);
-    if(ok){
+    if(ok) {
         labelFont->setFont(font);
     }
 

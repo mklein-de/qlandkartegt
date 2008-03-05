@@ -26,6 +26,4 @@
 
 #define VER_STR       _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
 #define WHAT_STR      "QLandkarte GT, Version " VER_STR
-
-#endif //VERSION_H
-
+#endif                           //VERSION_H

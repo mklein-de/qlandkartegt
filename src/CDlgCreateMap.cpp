@@ -22,7 +22,7 @@
 #include "CCreateMapQMAP.h"
 
 CDlgCreateMap::CDlgCreateMap(QWidget * parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
     setupUi(this);
     comboSource->insertItem(eNone,tr(""));
@@ -38,10 +38,12 @@ CDlgCreateMap::CDlgCreateMap(QWidget * parent)
     stackedWidget->insertWidget(eQMAP, widgetQMAP);
 }
 
+
 CDlgCreateMap::~CDlgCreateMap()
 {
 
 }
+
 
 void CDlgCreateMap::editMap(const QString& filename)
 {

@@ -28,7 +28,7 @@
 #include <QtGui>
 
 CWptToolWidget::CWptToolWidget(QTabWidget * parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
     setupUi(this);
     setObjectName("Waypoints");
@@ -46,18 +46,20 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
 }
 
+
 CWptToolWidget::~CWptToolWidget()
 {
 
 }
 
+
 void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete){
+    if(e->key() == Qt::Key_Delete) {
         slotDelete();
         e->accept();
     }
-    else{
+    else {
         QWidget::keyPressEvent(e);
     }
 }
@@ -68,7 +70,7 @@ void CWptToolWidget::slotDBChanged()
     listWpts->clear();
 
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()){
+    while(wpt != CWptDB::self().end()) {
         QListWidgetItem * item = new QListWidgetItem(listWpts);
         item->setText((*wpt)->name);
         item->setIcon(getWptIconByName((*wpt)->icon));
@@ -77,10 +79,11 @@ void CWptToolWidget::slotDBChanged()
     }
 }
 
+
 void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
-    if(wpt){
+    if(wpt) {
         theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
     }
 }
@@ -88,40 +91,42 @@ void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 
 void CWptToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listWpts->currentItem()){
+    if(listWpts->currentItem()) {
         QPoint p = listWpts->mapToGlobal(pos);
         contextMenu->exec(p);
     }
 }
 
+
 void CWptToolWidget::slotEdit()
 {
     CWpt * wpt = CWptDB::self().getWptByKey(listWpts->currentItem()->data(Qt::UserRole).toString());
-    if(wpt){
+    if(wpt) {
         CDlgEditWpt dlg(*wpt,this);
         dlg.exec();
     }
 }
+
 
 void CWptToolWidget::slotDelete()
 {
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-    foreach(item,items){
+    foreach(item,items) {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
     CWptDB::self().delWpt(keys);
 }
 
+
 void CWptToolWidget::selWptByKey(const QString& key)
 {
-    for(int i=0; i<listWpts->count(); ++i){
+    for(int i=0; i<listWpts->count(); ++i) {
         QListWidgetItem * item = listWpts->item(i);
-        if(item && item->data(Qt::UserRole) == key){
+        if(item && item->data(Qt::UserRole) == key) {
             listWpts->setCurrentItem(item);
         }
     }
 }
-

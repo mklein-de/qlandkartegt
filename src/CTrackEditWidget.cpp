@@ -25,8 +25,8 @@
 #include <QtGui>
 
 CTrackEditWidget::CTrackEditWidget(QWidget * parent)
-    : QWidget(parent)
-    , originator(false)
+: QWidget(parent)
+, originator(false)
 {
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose,true);
@@ -48,10 +48,12 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 }
 
+
 CTrackEditWidget::~CTrackEditWidget()
 {
 
 }
+
 
 void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
 {
@@ -70,13 +72,13 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 {
     if(originator) return;
 
-    if(track){
+    if(track) {
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
     }
 
     track = t;
-    if(track.isNull()){
+    if(track.isNull()) {
         close();
         return;
     }
@@ -86,6 +88,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     slotUpdate();
 }
+
 
 void CTrackEditWidget::slotUpdate()
 {
@@ -101,7 +104,7 @@ void CTrackEditWidget::slotUpdate()
     QTreeWidgetItem * focus                 = 0;
     QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()){
+    while(trkpt != trkpts.end()) {
         QTreeWidgetItem * item = new QTreeWidgetItem(treePoints);
         item->setData(0, Qt::UserRole, trkpt->idx);
 
@@ -110,7 +113,7 @@ void CTrackEditWidget::slotUpdate()
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
         }
 
-                // temp. store item of user focus
+        // temp. store item of user focus
         if(trkpt->flags & CTrack::pt_t::eFocus) {
             focus = item;
         }
@@ -160,10 +163,10 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eDelta,str);
 
         // azimuth
-        if(trkpt->azimuth != WPT_NOFLOAT){
+        if(trkpt->azimuth != WPT_NOFLOAT) {
             str.sprintf("%1.0f\260",trkpt->azimuth);
         }
-        else{
+        else {
             str = "-";
         }
         item->setText(eAzimuth,str);
@@ -228,6 +231,7 @@ void CTrackEditWidget::slotUpdate()
 
 }
 
+
 void CTrackEditWidget::slotCheckReset(bool checked)
 {
     if(checked) {
@@ -242,6 +246,7 @@ void CTrackEditWidget::slotCheckRemove(bool checked)
         checkResetDelTrkPt->setChecked(false);
     }
 }
+
 
 void CTrackEditWidget::slotApply()
 {
@@ -311,6 +316,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
     originator = false;
 }
 
+
 void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 {
     if(track.isNull()) return;
@@ -318,6 +324,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
     track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
     originator = false;
 }
+
 
 void CTrackEditWidget::slotPurge()
 {
@@ -337,5 +344,3 @@ void CTrackEditWidget::slotPurge()
     }
     track->rebuild(false);
 }
-
-

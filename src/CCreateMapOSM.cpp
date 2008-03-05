@@ -28,16 +28,17 @@
 #include <math.h>
 #include <ogr_spatialref.h>
 
-static const char * osm_image_args[] = {
-     "BLOCKXSIZE=256"
+static const char * osm_image_args[] =
+{
+    "BLOCKXSIZE=256"
     ,"BLOCKYSIZE=256"
     ,"TILED=YES"
     ,"COMPRESS=DEFLATE"
     ,NULL
 };
 
-
-static GDALColorEntry defaultColorTable[256] = {
+static GDALColorEntry defaultColorTable[256] =
+{
     {0,0,0,0        },
     {32,0,0,0       },
     {65,0,0,0       },
@@ -301,7 +302,7 @@ static QVector<QRgb>  qtColorTable(256);
 
 CCreateMapOSM::zoomlevel_t::~zoomlevel_t()
 {
-    if(dataset){
+    if(dataset) {
         qDebug() << "~zoomlevel_t()";
         dataset->FlushCache();
         delete dataset;
@@ -309,9 +310,11 @@ CCreateMapOSM::zoomlevel_t::~zoomlevel_t()
     }
 
 }
+
+
 CCreateMapOSM::CCreateMapOSM(QWidget * parent)
-    : QWidget(parent)
-    , progress(0)
+: QWidget(parent)
+, progress(0)
 {
     setupUi(this);
     labelPath->setText(CResources::self().pathMaps);
@@ -325,14 +328,14 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     enableProxy = CResources::self().getHttpProxy(url,port);
 
     link = new QHttp(this);
-    if(enableProxy){
+    if(enableProxy) {
         link->setProxy(url,port);
     }
 
     connect(link,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 
     // initialize color tables
-    for(int i=0; i<256; ++i){
+    for(int i=0; i<256; ++i) {
         gdalColorTable.SetColorEntry(i, &defaultColorTable[i]);
         qtColorTable[i] = qRgba(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3,defaultColorTable[i].c4);
     }
@@ -341,39 +344,41 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
 
 }
 
+
 CCreateMapOSM::~CCreateMapOSM()
 {
 
 }
+
 
 void CCreateMapOSM::slotCreate()
 {
     if(!progress.isNull()) return;
 
     // sanity check
-    if(lineTopLeft->text().isEmpty()){
+    if(lineTopLeft->text().isEmpty()) {
         QMessageBox::critical(this,tr("Information missing ..."), tr("The top left coordinate is missing"), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
-    if(lineBottomRight->text().isEmpty()){
+    if(lineBottomRight->text().isEmpty()) {
         QMessageBox::critical(this,tr("Information missing ..."), tr("The bottom right coordinate is missing"), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
-    if(lineName->text().isEmpty()){
+    if(lineName->text().isEmpty()) {
         QMessageBox::critical(this,tr("Information missing ..."), tr("The map name is missing."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
-    if(lineComment->text().isEmpty()){
+    if(lineComment->text().isEmpty()) {
         QMessageBox::critical(this,tr("Information missing ..."), tr("The comment is missing."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
 
     // get top left and bottom right coordinate
     float lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
-    if(!GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1)){
+    if(!GPS_Math_Str_To_Deg(lineTopLeft->text(), lon1, lat1)) {
         return;
     }
-    if(!GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2)){
+    if(!GPS_Math_Str_To_Deg(lineBottomRight->text(), lon2, lat2)) {
         return;
     }
 
@@ -388,7 +393,6 @@ void CCreateMapOSM::slotCreate()
     progress->setValue(0);
 
     qApp->processEvents();
-
 
     // build file base path/name for putput files
     QString filename = QDir(labelPath->text()).filePath(lineName->text());
@@ -434,7 +438,7 @@ void CCreateMapOSM::slotCreate()
     mapdef.setValue("width",QString("%1 m").arg(realWidth));
     mapdef.setValue("height",QString("%1 m").arg(realHeight));
 
-    mapdef.endGroup(); // description
+    mapdef.endGroup();           // description
 
     mapdef.setValue("main/levels",3);
 
@@ -446,9 +450,8 @@ void CCreateMapOSM::slotCreate()
     maxTiles = tiles.count();
     progress->setMaximum(maxTiles);
 
-
     link->setHost("tah.openstreetmap.org");
-//     link->setHost("tile.openstreetmap.org");
+    //     link->setHost("tile.openstreetmap.org");
     getNextTile();
 }
 
@@ -495,12 +498,12 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     double resy = (40075016.68 / ((1<<zoom) * 256));
 
     double adfGeoTransform[6];
-    adfGeoTransform[0] = Ep;                     /* top left x */
-    adfGeoTransform[1] = resx;                   /* w-e pixel resolution */
-    adfGeoTransform[2] = 0;                      /* rotation, 0 if image is "north up" */
-    adfGeoTransform[3] = Np;                     /* top left y */
-    adfGeoTransform[4] = 0;                      /* rotation, 0 if image is "north up" */
-    adfGeoTransform[5] = -resy;                  /* n-s pixel resolution */
+    adfGeoTransform[0] = Ep;     /* top left x */
+    adfGeoTransform[1] = resx;   /* w-e pixel resolution */
+    adfGeoTransform[2] = 0;      /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] = Np;     /* top left y */
+    adfGeoTransform[4] = 0;      /* rotation, 0 if image is "north up" */
+    adfGeoTransform[5] = -resy;  /* n-s pixel resolution */
     z.dataset->SetGeoTransform(adfGeoTransform);
 
     // initialize raster band with default colortable
@@ -508,11 +511,11 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     z.band->SetColorTable(&gdalColorTable);
 
     // add tile definitions to list
-    for(y = y1; y <= y2; ++y){
-        for(x = x1; x <= x2; ++x){
+    for(y = y1; y <= y2; ++y) {
+        for(x = x1; x <= x2; ++x) {
             tile_t t;
             t.url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
-//             t.url.setPath(QString("/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
+            //             t.url.setPath(QString("/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
             t.x         = x - x1;
             t.y         = y - y1;
             t.zoom      = zoom;
@@ -523,15 +526,16 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     }
 }
 
+
 void CCreateMapOSM::getNextTile()
 {
-    if(progress && progress->wasCanceled()){
+    if(progress && progress->wasCanceled()) {
         // TODO: unlink files!
         finishJob();
         return;
     }
 
-    if(tiles.isEmpty()){
+    if(tiles.isEmpty()) {
         finishJob();
         QString fn = QString("%1.qmap").arg(QDir(labelPath->text()).filePath(lineName->text()));
         qDebug() << fn;
@@ -549,6 +553,7 @@ void CCreateMapOSM::getNextTile()
     qDebug() << ("http://tile.openstreetmap.org" + t.url.toString());
 }
 
+
 void CCreateMapOSM::finishJob()
 {
     tiles.clear();
@@ -557,13 +562,14 @@ void CCreateMapOSM::finishJob()
     if(!progress.isNull()) progress->close();
 }
 
+
 void CCreateMapOSM::slotRequestFinished(int id, bool error)
 {
     qDebug() << "slotRequestFinished(" <<  id << "," << error << ")";
 
-    if(error){
+    if(error) {
         QMessageBox::StandardButton res = QMessageBox::critical(this,tr("Failed to download tile!"), link->errorString(), QMessageBox::Retry|QMessageBox::Abort, QMessageBox::Retry);
-        if(res == QMessageBox::Retry){
+        if(res == QMessageBox::Retry) {
             getNextTile();
             return;
         }
@@ -573,7 +579,7 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 
     QImage img1,img2;
     img1.loadFromData(link->readAll());
-    if(img1.format() == QImage::Format_Invalid){
+    if(img1.format() == QImage::Format_Invalid) {
         // that:
         // link->setHost("tah.openstreetmap.org")
         // will cause a requestFinished() signal, too.
@@ -597,7 +603,7 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 void CCreateMapOSM::slotSelectPath()
 {
     QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text());
-    if(!path.isEmpty()){
+    if(!path.isEmpty()) {
         labelPath->setText(path);
     }
 }

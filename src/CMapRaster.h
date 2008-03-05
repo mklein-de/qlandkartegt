@@ -62,7 +62,6 @@ class CMapRaster : public IMap
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(float lon, float lat);
 
-
     private:
         friend class CExportMapThread;
 
@@ -94,7 +93,7 @@ class CMapRaster : public IMap
 /// thread object to export a sub-area from a map set
 /**
 
-*/
+ */
 class CExportMapThread : public QThread
 {
     Q_OBJECT;
@@ -105,7 +104,7 @@ class CExportMapThread : public QThread
 
         void setup(const XY& p1, const XY& p2, const QString& filename, const QString& comment);
 
-    signals:
+        signals:
         void sigSetMessage(const QString& msg);
         void sigSetRange(int minimum, int maximum);
         void sigSetValue(int progress);
@@ -130,7 +129,4 @@ class CExportMapThread : public QThread
         double height;
         bool canceled;
 };
-
-
-#endif //CMAPRASTER_H
-
+#endif                           //CMAPRASTER_H

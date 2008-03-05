@@ -24,16 +24,18 @@
 #include <QtGui>
 
 CMouseSelMap::CMouseSelMap(CCanvas * canvas)
-    : IMouse(canvas)
-    , selMap(false)
+: IMouse(canvas)
+, selMap(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorSelMap"),0,0);
 }
+
 
 CMouseSelMap::~CMouseSelMap()
 {
 
 }
+
 
 void CMouseSelMap::draw(QPainter& p)
 {
@@ -41,27 +43,29 @@ void CMouseSelMap::draw(QPainter& p)
     drawRect(p);
 }
 
+
 void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 {
     if(!selMap) return;
     resizeRect(e->pos());
 }
 
+
 void CMouseSelMap::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton){
+    if(e->button() == Qt::LeftButton) {
         startRect(e->pos());
         selMap = true;
     }
 }
 
+
 void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton){
+    if(e->button() == Qt::LeftButton) {
         selMap = false;
         resizeRect(e->pos());
         CMapDB::self().getMap().select(rect.normalized());
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }
-

@@ -22,22 +22,19 @@
 
 #include <QtGui>
 
-
 CResources * CResources::m_self = 0;
 
 CResources::CResources(QObject * parent)
-    : QObject(parent)
-    , pathMaps("./")
-    , m_useHttpProxy(false)
-    , m_httpProxyPort(8080)
-    , m_eBrowser(eFirefox)
-    , cmdFirefox("firefox \"%s\" &")
-    , cmdKonqueror("kfmclient exec \"%s\"")
-    , time_offset(0)
-    , m_device(0)
-    , m_devIPPort(0)
-
-
+: QObject(parent)
+, pathMaps("./")
+, m_useHttpProxy(false)
+, m_httpProxyPort(8080)
+, m_eBrowser(eFirefox)
+, cmdFirefox("firefox \"%s\" &")
+, cmdKonqueror("kfmclient exec \"%s\"")
+, time_offset(0)
+, m_device(0)
+, m_devIPPort(0)
 
 {
     m_self = this;
@@ -67,6 +64,7 @@ CResources::CResources(QObject * parent)
     pathMaps        = cfg.value("path/maps",pathMaps).toString();
 }
 
+
 CResources::~CResources()
 {
     QSettings cfg;
@@ -90,6 +88,7 @@ CResources::~CResources()
     cfg.setValue("path/maps",pathMaps);
 }
 
+
 bool CResources::getHttpProxy(QString& url, quint16& port)
 {
     url  = m_httpProxy;
@@ -101,20 +100,20 @@ bool CResources::getHttpProxy(QString& url, quint16& port)
 IDevice * CResources::device()
 {
     // purge device if the key does not match
-    if(m_device && (m_device->getDevKey() != m_devKey)){
+    if(m_device && (m_device->getDevKey() != m_devKey)) {
         delete m_device;
         m_device = 0;
     }
 
     // allocate new device
-    if(!m_device){
-        if(m_devKey == "QLandkarteM" && !m_devIPAddress.isEmpty() && m_devIPPort){
+    if(!m_device) {
+        if(m_devKey == "QLandkarteM" && !m_devIPAddress.isEmpty() && m_devIPPort) {
             m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
         }
     }
 
     // still noe device?
-    if(!m_device){
+    if(!m_device) {
         qWarning() << "no device";
         // TODO: would be nicer to open the setup dialog
         QMessageBox::critical(0,tr("No device."),tr("You have to select a device in Setup->Config->Device & Xfer"), QMessageBox::Abort, QMessageBox::Abort);

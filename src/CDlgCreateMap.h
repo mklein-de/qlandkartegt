@@ -39,10 +39,7 @@ class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
     private:
         enum widget_e {eNone, eOSM, eQMAP};
 
-
         CCreateMapOSM  * widgetOSM;
         CCreateMapQMAP * widgetQMAP;
 };
-
-#endif //CDLGCREATEMAP_H
-
+#endif                           //CDLGCREATEMAP_H

@@ -24,7 +24,6 @@
 #include <QList>
 #include <QMap>
 
-
 class IMap;
 class QPainter;
 class CCanvas;
@@ -45,7 +44,6 @@ class CMapDB : public IDB
             QString key;
         };
 
-
         static CMapDB& self(){return *m_self;}
 
         /// open a map collection from disc
@@ -55,9 +53,9 @@ class CMapDB : public IDB
         /// get access to known map dictionary
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get current main map
-        IMap& getMap(){
-          theMap = visibleMaps.isEmpty() ? defaultMap : visibleMaps.at(0);
-          return *theMap;
+        IMap& getMap() {
+            theMap = visibleMaps.isEmpty() ? defaultMap : visibleMaps.at(0);
+            return *theMap;
         }
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
@@ -95,7 +93,6 @@ class CMapDB : public IDB
         */
         QList<IMap*> visibleMaps;
 
-
         /// a dictionary of previous opened maps
         QMap<QString,map_t> knownMaps;
 
@@ -108,6 +105,4 @@ class CMapDB : public IDB
 
         QPointer<CMapEditWidget> mapedit;
 };
-
-#endif //CMAPDB_H
-
+#endif                           //CMAPDB_H

@@ -97,6 +97,4 @@ class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
         QPointer<QProgressDialog> progress;
 
 };
-
-#endif //CCREATEMAPOSM_H
-
+#endif                           //CCREATEMAPOSM_H

@@ -30,33 +30,29 @@
 class CLabel : public QLabel
 {
     public:
-        CLabel(QWidget * parent): QLabel(parent)
-        {
+        CLabel(QWidget * parent): QLabel(parent) {
             setMouseTracking(true);
         }
         ~CLabel(){}
 
-        void mouseMoveEvent(QMouseEvent * e)
-        {
+        void mouseMoveEvent(QMouseEvent * e) {
             setBackgroundRole(QPalette::Highlight);
             setForegroundRole(QPalette::HighlightedText);
         }
 
-        void leaveEvent(QEvent *)
-        {
+        void leaveEvent(QEvent *) {
             setBackgroundRole(QPalette::Window);
             setForegroundRole(QPalette::WindowText);
         }
 
-        void paintEvent(QPaintEvent * e)
-        {
+        void paintEvent(QPaintEvent * e) {
 
             QPainter p;
             p.begin(this);
-            if(backgroundRole() == QPalette::Highlight){
+            if(backgroundRole() == QPalette::Highlight) {
                 p.setBrush(QBrush( QColor(66,121,206,150) ));
             }
-            else{
+            else {
                 p.setBrush(QBrush( QColor(66,121,206,0) ));
             }
             p.setPen(Qt::NoPen);
@@ -67,9 +63,9 @@ class CLabel : public QLabel
         }
 };
 
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] = {
-     {0,QObject::tr("-"),0,tr("")}
+const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
+{
+    {0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps.")}
     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
@@ -83,8 +79,9 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] = {
 
 };
 
-const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] = {
-     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
@@ -97,8 +94,9 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] = {
     ,{0,QObject::tr("-"),0,tr("")}
 };
 
-const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
-     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
@@ -111,8 +109,9 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] = {
     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device.")}
 };
 
-const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] = {
-     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
@@ -125,11 +124,10 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] = {
     ,{0,QObject::tr("-"),0,tr("")}
 };
 
-
 /// Left hand side multi-function menu
 CMegaMenu::CMegaMenu(CCanvas * canvas)
-    : QLabel(canvas)
-    , canvas(canvas)
+: QLabel(canvas)
+, canvas(canvas)
 {
     setScaledContents(true);
 
@@ -169,12 +167,12 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     keyF10 = new QLabel("F10",this);
     layout->addWidget(keyF10,10,0);
 
-    for(i=0; i<11; ++i){
+    for(i=0; i<11; ++i) {
         icons[i] = new QLabel(this);
         layout->addWidget(icons[i],i,1);
     }
 
-    for(i=0; i<11; ++i){
+    for(i=0; i<11; ++i) {
         names[i] = new CLabel(this);
         names[i]->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
         layout->addWidget(names[i],i,2);
@@ -183,22 +181,22 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     funcSwitchToMain();
 }
 
+
 CMegaMenu::~CMegaMenu()
 {
 
 }
 
+
 void CMegaMenu::switchState(const func_key_state_t statedef[11])
 {
     unsigned i;
 
-
-
-    for(i=0; i<11; ++i){
-        if(statedef[i].icon){
+    for(i=0; i<11; ++i) {
+        if(statedef[i].icon) {
             icons[i]->setPixmap(QPixmap(statedef[i].icon));
         }
-        else{
+        else {
             icons[i]->setPixmap(QPixmap());
         }
         names[i]->setText(statedef[i].name);
@@ -208,69 +206,72 @@ void CMegaMenu::switchState(const func_key_state_t statedef[11])
     current = statedef;
 }
 
+
 void CMegaMenu::switchByKeyWord(const QString& key)
 {
-    if(key == "Waypoints" && current != fsWpt){
+    if(key == "Waypoints" && current != fsWpt) {
         funcSwitchToWpt();
         funcMoveArea();
     }
-    else if(key == "Search" && current != fsMain){
+    else if(key == "Search" && current != fsMain) {
         funcSwitchToMain();
         funcMoveArea();
     }
-    else if(key == "Maps" && current != fsMap){
+    else if(key == "Maps" && current != fsMap) {
         funcSwitchToMap();
         funcMoveArea();
     }
-    else if(key == "Tracks" && current != fsTrack){
+    else if(key == "Tracks" && current != fsTrack) {
         funcSwitchToTrack();
         funcMoveArea();
     }
 
 }
 
+
 void CMegaMenu::keyPressEvent(QKeyEvent * e)
 {
 
-    if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)){
+    if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
         unsigned i = e->key() - Qt::Key_F1 + 1;
-        if(current[i].func){
+        if(current[i].func) {
             (this->*current[i].func)();
 
         }
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Escape){
-        if(current[0].func){
+    else if(e->key() == Qt::Key_Escape) {
+        if(current[0].func) {
             (this->*current[0].func)();
         }
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Plus){
+    else if(e->key() == Qt::Key_Plus) {
         canvas->zoom(true, canvas->geometry().center());
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Minus){
+    else if(e->key() == Qt::Key_Minus) {
         canvas->zoom(false, canvas->geometry().center());
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Left){
+    else if(e->key() == Qt::Key_Left) {
         canvas->move(CCanvas::eMoveLeft);
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Right){
+    else if(e->key() == Qt::Key_Right) {
         canvas->move(CCanvas::eMoveRight);
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Up){
+    else if(e->key() == Qt::Key_Up) {
         canvas->move(CCanvas::eMoveUp);
         return e->accept();
     }
-    else if(e->key() == Qt::Key_Down){
+    else if(e->key() == Qt::Key_Down) {
         canvas->move(CCanvas::eMoveDown);
         return e->accept();
     }
 }
+
 
 void CMegaMenu::mousePressEvent(QMouseEvent * e)
 {
@@ -278,9 +279,9 @@ void CMegaMenu::mousePressEvent(QMouseEvent * e)
 
     if(e->button() != Qt::LeftButton) return;
 
-    for(i=0; i<11; ++i){
-        if(names[i]->geometry().contains(e->pos())){
-            if(current[i].func){
+    for(i=0; i<11; ++i) {
+        if(names[i]->geometry().contains(e->pos())) {
+            if(current[i].func) {
                 (this->*current[i].func)();
             }
             return;
@@ -298,6 +299,7 @@ void CMegaMenu::funcSwitchToMain()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcSwitchToMap()
 {
     menuTitle->setText(tr("<b>Maps ...</b>"));
@@ -306,6 +308,7 @@ void CMegaMenu::funcSwitchToMap()
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
+
 
 void CMegaMenu::funcSwitchToWpt()
 {
@@ -316,6 +319,7 @@ void CMegaMenu::funcSwitchToWpt()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcSwitchToTrack()
 {
     menuTitle->setText(tr("<b>Tracks ...</b>"));
@@ -325,11 +329,12 @@ void CMegaMenu::funcSwitchToTrack()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcClearAll()
 {
     QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
 
-    if(res == QMessageBox::Ok){
+    if(res == QMessageBox::Ok) {
         CSearchDB::self().clear();
         CMapDB::self().clear();
         CWptDB::self().clear();
@@ -337,50 +342,60 @@ void CMegaMenu::funcClearAll()
     }
 }
 
+
 void CMegaMenu::funcMoveArea()
 {
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
 }
+
 
 void CMegaMenu::funcCenterMap()
 {
     canvas->move(CCanvas::eMoveCenter);
 }
 
+
 void CMegaMenu::funcSelectArea()
 {
     canvas->setMouseMode(CCanvas::eMouseSelectArea);
 }
+
 
 void CMegaMenu::funcEditMap()
 {
     CMapDB::self().editMap();
 }
 
+
 void CMegaMenu::funcNewWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
+
 
 void CMegaMenu::funcEditWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseEditWpt);
 }
 
+
 void CMegaMenu::funcMoveWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 }
+
 
 void CMegaMenu::funcUploadWpt()
 {
     CWptDB::self().upload();
 }
 
+
 void CMegaMenu::funcDownloadWpt()
 {
     CWptDB::self().download();
 }
+
 
 void CMegaMenu::funcEditTrack()
 {

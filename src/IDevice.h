@@ -43,6 +43,4 @@ class IDevice : public QObject
         QString devkey;
         QPointer<QProgressDialog> progress;
 };
-
-#endif //IDEVICE_H
-
+#endif                           //IDEVICE_H

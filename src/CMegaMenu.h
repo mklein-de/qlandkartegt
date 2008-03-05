@@ -101,6 +101,4 @@ class CMegaMenu : public QLabel
         static const func_key_state_t fsWpt[];
         static const func_key_state_t fsTrack[];
 };
-
-#endif //CMEGAMENU_H
-
+#endif                           //CMEGAMENU_H

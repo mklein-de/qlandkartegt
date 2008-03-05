@@ -38,6 +38,4 @@ class CDlgWptIcon : public QDialog, private Ui::IDlgWptIcon
     private:
         QToolButton& button;
 };
-
-#endif //CDLGWPTICON_H
-
+#endif                           //CDLGWPTICON_H

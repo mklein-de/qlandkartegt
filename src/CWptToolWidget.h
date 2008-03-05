@@ -48,6 +48,4 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
     private:
         QMenu * contextMenu;
 };
-
-#endif //CWPTTOOLWIDGET_H
-
+#endif                           //CWPTTOOLWIDGET_H

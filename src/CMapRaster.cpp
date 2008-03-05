@@ -30,9 +30,9 @@
 #include <ogr_spatialref.h>
 #include <projects.h>
 
-
-static  const char * cimage_args[] = {
-     "BLOCKXSIZE=256"
+static  const char * cimage_args[] =
+{
+    "BLOCKXSIZE=256"
     ,"BLOCKYSIZE=256"
     ,"TILED=YES"
     ,"COMPRESS=DEFLATE"
@@ -40,9 +40,9 @@ static  const char * cimage_args[] = {
 };
 
 CExportMapThread::CExportMapThread(CMapRaster * map)
-    : QThread(map)
-    , theMap(map)
-    , canceled(false)
+: QThread(map)
+, theMap(map)
+, canceled(false)
 {
 
     connect(this,SIGNAL(sigSetRange(int,int)),&map->progressExport,SLOT(setRange(int,int)));
@@ -65,18 +65,20 @@ void CExportMapThread::setup(const XY& p1, const XY& p2, const QString& filename
     filebasename    = fi.baseName();
     exportPath      = fi.path();
     comment         = c;
-    if(comment.isEmpty()){
+    if(comment.isEmpty()) {
         comment = filebasename;
         comment = comment.replace("_"," ");
     }
 
 }
 
+
 void CExportMapThread::slotCancel()
 {
     QMutexLocker lock(&mutex);
     canceled = true;
 }
+
 
 void CExportMapThread::run()
 {
@@ -89,7 +91,6 @@ void CExportMapThread::run()
     // build export name by <BaseMapName>_<top [degree]>_<left [degree]>_<width [m]>x<height [m]>
     /*
         topLeft         p4
-
 
           p3        bottomRight
     */
@@ -128,7 +129,7 @@ void CExportMapThread::run()
     QVector<CMapLevel*>::const_iterator maplevel = maplevels.begin();
 
     // iterate over map levels and files
-    while(maplevel != maplevels.end()){
+    while(maplevel != maplevels.end()) {
         ++cntLevel;
 
         // calculate export area for that map level [m]. The top left and
@@ -164,13 +165,13 @@ void CExportMapThread::run()
         // and exported.
         QStringList files;
         QVector<CMapFile*>::const_iterator mapfile = (*maplevel)->begin();
-        while(mapfile != (*maplevel)->end()){
+        while(mapfile != (*maplevel)->end()) {
             ++cntFile;
 
             QRectF maparea  = QRectF(QPointF((*mapfile)->xref1, (*mapfile)->yref1), QPointF((*mapfile)->xref2, (*mapfile)->yref2));
             QRect intersect = exportarea.intersected(maparea).toRect();
 
-            if(intersect.isValid()){
+            if(intersect.isValid()) {
                 QString strFilename = QString("%1_%2_%3.tif").arg(filebasename).arg(cntLevel).arg(cntFile);
 
                 files << QFileInfo(strFilename).fileName();
@@ -183,7 +184,7 @@ void CExportMapThread::run()
                 y2 = intersect.top();
 
                 // the original boundaries in [m]
-//                 qDebug() << intersect << x1 << y1 << x2 << y2;
+                //                 qDebug() << intersect << x1 << y1 << x2 << y2;
 
                 x1 = (((x1 - (*mapfile)->xref1) / (*mapfile)->xscale) / (*mapfile)->tileWidth);
                 y1 = (((y1 - (*mapfile)->yref1) / (*mapfile)->yscale) / (*mapfile)->tileHeight);
@@ -192,7 +193,7 @@ void CExportMapThread::run()
                 y2 = (((y2 - (*mapfile)->yref1) / (*mapfile)->yscale + (*mapfile)->tileHeight)) / (*mapfile)->tileHeight;
 
                 // the boundaries in number of blocks
-//                 qDebug() << intersect << x1 << y1 << x2 << y2;
+                //                 qDebug() << intersect << x1 << y1 << x2 << y2;
 
                 emit sigSetRange(0,(x2 - x1) * (y2 - y1));
 
@@ -203,13 +204,12 @@ void CExportMapThread::run()
                 cimage_args[0] = strBlockXSize;
                 cimage_args[1] = strBlockYSize;
 
-
                 GDALDriverManager * drvman  = GetGDALDriverManager();
                 GDALDriver  * driver        = drvman->GetDriverByName("GTiff");
                 GDALDataset * dataset       = driver->Create(exportPath.filePath(strFilename).toLatin1(),
-                                                             (x2 - x1) * (*mapfile)->tileWidth,
-                                                             (y2 - y1) * (*mapfile)->tileHeight,
-                                                             1,GDT_Byte,(char **)cimage_args);
+                    (x2 - x1) * (*mapfile)->tileWidth,
+                    (y2 - y1) * (*mapfile)->tileHeight,
+                    1,GDT_Byte,(char **)cimage_args);
 
                 // setup projection
                 char * ptr = 0;
@@ -226,12 +226,18 @@ void CExportMapThread::run()
                 double  Ep = (*mapfile)->xref1 + x1 * (*mapfile)->tileWidth * (*mapfile)->xscale;
                 double  Np = (*mapfile)->yref1 + y1 * (*mapfile)->tileHeight * (*mapfile)->yscale;
 
-                adfGeoTransform[0] = Ep;                                /* top left x */
-                adfGeoTransform[1] = (*mapfile)->xscale;                /* w-e pixel resolution */
-                adfGeoTransform[2] = 0;                                 /* rotation, 0 if image is "north up" */
-                adfGeoTransform[3] = Np;                                /* top left y */
-                adfGeoTransform[4] = 0;                                 /* rotation, 0 if image is "north up" */
-                adfGeoTransform[5] = (*mapfile)->yscale;                /* n-s pixel resolution */
+                                 /* top left x */
+                adfGeoTransform[0] = Ep;
+                                 /* w-e pixel resolution */
+                adfGeoTransform[1] = (*mapfile)->xscale;
+                                 /* rotation, 0 if image is "north up" */
+                adfGeoTransform[2] = 0;
+                                 /* top left y */
+                adfGeoTransform[3] = Np;
+                                 /* rotation, 0 if image is "north up" */
+                adfGeoTransform[4] = 0;
+                                 /* n-s pixel resolution */
+                adfGeoTransform[5] = (*mapfile)->yscale;
                 dataset->SetGeoTransform(adfGeoTransform);
 
                 // get access to source and target raster band
@@ -245,8 +251,8 @@ void CExportMapThread::run()
                 quint8 * blockdata = new quint8[(*mapfile)->tileWidth * (*mapfile)->tileHeight];
                 quint32 n,m,progress = 0;
 
-                for(m = y1; m < y2; ++m){
-                    for(n = x1; n < x2; ++n){
+                for(m = y1; m < y2; ++m) {
+                    for(n = x1; n < x2; ++n) {
 
                         emit sigSetValue(++progress);
 
@@ -256,7 +262,7 @@ void CExportMapThread::run()
                         // allow main thread to cancel
                         mutex.unlock();
                         mutex.lock();
-                        if(canceled){
+                        if(canceled) {
                             emit sigDone(0);
                             qDebug() << "<<<< CExportMapThread::run() - canceled";
                             return;
@@ -271,7 +277,7 @@ void CExportMapThread::run()
             ++mapfile;
         }
         mapdef.setValue("files",files.join("|"));
-        mapdef.endGroup(); // level...
+        mapdef.endGroup();       // level...
         ++maplevel;
     }
 
@@ -281,11 +287,12 @@ void CExportMapThread::run()
     qDebug() << "<<<< CExportMapThread::run()";
 }
 
+
 CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
-    : IMap(parent)
-    , pMaplevel(0)
-    , zoomFactor(1)
-    , pDEM(0)
+: IMap(parent)
+, pMaplevel(0)
+, zoomFactor(1)
+, pDEM(0)
 
 {
     filename = fn;
@@ -296,7 +303,6 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     // create map export thread handler
     thExportMap     = new CExportMapThread(this);
 
-
     QDir path = QFileInfo(filename).absolutePath();
     // load map definition
     QSettings mapdef(filename,QSettings::IniFormat);
@@ -304,7 +310,7 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 
     // create map level list
     CMapLevel * maplevel = 0;
-    for(int n=1; n <= nLevels; ++n){
+    for(int n=1; n <= nLevels; ++n) {
         mapdef.beginGroup(QString("level%1").arg(n));
         quint32 min = mapdef.value("zoomLevelMin",-1).toUInt();
         quint32 max = mapdef.value("zoomLevelMax",-1).toUInt();
@@ -312,9 +318,9 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 
         // add GeoTiff files to map level
         QStringList files = mapdef.value("files","").toString().split("|", QString::SkipEmptyParts);
-        if(files.count()){
+        if(files.count()) {
             QString file;
-            foreach(file,files){
+            foreach(file,files) {
                 maplevel->addMapFile(path.filePath(file));
             }
             maplevels << maplevel;
@@ -338,9 +344,8 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
 
-
     QString fileDEM = mapdef.value("DEM/file","").toString();
-    if(!fileDEM.isEmpty()){
+    if(!fileDEM.isEmpty()) {
         pDEM = new CMapDEM(path.filePath(fileDEM), this);
     }
 
@@ -349,6 +354,7 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 
     qDebug() << "done";
 }
+
 
 CMapRaster::~CMapRaster()
 {
@@ -370,7 +376,7 @@ CMapRaster::~CMapRaster()
 
 void CMapRaster::draw(QPainter& p)
 {
-    if(pMaplevel.isNull() || pjsrc == 0){
+    if(pMaplevel.isNull() || pjsrc == 0) {
         IMap::draw(p);
         return;
     }
@@ -393,14 +399,14 @@ void CMapRaster::draw(QPainter& p)
     // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
     // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
     QVector<CMapFile*>::const_iterator mapfile = pMaplevel->begin();
-    while(mapfile != pMaplevel->end()){
+    while(mapfile != pMaplevel->end()) {
 
         map = *mapfile;
 
         QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
         QRectF intersect = viewport.intersected(maparea);
 
-        if(intersect.isValid()){
+        if(intersect.isValid()) {
 
             // x/y offset [pixel] into file matrix
             qint32 xoff = (intersect.left() - map->xref1) / map->xscale;
@@ -421,13 +427,13 @@ void CMapRaster::draw(QPainter& p)
             img.setColorTable(map->colortable);
 
             CPLErr err = pBand->RasterIO(GF_Read
-                    ,(int)xoff,(int)yoff
-                    ,pxx,pxy
-                    ,img.bits()
-                    ,w,h
-                    ,GDT_Byte,0,0);
+                ,(int)xoff,(int)yoff
+                ,pxx,pxy
+                ,img.bits()
+                ,w,h
+                ,GDT_Byte,0,0);
 
-            if(!err){
+            if(!err) {
                 double xx = intersect.left(), yy = intersect.bottom();
                 convertM2Pt(xx,yy);
                 p.drawPixmap(xx,yy,QPixmap::fromImage(img));
@@ -438,16 +444,16 @@ void CMapRaster::draw(QPainter& p)
         ++mapfile;
     }
 
-    if(!foundMap){
+    if(!foundMap) {
         IMap::draw(p);
     }
 
-    if(pDEM && (overlay != eNone)){
+    if(pDEM && (overlay != eNone)) {
         const CMapFile * map = *pMaplevel->begin();
         pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor, overlay);
     }
 
-    if(zoomFactor < 1.0){
+    if(zoomFactor < 1.0) {
         QString str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
 
         p.setPen(Qt::white);
@@ -478,6 +484,7 @@ void CMapRaster::convertPt2M(double& u, double& v)
     v = pt.v + v * map->yscale * zoomFactor;
 }
 
+
 void CMapRaster::convertM2Pt(double& u, double& v)
 {
     if(pMaplevel.isNull() || pjsrc == 0) return;
@@ -490,6 +497,7 @@ void CMapRaster::convertM2Pt(double& u, double& v)
     u = (u - pt.u) / (map->xscale * zoomFactor);
     v = (v - pt.v) / (map->yscale * zoomFactor);
 }
+
 
 void CMapRaster::move(const QPoint& old, const QPoint& next)
 {
@@ -506,6 +514,7 @@ void CMapRaster::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
 }
+
 
 void CMapRaster::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -534,16 +543,17 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p0)
     topLeft = p2;
 }
 
+
 void CMapRaster::zoom(qint32& level)
 {
-    if(maplevels.isEmpty()){
+    if(maplevels.isEmpty()) {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;
     }
 
     // no level less than 1
-    if(level < 1){
+    if(level < 1) {
         zoomFactor  = 1.0 / - (level - 2);
         qDebug() << "zoom:" << zoomFactor;
         return;
@@ -551,8 +561,8 @@ void CMapRaster::zoom(qint32& level)
 
     QVector<CMapLevel*>::const_iterator maplevel = maplevels.begin();
 
-    while(maplevel != maplevels.end()){
-        if((*maplevel)->min <= level && level <= (*maplevel)->max){
+    while(maplevel != maplevels.end()) {
+        if((*maplevel)->min <= level && level <= (*maplevel)->max) {
             break;
         }
 
@@ -561,7 +571,7 @@ void CMapRaster::zoom(qint32& level)
 
     // no maplevel means level is larger than maximum level
     // thus the last (maximum) level is used.
-    if(maplevel == maplevels.end()){
+    if(maplevel == maplevels.end()) {
         --maplevel;
         level = (*maplevel)->max;
     }
@@ -572,9 +582,10 @@ void CMapRaster::zoom(qint32& level)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 {
-    if(maplevels.isEmpty()){
+    if(maplevels.isEmpty()) {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;
@@ -586,7 +597,7 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 
     qint32 level;
     QVector<CMapLevel*>::iterator maplevel = maplevels.begin();
-    while(maplevel != maplevels.end()){
+    while(maplevel != maplevels.end()) {
         u[0] = lon1;
         v[0] = lat1;
         u[1] = lon2;
@@ -600,12 +611,12 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 
         const CMapFile * map = *(*maplevel)->begin();
 
-        for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level){
+        for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level) {
             int z = level - (*maplevel)->min + 1;
             double pxU = dU / (map->xscale * z);
             double pxV = dV / (map->yscale * z);
 
-            if((pxU < size.width()) && (pxV < size.height())){
+            if((pxU < size.width()) && (pxV < size.height())) {
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
                 zoomFactor  = z;
@@ -621,6 +632,7 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
         ++maplevel;
     }
 }
+
 
 void CMapRaster::select(const QRect& rect)
 {
@@ -638,15 +650,14 @@ void CMapRaster::select(const QRect& rect)
     QString filebase    = QString("%1_%2_%3").arg(QFileInfo(filename).baseName()).arg(p1.v * RAD_TO_DEG).arg(p1.u * RAD_TO_DEG);
     filebase            = filebase.replace(".","");
     QString fn = QFileDialog::getSaveFileName(0,tr("Select map collection filename...")
-                                               ,QDir(exportPath).filePath(filebase + ".qmap")
-                                               ,"*.qmap"
-                                             );
-    if(fn.isEmpty()){
+        ,QDir(exportPath).filePath(filebase + ".qmap")
+        ,"*.qmap"
+        );
+    if(fn.isEmpty()) {
         return;
     }
 
     exportPath = QFileInfo(fn).path();
-
 
     QString internalMapName = QInputDialog::getText(0,tr("Enter short description..."),QFileInfo(filename).baseName());
 
@@ -657,9 +668,10 @@ void CMapRaster::select(const QRect& rect)
     thExportMap->start();
 }
 
+
 void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
-    if(pMaplevel.isNull()){
+    if(pMaplevel.isNull()) {
         lon1 = lat1 = lon2 = lat2 = 0;
         return;
     }
@@ -667,9 +679,10 @@ void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& la
     pMaplevel->dimensions(lon1, lat1, lon2, lat2);
 }
 
+
 float CMapRaster::getElevation(float lon, float lat)
 {
-    if(pDEM){
+    if(pDEM) {
         return pDEM->getElevation(lon,lat);
     }
     return IMap::getElevation(lon,lat);

@@ -43,7 +43,6 @@ class QProgressDialog;
     The type will be an enumeration of type packet_e. The size value is needed by the receiving
     socket to wait for the reception of all packet data.
 
-
 */
 class CDeviceTBDOE : public IDevice
 {
@@ -55,15 +54,16 @@ class CDeviceTBDOE : public IDevice
         void uploadWpts(const QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
 
-        enum packet_e {
-              eNone
-            , eError        ///< error occured
-            , eAck          ///<
+        enum packet_e
+        {
+            eNone
+            , eError             ///< error occured
+            , eAck               ///<
             , eC2HAlive
             , eH2CAlive
-            , eC2HWpt       ///< send waypoint data from client to host
-            , eH2CWptQuery  ///< request waypoint keys from host
-            , eH2CWpt       ///< request waypoint data from host
+            , eC2HWpt            ///< send waypoint data from client to host
+            , eH2CWptQuery       ///< request waypoint keys from host
+            , eH2CWpt            ///< request waypoint data from host
         };
 
     private:
@@ -79,8 +79,5 @@ class CDeviceTBDOE : public IDevice
 
         QTcpSocket socket;
 
-
 };
-
-#endif //CDEVICETBDOE_H
-
+#endif                           //CDEVICETBDOE_H

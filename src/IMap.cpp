@@ -24,13 +24,12 @@
 #include <QtGui>
 #include <math.h>
 
-
 IMap::IMap(CCanvas * parent)
-    : QObject(parent)
-    , zoomidx(1)
-    , pjsrc(0)
-    , pjtar(0)
-    , overlay(eNone)
+: QObject(parent)
+, zoomidx(1)
+, pjsrc(0)
+, pjtar(0)
+, overlay(eNone)
 {
     pjtar   = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 
@@ -44,6 +43,7 @@ IMap::IMap(CCanvas * parent)
     parent->update();
 }
 
+
 IMap::~IMap()
 {
     qDebug() << "IMap::~IMap()";
@@ -54,11 +54,13 @@ IMap::~IMap()
     cfg.setValue("map/overlay",overlay);
 }
 
+
 void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
 }
+
 
 void IMap::draw(QPainter& p)
 {
@@ -69,7 +71,7 @@ void IMap::draw(QPainter& p)
 
 void IMap::convertPt2Rad(double& u, double& v)
 {
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         return;
     }
     convertPt2M(u,v);
@@ -84,9 +86,10 @@ void IMap::convertPt2Rad(double& u, double& v)
     v = pt.v;
 }
 
+
 void IMap::convertRad2Pt(double& u, double& v)
 {
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         return;
     }
 
@@ -102,11 +105,8 @@ void IMap::convertRad2Pt(double& u, double& v)
     convertM2Pt(u,v);
 }
 
+
 float IMap::getElevation(float lon, float lat)
 {
     return WPT_NOFLOAT;
 }
-
-
-
-

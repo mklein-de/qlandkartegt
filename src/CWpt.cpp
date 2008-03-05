@@ -37,8 +37,6 @@ struct wpt_head_entry_t
     QByteArray  data;
 };
 
-
-
 QDataStream& operator >>(QDataStream& s, CWpt& wpt)
 {
     QIODevice * dev = s.device();
@@ -47,15 +45,15 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLWpt   ",9)){
+    if(strncmp(magic,"QLWpt   ",9)) {
         dev->seek(pos);
-//         throw(QObject::tr("This is not waypoint data."));
+        //         throw(QObject::tr("This is not waypoint data."));
         return s;
     }
 
     QList<wpt_head_entry_t> entries;
 
-    while(1){
+    while(1) {
         wpt_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -63,12 +61,12 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
     }
 
     QList<wpt_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
 
-        switch(entry->type){
+        switch(entry->type) {
             case CWpt::eBase:
             {
 
@@ -97,13 +95,13 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 wpt.images.clear();
 
                 s1 >> img.offset;
-                while(img.offset){
+                while(img.offset) {
                     wpt.images << img;
                     s1 >> img.offset;
                 }
 
                 QList<CWpt::image_t>::iterator image = wpt.images.begin();
-                while(image != wpt.images.end()){
+                while(image != wpt.images.end()) {
                     s1.device()->seek(image->offset);
                     s1 >> image->info;
                     s1 >> image->pixmap;
@@ -119,6 +117,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
     }
     return s;
 }
+
 
 QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 {
@@ -154,7 +153,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
     // write place holder for image offset
     QList<CWpt::image_t>::iterator image = wpt.images.begin();
-    while(image != wpt.images.end()){
+    while(image != wpt.images.end()) {
         s2 << (quint32)0;
         ++image;
     }
@@ -163,7 +162,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
     // write image data and store the actual offset
     image = wpt.images.begin();
-    while(image != wpt.images.end()){
+    while(image != wpt.images.end()) {
         image->offset = (quint32)s2.device()->pos();
         s2 << image->info;
         s2 << image->pixmap;
@@ -173,7 +172,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     // finally write image offset table
     (quint32)s2.device()->seek(0);
     image = wpt.images.begin();
-    while(image != wpt.images.end()){
+    while(image != wpt.images.end()) {
         s2 << image->offset;
         ++image;
     }
@@ -199,7 +198,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<wpt_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -207,20 +206,21 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()){
+    while(entry != entries.end()) {
         s << entry->data;
         ++entry;
     }
 
     return s;
 }
+
 
 void operator >>(QFile& f, CWpt& wpt)
 {
@@ -229,6 +229,7 @@ void operator >>(QFile& f, CWpt& wpt)
     s >> wpt;
     f.close();
 }
+
 
 void operator <<(QFile& f, CWpt& wpt)
 {
@@ -239,35 +240,38 @@ void operator <<(QFile& f, CWpt& wpt)
 }
 
 
-
 CWpt::CWpt(CWptDB * parent)
-    : QObject(parent)
-    , sticky(false)
-    , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-    , icon("Star")
-    , lat(1000)
-    , lon(1000)
-    , ele(WPT_NOFLOAT)
-    , prx(WPT_NOFLOAT)
+: QObject(parent)
+, sticky(false)
+, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+, icon("Star")
+, lat(1000)
+, lon(1000)
+, ele(WPT_NOFLOAT)
+, prx(WPT_NOFLOAT)
 {
 
 }
+
 
 CWpt::~CWpt()
 {
     qDebug() << "CWpt::~CWpt()";
 }
 
+
 void CWpt::genKey()
 {
     _key_ = QString("%1%2").arg(timestamp).arg(name);
 }
+
 
 const QString& CWpt::key()
 {
     if(_key_.isEmpty()) genKey();
     return _key_;
 }
+
 
 const QString CWpt::filename(const QDir& dir)
 {

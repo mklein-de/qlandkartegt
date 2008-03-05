@@ -20,7 +20,6 @@
 #ifndef IMAP_H
 #define IMAP_H
 
-
 #include <QObject>
 #include <QRect>
 #include <QSize>
@@ -131,7 +130,6 @@ class IMap : public QObject
         */
         virtual void resize(const QSize& size);
 
-
     protected:
         QString filename;
         /// canvas / viewport rectangle [px]
@@ -155,6 +153,4 @@ class IMap : public QObject
 
         overlay_e overlay;
 };
-
-#endif //IMAP_H
-
+#endif                           //IMAP_H

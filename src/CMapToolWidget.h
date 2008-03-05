@@ -44,6 +44,4 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         QMenu * contextMenu;
 
 };
-
-#endif //CMAPTOOLWIDGET_H
-
+#endif                           //CMAPTOOLWIDGET_H

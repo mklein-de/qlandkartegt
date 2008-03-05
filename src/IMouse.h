@@ -30,7 +30,6 @@ class QMouseEvent;
 class CCanvas;
 class CWpt;
 
-
 /// Base class to all mouse function objects
 /**
     The function of the mouse changes depending on the mega menu selection.
@@ -97,6 +96,4 @@ class IMouse : public QObject
         CTrack::pt_t * selTrkPt;
 
 };
-
-#endif //IMOUSE_H
-
+#endif                           //IMOUSE_H

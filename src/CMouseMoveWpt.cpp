@@ -28,36 +28,39 @@
 #include <QtGui>
 
 CMouseMoveWpt::CMouseMoveWpt(CCanvas * canvas)
-    : IMouse(canvas)
-    , moveWpt(false)
+: IMouse(canvas)
+, moveWpt(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0);
 }
+
 
 CMouseMoveWpt::~CMouseMoveWpt()
 {
 
 }
 
+
 void CMouseMoveWpt::mouseMoveEvent(QMouseEvent * e)
 {
-    if(moveWpt){
+    if(moveWpt) {
         newPos = e->pos();
         theMainWindow->getCanvas()->update();
     }
-    else{
+    else {
         mouseMoveEventWpt(e);
     }
 }
 
+
 void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton){
-        if(!moveWpt && !selWpt.isNull()){
+    if(e->button() == Qt::LeftButton) {
+        if(!moveWpt && !selWpt.isNull()) {
             newPos = e->pos();
             moveWpt = true;
         }
-        else if(moveWpt && !selWpt.isNull()){
+        else if(moveWpt && !selWpt.isNull()) {
             IMap& map = CMapDB::self().getMap();
             double u = e->pos().x();
             double v = e->pos().y();
@@ -67,19 +70,21 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             moveWpt = false;
         }
     }
-    else if(e->button() == Qt::RightButton){
+    else if(e->button() == Qt::RightButton) {
         moveWpt = false;
     }
     theMainWindow->getCanvas()->update();
 }
 
+
 void CMouseMoveWpt::mouseReleaseEvent(QMouseEvent * e)
 {
 }
 
+
 void CMouseMoveWpt::draw(QPainter& p)
 {
-    if(moveWpt && !selWpt.isNull()){
+    if(moveWpt && !selWpt.isNull()) {
         double x1, y1, x2, y2;
         XY p1, p2;
         IMap& map = CMapDB::self().getMap();
@@ -135,9 +140,7 @@ void CMouseMoveWpt::draw(QPainter& p)
 
         CCanvas::drawText(str, p, QPoint(x2,y2 - 5));
     }
-    else{
+    else {
         drawSelWpt(p);
     }
 }
-
-

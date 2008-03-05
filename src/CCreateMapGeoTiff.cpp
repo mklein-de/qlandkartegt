@@ -19,7 +19,6 @@
 
   (C) 2008
 
-
 **********************************************************************************************/
 
 #include "CCreateMapGeoTiff.h"
@@ -29,8 +28,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 
 }
 
+
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
 
 }
-

@@ -37,6 +37,4 @@ class CGpx : public QObject, public QDomDocument
         void writeMetadata();
 
 };
-
-#endif //CGPX_H
-
+#endif                           //CGPX_H

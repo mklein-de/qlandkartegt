@@ -27,9 +27,9 @@
 #include <QtGui>
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
-    : QDialog(parent)
-    , wpt(wpt)
-    , idxImg(0)
+: QDialog(parent)
+, wpt(wpt)
+, idxImg(0)
 {
     setupUi(this);
     connect(pushAdd, SIGNAL(clicked()), this, SLOT(slotAddImage()));
@@ -40,10 +40,12 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
 }
 
+
 CDlgEditWpt::~CDlgEditWpt()
 {
 
 }
+
 
 int CDlgEditWpt::exec()
 {
@@ -57,16 +59,16 @@ int CDlgEditWpt::exec()
     linePosition->setText(pos);
 
     //TODO: that has to be metric/imperial
-    if(wpt.ele != WPT_NOFLOAT){
+    if(wpt.ele != WPT_NOFLOAT) {
         lineAltitude->setText(QString::number(wpt.ele,'f',0));
     }
-    if(wpt.prx != WPT_NOFLOAT){
+    if(wpt.prx != WPT_NOFLOAT) {
         lineProximity->setText(QString::number(wpt.prx,'f',1));
     }
 
     textComment->setPlainText(wpt.comment);
 
-    if(wpt.images.count() != 0){
+    if(wpt.images.count() != 0) {
         showImage(0);
         pushDel->setEnabled(true);
     }
@@ -74,18 +76,19 @@ int CDlgEditWpt::exec()
     return QDialog::exec();
 }
 
+
 void CDlgEditWpt::accept()
 {
-    if(lineName->text().isEmpty()){
+    if(lineName->text().isEmpty()) {
         QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint indentifier."),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
-    if(linePosition->text().isEmpty()){
+    if(linePosition->text().isEmpty()) {
         QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint position."),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
 
-    if(!GPS_Math_Str_To_Deg(linePosition->text(), wpt.lon, wpt.lat)){
+    if(!GPS_Math_Str_To_Deg(linePosition->text(), wpt.lon, wpt.lat)) {
         return;
     }
     wpt.icon        = toolIcon->objectName();
@@ -100,22 +103,23 @@ void CDlgEditWpt::accept()
     QDialog::accept();
 }
 
+
 void CDlgEditWpt::slotSelectIcon()
 {
     CDlgWptIcon dlg(*toolIcon);
     dlg.exec();
 }
 
+
 void CDlgEditWpt::slotAddImage()
 {
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select image file")
-                                                    ,"./"
-                                                    ,"Image (*)"
-                                                );
+        ,"./"
+        ,"Image (*)"
+        );
     if(filename.isEmpty()) return;
 
     QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment"), QLineEdit::Normal, QFileInfo(filename).fileName());
-
 
     CWpt::image_t img;
     img.info = info;
@@ -127,6 +131,7 @@ void CDlgEditWpt::slotAddImage()
 
 }
 
+
 void CDlgEditWpt::slotDelImage()
 {
     wpt.images.removeAt(idxImg);
@@ -136,21 +141,24 @@ void CDlgEditWpt::slotDelImage()
     pushDel->setEnabled(wpt.images.count() != 0);
 }
 
+
 void CDlgEditWpt::slotNextImage()
 {
     showImage(idxImg + 1);
 }
+
 
 void CDlgEditWpt::slotPrevImage()
 {
     showImage(idxImg - 1);
 }
 
+
 void CDlgEditWpt::showImage(int idx)
 {
     if(idx < 0) idx = 0;
 
-    if(idx < wpt.images.count()){
+    if(idx < wpt.images.count()) {
         idxImg = idx;
 
         CWpt::image_t& img = wpt.images[idx];
@@ -160,7 +168,7 @@ void CDlgEditWpt::showImage(int idx)
         pushNext->setEnabled(idx < (wpt.images.count() - 1) && wpt.images.count() != 1);
         pushPrev->setEnabled(idx > 0);
     }
-    else{
+    else {
         labelImage->setText(tr("no image"));
         labelInfo->setText("");
     }

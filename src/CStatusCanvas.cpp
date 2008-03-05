@@ -24,25 +24,27 @@
 #include <QtGui>
 
 CStatusCanvas::CStatusCanvas(CCanvas * parent)
-    : QWidget(parent)
-    , canvas(parent)
+: QWidget(parent)
+, canvas(parent)
 {
     setupUi(this);
-//     checkShading->setChecked(parent->showShading);
+    //     checkShading->setChecked(parent->showShading);
 
     connect(radioNone, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
     connect(radioShading, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
     connect(radioContour, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
 }
 
+
 CStatusCanvas::~CStatusCanvas()
 {
 
 }
 
+
 void CStatusCanvas::updateShadingType()
 {
-    switch(CMapDB::self().getMap().getOverlay()){
+    switch(CMapDB::self().getMap().getOverlay()) {
         case IMap::eNone:
             radioNone->setChecked(true);
             break;
@@ -55,21 +57,21 @@ void CStatusCanvas::updateShadingType()
     }
 }
 
+
 void CStatusCanvas::slotShowShading(bool checked)
 {
     IMap& map = CMapDB::self().getMap();
 
     QString button = sender()->objectName();
-    if(button == "radioNone"){
+    if(button == "radioNone") {
         map.setOverlay(IMap::eNone);
     }
-    else if(button == "radioShading"){
+    else if(button == "radioShading") {
         map.setOverlay(IMap::eShading);
     }
-    else if(button == "radioContour"){
+    else if(button == "radioContour") {
         map.setOverlay(IMap::eContour);
     }
 
     canvas->update();
 }
-

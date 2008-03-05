@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CMainWindow.h"
 #include "CMegaMenu.h"
 #include "CCanvas.h"
@@ -110,6 +109,7 @@ CMainWindow::CMainWindow()
 
 }
 
+
 CMainWindow::~CMainWindow()
 {
     QSettings cfg;
@@ -118,15 +118,18 @@ CMainWindow::~CMainWindow()
     cfg.setValue("path/data",pathData);
 }
 
+
 void CMainWindow::setTempWidget(QWidget * w)
 {
     rightSplitter->addWidget(w);
 }
 
+
 void CMainWindow::setPositionInfo(const QString& info)
 {
     statusCoord->setText(info);
 }
+
 
 void CMainWindow::setupMenuBar()
 {
@@ -155,10 +158,11 @@ void CMainWindow::setupMenuBar()
     menuBar()->addMenu(menu);
 }
 
+
 void CMainWindow::keyPressEvent(QKeyEvent * e)
 {
 
-    if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)){
+    if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
         return megaMenu->keyPressEvent(e);
     }
     else if(e->key() == Qt::Key_Escape) {
@@ -167,9 +171,9 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
     else if((e->key() == Qt::Key_Plus) || (e->key() == Qt::Key_Minus)) {
         return megaMenu->keyPressEvent(e);
     }
-    else if(e->modifiers() == Qt::AltModifier){
+    else if(e->modifiers() == Qt::AltModifier) {
         if((e->key() == Qt::Key_Up) || (e->key() == Qt::Key_Down)
-            || (e->key() == Qt::Key_Left) || (e->key() == Qt::Key_Right)) {
+        || (e->key() == Qt::Key_Left) || (e->key() == Qt::Key_Right)) {
             return megaMenu->keyPressEvent(e);
         }
     }
@@ -177,13 +181,12 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
 }
 
 
-
 void CMainWindow::slotLoadMapSet()
 {
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select *.qmap file")
-                                                    ,CResources::self().pathMaps
-                                                    ,"Map Collection (*.qmap)"
-                                                    );
+        ,CResources::self().pathMaps
+        ,"Map Collection (*.qmap)"
+        );
     if(filename.isEmpty()) return;
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
@@ -191,11 +194,13 @@ void CMainWindow::slotLoadMapSet()
 
 }
 
+
 void CMainWindow::slotCopyright()
 {
     CCopyright dlg;
     dlg.exec();
 }
+
 
 void CMainWindow::slotToolBoxChanged(int idx)
 {
@@ -203,11 +208,13 @@ void CMainWindow::slotToolBoxChanged(int idx)
     megaMenu->switchByKeyWord(key);
 }
 
+
 void CMainWindow::slotConfig()
 {
     CDlgConfig dlg(this);
     dlg.exec();
 }
+
 
 void CMainWindow::slotLoadData()
 {
@@ -215,49 +222,51 @@ void CMainWindow::slotLoadData()
 
     QString filter =cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
-                                                    ,pathData
-                                                    ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
-                                                    ,&filter
-                                                );
+        ,pathData
+        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
+        ,&filter
+        );
     if(filename.isEmpty()) return;
 
     cfg.setValue("geodata/filter",filter);
 
     QString ext = filename.right(4);
 
-    if(filter == "QLandkarte (*.qlb)"){
+    if(filter == "QLandkarte (*.qlb)") {
         if(ext != ".qlb") filename += ".qlb";
         ext = "QLB";
     }
-    else if(filter == "GPS Exchange (*.gpx)"){
+    else if(filter == "GPS Exchange (*.gpx)") {
         if(ext != ".gpx") filename += ".gpx";
         ext = "GPX";
     }
-    else{
+    else {
         filename += ".qlb";
         ext = "QLB";
     }
 
     pathData = QFileInfo(filename).absolutePath();
 
-    try{
-        if(ext == "QLB"){
+    try
+    {
+        if(ext == "QLB") {
             CQlb qlb(this);
             qlb.load(filename);
             CWptDB::self().loadQLB(qlb);
             CTrackDB::self().loadQLB(qlb);
         }
-        else if(ext == "GPX"){
+        else if(ext == "GPX") {
             CGpx gpx(this);
             gpx.load(filename);
             CWptDB::self().loadGPX(gpx);
             CTrackDB::self().loadGPX(gpx);
         }
     }
-    catch(const QString& msg){
+    catch(const QString& msg) {
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
 }
+
 
 void CMainWindow::slotSaveData()
 {
@@ -265,49 +274,51 @@ void CMainWindow::slotSaveData()
 
     QString filter =cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
-                                                    ,pathData
-                                                    ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
-                                                    ,&filter
-                                                );
+        ,pathData
+        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
+        ,&filter
+        );
     if(filename.isEmpty()) return;
 
     cfg.setValue("geodata/filter",filter);
 
     QString ext = filename.right(4);
 
-    if(filter == "QLandkarte (*.qlb)"){
+    if(filter == "QLandkarte (*.qlb)") {
         if(ext != ".qlb") filename += ".qlb";
         ext = "QLB";
     }
-    else if(filter == "GPS Exchange (*.gpx)"){
+    else if(filter == "GPS Exchange (*.gpx)") {
         if(ext != ".gpx") filename += ".gpx";
         ext = "GPX";
     }
-    else{
+    else {
         filename += ".qlb";
         ext = "QLB";
     }
 
     pathData = QFileInfo(filename).absolutePath();
 
-    try{
-        if(ext == "QLB"){
+    try
+    {
+        if(ext == "QLB") {
             CQlb qlb(this);
             CWptDB::self().saveQLB(qlb);
             CTrackDB::self().saveQLB(qlb);
             qlb.save(filename);
         }
-        else if(ext == "GPX"){
+        else if(ext == "GPX") {
             CGpx gpx(this);
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);
             gpx.save(filename);
         }
     }
-    catch(const QString& msg){
+    catch(const QString& msg) {
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
 }
+
 
 void CMainWindow::slotPrint()
 {

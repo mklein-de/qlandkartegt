@@ -24,18 +24,19 @@
 #include "CWpt.h"
 
 CMapLevel::CMapLevel(quint32 min, quint32 max, CMapRaster * parent)
-    : QObject(parent)
-    , min(min)
-    , max(max)
-    , pjtar(0)
-    , pjsrc(0)
-    , westbound(180)
-    , northbound(-90)
-    , eastbound(-180)
-    , southbound(90)
+: QObject(parent)
+, min(min)
+, max(max)
+, pjtar(0)
+, pjsrc(0)
+, westbound(180)
+, northbound(-90)
+, eastbound(-180)
+, southbound(90)
 {
     pjtar = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 }
+
 
 CMapLevel::~CMapLevel()
 {
@@ -43,16 +44,17 @@ CMapLevel::~CMapLevel()
     if(pjsrc) pj_free(pjsrc);
 }
 
+
 void CMapLevel::addMapFile(const QString& filename)
 {
     CMapFile * mapfile = new CMapFile(filename,this);
-    if(mapfile && !mapfile->ok){
+    if(mapfile && !mapfile->ok) {
         delete mapfile;
         return;
     }
     mapfiles << mapfile;
     Q_ASSERT((*mapfiles.begin())->strProj == mapfile->strProj);
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         pjsrc = pj_init_plus(mapfile->strProj.toLatin1());
     }
 
@@ -81,4 +83,3 @@ void CMapLevel::dimensions(double& lon1, double& lat1, double& lon2, double& lat
     lon2 = eastbound;
     lat2 = southbound;
 }
-

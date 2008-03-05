@@ -34,6 +34,4 @@ class CMouseEditWpt  : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
 };
-
-#endif //CMOUSEEDITWPT_H
-
+#endif                           //CMOUSEEDITWPT_H

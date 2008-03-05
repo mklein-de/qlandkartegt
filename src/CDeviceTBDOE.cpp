@@ -23,20 +23,21 @@
 
 #include <QtGui>
 
-
 CDeviceTBDOE::CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent)
-    : IDevice("QLandkarteM",parent)
-    , ipaddr(ipaddr)
-    , port(port)
-    , timeout(3000)
+: IDevice("QLandkarteM",parent)
+, ipaddr(ipaddr)
+, port(port)
+, timeout(3000)
 {
 
 }
+
 
 CDeviceTBDOE::~CDeviceTBDOE()
 {
 
 }
+
 
 void CDeviceTBDOE::send(const packet_e type, const QByteArray& data)
 {
@@ -51,29 +52,31 @@ void CDeviceTBDOE::send(const packet_e type, const QByteArray& data)
     socket.write(packet);
 }
 
+
 bool CDeviceTBDOE::recv(packet_e& type, QByteArray& data)
 {
     qint32 size;
     QDataStream in(&socket);
 
-    while(socket.bytesAvailable() < (int)(2 * sizeof(qint32))){
+    while(socket.bytesAvailable() < (int)(2 * sizeof(qint32))) {
         if (!socket.waitForReadyRead(timeout)) {
-                return false;
+            return false;
         }
     }
 
     in >> (qint32&)type;
     in >> size;
 
-    while(socket.bytesAvailable() < size){
+    while(socket.bytesAvailable() < size) {
         if (!socket.waitForReadyRead(timeout)) {
-                return false;
+            return false;
         }
     }
 
     in >> data;
     return true;
 }
+
 
 bool CDeviceTBDOE::exchange(packet_e& type,QByteArray& data)
 {
@@ -82,13 +85,14 @@ bool CDeviceTBDOE::exchange(packet_e& type,QByteArray& data)
     return recv(type,data);
 }
 
+
 bool CDeviceTBDOE::acquire(const QString& operation, int max)
 {
     createProgress(operation, tr("Connect to device."), max);
     qApp->processEvents();
 
     socket.connectToHost(ipaddr,port);
-    if(!socket.waitForConnected(timeout)){
+    if(!socket.waitForConnected(timeout)) {
         QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
         release();
         return false;
@@ -96,11 +100,13 @@ bool CDeviceTBDOE::acquire(const QString& operation, int max)
     return true;
 }
 
+
 void CDeviceTBDOE::release()
 {
     if(progress) progress->close();
     socket.disconnectFromHost();
 }
+
 
 void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
 {
@@ -110,7 +116,7 @@ void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
 
     int cnt = 0;
     QList<CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end() && !progress->wasCanceled()){
+    while(wpt != wpts.end() && !progress->wasCanceled()) {
         QByteArray data;
         QDataStream s(&data,QIODevice::WriteOnly);
 
@@ -120,12 +126,12 @@ void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
 
         s << *(*wpt);
 
-        if(!exchange(type = eC2HWpt,data)){
+        if(!exchange(type = eC2HWpt,data)) {
             QMessageBox::critical(0,tr("Error..."), tr("Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError){
+        if(type == eError) {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -135,6 +141,7 @@ void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
 
     return release();
 }
+
 
 void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
 {
@@ -149,12 +156,12 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
     progress->setLabelText(tr("Query list of waypoints from the device"));
     qApp->processEvents();
 
-    if(!exchange(type = eH2CWptQuery,data1)){
+    if(!exchange(type = eH2CWptQuery,data1)) {
         QMessageBox::critical(0,tr("Error..."), tr("Failed to query waypoints from device."),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
 
-    if(type == eError){
+    if(type == eError) {
         QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
@@ -163,19 +170,19 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
 
     wptlist >> nWpt;
     progress->setMaximum(nWpt);
-    for(n = 0; n < nWpt; ++n){
+    for(n = 0; n < nWpt; ++n) {
         QByteArray data;
         QDataStream stream(&data,QIODevice::ReadWrite);
         wptlist >> key >> name;
 
         stream << key;
 
-        if(!exchange(type = eH2CWpt,data)){
+        if(!exchange(type = eH2CWpt,data)) {
             QMessageBox::critical(0,tr("Error..."), tr("Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError){
+        if(type == eError) {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -192,4 +199,3 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
 
     return release();
 }
-

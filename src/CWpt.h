@@ -38,7 +38,6 @@ class CWptDB;
     than base to exist.</b> Use the type values from the offset table and read those functional
     data block you understand.
 
-
     Data structure for serialized waypoint objects:
 
 <pre>
@@ -59,11 +58,10 @@ class CWptDB;
     QString icon;                       // the icon type string
     QString name;                       // waypoint name
     QString comment;                    // waypoint comment (HTML)
-    float   lat;                        // latitude [�]
-    float   lon;                        // longitude [�]
+    float   lat;                        // latitude []
+    float   lon;                        // longitude []
     float   altitude;                   // well, the altitude [m]
     float   proximity;                  // a radius for proximity alerts [m]
-
 
     functional data block eImage:
     quint32 offset 1                    // for each image an offset into the functional data block
@@ -73,7 +71,6 @@ class CWptDB;
     QString info1, QPixmap image1       // each image is stored as QPixmap (some kind of png format)
     ...          , ...                  // and an informational string.
     QString infoN, QPixmap imageN
-
 
 </pre>
 */
@@ -113,7 +110,6 @@ class CWpt : public QObject
         float   prx;
         QString link;
 
-
         struct image_t
         {
             quint32 offset;
@@ -122,7 +118,6 @@ class CWpt : public QObject
         };
         QList<image_t> images;
 
-
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);
@@ -130,6 +125,4 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt);
 
 void operator >>(QFile& s, CWpt& wpt);
 void operator <<(QFile& s, CWpt& wpt);
-
-#endif //CWPT_H
-
+#endif                           //CWPT_H

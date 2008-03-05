@@ -22,38 +22,42 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 
-
 #include <QtGui>
 
 CMouseEditWpt::CMouseEditWpt(CCanvas * canvas)
-    : IMouse(canvas)
+: IMouse(canvas)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorEdit"),0,0);
 }
+
 
 CMouseEditWpt::~CMouseEditWpt()
 {
 
 }
 
+
 void CMouseEditWpt::mouseMoveEvent(QMouseEvent * e)
 {
     mouseMoveEventWpt(e);
 }
 
+
 void CMouseEditWpt::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton){
-        if(!selWpt.isNull()){
+    if(e->button() == Qt::LeftButton) {
+        if(!selWpt.isNull()) {
             CDlgEditWpt dlg(*selWpt,theMainWindow->getCanvas());
             dlg.exec();
         }
     }
 }
 
+
 void CMouseEditWpt::mouseReleaseEvent(QMouseEvent * e)
 {
 }
+
 
 void CMouseEditWpt::draw(QPainter& p)
 {

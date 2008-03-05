@@ -92,11 +92,7 @@ class CMainWindow : public QMainWindow
         /// the track data base
         CTrackDB * trackdb;
 
-
-
 };
 
 extern CMainWindow * theMainWindow;
-
-#endif //CMAINWINDOW_H
-
+#endif                           //CMAINWINDOW_H

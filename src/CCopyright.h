@@ -32,6 +32,4 @@ class CCopyright : public QDialog, private Ui::ICopyright
         CCopyright();
         virtual ~CCopyright();
 };
-
-#endif //CCOPYRIGHT_H
-
+#endif                           //CCOPYRIGHT_H

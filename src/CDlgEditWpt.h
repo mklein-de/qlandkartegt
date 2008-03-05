@@ -19,8 +19,6 @@
 #ifndef CDLGEDITWPT_H
 #define CDLGEDITWPT_H
 
-
-
 #include <QDialog>
 
 #include "ui_IDlgEditWpt.h"
@@ -51,6 +49,4 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         CWpt &wpt;
         qint32 idxImg;
 };
-
-#endif //CDLGEDITWPT_H
-
+#endif                           //CDLGEDITWPT_H

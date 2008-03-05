@@ -25,7 +25,6 @@
 #include <QWidget>
 #include <QPointer>
 
-
 class IMouse;
 class CMouseMoveMap;
 class CMouseSelMap;
@@ -48,13 +47,14 @@ class CCanvas : public QWidget
         CCanvas(QWidget * parent);
         virtual ~CCanvas();
 
-        enum mouse_mode_e {
-              eMouseZoomArea    ///< use mouse to define a zoom area
-            , eMouseMoveArea    ///< use mouse to move the map
-            , eMouseSelectArea  ///< use mouse to select map tiles
-            , eMouseAddWpt      ///< use mouse to add waypoints
-            , eMouseEditWpt     ///< use mouse to select waypoints
-            , eMouseMoveWpt     ///< use mouse to drag-n-drop waypoints
+        enum mouse_mode_e
+        {
+            eMouseZoomArea       ///< use mouse to define a zoom area
+            , eMouseMoveArea     ///< use mouse to move the map
+            , eMouseSelectArea   ///< use mouse to select map tiles
+            , eMouseAddWpt       ///< use mouse to add waypoints
+            , eMouseEditWpt      ///< use mouse to select waypoints
+            , eMouseMoveWpt      ///< use mouse to drag-n-drop waypoints
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
             //, eMouseCutTrack    ///< use mouse to cut a track into two pieces
             //, eMouseEditRte     ///< use mouse to define a new route polyline
@@ -70,8 +70,8 @@ class CCanvas : public QWidget
 
         /// center to lon/lat coordinate
         /**
-            @param lon the logitude in  [°]
-            @param lat the logitude in  [°]
+            @param lon the logitude in  []
+            @param lat the logitude in  []
         */
         void move(double lon, double lat);
 
@@ -82,7 +82,7 @@ class CCanvas : public QWidget
 
         static void drawText(const QString& str, QPainter& p, const QPoint& center);
 
-    signals:
+        signals:
         void sigResize(const QSize& size);
 
     protected:
@@ -102,7 +102,6 @@ class CCanvas : public QWidget
         void drawSearchResults(QPainter& p);
         void drawWaypoints(QPainter& p);
         void drawTracks(QPainter& p);
-
 
     private:
         friend class CStatusCanvas;
@@ -124,6 +123,4 @@ class CCanvas : public QWidget
 
         QLabel * info;
 };
-
-#endif //CCANVAS_H
-
+#endif                           //CCANVAS_H

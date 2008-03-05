@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CCopyright.h"
 #include "version.h"
 #include <gdal.h>
@@ -47,11 +46,11 @@ CCopyright::CCopyright()
         "<b>http://www.movable-type.co.uk/scripts/LatLongVincenty.html</b>"
         "</p>"
 
-    ));
+        ));
 }
+
 
 CCopyright::~CCopyright()
 {
 
 }
-

@@ -27,8 +27,8 @@
 #include <QtGui>
 
 CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
-    : QWidget(parent)
-    , originator(false)
+: QWidget(parent)
+, originator(false)
 {
     setupUi(this);
     setObjectName("Tracks");
@@ -50,10 +50,12 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     listTracks->setIconSize(QSize(15,3*fm.height()));
 }
 
+
 CTrackToolWidget::~CTrackToolWidget()
 {
 
 }
+
 
 void CTrackToolWidget::slotDBChanged()
 {
@@ -67,16 +69,16 @@ void CTrackToolWidget::slotDBChanged()
 
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::const_iterator track = tracks.begin();
-    while(track != tracks.end()){
+    while(track != tracks.end()) {
         QListWidgetItem * item = new QListWidgetItem(listTracks);
         icon.fill((*track)->getColor());
 
         QString str     = (*track)->getName();
         double distance = (*track)->getTotalDistance();
-        if(distance > 9999.9){
+        if(distance > 9999.9) {
             str += tr("\nlength: %1 km").arg(distance / 1000.0, 0, 'f', 3);
         }
-        else{
+        else {
             str += tr("\nlength: %1 m").arg(distance,0 ,'f', 0);
         }
         str += tr(", points: %1").arg((*track)->getTrackPoints().count());
@@ -90,23 +92,24 @@ void CTrackToolWidget::slotDBChanged()
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);
 
-        if((*track)->isHighlighted()){
+        if((*track)->isHighlighted()) {
             highlighted = item;
         }
 
         ++track;
     }
 
-    if(highlighted){
+    if(highlighted) {
         listTracks->setCurrentItem(highlighted);
     }
 }
+
 
 void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
     QString key = item->data(Qt::UserRole).toString();
     QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
-    if(!tracks.contains(key)){
+    if(!tracks.contains(key)) {
         return;
     }
 
@@ -118,8 +121,8 @@ void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     CTrack * track = tracks[key];
     QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()){
-        if(!(trkpt->flags & CTrack::pt_t::eDeleted)){
+    while(trkpt != trkpts.end()) {
+        if(!(trkpt->flags & CTrack::pt_t::eDeleted)) {
             if(trkpt->lon < west)  west  = trkpt->lon;
             if(trkpt->lon > east)  east  = trkpt->lon;
             if(trkpt->lat < south) south = trkpt->lat;
@@ -142,34 +145,36 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
 
 void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete){
+    if(e->key() == Qt::Key_Delete) {
         slotDelete();
         e->accept();
     }
-    else{
+    else {
         QWidget::keyPressEvent(e);
     }
 }
 
+
 void CTrackToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listTracks->currentItem()){
+    if(listTracks->currentItem()) {
         QPoint p = listTracks->mapToGlobal(pos);
         contextMenu->exec(p);
     }
 
 }
 
+
 void CTrackToolWidget::slotEdit()
 {
     const QListWidgetItem* item = listTracks->currentItem();
 
-    if(item == 0){
+    if(item == 0) {
         QMessageBox::information(0,tr("Edit track ..."), tr("You have to select a track first."),QMessageBox::Ok,QMessageBox::Ok);
         return;
     };
 
-    if(trackedit.isNull()){
+    if(trackedit.isNull()) {
         trackedit = new CTrackEditWidget(theMainWindow->getCanvas());
         connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), trackedit, SLOT(slotSetTrack(CTrack*)));
         theMainWindow->setTempWidget(trackedit);
@@ -178,16 +183,15 @@ void CTrackToolWidget::slotEdit()
     trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
 }
 
+
 void CTrackToolWidget::slotDelete()
 {
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listTracks->selectedItems();
-    foreach(item,items){
+    foreach(item,items) {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
     CTrackDB::self().delTracks(keys);
 }
-
-

@@ -24,7 +24,6 @@
 #include <QTreeWidgetItem>
 #include "ui_ICreateMapQMAP.h"
 
-
 class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
 {
     Q_OBJECT;
@@ -50,16 +49,17 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
     private:
         friend class CDlgEditMapLevel;
 
-
-        enum text_e {
-             eLevel
+        enum text_e
+        {
+            eLevel
             ,eMinZoom
             ,eMaxZoom
             ,eFiles
         };
 
-        enum data_e {
-             eProjection    = Qt::UserRole + 0
+        enum data_e
+        {
+            eProjection    = Qt::UserRole + 0
             ,eZoom          = Qt::UserRole + 1
             ,eNorth         = Qt::UserRole + 2
             ,eWest          = Qt::UserRole + 3
@@ -83,6 +83,4 @@ class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
         double width;
         double height;
 };
-
-#endif //CCREATEMAPQMAP_H
-
+#endif                           //CCREATEMAPQMAP_H

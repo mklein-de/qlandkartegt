@@ -39,6 +39,4 @@ class CMouseSelMap : public IMouse
         bool selMap;
 
 };
-
-#endif //CMOUSESELMAP_H
-
+#endif                           //CMOUSESELMAP_H

@@ -25,7 +25,7 @@
 #include <QtGui>
 
 CMapToolWidget::CMapToolWidget(QTabWidget * parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
     setupUi(this);
     setObjectName("Maps");
@@ -42,10 +42,12 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
+
 CMapToolWidget::~CMapToolWidget()
 {
 
 }
+
 
 void CMapToolWidget::slotDBChanged()
 {
@@ -53,7 +55,7 @@ void CMapToolWidget::slotDBChanged()
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
 
     QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
-    while(map != knownMaps.end()){
+    while(map != knownMaps.end()) {
         QListWidgetItem * item = new QListWidgetItem(listKnownMaps);
         item->setText(map->description);
         item->setData(Qt::UserRole, map.key());
@@ -61,19 +63,22 @@ void CMapToolWidget::slotDBChanged()
     }
 }
 
+
 void CMapToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     QString key = item->data(Qt::UserRole).toString();
     CMapDB::self().openMap(key);
 }
 
+
 void CMapToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listKnownMaps->currentItem()){
+    if(listKnownMaps->currentItem()) {
         QPoint p = listKnownMaps->mapToGlobal(pos);
         contextMenu->exec(p);
     }
 }
+
 
 void CMapToolWidget::slotEdit()
 {
@@ -87,15 +92,15 @@ void CMapToolWidget::slotEdit()
     dlg.editMap(map.filename);
 }
 
+
 void CMapToolWidget::slotDelete()
 {
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listKnownMaps->selectedItems();
-    foreach(item,items){
+    foreach(item,items) {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
     CMapDB::self().delKnownMap(keys);
 }
-

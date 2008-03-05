@@ -93,6 +93,4 @@ class CMapDEM : public QObject
         QVector<QRgb> graytable2;
 
 };
-
-#endif //CMAPDEM_H
-
+#endif                           //CMAPDEM_H

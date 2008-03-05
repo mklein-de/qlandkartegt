@@ -22,20 +22,22 @@
 #include <QtGui>
 
 IDB::IDB(QTabWidget * tb, QObject * parent)
-    : QObject(parent)
-    , tabbar(tb)
+: QObject(parent)
+, tabbar(tb)
 {
 
 }
+
 
 IDB::~IDB()
 {
 
 }
 
+
 void IDB::gainFocus()
 {
-    if(toolview && tabbar->currentWidget() != toolview){
+    if(toolview && tabbar->currentWidget() != toolview) {
         tabbar->setCurrentWidget(toolview);
     }
 }

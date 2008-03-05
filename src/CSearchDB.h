@@ -61,7 +61,7 @@ class CSearchDB : public IDB
 
         void clear();
 
-    signals:
+        signals:
         void sigStatus(const QString& msg);
         void sigFinished();
 
@@ -80,6 +80,4 @@ class CSearchDB : public IDB
         result_t tmpResult;
         QMap<QString,result_t> results;
 };
-
-#endif //CSEARCHDB_H
-
+#endif                           //CSEARCHDB_H

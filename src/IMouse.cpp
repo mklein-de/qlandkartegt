@@ -29,18 +29,20 @@
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
-    : QObject(canvas)
-    , cursor(QPixmap(":/cursor/Arrow"))
-    , canvas(canvas)
-    , selTrkPt(0)
+: QObject(canvas)
+, cursor(QPixmap(":/cursor/Arrow"))
+, canvas(canvas)
+, selTrkPt(0)
 {
 
 }
+
 
 IMouse::~IMouse()
 {
 
 }
+
 
 void IMouse::startRect(const QPoint& p)
 {
@@ -48,11 +50,13 @@ void IMouse::startRect(const QPoint& p)
     rect.setSize(QSize(0,0));
 }
 
+
 void IMouse::resizeRect(const QPoint& p)
 {
     rect.setBottomRight(p);
     canvas->update();
 }
+
 
 void IMouse::drawRect(QPainter& p)
 {
@@ -61,10 +65,11 @@ void IMouse::drawRect(QPainter& p)
     p.drawRect(rect);
 }
 
+
 void IMouse::drawSelWpt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(!selWpt.isNull()){
+    if(!selWpt.isNull()) {
         double u = selWpt->lon * DEG_TO_RAD;
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -80,18 +85,18 @@ void IMouse::drawSelWpt(QPainter& p)
             str = time.toString();
         }
 
-        if(selWpt->ele != WPT_NOFLOAT){
+        if(selWpt->ele != WPT_NOFLOAT) {
             if(str.count()) str += "\n";
             str += tr("elevation: %1 m").arg(selWpt->ele,0,'f',0);
         }
 
-        if(selWpt->comment.count()){
+        if(selWpt->comment.count()) {
             if(str.count()) str += "\n";
 
-            if(selWpt->comment.count() < 200){
+            if(selWpt->comment.count() < 200) {
                 str += selWpt->comment;
             }
-            else{
+            else {
                 str += selWpt->comment.left(197) + "...";
             }
 
@@ -117,10 +122,11 @@ void IMouse::drawSelWpt(QPainter& p)
     }
 }
 
+
 void IMouse::drawSelTrkPt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(selTrkPt && !selWpt){
+    if(selTrkPt && !selWpt) {
         double u = selTrkPt->lon * DEG_TO_RAD;
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -136,7 +142,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
             str = time.toString();
         }
 
-        if(selTrkPt->ele != WPT_NOFLOAT){
+        if(selTrkPt->ele != WPT_NOFLOAT) {
             if(str.count()) str += "\n";
             str += tr("elevation: %1 m").arg(selTrkPt->ele,0,'f',0);
         }
@@ -161,19 +167,20 @@ void IMouse::drawSelTrkPt(QPainter& p)
     }
 }
 
+
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
     CWpt * oldWpt = selWpt; selWpt = 0;
 
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()){
+    while(wpt != CWptDB::self().end()) {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
         QPoint diff = e->pos() - QPoint(u,v);
-        if(diff.manhattanLength() < 15){
+        if(diff.manhattanLength() < 15) {
             selWpt = *wpt;
             break;
         }
@@ -181,16 +188,16 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         ++wpt;
     }
 
-    if(oldWpt != selWpt){
+    if(oldWpt != selWpt) {
         theMainWindow->getCanvas()->update();
     }
 }
+
 
 void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 {
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track == 0) return;
-
 
     CTrack::pt_t * oldTrackPt = selTrkPt;
     int d1      = 20;
@@ -198,7 +205,7 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 
     QVector<CTrack::pt_t>& pts          = track->getTrackPoints();
     QVector<CTrack::pt_t>::iterator pt  = pts.begin();
-    while(pt != pts.end()){
+    while(pt != pts.end()) {
         if(pt->flags & CTrack::pt_t::eDeleted) {
             ++pt; continue;
         }
@@ -213,10 +220,8 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
         ++pt;
     }
 
-    if(oldTrackPt != selTrkPt){
+    if(oldTrackPt != selTrkPt) {
         theMainWindow->getCanvas()->update();
     }
 
 }
-
-

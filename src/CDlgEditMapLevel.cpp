@@ -22,9 +22,9 @@
 #include <QtGui>
 
 CDlgEditMapLevel::CDlgEditMapLevel(QTreeWidgetItem * item,  const QString& path, QWidget * parent)
-    : QDialog(parent)
-    , item(item)
-    , mapPath(path)
+: QDialog(parent)
+, item(item)
+, mapPath(path)
 {
     setupUi(this);
 
@@ -34,6 +34,7 @@ CDlgEditMapLevel::CDlgEditMapLevel(QTreeWidgetItem * item,  const QString& path,
     connect(toolFiles, SIGNAL(clicked()), this, SLOT(slotSelectFiles()));
 
 }
+
 
 CDlgEditMapLevel::~CDlgEditMapLevel()
 {
@@ -45,7 +46,7 @@ void CDlgEditMapLevel::accept()
     QString str;
     QList<QListWidgetItem *> files = listFiles->findItems(".*", Qt::MatchRegExp);
     QListWidgetItem * file;
-    foreach(file,files){
+    foreach(file,files) {
         str += file->text();
         str += "; ";
     }
@@ -56,6 +57,7 @@ void CDlgEditMapLevel::accept()
     QDialog::accept();
 }
 
+
 void CDlgEditMapLevel::slotSelectFiles()
 {
 
@@ -65,11 +67,7 @@ void CDlgEditMapLevel::slotSelectFiles()
     listFiles->clear();
 
     QString file;
-    foreach(file,files){
+    foreach(file,files) {
         listFiles->addItem(QFileInfo(file).fileName());
     }
 }
-
-
-
-

@@ -44,6 +44,4 @@ class CMouseMoveMap : public IMouse
         QPoint oldPoint;
 
 };
-
-#endif //CMOUSEMOVEMAP_H
-
+#endif                           //CMOUSEMOVEMAP_H

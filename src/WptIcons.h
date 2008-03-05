@@ -23,7 +23,8 @@
 #include <QString>
 #include <QPixmap>
 
-struct wpt_icon_t {
+struct wpt_icon_t
+{
     QString icon;
     QString name;
 };
@@ -31,6 +32,4 @@ struct wpt_icon_t {
 extern const wpt_icon_t wptIcons[];
 
 const QPixmap getWptIconByName(const QString& name);
-
-#endif //WPTICONS_H
-
+#endif                           //WPTICONS_H

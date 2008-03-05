@@ -33,6 +33,4 @@ class CMouseAddWpt : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
 };
-
-#endif //CMOUSEADDWPT_H
-
+#endif                           //CMOUSEADDWPT_H
