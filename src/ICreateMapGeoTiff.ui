@@ -5,108 +5,192 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>439</height>
+    <width>946</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
-   <item>
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <widget class="QLabel" name="labelStep1" >
+     <property name="text" >
+      <string>TextLabel</string>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
-     <layout class="QHBoxLayout" >
-      <property name="spacing" >
-       <number>20</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="labelStep1" >
-        <property name="text" >
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment" >
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelFile" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>None</string>
-        </property>
-        <property name="alignment" >
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" >
-        <item>
-         <widget class="QLabel" name="labelDoc1" >
-          <property name="text" >
-           <string>The first step is to load the source file. Usually this is a scanned papermap. It is recommended to scan the map at different resolutions (x, y, z) .... need more doc :)</string>
-          </property>
-          <property name="alignment" >
-           <set>Qt::AlignJustify|Qt::AlignTop</set>
-          </property>
-          <property name="wordWrap" >
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" >
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushOpenFile" >
-            <property name="text" >
-             <string>Open File</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
     </widget>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+   <item row="0" column="1" >
+    <widget class="QLabel" name="labelInputFile" >
+     <property name="text" >
+      <string>TextLabel</string>
      </property>
-     <property name="sizeHint" >
-      <size>
-       <width>639</width>
-       <height>181</height>
-      </size>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
-    </spacer>
+    </widget>
+   </item>
+   <item row="0" column="2" >
+    <widget class="QLabel" name="labelDoc1" >
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton" >
+       <property name="text" >
+        <string>Open File</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="labelStep2" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="QTreeWidget" name="treeWidget" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <column>
+      <property name="text" >
+       <string>1</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="1" column="2" >
+    <widget class="QLabel" name="labelDoc2" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>Go on!</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" >
+    <widget class="QLabel" name="labelStep3" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QTextBrowser" name="textBrowser" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" >
+    <widget class="QLabel" name="labelDoc3" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>TextLabel</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

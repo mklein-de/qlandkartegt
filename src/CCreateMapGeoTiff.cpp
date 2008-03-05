@@ -23,6 +23,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 {
     setupUi(this);
     labelStep1->setPixmap(QPixmap(":/pics/Step1"));
+    labelStep2->setPixmap(QPixmap(":/pics/Step2"));
+    labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 }
 
 

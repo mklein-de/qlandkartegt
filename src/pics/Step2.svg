@@ -15,9 +15,9 @@
    inkscape:version="0.45.1"
    version="1.0"
    sodipodi:docbase="/home/oeichler/Documents/cpp/QLandkarteGT/src/pics"
-   sodipodi:docname="Step1.svg"
+   sodipodi:docname="Step2.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/pics/Step1.png"
+   inkscape:export-filename="/home/oeichler/Documents/cpp/QLandkarteGT/src/pics/Step2.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -81,13 +81,13 @@
     <text
        xml:space="preserve"
        style="font-size:8px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Adobe Sans MM"
-       x="24.128906"
-       y="77.843689"
+       x="26.621094"
+       y="76.208984"
        id="text3134"><tspan
          sodipodi:role="line"
          id="tspan3136"
-         x="24.128906"
-         y="77.843689"
-         style="font-size:72px;font-family:Arial Black">1</tspan></text>
+         x="26.621094"
+         y="76.208984"
+         style="font-size:72px;font-family:Arial Black">2</tspan></text>
   </g>
 </svg>
