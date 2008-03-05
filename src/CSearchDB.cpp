@@ -47,6 +47,12 @@ CSearchDB::~CSearchDB()
 
 }
 
+void CSearchDB::clear()
+{
+    results.clear();
+    emit sigChanged();
+}
+
 void CSearchDB::search(const QString& str)
 {
     QUrl url;

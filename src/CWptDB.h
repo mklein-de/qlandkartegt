@@ -65,6 +65,8 @@ class CWptDB : public IDB
         void upload();
         void download();
 
+        void clear();
+
         void selWptByKey(const QString& key);
 
     private:

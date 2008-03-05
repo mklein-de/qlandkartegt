@@ -73,6 +73,8 @@ class CMapDB : public IDB
         void upload();
         void download();
 
+        void clear(){};
+
     private:
         friend class CMainWindow;
 

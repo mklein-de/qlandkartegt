@@ -42,6 +42,12 @@ CTrackDB::~CTrackDB()
 
 }
 
+void CTrackDB::clear()
+{
+    delTracks(tracks.keys());
+    emit sigChanged();
+}
+
 CTrackToolWidget * CTrackDB::getToolWidget()
 {
     return qobject_cast<CTrackToolWidget*>(toolview);

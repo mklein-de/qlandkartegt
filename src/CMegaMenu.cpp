@@ -19,6 +19,7 @@
 
 #include "CMegaMenu.h"
 #include "CCanvas.h"
+#include "CSearchDB.h"
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
@@ -76,11 +77,10 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] = {
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
+    ,{":/icons/iconUpload16x16",QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconDownload16x16",QObject::tr("-"),0,tr("")}
+
 };
 
 const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] = {
@@ -325,6 +325,17 @@ void CMegaMenu::funcSwitchToTrack()
     funcMoveArea();
 }
 
+void CMegaMenu::funcClearAll()
+{
+    QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+
+    if(res == QMessageBox::Ok){
+        CSearchDB::self().clear();
+        CMapDB::self().clear();
+        CWptDB::self().clear();
+        CTrackDB::self().clear();
+    }
+}
 
 void CMegaMenu::funcMoveArea()
 {

@@ -46,6 +46,8 @@ class IDB : public QObject
         virtual void upload() = 0;
         virtual void download() = 0;
 
+        virtual void clear() = 0;
+
     signals:
         void sigChanged();
 

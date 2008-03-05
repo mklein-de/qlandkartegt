@@ -47,6 +47,12 @@ CWptDB::~CWptDB()
 
 }
 
+void CWptDB::clear()
+{
+    delWpt(wpts.keys());
+    emit sigChanged();
+}
+
 void CWptDB::newWpt(float lon, float lat, float ele)
 {
     CWpt * wpt = new CWpt(this);

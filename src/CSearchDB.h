@@ -59,6 +59,7 @@ class CSearchDB : public IDB
         void upload(){};
         void download(){};
 
+        void clear();
 
     signals:
         void sigStatus(const QString& msg);
