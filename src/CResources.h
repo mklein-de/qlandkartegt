@@ -27,7 +27,7 @@ class IDevice;
 /// all global resources
 class CResources : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         virtual ~CResources();
 

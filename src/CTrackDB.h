@@ -28,7 +28,7 @@ class CTrackToolWidget;
 
 class CTrackDB : public IDB
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         virtual ~CTrackDB();
 

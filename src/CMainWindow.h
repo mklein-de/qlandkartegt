@@ -35,7 +35,7 @@ class CResources;
 
 class CMainWindow : public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMainWindow();
         virtual ~CMainWindow();

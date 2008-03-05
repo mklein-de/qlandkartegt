@@ -29,7 +29,7 @@ class CCreateMapQMAP;
 /// dialog to hold several map creation dialogs
 class CDlgCreateMap : public QDialog, private Ui::IDlgCreateMap
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CDlgCreateMap(QWidget * parent);
         virtual ~CDlgCreateMap();

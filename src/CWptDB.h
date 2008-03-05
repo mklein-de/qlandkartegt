@@ -30,7 +30,7 @@ class CWpt;
 /// waypoint database
 class CWptDB : public IDB
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         virtual ~CWptDB();
 

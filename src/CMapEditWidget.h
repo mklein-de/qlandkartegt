@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,41 +16,31 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CDLGEDITWPT_H
-#define CDLGEDITWPT_H
+#ifndef CMAPEDITWIDGET_H
+#define CMAPEDITWIDGET_H
 
+#include <QWidget>
 
+#include "ui_IMapEditWidget.h"
 
-#include <QDialog>
+class CCreateMapOSM;
+class CCreateMapQMAP;
+class CCreateMapGeoTiff;
 
-#include "ui_IDlgEditWpt.h"
-
-class CWpt;
-
-/// dialog to edit waypoint properties
-class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
+class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
 {
     Q_OBJECT;
     public:
-        CDlgEditWpt(CWpt &wpt, QWidget * parent);
-        virtual ~CDlgEditWpt();
-
-    public slots:
-        int exec();
-        void accept();
-
-    private slots:
-        void slotAddImage();
-        void slotDelImage();
-        void slotNextImage();
-        void slotPrevImage();
-        void slotSelectIcon();
+        CMapEditWidget(QWidget * parent);
+        virtual ~CMapEditWidget();
 
     private:
-        void showImage(int idx);
-        CWpt &wpt;
-        qint32 idxImg;
+        enum widget_e {eNone, eOSM, eQMAP, eGTIFF};
+
+        CCreateMapOSM  * widgetOSM;
+        CCreateMapQMAP * widgetQMAP;
+        CCreateMapGeoTiff * widgetGeoTiff;
 };
 
-#endif //CDLGEDITWPT_H
+#endif //CMAPEDITWIDGET_H
 

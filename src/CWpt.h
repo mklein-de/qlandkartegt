@@ -79,7 +79,7 @@ class CWptDB;
 */
 class CWpt : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CWpt(CWptDB * parent);
         virtual ~CWpt();

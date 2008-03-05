@@ -40,7 +40,7 @@ class QSettings;
 */
 class CCreateMapOSM : public QWidget, private Ui::ICreateMapOSM
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CCreateMapOSM(QWidget * parent);
         virtual ~CCreateMapOSM();

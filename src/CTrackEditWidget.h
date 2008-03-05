@@ -27,7 +27,7 @@ class CTrack;
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CTrackEditWidget(QWidget * parent);
         virtual ~CTrackEditWidget();

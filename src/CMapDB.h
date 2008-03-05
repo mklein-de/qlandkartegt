@@ -30,10 +30,11 @@ class QPainter;
 class CCanvas;
 class CMapNoMap;
 class CStatusCanvas;
+class CMapEditWidget;
 
 class CMapDB : public IDB
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         virtual ~CMapDB();
 
@@ -75,6 +76,8 @@ class CMapDB : public IDB
 
         void clear(){};
 
+        void editMap();
+
     private:
         friend class CMainWindow;
 
@@ -102,6 +105,8 @@ class CMapDB : public IDB
         CStatusCanvas * statusCanvas;
 
         QPointer<IMap> theMap;
+
+        QPointer<CMapEditWidget> mapedit;
 };
 
 #endif //CMAPDB_H

@@ -25,7 +25,7 @@
 /// handle geo data from GPX files
 class CGpx : public QObject, public QDomDocument
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CGpx(QObject * parent);
         virtual ~CGpx();

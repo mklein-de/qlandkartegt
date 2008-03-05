@@ -47,7 +47,7 @@ class QProgressDialog;
 */
 class CDeviceTBDOE : public IDevice
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent);
         virtual ~CDeviceTBDOE();

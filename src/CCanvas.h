@@ -40,7 +40,7 @@ class QPrinter;
 /// the map canvas area
 class CCanvas : public QWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
 
         enum move_direction_e {eMoveLeft, eMoveRight, eMoveUp, eMoveDown, eMoveCenter};

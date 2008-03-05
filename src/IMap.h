@@ -33,7 +33,7 @@ class CCanvas;
 /// base class to any map render object
 class IMap : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         IMap(CCanvas * parent);
         virtual ~IMap();

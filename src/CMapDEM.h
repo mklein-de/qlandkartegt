@@ -39,7 +39,7 @@ class QImage;
 */
 class CMapDEM : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMapDEM(const QString& filename, QObject * parent);
         virtual ~CMapDEM();

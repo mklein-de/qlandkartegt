@@ -28,7 +28,7 @@ class QMenu;
 /// waypoint tool view
 class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CWptToolWidget(QTabWidget * parent);
         virtual ~CWptToolWidget();

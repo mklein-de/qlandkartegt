@@ -28,7 +28,7 @@
 
 class CTrack : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CTrack(QObject * parent);
         virtual ~CTrack();
@@ -50,9 +50,9 @@ class CTrack : public QObject
                      speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0){}
             /// index counter for easy QVector access
             qint32  idx;
-            /// longitude [°]
+            /// longitude [ï¿½]
             float   lon;
-            /// latitude [°]
+            /// latitude [ï¿½]
             float   lat;
             /// elevation [m]
             float   ele;

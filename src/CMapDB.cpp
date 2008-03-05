@@ -22,6 +22,7 @@
 #include "CMapRaster.h"
 #include "CMainWindow.h"
 #include "CStatusCanvas.h"
+#include "CMapEditWidget.h"
 
 #include <QtGui>
 
@@ -180,5 +181,13 @@ void CMapDB::draw(QPainter& p)
     IMap * map;
     foreach(map,visibleMaps){
         map->draw(p);
+    }
+}
+
+void CMapDB::editMap()
+{
+    if(mapedit.isNull()){
+        mapedit = new CMapEditWidget(theMainWindow->getCanvas());
+        theMainWindow->setTempWidget(mapedit);
     }
 }

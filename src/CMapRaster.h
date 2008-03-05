@@ -43,7 +43,7 @@ class CCanvas;
 */
 class CMapRaster : public IMap
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         /**
             @param filename full qualified path to a raster map definition
@@ -97,7 +97,7 @@ class CMapRaster : public IMap
 */
 class CExportMapThread : public QThread
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CExportMapThread(CMapRaster * map);
 

@@ -29,7 +29,7 @@
 */
 class CMapNoMap : public IMap
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMapNoMap(CCanvas * parent) : IMap(parent){};
         virtual ~CMapNoMap(){};

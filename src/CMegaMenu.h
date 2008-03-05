@@ -30,7 +30,7 @@ class QGridLayout;
 /// the left hand context sensitive menu
 class CMegaMenu : public QLabel
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMegaMenu(CCanvas * canvas);
         virtual ~CMegaMenu();
@@ -63,6 +63,7 @@ class CMegaMenu : public QLabel
         void funcCenterMap();
 
         void funcSelectArea();
+        void funcEditMap();
 
         void funcNewWpt();
         void funcEditWpt();

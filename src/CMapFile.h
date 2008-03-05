@@ -35,7 +35,7 @@ class GDALDataset;
 */
 class CMapFile : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMapFile(const QString& filename, QObject * parent);
         virtual ~CMapFile();

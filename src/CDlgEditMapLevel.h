@@ -27,7 +27,7 @@ class QTreeWidgetItem;
 
 class CDlgEditMapLevel : public QDialog, private Ui::IDlgEditMapLevel
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CDlgEditMapLevel(QTreeWidgetItem * item, const QString& path, QWidget * parent);
         virtual ~CDlgEditMapLevel();

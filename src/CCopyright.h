@@ -27,7 +27,7 @@
 /// dialog to display copyright information
 class CCopyright : public QDialog, private Ui::ICopyright
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CCopyright();
         virtual ~CCopyright();

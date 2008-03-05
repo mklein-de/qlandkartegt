@@ -26,7 +26,7 @@ class CCanvas;
 
 class CStatusCanvas : public QWidget, private Ui::IStatusCanvas
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CStatusCanvas(CCanvas * parent);
         virtual ~CStatusCanvas();

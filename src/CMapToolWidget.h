@@ -28,7 +28,7 @@ class QListWidgetItem;
 
 class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMapToolWidget(QTabWidget * parent);
         virtual ~CMapToolWidget();

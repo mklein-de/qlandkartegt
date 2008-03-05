@@ -42,8 +42,10 @@ set(qlandkarte_SRCS
     CDeviceTBDOE.cpp
     CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
+    CCreateMapGeoTiff.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
+    CMapEditWidget.cpp
     CTrack.cpp
     CTrackDB.cpp
     CTrackToolWidget.cpp
@@ -89,8 +91,10 @@ set(qlandkarte_HDRS
     CDeviceTBDOE.h
     CCreateMapOSM.h
     CCreateMapQMAP.h
+    CCreateMapGeoTiff.h
     CMapDB.h
     CMapToolWidget.h
+    CMapEditWidget.h
     CTrack.h
     CTrackDB.h
     CTrackToolWidget.h
@@ -101,6 +105,7 @@ SET(qlandkarte_UIS
     ICopyright.ui
     IWptToolWidget.ui
     IMapToolWidget.ui
+    IMapEditWidget.ui
     ITrackToolWidget.ui
     ITrackEditWidget.ui
     ISearchToolWidget.ui

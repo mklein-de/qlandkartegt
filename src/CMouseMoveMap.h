@@ -27,7 +27,7 @@
 /// move the map area by point-click-n-move
 class CMouseMoveMap : public IMouse
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMouseMoveMap(CCanvas * parent);
         virtual ~CMouseMoveMap();

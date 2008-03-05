@@ -40,7 +40,7 @@ class CWpt;
 */
 class IMouse : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         IMouse(CCanvas * parent);
         virtual ~IMouse();

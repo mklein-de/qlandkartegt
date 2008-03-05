@@ -44,7 +44,7 @@ class CMapFile;
 */
 class CMapLevel : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         /**
             @param min minimum zoom level

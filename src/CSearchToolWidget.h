@@ -27,7 +27,7 @@ class QToolBox;
 /// search tool view
 class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CSearchToolWidget(QTabWidget * parent);
         virtual ~CSearchToolWidget();

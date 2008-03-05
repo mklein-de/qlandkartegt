@@ -25,7 +25,7 @@
 /// dialog to configure global parameters of QLandkarte
 class CDlgConfig : public QDialog, private Ui::IDlgConfig
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CDlgConfig(QWidget * parent);
         virtual ~CDlgConfig();

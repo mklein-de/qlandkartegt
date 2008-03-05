@@ -24,7 +24,7 @@
 
 class CMouseMoveWpt : public IMouse
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMouseMoveWpt(CCanvas * canvas);
         virtual ~CMouseMoveWpt();

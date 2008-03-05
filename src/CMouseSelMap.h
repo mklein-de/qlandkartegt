@@ -25,7 +25,7 @@
 /// select a subarea of the map to export
 class CMouseSelMap : public IMouse
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMouseSelMap(CCanvas * canvas);
         virtual ~CMouseSelMap();

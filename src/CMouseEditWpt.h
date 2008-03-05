@@ -23,7 +23,7 @@
 
 class CMouseEditWpt  : public IMouse
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMouseEditWpt(CCanvas * canvas);
         virtual ~CMouseEditWpt();

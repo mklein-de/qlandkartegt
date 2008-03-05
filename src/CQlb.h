@@ -38,7 +38,7 @@ class CTrack;
 */
 class CQlb : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CQlb(QObject * parent);
         virtual ~CQlb();

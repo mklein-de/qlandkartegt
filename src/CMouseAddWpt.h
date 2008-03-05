@@ -23,7 +23,7 @@
 
 class CMouseAddWpt : public IMouse
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CMouseAddWpt(CCanvas * canvas);
         virtual ~CMouseAddWpt();

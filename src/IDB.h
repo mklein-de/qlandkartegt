@@ -30,7 +30,7 @@ class CQlb;
 /// base class for all database objects
 class IDB : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         IDB(QTabWidget * tb, QObject * parent);
         virtual ~IDB();

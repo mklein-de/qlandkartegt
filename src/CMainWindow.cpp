@@ -135,7 +135,6 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
     menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map Set"),this,SLOT(slotLoadMapSet()));
-    menu->addAction(QIcon(":/icons/iconMapWizard16x16.png"),tr("Create / Edit Map ..."),this,SLOT(slotCreateMap()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);

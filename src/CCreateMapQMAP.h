@@ -27,7 +27,7 @@
 
 class CCreateMapQMAP : public QWidget, private Ui::ICreateMapQMAP
 {
-    Q_OBJECT
+    Q_OBJECT;
     public:
         CCreateMapQMAP(QWidget * parent);
         virtual ~CCreateMapQMAP();
