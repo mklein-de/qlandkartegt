@@ -2,6 +2,7 @@
   <RCC version="1.0">
     <qresource>
         <file>pics/splash.png</file>
+        <file>pics/Step1.png</file>
 
         <file>icons/iconOpenMap16x16.png</file>
         <file>icons/iconExit16x16.png</file>

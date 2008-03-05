@@ -116,6 +116,7 @@ SET(qlandkarte_UIS
     IDlgEditMapLevel.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
+    ICreateMapGeoTiff.ui
     IStatusCanvas.ui
 )
 
