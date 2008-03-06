@@ -18,15 +18,12 @@
      <property name="text" >
       <string>TextLabel</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
     </widget>
    </item>
    <item row="0" column="1" >
     <widget class="QLabel" name="labelInputFile" >
      <property name="text" >
-      <string>TextLabel</string>
+      <string>need file</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -35,11 +32,20 @@
    </item>
    <item row="0" column="2" >
     <widget class="QLabel" name="labelDoc1" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text" >
-      <string>TextLabel</string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -59,7 +65,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton" >
+      <widget class="QPushButton" name="pushOpenFile" >
        <property name="text" >
         <string>Open File</string>
        </property>
@@ -75,9 +81,6 @@
      <property name="text" >
       <string>TextLabel</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
     </widget>
    </item>
    <item row="1" column="1" >
@@ -85,9 +88,37 @@
      <property name="enabled" >
       <bool>false</bool>
      </property>
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <column>
       <property name="text" >
-       <string>1</string>
+       <string>#</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>label</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>lon</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>lat</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>x</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>y</string>
       </property>
      </column>
     </widget>
@@ -98,10 +129,13 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>TextLabel</string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -121,7 +155,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2" >
+      <widget class="QPushButton" name="pushGoOn" >
        <property name="enabled" >
         <bool>false</bool>
        </property>
@@ -140,9 +174,6 @@
      <property name="text" >
       <string>TextLabel</string>
      </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
     </widget>
    </item>
    <item row="2" column="1" >
@@ -158,10 +189,13 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>TextLabel</string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
      </property>
     </widget>
    </item>

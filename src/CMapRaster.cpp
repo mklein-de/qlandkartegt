@@ -17,7 +17,7 @@
 
 **********************************************************************************************/
 
-#include "CMapRaster.h"
+#include "CMapQMAP.h"
 #include "CMapLevel.h"
 #include "CMapFile.h"
 #include "CMapDEM.h"
@@ -39,7 +39,7 @@ static  const char * cimage_args[] =
     ,NULL
 };
 
-CExportMapThread::CExportMapThread(CMapRaster * map)
+CExportMapThread::CExportMapThread(CMapQMAP * map)
 : QThread(map)
 , theMap(map)
 , canceled(false)
@@ -288,7 +288,7 @@ void CExportMapThread::run()
 }
 
 
-CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
+CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
 : IMap(parent)
 , pMaplevel(0)
 , zoomFactor(1)
@@ -356,7 +356,7 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 }
 
 
-CMapRaster::~CMapRaster()
+CMapQMAP::~CMapQMAP()
 {
     QSettings mapdef(filename,QSettings::IniFormat);
     mapdef.beginGroup(QString("home"));
@@ -374,7 +374,7 @@ CMapRaster::~CMapRaster()
 }
 
 
-void CMapRaster::draw(QPainter& p)
+void CMapQMAP::draw(QPainter& p)
 {
     if(pMaplevel.isNull() || pjsrc == 0) {
         IMap::draw(p);
@@ -471,7 +471,7 @@ void CMapRaster::draw(QPainter& p)
 }
 
 
-void CMapRaster::convertPt2M(double& u, double& v)
+void CMapQMAP::convertPt2M(double& u, double& v)
 {
     if(pMaplevel.isNull() || pjsrc == 0) return;
 
@@ -485,7 +485,7 @@ void CMapRaster::convertPt2M(double& u, double& v)
 }
 
 
-void CMapRaster::convertM2Pt(double& u, double& v)
+void CMapQMAP::convertM2Pt(double& u, double& v)
 {
     if(pMaplevel.isNull() || pjsrc == 0) return;
 
@@ -499,7 +499,7 @@ void CMapRaster::convertM2Pt(double& u, double& v)
 }
 
 
-void CMapRaster::move(const QPoint& old, const QPoint& next)
+void CMapQMAP::move(const QPoint& old, const QPoint& next)
 {
 
     XY p2 = topLeft;
@@ -516,7 +516,7 @@ void CMapRaster::move(const QPoint& old, const QPoint& next)
 }
 
 
-void CMapRaster::zoom(bool zoomIn, const QPoint& p0)
+void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
 {
     XY p1;
 
@@ -544,7 +544,7 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p0)
 }
 
 
-void CMapRaster::zoom(qint32& level)
+void CMapQMAP::zoom(qint32& level)
 {
     if(maplevels.isEmpty()) {
         pMaplevel   = 0;
@@ -583,7 +583,7 @@ void CMapRaster::zoom(qint32& level)
 }
 
 
-void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
+void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 {
     if(maplevels.isEmpty()) {
         pMaplevel   = 0;
@@ -634,7 +634,7 @@ void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 }
 
 
-void CMapRaster::select(const QRect& rect)
+void CMapQMAP::select(const QRect& rect)
 {
     if(pMaplevel.isNull()) return;
 
@@ -669,7 +669,7 @@ void CMapRaster::select(const QRect& rect)
 }
 
 
-void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     if(pMaplevel.isNull()) {
         lon1 = lat1 = lon2 = lat2 = 0;
@@ -680,7 +680,7 @@ void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& la
 }
 
 
-float CMapRaster::getElevation(float lon, float lat)
+float CMapQMAP::getElevation(float lon, float lat)
 {
     if(pDEM) {
         return pDEM->getElevation(lon,lat);

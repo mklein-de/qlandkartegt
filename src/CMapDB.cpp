@@ -19,7 +19,7 @@
 
 #include "CMapDB.h"
 #include "CMapToolWidget.h"
-#include "CMapRaster.h"
+#include "CMapQMAP.h"
 #include "CMainWindow.h"
 #include "CStatusCanvas.h"
 #include "CMapEditWidget.h"
@@ -51,7 +51,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
-        IMap * imap = new CMapRaster(map,theMainWindow->getCanvas());
+        IMap * imap = new CMapQMAP(map,theMainWindow->getCanvas());
         visibleMaps.append(imap);
     }
     emit sigChanged();
@@ -101,7 +101,7 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
         if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
 
-        IMap * imap = new CMapRaster(filename,&canvas);
+        IMap * imap = new CMapQMAP(filename,&canvas);
 
         visibleMaps.append(imap);
 
@@ -127,7 +127,7 @@ void CMapDB::openMap(const QString& key)
     if(!knownMaps.contains(key)) return;
 
     closeVisibleMaps();
-    IMap * map = new CMapRaster(knownMaps[key].filename,theMainWindow->getCanvas());
+    IMap * map = new CMapQMAP(knownMaps[key].filename,theMainWindow->getCanvas());
     visibleMaps.append(map);
 
     QSettings cfg;

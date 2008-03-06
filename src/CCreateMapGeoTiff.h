@@ -28,5 +28,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
     public:
         CCreateMapGeoTiff(QWidget * parent);
         virtual ~CCreateMapGeoTiff();
+
+    private slots:
+        void slotOpenFile();
 };
 #endif                           //CCREATEMAPGEOTIFF_H

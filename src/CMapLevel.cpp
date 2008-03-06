@@ -20,10 +20,10 @@
 #include "CMapLevel.h"
 #include "CMapFile.h"
 #include "CMapDEM.h"
-#include "CMapRaster.h"
+#include "CMapQMAP.h"
 #include "CWpt.h"
 
-CMapLevel::CMapLevel(quint32 min, quint32 max, CMapRaster * parent)
+CMapLevel::CMapLevel(quint32 min, quint32 max, CMapQMAP * parent)
 : QObject(parent)
 , min(min)
 , max(max)

@@ -19,7 +19,7 @@
 #include "CResources.h"
 #include "CCanvas.h"
 #include "CMapNoMap.h"
-#include "CMapRaster.h"
+#include "CMapQMAP.h"
 #include "CMainWindow.h"
 
 #include "CMouseMoveMap.h"

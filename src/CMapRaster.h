@@ -37,11 +37,11 @@ class CCanvas;
 /// Render object for a GeoTiff raster map set
 /**
     The life of this object is tied to the lifetime of the map definition.
-    If you want to load a new mapdefinition you have to create a new CMapRaster
+    If you want to load a new mapdefinition you have to create a new CMapQMAP
     instance.
 
 */
-class CMapRaster : public IMap
+class CMapQMAP : public IMap
 {
     Q_OBJECT;
     public:
@@ -49,8 +49,8 @@ class CMapRaster : public IMap
             @param filename full qualified path to a raster map definition
             @param parent   parent object for the usual Qt stuff
         */
-        CMapRaster(const QString& filename, CCanvas * parent);
-        virtual ~CMapRaster();
+        CMapQMAP(const QString& filename, CCanvas * parent);
+        virtual ~CMapQMAP();
 
         void draw(QPainter& p);
         void convertPt2M(double& u, double& v);
@@ -98,7 +98,7 @@ class CExportMapThread : public QThread
 {
     Q_OBJECT;
     public:
-        CExportMapThread(CMapRaster * map);
+        CExportMapThread(CMapQMAP * map);
 
         ~CExportMapThread(){};
 
@@ -118,7 +118,7 @@ class CExportMapThread : public QThread
 
     private:
         QMutex mutex;
-        CMapRaster * theMap;
+        CMapQMAP * theMap;
 
         QDir exportPath;
         QString filebasename;

@@ -24,7 +24,7 @@
 #include <QObject>
 #include <QVector>
 
-class CMapRaster;
+class CMapQMAP;
 class CMapFile;
 
 /// data object to define a resolution level
@@ -51,7 +51,7 @@ class CMapLevel : public QObject
             @param max maximum zoom level
             @param parent the raster map object using that level definition
         */
-        CMapLevel(quint32 min, quint32 max, CMapRaster * parent);
+        CMapLevel(quint32 min, quint32 max, CMapQMAP * parent);
         virtual ~CMapLevel();
 
         /// add a GeoTiff file by filename
