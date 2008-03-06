@@ -18,6 +18,8 @@
 **********************************************************************************************/
 
 #include "CCreateMapGeoTiff.h"
+#include "CMainWindow.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -42,5 +44,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),"./");
     if(filename.isEmpty()) return;
 
+    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
 
+    labelInputFile->setText(filename);
 }

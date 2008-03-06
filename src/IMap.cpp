@@ -72,6 +72,7 @@ void IMap::draw(QPainter& p)
 void IMap::convertPt2Rad(double& u, double& v)
 {
     if(pjsrc == 0) {
+        u = v = 0;
         return;
     }
     convertPt2M(u,v);
@@ -90,6 +91,7 @@ void IMap::convertPt2Rad(double& u, double& v)
 void IMap::convertRad2Pt(double& u, double& v)
 {
     if(pjsrc == 0) {
+        u = v = 0;
         return;
     }
 

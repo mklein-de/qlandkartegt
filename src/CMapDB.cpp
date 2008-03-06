@@ -52,8 +52,16 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
-        IMap * imap = new CMapQMAP(map,theMainWindow->getCanvas());
-        visibleMaps.append(imap);
+        QFileInfo fi(map);
+        QString ext = fi.suffix();
+        if(ext == "qmap") {
+            IMap * imap = new CMapQMAP(map,theMainWindow->getCanvas());
+            visibleMaps.append(imap);
+        }
+        else{
+            IMap * imap = new CMapRaster(map,theMainWindow->getCanvas());
+            visibleMaps.append(imap);
+        }
     }
     emit sigChanged();
 
