@@ -17,8 +17,8 @@
 
 **********************************************************************************************/
 
-#ifndef CMAPRASTER_H
-#define CMAPRASTER_H
+#ifndef CMAPQMAP_H
+#define CMAPQMAP_H
 
 #include "IMap.h"
 
@@ -129,4 +129,4 @@ class CExportMapThread : public QThread
         double height;
         bool canceled;
 };
-#endif                           //CMAPRASTER_H
+#endif                           //CMAPQMAP_H

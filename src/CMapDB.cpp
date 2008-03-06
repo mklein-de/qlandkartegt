@@ -20,6 +20,7 @@
 #include "CMapDB.h"
 #include "CMapToolWidget.h"
 #include "CMapQMAP.h"
+#include "CMapRaster.h"
 #include "CMainWindow.h"
 #include "CStatusCanvas.h"
 #include "CMapEditWidget.h"
@@ -107,6 +108,11 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
 
         knownMaps[map.key] = map;
 
+        emit sigChanged();
+    }
+    else {
+        IMap * imap = new CMapRaster(filename,&canvas);
+        visibleMaps.append(imap);
         emit sigChanged();
     }
 
