@@ -94,6 +94,8 @@ void CCreateMapGeoTiff::slotAddRef()
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
 
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
+
     theMainWindow->getCanvas()->update();
 }
 

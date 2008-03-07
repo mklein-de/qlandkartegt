@@ -42,6 +42,7 @@ class CMouseRefPoint :  public IMouse
     private:
         /// true if left mouse button is pressed
         bool moveMap;
+        bool moveRef;
         /// the initial starting point of the transformation
         QPoint oldPoint;
 

@@ -32,6 +32,7 @@
 CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 : IMouse(canvas)
 , moveMap(false)
+, moveRef(false)
 , selRefPt(0)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
@@ -58,8 +59,10 @@ void CMouseRefPoint::draw(QPainter& p)
 
 void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 {
+    IMap& map = CMapDB::self().getMap();
+
     if(moveMap) {
-        CMapDB::self().getMap().move(oldPoint, e->pos());
+        map.move(oldPoint, e->pos());
         oldPoint = e->pos();
         canvas->update();
     }
@@ -67,47 +70,87 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
     CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
     if(dlg == 0) return;
 
-    IMap& map = CMapDB::self().getMap();
-    CCreateMapGeoTiff::refpt_t * oldRefPt = selRefPt; selRefPt = 0;
-
-    QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
-    QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
-    while(refpt != refpts.end()){
-        double x = refpt->x;
-        double y = refpt->y;
-        map.convertM2Pt(x,y);
-
-        QPoint diff = e->pos() - QPoint(x,y);
-        if(diff.manhattanLength() < 30) {
-            selRefPt = &(*refpt);
-            break;
-        }
-
-        ++refpt;
-    }
-
-    if(oldRefPt != selRefPt) {
+    if(moveRef && selRefPt){
+        double x = e->pos().x();
+        double y = e->pos().y();
+        map.convertPt2M(x,y);
+        selRefPt->x = x;
+        selRefPt->y = y;
+        selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
+        selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
         canvas->update();
     }
+    else {
+        CCreateMapGeoTiff::refpt_t * oldRefPt = selRefPt; selRefPt = 0;
 
+        QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
+        QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
+        while(refpt != refpts.end()){
+            double x = refpt->x;
+            double y = refpt->y;
+            map.convertM2Pt(x,y);
+
+            QPoint diff = e->pos() - QPoint(x,y);
+            if(diff.manhattanLength() < 30) {
+                selRefPt = &(*refpt);
+                break;
+            }
+
+            ++refpt;
+        }
+
+        if(oldRefPt != selRefPt) {
+            canvas->update();
+        }
+    }
 }
 
 void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        cursor = QCursor(QPixmap(":/cursors/cursorMove"));
-        QApplication::setOverrideCursor(cursor);
-        moveMap     = true;
-        oldPoint    = e->pos();
+        if(selRefPt){
+            IMap& map = CMapDB::self().getMap();
+            double x = e->pos().x();
+            double y = e->pos().y();
+            map.convertPt2M(x,y);
+            selRefPt->x = x;
+            selRefPt->y = y;
+            selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
+            selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
+            moveRef = true;
+        }
+        else{
+            cursor = QCursor(QPixmap(":/cursors/cursorMove"));
+            QApplication::setOverrideCursor(cursor);
+            moveMap     = true;
+            oldPoint    = e->pos();
+        }
     }
+
+    canvas->update();
 }
 
 void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(moveMap && (e->button() == Qt::LeftButton)) {
-        moveMap = false;
-        cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
-        QApplication::restoreOverrideCursor();
-        canvas->update();
+    if(e->button() == Qt::LeftButton) {
+        if(moveMap){
+            moveMap = false;
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
+            QApplication::restoreOverrideCursor();
+            canvas->update();
+        }
+        if(moveRef){
+            IMap& map = CMapDB::self().getMap();
+            double x = e->pos().x();
+            double y = e->pos().y();
+            map.convertPt2M(x,y);
+            selRefPt->x = x;
+            selRefPt->y = y;
+            selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
+            selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
+            moveRef = false;
+
+            canvas->update();
+        }
     }
 }
