@@ -159,22 +159,25 @@ void CMapRaster::draw(QPainter& p)
         p.drawPixmap(xx,yy,QPixmap::fromImage(img));
     }
 
-
+    QString str;
     if(zoomfactor < 1.0) {
-        QString str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
-
-        p.setPen(Qt::white);
-        p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-        p.drawText(9 ,23, str);
-        p.drawText(11,23, str);
-        p.drawText(9 ,25, str);
-        p.drawText(11,25, str);
-
-        p.setPen(Qt::darkBlue);
-        p.drawText(10,24,str);
-
+        str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
     }
+    else{
+        str = tr("Zoom level x%1").arg(zoomlevel);
+    }
+
+    p.setPen(Qt::white);
+    p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+    p.drawText(9 ,23, str);
+    p.drawText(11,23, str);
+    p.drawText(9 ,25, str);
+    p.drawText(11,25, str);
+
+    p.setPen(Qt::darkBlue);
+    p.drawText(10,24,str);
+
 }
 
 

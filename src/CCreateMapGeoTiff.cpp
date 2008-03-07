@@ -38,7 +38,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
-    connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
+    connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotSelectionChanged()));
+    connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -102,16 +103,25 @@ void CCreateMapGeoTiff::slotAddRef()
 
 void CCreateMapGeoTiff::slotDelRef()
 {
-
+    QTreeWidgetItem * item = treeWidget->currentItem();
+    refpts.remove(item->data(eNum,Qt::UserRole).toUInt());
+    delete item;
 }
 
 void CCreateMapGeoTiff::slotSelectionChanged()
 {
-
+    pushDelRef->setEnabled(treeWidget->currentItem());
 }
 
 void CCreateMapGeoTiff::slotItemDoubleClicked(QTreeWidgetItem * item)
 {
+    IMap& map   = CMapDB::self().getMap();
+    refpt_t& pt = refpts[item->data(eNum,Qt::UserRole).toUInt()];
+    double x = pt.x;
+    double y = pt.y;
+    map.convertM2Pt(x,y);
 
+    map.move(QPoint(x,y), theMainWindow->getCanvas()->rect().center());
+    theMainWindow->getCanvas()->update();
 }
 

@@ -453,21 +453,27 @@ void CMapQMAP::draw(QPainter& p)
         pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor, overlay);
     }
 
+
+    QString str;
     if(zoomFactor < 1.0) {
-        QString str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
-
-        p.setPen(Qt::white);
-        p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-        p.drawText(9 ,23, str);
-        p.drawText(11,23, str);
-        p.drawText(9 ,25, str);
-        p.drawText(11,25, str);
-
-        p.setPen(Qt::darkBlue);
-        p.drawText(10,24,str);
-
+        str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
+    else{
+        str = tr("Zoom level x%1").arg(zoomidx);
+    }
+
+    p.setPen(Qt::white);
+    p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+    p.drawText(9 ,23, str);
+    p.drawText(11,23, str);
+    p.drawText(9 ,25, str);
+    p.drawText(11,25, str);
+
+    p.setPen(Qt::darkBlue);
+    p.drawText(10,24,str);
+
+
 }
 
 
