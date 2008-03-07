@@ -40,6 +40,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotSelectionChanged()));
     connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
+    connect(treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -81,11 +82,14 @@ void CCreateMapGeoTiff::slotAddRef()
     refpt_t& pt     = refpts[++refcnt];
     pt.item         = new QTreeWidgetItem(treeWidget);
 
+    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+
     pt.item->setText(eNum,tr("%1").arg(refcnt));
     pt.item->setData(eNum,Qt::UserRole,refcnt);
     pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
     pt.item->setText(eLat,tr("???"));
     pt.item->setText(eLon,tr("???"));
+
 
     QPoint center   = theMainWindow->getCanvas()->rect().center();
     IMap& map       = CMapDB::self().getMap();
@@ -123,5 +127,12 @@ void CCreateMapGeoTiff::slotItemDoubleClicked(QTreeWidgetItem * item)
 
     map.move(QPoint(x,y), theMainWindow->getCanvas()->rect().center());
     theMainWindow->getCanvas()->update();
+}
+
+void CCreateMapGeoTiff::slotItemClicked(QTreeWidgetItem * item, int column)
+{
+    if(column == eLon || column == eLat){
+        treeWidget->editItem(item,column);
+    }
 }
 

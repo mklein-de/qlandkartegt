@@ -45,8 +45,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         {
               eNum = 0
             , eLabel = 1
-            , eLon = 2
-            , eLat = 3
+            , eLon = 3
+            , eLat = 2
             , eX = 4
             , eY = 5
         };
@@ -59,6 +59,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotDelRef();
         void slotSelectionChanged();
         void slotItemDoubleClicked(QTreeWidgetItem * item);
+        void slotItemClicked(QTreeWidgetItem * item, int column);
 
     private:
         static CCreateMapGeoTiff * m_self;
