@@ -24,6 +24,7 @@
 #include "CMapDB.h"
 #include "CTrackDB.h"
 #include "CTrackToolWidget.h"
+#include "CCreateMapGeoTiff.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -209,6 +210,8 @@ void CMegaMenu::switchState(const func_key_state_t statedef[11])
 
 void CMegaMenu::switchByKeyWord(const QString& key)
 {
+    if(!isEnabled()) return;
+
     if(key == "Waypoints" && current != fsWpt) {
         funcSwitchToWpt();
         funcMoveArea();
@@ -231,6 +234,7 @@ void CMegaMenu::switchByKeyWord(const QString& key)
 
 void CMegaMenu::keyPressEvent(QKeyEvent * e)
 {
+    if(!isEnabled()) return;
 
     if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
         unsigned i = e->key() - Qt::Key_F1 + 1;
@@ -363,7 +367,9 @@ void CMegaMenu::funcSelectArea()
 
 void CMegaMenu::funcEditMap()
 {
+    setEnabled(false);
     CMapDB::self().editMap();
+    connect(CCreateMapGeoTiff::self(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEnable()));
 }
 
 

@@ -33,6 +33,9 @@
         <file>icons/iconWptMove16x16.png</file>
         <file>icons/iconClear16x16.png</file>
 
+        <file>icons/iconRefPoint31x31.png</file>
+        <file>icons/iconRefPointHL31x31.png</file>
+
         <file>icons/backGlobe128x128.png</file>
         <file>icons/backMap128x128.png</file>
         <file>icons/backWaypoint128x128.png</file>
@@ -45,6 +48,7 @@
         <file>cursors/cursorAdd.png</file>
         <file>cursors/cursorMoveWpt.png</file>
         <file>cursors/cursorEdit.png</file>
+        <file>cursors/cursorMoveRefPoint.png</file>
 
         <file>icons/wpt/custom1.png</file>
         <file>icons/wpt/custom2.png</file>
@@ -323,3 +327,4 @@
 
     </qresource>
   </RCC>
+

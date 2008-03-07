@@ -118,8 +118,10 @@ class IMap : public QObject
         */
         virtual float getElevation(float lon, float lat);
 
+        /// is this the right place?
         virtual void setOverlay(enum overlay_e type){overlay = type;}
 
+        /// is this the right place?
         virtual overlay_e getOverlay(){return overlay;}
 
         virtual const QString& getFilename(){return filename;}

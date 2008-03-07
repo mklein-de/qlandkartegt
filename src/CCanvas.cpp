@@ -21,12 +21,14 @@
 #include "CMapNoMap.h"
 #include "CMapQMAP.h"
 #include "CMainWindow.h"
+#include "CCreateMapGeoTiff.h"
 
 #include "CMouseMoveMap.h"
 #include "CMouseSelMap.h"
 #include "CMouseAddWpt.h"
 #include "CMouseMoveWpt.h"
 #include "CMouseEditWpt.h"
+#include "CMouseRefPoint.h"
 
 #include "CWpt.h"
 #include "CTrack.h"
@@ -55,6 +57,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddWpt     = new CMouseAddWpt(this);
     mouseMoveWpt    = new CMouseMoveWpt(this);
     mouseEditWpt    = new CMouseEditWpt(this);
+    mouseRefPoint   = new CMouseRefPoint(this);
     setMouseMode(eMouseMoveArea);
 
 }
@@ -92,6 +95,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 
         case eMouseMoveWpt:
             mouse = mouseMoveWpt;
+            break;
+
+        case eMouseMoveRefPoint:
+            mouse = mouseRefPoint;
             break;
 
         case eMouseSelectArea:
@@ -189,6 +196,7 @@ void CCanvas::draw(QPainter& p)
     drawSearchResults(p);
     drawTracks(p);
     drawWaypoints(p);
+    drawRefPoints(p);
 
     mouse->draw(p);
 }
@@ -369,6 +377,28 @@ void CCanvas::drawTracks(QPainter& p)
     }
 }
 
+void CCanvas::drawRefPoints(QPainter& p)
+{
+    CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
+    if(dlg == 0) return;
+
+    IMap& map = CMapDB::self().getMap();
+
+    QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
+    QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
+    while(refpt != refpts.end()){
+        double x = refpt->x;
+        double y = refpt->y;
+        map.convertM2Pt(x,y);
+
+        if(rect().contains(x,y)){
+            p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPoint31x31"));
+            drawText(refpt->item->text(CCreateMapGeoTiff::eLabel),p,QPoint(x, y - 35));
+        }
+
+        ++refpt;
+    }
+}
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
 {

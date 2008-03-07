@@ -39,6 +39,9 @@ class CMegaMenu : public QLabel
 
         void switchByKeyWord(const QString& key);
 
+    protected slots:
+        void slotEnable(){setEnabled(true);}
+
     protected:
         void mousePressEvent(QMouseEvent * e);
 

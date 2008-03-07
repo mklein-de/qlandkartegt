@@ -31,6 +31,7 @@ class CMouseSelMap;
 class CMouseAddWpt;
 class CMouseMoveWpt;
 class CMouseEditWpt;
+class CMouseRefPoint;
 class CWpt;
 class QLabel;
 class QSize;
@@ -55,6 +56,7 @@ class CCanvas : public QWidget
             , eMouseAddWpt       ///< use mouse to add waypoints
             , eMouseEditWpt      ///< use mouse to select waypoints
             , eMouseMoveWpt      ///< use mouse to drag-n-drop waypoints
+            , eMouseMoveRefPoint ///< use mouse to drag-n-drop reference points
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
             //, eMouseCutTrack    ///< use mouse to cut a track into two pieces
             //, eMouseEditRte     ///< use mouse to define a new route polyline
@@ -102,6 +104,7 @@ class CCanvas : public QWidget
         void drawSearchResults(QPainter& p);
         void drawWaypoints(QPainter& p);
         void drawTracks(QPainter& p);
+        void drawRefPoints(QPainter& p);
 
     private:
         friend class CStatusCanvas;
@@ -114,6 +117,7 @@ class CCanvas : public QWidget
         CMouseAddWpt * mouseAddWpt;
         CMouseMoveWpt * mouseMoveWpt;
         CMouseEditWpt * mouseEditWpt;
+        CMouseRefPoint * mouseRefPoint;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

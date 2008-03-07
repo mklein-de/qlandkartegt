@@ -39,7 +39,7 @@
       </sizepolicy>
      </property>
      <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -129,7 +129,7 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
+      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their longitude / latitude in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -141,6 +141,26 @@
    </item>
    <item row="1" column="3" >
     <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QPushButton" name="pushAddRef" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>Add Ref.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushDelRef" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>Delete Ref.</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer>
        <property name="orientation" >

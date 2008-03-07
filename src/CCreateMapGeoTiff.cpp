@@ -23,20 +23,45 @@
 
 #include <QtGui>
 
+CCreateMapGeoTiff * CCreateMapGeoTiff::m_self = 0;
+
 CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
+: QWidget(parent)
+, refcnt(0)
 {
+    m_self = this;
     setupUi(this);
     labelStep1->setPixmap(QPixmap(":/pics/Step1"));
     labelStep2->setPixmap(QPixmap(":/pics/Step2"));
     labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
+    connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
+    connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
+
+    theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
 
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
+    theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
+    m_self = 0;
+}
 
+void CCreateMapGeoTiff::enableStep2()
+{
+    labelStep2->setEnabled(true);
+    treeWidget->setEnabled(true);
+    labelDoc2->setEnabled(true);
+    pushAddRef->setEnabled(true);
+}
+
+void CCreateMapGeoTiff::enableStep3()
+{
+    labelStep3->setEnabled(true);
+    textBrowser->setEnabled(true);
+    labelDoc3->setEnabled(true);
 }
 
 void CCreateMapGeoTiff::slotOpenFile()
@@ -45,6 +70,36 @@ void CCreateMapGeoTiff::slotOpenFile()
     if(filename.isEmpty()) return;
 
     CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
-
     labelInputFile->setText(filename);
+    enableStep2();
 }
+
+void CCreateMapGeoTiff::slotAddRef()
+{
+    refpt_t& pt     = refpts[++refcnt];
+    pt.item         = new QTreeWidgetItem(treeWidget);
+
+    pt.item->setText(eNum,tr("%1").arg(refcnt));
+    pt.item->setData(eNum,Qt::UserRole,refcnt);
+    pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+    pt.item->setText(eLat,tr("???"));
+    pt.item->setText(eLon,tr("???"));
+
+    QPoint center   = theMainWindow->getCanvas()->rect().center();
+    IMap& map       = CMapDB::self().getMap();
+    pt.x            = center.x();
+    pt.y            = center.y();
+    map.convertPt2M(pt.x,pt.y);
+
+    pt.item->setText(eX,QString::number(pt.x));
+    pt.item->setText(eY,QString::number(pt.y));
+
+    theMainWindow->getCanvas()->update();
+}
+
+void CCreateMapGeoTiff::slotDelRef()
+{
+
+}
+
+
