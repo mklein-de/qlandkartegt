@@ -57,6 +57,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotOpenFile();
         void slotAddRef();
         void slotDelRef();
+        void slotSelectionChanged();
+        void slotItemDoubleClicked(QTreeWidgetItem * item);
 
     private:
         static CCreateMapGeoTiff * m_self;

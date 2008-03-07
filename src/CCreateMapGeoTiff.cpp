@@ -38,6 +38,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
+    connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -104,4 +105,13 @@ void CCreateMapGeoTiff::slotDelRef()
 
 }
 
+void CCreateMapGeoTiff::slotSelectionChanged()
+{
+
+}
+
+void CCreateMapGeoTiff::slotItemDoubleClicked(QTreeWidgetItem * item)
+{
+
+}
 
