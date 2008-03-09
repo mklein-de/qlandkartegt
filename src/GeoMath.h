@@ -24,7 +24,7 @@
 
 extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);
 extern void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg);
-extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat);
+extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent = false);
 extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
 
 extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2);

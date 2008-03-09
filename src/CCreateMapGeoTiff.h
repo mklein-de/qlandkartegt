@@ -20,7 +20,11 @@
 #define CCREATEMAPGEOTIFF_H
 
 #include <QWidget>
+#include <QProcess>
+#include <QPointer>
 #include "ui_ICreateMapGeoTiff.h"
+
+class QTemporaryFile;
 
 class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 {
@@ -43,12 +47,12 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         enum columns_e
         {
-              eNum = 0
-            , eLabel = 1
-            , eLon = 3
-            , eLat = 2
-            , eX = 4
-            , eY = 5
+              eNum          = 0
+            , eLabel        = 1
+            , eLonLat       = 2
+            , eX            = 3
+            , eY            = 4
+            , eMaxColumn    = 5
         };
 
         QMap<quint32,refpt_t>& getRefPoints(){return refpts;}
@@ -60,6 +64,10 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotSelectionChanged();
         void slotItemDoubleClicked(QTreeWidgetItem * item);
         void slotItemClicked(QTreeWidgetItem * item, int column);
+        void slotGoOn();
+        void slotStderr();
+        void slotStdout();
+        void slotFinished( int exitCode, QProcess::ExitStatus status);
 
     private:
         static CCreateMapGeoTiff * m_self;
@@ -67,7 +75,17 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void enableStep2();
         void enableStep3();
 
+        void cleanupTmpFiles();
+
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
+
+        QProcess cmd;
+
+        enum state_e {eNone, eTranslate, eWarp, eTile};
+        state_e state;
+
+        QPointer<QTemporaryFile> tmpfile1;
+        QPointer<QTemporaryFile> tmpfile2;
 };
 #endif                           //CCREATEMAPGEOTIFF_H

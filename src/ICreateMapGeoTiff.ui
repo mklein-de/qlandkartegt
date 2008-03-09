@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>946</width>
+    <width>1123</width>
     <height>688</height>
    </rect>
   </property>
@@ -21,14 +21,82 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="QLabel" name="labelInputFile" >
-     <property name="text" >
-      <string>need file</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" >
+     <item>
+      <layout class="QGridLayout" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Input file:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2" >
+        <widget class="QLabel" name="labelInputFile" >
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Output file:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2" >
+        <widget class="QLabel" name="labelOutputFile" >
+         <property name="text" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Projection</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineProjection" />
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item row="0" column="2" >
     <widget class="QLabel" name="labelDoc1" >
@@ -39,7 +107,7 @@
       </sizepolicy>
      </property>
      <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette.</string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette. To get a good transformation result you should provide a projection string. </string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -103,12 +171,7 @@
      </column>
      <column>
       <property name="text" >
-       <string>lon</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>lat</string>
+       <string>Coord.</string>
       </property>
      </column>
      <column>
@@ -129,7 +192,7 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their longitude / latitude in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
+      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -201,6 +264,9 @@
      <property name="enabled" >
       <bool>false</bool>
      </property>
+     <property name="lineWrapMode" >
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
     </widget>
    </item>
    <item row="2" column="2" >
@@ -209,7 +275,7 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. Further more you need known reference points in the later process.</string>
+      <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
