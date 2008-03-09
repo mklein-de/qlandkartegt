@@ -99,6 +99,30 @@
     </layout>
    </item>
    <item row="0" column="2" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QPushButton" name="pushOpenFile" >
+       <property name="text" >
+        <string>Open File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="3" >
     <widget class="QLabel" name="labelDoc1" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
@@ -116,30 +140,6 @@
       <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="0" column="3" >
-    <layout class="QVBoxLayout" >
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushOpenFile" >
-       <property name="text" >
-        <string>Open File</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item row="1" column="0" >
     <widget class="QLabel" name="labelStep2" >
@@ -187,22 +187,6 @@
     </widget>
    </item>
    <item row="1" column="2" >
-    <widget class="QLabel" name="labelDoc2" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="text" >
-      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3" >
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QPushButton" name="pushAddRef" >
@@ -249,6 +233,22 @@
      </item>
     </layout>
    </item>
+   <item row="1" column="3" >
+    <widget class="QLabel" name="labelDoc2" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" >
     <widget class="QLabel" name="labelStep3" >
      <property name="enabled" >
@@ -270,22 +270,6 @@
     </widget>
    </item>
    <item row="2" column="2" >
-    <widget class="QLabel" name="labelDoc3" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="text" >
-      <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3" >
     <layout class="QVBoxLayout" >
      <item>
       <spacer>
@@ -311,6 +295,22 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="2" column="3" >
+    <widget class="QLabel" name="labelDoc3" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="text" >
+      <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
