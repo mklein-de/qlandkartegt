@@ -31,7 +31,7 @@ IMap::IMap(CCanvas * parent)
 , pjtar(0)
 , overlay(eNone)
 {
-    pjtar   = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
+    pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();

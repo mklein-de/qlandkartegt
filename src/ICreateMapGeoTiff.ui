@@ -131,7 +131,7 @@
       </sizepolicy>
      </property>
      <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette. To get a good transformation result you should provide a projection string. </string>
+      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette. To get a good transformation result you should provide a projection string for the projection used by the original map.  If no string is provided the map will be projected to LongLat / WGS84.</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -239,7 +239,7 @@
       <bool>false</bool>
      </property>
      <property name="text" >
-      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. 9 are better. Make sure the points are distributed over the map.</string>
+      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. More points, distributed over the map are better. </string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
