@@ -70,6 +70,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotStderr();
         void slotStdout();
         void slotFinished( int exitCode, QProcess::ExitStatus status);
+        void slotClearAll();
 
     private:
         static CCreateMapGeoTiff * m_self;

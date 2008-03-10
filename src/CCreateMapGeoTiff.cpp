@@ -51,6 +51,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
+    connect(pushClearAll, SIGNAL(clicked()), this, SLOT(slotClearAll()));
 
     QSettings cfg;
     lineProjection->setText(cfg.value("create/def.proj","").toString());
@@ -128,7 +129,7 @@ void CCreateMapGeoTiff::slotAddRef()
     }
 
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -140,7 +141,7 @@ void CCreateMapGeoTiff::slotDelRef()
     refpts.remove(item->data(eNum,Qt::UserRole).toUInt());
     delete item;
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 }
 
@@ -159,7 +160,6 @@ void CCreateMapGeoTiff::slotLoadRef()
         if(!line.startsWith("-gcp")) continue;
 
         if(re.exactMatch(line)){
-            qDebug() << re.cap(1) << re.cap(2).toDouble() << re.cap(3).toDouble();
             refpt_t& pt     = refpts[++refcnt];
             pt.item         = new QTreeWidgetItem(treeWidget);
 
@@ -185,7 +185,7 @@ void CCreateMapGeoTiff::slotLoadRef()
     }
 
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -393,4 +393,33 @@ void CCreateMapGeoTiff::cleanupTmpFiles()
 {
     delete tmpfile1;
     delete tmpfile2;
+}
+
+
+void CCreateMapGeoTiff::slotClearAll()
+{
+    refpts.clear();
+    refcnt  = 0;
+    state   = eNone;
+
+    treeWidget->clear();
+    textBrowser->clear();
+
+    labelInputFile->clear();
+    labelOutputFile->clear();
+
+    labelStep2->setEnabled(false);
+    treeWidget->setEnabled(false);
+    labelDoc2->setEnabled(false);
+    pushAddRef->setEnabled(false);
+    pushLoadRef->setEnabled(false);
+    pushSaveRef->setEnabled(false);
+    pushDelRef->setEnabled(false);
+    pushGoOn->setEnabled(false);
+
+    labelStep3->setEnabled(false);
+    textBrowser->setEnabled(false);
+    labelDoc3->setEnabled(false);
+    pushClearAll->setEnabled(false);
+
 }

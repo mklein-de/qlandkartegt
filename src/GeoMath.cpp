@@ -69,7 +69,7 @@ void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg)
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
-    QRegExp re("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\W([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
+    QRegExp re("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
     if(!re.exactMatch(str)) {
         if(!silent) QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss"),QMessageBox::Ok,QMessageBox::NoButton);
         return false;
