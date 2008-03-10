@@ -106,7 +106,7 @@ void CCreateMapGeoTiff::slotAddRef()
     refpt_t& pt     = refpts[++refcnt];
     pt.item         = new QTreeWidgetItem(treeWidget);
 
-//     pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
 
     pt.item->setText(eNum,tr("%1").arg(refcnt));
     pt.item->setData(eNum,Qt::UserRole,refcnt);
