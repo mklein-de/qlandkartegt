@@ -124,12 +124,6 @@
    </item>
    <item row="0" column="3" >
     <widget class="QLabel" name="labelDoc1" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <property name="text" >
       <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette. To get a good transformation result you should provide a projection string for the projection used by the original map.  If no string is provided the map will be projected to LongLat / WGS84.</string>
      </property>
@@ -155,6 +149,12 @@
     <widget class="QTreeWidget" name="treeWidget" >
      <property name="enabled" >
       <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="contextMenuPolicy" >
       <enum>Qt::CustomContextMenu</enum>
@@ -352,6 +352,22 @@
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="3" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

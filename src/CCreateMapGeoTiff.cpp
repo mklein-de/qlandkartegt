@@ -106,7 +106,7 @@ void CCreateMapGeoTiff::slotAddRef()
     refpt_t& pt     = refpts[++refcnt];
     pt.item         = new QTreeWidgetItem(treeWidget);
 
-    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+//     pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
 
     pt.item->setText(eNum,tr("%1").arg(refcnt));
     pt.item->setData(eNum,Qt::UserRole,refcnt);
@@ -143,6 +143,8 @@ void CCreateMapGeoTiff::slotDelRef()
 
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
+
+    theMainWindow->getCanvas()->update();
 }
 
 void CCreateMapGeoTiff::slotLoadRef()
@@ -344,8 +346,10 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
     }
 
     if(state == eTranslate){
+
         state = eWarp;
         QStringList args;
+
         args << "-dstnodata" << "\"255\"";
         args << tmpfile1->fileName();
 
@@ -422,4 +426,5 @@ void CCreateMapGeoTiff::slotClearAll()
     labelDoc3->setEnabled(false);
     pushClearAll->setEnabled(false);
 
+    theMainWindow->getCanvas()->update();
 }

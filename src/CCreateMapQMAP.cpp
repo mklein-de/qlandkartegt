@@ -145,11 +145,11 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
         }
         projection = map.strProj;
 
-        if((xscale && (xscale != map.xscale)) || (yscale && (yscale != map.yscale))) {
-            QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the x and y scale."), QMessageBox::Ok, QMessageBox::Ok);
-            delete item;
-            return;
-        }
+//         if((xscale && (xscale != map.xscale)) || (yscale && (yscale != map.yscale))) {
+//             QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the x and y scale."), QMessageBox::Ok, QMessageBox::Ok);
+//             delete item;
+//             return;
+//         }
         xscale = map.xscale;
         yscale = map.yscale;
 
