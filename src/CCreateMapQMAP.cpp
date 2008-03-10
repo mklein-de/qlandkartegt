@@ -81,6 +81,12 @@ void CCreateMapQMAP::slotNewMap()
     filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)");
     if(filename.isEmpty()) return;
 
+    QFileInfo fi(filename);
+    if(fi.suffix() != "qmap"){
+        filename += ".qmap";
+    }
+
+
     resetdlg();
     mapPath = QFileInfo(filename).path();
     labelCurrentMap->setText(filename);
