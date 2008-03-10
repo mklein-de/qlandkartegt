@@ -42,6 +42,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
+    connect(pushLoadRef, SIGNAL(clicked()), this, SLOT(slotLoadRef()));
+    connect(pushSaveRef, SIGNAL(clicked()), this, SLOT(slotSaveRef()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotSelectionChanged()));
     connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
     connect(treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
@@ -70,6 +72,8 @@ void CCreateMapGeoTiff::enableStep2()
     treeWidget->setEnabled(true);
     labelDoc2->setEnabled(true);
     pushAddRef->setEnabled(true);
+    pushLoadRef->setEnabled(true);
+
 }
 
 void CCreateMapGeoTiff::enableStep3()
@@ -125,6 +129,7 @@ void CCreateMapGeoTiff::slotAddRef()
 
 
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
 }
@@ -134,7 +139,88 @@ void CCreateMapGeoTiff::slotDelRef()
     QTreeWidgetItem * item = treeWidget->currentItem();
     refpts.remove(item->data(eNum,Qt::UserRole).toUInt());
     delete item;
+
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 }
+
+void CCreateMapGeoTiff::slotLoadRef()
+{
+
+    QRegExp re("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s*$");
+
+    QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),"./","Ref. points (*.gcp)");
+    if(filename.isEmpty()) return;
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    while(!file.atEnd()){
+        QString line = file.readLine();
+        if(!line.startsWith("-gcp")) continue;
+
+        if(re.exactMatch(line)){
+            qDebug() << re.cap(1) << re.cap(2).toDouble() << re.cap(3).toDouble();
+            refpt_t& pt     = refpts[++refcnt];
+            pt.item         = new QTreeWidgetItem(treeWidget);
+
+            pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+
+            pt.item->setText(eNum,tr("%1").arg(refcnt));
+            pt.item->setData(eNum,Qt::UserRole,refcnt);
+            pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+            pt.item->setText(eLonLat,re.cap(1));
+
+            pt.x = re.cap(2).toDouble();
+            pt.y = re.cap(3).toDouble();
+            pt.item->setText(eX,QString::number(pt.x));
+            pt.item->setText(eY,QString::number(pt.y));
+        }
+    }
+
+    file.close();
+
+    treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
+    for(int i=0; i < eMaxColumn - 1; ++i) {
+        treeWidget->resizeColumnToContents(i);
+    }
+
+
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 0);
+    pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
+
+    theMainWindow->getCanvas()->update();
+
+}
+
+void CCreateMapGeoTiff::slotSaveRef()
+{
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),"./","Ref. points (*.gcp)");
+    if(filename.isEmpty()) return;
+
+    QFileInfo fi(filename);
+    if(fi.suffix() != "gcp"){
+        filename += ".gcp";
+    }
+
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+
+    QStringList args;
+    QMap<quint32,refpt_t>::iterator refpt = refpts.begin();
+    while(refpt != refpts.end()){
+        args.clear();
+        args << "-gcp";
+        args << refpt->item->text(eLonLat);
+        args << QString::number(refpt->x,'f',0);
+        args << QString::number(refpt->y,'f',0);
+        args << "\n";
+        file.write(args.join(" ").toLatin1());
+        ++refpt;
+    }
+    file.close();
+}
+
+
 
 void CCreateMapGeoTiff::slotSelectionChanged()
 {
@@ -190,8 +276,8 @@ void CCreateMapGeoTiff::slotGoOn()
         float lon = 0, lat = 0;
         double u = 0, v = 0;
         args << "-gcp";
-        args << QString::number(refpt->x);
-        args << QString::number(refpt->y);
+        args << QString::number(refpt->x,'f',0);
+        args << QString::number(refpt->y,'f',0);
         if(islonlat){
             if(!GPS_Math_Str_To_Deg(refpt->item->text(eLonLat), lon, lat)){
                 return;
@@ -299,6 +385,7 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(tr("--- finished ---\n"));
 
+    pushClearAll->setEnabled(true);
 }
 
 

@@ -234,20 +234,61 @@
     </layout>
    </item>
    <item row="1" column="3" >
-    <widget class="QLabel" name="labelDoc2" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="text" >
-      <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. More points, distributed over the map are better. </string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" >
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QPushButton" name="pushLoadRef" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Load Ref.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushSaveRef" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Save Ref.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>1</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelDoc2" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="text" >
+        <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. More points, distributed over the map are better. </string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" >
     <widget class="QLabel" name="labelStep3" >
@@ -285,12 +326,12 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3" >
+      <widget class="QPushButton" name="pushClearAll" >
        <property name="enabled" >
         <bool>false</bool>
        </property>
        <property name="text" >
-        <string>PushButton</string>
+        <string>Clear all</string>
        </property>
       </widget>
      </item>
