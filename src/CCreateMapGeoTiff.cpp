@@ -40,6 +40,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
+    connect(comboMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModeChanged(int)));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
     connect(pushLoadRef, SIGNAL(clicked()), this, SLOT(slotLoadRef()));
@@ -61,8 +62,6 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), 2);
     comboMode->setCurrentIndex(1);
 
-    int mode = comboMode->itemData(comboMode->currentIndex()).toInt();
-
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
 
@@ -71,6 +70,24 @@ CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     m_self = 0;
+}
+
+int CCreateMapGeoTiff::getNumberOfGCPs()
+{
+    int n = 0;
+    int mode = comboMode->itemData(comboMode->currentIndex()).toInt();
+    switch(mode){
+        case 1:
+            n = 3;
+            break;
+        case 2:
+            n = 6;
+            break;
+        case -2:
+            n = 2;
+            break;
+    }
+    return n;
 }
 
 void CCreateMapGeoTiff::enableStep2()
@@ -107,6 +124,11 @@ void CCreateMapGeoTiff::slotOpenFile()
     enableStep2();
 }
 
+void CCreateMapGeoTiff::slotModeChanged(int)
+{
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+}
+
 void CCreateMapGeoTiff::slotAddRef()
 {
     refpt_t& pt     = refpts[++refcnt];
@@ -136,7 +158,7 @@ void CCreateMapGeoTiff::slotAddRef()
         treeWidget->resizeColumnToContents(i);
     }
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -148,7 +170,7 @@ void CCreateMapGeoTiff::slotDelRef()
     refpts.remove(item->data(eNum,Qt::UserRole).toUInt());
     delete item;
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -205,7 +227,7 @@ void CCreateMapGeoTiff::slotLoadRef()
         treeWidget->resizeColumnToContents(i);
     }
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();

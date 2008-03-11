@@ -59,6 +59,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
     private slots:
         void slotOpenFile();
+        void slotModeChanged(int);
         void slotAddRef();
         void slotDelRef();
         void slotLoadRef();
@@ -77,8 +78,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void enableStep2();
         void enableStep3();
-
         void cleanupTmpFiles();
+        int getNumberOfGCPs();
 
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
