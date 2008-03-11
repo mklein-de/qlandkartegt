@@ -56,6 +56,10 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     QSettings cfg;
     lineProjection->setText(cfg.value("create/def.proj","").toString());
 
+    comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), -2);
+    comboMode->addItem(tr("linear (3 Ref. Pts.)"), 1);
+    comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), 2);
+    comboMode->setCurrentIndex(1);
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -151,7 +155,9 @@ void CCreateMapGeoTiff::slotDelRef()
 void CCreateMapGeoTiff::slotLoadRef()
 {
 
-    QRegExp re("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s(.*)$");
+    QRegExp re1("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s(.*)$");
+    QRegExp re2("^-proj\\s(.*)$");
+
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),"./","Ref. points (*.gcp)");
     if(filename.isEmpty()) return;
@@ -160,9 +166,8 @@ void CCreateMapGeoTiff::slotLoadRef()
     file.open(QIODevice::ReadOnly);
     while(!file.atEnd()){
         QString line = file.readLine();
-        if(!line.startsWith("-gcp")) continue;
 
-        if(re.exactMatch(line)){
+        if(re1.exactMatch(line)){
             refpt_t& pt     = refpts[++refcnt];
             pt.item         = new QTreeWidgetItem();
 
@@ -170,21 +175,24 @@ void CCreateMapGeoTiff::slotLoadRef()
 
             pt.item->setText(eNum,tr("%1").arg(refcnt));
             pt.item->setData(eNum,Qt::UserRole,refcnt);
-            QString label = re.cap(4).trimmed();
+            QString label = re1.cap(4).trimmed();
             if(label.isEmpty()){
                 pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
             }
             else{
                 pt.item->setText(eLabel,label);
             }
-            pt.item->setText(eLonLat,re.cap(1));
+            pt.item->setText(eLonLat,re1.cap(1));
 
-            pt.x = re.cap(2).toDouble();
-            pt.y = re.cap(3).toDouble();
+            pt.x = re1.cap(2).toDouble();
+            pt.y = re1.cap(3).toDouble();
             pt.item->setText(eX,QString::number(pt.x));
             pt.item->setText(eY,QString::number(pt.y));
 
             treeWidget->addTopLevelItem(pt.item);
+        }
+        else if(re2.exactMatch(line)){
+            lineProjection->setText(re2.cap(1).trimmed());
         }
     }
 
@@ -216,6 +224,12 @@ void CCreateMapGeoTiff::slotSaveRef()
     file.open(QIODevice::WriteOnly);
 
     QStringList args;
+    args << "-proj";
+    args << lineProjection->text().trimmed();
+    args << "\n";
+    file.write(args.join(" ").toLatin1());
+
+
     QMap<quint32,refpt_t>::iterator refpt = refpts.begin();
     while(refpt != refpts.end()){
         args.clear();

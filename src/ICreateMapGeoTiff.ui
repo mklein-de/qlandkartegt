@@ -37,7 +37,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2" >
+       <item row="0" column="1" >
         <widget class="QLabel" name="labelInputFile" >
          <property name="text" >
           <string/>
@@ -60,26 +60,32 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2" >
+       <item row="1" column="1" >
         <widget class="QLabel" name="labelOutputFile" >
          <property name="text" >
           <string/>
          </property>
         </widget>
        </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
-       <item>
+       <item row="2" column="0" >
         <widget class="QLabel" name="label" >
          <property name="text" >
           <string>Projection</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="2" column="1" >
         <widget class="QLineEdit" name="lineProjection" />
+       </item>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QComboBox" name="comboMode" />
        </item>
       </layout>
      </item>
@@ -90,8 +96,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>384</width>
+         <height>61</height>
         </size>
        </property>
       </spacer>
