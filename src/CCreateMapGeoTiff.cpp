@@ -46,7 +46,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushSaveRef, SIGNAL(clicked()), this, SLOT(slotSaveRef()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotSelectionChanged()));
     connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
-    connect(treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
+    connect(treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
     connect(pushGoOn, SIGNAL(clicked()), this, SLOT(slotGoOn()));
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -104,7 +104,7 @@ void CCreateMapGeoTiff::slotOpenFile()
 void CCreateMapGeoTiff::slotAddRef()
 {
     refpt_t& pt     = refpts[++refcnt];
-    pt.item         = new QTreeWidgetItem(treeWidget);
+    pt.item         = new QTreeWidgetItem();
 
     pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
 
@@ -123,13 +123,14 @@ void CCreateMapGeoTiff::slotAddRef()
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
 
+    treeWidget->addTopLevelItem(pt.item);
+
     treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
     for(int i=0; i < eMaxColumn - 1; ++i) {
         treeWidget->resizeColumnToContents(i);
     }
 
-
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -141,7 +142,7 @@ void CCreateMapGeoTiff::slotDelRef()
     refpts.remove(item->data(eNum,Qt::UserRole).toUInt());
     delete item;
 
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -163,7 +164,7 @@ void CCreateMapGeoTiff::slotLoadRef()
 
         if(re.exactMatch(line)){
             refpt_t& pt     = refpts[++refcnt];
-            pt.item         = new QTreeWidgetItem(treeWidget);
+            pt.item         = new QTreeWidgetItem();
 
             pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
 
@@ -176,6 +177,8 @@ void CCreateMapGeoTiff::slotLoadRef()
             pt.y = re.cap(3).toDouble();
             pt.item->setText(eX,QString::number(pt.x));
             pt.item->setText(eY,QString::number(pt.y));
+
+            treeWidget->addTopLevelItem(pt.item);
         }
     }
 
@@ -186,8 +189,7 @@ void CCreateMapGeoTiff::slotLoadRef()
         treeWidget->resizeColumnToContents(i);
     }
 
-
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 2);
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() > 1);
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -241,21 +243,24 @@ void CCreateMapGeoTiff::slotItemDoubleClicked(QTreeWidgetItem * item)
     theMainWindow->getCanvas()->update();
 }
 
-void CCreateMapGeoTiff::slotItemClicked(QTreeWidgetItem * item, int column)
+
+void CCreateMapGeoTiff::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    if(column == eLonLat){
-        treeWidget->editItem(item,column);
-    }
+    refpt_t& pt = refpts[item->data(eNum,Qt::UserRole).toUInt()];
+    pt.x = item->text(eX).toDouble();
+    pt.y = item->text(eY).toDouble();
+
+    theMainWindow->getCanvas()->update();
 }
 
 void CCreateMapGeoTiff::slotGoOn()
 {
     QStringList args;
-    QRegExp re("^\\s*([0-9]+)\\.{0,1}[0-9]*\\s+([0-9]+)\\.{0,1}[0-9]*\\s*$");
+    QRegExp re("^\\s*([0-9\\.]+)\\s+([0-9\\.]+)\\s*$");
 
     QString projection = lineProjection->text();
     if(projection.isEmpty()){
-        projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
+        projection = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
     }
 
     QSettings cfg;
@@ -273,11 +278,18 @@ void CCreateMapGeoTiff::slotGoOn()
 
     args << "-a_srs" << projection;
 
+    double x1, x2, y1, y2, u1, u2, v1, v2;
+    x1 = x2 = y1 = y2 = u1 = u2 = v1 = v2 = 0;
+
     QMap<quint32,refpt_t>::iterator refpt = refpts.begin();
     while(refpt != refpts.end()){
         float lon = 0, lat = 0;
         double u = 0, v = 0;
         args << "-gcp";
+
+        x1 = x2; x2 = refpt->x;
+        x1 = y2; y2 = refpt->y;
+
         args << QString::number(refpt->x,'f',0);
         args << QString::number(refpt->y,'f',0);
         if(islonlat){
@@ -305,9 +317,22 @@ void CCreateMapGeoTiff::slotGoOn()
             }
         }
 
+        u1 = u2; u2 = u;
+        v1 = v2; v2 = v;
+
         args << QString::number(u,'f',6);
         args << QString::number(v,'f',6);
         ++refpt;
+    }
+
+    // as gdalwarp needs 3 GCPs at least we add an artificial one on two GCPs
+    if(treeWidget->topLevelItemCount() == 2){
+        args << "-gcp";
+        args << QString::number(x1 + (x2 - x1) / 2,'f',6);
+        args << QString::number(y1 + (y2 - y1) / 2,'f',6);
+        args << QString::number(u1 + (u2 - u1) / 2,'f',6);
+        args << QString::number(v1 + (v2 - v1) / 2,'f',6);
+
     }
 
     tmpfile1 = new QTemporaryFile();
@@ -333,7 +358,10 @@ void CCreateMapGeoTiff::slotStderr()
 void CCreateMapGeoTiff::slotStdout()
 {
     textBrowser->setTextColor(Qt::blue);
-    textBrowser->append(cmd.readAllStandardOutput());
+    QString str = cmd.readAllStandardOutput();
+
+    textBrowser->insertPlainText(str);
+    textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 }
 
 void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)

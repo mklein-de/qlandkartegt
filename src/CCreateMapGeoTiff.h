@@ -64,8 +64,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotLoadRef();
         void slotSaveRef();
         void slotSelectionChanged();
+        void slotItemChanged(QTreeWidgetItem * item, int column);
         void slotItemDoubleClicked(QTreeWidgetItem * item);
-        void slotItemClicked(QTreeWidgetItem * item, int column);
         void slotGoOn();
         void slotStderr();
         void slotStdout();
@@ -90,5 +90,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QPointer<QTemporaryFile> tmpfile1;
         QPointer<QTemporaryFile> tmpfile2;
+
+        QString collect;
 };
 #endif                           //CCREATEMAPGEOTIFF_H
