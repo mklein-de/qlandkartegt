@@ -151,7 +151,7 @@ void CCreateMapGeoTiff::slotDelRef()
 void CCreateMapGeoTiff::slotLoadRef()
 {
 
-    QRegExp re("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s*$");
+    QRegExp re("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s(.*)$");
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),"./","Ref. points (*.gcp)");
     if(filename.isEmpty()) return;
@@ -170,7 +170,13 @@ void CCreateMapGeoTiff::slotLoadRef()
 
             pt.item->setText(eNum,tr("%1").arg(refcnt));
             pt.item->setData(eNum,Qt::UserRole,refcnt);
-            pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+            QString label = re.cap(4).trimmed();
+            if(label.isEmpty()){
+                pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+            }
+            else{
+                pt.item->setText(eLabel,label);
+            }
             pt.item->setText(eLonLat,re.cap(1));
 
             pt.x = re.cap(2).toDouble();
@@ -217,6 +223,7 @@ void CCreateMapGeoTiff::slotSaveRef()
         args << refpt->item->text(eLonLat);
         args << QString::number(refpt->x,'f',0);
         args << QString::number(refpt->y,'f',0);
+        args << refpt->item->text(eLabel);
         args << "\n";
         file.write(args.join(" ").toLatin1());
         ++refpt;
