@@ -61,6 +61,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), 2);
     comboMode->setCurrentIndex(1);
 
+    int mode = comboMode->itemData(comboMode->currentIndex()).toInt();
+
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
 
