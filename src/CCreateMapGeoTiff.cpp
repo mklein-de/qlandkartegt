@@ -423,6 +423,11 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         state = eWarp;
         QStringList args;
 
+        int mode = comboMode->itemData(comboMode->currentIndex()).toInt();
+        if(mode > 0){
+            args << "-order" << QString::number(mode);
+        }
+
         args << "-dstnodata" << "\"255\"";
         args << tmpfile1->fileName();
 
