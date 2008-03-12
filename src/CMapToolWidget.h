@@ -37,7 +37,6 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotDBChanged();
         void slotItemClicked(QListWidgetItem* item);
         void slotContextMenu(const QPoint& pos);
-        void slotEdit();
         void slotDelete();
 
     private:

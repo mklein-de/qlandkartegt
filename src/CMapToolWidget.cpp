@@ -35,7 +35,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
     contextMenu = new QMenu(this);
-    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(),tr(""));
     contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
 
     connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
@@ -76,19 +76,6 @@ void CMapToolWidget::slotContextMenu(const QPoint& pos)
         QPoint p = listKnownMaps->mapToGlobal(pos);
         contextMenu->exec(p);
     }
-}
-
-
-void CMapToolWidget::slotEdit()
-{
-    QListWidgetItem * item = listKnownMaps->currentItem();
-    if(item == 0) return;
-
-    QString key = item->data(Qt::UserRole).toString();
-    const CMapDB::map_t& map = CMapDB::self().getKnownMaps()[key];
-
-//     CDlgCreateMap dlg(theMainWindow->getCanvas());
-//     dlg.editMap(map.filename);
 }
 
 

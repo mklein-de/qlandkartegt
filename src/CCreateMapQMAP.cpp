@@ -49,9 +49,13 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushDel, SIGNAL(clicked()), this, SLOT(slotDel()));
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
-    connect(buttonBoxSave, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotSaveMap()));
+    connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
     connect(toolAddDEM, SIGNAL(clicked()), this, SLOT(slotAddDEM()));
     connect(toolDelDEM, SIGNAL(clicked()), this, SLOT(slotDelDEM()));
+
+    labelStep1->setPixmap(QPixmap(":/pics/Step1"));
+    labelStep2->setPixmap(QPixmap(":/pics/Step2"));
+
 }
 
 
@@ -92,7 +96,8 @@ void CCreateMapQMAP::slotNewMap()
     labelCurrentMap->setText(filename);
 
     pushAdd->setEnabled(true);
-    buttonBoxSave->setEnabled(true);
+    labelDoc2->setEnabled(true);
+    labelStep2->setEnabled(true);
 }
 
 
@@ -261,7 +266,9 @@ void CCreateMapQMAP::readqmap(const QString& filename)
     processLevelList();
 
     pushAdd->setEnabled(true);
-    buttonBoxSave->setEnabled(true);
+    pushSave->setEnabled(treeLevels->topLevelItemCount());
+    labelDoc2->setEnabled(true);
+    labelStep2->setEnabled(true);
 }
 
 
@@ -334,6 +341,8 @@ void CCreateMapQMAP::slotAdd()
     else {
         delete item;
     }
+
+    pushSave->setEnabled(treeLevels->topLevelItemCount());
 }
 
 
@@ -357,6 +366,7 @@ void CCreateMapQMAP::slotDel()
     delete item;
 
     processLevelList();
+    pushSave->setEnabled(treeLevels->topLevelItemCount());
 }
 
 
