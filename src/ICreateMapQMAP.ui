@@ -190,12 +190,6 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="1" colspan="2" >
     <widget class="QTreeWidget" name="treeLevels" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <property name="toolTip" >
       <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
@@ -410,6 +404,19 @@ p, li { white-space: pre-wrap; }
       <string>Save</string>
      </property>
     </widget>
+   </item>
+   <item row="3" column="4" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
