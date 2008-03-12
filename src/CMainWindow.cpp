@@ -27,7 +27,6 @@
 #include "CTrackDB.h"
 #include "CSearchDB.h"
 #include "CDlgConfig.h"
-#include "CDlgCreateMap.h"
 #include "CQlb.h"
 #include "CGpx.h"
 
@@ -333,8 +332,3 @@ void CMainWindow::slotPrint()
 }
 
 
-void CMainWindow::slotCreateMap()
-{
-    CDlgCreateMap dlg(this);
-    dlg.exec();
-}

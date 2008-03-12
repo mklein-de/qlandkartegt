@@ -126,20 +126,46 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="Line" name="line_6" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="3" >
-    <widget class="QLabel" name="labelDoc1" >
-     <property name="text" >
-      <string>To start you need a bitmap of your map. Usually this is a scanned paper map. To allow smooth zooming you should scan it with different resolution and use each scan in it's own zoom level. The bitmap must have a 8 bit color palette. To get a good transformation result you should provide a projection string for the projection used by the original map.  If no string is provided the map will be projected to LongLat / WGS84.</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QLabel" name="labelDoc1" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>This dialog allows you to georeference map files in TIF format with a 8 bit color palette. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.
+
+</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="1" column="0" >
     <widget class="QLabel" name="labelStep2" >
@@ -165,11 +191,6 @@
      <property name="contextMenuPolicy" >
       <enum>Qt::CustomContextMenu</enum>
      </property>
-     <column>
-      <property name="text" >
-       <string>#</string>
-      </property>
-     </column>
      <column>
       <property name="text" >
        <string>label</string>
@@ -237,6 +258,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="Line" name="line_5" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="3" >
@@ -283,14 +311,29 @@
        <property name="enabled" >
         <bool>false</bool>
        </property>
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text" >
-        <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map. You need at least 3 reference points. More points, distributed over the map are better. </string>
+        <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
+
+coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "285000 5162000"</string>
        </property>
        <property name="alignment" >
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
        <property name="wordWrap" >
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_2" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -341,23 +384,47 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="Line" name="line_4" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="2" column="3" >
-    <widget class="QLabel" name="labelDoc3" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="text" >
-      <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QLabel" name="labelDoc3" >
+       <property name="enabled" >
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_3" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="3" column="1" >
     <spacer>

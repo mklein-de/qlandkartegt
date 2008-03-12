@@ -399,9 +399,8 @@ void CCreateMapQMAP::slotAddDEM()
     QString filename = QFileDialog::getOpenFileName(0,tr("Select elevation data file..."), mapPath,"DEM Data (*.tif)");
 
     if(filename.isEmpty()) return;
-    mapPath = QFileInfo(filename).path();
-
-    labelDEMData->setText(QFileInfo(filename).fileName());
+    QDir dir(mapPath);
+    labelDEMData->setText(dir.relativeFilePath(filename));
 }
 
 

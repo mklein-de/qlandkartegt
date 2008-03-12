@@ -19,7 +19,6 @@
 
 #include "CMapToolWidget.h"
 #include "CMapDB.h"
-#include "CDlgCreateMap.h"
 #include "CMainWindow.h"
 
 #include <QtGui>
@@ -88,8 +87,8 @@ void CMapToolWidget::slotEdit()
     QString key = item->data(Qt::UserRole).toString();
     const CMapDB::map_t& map = CMapDB::self().getKnownMaps()[key];
 
-    CDlgCreateMap dlg(theMainWindow->getCanvas());
-    dlg.editMap(map.filename);
+//     CDlgCreateMap dlg(theMainWindow->getCanvas());
+//     dlg.editMap(map.filename);
 }
 
 

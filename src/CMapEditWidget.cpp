@@ -31,17 +31,17 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
     comboSource->insertItem(eNone,tr(""));
-    comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
+//     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
     comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
     comboSource->insertItem(eGTIFF,QIcon(":/icons/iconGlobe16x16.png"),tr("Convert a TIFF into GeoTiff by geo referencing it."));
 
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
 
-    widgetOSM       = new CCreateMapOSM(stackedWidget);
+//     widgetOSM       = new CCreateMapOSM(stackedWidget);
     widgetQMAP      = new CCreateMapQMAP(stackedWidget);
     widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
 
-    stackedWidget->insertWidget(eOSM, widgetOSM);
+//     stackedWidget->insertWidget(eOSM, widgetOSM);
     stackedWidget->insertWidget(eQMAP, widgetQMAP);
     stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
 }

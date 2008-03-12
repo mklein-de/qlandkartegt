@@ -66,8 +66,9 @@ void CDlgEditMapLevel::slotSelectFiles()
 
     listFiles->clear();
 
+    QDir dir(mapPath);
     QString file;
     foreach(file,files) {
-        listFiles->addItem(QFileInfo(file).fileName());
+        listFiles->addItem(dir.relativeFilePath(file));
     }
 }

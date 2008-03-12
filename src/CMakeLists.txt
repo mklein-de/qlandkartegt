@@ -36,7 +36,6 @@ set(qlandkarte_SRCS
     CDlgConfig.cpp
     CDlgEditWpt.cpp
     CDlgWptIcon.cpp
-    CDlgCreateMap.cpp
     CDlgEditMapLevel.cpp
     CQlb.cpp
     CGpx.cpp
@@ -87,7 +86,6 @@ set(qlandkarte_HDRS
     CDlgConfig.h
     CDlgEditWpt.h
     CDlgWptIcon.h
-    CDlgCreateMap.h
     CDlgEditMapLevel.h
     CQlb.h
     CGpx.h
@@ -116,7 +114,6 @@ SET(qlandkarte_UIS
     IDlgConfig.ui
     IDlgEditWpt.ui
     IDlgWptIcon.ui
-    IDlgCreateMap.ui
     IDlgEditMapLevel.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui

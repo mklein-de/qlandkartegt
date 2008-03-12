@@ -32,6 +32,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 : QWidget(parent)
 , refcnt(0)
 , state(eNone)
+, path("./")
 {
     m_self = this;
     setupUi(this);
@@ -55,7 +56,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushClearAll, SIGNAL(clicked()), this, SLOT(slotClearAll()));
 
     QSettings cfg;
-    lineProjection->setText(cfg.value("create/def.proj","").toString());
+    lineProjection->setText(cfg.value("create/def.proj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
 
     comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), -2);
     comboMode->addItem(tr("linear (3 Ref. Pts.)"), 1);
@@ -109,17 +110,22 @@ void CCreateMapGeoTiff::enableStep3()
 
 void CCreateMapGeoTiff::slotOpenFile()
 {
-    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),"./");
+    QSettings cfg;
+    path = QDir(cfg.value("path/create",path.path()).toString());
+
+
+    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path());
     if(filename.isEmpty()) return;
 
     CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
     labelInputFile->setText(filename);
 
     QFileInfo fi(filename);
-    QString path = fi.absolutePath();
+    path = QDir(fi.absolutePath());
+    cfg.setValue("path/create",path.path());
     QString name = fi.baseName();
 
-    labelOutputFile->setText(path + "/" + name + "_ref.tif");
+    labelOutputFile->setText(path.filePath(name + "_ref.tif"));
 
     enableStep2();
 }
@@ -183,7 +189,7 @@ void CCreateMapGeoTiff::slotLoadRef()
     QRegExp re2("^-proj\\s(.*)$");
 
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),"./","Ref. points (*.gcp)");
+    QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),path.path(),"Ref. points (*.gcp)");
     if(filename.isEmpty()) return;
 
     QFile file(filename);
@@ -236,7 +242,7 @@ void CCreateMapGeoTiff::slotLoadRef()
 
 void CCreateMapGeoTiff::slotSaveRef()
 {
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),"./","Ref. points (*.gcp)");
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.path(),"Ref. points (*.gcp)");
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
@@ -359,6 +365,12 @@ void CCreateMapGeoTiff::slotGoOn()
                 }
                 u = re.cap(1).toDouble();
                 v = re.cap(2).toDouble();
+
+                if((abs(u) <= 180) && (abs(v) <= 90)){
+                    u = u * DEG_TO_RAD;
+                    v = v * DEG_TO_RAD;
+                    pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);
+                }
             }
         }
 

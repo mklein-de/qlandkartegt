@@ -22,6 +22,7 @@
 #include <QWidget>
 #include <QProcess>
 #include <QPointer>
+#include <QDir>
 #include "ui_ICreateMapGeoTiff.h"
 
 class QTemporaryFile;
@@ -93,5 +94,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         QPointer<QTemporaryFile> tmpfile2;
 
         QString collect;
+
+        QDir path;
 };
 #endif                           //CCREATEMAPGEOTIFF_H
