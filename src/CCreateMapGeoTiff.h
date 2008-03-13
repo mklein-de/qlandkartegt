@@ -48,12 +48,12 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         enum columns_e
         {
-              eNum          = 0
-            , eLabel        = 1
-            , eLonLat       = 2
-            , eX            = 3
-            , eY            = 4
-            , eMaxColumn    = 5
+
+              eLabel        = 0
+            , eLonLat       = 1
+            , eX            = 2
+            , eY            = 3
+            , eMaxColumn    = 4
         };
 
         QMap<quint32,refpt_t>& getRefPoints(){return refpts;}
@@ -81,6 +81,9 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void enableStep3();
         void cleanupTmpFiles();
         int getNumberOfGCPs();
+
+        void loadGCP(const QString& filename);
+        void loadTAB(const QString& filename);
 
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
