@@ -222,7 +222,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     while(!file.atEnd()){
-        QString line = file.readLine();
+        QString line = QString::fromUtf8(file.readLine());
 
         if(re1.exactMatch(line)){
             refpt_t& pt     = refpts[++refcnt];
@@ -306,8 +306,6 @@ void CCreateMapGeoTiff::loadTAB(const QString& filename)
 
         lineProjection->setText(ptr);
     }
-
-
 }
 
 
@@ -328,7 +326,7 @@ void CCreateMapGeoTiff::slotSaveRef()
     args << "-proj";
     args << lineProjection->text().trimmed();
     args << "\n";
-    file.write(args.join(" ").toLatin1());
+    file.write(args.join(" ").toUtf8());
 
 
     QMap<quint32,refpt_t>::iterator refpt = refpts.begin();
@@ -340,7 +338,7 @@ void CCreateMapGeoTiff::slotSaveRef()
         args << QString::number(refpt->y,'f',0);
         args << refpt->item->text(eLabel);
         args << "\n";
-        file.write(args.join(" ").toLatin1());
+        file.write(args.join(" ").toUtf8());
         ++refpt;
     }
     file.close();
