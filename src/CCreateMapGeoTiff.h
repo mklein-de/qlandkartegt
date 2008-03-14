@@ -94,6 +94,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void gdalGCP2RefPt(const GDAL_GCP* gcps, int n);
 
+        QSize sizeOfInputFile;
+
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
 
@@ -104,8 +106,6 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QPointer<QTemporaryFile> tmpfile1;
         QPointer<QTemporaryFile> tmpfile2;
-
-        QString collect;
 
         QDir path;
 };

@@ -132,6 +132,8 @@ void CCreateMapGeoTiff::slotOpenFile()
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0) return;
 
+    sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
+
     QString proj = dataset->GetGCPProjection();
 
     char str[1024];
