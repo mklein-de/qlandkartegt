@@ -270,7 +270,7 @@ void CCreateMapGeoTiff::loadTAB(const QString& filename)
     adfGeoTransform[4] = 0.0;
     adfGeoTransform[5] = 1.0;
 
-    if(GDALReadTabFile(filename.toLatin1(),adfGeoTransform,&pszTabWKT,&n,&gcpm)){
+    if(GDALReadTabFile(filename.toUtf8(),adfGeoTransform,&pszTabWKT,&n,&gcpm)){
         if (n) for(i=0;i<n;i++){
             printf("gcp %d %s\n",i,gcpm[i].pszId);
 

@@ -206,7 +206,7 @@ void CExportMapThread::run()
 
                 GDALDriverManager * drvman  = GetGDALDriverManager();
                 GDALDriver  * driver        = drvman->GetDriverByName("GTiff");
-                GDALDataset * dataset       = driver->Create(exportPath.filePath(strFilename).toLatin1(),
+                GDALDataset * dataset       = driver->Create(exportPath.filePath(strFilename).toUtf8(),
                     (x2 - x1) * (*mapfile)->tileWidth,
                     (y2 - y1) * (*mapfile)->tileHeight,
                     1,GDT_Byte,(char **)cimage_args);
