@@ -23,9 +23,13 @@
 #include <QProcess>
 #include <QPointer>
 #include <QDir>
+
+#include <gdal.h>
+
 #include "ui_ICreateMapGeoTiff.h"
 
 class QTemporaryFile;
+
 
 class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 {
@@ -58,6 +62,9 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QMap<quint32,refpt_t>& getRefPoints(){return refpts;}
 
+    protected:
+        void keyPressEvent(QKeyEvent * e);
+
     private slots:
         void slotOpenFile();
         void slotModeChanged(int);
@@ -84,6 +91,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void loadGCP(const QString& filename);
         void loadTAB(const QString& filename);
+
+        void gdalGCP2RefPt(const GDAL_GCP* gcps, int n);
 
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
