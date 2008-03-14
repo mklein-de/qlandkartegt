@@ -112,6 +112,9 @@ void CCreateMapGeoTiff::enableStep3()
 
 void CCreateMapGeoTiff::slotOpenFile()
 {
+    char str[1024];
+    char * ptr = str;
+
     QSettings cfg;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
@@ -135,16 +138,10 @@ void CCreateMapGeoTiff::slotOpenFile()
     sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 
     QString proj = dataset->GetGCPProjection();
-
-    char str[1024];
-    char * ptr = str;
-
     strncpy(str, dataset->GetGCPProjection(), sizeof(str));
-
     OGRSpatialReference oSRS;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
-
     lineProjection->setText(ptr);
 
     gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
