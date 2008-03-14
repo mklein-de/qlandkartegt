@@ -216,7 +216,7 @@ void CCreateMapGeoTiff::slotLoadRef()
 
 void CCreateMapGeoTiff::loadGCP(const QString& filename)
 {
-    QRegExp re1("^-gcp\\s(.*)\\s([0-9]+)\\s([0-9]+)\\s(.*)$");
+    QRegExp re1("^-gcp\\s(.*)\\s(-{0,1}[0-9]+)\\s(-{0,1}[0-9]+)\\s(.*)$");
     QRegExp re2("^-proj\\s(.*)$");
 
     QFile file(filename);
