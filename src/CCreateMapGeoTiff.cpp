@@ -408,7 +408,7 @@ void CCreateMapGeoTiff::slotGoOn()
         args << "-gcp";
 
         x1 = x2; x2 = refpt->x;
-        x1 = y2; y2 = refpt->y;
+        y1 = y2; y2 = refpt->y;
 
         args << QString::number(refpt->x,'f',0);
         args << QString::number(refpt->y,'f',0);
@@ -451,15 +451,46 @@ void CCreateMapGeoTiff::slotGoOn()
         ++refpt;
     }
 
-    // as gdalwarp needs 3 GCPs at least we add an artificial one on two GCPs
-    if(treeWidget->topLevelItemCount() == 2){
-        args << "-gcp";
-        args << QString::number(x1 + (x2 - x1) / 2,'f',6);
-        args << QString::number(y1 + (y2 - y1) / 2,'f',6);
-        args << QString::number(u1 + (u2 - u1) / 2,'f',6);
-        args << QString::number(v1 + (v2 - v1) / 2,'f',6);
+    double adfGeoTransform[6];
 
+    // as gdalwarp needs 3 GCPs at least we add an artificial one on two GCPs
+    if ( treeWidget->topLevelItemCount() == 2 ) /* use square pixels */
+    {
+        double dx, dy, dX, dY, delta;
+        double a, b;
+
+        dx =   x2 - x1;
+        dy = -(y2 - y1);
+
+        dX =   u2 - u1;
+        dY =   v2 - v1;
+
+        delta = dx * dx + dy * dy;
+
+        if (delta < 1 ) /* pixel */
+        {
+            QMessageBox::warning(0,tr("Error ..."), tr("Reference points are too close."), QMessageBox::Abort, QMessageBox::Abort);
+            return;
+        }
+
+        a = (dX * dx + dY * dy) / delta;
+        b = (dY * dx - dX * dy) / delta;
+
+        adfGeoTransform[0] = u2 - a * x2 - b * y2;
+        adfGeoTransform[1] =  a;
+        adfGeoTransform[2] = -b;
+        adfGeoTransform[3] = v2 - b * x2 + a * y2;
+        adfGeoTransform[4] =  b;
+        adfGeoTransform[5] =  a;
+
+        /* -gcp 0 0 x0 y0. Image size is not known here?. Let's hope that GCP ! = 0,0 */
+        args << "-gcp";
+        args << QString::number(0.,'f',6);
+        args << QString::number(0.,'f',6);
+        args << QString::number(adfGeoTransform[0],'f',6);
+        args << QString::number(adfGeoTransform[3],'f',6);
     }
+
 
     tmpfile1 = new QTemporaryFile();
     tmpfile1->open();
