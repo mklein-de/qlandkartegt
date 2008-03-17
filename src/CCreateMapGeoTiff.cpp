@@ -65,7 +65,10 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), eSquare);
     comboMode->addItem(tr("linear (3 Ref. Pts.)"), eLinear);
     comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), eQuadratic);
+    comboMode->addItem(tr("thin plate (4 Ref. Pts.)"), eThinPlate);
     comboMode->setCurrentIndex(1);
+
+    treeWidget->installEventFilter(this);
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -90,6 +93,9 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
             break;
         case -2:
             n = 2;
+            break;
+        case -1:
+            n = 4;
             break;
     }
     return n;
@@ -618,6 +624,9 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         if(mode > 0){
             args << "-order" << QString::number(mode);
         }
+        else if(mode == eThinPlate){
+            args << "-tps";
+        }
 
         args << "-dstnodata" << "\"255\"";
         args << tmpfile1->fileName();
@@ -697,4 +706,15 @@ void CCreateMapGeoTiff::slotClearAll()
     pushClearAll->setEnabled(false);
 
     theMainWindow->getCanvas()->update();
+}
+
+
+bool CCreateMapGeoTiff::eventFilter(QObject *obj, QEvent *ev)
+{
+    if (ev->type() == QEvent::Drop) {
+        qDebug() << "drop";
+        return true;
+    }
+
+    return false;
 }

@@ -62,7 +62,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         enum mode_e
         {
-              eSquare = -2
+              eThinPlate = -1
+            , eSquare = -2
             , eLinear = 1
             , eQuadratic = 2
 
@@ -72,6 +73,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
     protected:
         void keyPressEvent(QKeyEvent * e);
+        bool eventFilter(QObject *obj, QEvent *ev);
 
     private slots:
         void slotOpenFile();

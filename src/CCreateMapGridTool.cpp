@@ -168,13 +168,13 @@ void CCreateMapGridTool::slotOk()
         QMessageBox::warning(0,tr("Error ..."), tr("Failed to calculate transformation for ref. points. Are all 4 points placed propperly?"), QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
-//     qDebug() << "adfGeoTransform1[0] = " << adfGeoTransform1[0];
-//     qDebug() << "adfGeoTransform1[1] = " << adfGeoTransform1[1];
-//     qDebug() << "adfGeoTransform1[2] = " << adfGeoTransform1[2];
-//     qDebug() << "adfGeoTransform1[3] = " << adfGeoTransform1[3];
-//     qDebug() << "adfGeoTransform1[4] = " << adfGeoTransform1[4];
-//     qDebug() << "adfGeoTransform1[5] = " << adfGeoTransform1[5];
-//     qDebug();
+    qDebug() << "adfGeoTransform1[0] = " << adfGeoTransform1[0];
+    qDebug() << "adfGeoTransform1[1] = " << adfGeoTransform1[1];
+    qDebug() << "adfGeoTransform1[2] = " << adfGeoTransform1[2];
+    qDebug() << "adfGeoTransform1[3] = " << adfGeoTransform1[3];
+    qDebug() << "adfGeoTransform1[4] = " << adfGeoTransform1[4];
+    qDebug() << "adfGeoTransform1[5] = " << adfGeoTransform1[5];
+    qDebug();
     GDALInvGeoTransform(adfGeoTransform1, adfGeoTransform2);
 //     qDebug() << "adfGeoTransform2[0] = " << adfGeoTransform2[0];
 //     qDebug() << "adfGeoTransform2[1] = " << adfGeoTransform2[1];
