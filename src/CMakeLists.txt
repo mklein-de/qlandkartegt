@@ -44,6 +44,7 @@ set(qlandkarte_SRCS
     CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
+    CCreateMapGridTool.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
     CMapEditWidget.cpp
@@ -94,6 +95,7 @@ set(qlandkarte_HDRS
     CCreateMapOSM.h
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
+    CCreateMapGridTool.h
     CMapDB.h
     CMapToolWidget.h
     CMapEditWidget.h
@@ -118,6 +120,7 @@ SET(qlandkarte_UIS
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
+    ICreateMapGridTool.ui
     IStatusCanvas.ui
 )
 

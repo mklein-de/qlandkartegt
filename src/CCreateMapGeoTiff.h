@@ -72,6 +72,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotDelRef();
         void slotLoadRef();
         void slotSaveRef();
+        void slotGridTool();
         void slotSelectionChanged();
         void slotItemChanged(QTreeWidgetItem * item, int column);
         void slotItemDoubleClicked(QTreeWidgetItem * item);
@@ -82,6 +83,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotClearAll();
 
     private:
+        friend class CCreateMapGridTool;
         static CCreateMapGeoTiff * m_self;
 
         void enableStep2();
@@ -93,6 +95,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void loadTAB(const QString& filename);
 
         void gdalGCP2RefPt(const GDAL_GCP* gcps, int n);
+
+        void addRef(double x, double y, double u, double v);
 
         QSize sizeOfInputFile;
 

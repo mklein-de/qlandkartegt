@@ -49,7 +49,6 @@ CMapFile::CMapFile(const QString& filename, QObject  * parent)
     oSRS.exportToProj4(&ptr);
     strProj = ptr;
     strProj = strProj.replace("+datum=potsdam","+nadgrids=./BETA2007.gsb");
-//     strProj += "+towgs84=-87.000,-98.000,-121.000";
 
     qDebug() << strProj;
 

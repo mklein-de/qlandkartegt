@@ -304,6 +304,16 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="QPushButton" name="pushGridTool" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Grid Tool</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>

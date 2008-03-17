@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CCreateMapGeoTiff.h"
+#include "CCreateMapGridTool.h"
 #include "CMainWindow.h"
 #include "CMapDB.h"
 #include "GeoMath.h"
@@ -48,6 +49,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
     connect(pushLoadRef, SIGNAL(clicked()), this, SLOT(slotLoadRef()));
     connect(pushSaveRef, SIGNAL(clicked()), this, SLOT(slotSaveRef()));
+    connect(pushGridTool, SIGNAL(clicked()), this, SLOT(slotGridTool()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotSelectionChanged()));
     connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
     connect(treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(slotItemChanged(QTreeWidgetItem*, int)));
@@ -100,6 +102,7 @@ void CCreateMapGeoTiff::enableStep2()
     labelDoc2->setEnabled(true);
     pushAddRef->setEnabled(true);
     pushLoadRef->setEnabled(true);
+    pushGridTool->setEnabled(true);
 
 }
 
@@ -132,7 +135,7 @@ void CCreateMapGeoTiff::slotOpenFile()
 
     labelOutputFile->setText(path.filePath(name + "_ref.tif"));
 
-    GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+    GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;
 
     sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
@@ -190,6 +193,34 @@ void CCreateMapGeoTiff::slotAddRef()
     theMainWindow->getCanvas()->update();
 }
 
+void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
+{
+    refpt_t& pt     = refpts[++refcnt];
+    pt.item         = new QTreeWidgetItem();
+
+    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+
+    pt.item->setData(eLabel,Qt::UserRole,refcnt);
+    pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+    pt.item->setText(eLonLat,tr(""));
+
+    pt.x            = x;
+    pt.y            = y;
+
+    pt.item->setText(eX,QString::number(pt.x));
+    pt.item->setText(eY,QString::number(pt.y));
+    pt.item->setText(eLonLat,QString("%1 %2").arg(u,0,'f',6).arg(v,0,'f',6));
+
+    treeWidget->addTopLevelItem(pt.item);
+
+    treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
+    for(int i=0; i < eMaxColumn - 1; ++i) {
+        treeWidget->resizeColumnToContents(i);
+    }
+
+    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
+}
 
 void CCreateMapGeoTiff::keyPressEvent(QKeyEvent * e)
 {
@@ -300,7 +331,7 @@ void CCreateMapGeoTiff::loadTAB(const QString& filename)
     adfGeoTransform[4] = 0.0;
     adfGeoTransform[5] = 1.0;
 
-    if(GDALReadTabFile(filename.toUtf8(),adfGeoTransform,&pszTabWKT,&n,&gcpm)){
+    if(GDALReadTabFile(filename.toLocal8Bit(),adfGeoTransform,&pszTabWKT,&n,&gcpm)){
 
         gdalGCP2RefPt(gcpm,n);
 
@@ -344,7 +375,10 @@ void CCreateMapGeoTiff::gdalGCP2RefPt(const GDAL_GCP* gcps, int n)
 
 void CCreateMapGeoTiff::slotSaveRef()
 {
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.path(),"Ref. points (*.gcp)");
+    QFileInfo fin(labelInputFile->text());
+    QString base = fin.baseName();
+
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.filePath(base + ".gcp"),"Ref. points (*.gcp)");
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
@@ -377,7 +411,11 @@ void CCreateMapGeoTiff::slotSaveRef()
     file.close();
 }
 
-
+void CCreateMapGeoTiff::slotGridTool()
+{
+    CCreateMapGridTool * tool = new CCreateMapGridTool(this, parentWidget());
+    theMainWindow->setTempWidget(tool);
+}
 
 void CCreateMapGeoTiff::slotSelectionChanged()
 {
@@ -419,13 +457,13 @@ void CCreateMapGeoTiff::slotGoOn()
     QSettings cfg;
     cfg.setValue("create/def.proj",projection);
 
-    PJ * pjWGS84    = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
     PJ * pjTar      = pj_init_plus(projection.toLatin1());
 
     if(pjTar == 0){
         QMessageBox::warning(0,tr("Error ..."), tr("Failed to setup projection. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
+    PJ * pjWGS84    = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     bool islonlat = projection.contains("longlat");
 
@@ -447,6 +485,8 @@ void CCreateMapGeoTiff::slotGoOn()
         args << QString::number(refpt->y,'f',0);
         if(islonlat){
             if(!GPS_Math_Str_To_Deg(refpt->item->text(eLonLat), lon, lat)){
+                if(pjWGS84) pj_free(pjWGS84);
+                if(pjTar) pj_free(pjTar);
                 return;
             }
             u = lon;
@@ -463,6 +503,8 @@ void CCreateMapGeoTiff::slotGoOn()
                 if(!re.exactMatch(refpt->item->text(eLonLat))){
                     treeWidget->setCurrentItem(refpt->item);
                     QMessageBox::warning(0,tr("Error ..."), tr("Failed to read reference coordinate. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
+                    if(pjWGS84) pj_free(pjWGS84);
+                    if(pjTar) pj_free(pjTar);
                     return;
                 }
                 u = re.cap(1).toDouble();
@@ -483,6 +525,10 @@ void CCreateMapGeoTiff::slotGoOn()
         args << QString::number(v,'f',6);
         ++refpt;
     }
+
+    if(pjWGS84) pj_free(pjWGS84);
+    if(pjTar) pj_free(pjTar);
+
 
     double adfGeoTransform[6];
 
@@ -641,6 +687,7 @@ void CCreateMapGeoTiff::slotClearAll()
     pushAddRef->setEnabled(false);
     pushLoadRef->setEnabled(false);
     pushSaveRef->setEnabled(false);
+    pushGridTool->setEnabled(false);
     pushDelRef->setEnabled(false);
     pushGoOn->setEnabled(false);
 

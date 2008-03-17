@@ -26,6 +26,7 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
 : QWidget(parent)
 {
     setupUi(this);
+    setObjectName("CMapEditWidget");
     setAttribute(Qt::WA_DeleteOnClose,true);
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
