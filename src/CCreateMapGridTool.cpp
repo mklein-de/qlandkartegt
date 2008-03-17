@@ -104,7 +104,7 @@ CCreateMapGridTool::~CCreateMapGridTool()
 
     for(int i = 1;  i != 5; ++i){
         CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
-        delete pt.item;
+        if(pt.item) delete pt.item;
         geotifftool->refpts.remove(-i);
     }
 
