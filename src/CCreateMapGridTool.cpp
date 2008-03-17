@@ -235,6 +235,8 @@ void CCreateMapGridTool::slotOk()
     if(pjWGS84) pj_free(pjWGS84);
     if(pjSrc) pj_free(pjSrc);
 
+    geotifftool->comboMode->setCurrentIndex(geotifftool->comboMode->findData(CCreateMapGeoTiff::eQuadratic));
+
     theMainWindow->getCanvas()->update();
     deleteLater();
 }

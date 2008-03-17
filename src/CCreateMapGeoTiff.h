@@ -60,6 +60,14 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
             , eMaxColumn    = 4
         };
 
+        enum mode_e
+        {
+              eSquare = -2
+            , eLinear = 1
+            , eQuadratic = 2
+
+        };
+
         QMap<quint32,refpt_t>& getRefPoints(){return refpts;}
 
     protected:

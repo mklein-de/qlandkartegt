@@ -62,9 +62,9 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     QSettings cfg;
     lineProjection->setText(cfg.value("create/def.proj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
 
-    comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), -2);
-    comboMode->addItem(tr("linear (3 Ref. Pts.)"), 1);
-    comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), 2);
+    comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), eSquare);
+    comboMode->addItem(tr("linear (3 Ref. Pts.)"), eLinear);
+    comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), eQuadratic);
     comboMode->setCurrentIndex(1);
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
