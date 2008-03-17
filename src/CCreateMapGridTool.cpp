@@ -53,8 +53,8 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 
     QSettings cfg;
     lineProjection->setText(cfg.value("create/ref.proj","").toString());
-    lineProjection->setText(cfg.value("create/grid.x.spacing","1000").toString());
-    lineProjection->setText(cfg.value("create/grid.y.spacing","1000").toString());
+    lineXSpacing->setText(cfg.value("create/grid.x.spacing","1000").toString());
+    lineYSpacing->setText(cfg.value("create/grid.y.spacing","1000").toString());
 
 
     for(int i = 1;  i != 5; ++i){
