@@ -60,11 +60,31 @@ CCanvas::CCanvas(QWidget * parent)
     mouseRefPoint   = new CMouseRefPoint(this);
     setMouseMode(eMouseMoveArea);
 
+    contextMenu = new QMenu(this);
+    contextMenu->addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
+
 }
 
 
 CCanvas::~CCanvas()
 {
+}
+
+void CCanvas::slotCopyPosition()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = posMouse.x();
+    double v = posMouse.y();
+    map.convertPt2Rad(u,v);
+    u = u * RAD_TO_DEG;
+    v = v * RAD_TO_DEG;
+
+    QString position;
+    GPS_Math_Deg_To_Str(u, v, position);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
 }
 
 
@@ -149,12 +169,18 @@ void CCanvas::mouseMoveEvent(QMouseEvent * e)
 
 void CCanvas::mousePressEvent(QMouseEvent * e)
 {
+    posMouse = e->pos();
+    if(e->button() == Qt::RightButton) {
+        QPoint p = mapToGlobal(e->pos());
+        contextMenu->exec(p);
+    }
     mouse->mousePressEvent(e);
 }
 
 
 void CCanvas::mouseReleaseEvent(QMouseEvent * e)
 {
+    posMouse = e->pos();
     mouse->mouseReleaseEvent(e);
 }
 
@@ -213,7 +239,7 @@ void CCanvas::drawSearchResults(QPainter& p)
         map.convertRad2Pt(u,v);
 
         if(rect().contains(QPoint(u,v))) {
-            p.drawPixmap(u-16 , v-16, QPixmap(":/icons/iconBullseye16x16"));
+            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
         }
 
         ++result;

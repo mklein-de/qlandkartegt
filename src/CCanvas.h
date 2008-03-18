@@ -36,6 +36,7 @@ class CWpt;
 class QLabel;
 class QSize;
 class QPrinter;
+class QMenu;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -86,6 +87,8 @@ class CCanvas : public QWidget
 
         signals:
         void sigResize(const QSize& size);
+    private slots:
+        void slotCopyPosition();
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -126,5 +129,7 @@ class CCanvas : public QWidget
         QPoint posMouse;
 
         QLabel * info;
+
+        QMenu * contextMenu;
 };
 #endif                           //CCANVAS_H

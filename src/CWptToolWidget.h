@@ -44,6 +44,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotContextMenu(const QPoint& pos);
         void slotEdit();
         void slotDelete();
+        void slotCopyPosition();
 
     private:
         QMenu * contextMenu;

@@ -24,6 +24,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CDlgEditWpt.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -41,6 +42,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
+    contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -120,6 +122,20 @@ void CWptToolWidget::slotDelete()
     CWptDB::self().delWpt(keys);
 }
 
+void CWptToolWidget::slotCopyPosition()
+{
+    QListWidgetItem * item = listWpts->currentItem();
+    if(item == 0) return;
+    CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
+    if(wpt == 0) return;
+
+    QString position;
+    GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, position);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
+
+}
 
 void CWptToolWidget::selWptByKey(const QString& key)
 {

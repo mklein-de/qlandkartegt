@@ -711,6 +711,7 @@ void CCreateMapGeoTiff::slotClearAll()
 
 bool CCreateMapGeoTiff::eventFilter(QObject *obj, QEvent *ev)
 {
+    qDebug() << ev->type();
     if (ev->type() == QEvent::Drop) {
         qDebug() << "drop";
         return true;
