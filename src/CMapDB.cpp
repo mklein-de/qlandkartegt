@@ -154,6 +154,17 @@ void CMapDB::openMap(const QString& key)
     statusCanvas->updateShadingType();
 }
 
+void CMapDB::closeMap()
+{
+    closeVisibleMaps();
+    QSettings cfg;
+    IMap *  map;
+    QString maps;
+    foreach(map,visibleMaps) {
+        maps += map->getFilename();
+    }
+    cfg.setValue("maps/visibleMaps",maps);
+}
 
 void CMapDB::delKnownMap(const QStringList& keys)
 {

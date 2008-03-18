@@ -50,6 +50,9 @@ class CMapDB : public IDB
         void openMap(const QString& filename, CCanvas& canvas);
         /// open a known map by it's key
         void openMap(const QString& key);
+        /// close the current map
+        void closeMap();
+
         /// get access to known map dictionary
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get current main map

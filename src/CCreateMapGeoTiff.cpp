@@ -36,6 +36,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 , refcnt(0)
 , state(eNone)
 , path("./")
+, closemap(false)
 {
     m_self = this;
     setupUi(this);
@@ -68,14 +69,13 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->addItem(tr("thin plate (4 Ref. Pts.)"), eThinPlate);
     comboMode->setCurrentIndex(1);
 
-    treeWidget->installEventFilter(this);
-
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
 
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
+    if(closemap) CMapDB::self().closeMap();
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     m_self = 0;
 }
@@ -453,7 +453,7 @@ void CCreateMapGeoTiff::slotItemChanged(QTreeWidgetItem * item, int column)
 void CCreateMapGeoTiff::slotGoOn()
 {
     QStringList args;
-    QRegExp re("^\\s*([0-9\\.]+)\\s+([0-9\\.]+)\\s*$");
+    QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");
 
     QString projection = lineProjection->text();
     if(projection.isEmpty()){
@@ -680,9 +680,12 @@ void CCreateMapGeoTiff::cleanupTmpFiles()
 
 void CCreateMapGeoTiff::slotClearAll()
 {
+    CMapDB::self().closeMap();
+
     refpts.clear();
-    refcnt  = 0;
-    state   = eNone;
+    refcnt      = 0;
+    state       = eNone;
+    closemap    = false;
 
     treeWidget->clear();
     textBrowser->clear();
@@ -706,16 +709,7 @@ void CCreateMapGeoTiff::slotClearAll()
     pushClearAll->setEnabled(false);
 
     theMainWindow->getCanvas()->update();
+
 }
 
 
-bool CCreateMapGeoTiff::eventFilter(QObject *obj, QEvent *ev)
-{
-    qDebug() << ev->type();
-    if (ev->type() == QEvent::Drop) {
-        qDebug() << "drop";
-        return true;
-    }
-
-    return false;
-}

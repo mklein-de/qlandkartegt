@@ -73,7 +73,6 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
     protected:
         void keyPressEvent(QKeyEvent * e);
-        bool eventFilter(QObject *obj, QEvent *ev);
 
     private slots:
         void slotOpenFile();
@@ -122,5 +121,6 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         QPointer<QTemporaryFile> tmpfile2;
 
         QDir path;
+        bool closemap;
 };
 #endif                           //CCREATEMAPGEOTIFF_H
