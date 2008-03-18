@@ -103,6 +103,10 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void loadGCP(const QString& filename);
         void loadTAB(const QString& filename);
 
+        void saveGCP(const QString& filename);
+        void saveTAB(const QString& filename);
+
+
         void gdalGCP2RefPt(const GDAL_GCP* gcps, int n);
 
         void addRef(double x, double y, double u, double v);
