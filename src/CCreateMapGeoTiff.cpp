@@ -132,7 +132,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     path = QDir(cfg.value("path/create",path.path()).toString());
 
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw TIFF (*.tif)"));
+    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.png *.gif)"));
     if(filename.isEmpty()) return;
 
     CMapDB::self().openMap(filename, *theMainWindow->getCanvas());

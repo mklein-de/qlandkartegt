@@ -61,6 +61,9 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
         slotDelete();
         e->accept();
     }
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier){
+        slotCopyPosition();
+    }
     else {
         QWidget::keyPressEvent(e);
     }
