@@ -44,7 +44,10 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     labelStep2->setPixmap(QPixmap(":/pics/Step2"));
     labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 
+    toolReload->setIcon(QPixmap(":/icons/iconReload16x16"));
+
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
+    connect(toolReload, SIGNAL(clicked()), this, SLOT(slotReload()));
     connect(comboMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModeChanged(int)));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
@@ -103,6 +106,7 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
 
 void CCreateMapGeoTiff::enableStep2()
 {
+    toolReload->setEnabled(true);
     labelStep2->setEnabled(true);
     treeWidget->setEnabled(true);
     labelDoc2->setEnabled(true);
@@ -160,6 +164,32 @@ void CCreateMapGeoTiff::slotOpenFile()
     enableStep2();
 }
 
+void CCreateMapGeoTiff::slotReload()
+{
+    char str[1024];
+    char * ptr = str;
+
+    QString filename = labelInputFile->text();
+    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
+
+    GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
+    if(dataset == 0) return;
+
+    sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
+
+    QString proj = dataset->GetGCPProjection();
+    strncpy(str, dataset->GetGCPProjection(), sizeof(str));
+    OGRSpatialReference oSRS;
+    oSRS.importFromWkt(&ptr);
+    oSRS.exportToProj4(&ptr);
+    lineProjection->setText(ptr);
+
+    gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
+
+    delete dataset;
+
+}
+
 void CCreateMapGeoTiff::slotModeChanged(int)
 {
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
@@ -168,14 +198,6 @@ void CCreateMapGeoTiff::slotModeChanged(int)
 void CCreateMapGeoTiff::slotAddRef()
 {
     refpt_t& pt     = refpts[++refcnt];
-    pt.item         = new QTreeWidgetItem();
-
-    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
-
-    pt.item->setData(eLabel,Qt::UserRole,refcnt);
-    pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
-    pt.item->setText(eLonLat,tr(""));
-
 
     QPoint center   = theMainWindow->getCanvas()->rect().center();
     IMap& map       = CMapDB::self().getMap();
@@ -183,6 +205,11 @@ void CCreateMapGeoTiff::slotAddRef()
     pt.y            = center.y();
     map.convertPt2M(pt.x,pt.y);
 
+    pt.item         = new QTreeWidgetItem();
+    pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+    pt.item->setData(eLabel,Qt::UserRole,refcnt);
+    pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
+    pt.item->setText(eLonLat,tr(""));
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
 
@@ -202,17 +229,13 @@ void CCreateMapGeoTiff::slotAddRef()
 void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
 {
     refpt_t& pt     = refpts[++refcnt];
+    pt.x            = x;
+    pt.y            = y;
     pt.item         = new QTreeWidgetItem();
-
     pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
-
     pt.item->setData(eLabel,Qt::UserRole,refcnt);
     pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
     pt.item->setText(eLonLat,tr(""));
-
-    pt.x            = x;
-    pt.y            = y;
-
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
     pt.item->setText(eLonLat,QString("%1 %2").arg(u,0,'f',6).arg(v,0,'f',6));
@@ -290,7 +313,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
         QRegExp re1("^-gcp\\s(-{0,1}[0-9]+)\\s(-{0,1}[0-9]+)\\s(.*)$");
         QRegExp re2("^-a_srs\\s(.*)$");
 
-        while(!file.atEnd()){
+        while(1){
             if(re1.exactMatch(line)){
                 refpt_t& pt     = refpts[++refcnt];
                 pt.item         = new QTreeWidgetItem();
@@ -311,6 +334,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
                 lineProjection->setText(re2.cap(1).trimmed());
             }
 
+            if (file.atEnd()) break;
             line = QString::fromUtf8(file.readLine());
         }
     }
@@ -318,7 +342,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
         QRegExp re1("^-gcp\\s(.*)\\s(-{0,1}[0-9]+)\\s(-{0,1}[0-9]+)\\s(.*)$");
         QRegExp re2("^-proj\\s(.*)$");
 
-        while(!file.atEnd()){
+        while(1){
             if(re1.exactMatch(line)){
                 refpt_t& pt     = refpts[++refcnt];
                 pt.item         = new QTreeWidgetItem();
@@ -345,6 +369,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
                 lineProjection->setText(re2.cap(1).trimmed());
             }
 
+            if (file.atEnd()) break;
             line = QString::fromUtf8(file.readLine());
         }
     }
@@ -437,6 +462,7 @@ void CCreateMapGeoTiff::slotSaveRef()
 
 void CCreateMapGeoTiff::saveGCP(const QString& filename)
 {
+    qDebug() << "CCreateMapGeoTiff::saveGCP()" << filename;
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
 
@@ -469,6 +495,7 @@ void CCreateMapGeoTiff::saveGCP(const QString& filename)
 
 void CCreateMapGeoTiff::saveTAB(const QString& filename)
 {
+    qDebug() << "CCreateMapGeoTiff::saveGCP()";
     QMessageBox::information(0,tr("Sorry..."),tr("No Mapinfo TAB file support yet."), QMessageBox::Abort, QMessageBox::Abort);
 }
 
@@ -748,6 +775,7 @@ void CCreateMapGeoTiff::slotClearAll()
     labelInputFile->clear();
     labelOutputFile->clear();
 
+    toolReload->setEnabled(false);
     labelStep2->setEnabled(false);
     treeWidget->setEnabled(false);
     labelDoc2->setEnabled(false);
