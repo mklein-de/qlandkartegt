@@ -35,7 +35,9 @@
      <item>
       <widget class="QLabel" name="label_5" >
        <property name="text" >
-        <string>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a map grid. To do so you have to place the 4 reference points to the grid as shown in the example.</string>
+        <string>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a map grid. To do so you have to place the 4 reference points to the grid as shown in the example.
+
+Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</string>
        </property>
        <property name="alignment" >
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

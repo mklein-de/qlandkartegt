@@ -287,7 +287,7 @@ bool GPS_Math_Str_To_Deg(const QString& projstr, const QString& str, float& lon,
     }
     else{
         if(!re.exactMatch(str)){
-            QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to read reference coordinate. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
+            QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to read reference coordinate. Bad syntax?\n%1").arg(str), QMessageBox::Abort,QMessageBox::Abort);
             if(pjWGS84) pj_free(pjWGS84);
             if(pjTar) pj_free(pjTar);
             return false;
