@@ -535,35 +535,28 @@ void CCreateMapGeoTiff::slotItemChanged(QTreeWidgetItem * item, int column)
 void CCreateMapGeoTiff::slotGoOn()
 {
     QStringList args;
-    QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");
+    bool islonlat = false;
 
+    // get / store target projection
     QString projection = lineProjection->text();
     if(projection.isEmpty()){
         projection = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
     }
+    islonlat = projection.contains("longlat");
 
     QSettings cfg;
     cfg.setValue("create/def.proj",projection);
 
-    PJ * pjTar      = pj_init_plus(projection.toLatin1());
-
-    if(pjTar == 0){
-        QMessageBox::warning(0,tr("Error ..."), tr("Failed to setup projection. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
-        return;
-    }
-    PJ * pjWGS84    = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-
-    bool islonlat = projection.contains("longlat");
 
     args << "-a_srs" << projection;
 
+    // add gcps
     double x1, x2, y1, y2, u1, u2, v1, v2;
     x1 = x2 = y1 = y2 = u1 = u2 = v1 = v2 = 0;
 
     QMap<quint32,refpt_t>::iterator refpt = refpts.begin();
     while(refpt != refpts.end()){
         float lon = 0, lat = 0;
-        double u = 0, v = 0;
         args << "-gcp";
 
         x1 = x2; x2 = refpt->x;
@@ -573,56 +566,27 @@ void CCreateMapGeoTiff::slotGoOn()
         args << QString::number(refpt->y,'f',0);
         if(islonlat){
             if(!GPS_Math_Str_To_Deg(refpt->item->text(eLonLat), lon, lat)){
-                if(pjWGS84) pj_free(pjWGS84);
-                if(pjTar) pj_free(pjTar);
                 return;
             }
-            u = lon;
-            v = lat;
         }
         else{
-
-            if(GPS_Math_Str_To_Deg(refpt->item->text(eLonLat), lon, lat,true)){
-                u = lon * DEG_TO_RAD;
-                v = lat * DEG_TO_RAD;
-                pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);
-            }
-            else{
-                if(!re.exactMatch(refpt->item->text(eLonLat))){
-                    treeWidget->setCurrentItem(refpt->item);
-                    QMessageBox::warning(0,tr("Error ..."), tr("Failed to read reference coordinate. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
-                    if(pjWGS84) pj_free(pjWGS84);
-                    if(pjTar) pj_free(pjTar);
-                    return;
-                }
-                u = re.cap(1).toDouble();
-                v = re.cap(2).toDouble();
-
-                if((abs(u) <= 180) && (abs(v) <= 90)){
-                    u = u * DEG_TO_RAD;
-                    v = v * DEG_TO_RAD;
-                    pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);
-                }
+            if(!GPS_Math_Str_To_Deg(projection, refpt->item->text(eLonLat), lon, lat)){
+                return;
             }
         }
 
-        u1 = u2; u2 = u;
-        v1 = v2; v2 = v;
+        u1 = u2; u2 = lon;
+        v1 = v2; v2 = lat;
 
-        args << QString::number(u,'f',6);
-        args << QString::number(v,'f',6);
+        args << QString::number(lon,'f',6);
+        args << QString::number(lat,'f',6);
         ++refpt;
     }
-
-    if(pjWGS84) pj_free(pjWGS84);
-    if(pjTar) pj_free(pjTar);
-
-
-    double adfGeoTransform[6];
 
     // as gdalwarp needs 3 GCPs at least we add an artificial one on two GCPs
     if ( treeWidget->topLevelItemCount() == 2 ) /* use square pixels */
     {
+        double adfGeoTransform[6];
         double dx, dy, dX, dY, delta;
         double a, b;
 

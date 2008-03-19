@@ -22,6 +22,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -56,7 +57,45 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
     lineXSpacing->setText(cfg.value("create/grid.x.spacing","1000").toString());
     lineYSpacing->setText(cfg.value("create/grid.y.spacing","1000").toString());
 
+    if(geotifftool->treeWidget->topLevelItemCount() < 2){
+        place4GCPs();
+    }
+    else {
+        int res = QMessageBox::question(0,tr("Reference points found."), tr("Do you want to take the existing reference points to calculate additional points on the grid?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+        if(res == QMessageBox::No){
+            place4GCPs();
+        }
+        else{
+            lineLongitude->setEnabled(false);
+            lineLatitude->setEnabled(false);
+        }
+    }
 
+    slotCheck();
+}
+
+CCreateMapGridTool::~CCreateMapGridTool()
+{
+
+    QSettings cfg;
+    cfg.setValue("create/ref.proj",lineProjection->text());
+    cfg.setValue("create/grid.x.spacing",lineXSpacing->text());
+    cfg.setValue("create/grid.y.spacing",lineYSpacing->text());
+
+    for(int i = 1;  i != 5; ++i){
+        CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
+        if(pt.item) delete pt.item;
+        geotifftool->refpts.remove(-i);
+    }
+
+    QWidget * mapedit = theMainWindow->findChild<QWidget*>("CMapEditWidget");
+    if(mapedit){
+        mapedit->show();
+    }
+}
+
+void CCreateMapGridTool::place4GCPs()
+{
     for(int i = 1;  i != 5; ++i){
 
         CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
@@ -90,36 +129,14 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
         map.convertPt2M(pt.x,pt.y);
     }
     theMainWindow->getCanvas()->update();
-
-    slotCheck();
-}
-
-CCreateMapGridTool::~CCreateMapGridTool()
-{
-
-    QSettings cfg;
-    cfg.setValue("create/ref.proj",lineProjection->text());
-    cfg.setValue("create/grid.x.spacing",lineXSpacing->text());
-    cfg.setValue("create/grid.y.spacing",lineYSpacing->text());
-
-    for(int i = 1;  i != 5; ++i){
-        CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
-        if(pt.item) delete pt.item;
-        geotifftool->refpts.remove(-i);
-    }
-
-    QWidget * mapedit = theMainWindow->findChild<QWidget*>("CMapEditWidget");
-    if(mapedit){
-        mapedit->show();
-    }
 }
 
 void CCreateMapGridTool::slotCheck()
 {
     pushOk->setEnabled(false);
     labelStep2c->setEnabled(false);
-    if(lineLongitude->text().isEmpty()) return;
-    if(lineLatitude->text().isEmpty()) return;
+    if(lineLongitude->isEnabled() && lineLongitude->text().isEmpty()) return;
+    if(lineLatitude->isEnabled() && lineLatitude->text().isEmpty()) return;
     if(lineXSpacing->text().isEmpty()) return;
     if(lineYSpacing->text().isEmpty()) return;
     pushOk->setEnabled(true);
@@ -136,53 +153,124 @@ void CCreateMapGridTool::slotOk()
     double stepx    = lineXSpacing->text().toDouble();
     double stepy    = lineYSpacing->text().toDouble();
 
-    CCreateMapGeoTiff::refpt_t& pt1 = geotifftool->refpts[-1];
-    CCreateMapGeoTiff::refpt_t& pt2 = geotifftool->refpts[-2];
-    CCreateMapGeoTiff::refpt_t& pt3 = geotifftool->refpts[-3];
-    CCreateMapGeoTiff::refpt_t& pt4 = geotifftool->refpts[-4];
+    int         n    = 0;
+    GDAL_GCP  * gcps = 0;
 
-    GDAL_GCP gcps[4];
-    memset(gcps,0,sizeof(gcps));
-    gcps[0].dfGCPPixel  = pt1.x;
-    gcps[0].dfGCPLine   = pt1.y;
-    gcps[0].dfGCPX      = easting;
-    gcps[0].dfGCPY      = northing;
+    if(lineLatitude->isEnabled() && lineLongitude->isEnabled()){
 
-    gcps[1].dfGCPPixel  = pt2.x;
-    gcps[1].dfGCPLine   = pt2.y;
-    gcps[1].dfGCPX      = easting + stepx;
-    gcps[1].dfGCPY      = northing;
+        CCreateMapGeoTiff::refpt_t& pt1 = geotifftool->refpts[-1];
+        CCreateMapGeoTiff::refpt_t& pt2 = geotifftool->refpts[-2];
+        CCreateMapGeoTiff::refpt_t& pt3 = geotifftool->refpts[-3];
+        CCreateMapGeoTiff::refpt_t& pt4 = geotifftool->refpts[-4];
 
-    gcps[2].dfGCPPixel  = pt3.x;
-    gcps[2].dfGCPLine   = pt3.y;
-    gcps[2].dfGCPX      = easting + stepx;
-    gcps[2].dfGCPY      = northing - stepy;
+        n = 4;
+        gcps = new GDAL_GCP[n];
+        memset(gcps,0,n*sizeof(GDAL_GCP));
 
-    gcps[3].dfGCPPixel  = pt4.x;
-    gcps[3].dfGCPLine   = pt4.y;
-    gcps[3].dfGCPX      = easting;
-    gcps[3].dfGCPY      = northing - stepy;
+        gcps[0].dfGCPPixel  = pt1.x;
+        gcps[0].dfGCPLine   = pt1.y;
+        gcps[0].dfGCPX      = easting;
+        gcps[0].dfGCPY      = northing;
 
-    res = GDALGCPsToGeoTransform(4,gcps,adfGeoTransform1,TRUE);
+        gcps[1].dfGCPPixel  = pt2.x;
+        gcps[1].dfGCPLine   = pt2.y;
+        gcps[1].dfGCPX      = easting + stepx;
+        gcps[1].dfGCPY      = northing;
+
+        gcps[2].dfGCPPixel  = pt3.x;
+        gcps[2].dfGCPLine   = pt3.y;
+        gcps[2].dfGCPX      = easting + stepx;
+        gcps[2].dfGCPY      = northing - stepy;
+
+        gcps[3].dfGCPPixel  = pt4.x;
+        gcps[3].dfGCPLine   = pt4.y;
+        gcps[3].dfGCPX      = easting;
+        gcps[3].dfGCPY      = northing - stepy;
+    }
+    else if(geotifftool->treeWidget->topLevelItemCount() > 2){
+        n = geotifftool->treeWidget->topLevelItemCount();
+        gcps = new GDAL_GCP[n];
+        memset(gcps,0,n*sizeof(GDAL_GCP));
+
+        QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator pt = geotifftool->refpts.begin();
+        for(int i = 0; i < n; ++i){
+
+            float lon, lat;
+            if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+                delete [] gcps;
+                return;
+            }
+
+            gcps[i].dfGCPPixel  = pt->x;
+            gcps[i].dfGCPLine   = pt->y;
+            gcps[i].dfGCPX      = lon;
+            gcps[i].dfGCPY      = lat;
+
+            ++pt;
+        }
+    }
+    else{
+        float lon, lat;
+        n = 3;
+        gcps = new GDAL_GCP[n];
+        memset(gcps,0,n*sizeof(GDAL_GCP));
+
+        // point 1
+        QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator pt = geotifftool->refpts.begin();
+
+        if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+            delete [] gcps;
+            return;
+        }
+        gcps[0].dfGCPPixel  = pt->x;
+        gcps[0].dfGCPLine   = pt->y;
+        gcps[0].dfGCPX      = lon;
+        gcps[0].dfGCPY      = lat;
+
+        // point 2
+        ++pt;
+
+        if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+            delete [] gcps;
+            return;
+        }
+
+        gcps[1].dfGCPPixel  = pt->x;
+        gcps[1].dfGCPLine   = pt->y;
+        gcps[1].dfGCPX      = lon;
+        gcps[1].dfGCPY      = lat;
+
+        // point 3
+        double dx, dy, dX, dY, delta;
+        double a, b;
+
+        dx =   gcps[1].dfGCPPixel - gcps[0].dfGCPPixel;
+        dy = -(gcps[1].dfGCPLine - gcps[0].dfGCPLine);
+
+        dX =   gcps[1].dfGCPX - gcps[0].dfGCPX;
+        dY =   gcps[1].dfGCPY - gcps[0].dfGCPY;
+
+        delta = dx * dx + dy * dy;
+
+        a = (dX * dx + dY * dy) / delta;
+        b = (dY * dx - dX * dy) / delta;
+
+        gcps[2].dfGCPPixel  = 0;
+        gcps[2].dfGCPLine   = 0;
+        gcps[2].dfGCPX      = gcps[1].dfGCPX - a * gcps[1].dfGCPPixel - b * gcps[1].dfGCPLine;
+        gcps[2].dfGCPY      = gcps[1].dfGCPY - b * gcps[1].dfGCPPixel + a * gcps[1].dfGCPLine;
+
+    }
+
+    res = GDALGCPsToGeoTransform(n,gcps,adfGeoTransform1,TRUE);
+    if(gcps) delete [] gcps; gcps = 0; n = 0;
+
     if(res == FALSE){
         QMessageBox::warning(0,tr("Error ..."), tr("Failed to calculate transformation for ref. points. Are all 4 points placed propperly?"), QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
-    qDebug() << "adfGeoTransform1[0] = " << adfGeoTransform1[0];
-    qDebug() << "adfGeoTransform1[1] = " << adfGeoTransform1[1];
-    qDebug() << "adfGeoTransform1[2] = " << adfGeoTransform1[2];
-    qDebug() << "adfGeoTransform1[3] = " << adfGeoTransform1[3];
-    qDebug() << "adfGeoTransform1[4] = " << adfGeoTransform1[4];
-    qDebug() << "adfGeoTransform1[5] = " << adfGeoTransform1[5];
-    qDebug();
+
     GDALInvGeoTransform(adfGeoTransform1, adfGeoTransform2);
-//     qDebug() << "adfGeoTransform2[0] = " << adfGeoTransform2[0];
-//     qDebug() << "adfGeoTransform2[1] = " << adfGeoTransform2[1];
-//     qDebug() << "adfGeoTransform2[2] = " << adfGeoTransform2[2];
-//     qDebug() << "adfGeoTransform2[3] = " << adfGeoTransform2[3];
-//     qDebug() << "adfGeoTransform2[4] = " << adfGeoTransform2[4];
-//     qDebug() << "adfGeoTransform2[5] = " << adfGeoTransform2[5];
-//     qDebug();
 
     PJ * pjWGS84 = 0, * pjSrc = 0;
     if(!lineProjection->text().isEmpty()){

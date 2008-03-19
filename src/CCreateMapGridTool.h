@@ -37,6 +37,7 @@ class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
         void slotCheck();
 
     private:
+        void place4GCPs();
         CCreateMapGeoTiff * geotifftool;
 };
 
