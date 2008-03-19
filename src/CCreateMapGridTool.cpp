@@ -68,6 +68,8 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
         else{
             lineLongitude->setEnabled(false);
             lineLatitude->setEnabled(false);
+            labelEasting->setEnabled(false);
+            labelNorthing->setEnabled(false);
         }
     }
 
