@@ -409,37 +409,42 @@ void CMapQMAP::draw(QPainter& p)
         if(intersect.isValid()) {
 
             // x/y offset [pixel] into file matrix
-            qint32 xoff = (intersect.left() - map->xref1) / map->xscale;
-            qint32 yoff = (intersect.bottom()  - map->yref1) / map->yscale;
+            qint32 xoff = (intersect.left()   - map->xref1) / map->xscale;
+            qint32 yoff = (intersect.bottom() - map->yref1) / map->yscale;
 
             // number of x/y pixel to read
-            qint32 pxx  =   (qint32)(intersect.width() / map->xscale);
+            qint32 pxx  =   (qint32)(intersect.width()  / map->xscale);
             qint32 pxy  =  -(qint32)(intersect.height() / map->yscale);
 
             // the final image width and height in pixel
             qint32 w    =   (qint32)(pxx / zoomFactor) & 0xFFFFFFFC;
             qint32 h    =   (qint32)(pxy / zoomFactor);
 
-            GDALRasterBand * pBand;
-            pBand = map->dataset->GetRasterBand(1);
+            // correct pxx by truncation
+            pxx         =   (qint32)(w * zoomFactor);
 
-            QImage img(QSize(w,h),QImage::Format_Indexed8);
-            img.setColorTable(map->colortable);
+            if(w != 0 && h != 0){
 
-            CPLErr err = pBand->RasterIO(GF_Read
-                ,(int)xoff,(int)yoff
-                ,pxx,pxy
-                ,img.bits()
-                ,w,h
-                ,GDT_Byte,0,0);
+                GDALRasterBand * pBand;
+                pBand = map->dataset->GetRasterBand(1);
 
-            if(!err) {
-                double xx = intersect.left(), yy = intersect.bottom();
-                convertM2Pt(xx,yy);
-                p.drawPixmap(xx,yy,QPixmap::fromImage(img));
-                foundMap = true;
+                QImage img(QSize(w,h),QImage::Format_Indexed8);
+                img.setColorTable(map->colortable);
+
+                CPLErr err = pBand->RasterIO(GF_Read
+                    ,(int)xoff,(int)yoff
+                    ,pxx,pxy
+                    ,img.bits()
+                    ,w,h
+                    ,GDT_Byte,0,0);
+
+                if(!err) {
+                    double xx = intersect.left(), yy = intersect.bottom();
+                    convertM2Pt(xx,yy);
+                    p.drawPixmap(xx,yy,QPixmap::fromImage(img));
+                    foundMap = true;
+                }
             }
-
         }
         ++mapfile;
     }
@@ -465,10 +470,14 @@ void CMapQMAP::draw(QPainter& p)
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
 
-    p.drawText(9 ,23, str);
-    p.drawText(11,23, str);
-    p.drawText(9 ,25, str);
-    p.drawText(11,25, str);
+    p.drawText(9  ,23, str);
+    p.drawText(10 ,23, str);
+    p.drawText(11 ,23, str);
+    p.drawText(9  ,24, str);
+    p.drawText(11 ,24, str);
+    p.drawText(9  ,25, str);
+    p.drawText(10 ,25, str);
+    p.drawText(11 ,25, str);
 
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
