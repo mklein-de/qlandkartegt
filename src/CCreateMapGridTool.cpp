@@ -198,7 +198,7 @@ void CCreateMapGridTool::slotOk()
         for(int i = 0; i < n; ++i){
 
             float lon, lat;
-            if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+            if(!GPS_Math_Str_To_LongLat(pt->item->text(CCreateMapGeoTiff::eLonLat), lon, lat, lineProjection->text())) {
                 delete [] gcps;
                 return;
             }
@@ -220,7 +220,7 @@ void CCreateMapGridTool::slotOk()
         // point 1
         QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator pt = geotifftool->refpts.begin();
 
-        if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+        if(!GPS_Math_Str_To_LongLat(pt->item->text(CCreateMapGeoTiff::eLonLat), lon, lat, lineProjection->text())) {
             delete [] gcps;
             return;
         }
@@ -232,7 +232,7 @@ void CCreateMapGridTool::slotOk()
         // point 2
         ++pt;
 
-        if(!GPS_Math_Str_To_Deg(lineProjection->text(),pt->item->text(CCreateMapGeoTiff::eLonLat),lon,lat)) {
+        if(!GPS_Math_Str_To_LongLat(pt->item->text(CCreateMapGeoTiff::eLonLat), lon, lat, lineProjection->text())) {
             delete [] gcps;
             return;
         }

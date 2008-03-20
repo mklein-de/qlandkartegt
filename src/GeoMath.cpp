@@ -263,7 +263,7 @@ void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
     str.sprintf(" %s%02d\260 %06.3f %s%03d\260 %06.3f ",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
 }
 
-bool GPS_Math_Str_To_Deg(const QString& projstr, const QString& str, float& lon, float& lat)
+bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const QString& projstr)
 {
     double u = 0, v = 0;
     QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");

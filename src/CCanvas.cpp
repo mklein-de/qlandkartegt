@@ -438,8 +438,14 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
     p.setFont(f);
 
     p.drawText(r.topLeft() - QPoint(-1,-1), str);
-    p.drawText(r.topLeft() - QPoint(-1,+1), str);
+    p.drawText(r.topLeft() - QPoint( 0,-1), str);
     p.drawText(r.topLeft() - QPoint(+1,-1), str);
+
+    p.drawText(r.topLeft() - QPoint(-1, 0), str);
+    p.drawText(r.topLeft() - QPoint(+1, 0), str);
+
+    p.drawText(r.topLeft() - QPoint(-1,+1), str);
+    p.drawText(r.topLeft() - QPoint( 0,+1), str);
     p.drawText(r.topLeft() - QPoint(+1,+1), str);
 
     p.setFont(f);

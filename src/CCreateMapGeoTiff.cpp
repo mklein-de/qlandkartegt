@@ -570,7 +570,7 @@ void CCreateMapGeoTiff::slotGoOn()
             }
         }
         else{
-            if(!GPS_Math_Str_To_Deg(projection, refpt->item->text(eLonLat), lon, lat)){
+            if(!GPS_Math_Str_To_LongLat(refpt->item->text(eLonLat), lon, lat, projection)){
                 return;
             }
         }
