@@ -87,7 +87,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconSelMap16x16",QObject::tr("Select Map"),&CMegaMenu::funcSelectArea,tr("Select area of map for upload. Select area by pressing down the left mouse button and move the mouse.")}
+    ,{":/icons/iconSelMap16x16",QObject::tr("Export Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
