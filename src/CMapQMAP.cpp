@@ -308,6 +308,10 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
     QSettings mapdef(filename,QSettings::IniFormat);
     int nLevels = mapdef.value("main/levels",0).toInt();
 
+
+    QString datum = mapdef.value("gridshift/datum","").toString();
+    QString gridfile = mapdef.value("gridshift/file","").toString();
+
     // create map level list
     CMapLevel * maplevel = 0;
     for(int n=1; n <= nLevels; ++n) {
@@ -321,7 +325,7 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
         if(files.count()) {
             QString file;
             foreach(file,files) {
-                maplevel->addMapFile(path.filePath(file));
+                maplevel->addMapFile(path.filePath(file), datum, path.filePath(gridfile));
             }
             maplevels << maplevel;
         }
@@ -346,7 +350,7 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
 
     QString fileDEM = mapdef.value("DEM/file","").toString();
     if(!fileDEM.isEmpty()) {
-        pDEM = new CMapDEM(path.filePath(fileDEM), this);
+        pDEM = new CMapDEM(path.filePath(fileDEM), this, datum, path.filePath(gridfile));
     }
 
     QSettings cfg;

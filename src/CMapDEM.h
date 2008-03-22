@@ -41,7 +41,7 @@ class CMapDEM : public QObject
 {
     Q_OBJECT;
     public:
-        CMapDEM(const QString& filename, QObject * parent);
+        CMapDEM(const QString& filename, QObject * parent, const QString& datum = QString::Null(), const QString& gridfile = QString::Null());
         virtual ~CMapDEM();
 
         /// read elevation from file

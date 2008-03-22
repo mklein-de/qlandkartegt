@@ -37,7 +37,7 @@ class CMapFile : public QObject
 {
     Q_OBJECT;
     public:
-        CMapFile(const QString& filename, QObject * parent);
+        CMapFile(const QString& filename, QObject * parent, const QString& datum = QString::Null(), const QString& gridfile = QString::Null());
         virtual ~CMapFile();
 
         /// source file name

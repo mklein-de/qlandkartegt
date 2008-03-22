@@ -6,24 +6,24 @@
     <x>0</x>
     <y>0</y>
     <width>1152</width>
-    <height>509</height>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
-   <item rowspan="2" row="0" column="0" >
+   <item row="0" column="0" >
     <widget class="QLabel" name="labelStep1" >
      <property name="text" >
       <string>TextLabel</string>
      </property>
      <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
+   <item row="0" column="1" >
     <layout class="QGridLayout" >
      <item row="0" column="0" >
       <widget class="QLabel" name="label_2" >
@@ -65,64 +65,174 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>replace datum</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLineEdit" name="lineDatum" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_6" >
+         <property name="text" >
+          <string>by</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelGridFile" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="0" >
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>comment</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" >
+      <widget class="QLineEdit" name="lineComment" />
+     </item>
+     <item row="3" column="1" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
-   <item row="0" column="3" >
-    <layout class="QGridLayout" >
-     <item row="0" column="0" >
-      <widget class="QToolButton" name="toolOpen" >
-       <property name="toolTip" >
-        <string>Open existing *.qmap definition</string>
+   <item row="0" column="2" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <layout class="QGridLayout" >
+       <property name="horizontalSpacing" >
+        <number>0</number>
        </property>
-       <property name="text" >
-        <string>...</string>
+       <property name="verticalSpacing" >
+        <number>0</number>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="1" >
-      <widget class="QToolButton" name="toolNew" >
-       <property name="toolTip" >
-        <string>Create new *.qmap definition.</string>
-       </property>
-       <property name="text" >
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" >
-      <widget class="QToolButton" name="toolAddDEM" >
-       <property name="toolTip" >
-        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+       <item row="0" column="0" >
+        <widget class="QToolButton" name="toolOpen" >
+         <property name="toolTip" >
+          <string>Open existing *.qmap definition</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QToolButton" name="toolNew" >
+         <property name="toolTip" >
+          <string>Create new *.qmap definition.</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QToolButton" name="toolAddDEM" >
+         <property name="toolTip" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'DejaVu Sans'; font-size:8pt; font-weight:400; font-style:normal;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Add file for Digital Eleveation Model file. The file must be a GeoTiff with 16 bit elevation data and the same projection as the map.&lt;/p>&lt;/body>&lt;/html></string>
-       </property>
-       <property name="text" >
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" >
-      <widget class="QToolButton" name="toolDelDEM" >
-       <property name="toolTip" >
-        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QToolButton" name="toolDelDEM" >
+         <property name="toolTip" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'DejaVu Sans'; font-size:8pt; font-weight:400; font-style:normal;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Delete elevation data.&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QToolButton" name="toolAddGridFile" >
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QToolButton" name="toolDelGridFile" >
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="text" >
-        <string>...</string>
+       <property name="sizeHint" >
+        <size>
+         <width>75</width>
+         <height>16</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line_3" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item rowspan="2" row="0" column="4" >
+   <item row="0" column="3" >
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QLabel" name="labelDoc1" >
        <property name="text" >
-        <string>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. Additionally you can specify a Digital Elevation Model file to be used for shading. The DEM file must be stored as 16bit GeoTiff. The comment will be used to list the map collection as known map in the map tool view.</string>
+        <string>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. 
+Additionally you can specify a Digital Elevation Model file to be used for shading. The DEM file must be stored as 16bit GeoTiff. The comment will be used to list the map collection as known map in the map tool view.
+For some files you might want to replace the geographic datum of the GeoTiff by a coefficient file for better datum &lt;-> WGS84 tarnslation.</string>
        </property>
        <property name="alignment" >
         <set>Qt::AlignJustify|Qt::AlignTop</set>
@@ -141,41 +251,7 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="1" column="1" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string>comment</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2" >
-    <widget class="QLineEdit" name="lineComment" />
-   </item>
-   <item row="1" column="3" >
-    <layout class="QVBoxLayout" >
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="Line" name="line_3" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0" >
+   <item row="1" column="0" >
     <widget class="QLabel" name="labelStep2" >
      <property name="enabled" >
       <bool>false</bool>
@@ -184,11 +260,11 @@ p, li { white-space: pre-wrap; }
       <string>TextLabel</string>
      </property>
      <property name="alignment" >
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2" >
+   <item row="1" column="1" >
     <widget class="QTreeWidget" name="treeLevels" >
      <property name="toolTip" >
       <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
@@ -218,7 +294,7 @@ p, li { white-space: pre-wrap; }
      </column>
     </widget>
    </item>
-   <item row="2" column="3" >
+   <item row="1" column="2" >
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QPushButton" name="pushAdd" >
@@ -335,7 +411,7 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="2" column="4" >
+   <item row="1" column="3" >
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QLabel" name="labelDoc2" >
@@ -362,7 +438,7 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="3" column="1" colspan="2" >
+   <item row="2" column="1" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QLabel" name="label_5" >
@@ -395,7 +471,7 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="3" column="3" >
+   <item row="2" column="2" >
     <widget class="QPushButton" name="pushSave" >
      <property name="enabled" >
       <bool>false</bool>
@@ -405,7 +481,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="3" column="4" >
+   <item row="2" column="3" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>

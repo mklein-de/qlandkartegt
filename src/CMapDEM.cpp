@@ -29,7 +29,7 @@
 
 // qint16 dem[256 * 256 * M * M];
 
-CMapDEM::CMapDEM(const QString& filename, QObject * parent)
+CMapDEM::CMapDEM(const QString& filename, QObject * parent, const QString& datum, const QString& gridfile)
 : QObject(parent)
 , filename(filename)
 , dataset(0)
@@ -52,7 +52,9 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent)
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
     strProj = ptr;
-    strProj = strProj.replace("+datum=potsdam","+nadgrids=./BETA2007.gsb");
+    if(!datum.isEmpty() && !gridfile.isEmpty()){
+        strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
+    }
 
     qDebug() << strProj;
 

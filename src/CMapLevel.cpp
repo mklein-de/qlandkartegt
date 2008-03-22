@@ -45,9 +45,9 @@ CMapLevel::~CMapLevel()
 }
 
 
-void CMapLevel::addMapFile(const QString& filename)
+void CMapLevel::addMapFile(const QString& filename, const QString& datum, const QString& gridfile)
 {
-    CMapFile * mapfile = new CMapFile(filename,this);
+    CMapFile * mapfile = new CMapFile(filename,this, datum, gridfile);
     if(mapfile && !mapfile->ok) {
         delete mapfile;
         return;
