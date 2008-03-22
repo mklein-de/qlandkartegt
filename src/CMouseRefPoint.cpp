@@ -117,6 +117,12 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
             selRefPt->y = y;
             selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
             selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
+
+            CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
+            if(dlg != 0){
+                dlg->selRefPointByKey(selRefPt->item->data(CCreateMapGeoTiff::eLabel,Qt::UserRole).toInt());
+            }
+
             moveRef = true;
         }
         else{

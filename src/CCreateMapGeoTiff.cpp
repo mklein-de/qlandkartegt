@@ -83,6 +83,15 @@ CCreateMapGeoTiff::~CCreateMapGeoTiff()
     m_self = 0;
 }
 
+void CCreateMapGeoTiff::selRefPointByKey(const quint32 key)
+{
+    if(refpts.contains(key)){
+        refpt_t& pt = refpts[key];
+        treeWidget->scrollToItem(pt.item);
+        treeWidget->setCurrentItem(pt.item);
+    }
+}
+
 int CCreateMapGeoTiff::getNumberOfGCPs()
 {
     int n = 0;

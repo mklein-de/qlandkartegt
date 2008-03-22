@@ -71,6 +71,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QMap<quint32,refpt_t>& getRefPoints(){return refpts;}
 
+        void selRefPointByKey(const quint32 key);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
