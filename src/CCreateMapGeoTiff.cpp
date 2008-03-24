@@ -454,14 +454,20 @@ void CCreateMapGeoTiff::slotSaveRef()
     QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.filePath(base),"Ref. points (*.gcp);;Mapinfo (*.tab)", &filter);
     if(filename.isEmpty()) return;
 
+    qDebug() << filename;
     QFileInfo fi(filename);
 
     if((filter == "Ref. points (*.gcp)") && (fi.suffix() != "gcp")){
         filename += ".gcp";
-        saveGCP(filename);
     }
     else if((filter == "Mapinfo (*.tab)") && (fi.suffix() != "tab")){
         filename += ".tab";
+    }
+
+    if(filter == "Ref. points (*.gcp)"){
+        saveGCP(filename);
+    }
+    else if(filter == "Mapinfo (*.tab)"){
         saveTAB(filename);
     }
 
