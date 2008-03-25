@@ -140,6 +140,7 @@ void CMainWindow::setupMenuBar()
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
+    menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print"),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addSeparator();
@@ -219,7 +220,7 @@ void CMainWindow::slotLoadData()
 {
     QSettings cfg;
 
-    QString filter =cfg.value("geodata/filter","").toString();
+    QString filter   = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
         ,pathData
         ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
@@ -227,8 +228,33 @@ void CMainWindow::slotLoadData()
         );
     if(filename.isEmpty()) return;
 
-    cfg.setValue("geodata/filter",filter);
+    CWptDB::self().clear();
+    CTrackDB::self().clear();
 
+    loadData(filename, filter);
+
+    cfg.setValue("geodata/filter",filter);
+}
+
+void CMainWindow::slotAddData()
+{
+    QSettings cfg;
+    QString filter   = cfg.value("geodata/filter","").toString();
+    QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
+        ,pathData
+        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
+        ,&filter
+        );
+
+    if(filename.isEmpty()) return;
+
+    loadData(filename, filter);
+
+    cfg.setValue("geodata/filter",filter);
+}
+
+void CMainWindow::loadData(QString& filename, const QString& filter)
+{
     QString ext = filename.right(4);
 
     if(filter == "QLandkarte (*.qlb)") {

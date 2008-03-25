@@ -371,7 +371,6 @@ void CTrack::setPointOfFocus(int idx)
     QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
         trkpt->flags &= ~CTrack::pt_t::eFocus;
-        trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
     }
     if(idx < track.count()) {

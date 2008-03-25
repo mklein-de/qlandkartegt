@@ -26,6 +26,8 @@
 
 #include <QtGui>
 
+#define N_LINES 5
+
 CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
@@ -47,7 +49,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     QFontMetrics fm(listTracks->font());
-    listTracks->setIconSize(QSize(15,3*fm.height()));
+    listTracks->setIconSize(QSize(15,N_LINES*fm.height()));
 }
 
 
@@ -62,7 +64,7 @@ void CTrackToolWidget::slotDBChanged()
     if(originator) return;
 
     QFontMetrics fm(listTracks->font());
-    QPixmap icon(15,3*fm.height());
+    QPixmap icon(15,N_LINES*fm.height());
     listTracks->clear();
 
     QListWidgetItem * highlighted = 0;
@@ -87,6 +89,8 @@ void CTrackToolWidget::slotDBChanged()
         time = time.addSecs((*track)->getTotalTime());
         str += tr("\ntime: ") + time.toString("HH:mm:ss");
         str += tr(", speed: %1 km/h").arg(distance * 3.6 / (*track)->getTotalTime(), 0, 'f', 2);
+        str += tr("\nstart: %1").arg((*track)->getStartTimestamp().isNull() ? tr("-") : (*track)->getStartTimestamp().toString());
+        str += tr("\nend: %1").arg((*track)->getEndTimestamp().isNull() ? tr("-") : (*track)->getEndTimestamp().toString());
 
         item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());

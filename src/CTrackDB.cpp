@@ -45,6 +45,7 @@ CTrackDB::~CTrackDB()
 
 void CTrackDB::clear()
 {
+    cnt = 0;
     delTracks(tracks.keys());
     emit sigChanged();
 }

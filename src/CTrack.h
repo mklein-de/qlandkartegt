@@ -24,6 +24,7 @@
 #include <QVector>
 #include <QColor>
 #include <QPolygon>
+#include <QDateTime>
 #include "CWpt.h"
 
 class CTrack : public QObject
@@ -105,6 +106,9 @@ class CTrack : public QObject
         int getTotalTime(){return totalTime;}
         /// select tarckpoint by index
         void setPointOfFocus(int idx);
+        ///
+        QDateTime getStartTimestamp(){return track.first().timestamp ? QDateTime::fromTime_t(track.first().timestamp) : QDateTime();}
+        QDateTime getEndTimestamp(){return track.last().timestamp ? QDateTime::fromTime_t(track.last().timestamp) : QDateTime();}
 
         static const QColor colors[];
 

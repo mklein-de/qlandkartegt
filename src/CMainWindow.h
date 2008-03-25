@@ -55,11 +55,13 @@ class CMainWindow : public QMainWindow
         void slotToolBoxChanged(int idx);
         void slotConfig();
         void slotLoadData();
+        void slotAddData();
         void slotSaveData();
         void slotPrint();
 
     private:
         void setupMenuBar();
+        void loadData(QString& filename, const QString& filter);
         /// horizontal main splitter holding the canvas and the tool view
         QSplitter * mainSplitter;
         /// the vertical splitter holding the tool views

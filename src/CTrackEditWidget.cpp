@@ -295,6 +295,8 @@ void CTrackEditWidget::slotPointSelectionChanged()
 {
     if(track.isNull()) return;
 
+//     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
+
     // reset previous selections
     QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
@@ -320,6 +322,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 {
     if(track.isNull()) return;
+//     qDebug() << "CTrackEditWidget::slotPointSelection()";
     originator = true;
     track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
     originator = false;
