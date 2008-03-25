@@ -140,8 +140,9 @@ IF(UNIX)
 ENDIF(UNIX)
 
 IF(WIN32)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-  target_link_libraries(qlandkartegt gdal_i proj_i ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
+  target_link_libraries(qlandkartegt gdal_i proj_i qtmain.lib ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
 ENDIF(WIN32)
 
 
