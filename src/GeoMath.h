@@ -80,4 +80,13 @@ extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>
     @return Return the distance between pt1 and pt2.
 */
 extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
+
+/**
+    @param pt1 starting point longlat [rad]
+    @param distance the distance to go in [m]
+    @param bearing the bearing in [rad]
+
+    @return The function will return the resulting point in [rad]
+*/
+extern XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing);
 #endif                           //GEOMATH_H

@@ -309,3 +309,20 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
     if(pjTar) pj_free(pjTar);
     return true;
 }
+
+
+XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing)
+{
+    XY pt2;
+
+    double d    = distance / 6378130.0;
+    double lon1 = pt1.u;
+    double lat1 = pt1.v;
+
+    double lat2 = asin(sin(lat1) * cos(d) + cos(lat1) * sin(d) * cos(-bearing));
+    double lon2 = cos(lat1) == 0 ? lon1 : fmod(lon1 - asin(sin(-bearing) * sin(d) / cos(lat1)) + PI, TWOPI) - PI;
+
+    pt2.u = lon2;
+    pt2.v = lat2;
+    return pt2;
+}

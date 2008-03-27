@@ -83,10 +83,14 @@ class CCanvas : public QWidget
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);
 
-        static void drawText(const QString& str, QPainter& p, const QPoint& center);
+        /// draw text with white border
+        static void drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color = Qt::darkBlue);
 
-        signals:
+        void raiseContextMenu(const QPoint& pos);
+
+    signals:
         void sigResize(const QSize& size);
+
     private slots:
         void slotCopyPosition();
 
@@ -108,6 +112,8 @@ class CCanvas : public QWidget
         void drawWaypoints(QPainter& p);
         void drawTracks(QPainter& p);
         void drawRefPoints(QPainter& p);
+        void drawScale(QPainter& p);
+
 
     private:
         friend class CStatusCanvas;

@@ -98,6 +98,24 @@ void CDlgEditWpt::accept()
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
     wpt.comment     = textComment->toPlainText();
 
+    if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty()){
+        double bearing  = lineBearing->text().toDouble() * DEG_TO_RAD;
+        double distance = lineDistance->text().toDouble();
+
+        XY pt1, pt2;
+        pt1.u   = wpt.lon * DEG_TO_RAD;
+        pt1.v   = wpt.lat * DEG_TO_RAD;
+        pt2     = GPS_Math_Wpt_Projection(pt1, distance, bearing);
+
+        CWpt * wpt2 = new CWpt(&CWptDB::self());
+        wpt2->lon = pt2.u * RAD_TO_DEG;
+        wpt2->lat = pt2.v * RAD_TO_DEG;
+        wpt2->icon = wpt.icon;
+        wpt2->name = wpt.name + tr("(proj.)");
+
+        CWptDB::self().addWpt(wpt2);
+    }
+
     emit CWptDB::self().sigChanged();
 
     QDialog::accept();

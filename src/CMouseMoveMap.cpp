@@ -69,6 +69,9 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
             track->setPointOfFocus(selTrkPt->idx);
         }
     }
+    else if(e->button() == Qt::RightButton) {
+        canvas->raiseContextMenu(e->pos());
+    }
 }
 
 

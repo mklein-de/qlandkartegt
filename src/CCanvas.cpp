@@ -170,10 +170,6 @@ void CCanvas::mouseMoveEvent(QMouseEvent * e)
 void CCanvas::mousePressEvent(QMouseEvent * e)
 {
     posMouse = e->pos();
-    if(e->button() == Qt::RightButton) {
-        QPoint p = mapToGlobal(e->pos());
-        contextMenu->exec(p);
-    }
     mouse->mousePressEvent(e);
 }
 
@@ -223,6 +219,7 @@ void CCanvas::draw(QPainter& p)
     drawTracks(p);
     drawWaypoints(p);
     drawRefPoints(p);
+    drawScale(p);
 
     mouse->draw(p);
 }
@@ -276,13 +273,13 @@ void CCanvas::drawWaypoints(QPainter& p)
             p.drawPixmap(u-7 , v-7, icon);
 
             if((*wpt)->prx != WPT_NOFLOAT) {
-                double u1 = u;
-                double v1 = v;
-                map.convertPt2M(u1,v1);
-                double u2 = u1 + (*wpt)->prx;
-                double v2 = v1;
-                map.convertM2Pt(u2,v2);
-                double r = u2 - u;
+                XY pt1, pt2;
+
+                pt1.u = (*wpt)->lon * DEG_TO_RAD;
+                pt1.v = (*wpt)->lat * DEG_TO_RAD;
+                pt2 = GPS_Math_Wpt_Projection(pt1, (*wpt)->prx, 90 * DEG_TO_RAD);
+                map.convertRad2Pt(pt2.u,pt2.v);
+                double r = pt2.u - u;
 
                 p.setBrush(Qt::NoBrush);
                 p.setPen(QPen(Qt::white,3));
@@ -426,7 +423,75 @@ void CCanvas::drawRefPoints(QPainter& p)
     }
 }
 
-void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
+void CCanvas::drawScale(QPainter& p)
+{
+
+    IMap& map = CMapDB::self().getMap();
+    QPoint px1(rect().bottomRight() - QPoint(100,50));
+
+    // step I: get the approximate distance for 200px in the bottom right corner
+    double u1 = px1.x();
+    double v1 = px1.y();
+
+    double u2 = px1.x() - 200;
+    double v2 = v1;
+
+    map.convertPt2M(u1,v1);
+    map.convertPt2M(u2,v2);
+
+    double d = u1 - u2;
+
+    // step II: derive the actual scale length in [m]
+    double a = (int)log10(d);
+    double b = log10(d) - a;
+
+//     qDebug() << log10(d) << d << a << b;
+
+    if(0 <= b && b < log10(3)){
+        d = 1 * pow(10,a);
+    }
+    else if(log10(3) < b && b < log10(5)){
+        d = 3 * pow(10,a);
+    }
+    else{
+        d = 5 * pow(10,a);
+    }
+
+//     qDebug() << "----" << d;
+
+    // step III: convert the scale length from [m] into [px]
+    XY pt1, pt2;
+    pt1.u = px1.x();
+    pt1.v = px1.y();
+    map.convertPt2Rad(pt1.u,pt1.v);
+    pt2 = GPS_Math_Wpt_Projection(pt1, d, -90);
+    map.convertRad2Pt(pt2.u, pt2.v);
+
+    // step IV: draw the scale
+    QPoint px2(px1 - QPoint(px1.x() - pt2.u,0));
+
+    p.setRenderHint(QPainter::Antialiasing,false);
+    p.setPen(QPen(Qt::white, 9));
+    p.drawLine(px1, px2);
+    p.setPen(QPen(Qt::black, 7));
+    p.drawLine(px1, px2);
+    p.setPen(QPen(Qt::white, 5));
+    p.drawLine(px1, px2);
+
+    QVector<qreal> pattern;
+    pattern << 2 << 4;
+    QPen pen(Qt::black, 5, Qt::CustomDashLine);
+    pen.setDashPattern(pattern);
+    p.setPen(pen);
+    p.drawLine(px1, px2);
+    p.setRenderHint(QPainter::Antialiasing,true);
+
+    QPoint px3(px2.x() + (px1.x() - px2.x())/2, px2.y());
+    drawText(QString("%1 m").arg(d), p, px3, Qt::black);
+
+}
+
+void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
     QFont           f = CResources::self().getMapFont();
     QFontMetrics    fm(f);
@@ -449,7 +514,7 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center)
     p.drawText(r.topLeft() - QPoint(+1,+1), str);
 
     p.setFont(f);
-    p.setPen(Qt::darkBlue);
+    p.setPen(color);
     p.drawText(r.topLeft(),str);
 
 }
@@ -565,3 +630,10 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     theMainWindow->setPositionInfo(info);
 
 }
+
+void CCanvas::raiseContextMenu(const QPoint& pos)
+{
+    QPoint p = mapToGlobal(pos);
+    contextMenu->exec(p);
+}
+
