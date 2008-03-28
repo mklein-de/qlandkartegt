@@ -464,7 +464,7 @@ void CCanvas::drawScale(QPainter& p)
     pt1.u = px1.x();
     pt1.v = px1.y();
     map.convertPt2Rad(pt1.u,pt1.v);
-    pt2 = GPS_Math_Wpt_Projection(pt1, d, -90);
+    pt2 = GPS_Math_Wpt_Projection(pt1, d, -90 * DEG_TO_RAD);
     map.convertRad2Pt(pt2.u, pt2.v);
 
     // step IV: draw the scale
