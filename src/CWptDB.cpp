@@ -62,7 +62,7 @@ void CWptDB::newWpt(float lon, float lat, float ele)
     wpt->ele = ele;
 
     QSettings cfg;
-    wpt->icon = cfg.value("waypoint/lastSymbol","Star").toString();
+    wpt->icon = cfg.value("waypoint/lastSymbol","").toString();
 
     CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
     if(dlg.exec() == QDialog::Rejected) {
@@ -70,6 +70,8 @@ void CWptDB::newWpt(float lon, float lat, float ele)
         return;
     }
     wpts[wpt->key()] = wpt;
+
+    cfg.setValue("waypoint/lastSymbol",wpt->icon);
 
     emit sigChanged();
 }

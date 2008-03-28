@@ -316,7 +316,6 @@ const wpt_icon_t wptIcons[] =
     //     { wptDefault, "VHF Omni-range" },
     //     { wptDefault, "VOR-DME" },
     //     { wptDefault, "VOR/TACAN" },
-    {":/icons/iconWaypoint16x16.png", "Star"},
     { 0, 0 },
 };
 
