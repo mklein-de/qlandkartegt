@@ -472,23 +472,22 @@ void CCanvas::drawScale(QPainter& p)
 
     p.setRenderHint(QPainter::Antialiasing,false);
     p.setPen(QPen(Qt::white, 9));
-    p.drawLine(px1, px2);
+    p.drawLine(px1, px2 + QPoint(9,0));
     p.setPen(QPen(Qt::black, 7));
-    p.drawLine(px1, px2);
+    p.drawLine(px1, px2 + QPoint(9,0));
     p.setPen(QPen(Qt::white, 5));
-    p.drawLine(px1, px2);
+    p.drawLine(px1, px2 + QPoint(9,0));
 
     QVector<qreal> pattern;
     pattern << 2 << 4;
     QPen pen(Qt::black, 5, Qt::CustomDashLine);
     pen.setDashPattern(pattern);
     p.setPen(pen);
-    p.drawLine(px1, px2);
+    p.drawLine(px1, px2 + QPoint(9,0));
     p.setRenderHint(QPainter::Antialiasing,true);
 
     QPoint px3(px2.x() + (px1.x() - px2.x())/2, px2.y());
     drawText(QString("%1 m").arg(d), p, px3, Qt::black);
-
 }
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
