@@ -1,7 +1,33 @@
+--- 2008.03.28 ---
+
+Bug     #4:
+Saving \*gcp with extension failed. Fixed.
+
+Bug     #5:
+Keep selection marker for selected track points when selecting multiple points by mouse click.
+
+Request #6:
+Add start and end timestamp to track list label
+
+Request #7:
+Reset the track counter on clear all and load geo data
+
+Request #8:
+Add scalebar
+
+Request #9:
+Add waypoint projection.
+
+Bug     #10:
+Fixed bad calculation of proximity circle size
+
+
+
 --- 2007.12.11 ---
 
 Request #1:
 Initial release
+
 
 
 
