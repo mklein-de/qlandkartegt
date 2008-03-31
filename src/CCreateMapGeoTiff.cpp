@@ -159,14 +159,18 @@ void CCreateMapGeoTiff::slotOpenFile()
 
     sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 
-    QString proj = dataset->GetGCPProjection();
-    strncpy(str, dataset->GetGCPProjection(), sizeof(str));
-    OGRSpatialReference oSRS;
-    oSRS.importFromWkt(&ptr);
-    oSRS.exportToProj4(&ptr);
-    lineProjection->setText(ptr);
 
-    gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
+    QString proj = dataset->GetGCPProjection();
+    if(!proj.isEmpty()){
+
+        strncpy(str, dataset->GetGCPProjection(), sizeof(str));
+        OGRSpatialReference oSRS;
+        oSRS.importFromWkt(&ptr);
+        oSRS.exportToProj4(&ptr);
+        lineProjection->setText(ptr);
+
+        gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
+    }
 
     delete dataset;
 
@@ -187,14 +191,15 @@ void CCreateMapGeoTiff::slotReload()
     sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 
     QString proj = dataset->GetGCPProjection();
-    strncpy(str, dataset->GetGCPProjection(), sizeof(str));
-    OGRSpatialReference oSRS;
-    oSRS.importFromWkt(&ptr);
-    oSRS.exportToProj4(&ptr);
-    lineProjection->setText(ptr);
+    if(!proj.isEmpty()){
+        strncpy(str, dataset->GetGCPProjection(), sizeof(str));
+        OGRSpatialReference oSRS;
+        oSRS.importFromWkt(&ptr);
+        oSRS.exportToProj4(&ptr);
+        lineProjection->setText(ptr);
 
-    gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
-
+        gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
+    }
     delete dataset;
 
 }
