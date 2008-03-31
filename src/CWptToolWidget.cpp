@@ -122,7 +122,7 @@ void CWptToolWidget::slotDelete()
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
-    CWptDB::self().delWpt(keys);
+    CWptDB::self().delWpt(keys, false);
 }
 
 void CWptToolWidget::slotCopyPosition()

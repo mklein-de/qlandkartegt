@@ -53,9 +53,9 @@ class CWptDB : public IDB
         CWpt * getWptByKey(const QString& key);
 
         /// delete several waypoints by their keys
-        void delWpt(const QStringList& keys);
+        void delWpt(const QStringList& keys, bool saveSticky = true);
         /// delete a waipoint by it's key
-        void delWpt(const QString& key, bool silent = false);
+        void delWpt(const QString& key, bool silent = false, bool saveSticky = true);
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);

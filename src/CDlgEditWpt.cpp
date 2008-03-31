@@ -53,6 +53,7 @@ int CDlgEditWpt::exec()
     toolIcon->setObjectName(wpt.icon);
 
     lineName->setText(wpt.name);
+    checkSticky->setChecked(wpt.sticky);
 
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
@@ -93,6 +94,7 @@ void CDlgEditWpt::accept()
     }
     wpt.icon        = toolIcon->objectName();
     wpt.name        = lineName->text();
+    wpt.sticky      = checkSticky->isChecked();
 
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();

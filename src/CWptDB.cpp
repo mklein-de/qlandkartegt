@@ -38,12 +38,25 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
 
+    CQlb qlb(this);
+    qlb.load(QDir::home().filePath(".config/QLandkarteGT/sticky.qlb"));
+    loadQLB(qlb);
 }
 
 
 CWptDB::~CWptDB()
 {
+    CQlb qlb(this);
 
+    QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end()) {
+        if((*wpt)->sticky){
+            qlb << *(*wpt);
+        }
+        ++wpt;
+    }
+
+    qlb.save(QDir::home().filePath(".config/QLandkarteGT/sticky.qlb"));
 }
 
 
@@ -86,10 +99,14 @@ CWpt * CWptDB::getWptByKey(const QString& key)
 }
 
 
-void CWptDB::delWpt(const QString& key, bool silent)
+void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
 {
     if(!wpts.contains(key)) return;
+
     if(wpts[key]->sticky) {
+
+        if(saveSticky) return;
+
         QString msg = tr("Do you really want to delete the sticky waypoint '%1'").arg(wpts[key]->name);
         if(QMessageBox::question(0,tr("Delete sticky waypoint ..."),msg, QMessageBox::Ok|QMessageBox::No, QMessageBox::No) == QMessageBox::No) {
             return;
@@ -100,11 +117,11 @@ void CWptDB::delWpt(const QString& key, bool silent)
 }
 
 
-void CWptDB::delWpt(const QStringList& keys)
+void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 {
     QString key;
     foreach(key, keys) {
-        delWpt(key,true);
+        delWpt(key,true, saveSticky);
     }
 
     emit sigChanged();
