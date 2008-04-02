@@ -220,9 +220,9 @@ void CCreateMapQMAP::processLevelList()
 
     QString str;
     GPS_Math_Deg_To_Str(west * RAD_TO_DEG, north * RAD_TO_DEG, topLeft);
-    str += tr("Top/left corner:\t\t%1\n").arg(topLeft);
+    str += tr("Top/left corner:\t%1\n").arg(topLeft);
     GPS_Math_Deg_To_Str(east * RAD_TO_DEG, south * RAD_TO_DEG, bottomRight);
-    str += tr("Bottom/right corner:\t\t%1\n").arg(bottomRight);
+    str += tr("Bottom/right corner:\t%1\n").arg(bottomRight);
 
     double a1,a2;
     XY p1, p2, p4;
