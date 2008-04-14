@@ -79,10 +79,14 @@ void CDlgProjWizzard::slotChange()
     }
 
     int idx = comboDatum->itemData(comboDatum->currentIndex()).toInt();
-    const MapInfoDatumInfo    di = asDatumInfoList[idx];
-    const MapInfoSpheroidInfo si = asSpheroidInfoList[di.nEllipsoid];
+    const MapInfoDatumInfo      di = asDatumInfoList[idx];
+    const MapInfoSpheroidInfo * si = asSpheroidInfoList;
+    while(si->nMapInfoId != -1){
+        if(si->nMapInfoId == di.nEllipsoid) break;
+        ++si;
+    }
 
-    str += QString("+a=%1 +b=%2 ").arg(si.dfA,0,'f',4).arg(si.dfA * (1.0 - (1.0/si.dfInvFlattening)),0,'f',4);
+    str += QString("+a=%1 +b=%2 ").arg(si->dfA,0,'f',4).arg(si->dfA * (1.0 - (1.0/si->dfInvFlattening)),0,'f',4);
     str += QString("+towgs84=%1,%2,%3,%4,%5,%6,%7,%8 ").arg(di.dfShiftX).arg(di.dfShiftY).arg(di.dfShiftZ).arg(di.dfDatumParm0).arg(di.dfDatumParm1).arg(di.dfDatumParm2).arg(di.dfDatumParm3).arg(di.dfDatumParm4);
     str += "+units=m  +no_defs";
 
