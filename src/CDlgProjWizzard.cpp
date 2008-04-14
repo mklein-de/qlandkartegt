@@ -72,7 +72,7 @@ void CDlgProjWizzard::slotChange()
         str += "+proj=merc ";
     }
     else if(radioUTM->isChecked()){
-        str += QString("+proj=UTM +zone=%1 ").arg(spinUTMZone->value());
+        str += QString("+proj=utm +zone=%1 ").arg(spinUTMZone->value());
     }
     else if(radioUserDef->isChecked()){
         str += lineUserDef->text() + " ";
