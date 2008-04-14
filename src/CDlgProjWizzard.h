@@ -16,31 +16,28 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CCREATEMAPGRIDTOOL_H
-#define CCREATEMAPGRIDTOOL_H
 
-#include <QWidget>
-#include "ui_ICreateMapGridTool.h"
+#ifndef CDLGPROJWIZZARD_H
+#define CDLGPROJWIZZARD_H
 
-class CCreateMapGeoTiff;
+#include <QDialog>
+#include "ui_IDlgProjWizzard.h"
 
-class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
+class QLineEdit;
+
+class CDlgProjWizzard : public QDialog, private Ui::IDlgProjWizzard
 {
     Q_OBJECT;
     public:
-        CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget * parent);
-        virtual ~CCreateMapGridTool();
+        CDlgProjWizzard(QLineEdit& line, QWidget * parent);
+        virtual ~CDlgProjWizzard();
 
-
-    private slots:
-        void slotOk();
-        void slotCheck();
-        void slotProjWizzard();
+    public slots:
+        void accept();
 
     private:
-        void place4GCPs();
-        CCreateMapGeoTiff * geotifftool;
+        QLineEdit& line;
 };
 
-#endif //CCREATEMAPGRIDTOOL_H
+#endif //CDLGPROJWIZZARD_H
 

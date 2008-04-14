@@ -16,31 +16,51 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CCREATEMAPGRIDTOOL_H
-#define CCREATEMAPGRIDTOOL_H
 
-#include <QWidget>
-#include "ui_ICreateMapGridTool.h"
+#include "CDlgProjWizzard.h"
+#include "mitab.h"
 
-class CCreateMapGeoTiff;
+#include <QtGui>
 
-class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
+struct mitab_entry_t {QString name; int idx;};
+
+static bool mitabLessThan(const mitab_entry_t &s1, const mitab_entry_t &s2)
 {
-    Q_OBJECT;
-    public:
-        CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget * parent);
-        virtual ~CCreateMapGridTool();
+    return s1.name < s2.name;
+}
+
+CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
+: QDialog(parent)
+, line(line)
+{
+    setupUi(this);
+
+    mitab_entry_t           entry;
+    QList<mitab_entry_t>    list;
+    int idx                 = 0;
+    MapInfoDatumInfo * di   = asDatumInfoList;
+
+    while(di->nMapInfoDatumID != -1){
+        entry.name  = di->pszOGCDatumName;
+        entry.idx   = idx;
+        list << entry;
+        ++di;++idx;
+    }
+    qSort(list.begin(), list.end(), mitabLessThan);
+
+    foreach(entry, list){
+        comboDatum->addItem(entry.name, entry.idx);
+    }
+}
+
+CDlgProjWizzard::~CDlgProjWizzard()
+{
+
+}
 
 
-    private slots:
-        void slotOk();
-        void slotCheck();
-        void slotProjWizzard();
+void CDlgProjWizzard::accept()
+{
 
-    private:
-        void place4GCPs();
-        CCreateMapGeoTiff * geotifftool;
-};
-
-#endif //CCREATEMAPGRIDTOOL_H
-
+    QDialog::accept();
+}

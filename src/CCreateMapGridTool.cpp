@@ -23,6 +23,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "GeoMath.h"
+#include "CDlgProjWizzard.h"
 
 #include <QtGui>
 
@@ -74,6 +75,9 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
     }
 
     slotCheck();
+
+    toolProjWizzard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
+    connect(toolProjWizzard, SIGNAL(clicked()), this, SLOT(slotProjWizzard()));
 }
 
 CCreateMapGridTool::~CCreateMapGridTool()
@@ -329,4 +333,10 @@ void CCreateMapGridTool::slotOk()
 
     theMainWindow->getCanvas()->update();
     deleteLater();
+}
+
+void CCreateMapGridTool::slotProjWizzard()
+{
+    CDlgProjWizzard dlg(*lineProjection, this);
+    dlg.exec();
 }

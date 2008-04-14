@@ -223,7 +223,7 @@ void CCreateMapGeoTiff::slotAddRef()
     pt.item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
     pt.item->setData(eLabel,Qt::UserRole,refcnt);
     pt.item->setText(eLabel,tr("Ref %1").arg(refcnt));
-    pt.item->setText(eLonLat,tr(""));
+    pt.item->setText(eLonLat,tr("<enter coord>"));
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
 
