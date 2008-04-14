@@ -137,7 +137,9 @@ void CTrackDB::loadGPX(CGpx& gpx)
             trkpt = trkpt.nextSiblingElement("trkpt");
         }
 
-        addTrack(track);
+        if(track->getTrackPoints().count() > 0){
+            addTrack(track);
+        }
     }
     emit sigChanged();
 }
