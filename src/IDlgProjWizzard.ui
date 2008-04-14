@@ -37,11 +37,45 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QRadioButton" name="radioUTM" >
-        <property name="text" >
-         <string>UTM</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QRadioButton" name="radioUTM" >
+          <property name="text" >
+           <string>UTM</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3" >
+          <property name="text" >
+           <string>zone</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinUTMZone" >
+          <property name="minimum" >
+           <number>1</number>
+          </property>
+          <property name="maximum" >
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item row="2" column="1" >
        <layout class="QHBoxLayout" >
@@ -53,7 +87,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit" />
+         <widget class="QLineEdit" name="lineUserDef" />
         </item>
        </layout>
       </item>
@@ -79,6 +113,20 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Result:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QLabel" name="labelResult" >
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

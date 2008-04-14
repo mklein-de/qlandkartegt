@@ -41,8 +41,8 @@ struct MapInfoSpheroidInfo
     double      dfInvFlattening; /* Inverse flattening */
 };
 
-extern MapInfoDatumInfo asDatumInfoList[];
-extern MapInfoSpheroidInfo asSpheroidInfoList[];
+extern const MapInfoDatumInfo asDatumInfoList[];
+extern const MapInfoSpheroidInfo asSpheroidInfoList[];
 
 #endif //MITAB_H
 

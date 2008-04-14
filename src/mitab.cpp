@@ -18,7 +18,7 @@
 **********************************************************************************************/
 #include "mitab.h"
 
-MapInfoDatumInfo asDatumInfoList[] =
+const MapInfoDatumInfo asDatumInfoList[] =
 {
 
 {0,  "",                            29, 0,   0,    0,   0, 0, 0, 0, 0}, // Datum ignore
@@ -201,7 +201,7 @@ MapInfoDatumInfo asDatumInfoList[] =
 /*      manuals.                                                        */
 /* -------------------------------------------------------------------- */
 
-MapInfoSpheroidInfo asSpheroidInfoList[] =
+const MapInfoSpheroidInfo asSpheroidInfoList[] =
 {
 { 9,"Airy 1930",                                6377563.396,    299.3249646},
 {13,"Airy 1930 (modified for Ireland 1965",     6377340.189,    299.3249646},

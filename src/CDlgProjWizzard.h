@@ -34,6 +34,7 @@ class CDlgProjWizzard : public QDialog, private Ui::IDlgProjWizzard
 
     public slots:
         void accept();
+        void slotChange();
 
     private:
         QLineEdit& line;
