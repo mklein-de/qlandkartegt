@@ -150,7 +150,7 @@ void CCanvas::paintEvent(QPaintEvent * e)
     QPainter p;
     p.begin(this);
     p.fillRect(rect(),Qt::white);
-    p.setRenderHint(QPainter::Antialiasing,true);
+//     p.setRenderHint(QPainter::Antialiasing,true);
     p.setFont(CResources::self().getMapFont());
     draw(p);
 
