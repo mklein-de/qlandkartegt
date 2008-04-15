@@ -19,6 +19,7 @@
 
 #include "CCreateMapGeoTiff.h"
 #include "CCreateMapGridTool.h"
+#include "CDlgProjWizzard.h"
 #include "CMainWindow.h"
 #include "CMapDB.h"
 #include "GeoMath.h"
@@ -62,6 +63,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
     connect(pushClearAll, SIGNAL(clicked()), this, SLOT(slotClearAll()));
+    connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
 
     QSettings cfg;
     lineProjection->setText(cfg.value("create/def.proj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
@@ -71,6 +73,8 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->addItem(tr("quadratic (6 Ref. Pts.)"), eQuadratic);
     comboMode->addItem(tr("thin plate (4 Ref. Pts.)"), eThinPlate);
     comboMode->setCurrentIndex(1);
+
+    toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -779,4 +783,9 @@ void CCreateMapGeoTiff::slotClearAll()
 
 }
 
+void CCreateMapGeoTiff::slotProjWizard()
+{
+    CDlgProjWizzard dlg(*lineProjection, this);
+    dlg.exec();
 
+}

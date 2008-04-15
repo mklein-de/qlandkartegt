@@ -35,7 +35,7 @@ class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
     private slots:
         void slotOk();
         void slotCheck();
-        void slotProjWizzard();
+        void slotProjWizard();
 
     private:
         void place4GCPs();

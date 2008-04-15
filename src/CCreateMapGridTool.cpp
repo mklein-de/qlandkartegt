@@ -76,8 +76,8 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 
     slotCheck();
 
-    toolProjWizzard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
-    connect(toolProjWizzard, SIGNAL(clicked()), this, SLOT(slotProjWizzard()));
+    toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
+    connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
 }
 
 CCreateMapGridTool::~CCreateMapGridTool()
@@ -335,7 +335,7 @@ void CCreateMapGridTool::slotOk()
     deleteLater();
 }
 
-void CCreateMapGridTool::slotProjWizzard()
+void CCreateMapGridTool::slotProjWizard()
 {
     CDlgProjWizzard dlg(*lineProjection, this);
     dlg.exec();

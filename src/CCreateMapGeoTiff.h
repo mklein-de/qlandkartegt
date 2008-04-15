@@ -93,6 +93,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         void slotStdout();
         void slotFinished( int exitCode, QProcess::ExitStatus status);
         void slotClearAll();
+        void slotProjWizard();
 
     private:
         friend class CCreateMapGridTool;
