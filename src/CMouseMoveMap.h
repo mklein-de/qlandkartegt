@@ -46,6 +46,8 @@ class CMouseMoveMap : public IMouse
         void slotDeleteWpt();
         void slotMoveWpt();
         void slotAddWpt();
+        void slotCopyPositionTrack();
+        void slotEditTrack();
 
     private:
         /// true if left mouse button is pressed

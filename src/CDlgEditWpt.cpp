@@ -225,5 +225,4 @@ void CDlgEditWpt::slotEditLink()
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
     }
-
 }

@@ -24,6 +24,7 @@
 #include "CTrackDB.h"
 #include "CDlgEditWpt.h"
 #include "GeoMath.h"
+#include "CTrackToolWidget.h"
 
 #include <QtGui>
 
@@ -109,6 +110,12 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     }
+
+    if(selTrkPt){
+        menu.addSeparator();
+        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
+        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
+    }
 }
 
 void CMouseMoveMap::slotEditWpt()
@@ -166,3 +173,27 @@ void CMouseMoveMap::slotAddWpt()
 
 }
 
+void CMouseMoveMap::slotCopyPositionTrack()
+{
+    if(!selTrkPt) return;
+
+    QString position;
+    GPS_Math_Deg_To_Str(selTrkPt->lon, selTrkPt->lat, position);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
+
+}
+
+void CMouseMoveMap::slotEditTrack()
+{
+    if(!selTrkPt) return;
+
+    CTrackToolWidget * toolview = CTrackDB::self().getToolWidget();
+    if(toolview) toolview->slotEdit();
+
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track) {
+        track->setPointOfFocus(selTrkPt->idx);
+    }
+}
