@@ -77,7 +77,13 @@ void CWptToolWidget::slotDBChanged()
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()) {
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        item->setText((*wpt)->name);
+        if((*wpt)->sticky){
+            item->setText((*wpt)->name + tr(" (sticky)"));
+        }
+        else{
+            item->setText((*wpt)->name);
+        }
+
         item->setIcon(getWptIconByName((*wpt)->icon));
         item->setData(Qt::UserRole, (*wpt)->key());
         ++wpt;

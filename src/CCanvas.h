@@ -135,7 +135,5 @@ class CCanvas : public QWidget
         QPoint posMouse;
 
         QLabel * info;
-
-        QMenu * contextMenu;
 };
 #endif                           //CCANVAS_H

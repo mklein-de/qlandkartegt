@@ -22,6 +22,8 @@
 #include "CMapDB.h"
 #include "CWptDB.h"
 #include "CTrackDB.h"
+#include "CDlgEditWpt.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -74,7 +76,6 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
     }
 }
 
-
 void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
     if(moveMap && (e->button() == Qt::LeftButton)) {
@@ -85,9 +86,65 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
     }
 }
 
-
 void CMouseMoveMap::draw(QPainter& p)
 {
     drawSelWpt(p);
     drawSelTrkPt(p);
 }
+
+void CMouseMoveMap::contextMenu(QMenu& menu)
+{
+    if(!selWpt.isNull()){
+        menu.addSeparator();
+        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position (Wpt)"),this,SLOT(slotCopyPositionWpt()));
+        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
+        if(!selWpt->sticky){
+//             menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
+            menu.addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
+        }
+    }
+}
+
+void CMouseMoveMap::slotEditWpt()
+{
+    if(selWpt.isNull()) return;
+
+    CDlgEditWpt dlg(*selWpt,canvas);
+    dlg.exec();
+}
+
+void CMouseMoveMap::slotCopyPositionWpt()
+{
+    if(selWpt.isNull()) return;
+
+    QString position;
+    GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
+}
+
+void CMouseMoveMap::slotDeleteWpt()
+{
+    if(selWpt.isNull()) return;
+
+    QString key = selWpt->key();
+    CWptDB::self().delWpt(key);
+}
+
+void CMouseMoveMap::slotMoveWpt()
+{
+    if(selWpt.isNull()) return;
+    canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+
+    double u = selWpt->lon * DEG_TO_RAD;
+    double v = selWpt->lat * DEG_TO_RAD;
+    CMapDB::self().getMap().convertRad2Pt(u,v);
+
+    QMouseEvent event1(QEvent::MouseMove, QPoint(u,v), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(canvas,&event1);
+
+    QMouseEvent event2(QEvent::MouseButtonPress, QPoint(u,v), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(canvas,&event2);
+}
+

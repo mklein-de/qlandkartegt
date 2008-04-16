@@ -27,8 +27,10 @@
 
 #include "CTrack.h"
 class QMouseEvent;
+class QMenu;
 class CCanvas;
 class CWpt;
+
 
 /// Base class to all mouse function objects
 /**
@@ -65,6 +67,9 @@ class IMouse : public QObject
             This is the place to draw them.
         */
         virtual void draw(QPainter& ){}
+
+        /// append a context menu by own actions
+        virtual void contextMenu(QMenu& ){};
 
     protected:
         /// for internal use to start a semi-transparent capture rectangle

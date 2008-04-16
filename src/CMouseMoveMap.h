@@ -37,6 +37,15 @@ class CMouseMoveMap : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
         void draw(QPainter& p);
+
+        void contextMenu(QMenu& menu);
+
+    private slots:
+        void slotEditWpt();
+        void slotCopyPositionWpt();
+        void slotDeleteWpt();
+        void slotMoveWpt();
+
     private:
         /// true if left mouse button is pressed
         bool moveMap;

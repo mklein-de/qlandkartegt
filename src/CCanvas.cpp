@@ -60,9 +60,6 @@ CCanvas::CCanvas(QWidget * parent)
     mouseRefPoint   = new CMouseRefPoint(this);
     setMouseMode(eMouseMoveArea);
 
-    contextMenu = new QMenu(this);
-    contextMenu->addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
-
 }
 
 
@@ -638,7 +635,11 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
 void CCanvas::raiseContextMenu(const QPoint& pos)
 {
+    QMenu menu(this);
+    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
+    mouse->contextMenu(menu);
+
     QPoint p = mapToGlobal(pos);
-    contextMenu->exec(p);
+    menu.exec(p);
 }
 

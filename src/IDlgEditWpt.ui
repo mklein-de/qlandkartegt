@@ -310,6 +310,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineName</tabstop>
+  <tabstop>toolIcon</tabstop>
+  <tabstop>checkSticky</tabstop>
+  <tabstop>linePosition</tabstop>
+  <tabstop>lineDistance</tabstop>
+  <tabstop>lineBearing</tabstop>
+  <tabstop>lineAltitude</tabstop>
+  <tabstop>lineProximity</tabstop>
+  <tabstop>toolLink</tabstop>
+  <tabstop>textComment</tabstop>
+  <tabstop>pushAdd</tabstop>
+  <tabstop>pushNext</tabstop>
+  <tabstop>pushPrev</tabstop>
+  <tabstop>pushDel</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
