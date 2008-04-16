@@ -47,7 +47,6 @@ void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
 
-    canvas->setMouseMode(CCanvas::eMouseMoveArea);
     double u = e->pos().x();
     double v = e->pos().y();
     map.convertPt2Rad(u,v);

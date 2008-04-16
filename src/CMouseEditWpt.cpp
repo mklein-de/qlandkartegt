@@ -47,7 +47,7 @@ void CMouseEditWpt::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
         if(!selWpt.isNull()) {
-            CDlgEditWpt dlg(*selWpt,theMainWindow->getCanvas());
+            CDlgEditWpt dlg(*selWpt,canvas);
             dlg.exec();
         }
     }

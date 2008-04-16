@@ -45,12 +45,15 @@ class CMouseMoveMap : public IMouse
         void slotCopyPositionWpt();
         void slotDeleteWpt();
         void slotMoveWpt();
+        void slotAddWpt();
 
     private:
         /// true if left mouse button is pressed
         bool moveMap;
         /// the initial starting point of the transformation
         QPoint oldPoint;
+
+        QPoint mousePos;
 
 };
 #endif                           //CMOUSEMOVEMAP_H

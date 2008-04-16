@@ -68,10 +68,12 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             selWpt->lon = u * RAD_TO_DEG;
             selWpt->lat = v * RAD_TO_DEG;
             moveWpt = false;
+            canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
     }
     else if(e->button() == Qt::RightButton) {
         moveWpt = false;
+        canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
     theMainWindow->getCanvas()->update();
 }

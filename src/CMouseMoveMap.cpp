@@ -43,6 +43,8 @@ CMouseMoveMap::~CMouseMoveMap()
 
 void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 {
+    mousePos = e->pos();
+
     if(moveMap) {
         CMapDB::self().getMap().move(oldPoint, e->pos());
         oldPoint = e->pos();
@@ -96,12 +98,16 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
 {
     if(!selWpt.isNull()){
         menu.addSeparator();
-        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position (Wpt)"),this,SLOT(slotCopyPositionWpt()));
-        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
+        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
+        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint ..."),this,SLOT(slotEditWpt()));
         if(!selWpt->sticky){
-//             menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
+            menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
             menu.addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
+    }
+    else{
+        menu.addSeparator();
+        menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     }
 }
 
@@ -146,5 +152,17 @@ void CMouseMoveMap::slotMoveWpt()
 
     QMouseEvent event2(QEvent::MouseButtonPress, QPoint(u,v), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
     QCoreApplication::sendEvent(canvas,&event2);
+}
+
+void CMouseMoveMap::slotAddWpt()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = mousePos.x();
+    double v = mousePos.y();
+    map.convertPt2Rad(u,v);
+    float ele = map.getElevation(u,v);
+    CWptDB::self().newWpt(u, v, ele);
+
 }
 
