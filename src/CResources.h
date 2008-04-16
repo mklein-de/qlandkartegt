@@ -51,6 +51,9 @@ class CResources : public QObject
         /// true for metric mode, false for imperial
         bool doMetric(){return m_doMetric;}
 
+        /// open an URL in a webbrowser
+        void openLink(const QString& link);
+
         /// root path of all maps
         QString pathMaps;
 

@@ -43,10 +43,13 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotNextImage();
         void slotPrevImage();
         void slotSelectIcon();
+        void slotOpenLink(const QString& link);
+        void slotEditLink();
 
     private:
         void showImage(int idx);
         CWpt &wpt;
         qint32 idxImg;
+        QString link;
 };
 #endif                           //CDLGEDITWPT_H

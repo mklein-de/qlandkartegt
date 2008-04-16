@@ -23,6 +23,7 @@
 #include "WptIcons.h"
 #include "GeoMath.h"
 #include "CDlgWptIcon.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -36,8 +37,9 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushDel, SIGNAL(clicked()), this, SLOT(slotDelImage()));
     connect(pushNext, SIGNAL(clicked()), this, SLOT(slotNextImage()));
     connect(pushPrev, SIGNAL(clicked()), this, SLOT(slotPrevImage()));
-
     connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
+    connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
+    connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
 }
 
 
@@ -74,6 +76,15 @@ int CDlgEditWpt::exec()
         pushDel->setEnabled(true);
     }
 
+    link = wpt.link;
+
+    if(!link.isEmpty()) {
+        QString str;
+        str = "<a href='" + link + "'>" + link + "</a>";
+        labelLink->setText(str);
+    }
+
+
     return QDialog::exec();
 }
 
@@ -99,6 +110,7 @@ void CDlgEditWpt::accept()
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
     wpt.comment     = textComment->toPlainText();
+    wpt.link        = link;
 
     if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty()){
         double bearing  = lineBearing->text().toDouble() * DEG_TO_RAD;
@@ -192,4 +204,26 @@ void CDlgEditWpt::showImage(int idx)
         labelImage->setText(tr("no image"));
         labelInfo->setText("");
     }
+}
+
+void CDlgEditWpt::slotOpenLink(const QString& link)
+{
+    CResources::self().openLink(link);
+}
+
+void CDlgEditWpt::slotEditLink()
+{
+    bool ok = false;
+    QString _link = QInputDialog::getText(0,tr("Edit link ..."),tr("Link: 'http://...'"),QLineEdit::Normal,link,&ok);
+    if(ok) {
+        link = _link;
+        labelLink->setText(tr("None"));
+    }
+
+    if(!link.isEmpty()) {
+        QString str;
+        str = "<a href='" + link + "'>" + link + "</a>";
+        labelLink->setText(str);
+    }
+
 }

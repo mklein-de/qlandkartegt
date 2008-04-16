@@ -121,3 +121,23 @@ IDevice * CResources::device()
 
     return m_device;
 }
+
+void CResources::openLink(const QString& link)
+{
+    QString cmd;
+    if(m_eBrowser == eFirefox) {
+        cmd.sprintf(cmdFirefox.toAscii(),link.toAscii().data());
+    }
+    else if(m_eBrowser == eKonqueror) {
+        cmd.sprintf(cmdKonqueror.toAscii(),link.toAscii().data());
+    }
+    else if(m_eBrowser == eOther) {
+        cmd.sprintf(cmdOther.toAscii(),link.toAscii().data());
+    }
+    else {
+        return;
+    }
+
+    system(cmd.toAscii());
+
+}
