@@ -367,9 +367,12 @@ void CMegaMenu::funcSelectArea()
 
 void CMegaMenu::funcEditMap()
 {
-    setEnabled(false);
+
     CMapDB::self().editMap();
-    connect(CCreateMapGeoTiff::self(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEnable()));
+    if(CCreateMapGeoTiff::self()){
+        setEnabled(false);
+        connect(CCreateMapGeoTiff::self(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEnable()));
+    }
 }
 
 

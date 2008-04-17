@@ -22,6 +22,8 @@
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
 
+#include <QtGui>
+
 CMapEditWidget::CMapEditWidget(QWidget * parent)
 : QWidget(parent)
 {
@@ -31,20 +33,34 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
+    bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
+    bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
+    bool haveGDAL = haveGDALWarp && haveGDALTranslate;
+
+
     comboSource->insertItem(eNone,tr(""));
+
 //     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
+//     widgetOSM       = new CCreateMapOSM(stackedWidget);
+//     stackedWidget->insertWidget(eOSM, widgetOSM);
+
     comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
+    widgetQMAP      = new CCreateMapQMAP(stackedWidget);
+    stackedWidget->insertWidget(eQMAP, widgetQMAP);
+
     comboSource->insertItem(eGTIFF,QIcon(":/icons/iconGlobe16x16.png"),tr("Convert a TIFF into GeoTiff by geo referencing it."));
+    if(haveGDAL){
+        widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
+        stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
+    }
+    else{
+        QLabel * label = new QLabel(stackedWidget);
+        label->setAlignment(Qt::AlignCenter);
+        label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));
+        stackedWidget->insertWidget(eGTIFF, label);
+    }
 
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
-
-//     widgetOSM       = new CCreateMapOSM(stackedWidget);
-    widgetQMAP      = new CCreateMapQMAP(stackedWidget);
-    widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
-
-//     stackedWidget->insertWidget(eOSM, widgetOSM);
-    stackedWidget->insertWidget(eQMAP, widgetQMAP);
-    stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
 }
 
 

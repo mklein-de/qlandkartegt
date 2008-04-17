@@ -444,10 +444,10 @@ void CCanvas::drawScale(QPainter& p)
 
 //     qDebug() << log10(d) << d << a << b;
 
-    if(0 <= b && b < log10(3)){
+    if(0 <= b && b < log10(3.0f)){
         d = 1 * pow(10,a);
     }
-    else if(log10(3) < b && b < log10(5)){
+    else if(log10(3.0f) < b && b < log10(5.0f)){
         d = 3 * pow(10,a);
     }
     else{
