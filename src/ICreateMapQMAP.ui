@@ -230,9 +230,9 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="labelDoc1" >
        <property name="text" >
-        <string>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. 
+        <string>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.
 Additionally you can specify a Digital Elevation Model file to be used for shading. The DEM file must be stored as 16bit GeoTiff. The comment will be used to list the map collection as known map in the map tool view.
-For some files you might want to replace the geographic datum of the GeoTiff by a coefficient file for better datum &lt;-> WGS84 tarnslation.</string>
+For some files you might want to replace the geographic datum of the GeoTiff by a coefficient file for better datum &lt;-> WGS84 translation.</string>
        </property>
        <property name="alignment" >
         <set>Qt::AlignJustify|Qt::AlignTop</set>

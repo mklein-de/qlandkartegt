@@ -44,9 +44,13 @@ void CDiaryDB::openEditWidget()
 
     if(editWidget.isNull()){
         editWidget = new CDiaryEditWidget(tabbar);
+        editWidget->textEdit->insertHtml(diary);
         tb->addTab(editWidget,tr("Diary"));
+
     }
     else{
+        diary = editWidget->textEdit->toHtml();
         tb->delTab(editWidget);
+
     }
 }
