@@ -26,9 +26,11 @@
 #include "CWptDB.h"
 #include "CTrackDB.h"
 #include "CSearchDB.h"
+#include "CDiaryDB.h"
 #include "CDlgConfig.h"
 #include "CQlb.h"
 #include "CGpx.h"
+#include "CTabWidget.h"
 
 #include <QtGui>
 
@@ -58,8 +60,11 @@ CMainWindow::CMainWindow()
 
     setCentralWidget(mainSplitter);
 
+    canvasTab = new CTabWidget(this);
+    rightSplitter->addWidget(canvasTab);
+
     canvas = new CCanvas(this);
-    rightSplitter->addWidget(canvas);
+    canvasTab->addTab(canvas,tr("Map"));
 
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
@@ -77,6 +82,7 @@ CMainWindow::CMainWindow()
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
+    diarydb     = new CDiaryDB(canvasTab, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));

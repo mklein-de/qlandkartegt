@@ -60,6 +60,8 @@ class CMegaMenu : public QLabel
         void funcSwitchToMap();
         void funcSwitchToWpt();
         void funcSwitchToTrack();
+
+        void funcDiary();
         void funcClearAll();
 
         void funcMoveArea();

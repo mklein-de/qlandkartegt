@@ -31,7 +31,9 @@ class CMapDB;
 class CWptDB;
 class CTrackDB;
 class CSearchDB;
+class CDiaryDB;
 class CResources;
+class CTabWidget;
 
 class CMainWindow : public QMainWindow
 {
@@ -74,6 +76,9 @@ class CMainWindow : public QMainWindow
 
         /// left hand tool box
         QTabWidget  * tabbar;
+
+        CTabWidget * canvasTab;
+
         /// the map canvas
         CCanvas * canvas;
         /// coordinate label
@@ -92,6 +97,8 @@ class CMainWindow : public QMainWindow
         CMapDB * mapdb;
         /// the track data base
         CTrackDB * trackdb;
+        /// diary database
+        CDiaryDB * diarydb;
 
 };
 

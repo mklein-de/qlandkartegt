@@ -23,8 +23,10 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CDiaryDB.h"
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
+
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -73,7 +75,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDownload16x16",QObject::tr("-"),0,tr("")}
@@ -117,8 +119,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
     ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -333,6 +335,10 @@ void CMegaMenu::funcSwitchToTrack()
     funcMoveArea();
 }
 
+void CMegaMenu::funcDiary()
+{
+    CDiaryDB::self().openEditWidget();
+}
 
 void CMegaMenu::funcClearAll()
 {
