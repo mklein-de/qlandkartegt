@@ -45,6 +45,14 @@
         <file>icons/iconRefPoint31x31.png</file>
         <file>icons/iconRefPointHL31x31.png</file>
 
+        <file>icons/textbold.png</file>
+        <file>icons/textcenter.png</file>
+        <file>icons/textitalic.png</file>
+        <file>icons/textjustify.png</file>
+        <file>icons/textleft.png</file>
+        <file>icons/textright.png</file>
+        <file>icons/textunder.png</file>
+
         <file>icons/backGlobe128x128.png</file>
         <file>icons/backMap128x128.png</file>
         <file>icons/backWaypoint128x128.png</file>

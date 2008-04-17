@@ -55,6 +55,8 @@ class CDiaryDB : public IDB
         static CDiaryDB * m_self;
 
         QPointer<CDiaryEditWidget> editWidget;
+
+        QString diary;
 };
 
 #endif //CDIARYDB_H

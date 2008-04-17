@@ -131,6 +131,7 @@ SET(qlandkarte_UIS
     ICreateMapGridTool.ui
     IStatusCanvas.ui
     IDlgProjWizzard.ui
+    IDiaryEditWidget.ui
 )
 
 SET(qlandkarte_RCS
