@@ -79,6 +79,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void currentCharFormatChanged(const QTextCharFormat &format);
         void cursorPositionChanged();
         void setWindowModified(bool);
+        void clipboardDataChanged();
 
     private:
         friend class CDiaryDB;
@@ -95,6 +96,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         QAction * actionAlignCenter;
         QAction * actionAlignRight;
         QAction * actionAlignJustify;
+
         QAction * actionUndo;
         QAction * actionRedo;
         QAction * actionCut;

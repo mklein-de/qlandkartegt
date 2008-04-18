@@ -31,6 +31,7 @@
 #include "CQlb.h"
 #include "CGpx.h"
 #include "CTabWidget.h"
+#include "printpreview.h"
 
 #include <QtGui>
 
@@ -170,6 +171,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print"),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
+    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Preview ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
@@ -409,5 +411,15 @@ void CMainWindow::slotModified()
 {
     modified = true;
     setTitleBar();
+}
+
+void CMainWindow::slotPrintPreview()
+{
+    QTextEdit textEdit(this);
+    textEdit.insertHtml(CDiaryDB::self().getDiary());
+    PrintPreview *preview = new PrintPreview(textEdit.document(), this);
+    preview->setWindowModality(Qt::WindowModal);
+    preview->setAttribute(Qt::WA_DeleteOnClose);
+    preview->show();
 }
 

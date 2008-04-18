@@ -69,6 +69,10 @@ void CDiaryDB::loadQLB(CQlb& qlb)
 
 void CDiaryDB::saveQLB(CQlb& qlb)
 {
+   if(!editWidget.isNull()){
+        diary.setText(editWidget->textEdit->toHtml());
+    }
+
     qlb << diary;
 }
 
@@ -83,3 +87,11 @@ void CDiaryDB::clear()
     diary = CDiary(this);
 }
 
+
+const QString CDiaryDB::getDiary()
+{
+   if(!editWidget.isNull()){
+        diary.setText(editWidget->textEdit->toHtml());
+    }
+    return diary.text();
+}

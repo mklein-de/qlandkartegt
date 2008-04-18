@@ -62,6 +62,7 @@ class CMainWindow : public QMainWindow
         void slotAddData();
         void slotSaveData();
         void slotPrint();
+        void slotPrintPreview();
         void slotModified();
 
     private:

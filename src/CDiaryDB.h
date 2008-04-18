@@ -36,6 +36,7 @@ class CDiaryDB : public IDB
         static CDiaryDB& self(){return *m_self;}
 
         void openEditWidget();
+        const QString getDiary();
 
         void loadGPX(CGpx& gpx){};
         void saveGPX(CGpx& gpx){};

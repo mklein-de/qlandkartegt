@@ -42,6 +42,14 @@
         <file>icons/iconWizzard16x16.png</file>
         <file>icons/iconDiary16x16.png</file>
 
+        <file>icons/editundo.png</file>
+        <file>icons/editredo.png</file>
+        <file>icons/editcut.png</file>
+        <file>icons/editcopy.png</file>
+        <file>icons/editpaste.png</file>
+        <file>icons/zoomin.png</file>
+        <file>icons/zoomout.png</file>
+
         <file>icons/iconRefPoint31x31.png</file>
         <file>icons/iconRefPointHL31x31.png</file>
 

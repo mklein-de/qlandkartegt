@@ -5,6 +5,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(qlandkarte_SRCS
     main.cpp
     mitab.cpp
+    printpreview.cpp
     GeoMath.cpp
     WptIcons.cpp
     CResources.cpp
@@ -61,6 +62,7 @@ set(qlandkarte_SRCS
 set(qlandkarte_HDRS
     version.h
     mitab.h
+    printpreview.h
     GeoMath.h
     WptIcons.h
     CResources.h

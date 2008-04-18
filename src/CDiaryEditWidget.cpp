@@ -148,6 +148,50 @@ CDiaryEditWidget::CDiaryEditWidget(QWidget * parent)
     colorChanged(textEdit->textColor());
     alignmentChanged(textEdit->alignment());
 
+    QAction *a;
+    a = actionUndo = new QAction(QIcon(":/icons/editundo.png"), tr("&Undo"), this);
+    a->setShortcut(QKeySequence::Undo);
+    toolUndo->setDefaultAction(a);
+
+    a = actionRedo = new QAction(QIcon(":/icons/editredo.png"), tr("&Redo"), this);
+    a->setShortcut(QKeySequence::Redo);
+    toolRedo->setDefaultAction(a);
+
+    a = actionCut = new QAction(QIcon(":/icons/editcut.png"), tr("Cu&t"), this);
+    a->setShortcut(QKeySequence::Cut);
+    toolCut->setDefaultAction(a);
+
+    a = actionCopy = new QAction(QIcon(":/icons/editcopy.png"), tr("&Copy"), this);
+    a->setShortcut(QKeySequence::Copy);
+    toolCopy->setDefaultAction(a);
+
+    a = actionPaste = new QAction(QIcon(":/icons/editpaste.png"), tr("&Paste"), this);
+    a->setShortcut(QKeySequence::Paste);
+    toolPaste->setDefaultAction(a);
+
+    actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
+    actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
+    actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
+
+    connect(textEdit->document(), SIGNAL(undoAvailable(bool)), actionUndo, SLOT(setEnabled(bool)));
+    connect(textEdit->document(), SIGNAL(redoAvailable(bool)), actionRedo, SLOT(setEnabled(bool)));
+
+    connect(actionUndo, SIGNAL(triggered()), textEdit, SLOT(undo()));
+    connect(actionRedo, SIGNAL(triggered()), textEdit, SLOT(redo()));
+
+    actionCut->setEnabled(false);
+    actionCopy->setEnabled(false);
+
+    connect(actionCut, SIGNAL(triggered()), textEdit, SLOT(cut()));
+    connect(actionCopy, SIGNAL(triggered()), textEdit, SLOT(copy()));
+    connect(actionPaste, SIGNAL(triggered()), textEdit, SLOT(paste()));
+
+    connect(textEdit, SIGNAL(copyAvailable(bool)), actionCut, SLOT(setEnabled(bool)));
+    connect(textEdit, SIGNAL(copyAvailable(bool)), actionCopy, SLOT(setEnabled(bool)));
+
+    connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
+
+
 }
 
 CDiaryEditWidget::~CDiaryEditWidget()
@@ -324,4 +368,9 @@ void CDiaryEditWidget::setWindowModified(bool yes)
     if(yes){
         emit CDiaryDB::self().sigModified();
     }
+}
+
+void CDiaryEditWidget::clipboardDataChanged()
+{
+    actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
 }
