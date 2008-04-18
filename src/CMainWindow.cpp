@@ -89,6 +89,11 @@ CMainWindow::CMainWindow()
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 
+    connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+
     showMaximized();
 
     // restore last session settings
@@ -123,6 +128,22 @@ CMainWindow::~CMainWindow()
     cfg.setValue("path/data",pathData);
 }
 
+void CMainWindow::setTitleBar()
+{
+    if(wksFile.isEmpty()){
+        setWindowTitle(QString("QLandkarte GT") + (modified ? " *" : ""));
+    }
+    else{
+        setWindowTitle(QString("QLandkarte GT - ") + QFileInfo(wksFile).fileName() + (modified ? " *" : ""));
+    }
+}
+
+void CMainWindow::clear()
+{
+    modified = false;
+    wksFile.clear();
+    setTitleBar();
+}
 
 void CMainWindow::setTempWidget(QWidget * w)
 {
@@ -239,6 +260,9 @@ void CMainWindow::slotLoadData()
 
     loadData(filename, filter);
 
+    modified = false;
+    setTitleBar();
+
     cfg.setValue("geodata/filter",filter);
 }
 
@@ -254,7 +278,12 @@ void CMainWindow::slotAddData()
 
     if(filename.isEmpty()) return;
 
+    QString tmp = wksFile;
     loadData(filename, filter);
+    wksFile = tmp;
+
+    modified = true;
+    setTitleBar();
 
     cfg.setValue("geodata/filter",filter);
 }
@@ -292,8 +321,11 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CWptDB::self().loadGPX(gpx);
             CTrackDB::self().loadGPX(gpx);
         }
+
+        wksFile = filename;
     }
     catch(const QString& msg) {
+        wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
 }
@@ -344,10 +376,16 @@ void CMainWindow::slotSaveData()
             CTrackDB::self().saveGPX(gpx);
             gpx.save(filename);
         }
+
+        wksFile  = filename;
+        modified = false;
     }
     catch(const QString& msg) {
+        wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
+
+    setTitleBar();
 }
 
 
@@ -363,4 +401,9 @@ void CMainWindow::slotPrint()
     canvas->print(printer);
 }
 
+void CMainWindow::slotModified()
+{
+    modified = true;
+    setTitleBar();
+}
 

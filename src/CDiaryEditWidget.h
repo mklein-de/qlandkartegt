@@ -78,6 +78,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
         void currentCharFormatChanged(const QTextCharFormat &format);
         void cursorPositionChanged();
+        void setWindowModified(bool);
 
     private:
         friend class CDiaryDB;

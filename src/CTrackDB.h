@@ -69,6 +69,8 @@ class CTrackDB : public IDB
 
     private:
         friend class CMainWindow;
+        friend class CTrackEditWidget;
+
         CTrackDB(QTabWidget * tb, QObject * parent);
         quint32 cnt;
 

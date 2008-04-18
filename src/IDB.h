@@ -50,6 +50,7 @@ class IDB : public QObject
 
         signals:
         void sigChanged();
+        void sigModified();
 
     protected:
         QTabWidget *  tabbar;

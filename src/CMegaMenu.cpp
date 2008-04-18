@@ -26,7 +26,7 @@
 #include "CDiaryDB.h"
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
-
+#include "CMainWindow.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -349,6 +349,7 @@ void CMegaMenu::funcClearAll()
         CMapDB::self().clear();
         CWptDB::self().clear();
         CTrackDB::self().clear();
+        theMainWindow->clear();
     }
 }
 

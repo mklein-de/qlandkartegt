@@ -19,6 +19,7 @@
 
 #include "CTrackEditWidget.h"
 #include "CTrack.h"
+#include "CTrackDB.h"
 #include "CResources.h"
 #include "GeoMath.h"
 
@@ -288,6 +289,7 @@ void CTrackEditWidget::slotApply()
     track->setColor(comboColor->currentIndex());
     track->rebuild(true);
     originator = false;
+    emit CTrackDB::self().sigModified();
 }
 
 
@@ -346,4 +348,5 @@ void CTrackEditWidget::slotPurge()
         ++item;
     }
     track->rebuild(false);
+    emit CTrackDB::self().sigModified();
 }

@@ -48,6 +48,8 @@ class CMainWindow : public QMainWindow
 
         void setTempWidget(QWidget * w);
 
+        void clear();
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
@@ -60,10 +62,12 @@ class CMainWindow : public QMainWindow
         void slotAddData();
         void slotSaveData();
         void slotPrint();
+        void slotModified();
 
     private:
         void setupMenuBar();
         void loadData(QString& filename, const QString& filter);
+        void setTitleBar();
         /// horizontal main splitter holding the canvas and the tool view
         QSplitter * mainSplitter;
         /// the vertical splitter holding the tool views
@@ -99,6 +103,11 @@ class CMainWindow : public QMainWindow
         CTrackDB * trackdb;
         /// diary database
         CDiaryDB * diarydb;
+
+        /// the current loaded geo data (workspace) file
+        QString wksFile;
+        /// true if any data has been changed
+        bool modified;
 
 };
 

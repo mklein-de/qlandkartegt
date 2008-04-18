@@ -87,6 +87,7 @@ void CWptDB::newWpt(float lon, float lat, float ele)
     cfg.setValue("waypoint/lastSymbol",wpt->icon);
 
     emit sigChanged();
+    emit sigModified();
 }
 
 
@@ -114,6 +115,7 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
     }
     delete wpts.take(key);
     if(!silent) emit sigChanged();
+    emit sigModified();
 }
 
 
@@ -125,6 +127,7 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
     }
 
     emit sigChanged();
+    emit sigModified();
 }
 
 
@@ -134,6 +137,8 @@ void CWptDB::addWpt(CWpt * wpt)
         delWpt(wpt->key(), true);
     }
     wpts[wpt->key()] = wpt;
+
+    emit sigModified();
 }
 
 
@@ -321,6 +326,7 @@ void CWptDB::download()
     }
 
     emit sigChanged();
+    emit sigModified();
 }
 
 

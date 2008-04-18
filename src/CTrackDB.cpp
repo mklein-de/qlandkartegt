@@ -226,6 +226,7 @@ void CTrackDB::delTrack(const QString& key, bool silent)
     if(!tracks.contains(key)) return;
     delete tracks.take(key);
     if(!silent) emit sigChanged();
+    emit sigModified();
 }
 
 
@@ -237,6 +238,7 @@ void CTrackDB::delTracks(const QStringList& keys)
         delete tracks.take(key);
     }
     emit sigChanged();
+    emit sigModified();
 }
 
 

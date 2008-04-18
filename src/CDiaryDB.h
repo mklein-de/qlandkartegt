@@ -49,6 +49,7 @@ class CDiaryDB : public IDB
 
     private:
         friend class CMainWindow;
+        friend class CDiaryEditWidget;
 
         CDiaryDB(QTabWidget * tb, QObject * parent);
 

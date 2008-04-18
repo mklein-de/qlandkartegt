@@ -54,6 +54,7 @@
 **
 ****************************************************************************/
 #include "CDiaryEditWidget.h"
+#include "CDiaryDB.h"
 
 #include <QtGui>
 
@@ -137,6 +138,7 @@ CDiaryEditWidget::CDiaryEditWidget(QWidget * parent)
     connect(comboSize, SIGNAL(activated(const QString &)), this, SLOT(textSize(const QString &)));
     comboSize->setCurrentIndex(comboSize->findText(QString::number(QApplication::font().pointSize())));
 
+    connect(textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
     connect(textEdit, SIGNAL(currentCharFormatChanged(const QTextCharFormat &)), this, SLOT(currentCharFormatChanged(const QTextCharFormat &)));
     connect(textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 
@@ -314,4 +316,12 @@ void CDiaryEditWidget::currentCharFormatChanged(const QTextCharFormat &format)
 void CDiaryEditWidget::cursorPositionChanged()
 {
     alignmentChanged(textEdit->alignment());
+}
+
+void CDiaryEditWidget::setWindowModified(bool yes)
+{
+    qDebug() << "CDiaryEditWidget::setWindowModified()" << yes;
+    if(yes){
+        emit CDiaryDB::self().sigModified();
+    }
 }
