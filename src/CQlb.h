@@ -24,6 +24,7 @@
 
 class CWpt;
 class CTrack;
+class CDiary;
 
 /// qlandkarte binary to store privat geo data
 /**
@@ -43,7 +44,7 @@ class CQlb : public QObject
         CQlb(QObject * parent);
         virtual ~CQlb();
 
-        enum type_e {eEnd, eWpt, eTrack};
+        enum type_e {eEnd, eWpt, eTrack, eDiary};
 
         /// collect wapoint data
         /**
@@ -53,20 +54,26 @@ class CQlb : public QObject
 
         CQlb& operator <<(CTrack& trk);
 
+        CQlb& operator <<(CDiary& dry);
+
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
         /// get access to stored track data
         QByteArray& tracks(){return trks;}
+        /// get access to stored diary data
+        QByteArray& diary(){return drys;}
         /// write collected data to file
         void save(const QString& filename);
         /// read file and store elements in their designated byte arrays
         void load(const QString& filename);
 
     private:
-        /// byte array to hold all
+        /// byte array to hold all waypoints
         QByteArray wpts;
-        /// byte array to hold all
+        /// byte array to hold all tracks
         QByteArray trks;
+        /// byte array to hold diary
+        QByteArray drys;
 
 };
 #endif                           //CQLB_H

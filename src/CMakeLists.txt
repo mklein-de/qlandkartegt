@@ -53,6 +53,7 @@ set(qlandkarte_SRCS
     CTrackToolWidget.cpp
     CTrackEditWidget.cpp
     CTabWidget.cpp
+    CDiary.cpp
     CDiaryDB.cpp
     CDiaryEditWidget.cpp
 )
@@ -109,6 +110,7 @@ set(qlandkarte_HDRS
     CTrackToolWidget.h
     CTrackEditWidget.h
     CTabWidget.h
+    CDiary.h
     CDiaryDB.h
     CDiaryEditWidget.h
 )

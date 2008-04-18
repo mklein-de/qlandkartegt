@@ -349,6 +349,7 @@ void CMegaMenu::funcClearAll()
         CMapDB::self().clear();
         CWptDB::self().clear();
         CTrackDB::self().clear();
+        CDiaryDB::self().clear();
         theMainWindow->clear();
     }
 }

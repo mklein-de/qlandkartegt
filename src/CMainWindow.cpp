@@ -314,12 +314,14 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             qlb.load(filename);
             CWptDB::self().loadQLB(qlb);
             CTrackDB::self().loadQLB(qlb);
+            CDiaryDB::self().loadQLB(qlb);
         }
         else if(ext == "GPX") {
             CGpx gpx(this);
             gpx.load(filename);
             CWptDB::self().loadGPX(gpx);
             CTrackDB::self().loadGPX(gpx);
+            CDiaryDB::self().loadGPX(gpx);
         }
 
         wksFile = filename;
@@ -368,12 +370,14 @@ void CMainWindow::slotSaveData()
             CQlb qlb(this);
             CWptDB::self().saveQLB(qlb);
             CTrackDB::self().saveQLB(qlb);
+            CDiaryDB::self().saveQLB(qlb);
             qlb.save(filename);
         }
         else if(ext == "GPX") {
             CGpx gpx(this);
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);
+            CDiaryDB::self().saveGPX(gpx);
             gpx.save(filename);
         }
 

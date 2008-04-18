@@ -21,6 +21,7 @@
 #define CDIARYDB_H
 
 #include "IDB.h"
+#include "CDiary.h"
 
 #include <QPointer>
 
@@ -39,13 +40,13 @@ class CDiaryDB : public IDB
         void loadGPX(CGpx& gpx){};
         void saveGPX(CGpx& gpx){};
 
-        void loadQLB(CQlb& qlb){};
-        void saveQLB(CQlb& qlb){};
+        void loadQLB(CQlb& qlb);
+        void saveQLB(CQlb& qlb);
 
         void upload(){};
         void download(){};
 
-        void clear(){};
+        void clear();
 
     private:
         friend class CMainWindow;
@@ -57,7 +58,7 @@ class CDiaryDB : public IDB
 
         QPointer<CDiaryEditWidget> editWidget;
 
-        QString diary;
+        CDiary diary;
 };
 
 #endif //CDIARYDB_H

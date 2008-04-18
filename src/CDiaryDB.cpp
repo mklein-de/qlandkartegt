@@ -20,6 +20,7 @@
 #include "CDiaryDB.h"
 #include "CDiaryEditWidget.h"
 #include "CTabWidget.h"
+#include "CQlb.h"
 
 #include <QtGui>
 
@@ -27,6 +28,7 @@ CDiaryDB * CDiaryDB::m_self = 0;
 
 CDiaryDB::CDiaryDB(QTabWidget * tb, QObject * parent)
     : IDB(tb, parent)
+    , diary(this)
 {
     m_self = this;
 }
@@ -44,13 +46,40 @@ void CDiaryDB::openEditWidget()
 
     if(editWidget.isNull()){
         editWidget = new CDiaryEditWidget(tabbar);
-        editWidget->textEdit->insertHtml(diary);
+        editWidget->textEdit->insertHtml(diary.text());
         tb->addTab(editWidget,tr("Diary"));
 
     }
     else{
-        diary = editWidget->textEdit->toHtml();
+        diary.setText(editWidget->textEdit->toHtml());
         tb->delTab(editWidget);
 
     }
 }
+
+void CDiaryDB::loadQLB(CQlb& qlb)
+{
+    QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
+    stream >> diary;
+    if(!editWidget.isNull()){
+        editWidget->textEdit->insertHtml(diary.text());
+    }
+    emit sigChanged();
+}
+
+void CDiaryDB::saveQLB(CQlb& qlb)
+{
+    qlb << diary;
+}
+
+void CDiaryDB::clear()
+{
+    CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
+    if(tb == 0) return;
+
+    if(!editWidget.isNull()){
+        tb->delTab(editWidget);
+    }
+    diary = CDiary(this);
+}
+

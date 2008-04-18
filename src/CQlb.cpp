@@ -20,6 +20,7 @@
 #include "CQlb.h"
 #include "CWpt.h"
 #include "CTrack.h"
+#include "CDiary.h"
 
 #include <QtCore>
 
@@ -53,6 +54,14 @@ CQlb& CQlb::operator <<(CTrack& trk)
     return *this;
 }
 
+CQlb& CQlb::operator <<(CDiary& dry)
+{
+    QDataStream stream(&drys, QIODevice::Append);
+    stream << dry;
+
+    return *this;
+}
+
 
 void CQlb::load(const QString& filename)
 {
@@ -75,6 +84,10 @@ void CQlb::load(const QString& filename)
                 stream >> trks;
                 break;
 
+            case eDiary:
+                stream >> drys;
+                break;
+
             default:
                 file.close();
                 return;
@@ -95,6 +108,7 @@ void CQlb::save(const QString& filename)
 
     stream << (qint32)eWpt << wpts;
     stream << (qint32)eTrack << trks;
+    stream << (qint32)eDiary << drys;
     stream << (qint32)eEnd;
 
     file.close();

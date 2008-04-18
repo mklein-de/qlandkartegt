@@ -56,7 +56,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
         trk_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
-        if(entry.type == CWpt::eEnd) break;
+        if(entry.type == CTrack::eEnd) break;
     }
 
     QList<trk_head_entry_t>::iterator entry = entries.begin();
