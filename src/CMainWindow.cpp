@@ -170,8 +170,8 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addSeparator();
-    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print"),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
-    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Preview ..."),this,SLOT(slotPrintPreview()));
+    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
+    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
