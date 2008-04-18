@@ -111,7 +111,7 @@ CDiaryEditWidget::CDiaryEditWidget(QWidget * parent)
     toolBlock->setDefaultAction(actionAlignJustify);
 
 
-    QPixmap pix(16, 16);
+    QPixmap pix(24, 24);
     pix.fill(Qt::black);
     actionTextColor = new QAction(pix, tr("&Color..."), this);
     connect(actionTextColor, SIGNAL(triggered()), this, SLOT(textColor()));
