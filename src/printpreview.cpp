@@ -239,13 +239,12 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     tb->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     QAction *a;
-    a = new QAction(/*QIcon(rsrcPath + "/fileprint.png"),*/ tr("&Print..."), this);
+    a = new QAction(QIcon(":/icons/iconPrint22x22.png"), tr("&Print..."), this);
     a->setShortcut(Qt::CTRL + Qt::Key_P);
     connect(a, SIGNAL(triggered()), this, SLOT(print()));
     tb->addAction(a);
 
-    a = new QAction(this);
-    a->setText(tr("Page Setup..."));
+    a = new QAction(QIcon(":/icons/iconConfig22x22.png"),tr("Page Setup..."),this);
     connect(a, SIGNAL(triggered()), this, SLOT(pageSetup()));
     tb->addAction(a);
 
@@ -261,8 +260,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
 
     tb->addSeparator();
 
-    a = new QAction(this);
-    a->setText(tr("&Close"));
+    a = new QAction(QIcon(":/icons/iconExit22x22.png"),tr("&Close"),this);
     connect(a, SIGNAL(triggered()), this, SLOT(close()));
     tb->addAction(a);
 
