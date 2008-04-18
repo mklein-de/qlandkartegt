@@ -92,6 +92,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
 private:
+    void paintMap(QPainter *painter, int page);
     void paintPage(QPainter *painter, int page);
     QTextDocument *doc;
     qreal scale;

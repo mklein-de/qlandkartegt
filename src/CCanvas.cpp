@@ -189,25 +189,34 @@ void CCanvas::leaveEvent(QEvent * )
     QApplication::restoreOverrideCursor();
 }
 
+#define BORDER  20
 
-void CCanvas::print(QPrinter& printer)
+void CCanvas::print(QPainter& p, const QSize& pagesize)
 {
-    QPainter p;
-
-    qreal s1 = (qreal)printer.pageRect().size().width() / (qreal)size().width();
-    qreal s2 = (qreal)printer.pageRect().size().height() / (qreal)size().height();
+    qreal s1 = (qreal)(pagesize.width() - 2 * BORDER) / (qreal)size().width();
+    qreal s2 = (qreal)(pagesize.height() - 2 * BORDER) / (qreal)size().height();
     qreal s = (s1 > s2) ? s2 : s1;
 
-    p.begin(&printer);
+    p.save();
+    p.translate(BORDER,BORDER);
     p.scale(s,s);
     p.setClipRegion(rect());
     p.setRenderHint(QPainter::Antialiasing,true);
     p.setFont(CResources::self().getMapFont());
     draw(p);
+    p.restore();
+}
+
+
+void CCanvas::print(QPrinter& printer)
+{
+    QPainter p;
+
+    p.begin(&printer);
+    print(p, printer.pageRect().size());
     p.end();
 
 }
-
 
 void CCanvas::draw(QPainter& p)
 {

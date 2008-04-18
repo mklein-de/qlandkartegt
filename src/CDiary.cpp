@@ -56,9 +56,6 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
-
-        qDebug() << "entry type" << entry->type;
-
         switch(entry->type) {
             case CDiary::eBase:
             {

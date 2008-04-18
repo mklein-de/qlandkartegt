@@ -37,6 +37,8 @@
 ****************************************************************************/
 
 #include "printpreview.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -85,6 +87,9 @@ void PreviewView::paintEvent(QPaintEvent *)
     p.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
     p.translate(interPageSpacing, interPageSpacing);
 
+    paintMap(&p,0);
+    p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
+
     const int pages = doc->pageCount();
     for (int i = 0; i < pages; ++i) {
         p.save();
@@ -95,6 +100,33 @@ void PreviewView::paintEvent(QPaintEvent *)
         p.restore();
         p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
     }
+}
+
+void PreviewView::paintMap(QPainter *painter, int page)
+{
+
+    const QSizeF pgSize = doc->pageSize();
+
+    QColor col(Qt::black);
+
+    painter->setPen(col);
+    painter->setBrush(Qt::white);
+    painter->drawRect(QRectF(QPointF(0, 0), printPreview->paperSize));
+    painter->setBrush(Qt::NoBrush);
+
+    col = col.light();
+    painter->drawLine(QLineF(printPreview->paperSize.width(), 1,
+                             printPreview->paperSize.width(), printPreview->paperSize.height() - 1));
+
+    col = col.light();
+    painter->drawLine(QLineF(printPreview->paperSize.width(), 2,
+                             printPreview->paperSize.width(), printPreview->paperSize.height() - 2));
+
+    QRectF docRect(QPointF(0, (page) * pgSize.height()), pgSize);
+
+    CCanvas * canvas = theMainWindow->getCanvas();
+    canvas->print(*painter, pgSize.toSize());
+
 }
 
 void PreviewView::paintPage(QPainter *painter, int page)
@@ -128,7 +160,7 @@ void PreviewView::paintPage(QPainter *painter, int page)
     painter->translate(0, - page * pgSize.height());
 
     painter->translate(printPreview->pageTopLeft);
-    painter->setClipRect(docRect);//.translated(printPreview->pageTopLeft));
+    painter->setClipRect(docRect);
     doc->documentLayout()->draw(painter, ctx);
 }
 
@@ -138,7 +170,7 @@ void PreviewView::resizeEvent(QResizeEvent *)
 
     QSize docSize;
     docSize.setWidth(qRound(printPreview->paperSize.width() * scale + 2 * interPageSpacing));
-    const int pageCount = doc->pageCount();
+    const int pageCount = doc->pageCount() + 1;
     docSize.setHeight(qRound(pageCount * printPreview->paperSize.height() * scale + (pageCount + 1) * interPageSpacing));
 
     horizontalScrollBar()->setRange(0, docSize.width() - viewportSize.width());
@@ -267,11 +299,22 @@ PrintPreview::~PrintPreview()
 
 void PrintPreview::print()
 {
-    QPrintDialog *dlg = new QPrintDialog(&printer, this);
-    if (dlg->exec() == QDialog::Accepted) {
-        doc->print(&printer);
-    }
-    delete dlg;
+    CCanvas * canvas = theMainWindow->getCanvas();
+
+    QPrinter printer;
+    printer.setFromTo(1,doc->pageCount() + 1);
+
+    qDebug() << 1 << (doc->pageCount() + 1);
+
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print Diary"));
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+
+    canvas->print(printer);
+    doc->print(&printer);
+
 }
 
 void PrintPreview::pageSetup()
@@ -282,5 +325,3 @@ void PrintPreview::pageSetup()
         view->updateLayout();
     }
 }
-
-// #include "printpreview.moc"
