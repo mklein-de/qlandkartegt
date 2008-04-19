@@ -38,6 +38,7 @@
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
+: modified(false)
 {
     theMainWindow = this;
 
@@ -127,7 +128,9 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/data",pathData);
+
 }
+
 
 void CMainWindow::setTitleBar()
 {
@@ -209,6 +212,20 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
     return e->ignore();
 }
 
+void CMainWindow::closeEvent(QCloseEvent * e)
+{
+    if(!modified){
+        e->accept();
+        return;
+    }
+
+    if (maybeSave()) {
+        e->accept();
+    }
+    else {
+        e->ignore();
+    }
+}
 
 void CMainWindow::slotLoadMapSet()
 {
@@ -256,6 +273,12 @@ void CMainWindow::slotLoadData()
         ,&filter
         );
     if(filename.isEmpty()) return;
+
+    if(modified){
+        if(!maybeSave()){
+            return;
+        }
+    }
 
     CWptDB::self().clear();
     CTrackDB::self().clear();
@@ -335,6 +358,30 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     }
 }
 
+bool CMainWindow::maybeSave()
+{
+    QMessageBox::StandardButton ret;
+    ret = QMessageBox::warning(this, tr("Save geo data?"),
+                               tr("The loaded data has been modified.\n"
+                                  "Do you want to save your changes?"),
+                               QMessageBox::Save | QMessageBox::Discard| QMessageBox::Cancel);
+
+    if (ret == QMessageBox::Save){
+        if(wksFile.isEmpty()){
+            slotSaveData();
+        }
+        else{
+            QSettings cfg;
+            QString filter = cfg.value("geodata/filter","").toString();
+            saveData(wksFile, filter);
+        }
+        return true;
+    }
+    else if (ret == QMessageBox::Cancel){
+        return false;
+    }
+    return true;
+}
 
 void CMainWindow::slotSaveData()
 {
@@ -350,6 +397,12 @@ void CMainWindow::slotSaveData()
 
     cfg.setValue("geodata/filter",filter);
 
+    saveData(filename, filter);
+}
+
+void CMainWindow::saveData(const QString& fn, const QString& filter)
+{
+    QString filename = fn;
     QString ext = filename.right(4);
 
     if(filter == "QLandkarte (*.qlb)") {

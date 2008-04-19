@@ -52,6 +52,7 @@ class CMainWindow : public QMainWindow
 
     protected:
         void keyPressEvent(QKeyEvent * e);
+        void closeEvent(QCloseEvent * e);
 
     private slots:
         void slotLoadMapSet();
@@ -69,6 +70,8 @@ class CMainWindow : public QMainWindow
         void setupMenuBar();
         void loadData(QString& filename, const QString& filter);
         void setTitleBar();
+        bool maybeSave();
+        void saveData(const QString& filename, const QString& filter);
         /// horizontal main splitter holding the canvas and the tool view
         QSplitter * mainSplitter;
         /// the vertical splitter holding the tool views

@@ -212,7 +212,7 @@ void PreviewView::mouseReleaseEvent(QMouseEvent *e)
 PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     : QMainWindow(parent), printer(QPrinter::HighResolution)
 {
-    setWindowTitle(tr("TextEdit Demo - Print Preview"));
+    setWindowTitle(tr("Diary - Print Preview"));
 
     printer.setFullPage(true);
     doc = document->clone();
