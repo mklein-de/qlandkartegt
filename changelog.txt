@@ -1,3 +1,43 @@
+--- 2008.04.19 ---
+
+Request #11:
+Suppress scalebar for bitmaps without georeferenceing information. 
+
+Request #12:
+Implement sticky waypoints.
+
+Request #13:
+Add projection wizard to GeoTiff creation.
+
+Request #14:
+Add http link to waypoint
+
+Request #15:
+Add waypoint edit/copy position/delete to canvas context menu
+
+Request #16:
+Add move and add waypoint to context menu
+
+Request #17:
+Add edit track and copy trackpoint position to context menu
+
+Request #18:
+Probe for GDAL tools
+
+Request #19:
+Add a diary editor to document maps, tracks and waypoints.
+
+Request #20:
+Add loaded geo data file to title bar
+
+Request #21:
+Add modify flag to title bar
+
+Request #22:
+Ask user to save modified data before it is destroyed.
+
+
+
 --- 2008.03.28 ---
 
 Bug     #4:
@@ -27,6 +67,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
