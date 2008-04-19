@@ -259,6 +259,7 @@ void CMainWindow::slotLoadData()
 
     CWptDB::self().clear();
     CTrackDB::self().clear();
+    CDiaryDB::self().clear();
 
     loadData(filename, filter);
 

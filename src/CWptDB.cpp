@@ -184,8 +184,8 @@ void CWptDB::loadGPX(CGpx& gpx)
             wpt->timestamp = time.toTime_t();
         }
 
-        if(waypoint.namedItem("extension").isElement()) {
-            const QDomNode& ext = waypoint.namedItem("extension");
+        if(waypoint.namedItem("extensions").isElement()) {
+            const QDomNode& ext = waypoint.namedItem("extensions");
             if(ext.namedItem("dist").isElement()) {
                 wpt->prx = ext.namedItem("dist").toElement().text().toDouble();
             }
@@ -258,12 +258,12 @@ void CWptDB::saveGPX(CGpx& gpx)
         sym.appendChild(_sym_);
 
         if((*wpt)->prx != 1e25f) {
-            QDomElement extension = gpx.createElement("extension");
-            waypoint.appendChild(extension);
+            QDomElement extensions = gpx.createElement("extensions");
+            waypoint.appendChild(extensions);
 
             if((*wpt)->prx != 1e25f) {
                 QDomElement dist = gpx.createElement("dist");
-                extension.appendChild(dist);
+                extensions.appendChild(dist);
                 QDomText _dist_ = gpx.createTextNode(QString::number((*wpt)->prx));
                 dist.appendChild(_dist_);
             }

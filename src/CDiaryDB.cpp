@@ -21,6 +21,7 @@
 #include "CDiaryEditWidget.h"
 #include "CTabWidget.h"
 #include "CQlb.h"
+#include "CGpx.h"
 
 #include <QtGui>
 
@@ -93,4 +94,29 @@ const QString CDiaryDB::getDiary()
         diary.setText(editWidget->textEdit->toHtml());
     }
     return diary.text();
+}
+
+void CDiaryDB::loadGPX(CGpx& gpx)
+{
+    const QDomNodeList& drys = gpx.elementsByTagName("diary");
+    uint N = drys.count();
+    for(uint n = 0; n < N; ++n) {
+        const QDomNode& dry = drys.item(n);
+        diary.setText(dry.toElement().text());
+        break; // only entry allowed sofar
+    }
+
+}
+
+void CDiaryDB::saveGPX(CGpx& gpx)
+{
+
+    QDomElement root        = gpx.documentElement();
+    QDomElement extensions  = gpx.createElement("extensions");
+    QDomElement dry         = gpx.createElement("diary");
+    QDomText text           = gpx.createTextNode(diary.text());
+
+    root.appendChild(extensions);
+    extensions.appendChild(dry);
+    dry.appendChild(text);
 }

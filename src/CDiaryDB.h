@@ -38,8 +38,8 @@ class CDiaryDB : public IDB
         void openEditWidget();
         const QString getDiary();
 
-        void loadGPX(CGpx& gpx){};
-        void saveGPX(CGpx& gpx){};
+        void loadGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx);
 
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);

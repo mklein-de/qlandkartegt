@@ -87,16 +87,17 @@ void PreviewView::paintEvent(QPaintEvent *)
     p.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
     p.translate(interPageSpacing, interPageSpacing);
 
+    p.save();
+    p.scale(scale, scale);
     paintMap(&p,0);
+    p.restore();
     p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
 
     const int pages = doc->pageCount();
     for (int i = 0; i < pages; ++i) {
         p.save();
         p.scale(scale, scale);
-
         paintPage(&p, i);
-
         p.restore();
         p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
     }
@@ -301,8 +302,6 @@ void PrintPreview::print()
 
     QPrinter printer;
     printer.setFromTo(1,doc->pageCount() + 1);
-
-    qDebug() << 1 << (doc->pageCount() + 1);
 
     QPrintDialog dialog(&printer, this);
     dialog.setWindowTitle(tr("Print Diary"));
