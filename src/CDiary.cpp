@@ -153,8 +153,15 @@ void operator <<(QFile& f, CDiary& diary)
 CDiary::CDiary(QObject * parent)
 : QObject(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+// , m_text("<img src='/tmp/ql.png'/>")
 {
 
+}
+
+CDiary::CDiary(const CDiary& parent)
+// : m_text("<img src='/tmp/ql.png'/>")
+{
+    *this = parent;
 }
 
 CDiary::~CDiary()

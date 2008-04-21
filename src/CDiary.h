@@ -29,7 +29,7 @@ class CDiary : public QObject
     Q_OBJECT;
     public:
         CDiary(QObject * parent);
-        CDiary(const CDiary& parent){*this = parent;};
+        CDiary(const CDiary& parent);
         virtual ~CDiary();
 
         enum type_e {eEnd,eBase};
