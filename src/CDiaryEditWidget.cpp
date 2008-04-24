@@ -55,6 +55,11 @@
 ****************************************************************************/
 #include "CDiaryEditWidget.h"
 #include "CDiaryDB.h"
+#include "CWptDB.h"
+#include "CTrackDB.h"
+#include "CMainWindow.h"
+#include "CWpt.h"
+#include "CTrack.h"
 
 #include <QtGui>
 
@@ -192,7 +197,8 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
 
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
-
+    toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
+    connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
 }
 
 CDiaryEditWidget::~CDiaryEditWidget()
@@ -365,7 +371,6 @@ void CDiaryEditWidget::cursorPositionChanged()
 
 void CDiaryEditWidget::setWindowModified(bool yes)
 {
-    qDebug() << "CDiaryEditWidget::setWindowModified()" << yes;
     if(yes){
         emit CDiaryDB::self().sigModified();
     }
@@ -374,4 +379,51 @@ void CDiaryEditWidget::setWindowModified(bool yes)
 void CDiaryEditWidget::clipboardDataChanged()
 {
     actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
+}
+
+void CDiaryEditWidget::slotDocWizard()
+{
+    qDebug() << "CDiaryEditWidget::slotDocWizard()";
+    QString str;
+
+    const QString& file = theMainWindow->getCurrentFilename();
+    if(file.isEmpty()){
+        str += tr("<h1>Default Title</h1>");
+    }
+    else{
+
+        str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
+    }
+
+    QString key;
+    QStringList keys;
+    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
+
+    if(!wpts.isEmpty()){
+        str += "<p>";
+        str += "<table border='0' cellspacing='1' cellpadding='4' width='100%' bgcolor='#448e35'>";
+        str += "<tr bgcolor='#c6e3c0'>";
+        str += tr("<th align='left'>Time</th>");
+        str += tr("<th align='left'>Name</th>");
+        str += tr("<th align='left'>Comment</th>");
+        str += "</tr>";
+        keys = wpts.keys();
+        keys.sort();
+        foreach(key,keys){
+            CWpt * wpt = wpts[key];
+            if(wpt->sticky) continue;
+
+            str += "<tr  bgcolor='#ffffff'>";
+            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
+            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
+            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->comment);
+
+            str += "</tr>";
+
+        }
+
+        str += "</table>";
+        str += "</p>";
+    }
+    textEdit->setHtml(str);
 }

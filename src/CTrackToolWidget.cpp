@@ -69,7 +69,7 @@ void CTrackToolWidget::slotDBChanged()
 
     QListWidgetItem * highlighted = 0;
 
-    QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::const_iterator track = tracks.begin();
     while(track != tracks.end()) {
         QListWidgetItem * item = new QListWidgetItem(listTracks);
@@ -112,7 +112,7 @@ void CTrackToolWidget::slotDBChanged()
 void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
     QString key = item->data(Qt::UserRole).toString();
-    QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     if(!tracks.contains(key)) {
         return;
     }

@@ -61,7 +61,7 @@ class CTrackDB : public IDB
         CTrack* highlightedTrack();
 
         /// get access to track dictionary
-        QMap<QString,CTrack*>& getTracks(){return tracks;}
+        const QMap<QString,CTrack*>& getTracks(){return tracks;}
 
         CTrackToolWidget * getToolWidget();
 

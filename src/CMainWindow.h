@@ -51,6 +51,8 @@ class CMainWindow : public QMainWindow
         void clear();
         void clearAll();
 
+        const QString& getCurrentFilename(){return wksFile;}
+
     protected:
         void keyPressEvent(QKeyEvent * e);
         void closeEvent(QCloseEvent * e);

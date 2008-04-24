@@ -81,6 +81,8 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void setWindowModified(bool);
         void clipboardDataChanged();
 
+        void slotDocWizard();
+
     private:
         friend class CDiaryDB;
         void mergeFormatOnWordOrSelection(const QTextCharFormat &format);

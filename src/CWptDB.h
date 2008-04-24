@@ -41,6 +41,8 @@ class CWptDB : public IDB
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
 
+        const QMap<QString,CWpt*>& getWpts(){return wpts;}
+
         /// create a new waypoint
         /**
             @param lon longitude in [rad]
