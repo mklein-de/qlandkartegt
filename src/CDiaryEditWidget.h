@@ -63,7 +63,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 {
     Q_OBJECT;
     public:
-        CDiaryEditWidget(QWidget * parent);
+        CDiaryEditWidget(const QString& text, QWidget * parent);
         virtual ~CDiaryEditWidget();
 
     private slots:

@@ -58,10 +58,11 @@
 
 #include <QtGui>
 
-CDiaryEditWidget::CDiaryEditWidget(QWidget * parent)
+CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
     : QWidget(parent)
 {
     setupUi(this);
+    textEdit->setHtml(text);
 
     actionTextBold = new QAction(QIcon(":/icons/textbold.png"), tr("&Bold"), this);
     actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);

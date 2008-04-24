@@ -49,6 +49,7 @@ class CMainWindow : public QMainWindow
         void setTempWidget(QWidget * w);
 
         void clear();
+        void clearAll();
 
     protected:
         void keyPressEvent(QKeyEvent * e);

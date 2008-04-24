@@ -63,7 +63,8 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
 
                 s1 >> diary.timestamp;
-                s1 >> diary.m_text;
+                QString tmp; s1 >> tmp;
+                diary.m_text += tmp;;
 
                 break;
             }

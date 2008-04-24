@@ -164,6 +164,20 @@ void CMainWindow::setTitleBar()
     }
 }
 
+void CMainWindow::clearAll()
+{
+    QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+
+    if(res == QMessageBox::Ok) {
+        CSearchDB::self().clear();
+        CMapDB::self().clear();
+        CWptDB::self().clear();
+        CTrackDB::self().clear();
+        CDiaryDB::self().clear();
+        clear();
+    }
+}
+
 void CMainWindow::clear()
 {
     modified = false;
@@ -540,6 +554,8 @@ void CMainWindow::slotDataChanged()
 
     str += "</p>";
 
+    str += "<p align='right'><a href='Clear'>clear</a> project</p>";
+
     summary->setText(str);
 
 }
@@ -548,9 +564,12 @@ void CMainWindow::slotOpenLink(const QString& link)
 {
     if(link == "Diary"){
         CDiaryDB::self().openEditWidget();
-        return;
     }
-
-    CMegaMenu::self().switchByKeyWord(link);
+    else if(link == "Clear"){
+        clearAll();
+    }
+    else {
+        CMegaMenu::self().switchByKeyWord(link);
+    }
 }
 

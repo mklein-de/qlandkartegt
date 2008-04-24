@@ -46,8 +46,7 @@ void CDiaryDB::openEditWidget()
     if(tb == 0) return;
 
     if(editWidget.isNull()){
-        editWidget = new CDiaryEditWidget(tabbar);
-        editWidget->textEdit->insertHtml(diary.text());
+        editWidget = new CDiaryEditWidget(diary.text(), tabbar);
         tb->addTab(editWidget,tr("Diary"));
 
     }
@@ -63,7 +62,7 @@ void CDiaryDB::loadQLB(CQlb& qlb)
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream >> diary;
     if(!editWidget.isNull()){
-        editWidget->textEdit->insertHtml(diary.text());
+        editWidget->textEdit->setHtml(diary.text());
     }
     emit sigChanged();
 }
@@ -85,6 +84,7 @@ void CDiaryDB::clear()
         tb->delTab(editWidget);
     }
     diary = CDiary(this);
+    emit sigChanged();
 }
 
 
@@ -102,7 +102,9 @@ void CDiaryDB::loadGPX(CGpx& gpx)
     uint N = drys.count();
     for(uint n = 0; n < N; ++n) {
         const QDomNode& dry = drys.item(n);
-        diary.setText(dry.toElement().text());
+        QString tmp = diary.text();
+        tmp += dry.toElement().text();
+        diary.setText(tmp);
         break; // only entry allowed sofar
     }
 

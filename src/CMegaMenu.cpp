@@ -345,16 +345,7 @@ void CMegaMenu::funcDiary()
 
 void CMegaMenu::funcClearAll()
 {
-    QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
-
-    if(res == QMessageBox::Ok) {
-        CSearchDB::self().clear();
-        CMapDB::self().clear();
-        CWptDB::self().clear();
-        CTrackDB::self().clear();
-        CDiaryDB::self().clear();
-        theMainWindow->clear();
-    }
+    theMainWindow->clearAll();
 }
 
 
