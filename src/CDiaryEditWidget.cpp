@@ -60,6 +60,7 @@
 #include "CMainWindow.h"
 #include "CWpt.h"
 #include "CTrack.h"
+#include "WptIcons.h"
 
 #include <QtGui>
 
@@ -383,7 +384,6 @@ void CDiaryEditWidget::clipboardDataChanged()
 
 void CDiaryEditWidget::slotDocWizard()
 {
-    qDebug() << "CDiaryEditWidget::slotDocWizard()";
     QString str;
 
     const QString& file = theMainWindow->getCurrentFilename();
@@ -400,11 +400,14 @@ void CDiaryEditWidget::slotDocWizard()
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
 
     if(!wpts.isEmpty()){
+        str += "<h2>Waypoints</h2>";
         str += "<p>";
-        str += "<table border='0' cellspacing='1' cellpadding='4' width='100%' bgcolor='#448e35'>";
+        str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
         str += "<tr bgcolor='#c6e3c0'>";
+        str += tr("<th align='left' style='width: 16px;'></th>");
         str += tr("<th align='left'>Time</th>");
         str += tr("<th align='left'>Name</th>");
+        str += tr("<th align='left'>Elevation</th>");
         str += tr("<th align='left'>Comment</th>");
         str += "</tr>";
         keys = wpts.keys();
@@ -414,14 +417,64 @@ void CDiaryEditWidget::slotDocWizard()
             if(wpt->sticky) continue;
 
             str += "<tr  bgcolor='#ffffff'>";
+            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(getWptResourceByName(wpt->icon));
             str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
             str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
-            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->comment);
 
+            if(wpt->ele != WPT_NOFLOAT){
+                str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
+            }
+            else{
+                str += QString("<td align='left' valign='top'>-</td>");
+            }
+
+            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->comment);
             str += "</tr>";
 
         }
+        str += "</table>";
+        str += "</p>";
+    }
 
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+    if(!tracks.isEmpty()){
+        str += "<h2>Tracks</h2>";
+        str += "<p>";
+        str += "<table border='0' cellspacing='1' cellpadding='4' bgcolor='#448e35'>";
+        str += "<tr bgcolor='#c6e3c0'>";
+        str += tr("<th align='left' style='width: 20px;'></th>");
+        str += tr("<th align='left'>Start</th>");
+        str += tr("<th align='left'>Stop</th>");
+        str += tr("<th align='left'>Length</th>");
+        str += tr("<th align='left'>Time</th>");
+        str += tr("<th align='left'>Speed</th>");
+        str += tr("<th align='left'>Comment</th>");
+        str += "</tr>";
+
+        keys = tracks.keys();
+        keys.sort();
+        foreach(key,keys){
+            CTrack * track = tracks[key];
+            str += "<tr bgcolor='#ffffff'>";
+            str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());
+            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getStartTimestamp().toString());
+            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getEndTimestamp().toString());
+
+            double distance = track->getTotalDistance();
+            if(distance > 9999.9) {
+                str += QString("<td align='left' valign='top'>%1 km</td>").arg(distance / 1000.0, 0, 'f', 3);
+            }
+            else {
+                str += QString("<td align='left' valign='top'>%1 m</td>").arg(distance,0 ,'f', 0);
+            }
+
+            QTime time;
+            time = time.addSecs(track->getTotalTime());
+            str += QString("<td align='left' valign='top'>%1</td>").arg(time.toString("HH:mm:ss"));
+            str += QString("<td align='left' valign='top'>%1 km/h</td>").arg(distance * 3.6 / track->getTotalTime(), 0, 'f', 2);
+            str += QString("<td align='left' valign='top'></td>");
+            str += "</tr>";
+        }
         str += "</table>";
         str += "</p>";
     }

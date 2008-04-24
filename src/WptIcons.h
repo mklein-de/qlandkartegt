@@ -32,4 +32,5 @@ struct wpt_icon_t
 extern const wpt_icon_t wptIcons[];
 
 const QPixmap getWptIconByName(const QString& name);
+QString getWptResourceByName(const QString& name);
 #endif                           //WPTICONS_H
