@@ -65,6 +65,8 @@ class CMainWindow : public QMainWindow
         void slotPrint();
         void slotPrintPreview();
         void slotModified();
+        void slotDataChanged();
+        void slotOpenLink(const QString& link);
 
     private:
         void setupMenuBar();
@@ -112,6 +114,9 @@ class CMainWindow : public QMainWindow
         QString wksFile;
         /// true if any data has been changed
         bool modified;
+
+        /// project summary
+        QLabel * summary;
 
 };
 

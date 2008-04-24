@@ -71,6 +71,16 @@ CMainWindow::CMainWindow()
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
+    QWidget * wtmp      = new QWidget(this);
+    QVBoxLayout * ltmp  = new QVBoxLayout(wtmp);
+    wtmp->setLayout(ltmp);
+    leftSplitter->addWidget(wtmp);
+
+    summary = new QLabel(wtmp);
+    summary->setWordWrap(true);
+    ltmp->addWidget(summary);
+
+
     tabbar = new QTabWidget(canvas);
     leftSplitter->addWidget(tabbar);
 
@@ -106,8 +116,9 @@ CMainWindow::CMainWindow()
     sizes[1] = (int)(mainSplitter->width() * 0.9);
     mainSplitter->setSizes(sizes);
     sizes = leftSplitter->sizes();
-    sizes[0] = (int)(mainSplitter->height() * 0.5);
-    sizes[1] = (int)(mainSplitter->height() * 0.5);
+    sizes[0] = (int)(mainSplitter->height() * 0.3);
+    sizes[1] = (int)(mainSplitter->height() * 0.3);
+    sizes[2] = (int)(mainSplitter->height() * 0.4);
     leftSplitter->setSizes(sizes);
 
     if( cfg.contains("mainWidget/mainSplitter") ) {
@@ -120,6 +131,15 @@ CMainWindow::CMainWindow()
     sizes.clear();
     sizes << 200 << 50 << 50;
     rightSplitter->setSizes(sizes);
+
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+    connect(&CDiaryDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+
+    slotDataChanged();
+
+    connect(summary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 
 }
 
@@ -477,5 +497,60 @@ void CMainWindow::slotPrintPreview()
     preview->setWindowModality(Qt::WindowModal);
     preview->setAttribute(Qt::WA_DeleteOnClose);
     preview->show();
+}
+
+void CMainWindow::slotDataChanged()
+{
+    QString str = tr("<p><b>Project Summary:</b></p>") + "<p>";
+    int c;
+
+    c = CWptDB::self().count();
+    if(c > 0){
+        if(c == 1){
+            str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a> and ").arg(c);
+        }
+        else{
+            str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a> and ").arg(c);
+        }
+    }
+    else{
+        str += tr("There are no waypoints and ");
+    }
+
+    c = CTrackDB::self().count();
+    if(c > 0){
+        if(c == 1){
+            str += tr(" %1 <a href='Tracks'>track</a>. ").arg(c);
+        }
+        else{
+            str += tr(" %1 <a href='Tracks'>tracks</a>. ").arg(c);
+        }
+    }
+    else{
+        str += tr("no tracks. ");
+    }
+
+    c = CDiaryDB::self().count();
+    if(c > 0){
+        str += tr("A <a href='Diary'>diary</a> is loaded.");
+    }
+    else{
+        str += tr("The diary is empty.");
+    }
+
+    str += "</p>";
+
+    summary->setText(str);
+
+}
+
+void CMainWindow::slotOpenLink(const QString& link)
+{
+    if(link == "Diary"){
+        CDiaryDB::self().openEditWidget();
+        return;
+    }
+
+    CMegaMenu::self().switchByKeyWord(link);
 }
 

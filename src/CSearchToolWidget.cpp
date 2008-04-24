@@ -19,10 +19,6 @@
 
 #include "CSearchToolWidget.h"
 #include "CSearchDB.h"
-#include "CMapDB.h"
-#include "CWptDB.h"
-#include "CTrackDB.h"
-#include "CDiaryDB.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CMegaMenu.h"
@@ -44,15 +40,6 @@ CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
 
     parent->insertTab(0,this,QIcon(":/icons/iconSearch16x16"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Search"));
-
-    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
-    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
-    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
-    connect(&CDiaryDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
-
-    slotDataChanged();
-
-    connect(labelSummary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 }
 
 
@@ -100,60 +87,5 @@ void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
     if(result) {
         theMainWindow->getCanvas()->move(result->lon, result->lat);
     }
-}
-
-void CSearchToolWidget::slotDataChanged()
-{
-    QString str = tr("<h3>Project Summary:</h3>") + "<p>";
-    int c;
-
-    c = CWptDB::self().count();
-    if(c > 0){
-        if(c == 1){
-            str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a> and ").arg(c);
-        }
-        else{
-            str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a> and ").arg(c);
-        }
-    }
-    else{
-        str += tr("There are no waypoints and ");
-    }
-
-    c = CTrackDB::self().count();
-    if(c > 0){
-        if(c == 1){
-            str += tr(" %1 <a href='Tracks'>track</a>. ").arg(c);
-        }
-        else{
-            str += tr(" %1 <a href='Tracks'>tracks</a>. ").arg(c);
-        }
-    }
-    else{
-        str += tr("no tracks. ");
-    }
-
-    c = CDiaryDB::self().count();
-    if(c > 0){
-        str += tr("A <a href='Diary'>diary</a> is loaded.");
-    }
-    else{
-        str += tr("The diary is empty.");
-    }
-
-    str += "</p>";
-
-    labelSummary->setText(str);
-
-}
-
-void CSearchToolWidget::slotOpenLink(const QString& link)
-{
-    if(link == "Diary"){
-        CDiaryDB::self().openEditWidget();
-        return;
-    }
-
-    CMegaMenu::self().switchByKeyWord(link);
 }
 
