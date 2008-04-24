@@ -49,6 +49,8 @@ class CDiaryDB : public IDB
 
         void clear();
 
+        int count(){return !diary.text().isEmpty();}
+
     private:
         friend class CMainWindow;
         friend class CDiaryEditWidget;

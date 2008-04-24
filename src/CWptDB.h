@@ -69,6 +69,8 @@ class CWptDB : public IDB
 
         void selWptByKey(const QString& key);
 
+        int count(){return wpts.count();}
+
     private:
         friend class CMainWindow;
         friend class CDlgEditWpt;

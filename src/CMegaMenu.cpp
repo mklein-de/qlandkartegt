@@ -127,11 +127,14 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
     ,{0,QObject::tr("-"),0,tr("")}
 };
 
+CMegaMenu * CMegaMenu::m_self = 0;
+
 /// Left hand side multi-function menu
 CMegaMenu::CMegaMenu(CCanvas * canvas)
 : QLabel(canvas)
 , canvas(canvas)
 {
+    m_self = this;
     setScaledContents(true);
 
     int i;

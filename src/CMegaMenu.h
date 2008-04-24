@@ -32,8 +32,9 @@ class CMegaMenu : public QLabel
 {
     Q_OBJECT;
     public:
-        CMegaMenu(CCanvas * canvas);
         virtual ~CMegaMenu();
+
+        static CMegaMenu& self(){return *m_self;}
 
         void keyPressEvent(QKeyEvent * e);
 
@@ -46,6 +47,9 @@ class CMegaMenu : public QLabel
         void mousePressEvent(QMouseEvent * e);
 
     private:
+        friend class CMainWindow;
+        CMegaMenu(CCanvas * canvas);
+
         struct func_key_state_t
         {
             const char * icon;
@@ -77,6 +81,8 @@ class CMegaMenu : public QLabel
         void funcDownloadWpt();
 
         void funcEditTrack();
+
+        static CMegaMenu * m_self;
 
         QPointer<CCanvas>  canvas;
 

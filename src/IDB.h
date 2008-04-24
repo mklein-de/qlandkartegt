@@ -48,6 +48,8 @@ class IDB : public QObject
 
         virtual void clear() = 0;
 
+        virtual int count(){return -1;}
+
         signals:
         void sigChanged();
         void sigModified();

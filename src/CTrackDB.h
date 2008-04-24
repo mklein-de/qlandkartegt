@@ -64,7 +64,11 @@ class CTrackDB : public IDB
         QMap<QString,CTrack*>& getTracks(){return tracks;}
 
         CTrackToolWidget * getToolWidget();
-        signals:
+
+        int count(){return tracks.count();}
+
+
+    signals:
         void sigHighlightTrack(CTrack * track);
 
     private:

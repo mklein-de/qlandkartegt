@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,7 +14,18 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="QLineEdit" name="lineInput" />
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Search:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineInput" />
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="labelStatus" >
@@ -28,6 +39,32 @@
    </item>
    <item>
     <widget class="QListWidget" name="listResults" />
+   </item>
+   <item>
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelSummary" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text" >
+      <string>dsd</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignJustify|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

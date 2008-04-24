@@ -80,11 +80,11 @@ CMainWindow::CMainWindow()
     QSettings cfg;
     pathData = cfg.value("path/data","./").toString();
 
-    searchdb    = new CSearchDB(tabbar, this);
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
     diarydb     = new CDiaryDB(canvasTab, this);
+    searchdb    = new CSearchDB(tabbar, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -95,6 +95,8 @@ CMainWindow::CMainWindow()
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+
+    searchdb->gainFocus();
 
     showMaximized();
 
