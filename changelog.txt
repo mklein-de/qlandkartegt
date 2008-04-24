@@ -1,3 +1,19 @@
+--- 2008.04.24 ---
+
+Bug     #24:
+Modify flag was set when loading geo data with diary content.
+
+Request #25:
+Add project summary to left hand side splitter
+
+Bug     #26:
+Add geo data erased diary with new data
+
+Request #27:
+Generate diary from loaded geo data
+
+
+
 --- 2008.04.19 ---
 
 Request #11:
@@ -67,6 +83,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
