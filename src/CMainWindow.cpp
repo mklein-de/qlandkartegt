@@ -78,6 +78,7 @@ CMainWindow::CMainWindow()
 
     summary = new QLabel(wtmp);
     summary->setWordWrap(true);
+    summary->setAlignment(Qt::AlignJustify|Qt::AlignTop);
     ltmp->addWidget(summary);
 
 
@@ -515,9 +516,11 @@ void CMainWindow::slotPrintPreview()
 
 void CMainWindow::slotDataChanged()
 {
-    QString str = tr("<p><b>Project Summary:</b></p>") + "<p>";
-    int c;
 
+    int c;
+    QString str = tr("<div style='float: left;'><b>Project Summary (<a href='Clear'>clear</a> project):</b></div>");
+
+    str += "<p>";
     c = CWptDB::self().count();
     if(c > 0){
         if(c == 1){
@@ -553,8 +556,6 @@ void CMainWindow::slotDataChanged()
     }
 
     str += "</p>";
-
-    str += "<p align='right'><a href='Clear'>clear</a> project</p>";
 
     summary->setText(str);
 

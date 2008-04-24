@@ -108,6 +108,7 @@ void CDiaryDB::loadGPX(CGpx& gpx)
         break; // only entry allowed sofar
     }
 
+    emit sigChanged();
 }
 
 void CDiaryDB::saveGPX(CGpx& gpx)
