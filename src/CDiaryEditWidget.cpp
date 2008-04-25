@@ -374,6 +374,7 @@ void CDiaryEditWidget::setWindowModified(bool yes)
 {
     if(yes){
         emit CDiaryDB::self().sigModified();
+        emit CDiaryDB::self().sigChanged();
     }
 }
 

@@ -49,7 +49,7 @@ class CDiaryDB : public IDB
 
         void clear();
 
-        int count(){return !diary.text().isEmpty();}
+        int count();
 
     private:
         friend class CMainWindow;

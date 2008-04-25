@@ -552,7 +552,7 @@ void CMainWindow::slotDataChanged()
         str += tr("A <a href='Diary'>diary</a> is loaded.");
     }
     else{
-        str += tr("The diary is empty.");
+        str += tr("The diary (<a href='Diary'>new</a>) is empty.");
     }
 
     str += "</p>";

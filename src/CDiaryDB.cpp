@@ -90,10 +90,18 @@ void CDiaryDB::clear()
 
 const QString CDiaryDB::getDiary()
 {
-   if(!editWidget.isNull()){
+    if(!editWidget.isNull()){
         diary.setText(editWidget->textEdit->toHtml());
     }
     return diary.text();
+}
+
+int CDiaryDB::count()
+{
+    if(!editWidget.isNull()){
+        diary.setText(editWidget->textEdit->toHtml());
+    }
+    return !diary.text().isEmpty();
 }
 
 void CDiaryDB::loadGPX(CGpx& gpx)

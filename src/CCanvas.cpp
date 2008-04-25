@@ -193,11 +193,25 @@ void CCanvas::leaveEvent(QEvent * )
 
 void CCanvas::print(QPainter& p, const QSize& pagesize)
 {
-    qreal s1 = (qreal)(pagesize.width() - 2 * BORDER) / (qreal)size().width();
-    qreal s2 = (qreal)(pagesize.height() - 2 * BORDER) / (qreal)size().height();
-    qreal s = (s1 > s2) ? s2 : s1;
+    bool  rotate = false;
+    QSize _size_ = pagesize;
+    qreal s = 0.0;
 
     p.save();
+
+    if(pagesize.height() > pagesize.width()){
+        _size_.setWidth(pagesize.height());
+        _size_.setHeight(pagesize.width());
+        rotate = true;
+        p.rotate(90.0);
+        p.translate(0,-pagesize.width());
+    }
+
+    qreal s1 = (qreal)(_size_.width() - 2 * BORDER) / (qreal)size().width();
+    qreal s2 = (qreal)(_size_.height() - 2 * BORDER) / (qreal)size().height();
+
+    s = (s1 > s2) ? s2 : s1;
+
     p.translate(BORDER,BORDER);
     p.scale(s,s);
     p.setClipRegion(rect());
