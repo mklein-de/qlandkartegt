@@ -1,0 +1,410 @@
+/**********************************************************************************************
+    Copyright (C) 2006, 2007 Oliver Eichler oliver.eichler@gmx.de
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
+
+**********************************************************************************************/
+
+#include "CPlot.h"
+#include "CPlotData.h"
+#include "CPlotAxis.h"
+#include "CResources.h"
+
+#include <QtGui>
+
+CPlot::CPlot(QWidget * parent)
+: QWidget(parent)
+, fontWidth(0)
+, fontHeight(0)
+, scaleWidthX1(0)
+, scaleWidthY1(0)
+, left(0)
+, right(0)
+, top(0)
+, bottom(0)
+, fm(QFont())
+{
+    setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    m_pData = new CPlotData(this);
+    m_pData->xlabel = tr("distance [m]");
+    m_pData->ylabel = tr("alt. [m]");
+}
+
+
+CPlot::~CPlot()
+{
+
+}
+
+
+void CPlot::setLine(const QPolygonF& line)
+{
+    m_pData->line1.points = line;
+    m_pData->setLimits();
+    setSizes();
+    m_pData->x().setScale( rectGraphArea.width() );
+    m_pData->y().setScale( rectGraphArea.height() );
+    update();
+}
+
+
+void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks)
+{
+    m_pData->line1.points = line;
+    m_pData->line2.points = marks;
+    m_pData->setLimits();
+    setSizes();
+    m_pData->x().setScale( rectGraphArea.width() );
+    m_pData->y().setScale( rectGraphArea.height() );
+    update();
+}
+
+
+void CPlot::paintEvent(QPaintEvent * )
+{
+    QPainter p(this);
+    draw(p);
+}
+
+
+void CPlot::resizeEvent(QResizeEvent * )
+{
+    setSizes();
+    m_pData->x().setScale( rectGraphArea.width() );
+    m_pData->y().setScale( rectGraphArea.height() );
+    update();
+}
+
+
+void CPlot::setSizes()
+{
+    fm = QFontMetrics(CResources::self().getMapFont());
+    left = 0;
+
+    scaleWidthX1    = m_pData->x().getScaleWidth( fm );
+    scaleWidthY1    = m_pData->y().getScaleWidth( fm );
+
+    scaleWidthY1    = scaleWidthX1 > scaleWidthY1 ? scaleWidthX1 : scaleWidthY1;
+
+    fontWidth       = fm.maxWidth();
+    fontHeight      = fm.height();
+    deadAreaX       = fontWidth >> 1;
+    deadAreaY       = ( fontHeight + 1 ) >> 1;
+
+    setLRTB();
+    setSizeXLabel();
+    setSizeYLabel();
+    setSizeDrawArea();
+}
+
+
+void CPlot::setLRTB()
+{
+    left = 0;
+
+    left += m_pData->ylabel.isEmpty() ? 0 : fontHeight;
+    left += scaleWidthY1;
+    left += deadAreaX;
+
+    right = size().width();
+    right -= deadAreaX;
+    right -= scaleWidthX1 / 2;
+
+    top = 0;
+    top += deadAreaY;
+
+    bottom = size().height();
+    bottom -= m_pData->xlabel.isEmpty() ? 0 : fontHeight;
+    // tick marks
+    bottom -= fontHeight;
+    bottom -= deadAreaY;
+}
+
+
+/*
+  x = a <br>
+  y = widget height - xlabel height <br>
+  width = b-a <br>
+  height = font height <br>
+*/
+void CPlot::setSizeXLabel()
+{
+    int y;
+    if ( m_pData->xlabel.isEmpty() ) {
+        rectX1Label = QRect( 0, 0, 0, 0 );
+    }
+    else {
+        rectX1Label.setWidth( right - left );
+        rectX1Label.setHeight( fontHeight );
+        y = ( size().height() - rectX1Label.height());
+        rectX1Label.moveTopLeft( QPoint( left, y ) );
+    }
+}
+
+
+/*
+  assume a -90 rotated coordinate grid
+
+  x = widget height - d <br>
+  y = 0 <br>
+  width = d-c<br>
+  height = font height <br>
+*/
+void CPlot::setSizeYLabel()
+{
+    if ( m_pData->ylabel.isEmpty() ) {
+        rectY1Label = QRect( 0, 0, 0, 0 );
+    }
+    else {
+        rectY1Label.setWidth( bottom - top );
+        rectY1Label.setHeight( fontHeight );
+        rectY1Label.moveTopLeft( QPoint( size().height() - bottom, 0 ) );
+    }
+}
+
+
+void CPlot::setSizeDrawArea()
+{
+    rectGraphArea.setWidth( right - left );
+    rectGraphArea.setHeight( bottom - top );
+    rectGraphArea.moveTopLeft( QPoint( left, top ) );
+
+    m_pData->x().setScale( rectGraphArea.width() );
+    m_pData->y().setScale( rectGraphArea.height() );
+}
+
+
+void CPlot::draw(QPainter& p)
+{
+    p.fillRect(rect(),Qt::white);
+
+    QPolygonF& line = m_pData->line1.points;
+    if(line.isEmpty()) {
+        return;
+    }
+
+    p.setFont(CResources::self().getMapFont());
+
+    drawData(p);
+    drawLabels(p);
+    drawXScale(p);
+    drawYScale(p);
+    drawGridX(p);
+    drawGridY(p);
+    drawXTic(p);
+    drawYTic(p);
+    p.setPen(QPen(Qt::black,2));
+    p.drawRect(rectGraphArea);
+
+}
+
+
+void CPlot::drawLabels( QPainter &p )
+{
+    p.setPen(Qt::darkBlue);
+
+    if ( rectX1Label.isValid() ) {
+        p.drawText( rectX1Label, Qt::AlignCenter, m_pData->xlabel );
+    }
+
+    p.save();
+    QMatrix m = p.matrix();
+    m.translate( 0, size().height() );
+    m.rotate( -90 );
+    p.setMatrix( m );
+
+    if ( rectY1Label.isValid() ) {
+        p.drawText( rectY1Label, Qt::AlignCenter, m_pData->ylabel );
+    }
+    p.restore();
+}
+
+
+void CPlot::drawXScale( QPainter &p )
+{
+    QRect recText;
+
+    if ( m_pData->x().getTicType() == CPlotAxis::notic )
+        return ;
+
+    p.setPen(Qt::darkBlue);
+    recText.setHeight( fontHeight );
+    recText.setWidth( scaleWidthX1 );
+
+    int ix;
+    int ix_ = -1;
+    int iy;
+
+    iy = bottom + deadAreaY;
+    const CPlotAxis::TTic * t = m_pData->x().ticmark();
+    while ( t ) {
+        ix = left + m_pData->x().val2pt( t->val ) - ( scaleWidthX1 + 1 ) / 2;
+        if ( ( ( ix_ < 0 ) || ( ( ix - ix_ ) > scaleWidthX1 + 5 ) ) && !t->lbl.isEmpty() ) {
+            recText.moveTopLeft( QPoint( ix, iy ) );
+            p.drawText( recText, Qt::AlignCenter, t->lbl );
+            ix_ = ix;
+        }
+        t = m_pData->x().ticmark( t );
+    }
+}
+
+
+void CPlot::drawYScale( QPainter &p )
+{
+    QRect recText;
+    if ( m_pData->y().getTicType() == CPlotAxis::notic )
+        return ;
+
+    p.setPen(Qt::darkBlue);
+    recText.setHeight( fontHeight );
+    recText.setWidth( scaleWidthY1 );
+
+    int ix;
+    int iy;
+
+    ix = left - scaleWidthY1 - deadAreaX;
+    const CPlotAxis::TTic * t = m_pData->y().ticmark();
+    while ( t ) {
+        iy = bottom - m_pData->y().val2pt( t->val ) - fontHeight / 2;
+
+        recText.moveTopLeft( QPoint( ix, iy ) );
+        p.drawText( recText, Qt::AlignRight, t->lbl );
+        t = m_pData->y().ticmark( t );
+    }
+}
+
+
+void CPlot::drawXTic( QPainter & p )
+{
+    int ix;
+    int iyb, iyt;
+    const CPlotAxis::TTic * t = m_pData->x().ticmark();
+
+    p.setPen(QPen(Qt::black,2));
+    iyb = rectGraphArea.bottom();
+    iyt = rectGraphArea.top();
+    while ( t ) {
+        ix = left + m_pData->x().val2pt( t->val );
+        p.drawLine( ix, iyb, ix, iyb - 5 );
+        p.drawLine( ix, iyt, ix, iyt + 5 );
+        t = m_pData->x().ticmark( t );
+    }
+}
+
+
+void CPlot::drawYTic( QPainter &p )
+{
+    int ixl, ixr;
+    int iy;
+    const CPlotAxis::TTic * t = m_pData->y().ticmark();
+
+    p.setPen(QPen(Qt::black,2));
+    ixl = rectGraphArea.left();
+    ixr = rectGraphArea.right();
+    while ( t ) {
+        iy = bottom - m_pData->y().val2pt( t->val );
+        p.drawLine( ixl, iy, ixl + 5, iy );
+        p.drawLine( ixr, iy, ixr - 5, iy );
+        t = m_pData->y().ticmark( t );
+    }
+}
+
+
+void CPlot::drawGridX( QPainter &p )
+{
+    int ix;
+    int iy, dy;
+
+    CPlotAxis::ETicType oldtic = m_pData->x().setTicType( CPlotAxis::norm );
+
+    dy = rectGraphArea.height();
+    const CPlotAxis::TTic * t = m_pData->x().ticmark();
+
+    QPen oldpen = p.pen();
+    p.setPen( QPen( QColor(150,150,150,128), 1, Qt::DotLine ) );
+
+    iy = rectGraphArea.top();
+    while ( t ) {
+        ix = left + m_pData->x().val2pt( t->val );
+        p.drawLine( ix, iy, ix, iy + dy );
+        t = m_pData->x().ticmark( t );
+    }
+    p.setPen( oldpen );
+    m_pData->x().setTicType( oldtic );
+}
+
+
+void CPlot::drawGridY( QPainter &p )
+{
+    int ix, dx;
+    int iy;
+
+    CPlotAxis::ETicType oldtic = m_pData->y().setTicType( CPlotAxis::norm );
+    dx = rectGraphArea.width();
+    const CPlotAxis::TTic * t = m_pData->y().ticmark();
+
+    QPen oldpen = p.pen();
+    p.setPen( QPen( QColor(150,150,150,128), 1, Qt::DotLine ) );
+
+    ix = rectGraphArea.left();
+    while ( t ) {
+        iy = bottom - m_pData->y().val2pt( t->val );
+        p.drawLine( ix, iy, ix + dx, iy );
+        t = m_pData->y().ticmark( t );
+    }
+    p.setPen( oldpen );
+    m_pData->y().setTicType( oldtic );
+}
+
+
+void CPlot::drawData(QPainter& p)
+{
+    QPolygonF& line1 = m_pData->line1.points;
+
+    int ptx, pty, ptx_old, pty_old;
+    CPlotAxis& xaxis = m_pData->x();
+    CPlotAxis& yaxis = m_pData->y();
+    QPolygonF::const_iterator point = line1.begin();
+
+    ptx_old = left   + xaxis.val2pt( point->x() );
+    pty_old = bottom - yaxis.val2pt( point->y() );
+
+    p.setPen(QPen(Qt::blue,2));
+    while(point != line1.end()) {
+        ptx = left   + xaxis.val2pt( point->x() );
+        pty = bottom - yaxis.val2pt( point->y() );
+
+        p.drawLine(ptx_old,pty_old,ptx,pty);
+
+        ptx_old = ptx;
+        pty_old = pty;
+
+        ++point;
+    }
+
+    QPolygonF& line2 = m_pData->line2.points;
+    point = line2.begin();
+    p.setPen(QPen(Qt::red,2));
+
+    while(point != line2.end()) {
+        ptx = left   + xaxis.val2pt( point->x() );
+        pty = bottom - yaxis.val2pt( point->y() );
+
+        p.drawLine(ptx-2,pty,ptx+2,pty);
+        p.drawLine(ptx,pty-2,ptx,pty+2);
+
+        ++point;
+    }
+}

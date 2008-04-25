@@ -57,6 +57,9 @@ set(qlandkarte_SRCS
     CDiary.cpp
     CDiaryDB.cpp
     CDiaryEditWidget.cpp
+    CPlot.cpp
+    CPlotAxis.cpp
+    CPlotData.cpp
 )
 
 set(qlandkarte_HDRS
@@ -115,6 +118,9 @@ set(qlandkarte_HDRS
     CDiary.h
     CDiaryDB.h
     CDiaryEditWidget.h
+    CPlot.h
+    CPlotAxis.h
+    CPlotData.h
 )
 
 SET(qlandkarte_UIS
