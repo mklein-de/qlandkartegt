@@ -64,7 +64,9 @@ void CDiaryDB::loadQLB(CQlb& qlb)
     if(!editWidget.isNull()){
         editWidget->textEdit->setHtml(diary.text());
     }
-    emit sigChanged();
+    if(count()){
+        emit sigChanged();
+    }
 }
 
 void CDiaryDB::saveQLB(CQlb& qlb)
@@ -101,7 +103,9 @@ int CDiaryDB::count()
     if(!editWidget.isNull()){
         diary.setText(editWidget->textEdit->toHtml());
     }
-    return !diary.text().isEmpty();
+    QTextBrowser browser;
+    browser.setHtml(diary.text());
+    return !browser.toPlainText().isEmpty();
 }
 
 void CDiaryDB::loadGPX(CGpx& gpx)
@@ -116,7 +120,9 @@ void CDiaryDB::loadGPX(CGpx& gpx)
         break; // only entry allowed sofar
     }
 
-    emit sigChanged();
+    if(count()){
+        emit sigChanged();
+    }
 }
 
 void CDiaryDB::saveGPX(CGpx& gpx)
