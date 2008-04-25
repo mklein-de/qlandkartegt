@@ -18,10 +18,13 @@
 **********************************************************************************************/
 
 #include "CTrackEditWidget.h"
+#include "CTrackStatWidget.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
 #include "GeoMath.h"
+#include "CMainWindow.h"
+#include "CTabWidget.h"
 
 #include <QtGui>
 
@@ -34,6 +37,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
+
+    toolGraph->setIcon(QIcon(":/icons/iconGraph16x16.png"));
+    connect(toolGraph, SIGNAL(clicked()), this, SLOT(slotToggleStat()));
 
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i) {
@@ -52,7 +58,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 CTrackEditWidget::~CTrackEditWidget()
 {
-
+    if(!trackStat.isNull()){
+        theMainWindow->getCanvasTab()->delTab(trackStat);
+    }
 }
 
 
@@ -349,4 +357,15 @@ void CTrackEditWidget::slotPurge()
     }
     track->rebuild(false);
     emit CTrackDB::self().sigModified();
+}
+
+void CTrackEditWidget::slotToggleStat()
+{
+    if(trackStat.isNull()){
+        trackStat = new CTrackStatWidget(this);
+        theMainWindow->getCanvasTab()->addTab(trackStat, tr("Track"));
+    }
+    else{
+        theMainWindow->getCanvasTab()->delTab(trackStat);
+    }
 }

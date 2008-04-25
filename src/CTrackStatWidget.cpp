@@ -17,33 +17,16 @@
 
 **********************************************************************************************/
 
-#ifndef CMOUSEREFPOINT_H
-#define CMOUSEREFPOINT_H
+#include "CTrackStatWidget.h"
 
-#include "IMouse.h"
-#include "CCreateMapGeoTiff.h"
-
-class CMouseRefPoint :  public IMouse
+CTrackStatWidget::CTrackStatWidget(QWidget * parent)
+    : QWidget(parent)
 {
-    Q_OBJECT;
-    public:
-        CMouseRefPoint(CCanvas * canvas);
-        virtual ~CMouseRefPoint();
 
-        void draw(QPainter& p);
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+}
 
-    private:
-        /// true if left mouse button is pressed
-        bool moveMap;
-        bool moveRef;
-        /// the initial starting point of the transformation
-        QPoint oldPoint;
+CTrackStatWidget::~CTrackStatWidget()
+{
 
-        CCreateMapGeoTiff::refpt_t * selRefPt;
-};
-
-#endif //CMOUSEREFPOINT_H
+}
 

@@ -46,6 +46,8 @@ class CMainWindow : public QMainWindow
 
         CCanvas * getCanvas(){return canvas;}
 
+        CTabWidget * getCanvasTab(){return canvasTab;}
+
         void setTempWidget(QWidget * w);
 
         void clear();

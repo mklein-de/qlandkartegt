@@ -24,6 +24,7 @@
 #include "ui_ITrackEditWidget.h"
 
 class CTrack;
+class CTrackStatWidget;
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -41,6 +42,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotPointSelection(QTreeWidgetItem * item);
         void slotPurge();
         void slotUpdate();
+        void slotToggleStat();
 
     protected:
         void keyPressEvent(QKeyEvent * e);
@@ -62,6 +64,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrack> track;
 
         bool originator;
+
+        QPointer<CTrackStatWidget> trackStat;
 
 };
 #endif                           //CTRACKEDITWIDGET_H
