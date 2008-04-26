@@ -37,6 +37,8 @@ class CPlot : public QWidget
 
         void clear();
 
+        double getXValByPixel(int px);
+
     protected:
         void paintEvent(QPaintEvent * e);
         void resizeEvent(QResizeEvent * e);

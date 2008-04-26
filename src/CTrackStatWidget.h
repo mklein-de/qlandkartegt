@@ -33,6 +33,9 @@ class CTrackStatWidget : public QWidget
         CTrackStatWidget(QWidget * parent);
         virtual ~CTrackStatWidget();
 
+    protected:
+        void mousePressEvent(QMouseEvent * e);
+
     private slots:
         void slotChanged();
 

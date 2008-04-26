@@ -32,6 +32,9 @@ CTrackStatWidget::CTrackStatWidget(QWidget * parent)
     setLayout(layout);
     elevation = new CPlot(this);
     layout->addWidget(elevation);
+    layout->setSpacing(9);
+
+    qDebug() << layout->spacing();
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
@@ -76,3 +79,36 @@ void CTrackStatWidget::slotChanged()
     elevation->setLine(line,marks,focus);
 
 }
+
+void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
+{
+    if(track.isNull()) return;
+
+    if(e->button() == Qt::LeftButton) {
+        QPoint pos = e->pos();
+        CPlot * plot = 0;
+        if(elevation->rect().contains(pos)){
+            plot = elevation;
+        }
+        if(plot == 0) return;
+
+        double dist = plot->getXValByPixel(pos.x() - 9);
+        QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        quint32 idx = 0;
+        while(trkpt != trkpts.end()) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+                ++trkpt; continue;
+            }
+
+            if(dist < trkpt->distance) {
+                track->setPointOfFocus(idx);
+                break;
+            }
+            idx = trkpt->idx;
+
+            ++trkpt;
+        }
+    }
+}
+

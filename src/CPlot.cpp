@@ -55,6 +55,10 @@ void CPlot::clear()
     update();
 }
 
+double CPlot::getXValByPixel(int px)
+{
+    return m_pData->x().pt2val(px - left);
+}
 
 void CPlot::setLine(const QPolygonF& line)
 {
