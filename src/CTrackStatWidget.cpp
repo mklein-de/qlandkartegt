@@ -18,11 +18,24 @@
 **********************************************************************************************/
 
 #include "CTrackStatWidget.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
+#include "CPlot.h"
+
+#include <QtGui>
 
 CTrackStatWidget::CTrackStatWidget(QWidget * parent)
     : QWidget(parent)
 {
 
+    QVBoxLayout * layout  = new QVBoxLayout(this);
+    setLayout(layout);
+    elevation = new CPlot(this);
+    layout->addWidget(elevation);
+
+    connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+
+    slotChanged();
 }
 
 CTrackStatWidget::~CTrackStatWidget()
@@ -30,3 +43,36 @@ CTrackStatWidget::~CTrackStatWidget()
 
 }
 
+
+void CTrackStatWidget::slotChanged()
+{
+    track = CTrackDB::self().highlightedTrack();
+    if(track.isNull()) {
+        elevation->clear();
+        return;
+    }
+
+    QPolygonF line;
+    QPolygonF marks;
+    QPointF   focus;
+
+    QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    while(trkpt != trkpts.end()) {
+        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+            ++trkpt; continue;
+        }
+        line << QPointF(trkpt->distance, trkpt->ele);
+        if(trkpt->flags & CTrack::pt_t::eSelected) {
+            marks << QPointF(trkpt->distance, trkpt->ele);
+        }
+
+        if(trkpt->flags & CTrack::pt_t::eFocus) {
+            focus = QPointF(trkpt->distance, trkpt->ele);
+        }
+
+        ++trkpt;
+    }
+    elevation->setLine(line,marks,focus);
+
+}

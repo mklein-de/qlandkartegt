@@ -33,6 +33,9 @@ class CPlot : public QWidget
 
         void setLine(const QPolygonF& line);
         void setLine(const QPolygonF& line, const QPolygonF& marks);
+        void setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF& focus);
+
+        void clear();
 
     protected:
         void paintEvent(QPaintEvent * e);

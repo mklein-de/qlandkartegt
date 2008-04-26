@@ -93,10 +93,7 @@
      <item>
       <widget class="QToolButton" name="toolWizard" >
        <property name="toolTip" >
-        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'URW Gothic L'; font-size:14pt; font-weight:200; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Create document skeleton.&lt;/p>&lt;/body>&lt;/html></string>
+        <string>Create diary skeleton from current data.</string>
        </property>
        <property name="text" >
         <string>...</string>

@@ -56,6 +56,14 @@ class CPlotData : public QObject
         line_t line1;
         line_t line2;
 
+        struct point_t
+        {
+            QColor color;
+            QPointF point;
+        };
+
+        point_t point1;
+
     protected:
         CPlotAxis * xaxis;
         CPlotAxis * yaxis;

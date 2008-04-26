@@ -21,6 +21,10 @@
 #define CTRACKSTATWIDGET_H
 
 #include <QWidget>
+#include <QPointer>
+
+class CPlot;
+class CTrack;
 
 class CTrackStatWidget : public QWidget
 {
@@ -28,6 +32,13 @@ class CTrackStatWidget : public QWidget
     public:
         CTrackStatWidget(QWidget * parent);
         virtual ~CTrackStatWidget();
+
+    private slots:
+        void slotChanged();
+
+    private:
+        CPlot * elevation;
+        QPointer<CTrack> track;
 };
 
 #endif //CTRACKSTATWIDGET_H
