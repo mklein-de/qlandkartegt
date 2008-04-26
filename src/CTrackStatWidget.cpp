@@ -24,17 +24,25 @@
 
 #include <QtGui>
 
+#define SPACING 9
+
 CTrackStatWidget::CTrackStatWidget(QWidget * parent)
     : QWidget(parent)
 {
 
     QVBoxLayout * layout  = new QVBoxLayout(this);
     setLayout(layout);
-    elevation = new CPlot(this);
-    layout->addWidget(elevation);
-    layout->setSpacing(9);
+    layout->setSpacing(SPACING);
 
-    qDebug() << layout->spacing();
+    elevation = new CPlot(this);
+    elevation->setXLabel(tr("distance [m]"));
+    elevation->setYLabel(tr("alt. [m]"));
+    layout->addWidget(elevation);
+
+    speed = new CPlot(this);
+    speed->setXLabel(tr("distance [m]"));
+    speed->setYLabel(tr("speed [km/h]"));
+    layout->addWidget(speed);
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
@@ -55,9 +63,13 @@ void CTrackStatWidget::slotChanged()
         return;
     }
 
-    QPolygonF line;
-    QPolygonF marks;
-    QPointF   focus;
+    QPolygonF lineElev;
+    QPolygonF marksElev;
+    QPointF   focusElev;
+
+    QPolygonF lineSpeed;
+    QPolygonF marksSpeed;
+    QPointF   focusSpeed;
 
     QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
@@ -65,18 +77,22 @@ void CTrackStatWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        line << QPointF(trkpt->distance, trkpt->ele);
+        lineElev  << QPointF(trkpt->distance, trkpt->ele);
+        lineSpeed << QPointF(trkpt->distance, trkpt->speed);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marks << QPointF(trkpt->distance, trkpt->ele);
+            marksElev  << QPointF(trkpt->distance, trkpt->ele);
+            marksSpeed << QPointF(trkpt->distance, trkpt->speed);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focus = QPointF(trkpt->distance, trkpt->ele);
+            focusElev  = QPointF(trkpt->distance, trkpt->ele);
+            focusSpeed = QPointF(trkpt->distance, trkpt->speed);
         }
 
         ++trkpt;
     }
-    elevation->setLine(line,marks,focus);
+    elevation->setLine(lineElev,marksElev,focusElev);
+    speed->setLine(lineSpeed,marksSpeed,focusSpeed);
 
 }
 
@@ -87,12 +103,24 @@ void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
     if(e->button() == Qt::LeftButton) {
         QPoint pos = e->pos();
         CPlot * plot = 0;
+
+        // test for elevation graph
         if(elevation->rect().contains(pos)){
             plot = elevation;
         }
+
+        // adjust position to speed graph
+        pos.setY(pos.y() - elevation->rect().height());
+
+        // test for speed graph
+        if(speed->rect().contains(pos)){
+            plot = speed;
+        }
+
+
         if(plot == 0) return;
 
-        double dist = plot->getXValByPixel(pos.x() - 9);
+        double dist = plot->getXValByPixel(pos.x() - SPACING);
         QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         quint32 idx = 0;

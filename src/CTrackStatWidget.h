@@ -41,6 +41,7 @@ class CTrackStatWidget : public QWidget
 
     private:
         CPlot * elevation;
+        CPlot * speed;
         QPointer<CTrack> track;
 };
 

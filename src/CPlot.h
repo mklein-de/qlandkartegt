@@ -31,6 +31,9 @@ class CPlot : public QWidget
         CPlot(QWidget * parent);
         virtual ~CPlot();
 
+        void setYLabel(const QString& str);
+        void setXLabel(const QString& str);
+
         void setLine(const QPolygonF& line);
         void setLine(const QPolygonF& line, const QPolygonF& marks);
         void setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF& focus);

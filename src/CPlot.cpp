@@ -38,8 +38,6 @@ CPlot::CPlot(QWidget * parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     m_pData = new CPlotData(this);
-    m_pData->xlabel = tr("distance [m]");
-    m_pData->ylabel = tr("alt. [m]");
 }
 
 
@@ -59,6 +57,21 @@ double CPlot::getXValByPixel(int px)
 {
     return m_pData->x().pt2val(px - left);
 }
+
+void CPlot::setYLabel(const QString& str)
+{
+    m_pData->ylabel = str;
+    setSizes();
+    update();
+}
+
+void CPlot::setXLabel(const QString& str)
+{
+    m_pData->xlabel = str;
+    setSizes();
+    update();
+}
+
 
 void CPlot::setLine(const QPolygonF& line)
 {
