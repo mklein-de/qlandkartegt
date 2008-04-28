@@ -246,8 +246,12 @@ void CMapDEM::shading(QImage& img, qint16 * data)
     */
     uchar * pixel = img.bits();
     img.setColorTable(graytable2);
+
+    int f = (max -min);
+    f = f ? f : 1;
+
     for(i = 0; i < ((w1 * h1) - 1); i++) {
-        *pixel = ((data[i] - min) * 150 / (max -min));
+        *pixel = ((data[i] - min) * 150 / f);
         ++pixel;
     }
 }
@@ -277,8 +281,6 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     for(c = 0; c < w1; ++c) {
         data[idx++] = 0;
     }
-
-    qDebug() << abs(max) << abs(min);
 
     int f = abs(min) < abs(max) ? abs(max) : abs(min);
     f = f ? f : 1;
