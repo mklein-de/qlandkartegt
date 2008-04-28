@@ -119,6 +119,10 @@ void CMapRaster::select(const QRect& rect)
 
 void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
+    lon1 = 0;
+    lat1 = 0;
+    lon2 = maparea.width();
+    lat2 = maparea.height();
 }
 
 

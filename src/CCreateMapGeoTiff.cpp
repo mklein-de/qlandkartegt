@@ -158,6 +158,8 @@ void CCreateMapGeoTiff::slotOpenFile()
 
     labelOutputFile->setText(path.filePath(name + "_ref.tif"));
 
+    theMainWindow->getCanvas()->move(CCanvas::eMoveCenter);
+
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;
 
@@ -188,6 +190,8 @@ void CCreateMapGeoTiff::slotReload()
 
     QString filename = labelInputFile->text();
     CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
+
+    theMainWindow->getCanvas()->move(CCanvas::eMoveCenter);
 
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;

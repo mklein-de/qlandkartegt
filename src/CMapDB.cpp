@@ -55,13 +55,13 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         QFileInfo fi(map);
         QString ext = fi.suffix();
         if(ext == "qmap") {
-            IMap * imap = new CMapQMAP(map,theMainWindow->getCanvas());
-            visibleMaps.append(imap);
+            theMap = new CMapQMAP(map,theMainWindow->getCanvas());
         }
         else{
-            IMap * imap = new CMapRaster(map,theMainWindow->getCanvas());
-            visibleMaps.append(imap);
+            theMap = new CMapRaster(map,theMainWindow->getCanvas());
         }
+        //TODO: has to be removed for several layers
+        break;
     }
     emit sigChanged();
 
@@ -84,14 +84,13 @@ CMapDB::~CMapDB()
 }
 
 
+IMap& CMapDB::getMap() {
+    return (theMap.isNull() ? *defaultMap : *theMap);
+}
+
 void CMapDB::closeVisibleMaps()
 {
-    IMap * map;
-    foreach(map, visibleMaps) {
-        delete map;
-    }
-    visibleMaps.clear();
-
+    if(!theMap.isNull()) delete theMap;
 }
 
 
@@ -99,7 +98,7 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
 {
 
     closeVisibleMaps();
-    IMap * imap;
+
     map_t map;
     QFileInfo fi(filename);
     QString ext = fi.suffix();
@@ -110,28 +109,26 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
         if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
 
-        IMap * imap = new CMapQMAP(filename,&canvas);
-
-        visibleMaps.append(imap);
+        theMap = new CMapQMAP(filename,&canvas);
 
         knownMaps[map.key] = map;
-
         emit sigChanged();
     }
     else {
-        IMap * imap = new CMapRaster(filename,&canvas);
-        visibleMaps.append(imap);
+        theMap = new CMapRaster(filename,&canvas);
         emit sigChanged();
     }
 
     QSettings cfg;
-    QString maps;
-    foreach(imap,visibleMaps) {
-        maps += imap->getFilename();
-    }
-    cfg.setValue("maps/visibleMaps",maps);
+//     QString maps;
+//     foreach(imap,visibleMaps) {
+//         maps += imap->getFilename();
+//     }
+    cfg.setValue("maps/visibleMaps",theMap->getFilename());
 
     statusCanvas->updateShadingType();
+
+
 
 }
 
@@ -141,15 +138,14 @@ void CMapDB::openMap(const QString& key)
     if(!knownMaps.contains(key)) return;
 
     closeVisibleMaps();
-    IMap * map = new CMapQMAP(knownMaps[key].filename,theMainWindow->getCanvas());
-    visibleMaps.append(map);
+    theMap = new CMapQMAP(knownMaps[key].filename,theMainWindow->getCanvas());
 
     QSettings cfg;
-    QString maps;
-    foreach(map,visibleMaps) {
-        maps += map->getFilename();
-    }
-    cfg.setValue("maps/visibleMaps",maps);
+//     QString maps;
+//     foreach(imap,visibleMaps) {
+//         maps += imap->getFilename();
+//     }
+    cfg.setValue("maps/visibleMaps",theMap->getFilename());
 
     statusCanvas->updateShadingType();
 }
@@ -158,12 +154,12 @@ void CMapDB::closeMap()
 {
     closeVisibleMaps();
     QSettings cfg;
-    IMap *  map;
-    QString maps;
-    foreach(map,visibleMaps) {
-        maps += map->getFilename();
-    }
-    cfg.setValue("maps/visibleMaps",maps);
+//     QString maps;
+//     foreach(imap,visibleMaps) {
+//         maps += imap->getFilename();
+//     }
+    cfg.setValue("maps/visibleMaps",theMap->getFilename());
+
 }
 
 void CMapDB::delKnownMap(const QStringList& keys)
@@ -209,15 +205,17 @@ void CMapDB::download()
 
 void CMapDB::draw(QPainter& p)
 {
-    if(visibleMaps.isEmpty()) {
-        defaultMap->draw(p);
-        return;
-    }
 
-    IMap * map;
-    foreach(map,visibleMaps) {
-        map->draw(p);
-    }
+    theMap->draw(p);
+//     if(visibleMaps.isEmpty()) {
+//         defaultMap->draw(p);
+//         return;
+//     }
+//
+//     IMap * map;
+//     foreach(map,visibleMaps) {
+//         map->draw(p);
+//     }
 }
 
 

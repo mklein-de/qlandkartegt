@@ -486,7 +486,7 @@ void CCanvas::drawScale(QPainter& p)
     map.convertPt2Rad(pt1.u,pt1.v);
 
 
-    if(pt1.u == 0 && pt1.v == 0){
+    if(pt1.u == px1.x() && pt1.v == px1.y()){
         return;
     }
 
@@ -598,14 +598,21 @@ void CCanvas::move(move_direction_e dir)
             double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
 
             map.dimensions(lon1, lat1, lon2, lat2);
+
+            qDebug() << lon1 << lat1 << lon2 << lat2;
+
             lon1 += (lon2 - lon1)/2;
             lat2 += (lat1 - lat2)/2;
             map.convertRad2Pt(lon1,lat2);
+
+            qDebug() << lon1 << lat2;
 
             p1.rx() = lon1;
             p1.ry() = lat2;
 
             p2 = geometry().center();
+
+            qDebug() << p1 << p2;
         }
         break;
     }
@@ -622,35 +629,37 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
     double x = e->x();
     double y = e->y();
-    map.convertPt2M(x,y);
 
-//     info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
-
-    x = e->x();
-    y = e->y();
     map.convertPt2Rad(x,y);
 
-    float ele = map.getElevation(x,y);
-    if(ele != WPT_NOFLOAT) {
-        info += QString(" (ele: %1 m)").arg(ele);
+    if((x == e->x()) && (y == e->y())){
+        map.convertPt2M(x,y);
+        info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
     }
+    else {
 
-    x *= RAD_TO_DEG;
-    y *= RAD_TO_DEG;
+        float ele = map.getElevation(x,y);
+        if(ele != WPT_NOFLOAT) {
+            info += QString(" (ele: %1 m)").arg(ele);
+        }
 
-    qint32 degN,degE;
-    float minN,minE;
+        x *= RAD_TO_DEG;
+        y *= RAD_TO_DEG;
 
-    GPS_Math_Deg_To_DegMin(y, &degN, &minN);
+        qint32 degN,degE;
+        float minN,minE;
 
-    GPS_Math_Deg_To_DegMin(x, &degE, &minE);
+        GPS_Math_Deg_To_DegMin(y, &degN, &minN);
 
-    QString str,lat,lng;
-    lat = degN < 0 ? "S" : "N";
-    lng = degE < 0 ? "W" : "E";
-    str.sprintf(" %s%02d\260 %06.3f %s%03d\260 %06.3f ",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
+        GPS_Math_Deg_To_DegMin(x, &degE, &minE);
 
-    info += str;
+        QString str,lat,lng;
+        lat = degN < 0 ? "S" : "N";
+        lng = degE < 0 ? "W" : "E";
+        str.sprintf(" %s%02d\260 %06.3f %s%03d\260 %06.3f ",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
+
+        info += str;
+    }
 
     theMainWindow->setPositionInfo(info);
 
