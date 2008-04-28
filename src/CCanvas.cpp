@@ -599,20 +599,15 @@ void CCanvas::move(move_direction_e dir)
 
             map.dimensions(lon1, lat1, lon2, lat2);
 
-            qDebug() << lon1 << lat1 << lon2 << lat2;
-
             lon1 += (lon2 - lon1)/2;
             lat2 += (lat1 - lat2)/2;
             map.convertRad2Pt(lon1,lat2);
-
-            qDebug() << lon1 << lat2;
 
             p1.rx() = lon1;
             p1.ry() = lat2;
 
             p2 = geometry().center();
 
-            qDebug() << p1 << p2;
         }
         break;
     }
