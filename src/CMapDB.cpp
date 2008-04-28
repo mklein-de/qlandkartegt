@@ -205,7 +205,10 @@ void CMapDB::download()
 
 void CMapDB::draw(QPainter& p)
 {
-
+    if(theMap.isNull()){
+        defaultMap->draw(p);
+        return;
+    }
     theMap->draw(p);
 //     if(visibleMaps.isEmpty()) {
 //         defaultMap->draw(p);
