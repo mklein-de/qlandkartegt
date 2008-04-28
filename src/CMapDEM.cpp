@@ -278,7 +278,10 @@ void CMapDEM::contour(QImage& img, qint16 * data)
         data[idx++] = 0;
     }
 
+    qDebug() << abs(max) << abs(min);
+
     int f = abs(min) < abs(max) ? abs(max) : abs(min);
+    f = f ? f : 1;
 
     img.setColorTable(graytable1);
     uchar * pixel = img.bits();
