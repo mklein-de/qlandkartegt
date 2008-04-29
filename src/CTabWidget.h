@@ -29,7 +29,9 @@ class CTabWidget : public QTabWidget
         virtual ~CTabWidget();
 
         void addTab(QWidget * w, const QString& label);
-        void delTab(QWidget * w);
+
+    private slots:
+        void slotDestroyChild(QObject * child);
 };
 
 #endif //CTABWIDGET_H

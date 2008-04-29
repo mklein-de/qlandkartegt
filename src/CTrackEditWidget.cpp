@@ -59,7 +59,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 CTrackEditWidget::~CTrackEditWidget()
 {
     if(!trackStat.isNull()){
-        theMainWindow->getCanvasTab()->delTab(trackStat);
+        delete trackStat;
     }
 }
 
@@ -366,6 +366,6 @@ void CTrackEditWidget::slotToggleStat()
         theMainWindow->getCanvasTab()->addTab(trackStat, tr("Track"));
     }
     else{
-        theMainWindow->getCanvasTab()->delTab(trackStat);
+        delete trackStat;
     }
 }

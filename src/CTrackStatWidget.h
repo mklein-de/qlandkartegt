@@ -23,10 +23,12 @@
 #include <QWidget>
 #include <QPointer>
 
+#include "ui_ITrackStatWidget.h"
+
 class CPlot;
 class CTrack;
 
-class CTrackStatWidget : public QWidget
+class CTrackStatWidget : public QWidget, protected Ui::ITrackStatWidget
 {
     Q_OBJECT;
     public:

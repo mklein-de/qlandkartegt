@@ -52,7 +52,7 @@ void CDiaryDB::openEditWidget()
     }
     else{
         diary.setText(editWidget->textEdit->toHtml());
-        tb->delTab(editWidget);
+        delete editWidget;
 
     }
 }
@@ -83,7 +83,7 @@ void CDiaryDB::clear()
     if(tb == 0) return;
 
     if(!editWidget.isNull()){
-        tb->delTab(editWidget);
+        delete editWidget;
     }
     diary = CDiary(this);
     emit sigChanged();

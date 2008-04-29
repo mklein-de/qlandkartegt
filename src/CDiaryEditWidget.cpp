@@ -67,6 +67,7 @@
 CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
     : QWidget(parent)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
     textEdit->setHtml(text);
 
@@ -200,6 +201,10 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
 
     toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
     connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
+
+
+    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+    connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 CDiaryEditWidget::~CDiaryEditWidget()

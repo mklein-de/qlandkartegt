@@ -29,24 +29,27 @@
 CTrackStatWidget::CTrackStatWidget(QWidget * parent)
     : QWidget(parent)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
+    setupUi(this);
 
-    QVBoxLayout * layout  = new QVBoxLayout(this);
-    setLayout(layout);
-    layout->setSpacing(SPACING);
+    layout()->setSpacing(SPACING);
 
     elevation = new CPlot(this);
     elevation->setXLabel(tr("distance [m]"));
     elevation->setYLabel(tr("alt. [m]"));
-    layout->addWidget(elevation);
+    layout()->addWidget(elevation);
 
     speed = new CPlot(this);
     speed->setXLabel(tr("distance [m]"));
     speed->setYLabel(tr("speed [km/h]"));
-    layout->addWidget(speed);
+    layout()->addWidget(speed);
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
     slotChanged();
+
+    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+    connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 CTrackStatWidget::~CTrackStatWidget()

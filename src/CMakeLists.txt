@@ -132,6 +132,7 @@ SET(qlandkarte_UIS
     IMapEditWidget.ui
     ITrackToolWidget.ui
     ITrackEditWidget.ui
+    ITrackStatWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui
@@ -144,6 +145,7 @@ SET(qlandkarte_UIS
     IStatusCanvas.ui
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui
+
 )
 
 SET(qlandkarte_RCS

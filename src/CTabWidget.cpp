@@ -37,11 +37,13 @@ void CTabWidget::addTab(QWidget * w, const QString& label)
     QTabWidget::addTab(w,label);
     setCurrentWidget(w);
 
+    connect(w, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyChild(QObject*)));
+
     count() > 1 ? tabBar()->show() : tabBar()->hide();
 }
 
-void CTabWidget::delTab(QWidget * w)
+
+void CTabWidget::slotDestroyChild(QObject * child)
 {
-    delete w;
-    count() > 1 ? tabBar()->show() : tabBar()->hide();
+    count() > 2 ? tabBar()->show() : tabBar()->hide();
 }
