@@ -49,7 +49,7 @@ CPlot::~CPlot()
 void CPlot::clear()
 {
     m_pData->line1.points.clear();
-    m_pData->line2.points.clear();
+    m_pData->marks.points.clear();
     update();
 }
 
@@ -87,7 +87,7 @@ void CPlot::setLine(const QPolygonF& line)
 void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks)
 {
     m_pData->line1.points = line;
-    m_pData->line2.points = marks;
+    m_pData->marks.points = marks;
     m_pData->setLimits();
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
@@ -98,7 +98,7 @@ void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks)
 void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF& focus)
 {
     m_pData->line1.points = line;
-    m_pData->line2.points = marks;
+    m_pData->marks.points = marks;
     m_pData->point1.point = focus;
     m_pData->setLimits();
     setSizes();
@@ -431,11 +431,11 @@ void CPlot::drawData(QPainter& p)
         ++point;
     }
 
-    QPolygonF& line2 = m_pData->line2.points;
-    point = line2.begin();
+    QPolygonF& marks = m_pData->marks.points;
+    point = marks.begin();
     p.setPen(QPen(Qt::red,2));
 
-    while(point != line2.end()) {
+    while(point != marks.end()) {
         ptx = left   + xaxis.val2pt( point->x() );
         pty = bottom - yaxis.val2pt( point->y() );
 

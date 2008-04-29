@@ -52,8 +52,10 @@ class CPlotData : public QObject
         QString ylabel;
         /// set true for grid
         bool grid;
-        /// the line data
+        /// the 1st line data
         line_t line1;
+        line_t marks;
+        /// the 2nd line data
         line_t line2;
 
         struct point_t

@@ -53,6 +53,15 @@ void CPlotData::setLimits()
         ++p;
     }
 
+    p = line2.points.begin();
+    while(p != line2.points.end()) {
+        if(p->x() > xmax) xmax = p->x();
+        if(p->x() < xmin) xmin = p->x();
+        if(p->y() > ymax) ymax = p->y();
+        if(p->y() < ymin) ymin = p->y();
+        ++p;
+    }
+
     xaxis->setMinMax(xmin,xmax);
     yaxis->setMinMax(ymin,ymax);
 }
