@@ -112,10 +112,10 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
         for(int c=0; c < C; ++c){
             weight_t& w = weights[(r * C) + c];
 
-            //  p1             p2
+            //    p1            p2
             float _c = c; float c_ = C - c;
 
-            //  p3             p4
+            //    p3            p4
             float _r = r; float r_ = R - r;
 
 
