@@ -633,7 +633,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
         float ele = CMapDB::self().getDEM().getElevation(x,y);
         if(ele != WPT_NOFLOAT) {
-            info += QString(" (ele: %1 m)").arg(ele);
+            info += QString(" (ele: %1 m)").arg(ele,0,'f',0);
         }
 
         x *= RAD_TO_DEG;

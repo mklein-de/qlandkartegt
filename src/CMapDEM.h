@@ -82,6 +82,17 @@ class CMapDEM : public IMap
 
         CStatusDEM * status;
 
+        struct weight_t
+        {
+            weight_t(): c1(0), c2(0), c3(0), c4(0) {}
+            float c1;
+            float c2;
+            float c3;
+            float c4;
+        };
+
+        weight_t * weights;
+
 };
 
 #endif //CMAPDEM_H

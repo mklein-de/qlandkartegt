@@ -26,11 +26,16 @@
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
 
+#ifdef WIN32
+#iclude <float.h>
+#define isnan(x) _isnan(x)
+#endif
 
 #include <QtGui>
 
 CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile)
 : IMap(parent)
+, weights(0)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0){
@@ -80,7 +85,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-    qDebug() << xref1 << yref1 << xref2 << yref2;
+//     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     int i;
     for(i = 0; i < 256; ++i) {
@@ -98,12 +103,52 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     status = new CStatusDEM(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
 
+    const int R = abs(yscale);
+    const int C = abs(xscale);
+
+    weights = new weight_t[R * C];
+
+    for(int r=0; r < R; ++r){
+        for(int c=0; c < C; ++c){
+            weight_t& w = weights[(r * C) + c];
+
+            //  p1             p2
+            float _c = c; float c_ = C - c;
+
+            //  p3             p4
+            float _r = r; float r_ = R - r;
+
+
+            //    p1                              p2
+            float d1 = sqrt(_c*_c + _r*_r); float d2 = sqrt(c_*c_ + _r*_r);
+
+            //    p3                              p4
+            float d3 = sqrt(_c*_c + r_*r_); float d4 = sqrt(c_*c_ + r_*r_);
+
+
+            w.c1 = pow(d1,-2);
+            w.c2 = pow(d2,-2);
+            w.c3 = pow(d3,-2);
+            w.c4 = pow(d4,-2);
+
+            float f = w.c1 + w.c2 + w.c3 + w.c4;
+
+            w.c1 = w.c1 / f; if(isnan(w.c1)) w.c1 = 1.0;
+            w.c2 = w.c2 / f; if(isnan(w.c2)) w.c2 = 1.0;
+            w.c3 = w.c3 / f; if(isnan(w.c3)) w.c3 = 1.0;
+            w.c4 = w.c4 / f; if(isnan(w.c4)) w.c4 = 1.0;
+
+//             qDebug() << r << c << "\t" << w.c1 << w.c2;
+//             qDebug() << "\t" << w.c3 << w.c4;
+        }
+    }
 }
 
 CMapDEM::~CMapDEM()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
+    if(weights) delete [] weights;
     delete status;
 }
 
@@ -137,21 +182,33 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 
 float CMapDEM::getElevation(float lon, float lat)
 {
-    qint16 ele;
+    qint16 e[4];
     double u = lon;
     double v = lat;
 
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
-    int xoff = (u - xref1) / xscale;
-    int yoff = (v - yref1) / yscale;
+    double xoff = (u - xref1) / xscale;
+    double yoff = (v - yref1) / yscale;
 
-    CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 1, 1, &ele, 1, 1, GDT_Int16, 1, 0, 0, 0, 0);
+    int c = (xoff - (int)xoff) * abs(xscale);
+    int r = (yoff - (int)yoff) * abs(yscale);
+
+//     qDebug() << xoff << yoff << c << r;
+
+    CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
         return WPT_NOFLOAT;
     }
 
-    return (float)ele;
+    const weight_t& w = weights[(r * abs(xscale)) + c];
+
+    float ele = w.c1 * e[0] + w.c2 * e[1] + w.c3 * e[2] + w.c4 * e[3];
+
+//     qDebug() << c << r << "\t" << w.c1 << e[0] << w.c2 << e[1];
+//     qDebug() << "\t"           << w.c3 << e[2] << w.c4 << e[3];
+
+    return ele;
 }
 
 void CMapDEM::draw(QPainter& p)

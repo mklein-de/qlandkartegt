@@ -49,7 +49,7 @@ class CTrack : public QObject
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
-                speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0){}
+                speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0), dem(WPT_NOFLOAT){}
             /// index counter for easy QVector access
             qint32  idx;
             /// longitude []
@@ -73,6 +73,8 @@ class CTrack : public QObject
             quint32 flags;
             /// the current location in pixel
             QPoint px;
+
+            float  dem;
         };
 
         /// set color by id

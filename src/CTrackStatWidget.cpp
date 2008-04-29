@@ -80,7 +80,7 @@ void CTrackStatWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        lineElev  << QPointF(trkpt->distance, trkpt->ele);
+        lineElev  << QPointF(trkpt->distance, trkpt->dem);
         lineSpeed << QPointF(trkpt->distance, trkpt->speed);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
             marksElev  << QPointF(trkpt->distance, trkpt->ele);

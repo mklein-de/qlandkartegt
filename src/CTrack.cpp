@@ -19,6 +19,7 @@
 
 #include "CTrack.h"
 #include "GeoMath.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -286,6 +287,7 @@ CTrack& CTrack::operator<<(pt_t& pt)
 
 void CTrack::rebuild(bool reindex)
 {
+    IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
     QVector<pt_t>::iterator pt1 = track.begin();
     QVector<pt_t>::iterator pt2 = track.begin();
@@ -322,6 +324,7 @@ void CTrack::rebuild(bool reindex)
     pt1->delta      = 0;
     pt1->speed      = -1;
     pt1->distance   = 0;
+    pt1->dem        = dem.getElevation(pt1->lon * DEG_TO_RAD, pt1->lat * DEG_TO_RAD);
     t1              = pt1->timestamp;
 
     // process track
@@ -351,11 +354,13 @@ void CTrack::rebuild(bool reindex)
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
         pt2->speed      = (dt > 0) ? pt2->delta / dt * 3.6 : 0;
+        pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);
 
         t2              = pt2->timestamp;
         totalDistance   = pt2->distance;
 
         pt1 = pt2;
+
     }
 
     totalTime = t2 - t1;
