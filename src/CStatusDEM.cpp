@@ -17,34 +17,22 @@
 
 **********************************************************************************************/
 
-#include "CStatusCanvas.h"
+#include "CStatusDEM.h"
+#include "CMainWindow.h"
 #include "CCanvas.h"
-#include "CMapDB.h"
 
 #include <QtGui>
 
-CStatusCanvas::CStatusCanvas(CCanvas * parent)
+CStatusDEM::CStatusDEM(QWidget * parent)
 : QWidget(parent)
-, canvas(parent)
+, overlay(IMap::eNone)
 {
     setupUi(this);
-    //     checkShading->setChecked(parent->showShading);
 
-    connect(radioNone, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
-    connect(radioShading, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
-    connect(radioContour, SIGNAL(clicked(bool)), this, SLOT(slotShowShading(bool)));
-}
+    QSettings cfg;
+    overlay = (IMap::overlay_e)cfg.value("map/overlay",overlay).toInt();
 
-
-CStatusCanvas::~CStatusCanvas()
-{
-
-}
-
-
-void CStatusCanvas::updateShadingType()
-{
-    switch(CMapDB::self().getMap().getOverlay()) {
+    switch(overlay) {
         case IMap::eNone:
             radioNone->setChecked(true);
             break;
@@ -55,23 +43,33 @@ void CStatusCanvas::updateShadingType()
             radioContour->setChecked(true);
             break;
     }
+
+    connect(radioNone, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
+    connect(radioShading, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
+    connect(radioContour, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
+
 }
 
-
-void CStatusCanvas::slotShowShading(bool checked)
+CStatusDEM::~CStatusDEM()
 {
-    IMap& map = CMapDB::self().getMap();
+    QSettings cfg;
+    cfg.setValue("map/overlay",overlay);
 
+}
+
+void CStatusDEM::slotShowShading()
+{
     QString button = sender()->objectName();
     if(button == "radioNone") {
-        map.setOverlay(IMap::eNone);
+        overlay = IMap::eNone;
     }
     else if(button == "radioShading") {
-        map.setOverlay(IMap::eShading);
+        overlay = IMap::eShading;
     }
     else if(button == "radioContour") {
-        map.setOverlay(IMap::eContour);
+        overlay = IMap::eContour;
     }
 
-    canvas->update();
+    theMainWindow->getCanvas()->update();
 }
+

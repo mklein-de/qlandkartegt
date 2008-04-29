@@ -118,12 +118,6 @@ class IMap : public QObject
         */
         virtual float getElevation(float lon, float lat);
 
-        /// is this the right place?
-        virtual void setOverlay(enum overlay_e type){overlay = type;}
-
-        /// is this the right place?
-        virtual overlay_e getOverlay(){return overlay;}
-
         virtual const QString& getFilename(){return filename;}
     public slots:
         /// change visible size of map
@@ -133,6 +127,10 @@ class IMap : public QObject
         virtual void resize(const QSize& size);
 
     protected:
+        virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
+
+        void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
         QString filename;
         /// canvas / viewport rectangle [px]
         QRect rect;
@@ -152,7 +150,5 @@ class IMap : public QObject
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
         PJ * pjtar;
-
-        overlay_e overlay;
 };
 #endif                           //IMAP_H

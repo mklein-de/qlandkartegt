@@ -16,27 +16,31 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CSTATUSCANVAS_H
-#define CSTATUSCANVAS_H
+
+#ifndef CSTATUSDEM_H
+#define CSTATUSDEM_H
+
+#include "IMap.h"
 
 #include <QWidget>
-#include "ui_IStatusCanvas.h"
 
-class CCanvas;
+#include "ui_IStatusDEM.h"
 
-class CStatusCanvas : public QWidget, private Ui::IStatusCanvas
+class CStatusDEM : public QWidget, private Ui::IStatusDEM
 {
     Q_OBJECT;
     public:
-        CStatusCanvas(CCanvas * parent);
-        virtual ~CStatusCanvas();
+        CStatusDEM(QWidget * parent);
+        virtual ~CStatusDEM();
 
-        void updateShadingType();
+        IMap::overlay_e getOverlayType(){return overlay;}
 
     private slots:
-        void slotShowShading(bool checked);
+        void slotShowShading();
 
     private:
-        CCanvas * canvas;
+        IMap::overlay_e overlay;
 };
-#endif                           //CSTATUSCANVAS_H
+
+#endif //CSTATUSDEM_H
+

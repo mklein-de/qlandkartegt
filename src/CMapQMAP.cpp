@@ -292,8 +292,6 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
 : IMap(parent)
 , pMaplevel(0)
 , zoomFactor(1)
-, pDEM(0)
-
 {
     filename = fn;
     // setup export progress dialog
@@ -347,11 +345,6 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
     topLeft.u = u * DEG_TO_RAD;
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
-
-    QString fileDEM = mapdef.value("DEM/file","").toString();
-    if(!fileDEM.isEmpty()) {
-        pDEM = new CMapDEM(path.filePath(fileDEM), this, datum, path.filePath(gridfile));
-    }
 
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
@@ -455,11 +448,6 @@ void CMapQMAP::draw(QPainter& p)
 
     if(!foundMap) {
         IMap::draw(p);
-    }
-
-    if(pDEM && (overlay != eNone)) {
-        const CMapFile * map = *pMaplevel->begin();
-        pDEM->draw(p, topLeft, bottomRight, map->xscale*zoomFactor, map->yscale*zoomFactor, overlay);
     }
 
 
@@ -699,11 +687,15 @@ void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2
 }
 
 
-float CMapQMAP::getElevation(float lon, float lat)
+void CMapQMAP::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
-    if(pDEM) {
-        return pDEM->getElevation(lon,lat);
+    if(pMaplevel.isNull()) {
+        return;
     }
-    return IMap::getElevation(lon,lat);
+    const CMapFile * map = *pMaplevel->begin();
 
+    p1          = topLeft;
+    p2          = bottomRight;
+    my_xscale   = map->xscale*zoomFactor;
+    my_yscale   = map->yscale*zoomFactor;
 }

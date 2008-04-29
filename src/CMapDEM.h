@@ -20,56 +20,49 @@
 #ifndef CMAPDEM_H
 #define CMAPDEM_H
 
-#include <QObject>
-#include <QVector>
-#include <QRgb>
-#include <projects.h>
-
 #include "IMap.h"
 
-class GDALDataset;
-class QPainter;
-class QSize;
-class QImage;
+#include <QVector>
+#include <QRgb>
 
-/// data object for digital elevation models
-/**
-    Get the elevation for a given point or apply elevation shading to the canvas.
-    The data is assumed to be 16bit per point.
-*/
-class CMapDEM : public QObject
+class GDALDataset;
+class QImage;
+class CStatusDEM;
+
+class CMapDEM : public IMap
 {
     Q_OBJECT;
     public:
-        CMapDEM(const QString& filename, QObject * parent, const QString& datum = QString::Null(), const QString& gridfile = QString::Null());
+        CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile);
         virtual ~CMapDEM();
 
-        /// read elevation from file
-        /**
-            @param lon the longitude in [rad]
-            @param lat the latitude in [rad]
-        */
-        float getElevation(float& lon, float& lat);
+        /// draw map
+        void draw(QPainter& p);
 
-        void draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale, IMap::overlay_e overlay);
+        void convertPt2M(double& u, double& v);
+        void convertM2Pt(double& u, double& v);
+        void move(const QPoint& old, const QPoint& next);
+        void zoom(bool zoomIn, const QPoint& p);
+        void zoom(double lon1, double lat1, double lon2, double lat2);
+        void select(const QRect& rect);
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+        float getElevation(float lon, float lat);
 
     private:
         void shading(QImage& img, qint16 * data);
         void contour(QImage& img, qint16 * data);
 
-        QString filename;
         /// instance of GDAL dataset
         GDALDataset * dataset;
+        /// width of GeoTiff tiles / blocks
+        qint32 tileWidth;
+        /// height of GeoTiff tiles / blocks
+        qint32 tileHeight;
+
         /// width in number of px
         quint32 xsize_px;
         /// height in number of px
         quint32 ysize_px;
-        /// configuration string for projection
-        QString strProj;
-        /// projection context of DEM data
-        PJ * pjsrc;
-        /// projection context for WGS84
-        PJ * pjtar;
 
         /// scale [px/m]
         double xscale;
@@ -84,13 +77,12 @@ class CMapDEM : public QObject
         /// reference point [m] (bottom of map)
         double yref2;
 
-        /// width of GeoTiff tiles / blocks
-        qint32 tileWidth;
-        /// height of GeoTiff tiles / blocks
-        qint32 tileHeight;
-
         QVector<QRgb> graytable1;
         QVector<QRgb> graytable2;
 
+        CStatusDEM * status;
+
 };
-#endif                           //CMAPDEM_H
+
+#endif //CMAPDEM_H
+

@@ -18,32 +18,36 @@
 **********************************************************************************************/
 
 #include "CMapDEM.h"
+#include "CMapDB.h"
 #include "CWpt.h"
+#include "CStatusDEM.h"
+#include "CMainWindow.h"
 
-#include <QtGui>
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
-#include <projects.h>
 
-#define M 25
 
-// qint16 dem[256 * 256 * M * M];
+#include <QtGui>
 
-CMapDEM::CMapDEM(const QString& filename, QObject * parent, const QString& datum, const QString& gridfile)
-: QObject(parent)
-, filename(filename)
-, dataset(0)
-, xsize_px(0)
-, ysize_px(0)
-, pjsrc(0)
-, pjtar(0)
-, xscale(0.0)
-, yscale(0.0)
-, xref1(0.0)
-, yref1(0.0)
+CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile)
+: IMap(parent)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
-    if(dataset == 0) return;
+    if(dataset == 0){
+        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        return;
+    }
+
+
+    GDALRasterBand * pBand;
+    pBand = dataset->GetRasterBand(1);
+    if(pBand == 0){
+        delete dataset; dataset = 0;
+        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        return;
+    }
+    pBand->GetBlockSize(&tileWidth,&tileHeight);
+
 
     char str[1024];
     strncpy(str,dataset->GetProjectionRef(),sizeof(str));
@@ -51,7 +55,7 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent, const QString& datum
     OGRSpatialReference oSRS;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
-    strProj = ptr;
+    QString strProj = ptr;
     if(!datum.isEmpty() && !gridfile.isEmpty()){
         strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
     }
@@ -78,10 +82,6 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent, const QString& datum
 
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
-    GDALRasterBand * pBand;
-    pBand = dataset->GetRasterBand(1);
-    pBand->GetBlockSize(&tileWidth,&tileHeight);
-
     int i;
     for(i = 0; i < 256; ++i) {
         graytable2 << qRgba(0,0,0,i);
@@ -95,18 +95,47 @@ CMapDEM::CMapDEM(const QString& filename, QObject * parent, const QString& datum
         graytable1 << qRgba(255,255,255,(i - 128) << 1);
     }
 
-}
+    status = new CStatusDEM(theMainWindow->getCanvas());
+    theMainWindow->statusBar()->insertPermanentWidget(0,status);
 
+}
 
 CMapDEM::~CMapDEM()
 {
     if(pjsrc) pj_free(pjsrc);
-    if(pjtar) pj_free(pjtar);
     if(dataset) delete dataset;
+    delete status;
 }
 
+void CMapDEM::convertPt2M(double& u, double& v)
+{
+}
 
-float CMapDEM::getElevation(float& lon, float& lat)
+void CMapDEM::convertM2Pt(double& u, double& v)
+{
+}
+
+void CMapDEM::move(const QPoint& old, const QPoint& next)
+{
+}
+
+void CMapDEM::zoom(bool zoomIn, const QPoint& p)
+{
+}
+
+void CMapDEM::zoom(double lon1, double lat1, double lon2, double lat2)
+{
+}
+
+void CMapDEM::select(const QRect& rect)
+{
+}
+
+void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+}
+
+float CMapDEM::getElevation(float lon, float lat)
 {
     qint16 ele;
     double u = lon;
@@ -125,14 +154,15 @@ float CMapDEM::getElevation(float& lon, float& lat)
     return (float)ele;
 }
 
-
-void CMapDEM::draw(QPainter& p, const XY& p1, const XY& p2, const float my_xscale, const float my_yscale, IMap::overlay_e overlay)
+void CMapDEM::draw(QPainter& p)
 {
-    //     qDebug() << (p1.u * RAD_TO_DEG) << (p1.v * RAD_TO_DEG);
-    //     qDebug() << (p2.u * RAD_TO_DEG) << (p2.v * RAD_TO_DEG);
-    //     qDebug() << size;
-
+    IMap::overlay_e overlay = status->getOverlayType();
     if(overlay == IMap::eNone) return;
+
+    XY p1, p2;
+    float my_xscale, my_yscale;
+
+    getArea_n_Scaling_fromBase(p1, p2, my_xscale, my_yscale);
 
     /*
         Calculate area of DEM data to be read.

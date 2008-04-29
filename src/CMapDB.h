@@ -29,7 +29,6 @@ class IMap;
 class QPainter;
 class CCanvas;
 class CMapNoMap;
-class CStatusCanvas;
 class CMapEditWidget;
 
 class CMapDB : public IDB
@@ -58,6 +57,10 @@ class CMapDB : public IDB
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get current main map
         IMap& getMap();
+
+        /// get current DEM map
+        IMap& getDEM();
+
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
 
@@ -86,24 +89,19 @@ class CMapDB : public IDB
 
         static CMapDB * m_self;
 
-        /// list of all visible maps
-        /**
-            All maps in this list a drawn from index 0 first to index N.
-            The map at index 0 is called main map. All other maps must use the
-            same projection as the main map.
-        */
-//         QPointer<IMap> visibleMap;
-
         /// a dictionary of previous opened maps
         QMap<QString,map_t> knownMaps;
 
         /// the default map if no map is selected
-
-
-        CStatusCanvas * statusCanvas;
-
         QPointer<IMap> defaultMap;
+        /// the base map
+        /**
+            The base map will supply the projection.
+            All other layers have to use the same projection;
+        */
         QPointer<IMap> theMap;
+
+        QPointer<IMap> demMap;
 
         QPointer<CMapEditWidget> mapedit;
 };

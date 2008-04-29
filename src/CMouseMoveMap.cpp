@@ -163,7 +163,7 @@ void CMouseMoveMap::slotMoveWpt()
 
 void CMouseMoveMap::slotAddWpt()
 {
-    IMap& map = CMapDB::self().getMap();
+    IMap& map = CMapDB::self().getDEM();
 
     double u = mousePos.x();
     double v = mousePos.y();

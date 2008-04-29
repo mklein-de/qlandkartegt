@@ -20,6 +20,7 @@
 #include "IMap.h"
 #include "CWpt.h"
 #include "CCanvas.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 #include <math.h>
@@ -29,13 +30,11 @@ IMap::IMap(CCanvas * parent)
 , zoomidx(1)
 , pjsrc(0)
 , pjtar(0)
-, overlay(eNone)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
-    overlay = (overlay_e)cfg.value("map/overlay",overlay).toInt();
 
     resize(parent->size());
     connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
@@ -47,11 +46,10 @@ IMap::IMap(CCanvas * parent)
 IMap::~IMap()
 {
     qDebug() << "IMap::~IMap()";
-    pj_free(pjtar);
+    if(pjtar) pj_free(pjtar);
 
     QSettings cfg;
     cfg.setValue("map/zoom",zoomidx);
-    cfg.setValue("map/overlay",overlay);
 }
 
 
@@ -111,4 +109,9 @@ void IMap::convertRad2Pt(double& u, double& v)
 float IMap::getElevation(float lon, float lat)
 {
     return WPT_NOFLOAT;
+}
+
+void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+{
+    CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }

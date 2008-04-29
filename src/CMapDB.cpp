@@ -21,8 +21,8 @@
 #include "CMapToolWidget.h"
 #include "CMapQMAP.h"
 #include "CMapRaster.h"
+#include "CMapDEM.h"
 #include "CMainWindow.h"
-#include "CStatusCanvas.h"
 #include "CMapEditWidget.h"
 
 #include <QtGui>
@@ -50,25 +50,23 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         knownMaps[m.key] = m;
     }
 
+
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
-        QFileInfo fi(map);
-        QString ext = fi.suffix();
-        if(ext == "qmap") {
-            theMap = new CMapQMAP(map,theMainWindow->getCanvas());
-        }
-        else{
-            theMap = new CMapRaster(map,theMainWindow->getCanvas());
-        }
+        openMap(map,*theMainWindow->getCanvas());
+//         QFileInfo fi(map);
+//         QString ext = fi.suffix();
+//         if(ext == "qmap") {
+//             theMap = new CMapQMAP(map,theMainWindow->getCanvas());
+//         }
+//         else{
+//             theMap = new CMapRaster(map,theMainWindow->getCanvas());
+//         }
         //TODO: has to be removed for several layers
         break;
     }
     emit sigChanged();
 
-    statusCanvas = new CStatusCanvas(theMainWindow->getCanvas());
-    statusCanvas->updateShadingType();
-
-    theMainWindow->statusBar()->insertPermanentWidget(0,statusCanvas);
 }
 
 
@@ -88,9 +86,15 @@ IMap& CMapDB::getMap() {
     return (theMap.isNull() ? *defaultMap : *theMap);
 }
 
+IMap& CMapDB::getDEM()
+{
+    return (demMap.isNull() ? *defaultMap : *demMap);
+}
+
 void CMapDB::closeVisibleMaps()
 {
     if(!theMap.isNull()) delete theMap;
+    if(!demMap.isNull()) delete demMap;
 }
 
 
@@ -103,14 +107,28 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
     QFileInfo fi(filename);
     QString ext = fi.suffix();
     if(ext == "qmap") {
+
+        // create map descritor
         QSettings mapdef(filename,QSettings::IniFormat);
         map.filename    = filename;
         map.description = mapdef.value("description/comment","").toString();
         if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
 
+        // create base map
         theMap = new CMapQMAP(filename,&canvas);
 
+        // create DEM map if any
+        QDir    path        = QFileInfo(filename).absolutePath();
+        QString fileDEM     = mapdef.value("DEM/file","").toString();
+        QString datum       = mapdef.value("gridshift/datum","").toString();
+        QString gridfile    = mapdef.value("gridshift/file","").toString();
+
+        if(!fileDEM.isEmpty()) {
+            demMap = new CMapDEM(path.filePath(fileDEM), &canvas, datum, path.filePath(gridfile));
+        }
+
+        // add map to known maps
         knownMaps[map.key] = map;
         emit sigChanged();
     }
@@ -119,17 +137,10 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
         emit sigChanged();
     }
 
+
+    // store current map filename for next session
     QSettings cfg;
-//     QString maps;
-//     foreach(imap,visibleMaps) {
-//         maps += imap->getFilename();
-//     }
     cfg.setValue("maps/visibleMaps",theMap->getFilename());
-
-    statusCanvas->updateShadingType();
-
-
-
 }
 
 
@@ -138,28 +149,33 @@ void CMapDB::openMap(const QString& key)
     if(!knownMaps.contains(key)) return;
 
     closeVisibleMaps();
-    theMap = new CMapQMAP(knownMaps[key].filename,theMainWindow->getCanvas());
 
+    // create base map
+    QString filename = knownMaps[key].filename;
+    theMap = new CMapQMAP(filename,theMainWindow->getCanvas());
+
+    // create DEM map if any
+    QSettings mapdef(filename,QSettings::IniFormat);
+    QDir    path        = QFileInfo(filename).absolutePath();
+    QString fileDEM     = mapdef.value("DEM/file","").toString();
+    QString datum       = mapdef.value("gridshift/datum","").toString();
+    QString gridfile    = mapdef.value("gridshift/file","").toString();
+
+    if(!fileDEM.isEmpty()) {
+        demMap = new CMapDEM(path.filePath(fileDEM), theMainWindow->getCanvas(), datum, path.filePath(gridfile));
+    }
+
+    // store current map filename for next session
     QSettings cfg;
-//     QString maps;
-//     foreach(imap,visibleMaps) {
-//         maps += imap->getFilename();
-//     }
     cfg.setValue("maps/visibleMaps",theMap->getFilename());
 
-    statusCanvas->updateShadingType();
 }
 
 void CMapDB::closeMap()
 {
-    closeVisibleMaps();
     QSettings cfg;
-//     QString maps;
-//     foreach(imap,visibleMaps) {
-//         maps += imap->getFilename();
-//     }
     cfg.setValue("maps/visibleMaps",theMap->getFilename());
-
+    closeVisibleMaps();
 }
 
 void CMapDB::delKnownMap(const QStringList& keys)
@@ -210,15 +226,10 @@ void CMapDB::draw(QPainter& p)
         return;
     }
     theMap->draw(p);
-//     if(visibleMaps.isEmpty()) {
-//         defaultMap->draw(p);
-//         return;
-//     }
-//
-//     IMap * map;
-//     foreach(map,visibleMaps) {
-//         map->draw(p);
-//     }
+
+    if(!demMap.isNull()){
+        demMap->draw(p);
+    }
 }
 
 

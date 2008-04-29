@@ -12,7 +12,7 @@ set(qlandkarte_SRCS
     CCopyright.cpp
     CMainWindow.cpp
     CCanvas.cpp
-    CStatusCanvas.cpp
+    CStatusDEM.cpp
     IMouse.cpp
     CMouseMoveMap.cpp
     CMouseSelMap.cpp
@@ -73,7 +73,7 @@ set(qlandkarte_HDRS
     CCopyright.h
     CMainWindow.h
     CCanvas.h
-    CStatusCanvas.h
+    CStatusDEM.h
     IMouse.h
     CMouseMoveMap.h
     CMouseSelMap.h
@@ -142,7 +142,7 @@ SET(qlandkarte_UIS
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
-    IStatusCanvas.ui
+    IStatusDEM.ui
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui
 

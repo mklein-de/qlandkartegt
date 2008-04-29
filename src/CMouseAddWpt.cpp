@@ -45,7 +45,7 @@ void CMouseAddWpt::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
-    IMap& map = CMapDB::self().getMap();
+    IMap& map = CMapDB::self().getDEM();
 
     double u = e->pos().x();
     double v = e->pos().y();

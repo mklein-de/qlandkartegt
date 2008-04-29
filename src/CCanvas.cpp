@@ -40,8 +40,6 @@
 #include "GeoMath.h"
 #include "WptIcons.h"
 
-#include "CStatusCanvas.h"
-
 #include <QtGui>
 
 CCanvas::CCanvas(QWidget * parent)
@@ -633,7 +631,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     }
     else {
 
-        float ele = map.getElevation(x,y);
+        float ele = CMapDB::self().getDEM().getElevation(x,y);
         if(ele != WPT_NOFLOAT) {
             info += QString(" (ele: %1 m)").arg(ele);
         }
