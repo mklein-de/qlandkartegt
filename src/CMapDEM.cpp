@@ -27,7 +27,7 @@
 #include <ogr_spatialref.h>
 
 #ifdef WIN32
-#iclude <float.h>
+#include <float.h>
 #define isnan(x) _isnan(x)
 #endif
 
@@ -201,7 +201,7 @@ float CMapDEM::getElevation(float lon, float lat)
         return WPT_NOFLOAT;
     }
 
-    const weight_t& w = weights[(r * abs(xscale)) + c];
+    const weight_t& w = weights[(r * (int)abs(xscale)) + c];
 
     float ele = w.c1 * e[0] + w.c2 * e[1] + w.c3 * e[2] + w.c4 * e[3];
 

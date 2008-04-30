@@ -113,7 +113,7 @@ void CPlotAxis::calc()
         used_max = used_max;
     }
 
-    int t1 = ( int ) rint( used_min / interval );
+    int t1 = ( int )( used_min / interval + 0.5);
     tic_start = interval * t1;
     if ( tic_start < used_min ) {
         tic_start += interval;

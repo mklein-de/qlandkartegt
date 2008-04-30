@@ -10,8 +10,8 @@ set(VER_STEP      2)
 add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${VER_STEP})
 
 IF(WIN32)
-  LINK_DIRECTORIES( C:/Programme/FWTools2.1.1/lib )
-  INCLUDE_DIRECTORIES( C:/Programme/FWTools2.1.1/include )
+  LINK_DIRECTORIES( C:/Programme/FWTools2.1.0/lib )
+  INCLUDE_DIRECTORIES( C:/Programme/FWTools2.1.0/include )
 ENDIF(WIN32)
 
 IF(UNIX)
