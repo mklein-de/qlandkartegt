@@ -45,12 +45,13 @@ void CMouseAddWpt::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddWpt::mousePressEvent(QMouseEvent * e)
 {
-    IMap& map = CMapDB::self().getDEM();
+    IMap& map = CMapDB::self().getMap();
+    IMap& dem = CMapDB::self().getDEM();
 
     double u = e->pos().x();
     double v = e->pos().y();
     map.convertPt2Rad(u,v);
-    float ele = map.getElevation(u,v);
+    float ele = dem.getElevation(u,v);
     CWptDB::self().newWpt(u, v, ele);
 
 }

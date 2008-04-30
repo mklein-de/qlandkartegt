@@ -163,12 +163,13 @@ void CMouseMoveMap::slotMoveWpt()
 
 void CMouseMoveMap::slotAddWpt()
 {
-    IMap& map = CMapDB::self().getDEM();
+    IMap& map = CMapDB::self().getMap();
+    IMap& dem = CMapDB::self().getDEM();
 
     double u = mousePos.x();
     double v = mousePos.y();
     map.convertPt2Rad(u,v);
-    float ele = map.getElevation(u,v);
+    float ele = dem.getElevation(u,v);
     CWptDB::self().newWpt(u, v, ele);
 
 }
