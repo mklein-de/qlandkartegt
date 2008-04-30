@@ -68,7 +68,6 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     qDebug() << strProj;
 
     pjsrc = pj_init_plus(strProj.toLatin1());
-    pjtar = pj_init_plus("+proj=longlat +datum=WGS84 +no_defs");
 
     xsize_px = dataset->GetRasterXSize();
     ysize_px = dataset->GetRasterYSize();
