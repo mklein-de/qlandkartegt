@@ -47,19 +47,26 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     }
 
 
-    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex){
+    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex){
         delete dataset; dataset = 0;
-        QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette."));
+        QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
         return;
     }
 
     maparea.setWidth(dataset->GetRasterXSize());
     maparea.setHeight(dataset->GetRasterYSize());
 
-    GDALColorTable * pct = pBand->GetColorTable();
-    for(int i=0; i < pct->GetColorEntryCount(); ++i) {
-        const GDALColorEntry& e = *pct->GetColorEntry(i);
-        colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ){
+        GDALColorTable * pct = pBand->GetColorTable();
+        for(int i=0; i < pct->GetColorEntryCount(); ++i) {
+            const GDALColorEntry& e = *pct->GetColorEntry(i);
+            colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+        }
+    }
+    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ){
+        for(int i=0; i < 256; ++i) {
+            colortable << qRgba(i, i, i, 255);
+        }
     }
 }
 
