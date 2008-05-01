@@ -46,9 +46,11 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 
     toolReload->setIcon(QPixmap(":/icons/iconReload16x16"));
+    toolOutFile->setIcon(QPixmap(":/icons/iconFileSave16x16.png"));
 
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(toolReload, SIGNAL(clicked()), this, SLOT(slotReload()));
+    connect(toolOutFile, SIGNAL(clicked()), this, SLOT(slotOutFile()));
     connect(comboMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotModeChanged(int)));
     connect(pushAddRef, SIGNAL(clicked()), this, SLOT(slotAddRef()));
     connect(pushDelRef, SIGNAL(clicked()), this, SLOT(slotDelRef()));
@@ -75,6 +77,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->setCurrentIndex(1);
 
     toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
+
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -119,6 +122,7 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
 
 void CCreateMapGeoTiff::enableStep2()
 {
+    toolOutFile->setEnabled(true);
     toolReload->setEnabled(true);
     labelStep2->setEnabled(true);
     treeWidget->setEnabled(true);
@@ -181,6 +185,19 @@ void CCreateMapGeoTiff::slotOpenFile()
     delete dataset;
 
     enableStep2();
+}
+
+void CCreateMapGeoTiff::slotOutFile()
+{
+    QSettings cfg;
+    path = QDir(cfg.value("path/create",path.path()).toString());
+
+
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif)"));
+    if(filename.isEmpty()) return;
+
+    labelOutputFile->setText(filename);
+
 }
 
 void CCreateMapGeoTiff::slotReload()
@@ -767,6 +784,7 @@ void CCreateMapGeoTiff::slotClearAll()
     labelInputFile->clear();
     labelOutputFile->clear();
 
+    toolOutFile->setEnabled(false);
     toolReload->setEnabled(false);
     labelStep2->setEnabled(false);
     treeWidget->setEnabled(false);

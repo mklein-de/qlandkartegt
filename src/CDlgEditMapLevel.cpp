@@ -31,6 +31,7 @@ CDlgEditMapLevel::CDlgEditMapLevel(QTreeWidgetItem * item,  const QString& path,
     spinZoom->setValue(item->data(0,CCreateMapQMAP::eZoom).toInt());
     listFiles->addItems(item->text(CCreateMapQMAP::eFiles).split("; ",QString::SkipEmptyParts));
 
+    toolFiles->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
     connect(toolFiles, SIGNAL(clicked()), this, SLOT(slotSelectFiles()));
 
 }
