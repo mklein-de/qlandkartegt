@@ -390,6 +390,12 @@ void CDiaryEditWidget::clipboardDataChanged()
 
 void CDiaryEditWidget::slotDocWizard()
 {
+    if(!textEdit->toPlainText().isEmpty()){
+        QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizzard"), tr("The wizzard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+        if(res == QMessageBox::Cancel) return;
+    }
+
+
     QString str;
 
     const QString& file = theMainWindow->getCurrentFilename();
@@ -400,6 +406,8 @@ void CDiaryEditWidget::slotDocWizard()
 
         str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
     }
+
+    str += tr("<p>This is an automated diary.</p>");
 
     QString key;
     QStringList keys;
