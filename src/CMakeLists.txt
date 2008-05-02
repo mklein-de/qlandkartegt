@@ -61,9 +61,11 @@ set(qlandkarte_SRCS
     CPlot.cpp
     CPlotAxis.cpp
     CPlotData.cpp
-	
-	qlandkarte.rc
 )
+
+IF(WIN32)
+	SET(qlandkarte_SRCS ${qlandkarte_SRCS} qlandkarte.rc)
+ENDIF(WIN32)
 
 set(qlandkarte_HDRS
     version.h
@@ -126,6 +128,7 @@ set(qlandkarte_HDRS
     CPlotAxis.h
     CPlotData.h
 )
+
 
 SET(qlandkarte_UIS
     ICopyright.ui
