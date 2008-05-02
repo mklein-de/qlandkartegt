@@ -61,6 +61,8 @@ set(qlandkarte_SRCS
     CPlot.cpp
     CPlotAxis.cpp
     CPlotData.cpp
+	
+	qlandkarte.rc
 )
 
 set(qlandkarte_HDRS
