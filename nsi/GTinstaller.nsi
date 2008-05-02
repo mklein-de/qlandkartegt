@@ -101,10 +101,19 @@ Var StartMenuFolder
   SectionEnd
   LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."
 
+  Section "MSVC 8.0" MSVC
+  	File Files\msvcm80.dll
+  	File Files\msvcp80.dll
+  	File Files\msvcr80.dll
+  	SetOutPath $INSTDIR
+  SectionEnd
+  LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."
+
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${QLandkarteGT} $(DESC_QLandkarteGT)
    !insertmacro MUI_DESCRIPTION_TEXT ${FWTools} $(DESC_FWTools)
    !insertmacro MUI_DESCRIPTION_TEXT ${QT} $(DESC_QT)
+   !insertmacro MUI_DESCRIPTION_TEXT ${MSVC} $(DESC_MSVC)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;------------------------------------------------------------------------
