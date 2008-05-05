@@ -181,6 +181,8 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 
 float CMapDEM::getElevation(float lon, float lat)
 {
+    if(pjsrc == 0) return WPT_NOFLOAT;
+
     qint16 e[4];
     double u = lon;
     double v = lat;
@@ -212,6 +214,8 @@ float CMapDEM::getElevation(float lon, float lat)
 
 void CMapDEM::draw(QPainter& p)
 {
+    if(pjsrc == 0) return;
+
     IMap::overlay_e overlay = status->getOverlayType();
     if(overlay == IMap::eNone) return;
 
