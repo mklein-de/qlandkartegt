@@ -47,7 +47,7 @@ class CMapDB : public IDB
         static CMapDB& self(){return *m_self;}
 
         /// open a map collection from disc
-        void openMap(const QString& filename, CCanvas& canvas);
+        void openMap(const QString& filename, bool asRaster ,CCanvas& canvas);
         /// open a known map by it's key
         void openMap(const QString& key);
         /// close the current map

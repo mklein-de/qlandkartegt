@@ -115,7 +115,7 @@ void CCreateMapQMAP::slotSaveMap()
 
     writeqmap(filename);
 
-    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
+    CMapDB::self().openMap(filename, false, *theMainWindow->getCanvas());
 }
 
 

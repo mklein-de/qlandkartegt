@@ -266,15 +266,21 @@ void CMainWindow::closeEvent(QCloseEvent * e)
 
 void CMainWindow::slotLoadMapSet()
 {
+    QSettings cfg;
+
+    QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select *.qmap file")
         ,CResources::self().pathMaps
-        ,"Map Collection (*.qmap)"
+        ,"Map Collection (*.qmap);;GeoTiff (*.tif)"
+        , &filter
         );
     if(filename.isEmpty()) return;
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
-    CMapDB::self().openMap(filename,*canvas);
+    CMapDB::self().openMap(filename, false, *canvas);
 
+
+    cfg.setValue("maps/filter",filter);
 }
 
 

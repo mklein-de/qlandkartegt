@@ -21,6 +21,7 @@
 #include "CMapToolWidget.h"
 #include "CMapQMAP.h"
 #include "CMapRaster.h"
+#include "CMapGeoTiff.h"
 #include "CMapDEM.h"
 #include "CMainWindow.h"
 #include "CMapEditWidget.h"
@@ -53,7 +54,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
-        openMap(map,*theMainWindow->getCanvas());
+        openMap(map, false, *theMainWindow->getCanvas());
 //         QFileInfo fi(map);
 //         QString ext = fi.suffix();
 //         if(ext == "qmap") {
@@ -98,7 +99,7 @@ void CMapDB::closeVisibleMaps()
 }
 
 
-void CMapDB::openMap(const QString& filename, CCanvas& canvas)
+void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 {
 
     closeVisibleMaps();
@@ -130,17 +131,24 @@ void CMapDB::openMap(const QString& filename, CCanvas& canvas)
 
         // add map to known maps
         knownMaps[map.key] = map;
-        emit sigChanged();
+
+        // store current map filename for next session
+        QSettings cfg;
+        cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
     else {
-        theMap = new CMapRaster(filename,&canvas);
-        emit sigChanged();
+        if(asRaster){
+            theMap = new CMapRaster(filename,&canvas);
+        }
+        else{
+            theMap = new CMapGeoTiff(filename,&canvas);
+            // store current map filename for next session
+            QSettings cfg;
+            cfg.setValue("maps/visibleMaps",theMap->getFilename());
+        }
     }
 
-
-    // store current map filename for next session
-    QSettings cfg;
-    cfg.setValue("maps/visibleMaps",theMap->getFilename());
+    emit sigChanged();
 }
 
 

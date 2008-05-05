@@ -152,7 +152,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.png *.gif)"));
     if(filename.isEmpty()) return;
 
-    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
+    CMapDB::self().openMap(filename, true, *theMainWindow->getCanvas());
     labelInputFile->setText(filename);
 
     QFileInfo fi(filename);
@@ -206,7 +206,7 @@ void CCreateMapGeoTiff::slotReload()
     char * ptr = str;
 
     QString filename = labelInputFile->text();
-    CMapDB::self().openMap(filename, *theMainWindow->getCanvas());
+    CMapDB::self().openMap(filename, true, *theMainWindow->getCanvas());
 
     theMainWindow->getCanvas()->move(CCanvas::eMoveCenter);
 
@@ -726,6 +726,8 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         tmpfile2->open();
 
         args << tmpfile2->fileName();
+
+
 
         textBrowser->setTextColor(Qt::black);
         textBrowser->append("gdalwarp " +  args.join(" ") + "\n");

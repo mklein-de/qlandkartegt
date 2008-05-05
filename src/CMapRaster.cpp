@@ -68,6 +68,16 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
             colortable << qRgba(i, i, i, 255);
         }
     }
+
+    int success = 0;
+    double idx = pBand->GetNoDataValue(&success);
+
+    if(success) {
+        QColor tmp(colortable[idx]);
+        tmp.setAlpha(0);
+        colortable[idx] = tmp.rgba();
+    }
+
 }
 
 CMapRaster::~CMapRaster()

@@ -26,6 +26,7 @@ set(qlandkarte_SRCS
     CMapLevel.cpp
     CMapQMAP.cpp
     CMapRaster.cpp
+    CMapGeoTiff.cpp
     CMegaMenu.cpp
     IDB.cpp
     CWpt.cpp
@@ -92,6 +93,7 @@ set(qlandkarte_HDRS
     CMapLevel.h
     CMapQMAP.h
     CMapRaster.h
+    CMapGeoTiff.h
     CMegaMenu.h
     IDB.h
     CWpt.h

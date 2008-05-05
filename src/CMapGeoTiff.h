@@ -17,31 +17,35 @@
 
 **********************************************************************************************/
 
-#ifndef CMAPFILE_H
-#define CMAPFILE_H
+#ifndef CMAPGEOTIFF_H
+#define CMAPGEOTIFF_H
 
-#include <QObject>
+#include "IMap.h"
+
 #include <QRgb>
 #include <QVector>
-#include <projects.h>
 
-class CMapLevel;
+
 class GDALDataset;
 
-/// data object for easy access to GeoTiff information
-/**
-    This will create a dataset and read basic information
-    from the GeoTiff header.
-*/
-class CMapFile : public QObject
+class CMapGeoTiff : public IMap
 {
     Q_OBJECT;
     public:
-        CMapFile(const QString& filename, QObject * parent, const QString& datum = QString::Null(), const QString& gridfile = QString::Null());
-        virtual ~CMapFile();
+        CMapGeoTiff(const QString& filename, CCanvas * parent);
+        virtual ~CMapGeoTiff();
 
-        /// source file name
-        QString filename;
+        void draw(QPainter& p);
+        void convertPt2M(double& u, double& v);
+        void convertM2Pt(double& u, double& v);
+        void move(const QPoint& old, const QPoint& next);
+        void zoom(bool zoomIn, const QPoint& p);
+        void zoom(double lon1, double lat1, double lon2, double lat2);
+        void select(const QRect& rect);
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+
+    private:
+        void zoom(qint32& level);
 
         /// instance of GDAL dataset
         GDALDataset * dataset;
@@ -50,11 +54,6 @@ class CMapFile : public QObject
         quint32 xsize_px;
         /// height in number of px
         quint32 ysize_px;
-
-        /// configuration string for projection
-        QString strProj;
-        /// projection context
-        PJ * pj;
 
         /// scale [px/m]
         double xscale;
@@ -82,12 +81,14 @@ class CMapFile : public QObject
         /// QT representation of the GeoTiff's color table
         QVector<QRgb> colortable;
 
-        /// width of GeoTiff tiles / blocks [px]
-        qint32 tileWidth;
-        /// height of GeoTiff tiles / blocks [px]
-        qint32 tileHeight;
 
-        bool ok;
+        double x;
+        double y;
+
+        double zoomFactor;
+
 
 };
-#endif                           //CMAPFILE_H
+
+#endif //CMAPGEOTIFF_H
+

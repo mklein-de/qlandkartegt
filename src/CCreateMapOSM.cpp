@@ -539,7 +539,7 @@ void CCreateMapOSM::getNextTile()
         finishJob();
         QString fn = QString("%1.qmap").arg(QDir(labelPath->text()).filePath(lineName->text()));
         qDebug() << fn;
-        CMapDB::self().openMap(fn, *theMainWindow->getCanvas());
+        CMapDB::self().openMap(fn, false, *theMainWindow->getCanvas());
         return;
     }
 
