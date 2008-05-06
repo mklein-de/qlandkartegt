@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>374</height>
+    <width>515</width>
+    <height>518</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -16,7 +16,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -184,49 +184,86 @@
        <item>
         <widget class="QGroupBox" name="groupDevice" >
          <property name="enabled" >
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="title" >
           <string>Device</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <item>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="labelDevIPAddr" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>IP Address</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
            <layout class="QHBoxLayout" >
             <item>
-             <widget class="QLabel" name="label_6" >
-              <property name="text" >
-               <string>IP Address</string>
+             <widget class="QLineEdit" name="lineDevIPAddr" >
+              <property name="enabled" >
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineDevIPAddr" />
-            </item>
-            <item>
-             <widget class="QLabel" name="label_7" >
+             <widget class="QLabel" name="labelDevIPPort" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
               <property name="text" >
                <string>Port</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineDevIPPort" />
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" >
-            <item>
-             <widget class="QLabel" name="label_8" >
+             <widget class="QLineEdit" name="lineDevIPPort" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
               <property name="text" >
-               <string>Serial Port</string>
+               <string>4242</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QLineEdit" name="lineDevSerialPort" />
-            </item>
            </layout>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="labelDevSerialPort" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>Serial Port</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QLineEdit" name="lineDevSerialPort" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="labelDevType" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="QComboBox" name="comboDevType" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

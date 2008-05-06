@@ -53,6 +53,7 @@ void CDlgConfig::exec()
 
     comboDevice->addItem(tr(""),"");
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
+    comboDevice->addItem(tr("Garmin"), "Garmin");
 
     connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
     comboDevice->setCurrentIndex(comboDevice->findData(resources.m_devKey));
@@ -96,11 +97,24 @@ void CDlgConfig::accept()
 
 void CDlgConfig::slotCurrentDeviceChanged(int index)
 {
+    lineDevIPAddr->setEnabled(false);
+    labelDevIPAddr->setEnabled(false);
+    lineDevIPPort->setEnabled(false);
+    labelDevIPPort->setEnabled(false);
+    lineDevSerialPort->setEnabled(false);
+    labelDevSerialPort->setEnabled(false);
+    comboDevType->setEnabled(false);
+    labelDevType->setEnabled(false);
+
     if(comboDevice->itemData(index) == "QLandkarteM") {
-        groupDevice->setEnabled(true);
+        lineDevIPAddr->setEnabled(true);
+        labelDevIPAddr->setEnabled(true);
+        lineDevIPPort->setEnabled(true);
+        labelDevIPPort->setEnabled(true);
     }
-    else {
-        groupDevice->setEnabled(false);
+    else if(comboDevice->itemData(index) == "Garmin") {
+        comboDevType->setEnabled(true);
+        labelDevType->setEnabled(true);
     }
 }
 

@@ -34,7 +34,7 @@ CResources::CResources(QObject * parent)
 , cmdKonqueror("kfmclient exec \"%s\"")
 , time_offset(0)
 , m_device(0)
-, m_devIPPort(0)
+, m_devIPPort(4242)
 
 {
     m_self = this;
