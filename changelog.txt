@@ -1,3 +1,31 @@
+--- 2008.05.06 ---
+
+Request #28:
+Printing diary: rotate map to fit the portrait page 
+
+Bug     #29:
+Empty diary is not detected as empty
+
+Request #30:
+Add elevation plot for tracks
+
+Request #31:
+Add speed plot for tracks
+
+Request #32:
+Support gray scale bitmaps
+
+Request #33:
+Allow the user to change the file name of a referenced file.
+
+Request #34:
+Load a single GeoTiff file (w/o \*.qmap)
+
+Request #35:
+Add win32 binary installer
+
+
+
 --- 2008.04.24 ---
 
 Bug     #24:
@@ -83,6 +111,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
