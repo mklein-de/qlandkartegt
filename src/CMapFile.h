@@ -53,6 +53,7 @@ class CMapFile : public QObject
 
         /// configuration string for projection
         QString strProj;
+        QString strOrigProj;
         /// projection context
         PJ * pj;
 

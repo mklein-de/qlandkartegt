@@ -214,7 +214,7 @@ void CExportMapThread::run()
                 // setup projection
                 char * ptr = 0;
                 OGRSpatialReference oSRS;
-                oSRS.importFromProj4((*mapfile)->strProj.toLatin1());
+                oSRS.importFromProj4((*mapfile)->strOrigProj.toLatin1());
                 oSRS.exportToWkt(&ptr);
                 dataset->SetProjection(ptr);
 

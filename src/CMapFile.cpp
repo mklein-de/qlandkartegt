@@ -47,7 +47,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
     OGRSpatialReference oSRS;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
-    strProj = ptr;
+    strOrigProj = strProj = ptr;
     if(!datum.isEmpty() && !gridfile.isEmpty()){
         strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
     }
