@@ -165,12 +165,12 @@ qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ../include)
 
 add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
 
 IF(UNIX)
-  add_definitions(-Wall -O2)
+  add_definitions(-Wall -O2 -DQL_LIBDIR=${QL_LIBDIR} -DSOEXT=${SOEXT})
   target_link_libraries(qlandkartegt gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES})
 ENDIF(UNIX)
 

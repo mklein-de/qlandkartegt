@@ -319,6 +319,8 @@ void CWptDB::download()
         QList<CWpt*> tmpwpts;
         dev->downloadWpts(tmpwpts);
 
+        if(tmpwpts.isEmpty()) return;
+
         CWpt * wpt;
         foreach(wpt,tmpwpts) {
             addWpt(wpt);

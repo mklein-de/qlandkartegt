@@ -38,5 +38,8 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotCurrentDeviceChanged(int index);
         void slotSelectFont();
 
+    private:
+        void fillTypeCombo();
+
 };
 #endif                           //CDLGCONFIG_H

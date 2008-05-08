@@ -33,7 +33,7 @@ class IDevice : public QObject
         IDevice(const QString& devkey, QObject * parent);
         virtual ~IDevice();
 
-        const QString& getDevKey(){return devkey;}
+        virtual const QString getDevKey(){return devkey;}
 
         virtual void uploadWpts(const QList<CWpt*>& wpts) = 0;
         virtual void downloadWpts(QList<CWpt*>& wpts) = 0;

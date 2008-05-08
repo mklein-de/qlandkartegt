@@ -19,8 +19,12 @@
 
 #include "CDlgConfig.h"
 #include "CResources.h"
+#include "IDevice.h"
 
 #include <QtGui>
+
+#define XSTR(x) STR(x)
+#define STR(x) #x
 
 CDlgConfig::CDlgConfig(QWidget * parent)
 : QDialog(parent)
@@ -62,6 +66,7 @@ void CDlgConfig::exec()
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
 
+
     //     if(resources.m_devKey == "QLandkarteM"){
     //         groupDevice->setEnabled(true);
     //     }
@@ -90,6 +95,12 @@ void CDlgConfig::accept()
     resources.m_devIPAddress    = lineDevIPAddr->text();
     resources.m_devIPPort       = lineDevIPPort->text().toUShort();
     resources.m_devSerialPort   = lineDevSerialPort->text();
+    resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
+
+    if(resources.m_device){
+        delete resources.m_device;
+        resources.m_device = 0;
+    }
 
     QDialog::accept();
 }
@@ -114,7 +125,10 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     }
     else if(comboDevice->itemData(index) == "Garmin") {
         comboDevType->setEnabled(true);
+        lineDevSerialPort->setEnabled(true);
+        labelDevSerialPort->setEnabled(true);
         labelDevType->setEnabled(true);
+        fillTypeCombo();
     }
 }
 
@@ -127,4 +141,21 @@ void CDlgConfig::slotSelectFont()
         labelFont->setFont(font);
     }
 
+}
+
+void CDlgConfig::fillTypeCombo()
+{
+    CResources& resources = CResources::self();
+    QRegExp regex("lib(.*)\\" XSTR(SOEXT));
+    QString file;
+    QStringList files;
+    QDir inst_dir(XSTR(QL_LIBDIR));
+    files = inst_dir.entryList(QString("*" XSTR(SOEXT)).split(','));
+
+    foreach(file,files) {
+        if(regex.exactMatch(file)) {
+            comboDevType->addItem(regex.cap(1));
+        }
+    }
+    comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
 }

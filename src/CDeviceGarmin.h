@@ -22,12 +22,43 @@
 
 #include "IDevice.h"
 
+#include <QTime>
+
+namespace Garmin
+{
+    class IDevice;
+}
+
 class CDeviceGarmin : public IDevice
 {
     Q_OBJECT;
     public:
-        CDeviceGarmin(const QString& devkey, QObject * parent);
+        CDeviceGarmin(const QString& devkey, const QString& port, QObject * parent);
         virtual ~CDeviceGarmin();
+
+        const QString getDevKey(){return QString("Garmin");}
+
+        void uploadWpts(const QList<CWpt*>& wpts);
+        void downloadWpts(QList<CWpt*>& wpts);
+
+    private:
+        Garmin::IDevice * getDevice();
+
+        QString port;
+
+        friend void GUICallback(int progress, int * ok, int * cancel, const char * title, const char * msg, void * self);
+        struct dlgdata_t
+        {
+            dlgdata_t() : dlgProgress(0), canceled(false)
+                {}
+
+            QProgressDialog * dlgProgress;
+            QTime timeProgress;
+            bool canceled;
+        };
+
+        dlgdata_t dlgData;
+
 };
 
 #endif //CDEVICEGARMIN_H

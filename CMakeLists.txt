@@ -39,6 +39,11 @@ IF(UNIX)
     ENDIF(NOT PROJ_INCLUDE )
     MESSAGE("Using " ${PROJ_INCLUDE} " for Proj4")
 
+    SET(QL_LIBDIR "/usr/lib/qlandkarte")
+    MESSAGE("Searching " ${QL_LIBDIR} " for Garmin plugins")
+
+    SET(SOEXT ".so")
+
 ENDIF(UNIX)
 
 add_subdirectory(./src)
