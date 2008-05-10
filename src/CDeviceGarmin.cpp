@@ -35,185 +35,6 @@ struct garmin_icon_t
     uint16_t id;
     const char * name;
 };
-garmin_icon_t GarminIcons[];
-
-
-/**
-  @param progress the progress as integer from 0..100, if -1 no progress bar needed.
-  @param ok if this pointer is 0 no ok button needed, if non zero set to 1 if ok button pressed
-  @param cancel if this pointer is 0 no cancel button needed, if non zero set to 1 if cancel button pressed
-  @param title dialog title as C string
-  @param msg dialog message C string to display
-  @param self void pointer as provided while registering the callback
-*/
-void GUICallback(int progress, int * ok, int * cancel, const char * title, const char * msg, void * self)
-{
-    CDeviceGarmin * parent = static_cast<CDeviceGarmin *>(self);
-    CDeviceGarmin::dlgdata_t& dd = parent->dlgData;
-
-    if(progress != -1) {
-        quint32 togo, hour, min, sec;
-        QString message;
-
-        if(dd.dlgProgress == 0) {
-            dd.canceled     = false;
-            dd.dlgProgress  = new QProgressDialog(QString(title),0,0,100,theMainWindow, Qt::WindowStaysOnTopHint);
-            dd.timeProgress.start();
-            if(cancel) {
-                QPushButton * butCancel = new QPushButton(QObject::tr("Cancel"),dd.dlgProgress);
-                parent->connect(butCancel, SIGNAL(clicked()), parent, SLOT(slotCancel()));
-                dd.dlgProgress->setCancelButton(butCancel);
-            }
-        }
-
-        if(title) dd.dlgProgress->setWindowTitle(QString(title));
-
-        togo = (quint32)((100.0 * (double)dd.timeProgress.elapsed() / (double)progress) + 0.5);
-        togo = (quint32)((double)(togo - dd.timeProgress.elapsed()) / 1000.0 + 0.5);
-
-        hour = (togo / 3600);
-        min  = (togo - hour * 3600) / 60;
-        sec  = (togo - hour * 3600 - min * 60);
-
-        message.sprintf(QObject::tr("\n\nEstimated finish: %02i:%02i:%02i [hh:mm:ss]").toUtf8(),hour,min,sec);
-
-        dd.dlgProgress->setLabelText(QString(msg) + message);
-        dd.dlgProgress->setValue(progress);
-
-        if(progress == 100 && dd.dlgProgress) {
-            delete dd.dlgProgress;
-            dd.dlgProgress = 0;
-        }
-
-        if(cancel) {
-            *cancel = dd.canceled;
-        }
-
-        qApp->processEvents();
-
-    }
-    else {
-        if(ok && cancel) {
-            QMessageBox::StandardButtons res = QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Cancel);
-            *ok     = res == QMessageBox::Ok;
-            *cancel = res == QMessageBox::Cancel;
-        }
-        else if(ok && !cancel) {
-            QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Ok,QMessageBox::Ok);
-            *ok     = true;
-        }
-        else if(!ok && cancel) {
-            QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Cancel,QMessageBox::Cancel);
-            *cancel     = true;
-        }
-        else if(!ok && !cancel) {
-            //kiozen - that doesn't work nicely
-            //             QMessageBox * dlg = new QMessageBox(&parent->main);
-            //             dlg->setWindowTitle(QString(title));
-            //             dlg->setText(QString(msg));
-            //             dlg->setStandardButtons(QMessageBox::NoButton);
-            //             dlg->setIcon(QMessageBox::Information);
-            //             dlg->show();
-            //             qApp->processEvents(QEventLoop::AllEvents, 1000);
-            //             sleep(3); // sleep for 3 seconds
-            //             delete dlg;
-        }
-    }
-}
-
-
-CDeviceGarmin::CDeviceGarmin(const QString& devkey, const QString& port, QObject * parent)
-    : IDevice(devkey, parent)
-    , port(port)
-{
-    qDebug() << "CDeviceGarmin::CDeviceGarmin()";
-
-}
-
-CDeviceGarmin::~CDeviceGarmin()
-{
-    qDebug() << "~CDeviceGarmin::CDeviceGarmin()";
-}
-
-Garmin::IDevice * CDeviceGarmin::getDevice()
-{
-    Garmin::IDevice * (*func)(const char*) = 0;
-    Garmin::IDevice * dev = 0;
-
-    QString libname     = QString("%1/lib%2" XSTR(SOEXT)).arg(XSTR(QL_LIBDIR)).arg(devkey);
-    QString funcname    = QString("init%1").arg(devkey);
-
-    func = (Garmin::IDevice * (*)(const char*))QLibrary::resolve(libname,funcname.toAscii());
-
-    if(func == 0) {
-        QMessageBox::warning(0,tr("Error ..."),tr("Failed to load driver."),QMessageBox::Ok,QMessageBox::NoButton);
-        return 0;
-    }
-
-    dev = func(INTERFACE_VERSION);
-    if(dev == 0) {
-        QMessageBox::warning(0,tr("Error ..."),tr("Driver version mismatch."),QMessageBox::Ok,QMessageBox::NoButton);
-        func = 0;
-    }
-
-    if(dev){
-        dev->setPort(port.toLatin1());
-        dev->setGuiCallback(GUICallback,this);
-    }
-
-
-    return dev;
-}
-
-void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
-{
-    qDebug() << "CDeviceGarmin::uploadWpts()";
-    Garmin::IDevice * dev = getDevice();
-    if(dev == 0) return;
-
-}
-
-void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
-{
-    qDebug() << "CDeviceGarmin::downloadWpts()";
-    Garmin::IDevice * dev = getDevice();
-    if(dev == 0) return;
-
-    std::list<Garmin::Wpt_t> garwpts;
-    try{
-        dev->downloadWaypoints(garwpts);
-    }
-    catch(int e) {
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        return;
-    }
-
-    std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
-    while(garwpt != garwpts.end()) {
-        CWpt * wpt = new CWpt(&CWptDB::self());
-
-        wpt->name       = garwpt->ident.c_str();
-        wpt->comment    = garwpt->comment.c_str();
-        wpt->lon        = garwpt->lon;
-        wpt->lat        = garwpt->lat;
-        wpt->ele        = garwpt->alt;
-        wpt->prx        = garwpt->dist;
-
-//         uint16_t smbl;
-//         double   lat;
-//         double   lon;
-//         float    alt;
-//         float    dpth;
-//         float    dist;
-//         uint32_t time;
-//         std::string ident;
-//         std::string comment;
-
-        wpts << wpt;
-        ++garwpt;
-    }
-}
-
 
 garmin_icon_t GarminIcons[] =
 {
@@ -400,137 +221,344 @@ garmin_icon_t GarminIcons[] =
     {    161, "Virtual cache" },
     {   8217, "Multi-Cache" },
     {    157, "Unknown Cache"    },
-    {                            /* Icon for "Flag" */
-        wptDefault,   178, "Locationless (Reverse) Cache"
-    },
-    {                            /* Icon for "Post Office" */
-        wptDefault,  8214, "Post Office"
-    },
-    {                            /* Icon for "Event" */
-        wptDefault,   160, "Event Cache"
-    },
-    {                            /* Icon for "Live Theatre" */
-        wptDefault,  8221, "Webcam Cache"
-    },
+    {    178, "Locationless (Reverse) Cache" },
+    {   8214, "Post Office" },
+    {    160, "Event Cache" },
+    {  8221, "Webcam Cache" },
 
     /* MapSource V6.x */
 
-    { ":/icons/wpt/flag_pin_red15x15.png",  8286, "Flag, Red" },
-    { ":/icons/wpt/flag_pin_blue15x15.png",  8284, "Flag, Blue" },
-    { ":/icons/wpt/flag_pin_green15x15.png",  8285, "Flag, Green" },
-    { ":/icons/wpt/pin_red15x15.png",  8289, "Pin, Red" },
-    { ":/icons/wpt/pin_blue15x15.png",  8287, "Pin, Blue" },
-    { ":/icons/wpt/pin_green15x15.png",  8288, "Pin, Green" },
-    { ":/icons/wpt/box_red15x15.png",  8292, "Block, Red" },
-    { ":/icons/wpt/box_blue15x15.png",  8290, "Block, Blue" },
-    { ":/icons/wpt/box_green15x15.png",  8291, "Block, Green" },
-    { wptDefault,  8293, "Bike Trail" },
-    { wptDefault,   181, "Fishing Hot Spot Facility" },
-    { wptDefault,  8249, "Police Station"},
-    { wptDefault,  8251, "Ski Resort" },
-    { wptDefault,  8252, "Ice Skating" },
-    { wptDefault,  8253, "Wrecker" },
-    { wptDefault,   184, "Anchor Prohibited" },
-    { wptDefault,   185, "Beacon" },
-    { wptDefault,   186, "Coast Guard" },
-    { wptDefault,   187, "Reef" },
-    { wptDefault,   188, "Weed Bed" },
-    { wptDefault,   189, "Dropoff" },
-    { wptDefault,   190, "Dock" },
+    {   8286, "Flag, Red" },
+    {   8284, "Flag, Blue" },
+    {   8285, "Flag, Green" },
+    {   8289, "Pin, Red" },
+    {   8287, "Pin, Blue" },
+    {   8288, "Pin, Green" },
+    {   8292, "Block, Red" },
+    {   8290, "Block, Blue" },
+    {   8291, "Block, Green" },
+    {   8293, "Bike Trail" },
+    {    181, "Fishing Hot Spot Facility" },
+    {   8249, "Police Station"},
+    {   8251, "Ski Resort" },
+    {   8252, "Ice Skating" },
+    {   8253, "Wrecker" },
+    {    184, "Anchor Prohibited" },
+    {    185, "Beacon" },
+    {    186, "Coast Guard" },
+    {    187, "Reef" },
+    {    188, "Weed Bed" },
+    {    189, "Dropoff" },
+    {    190, "Dock" },
 
     /* New in Garmin protocol spec from June 2006.  Extracted from
      * spec and fed through some horrible awk to add ones we didn't
      * have before but normalized for consistency. */
-    { wptDefault,  8359, "Asian Food" },
-    { wptDefault,  8296, "Blue Circle" },
-    { wptDefault,  8299, "Blue Diamond" },
-    { wptDefault,  8317, "Blue Letter A" },
-    { wptDefault,  8318, "Blue Letter B" },
-    { ":/icons/wpt/letter_c_blue15x15.png",  8319, "Blue Letter C" },
-    { wptDefault,  8320, "Blue Letter D" },
-    { wptDefault,  8341, "Blue Number 0" },
-    { wptDefault,  8342, "Blue Number 1" },
-    { wptDefault,  8343, "Blue Number 2" },
-    { wptDefault,  8344, "Blue Number 3" },
-    { wptDefault,  8345, "Blue Number 4" },
-    { wptDefault,  8346, "Blue Number 5" },
-    { wptDefault,  8347, "Blue Number 6" },
-    { wptDefault,  8348, "Blue Number 7" },
-    { wptDefault,  8349, "Blue Number 8" },
-    { wptDefault,  8350, "Blue Number 9" },
-    { wptDefault,  8302, "Blue Oval" },
-    { wptDefault,  8305, "Blue Rectangle" },
-    { wptDefault,  8308, "Blue Square" },
-    { wptDefault,  8351, "Blue Triangle" },
-    { wptDefault,  8254, "Border Crossing (Port Of Entry)" },
-    { wptDefault,   182, "Bottom Conditions" },
-    { wptDefault,  8360, "Deli" },
-    { wptDefault,  8228, "Elevation point" },
-    { wptDefault,  8229, "Exit without services" },
-    { wptDefault, 16398, "First approach fix" },
-    { wptDefault,  8250, "Gambling/casino" },
-    { wptDefault,  8232, "Geographic place name, land" },
-    { wptDefault,  8230, "Geographic place name, Man-made" },
-    { wptDefault,  8231, "Geographic place name, water" },
-    { wptDefault,  8295, "Green circle" },
-    { wptDefault,  8313, "Green Letter A" },
-    { wptDefault,  8315, "Green Letter B" },
-    { wptDefault,  8314, "Green Letter C" },
-    { wptDefault,  8316, "Green Letter D" },
-    { wptDefault,  8331, "Green Number 0" },
-    { wptDefault,  8332, "Green Number 1" },
-    { wptDefault,  8333, "Green Number 2" },
-    { wptDefault,  8334, "Green Number 3" },
-    { wptDefault,  8335, "Green Number 4" },
-    { wptDefault,  8336, "Green Number 5" },
-    { wptDefault,  8337, "Green Number 6" },
-    { wptDefault,  8338, "Green Number 7" },
-    { wptDefault,  8339, "Green Number 8" },
-    { wptDefault,  8340, "Green Number 9" },
-    { wptDefault,  8301, "Green Oval" },
-    { wptDefault,  8304, "Green Rectangle" },
-    { wptDefault,  8352, "Green Triangle" },
-    { wptDefault, 16385, "Intersection" },
-    { wptDefault,  8201, "Intl freeway hwy" },
-    { wptDefault,  8202, "Intl national hwy" },
-    { wptDefault,  8361, "Italian food" },
-    { wptDefault,  8248, "Large exit without services" },
-    { wptDefault,  8247, "Large Ramp intersection" },
-    { wptDefault, 16399, "Localizer Outer Marker" },
-    { wptDefault, 16400, "Missed approach point" },
-    { wptDefault, 16386, "Non-directional beacon" },
-    { wptDefault,   168, "Null" },
-    { wptDefault,   180, "Open 24 Hours" },
-    { wptDefault,  8222, "Ramp intersection" },
-    { wptDefault,  8294, "Red circle" },
-    { wptDefault,  8309, "Red Letter A" },
-    { wptDefault,  8310, "Red Letter B" },
-    { wptDefault,  8311, "Red Letter C" },
-    { wptDefault,  8312, "Red Letter D" },
-    { wptDefault,  8321, "Red Number 0" },
-    { wptDefault,  8322, "Red Number 1" },
-    { wptDefault,  8323, "Red Number 2" },
-    { wptDefault,  8324, "Red Number 3" },
-    { wptDefault,  8325, "Red Number 4" },
-    { wptDefault,  8326, "Red Number 5" },
-    { wptDefault,  8327, "Red Number 6" },
-    { wptDefault,  8328, "Red Number 7" },
-    { wptDefault,  8329, "Red Number 8" },
-    { wptDefault,  8330, "Red Number 9" },
-    { wptDefault,  8300, "Red Oval" },
-    { wptDefault,  8303, "Red Rectangle" },
-    { wptDefault,  8353, "Red Triangle" },
-    { wptDefault,  8362, "Seafood" },
-    { wptDefault,  8194, "State Hwy" },
-    { wptDefault,  8363, "Steak" },
-    { wptDefault,  8223, "Street Intersection" },
-    { wptDefault, 16401, "TACAN" },
-    { wptDefault,   183, "Tide/Current PRediction Station" },
-    { wptDefault,   191, "U Marina" },
-    { wptDefault,  8193, "US hwy" },
-    { wptDefault,   193, "U stump" },
-    { wptDefault, 16387, "VHF Omni-range" },
-    { wptDefault, 16397, "VOR-DME" },
-    { wptDefault, 16396, "VOR/TACAN" },
-    { 0,    -1, 0 },
+    {   8359, "Asian Food" },
+    {   8296, "Blue Circle" },
+    {   8299, "Blue Diamond" },
+    {   8317, "Blue Letter A" },
+    {   8318, "Blue Letter B" },
+    {   8319, "Blue Letter C" },
+    {   8320, "Blue Letter D" },
+    {   8341, "Blue Number 0" },
+    {   8342, "Blue Number 1" },
+    {   8343, "Blue Number 2" },
+    {   8344, "Blue Number 3" },
+    {   8345, "Blue Number 4" },
+    {   8346, "Blue Number 5" },
+    {   8347, "Blue Number 6" },
+    {   8348, "Blue Number 7" },
+    {   8349, "Blue Number 8" },
+    {   8350, "Blue Number 9" },
+    {   8302, "Blue Oval" },
+    {   8305, "Blue Rectangle" },
+    {   8308, "Blue Square" },
+    {   8351, "Blue Triangle" },
+    {   8254, "Border Crossing (Port Of Entry)" },
+    {    182, "Bottom Conditions" },
+    {   8360, "Deli" },
+    {   8228, "Elevation point" },
+    {   8229, "Exit without services" },
+    {  16398, "First approach fix" },
+    {   8250, "Gambling/casino" },
+    {   8232, "Geographic place name, land" },
+    {   8230, "Geographic place name, Man-made" },
+    {   8231, "Geographic place name, water" },
+    {   8295, "Green circle" },
+    {   8313, "Green Letter A" },
+    {   8315, "Green Letter B" },
+    {   8314, "Green Letter C" },
+    {   8316, "Green Letter D" },
+    {   8331, "Green Number 0" },
+    {   8332, "Green Number 1" },
+    {   8333, "Green Number 2" },
+    {   8334, "Green Number 3" },
+    {   8335, "Green Number 4" },
+    {   8336, "Green Number 5" },
+    {   8337, "Green Number 6" },
+    {   8338, "Green Number 7" },
+    {   8339, "Green Number 8" },
+    {   8340, "Green Number 9" },
+    {   8301, "Green Oval" },
+    {   8304, "Green Rectangle" },
+    {   8352, "Green Triangle" },
+    {  16385, "Intersection" },
+    {   8201, "Intl freeway hwy" },
+    {   8202, "Intl national hwy" },
+    {   8361, "Italian food" },
+    {   8248, "Large exit without services" },
+    {   8247, "Large Ramp intersection" },
+    {  16399, "Localizer Outer Marker" },
+    {  16400, "Missed approach point" },
+    {  16386, "Non-directional beacon" },
+    {    168, "Null" },
+    {    180, "Open 24 Hours" },
+    {   8222, "Ramp intersection" },
+    {   8294, "Red circle" },
+    {   8309, "Red Letter A" },
+    {   8310, "Red Letter B" },
+    {   8311, "Red Letter C" },
+    {   8312, "Red Letter D" },
+    {   8321, "Red Number 0" },
+    {   8322, "Red Number 1" },
+    {   8323, "Red Number 2" },
+    {   8324, "Red Number 3" },
+    {   8325, "Red Number 4" },
+    {   8326, "Red Number 5" },
+    {   8327, "Red Number 6" },
+    {   8328, "Red Number 7" },
+    {   8329, "Red Number 8" },
+    {   8330, "Red Number 9" },
+    {   8300, "Red Oval" },
+    {   8303, "Red Rectangle" },
+    {   8353, "Red Triangle" },
+    {   8362, "Seafood" },
+    {   8194, "State Hwy" },
+    {   8363, "Steak" },
+    {   8223, "Street Intersection" },
+    {  16401, "TACAN" },
+    {    183, "Tide/Current PRediction Station" },
+    {    191, "U Marina" },
+    {   8193, "US hwy" },
+    {    193, "U stump" },
+    {  16387, "VHF Omni-range" },
+    {  16397, "VOR-DME" },
+    {  16396, "VOR/TACAN" },
+    {     -1, 0 },
 };
+
+
+
+/**
+  @param progress the progress as integer from 0..100, if -1 no progress bar needed.
+  @param ok if this pointer is 0 no ok button needed, if non zero set to 1 if ok button pressed
+  @param cancel if this pointer is 0 no cancel button needed, if non zero set to 1 if cancel button pressed
+  @param title dialog title as C string
+  @param msg dialog message C string to display
+  @param self void pointer as provided while registering the callback
+*/
+void GUICallback(int progress, int * ok, int * cancel, const char * title, const char * msg, void * self)
+{
+    CDeviceGarmin * parent = static_cast<CDeviceGarmin *>(self);
+    CDeviceGarmin::dlgdata_t& dd = parent->dlgData;
+
+    if(progress != -1) {
+        quint32 togo, hour, min, sec;
+        QString message;
+
+        if(dd.dlgProgress == 0) {
+            dd.canceled     = false;
+            dd.dlgProgress  = new QProgressDialog(QString(title),0,0,100,theMainWindow, Qt::WindowStaysOnTopHint);
+            dd.timeProgress.start();
+            if(cancel) {
+                QPushButton * butCancel = new QPushButton(QObject::tr("Cancel"),dd.dlgProgress);
+                parent->connect(butCancel, SIGNAL(clicked()), parent, SLOT(slotCancel()));
+                dd.dlgProgress->setCancelButton(butCancel);
+            }
+        }
+
+        if(title) dd.dlgProgress->setWindowTitle(QString(title));
+
+        togo = (quint32)((100.0 * (double)dd.timeProgress.elapsed() / (double)progress) + 0.5);
+        togo = (quint32)((double)(togo - dd.timeProgress.elapsed()) / 1000.0 + 0.5);
+
+        hour = (togo / 3600);
+        min  = (togo - hour * 3600) / 60;
+        sec  = (togo - hour * 3600 - min * 60);
+
+        message.sprintf(QObject::tr("\n\nEstimated finish: %02i:%02i:%02i [hh:mm:ss]").toUtf8(),hour,min,sec);
+
+        dd.dlgProgress->setLabelText(QString(msg) + message);
+        dd.dlgProgress->setValue(progress);
+
+        if(progress == 100 && dd.dlgProgress) {
+            delete dd.dlgProgress;
+            dd.dlgProgress = 0;
+        }
+
+        if(cancel) {
+            *cancel = dd.canceled;
+        }
+
+        qApp->processEvents();
+
+    }
+    else {
+        if(ok && cancel) {
+            QMessageBox::StandardButtons res = QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Cancel);
+            *ok     = res == QMessageBox::Ok;
+            *cancel = res == QMessageBox::Cancel;
+        }
+        else if(ok && !cancel) {
+            QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Ok,QMessageBox::Ok);
+            *ok     = true;
+        }
+        else if(!ok && cancel) {
+            QMessageBox::question(theMainWindow,QString(title),QString(msg),QMessageBox::Cancel,QMessageBox::Cancel);
+            *cancel     = true;
+        }
+        else if(!ok && !cancel) {
+            //kiozen - that doesn't work nicely
+            //             QMessageBox * dlg = new QMessageBox(&parent->main);
+            //             dlg->setWindowTitle(QString(title));
+            //             dlg->setText(QString(msg));
+            //             dlg->setStandardButtons(QMessageBox::NoButton);
+            //             dlg->setIcon(QMessageBox::Information);
+            //             dlg->show();
+            //             qApp->processEvents(QEventLoop::AllEvents, 1000);
+            //             sleep(3); // sleep for 3 seconds
+            //             delete dlg;
+        }
+    }
+}
+
+
+CDeviceGarmin::CDeviceGarmin(const QString& devkey, const QString& port, QObject * parent)
+    : IDevice(devkey, parent)
+    , port(port)
+{
+    qDebug() << "CDeviceGarmin::CDeviceGarmin()";
+
+}
+
+CDeviceGarmin::~CDeviceGarmin()
+{
+    qDebug() << "~CDeviceGarmin::CDeviceGarmin()";
+}
+
+Garmin::IDevice * CDeviceGarmin::getDevice()
+{
+    Garmin::IDevice * (*func)(const char*) = 0;
+    Garmin::IDevice * dev = 0;
+
+    QString libname     = QString("%1/lib%2" XSTR(SOEXT)).arg(XSTR(QL_LIBDIR)).arg(devkey);
+    QString funcname    = QString("init%1").arg(devkey);
+
+    func = (Garmin::IDevice * (*)(const char*))QLibrary::resolve(libname,funcname.toAscii());
+
+    if(func == 0) {
+        QMessageBox::warning(0,tr("Error ..."),tr("Failed to load driver."),QMessageBox::Ok,QMessageBox::NoButton);
+        return 0;
+    }
+
+    dev = func(INTERFACE_VERSION);
+    if(dev == 0) {
+        QMessageBox::warning(0,tr("Error ..."),tr("Driver version mismatch."),QMessageBox::Ok,QMessageBox::NoButton);
+        func = 0;
+    }
+
+    if(dev){
+        dev->setPort(port.toLatin1());
+        dev->setGuiCallback(GUICallback,this);
+    }
+
+
+    return dev;
+}
+
+void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
+{
+    qDebug() << "CDeviceGarmin::uploadWpts()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    std::list<Garmin::Wpt_t> garwpts;
+
+    QMap<QString,CWpt*>::iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()){
+        Garmin::Wpt_t garwpt;
+
+        garmin_icon_t * icon = GarminIcons;
+        while(icon->name != 0){
+            if((*wpt)->icon == icon->name){
+                garwpt.smbl = icon->id;
+                break;
+            }
+            ++icon;
+        }
+
+        garwpt.lat      = (*wpt)->lat;
+        garwpt.lon      = (*wpt)->lon;
+        garwpt.alt      = (*wpt)->ele;
+        garwpt.dist     = (*wpt)->prx;
+        garwpt.ident    = (*wpt)->name.toLocal8Bit().data();
+        garwpt.comment  = (*wpt)->comment.toLocal8Bit().data();
+
+        garwpts.push_back(garwpt);
+
+        ++wpt;
+    }
+
+    try{
+        dev->uploadWaypoints(garwpts);
+    }
+    catch(int e) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+
+}
+
+void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
+{
+    qDebug() << "CDeviceGarmin::downloadWpts()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    std::list<Garmin::Wpt_t> garwpts;
+    try{
+        dev->downloadWaypoints(garwpts);
+    }
+    catch(int e) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
+    while(garwpt != garwpts.end()) {
+        CWpt * wpt = new CWpt(&CWptDB::self());
+
+        wpt->name       = garwpt->ident.c_str();
+        wpt->comment    = garwpt->comment.c_str();
+        wpt->lon        = garwpt->lon;
+        wpt->lat        = garwpt->lat;
+        wpt->ele        = garwpt->alt;
+        wpt->prx        = garwpt->dist;
+
+        garmin_icon_t * icon = GarminIcons;
+        while(icon->name != 0){
+            if(garwpt->smbl == icon->id){
+                wpt->icon = icon->name;
+                break;
+            }
+            ++icon;
+        }
+
+        wpts << wpt;
+        ++garwpt;
+    }
+}
+
+

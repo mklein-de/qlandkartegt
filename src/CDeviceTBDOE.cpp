@@ -93,7 +93,7 @@ bool CDeviceTBDOE::acquire(const QString& operation, int max)
 
     socket.connectToHost(ipaddr,port);
     if(!socket.waitForConnected(timeout)) {
-        QMessageBox::critical(0,tr("Error..."), tr("Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
         release();
         return false;
     }
@@ -127,7 +127,7 @@ void CDeviceTBDOE::uploadWpts(const QList<CWpt*>& wpts)
         s << *(*wpt);
 
         if(!exchange(type = eC2HWpt,data)) {
-            QMessageBox::critical(0,tr("Error..."), tr("Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
@@ -157,7 +157,7 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
     qApp->processEvents();
 
     if(!exchange(type = eH2CWptQuery,data1)) {
-        QMessageBox::critical(0,tr("Error..."), tr("Failed to query waypoints from device."),QMessageBox::Abort,QMessageBox::Abort);
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query waypoints from device."),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
 
@@ -178,7 +178,7 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
         stream << key;
 
         if(!exchange(type = eH2CWpt,data)) {
-            QMessageBox::critical(0,tr("Error..."), tr("Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
