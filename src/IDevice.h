@@ -24,6 +24,7 @@
 #include <QPointer>
 
 class CWpt;
+class CTrack;
 class QProgressDialog;
 
 class IDevice : public QObject
@@ -37,6 +38,8 @@ class IDevice : public QObject
 
         virtual void uploadWpts(const QList<CWpt*>& wpts) = 0;
         virtual void downloadWpts(QList<CWpt*>& wpts) = 0;
+
+        virtual void downloadTracks(QList<CTrack*>& trks) = 0;
 
     protected:
         void createProgress(const QString& title, const QString& text, int max);

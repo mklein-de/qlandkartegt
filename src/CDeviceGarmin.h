@@ -41,6 +41,8 @@ class CDeviceGarmin : public IDevice
         void uploadWpts(const QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
 
+        void downloadTracks(QList<CTrack*>& trks);
+
     private:
         Garmin::IDevice * getDevice();
 

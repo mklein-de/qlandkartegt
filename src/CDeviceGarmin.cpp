@@ -21,6 +21,8 @@
 #include "CMainWindow.h"
 #include "CWptDB.h"
 #include "CWpt.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
 
 #undef IDEVICE_H
 #include <garmin/IDevice.h>
@@ -562,3 +564,44 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
 }
 
 
+void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
+{
+    qDebug() << "CDeviceGarmin::downloadTracks()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    std::list<Garmin::Track_t> gartrks;
+    try{
+        dev->downloadTracks(gartrks);
+    }
+    catch(int e) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
+    while(gartrk != gartrks.end()) {
+
+        CTrack * trk = new CTrack(&CTrackDB::self());
+
+        trk->setName(gartrk->ident.c_str());
+        trk->setColor(gartrk->color);
+
+        std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
+        while(gartrkpt != gartrk->track.end()){
+            CTrack::pt_t trkpt;
+            trkpt.lon       = gartrkpt->lon;
+            trkpt.lat       = gartrkpt->lat;
+            trkpt.timestamp = gartrkpt->time;
+            trkpt.ele       = gartrkpt->alt;
+
+            *trk << trkpt;
+            ++gartrkpt;
+        }
+
+        if(trk->getTrackPoints().count() > 0){
+            trks << trk;
+        }
+        ++gartrk;
+    }
+}

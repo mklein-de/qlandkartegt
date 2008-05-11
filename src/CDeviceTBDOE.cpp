@@ -199,3 +199,9 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
 
     return release();
 }
+
+void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
+{
+    QMessageBox::information(0,tr("Sorry..."), tr("This function is not implemented yet."));
+}
+

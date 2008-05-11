@@ -23,6 +23,7 @@
 #include "CQlb.h"
 #include "CGpx.h"
 #include "CResources.h"
+#include "IDevice.h"
 
 #include <QtGui>
 
@@ -218,6 +219,7 @@ void CTrackDB::addTrack(CTrack* track)
     tracks[track->key()] = track;
 
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+
 }
 
 
@@ -268,4 +270,23 @@ CTrack* CTrackDB::highlightedTrack()
     }
     return 0;
 
+}
+
+void CTrackDB::download()
+{
+    IDevice * dev = CResources::self().device();
+    if(dev) {
+        QList<CTrack*> tmptrk;
+        dev->downloadTracks(tmptrk);
+
+        if(tmptrk.isEmpty()) return;
+
+        CTrack * trk;
+        foreach(trk,tmptrk) {
+            addTrack(trk);
+        }
+    }
+
+    emit sigChanged();
+    emit sigModified();
 }

@@ -124,7 +124,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadTrack,tr("Download tracks from device.")}
 };
 
 CMegaMenu * CMegaMenu::m_self = 0;
@@ -413,3 +413,9 @@ void CMegaMenu::funcEditTrack()
     CTrackToolWidget * toolview = CTrackDB::self().getToolWidget();
     if(toolview) toolview->slotEdit();
 }
+
+void CMegaMenu::funcDownloadTrack()
+{
+    CTrackDB::self().download();
+}
+

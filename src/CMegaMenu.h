@@ -81,6 +81,7 @@ class CMegaMenu : public QLabel
         void funcDownloadWpt();
 
         void funcEditTrack();
+        void funcDownloadTrack();
 
         static CMegaMenu * m_self;
 
