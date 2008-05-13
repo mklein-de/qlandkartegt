@@ -12,6 +12,11 @@ add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${V
 IF(WIN32)
   LINK_DIRECTORIES( C:/Programme/FWTools2.1.0/lib )
   INCLUDE_DIRECTORIES( C:/Programme/FWTools2.1.0/include )
+
+  SET(QL_LIBDIR "./")  
+  MESSAGE("Searching " ${QL_LIBDIR} " for Garmin plugins")
+  SET(SOEXT ".dll")
+  
 ENDIF(WIN32)
 
 IF(UNIX)

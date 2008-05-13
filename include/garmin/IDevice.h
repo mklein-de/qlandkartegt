@@ -23,7 +23,18 @@
 #ifndef IDEVICE_H
 #define IDEVICE_H
 
+#ifdef WIN32
+typedef unsigned __int32 uint32_t;
+typedef          __int32 int32_t;
+typedef unsigned __int16 uint16_t ;
+typedef			 __int16 int16_t ;
+typedef unsigned __int8  uint8_t;
+typedef		     __int8  int8_t;
+typedef unsigned __int64  uint64_t;
+typedef		     __int64  int64_t;
+#else
 #include <stdint.h>
+#endif
 #include <list>
 #include <string>
 #include <vector>
@@ -52,15 +63,16 @@ namespace Garmin
             , dspl_color(0)
             , dspl_attr(0)
             , smbl(8287)
-            , lat(1000.0)
-            , lon(1000.0)
-            , alt(1.0e25)
-            , dpth(1.0e25)
-            , dist(1.0e25)
+            , lat(1000.0f)
+            , lon(1000.0f)
+            , alt(1.0e25f)
+            , dpth(1.0e25f)
+            , dist(1.0e25f)
             , ete(0xFFFFFFFF)
-            , temp(1.0e25)
+            , temp(1.0e25f)
             , time(0xFFFFFFFF)
-            , wpt_cat(0) {
+            , wpt_cat(0) 
+		{
             strcpy(state,"  ");
             strcpy(cc,"  ");
 

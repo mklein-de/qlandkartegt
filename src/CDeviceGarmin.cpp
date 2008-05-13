@@ -515,7 +515,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     try{
         dev->uploadWaypoints(garwpts);
     }
-    catch(int e) {
+    catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
@@ -533,7 +533,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     try{
         dev->downloadWaypoints(garwpts);
     }
-    catch(int e) {
+    catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
@@ -574,7 +574,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
     try{
         dev->downloadTracks(gartrks);
     }
-    catch(int e) {
+    catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
