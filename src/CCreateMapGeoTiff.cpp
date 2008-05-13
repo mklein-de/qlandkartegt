@@ -760,7 +760,6 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(tr("--- finished ---\n"));
 
-    pushClearAll->setEnabled(true);
 }
 
 
@@ -801,7 +800,6 @@ void CCreateMapGeoTiff::slotClearAll()
     labelStep3->setEnabled(false);
     textBrowser->setEnabled(false);
     labelDoc3->setEnabled(false);
-    pushClearAll->setEnabled(false);
 
     theMainWindow->getCanvas()->update();
 

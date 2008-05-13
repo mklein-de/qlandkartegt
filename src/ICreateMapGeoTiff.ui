@@ -436,16 +436,6 @@ coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "28500
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushClearAll" >
-       <property name="enabled" >
-        <bool>false</bool>
-       </property>
-       <property name="text" >
-        <string>Clear all</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="Line" name="line_4" >
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
@@ -502,6 +492,13 @@ coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "28500
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="3" column="2" >
+    <widget class="QPushButton" name="pushClearAll" >
+     <property name="text" >
+      <string>Clear All</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
