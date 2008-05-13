@@ -37,6 +37,11 @@ class CDlgEditMapLevel : public QDialog, private Ui::IDlgEditMapLevel
 
     private slots:
         void slotSelectFiles();
+        void slotAdd();
+        void slotDel();
+        void slotUp();
+        void slotDown();
+        void slotListChanged();
 
     private:
         QTreeWidgetItem * item;

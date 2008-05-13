@@ -34,6 +34,19 @@ CDlgEditMapLevel::CDlgEditMapLevel(QTreeWidgetItem * item,  const QString& path,
     toolFiles->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
     connect(toolFiles, SIGNAL(clicked()), this, SLOT(slotSelectFiles()));
 
+    toolAdd->setIcon(QPixmap(":/icons/iconFileAdd16x16.png"));
+    connect(toolAdd, SIGNAL(clicked()), this, SLOT(slotAdd()));
+
+    toolDel->setIcon(QPixmap(":/icons/iconFileDel16x16.png"));
+    connect(toolDel, SIGNAL(clicked()), this, SLOT(slotDel()));
+
+    toolUp->setIcon(QPixmap(":/icons/iconUpload16x16.png"));
+    connect(toolUp, SIGNAL(clicked()), this, SLOT(slotUp()));
+
+    toolDown->setIcon(QPixmap(":/icons/iconDownload16x16.png"));
+    connect(toolDown, SIGNAL(clicked()), this, SLOT(slotDown()));
+
+    connect(listFiles, SIGNAL(itemSelectionChanged()), this, SLOT(slotListChanged()));
 }
 
 
@@ -73,3 +86,66 @@ void CDlgEditMapLevel::slotSelectFiles()
         listFiles->addItem(dir.relativeFilePath(file));
     }
 }
+
+void CDlgEditMapLevel::slotListChanged()
+{
+    QListWidgetItem * item = listFiles->currentItem();
+    if(item != 0){
+        toolDel->setEnabled(true);
+        toolUp->setEnabled(true);
+        toolDown->setEnabled(true);
+    }
+    else{
+        toolDel->setEnabled(false);
+        toolUp->setEnabled(false);
+        toolDown->setEnabled(false);
+    }
+
+}
+
+void CDlgEditMapLevel::slotAdd()
+{
+    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "GeoTiff (*.tif)");
+    if(files.isEmpty()) return;
+
+    QDir dir(mapPath);
+    QString file;
+    foreach(file,files) {
+        listFiles->addItem(dir.relativeFilePath(file));
+    }
+}
+
+void CDlgEditMapLevel::slotDel()
+{
+    QListWidgetItem * item = listFiles->currentItem();
+    if(item != 0){
+        delete item;
+    }
+}
+
+void CDlgEditMapLevel::slotUp()
+{
+    QListWidgetItem * item = listFiles->currentItem();
+    if(item){
+        int row = listFiles->row(item);
+        if(row == 0) return;
+        listFiles->takeItem(row);
+        row = row - 1;
+        listFiles->insertItem(row,item);
+        listFiles->setCurrentItem(item);
+    }
+}
+
+void CDlgEditMapLevel::slotDown()
+{
+    QListWidgetItem * item = listFiles->currentItem();
+    if(item){
+        int row = listFiles->row(item);
+        if(row == (listFiles->count() - 1)) return;
+        listFiles->takeItem(row);
+        row = row + 1;
+        listFiles->insertItem(row,item);
+        listFiles->setCurrentItem(item);
+    }
+}
+
