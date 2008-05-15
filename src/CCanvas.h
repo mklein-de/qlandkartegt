@@ -37,6 +37,7 @@ class QLabel;
 class QSize;
 class QPrinter;
 class QMenu;
+class CMouseCutTrack;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -59,7 +60,7 @@ class CCanvas : public QWidget
             , eMouseMoveWpt      ///< use mouse to drag-n-drop waypoints
             , eMouseMoveRefPoint ///< use mouse to drag-n-drop reference points
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
-            //, eMouseCutTrack    ///< use mouse to cut a track into two pieces
+            , eMouseCutTrack    ///< use mouse to cut a track into two pieces
             //, eMouseEditRte     ///< use mouse to define a new route polyline
             //, eMouseMoveRte     ///< use mouse to move route points
             //, eMouseDelRte      ///< use mouse to delete route points
@@ -129,6 +130,7 @@ class CCanvas : public QWidget
         CMouseMoveWpt * mouseMoveWpt;
         CMouseEditWpt * mouseEditWpt;
         CMouseRefPoint * mouseRefPoint;
+        CMouseCutTrack * mouseCutTrack;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

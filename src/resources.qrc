@@ -35,7 +35,6 @@
         <file>icons/iconCenter16x16.png</file>
         <file>icons/iconNewMap16x16.png</file>
         <file>icons/iconTrack16x16.png</file>
-        <file>icons/iconTrackWizard16x16.png</file>
         <file>icons/iconPrint16x16.png</file>
         <file>icons/iconWptMove16x16.png</file>
         <file>icons/iconClear16x16.png</file>
@@ -46,6 +45,7 @@
         <file>icons/iconGraph16x16.png</file>
         <file>icons/iconLeft16x16.png</file>
         <file>icons/iconRight16x16.png</file>
+        <file>icons/iconEditCut16x16.png</file>
 
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>
@@ -84,6 +84,7 @@
         <file>cursors/cursorMoveWpt.png</file>
         <file>cursors/cursorEdit.png</file>
         <file>cursors/cursorMoveRefPoint.png</file>
+        <file>cursors/cursorCutTrack.png</file>
 
         <file>icons/wpt/custom1.png</file>
         <file>icons/wpt/custom2.png</file>

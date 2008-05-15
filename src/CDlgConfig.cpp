@@ -158,4 +158,10 @@ void CDlgConfig::fillTypeCombo()
         }
     }
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
+    if(files.isEmpty()){
+        labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(QL_LIBDIR)));
+    }
+    else{
+        labelMessage->setText("");
+    }
 }

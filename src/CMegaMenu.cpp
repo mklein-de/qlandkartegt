@@ -121,8 +121,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconAdd16x16",QObject::tr("Combine Tracks"),&CMegaMenu::funcCombineTrack,tr("Combine multiple selected tracks to one.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconEditCut16x16",QObject::tr("Cut Tracks"),&CMegaMenu::funcCutTrack,tr("Cut a track into pieces.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadTrack,tr("Download tracks from device.")}
@@ -418,6 +417,11 @@ void CMegaMenu::funcEditTrack()
 void CMegaMenu::funcCombineTrack()
 {
     CTrackDB::self().CombineTracks();
+}
+
+void CMegaMenu::funcCutTrack()
+{
+    canvas->setMouseMode(CCanvas::eMouseCutTrack);
 }
 
 void CMegaMenu::funcDownloadTrack()
