@@ -24,6 +24,7 @@
 #include "CGpx.h"
 #include "CResources.h"
 #include "IDevice.h"
+#include "CDlgCombineTracks.h"
 
 #include <QtGui>
 
@@ -289,4 +290,10 @@ void CTrackDB::download()
 
     emit sigChanged();
     emit sigModified();
+}
+
+void CTrackDB::CombineTracks()
+{
+    CDlgCombineTracks dlg(0);
+    dlg.exec();
 }

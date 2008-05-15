@@ -47,6 +47,7 @@ class CTrackDB : public IDB
         void addTrack(CTrack* track);
         void delTrack(const QString& key, bool silent = false);
         void delTracks(const QStringList& keys);
+        void CombineTracks();
 
         void highlightTrack(const QString& key);
         /// get highlighted track
@@ -66,7 +67,6 @@ class CTrackDB : public IDB
         CTrackToolWidget * getToolWidget();
 
         int count(){return tracks.count();}
-
 
     signals:
         void sigHighlightTrack(CTrack * track);

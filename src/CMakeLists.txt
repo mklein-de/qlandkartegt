@@ -38,6 +38,7 @@ set(qlandkarte_SRCS
     CDlgEditWpt.cpp
     CDlgWptIcon.cpp
     CDlgEditMapLevel.cpp
+    CDlgCombineTracks.cpp
     CDlgProjWizzard.cpp
     CQlb.cpp
     CGpx.cpp
@@ -106,6 +107,7 @@ set(qlandkarte_HDRS
     CDlgEditWpt.h
     CDlgWptIcon.h
     CDlgEditMapLevel.h
+    CDlgCombineTracks.h
     CDlgProjWizzard.h
     CQlb.h
     CGpx.h
@@ -147,6 +149,7 @@ SET(qlandkarte_UIS
     IDlgEditWpt.ui
     IDlgWptIcon.ui
     IDlgEditMapLevel.ui
+    IDlgCombineTracks.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
