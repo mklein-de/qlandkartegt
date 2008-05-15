@@ -18,9 +18,17 @@
 **********************************************************************************************/
 
 #include "CMouseCutTrack.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
+#include "CMapDB.h"
+#include "IMap.h"
+
+
+#include <QtGui>
 
 CMouseCutTrack::CMouseCutTrack(CCanvas * canvas)
 : IMouse(canvas)
+, nextTrkPt(0)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorCutTrack"),0,0);
 }
@@ -32,11 +40,57 @@ CMouseCutTrack::~CMouseCutTrack()
 
 void CMouseCutTrack::draw(QPainter& p)
 {
+    drawSelTrkPt(p);
 
+    IMap& map = CMapDB::self().getMap();
+    if(nextTrkPt){
+        double u1 = nextTrkPt->lon * DEG_TO_RAD;
+        double v1 = nextTrkPt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u1,v1);
+
+        double u2 = selTrkPt->lon * DEG_TO_RAD;
+        double v2 = selTrkPt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u2,v2);
+
+        p.setPen(QPen(Qt::black, 5));
+        p.drawLine(u1, v1, u2, v2);
+        p.setPen(QPen(Qt::red, 3));
+        p.drawLine(u1, v1, u2, v2);
+
+        p.setPen(Qt::black);
+        p.setBrush(Qt::red);
+        p.drawEllipse(QRect(u1 - 5,  v1 - 5, 11, 11));
+
+        p.setPen(Qt::black);
+        p.setBrush(Qt::red);
+        p.drawEllipse(QRect(u2 - 5,  v2 - 5, 11, 11));
+
+    }
 }
 
 void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
 {
+    nextTrkPt = 0;
+    mouseMoveEventTrack(e);
+
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0) return;
+
+    if(selTrkPt){
+        CTrack::pt_t * next = selTrkPt;
+        CTrack::pt_t * last = &track->getTrackPoints().last();
+        while(next != last){
+            if(next != selTrkPt && !(next->flags & CTrack::pt_t::eDeleted)){
+                break;
+            }
+
+            ++next;
+        }
+        if(!(next->flags & CTrack::pt_t::eDeleted)){
+            nextTrkPt = next;
+        }
+    }
+
 
 }
 
