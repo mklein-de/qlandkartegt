@@ -66,7 +66,7 @@ void CTrackDB::loadQLB(CQlb& qlb)
     while(!stream.atEnd()) {
         CTrack * track = new CTrack(this);
         stream >> *track;
-        addTrack(track);
+        addTrack(track, true);
     }
 
     emit sigChanged();
@@ -140,7 +140,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
         }
 
         if(track->getTrackPoints().count() > 0){
-            addTrack(track);
+            addTrack(track, true);
         }
     }
     emit sigChanged();
@@ -210,17 +210,20 @@ void CTrackDB::saveGPX(CGpx& gpx)
 }
 
 
-void CTrackDB::addTrack(CTrack* track)
+void CTrackDB::addTrack(CTrack* track, bool silent)
 {
     if(track->getName().isEmpty()) {
         track->setName(tr("Track%1").arg(cnt++));
     }
     track->rebuild(false);
-    delTrack(track->key());
+    delTrack(track->key(), silent);
     tracks[track->key()] = track;
 
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-
+    if(!silent){
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
@@ -228,8 +231,10 @@ void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
     delete tracks.take(key);
-    if(!silent) emit sigChanged();
-    emit sigModified();
+    if(!silent){
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
@@ -284,7 +289,7 @@ void CTrackDB::download()
 
         CTrack * trk;
         foreach(trk,tmptrk) {
-            addTrack(trk);
+            addTrack(trk, true);
         }
     }
 

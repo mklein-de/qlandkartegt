@@ -44,8 +44,8 @@ class CTrackDB : public IDB
 
         void clear();
 
-        void addTrack(CTrack* track);
-        void delTrack(const QString& key, bool silent = false);
+        void addTrack(CTrack* track, bool silent);
+        void delTrack(const QString& key, bool silent);
         void delTracks(const QStringList& keys);
         void CombineTracks();
 

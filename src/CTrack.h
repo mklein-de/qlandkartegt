@@ -112,6 +112,8 @@ class CTrack : public QObject
         QDateTime getStartTimestamp(){return track.first().timestamp ? QDateTime::fromTime_t(track.first().timestamp) : QDateTime();}
         QDateTime getEndTimestamp(){return track.last().timestamp ? QDateTime::fromTime_t(track.last().timestamp) : QDateTime();}
 
+        CTrack& operator+=(const CTrack& trk);
+
         static const QColor colors[];
 
         signals:

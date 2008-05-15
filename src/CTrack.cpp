@@ -284,6 +284,12 @@ CTrack& CTrack::operator<<(pt_t& pt)
     return *this;
 }
 
+CTrack& CTrack::operator+=(const CTrack& trk)
+{
+    track += trk.track;
+    rebuild(true);
+    return *this;
+}
 
 void CTrack::rebuild(bool reindex)
 {
