@@ -1,3 +1,25 @@
+--- 2008.05.16 ---
+
+Request #23:
+Split a track
+
+Request #36:
+Add support for Garmin device driver plugins
+
+Request #37:
+Add down-/upload of waypoints to Garmin device
+
+Request #38:
+Add track download to Garmin device
+
+Request #39:
+Combine multiple tracks
+
+Request #40:
+Add "upload/download all" function
+
+
+
 --- 2008.05.06 ---
 
 Request #28:
@@ -111,6 +133,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
