@@ -302,3 +302,34 @@ void CTrackDB::CombineTracks()
     CDlgCombineTracks dlg(0);
     dlg.exec();
 }
+
+
+void CTrackDB::splitTrack(int idx)
+{
+    CTrack * theTrack = highlightedTrack();
+    if(theTrack == 0) return;
+
+    int i;
+    QVector<CTrack::pt_t>& track          = theTrack->getTrackPoints();
+    QVector<CTrack::pt_t>::iterator trkpt = track.begin();
+
+    CTrack * track1 = new CTrack(this);
+    track1->setName(theTrack->getName() + "_1");
+    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i){
+        *track1 << *trkpt++;
+    }
+
+    CTrack * track2 = new CTrack(this);
+    track2->setName(theTrack->getName() + "_2");
+    for( ;(trkpt != track.end()); ++i){
+        *track2 << *trkpt++;
+    }
+
+    addTrack(track1, true);
+    addTrack(track2, true);
+
+    emit sigChanged();
+    emit sigModified();
+}
+
+

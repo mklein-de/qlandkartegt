@@ -269,6 +269,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="toolPlugins" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
               <property name="text" >
                <string>...</string>
               </property>
@@ -295,30 +298,36 @@
        <item>
         <widget class="QGroupBox" name="groupBox_7" >
          <property name="enabled" >
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="title" >
           <string>Upload All</string>
          </property>
          <layout class="QHBoxLayout" >
           <item>
-           <widget class="QCheckBox" name="checkBox" >
+           <widget class="QCheckBox" name="checkUploadWpt" >
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Waypoints</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_2" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Routes</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_3" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Maps</string>
             </property>
            </widget>
           </item>
@@ -328,30 +337,33 @@
        <item>
         <widget class="QGroupBox" name="groupBox_8" >
          <property name="enabled" >
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="title" >
           <string>Download All</string>
          </property>
          <layout class="QHBoxLayout" >
           <item>
-           <widget class="QCheckBox" name="checkBox_4" >
+           <widget class="QCheckBox" name="checkDownloadWpt" >
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Waypoints</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_5" >
+           <widget class="QCheckBox" name="checkDownloadTrk" >
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Tracks</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_6" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
             <property name="text" >
-             <string>CheckBox</string>
+             <string>Maps</string>
             </property>
            </widget>
           </item>

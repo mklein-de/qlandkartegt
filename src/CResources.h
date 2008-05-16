@@ -112,5 +112,6 @@ class CResources : public QObject
         QString m_devSerialPort;
         QString m_devType;
 
+
 };
 #endif                           //CRESOURCES_H

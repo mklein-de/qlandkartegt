@@ -90,13 +90,13 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
             nextTrkPt = next;
         }
     }
-
-
 }
 
 void CMouseCutTrack::mousePressEvent(QMouseEvent * e)
 {
-
+    if(selTrkPt && nextTrkPt && selTrkPt != nextTrkPt){
+        CTrackDB::self().splitTrack(selTrkPt->idx);
+    }
 }
 
 void CMouseCutTrack::mouseReleaseEvent(QMouseEvent * e)

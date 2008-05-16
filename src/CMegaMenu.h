@@ -67,6 +67,8 @@ class CMegaMenu : public QLabel
 
         void funcDiary();
         void funcClearAll();
+        void funcUploadAll();
+        void funcDownloadAll();
 
         void funcMoveArea();
         void funcCenterMap();

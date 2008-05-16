@@ -18,7 +18,14 @@
 **********************************************************************************************/
 
 #include "IDevice.h"
+#include "CWptDB.h"
+#include "CTrackDB.h"
 #include <QtGui>
+
+bool IDevice::m_UploadAllWpt    = true;
+bool IDevice::m_DownloadAllWpt  = true;
+bool IDevice::m_DownloadAllTrk  = true;
+
 
 IDevice::IDevice(const QString& devkey, QObject * parent)
 : QObject(parent)
@@ -43,4 +50,16 @@ void IDevice::createProgress(const QString& title, const QString& text, int max)
     progress->setAutoClose(false);
     progress->setLabelText(text);
     progress->show();
+}
+
+
+void IDevice::downloadAll()
+{
+    if(m_DownloadAllWpt) CWptDB::self().download();
+    if(m_DownloadAllTrk) CTrackDB::self().download();
+}
+
+void IDevice::uploadAll()
+{
+    if(m_UploadAllWpt) CWptDB::self().upload();
 }

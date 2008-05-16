@@ -41,6 +41,14 @@ class IDevice : public QObject
 
         virtual void downloadTracks(QList<CTrack*>& trks) = 0;
 
+        virtual void downloadAll();
+        virtual void uploadAll();
+
+        static bool m_UploadAllWpt;
+        static bool m_DownloadAllWpt;
+        static bool m_DownloadAllTrk;
+
+
     protected:
         void createProgress(const QString& title, const QString& text, int max);
         QString devkey;

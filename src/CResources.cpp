@@ -62,6 +62,10 @@ CResources::CResources(QObject * parent)
     m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
     m_devType         = cfg.value("device/type",m_devType).toString();
 
+    IDevice::m_DownloadAllTrk   = cfg.value("device/dnlTrk",IDevice::m_DownloadAllTrk).toBool();
+    IDevice::m_DownloadAllWpt   = cfg.value("device/dnlWpt",IDevice::m_DownloadAllWpt).toBool();
+    IDevice::m_UploadAllWpt     = cfg.value("device/uplWpt",IDevice::m_UploadAllWpt).toBool();
+
     pathMaps        = cfg.value("path/maps",pathMaps).toString();
 }
 
@@ -87,6 +91,10 @@ CResources::~CResources()
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/type",m_devType);
+
+    cfg.setValue("device/dnlTrk",IDevice::m_DownloadAllTrk);
+    cfg.setValue("device/dnlWpt",IDevice::m_DownloadAllWpt);
+    cfg.setValue("device/uplWpt",IDevice::m_UploadAllWpt);
 }
 
 

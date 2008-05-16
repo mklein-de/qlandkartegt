@@ -67,9 +67,9 @@ void CDlgConfig::exec()
     lineDevSerialPort->setText(resources.m_devSerialPort);
 
 
-    //     if(resources.m_devKey == "QLandkarteM"){
-    //         groupDevice->setEnabled(true);
-    //     }
+    checkDownloadTrk->setChecked(IDevice::m_DownloadAllTrk);
+    checkDownloadWpt->setChecked(IDevice::m_DownloadAllWpt);
+    checkUploadWpt->setChecked(IDevice::m_UploadAllWpt);
 
     QDialog::exec();
 }
@@ -101,6 +101,10 @@ void CDlgConfig::accept()
         delete resources.m_device;
         resources.m_device = 0;
     }
+
+    IDevice::m_DownloadAllTrk   = checkDownloadTrk->isChecked();
+    IDevice::m_DownloadAllWpt   = checkDownloadWpt->isChecked();
+    IDevice::m_UploadAllWpt     = checkUploadWpt->isChecked();
 
     QDialog::accept();
 }

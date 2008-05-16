@@ -27,6 +27,8 @@
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
 #include "CMainWindow.h"
+#include "CResources.h"
+#include "IDevice.h"
 
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
@@ -77,8 +79,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
-    ,{":/icons/iconUpload16x16",QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconDownload16x16",QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
+    ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data to device.")}
 
 };
 
@@ -348,6 +350,21 @@ void CMegaMenu::funcClearAll()
     theMainWindow->clearAll();
 }
 
+void CMegaMenu::funcUploadAll()
+{
+    IDevice * dev = CResources::self().device();
+    if(dev == 0) return;
+
+    dev->uploadAll();
+}
+
+void CMegaMenu::funcDownloadAll()
+{
+    IDevice * dev = CResources::self().device();
+    if(dev == 0) return;
+
+    dev->downloadAll();
+}
 
 void CMegaMenu::funcMoveArea()
 {
