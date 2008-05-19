@@ -65,7 +65,7 @@ class CMegaMenu : public QLabel
         void funcSwitchToWpt();
         void funcSwitchToTrack();
 
-        void funcLiveLog();
+        void funcSwitchToLiveLog();
         void funcDiary();
         void funcClearAll();
         void funcUploadAll();
@@ -117,5 +117,6 @@ class CMegaMenu : public QLabel
         static const func_key_state_t fsMap[];
         static const func_key_state_t fsWpt[];
         static const func_key_state_t fsTrack[];
+        static const func_key_state_t fsLiveLog[];
 };
 #endif                           //CMEGAMENU_H

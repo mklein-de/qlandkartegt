@@ -32,7 +32,7 @@
 #include "CGpx.h"
 #include "CTabWidget.h"
 #include "printpreview.h"
-#include "CLiveLog.h"
+#include "CLiveLogDB.h"
 
 #include <QtGui>
 
@@ -97,10 +97,12 @@ CMainWindow::CMainWindow()
     trackdb     = new CTrackDB(tabbar, this);
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
+    livelogdb   = new CLiveLogDB(tabbar, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(livelogdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
 
     connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
@@ -143,7 +145,7 @@ CMainWindow::CMainWindow()
 
     connect(summary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 
-    liveLog = new CLiveLog(this);
+
 }
 
 

@@ -34,7 +34,7 @@ class CSearchDB;
 class CDiaryDB;
 class CResources;
 class CTabWidget;
-class CLiveLog;
+class CLiveLogDB;
 
 class CMainWindow : public QMainWindow
 {
@@ -116,7 +116,7 @@ class CMainWindow : public QMainWindow
         /// diary database
         CDiaryDB * diarydb;
 
-        CLiveLog * liveLog;
+        CLiveLogDB * livelogdb;
 
         /// the current loaded geo data (workspace) file
         QString wksFile;

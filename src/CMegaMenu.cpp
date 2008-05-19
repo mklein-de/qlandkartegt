@@ -24,6 +24,7 @@
 #include "CMapDB.h"
 #include "CTrackDB.h"
 #include "CDiaryDB.h"
+#include "CLiveLogDB.h"
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
 #include "CMainWindow.h"
@@ -75,7 +76,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log"),&CMegaMenu::funcLiveLog,tr("Toggle live log recording.")}
+    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log"),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
@@ -127,6 +128,21 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadTrack,tr("Download tracks from device.")}
+};
+
+const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
 };
 
 CMegaMenu * CMegaMenu::m_self = 0;
@@ -236,6 +252,11 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         funcMoveArea();
     }
 
+    else if(key == "LiveLog" && current != fsTrack) {
+        funcSwitchToLiveLog();
+        funcMoveArea();
+    }
+
 }
 
 
@@ -341,9 +362,13 @@ void CMegaMenu::funcSwitchToTrack()
 }
 
 
-void CMegaMenu::funcLiveLog()
+void CMegaMenu::funcSwitchToLiveLog()
 {
-
+    menuTitle->setText(tr("<b>Live Log ...</b>"));
+    setPixmap(QPixmap(":/icons/backLiveLog128x128"));
+    switchState(fsLiveLog);
+    CLiveLogDB::self().gainFocus();
+    funcMoveArea();
 }
 
 void CMegaMenu::funcDiary()
