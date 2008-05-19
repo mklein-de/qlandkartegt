@@ -65,6 +65,7 @@ class CMegaMenu : public QLabel
         void funcSwitchToWpt();
         void funcSwitchToTrack();
 
+        void funcLiveLog();
         void funcDiary();
         void funcClearAll();
         void funcUploadAll();

@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include "CGpx.h"
 #include "CTabWidget.h"
 #include "printpreview.h"
+#include "CLiveLog.h"
 
 #include <QtGui>
 
@@ -142,6 +143,7 @@ CMainWindow::CMainWindow()
 
     connect(summary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 
+    liveLog = new CLiveLog(this);
 }
 
 

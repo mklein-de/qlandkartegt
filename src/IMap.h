@@ -150,5 +150,7 @@ class IMap : public QObject
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
         PJ * pjtar;
+
+        bool needsRedraw;
 };
 #endif                           //IMAP_H

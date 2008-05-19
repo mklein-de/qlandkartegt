@@ -65,6 +65,7 @@ set(qlandkarte_SRCS
     CPlot.cpp
     CPlotAxis.cpp
     CPlotData.cpp
+    CLiveLog.cpp
 )
 
 IF(WIN32)
@@ -135,6 +136,7 @@ set(qlandkarte_HDRS
     CPlot.h
     CPlotAxis.h
     CPlotData.h
+    CLiveLog.h
 )
 
 

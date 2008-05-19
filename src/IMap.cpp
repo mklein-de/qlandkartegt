@@ -30,6 +30,7 @@ IMap::IMap(CCanvas * parent)
 , zoomidx(1)
 , pjsrc(0)
 , pjtar(0)
+, needsRedraw(true)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 

@@ -75,7 +75,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log"),&CMegaMenu::funcLiveLog,tr("Toggle live log recording.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
@@ -338,6 +338,12 @@ void CMegaMenu::funcSwitchToTrack()
     switchState(fsTrack);
     CTrackDB::self().gainFocus();
     funcMoveArea();
+}
+
+
+void CMegaMenu::funcLiveLog()
+{
+
 }
 
 void CMegaMenu::funcDiary()
