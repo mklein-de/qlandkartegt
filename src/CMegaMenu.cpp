@@ -251,8 +251,7 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         funcSwitchToTrack();
         funcMoveArea();
     }
-
-    else if(key == "LiveLog" && current != fsTrack) {
+    else if(key == "LiveLog" && current != fsLiveLog) {
         funcSwitchToLiveLog();
         funcMoveArea();
     }
