@@ -24,11 +24,28 @@
 #ifndef CLIVELOG_H
 #define CLIVELOG_H
 
+#include <QtGlobal>
+#include "CWpt.h"
+
 class CLiveLog
 {
     public:
-        CLiveLog();
+        CLiveLog() : fix(eNoFix), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT)
+                   , timestamp(0xFFFFFFFF), error_horz(WPT_NOFLOAT), error_vert(WPT_NOFLOAT)
+                   , heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
         virtual ~CLiveLog();
+
+        enum fix_e {eNoFix, e2DFix, e3DFix};
+
+        fix_e fix;
+        float lon;
+        float lat;
+        float ele;
+        quint32 timestamp;
+        float error_horz;
+        float error_vert;
+        float heading;
+        float velocity;
 };
 
 #endif //CLIVELOG_H

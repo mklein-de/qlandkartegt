@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CLiveLogToolWidget.h"
+#include "CLiveLogDB.h"
 
 #include <QtGui>
 
@@ -29,7 +30,7 @@ CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
     parent->addTab(this,QIcon(":/icons/iconLiveLog16x16"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Live Log"));
 
-
+    connect(&CLiveLogDB::self(), SIGNAL(sigChanged()), this, SLOT(slotChanged()));
 }
 
 CLiveLogToolWidget::~CLiveLogToolWidget()
@@ -37,3 +38,6 @@ CLiveLogToolWidget::~CLiveLogToolWidget()
 
 }
 
+void CLiveLogToolWidget::slotChanged()
+{
+}

@@ -22,6 +22,8 @@
 
 #include "IDB.h"
 
+class CLiveLog;
+
 class CLiveLogDB : public IDB
 {
     Q_OBJECT;
@@ -40,6 +42,9 @@ class CLiveLogDB : public IDB
         void download(){};
 
         void clear(){};
+
+    private slots:
+        void slotLiveLog(const CLiveLog& log);
 
     private:
         friend class CMainWindow;

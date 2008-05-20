@@ -29,6 +29,10 @@
 
 #include <QtGui>
 
+#include <limits>
+#include <math.h>
+
+
 #define XSTR(x) STR(x)
 #define STR(x) #x
 
@@ -495,6 +499,47 @@ void CDeviceGarmin::slotTimeout()
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
+
+    log.fix = pvt.fix == 3 || pvt.fix == 5 ? CLiveLog::e3DFix : pvt.fix == 2 || pvt.fix == 4 ? CLiveLog::e2DFix : CLiveLog::eNoFix;
+    if(log.fix != CLiveLog::eNoFix){
+        log.lon = pvt.lon;
+        log.lat = pvt.lat;
+        log.ele = pvt.alt + pvt.msl_hght;
+
+        QDateTime t(QDate(1989,12,31), QTime(0,0), Qt::UTC);
+        t = t.addDays(pvt.wn_days).addSecs(lrint(pvt.tow)).addSecs(-pvt.leap_scnds);
+        log.timestamp = t.toLocalTime().toTime_t();
+
+        // multiply by 100 to avoid leaving the float range.
+        float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
+        heading = atanf(heading) / (2.0 * M_PI) * 360.0;
+        if( (pvt.north > 0.0) & (pvt.east > 0.0) ) {
+            // 1st quadrant
+            heading = heading;
+        }
+        else if( (pvt.north > 0.0) & (pvt.east < 0.0) ) {
+            // 2nd quadrant
+            heading = 360.0 - heading;
+        }
+        else if( (pvt.north < 0.0) & (pvt.east < 0.0) ) {
+            // 3rd quadrant
+            heading = 180.0 + heading;
+        }
+        else if( (pvt.north < 0.0) & (pvt.east > 0.0) ) {
+            // 4th quadrant
+            heading = 180.0 - heading;
+        }
+        else {
+            heading = std::numeric_limits<float>::quiet_NaN();
+        }
+
+        log.heading     = heading;
+        log.velocity    = sqrtf( pvt.north * pvt.north + pvt.east * pvt.east );
+        log.error_horz  = pvt.eph;
+        log.error_vert  = pvt.epv;
+    }
+
+    emit sigLiveLog(log);
 }
 
 void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)

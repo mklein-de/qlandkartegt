@@ -2,7 +2,7 @@
 
   DSP Solutions
   Ingenieure Kellermann, Voigt, Hoepfl, Eichler und Weidner, Partnerschaft
-  http://www.dspsolutions.de/  
+  http://www.dspsolutions.de/
 
   Author:      Oliver Eichler
   Email:       oliver.eichler@dspsolutions.de
@@ -11,7 +11,7 @@
 
   File:        CLiveLog.cpp
 
-  Module:      
+  Module:
 
   Description:
 
@@ -24,10 +24,6 @@
 
 #include "CLiveLog.h"
 
-CLiveLog::CLiveLog()
-{
-
-}
 
 CLiveLog::~CLiveLog()
 {

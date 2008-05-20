@@ -20,6 +20,7 @@
 #include "CResources.h"
 #include "CDeviceTBDOE.h"
 #include "CDeviceGarmin.h"
+#include "CLiveLogDB.h"
 
 #include <QtGui>
 
@@ -123,6 +124,8 @@ IDevice * CResources::device()
         else if(m_devKey == "Garmin" && !m_devType.isEmpty()) {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);
         }
+
+        connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));
     }
 
     // still noe device?

@@ -19,6 +19,9 @@
 
 #include "CLiveLogDB.h"
 #include "CLiveLogToolWidget.h"
+#include "CLiveLog.h"
+
+#include <QtGui>
 
 CLiveLogDB * CLiveLogDB::m_self = 0;
 
@@ -34,3 +37,9 @@ CLiveLogDB::~CLiveLogDB()
 
 }
 
+void CLiveLogDB::slotLiveLog(const CLiveLog& log)
+{
+    qDebug() << log.lon << log.lat;
+
+    emit sigChanged();
+}

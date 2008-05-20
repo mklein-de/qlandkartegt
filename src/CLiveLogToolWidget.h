@@ -30,6 +30,9 @@ class CLiveLogToolWidget : public QWidget
     public:
         CLiveLogToolWidget(QTabWidget * parent);
         virtual ~CLiveLogToolWidget();
+
+    private slots:
+        void slotChanged();
 };
 
 #endif //CLIVELOGTOOLWIDGET_H

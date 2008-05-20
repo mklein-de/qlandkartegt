@@ -23,9 +23,12 @@
 #include <QList>
 #include <QPointer>
 
+#include "CLiveLog.h"
+
 class CWpt;
 class CTrack;
 class QProgressDialog;
+
 
 class IDevice : public QObject
 {
@@ -52,11 +55,13 @@ class IDevice : public QObject
         static bool m_DownloadAllTrk;
 
     signals:
-        void sigLiveLog();
+        void sigLiveLog(const CLiveLog& log);
 
     protected:
         void createProgress(const QString& title, const QString& text, int max);
         QString devkey;
         QPointer<QProgressDialog> progress;
+
+        CLiveLog log;
 };
 #endif                           //IDEVICE_H
