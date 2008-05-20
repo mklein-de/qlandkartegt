@@ -20,6 +20,7 @@
 #include "CLiveLogDB.h"
 #include "CLiveLogToolWidget.h"
 #include "CLiveLog.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -39,7 +40,47 @@ CLiveLogDB::~CLiveLogDB()
 
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
-    qDebug() << log.lon << log.lat;
-
+    m_log = log;
     emit sigChanged();
+
+    CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
+    if(w == 0) return;
+
+    float speed_km_h = log.velocity * 3.6;
+    float heading = log.heading;
+    if( speed_km_h < 0.2 ) {
+
+        // some pretty arbitrary threshold ...
+        // with a horizontal error of +/-5m it never goes above
+        // 0.06 km/h while standing still, but you don't always
+        // have +/-5m...
+        speed_km_h = 0.0;
+        heading = std::numeric_limits<float>::quiet_NaN();
+    }
+
+    QString pos;
+    GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
+
+
+    if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix){
+        w->lblPosition->setText(pos);
+        w->lblAltitude->setText(tr("%1 m").arg(log.ele));
+        w->lblErrorHoriz->setText(tr("\261%1 m").arg(log.error_horz/2,0,'f',0));
+        w->lblErrorVert->setText(tr("\261%1 m").arg(log.error_vert/2,0,'f',0));
+        w->lblSpeed->setText(tr("%1km/h").arg(speed_km_h, 0, 'f', 1));
+        w->lblHeading->setText(tr("%1\260T").arg(nearbyintf(heading),3,'f',0,'0'));
+        w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
+    }
+    else if(log.fix == CLiveLog::eNoFix){
+        w->lblPosition->setText(tr("GPS signal low"));
+    }
+    else{
+        w->lblPosition->setText(tr("GPS off"));
+        w->lblAltitude->setText("-");
+        w->lblErrorHoriz->setText("-");
+        w->lblErrorVert->setText("-");
+        w->lblSpeed->setText("-");
+        w->lblHeading->setText("-");
+        w->lblTime->setText("-");
+    }
 }

@@ -21,8 +21,7 @@
 #define CLIVELOGDB_H
 
 #include "IDB.h"
-
-class CLiveLog;
+#include "CLiveLog.h"
 
 class CLiveLogDB : public IDB
 {
@@ -50,6 +49,7 @@ class CLiveLogDB : public IDB
         friend class CMainWindow;
         CLiveLogDB(QTabWidget * tb, QObject * parent);
         static CLiveLogDB * m_self;
+        CLiveLog m_log;
 };
 
 #endif //CLIVELOGDB_H

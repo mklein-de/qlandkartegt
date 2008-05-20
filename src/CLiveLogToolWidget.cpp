@@ -25,6 +25,7 @@
 CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
     :QWidget(parent)
 {
+    setupUi(this);
 
     setObjectName("LiveLog");
     parent->addTab(this,QIcon(":/icons/iconLiveLog16x16"),"");

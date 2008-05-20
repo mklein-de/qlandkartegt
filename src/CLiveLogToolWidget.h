@@ -21,10 +21,11 @@
 #define CLIVELOGTOOLWIDGET_H
 
 #include <QWidget>
+#include "ui_ILiveLogToolWidget.h"
 
 class QTabWidget;
 
-class CLiveLogToolWidget : public QWidget
+class CLiveLogToolWidget : public QWidget, public Ui::ILiveLogToolWidget
 {
     Q_OBJECT;
     public:

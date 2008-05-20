@@ -165,6 +165,7 @@ SET(qlandkarte_UIS
     IStatusDEM.ui
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui
+    ILiveLogToolWidget.ui
 
 )
 
