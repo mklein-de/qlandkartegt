@@ -66,11 +66,11 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
     if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix){
         w->lblPosition->setText(pos);
-        w->lblAltitude->setText(tr("%1 m").arg(log.ele));
+        w->lblAltitude->setText(tr("%1 m").arg(log.ele,0,'f',0));
         w->lblErrorHoriz->setText(tr("\261%1 m").arg(log.error_horz/2,0,'f',0));
         w->lblErrorVert->setText(tr("\261%1 m").arg(log.error_vert/2,0,'f',0));
-        w->lblSpeed->setText(tr("%1km/h").arg(speed_km_h, 0, 'f', 1));
-        w->lblHeading->setText(tr("%1\260T").arg(nearbyintf(heading),3,'f',0,'0'));
+        w->lblSpeed->setText(tr("%1 km/h").arg(speed_km_h, 0, 'f', 1));
+        w->lblHeading->setText(tr("%1\260 T").arg(nearbyintf(heading),3,'f',0,'0'));
         w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
     }
     else if(log.fix == CLiveLog::eNoFix){

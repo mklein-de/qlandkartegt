@@ -260,7 +260,7 @@ void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
     QString lat,lng;
     lat = degN < 0 ? "S" : "N";
     lng = degE < 0 ? "W" : "E";
-    str.sprintf(" %s%02d\260 %06.3f %s%03d\260 %06.3f ",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
+    str.sprintf("%s%02d\260 %06.3f %s%03d\260 %06.3f",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
 }
 
 bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const QString& projstr)
