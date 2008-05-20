@@ -37,6 +37,7 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CLiveLogDB.h"
 
 #include "GeoMath.h"
 #include "WptIcons.h"
@@ -244,6 +245,8 @@ void CCanvas::draw(QPainter& p)
     drawWaypoints(p);
     drawRefPoints(p);
     drawScale(p);
+
+    CLiveLogDB::self().draw(p);
 
     mouse->draw(p);
 }

@@ -88,6 +88,8 @@
         <file>cursors/cursorEdit.png</file>
         <file>cursors/cursorMoveRefPoint.png</file>
         <file>cursors/cursorCutTrack.png</file>
+        <file>cursors/cursor1.png</file>
+        <file>cursors/cursor2.png</file>
 
         <file>icons/wpt/custom1.png</file>
         <file>icons/wpt/custom2.png</file>

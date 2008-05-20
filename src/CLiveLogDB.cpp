@@ -21,6 +21,8 @@
 #include "CLiveLogToolWidget.h"
 #include "CLiveLog.h"
 #include "GeoMath.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include <QtGui>
 
@@ -83,4 +85,17 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblHeading->setText("-");
         w->lblTime->setText("-");
     }
+}
+
+void CLiveLogDB::draw(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix){
+        double u = m_log.lon * DEG_TO_RAD;
+        double v = m_log.lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
+    }
+
 }

@@ -23,6 +23,8 @@
 #include "IDB.h"
 #include "CLiveLog.h"
 
+class QPainter;
+
 class CLiveLogDB : public IDB
 {
     Q_OBJECT;
@@ -30,6 +32,8 @@ class CLiveLogDB : public IDB
         virtual ~CLiveLogDB();
 
         static CLiveLogDB& self(){return *m_self;}
+
+        void draw(QPainter& p);
 
         void loadGPX(CGpx& /*gpx*/){};
         void saveGPX(CGpx& /*gpx*/){};
