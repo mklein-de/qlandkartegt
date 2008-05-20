@@ -63,3 +63,8 @@ void IDevice::uploadAll()
 {
     if(m_UploadAllWpt) CWptDB::self().upload();
 }
+
+void IDevice::setLiveLog(bool on)
+{
+    QMessageBox::information(0,tr("Sorry... "), tr("Your device does not support live log."), QMessageBox::Ok, QMessageBox::Ok);
+}

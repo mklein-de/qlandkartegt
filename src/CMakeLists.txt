@@ -65,6 +65,7 @@ set(qlandkarte_SRCS
     CPlot.cpp
     CPlotAxis.cpp
     CPlotData.cpp
+    CLiveLog.cpp
     CLiveLogDB.cpp
     CLiveLogToolWidget.cpp
 )
@@ -137,6 +138,7 @@ set(qlandkarte_HDRS
     CPlot.h
     CPlotAxis.h
     CPlotData.h
+    CLiveLog.h
     CLiveLogDB.h
     CLiveLogToolWidget.h
 )

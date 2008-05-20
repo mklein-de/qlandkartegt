@@ -88,6 +88,9 @@ class CMegaMenu : public QLabel
         void funcCutTrack();
         void funcDownloadTrack();
 
+
+        void funcLiveLog();
+
         static CMegaMenu * m_self;
 
         QPointer<CCanvas>  canvas;

@@ -24,6 +24,8 @@
 
 #include <QTime>
 
+class QTimer;
+
 namespace Garmin
 {
     class IDevice;
@@ -43,6 +45,12 @@ class CDeviceGarmin : public IDevice
 
         void downloadTracks(QList<CTrack*>& trks);
 
+        void setLiveLog(bool on);
+        bool liveLog();
+
+    private slots:
+        void slotTimeout();
+
     private:
         Garmin::IDevice * getDevice();
 
@@ -60,6 +68,8 @@ class CDeviceGarmin : public IDevice
         };
 
         dlgdata_t dlgData;
+
+        QTimer * timer;
 
 };
 

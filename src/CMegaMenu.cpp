@@ -137,7 +137,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -476,3 +476,10 @@ void CMegaMenu::funcDownloadTrack()
     CTrackDB::self().download();
 }
 
+void CMegaMenu::funcLiveLog()
+{
+    IDevice * dev = CResources::self().device();
+    if(dev == 0) return;
+
+    dev->setLiveLog(!dev->liveLog());
+}

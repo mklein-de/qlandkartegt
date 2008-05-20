@@ -44,10 +44,15 @@ class IDevice : public QObject
         virtual void downloadAll();
         virtual void uploadAll();
 
+        virtual void setLiveLog(bool on);
+        virtual bool liveLog(){return false;}
+
         static bool m_UploadAllWpt;
         static bool m_DownloadAllWpt;
         static bool m_DownloadAllTrk;
 
+    signals:
+        void sigLiveLog();
 
     protected:
         void createProgress(const QString& title, const QString& text, int max);

@@ -442,6 +442,9 @@ CDeviceGarmin::CDeviceGarmin(const QString& devkey, const QString& port, QObject
 {
     qDebug() << "CDeviceGarmin::CDeviceGarmin()";
 
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(slotTimeout()));
+
 }
 
 CDeviceGarmin::~CDeviceGarmin()
@@ -477,6 +480,21 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
 
 
     return dev;
+}
+
+void CDeviceGarmin::slotTimeout()
+{
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    Garmin::Pvt_t pvt;
+    try{
+        dev->getRealTimePos(pvt);
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
 }
 
 void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
@@ -605,3 +623,30 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         ++gartrk;
     }
 }
+
+void CDeviceGarmin::setLiveLog(bool on)
+{
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    try{
+        dev->setRealTimeMode(on);
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    if(on && !timer->isActive()){
+        timer->start(1000);
+    }
+    else{
+        timer->stop();
+    }
+}
+
+bool CDeviceGarmin::liveLog()
+{
+    return timer->isActive();
+}
+
