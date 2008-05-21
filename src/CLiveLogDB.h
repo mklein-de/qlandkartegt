@@ -23,6 +23,8 @@
 #include "IDB.h"
 #include "CLiveLog.h"
 
+#include <QPolygon>
+
 class QPainter;
 
 class CLiveLogDB : public IDB
@@ -30,6 +32,14 @@ class CLiveLogDB : public IDB
     Q_OBJECT;
     public:
         virtual ~CLiveLogDB();
+
+        struct simplelog_t {
+            simplelog_t() : timestamp(0xFFFFFFFF), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT) {}
+            quint32 timestamp;
+            float lon;
+            float lat;
+            float ele;
+        };
 
         static CLiveLogDB& self(){return *m_self;}
 
@@ -48,12 +58,15 @@ class CLiveLogDB : public IDB
 
     private slots:
         void slotLiveLog(const CLiveLog& log);
-
+        void slotMapChanged();
     private:
         friend class CMainWindow;
         CLiveLogDB(QTabWidget * tb, QObject * parent);
         static CLiveLogDB * m_self;
         CLiveLog m_log;
+
+        QVector<simplelog_t> track;
+        QPolygon polyline;
 };
 
 #endif //CLIVELOGDB_H

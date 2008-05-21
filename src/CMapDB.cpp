@@ -148,6 +148,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         }
     }
 
+    connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
     emit sigChanged();
 }
 
@@ -173,6 +174,7 @@ void CMapDB::openMap(const QString& key)
         demMap = new CMapDEM(path.filePath(fileDEM), theMainWindow->getCanvas(), datum, path.filePath(gridfile));
     }
 
+    connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
     // store current map filename for next session
     QSettings cfg;
     cfg.setValue("maps/visibleMaps",theMap->getFilename());

@@ -538,6 +538,7 @@ void CMapQMAP::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
     needsRedraw = true;
+    emit sigChanged();
 }
 
 
@@ -568,6 +569,7 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     topLeft = p2;
 
     needsRedraw = true;
+    emit sigChanged();
 }
 
 
@@ -583,6 +585,7 @@ void CMapQMAP::zoom(qint32& level)
     if(level < 1) {
         zoomFactor  = 1.0 / - (level - 2);
         needsRedraw = true;
+        emit sigChanged();
         qDebug() << "zoom:" << zoomFactor;
         return;
     }
@@ -608,6 +611,7 @@ void CMapQMAP::zoom(qint32& level)
     pjsrc       = (*pMaplevel->begin())->pj;
     zoomFactor  = level - (*maplevel)->min + 1;
     needsRedraw = true;
+    emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
 
@@ -654,6 +658,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
                 double v = lat1 + (lat2 - lat1)/2;
                 convertRad2Pt(u,v);
                 move(QPoint(u,v), rect.center());
+                emit sigChanged();
                 return;
             }
 

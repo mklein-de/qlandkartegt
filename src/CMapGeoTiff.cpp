@@ -247,6 +247,7 @@ void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
     convertPt2M(xx,yy);
     x = xx;
     y = yy;
+    emit sigChanged();
 }
 
 void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
@@ -275,6 +276,8 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     convertPt2M(xx, yy);
     x = xx;
     y = yy;
+
+    emit sigChanged();
 }
 
 void CMapGeoTiff::zoom(qint32& level)
@@ -286,6 +289,7 @@ void CMapGeoTiff::zoom(qint32& level)
         return;
     }
     zoomFactor = level;
+    emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
 

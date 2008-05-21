@@ -119,6 +119,9 @@ class IMap : public QObject
         virtual float getElevation(float lon, float lat);
 
         virtual const QString& getFilename(){return filename;}
+    signals:
+        void sigChanged();
+
     public slots:
         /// change visible size of map
         /**

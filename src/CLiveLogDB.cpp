@@ -33,6 +33,8 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
 {
     m_self      = this;
     toolview    = new CLiveLogToolWidget(tb);
+
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
 }
 
 CLiveLogDB::~CLiveLogDB()
@@ -43,7 +45,7 @@ CLiveLogDB::~CLiveLogDB()
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
     m_log = log;
-    emit sigChanged();
+
 
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
     if(w == 0) return;
@@ -72,6 +74,19 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblSpeed->setText(tr("%1 km/h").arg(speed_km_h, 0, 'f', 1));
         w->lblHeading->setText(tr("%1\260 T").arg(nearbyintf(heading),3,'f',0,'0'));
         w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
+
+        simplelog_t slog;
+        slog.timestamp  = log.timestamp;
+        slog.lon        = log.lon;
+        slog.lat        = log.lat;
+        slog.ele        = log.ele;
+        track << slog;
+
+        IMap& map = CMapDB::self().getMap();
+        double u = slog.lon * DEG_TO_RAD;
+        double v = slog.lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+        polyline << QPoint(u,v);
     }
     else if(log.fix == CLiveLog::eNoFix){
         w->lblPosition->setText(tr("GPS signal low"));
@@ -85,10 +100,35 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblHeading->setText("-");
         w->lblTime->setText("-");
     }
+
+    emit sigChanged();
+}
+
+void CLiveLogDB::slotMapChanged()
+{
+    IMap& map = CMapDB::self().getMap();
+    const quint32 limit = track.size();
+
+    polyline.clear();
+    const simplelog_t * plog = track.data();
+
+    for(quint32 i = 0; i < limit; ++i){
+
+        double u = plog->lon * DEG_TO_RAD;
+        double v = plog->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+        polyline << QPoint(u,v);
+        ++plog;
+    }
 }
 
 void CLiveLogDB::draw(QPainter& p)
 {
+    p.setPen(QPen(Qt::white,5));
+    p.drawPolyline(polyline);
+    p.setPen(QPen(Qt::black,3));
+    p.drawPolyline(polyline);
+
     IMap& map = CMapDB::self().getMap();
     if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix){
         double u = m_log.lon * DEG_TO_RAD;
@@ -97,5 +137,4 @@ void CLiveLogDB::draw(QPainter& p)
 
         p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
     }
-
 }
