@@ -135,6 +135,19 @@ void CLiveLogDB::draw(QPainter& p)
         double v = m_log.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
+
+
+        float heading = m_log.heading;
+        if(!isnan(heading) ) {
+            p.save();
+            p.translate(u,v);
+            p.rotate(heading);
+            p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1"));
+            p.restore();
+        }
+        else{
+            p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
+        }
+
     }
 }

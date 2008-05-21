@@ -496,6 +496,10 @@ void CDeviceGarmin::slotTimeout()
         dev->getRealTimePos(pvt);
     }
     catch(int /*e*/) {
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
+
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
