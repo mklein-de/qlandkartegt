@@ -52,7 +52,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
     float speed_km_h = log.velocity * 3.6;
     float heading = log.heading;
-    if( speed_km_h < 0.2 ) {
+    if( speed_km_h < 0.3 ) {
 
         // some pretty arbitrary threshold ...
         // with a horizontal error of +/-5m it never goes above
@@ -61,6 +61,8 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         speed_km_h = 0.0;
         heading = std::numeric_limits<float>::quiet_NaN();
     }
+
+    m_log.heading = heading;
 
     QString pos;
     GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
