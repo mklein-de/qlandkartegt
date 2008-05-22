@@ -32,6 +32,9 @@ CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Live Log"));
 
     connect(&CLiveLogDB::self(), SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+
+    labelCenter->setPixmap(QPixmap(":/icons/iconLock16x16"));
+    labelCenter->hide();
 }
 
 CLiveLogToolWidget::~CLiveLogToolWidget()

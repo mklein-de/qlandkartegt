@@ -240,13 +240,12 @@ void CCanvas::print(QPrinter& printer)
 void CCanvas::draw(QPainter& p)
 {
     CMapDB::self().draw(p);
-    drawSearchResults(p);
     drawTracks(p);
+    CLiveLogDB::self().draw(p);
     drawWaypoints(p);
+    drawSearchResults(p);
     drawRefPoints(p);
     drawScale(p);
-
-    CLiveLogDB::self().draw(p);
 
     mouse->draw(p);
 }

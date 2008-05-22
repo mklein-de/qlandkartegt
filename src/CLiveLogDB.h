@@ -54,7 +54,15 @@ class CLiveLogDB : public IDB
         void upload(){};
         void download(){};
 
-        void clear(){};
+        void clear();
+
+        void start(bool yes);
+        bool logging();
+
+        void setLockToCenter(bool on){m_lockToCenter = on;}
+        bool lockToCenter(){return m_lockToCenter;}
+
+        void addWpt();
 
     private slots:
         void slotLiveLog(const CLiveLog& log);
@@ -67,6 +75,8 @@ class CLiveLogDB : public IDB
 
         QVector<simplelog_t> track;
         QPolygon polyline;
+
+        bool m_lockToCenter;
 };
 
 #endif //CLIVELOGDB_H

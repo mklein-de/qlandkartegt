@@ -23,6 +23,11 @@
 #include "GeoMath.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "CWptDB.h"
+#include "CResources.h"
+#include "IDevice.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
 
 #include <QtGui>
 
@@ -30,6 +35,7 @@ CLiveLogDB * CLiveLogDB::m_self = 0;
 
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
     : IDB(tb,parent)
+    , m_lockToCenter(false)
 {
     m_self      = this;
     toolview    = new CLiveLogToolWidget(tb);
@@ -42,10 +48,51 @@ CLiveLogDB::~CLiveLogDB()
 
 }
 
+void CLiveLogDB::start(bool yes)
+{
+    IDevice * dev = CResources::self().device();
+    if(dev == 0) return;
+
+    dev->setLiveLog(yes);
+    if(!yes && !track.isEmpty()){
+        //copy track data
+        CTrack * t                  = new CTrack(&CTrackDB::self());
+        const simplelog_t * pLog    = track.data();
+        const quint32 limit         = track.size();
+
+        for(quint32 i = 0; i < limit; ++i){
+            CTrack::pt_t pt;
+            pt.timestamp = pLog->timestamp;
+            pt.lon       = pLog->lon;
+            pt.lat       = pLog->lat;
+            pt.ele       = pLog->ele;
+            *t << pt;
+            ++pLog;
+        }
+        CTrackDB::self().addTrack(t, false);
+        clear();
+    }
+}
+
+bool CLiveLogDB::logging()
+{
+    IDevice * dev = CResources::self().device();
+    if(dev == 0) return false;
+
+    return dev->liveLog();
+}
+
+void CLiveLogDB::clear()
+{
+    track.clear();
+    polyline.clear();
+    m_log.fix = CLiveLog::eOff;
+    emit sigChanged();
+}
+
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
     m_log = log;
-
 
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
     if(w == 0) return;
@@ -89,6 +136,16 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         double v = slog.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
         polyline << QPoint(u,v);
+
+        if(m_lockToCenter){
+            QSize size  = map.getSize();
+            int   dx    = size.width()  / 4;
+            int   dy    = size.height() / 4;
+            QRect area  = QRect(dx, dy, 2*dx, 2*dy);
+            if(!area.contains(u,v)){
+                map.move(QPoint(u,v), area.center());
+            }
+        }
     }
     else if(log.fix == CLiveLog::eNoFix){
         w->lblPosition->setText(tr("GPS signal low"));
@@ -101,6 +158,13 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblSpeed->setText("-");
         w->lblHeading->setText("-");
         w->lblTime->setText("-");
+    }
+
+    if(m_lockToCenter){
+        w->labelCenter->show();
+    }
+    else{
+        w->labelCenter->hide();
     }
 
     emit sigChanged();
@@ -137,8 +201,6 @@ void CLiveLogDB::draw(QPainter& p)
         double v = m_log.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-
-
         float heading = m_log.heading;
         if(!isnan(heading) ) {
             p.save();
@@ -151,5 +213,14 @@ void CLiveLogDB::draw(QPainter& p)
             p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
         }
 
+    }
+
+}
+
+
+void CLiveLogDB::addWpt()
+{
+    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix){
+        CWptDB::self().newWpt(m_log.lon * DEG_TO_RAD, m_log.lat * DEG_TO_RAD, m_log.ele);
     }
 }

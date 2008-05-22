@@ -90,6 +90,8 @@ class CMegaMenu : public QLabel
 
 
         void funcLiveLog();
+        void funcLockMap();
+        void funcAddWpt();
 
         static CMegaMenu * m_self;
 

@@ -142,6 +142,9 @@ void CTrackDB::loadGPX(CGpx& gpx)
         if(track->getTrackPoints().count() > 0){
             addTrack(track, true);
         }
+        else{
+            delete track;
+        }
     }
     emit sigChanged();
 }

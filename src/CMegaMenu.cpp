@@ -138,8 +138,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconLock16x16",QObject::tr("Move Map to Pos."),&CMegaMenu::funcLockMap,tr("Move the map to keep the positon cursor centered.")}
+    ,{":/icons/iconAdd16x16",QObject::tr("Add Waypoint"),&CMegaMenu::funcAddWpt,tr("Add a waypoint at current position.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -478,8 +478,15 @@ void CMegaMenu::funcDownloadTrack()
 
 void CMegaMenu::funcLiveLog()
 {
-    IDevice * dev = CResources::self().device();
-    if(dev == 0) return;
+    CLiveLogDB::self().start(!CLiveLogDB::self().logging());
+}
 
-    dev->setLiveLog(!dev->liveLog());
+void CMegaMenu::funcLockMap()
+{
+    CLiveLogDB::self().setLockToCenter(!CLiveLogDB::self().lockToCenter());
+}
+
+void CMegaMenu::funcAddWpt()
+{
+    CLiveLogDB::self().addWpt();
 }
