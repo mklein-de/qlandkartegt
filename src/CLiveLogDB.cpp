@@ -54,7 +54,7 @@ void CLiveLogDB::start(bool yes)
     if(dev == 0) return;
 
     dev->setLiveLog(yes);
-    if(!yes && !track.isEmpty()){
+    if(!yes && track.size() > 1){
         //copy track data
         CTrack * t                  = new CTrack(&CTrackDB::self());
         const simplelog_t * pLog    = track.data();
@@ -72,6 +72,11 @@ void CLiveLogDB::start(bool yes)
         CTrackDB::self().addTrack(t, false);
         clear();
     }
+    if(!yes){
+        m_log.fix = CLiveLog::eOff;
+    }
+
+    emit sigChanged();
 }
 
 bool CLiveLogDB::logging()
@@ -92,6 +97,9 @@ void CLiveLogDB::clear()
 
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
+
+    if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
+
     m_log = log;
 
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
