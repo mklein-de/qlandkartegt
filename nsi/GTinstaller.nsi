@@ -1,5 +1,16 @@
 ; Include for nice Setup UI
 !include MUI2.nsh
+!include WriteEnvStr.nsh
+
+; Variable declaration
+!define PATH "%FWTOOLS_DIR%\bin;%FWTOOLS_DIR%\python;%PATH%"
+!define PYTHONPATH "%FWTOOLS_DIR%\pymod"
+!define PROJ_LIB "%FWTOOLS_DIR%\proj_lib"
+!define GEOTIFF_CSV "%FWTOOLS_DIR%\data"
+!define GDAL_DATA "%FWTOOLS_DIR%\data"
+!define GDAL_DRIVER_PATH "%FWTOOLS_DIR%\gdal_plugins"
+
+
 ;------------------------------------------------------------------------
 ; Modern UI2 definition							                                    -
 ;------------------------------------------------------------------------
@@ -60,6 +71,19 @@ Var StartMenuFolder
 ;------------------------------------------------------------------------
 ;Components description
 
+  Section "FWTools" FWTools
+  	SetOutPath $INSTDIR
+  	; Don't do it if we can package install
+  	NSISdl::download http://home.gdal.org/fwtools/FWTools210.exe $TEMP\FWTools210.exe
+  	Pop $R0 ;Get the return value
+  	  StrCmp $R0 "success" +3
+  	    MessageBox MB_OK "Download failed: $R0"
+  	    Quit
+  	ExecWait '"$TEMP\FWTools210.exe"'    
+  SectionEnd
+  LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
+
+
   Section "QLandkarteGT" QLandkarteGT
   	SetOutPath $INSTDIR
   	File Files\qlandkartegt.exe
@@ -73,23 +97,39 @@ Var StartMenuFolder
 	
 	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "DisplayName" "QLandkarte GT (remove only)"
 	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "UninstallString" "$INSTDIR\Uninstall.exe"
+	
+    !define ReadEnvStr_RegKey 'HKCU "Environment"'
+    ; Set environment variable
+
+    ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
+    !define FWTOOLS_DIR $0
+    Push FWTOOLS_DIR
+    Push '${FWTOOLS_DIR}'
+    Call WriteEnvStr
+    ReadEnvStr $1 "PATH"
+    StrCpy $1 "$1;$0\bin;$0\python"
+    Push PATH
+    Push '${PATH}'
+    Call WriteEnvStr
+    Push PYTHONPATH
+    Push '${PYTHONPATH}'
+    Call WriteEnvStr
+    Push PROJ_LIB
+    Push '${PROJ_LIB}'
+    Call WriteEnvStr
+    Push GEOTIFF_CSV
+    Push '${GEOTIFF_CSV}'
+    Call WriteEnvStr
+    Push GDAL_DATA
+    Push '${GDAL_DATA}'
+    Call WriteEnvStr
+    Push GDAL_DRIVER_PATH
+    Push '${GDAL_DRIVER_PATH}'
+    Call WriteEnvStr
+	
   SectionEnd
   LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"
-  
-  Section "FWTools" FWTools
-  	SetOutPath $INSTDIR
-  	;File FWTools\*.dll
-  	;File FWTools\*.exe
-  	; Don't do it if we can package install
-  	NSISdl::download http://home.gdal.org/fwtools/FWTools210.exe $TEMP\FWTools210.exe
-  	Pop $R0 ;Get the return value
-  	  StrCmp $R0 "success" +3
-  	    MessageBox MB_OK "Download failed: $R0"
-  	    Quit
-  	ExecWait '"$TEMP\FWTools210.exe"'
-  SectionEnd
-  LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
-  
+    
   Section "QT 4.3" QT
   	File Files\qgif4.dll
   	File Files\qjpeg4.dll
@@ -105,7 +145,7 @@ Var StartMenuFolder
   LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."
 
   Section "MSVC 8.0" MSVC
-  	File Files\msvcm80.dll
+   	File Files\msvcm80.dll
   	File Files\msvcp80.dll
   	File Files\msvcr80.dll
   	SetOutPath $INSTDIR
