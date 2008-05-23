@@ -26,6 +26,7 @@
 #include <QPolygon>
 
 class QPainter;
+class QFile;
 
 class CLiveLogDB : public IDB
 {
@@ -68,8 +69,11 @@ class CLiveLogDB : public IDB
         void slotLiveLog(const CLiveLog& log);
         void slotMapChanged();
     private:
+
         friend class CMainWindow;
         CLiveLogDB(QTabWidget * tb, QObject * parent);
+        void saveBackupLog();
+
         static CLiveLogDB * m_self;
         CLiveLog m_log;
 
@@ -77,6 +81,8 @@ class CLiveLogDB : public IDB
         QPolygon polyline;
 
         bool m_lockToCenter;
+
+        QFile * backup;
 };
 
 #endif //CLIVELOGDB_H

@@ -48,5 +48,11 @@ class CLiveLog
         float velocity;
 };
 
+extern void operator <<(QDataStream& s, const CLiveLog& log);
+extern void operator <<(QFile& f, const CLiveLog& log);
+extern void operator >>(QDataStream& s, CLiveLog& log);
+
+
+
 #endif //CLIVELOG_H
 

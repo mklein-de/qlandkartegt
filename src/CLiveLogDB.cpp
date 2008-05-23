@@ -41,6 +41,9 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
     toolview    = new CLiveLogToolWidget(tb);
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
+
+    saveBackupLog();
+    backup = new QFile(QDir::temp().filePath("qlBackupLog"),this);
 }
 
 CLiveLogDB::~CLiveLogDB()
@@ -48,35 +51,53 @@ CLiveLogDB::~CLiveLogDB()
 
 }
 
+void CLiveLogDB::saveBackupLog()
+{
+    if(QFile::exists(QDir::temp().filePath("qlBackupLog"))){
+        QFile tmp(QDir::temp().filePath("qlBackupLog"));
+        tmp.open(QIODevice::ReadOnly);
+        QDataStream in(&tmp);
+
+        CTrack * t = new CTrack(&CTrackDB::self());
+        t->setName(tr("LiveLog"));
+
+        CLiveLog log;
+
+        in >> log;
+
+        while(!tmp.atEnd()){
+            CTrack::pt_t pt;
+            pt.timestamp = log.timestamp;
+            pt.lon       = log.lon;
+            pt.lat       = log.lat;
+            pt.ele       = log.ele;
+            *t << pt;
+
+            in >> log;
+        }
+        if(t->getTrackPoints().size()){
+            CTrackDB::self().addTrack(t, false);
+        }
+        else {
+            delete t;
+        }
+
+        tmp.close();
+        tmp.remove();
+    }
+}
+
+
 void CLiveLogDB::start(bool yes)
 {
     IDevice * dev = CResources::self().device();
     if(dev == 0) return;
 
     dev->setLiveLog(yes);
-    if(!yes && track.size() > 1){
-        //copy track data
-        CTrack * t                  = new CTrack(&CTrackDB::self());
-        const simplelog_t * pLog    = track.data();
-        const quint32 limit         = track.size();
-
-        for(quint32 i = 0; i < limit; ++i){
-            CTrack::pt_t pt;
-            pt.timestamp = pLog->timestamp;
-            pt.lon       = pLog->lon;
-            pt.lat       = pLog->lat;
-            pt.ele       = pLog->ele;
-            *t << pt;
-            ++pLog;
-        }
-        CTrackDB::self().addTrack(t, false);
+    if(!yes){
         clear();
     }
-    if(!yes){
-        m_log.fix = CLiveLog::eOff;
-    }
 
-    emit sigChanged();
 }
 
 bool CLiveLogDB::logging()
@@ -89,6 +110,7 @@ bool CLiveLogDB::logging()
 
 void CLiveLogDB::clear()
 {
+    saveBackupLog();
     track.clear();
     polyline.clear();
     m_log.fix = CLiveLog::eOff;
@@ -101,6 +123,8 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
 
     m_log = log;
+
+    *backup << log;
 
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
     if(w == 0) return;
