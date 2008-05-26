@@ -28,6 +28,7 @@
 #include <QMutex>
 #include <QProgressDialog>
 #include <QDir>
+#include <QProcess>
 
 class CMapDEM;
 class CMapLevel;
@@ -92,7 +93,6 @@ class CMapQMAP : public IMap
         QPixmap buffer;
 
         bool foundMap;
-
 };
 
 /// thread object to export a sub-area from a map set

@@ -247,6 +247,13 @@ void CExportMapThread::run()
                 // copy colortable
                 pBandTar->SetColorTable(pBandSrc->GetColorTable());
 
+                // copy transparent color
+                int success = 0;
+                double idx = pBandSrc->GetNoDataValue(&success);
+                if(success){
+                    pBandTar->SetNoDataValue(idx);
+                }
+
                 // start to copy block by block
                 quint8 * blockdata = new quint8[(*mapfile)->tileWidth * (*mapfile)->tileHeight];
                 quint32 n,m,progress = 0;
@@ -695,11 +702,13 @@ void CMapQMAP::select(const QRect& rect)
 
     QString internalMapName = QInputDialog::getText(0,tr("Enter short description..."),QFileInfo(filename).baseName());
 
-    progressExport.setLabelText(tr("Export map ..."));
-    progressExport.show();
+//     progressExport.setLabelText(tr("Export map ..."));
+//     progressExport.show();
+//
+//     thExportMap->setup(p1,p2,fn,internalMapName);
+//     thExportMap->start();
 
-    thExportMap->setup(p1,p2,fn,internalMapName);
-    thExportMap->start();
+
 }
 
 
