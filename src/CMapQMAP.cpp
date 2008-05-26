@@ -702,11 +702,11 @@ void CMapQMAP::select(const QRect& rect)
 
     QString internalMapName = QInputDialog::getText(0,tr("Enter short description..."),QFileInfo(filename).baseName());
 
-//     progressExport.setLabelText(tr("Export map ..."));
-//     progressExport.show();
-//
-//     thExportMap->setup(p1,p2,fn,internalMapName);
-//     thExportMap->start();
+    progressExport.setLabelText(tr("Export map ..."));
+    progressExport.show();
+
+    thExportMap->setup(p1,p2,fn,internalMapName);
+    thExportMap->start();
 
 
 }
