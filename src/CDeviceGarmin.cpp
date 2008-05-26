@@ -656,10 +656,13 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
 
         std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
         while(gartrkpt != gartrk->track.end()){
+            QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
+            t = t.addYears(20).addDays(-1);
+
             CTrack::pt_t trkpt;
             trkpt.lon       = gartrkpt->lon;
             trkpt.lat       = gartrkpt->lat;
-            trkpt.timestamp = gartrkpt->time;
+            trkpt.timestamp = t.toTime_t();
             trkpt.ele       = gartrkpt->alt;
 
             *trk << trkpt;

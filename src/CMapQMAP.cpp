@@ -250,12 +250,14 @@ void CExportMapThread::run()
                 // copy transparent color
                 int success = 0;
                 double idx = pBandSrc->GetNoDataValue(&success);
+                qDebug() << success << idx;
                 if(success){
                     pBandTar->SetNoDataValue(idx);
                 }
 
                 // start to copy block by block
-                quint8 * blockdata = new quint8[(*mapfile)->tileWidth * (*mapfile)->tileHeight];
+                quint32 blocksize = (*mapfile)->tileWidth * (*mapfile)->tileHeight;
+                quint8 * blockdata = new quint8[blocksize];
                 quint32 n,m,progress = 0;
 
                 for(m = y1; m < y2; ++m) {

@@ -85,10 +85,19 @@ void CTrackToolWidget::slotDBChanged()
         }
         str += tr(", points: %1").arg((*track)->getTrackPoints().count());
 
+
+        quint32 ttime = (*track)->getTotalTime();
+        quint32 days  = ttime / 86400;
+
         QTime time;
-        time = time.addSecs((*track)->getTotalTime());
-        str += tr("\ntime: ") + time.toString("HH:mm:ss");
-        str += tr(", speed: %1 km/h").arg(distance * 3.6 / (*track)->getTotalTime(), 0, 'f', 2);
+        time = time.addSecs(ttime);
+        if(days){
+            str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
+        }
+        else{
+            str += tr("\ntime: ") + time.toString("HH:mm:ss");
+        }
+        str += tr(", speed: %1 km/h").arg(distance * 3.6 / ttime, 0, 'f', 2);
         str += tr("\nstart: %1").arg((*track)->getStartTimestamp().isNull() ? tr("-") : (*track)->getStartTimestamp().toString());
         str += tr("\nend: %1").arg((*track)->getEndTimestamp().isNull() ? tr("-") : (*track)->getEndTimestamp().toString());
 
