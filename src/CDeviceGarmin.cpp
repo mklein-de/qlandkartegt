@@ -511,7 +511,7 @@ void CDeviceGarmin::slotTimeout()
         log.ele = pvt.alt + pvt.msl_hght;
 
         QDateTime t(QDate(1989,12,31), QTime(0,0), Qt::UTC);
-        t = t.addDays(pvt.wn_days).addSecs(lrint(pvt.tow)).addSecs(-pvt.leap_scnds);
+        t = t.addDays(pvt.wn_days).addSecs((int)(pvt.tow + 0.5)).addSecs(-pvt.leap_scnds);
         log.timestamp = t.toLocalTime().toTime_t();
 
         // multiply by 100 to avoid leaving the float range.
