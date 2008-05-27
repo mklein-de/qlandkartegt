@@ -61,7 +61,8 @@ void IMouse::resizeRect(const QPoint& p)
 void IMouse::drawRect(QPainter& p)
 {
     p.setBrush(QBrush( QColor(230,230,255,100) ));
-    p.setPen(QColor(150,150,255));
+//     p.setPen(QPen(QColor(150,150,255),3));
+    p.setPen(QPen(QColor(255,255,0),3));
     p.drawRect(rect);
 }
 

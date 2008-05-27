@@ -297,8 +297,8 @@ void CExportMapThread::run()
 }
 
 
-CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
-: IMap(parent)
+CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
+: IMap(key,parent)
 , pMaplevel(0)
 , zoomFactor(1)
 , foundMap(false)

@@ -25,7 +25,7 @@
 #include <QtGui>
 
 CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
-: IMap(parent)
+: IMap("",parent)
 , dataset(0)
 , xsize_px(0)
 , ysize_px(0)

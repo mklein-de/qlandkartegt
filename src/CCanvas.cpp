@@ -544,9 +544,30 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, co
     p.drawText(r.topLeft() - QPoint( 0,+1), str);
     p.drawText(r.topLeft() - QPoint(+1,+1), str);
 
-    p.setFont(f);
     p.setPen(color);
     p.drawText(r.topLeft(),str);
+
+}
+
+void CCanvas::drawText(const QString& str, QPainter& p, const QRect& r, const QColor& color)
+{
+
+    p.setPen(Qt::white);
+    p.setFont(CResources::self().getMapFont());
+
+    p.drawText(r.adjusted(-1,-1,-1,-1),Qt::AlignCenter,str);
+    p.drawText(r.adjusted( 0,-1, 0,-1),Qt::AlignCenter,str);
+    p.drawText(r.adjusted(+1,-1,+1,-1),Qt::AlignCenter,str);
+
+    p.drawText(r.adjusted(-1, 0,-1, 0),Qt::AlignCenter,str);
+    p.drawText(r.adjusted(+1, 0,+1, 0),Qt::AlignCenter,str);
+
+    p.drawText(r.adjusted(-1,+1,-1,+1),Qt::AlignCenter,str);
+    p.drawText(r.adjusted( 0,+1, 0,+1),Qt::AlignCenter,str);
+    p.drawText(r.adjusted(+1,+1,+1,+1),Qt::AlignCenter,str);
+
+    p.setPen(color);
+    p.drawText(r,Qt::AlignCenter,str);
 
 }
 

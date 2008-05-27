@@ -31,17 +31,14 @@
     </widget>
    </item>
    <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>Selected Maps</string>
      </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="listSelectedMaps" />
    </item>
   </layout>
  </widget>

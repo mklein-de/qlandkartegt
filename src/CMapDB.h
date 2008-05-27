@@ -21,7 +21,7 @@
 
 #include "IDB.h"
 #include "CMapNoMap.h"
-// #include <QList>
+#include <QList>
 #include <QMap>
 #include <QPointer>
 
@@ -37,13 +37,6 @@ class CMapDB : public IDB
     public:
         virtual ~CMapDB();
 
-        struct map_t
-        {
-            QString filename;
-            QString description;
-            QString key;
-        };
-
         static CMapDB& self(){return *m_self;}
 
         /// open a map collection from disc
@@ -53,8 +46,6 @@ class CMapDB : public IDB
         /// close the current map
         void closeMap();
 
-        /// get access to known map dictionary
-        const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get current main map
         IMap& getMap();
 
@@ -76,14 +67,47 @@ class CMapDB : public IDB
         void upload();
         void download();
 
-        void clear(){};
+        void clear();
 
         void editMap();
 
+        /// select an area of the map for export [px]
+        /**
+            @param rect area within the current viewport
+        */
+        void select(const QRect& rect);
+
+
     private:
         friend class CMainWindow;
+        friend class CMapToolWidget;
+
+        struct map_t
+        {
+            QString filename;
+            QString description;
+            QString key;
+        };
+
+
+        struct mapsel_t
+        {
+            mapsel_t() : lon1(0), lat1(0), lon2(0), lat2(0) {}
+            QString key;
+            QString mapkey;
+            QString description;
+            double lon1;
+            double lat1;
+            double lon2;
+            double lat2;
+        };
 
         CMapDB(QTabWidget * tb, QObject * parent);
+
+        /// get access to known map dictionary, CMapToolWidget only
+        const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
+        /// get access to selected map list, CMapToolWidget only
+        const QMap<QString,mapsel_t>& getSelectedMaps(){return selectedMaps;}
 
         void closeVisibleMaps();
 
@@ -104,5 +128,7 @@ class CMapDB : public IDB
         QPointer<IMap> demMap;
 
         QPointer<CMapEditWidget> mapedit;
+
+        QMap<QString,mapsel_t> selectedMaps;
 };
 #endif                           //CMAPDB_H

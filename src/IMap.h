@@ -34,7 +34,7 @@ class IMap : public QObject
 {
     Q_OBJECT;
     public:
-        IMap(CCanvas * parent);
+        IMap(const QString& key, CCanvas * parent);
         virtual ~IMap();
 
         enum overlay_e {eNone, eShading, eContour};
@@ -120,7 +120,9 @@ class IMap : public QObject
 
         virtual const QString& getFilename(){return filename;}
 
-        virtual QSize getSize(){return size;}
+        virtual const QSize& getSize(){return size;}
+
+        const QString& getKey(){return key;}
     signals:
         void sigChanged();
 
@@ -155,7 +157,9 @@ class IMap : public QObject
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
         PJ * pjtar;
-
+        /// set true if the content on display has changed (zoom, move)
         bool needsRedraw;
+        /// the key used to register the map
+        QString key;
 };
 #endif                           //IMAP_H

@@ -50,7 +50,7 @@ class CMapQMAP : public IMap
             @param filename full qualified path to a raster map definition
             @param parent   parent object for the usual Qt stuff
         */
-        CMapQMAP(const QString& filename, CCanvas * parent);
+        CMapQMAP(const QString& key, const QString& filename, CCanvas * parent);
         virtual ~CMapQMAP();
 
         void draw(QPainter& p);

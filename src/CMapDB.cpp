@@ -25,6 +25,8 @@
 #include "CMapDEM.h"
 #include "CMainWindow.h"
 #include "CMapEditWidget.h"
+#include "GeoMath.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -82,6 +84,11 @@ CMapDB::~CMapDB()
     cfg.setValue("maps/knownMaps",maps);
 }
 
+void CMapDB::clear()
+{
+    selectedMaps.clear();
+    emit sigChanged();
+}
 
 IMap& CMapDB::getMap() {
     return (theMap.isNull() ? *defaultMap : *theMap);
@@ -117,7 +124,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.key         = filename;
 
         // create base map
-        theMap = new CMapQMAP(filename,&canvas);
+        theMap = new CMapQMAP(map.key, filename,&canvas);
 
         // create DEM map if any
         QDir    path        = QFileInfo(filename).absolutePath();
@@ -161,7 +168,7 @@ void CMapDB::openMap(const QString& key)
 
     // create base map
     QString filename = knownMaps[key].filename;
-    theMap = new CMapQMAP(filename,theMainWindow->getCanvas());
+    theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
 
     // create DEM map if any
     QSettings mapdef(filename,QSettings::IniFormat);
@@ -240,8 +247,29 @@ void CMapDB::draw(QPainter& p)
     if(!demMap.isNull()){
         demMap->draw(p);
     }
-}
 
+    mapsel_t ms;
+    foreach(ms, selectedMaps){
+        if(ms.mapkey != theMap->getKey()) continue;
+
+        QString pos1, pos2;
+
+        GPS_Math_Deg_To_Str(ms.lon1 * RAD_TO_DEG, ms.lat1 * RAD_TO_DEG, pos1);
+        GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
+
+        theMap->convertRad2Pt(ms.lon1, ms.lat1);
+        theMap->convertRad2Pt(ms.lon2, ms.lat2);
+
+        p.setBrush(QBrush( QColor(230,230,255,100) ));
+        p.setPen(QPen(QColor(0,0,150),2));
+        QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
+        p.drawRect(r);
+
+        CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
+
+
+    }
+}
 
 void CMapDB::editMap()
 {
@@ -250,3 +278,30 @@ void CMapDB::editMap()
         theMainWindow->setTempWidget(mapedit);
     }
 }
+
+void CMapDB::select(const QRect& rect)
+{
+    mapsel_t ms;
+    ms.mapkey = theMap->getKey();
+    if(ms.mapkey.isEmpty()){
+        QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps."), QMessageBox::Ok, QMessageBox::Ok);
+        return;
+    }
+
+
+    ms.description = knownMaps[ms.mapkey].description;
+
+    ms.lon1 = rect.left();
+    ms.lat1 = rect.top();
+    theMap->convertPt2Rad(ms.lon1, ms.lat1);
+
+    ms.lon2 = rect.right();
+    ms.lat2 = rect.bottom();
+    theMap->convertPt2Rad(ms.lon2, ms.lat2);
+
+    ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
+
+    selectedMaps[ms.key] = ms;
+    emit sigChanged();
+}
+

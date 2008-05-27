@@ -34,7 +34,7 @@
 #include <QtGui>
 
 CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile)
-: IMap(parent)
+: IMap("",parent)
 , weights(0)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);

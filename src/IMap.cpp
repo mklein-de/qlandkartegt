@@ -25,12 +25,13 @@
 #include <QtGui>
 #include <math.h>
 
-IMap::IMap(CCanvas * parent)
+IMap::IMap(const QString& key, CCanvas * parent)
 : QObject(parent)
 , zoomidx(1)
 , pjsrc(0)
 , pjtar(0)
 , needsRedraw(true)
+, key(key)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 

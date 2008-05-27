@@ -88,6 +88,7 @@ class CCanvas : public QWidget
 
         /// draw text with white border
         static void drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color = Qt::darkBlue);
+        static void drawText(const QString& str, QPainter& p, const QRect& r, const QColor& color = Qt::darkBlue);
 
         void raiseContextMenu(const QPoint& pos);
 

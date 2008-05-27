@@ -20,6 +20,7 @@
 #include "CMapToolWidget.h"
 #include "CMapDB.h"
 #include "CMainWindow.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -52,13 +53,32 @@ void CMapToolWidget::slotDBChanged()
 {
     listKnownMaps->clear();
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
+    {
+        QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
+        while(map != knownMaps.end()) {
+            QListWidgetItem * item = new QListWidgetItem(listKnownMaps);
+            item->setText(map->description);
+            item->setData(Qt::UserRole, map.key());
+            ++map;
+        }
+    }
 
-    QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
-    while(map != knownMaps.end()) {
-        QListWidgetItem * item = new QListWidgetItem(listKnownMaps);
-        item->setText(map->description);
-        item->setData(Qt::UserRole, map.key());
-        ++map;
+    listSelectedMaps->clear();
+    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    {
+        QMap<QString,CMapDB::mapsel_t>::const_iterator map = selectedMaps.begin();
+        while(map != selectedMaps.end()) {
+            QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
+            QString pos1, pos2;
+
+            GPS_Math_Deg_To_Str(map->lon1 * RAD_TO_DEG, map->lat1 * RAD_TO_DEG, pos1);
+            GPS_Math_Deg_To_Str(map->lon2 * RAD_TO_DEG, map->lat2 * RAD_TO_DEG, pos2);
+
+            item->setText(QString("%1\n%2\n%3").arg(map->description).arg(pos1).arg(pos2));
+            item->setData(Qt::UserRole, map.key());
+            ++map;
+        }
+
     }
 }
 
