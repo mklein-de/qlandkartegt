@@ -359,6 +359,9 @@ CMapQMAP::CMapQMAP(const QString& fn, CCanvas * parent)
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 
+    connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
+    resize(parent->size());
+
     qDebug() << "done";
 }
 
@@ -386,6 +389,8 @@ void CMapQMAP::resize(const QSize& size)
     IMap::resize(size);
     buffer      = QPixmap(size);
     needsRedraw = true;
+
+    qDebug() << "CMapQMAP::resize()";
 }
 
 void CMapQMAP::draw(QPainter& p)
@@ -395,10 +400,11 @@ void CMapQMAP::draw(QPainter& p)
         return;
     }
 
+    qDebug() << "CMapQMAP::draw()" << needsRedraw << buffer.size();
 
     if(needsRedraw){
         buffer.fill(Qt::white);
-        QPainter p(&buffer);
+        QPainter _p_(&buffer);
 
         foundMap = false;
 
@@ -415,6 +421,7 @@ void CMapQMAP::draw(QPainter& p)
         // the viewport rectangel in [m]
         QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
 
+
         // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
         // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
         QVector<CMapFile*>::const_iterator mapfile = pMaplevel->begin();
@@ -424,6 +431,8 @@ void CMapQMAP::draw(QPainter& p)
 
             QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
             QRectF intersect = viewport.intersected(maparea);
+
+            qDebug() << viewport << maparea << intersect;
 
             if(intersect.isValid()) {
 
@@ -460,7 +469,7 @@ void CMapQMAP::draw(QPainter& p)
                     if(!err) {
                         double xx = intersect.left(), yy = intersect.bottom();
                         convertM2Pt(xx,yy);
-                        p.drawPixmap(xx,yy,QPixmap::fromImage(img));
+                        _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
                         foundMap = true;
                     }
                 }
@@ -555,6 +564,8 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
 {
     XY p1;
 
+    needsRedraw = true;
+
     // convert point to geo. coordinates
     p1.u = p0.x();
     p1.v = p0.y();
@@ -577,13 +588,14 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p2.u, p2.v);
     topLeft = p2;
 
-    needsRedraw = true;
+
     emit sigChanged();
 }
 
 
 void CMapQMAP::zoom(qint32& level)
 {
+    needsRedraw = true;
     if(maplevels.isEmpty()) {
         pMaplevel   = 0;
         pjsrc       = 0;
@@ -593,7 +605,6 @@ void CMapQMAP::zoom(qint32& level)
     // no level less than 1
     if(level < 1) {
         zoomFactor  = 1.0 / - (level - 2);
-        needsRedraw = true;
         emit sigChanged();
         qDebug() << "zoom:" << zoomFactor;
         return;
@@ -619,7 +630,6 @@ void CMapQMAP::zoom(qint32& level)
     pMaplevel   = *maplevel;
     pjsrc       = (*pMaplevel->begin())->pj;
     zoomFactor  = level - (*maplevel)->min + 1;
-    needsRedraw = true;
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
@@ -627,6 +637,7 @@ void CMapQMAP::zoom(qint32& level)
 
 void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 {
+    needsRedraw = true;
     if(maplevels.isEmpty()) {
         pMaplevel   = 0;
         pjsrc       = 0;
