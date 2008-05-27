@@ -389,8 +389,6 @@ void CMapQMAP::resize(const QSize& size)
     IMap::resize(size);
     buffer      = QPixmap(size);
     needsRedraw = true;
-
-    qDebug() << "CMapQMAP::resize()";
 }
 
 void CMapQMAP::draw(QPainter& p)
@@ -399,8 +397,6 @@ void CMapQMAP::draw(QPainter& p)
         IMap::draw(p);
         return;
     }
-
-    qDebug() << "CMapQMAP::draw()" << needsRedraw << buffer.size();
 
     if(needsRedraw){
         buffer.fill(Qt::white);
@@ -431,8 +427,6 @@ void CMapQMAP::draw(QPainter& p)
 
             QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
             QRectF intersect = viewport.intersected(maparea);
-
-            qDebug() << viewport << maparea << intersect;
 
             if(intersect.isValid()) {
 
