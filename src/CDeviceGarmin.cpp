@@ -32,6 +32,8 @@
 #include <limits>
 #include <math.h>
 
+#include <projects.h>
+
 
 #define XSTR(x) STR(x)
 #define STR(x) #x
@@ -516,7 +518,7 @@ void CDeviceGarmin::slotTimeout()
 
         // multiply by 100 to avoid leaving the float range.
         float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
-        heading = atanf(heading) / (2.0 * M_PI) * 360.0;
+        heading = atanf(heading) / (TWOPI) * 360.0;
         if( (pvt.north > 0.0) & (pvt.east > 0.0) ) {
             // 1st quadrant
             heading = heading;

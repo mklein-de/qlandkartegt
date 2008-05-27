@@ -31,6 +31,11 @@
 
 #include <QtGui>
 
+#include <limits>
+#ifdef WIN32
+#define isnan(x) _isnan(x)
+#endif
+
 CLiveLogDB * CLiveLogDB::m_self = 0;
 
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
