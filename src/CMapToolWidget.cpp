@@ -176,6 +176,14 @@ void CMapToolWidget::updateEportButton()
 
 void CMapToolWidget::slotExportMap()
 {
+    bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
+    bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
+    bool haveGDAL = haveGDALWarp && haveGDALTranslate;
+    if(!haveGDAL){
+        QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
     QListWidgetItem * item  = listSelectedMaps->currentItem();
     if(item == 0) return;
 
