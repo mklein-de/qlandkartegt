@@ -84,6 +84,7 @@ class CMapDB : public IDB
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;
+        friend class CMapQMAPExport;
 
         struct map_t
         {

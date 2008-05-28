@@ -20,6 +20,7 @@
 #define CMAPQMAPEXPORT_H
 
 #include <QDialog>
+#include <QProcess>
 #include "ui_IMapQMAPExport.h"
 
 class CMapSelection;
@@ -34,9 +35,27 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
     private slots:
         void slotStart();
         void slotOutputPath();
+        void slotStderr();
+        void slotStdout();
+        void slotFinished( int exitCode, QProcess::ExitStatus status);
 
     private:
         const CMapSelection& mapsel;
+
+        QProcess cmd;
+
+        struct job_t
+        {
+            QString srcFilename;
+            QString tarFilename;
+            quint32 xoff;
+            quint32 yoff;
+            quint32 width;
+            quint32 height;
+            int idx;
+        };
+
+        QList<job_t> jobs;
 };
 
 #endif //CMAPQMAPEXPORT_H
