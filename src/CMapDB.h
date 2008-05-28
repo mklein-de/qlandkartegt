@@ -96,10 +96,10 @@ class CMapDB : public IDB
             QString key;
             QString mapkey;
             QString description;
-            double lon1;
-            double lat1;
-            double lon2;
-            double lat2;
+            double lon1; ///< top left longitude [rad]
+            double lat1; ///< top left latitude [rad]
+            double lon2; ///< bottom right longitude [rad]
+            double lat2; ///< bottom right latitude [rad]
         };
 
         CMapDB(QTabWidget * tb, QObject * parent);

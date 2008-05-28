@@ -33,13 +33,15 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Maps"));
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
-    connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotKnownMapClicked(QListWidgetItem*)));
 
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(),tr(""));
     contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
 
     connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
+
+    connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
 }
 
 
@@ -83,12 +85,22 @@ void CMapToolWidget::slotDBChanged()
 }
 
 
-void CMapToolWidget::slotItemClicked(QListWidgetItem* item)
+void CMapToolWidget::slotKnownMapClicked(QListWidgetItem* item)
 {
     QString key = item->data(Qt::UserRole).toString();
     CMapDB::self().openMap(key);
 }
 
+void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
+{
+    QString key = item->data(Qt::UserRole).toString();
+
+    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    if(selectedMaps.contains(key)){
+        const CMapDB::mapsel_t& ms = selectedMaps[key];
+        CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
+    }
+}
 
 void CMapToolWidget::slotContextMenu(const QPoint& pos)
 {

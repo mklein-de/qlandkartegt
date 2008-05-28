@@ -248,9 +248,13 @@ void CMapDB::draw(QPainter& p)
         demMap->draw(p);
     }
 
+    if(tabbar-> currentWidget() != toolview){
+        return;
+    }
+
     mapsel_t ms;
     foreach(ms, selectedMaps){
-        if(ms.mapkey != theMap->getKey()) continue;
+
 
         QString pos1, pos2;
 
@@ -260,7 +264,12 @@ void CMapDB::draw(QPainter& p)
         theMap->convertRad2Pt(ms.lon1, ms.lat1);
         theMap->convertRad2Pt(ms.lon2, ms.lat2);
 
-        p.setBrush(QBrush( QColor(230,230,255,100) ));
+        if(ms.mapkey == theMap->getKey()){
+            p.setBrush(QBrush( QColor(230,230,255,100) ));
+        }
+        else{
+            p.setBrush(Qt::NoBrush);
+        }
         p.setPen(QPen(QColor(0,0,150),2));
         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
         p.drawRect(r);
