@@ -275,18 +275,18 @@ void CMapDB::draw(QPainter& p)
         theMap->convertRad2Pt(ms.lon1, ms.lat1);
         theMap->convertRad2Pt(ms.lon2, ms.lat2);
 
-        if(ms.mapkey == theMap->getKey()){
-            p.setBrush(QBrush( QColor(230,230,255,100) ));
-        }
-        else{
-            p.setBrush(Qt::NoBrush);
-        }
+        p.setBrush(Qt::NoBrush);
+
         if(ms.focusedMap == ms.key){
             p.setPen(QPen(Qt::red,2));
         }
-        else {
-            p.setPen(QPen(QColor(0,0,150),2));
+        else if(ms.mapkey == theMap->getKey()){
+            p.setPen(QPen(Qt::darkBlue,2));
         }
+        else{
+            p.setPen(QPen(Qt::gray,2));
+        }
+
         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
         p.drawRect(r);
 

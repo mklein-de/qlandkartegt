@@ -239,6 +239,7 @@ void CCanvas::print(QPrinter& printer)
 
 void CCanvas::draw(QPainter& p)
 {
+//     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     CMapDB::self().draw(p);
     drawTracks(p);
     CLiveLogDB::self().draw(p);
@@ -248,6 +249,7 @@ void CCanvas::draw(QPainter& p)
     drawScale(p);
 
     mouse->draw(p);
+//     QApplication::restoreOverrideCursor();
 }
 
 
