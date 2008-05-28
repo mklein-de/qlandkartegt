@@ -54,6 +54,8 @@ class CMapDB : public IDB
 
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
+        /// delete selected maps by keys
+        void delSelectedMap(const QStringList& keys);
 
         /// draw visible maps
         void draw(QPainter& p);
@@ -93,6 +95,8 @@ class CMapDB : public IDB
         struct mapsel_t
         {
             mapsel_t() : lon1(0), lat1(0), lon2(0), lat2(0) {}
+
+            static QString focusedMap;
             QString key;
             QString mapkey;
             QString description;

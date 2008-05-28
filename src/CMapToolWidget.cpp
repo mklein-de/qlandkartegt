@@ -33,15 +33,20 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Maps"));
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
+
+
+    contextMenuKnownMaps = new QMenu(this);
+    contextMenuKnownMaps->addAction(QPixmap(),tr(""));
+    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
+    connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotKnownMapClicked(QListWidgetItem*)));
 
-    contextMenu = new QMenu(this);
-    contextMenu->addAction(QPixmap(),tr(""));
-    contextMenu->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
-
-    connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
-
+    contextMenuSelectedMaps = new QMenu(this);
+    contextMenuSelectedMaps->addAction(QPixmap(),tr(""));
+    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDeleteSelectedMap()));
+    connect(listSelectedMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuSelectedMaps(const QPoint&)));
     connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
+    connect(listSelectedMaps,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotSelectMap(QListWidgetItem*)));
 }
 
 
@@ -68,6 +73,7 @@ void CMapToolWidget::slotDBChanged()
     listSelectedMaps->clear();
     const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
     {
+        QListWidgetItem * selected = 0;
         QMap<QString,CMapDB::mapsel_t>::const_iterator map = selectedMaps.begin();
         while(map != selectedMaps.end()) {
             QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
@@ -78,9 +84,13 @@ void CMapToolWidget::slotDBChanged()
 
             item->setText(QString("%1\n%2\n%3").arg(map->description).arg(pos1).arg(pos2));
             item->setData(Qt::UserRole, map.key());
+
+            if(CMapDB::mapsel_t::focusedMap == map.key()) selected = item;
             ++map;
         }
 
+        if(selected) listSelectedMaps->setCurrentItem(selected);
+        updateEportButton();
     }
 }
 
@@ -100,18 +110,26 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
         const CMapDB::mapsel_t& ms = selectedMaps[key];
         CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
     }
+
 }
 
-void CMapToolWidget::slotContextMenu(const QPoint& pos)
+void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
     if(listKnownMaps->currentItem()) {
         QPoint p = listKnownMaps->mapToGlobal(pos);
-        contextMenu->exec(p);
+        contextMenuKnownMaps->exec(p);
     }
 }
 
+void CMapToolWidget::slotContextMenuSelectedMaps(const QPoint& pos)
+{
+    if(listSelectedMaps->currentItem()) {
+        QPoint p = listSelectedMaps->mapToGlobal(pos);
+        contextMenuSelectedMaps->exec(p);
+    }
+}
 
-void CMapToolWidget::slotDelete()
+void CMapToolWidget::slotDeleteKnownMap()
 {
     QStringList keys;
     QListWidgetItem * item;
@@ -121,4 +139,34 @@ void CMapToolWidget::slotDelete()
         delete item;
     }
     CMapDB::self().delKnownMap(keys);
+}
+
+void CMapToolWidget::slotDeleteSelectedMap()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listSelectedMaps->selectedItems();
+    foreach(item,items) {
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    CMapDB::self().delSelectedMap(keys);
+
+    updateEportButton();
+}
+
+void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
+{
+    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    QString key = item->data(Qt::UserRole).toString();
+    if(selectedMaps.contains(key)){
+        CMapDB::mapsel_t::focusedMap = key;
+        theMainWindow->getCanvas()->update();
+    }
+    updateEportButton();
+}
+
+void CMapToolWidget::updateEportButton()
+{
+    pushExportMap->setEnabled(listSelectedMaps->currentItem() != 0);
 }

@@ -37,11 +37,16 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotDBChanged();
         void slotKnownMapClicked(QListWidgetItem* item);
         void slotSelectedMapClicked(QListWidgetItem* item);
-        void slotContextMenu(const QPoint& pos);
-        void slotDelete();
+        void slotSelectMap(QListWidgetItem* item);
+        void slotContextMenuKnownMaps(const QPoint& pos);
+        void slotContextMenuSelectedMaps(const QPoint& pos);
+        void slotDeleteKnownMap();
+        void slotDeleteSelectedMap();
 
     private:
-        QMenu * contextMenu;
+        void updateEportButton();
+        QMenu * contextMenuKnownMaps;
+        QMenu * contextMenuSelectedMaps;
 
 };
 #endif                           //CMAPTOOLWIDGET_H

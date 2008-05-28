@@ -32,6 +32,8 @@
 
 CMapDB * CMapDB::m_self = 0;
 
+QString CMapDB::mapsel_t::focusedMap;
+
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
@@ -205,6 +207,15 @@ void CMapDB::delKnownMap(const QStringList& keys)
     emit sigChanged();
 }
 
+void CMapDB::delSelectedMap(const QStringList& keys)
+{
+    QString key;
+    foreach(key, keys) {
+        selectedMaps.remove(key);
+    }
+
+    emit sigChanged();
+}
 
 void CMapDB::loadGPX(CGpx& gpx)
 {
@@ -270,13 +281,16 @@ void CMapDB::draw(QPainter& p)
         else{
             p.setBrush(Qt::NoBrush);
         }
-        p.setPen(QPen(QColor(0,0,150),2));
+        if(ms.focusedMap == ms.key){
+            p.setPen(QPen(Qt::red,2));
+        }
+        else {
+            p.setPen(QPen(QColor(0,0,150),2));
+        }
         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
         p.drawRect(r);
 
         CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
-
-
     }
 }
 
