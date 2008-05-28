@@ -16,38 +16,28 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CMAPTOOLWIDGET_H
-#define CMAPTOOLWIDGET_H
+#ifndef CMAPQMAPEXPORT_H
+#define CMAPQMAPEXPORT_H
 
-#include <QWidget>
-#include "ui_IMapToolWidget.h"
+#include <QDialog>
+#include "ui_IMapQMAPExport.h"
 
-class QToolBox;
-class QPoint;
-class QListWidgetItem;
+class CMapSelection;
 
-class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
+class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
     Q_OBJECT;
     public:
-        CMapToolWidget(QTabWidget * parent);
-        virtual ~CMapToolWidget();
+        CMapQMAPExport(const CMapSelection& mapsel, QWidget * parent);
+        virtual ~CMapQMAPExport();
 
     private slots:
-        void slotDBChanged();
-        void slotKnownMapClicked(QListWidgetItem* item);
-        void slotSelectedMapClicked(QListWidgetItem* item);
-        void slotSelectMap(QListWidgetItem* item);
-        void slotContextMenuKnownMaps(const QPoint& pos);
-        void slotContextMenuSelectedMaps(const QPoint& pos);
-        void slotDeleteKnownMap();
-        void slotDeleteSelectedMap();
-        void slotExportMap();
+        void slotStart();
+        void slotOutputPath();
 
     private:
-        void updateEportButton();
-        QMenu * contextMenuKnownMaps;
-        QMenu * contextMenuSelectedMaps;
-
+        const CMapSelection& mapsel;
 };
-#endif                           //CMAPTOOLWIDGET_H
+
+#endif //CMAPQMAPEXPORT_H
+

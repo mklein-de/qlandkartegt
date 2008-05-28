@@ -26,8 +26,10 @@ set(qlandkarte_SRCS
     CMapFile.cpp
     CMapLevel.cpp
     CMapQMAP.cpp
+    CMapQMAPExport.cpp
     CMapRaster.cpp
     CMapGeoTiff.cpp
+    CMapSelection.cpp
     CMegaMenu.cpp
     IDB.cpp
     CWpt.cpp
@@ -99,8 +101,10 @@ set(qlandkarte_HDRS
     CMapFile.h
     CMapLevel.h
     CMapQMAP.h
+    CMapQMAPExport.h
     CMapRaster.h
     CMapGeoTiff.h
+    CMapSelection.h
     CMegaMenu.h
     IDB.h
     CWpt.h
@@ -149,6 +153,7 @@ SET(qlandkarte_UIS
     IWptToolWidget.ui
     IMapToolWidget.ui
     IMapEditWidget.ui
+    IMapQMAPExport.ui
     ITrackToolWidget.ui
     ITrackEditWidget.ui
     ITrackStatWidget.ui

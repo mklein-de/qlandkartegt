@@ -32,7 +32,7 @@
 
 CMapDB * CMapDB::m_self = 0;
 
-QString CMapDB::mapsel_t::focusedMap;
+
 
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
@@ -263,7 +263,7 @@ void CMapDB::draw(QPainter& p)
         return;
     }
 
-    mapsel_t ms;
+    CMapSelection ms;
     foreach(ms, selectedMaps){
 
 
@@ -304,7 +304,7 @@ void CMapDB::editMap()
 
 void CMapDB::select(const QRect& rect)
 {
-    mapsel_t ms;
+    CMapSelection ms;
     ms.mapkey = theMap->getKey();
     if(ms.mapkey.isEmpty()){
         QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps."), QMessageBox::Ok, QMessageBox::Ok);

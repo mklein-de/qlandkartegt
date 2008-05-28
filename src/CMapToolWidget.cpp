@@ -21,6 +21,7 @@
 #include "CMapDB.h"
 #include "CMainWindow.h"
 #include "GeoMath.h"
+#include "CMapQMAPExport.h"
 
 #include <QtGui>
 
@@ -47,6 +48,8 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(listSelectedMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuSelectedMaps(const QPoint&)));
     connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
     connect(listSelectedMaps,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotSelectMap(QListWidgetItem*)));
+
+    connect(pushExportMap, SIGNAL(clicked()), this, SLOT(slotExportMap()));
 }
 
 
@@ -71,10 +74,10 @@ void CMapToolWidget::slotDBChanged()
     }
 
     listSelectedMaps->clear();
-    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
     {
         QListWidgetItem * selected = 0;
-        QMap<QString,CMapDB::mapsel_t>::const_iterator map = selectedMaps.begin();
+        QMap<QString,CMapSelection>::const_iterator map = selectedMaps.begin();
         while(map != selectedMaps.end()) {
             QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
             QString pos1, pos2;
@@ -85,7 +88,7 @@ void CMapToolWidget::slotDBChanged()
             item->setText(QString("%1\n%2\n%3").arg(map->description).arg(pos1).arg(pos2));
             item->setData(Qt::UserRole, map.key());
 
-            if(CMapDB::mapsel_t::focusedMap == map.key()) selected = item;
+            if(CMapSelection::focusedMap == map.key()) selected = item;
             ++map;
         }
 
@@ -105,9 +108,9 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 {
     QString key = item->data(Qt::UserRole).toString();
 
-    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
     if(selectedMaps.contains(key)){
-        const CMapDB::mapsel_t& ms = selectedMaps[key];
+        const CMapSelection& ms = selectedMaps[key];
         CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
     }
 
@@ -157,10 +160,10 @@ void CMapToolWidget::slotDeleteSelectedMap()
 
 void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
 {
-    const QMap<QString,CMapDB::mapsel_t>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
     QString key = item->data(Qt::UserRole).toString();
     if(selectedMaps.contains(key)){
-        CMapDB::mapsel_t::focusedMap = key;
+        CMapSelection::focusedMap = key;
         theMainWindow->getCanvas()->update();
     }
     updateEportButton();
@@ -169,4 +172,16 @@ void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
 void CMapToolWidget::updateEportButton()
 {
     pushExportMap->setEnabled(listSelectedMaps->currentItem() != 0);
+}
+
+void CMapToolWidget::slotExportMap()
+{
+    QListWidgetItem * item  = listSelectedMaps->currentItem();
+    if(item == 0) return;
+
+    QString key             = item->data(Qt::UserRole).toString();
+    if(!CMapDB::self().getSelectedMaps().contains(key)) return;
+
+    CMapQMAPExport dlg(CMapDB::self().getSelectedMaps()[key],this);
+    dlg.exec();
 }

@@ -21,6 +21,7 @@
 
 #include "IDB.h"
 #include "CMapNoMap.h"
+#include "CMapSelection.h"
 #include <QList>
 #include <QMap>
 #include <QPointer>
@@ -92,26 +93,12 @@ class CMapDB : public IDB
         };
 
 
-        struct mapsel_t
-        {
-            mapsel_t() : lon1(0), lat1(0), lon2(0), lat2(0) {}
-
-            static QString focusedMap;
-            QString key;
-            QString mapkey;
-            QString description;
-            double lon1; ///< top left longitude [rad]
-            double lat1; ///< top left latitude [rad]
-            double lon2; ///< bottom right longitude [rad]
-            double lat2; ///< bottom right latitude [rad]
-        };
-
         CMapDB(QTabWidget * tb, QObject * parent);
 
         /// get access to known map dictionary, CMapToolWidget only
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get access to selected map list, CMapToolWidget only
-        const QMap<QString,mapsel_t>& getSelectedMaps(){return selectedMaps;}
+        const QMap<QString,CMapSelection>& getSelectedMaps(){return selectedMaps;}
 
         void closeVisibleMaps();
 
@@ -133,6 +120,6 @@ class CMapDB : public IDB
 
         QPointer<CMapEditWidget> mapedit;
 
-        QMap<QString,mapsel_t> selectedMaps;
+        QMap<QString,CMapSelection> selectedMaps;
 };
 #endif                           //CMAPDB_H
