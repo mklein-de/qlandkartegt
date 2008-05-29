@@ -51,5 +51,7 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         CWpt &wpt;
         qint32 idxImg;
         QString link;
+        double oldLon;
+        double oldLat;
 };
 #endif                           //CDLGEDITWPT_H

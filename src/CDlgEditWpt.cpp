@@ -24,6 +24,8 @@
 #include "GeoMath.h"
 #include "CDlgWptIcon.h"
 #include "CResources.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include <QtGui>
 
@@ -60,6 +62,9 @@ int CDlgEditWpt::exec()
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
     linePosition->setText(pos);
+
+    oldLon = wpt.lon;
+    oldLat = wpt.lat;
 
     //TODO: that has to be metric/imperial
     if(wpt.ele != WPT_NOFLOAT) {
@@ -108,6 +113,13 @@ void CDlgEditWpt::accept()
     wpt.sticky      = checkSticky->isChecked();
 
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
+
+    // change elevation if position has changed and DEM data is present
+    if(oldLon != wpt.lon || oldLat != wpt.lat){
+        float ele = CMapDB::self().getDEM().getElevation(wpt.lon * DEG_TO_RAD, wpt.lat * DEG_TO_RAD);
+        if(ele != WPT_NOFLOAT) wpt.ele = ele;
+    }
+
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
     wpt.comment     = textComment->toPlainText();
     wpt.link        = link;

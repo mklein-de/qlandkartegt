@@ -67,6 +67,10 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             map.convertPt2Rad(u,v);
             selWpt->lon = u * RAD_TO_DEG;
             selWpt->lat = v * RAD_TO_DEG;
+
+            float ele = CMapDB::self().getDEM().getElevation(selWpt->lon * DEG_TO_RAD, selWpt->lat * DEG_TO_RAD);
+            if(ele != WPT_NOFLOAT) selWpt->ele = ele;
+
             moveWpt = false;
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
