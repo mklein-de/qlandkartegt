@@ -275,7 +275,7 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
         theMap->convertRad2Pt(ms.lon1, ms.lat1);
         theMap->convertRad2Pt(ms.lon2, ms.lat2);
 
-        p.setBrush(Qt::NoBrush);
+        p.setBrush(QColor(150,150,255,100));
 
         if(ms.focusedMap == ms.key){
             p.setPen(QPen(Qt::red,2));
