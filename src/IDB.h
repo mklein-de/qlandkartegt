@@ -36,12 +36,21 @@ class IDB : public QObject
         IDB(QTabWidget * tb, QObject * parent);
         virtual ~IDB();
 
+        /// move database views into focus
+        /**
+            If this is called the database should try to make all it's
+            toolviews visible to the user.
+        */
         virtual void gainFocus();
 
+        /// load database data from gpx
         virtual void loadGPX(CGpx& gpx) = 0;
+        /// save database data to gpx
         virtual void saveGPX(CGpx& gpx) = 0;
 
+        /// load database data from QLandkarte binary
         virtual void loadQLB(CQlb& qlb) = 0;
+        /// save database data to QLandkarte binary
         virtual void saveQLB(CQlb& qlb) = 0;
 
         virtual void upload() = 0;
