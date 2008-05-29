@@ -21,6 +21,7 @@
 #include "CMapSelection.h"
 #include "CMapDB.h"
 #include "CMapFile.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -83,16 +84,51 @@ void CMapQMAPExport::slotStart()
 {
     // get map summary
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
-    QSettings mapdef(map.filename,QSettings::IniFormat);
+
+    QString prefix = linePrefix->text();
 
     QDir srcPath = QFileInfo(map.filename).absolutePath();
     QDir tarPath(labelPath->text());
-    QString prefix = linePrefix->text();
+
+    QSettings srcdef(map.filename, QSettings::IniFormat);
+    QSettings tardef(tarPath.filePath(QString("%1.qmap").arg(prefix)), QSettings::IniFormat);
+
+// [description]
+// bottomright=" N43\xb0 43.980 E004\xb0 12.380 "
+// comment=Vergeze IGN
+// height=22075.3633436567
+// topleft=" N43\xb0 55.901 E004\xb0 14.722 "
+// width=3134.92507596005
+//
+// [home]
+// center=N43 47.589 E004 10.133
+// zoom=2
+    tardef.beginGroup("description");
+    QString pos;
+    GPS_Math_Deg_To_Str(mapsel.lon1 * RAD_TO_DEG, mapsel.lat1 * RAD_TO_DEG, pos);
+    tardef.setValue("topleft",pos);
+    GPS_Math_Deg_To_Str(mapsel.lon2 * RAD_TO_DEG, mapsel.lat2 * RAD_TO_DEG, pos);
+    tardef.setValue("bottomright",pos);
+    tardef.setValue("comment",lineDescription->text());
+    tardef.endGroup();
+
+    tardef.beginGroup("home");
+
+    float lon, lat;
+    lon = mapsel.lon1 + (mapsel.lon2 - mapsel.lon1) / 2;
+    lat = mapsel.lat1 + (mapsel.lat2 - mapsel.lat1) / 2;
+    GPS_Math_Deg_To_Str(lon * RAD_TO_DEG, lat * RAD_TO_DEG, pos);
+    tardef.setValue("center",pos);
+    tardef.setValue("zoom",1);
+    tardef.endGroup();
 
     int idx = 0;
-    int levels = mapdef.value("main/levels",0).toInt();
+    int levels = srcdef.value("main/levels",0).toInt();
+    tardef.setValue("main/levels",levels);
+
     for(int level = 1; level <= levels; ++level){
-        QStringList filenames = mapdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
+        QStringList outfiles;
+        QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
         QString filename;
         foreach(filename, filenames){
             CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
@@ -122,46 +158,34 @@ void CMapQMAPExport::slotStart()
                 job_t job;
                 job.idx    = idx++;
                 job.srcFilename = mapfile->filename;
-                job.tarFilename = tarPath.filePath(QString("%1%2.tif").arg(prefix).arg(job.idx));
-                job.xoff   = (intersect.left()  - mapfile->xref1) / mapfile->xscale;
-                job.yoff   = (intersect.top()   - mapfile->yref1) / mapfile->yscale;
+                job.tarFilename = tarPath.filePath(QString("%1_%2.tif").arg(prefix).arg(job.idx));
+                job.xoff   = (intersect.left()   - mapfile->xref1) / mapfile->xscale;
+                job.yoff   = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
                 job.width  =  intersect.width()  / mapfile->xscale;
                 job.height = -intersect.height() / mapfile->yscale;
 
+//                 qDebug() << "xoff: 0 <" << job.xoff;
+//                 qDebug() << "yoff: 0 <" << job.yoff;
+//                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
+//                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
 
-                qDebug() << (job.xoff + job.width) << (job.yoff + job.height);
-                qDebug() << mapfile->xsize_px << mapfile->ysize_px;
-
-
-                jobs << job;
+                jobs        << job;
+                outfiles    << tarPath.relativeFilePath(job.tarFilename);
             }
+            tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
+            tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
+            tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
             delete mapfile;
         }
     }
 
-    job_t job = jobs.takeFirst();
-    QStringList args;
-    args << "-srcwin";
-    args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.width);
-    args << "-co" << "tiled=yes";
-    args << "-co" << "blockxsize=256";
-    args << "-co" << "blockysize=256";
-    args << "-co" << "compress=deflate";
-    args << "-co" << "predictor=1";
-    args << job.srcFilename;
-    args << job.tarFilename;
-
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
-
-    cmd.start("gdal_translate", args);
+    slotFinished(0,QProcess::NormalExit);
 }
 
 
 void CMapQMAPExport::slotFinished( int exitCode, QProcess::ExitStatus status)
 {
-    qDebug() << exitCode << status;
+//     qDebug() << exitCode << status;
 
     if(jobs.isEmpty()){
         textBrowser->setTextColor(Qt::black);
@@ -172,7 +196,7 @@ void CMapQMAPExport::slotFinished( int exitCode, QProcess::ExitStatus status)
     QStringList args;
     args << "-srcwin";
     args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.width);
+    args << QString::number(job.width) << QString::number(job.height);
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
     args << "-co" << "blockysize=256";
