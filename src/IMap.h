@@ -93,11 +93,6 @@ class IMap : public QObject
             @param lat2 the southbound value in [rad]
         */
         virtual void zoom(double lon1, double lat1, double lon2, double lat2) = 0;
-        /// select an area of the map for export [px]
-        /**
-            @param rect area within the current viewport
-        */
-        virtual void select(const QRect& rect) = 0;
 
         /// get the top left and bottom right corner
         /**
@@ -118,10 +113,14 @@ class IMap : public QObject
         */
         virtual float getElevation(float lon, float lat);
 
+        /// get the map's filename
         virtual const QString& getFilename(){return filename;}
 
         virtual const QSize& getSize(){return size;}
-
+        /// return the key for registered maps
+        /**
+            @return A string for registered maps. Empty string for all others
+        */
         const QString& getKey(){return key;}
     signals:
         void sigChanged();

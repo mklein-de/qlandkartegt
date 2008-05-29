@@ -22,6 +22,8 @@
 #include "CResources.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -160,4 +162,22 @@ CSearchDB::result_t * CSearchDB::getResultByKey(const QString& key)
     if(!results.contains(key)) return 0;
 
     return &results[key];
+}
+
+void CSearchDB::draw(QPainter& p, const QRect& rect)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    QMap<QString,CSearchDB::result_t>::const_iterator result = results.begin();
+    while(result != results.end()) {
+        double u = result->lon * DEG_TO_RAD;
+        double v = result->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        if(rect.contains(QPoint(u,v))) {
+            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
+        }
+
+        ++result;
+    }
 }

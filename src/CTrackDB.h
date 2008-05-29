@@ -69,6 +69,8 @@ class CTrackDB : public IDB
 
         int count(){return tracks.count();}
 
+        void draw(QPainter& p, const QRect& rect);
+
     signals:
         void sigHighlightTrack(CTrack * track);
 

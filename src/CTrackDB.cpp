@@ -25,6 +25,8 @@
 #include "CResources.h"
 #include "IDevice.h"
 #include "CDlgCombineTracks.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include <QtGui>
 
@@ -335,4 +337,107 @@ void CTrackDB::splitTrack(int idx)
     emit sigModified();
 }
 
+void CTrackDB::draw(QPainter& p, const QRect& rect)
+{
+    QPoint focus(-1,-1);
+    QVector<QPoint> selected;
+    IMap& map = CMapDB::self().getMap();
+//     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
+    QMap<QString,CTrack*>::iterator track       = tracks.begin();
+    QMap<QString,CTrack*>::iterator highlighted = tracks.end();
+
+    while(track != tracks.end()) {
+        QPolygon& line = (*track)->getPolyline();
+        line.clear();
+
+        QVector<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
+        QVector<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+        while(trkpt != trkpts.end()) {
+            double u = trkpt->lon * DEG_TO_RAD;
+            double v = trkpt->lat * DEG_TO_RAD;
+
+            map.convertRad2Pt(u,v);
+            trkpt->px = QPoint(u,v);
+
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
+                selected << trkpt->px;
+            }
+
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eFocus) {
+                focus = trkpt->px;
+            }
+
+            // skip deleted points, however if they are selected the
+            // selection mark is shown
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+                ++trkpt; continue;
+            }
+
+            line << trkpt->px;
+            ++trkpt;
+        }
+
+        if(!rect.intersects(line.boundingRect())) {
+            ++track; continue;
+        }
+
+        if((*track)->isHighlighted()) {
+            // store highlighted track to draw it later
+            // it must be drawn above all other tracks
+            highlighted = track;
+        }
+        else {
+            // draw normal track
+            QPen pen((*track)->getColor(),3);
+            pen.setCapStyle(Qt::RoundCap);
+            pen.setJoinStyle(Qt::RoundJoin);
+            p.setPen(pen);
+            p.drawPolyline(line);
+            p.setPen(Qt::white);
+            p.drawPolyline(line);
+        }
+
+        ++track;
+    }
+
+    // if there is a highlighted track, draw it
+    if(highlighted != tracks.end()) {
+        track = highlighted;
+
+        QPolygon& line = (*track)->getPolyline();
+
+        // draw skunk line
+        QPen pen((*track)->getColor(),5);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        p.setPen(pen);
+        p.drawPolyline(line);
+        p.setPen(Qt::white);
+        p.drawPolyline(line);
+
+        // draw bubbles
+        QPoint pt;
+        foreach(pt,line) {
+            p.setPen((*track)->getColor());
+            p.setBrush(Qt::white);
+            p.drawEllipse(pt.x() - 2 ,pt.y() - 2,5,5);
+
+        }
+        foreach(pt,selected) {
+            p.setPen(Qt::black);
+            p.setBrush(Qt::red);
+            p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
+
+        }
+
+        if(focus != QPoint(-1,-1)) {
+            p.setPen(QPen(Qt::white,3));
+            p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
+            p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
+            p.setPen(Qt::red);
+            p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
+            p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
+        }
+    }
+}
 

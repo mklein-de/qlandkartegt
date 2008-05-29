@@ -59,7 +59,6 @@ class CMapQMAP : public IMap
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);
-        void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
     public slots:
@@ -84,54 +83,10 @@ class CMapQMAP : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-        CExportMapThread * thExportMap;
-
-        QProgressDialog progressExport;
-
-        QPushButton * butCancelExport;
-
         QPixmap buffer;
 
         bool foundMap;
 };
 
-/// thread object to export a sub-area from a map set
-/**
 
- */
-class CExportMapThread : public QThread
-{
-    Q_OBJECT;
-    public:
-        CExportMapThread(CMapQMAP * map);
-
-        ~CExportMapThread(){};
-
-        void setup(const XY& p1, const XY& p2, const QString& filename, const QString& comment);
-
-        signals:
-        void sigSetMessage(const QString& msg);
-        void sigSetRange(int minimum, int maximum);
-        void sigSetValue(int progress);
-        void sigDone(int r);
-
-    protected:
-        void run();
-
-    private slots:
-        void slotCancel();
-
-    private:
-        QMutex mutex;
-        CMapQMAP * theMap;
-
-        QDir exportPath;
-        QString filebasename;
-        QString comment;
-        XY topLeft;
-        XY bottomRight;
-        double width;
-        double height;
-        bool canceled;
-};
 #endif                           //CMAPQMAP_H

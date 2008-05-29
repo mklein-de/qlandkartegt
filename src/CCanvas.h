@@ -112,9 +112,6 @@ class CCanvas : public QWidget
         void leaveEvent(QEvent * event);
 
         void draw(QPainter& p);
-        void drawSearchResults(QPainter& p);
-        void drawWaypoints(QPainter& p);
-        void drawTracks(QPainter& p);
         void drawRefPoints(QPainter& p);
         void drawScale(QPainter& p);
 

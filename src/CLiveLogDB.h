@@ -44,7 +44,7 @@ class CLiveLogDB : public IDB
 
         static CLiveLogDB& self(){return *m_self;}
 
-        void draw(QPainter& p);
+        void draw(QPainter& p, const QRect& rect);
 
         void loadGPX(CGpx& /*gpx*/){};
         void saveGPX(CGpx& /*gpx*/){};

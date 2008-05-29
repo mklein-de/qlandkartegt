@@ -247,7 +247,7 @@ void CMapDB::download()
 }
 
 
-void CMapDB::draw(QPainter& p)
+void CMapDB::draw(QPainter& p, const QRect& rect)
 {
     if(theMap.isNull()){
         defaultMap->draw(p);
@@ -287,8 +287,11 @@ void CMapDB::draw(QPainter& p)
             p.setPen(QPen(Qt::gray,2));
         }
 
+
         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
-        p.drawRect(r);
+        if(rect.intersects(r)){
+            p.drawRect(r);
+        }
 
         CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
     }

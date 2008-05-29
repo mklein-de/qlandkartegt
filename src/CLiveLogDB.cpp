@@ -230,8 +230,10 @@ void CLiveLogDB::slotMapChanged()
     }
 }
 
-void CLiveLogDB::draw(QPainter& p)
+void CLiveLogDB::draw(QPainter& p, const QRect& rect)
 {
+    if(!rect.intersects(polyline.boundingRect())) return;
+
     p.setPen(QPen(Qt::white,5));
     p.drawPolyline(polyline);
     p.setPen(QPen(Qt::black,3));

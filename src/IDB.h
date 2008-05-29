@@ -24,6 +24,7 @@
 class QTabWidget;
 class QWidget;
 class QPainter;
+class QRect;
 class CGpx;
 class CQlb;
 
@@ -49,6 +50,8 @@ class IDB : public QObject
         virtual void clear() = 0;
 
         virtual int count(){return -1;}
+
+        virtual void draw(QPainter& p, const QRect& rect){};
 
         signals:
         void sigChanged();

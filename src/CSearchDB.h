@@ -41,6 +41,8 @@ class CSearchDB : public IDB
 
         static CSearchDB& self(){return *m_self;}
 
+        void draw(QPainter& p, const QRect& rect);
+
         /// start a query with given string
         void search(const QString& str);
         /// get iterator access to track point list
