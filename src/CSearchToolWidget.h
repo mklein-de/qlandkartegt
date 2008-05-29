@@ -37,5 +37,13 @@ class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
         void slotQueryFinished();
         void slotDBChanged();
         void slotItemClicked(QListWidgetItem* item);
+        void slotContextMenu(const QPoint& pos);
+        void slotDelete();
+        void slotCopyPosition();
+        void slotAdd();
+
+    private:
+        QMenu * contextMenu;
+
 };
 #endif                           //CSEARCHTOOLWIDGET_H

@@ -38,7 +38,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listResults" />
+    <widget class="QListWidget" name="listResults" >
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -176,8 +176,21 @@ void CSearchDB::draw(QPainter& p, const QRect& rect)
 
         if(rect.contains(QPoint(u,v))) {
             p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
+            CCanvas::drawText(result->query, p, QPoint(u, v - 10));
         }
 
         ++result;
     }
+}
+
+void CSearchDB::delResults(const QStringList& keys)
+{
+
+    QString key;
+    foreach(key, keys) {
+        results.remove(key);
+    }
+
+    emit sigChanged();
+
 }

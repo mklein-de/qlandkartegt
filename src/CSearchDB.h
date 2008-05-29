@@ -52,6 +52,8 @@ class CSearchDB : public IDB
 
         result_t * getResultByKey(const QString& key);
 
+        void delResults(const QStringList& keys);
+
         void loadGPX(CGpx& gpx){};
         void saveGPX(CGpx& gpx){};
 
