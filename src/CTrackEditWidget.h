@@ -57,8 +57,10 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,eAzimuth   = 4
             ,eDistance  = 5
             ,eSpeed     = 6
-            ,ePosition  = 7
-            ,eMaxColumn = 8
+            ,eAscend    = 7
+            ,eDescend   = 8
+            ,ePosition  = 9
+            ,eMaxColumn = 10
         };
 
         QPointer<CTrack> track;

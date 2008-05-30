@@ -41,7 +41,7 @@ class CTrack : public QObject
 
             enum flag_e
             {
-                eSelected  = 1   ///< selected by track info view
+                 eSelected  = 1   ///< selected by track info view
                 ,eCursor    = 2  ///< selected by cursor
                 ,eDeleted   = 4  ///< mark point as deleted
                 ,eFocus     = 8  ///< mark current point of user focus
@@ -49,7 +49,7 @@ class CTrack : public QObject
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
-                speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), flags(0), dem(WPT_NOFLOAT){}
+                speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), ascend(0), descend(0), flags(0), dem(WPT_NOFLOAT){}
             /// index counter for easy QVector access
             qint32  idx;
             /// longitude []
@@ -69,6 +69,10 @@ class CTrack : public QObject
             double azimuth;
             /// secondary data: the total distance of all visible points up to this point
             float distance;
+            /// secondary data: the total ascend of all visible points up to this point
+            float ascend;
+            /// secondary data: the total descend of all visible points up to this point
+            float descend;
             /// display flags
             quint32 flags;
             /// the current location in pixel
@@ -148,6 +152,11 @@ class CTrack : public QObject
         quint32 totalTime;
         /// total distance of track [m]
         double  totalDistance;
+
+        /// total ascend in [m]
+        double totalAscend;
+        /// total descend in [m]
+        double totalDescend;
 
         /// the Qt polyline for faster processing
         QPolygon polyline;

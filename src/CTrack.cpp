@@ -293,6 +293,7 @@ CTrack& CTrack::operator+=(const CTrack& trk)
 
 void CTrack::rebuild(bool reindex)
 {
+    double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
     QVector<pt_t>::iterator pt1 = track.begin();
@@ -300,6 +301,9 @@ void CTrack::rebuild(bool reindex)
 
     totalTime       = 0;
     totalDistance   = 0;
+    totalAscend     = 0;
+    totalDescend    = 0;
+
 
     // reindex track if desired
     if(reindex) {
@@ -317,6 +321,8 @@ void CTrack::rebuild(bool reindex)
         pt1->delta      = 0;
         pt1->speed      = -1;
         pt1->distance   = 0;
+        pt1->ascend     = totalAscend;
+        pt1->descend    = totalDescend;
         ++pt1; ++pt2;
     }
 
@@ -330,6 +336,8 @@ void CTrack::rebuild(bool reindex)
     pt1->delta      = 0;
     pt1->speed      = -1;
     pt1->distance   = 0;
+    pt1->ascend     = totalAscend;
+    pt1->descend    = totalDescend;
     pt1->dem        = dem.getElevation(pt1->lon * DEG_TO_RAD, pt1->lat * DEG_TO_RAD);
     t1              = pt1->timestamp;
 
@@ -342,6 +350,8 @@ void CTrack::rebuild(bool reindex)
             pt2->delta      = 0;
             pt2->speed      = -1;
             pt2->distance   = 0;
+            pt1->ascend     = 0;
+            pt1->descend    = 0;
             continue;
         }
 
@@ -359,6 +369,15 @@ void CTrack::rebuild(bool reindex)
 
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
+        slope           = pt2->ele - pt1->ele;
+        if(slope > 0){
+            totalAscend  += slope;
+        }
+        else{
+            totalDescend += slope;
+        }
+        pt2->ascend     = totalAscend;
+        pt2->descend    = totalDescend;
         pt2->speed      = (dt > 0) ? pt2->delta / dt * 3.6 : 0;
         pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);
 

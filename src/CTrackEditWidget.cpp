@@ -193,6 +193,8 @@ void CTrackEditWidget::slotUpdate()
             str = QString("%1ml").arg(trkpt->distance * 0.6213699E-3,0,'f',2);
         }
         item->setText(eDistance,str);
+        item->setText(eAscend, QString("%1m").arg(trkpt->ascend, 0, 'f', 0));
+        item->setText(eDescend, QString("%1m").arg(trkpt->descend, 0, 'f', 0));
 
         // speed
         if(trkpt->speed > 0) {
@@ -221,6 +223,8 @@ void CTrackEditWidget::slotUpdate()
         item->setTextAlignment(eDelta,Qt::AlignRight);
         item->setTextAlignment(eAzimuth,Qt::AlignRight);
         item->setTextAlignment(eDistance,Qt::AlignRight);
+        item->setTextAlignment(eAscend,Qt::AlignRight);
+        item->setTextAlignment(eDescend,Qt::AlignRight);
         item->setTextAlignment(eSpeed,Qt::AlignRight);
 
         ++trkpt;

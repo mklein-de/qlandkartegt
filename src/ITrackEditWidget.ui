@@ -104,6 +104,16 @@
      </column>
      <column>
       <property name="text" >
+       <string>ascend</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>descend</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
        <string>position</string>
       </property>
      </column>
