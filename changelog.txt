@@ -1,3 +1,34 @@
+--- 2008.05.30 ---
+
+Request #41:
+Add live log
+
+Bug     #42:
+Fixed installer script for Win32, take FWTools out of binary
+
+Request #43:
+Improve map export for further needs
+
+Request #46:
+Buffer map to perform faster drawing operations on top of it
+
+Bug     #44:
+Fixed bad track timestamps for Garmin devices
+
+Bug     #45:
+Fixed bad total time for tracks longer a day
+
+Request #47:
+Clean up code, move drawing of overlays into DB objects
+
+Request #48:
+Convert search result to waypoint and copy to clipboard
+
+Request #49:
+Update elevation of a waypoint when moved (and DEM data is present)
+
+
+
 --- 2008.05.16 ---
 
 Request #23:
@@ -133,6 +164,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
