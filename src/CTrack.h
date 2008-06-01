@@ -115,6 +115,10 @@ class CTrack : public QObject
         ///
         QDateTime getStartTimestamp(){return track.first().timestamp ? QDateTime::fromTime_t(track.first().timestamp) : QDateTime();}
         QDateTime getEndTimestamp(){return track.last().timestamp ? QDateTime::fromTime_t(track.last().timestamp) : QDateTime();}
+        /// get the ascend in [m]
+        double getAscend(){return totalAscend;}
+        /// get the descend in [m]
+        double getDescend(){return totalDescend;}
 
         CTrack& operator+=(const CTrack& trk);
 

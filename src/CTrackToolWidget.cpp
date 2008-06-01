@@ -26,7 +26,7 @@
 
 #include <QtGui>
 
-#define N_LINES 5
+#define N_LINES 6
 
 CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -100,7 +100,7 @@ void CTrackToolWidget::slotDBChanged()
         str += tr(", speed: %1 km/h").arg(distance * 3.6 / ttime, 0, 'f', 2);
         str += tr("\nstart: %1").arg((*track)->getStartTimestamp().isNull() ? tr("-") : (*track)->getStartTimestamp().toString());
         str += tr("\nend: %1").arg((*track)->getEndTimestamp().isNull() ? tr("-") : (*track)->getEndTimestamp().toString());
-
+        str += tr("\n%1%2  m, %3%4 m").arg(QChar(0x2191)).arg((*track)->getAscend(),0,'f',0).arg(QChar(0x2193)).arg((*track)->getDescend(),0,'f',0);
         item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);

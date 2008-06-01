@@ -66,6 +66,8 @@ void CTrackStatWidget::slotChanged()
         return;
     }
 
+    QPolygonF lineDEM;
+
     QPolygonF lineElev;
     QPolygonF marksElev;
     QPointF   focusElev;
@@ -80,8 +82,11 @@ void CTrackStatWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        lineElev  << QPointF(trkpt->distance, trkpt->ele);
-        lineSpeed << QPointF(trkpt->distance, trkpt->speed);
+        if(trkpt->dem != WPT_NOFLOAT){
+            lineDEM << QPointF(trkpt->distance, trkpt->dem);
+        }
+        lineElev    << QPointF(trkpt->distance, trkpt->ele);
+        lineSpeed   << QPointF(trkpt->distance, trkpt->speed);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
             marksElev  << QPointF(trkpt->distance, trkpt->ele);
             marksSpeed << QPointF(trkpt->distance, trkpt->speed);
@@ -94,8 +99,13 @@ void CTrackStatWidget::slotChanged()
 
         ++trkpt;
     }
-    elevation->setLine(lineElev,marksElev,focusElev);
-    speed->setLine(lineSpeed,marksSpeed,focusSpeed);
+
+    elevation->newLine(lineElev,focusElev, "GPS");
+    elevation->newMarks(marksElev);
+    elevation->addLine(lineDEM, "DEM");
+
+    speed->newLine(lineSpeed,focusSpeed, "speed");
+    speed->newMarks(marksSpeed);
 
 }
 

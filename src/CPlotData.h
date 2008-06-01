@@ -42,6 +42,7 @@ class CPlotData : public QObject
 
         struct line_t
         {
+            QString label;
             QColor color;
             QPolygonF points;
         };
@@ -52,11 +53,11 @@ class CPlotData : public QObject
         QString ylabel;
         /// set true for grid
         bool grid;
-        /// the 1st line data
-        line_t line1;
+
+        QList<line_t> lines;
+
+        /// marks on line1
         line_t marks;
-        /// the 2nd line data
-        line_t line2;
 
         struct point_t
         {

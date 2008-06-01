@@ -34,9 +34,9 @@ class CPlot : public QWidget
         void setYLabel(const QString& str);
         void setXLabel(const QString& str);
 
-        void setLine(const QPolygonF& line);
-        void setLine(const QPolygonF& line, const QPolygonF& marks);
-        void setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF& focus);
+        void newLine(const QPolygonF& line, const QPointF& focus, const QString& label);
+        void addLine(const QPolygonF& line, const QString& label);
+        void newMarks(const QPolygonF& line);
 
         void clear();
 
@@ -56,6 +56,7 @@ class CPlot : public QWidget
         void drawGridX(QPainter& p);
         void drawGridY(QPainter& p);
         void drawData(QPainter& p);
+        void drawLegend(QPainter& p);
 
         void setSizes();
         void setLRTB();

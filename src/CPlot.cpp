@@ -48,7 +48,7 @@ CPlot::~CPlot()
 
 void CPlot::clear()
 {
-    m_pData->line1.points.clear();
+    m_pData->lines.clear();
     m_pData->marks.points.clear();
     update();
 }
@@ -73,33 +73,32 @@ void CPlot::setXLabel(const QString& str)
 }
 
 
-void CPlot::setLine(const QPolygonF& line)
+void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& label)
 {
-    m_pData->line1.points = line;
-    m_pData->setLimits();
-    setSizes();
-    m_pData->x().setScale( rectGraphArea.width() );
-    m_pData->y().setScale( rectGraphArea.height() );
-    update();
-}
+    m_pData->lines.clear();
 
-
-void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks)
-{
-    m_pData->line1.points = line;
-    m_pData->marks.points = marks;
-    m_pData->setLimits();
-    setSizes();
-    m_pData->x().setScale( rectGraphArea.width() );
-    m_pData->y().setScale( rectGraphArea.height() );
-    update();
-}
-
-void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF& focus)
-{
-    m_pData->line1.points = line;
-    m_pData->marks.points = marks;
     m_pData->point1.point = focus;
+
+    CPlotData::line_t l;
+    l.points    = line;
+    l.label     = label;
+
+    m_pData->lines << l;
+    m_pData->setLimits();
+    setSizes();
+    m_pData->x().setScale( rectGraphArea.width() );
+    m_pData->y().setScale( rectGraphArea.height() );
+    update();
+
+}
+
+void CPlot::addLine(const QPolygonF& line, const QString& label)
+{
+    CPlotData::line_t l;
+    l.points    = line;
+    l.label     = label;
+
+    m_pData->lines << l;
     m_pData->setLimits();
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
@@ -107,6 +106,10 @@ void CPlot::setLine(const QPolygonF& line, const QPolygonF& marks, const QPointF
     update();
 }
 
+void CPlot::newMarks(const QPolygonF& line)
+{
+    m_pData->marks.points = line;
+}
 
 void CPlot::paintEvent(QPaintEvent * )
 {
@@ -227,10 +230,7 @@ void CPlot::draw(QPainter& p)
 {
     p.fillRect(rect(),Qt::white);
 
-    QPolygonF& line = m_pData->line1.points;
-    if(line.isEmpty()) {
-        return;
-    }
+    if(m_pData->lines.isEmpty()) return;
 
     p.setFont(CResources::self().getMapFont());
 
@@ -244,6 +244,8 @@ void CPlot::draw(QPainter& p)
     drawYTic(p);
     p.setPen(QPen(Qt::black,2));
     p.drawRect(rectGraphArea);
+
+    drawLegend(p);
 
 }
 
@@ -405,44 +407,64 @@ void CPlot::drawGridY( QPainter &p )
     m_pData->y().setTicType( oldtic );
 }
 
+QPen pens[] = {
+      QPen(Qt::blue,3)
+    , QPen(Qt::red,1)
+    , QPen(Qt::darkYellow,2)
+    , QPen(Qt::darkGreen,2)
+
+};
 
 void CPlot::drawData(QPainter& p)
 {
-    QPolygonF& line1 = m_pData->line1.points;
-
+    int penIdx = 0;
     int ptx, pty, ptx_old, pty_old;
+    QList<CPlotData::line_t> lines                  = m_pData->lines;
+    QList<CPlotData::line_t>::const_iterator line   = lines.begin();
+
     CPlotAxis& xaxis = m_pData->x();
     CPlotAxis& yaxis = m_pData->y();
-    QPolygonF::const_iterator point = line1.begin();
 
-    ptx_old = left   + xaxis.val2pt( point->x() );
-    pty_old = bottom - yaxis.val2pt( point->y() );
+    while(line != lines.end()){
 
-    p.setPen(QPen(Qt::blue,2));
-    while(point != line1.end()) {
-        ptx = left   + xaxis.val2pt( point->x() );
-        pty = bottom - yaxis.val2pt( point->y() );
+        const QPolygonF& polyline       = line->points;
+        QPolygonF::const_iterator point = polyline.begin();
 
-        p.drawLine(ptx_old,pty_old,ptx,pty);
+        ptx_old = left   + xaxis.val2pt( point->x() );
+        pty_old = bottom - yaxis.val2pt( point->y() );
 
-        ptx_old = ptx;
-        pty_old = pty;
+        p.setPen(pens[penIdx++]);
+        while(point != polyline.end()) {
 
-        ++point;
+            ptx = left   + xaxis.val2pt( point->x() );
+            pty = bottom - yaxis.val2pt( point->y() );
+
+            p.drawLine(ptx_old,pty_old,ptx,pty);
+
+            ptx_old = ptx;
+            pty_old = pty;
+
+            ++point;
+        }
+
+        ++line;
     }
 
-    QPolygonF& marks = m_pData->marks.points;
-    point = marks.begin();
-    p.setPen(QPen(Qt::red,2));
 
-    while(point != marks.end()) {
-        ptx = left   + xaxis.val2pt( point->x() );
-        pty = bottom - yaxis.val2pt( point->y() );
+    {
+        QPolygonF& marks                = m_pData->marks.points;
+        QPolygonF::const_iterator point = marks.begin();
+        p.setPen(QPen(Qt::red,2));
 
-        p.drawLine(ptx-2,pty,ptx+2,pty);
-        p.drawLine(ptx,pty-2,ptx,pty+2);
+        while(point != marks.end()) {
+            ptx = left   + xaxis.val2pt( point->x() );
+            pty = bottom - yaxis.val2pt( point->y() );
 
-        ++point;
+            p.drawLine(ptx-2,pty,ptx+2,pty);
+            p.drawLine(ptx,pty-2,ptx,pty+2);
+
+            ++point;
+        }
     }
 
     if(!m_pData->point1.point.isNull()){
@@ -453,4 +475,31 @@ void CPlot::drawData(QPainter& p)
         p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
         p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
     }
+}
+
+void CPlot::drawLegend(QPainter& p)
+{
+    if(m_pData->lines.size() < 2) return;
+
+    int penIdx = 0;
+    QFontMetrics fm(p.font());
+    int h = fm.height();
+
+    int x = rectGraphArea.left() + 10;
+    int y = rectGraphArea.top()  + 2 + h;
+
+    QList<CPlotData::line_t> lines                  = m_pData->lines;
+    QList<CPlotData::line_t>::const_iterator line   = lines.begin();
+
+    while(line != lines.end()){
+        p.setPen(Qt::black);
+        p.drawText(x + 30 ,y,line->label);
+        p.setPen(pens[penIdx++]);
+        p.drawLine(x, y, x + 20, y);
+
+
+        y += fm.height();
+        ++line;
+    }
+
 }

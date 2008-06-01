@@ -38,28 +38,27 @@ CPlotData::~CPlotData()
 
 void CPlotData::setLimits()
 {
-    QPolygonF::const_iterator p = line1.points.begin();
+
+    QList<line_t>::const_iterator line  = lines.begin();
+    if(line == lines.end()) return;
+    QPolygonF::const_iterator p         = line->points.begin();
 
     double xmin = p->x();
     double xmax = p->x();
     double ymin = p->y();
     double ymax = p->y();
 
-    while(p != line1.points.end()) {
-        if(p->x() > xmax) xmax = p->x();
-        if(p->x() < xmin) xmin = p->x();
-        if(p->y() > ymax) ymax = p->y();
-        if(p->y() < ymin) ymin = p->y();
-        ++p;
-    }
+    while(line != lines.end()){
+        QPolygonF::const_iterator p = line->points.begin();
+        while(p != line->points.end()) {
+            if(p->x() > xmax) xmax = p->x();
+            if(p->x() < xmin) xmin = p->x();
+            if(p->y() > ymax) ymax = p->y();
+            if(p->y() < ymin) ymin = p->y();
+            ++p;
+        }
 
-    p = line2.points.begin();
-    while(p != line2.points.end()) {
-        if(p->x() > xmax) xmax = p->x();
-        if(p->x() < xmin) xmin = p->x();
-        if(p->y() > ymax) ymax = p->y();
-        if(p->y() < ymin) ymin = p->y();
-        ++p;
+        ++line;
     }
 
     xaxis->setMinMax(xmin,xmax);
