@@ -22,6 +22,7 @@ set(qlandkarte_SRCS
     CMouseRefPoint.cpp
     CMouseCutTrack.cpp
     IMap.cpp
+    CMapNoMap.cpp
     CMapDEM.cpp
     CMapFile.cpp
     CMapLevel.cpp

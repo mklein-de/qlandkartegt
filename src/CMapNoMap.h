@@ -31,15 +31,23 @@ class CMapNoMap : public IMap
 {
     Q_OBJECT;
     public:
-        CMapNoMap(CCanvas * parent) : IMap("",parent){};
+        CMapNoMap(CCanvas * parent);
         virtual ~CMapNoMap(){};
 
-        void convertPt2M(double&, double&){};
-        void convertM2Pt(double&, double&){};
-        void move(const QPoint&, const QPoint&){};
-        void zoom(bool, const QPoint&){};
-        virtual void zoom(double, double, double, double){};
+        void convertPt2M(double&, double&);
+        void convertM2Pt(double&, double&);
+        void move(const QPoint&, const QPoint&);
+        void zoom(bool, const QPoint&);
+        void zoom(double, double, double, double);
         void select(const QRect&){};
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
+
+    private:
+        void zoom(qint32& level);
+        double xscale;
+        double yscale;
+        double x;
+        double y;
+        double zoomFactor;
 };
 #endif                           //CMAPNOMAP_H

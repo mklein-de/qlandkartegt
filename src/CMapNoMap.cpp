@@ -1,36 +1,127 @@
 /**********************************************************************************************
+    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions
-  Ingenieure Kellermann, Voigt, Hoepfl, Eichler und Weidner, Partnerschaft
-  http://www.dspsolutions.de/  
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Oliver Eichler
-  Email:       oliver.eichler@dspsolutions.de
-  Phone:       +49-941-83055-1
-  FAX:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CMapNoMap.cpp
-
-  Module:      
-
-  Description:
-
-  Created:     06/03/2008
-
-  (C) 2008
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
 
 #include "CMapNoMap.h"
 
-CMapNoMap::CMapNoMap()
-{
+#include <QtGui>
 
+CMapNoMap::CMapNoMap(CCanvas * parent)
+: IMap("", parent)
+, xscale( 1.0)
+, yscale(-1.0)
+, x(0)
+, y(0)
+, zoomFactor(1.0)
+{
+    pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
 }
 
-CMapNoMap::~CMapNoMap()
+void CMapNoMap::convertPt2M(double& u, double& v)
 {
-
+    u = x + u * xscale * zoomFactor;
+    v = y + v * yscale * zoomFactor;
 }
 
+void CMapNoMap::convertM2Pt(double& u, double& v)
+{
+    u = (u - x) / (xscale * zoomFactor);
+    v = (v - y) / (yscale * zoomFactor);
+}
+
+void CMapNoMap::move(const QPoint& old, const QPoint& next)
+{
+    double xx = x, yy = y;
+    convertM2Pt(xx, yy);
+
+    // move top left point by difference
+    xx += old.x() - next.x();
+    yy += old.y() - next.y();
+
+    convertPt2M(xx,yy);
+    x = xx;
+    y = yy;
+    emit sigChanged();
+}
+
+void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
+{
+    XY p1;
+
+    // convert point to geo. coordinates
+    p1.u = p0.x();
+    p1.v = p0.y();
+    convertPt2Rad(p1.u, p1.v);
+
+    zoomidx += zoomIn ? -1 : 1;
+    zoom(zoomidx);
+
+    // convert geo. coordinates back to point
+    convertRad2Pt(p1.u, p1.v);
+
+    double xx = x, yy = y;
+    convertM2Pt(xx, yy);
+
+    // move top left point by difference point befor and after zoom
+    xx += p1.u - p0.x();
+    yy += p1.v - p0.y();
+
+    // convert back to new top left geo coordinate
+    convertPt2M(xx, yy);
+    x = xx;
+    y = yy;
+
+    emit sigChanged();
+}
+
+void CMapNoMap::zoom(qint32& level)
+{
+    // no level less than 1
+    if(level < 1) {
+        zoomFactor  = 1.0 / - (level - 2);
+        qDebug() << "zoom:" << zoomFactor;
+        return;
+    }
+    zoomFactor = level;
+    emit sigChanged();
+    qDebug() << "zoom:" << zoomFactor;
+}
+
+
+void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
+{
+    double u[3];
+    double v[3];
+    double dU, dV;
+
+    u[0] = lon1;
+    v[0] = lat1;
+    u[1] = lon2;
+    v[1] = lat1;
+    u[2] = lon1;
+    v[2] = lat2;
+
+    pj_transform(pjtar, pjsrc,3,0,u,v,0);
+    dU = u[1] - u[0];
+    dV = v[2] - v[0];
+
+    int z1 = dU / size.width();
+    int z2 = dV / size.height();
+
+    qDebug() << z1 << z2;
+}
