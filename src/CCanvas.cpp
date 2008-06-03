@@ -400,7 +400,7 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QRect& r, const QC
 
 void CCanvas::wheelEvent(QWheelEvent * e)
 {
-    zoom((e->delta() < 0), e->pos());
+    zoom(CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0), e->pos());
 }
 
 

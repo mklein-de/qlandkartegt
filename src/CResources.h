@@ -57,6 +57,8 @@ class CResources : public QObject
         /// root path of all maps
         QString pathMaps;
 
+        bool flipMouseWheel(){return m_flipMouseWheel;}
+
         signals:
         void sigProxyChanged();
 
@@ -112,6 +114,6 @@ class CResources : public QObject
         QString m_devSerialPort;
         QString m_devType;
 
-
+        bool m_flipMouseWheel;
 };
 #endif                           //CRESOURCES_H

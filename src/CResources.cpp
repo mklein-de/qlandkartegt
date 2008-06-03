@@ -37,6 +37,7 @@ CResources::CResources(QObject * parent)
 , time_offset(0)
 , m_device(0)
 , m_devIPPort(4242)
+, m_flipMouseWheel(false)
 {
     m_self = this;
 
@@ -47,6 +48,7 @@ CResources::CResources(QObject * parent)
     m_mapfont = QFont(family,size);
 
     m_doMetric        = cfg.value("environment/doMetric",true).toBool();
+    m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
 
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
     m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
@@ -78,6 +80,7 @@ CResources::~CResources()
     cfg.setValue("environment/mapfont/family",m_mapfont.family());
     cfg.setValue("environment/mapfont/size",m_mapfont.pointSize());
     cfg.setValue("environment/doMetric",m_doMetric);
+    cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
 
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);

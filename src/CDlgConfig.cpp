@@ -52,6 +52,8 @@ void CDlgConfig::exec()
     radioMetric->setChecked(resources.m_doMetric);
     radioImperial->setChecked(!resources.m_doMetric);
 
+    checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
+
     comboBrowser->setCurrentIndex(resources.m_eBrowser);
     lineBrowserCmd->setText(resources.cmdOther);
 
@@ -87,6 +89,7 @@ void CDlgConfig::accept()
 
     resources.m_mapfont         = labelFont->font();
     resources.m_doMetric        = radioMetric->isChecked();
+    resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
 
     resources.m_eBrowser        = (CResources::bowser_e)comboBrowser->currentIndex();
     resources.cmdOther          = lineBrowserCmd->text();
