@@ -295,7 +295,35 @@ void CMapGeoTiff::zoom(qint32& level)
 
 void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
 {
+    double u[3];
+    double v[3];
+    double dU, dV;
 
+    u[0] = lon1;
+    v[0] = lat1;
+    u[1] = lon2;
+    v[1] = lat1;
+    u[2] = lon1;
+    v[2] = lat2;
+
+    pj_transform(pjtar, pjsrc,3,0,u,v,0);
+    dU = (u[1] - u[0]) / xscale;
+    dV = (v[0] - v[2]) / yscale;
+
+    int z1 = dU / size.width();
+    int z2 = dV / size.height();
+
+    zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+
+
+    double u_ = lon1 + (lon2 - lon1)/2;
+    double v_ = lat1 + (lat2 - lat1)/2;
+    convertRad2Pt(u_,v_);
+    move(QPoint(u_,v_), rect.center());
+
+    emit sigChanged();
+
+    qDebug() << "zoom:" << zoomFactor;
 }
 
 void CMapGeoTiff::select(const QRect& rect)
