@@ -22,8 +22,8 @@
 #include <projects.h>
 #include <QVector>
 
-extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);
-extern void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg);
+// extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);
+// extern void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg);
 
 /// convert a string to a longitude / latitude pair
 /**

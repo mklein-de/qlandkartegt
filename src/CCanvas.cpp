@@ -494,18 +494,8 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
         x *= RAD_TO_DEG;
         y *= RAD_TO_DEG;
 
-        qint32 degN,degE;
-        float minN,minE;
-
-        GPS_Math_Deg_To_DegMin(y, &degN, &minN);
-
-        GPS_Math_Deg_To_DegMin(x, &degE, &minE);
-
-        QString str,lat,lng;
-        lat = degN < 0 ? "S" : "N";
-        lng = degE < 0 ? "W" : "E";
-        str.sprintf(" %s%02d\260 %06.3f %s%03d\260 %06.3f ",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
-
+        QString str;
+        GPS_Math_Deg_To_Str(x,y, str);
         info += str;
     }
 

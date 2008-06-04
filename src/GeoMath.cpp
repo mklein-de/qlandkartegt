@@ -27,39 +27,24 @@
 #define FP_NAN NAN
 #endif
 
-//Copyright (C) 1999 Alan Bleasby
-void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m)
+bool GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
 {
-    qint32 sign;
+    bool sign = v < 0;
+    int32_t deg = abs(v);
+    double  min = (fabs(v) - deg) * 60.0;
 
-    if(v<(float)0.) {
-        v *= (float)-1.;
-        sign = 1;
-    }
-    else {
-        sign = 0;
-    }
+    *d = deg;
+    *m = min;
 
-    *d = (qint32)v;
-    *m = (v-(float)*d) * (float)60.0;
-    if(*m>(float)59.999) {
-        ++*d;
-        *m = (float)0.0;
-    }
-
-    if(sign) {
-        *d = -*d;
-    }
-
-    return;
+    return sign;
 }
 
 
-void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg)
+void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& deg)
 {
 
-    deg = ((float)abs(d)) + m / (float)60.0;
-    if(d<0) {
+    deg = fabs(d) + m / 60.0;
+    if(sign) {
         deg = -deg;
     }
 
@@ -79,13 +64,13 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
     int degLat      = re.cap(2).toInt();
     float minLat   = re.cap(3).toDouble();
 
-    GPS_Math_DegMin_To_Deg((signLat ? -degLat : degLat), minLat, lat);
+    GPS_Math_DegMin_To_Deg(signLat, degLat, minLat, lat);
 
     bool signLon    = re.cap(4) == "W";
     int degLon      = re.cap(5).toInt();
     float minLon   = re.cap(6).toDouble();
 
-    GPS_Math_DegMin_To_Deg((signLon ? -degLon : degLon), minLon, lon);
+    GPS_Math_DegMin_To_Deg(signLon, degLon, minLon, lon);
 
     return true;
 }
@@ -253,13 +238,13 @@ void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
     qint32 degN,degE;
     float minN,minE;
 
-    GPS_Math_Deg_To_DegMin(y, &degN, &minN);
+    bool signLat = GPS_Math_Deg_To_DegMin(y, &degN, &minN);
 
-    GPS_Math_Deg_To_DegMin(x, &degE, &minE);
+    bool signLon = GPS_Math_Deg_To_DegMin(x, &degE, &minE);
 
     QString lat,lng;
-    lat = degN < 0 ? "S" : "N";
-    lng = degE < 0 ? "W" : "E";
+    lat = signLat ? "S" : "N";
+    lng = signLon ? "W" : "E";
     str.sprintf("%s%02d\260 %06.3f %s%03d\260 %06.3f",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
 }
 
