@@ -17,42 +17,21 @@
 
 **********************************************************************************************/
 
-#include "COverlayDB.h"
-#include "COverlayToolWidget.h"
+#ifndef COVERLAYTOOLWIDGET_H
+#define COVERLAYTOOLWIDGET_H
 
-#include <QtGui>
+#include <QWidget>
+#include "ui_IOverlayToolWidget.h"
 
-COverlayDB * COverlayDB::m_self = 0;
+class QTabWidget;
 
-COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+class COverlayToolWidget : public QWidget, private Ui::IOverlayToolWidget
 {
-    m_self      = this;
-    toolview    = new COverlayToolWidget(tb);
-}
+    Q_OBJECT;
+    public:
+        COverlayToolWidget(QTabWidget * parent);
+        virtual ~COverlayToolWidget();
+};
 
-COverlayDB::~COverlayDB()
-{
-
-}
-
-void COverlayDB::loadGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::saveGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::loadQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::saveQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::clear()
-{
-}
+#endif //COVERLAYTOOLWIDGET_H
 

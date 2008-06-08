@@ -94,6 +94,8 @@ class CMegaMenu : public QLabel
         void funcLockMap();
         void funcAddWpt();
 
+        void funcText();
+
         static CMegaMenu * m_self;
 
         QPointer<CCanvas>  canvas;

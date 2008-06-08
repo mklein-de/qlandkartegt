@@ -16,43 +16,22 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-
-#include "COverlayDB.h"
 #include "COverlayToolWidget.h"
 
 #include <QtGui>
 
-COverlayDB * COverlayDB::m_self = 0;
-
-COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
+: QWidget(parent)
 {
-    m_self      = this;
-    toolview    = new COverlayToolWidget(tb);
+    setupUi(this);
+    setObjectName("Overlay");
+
+    parent->addTab(this,QIcon(":/icons/iconOverlay16x16"),"");
+    parent->setTabToolTip(parent->indexOf(this), tr("Draw"));
 }
 
-COverlayDB::~COverlayDB()
+COverlayToolWidget::~COverlayToolWidget()
 {
 
-}
-
-void COverlayDB::loadGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::saveGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::loadQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::saveQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::clear()
-{
 }
 

@@ -17,42 +17,28 @@
 
 **********************************************************************************************/
 
-#include "COverlayDB.h"
-#include "COverlayToolWidget.h"
-
+#include "CMouseAddText.h"
 #include <QtGui>
 
-COverlayDB * COverlayDB::m_self = 0;
-
-COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+CMouseAddText::CMouseAddText(CCanvas * canvas)
+: IMouse(canvas)
 {
-    m_self      = this;
-    toolview    = new COverlayToolWidget(tb);
+    cursor = QCursor(QPixmap(":/cursors/cursorAdd"),0,0);
 }
 
-COverlayDB::~COverlayDB()
+CMouseAddText::~CMouseAddText()
 {
 
 }
 
-void COverlayDB::loadGPX(CGpx& gpx)
+void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
 {
 }
 
-void COverlayDB::saveGPX(CGpx& gpx)
+void CMouseAddText::mousePressEvent(QMouseEvent * e)
 {
 }
 
-void COverlayDB::loadQLB(CQlb& qlb)
+void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
 {
 }
-
-void COverlayDB::saveQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::clear()
-{
-}
-

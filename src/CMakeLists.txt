@@ -21,6 +21,7 @@ set(qlandkarte_SRCS
     CMouseEditWpt.cpp
     CMouseRefPoint.cpp
     CMouseCutTrack.cpp
+    CMouseAddText.cpp
     IMap.cpp
     CMapNoMap.cpp
     CMapDEM.cpp
@@ -73,6 +74,7 @@ set(qlandkarte_SRCS
     CLiveLogToolWidget.cpp
     IOverlay.cpp
     COverlayDB.cpp
+    COverlayToolWidget.cpp
 )
 
 IF(WIN32)
@@ -98,6 +100,7 @@ set(qlandkarte_HDRS
     CMouseEditWpt.h
     CMouseRefPoint.h
     CMouseCutTrack.h
+    CMouseAddText.h
     IMap.h
     CMapNoMap.h
     CMapDEM.h
@@ -150,6 +153,7 @@ set(qlandkarte_HDRS
     CLiveLogToolWidget.h
     IOverlay.h
     COverlayDB.h
+    COverlayToolWidget.h
 )
 
 
@@ -176,6 +180,7 @@ SET(qlandkarte_UIS
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui
     ILiveLogToolWidget.ui
+    IOverlayToolWidget.ui
 
 )
 

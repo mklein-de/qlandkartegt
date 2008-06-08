@@ -17,42 +17,22 @@
 
 **********************************************************************************************/
 
-#include "COverlayDB.h"
-#include "COverlayToolWidget.h"
+#ifndef CMOUSEADDTEXT_H
+#define CMOUSEADDTEXT_H
 
-#include <QtGui>
+#include "IMouse.h"
 
-COverlayDB * COverlayDB::m_self = 0;
-
-COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+class CMouseAddText : public IMouse
 {
-    m_self      = this;
-    toolview    = new COverlayToolWidget(tb);
-}
+    Q_OBJECT;
+    public:
+        CMouseAddText(CCanvas * canvas);
+        virtual ~CMouseAddText();
 
-COverlayDB::~COverlayDB()
-{
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+};
 
-}
-
-void COverlayDB::loadGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::saveGPX(CGpx& gpx)
-{
-}
-
-void COverlayDB::loadQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::saveQLB(CQlb& qlb)
-{
-}
-
-void COverlayDB::clear()
-{
-}
+#endif //CMOUSEADDTEXT_H
 
