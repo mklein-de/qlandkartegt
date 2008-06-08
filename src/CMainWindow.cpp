@@ -33,6 +33,7 @@
 #include "CTabWidget.h"
 #include "printpreview.h"
 #include "CLiveLogDB.h"
+#include "COverlayDB.h"
 
 #include <QtGui>
 
@@ -98,6 +99,7 @@ CMainWindow::CMainWindow()
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
     livelogdb   = new CLiveLogDB(tabbar, this);
+    overlaydb   = new COverlayDB(tabbar, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));

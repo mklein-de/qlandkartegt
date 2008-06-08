@@ -71,6 +71,8 @@ set(qlandkarte_SRCS
     CLiveLog.cpp
     CLiveLogDB.cpp
     CLiveLogToolWidget.cpp
+    IOverlay.cpp
+    COverlayDB.cpp
 )
 
 IF(WIN32)
@@ -146,6 +148,8 @@ set(qlandkarte_HDRS
     CLiveLog.h
     CLiveLogDB.h
     CLiveLogToolWidget.h
+    IOverlay.h
+    COverlayDB.h
 )
 
 

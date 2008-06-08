@@ -76,8 +76,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log"),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
+    ,{":/icons/iconOverlay16x16",QObject::tr("Draw ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
@@ -140,6 +140,21 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
     ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
     ,{":/icons/iconLock16x16",QObject::tr("Move Map to Pos."),&CMegaMenu::funcLockMap,tr("Move the map to keep the positon cursor centered.")}
     ,{":/icons/iconAdd16x16",QObject::tr("Add Waypoint"),&CMegaMenu::funcAddWpt,tr("Add a waypoint at current position.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+};
+
+const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -367,6 +382,15 @@ void CMegaMenu::funcSwitchToLiveLog()
     setPixmap(QPixmap(":/icons/backLiveLog128x128"));
     switchState(fsLiveLog);
     CLiveLogDB::self().gainFocus();
+    funcMoveArea();
+}
+
+void CMegaMenu::funcSwitchToOverlay()
+{
+    menuTitle->setText(tr("<b>Draw ...</b>"));
+    setPixmap(QPixmap(":/icons/backOverlay128x128"));
+    switchState(fsOverlay);
+
     funcMoveArea();
 }
 

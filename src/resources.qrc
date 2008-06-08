@@ -49,6 +49,7 @@
         <file>icons/iconLiveLog16x16.png</file>
         <file>icons/iconPlayPause16x16.png</file>
         <file>icons/iconLock16x16.png</file>
+        <file>icons/iconOverlay16x16.png</file>
 
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>
@@ -79,6 +80,7 @@
         <file>icons/backWaypoint128x128.png</file>
         <file>icons/backTrack128x128.png</file>
         <file>icons/backLiveLog128x128.png</file>
+        <file>icons/backOverlay128x128.png</file>
 
         <file>cursors/cursorMoveMap.png</file>
         <file>cursors/cursorSelMap.png</file>
