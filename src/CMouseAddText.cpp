@@ -18,12 +18,14 @@
 **********************************************************************************************/
 
 #include "CMouseAddText.h"
+#include "CCanvas.h"
 #include <QtGui>
 
 CMouseAddText::CMouseAddText(CCanvas * canvas)
 : IMouse(canvas)
+, selArea(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorAdd"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorAddText"),0,0);
 }
 
 CMouseAddText::~CMouseAddText()
@@ -31,14 +33,33 @@ CMouseAddText::~CMouseAddText()
 
 }
 
+void CMouseAddText::draw(QPainter& p)
+{
+    if(!selArea) return;
+    drawRect(p);
+}
+
+
 void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
 {
+    if(!selArea) return;
+    resizeRect(e->pos());
 }
 
 void CMouseAddText::mousePressEvent(QMouseEvent * e)
 {
+    if(e->button() == Qt::LeftButton) {
+        startRect(e->pos());
+        selArea = true;
+    }
 }
 
 void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
 {
+    if(e->button() == Qt::LeftButton) {
+        selArea = false;
+        resizeRect(e->pos());
+//         CMapDB::self().select(rect.normalized());
+        canvas->setMouseMode(CCanvas::eMouseMoveArea);
+    }
 }

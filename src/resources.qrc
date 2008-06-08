@@ -88,6 +88,7 @@
         <file>cursors/cursorArrow.png</file>
         <file>cursors/cursorMove.png</file>
         <file>cursors/cursorAdd.png</file>
+        <file>cursors/cursorAddText.png</file>
         <file>cursors/cursorMoveWpt.png</file>
         <file>cursors/cursorEdit.png</file>
         <file>cursors/cursorMoveRefPoint.png</file>

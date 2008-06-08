@@ -32,6 +32,7 @@ class CMouseAddWpt;
 class CMouseMoveWpt;
 class CMouseEditWpt;
 class CMouseRefPoint;
+class CMouseAddText;
 class CWpt;
 class QLabel;
 class QSize;
@@ -60,10 +61,11 @@ class CCanvas : public QWidget
             , eMouseMoveWpt      ///< use mouse to drag-n-drop waypoints
             , eMouseMoveRefPoint ///< use mouse to drag-n-drop reference points
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
-            , eMouseCutTrack    ///< use mouse to cut a track into two pieces
+            , eMouseCutTrack     ///< use mouse to cut a track into two pieces
             //, eMouseEditRte     ///< use mouse to define a new route polyline
             //, eMouseMoveRte     ///< use mouse to move route points
             //, eMouseDelRte      ///< use mouse to delete route points
+            , eMouseAddText      ///< use mouse to define a new text field on the map
         };
 
         /// zoom in/out with a given point as static
@@ -129,6 +131,7 @@ class CCanvas : public QWidget
         CMouseEditWpt * mouseEditWpt;
         CMouseRefPoint * mouseRefPoint;
         CMouseCutTrack * mouseCutTrack;
+        CMouseAddText * mouseAddText;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

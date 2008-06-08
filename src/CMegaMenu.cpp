@@ -25,6 +25,7 @@
 #include "CTrackDB.h"
 #include "CDiaryDB.h"
 #include "CLiveLogDB.h"
+#include "COverlayDB.h"
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
 #include "CMainWindow.h"
@@ -394,7 +395,7 @@ void CMegaMenu::funcSwitchToOverlay()
     menuTitle->setText(tr("<b>Draw ...</b>"));
     setPixmap(QPixmap(":/icons/backOverlay128x128"));
     switchState(fsOverlay);
-
+    COverlayDB::self().gainFocus();
     funcMoveArea();
 }
 
@@ -521,6 +522,6 @@ void CMegaMenu::funcAddWpt()
 
 void CMegaMenu::funcText()
 {
-
+    canvas->setMouseMode(CCanvas::eMouseAddText);
 }
 

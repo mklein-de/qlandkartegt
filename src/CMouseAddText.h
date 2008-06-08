@@ -32,6 +32,11 @@ class CMouseAddText : public IMouse
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
+
+        void draw(QPainter& p);
+    private:
+        bool selArea;
+
 };
 
 #endif //CMOUSEADDTEXT_H
