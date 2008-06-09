@@ -75,6 +75,7 @@ set(qlandkarte_SRCS
     IOverlay.cpp
     COverlayDB.cpp
     COverlayToolWidget.cpp
+    COverlayTextBox.cpp
 )
 
 IF(WIN32)
@@ -154,6 +155,7 @@ set(qlandkarte_HDRS
     IOverlay.h
     COverlayDB.h
     COverlayToolWidget.h
+    COverlayTextBox.h
 )
 
 

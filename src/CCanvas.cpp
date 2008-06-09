@@ -39,6 +39,7 @@
 #include "CMapDB.h"
 #include "CTrackDB.h"
 #include "CLiveLogDB.h"
+#include "COverlayDB.h"
 
 #include "GeoMath.h"
 #include "WptIcons.h"
@@ -158,7 +159,6 @@ void CCanvas::paintEvent(QPaintEvent * e)
     QPainter p;
     p.begin(this);
     p.fillRect(rect(),Qt::white);
-//     p.setRenderHint(QPainter::Antialiasing,true);
     p.setFont(CResources::self().getMapFont());
     draw(p);
 
@@ -251,6 +251,7 @@ void CCanvas::draw(QPainter& p)
     CLiveLogDB::self().draw(p, rect());
     CWptDB::self().draw(p, rect());
     CSearchDB::self().draw(p, rect());
+    COverlayDB::self().draw(p, rect());
     drawRefPoints(p);
     drawScale(p);
 

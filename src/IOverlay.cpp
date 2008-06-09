@@ -19,8 +19,9 @@
 
 #include "IOverlay.h"
 
-IOverlay::IOverlay(QObject * parent)
+IOverlay::IOverlay(QObject * parent, const QString& type)
 : QObject(parent)
+, type(type)
 {
 
 }

@@ -22,6 +22,13 @@
 
 #include "IDB.h"
 
+#include <QMap>
+
+class QPointF;
+class QRect;
+class IOverlay;
+class QPainter;
+
 class COverlayDB : public IDB
 {
     Q_OBJECT;
@@ -31,6 +38,8 @@ class COverlayDB : public IDB
 
         static COverlayDB& self(){return *m_self;}
 
+        void draw(QPainter& p, const QRect& r);
+
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb);
@@ -39,12 +48,15 @@ class COverlayDB : public IDB
         void download(){};
         void clear();
 
+        void addTextBox(const QPointF& anchor, const QRect& rect);
 
     private:
         friend class CMainWindow;
         COverlayDB(QTabWidget * tb, QObject * parent);
 
         static COverlayDB * m_self;
+
+        QMap<QString,IOverlay*> overlays;
 };
 
 #endif //COVERLAYDB_H

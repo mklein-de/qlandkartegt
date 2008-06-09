@@ -36,6 +36,9 @@ class CMouseAddText : public IMouse
         void draw(QPainter& p);
     private:
         bool selArea;
+        bool selAnchor;
+
+        QPoint anchor;
 
 };
 

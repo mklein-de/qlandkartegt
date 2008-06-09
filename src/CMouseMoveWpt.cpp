@@ -45,7 +45,7 @@ void CMouseMoveWpt::mouseMoveEvent(QMouseEvent * e)
 {
     if(moveWpt) {
         newPos = e->pos();
-        theMainWindow->getCanvas()->update();
+        canvas->update();
     }
     else {
         mouseMoveEventWpt(e);

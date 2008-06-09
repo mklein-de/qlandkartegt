@@ -21,12 +21,18 @@
 
 #include <QObject>
 
+class QPainter;
+
 class IOverlay : public QObject
 {
     Q_OBJECT;
     public:
-        IOverlay(QObject * parent);
+        IOverlay(QObject * parent, const QString& type);
         virtual ~IOverlay();
+
+        virtual void draw(QPainter& p) = 0;
+
+        const QString type;
 };
 
 #endif //IOVERLAY_H

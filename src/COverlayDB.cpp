@@ -19,6 +19,7 @@
 
 #include "COverlayDB.h"
 #include "COverlayToolWidget.h"
+#include "COverlayTextBox.h"
 
 #include <QtGui>
 
@@ -34,6 +35,14 @@ COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
 COverlayDB::~COverlayDB()
 {
 
+}
+
+void COverlayDB::draw(QPainter& p, const QRect& r)
+{
+    IOverlay * overlay;
+    foreach(overlay, overlays){
+        overlay->draw(p);
+    }
 }
 
 void COverlayDB::loadGPX(CGpx& gpx)
@@ -54,5 +63,12 @@ void COverlayDB::saveQLB(CQlb& qlb)
 
 void COverlayDB::clear()
 {
+}
+
+void COverlayDB::addTextBox(const QPointF& anchor, const QRect& rect)
+{
+    IOverlay * overlay = new COverlayTextBox(anchor, rect, this);
+
+    overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
 }
 
