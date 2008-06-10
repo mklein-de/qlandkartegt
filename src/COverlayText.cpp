@@ -17,27 +17,17 @@
 
 **********************************************************************************************/
 
-#ifndef CMOUSEADDTEXT_H
-#define CMOUSEADDTEXT_H
+#include "COverlayText.h"
 
-#include "IMouse.h"
-
-class CMouseAddText : public IMouse
+COverlayText::COverlayText(const QRect& rect, QObject * parent)
+: IOverlay(parent, "Text")
+, rect(rect)
 {
-    Q_OBJECT;
-    public:
-        CMouseAddText(CCanvas * canvas);
-        virtual ~CMouseAddText();
 
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+}
 
-        void draw(QPainter& p);
-    private:
-        bool selArea;
+COverlayText::~COverlayText()
+{
 
-};
-
-#endif //CMOUSEADDTEXT_H
+}
 

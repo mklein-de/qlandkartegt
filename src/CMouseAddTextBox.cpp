@@ -17,26 +17,29 @@
 
 **********************************************************************************************/
 
-#include "CMouseAddText.h"
+#include "CMouseAddTextBox.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "COverlayDB.h"
-#include "COverlayText.h"
+#include "COverlayTextBox.h"
 #include <QtGui>
 
-CMouseAddText::CMouseAddText(CCanvas * canvas)
+
+CMouseAddTextBox::CMouseAddTextBox(CCanvas * canvas)
 : IMouse(canvas)
 , selArea(false)
+, selAnchor(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorAddText"),0,0);
+
 }
 
-CMouseAddText::~CMouseAddText()
+CMouseAddTextBox::~CMouseAddTextBox()
 {
 
 }
 
-void CMouseAddText::draw(QPainter& p)
+void CMouseAddTextBox::draw(QPainter& p)
 {
 
     if(selArea){
@@ -44,32 +47,53 @@ void CMouseAddText::draw(QPainter& p)
         p.setPen(Qt::black);
         p.drawRect(rect);
     }
+    if(selAnchor){
+        p.setBrush(Qt::white);
+        p.setPen(Qt::black);
+        p.drawPolygon(COverlayTextBox::polygon(anchor.x(), anchor.y(), rect));
+    }
 }
 
 
-void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
+void CMouseAddTextBox::mouseMoveEvent(QMouseEvent * e)
 {
     if(selArea){
         resizeRect(e->pos());
     }
+    else if(selAnchor){
+        anchor = e->pos();
+        canvas->update();
+    }
 }
 
-void CMouseAddText::mousePressEvent(QMouseEvent * e)
+void CMouseAddTextBox::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        if(!selArea){
+        if(!selArea && !selAnchor){
             startRect(e->pos());
             selArea = true;
+        }
+        else if(selAnchor){
+            selAnchor = false;
+
+            double u = anchor.x();
+            double v = anchor.y();
+
+            CMapDB::self().getMap().convertPt2Rad(u,v);
+            COverlayDB::self().addTextBox(QPointF(u,v), rect);
+            canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
     }
 }
 
-void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
+void CMouseAddTextBox::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
         if(selArea){
             resizeRect(e->pos());
             selArea     = false;
+            selAnchor   = true;
+            anchor      = e->pos();
         }
     }
 }

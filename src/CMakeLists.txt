@@ -22,6 +22,7 @@ set(qlandkarte_SRCS
     CMouseRefPoint.cpp
     CMouseCutTrack.cpp
     CMouseAddText.cpp
+    CMouseAddTextBox.cpp
     IMap.cpp
     CMapNoMap.cpp
     CMapDEM.cpp
@@ -75,6 +76,7 @@ set(qlandkarte_SRCS
     IOverlay.cpp
     COverlayDB.cpp
     COverlayToolWidget.cpp
+    COverlayText.cpp
     COverlayTextBox.cpp
 )
 
@@ -102,6 +104,7 @@ set(qlandkarte_HDRS
     CMouseRefPoint.h
     CMouseCutTrack.h
     CMouseAddText.h
+    CMouseAddTextBox.h
     IMap.h
     CMapNoMap.h
     CMapDEM.h
@@ -155,6 +158,7 @@ set(qlandkarte_HDRS
     IOverlay.h
     COverlayDB.h
     COverlayToolWidget.h
+    COverlayText.h
     COverlayTextBox.h
 )
 

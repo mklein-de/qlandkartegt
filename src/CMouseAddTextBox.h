@@ -17,17 +17,17 @@
 
 **********************************************************************************************/
 
-#ifndef CMOUSEADDTEXT_H
-#define CMOUSEADDTEXT_H
+#ifndef CMOUSEADDTEXTBOX_H
+#define CMOUSEADDTEXTBOX_H
 
 #include "IMouse.h"
 
-class CMouseAddText : public IMouse
+class CMouseAddTextBox : public IMouse
 {
     Q_OBJECT;
     public:
-        CMouseAddText(CCanvas * canvas);
-        virtual ~CMouseAddText();
+        CMouseAddTextBox(CCanvas * canvas);
+        virtual ~CMouseAddTextBox();
 
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
@@ -36,8 +36,10 @@ class CMouseAddText : public IMouse
         void draw(QPainter& p);
     private:
         bool selArea;
+        bool selAnchor;
 
+        QPoint anchor;
 };
 
-#endif //CMOUSEADDTEXT_H
+#endif //CMOUSEADDTEXTBOX_H
 

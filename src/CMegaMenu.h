@@ -95,6 +95,7 @@ class CMegaMenu : public QLabel
         void funcAddWpt();
 
         void funcText();
+        void funcTextBox();
 
         static CMegaMenu * m_self;
 

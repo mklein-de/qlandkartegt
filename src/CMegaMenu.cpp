@@ -153,7 +153,8 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconText16x16",QObject::tr("Add Text Box"),&CMegaMenu::funcText,tr("Add a textbox on the map.")}
+    ,{":/icons/iconText16x16",QObject::tr("Add Text"),&CMegaMenu::funcText,tr("Add text on the map.")}
+    ,{":/icons/iconTextBox16x16",QObject::tr("Add Text Box"),&CMegaMenu::funcTextBox,tr("Add a textbox on the map.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -525,3 +526,7 @@ void CMegaMenu::funcText()
     canvas->setMouseMode(CCanvas::eMouseAddText);
 }
 
+void CMegaMenu::funcTextBox()
+{
+    canvas->setMouseMode(CCanvas::eMouseAddTextBox);
+}

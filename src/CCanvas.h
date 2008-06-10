@@ -33,6 +33,7 @@ class CMouseMoveWpt;
 class CMouseEditWpt;
 class CMouseRefPoint;
 class CMouseAddText;
+class CMouseAddTextBox;
 class CWpt;
 class QLabel;
 class QSize;
@@ -66,6 +67,7 @@ class CCanvas : public QWidget
             //, eMouseMoveRte     ///< use mouse to move route points
             //, eMouseDelRte      ///< use mouse to delete route points
             , eMouseAddText      ///< use mouse to define a new text field on the map
+            , eMouseAddTextBox   ///< use mouse to define a new text field with anchor on the map
         };
 
         /// zoom in/out with a given point as static
@@ -132,6 +134,7 @@ class CCanvas : public QWidget
         CMouseRefPoint * mouseRefPoint;
         CMouseCutTrack * mouseCutTrack;
         CMouseAddText * mouseAddText;
+        CMouseAddTextBox * mouseAddTextBox;
 
         /// current mouse mode
         mouse_mode_e mouseMode;
