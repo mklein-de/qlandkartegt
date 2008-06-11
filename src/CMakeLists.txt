@@ -23,6 +23,7 @@ set(qlandkarte_SRCS
     CMouseCutTrack.cpp
     CMouseAddText.cpp
     CMouseAddTextBox.cpp
+    CMouseOverlay.cpp
     IMap.cpp
     CMapNoMap.cpp
     CMapDEM.cpp
@@ -105,6 +106,7 @@ set(qlandkarte_HDRS
     CMouseCutTrack.h
     CMouseAddText.h
     CMouseAddTextBox.h
+    CMouseOverlay.h
     IMap.h
     CMapNoMap.h
     CMapDEM.h

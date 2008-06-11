@@ -70,11 +70,15 @@ void COverlayDB::addText(const QRect& rect)
 {
     IOverlay * overlay = new COverlayText(rect, this);
     overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
+
+    emit sigChanged();
 }
 
 void COverlayDB::addTextBox(const QPointF& anchor, const QRect& rect)
 {
     IOverlay * overlay = new COverlayTextBox(anchor, rect, this);
     overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
+
+    emit sigChanged();
 }
 

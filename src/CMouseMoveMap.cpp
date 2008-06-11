@@ -54,6 +54,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 
     mouseMoveEventWpt(e);
     mouseMoveEventTrack(e);
+    mouseMoveEventOverlay(e);
 }
 
 

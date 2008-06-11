@@ -30,6 +30,8 @@ class COverlayText : public IOverlay
         COverlayText(const QRect& rect, QObject * parent);
         virtual ~COverlayText();
 
+        QRect getRect(){return rect;}
+
         void draw(QPainter& p);
     public:
         QRect rect;

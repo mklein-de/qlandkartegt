@@ -22,7 +22,7 @@
 #include <QtGui>
 
 COverlayText::COverlayText(const QRect& rect, QObject * parent)
-: IOverlay(parent, "Text")
+: IOverlay(parent, "Text", QPixmap(":/icons/iconText16x16"))
 , rect(rect)
 {
 
@@ -38,5 +38,14 @@ void COverlayText::draw(QPainter& p)
     p.setBrush(Qt::white);
     p.setPen(Qt::black);
     p.drawRect(rect);
+
+    if(selected == this){
+        p.setBrush(Qt::white);
+        p.setPen(QPen(Qt::red, 2));
+        p.drawRect(rect);
+
+        p.drawPixmap(rect.topLeft() + QPoint(2,2), QPixmap(":/icons/iconMoveMap16x16.png"));
+        p.drawPixmap(rect.bottomRight() - QPoint(16,16), QPixmap(":/icons/iconSize16x16.png"));
+    }
 }
 

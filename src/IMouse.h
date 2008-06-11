@@ -30,6 +30,7 @@ class QMouseEvent;
 class QMenu;
 class CCanvas;
 class CWpt;
+class IOverlay;
 
 
 /// Base class to all mouse function objects
@@ -87,6 +88,8 @@ class IMouse : public QObject
         void mouseMoveEventWpt(QMouseEvent * e);
         /// choose track point close to cursor
         void mouseMoveEventTrack(QMouseEvent * e);
+        /// choose overlay under cursor
+        void mouseMoveEventOverlay(QMouseEvent * e);
 
         /// the functions mouse icon
         QCursor cursor;
@@ -99,6 +102,8 @@ class IMouse : public QObject
         QPointer<CWpt> selWpt;
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
+        /// current selected overlay
+        QPointer<IOverlay> selOverlay;
 
 };
 #endif                           //IMOUSE_H

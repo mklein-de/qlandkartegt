@@ -22,10 +22,12 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "COverlayDB.h"
 #include "CWpt.h"
 #include "CTrack.h"
 #include "CMainWindow.h"
 #include "CResources.h"
+#include "IOverlay.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -190,7 +192,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
     }
 
     if(oldWpt != selWpt) {
-        theMainWindow->getCanvas()->update();
+        canvas->update();
     }
 }
 
@@ -222,7 +224,38 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     }
 
     if(oldTrackPt != selTrkPt) {
-        theMainWindow->getCanvas()->update();
+        canvas->update();
     }
 
 }
+
+void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
+{
+    IOverlay * oldOverlay = selOverlay;
+
+    QMap<QString, IOverlay*>::const_iterator overlay = COverlayDB::self().begin();
+    while(overlay != COverlayDB::self().end()){
+        if((*overlay)->getRect().contains(e->pos())) break;
+        ++overlay;
+    }
+
+    if(overlay != COverlayDB::self().end()){
+        (*overlay)->select(*overlay);
+        selOverlay = *overlay;
+    }
+    else{
+        (*overlay)->select(0);
+        selOverlay = 0;
+    }
+
+    if(oldOverlay != selOverlay){
+        if(selOverlay){
+            canvas->setMouseMode(CCanvas::eMouseOverlay);
+        }
+        else{
+            canvas->setMouseMode(CCanvas::eMouseMoveArea);
+        }
+        canvas->update();
+    }
+}
+

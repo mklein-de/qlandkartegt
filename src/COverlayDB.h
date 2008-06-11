@@ -48,11 +48,17 @@ class COverlayDB : public IDB
         void download(){};
         void clear();
 
+        /// get iterator access to track point list
+        QMap<QString,IOverlay*> ::iterator begin(){return overlays.begin();}
+        /// get iterator access to track point list
+        QMap<QString,IOverlay*> ::iterator end(){return overlays.end();}
+
         void addText(const QRect& rect);
         void addTextBox(const QPointF& anchor, const QRect& rect);
 
     private:
         friend class CMainWindow;
+        friend class COverlayToolWidget;
         COverlayDB(QTabWidget * tb, QObject * parent);
 
         static COverlayDB * m_self;

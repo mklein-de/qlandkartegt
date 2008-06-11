@@ -19,9 +19,12 @@
 
 #include "IOverlay.h"
 
-IOverlay::IOverlay(QObject * parent, const QString& type)
+IOverlay * IOverlay::selected = 0;
+
+IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 : QObject(parent)
 , type(type)
+, icon(icon)
 {
 
 }

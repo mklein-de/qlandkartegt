@@ -17,24 +17,23 @@
 
 **********************************************************************************************/
 
-#ifndef COVERLAYTOOLWIDGET_H
-#define COVERLAYTOOLWIDGET_H
+#ifndef CMOUSEOVERLAY_H
+#define CMOUSEOVERLAY_H
 
-#include <QWidget>
-#include "ui_IOverlayToolWidget.h"
+#include "IMouse.h"
 
-class QTabWidget;
-
-class COverlayToolWidget : public QWidget, private Ui::IOverlayToolWidget
+class CMouseOverlay : public IMouse
 {
     Q_OBJECT;
     public:
-        COverlayToolWidget(QTabWidget * parent);
-        virtual ~COverlayToolWidget();
+        CMouseOverlay(CCanvas * canvas);
+        virtual ~CMouseOverlay();
 
-    private slots:
-        void slotDBChanged();
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+
 };
 
-#endif //COVERLAYTOOLWIDGET_H
+#endif //CMOUSEOVERLAY_H
 

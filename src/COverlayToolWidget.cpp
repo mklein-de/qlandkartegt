@@ -17,6 +17,8 @@
 
 **********************************************************************************************/
 #include "COverlayToolWidget.h"
+#include "COverlayDB.h"
+#include "IOverlay.h"
 
 #include <QtGui>
 
@@ -28,6 +30,8 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
 
     parent->addTab(this,QIcon(":/icons/iconOverlay16x16"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Draw"));
+
+    connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 }
 
 COverlayToolWidget::~COverlayToolWidget()
@@ -35,3 +39,17 @@ COverlayToolWidget::~COverlayToolWidget()
 
 }
 
+void COverlayToolWidget::slotDBChanged()
+{
+    listOverlays->clear();
+
+    QMap<QString, IOverlay*>& overlays                  = COverlayDB::self().overlays;
+    QMap<QString, IOverlay*>::const_iterator overlay    = overlays.begin();
+    while(overlay != overlays.end()){
+        QListWidgetItem * item = new QListWidgetItem(listOverlays);
+        item->setIcon((*overlay)->icon);
+        item->setText((*overlay)->getInfo());
+        item->setData(Qt::UserRole, overlay.key());
+        ++overlay;
+    }
+}

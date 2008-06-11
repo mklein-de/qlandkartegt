@@ -20,6 +20,7 @@
 #define IOVERLAY_H
 
 #include <QObject>
+#include <QPixmap>
 
 class QPainter;
 
@@ -27,12 +28,20 @@ class IOverlay : public QObject
 {
     Q_OBJECT;
     public:
-        IOverlay(QObject * parent, const QString& type);
+        IOverlay(QObject * parent, const QString& type, const QPixmap& icon);
         virtual ~IOverlay();
 
         virtual void draw(QPainter& p) = 0;
+        virtual QString getInfo(){return tr("No info set");}
+        virtual QRect getRect() = 0;
+
+        void select(IOverlay * s){selected = s;}
 
         const QString type;
+        const QPixmap icon;
+
+    protected:
+        static IOverlay * selected;
 };
 
 #endif //IOVERLAY_H
