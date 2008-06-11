@@ -19,6 +19,7 @@
 
 #include "COverlayDB.h"
 #include "COverlayToolWidget.h"
+#include "COverlayText.h"
 #include "COverlayTextBox.h"
 
 #include <QtGui>
@@ -65,10 +66,15 @@ void COverlayDB::clear()
 {
 }
 
+void COverlayDB::addText(const QRect& rect)
+{
+    IOverlay * overlay = new COverlayText(rect, this);
+    overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
+}
+
 void COverlayDB::addTextBox(const QPointF& anchor, const QRect& rect)
 {
     IOverlay * overlay = new COverlayTextBox(anchor, rect, this);
-
     overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
 }
 

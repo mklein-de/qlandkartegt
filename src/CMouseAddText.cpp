@@ -28,7 +28,7 @@ CMouseAddText::CMouseAddText(CCanvas * canvas)
 : IMouse(canvas)
 , selArea(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorAddText"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorText"),0,0);
 }
 
 CMouseAddText::~CMouseAddText()
@@ -70,6 +70,8 @@ void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
         if(selArea){
             resizeRect(e->pos());
             selArea     = false;
+            COverlayDB::self().addText(rect);
+            canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
     }
 }

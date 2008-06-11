@@ -81,7 +81,6 @@ void COverlayTextBox::draw(QPainter& p)
 
     p.setBrush(Qt::white);
     p.setPen(Qt::black);
-
     p.drawPolygon(polygon(x,y,rect));
 }
 

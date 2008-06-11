@@ -48,6 +48,7 @@ class COverlayDB : public IDB
         void download(){};
         void clear();
 
+        void addText(const QRect& rect);
         void addTextBox(const QPointF& anchor, const QRect& rect);
 
     private:

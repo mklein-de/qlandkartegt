@@ -19,6 +19,8 @@
 
 #include "COverlayText.h"
 
+#include <QtGui>
+
 COverlayText::COverlayText(const QRect& rect, QObject * parent)
 : IOverlay(parent, "Text")
 , rect(rect)
@@ -29,5 +31,12 @@ COverlayText::COverlayText(const QRect& rect, QObject * parent)
 COverlayText::~COverlayText()
 {
 
+}
+
+void COverlayText::draw(QPainter& p)
+{
+    p.setBrush(Qt::white);
+    p.setPen(Qt::black);
+    p.drawRect(rect);
 }
 
