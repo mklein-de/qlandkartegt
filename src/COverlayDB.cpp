@@ -64,12 +64,23 @@ void COverlayDB::saveQLB(CQlb& qlb)
 
 void COverlayDB::clear()
 {
+    delOverlays(overlays.keys());
+}
+
+void COverlayDB::delOverlays(const QStringList& keys)
+{
+    QString key;
+    foreach(key, keys){
+        IOverlay * overlay = overlays.take(key);
+        overlay->deleteLater();
+    }
+    emit sigChanged();
 }
 
 void COverlayDB::addText(const QRect& rect)
 {
     IOverlay * overlay = new COverlayText(rect, this);
-    overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
+    overlays[overlay->key] = overlay;
 
     emit sigChanged();
 }
@@ -77,7 +88,7 @@ void COverlayDB::addText(const QRect& rect)
 void COverlayDB::addTextBox(const QPointF& anchor, const QRect& rect)
 {
     IOverlay * overlay = new COverlayTextBox(anchor, rect, this);
-    overlays[QString("%1_%2").arg(overlay->type).arg(QDateTime::currentDateTime().toString())] = overlay;
+    overlays[overlay->key] = overlay;
 
     emit sigChanged();
 }

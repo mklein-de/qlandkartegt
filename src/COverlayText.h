@@ -23,6 +23,8 @@
 #include "IOverlay.h"
 #include <QRect>
 
+class QTextDocument;
+
 class COverlayText : public IOverlay
 {
     Q_OBJECT;
@@ -46,8 +48,15 @@ class COverlayText : public IOverlay
         QRect rectEdit;
         QRect rectDel;
 
+        QRect rectDoc;
+
         bool doMove;
         bool doSize;
+
+        bool doSpecialCursor;
+
+        QString sometext;
+        QTextDocument * doc;
 };
 
 #endif //COVERLAYTEXT_H

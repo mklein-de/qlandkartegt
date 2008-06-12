@@ -105,8 +105,10 @@ CMainWindow::CMainWindow()
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(livelogdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
+    connect(overlaydb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
     connect(mapdb, SIGNAL(sigChanged()), this, SLOT(update()));
+
 
     connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));

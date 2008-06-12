@@ -64,8 +64,9 @@
 
 #include <QtGui>
 
-CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
-    : QWidget(parent)
+CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool embedded)
+: QWidget(parent)
+, embedded(embedded)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
@@ -199,12 +200,18 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent)
 
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
-    toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
-    connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
+    if(!embedded){
+        toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
+        connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
 
 
-    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
-    connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
+        toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+        connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
+    }
+    else{
+        toolWizard->hide();
+        toolExit->hide();
+    }
 }
 
 CDiaryEditWidget::~CDiaryEditWidget()
@@ -377,7 +384,7 @@ void CDiaryEditWidget::cursorPositionChanged()
 
 void CDiaryEditWidget::setWindowModified(bool yes)
 {
-    if(yes){
+    if(yes && !embedded){
         emit CDiaryDB::self().sigModified();
         emit CDiaryDB::self().sigChanged();
     }

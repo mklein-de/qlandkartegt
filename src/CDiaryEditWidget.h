@@ -63,8 +63,10 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 {
     Q_OBJECT;
     public:
-        CDiaryEditWidget(const QString& text, QWidget * parent);
+        CDiaryEditWidget(const QString& text, QWidget * parent,  bool embedded = false);
         virtual ~CDiaryEditWidget();
+
+        QString getHtml(){return textEdit->toHtml();}
 
     private slots:
         void textBold();
@@ -104,6 +106,8 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         QAction * actionCut;
         QAction * actionCopy;
         QAction * actionPaste;
+
+        bool embedded;
 
 };
 

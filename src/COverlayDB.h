@@ -53,6 +53,9 @@ class COverlayDB : public IDB
         /// get iterator access to track point list
         QMap<QString,IOverlay*> ::iterator end(){return overlays.end();}
 
+        /// delete several overlays by their keys
+        void delOverlays(const QStringList& keys);
+
         void addText(const QRect& rect);
         void addTextBox(const QPointF& anchor, const QRect& rect);
 

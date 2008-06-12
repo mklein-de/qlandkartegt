@@ -19,12 +19,15 @@
 
 #include "IOverlay.h"
 
+#include <QtGui>
+
 IOverlay * IOverlay::selected = 0;
 
 IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 : QObject(parent)
 , type(type)
 , icon(icon)
+, key(QString("%1_%2").arg(type).arg(QDateTime::currentDateTime().toString()))
 {
 
 }

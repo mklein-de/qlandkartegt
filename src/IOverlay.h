@@ -47,6 +47,7 @@ class IOverlay : public QObject
 
         const QString type;
         const QPixmap icon;
+        const QString key;
 
     protected:
         static IOverlay * selected;
