@@ -18,14 +18,21 @@
 **********************************************************************************************/
 
 #include "COverlayText.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
 COverlayText::COverlayText(const QRect& rect, QObject * parent)
 : IOverlay(parent, "Text", QPixmap(":/icons/iconText16x16"))
 , rect(rect)
+, doMove(false)
+, doSize(false)
 {
-
+    rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+    rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+    rectEdit = QRect(rect.topRight()    - QPoint(36,-2), QSize(16, 16));
+    rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
 }
 
 COverlayText::~COverlayText()
@@ -44,8 +51,43 @@ void COverlayText::draw(QPainter& p)
         p.setPen(QPen(Qt::red, 2));
         p.drawRect(rect);
 
-        p.drawPixmap(rect.topLeft() + QPoint(2,2), QPixmap(":/icons/iconMoveMap16x16.png"));
-        p.drawPixmap(rect.bottomRight() - QPoint(16,16), QPixmap(":/icons/iconSize16x16.png"));
+        p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
+        p.drawPixmap(rectSize, QPixmap(":/icons/iconSize16x16.png"));
+        p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
+        p.drawPixmap(rectEdit, QPixmap(":/icons/iconEdit16x16.png"));
     }
+}
+
+void COverlayText::mouseMoveEvent(QMouseEvent * e)
+{
+    if(doMove){
+        rect.moveTopLeft(e->pos());
+        rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+        rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+        rectEdit = QRect(rect.topRight()    - QPoint(36,-2), QSize(16, 16));
+        rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+        theMainWindow->getCanvas()->update();
+    }
+    else if(doSize){
+        rect.setBottomRight(e->pos());
+        rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+        theMainWindow->getCanvas()->update();
+    }
+}
+
+void COverlayText::mousePressEvent(QMouseEvent * e)
+{
+    if(rectMove.contains(e->pos())){
+        doMove = true;
+    }
+    else if(rectSize.contains(e->pos())){
+        doSize = true;
+    }
+}
+
+void COverlayText::mouseReleaseEvent(QMouseEvent * e)
+{
+
+    doSize = doMove = false;
 }
 

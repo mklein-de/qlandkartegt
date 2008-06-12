@@ -233,26 +233,30 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
 {
     IOverlay * oldOverlay = selOverlay;
 
-    QMap<QString, IOverlay*>::const_iterator overlay = COverlayDB::self().begin();
-    while(overlay != COverlayDB::self().end()){
-        if((*overlay)->getRect().contains(e->pos())) break;
-        ++overlay;
-    }
+    if(!selOverlay || !selOverlay->mouseActionInProgress()){
 
-    if(overlay != COverlayDB::self().end()){
-        (*overlay)->select(*overlay);
-        selOverlay = *overlay;
-    }
-    else{
-        (*overlay)->select(0);
-        selOverlay = 0;
+        QMap<QString, IOverlay*>::const_iterator overlay = COverlayDB::self().begin();
+        while(overlay != COverlayDB::self().end()){
+            if((*overlay)->getRect().contains(e->pos())) break;
+            ++overlay;
+        }
+
+        if(overlay != COverlayDB::self().end()){
+            (*overlay)->select(*overlay);
+            selOverlay = *overlay;
+        }
+        else{
+            (*overlay)->select(0);
+            selOverlay = 0;
+        }
+
     }
 
     if(oldOverlay != selOverlay){
         if(selOverlay){
             canvas->setMouseMode(CCanvas::eMouseOverlay);
         }
-        else{
+        else {
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
         canvas->update();

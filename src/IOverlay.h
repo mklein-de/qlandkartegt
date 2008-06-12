@@ -23,6 +23,7 @@
 #include <QPixmap>
 
 class QPainter;
+class QMouseEvent;
 
 class IOverlay : public QObject
 {
@@ -34,6 +35,13 @@ class IOverlay : public QObject
         virtual void draw(QPainter& p) = 0;
         virtual QString getInfo(){return tr("No info set");}
         virtual QRect getRect() = 0;
+
+        virtual bool mouseActionInProgress(){return false;}
+
+        virtual void mouseMoveEvent(QMouseEvent * e){};
+        virtual void mousePressEvent(QMouseEvent * e){};
+        virtual void mouseReleaseEvent(QMouseEvent * e){};
+
 
         void select(IOverlay * s){selected = s;}
 

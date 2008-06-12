@@ -18,6 +18,9 @@
 **********************************************************************************************/
 
 #include "CMouseOverlay.h"
+#include "IOverlay.h"
+
+#include <QtGui>
 
 CMouseOverlay::CMouseOverlay(CCanvas * canvas)
 : IMouse(canvas)
@@ -33,14 +36,17 @@ CMouseOverlay::~CMouseOverlay()
 void CMouseOverlay::mouseMoveEvent(QMouseEvent * e)
 {
     mouseMoveEventOverlay(e);
+    if(selOverlay) selOverlay->mouseMoveEvent(e);
 }
 
 void CMouseOverlay::mousePressEvent(QMouseEvent * e)
 {
+    if(selOverlay) selOverlay->mousePressEvent(e);
 }
 
 void CMouseOverlay::mouseReleaseEvent(QMouseEvent * e)
 {
+    if(selOverlay) selOverlay->mouseReleaseEvent(e);
 }
 
 

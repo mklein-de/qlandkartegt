@@ -31,10 +31,23 @@ class COverlayText : public IOverlay
         virtual ~COverlayText();
 
         QRect getRect(){return rect;}
-
         void draw(QPainter& p);
+
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+
+        bool mouseActionInProgress(){return doMove || doSize;}
+
     public:
         QRect rect;
+        QRect rectMove;
+        QRect rectSize;
+        QRect rectEdit;
+        QRect rectDel;
+
+        bool doMove;
+        bool doSize;
 };
 
 #endif //COVERLAYTEXT_H
