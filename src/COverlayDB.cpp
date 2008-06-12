@@ -82,6 +82,8 @@ void COverlayDB::addText(const QRect& rect)
     IOverlay * overlay = new COverlayText(rect, this);
     overlays[overlay->key] = overlay;
 
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+
     emit sigChanged();
 }
 

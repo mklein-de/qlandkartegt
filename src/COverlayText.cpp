@@ -52,6 +52,20 @@ COverlayText::~COverlayText()
 
 }
 
+QString COverlayText::getInfo()
+{
+    QString text = doc->toPlainText();
+    if(text.isEmpty()){
+        return tr("no text");
+    }
+    else if(text.length() < 40){
+        return text;
+    }
+    else{
+        return text.left(37) + "...";
+    }
+}
+
 void COverlayText::draw(QPainter& p)
 {
     p.setBrush(Qt::white);
@@ -129,6 +143,7 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
         dlg.exec();
         doc->setHtml(sometext);
         theMainWindow->getCanvas()->update();
+        emit sigChanged();
     }
     else if(rectDel.contains(e->pos())){
         QStringList keys(key);

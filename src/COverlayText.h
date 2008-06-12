@@ -41,6 +41,8 @@ class COverlayText : public IOverlay
 
         bool mouseActionInProgress(){return doMove || doSize;}
 
+        QString getInfo();
+
     public:
         QRect rect;
         QRect rectMove;

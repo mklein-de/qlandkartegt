@@ -49,6 +49,9 @@ class IOverlay : public QObject
         const QPixmap icon;
         const QString key;
 
+    signals:
+        void sigChanged();
+
     protected:
         static IOverlay * selected;
 };
