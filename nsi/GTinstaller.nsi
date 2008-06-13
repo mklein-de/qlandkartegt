@@ -26,9 +26,6 @@
   ;Request application privileges for Windows Vista
   RequestExecutionLevel user  
 
-  ReserveFile "${NSISDIR}\Plugins\InstallOptions.dll"
-  ReserveFile "GTInstaller.ini"
-
 ;------------------------------------------------------------------------
 ; Moder UI definition   	   					                                  -
 ;------------------------------------------------------------------------
@@ -68,15 +65,6 @@ Var StartMenuFolder
 ; Language settings
 !insertmacro MUI_LANGUAGE "English"
 
-Function .onInit
-
-  ;Extract InstallOptions files
-  ;$PLUGINSDIR will automatically be removed when the installer closes
-  
-  InitPluginsDir
-  File /oname=GTInstaller.ini "GTInstaller.ini"
-  
-FunctionEnd
 
 ;------------------------------------------------------------------------
 ; Component add		   	   					                                      -
@@ -114,12 +102,6 @@ FunctionEnd
     ; Set environment variable
 
     ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
-    StrCmp $0 "" 0 +6
-      ReadRegStr $0 HKCU "Software\FWtools" Install_Dir
-      StrCmp $0 "" 0 +4
-      InstallOptions::dialog "GTInstaller.ini"
-      ReadINIStr $2 "GTInstaller.ini" "FWTools" "State"
-      StrCpy $0 $2    
     !define FWTOOLS_DIR $0
     Push FWTOOLS_DIR
     Push '${FWTOOLS_DIR}'
@@ -163,9 +145,9 @@ FunctionEnd
   LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."
 
   Section "MSVC 8.0" MSVC
-   	;File Files\msvcm80.dll
-  	;File Files\msvcp80.dll
-  	;File Files\msvcr80.dll
+   	File Files\msvcm80.dll
+  	File Files\msvcp80.dll
+  	File Files\msvcr80.dll
   	SetOutPath $INSTDIR
   SectionEnd
   LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."

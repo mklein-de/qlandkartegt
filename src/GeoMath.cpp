@@ -22,7 +22,9 @@
 #include <QtGui>
 
 #if WIN32
+#include <math.h>
 #include <float.h>
+typedef __int32 int32_t;
 #define isnan _isnan
 #define FP_NAN NAN
 #endif
@@ -43,7 +45,7 @@ bool GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
 void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& deg)
 {
 
-    deg = fabs(d) + m / 60.0;
+    deg = abs(d) + m / 60.0;
     if(sign) {
         deg = -deg;
     }

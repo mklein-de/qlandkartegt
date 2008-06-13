@@ -16,7 +16,6 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-
 #include "CCopyright.h"
 #include "version.h"
 #include <gdal.h>
