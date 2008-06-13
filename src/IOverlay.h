@@ -42,7 +42,6 @@ class IOverlay : public QObject
         virtual void mousePressEvent(QMouseEvent * e){};
         virtual void mouseReleaseEvent(QMouseEvent * e){};
 
-
         void select(IOverlay * s){selected = s;}
 
         const QString type;

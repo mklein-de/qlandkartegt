@@ -25,12 +25,13 @@
 
 #include <QtGui>
 
-COverlayText::COverlayText(const QRect& rect, QObject * parent)
+COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * parent)
 : IOverlay(parent, "Text", QPixmap(":/icons/iconText16x16"))
 , rect(rect)
 , doMove(false)
 , doSize(false)
 , doSpecialCursor(false)
+, sometext(text)
 
 {
     rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));

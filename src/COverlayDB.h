@@ -56,7 +56,7 @@ class COverlayDB : public IDB
         /// delete several overlays by their keys
         void delOverlays(const QStringList& keys);
 
-        void addText(const QRect& rect);
+        void addText(const QString& text, const QRect& rect);
         void addTextBox(const QPointF& anchor, const QRect& rect);
 
     private:

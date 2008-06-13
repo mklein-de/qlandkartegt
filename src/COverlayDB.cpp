@@ -21,6 +21,8 @@
 #include "COverlayToolWidget.h"
 #include "COverlayText.h"
 #include "COverlayTextBox.h"
+#include "CQlb.h"
+#include "CGpx.h"
 
 #include <QtGui>
 
@@ -48,10 +50,62 @@ void COverlayDB::draw(QPainter& p, const QRect& r)
 
 void COverlayDB::loadGPX(CGpx& gpx)
 {
+    const QDomNodeList& ovls = gpx.elementsByTagName("overlays");
+    uint N = ovls.count();
+    for(uint n = 0; n < N; ++n) {
+        const QDomNode& ovl = ovls.item(n);
+
+        QDomElement element = ovl.firstChildElement();
+        while (!element.isNull()){
+            QString type = element.tagName();
+            if(type == "text"){
+                int top     = element.attribute("top","0").toInt();
+                int left    = element.attribute("left","0").toInt();
+                int width   = element.attribute("width","0").toInt();
+                int height  = element.attribute("height","0").toInt();
+
+                QRect rect(left, top, width, height);
+                if(rect.isValid()){
+                    qDebug() << "text" << rect;
+                    QString text = element.text();
+                    addText(text,rect);
+                }
+            }
+
+            element = element.nextSiblingElement();
+        }
+    }
 }
 
 void COverlayDB::saveGPX(CGpx& gpx)
 {
+    QDomElement root        = gpx.documentElement();
+
+    QDomElement extensions  = gpx.createElement("extensions");
+    root.appendChild(extensions);
+
+    QDomElement _overlay_   = gpx.createElement("overlays");
+    extensions.appendChild(_overlay_);
+
+    IOverlay * overlay;
+    foreach(overlay, overlays){
+
+        if(overlay->type == "Text"){
+            COverlayText * overlaytext = qobject_cast<COverlayText*>(overlay);
+            if(overlaytext == 0) continue;
+
+            QDomElement text  = gpx.createElement("text");
+            _overlay_.appendChild(text);
+
+            text.setAttribute("top", overlaytext->rect.top());
+            text.setAttribute("left", overlaytext->rect.left());
+            text.setAttribute("width", overlaytext->rect.width());
+            text.setAttribute("height", overlaytext->rect.height());
+
+            QDomText _text_ = gpx.createTextNode(overlaytext->sometext);
+            text.appendChild(_text_);
+        }
+    }
 }
 
 void COverlayDB::loadQLB(CQlb& qlb)
@@ -77,9 +131,9 @@ void COverlayDB::delOverlays(const QStringList& keys)
     emit sigChanged();
 }
 
-void COverlayDB::addText(const QRect& rect)
+void COverlayDB::addText(const QString& text, const QRect& rect)
 {
-    IOverlay * overlay = new COverlayText(rect, this);
+    IOverlay * overlay = new COverlayText(text, rect, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));

@@ -332,9 +332,11 @@ void CMainWindow::slotLoadData()
         }
     }
 
+    CMapDB::self().clear();
     CWptDB::self().clear();
     CTrackDB::self().clear();
     CDiaryDB::self().clear();
+    COverlayDB::self().clear();
 
     loadData(filename, filter);
 
@@ -390,16 +392,20 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         if(ext == "QLB") {
             CQlb qlb(this);
             qlb.load(filename);
+            CMapDB::self().loadQLB(qlb);
             CWptDB::self().loadQLB(qlb);
             CTrackDB::self().loadQLB(qlb);
             CDiaryDB::self().loadQLB(qlb);
+            COverlayDB::self().loadQLB(qlb);
         }
         else if(ext == "GPX") {
             CGpx gpx(this);
             gpx.load(filename);
+            CMapDB::self().loadGPX(gpx);
             CWptDB::self().loadGPX(gpx);
             CTrackDB::self().loadGPX(gpx);
             CDiaryDB::self().loadGPX(gpx);
+            COverlayDB::self().loadGPX(gpx);
         }
 
         wksFile = filename;
@@ -476,16 +482,20 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
     {
         if(ext == "QLB") {
             CQlb qlb(this);
+            CMapDB::self().saveQLB(qlb);
             CWptDB::self().saveQLB(qlb);
             CTrackDB::self().saveQLB(qlb);
             CDiaryDB::self().saveQLB(qlb);
+            COverlayDB::self().saveQLB(qlb);
             qlb.save(filename);
         }
         else if(ext == "GPX") {
             CGpx gpx(this);
+            CMapDB::self().saveGPX(gpx);
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);
             CDiaryDB::self().saveGPX(gpx);
+            COverlayDB::self().saveGPX(gpx);
             gpx.save(filename);
         }
 

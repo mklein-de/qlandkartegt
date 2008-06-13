@@ -29,7 +29,7 @@ class COverlayText : public IOverlay
 {
     Q_OBJECT;
     public:
-        COverlayText(const QRect& rect, QObject * parent);
+        COverlayText(const QString& text, const QRect& rect, QObject * parent);
         virtual ~COverlayText();
 
         QRect getRect(){return rect;}

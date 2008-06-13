@@ -70,7 +70,7 @@ void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
         if(selArea){
             resizeRect(e->pos());
             selArea     = false;
-            COverlayDB::self().addText(rect);
+            COverlayDB::self().addText("",rect);
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
     }
