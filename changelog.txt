@@ -1,3 +1,28 @@
+--- 2008.06.13 ---
+
+Request #50:
+Add ascend and descend values to secondary track information 
+
+Request #51:
+Add eleveation from DEM data to elevation plot as reference
+
+Request #52:
+Add Mercator projection to NoMap to display overlays without map
+
+Request #53:
+Make mouse wheel direction an option
+
+Bug     #54:
+fixed bug in coord. calc. for W1° < lon < 0, S1° < lat < 0
+
+Request #55:
+Add handler for simple graphical elements (overlays)
+
+Request #56:
+Add a fixed text box to overlays
+
+
+
 --- 2008.05.30 ---
 
 Request #41:
@@ -164,6 +189,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
