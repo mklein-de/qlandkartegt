@@ -159,3 +159,14 @@ void COverlayText::mouseReleaseEvent(QMouseEvent * e)
     doSize = doMove = false;
 }
 
+void COverlayText::save(QDataStream& s)
+{
+    s << rect << sometext;
+}
+
+void COverlayText::load(QDataStream& s)
+{
+    s >> rect >> sometext;
+}
+
+

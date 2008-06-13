@@ -21,6 +21,7 @@
 #include "CWpt.h"
 #include "CTrack.h"
 #include "CDiary.h"
+#include "IOverlay.h"
 
 #include <QtCore>
 
@@ -62,6 +63,14 @@ CQlb& CQlb::operator <<(CDiary& dry)
     return *this;
 }
 
+CQlb& CQlb::operator <<(IOverlay& ovl)
+{
+    QDataStream stream(&ovls, QIODevice::Append);
+    stream << ovl;
+
+    return *this;
+}
+
 
 void CQlb::load(const QString& filename)
 {
@@ -88,6 +97,10 @@ void CQlb::load(const QString& filename)
                 stream >> drys;
                 break;
 
+            case eOverlay:
+                stream >> ovls;
+                break;
+
             default:
                 file.close();
                 return;
@@ -109,6 +122,7 @@ void CQlb::save(const QString& filename)
     stream << (qint32)eWpt << wpts;
     stream << (qint32)eTrack << trks;
     stream << (qint32)eDiary << drys;
+    stream << (qint32)eOverlay << ovls;
     stream << (qint32)eEnd;
 
     file.close();

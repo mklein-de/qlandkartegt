@@ -39,6 +39,9 @@ class COverlayText : public IOverlay
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
+        void save(QDataStream& s);
+        void load(QDataStream& s);
+
         bool mouseActionInProgress(){return doMove || doSize;}
 
         QString getInfo();

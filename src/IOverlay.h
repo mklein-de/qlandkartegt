@@ -24,6 +24,8 @@
 
 class QPainter;
 class QMouseEvent;
+class QFile;
+class COverlayDB;
 
 class IOverlay : public QObject
 {
@@ -31,6 +33,8 @@ class IOverlay : public QObject
     public:
         IOverlay(QObject * parent, const QString& type, const QPixmap& icon);
         virtual ~IOverlay();
+
+        enum type_e {eEnd,eBase};
 
         virtual void draw(QPainter& p) = 0;
         virtual QString getInfo(){return tr("No info set");}
@@ -41,6 +45,9 @@ class IOverlay : public QObject
         virtual void mouseMoveEvent(QMouseEvent * e){};
         virtual void mousePressEvent(QMouseEvent * e){};
         virtual void mouseReleaseEvent(QMouseEvent * e){};
+
+        virtual void save(QDataStream& s){};
+        virtual void load(QDataStream& s){};
 
         void select(IOverlay * s){selected = s;}
 
@@ -54,6 +61,13 @@ class IOverlay : public QObject
     protected:
         static IOverlay * selected;
 };
+
+QDataStream& operator >>(QDataStream& s, COverlayDB& db);
+QDataStream& operator <<(QDataStream& s, IOverlay& ovl);
+
+void operator >>(QFile& f, COverlayDB& db);
+void operator <<(QFile& f, IOverlay& ovl);
+
 
 #endif //IOVERLAY_H
 

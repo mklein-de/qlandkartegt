@@ -110,10 +110,21 @@ void COverlayDB::saveGPX(CGpx& gpx)
 
 void COverlayDB::loadQLB(CQlb& qlb)
 {
+    QDataStream stream(&qlb.overlays(),QIODevice::ReadOnly);
+
+    while(!stream.atEnd()) {
+        stream >> *this;
+    }
+
+    emit sigChanged();
 }
 
 void COverlayDB::saveQLB(CQlb& qlb)
 {
+    IOverlay * overlay;
+    foreach(overlay, overlays){
+        qlb << *overlay;
+    }
 }
 
 void COverlayDB::clear()
