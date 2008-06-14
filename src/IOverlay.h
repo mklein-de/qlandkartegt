@@ -72,6 +72,9 @@ class IOverlay : public QObject
         /// set the static selected pointer
         void select(IOverlay * s){selected = s;}
 
+        /// move map to make overlay visible
+        virtual void makeVisible(){};
+
         /// the overlay type as string
         const QString type;
         /// the overlay icon

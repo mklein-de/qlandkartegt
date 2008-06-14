@@ -301,3 +301,7 @@ void COverlayTextBox::mouseReleaseEvent(QMouseEvent * e)
     doSize = doMove = doPos = false;
 }
 
+void COverlayTextBox::makeVisible()
+{
+    theMainWindow->getCanvas()->move(lon * RAD_TO_DEG, lat * RAD_TO_DEG);
+}

@@ -32,6 +32,7 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Draw"));
 
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
+    connect(listOverlays,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 }
 
 COverlayToolWidget::~COverlayToolWidget()
@@ -52,4 +53,16 @@ void COverlayToolWidget::slotDBChanged()
         item->setData(Qt::UserRole, overlay.key());
         ++overlay;
     }
+}
+
+void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
+{
+    QString key = item->data(Qt::UserRole).toString();
+    QMap<QString,IOverlay*>& overlays = COverlayDB::self().overlays;
+    if(!overlays.contains(key)){
+        return;
+    }
+
+    overlays[key]->makeVisible();
+
 }

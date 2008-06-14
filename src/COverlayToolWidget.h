@@ -34,6 +34,7 @@ class COverlayToolWidget : public QWidget, private Ui::IOverlayToolWidget
 
     private slots:
         void slotDBChanged();
+        void slotItemDoubleClicked(QListWidgetItem * item);
 };
 
 #endif //COVERLAYTOOLWIDGET_H

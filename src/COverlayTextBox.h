@@ -50,6 +50,8 @@ class COverlayTextBox : public IOverlay
 
         QString getInfo();
 
+        void makeVisible();
+
     private:
         friend class COverlayDB;
         /// anchor point longitude [rad]
