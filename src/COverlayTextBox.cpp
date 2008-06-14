@@ -23,6 +23,7 @@
 #include "CCanvas.h"
 #include "COverlayDB.h"
 #include "CDlgEditText.h"
+#include "GeoMath.h"
 
 
 #include <QtGui>
@@ -73,6 +74,9 @@ QPolygon COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 
         w = w > 100 ? 100 : w;
         h = h > 100 ? 100 : h;
+
+        w = w < 20 ? 20 : w;
+        h = h < 20 ? 20 : h;
 
         if(anchor.x() < r.left()){
             poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
@@ -147,15 +151,17 @@ QRect COverlayTextBox::getRect()
 
 QString COverlayTextBox::getInfo()
 {
-    QString text = doc->toPlainText();
-    if(text.isEmpty()){
-        return tr("no text");
-    }
-    else if(text.length() < 40){
+    QString text;
+
+    GPS_Math_Deg_To_Str(lon * RAD_TO_DEG, lat * RAD_TO_DEG, text);
+
+    text += "\n" + doc->toPlainText();
+
+    if(text.length() < 60){
         return text;
     }
     else{
-        return text.left(37) + "...";
+        return text.left(57) + "...";
     }
 }
 
