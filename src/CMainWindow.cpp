@@ -184,6 +184,7 @@ void CMainWindow::clearAll()
         CWptDB::self().clear();
         CTrackDB::self().clear();
         CDiaryDB::self().clear();
+        COverlayDB::self().clear();
         clear();
     }
 }

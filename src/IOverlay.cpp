@@ -64,12 +64,21 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 QString type;
+
                 s1 >> type;
                 if(type == "Text"){
                     QRect rect;
                     QString text;
                     s1 >> rect >> text;
                     db.addText(text,rect);
+                }
+                else if(type == "TextBox"){
+                    QRect rect;
+                    QPoint pt;
+                    QString text;
+                    double lon, lat;
+                    s1 >> lon >> lat >> pt >> rect >> text;
+                    db.addTextBox(text, lon, lat, pt, rect);
                 }
                 break;
             }

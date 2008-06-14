@@ -24,10 +24,11 @@
 
 #include <QMap>
 
-class QPointF;
+class QPoint;
 class QRect;
 class IOverlay;
 class QPainter;
+class QString;
 
 class COverlayDB : public IDB
 {
@@ -57,7 +58,7 @@ class COverlayDB : public IDB
         void delOverlays(const QStringList& keys);
 
         void addText(const QString& text, const QRect& rect);
-        void addTextBox(const QPointF& anchor, const QRect& rect);
+        void addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
 
     private:
         friend class CMainWindow;

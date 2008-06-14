@@ -43,7 +43,6 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
 
     doc = new QTextDocument(this);
     doc->setHtml(sometext);
-
     doc->setPageSize(rectDoc.size());
 
 }
@@ -51,6 +50,15 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
 COverlayText::~COverlayText()
 {
 
+}
+
+QRect COverlayText::getRect()
+{
+    QRect r =rect;
+    r.setTopLeft(r.topLeft() - QPoint(8,8));
+    r.setBottomRight(r.bottomRight() + QPoint(8,8));
+
+    return r;
 }
 
 QString COverlayText::getInfo()

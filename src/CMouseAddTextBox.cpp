@@ -50,7 +50,7 @@ void CMouseAddTextBox::draw(QPainter& p)
     if(selAnchor){
         p.setBrush(Qt::white);
         p.setPen(Qt::black);
-        p.drawPolygon(COverlayTextBox::polygon(anchor.x(), anchor.y(), rect));
+        p.drawPolygon(COverlayTextBox::makePolyline(anchor, rect));
     }
 }
 
@@ -78,9 +78,9 @@ void CMouseAddTextBox::mousePressEvent(QMouseEvent * e)
 
             double u = anchor.x();
             double v = anchor.y();
-
             CMapDB::self().getMap().convertPt2Rad(u,v);
-            COverlayDB::self().addTextBox(QPointF(u,v), rect);
+
+            COverlayDB::self().addTextBox("", u, v, anchor, rect);
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
     }

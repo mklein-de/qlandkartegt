@@ -25,6 +25,7 @@
 #include "CGpx.h"
 
 #include <QtGui>
+#include <projects.h>
 
 COverlayDB * COverlayDB::m_self = 0;
 
@@ -66,9 +67,24 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
                 QRect rect(left, top, width, height);
                 if(rect.isValid()){
-                    qDebug() << "text" << rect;
                     QString text = element.text();
                     addText(text,rect);
+                }
+            }
+            else if(type == "textbox"){
+                int top     = element.attribute("top","0").toInt();
+                int left    = element.attribute("left","0").toInt();
+                int width   = element.attribute("width","0").toInt();
+                int height  = element.attribute("height","0").toInt();
+                int anchorx = element.attribute("anchorx","0").toInt();
+                int anchory = element.attribute("anchory","0").toInt();
+                double lon  = element.attribute("lon","0").toDouble() * DEG_TO_RAD;
+                double lat  = element.attribute("lat","0").toDouble() * DEG_TO_RAD;
+
+                QRect rect(left, top, width, height);
+                if(rect.isValid()){
+                    QString text = element.text();
+                    addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
                 }
             }
 
@@ -103,6 +119,25 @@ void COverlayDB::saveGPX(CGpx& gpx)
             text.setAttribute("height", overlaytext->rect.height());
 
             QDomText _text_ = gpx.createTextNode(overlaytext->sometext);
+            text.appendChild(_text_);
+        }
+        else if(overlay->type == "TextBox"){
+            COverlayTextBox * ovl = qobject_cast<COverlayTextBox*>(overlay);
+            if(ovl == 0) continue;
+
+            QDomElement text  = gpx.createElement("textbox");
+            _overlay_.appendChild(text);
+
+            text.setAttribute("top", ovl->rect.top());
+            text.setAttribute("left", ovl->rect.left());
+            text.setAttribute("width", ovl->rect.width());
+            text.setAttribute("height", ovl->rect.height());
+            text.setAttribute("anchorx", ovl->pt.x());
+            text.setAttribute("anchory", ovl->pt.y());
+            text.setAttribute("lon", ovl->lon * RAD_TO_DEG);
+            text.setAttribute("lat", ovl->lat * RAD_TO_DEG);
+
+            QDomText _text_ = gpx.createTextNode(ovl->text);
             text.appendChild(_text_);
         }
     }
@@ -152,9 +187,10 @@ void COverlayDB::addText(const QString& text, const QRect& rect)
     emit sigChanged();
 }
 
-void COverlayDB::addTextBox(const QPointF& anchor, const QRect& rect)
+void COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
 {
-    IOverlay * overlay = new COverlayTextBox(anchor, rect, this);
+
+    IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
     overlays[overlay->key] = overlay;
 
     emit sigChanged();

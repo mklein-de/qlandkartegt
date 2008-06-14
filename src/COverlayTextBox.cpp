@@ -19,15 +19,41 @@
 
 #include "COverlayTextBox.h"
 #include "CMapDB.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
+#include "COverlayDB.h"
+#include "CDlgEditText.h"
+
 
 #include <QtGui>
 
-COverlayTextBox::COverlayTextBox(const QPointF& anchor, const QRect& rect, QObject * parent)
+COverlayTextBox::COverlayTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& r, QObject * parent)
 : IOverlay(parent, "TextBox", QPixmap(":/icons/iconTextBox16x16"))
-, u(anchor.x())
-, v(anchor.y())
-, rect(rect)
+, lon(lon)
+, lat(lat)
+, rect(r)
+, pt(anchor)
+, text(text)
+, doMove(false)
+, doSize(false)
+, doPos(false)
+, doSpecialCursor(false)
 {
+    rect.translate(-anchor);
+    pt = QPoint(0,0);
+
+    polyline = makePolyline(pt, rect);
+
+    rectMove    = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+    rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
+    rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+    rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+    rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+    rectAnchor  = QRect(QPoint(-7,-7), QSize(16, 16));
+
+    doc = new QTextDocument(this);
+    doc->setHtml(text);
+    doc->setPageSize(rectDoc.size());
 
 }
 
@@ -36,29 +62,29 @@ COverlayTextBox::~COverlayTextBox()
 
 }
 
-QPolygon COverlayTextBox::polygon(int x, int y, const QRect& r)
+QPolygon COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 {
     QPolygon poly1, poly2;
     poly1 << r.topLeft() << r.topRight() << r.bottomRight() << r.bottomLeft();
 
-    if(!r.contains(x,y)){
+    if(!r.contains(anchor)){
         int w = (r.width()>>1) - 50;
         int h = (r.height()>>1) - 50;
 
         w = w > 100 ? 100 : w;
         h = h > 100 ? 100 : h;
 
-        if(x < r.left()){
-            poly2 << QPoint(x,y) << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
+        if(anchor.x() < r.left()){
+            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
         }
-        else if(r.right() < x){
-            poly2 << QPoint(x,y) << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
+        else if(r.right() < anchor.x()){
+            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
         }
-        else if(y < r.top()){
-            poly2 << QPoint(x,y) << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
+        else if(anchor.y() < r.top()){
+            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
         }
-        else if(r.bottom() < y){
-            poly2 << QPoint(x,y) << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
+        else if(r.bottom() < anchor.y()){
+            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
         }
 
         poly1 = poly1.united(poly2);
@@ -69,13 +95,199 @@ QPolygon COverlayTextBox::polygon(int x, int y, const QRect& r)
 
 void COverlayTextBox::draw(QPainter& p)
 {
-    double x = u;
-    double y = v;
+    double x = lon;
+    double y = lat;
 
     CMapDB::self().getMap().convertRad2Pt(x,y);
+    p.save();
+    p.translate(x,y);
 
-    p.setBrush(Qt::white);
-    p.setPen(Qt::black);
-    p.drawPolygon(polygon(x,y,rect));
+    if(selected == this){
+        p.setBrush(Qt::white);
+        p.setPen(QPen(Qt::red, 2));
+        p.drawPolygon(polyline);
+
+        p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
+        p.drawPixmap(rectSize, QPixmap(":/icons/iconSize16x16.png"));
+        p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
+        p.drawPixmap(rectEdit, QPixmap(":/icons/iconEdit16x16.png"));
+        p.drawPixmap(rectAnchor, QPixmap(":/icons/iconMoveMap16x16.png"));
+    }
+    else{
+        p.setBrush(Qt::white);
+        p.setPen(Qt::black);
+        p.drawPolygon(polyline);
+    }
+
+    p.save();
+    p.setClipRect(rectDoc);
+    p.translate(rectDoc.topLeft());
+    doc->drawContents(&p);
+    p.restore();
+
+    p.restore();
+}
+
+QRect COverlayTextBox::getRect()
+{
+    QPolygon box = polyline;
+
+    double x = lon;
+    double y = lat;
+
+    CMapDB::self().getMap().convertRad2Pt(x,y);
+    box.translate(x,y);
+
+    QRect r = box.boundingRect();
+    r.setTopLeft(r.topLeft() - QPoint(8,8));
+    r.setBottomRight(r.bottomRight() + QPoint(8,8));
+
+    return r;
+}
+
+QString COverlayTextBox::getInfo()
+{
+    QString text = doc->toPlainText();
+    if(text.isEmpty()){
+        return tr("no text");
+    }
+    else if(text.length() < 40){
+        return text;
+    }
+    else{
+        return text.left(37) + "...";
+    }
+}
+
+
+void COverlayTextBox::save(QDataStream& s)
+{
+    s << lon << lat << pt << rect << text;
+}
+
+void COverlayTextBox::load(QDataStream& s)
+{
+    s >> lon >> lat >> pt >> rect >> text;
+}
+
+void COverlayTextBox::mouseMoveEvent(QMouseEvent * e)
+{
+    double x = lon;
+    double y = lat;
+    CMapDB::self().getMap().convertRad2Pt(x,y);
+    QPoint pos = e->pos() - QPoint(x,y);
+
+    if(doMove){
+        rect.moveTopLeft(pos);
+        rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+        rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
+        rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+        rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+
+        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        doc->setPageSize(rectDoc.size());
+
+        polyline = makePolyline(QPoint(0,0), rect);
+
+        theMainWindow->getCanvas()->update();
+    }
+    else if(doSize){
+        rect.setBottomRight(pos);
+        rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+        rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
+        rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+        rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+
+        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        doc->setPageSize(rectDoc.size());
+
+        polyline = makePolyline(QPoint(0,0), rect);
+
+        theMainWindow->getCanvas()->update();
+    }
+    else if(doPos){
+        rectAnchor  = QRect(pos - QPoint(8,8), QSize(16, 16));
+        rectMove    = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+        rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
+        rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+        rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+
+        doc->setPageSize(rectDoc.size());
+
+        polyline = makePolyline(pos, rect);
+
+        theMainWindow->getCanvas()->update();
+    }
+    else if(rectMove.contains(pos) || rectSize.contains(pos) || rectEdit.contains(pos) || rectDel.contains(pos) || rectAnchor.contains(pos)){
+        if(!doSpecialCursor){
+            QApplication::setOverrideCursor(Qt::PointingHandCursor);
+            doSpecialCursor = true;
+        }
+    }
+    else{
+        if(doSpecialCursor){
+            QApplication::restoreOverrideCursor();
+            doSpecialCursor = false;
+        }
+    }
+}
+
+void COverlayTextBox::mousePressEvent(QMouseEvent * e)
+{
+    double x = lon;
+    double y = lat;
+    CMapDB::self().getMap().convertRad2Pt(x,y);
+    QPoint pos = e->pos() - QPoint(x,y);
+
+    if(rectMove.contains(pos)){
+        doMove = true;
+    }
+    else if(rectSize.contains(pos)){
+        doSize = true;
+    }
+    else if(rectAnchor.contains(pos)){
+        doPos = true;
+    }
+    else if(rectEdit.contains(pos)){
+        CDlgEditText dlg(text, theMainWindow->getCanvas());
+        dlg.exec();
+        doc->setHtml(text);
+        theMainWindow->getCanvas()->update();
+        emit sigChanged();
+    }
+    else if(rectDel.contains(pos)){
+        QStringList keys(key);
+        COverlayDB::self().delOverlays(keys);
+        QApplication::restoreOverrideCursor();
+        doSpecialCursor = false;
+    }
+}
+
+void COverlayTextBox::mouseReleaseEvent(QMouseEvent * e)
+{
+    double x = lon;
+    double y = lat;
+    CMapDB::self().getMap().convertRad2Pt(x,y);
+    QPoint pos = e->pos() - QPoint(x,y);
+
+    if(doPos){
+        rect.translate(-pos);
+
+        polyline    = makePolyline(QPoint(0,0), rect);
+
+        rectMove    = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
+        rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
+        rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
+        rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectAnchor  = QRect(QPoint(-9,-9), QSize(16, 16));
+
+        lon = e->pos().x();
+        lat = e->pos().y();
+        CMapDB::self().getMap().convertPt2Rad(lon, lat);
+    }
+
+    doSize = doMove = doPos = false;
 }
 
