@@ -164,7 +164,7 @@ void operator <<(QFile& f, IOverlay& ovl)
 }
 
 
-IOverlay * IOverlay::selected = 0;
+QPointer<IOverlay> IOverlay::selected = 0;
 
 IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 : QObject(parent)

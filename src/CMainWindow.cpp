@@ -114,6 +114,7 @@ CMainWindow::CMainWindow()
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(overlaydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
 
     searchdb->gainFocus();
 

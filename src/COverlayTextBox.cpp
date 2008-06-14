@@ -294,6 +294,10 @@ void COverlayTextBox::mouseReleaseEvent(QMouseEvent * e)
         CMapDB::self().getMap().convertPt2Rad(lon, lat);
     }
 
+    if(doSize || doMove || doPos){
+        emit sigChanged();
+    }
+
     doSize = doMove = doPos = false;
 }
 

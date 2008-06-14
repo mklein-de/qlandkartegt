@@ -164,6 +164,9 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
 
 void COverlayText::mouseReleaseEvent(QMouseEvent * e)
 {
+    if(doSize || doMove){
+        emit sigChanged();
+    }
     doSize = doMove = false;
 }
 

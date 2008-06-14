@@ -175,6 +175,7 @@ void COverlayDB::delOverlays(const QStringList& keys)
         overlay->deleteLater();
     }
     emit sigChanged();
+    emit sigModified();
 }
 
 void COverlayDB::addText(const QString& text, const QRect& rect)
@@ -183,8 +184,10 @@ void COverlayDB::addText(const QString& text, const QRect& rect)
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
 
     emit sigChanged();
+    emit sigModified();
 }
 
 void COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
@@ -193,6 +196,10 @@ void COverlayDB::addTextBox(const QString& text, double lon, double lat, const Q
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
     overlays[overlay->key] = overlay;
 
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
+
     emit sigChanged();
+    emit sigModified();
 }
 

@@ -21,45 +21,69 @@
 
 #include <QObject>
 #include <QPixmap>
+#include <QPointer>
 
 class QPainter;
 class QMouseEvent;
 class QFile;
 class COverlayDB;
 
+/// base class for any kind of overlays other than waypoints, tracks or routes
 class IOverlay : public QObject
 {
     Q_OBJECT;
     public:
+        /**
+            @param parent pointer to parent object
+            @param type a type string to identify the subclass
+            @param icon an icon to display in a list widget
+        */
         IOverlay(QObject * parent, const QString& type, const QPixmap& icon);
         virtual ~IOverlay();
 
         enum type_e {eEnd,eBase};
 
+        /// draw what ever you want
         virtual void draw(QPainter& p) = 0;
+        /// return a short string to be displayed in a list widget
         virtual QString getInfo(){return tr("No info set");}
+        /// return the rectangle around the graphical content
         virtual QRect getRect() = 0;
-
+        /// return true if some mouse action is in progress
+        /**
+            Some mouse actions will leave the rectangle returend by getRect(). However the
+            cursor state machine must not deselect the overlay in this case. Simply return
+            true, to keep it from deselecting the overlay.
+        */
         virtual bool mouseActionInProgress(){return false;}
 
+        /// get mouse move event when selected
         virtual void mouseMoveEvent(QMouseEvent * e){};
+        /// get mouse press event when selected
         virtual void mousePressEvent(QMouseEvent * e){};
+        /// get mouse release event when selected
         virtual void mouseReleaseEvent(QMouseEvent * e){};
 
+        /// save overlay data to datastream
         virtual void save(QDataStream& s){};
+        /// load overlay data from datastream
         virtual void load(QDataStream& s){};
 
+        /// set the static selected pointer
         void select(IOverlay * s){selected = s;}
 
+        /// the overlay type as string
         const QString type;
+        /// the overlay icon
         const QPixmap icon;
+        /// the unique overlay key used by the database
         const QString key;
 
     signals:
         void sigChanged();
 
     protected:
-        static IOverlay * selected;
+        static QPointer<IOverlay> selected;
 };
 
 QDataStream& operator >>(QDataStream& s, COverlayDB& db);

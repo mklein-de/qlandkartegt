@@ -78,7 +78,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
-    ,{":/icons/iconOverlay16x16",QObject::tr("Draw ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
+    ,{":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
@@ -393,7 +393,7 @@ void CMegaMenu::funcSwitchToLiveLog()
 
 void CMegaMenu::funcSwitchToOverlay()
 {
-    menuTitle->setText(tr("<b>Draw ...</b>"));
+    menuTitle->setText(tr("<b>Overlay ...</b>"));
     setPixmap(QPixmap(":/icons/backOverlay128x128"));
     switchState(fsOverlay);
     COverlayDB::self().gainFocus();
