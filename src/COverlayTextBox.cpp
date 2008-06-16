@@ -132,7 +132,7 @@ void COverlayTextBox::draw(QPainter& p)
     p.restore();
 }
 
-QRect COverlayTextBox::getRect()
+bool COverlayTextBox::isCloseEnought(const QPoint& pt)
 {
     QPolygon box = polyline;
 
@@ -146,7 +146,7 @@ QRect COverlayTextBox::getRect()
     r.setTopLeft(r.topLeft() - QPoint(8,8));
     r.setBottomRight(r.bottomRight() + QPoint(8,8));
 
-    return r;
+    return r.contains(pt);
 }
 
 QString COverlayTextBox::getInfo()

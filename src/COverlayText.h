@@ -32,7 +32,7 @@ class COverlayText : public IOverlay
         COverlayText(const QString& text, const QRect& rect, QObject * parent);
         virtual ~COverlayText();
 
-        QRect getRect();
+        bool isCloseEnought(const QPoint& pt);
         void draw(QPainter& p);
 
         void mouseMoveEvent(QMouseEvent * e);
@@ -55,6 +55,8 @@ class COverlayText : public IOverlay
         QRect rectDel;
 
         QRect rectDoc;
+
+        QRect rectMouse;
 
         bool doMove;
         bool doSize;

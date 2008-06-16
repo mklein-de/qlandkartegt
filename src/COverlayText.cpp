@@ -41,6 +41,10 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
 
     rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
 
+    rectMouse = rect;
+    rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
+    rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
+
     doc = new QTextDocument(this);
     doc->setHtml(sometext);
     doc->setPageSize(rectDoc.size());
@@ -52,13 +56,9 @@ COverlayText::~COverlayText()
 
 }
 
-QRect COverlayText::getRect()
+bool COverlayText::isCloseEnought(const QPoint& pt)
 {
-    QRect r =rect;
-    r.setTopLeft(r.topLeft() - QPoint(8,8));
-    r.setBottomRight(r.bottomRight() + QPoint(8,8));
-
-    return r;
+    return rectMouse.contains(pt);
 }
 
 QString COverlayText::getInfo()
@@ -108,6 +108,10 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
         rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
 
+        rectMouse = rect;
+        rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
+        rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
+
         rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
         doc->setPageSize(rectDoc.size());
 
@@ -119,6 +123,10 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
         rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
         rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
+
+        rectMouse = rect;
+        rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
+        rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
 
         rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
         doc->setPageSize(rectDoc.size());

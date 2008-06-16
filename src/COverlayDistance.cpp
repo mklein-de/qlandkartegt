@@ -17,48 +17,29 @@
 
 **********************************************************************************************/
 
-#include "CMouseAddDistance.h"
-#include "CCanvas.h"
+#include "COverlayDistance.h"
 #include "CMapDB.h"
 #include "IMap.h"
-#include "COverlayDB.h"
-#include <QtGui>
 
-
-CMouseAddDistance::CMouseAddDistance(CCanvas * canvas)
-: IMouse(canvas)
-{
-    cursor = QCursor(QPixmap(":/cursors/cursorDistance"),0,0);
-}
-
-CMouseAddDistance::~CMouseAddDistance()
+COverlayDistance::COverlayDistance(const QVector<XY>& pts, QObject * parent)
+: IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
+, points(pts)
+, doAddPoints(points.size() == 1)
 {
 
 }
 
-void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
+COverlayDistance::~COverlayDistance()
 {
+
 }
 
-void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
+bool COverlayDistance::isCloseEnought(const QPoint& pt)
 {
-    if(e->button() == Qt::LeftButton) {
-        double x = e->pos().x();
-        double y = e->pos().y();
-        CMapDB::self().getMap().convertPt2Rad(x,y);
-        XY pt;
-        pt.u = x;
-        pt.v = y;
-        QVector<XY> pts;
-        pts << pt;
-        COverlayDB::self().addDistance(pts);
-    }
+    return false;
 }
 
-void CMouseAddDistance::mouseReleaseEvent(QMouseEvent * e)
+void COverlayDistance::draw(QPainter& p)
 {
-}
 
-void CMouseAddDistance::draw(QPainter& p)
-{
 }

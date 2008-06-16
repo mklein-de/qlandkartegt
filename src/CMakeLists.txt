@@ -81,6 +81,7 @@ set(qlandkarte_SRCS
     COverlayToolWidget.cpp
     COverlayText.cpp
     COverlayTextBox.cpp
+    COverlayDistance.cpp
 )
 
 IF(WIN32)
@@ -166,6 +167,7 @@ set(qlandkarte_HDRS
     COverlayToolWidget.h
     COverlayText.h
     COverlayTextBox.h
+    COverlayDistance.h
 )
 
 

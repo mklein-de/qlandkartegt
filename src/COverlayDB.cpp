@@ -21,6 +21,7 @@
 #include "COverlayToolWidget.h"
 #include "COverlayText.h"
 #include "COverlayTextBox.h"
+#include "COverlayDistance.h"
 #include "CQlb.h"
 #include "CGpx.h"
 
@@ -194,6 +195,18 @@ void COverlayDB::addTextBox(const QString& text, double lon, double lat, const Q
 {
 
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
+    overlays[overlay->key] = overlay;
+
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
+
+    emit sigChanged();
+    emit sigModified();
+}
+
+void COverlayDB::addDistance(const QVector<XY>& pts)
+{
+    IOverlay * overlay = new COverlayDistance(pts, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));

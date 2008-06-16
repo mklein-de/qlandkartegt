@@ -37,7 +37,7 @@ class COverlayTextBox : public IOverlay
 
         static QPolygon makePolyline(const QPoint& anchor, const QRect& r);
 
-        QRect getRect();
+        bool isCloseEnought(const QPoint& pt);
 
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);

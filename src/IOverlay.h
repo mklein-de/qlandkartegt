@@ -47,8 +47,8 @@ class IOverlay : public QObject
         virtual void draw(QPainter& p) = 0;
         /// return a short string to be displayed in a list widget
         virtual QString getInfo(){return tr("No info set");}
-        /// return the rectangle around the graphical content
-        virtual QRect getRect() = 0;
+        /// return true if coursor is close to the overlay to redirect mouse events into the overlay
+        virtual bool isCloseEnought(const QPoint& pt) = 0;
         /// return true if some mouse action is in progress
         /**
             Some mouse actions will leave the rectangle returend by getRect(). However the

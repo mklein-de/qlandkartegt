@@ -23,6 +23,7 @@
 #include "IDB.h"
 
 #include <QMap>
+#include <projects.h>
 
 class QPoint;
 class QRect;
@@ -59,6 +60,7 @@ class COverlayDB : public IDB
 
         void addText(const QString& text, const QRect& rect);
         void addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
+        void addDistance(const QVector<XY>& pts);
 
     private:
         friend class CMainWindow;
