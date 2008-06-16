@@ -32,6 +32,7 @@
 #include "CMouseCutTrack.h"
 #include "CMouseAddText.h"
 #include "CMouseAddTextBox.h"
+#include "CMouseAddDistance.h"
 #include "CMouseOverlay.h"
 
 #include "CWpt.h"
@@ -65,6 +66,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseCutTrack   = new CMouseCutTrack(this);
     mouseAddText    = new CMouseAddText(this);
     mouseAddTextBox = new CMouseAddTextBox(this);
+    mouseAddDistance= new CMouseAddDistance(this);
     mouseOverlay    = new CMouseOverlay(this);
     setMouseMode(eMouseMoveArea);
 
@@ -140,6 +142,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 
         case eMouseAddTextBox:
             mouse = mouseAddTextBox;
+            break;
+
+        case eMouseAddDistance:
+            mouse = mouseAddDistance;
             break;
 
         case eMouseOverlay:

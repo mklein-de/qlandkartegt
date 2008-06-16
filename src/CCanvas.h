@@ -34,6 +34,7 @@ class CMouseEditWpt;
 class CMouseRefPoint;
 class CMouseAddText;
 class CMouseAddTextBox;
+class CMouseAddDistance;
 class CMouseOverlay;
 class CWpt;
 class QLabel;
@@ -69,6 +70,7 @@ class CCanvas : public QWidget
             //, eMouseDelRte      ///< use mouse to delete route points
             , eMouseAddText      ///< use mouse to define a new text field on the map
             , eMouseAddTextBox   ///< use mouse to define a new text field with anchor on the map
+            , eMouseAddDistance  ///< use mouse to define a new distance polygon
             , eMouseOverlay      ///< use mouse to change overlays
         };
 
@@ -137,6 +139,7 @@ class CCanvas : public QWidget
         CMouseCutTrack * mouseCutTrack;
         CMouseAddText * mouseAddText;
         CMouseAddTextBox * mouseAddTextBox;
+        CMouseAddDistance * mouseAddDistance;
         CMouseOverlay * mouseOverlay;
 
         /// current mouse mode

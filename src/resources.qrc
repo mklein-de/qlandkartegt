@@ -53,6 +53,7 @@
         <file>icons/iconText16x16.png</file>
         <file>icons/iconTextBox16x16.png</file>
         <file>icons/iconSize16x16.png</file>
+        <file>icons/iconDistance16x16.png</file>
 
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>
@@ -92,6 +93,7 @@
         <file>cursors/cursorAdd.png</file>
         <file>cursors/cursorText.png</file>
         <file>cursors/cursorTextBox.png</file>
+        <file>cursors/cursorDistance.png</file>
         <file>cursors/cursorMoveWpt.png</file>
         <file>cursors/cursorEdit.png</file>
         <file>cursors/cursorMoveRefPoint.png</file>

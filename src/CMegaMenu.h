@@ -96,6 +96,7 @@ class CMegaMenu : public QLabel
 
         void funcText();
         void funcTextBox();
+        void funcDistance();
 
         static CMegaMenu * m_self;
 
