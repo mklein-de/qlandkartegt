@@ -41,6 +41,11 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     toolview    = new CMapToolWidget(tb);
 
     defaultMap = new CMapNoMap(theMainWindow->getCanvas());
+    map_t m;
+    m.description       = tr("--- No map ---");
+    m.key               = "NoMap";
+    knownMaps[m.key]    = m;
+
 
     QSettings cfg;
     QString map;
@@ -103,7 +108,7 @@ IMap& CMapDB::getDEM()
 
 void CMapDB::closeVisibleMaps()
 {
-    if(!theMap.isNull()) delete theMap;
+    if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
 }
 
@@ -170,7 +175,12 @@ void CMapDB::openMap(const QString& key)
 
     // create base map
     QString filename = knownMaps[key].filename;
-    theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
+    if(filename.isEmpty()){
+        theMap = defaultMap;
+    }
+    else{
+        theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
+    }
 
     // create DEM map if any
     QSettings mapdef(filename,QSettings::IniFormat);

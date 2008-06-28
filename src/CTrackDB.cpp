@@ -417,15 +417,15 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
 
         // draw bubbles
         QPoint pt;
+        p.setPen((*track)->getColor());
+        p.setBrush(Qt::white);
         foreach(pt,line) {
-            p.setPen((*track)->getColor());
-            p.setBrush(Qt::white);
             p.drawEllipse(pt.x() - 2 ,pt.y() - 2,5,5);
 
         }
+        p.setPen(Qt::black);
+        p.setBrush(Qt::red);
         foreach(pt,selected) {
-            p.setPen(Qt::black);
-            p.setBrush(Qt::red);
             p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
 
         }

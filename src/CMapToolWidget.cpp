@@ -72,6 +72,7 @@ void CMapToolWidget::slotDBChanged()
             ++map;
         }
     }
+    listKnownMaps->sortItems();
 
     listSelectedMaps->clear();
     const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
