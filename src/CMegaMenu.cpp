@@ -155,7 +155,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconText16x16",QObject::tr("Add Static Text Box"),&CMegaMenu::funcText,tr("Add text on the map.")}
     ,{":/icons/iconTextBox16x16",QObject::tr("Add Geo-Ref. Text Box"),&CMegaMenu::funcTextBox,tr("Add a textbox on the map.")}
-    ,{":/icons/iconDistance16x16",QObject::tr("Add Distance Polyline"),&CMegaMenu::funcDistance,tr("Add a polyline to measure distances.")}
+    ,{0,QObject::tr("-"),0,tr("")}//,{":/icons/iconDistance16x16",QObject::tr("Add Distance Polyline"),&CMegaMenu::funcDistance,tr("Add a polyline to measure distances.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
