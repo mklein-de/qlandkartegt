@@ -102,7 +102,9 @@ void CTrackStatWidget::slotChanged()
 
     elevation->newLine(lineElev,focusElev, "GPS");
     elevation->newMarks(marksElev);
-    elevation->addLine(lineDEM, "DEM");
+    if(!lineDEM.isEmpty()){
+        elevation->addLine(lineDEM, "DEM");
+    }
 
     speed->newLine(lineSpeed,focusSpeed, "speed");
     speed->newMarks(marksSpeed);
