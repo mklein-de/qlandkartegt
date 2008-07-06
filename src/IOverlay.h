@@ -87,6 +87,9 @@ class IOverlay : public QObject
 
     protected:
         static QPointer<IOverlay> selected;
+
+    private:
+        static int count;
 };
 
 QDataStream& operator >>(QDataStream& s, COverlayDB& db);
