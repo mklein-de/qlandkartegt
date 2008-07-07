@@ -2,7 +2,6 @@ project(QLandkarteGT)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/./bin)
 
 cmake_minimum_required(VERSION 2.4)
-cmake_policy(SET CMP0005 OLD)
 
 find_package(Qt4 REQUIRED)
 
