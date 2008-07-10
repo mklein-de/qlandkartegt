@@ -21,8 +21,10 @@
 
 #include <QObject>
 #include <QFont>
+#include <QPointer>
 
 class IDevice;
+class IUnit;
 
 /// all global resources
 class CResources : public QObject
@@ -115,5 +117,7 @@ class CResources : public QObject
         QString m_devType;
 
         bool m_flipMouseWheel;
+
+        QPointer<IUnit> unit;
 };
 #endif                           //CRESOURCES_H

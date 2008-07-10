@@ -47,6 +47,8 @@
 #include "GeoMath.h"
 #include "WptIcons.h"
 
+#include "IUnit.h"
+
 #include <QtGui>
 
 CCanvas::CCanvas(QWidget * parent)
@@ -370,7 +372,10 @@ void CCanvas::drawScale(QPainter& p)
     p.setRenderHint(QPainter::Antialiasing,true);
 
     QPoint px3(px2.x() + (px1.x() - px2.x())/2, px2.y());
-    drawText(QString("%1 m").arg(d), p, px3, Qt::black);
+
+    QString val, unit;
+    IUnit::self().meter2distance(d,val,unit);
+    drawText(QString("%1 %2").arg(val).arg(unit), p, px3, Qt::black);
 }
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
@@ -513,7 +518,9 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
         float ele = CMapDB::self().getDEM().getElevation(x,y);
         if(ele != WPT_NOFLOAT) {
-            info += QString(" (ele: %1 m)").arg(ele,0,'f',0);
+            QString val, unit;
+            IUnit::self().meter2elevation(ele, val, unit);
+            info += QString(" (ele: %1 %2)").arg(val).arg(unit);
         }
 
         x *= RAD_TO_DEG;

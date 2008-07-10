@@ -24,6 +24,7 @@
 #include "CMapDB.h"
 #include "GeoMath.h"
 #include "CResources.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -106,19 +107,9 @@ void CMouseMoveWpt::draw(QPainter& p)
         double a1 = 0, a2 = 0, d;
         d = distance(p1,p2,a1,a2);
 
-        QString str;
-
-        if(CResources::self().doMetric()) {
-            if(d > 9999) {
-                str = QString(" %1km %2\260> <%3\260 ").arg(d/1000,0,'f',2).arg(a1,0,'f',0).arg(a2,0,'f',0);
-            }
-            else {
-                str = QString(" %1m %2\260> <%3\260 ").arg(d,0,'f',0).arg(a1,0,'f',0).arg(a2,0,'f',0);
-            }
-        }
-        else {
-            str = QString(" %1ml %2\260> <%3\260 ").arg(d * 0.6213699E-3,0,'f',2).arg(a1,0,'f',0).arg(a2,0,'f',0);
-        }
+        QString str, val, unit;
+        IUnit::self().meter2distance(d, val, unit);
+        str = QString("%1%2 %3\260> <%4\260").arg(val).arg(unit).arg(a1,0,'f',0).arg(a2,0,'f',0);
 
         // draw line between old and new location
         p.setPen(QPen(Qt::white,3));

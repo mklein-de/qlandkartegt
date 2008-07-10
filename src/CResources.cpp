@@ -21,6 +21,7 @@
 #include "CDeviceTBDOE.h"
 #include "CDeviceGarmin.h"
 #include "CLiveLogDB.h"
+#include "CUnitMetric.h"
 
 #include <QtGui>
 
@@ -70,6 +71,8 @@ CResources::CResources(QObject * parent)
     IDevice::m_UploadAllWpt     = cfg.value("device/uplWpt",IDevice::m_UploadAllWpt).toBool();
 
     pathMaps        = cfg.value("path/maps",pathMaps).toString();
+
+    unit = new CUnitMetric(this);
 }
 
 
@@ -131,7 +134,7 @@ IDevice * CResources::device()
         connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));
     }
 
-    // still noe device?
+    // still no device?
     if(!m_device) {
         qWarning() << "no device";
         // TODO: would be nicer to open the setup dialog

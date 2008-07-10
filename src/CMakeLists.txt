@@ -1,6 +1,6 @@
 include( ${QT_USE_FILE})
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE off)
 
 set(qlandkarte_SRCS
     main.cpp
@@ -82,6 +82,8 @@ set(qlandkarte_SRCS
     COverlayText.cpp
     COverlayTextBox.cpp
     COverlayDistance.cpp
+    IUnit.cpp
+    CUnitMetric.cpp
 )
 
 IF(WIN32)
@@ -168,6 +170,8 @@ set(qlandkarte_HDRS
     COverlayText.h
     COverlayTextBox.h
     COverlayDistance.h
+    IUnit.h
+    CUnitMetric.h
 )
 
 
