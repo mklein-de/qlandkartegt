@@ -84,6 +84,7 @@ set(qlandkarte_SRCS
     COverlayDistance.cpp
     IUnit.cpp
     CUnitMetric.cpp
+    CUnitImperial.cpp
 )
 
 IF(WIN32)
@@ -172,6 +173,7 @@ set(qlandkarte_HDRS
     COverlayDistance.h
     IUnit.h
     CUnitMetric.h
+    CUnitImperial.h
 )
 
 

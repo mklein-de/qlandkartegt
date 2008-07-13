@@ -22,6 +22,7 @@
 #include "CDeviceGarmin.h"
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
+#include "CUnitImperial.h"
 
 #include <QtGui>
 
@@ -48,7 +49,7 @@ CResources::CResources(QObject * parent)
     int size        = cfg.value("environment/mapfont/size",8).toInt();
     m_mapfont = QFont(family,size);
 
-    m_doMetric        = cfg.value("environment/doMetric",true).toBool();
+    //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
     m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
 
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
@@ -72,7 +73,16 @@ CResources::CResources(QObject * parent)
 
     pathMaps        = cfg.value("path/maps",pathMaps).toString();
 
-    unit = new CUnitMetric(this);
+    QString unittype = cfg.value("environment/unittype","metric").toString();
+    if(unittype == "metric")
+        unit = new CUnitMetric(this);
+    else if(unittype == "imperial"){
+        unit = new CUnitImperial(this);
+    }
+    else{
+        qWarning("Unknown unit type. Using 'metric'");
+        unit = new CUnitMetric(this);
+    }
 }
 
 
@@ -82,7 +92,6 @@ CResources::~CResources()
 
     cfg.setValue("environment/mapfont/family",m_mapfont.family());
     cfg.setValue("environment/mapfont/size",m_mapfont.pointSize());
-    cfg.setValue("environment/doMetric",m_doMetric);
     cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
 
     cfg.setValue("network/useProxy",m_useHttpProxy);
@@ -102,6 +111,8 @@ CResources::~CResources()
     cfg.setValue("device/dnlTrk",IDevice::m_DownloadAllTrk);
     cfg.setValue("device/dnlWpt",IDevice::m_DownloadAllWpt);
     cfg.setValue("device/uplWpt",IDevice::m_UploadAllWpt);
+
+    cfg.setValue("environment/unittype",unit->type);
 }
 
 

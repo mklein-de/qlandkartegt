@@ -145,7 +145,7 @@ void CTrackEditWidget::slotUpdate()
         // altitude
         if(trkpt->ele != WPT_NOFLOAT) {
 
-            if(CResources::self().doMetric()) {
+            if(true/*CResources::self().doMetric()*/) {
                 str = QString::number(trkpt->ele,'f',0) + "m";
             }
             else {
@@ -158,7 +158,7 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eAltitude,str);
 
         // delta
-        if(CResources::self().doMetric()) {
+        if(true/*CResources::self().doMetric()*/) {
             if(trkpt->delta < 10.0) {
                 str.sprintf("%1.1f m",trkpt->delta);
             }
@@ -181,7 +181,7 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eAzimuth,str);
 
         // distance
-        if(CResources::self().doMetric()) {
+        if(true/*CResources::self().doMetric()*/) {
             if(trkpt->distance > 9999.9) {
                 str = QString("%1km").arg(trkpt->distance/1000,0,'f',2);
             }
@@ -198,7 +198,7 @@ void CTrackEditWidget::slotUpdate()
 
         // speed
         if(trkpt->speed > 0) {
-            if(CResources::self().doMetric()) {
+            if(true/*CResources::self().doMetric()*/) {
                 if(trkpt->speed < 10.0) {
                     str.sprintf("%1.2f km/h",trkpt->speed);
                 }

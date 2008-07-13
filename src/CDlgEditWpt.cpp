@@ -26,6 +26,7 @@
 #include "CResources.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -42,6 +43,9 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
     connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
+
+    labelUnitElevation->setText(IUnit::self().baseunit);
+    labelUnitProximity->setText(IUnit::self().baseunit);
 }
 
 
@@ -53,6 +57,7 @@ CDlgEditWpt::~CDlgEditWpt()
 
 int CDlgEditWpt::exec()
 {
+    QString val, unit;
     toolIcon->setIcon(getWptIconByName(wpt.icon));
     toolIcon->setObjectName(wpt.icon);
 
@@ -68,10 +73,12 @@ int CDlgEditWpt::exec()
 
     //TODO: that has to be metric/imperial
     if(wpt.ele != WPT_NOFLOAT) {
-        lineAltitude->setText(QString::number(wpt.ele,'f',0));
+        IUnit::self().meter2elevation(wpt.ele, val, unit);
+        lineAltitude->setText(val);
     }
     if(wpt.prx != WPT_NOFLOAT) {
-        lineProximity->setText(QString::number(wpt.prx,'f',1));
+        IUnit::self().meter2elevation(wpt.prx, val, unit);
+        lineProximity->setText(val);
     }
 
     textComment->setPlainText(wpt.comment);
@@ -112,7 +119,7 @@ void CDlgEditWpt::accept()
     wpt.name        = lineName->text();
     wpt.sticky      = checkSticky->isChecked();
 
-    wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : lineAltitude->text().toFloat();
+    wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineAltitude->text());
 
     // change elevation if position has changed and DEM data is present
     if(oldLon != wpt.lon || oldLat != wpt.lat){
@@ -120,7 +127,7 @@ void CDlgEditWpt::accept()
         if(ele != WPT_NOFLOAT) wpt.ele = ele;
     }
 
-    wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : lineProximity->text().toFloat();
+    wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineProximity->text());
     wpt.comment     = textComment->toPlainText();
     wpt.link        = link;
 

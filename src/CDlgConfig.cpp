@@ -20,6 +20,8 @@
 #include "CDlgConfig.h"
 #include "CResources.h"
 #include "IDevice.h"
+#include "CUnitImperial.h"
+#include "CUnitMetric.h"
 
 #include <QtGui>
 
@@ -49,8 +51,12 @@ void CDlgConfig::exec()
     lineProxyPort->setText(QString("%1").arg(resources.m_httpProxyPort));
 
     labelFont->setFont(resources.m_mapfont);
-    radioMetric->setChecked(resources.m_doMetric);
-    radioImperial->setChecked(!resources.m_doMetric);
+    if(resources.unit->type == "metric"){
+        radioMetric->setChecked(true);
+    }
+    else if(resources.unit->type == "imperial"){
+        radioImperial->setChecked(true);
+    }
 
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
 
@@ -88,7 +94,14 @@ void CDlgConfig::accept()
     emit resources.sigProxyChanged();
 
     resources.m_mapfont         = labelFont->font();
-    resources.m_doMetric        = radioMetric->isChecked();
+
+    if(radioMetric->isChecked()){
+        resources.unit = new CUnitMetric(&resources);
+    }
+    if(radioImperial->isChecked()){
+        resources.unit = new CUnitImperial(&resources);
+    }
+
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
 
     resources.m_eBrowser        = (CResources::bowser_e)comboBrowser->currentIndex();

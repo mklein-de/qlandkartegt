@@ -28,6 +28,7 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "IOverlay.h"
+#include "IUnit.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -90,7 +91,9 @@ void IMouse::drawSelWpt(QPainter& p)
 
         if(selWpt->ele != WPT_NOFLOAT) {
             if(str.count()) str += "\n";
-            str += tr("elevation: %1 m").arg(selWpt->ele,0,'f',0);
+            QString val, unit;
+            IUnit::self().meter2elevation(selWpt->ele, val, unit);
+            str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
 
         if(selWpt->comment.count()) {
@@ -147,7 +150,9 @@ void IMouse::drawSelTrkPt(QPainter& p)
 
         if(selTrkPt->ele != WPT_NOFLOAT) {
             if(str.count()) str += "\n";
-            str += tr("elevation: %1 m").arg(selTrkPt->ele,0,'f',0);
+            QString val, unit;
+            IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
+            str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
 
         QFont           f = CResources::self().getMapFont();

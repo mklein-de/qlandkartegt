@@ -520,7 +520,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
         if(ele != WPT_NOFLOAT) {
             QString val, unit;
             IUnit::self().meter2elevation(ele, val, unit);
-            info += QString(" (ele: %1 %2)").arg(val).arg(unit);
+            info += QString(" (ele: %1 %2) ").arg(val).arg(unit);
         }
 
         x *= RAD_TO_DEG;
@@ -528,7 +528,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
         QString str;
         GPS_Math_Deg_To_Str(x,y, str);
-        info += str;
+        info += str + " ";
     }
 
     theMainWindow->setPositionInfo(info);

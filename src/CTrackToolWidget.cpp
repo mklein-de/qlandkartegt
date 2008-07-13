@@ -23,6 +23,7 @@
 #include "CTrack.h"
 #include "CMapDB.h"
 #include "CMainWindow.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -75,16 +76,14 @@ void CTrackToolWidget::slotDBChanged()
         QListWidgetItem * item = new QListWidgetItem(listTracks);
         icon.fill((*track)->getColor());
 
+        QString val1, unit1, val2, unit2;
+
         QString str     = (*track)->getName();
         double distance = (*track)->getTotalDistance();
-        if(distance > 9999.9) {
-            str += tr("\nlength: %1 km").arg(distance / 1000.0, 0, 'f', 3);
-        }
-        else {
-            str += tr("\nlength: %1 m").arg(distance,0 ,'f', 0);
-        }
-        str += tr(", points: %1").arg((*track)->getTrackPoints().count());
 
+        IUnit::self().meter2distance((*track)->getTotalDistance(), val1, unit1);
+        str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
+        str += tr(", points: %1").arg((*track)->getTrackPoints().count());
 
         quint32 ttime = (*track)->getTotalTime();
         quint32 days  = ttime / 86400;
@@ -97,10 +96,17 @@ void CTrackToolWidget::slotDBChanged()
         else{
             str += tr("\ntime: ") + time.toString("HH:mm:ss");
         }
-        str += tr(", speed: %1 km/h").arg(distance * 3.6 / ttime, 0, 'f', 2);
+
+        IUnit::self().meter2speed(distance / ttime, val1, unit1);
+        str += tr(", speed: %1 %2").arg(val1).arg(unit1);
+
         str += tr("\nstart: %1").arg((*track)->getStartTimestamp().isNull() ? tr("-") : (*track)->getStartTimestamp().toString());
         str += tr("\nend: %1").arg((*track)->getEndTimestamp().isNull() ? tr("-") : (*track)->getEndTimestamp().toString());
-        str += tr("\n%1%2  m, %3%4 m").arg(QChar(0x2191)).arg((*track)->getAscend(),0,'f',0).arg(QChar(0x2193)).arg((*track)->getDescend(),0,'f',0);
+
+        IUnit::self().meter2elevation((*track)->getAscend(), val1, unit1);
+        IUnit::self().meter2elevation((*track)->getDescend(), val2, unit2);
+
+        str += tr("\n%1%2 %3, %4%5 %6").arg(QChar(0x2191)).arg(val1).arg(unit1).arg(QChar(0x2193)).arg(val2).arg(unit2);
         item->setText(str);
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);

@@ -50,9 +50,6 @@ class CResources : public QObject
         /// the font used for text on the map
         const QFont& getMapFont(){return m_mapfont;}
 
-        /// true for metric mode, false for imperial
-        bool doMetric(){return m_doMetric;}
-
         /// open an URL in a webbrowser
         void openLink(const QString& link);
 
@@ -87,8 +84,6 @@ class CResources : public QObject
 
         /// font used by the map
         QFont m_mapfont;
-        /// true for metric system, false for imperial
-        bool m_doMetric;
 
         /// the installed browser type
         bowser_e m_eBrowser;
@@ -114,10 +109,13 @@ class CResources : public QObject
         QString m_devIPAddress;
         quint16 m_devIPPort;
         QString m_devSerialPort;
+
         QString m_devType;
 
+        /// mouse wheel zoom direction
         bool m_flipMouseWheel;
 
+        /// unit translator object
         QPointer<IUnit> unit;
 };
 #endif                           //CRESOURCES_H

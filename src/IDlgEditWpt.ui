@@ -123,7 +123,7 @@
        <widget class="QLineEdit" name="lineAltitude" />
       </item>
       <item row="2" column="2" >
-       <widget class="QLabel" name="label_6" >
+       <widget class="QLabel" name="labelUnitElevation" >
         <property name="text" >
          <string>m</string>
         </property>
@@ -140,7 +140,7 @@
        <widget class="QLineEdit" name="lineProximity" />
       </item>
       <item row="3" column="2" >
-       <widget class="QLabel" name="label_7" >
+       <widget class="QLabel" name="labelUnitProximity" >
         <property name="text" >
          <string>m</string>
         </property>
@@ -298,7 +298,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

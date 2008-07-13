@@ -1,23 +1,19 @@
 /**********************************************************************************************
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Not defined
-  Email:       Not defined
-  Phone:       Not defined
-  Fax:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        IUnit.h
-
-  Module:
-
-  Description:
-
-  Created:     07/08/2008
-
-  (C) 2008 DSP Solutions. All rights reserved.
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
 #ifndef IUNIT_H
@@ -31,13 +27,23 @@ class IUnit : public QObject
         virtual ~IUnit();
 
         static IUnit& self(){return *m_self;}
-
+        /// convert meter of elevation into a value and unit string
         virtual void meter2elevation(float meter, QString& val, QString& unit) = 0;
+        /// convert meter of distance into a value and unit string
         virtual void meter2distance(float meter, QString& val, QString& unit) = 0;
+        /// convert meter per second to a speed value string and unit label
+        virtual void meter2speed(float meter, QString& val, QString& unit) = 0;
+
+        virtual float elevation2meter(const QString& val) = 0;
+
+        const QString type;
+
+        const QString baseunit;
 
     protected:
         friend class CResources;
-        IUnit(QObject * parent);
+        IUnit(const QString& type, const QString& baseunit, QObject * parent);
+
     private:
         static IUnit * m_self;
 };
