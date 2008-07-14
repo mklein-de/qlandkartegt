@@ -19,7 +19,7 @@
 #include "CUnitMetric.h"
 
 CUnitMetric::CUnitMetric(QObject * parent)
-: IUnit("metric", "m", parent)
+: IUnit("metric", "m", 1.0, "km/h", 3.6, parent)
 {
 
 }
@@ -62,12 +62,12 @@ void CUnitMetric::meter2distance(float meter, QString& val, QString& unit)
 void CUnitMetric::meter2speed(float meter, QString& val, QString& unit)
 {
     if (meter < 10.0) {
-        val.sprintf("%1.2f",meter * 3.6);
+        val.sprintf("%1.2f",meter * speedfactor);
     }
     else {
-        val.sprintf("%1.0f",meter * 3.6);
+        val.sprintf("%1.0f",meter * speedfactor);
     }
-    unit = "km/h";
+    unit = speedunit;
 }
 
 float CUnitMetric::elevation2meter(const QString& val)

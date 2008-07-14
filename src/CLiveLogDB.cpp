@@ -28,6 +28,7 @@
 #include "IDevice.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -153,11 +154,15 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
 
     if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix){
+        QString val, unit;
+
         w->lblPosition->setText(pos);
-        w->lblAltitude->setText(tr("%1 m").arg(log.ele,0,'f',0));
+        IUnit::self().meter2elevation(log.ele, val,unit);
+        w->lblAltitude->setText(tr("%1 %2").arg(val).arg(unit));
         w->lblErrorHoriz->setText(tr("\261%1 m").arg(log.error_horz/2,0,'f',0));
         w->lblErrorVert->setText(tr("\261%1 m").arg(log.error_vert/2,0,'f',0));
-        w->lblSpeed->setText(tr("%1 km/h").arg(speed_km_h, 0, 'f', 1));
+        IUnit::self().meter2speed(speed_km_h / 3.6, val,unit);
+        w->lblSpeed->setText(tr("%1 %2").arg(val).arg(unit));
         if(isnan(heading)){
             w->lblHeading->setText(tr("-"));
         }

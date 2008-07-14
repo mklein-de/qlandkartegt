@@ -20,10 +20,13 @@
 
 IUnit * IUnit::m_self = 0;
 
-IUnit::IUnit(const QString& type, const QString& baseunit, QObject * parent)
+IUnit::IUnit(const QString& type, const QString& baseunit, const float basefactor, const QString& speedunit, const float speedfactor, QObject * parent)
 : QObject(parent)
 , type(type)
 , baseunit(baseunit)
+, basefactor(basefactor)
+, speedunit(speedunit)
+, speedfactor(speedfactor)
 {
     //there can be only one...
     if(m_self) delete m_self;
@@ -35,3 +38,8 @@ IUnit::~IUnit()
 
 }
 
+void IUnit::meter2speed(float meter, QString& val, QString& unit)
+{
+    val.sprintf("%1.2f",meter * speedfactor);
+    unit = speedunit;
+}

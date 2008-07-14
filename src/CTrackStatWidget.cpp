@@ -21,6 +21,7 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "CPlot.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -66,6 +67,12 @@ void CTrackStatWidget::slotChanged()
         return;
     }
 
+    elevation->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
+    elevation->setYLabel(tr("alt. [%1]").arg(IUnit::self().baseunit));
+
+    speed->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
+    speed->setYLabel(tr("speed [%1]").arg(IUnit::self().speedunit));
+
     QPolygonF lineDEM;
 
     QPolygonF lineElev;
@@ -76,6 +83,9 @@ void CTrackStatWidget::slotChanged()
     QPolygonF marksSpeed;
     QPointF   focusSpeed;
 
+    float speedfactor = IUnit::self().speedfactor;
+    float basefactor = IUnit::self().basefactor;
+
     QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
@@ -83,18 +93,18 @@ void CTrackStatWidget::slotChanged()
             ++trkpt; continue;
         }
         if(trkpt->dem != WPT_NOFLOAT){
-            lineDEM << QPointF(trkpt->distance, trkpt->dem);
+            lineDEM << QPointF(trkpt->distance, trkpt->dem * basefactor);
         }
-        lineElev    << QPointF(trkpt->distance, trkpt->ele);
-        lineSpeed   << QPointF(trkpt->distance, trkpt->speed);
+        lineElev    << QPointF(trkpt->distance, trkpt->ele * basefactor);
+        lineSpeed   << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marksElev  << QPointF(trkpt->distance, trkpt->ele);
-            marksSpeed << QPointF(trkpt->distance, trkpt->speed);
+            marksElev  << QPointF(trkpt->distance, trkpt->ele * basefactor);
+            marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focusElev  = QPointF(trkpt->distance, trkpt->ele);
-            focusSpeed = QPointF(trkpt->distance, trkpt->speed);
+            focusElev  = QPointF(trkpt->distance, trkpt->ele * basefactor);
+            focusSpeed = QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
 
         ++trkpt;

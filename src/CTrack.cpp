@@ -378,7 +378,7 @@ void CTrack::rebuild(bool reindex)
         }
         pt2->ascend     = totalAscend;
         pt2->descend    = totalDescend;
-        pt2->speed      = (dt > 0) ? pt2->delta / dt * 3.6 : 0;
+        pt2->speed      = (dt > 0) ? pt2->delta / dt : 0;
         pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);
 
         t2              = pt2->timestamp;

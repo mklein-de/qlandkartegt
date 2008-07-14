@@ -20,7 +20,7 @@
 #include "CUnitImperial.h"
 
 CUnitImperial::CUnitImperial(QObject * parent)
-: IUnit("imperial", "ft", parent)
+: IUnit("imperial", "ft", 3.28084, "ml/h", 2.23693164, parent)
 {
 
 }
@@ -61,11 +61,6 @@ void CUnitImperial::meter2distance(float meter, QString& val, QString& unit)
     }
 }
 
-void CUnitImperial::meter2speed(float meter, QString& val, QString& unit)
-{
-    val.sprintf("%1.2f",meter * 2.23693164);
-    unit = "ml/h";
-}
 
 float CUnitImperial::elevation2meter(const QString& val)
 {

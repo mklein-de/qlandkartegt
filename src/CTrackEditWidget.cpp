@@ -25,6 +25,7 @@
 #include "GeoMath.h"
 #include "CMainWindow.h"
 #include "CTabWidget.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -109,7 +110,8 @@ void CTrackEditWidget::slotUpdate()
 
     treePoints->clear();
 
-    QString str;
+
+    QString str, val, unit;
     QTreeWidgetItem * focus                 = 0;
     QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
@@ -144,13 +146,8 @@ void CTrackEditWidget::slotUpdate()
 
         // altitude
         if(trkpt->ele != WPT_NOFLOAT) {
-
-            if(true/*CResources::self().doMetric()*/) {
-                str = QString::number(trkpt->ele,'f',0) + "m";
-            }
-            else {
-                str = QString::number(trkpt->ele * 3.28084,'f',0) + "ft";
-            }
+            IUnit::self().meter2elevation(trkpt->ele, val, unit);
+            str = tr("%1 %2").arg(val).arg(unit);
         }
         else {
             str = "-";
@@ -158,18 +155,8 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eAltitude,str);
 
         // delta
-        if(true/*CResources::self().doMetric()*/) {
-            if(trkpt->delta < 10.0) {
-                str.sprintf("%1.1f m",trkpt->delta);
-            }
-            else {
-                str.sprintf("%1.0f m",trkpt->delta);
-            }
-        }
-        else {
-            str.sprintf("%1.0f ft",trkpt->delta * 3.28084);
-        }
-        item->setText(eDelta,str);
+        IUnit::self().meter2distance(trkpt->delta, val, unit);
+        item->setText(eDelta, tr("%1 %2").arg(val).arg(unit));
 
         // azimuth
         if(trkpt->azimuth != WPT_NOFLOAT) {
@@ -181,34 +168,17 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eAzimuth,str);
 
         // distance
-        if(true/*CResources::self().doMetric()*/) {
-            if(trkpt->distance > 9999.9) {
-                str = QString("%1km").arg(trkpt->distance/1000,0,'f',2);
-            }
-            else {
-                str = QString("%1m").arg(trkpt->distance,0,'f',0);
-            }
-        }
-        else {
-            str = QString("%1ml").arg(trkpt->distance * 0.6213699E-3,0,'f',2);
-        }
-        item->setText(eDistance,str);
-        item->setText(eAscend, QString("%1m").arg(trkpt->ascend, 0, 'f', 0));
-        item->setText(eDescend, QString("%1m").arg(trkpt->descend, 0, 'f', 0));
+        IUnit::self().meter2distance(trkpt->distance, val, unit);
+        item->setText(eDistance, tr("%1 %2").arg(val).arg(unit));
+        IUnit::self().meter2elevation(trkpt->ascend, val, unit);
+        item->setText(eAscend, tr("%1 %2").arg(val).arg(unit));
+        IUnit::self().meter2elevation(trkpt->descend, val, unit);
+        item->setText(eDescend, tr("%1 %2").arg(val).arg(unit));
 
         // speed
         if(trkpt->speed > 0) {
-            if(true/*CResources::self().doMetric()*/) {
-                if(trkpt->speed < 10.0) {
-                    str.sprintf("%1.2f km/h",trkpt->speed);
-                }
-                else {
-                    str.sprintf("%1.0f km/h",trkpt->speed);
-                }
-            }
-            else {
-                str.sprintf("%1.2f ml/h",trkpt->speed * 0.6213699);
-            }
+            IUnit::self().meter2speed(trkpt->speed, val, unit);
+            str = tr("%1 %2").arg(val).arg(unit);
         }
         else {
             str = "-";

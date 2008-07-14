@@ -32,17 +32,19 @@ class IUnit : public QObject
         /// convert meter of distance into a value and unit string
         virtual void meter2distance(float meter, QString& val, QString& unit) = 0;
         /// convert meter per second to a speed value string and unit label
-        virtual void meter2speed(float meter, QString& val, QString& unit) = 0;
+        virtual void meter2speed(float meter, QString& val, QString& unit);
 
         virtual float elevation2meter(const QString& val) = 0;
 
         const QString type;
-
         const QString baseunit;
+        const float   basefactor;
+        const QString speedunit;
+        const float   speedfactor;
 
     protected:
         friend class CResources;
-        IUnit(const QString& type, const QString& baseunit, QObject * parent);
+        IUnit(const QString& type, const QString& baseunit, const float basefactor, const QString& speedunit, const float speedfactor, QObject * parent);
 
     private:
         static IUnit * m_self;
