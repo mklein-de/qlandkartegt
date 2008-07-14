@@ -21,6 +21,7 @@
 #include "CResources.h"
 #include "IDevice.h"
 #include "CUnitImperial.h"
+#include "CUnitNautic.h"
 #include "CUnitMetric.h"
 
 #include <QtGui>
@@ -53,6 +54,9 @@ void CDlgConfig::exec()
     labelFont->setFont(resources.m_mapfont);
     if(resources.unit->type == "metric"){
         radioMetric->setChecked(true);
+    }
+    else if(resources.unit->type == "nautic"){
+        radioNautic->setChecked(true);
     }
     else if(resources.unit->type == "imperial"){
         radioImperial->setChecked(true);
@@ -100,6 +104,9 @@ void CDlgConfig::accept()
     }
     if(radioImperial->isChecked()){
         resources.unit = new CUnitImperial(&resources);
+    }
+    if(radioNautic->isChecked()){
+        resources.unit = new CUnitNautic(&resources);
     }
 
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();

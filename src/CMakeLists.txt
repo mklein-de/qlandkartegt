@@ -85,6 +85,7 @@ set(qlandkarte_SRCS
     IUnit.cpp
     CUnitMetric.cpp
     CUnitImperial.cpp
+    CUnitNautic.cpp
 )
 
 IF(WIN32)
@@ -174,6 +175,7 @@ set(qlandkarte_HDRS
     IUnit.h
     CUnitMetric.h
     CUnitImperial.h
+    CUnitNautic.h
 )
 
 

@@ -22,6 +22,7 @@
 #include "CDeviceGarmin.h"
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
+#include "CUnitNautic.h"
 #include "CUnitImperial.h"
 
 #include <QtGui>
@@ -76,6 +77,9 @@ CResources::CResources(QObject * parent)
     QString unittype = cfg.value("environment/unittype","metric").toString();
     if(unittype == "metric")
         unit = new CUnitMetric(this);
+    else if(unittype == "nautic"){
+        unit = new CUnitNautic(this);
+    }
     else if(unittype == "imperial"){
         unit = new CUnitImperial(this);
     }
