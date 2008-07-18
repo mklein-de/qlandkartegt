@@ -58,7 +58,7 @@ class CDeviceTBDOE : public IDevice
 
         enum packet_e
         {
-            eNone
+              eNone
             , eError             ///< error occured
             , eAck               ///<
             , eC2HAlive
@@ -66,6 +66,8 @@ class CDeviceTBDOE : public IDevice
             , eC2HWpt            ///< send waypoint data from client to host
             , eH2CWptQuery       ///< request waypoint keys from host
             , eH2CWpt            ///< request waypoint data from host
+            , eH2CTrkQuery       ///< request track keys from host
+            , eH2CTrk            ///< request track data from host
         };
 
     private:

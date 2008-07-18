@@ -20,6 +20,8 @@
 #include "CDeviceTBDOE.h"
 #include "CWpt.h"
 #include "CWptDB.h"
+#include "CTrack.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 
@@ -202,6 +204,58 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
 
 void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
 {
-    QMessageBox::information(0,tr("Sorry..."), tr("This function is not implemented yet."));
+    packet_e    type;
+    QByteArray  data1;
+    quint32     nTrk = 0;
+    quint32     n;
+    QString     key, name;
+
+    if(!acquire(tr("Download tracks ..."),1)) return;
+
+    progress->setLabelText(tr("Query list of tracks from the device"));
+    qApp->processEvents();
+
+    if(!exchange(type = eH2CTrkQuery,data1)) {
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query tracks from device."),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    if(type == eError) {
+        QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    QDataStream trklist(&data1, QIODevice::ReadOnly);
+
+    trklist >> nTrk;
+    progress->setMaximum(nTrk);
+    for(n = 0; n < nTrk; ++n) {
+        QByteArray data;
+        QDataStream stream(&data,QIODevice::ReadWrite);
+        trklist >> key >> name;
+
+        stream << key;
+
+        if(!exchange(type = eH2CTrk,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        stream.device()->seek(0);
+
+        CTrack * trk = new CTrack(&CTrackDB::self());
+        stream >> *trk;
+
+        trks.push_back(trk);
+
+        progress->setValue(n + 1);
+    }
+
+    return release();
 }
 
