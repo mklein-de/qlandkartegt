@@ -80,8 +80,6 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
 
-                qDebug() << track._key_ <<  track.timestamp <<  track.name << track.comment << track.colorIdx;
-
                 break;
             }
 
@@ -92,7 +90,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
 
                 track.track.clear();
                 s1 >> nTrkPts;
-                qDebug() << "nTrkPts" << nTrkPts;
+
 
                 for(n = 0; n < nTrkPts; ++n) {
                     CTrack::pt_t trkpt;
