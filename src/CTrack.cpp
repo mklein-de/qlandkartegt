@@ -46,6 +46,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
     char magic[9];
     s.readRawData(magic,9);
 
+    qDebug() << magic;
+
     if(strncmp(magic,"QLTrk   ",9)) {
         dev->seek(pos);
         return s;
@@ -78,6 +80,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
 
+                qDebug() << track._key_ <<  track.timestamp <<  track.name << track.comment << track.colorIdx;
+
                 break;
             }
 
@@ -88,6 +92,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
 
                 track.track.clear();
                 s1 >> nTrkPts;
+                qDebug() << "nTrkPts" << nTrkPts;
+
                 for(n = 0; n < nTrkPts; ++n) {
                     CTrack::pt_t trkpt;
                     s1 >> trkpt.lon;
