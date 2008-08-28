@@ -22,6 +22,8 @@
 
 #include "IMouse.h"
 
+class COverlayDistance;
+
 class CMouseAddDistance : public IMouse
 {
     Q_OBJECT;
@@ -34,6 +36,10 @@ class CMouseAddDistance : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
         void draw(QPainter& p);
+
+    private:
+        QPointer<COverlayDistance> overlay;
+        QPoint pos;
 };
 
 #endif //CMOUSEADDDISTANCE_H

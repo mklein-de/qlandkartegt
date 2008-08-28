@@ -179,7 +179,7 @@ void COverlayDB::delOverlays(const QStringList& keys)
     emit sigModified();
 }
 
-void COverlayDB::addText(const QString& text, const QRect& rect)
+COverlayText * COverlayDB::addText(const QString& text, const QRect& rect)
 {
     IOverlay * overlay = new COverlayText(text, rect, this);
     overlays[overlay->key] = overlay;
@@ -189,9 +189,11 @@ void COverlayDB::addText(const QString& text, const QRect& rect)
 
     emit sigChanged();
     emit sigModified();
+
+    return qobject_cast<COverlayText*>(overlay);
 }
 
-void COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
+COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
 {
 
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
@@ -202,9 +204,11 @@ void COverlayDB::addTextBox(const QString& text, double lon, double lat, const Q
 
     emit sigChanged();
     emit sigModified();
+
+    return qobject_cast<COverlayTextBox*>(overlay);
 }
 
-void COverlayDB::addDistance(const QVector<XY>& pts)
+COverlayDistance * COverlayDB::addDistance(const QVector<XY>& pts)
 {
     IOverlay * overlay = new COverlayDistance(pts, this);
     overlays[overlay->key] = overlay;
@@ -214,5 +218,7 @@ void COverlayDB::addDistance(const QVector<XY>& pts)
 
     emit sigChanged();
     emit sigModified();
+
+    return qobject_cast<COverlayDistance*>(overlay);
 }
 

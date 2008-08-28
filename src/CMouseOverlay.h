@@ -32,7 +32,6 @@ class CMouseOverlay : public IMouse
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
-
 };
 
 #endif //CMOUSEOVERLAY_H

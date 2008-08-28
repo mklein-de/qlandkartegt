@@ -32,13 +32,20 @@ class COverlayDistance : public IOverlay
         virtual ~COverlayDistance();
 
         bool mouseActionInProgress(){return doAddPoints;}
-
+        QString getInfo();
         bool isCloseEnought(const QPoint& pt);
         void draw(QPainter& p);
 
+        void addPoint(XY& pt);
+
+        XY getLast(){return points.last();}
     private:
+        void calcDistance();
+
         QVector<XY> points;
         bool doAddPoints;
+
+        double distance;
 };
 
 #endif //COVERLAYDISTANCE_H

@@ -30,6 +30,9 @@ class QRect;
 class IOverlay;
 class QPainter;
 class QString;
+class COverlayText;
+class COverlayTextBox;
+class COverlayDistance;
 
 class COverlayDB : public IDB
 {
@@ -58,9 +61,9 @@ class COverlayDB : public IDB
         /// delete several overlays by their keys
         void delOverlays(const QStringList& keys);
 
-        void addText(const QString& text, const QRect& rect);
-        void addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
-        void addDistance(const QVector<XY>& pts);
+        COverlayText * addText(const QString& text, const QRect& rect);
+        COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
+        COverlayDistance * addDistance(const QVector<XY>& pts);
 
     private:
         friend class CMainWindow;

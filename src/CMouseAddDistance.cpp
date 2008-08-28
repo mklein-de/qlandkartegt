@@ -22,6 +22,7 @@
 #include "CMapDB.h"
 #include "IMap.h"
 #include "COverlayDB.h"
+#include "COverlayDistance.h"
 #include <QtGui>
 
 
@@ -38,11 +39,15 @@ CMouseAddDistance::~CMouseAddDistance()
 
 void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
 {
+    if(overlay.isNull()) return;
+    pos = e->pos();
+    canvas->update();
 }
 
 void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton && overlay.isNull()) {
+        pos      = e->pos();
         double x = e->pos().x();
         double y = e->pos().y();
         CMapDB::self().getMap().convertPt2Rad(x,y);
@@ -51,7 +56,21 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         pt.v = y;
         QVector<XY> pts;
         pts << pt;
-        COverlayDB::self().addDistance(pts);
+        overlay = COverlayDB::self().addDistance(pts);
+    }
+    else if(e->button() == Qt::LeftButton && !overlay.isNull()) {
+        double x = e->pos().x();
+        double y = e->pos().y();
+        CMapDB::self().getMap().convertPt2Rad(x,y);
+        XY pt;
+        pt.u = x;
+        pt.v = y;
+
+        overlay->addPoint(pt);
+    }
+    else if(e->button() == Qt::RightButton){
+        overlay = 0;
+        canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }
 
@@ -61,4 +80,13 @@ void CMouseAddDistance::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseAddDistance::draw(QPainter& p)
 {
+    if(overlay.isNull()) return;
+
+    XY pt1 = overlay->getLast();
+    CMapDB::self().getMap().convertRad2Pt(pt1.u, pt1.v);
+
+    p.setPen(QPen(Qt::white, 3));
+    p.drawLine(pt1.u, pt1.v, pos.x(), pos.y());
+    p.setPen(QPen(Qt::red, 1));
+    p.drawLine(pt1.u, pt1.v, pos.x(), pos.y());
 }

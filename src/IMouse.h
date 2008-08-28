@@ -72,6 +72,9 @@ class IMouse : public QObject
         /// append a context menu by own actions
         virtual void contextMenu(QMenu& ){};
 
+        /// called by CCanvas right befor a new mouse handler is selected.
+        virtual void looseFocus(){};
+
     protected:
         /// for internal use to start a semi-transparent capture rectangle
         void startRect(const QPoint& p);

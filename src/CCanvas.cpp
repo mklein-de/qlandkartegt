@@ -101,6 +101,8 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 {
     QApplication::restoreOverrideCursor();
 
+    if(mouse) mouse->looseFocus();
+
     switch(mode) {
 
         case eMouseMoveArea:

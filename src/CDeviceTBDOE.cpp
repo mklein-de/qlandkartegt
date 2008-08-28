@@ -29,7 +29,7 @@ CDeviceTBDOE::CDeviceTBDOE(const QString& ipaddr, quint16 port, QObject * parent
 : IDevice("QLandkarteM",parent)
 , ipaddr(ipaddr)
 , port(port)
-, timeout(3000)
+, timeout(60000)
 {
 
 }
