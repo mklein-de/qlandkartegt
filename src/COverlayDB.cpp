@@ -208,7 +208,7 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
     return qobject_cast<COverlayTextBox*>(overlay);
 }
 
-COverlayDistance * COverlayDB::addDistance(const QVector<XY>& pts)
+COverlayDistance * COverlayDB::addDistance(const QList<XY>& pts)
 {
     IOverlay * overlay = new COverlayDistance(pts, this);
     overlays[overlay->key] = overlay;

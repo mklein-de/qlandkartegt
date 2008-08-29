@@ -63,7 +63,7 @@ class COverlayDB : public IDB
 
         COverlayText * addText(const QString& text, const QRect& rect);
         COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
-        COverlayDistance * addDistance(const QVector<XY>& pts);
+        COverlayDistance * addDistance(const QList<XY>& pts);
 
     private:
         friend class CMainWindow;

@@ -28,13 +28,17 @@ class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
     public:
-        COverlayDistance(const QVector<XY>& pts, QObject * parent);
+        COverlayDistance(const QList<XY>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
-        bool mouseActionInProgress(){return doAddPoints;}
+        bool mouseActionInProgress(){return doMove;}
         QString getInfo();
         bool isCloseEnought(const QPoint& pt);
         void draw(QPainter& p);
+
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
 
         void addPoint(XY& pt);
 
@@ -42,10 +46,18 @@ class COverlayDistance : public IOverlay
     private:
         void calcDistance();
 
-        QVector<XY> points;
-        bool doAddPoints;
+        QList<XY> points;
+        XY * thePoint;
 
         double distance;
+
+        QRect rectDel;
+        QRect rectMove;
+        QRect rectAdd1;
+        QRect rectAdd2;
+
+        bool doSpecialCursor;
+        bool doMove;
 };
 
 #endif //COVERLAYDISTANCE_H

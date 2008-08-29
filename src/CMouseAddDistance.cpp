@@ -54,7 +54,7 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         XY pt;
         pt.u = x;
         pt.v = y;
-        QVector<XY> pts;
+        QList<XY> pts;
         pts << pt;
         overlay = COverlayDB::self().addDistance(pts);
     }
