@@ -36,6 +36,7 @@ class CResources;
 class CTabWidget;
 class CLiveLogDB;
 class COverlayDB;
+class QComboBox;
 
 class CMainWindow : public QMainWindow
 {
@@ -74,6 +75,7 @@ class CMainWindow : public QMainWindow
         void slotModified();
         void slotDataChanged();
         void slotOpenLink(const QString& link);
+        void slotCurrentDeviceChanged(int);
 
     private:
         void setupMenuBar();
@@ -128,7 +130,8 @@ class CMainWindow : public QMainWindow
 
         /// project summary
         QLabel * summary;
-
+        /// combobox to switch device
+        QComboBox * comboDevice;
 };
 
 extern CMainWindow * theMainWindow;

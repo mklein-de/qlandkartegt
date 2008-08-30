@@ -53,6 +53,7 @@ class COverlayDB : public IDB
         void upload(){};
         void download(){};
         void clear();
+        int count(){return overlays.size();}
 
         /// get iterator access to track point list
         QMap<QString,IOverlay*> ::iterator begin(){return overlays.begin();}
@@ -67,6 +68,7 @@ class COverlayDB : public IDB
         COverlayDistance * addDistance(const QString& name, const QString& comment, const QList<XY>& pts);
 
         void customMenu(const QString& key, QMenu& menu);
+
 
     private:
         friend class CMainWindow;

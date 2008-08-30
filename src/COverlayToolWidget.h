@@ -32,6 +32,9 @@ class COverlayToolWidget : public QWidget, private Ui::IOverlayToolWidget
         COverlayToolWidget(QTabWidget * parent);
         virtual ~COverlayToolWidget();
 
+    protected:
+        void keyPressEvent(QKeyEvent * e);
+
     private slots:
         void slotDBChanged();
         void slotItemDoubleClicked(QListWidgetItem * item);

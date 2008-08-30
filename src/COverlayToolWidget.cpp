@@ -97,4 +97,11 @@ void COverlayToolWidget::slotDelete()
     COverlayDB::self().delOverlays(keys);
 }
 
+void COverlayToolWidget::keyPressEvent(QKeyEvent * e)
+{
+    if(e->key() == Qt::Key_Delete) {
+        slotDelete();
+        e->accept();
+    }
+}
 

@@ -83,6 +83,16 @@ CMainWindow::CMainWindow()
     summary->setAlignment(Qt::AlignJustify|Qt::AlignTop);
     ltmp->addWidget(summary);
 
+    ltmp->addWidget(new QLabel(tr("<b>GPS Device:</b>"), wtmp));
+
+    comboDevice = new QComboBox(wtmp);
+    comboDevice->addItem(tr(""),"");
+    comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
+    comboDevice->addItem(resources->m_devType, "Garmin");
+    connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
+    comboDevice->setCurrentIndex(comboDevice->findData(resources->m_devKey));
+
+    ltmp->addWidget(comboDevice);
 
     tabbar = new QTabWidget(canvas);
     leftSplitter->addWidget(tabbar);
@@ -145,6 +155,7 @@ CMainWindow::CMainWindow()
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+    connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&CDiaryDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
 
     slotDataChanged();
@@ -551,27 +562,40 @@ void CMainWindow::slotDataChanged()
     c = CWptDB::self().count();
     if(c > 0){
         if(c == 1){
-            str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a> and ").arg(c);
+            str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a>, ").arg(c);
         }
         else{
-            str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a> and ").arg(c);
+            str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a>, ").arg(c);
         }
     }
     else{
-        str += tr("There are no waypoints and ");
+        str += tr("There are no waypoints, ");
     }
 
     c = CTrackDB::self().count();
     if(c > 0){
         if(c == 1){
-            str += tr(" %1 <a href='Tracks'>track</a>. ").arg(c);
+            str += tr(" %1 <a href='Tracks'>track</a> and ").arg(c);
         }
         else{
-            str += tr(" %1 <a href='Tracks'>tracks</a>. ").arg(c);
+            str += tr(" %1 <a href='Tracks'>tracks</a> and ").arg(c);
         }
     }
     else{
-        str += tr("no tracks. ");
+        str += tr("no tracks and ");
+    }
+
+    c = COverlayDB::self().count();
+    if(c > 0){
+        if(c == 1){
+            str += tr(" %1 <a href='Overlay'>overlay</a>. ").arg(c);
+        }
+        else{
+            str += tr(" %1 <a href='Overlay'>overlays</a>. ").arg(c);
+        }
+    }
+    else{
+        str += tr("no overlays. ");
     }
 
     c = CDiaryDB::self().count();
@@ -581,6 +605,7 @@ void CMainWindow::slotDataChanged()
     else{
         str += tr("The diary (<a href='Diary'>new</a>) is empty.");
     }
+
 
     str += "</p>";
 
@@ -601,3 +626,7 @@ void CMainWindow::slotOpenLink(const QString& link)
     }
 }
 
+void CMainWindow::slotCurrentDeviceChanged(int i)
+{
+    resources->m_devKey = comboDevice->itemData(i).toString();
+}
