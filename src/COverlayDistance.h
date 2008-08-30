@@ -48,6 +48,8 @@ class COverlayDistance : public IOverlay
         void save(QDataStream& s);
         void load(QDataStream& s);
 
+        void makeVisible();
+
     private slots:
         void slotToTrack();
         void slotEdit();

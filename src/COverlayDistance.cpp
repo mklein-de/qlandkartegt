@@ -386,3 +386,20 @@ void COverlayDistance::slotEdit()
     emit sigChanged();
 }
 
+
+void COverlayDistance::makeVisible()
+{
+    double north =  -90.0 * DEG_TO_RAD;
+    double south =  +90.0 * DEG_TO_RAD;
+    double west  = +180.0 * DEG_TO_RAD;
+    double east  = -180.0 * DEG_TO_RAD;
+
+    XY pt;
+    foreach(pt, points){
+        if(pt.u < west)  west  = pt.u;
+        if(pt.u > east)  east  = pt.u;
+        if(pt.v < south) south = pt.v;
+        if(pt.v > north) north = pt.v;
+    }
+    CMapDB::self().getMap().zoom(west, north, east, south);
+}
