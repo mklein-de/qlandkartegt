@@ -54,7 +54,9 @@ class CDeviceTBDOE : public IDevice
         void uploadWpts(const QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
 
+        void uploadTracks(const QList<CTrack*>& trks);
         void downloadTracks(QList<CTrack*>& trks);
+
 
         enum packet_e
         {
@@ -68,6 +70,7 @@ class CDeviceTBDOE : public IDevice
             , eH2CWpt            ///< request waypoint data from host
             , eH2CTrkQuery       ///< request track keys from host
             , eH2CTrk            ///< request track data from host
+            , eC2HTrk            ///< send track data from from client to host
         };
 
     private:

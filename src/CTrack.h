@@ -124,6 +124,9 @@ class CTrack : public QObject
 
         static const QColor colors[];
 
+        /// track name
+        QString name;
+
         signals:
         void sigChanged();
 
@@ -138,8 +141,6 @@ class CTrack : public QObject
         QString _key_;
         /// creation timestamp
         quint32 timestamp;
-        /// track name
-        QString name;
         /// a comment string
         QString comment;
         /// the track line color

@@ -283,6 +283,17 @@ CTrack* CTrackDB::highlightedTrack()
 
 }
 
+void CTrackDB::upload()
+{
+    if(tracks.isEmpty()) return;
+
+    IDevice * dev = CResources::self().device();
+    if(dev) {
+        QList<CTrack*> tmptrks = tracks.values();
+        dev->uploadTracks(tmptrks);
+    }
+}
+
 void CTrackDB::download()
 {
     IDevice * dev = CResources::self().device();

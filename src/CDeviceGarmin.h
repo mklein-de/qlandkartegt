@@ -43,6 +43,7 @@ class CDeviceGarmin : public IDevice
         void uploadWpts(const QList<CWpt*>& wpts);
         void downloadWpts(QList<CWpt*>& wpts);
 
+        void uploadTracks(const QList<CTrack*>& trks);
         void downloadTracks(QList<CTrack*>& trks);
 
         void setLiveLog(bool on);

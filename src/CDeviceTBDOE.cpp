@@ -202,6 +202,40 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
     return release();
 }
 
+void CDeviceTBDOE::uploadTracks(const QList<CTrack*>& trks)
+{
+    packet_e type;
+
+    if(!acquire(tr("Upload tracks ..."), trks.count())) return;
+
+    int cnt = 0;
+    QList<CTrack*>::const_iterator trk = trks.begin();
+    while(trk != trks.end() && !progress->wasCanceled()) {
+        QByteArray data;
+        QDataStream s(&data,QIODevice::WriteOnly);
+
+        progress->setLabelText(tr("%1\n%2 of %3").arg((*trk)->name).arg(++cnt).arg(trks.count()));
+        progress->setValue(cnt);
+        qApp->processEvents();
+
+        s << *(*trk);
+
+        if(!exchange(type = eC2HTrk,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        ++trk;
+    }
+
+    return release();
+}
+
 void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
 {
     packet_e    type;

@@ -39,7 +39,7 @@ class CTrackDB : public IDB
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
 
-        void upload(){};
+        void upload();
         void download();
 
         void clear();

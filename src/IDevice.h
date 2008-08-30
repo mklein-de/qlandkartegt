@@ -42,6 +42,7 @@ class IDevice : public QObject
         virtual void uploadWpts(const QList<CWpt*>& wpts) = 0;
         virtual void downloadWpts(QList<CWpt*>& wpts) = 0;
 
+        virtual void uploadTracks(const QList<CTrack*>& trks) = 0;
         virtual void downloadTracks(QList<CTrack*>& trks) = 0;
 
         virtual void downloadAll();

@@ -632,6 +632,10 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     }
 }
 
+void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
+{
+    QMessageBox::warning(0,tr("Error ..."),tr("Uploading tracks is not implemented for your device"),QMessageBox::Ok,QMessageBox::NoButton);
+}
 
 void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
 {
