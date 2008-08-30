@@ -88,6 +88,35 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
                 }
             }
+            else if(type == "distance"){
+                QString name;
+                QString comment;
+                QList<XY> points;
+                QDomNodeList list;
+                QDomNode node;
+
+                list = element.elementsByTagName("name");
+                if(list.count() == 1){
+                    node = list.item(0);
+                    name = node.toElement().text();
+                }
+                list = element.elementsByTagName("comment");
+                if(list.count() == 1){
+                    node = list.item(0);
+                    comment = node.toElement().text();
+                }
+
+                list = element.elementsByTagName("point");
+                for(int i = 0; i < list.size(); ++i){
+                    XY pt;
+                    pt.u = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
+                    pt.v = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
+                    points << pt;
+                }
+
+                qDebug() << name << comment;
+                addDistance(name, comment, points);
+            }
 
             element = element.nextSiblingElement();
         }
@@ -140,6 +169,29 @@ void COverlayDB::saveGPX(CGpx& gpx)
 
             QDomText _text_ = gpx.createTextNode(ovl->text);
             text.appendChild(_text_);
+        }
+        else if(overlay->type == "Distance"){
+            COverlayDistance * ovl = qobject_cast<COverlayDistance*>(overlay);
+            if(ovl == 0) continue;
+
+            QDomElement elem  = gpx.createElement("distance");
+            _overlay_.appendChild(elem);
+
+            QDomElement name  = gpx.createElement("name");
+            elem.appendChild(name);
+            name.appendChild(gpx.createTextNode(ovl->name));
+
+            QDomElement comment = gpx.createElement("comment");
+            elem.appendChild(comment);
+            comment.appendChild(gpx.createTextNode(ovl->comment));
+
+            XY pt;
+            foreach(pt, ovl->points){
+                QDomElement point = gpx.createElement("point");
+                point.setAttribute("lon", pt.u * RAD_TO_DEG);
+                point.setAttribute("lat", pt.v * RAD_TO_DEG);
+                elem.appendChild(point);
+            }
         }
     }
 }
@@ -208,9 +260,9 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
     return qobject_cast<COverlayTextBox*>(overlay);
 }
 
-COverlayDistance * COverlayDB::addDistance(const QList<XY>& pts)
+COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, const QList<XY>& pts)
 {
-    IOverlay * overlay = new COverlayDistance(pts, this);
+    IOverlay * overlay = new COverlayDistance(name, comment, pts, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));

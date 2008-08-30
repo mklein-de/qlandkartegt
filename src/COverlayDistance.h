@@ -28,7 +28,7 @@ class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
     public:
-        COverlayDistance(const QList<XY>& pts, QObject * parent);
+        COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
         bool mouseActionInProgress(){return doMove;}
@@ -45,14 +45,21 @@ class COverlayDistance : public IOverlay
 
         void customMenu(QMenu& menu);
 
+        void save(QDataStream& s);
+        void load(QDataStream& s);
+
     private slots:
         void slotToTrack();
 
     private:
+        friend class COverlayDB;
         void calcDistance();
 
         QList<XY> points;
         XY * thePoint;
+
+        QString name;
+        QString comment;
 
         double distance;
 

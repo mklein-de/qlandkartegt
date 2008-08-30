@@ -56,7 +56,7 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         pt.v = y;
         QList<XY> pts;
         pts << pt;
-        overlay = COverlayDB::self().addDistance(pts);
+        overlay = COverlayDB::self().addDistance("", "", pts);
     }
     else if(e->button() == Qt::LeftButton && !overlay.isNull()) {
         double x = e->pos().x();

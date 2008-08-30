@@ -80,6 +80,19 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     s1 >> lon >> lat >> pt >> rect >> text;
                     db.addTextBox(text, lon, lat, pt, rect);
                 }
+                else if(type == "Distance"){
+                    QString name;
+                    QString comment;
+                    int size;
+                    XY pt;
+                    QList<XY> points;
+                    s1 >> name >> comment >> size;
+                    for(int i = 0; i < size; ++i){
+                        s1 >> pt.u >> pt.v;
+                        points << pt;
+                    }
+                    db.addDistance(name, comment, points);
+                }
                 break;
             }
 

@@ -34,10 +34,12 @@ bool operator==(const XY& p1, const XY& p2)
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
-COverlayDistance::COverlayDistance(const QList<XY>& pts, QObject * parent)
+COverlayDistance::COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent)
 : IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
 , points(pts)
 , thePoint(0)
+, name(name)
+, comment(comment)
 , distance(0)
 , doSpecialCursor(false)
 , doMove(false)
@@ -48,6 +50,7 @@ COverlayDistance::COverlayDistance(const QList<XY>& pts, QObject * parent)
     rectAdd1 = QRect(0,32,16,16);
     rectAdd2 = QRect(32,32,16,16);
 
+    calcDistance();
 }
 
 COverlayDistance::~COverlayDistance()
@@ -55,11 +58,49 @@ COverlayDistance::~COverlayDistance()
 
 }
 
+void COverlayDistance::save(QDataStream& s)
+{
+    s << name << comment << points.size();
+    XY pt;
+    foreach(pt, points){
+        s << pt.u << pt.v;
+    }
+
+}
+
+void COverlayDistance::load(QDataStream& s)
+{
+    XY pt;
+    int size;
+
+    points.clear();
+
+    s >> name >> comment >> size;
+    for(int i = 0; i < size; ++i){
+        s >> pt.u >> pt.v;
+        points << pt;
+    }
+
+}
+
+
 QString COverlayDistance::getInfo()
 {
+    QString info;
     QString val, unit;
+
+    qDebug() << name << comment;
+
+    if(!name.isEmpty()){
+        info += name + "\n";
+    }
+    if(!comment.isEmpty()){
+        info += comment + "\n";
+    }
+
     IUnit::self().meter2distance(distance, val, unit);
-    return tr("Length: %1 %2").arg(val).arg(unit);
+    info += tr("Length: %1 %2").arg(val).arg(unit);
+    return info;
 }
 
 bool COverlayDistance::isCloseEnought(const QPoint& pt)
