@@ -31,23 +31,32 @@ class COverlayDistance : public IOverlay
         COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
+        /// returns true while moving a waypoint
         bool mouseActionInProgress(){return doMove;}
+        /// returns name, comment and length
         QString getInfo();
+        /// returns true if pt is close as 30px to a waypoint
         bool isCloseEnought(const QPoint& pt);
+
+        /// draw the ployline, waypoints and action icons
         void draw(QPainter& p);
 
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
+        /// add a point at the end of the polyline
         void addPoint(XY& pt);
+        /// get last point of polyline
         XY getLast(){return points.last();}
 
+        /// add "Make Track" and "Edit..." to custom menu
         void customMenu(QMenu& menu);
 
         void save(QDataStream& s);
         void load(QDataStream& s);
 
+        /// iterate over all waypoints to get zoom area
         void makeVisible();
 
     private slots:
@@ -59,12 +68,13 @@ class COverlayDistance : public IOverlay
         friend class CDlgEditDistance;
         void calcDistance();
 
+        /// the polyline as list of points [rad]
         QList<XY> points;
+        /// pointer to point of polyline if cursor is closer than 30px
         XY * thePoint;
 
         QString name;
         QString comment;
-
         double distance;
 
         QRect rectDel;
