@@ -289,19 +289,51 @@ void COverlayDistance::customMenu(QMenu& menu)
 
 void COverlayDistance::slotToTrack()
 {
+    if(points.isEmpty()) return;
 
     IMap& map       = CMapDB::self().getDEM();
     CTrack * track  = new CTrack(&CTrackDB::self());
 
-    XY point;
-    foreach(point, points){
-        CTrack::pt_t pt;
-        pt.lon = point.u * RAD_TO_DEG;
-        pt.lat = point.v * RAD_TO_DEG;
-        pt.ele = map.getElevation(point.u, point.v);
+    double distance, d, a1 , a2;
+    XY pt1, pt2, ptx;
+    CTrack::pt_t pt;
 
+    // 1st point
+    pt1 = points.first();
+    pt.lon = pt1.u * RAD_TO_DEG;
+    pt.lat = pt1.v * RAD_TO_DEG;
+    pt.ele = map.getElevation(pt1.u, pt1.v);
+    *track << pt;
+
+    // all other points
+    for(int i = 1; i < points.count(); ++i){
+        pt2 = points[i];
+
+
+        // all points from pt1 -> pt2, with 10m steps
+        distance = ::distance(pt1, pt2, a1, a2);
+        a1 *= DEG_TO_RAD;
+
+        d = 10;
+        while(d < distance){
+            ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
+            pt.lon = ptx.u * RAD_TO_DEG;
+            pt.lat = ptx.v * RAD_TO_DEG;
+            pt.ele = map.getElevation(ptx.u, ptx.v);
+            *track << pt;
+
+            d += 10.0;
+        }
+
+        // and finally the next point
+        pt.lon = pt2.u * RAD_TO_DEG;
+        pt.lat = pt2.v * RAD_TO_DEG;
+        pt.ele = map.getElevation(pt2.u, pt2.v);
         *track << pt;
+
+        pt1 = pt2;
     }
+
     CTrackDB::self().addTrack(track, false);
 }
 
