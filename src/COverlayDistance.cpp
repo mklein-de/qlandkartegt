@@ -24,6 +24,8 @@
 #include "IUnit.h"
 #include "CMainWindow.h"
 #include "COverlayDB.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
 
 #include <QtGui>
 
@@ -279,3 +281,28 @@ void COverlayDistance::calcDistance()
     }
 
 }
+
+void COverlayDistance::customMenu(QMenu& menu)
+{
+    menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
+}
+
+void COverlayDistance::slotToTrack()
+{
+
+    IMap& map       = CMapDB::self().getDEM();
+    CTrack * track  = new CTrack(&CTrackDB::self());
+
+    XY point;
+    foreach(point, points){
+        CTrack::pt_t pt;
+        pt.lon = point.u * RAD_TO_DEG;
+        pt.lat = point.v * RAD_TO_DEG;
+        pt.ele = map.getElevation(point.u, point.v);
+
+        *track << pt;
+    }
+    CTrackDB::self().addTrack(track, false);
+}
+
+

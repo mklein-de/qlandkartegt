@@ -41,8 +41,13 @@ class COverlayDistance : public IOverlay
         void mouseReleaseEvent(QMouseEvent * e);
 
         void addPoint(XY& pt);
-
         XY getLast(){return points.last();}
+
+        void customMenu(QMenu& menu);
+
+    private slots:
+        void slotToTrack();
+
     private:
         void calcDistance();
 

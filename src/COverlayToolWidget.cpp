@@ -33,6 +33,8 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
 
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listOverlays,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+
+    connect(listOverlays,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
 COverlayToolWidget::~COverlayToolWidget()
@@ -64,5 +66,35 @@ void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     }
 
     overlays[key]->makeVisible();
-
 }
+
+void COverlayToolWidget::slotContextMenu(const QPoint& pos)
+{
+    QListWidgetItem * item = listOverlays->currentItem();
+    if(item) {
+        QPoint p = listOverlays->mapToGlobal(pos);
+
+        QMenu contextMenu;
+        COverlayDB::self().customMenu(item->data(Qt::UserRole).toString(), contextMenu);
+        if(contextMenu.isEmpty()){
+            contextMenu.addAction(QPixmap(),tr("<---->"));
+        }
+        contextMenu.addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
+        contextMenu.exec(p);
+    }
+}
+
+void COverlayToolWidget::slotDelete()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listOverlays->selectedItems();
+    foreach(item,items) {
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    COverlayDB::self().delOverlays(keys);
+}
+
+

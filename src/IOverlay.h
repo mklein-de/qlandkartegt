@@ -27,6 +27,7 @@ class QPainter;
 class QMouseEvent;
 class QFile;
 class COverlayDB;
+class QMenu;
 
 /// base class for any kind of overlays other than waypoints, tracks or routes
 class IOverlay : public QObject
@@ -74,6 +75,8 @@ class IOverlay : public QObject
 
         /// move map to make overlay visible
         virtual void makeVisible(){};
+
+        virtual void customMenu(QMenu& menu){}
 
         /// the overlay type as string
         const QString type;

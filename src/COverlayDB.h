@@ -33,6 +33,7 @@ class QString;
 class COverlayText;
 class COverlayTextBox;
 class COverlayDistance;
+class QMenu;
 
 class COverlayDB : public IDB
 {
@@ -64,6 +65,8 @@ class COverlayDB : public IDB
         COverlayText * addText(const QString& text, const QRect& rect);
         COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
         COverlayDistance * addDistance(const QList<XY>& pts);
+
+        void customMenu(const QString& key, QMenu& menu);
 
     private:
         friend class CMainWindow;

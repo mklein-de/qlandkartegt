@@ -52,9 +52,9 @@ class CTrack : public QObject
                 speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), ascend(0), descend(0), flags(0), dem(WPT_NOFLOAT){}
             /// index counter for easy QVector access
             qint32  idx;
-            /// longitude []
+            /// longitude [°]
             float   lon;
-            /// latitude []
+            /// latitude [°]
             float   lat;
             /// elevation [m]
             float   ele;

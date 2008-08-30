@@ -222,3 +222,8 @@ COverlayDistance * COverlayDB::addDistance(const QList<XY>& pts)
     return qobject_cast<COverlayDistance*>(overlay);
 }
 
+void COverlayDB::customMenu(const QString& key, QMenu& menu)
+{
+    if(!overlays.contains(key)) return;
+    overlays[key]->customMenu(menu);
+}
