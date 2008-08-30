@@ -71,6 +71,7 @@ CResources::CResources(QObject * parent)
     IDevice::m_DownloadAllTrk   = cfg.value("device/dnlTrk",IDevice::m_DownloadAllTrk).toBool();
     IDevice::m_DownloadAllWpt   = cfg.value("device/dnlWpt",IDevice::m_DownloadAllWpt).toBool();
     IDevice::m_UploadAllWpt     = cfg.value("device/uplWpt",IDevice::m_UploadAllWpt).toBool();
+    IDevice::m_UploadAllTrk     = cfg.value("device/uplTrk",IDevice::m_UploadAllTrk).toBool();
 
     pathMaps        = cfg.value("path/maps",pathMaps).toString();
 
@@ -115,6 +116,7 @@ CResources::~CResources()
     cfg.setValue("device/dnlTrk",IDevice::m_DownloadAllTrk);
     cfg.setValue("device/dnlWpt",IDevice::m_DownloadAllWpt);
     cfg.setValue("device/uplWpt",IDevice::m_UploadAllWpt);
+    cfg.setValue("device/uplTrk",IDevice::m_UploadAllTrk);
 
     cfg.setValue("environment/unittype",unit->type);
 }

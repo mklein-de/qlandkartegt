@@ -53,6 +53,7 @@ class IDevice : public QObject
 
         static bool m_UploadAllWpt;
         static bool m_DownloadAllWpt;
+        static bool m_UploadAllTrk;
         static bool m_DownloadAllTrk;
 
     signals:

@@ -81,6 +81,7 @@ void CDlgConfig::exec()
 
     checkDownloadTrk->setChecked(IDevice::m_DownloadAllTrk);
     checkDownloadWpt->setChecked(IDevice::m_DownloadAllWpt);
+    checkUploadTrk->setChecked(IDevice::m_UploadAllTrk);
     checkUploadWpt->setChecked(IDevice::m_UploadAllWpt);
 
     QDialog::exec();
@@ -128,6 +129,7 @@ void CDlgConfig::accept()
     IDevice::m_DownloadAllTrk   = checkDownloadTrk->isChecked();
     IDevice::m_DownloadAllWpt   = checkDownloadWpt->isChecked();
     IDevice::m_UploadAllWpt     = checkUploadWpt->isChecked();
+    IDevice::m_UploadAllTrk     = checkUploadTrk->isChecked();
 
     QDialog::accept();
 }

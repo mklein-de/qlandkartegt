@@ -24,6 +24,7 @@
 
 bool IDevice::m_UploadAllWpt    = true;
 bool IDevice::m_DownloadAllWpt  = true;
+bool IDevice::m_UploadAllTrk    = true;
 bool IDevice::m_DownloadAllTrk  = true;
 
 
@@ -62,6 +63,7 @@ void IDevice::downloadAll()
 void IDevice::uploadAll()
 {
     if(m_UploadAllWpt) CWptDB::self().upload();
+    if(m_UploadAllTrk) CTrackDB::self().upload();
 }
 
 void IDevice::setLiveLog(bool on)
