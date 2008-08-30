@@ -49,6 +49,7 @@ set(qlandkarte_SRCS
     CDlgCombineTracks.cpp
     CDlgProjWizzard.cpp
     CDlgEditText.cpp
+    CDlgEditDistance.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -139,6 +140,7 @@ set(qlandkarte_HDRS
     CDlgCombineTracks.h
     CDlgProjWizzard.h
     CDlgEditText.h
+    CDlgEditDistance.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -194,6 +196,7 @@ SET(qlandkarte_UIS
     IDlgWptIcon.ui
     IDlgEditMapLevel.ui
     IDlgCombineTracks.ui
+    IDlgEditDistance.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui

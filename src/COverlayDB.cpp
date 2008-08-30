@@ -114,7 +114,6 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     points << pt;
                 }
 
-                qDebug() << name << comment;
                 addDistance(name, comment, points);
             }
 

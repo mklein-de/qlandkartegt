@@ -50,9 +50,11 @@ class COverlayDistance : public IOverlay
 
     private slots:
         void slotToTrack();
+        void slotEdit();
 
     private:
         friend class COverlayDB;
+        friend class CDlgEditDistance;
         void calcDistance();
 
         QList<XY> points;

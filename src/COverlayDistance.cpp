@@ -26,6 +26,7 @@
 #include "COverlayDB.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CDlgEditDistance.h"
 
 #include <QtGui>
 
@@ -88,8 +89,6 @@ QString COverlayDistance::getInfo()
 {
     QString info;
     QString val, unit;
-
-    qDebug() << name << comment;
 
     if(!name.isEmpty()){
         info += name + "\n";
@@ -326,6 +325,7 @@ void COverlayDistance::calcDistance()
 void COverlayDistance::customMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
+    menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
 }
 
 void COverlayDistance::slotToTrack()
@@ -378,4 +378,11 @@ void COverlayDistance::slotToTrack()
     CTrackDB::self().addTrack(track, false);
 }
 
+void COverlayDistance::slotEdit()
+{
+    CDlgEditDistance dlg(*this, 0);
+    dlg.exec();
+
+    emit sigChanged();
+}
 
