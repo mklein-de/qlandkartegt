@@ -27,6 +27,8 @@
 #include <QDateTime>
 #include "CWpt.h"
 
+#define MAX_TRACK_SIZE 10000
+
 class CTrack : public QObject
 {
     Q_OBJECT;

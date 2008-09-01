@@ -342,9 +342,15 @@ void COverlayDistance::slotToTrack()
 
     track->name = name;
 
-    double distance, d, a1 , a2;
+    double dist, d, delta = 10.0, a1 , a2;
     XY pt1, pt2, ptx;
     CTrack::pt_t pt;
+
+    if((distance / delta) > (MAX_TRACK_SIZE - points.count())){
+        delta = distance / (MAX_TRACK_SIZE - points.count());
+    }
+
+    qDebug() << distance << delta << (MAX_TRACK_SIZE - points.count()) << (distance / delta);
 
     // 1st point
     pt1 = points.first();
@@ -359,18 +365,18 @@ void COverlayDistance::slotToTrack()
 
 
         // all points from pt1 -> pt2, with 10m steps
-        distance = ::distance(pt1, pt2, a1, a2);
+        dist = ::distance(pt1, pt2, a1, a2);
         a1 *= DEG_TO_RAD;
 
-        d = 10;
-        while(d < distance){
+        d = delta;
+        while(d < dist){
             ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
             pt.lon = ptx.u * RAD_TO_DEG;
             pt.lat = ptx.v * RAD_TO_DEG;
             pt.ele = map.getElevation(ptx.u, ptx.v);
             *track << pt;
 
-            d += 10.0;
+            d += delta;
         }
 
         // and finally the next point
