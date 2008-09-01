@@ -61,18 +61,21 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        cursor = QCursor(QPixmap(":/cursors/cursorMove"));
-        QApplication::setOverrideCursor(cursor);
-        moveMap     = true;
-        oldPoint    = e->pos();
+
+        CTrack * track = CTrackDB::self().highlightedTrack();
 
         if(selWpt) {
             CWptDB::self().selWptByKey(selWpt->key());
+            mousePressEventWpt(e);
         }
-
-        CTrack * track = CTrackDB::self().highlightedTrack();
-        if(track && selTrkPt) {
+        else if(track && selTrkPt) {
             track->setPointOfFocus(selTrkPt->idx);
+        }
+        else{
+            cursor = QCursor(QPixmap(":/cursors/cursorMove"));
+            QApplication::setOverrideCursor(cursor);
+            moveMap     = true;
+            oldPoint    = e->pos();
         }
     }
     else if(e->button() == Qt::RightButton) {
@@ -104,7 +107,7 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint ..."),this,SLOT(slotEditWpt()));
         if(!selWpt->sticky){
             menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
-            menu.addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
+            menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
     }
     else{

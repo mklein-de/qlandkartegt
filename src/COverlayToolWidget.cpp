@@ -79,7 +79,7 @@ void COverlayToolWidget::slotContextMenu(const QPoint& pos)
         if(contextMenu.isEmpty()){
             contextMenu.addAction(QPixmap(),tr("<---->"));
         }
-        contextMenu.addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+        contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
 
         contextMenu.exec(p);
     }

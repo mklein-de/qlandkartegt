@@ -94,6 +94,9 @@ class IMouse : public QObject
         /// choose overlay under cursor
         void mouseMoveEventOverlay(QMouseEvent * e);
 
+        /// trigger waypoint function
+        void mousePressEventWpt(QMouseEvent * e);
+
         /// the functions mouse icon
         QCursor cursor;
         /// pointer to the parent canvas
@@ -108,5 +111,11 @@ class IMouse : public QObject
         /// current selected overlay
         QPointer<IOverlay> selOverlay;
 
+        QRect rectDelWpt;
+        QRect rectMoveWpt;
+        QRect rectEditWpt;
+        QRect rectCopyWpt;
+
+        bool doSpecialCursor;
 };
 #endif                           //IMOUSE_H

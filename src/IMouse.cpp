@@ -29,6 +29,8 @@
 #include "CResources.h"
 #include "IOverlay.h"
 #include "IUnit.h"
+#include "CDlgEditWpt.h"
+#include "GeoMath.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -36,8 +38,12 @@ IMouse::IMouse(CCanvas * canvas)
 , cursor(QPixmap(":/cursor/Arrow"))
 , canvas(canvas)
 , selTrkPt(0)
+, doSpecialCursor(false)
 {
-
+    rectDelWpt  = QRect(0,0,16,16);
+    rectMoveWpt = QRect(32,0,16,16);
+    rectEditWpt = QRect(0,32,16,16);
+    rectCopyWpt = QRect(32,32,16,16);
 }
 
 
@@ -80,7 +86,17 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
-        p.drawEllipse(QRect(u - 11,  v - 11, 22, 22));
+        p.drawEllipse(QPoint(u, v), 35, 35);
+
+        p.save();
+        p.translate(u - 24, v - 24);
+        if(!selWpt->sticky){
+            p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
+            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWptMove16x16.png"));
+        }
+        p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
+        p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
+        p.restore();
 
         QString str;
         if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF) {
@@ -178,17 +194,18 @@ void IMouse::drawSelTrkPt(QPainter& p)
 
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
-    IMap& map = CMapDB::self().getMap();
-    CWpt * oldWpt = selWpt; selWpt = 0;
+    QPoint pos      = e->pos();
+    IMap& map       = CMapDB::self().getMap();
+    CWpt * oldWpt   = selWpt; selWpt = 0;
 
+    // find the waypoint close to the cursor
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()) {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        QPoint diff = e->pos() - QPoint(u,v);
-        if(diff.manhattanLength() < 15) {
+        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225) {
             selWpt = *wpt;
             break;
         }
@@ -196,7 +213,75 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         ++wpt;
     }
 
+    // check for cursor-over-function
+    if(selWpt){
+        double u = selWpt->lon * DEG_TO_RAD;
+        double v = selWpt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        QPoint pt = pos - QPoint(u - 24, v - 24);
+
+        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt)){
+            if(!doSpecialCursor){
+                QApplication::setOverrideCursor(Qt::PointingHandCursor);
+                doSpecialCursor = true;
+            }
+        }
+        else{
+            if(doSpecialCursor){
+                QApplication::restoreOverrideCursor();
+                doSpecialCursor = false;
+            }
+        }
+    }
+    else {
+        if(doSpecialCursor){
+            QApplication::restoreOverrideCursor();
+            doSpecialCursor = false;
+        }
+    }
+
+    // do a canvas update on a change only
     if(oldWpt != selWpt) {
+        canvas->update();
+    }
+}
+
+void IMouse::mousePressEventWpt(QMouseEvent * e)
+{
+    if(selWpt.isNull()) return;
+
+    IMap& map   = CMapDB::self().getMap();
+    QPoint pos  = e->pos();
+    double u    = selWpt->lon * DEG_TO_RAD;
+    double v    = selWpt->lat * DEG_TO_RAD;
+    map.convertRad2Pt(u,v);
+
+    QPoint pt = pos - QPoint(u - 24, v - 24);
+    if(rectDelWpt.contains(pt)){
+        CWptDB::self().delWpt(selWpt->key(), false, true);
+    }
+    else if(rectMoveWpt.contains(pt)){
+        canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+
+        QMouseEvent event1(QEvent::MouseMove, QPoint(u,v), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+        QCoreApplication::sendEvent(canvas,&event1);
+
+        QMouseEvent event2(QEvent::MouseButtonPress, QPoint(u,v), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+        QCoreApplication::sendEvent(canvas,&event2);
+    }
+    else if(rectEditWpt.contains(pt)){
+        CDlgEditWpt dlg(*selWpt,canvas);
+        dlg.exec();
+    }
+    else if(rectCopyWpt.contains(pt)){
+        QString position;
+        GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
+
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(position);
+
+        selWpt = 0;
         canvas->update();
     }
 }

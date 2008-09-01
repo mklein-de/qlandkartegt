@@ -38,13 +38,13 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 
     contextMenuKnownMaps = new QMenu(this);
     contextMenuKnownMaps->addAction(QPixmap(),tr("<---->"));
-    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
+    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
     connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotKnownMapClicked(QListWidgetItem*)));
 
     contextMenuSelectedMaps = new QMenu(this);
     contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
-    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDeleteSelectedMap()));
+    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteSelectedMap()));
     connect(listSelectedMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuSelectedMaps(const QPoint&)));
     connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
     connect(listSelectedMaps,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotSelectMap(QListWidgetItem*)));
