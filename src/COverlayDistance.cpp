@@ -287,7 +287,8 @@ void COverlayDistance::draw(QPainter& p)
 
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
-        p.drawEllipse(QPoint(pt2.u, pt2.v), 35, 35);
+        p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
+//         p.drawEllipse(QPoint(pt2.u, pt2.v), 35, 35);
 
         p.drawPixmap(pt2.u - 5, pt2.v - 5, QPixmap(":/icons/bullet_red.png"));
 
