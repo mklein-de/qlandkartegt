@@ -1,3 +1,25 @@
+--- 2008.09.01 ---
+
+Request #6:
+Add distance polyline to olverlays
+
+Request #7:
+Convert distance overlay to track
+
+Request #8:
+Save / load distance overlay as qlb and qpx
+
+Request #9:
+Add device quick selection to left hand tool view.
+
+Request #10:
+Add track upload (QLandkarte M only)
+
+Request #11:
+Add icon wheel to select function to waypoints
+
+
+
 --- 2008.07.14 ---
 
 Request #1:
@@ -208,6 +230,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
