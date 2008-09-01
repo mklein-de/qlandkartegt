@@ -68,6 +68,8 @@ CResources::CResources(QObject * parent)
     m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
     m_devType         = cfg.value("device/type",m_devType).toString();
 
+    emit sigDeviceChanged();
+
     IDevice::m_DownloadAllTrk   = cfg.value("device/dnlTrk",IDevice::m_DownloadAllTrk).toBool();
     IDevice::m_DownloadAllWpt   = cfg.value("device/dnlWpt",IDevice::m_DownloadAllWpt).toBool();
     IDevice::m_UploadAllWpt     = cfg.value("device/uplWpt",IDevice::m_UploadAllWpt).toBool();

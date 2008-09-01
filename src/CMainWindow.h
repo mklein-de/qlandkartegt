@@ -76,6 +76,7 @@ class CMainWindow : public QMainWindow
         void slotDataChanged();
         void slotOpenLink(const QString& link);
         void slotCurrentDeviceChanged(int);
+        void slotDeviceChanged();
 
     private:
         void setupMenuBar();

@@ -86,11 +86,9 @@ CMainWindow::CMainWindow()
     ltmp->addWidget(new QLabel(tr("<b>GPS Device:</b>"), wtmp));
 
     comboDevice = new QComboBox(wtmp);
-    comboDevice->addItem(tr(""),"");
-    comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
-    comboDevice->addItem(resources->m_devType, "Garmin");
+    connect(resources, SIGNAL(sigDeviceChanged()), this, SLOT(slotDeviceChanged()));
     connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
-    comboDevice->setCurrentIndex(comboDevice->findData(resources->m_devKey));
+    slotDeviceChanged();
 
     ltmp->addWidget(comboDevice);
 
@@ -629,4 +627,17 @@ void CMainWindow::slotOpenLink(const QString& link)
 void CMainWindow::slotCurrentDeviceChanged(int i)
 {
     resources->m_devKey = comboDevice->itemData(i).toString();
+}
+
+void CMainWindow::slotDeviceChanged()
+{
+    QString devKey = resources->m_devKey;
+
+    comboDevice->clear();
+    comboDevice->addItem(tr(""),"");
+    comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
+    comboDevice->addItem(resources->m_devType, "Garmin");
+
+    resources->m_devKey = devKey;
+    comboDevice->setCurrentIndex(comboDevice->findData(resources->m_devKey));
 }

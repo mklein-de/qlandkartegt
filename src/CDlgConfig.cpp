@@ -34,6 +34,7 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 {
     setupUi(this);
     connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
+    fillTypeCombo();
 }
 
 
@@ -121,10 +122,13 @@ void CDlgConfig::accept()
     resources.m_devSerialPort   = lineDevSerialPort->text();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
 
+
     if(resources.m_device){
         delete resources.m_device;
         resources.m_device = 0;
     }
+
+    emit resources.sigDeviceChanged();
 
     IDevice::m_DownloadAllTrk   = checkDownloadTrk->isChecked();
     IDevice::m_DownloadAllWpt   = checkDownloadWpt->isChecked();
@@ -174,6 +178,8 @@ void CDlgConfig::slotSelectFont()
 
 void CDlgConfig::fillTypeCombo()
 {
+    comboDevType->clear();
+
     CResources& resources = CResources::self();
     QRegExp regex("lib(.*)\\" XSTR(SOEXT));
     QString file;
@@ -187,6 +193,7 @@ void CDlgConfig::fillTypeCombo()
         }
     }
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
+
     if(files.isEmpty()){
         labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(QL_LIBDIR)));
     }

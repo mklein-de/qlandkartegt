@@ -60,6 +60,7 @@ class CResources : public QObject
 
         signals:
         void sigProxyChanged();
+        void sigDeviceChanged();
 
     private:
         friend class CMainWindow;

@@ -109,7 +109,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
 
     thePoint = 0;
 
-    double dist = 900.0;
+    double dist = 1225.0;
     while(p != points.end()){
         XY pt1 = *p;
         map.convertRad2Pt(pt1.u, pt1.v);
@@ -122,7 +122,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
         ++p;
     }
 
-    return (dist != 900.0);
+    return (dist != 1225.0);
 }
 
 void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
@@ -284,12 +284,17 @@ void COverlayDistance::draw(QPainter& p)
     if(thePoint && !doMove){
         pt2 = *thePoint;
         map.convertRad2Pt(pt2.u, pt2.v);
+
+        p.setPen(Qt::red);
+        p.setBrush(QColor(255,255,255,200));
+        p.drawEllipse(QPoint(pt2.u, pt2.v), 35, 35);
+
         p.drawPixmap(pt2.u - 5, pt2.v - 5, QPixmap(":/icons/bullet_red.png"));
 
         p.save();
         p.translate(pt2.u - 24, pt2.v - 24);
         p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
-        p.drawPixmap(rectMove, QPixmap(":/icons/iconWptMove16x16.png"));
+        p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
         p.drawPixmap(rectAdd1, QPixmap(":/icons/iconAdd16x16.png"));
         p.drawPixmap(rectAdd2, QPixmap(":/icons/iconAdd16x16.png"));
 
@@ -334,6 +339,8 @@ void COverlayDistance::slotToTrack()
 
     IMap& map       = CMapDB::self().getDEM();
     CTrack * track  = new CTrack(&CTrackDB::self());
+
+    track->name = name;
 
     double distance, d, a1 , a2;
     XY pt1, pt2, ptx;
