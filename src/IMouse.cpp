@@ -86,7 +86,6 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
-//         p.drawEllipse(QPoint(u, v), 35, 35);
         p.drawEllipse(u - 35, v - 35, 70, 70);
 
         p.save();
