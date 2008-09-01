@@ -350,8 +350,6 @@ void COverlayDistance::slotToTrack()
         delta = distance / (MAX_TRACK_SIZE - points.count());
     }
 
-    qDebug() << distance << delta << (MAX_TRACK_SIZE - points.count()) << (distance / delta);
-
     // 1st point
     pt1 = points.first();
     pt.lon = pt1.u * RAD_TO_DEG;
