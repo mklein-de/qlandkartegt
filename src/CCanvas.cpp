@@ -267,18 +267,20 @@ void CCanvas::print(QPrinter& printer)
 
 void CCanvas::draw(QPainter& p)
 {
-//     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     CMapDB::self().draw(p,rect());
     CTrackDB::self().draw(p, rect());
     CLiveLogDB::self().draw(p, rect());
     CWptDB::self().draw(p, rect());
     CSearchDB::self().draw(p, rect());
+
+    p.setRenderHint(QPainter::Antialiasing,true);
     COverlayDB::self().draw(p, rect());
+
     drawRefPoints(p);
     drawScale(p);
 
     mouse->draw(p);
-//     QApplication::restoreOverrideCursor();
+    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 void CCanvas::drawRefPoints(QPainter& p)
@@ -357,7 +359,6 @@ void CCanvas::drawScale(QPainter& p)
     // step IV: draw the scale
     QPoint px2(px1 - QPoint(px1.x() - pt2.u,0));
 
-    p.setRenderHint(QPainter::Antialiasing,false);
     p.setPen(QPen(Qt::white, 9));
     p.drawLine(px1, px2 + QPoint(9,0));
     p.setPen(QPen(Qt::black, 7));
@@ -371,7 +372,6 @@ void CCanvas::drawScale(QPainter& p)
     pen.setDashPattern(pattern);
     p.setPen(pen);
     p.drawLine(px1, px2 + QPoint(9,0));
-    p.setRenderHint(QPainter::Antialiasing,true);
 
     QPoint px3(px2.x() + (px1.x() - px2.x())/2, px2.y());
 

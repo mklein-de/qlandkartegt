@@ -285,7 +285,7 @@ void COverlayDistance::draw(QPainter& p)
         pt2 = *thePoint;
         map.convertRad2Pt(pt2.u, pt2.v);
 
-        p.setPen(Qt::red);
+        p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(QPoint(pt2.u, pt2.v), 35, 35);
 
