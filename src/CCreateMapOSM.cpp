@@ -465,8 +465,8 @@ void CCreateMapOSM::slotCreate()
     maxTiles = tiles.count();
     progress->setMaximum(maxTiles);
 
-    link->setHost("tah.openstreetmap.org");
-    //     link->setHost("tile.openstreetmap.org");
+    //link->setHost("tah.openstreetmap.org");
+    link->setHost("tile.openstreetmap.org");
     getNextTile();
 }
 
