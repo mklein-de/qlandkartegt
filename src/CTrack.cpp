@@ -255,6 +255,29 @@ CTrack::~CTrack()
 
 }
 
+QRectF CTrack::getBoundingRectF()
+{
+
+    double north =  -90.0;
+    double south =  +90.0;
+    double west  = +180.0;
+    double east  = -180.0;
+
+    //CTrack * track = tracks[key];
+    QVector<CTrack::pt_t>& trkpts = getTrackPoints();
+    QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    while(trkpt != trkpts.end()) {
+        if(!(trkpt->flags & CTrack::pt_t::eDeleted)) {
+            if(trkpt->lon < west)  west  = trkpt->lon;
+            if(trkpt->lon > east)  east  = trkpt->lon;
+            if(trkpt->lat < south) south = trkpt->lat;
+            if(trkpt->lat > north) north = trkpt->lat;
+        }
+        ++trkpt;
+    }
+
+    return QRectF(QPointF(west,north),QPointF(east,south));
+}
 
 void CTrack::setColor(unsigned i)
 {

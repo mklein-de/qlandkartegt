@@ -20,7 +20,7 @@
 #define CTRACKDB_H
 
 #include "IDB.h"
-
+#include <QRectF>
 #include <QMap>
 class QToolBox;
 class CTrack;
@@ -68,6 +68,9 @@ class CTrackDB : public IDB
         CTrackToolWidget * getToolWidget();
 
         int count(){return tracks.count();}
+
+        QRectF getBoundingRectF(const QString key);
+        QRectF getBoundingRectF();
 
         void draw(QPainter& p, const QRect& rect);
 

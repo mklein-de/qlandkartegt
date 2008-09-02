@@ -21,6 +21,7 @@
 #include "CResources.h"
 #include "GeoMath.h"
 #include "CMapDB.h"
+#include "CTrackDB.h"
 #include "CMainWindow.h"
 
 #include <QtGui>
@@ -319,7 +320,21 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     setupUi(this);
     labelPath->setText(CResources::self().pathMaps);
 
-    connect(pushCreate, SIGNAL(clicked()), this, SLOT(slotCreate()));
+   	QRectF r = CTrackDB::self().getBoundingRectF();
+
+    QString positionTop;
+    GPS_Math_Deg_To_Str(r.left(), r.top(), positionTop);
+
+    QString positionBottom;
+    GPS_Math_Deg_To_Str(r.right(), r.bottom(), positionBottom);
+
+
+     lineBottomRight->setText(positionBottom);
+     lineTopLeft->setText(positionTop);
+
+     connect(pushCreate, SIGNAL(clicked()), this, SLOT(slotCreate()));
+
+
 
     QString url;
     quint16 port;

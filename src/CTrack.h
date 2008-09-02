@@ -122,6 +122,8 @@ class CTrack : public QObject
         /// get the descend in [m]
         double getDescend(){return totalDescend;}
 
+        QRectF getBoundingRectF();
+
         CTrack& operator+=(const CTrack& trk);
 
         static const QColor colors[];

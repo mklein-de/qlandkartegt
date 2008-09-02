@@ -127,30 +127,10 @@ void CTrackToolWidget::slotDBChanged()
 void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
     QString key = item->data(Qt::UserRole).toString();
-    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
-    if(!tracks.contains(key)) {
-        return;
-    }
 
-    double north =  -90.0;
-    double south =  +90.0;
-    double west  = +180.0;
-    double east  = -180.0;
+    QRectF r = CTrackDB::self().getBoundingRectF(key);
 
-    CTrack * track = tracks[key];
-    QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(!(trkpt->flags & CTrack::pt_t::eDeleted)) {
-            if(trkpt->lon < west)  west  = trkpt->lon;
-            if(trkpt->lon > east)  east  = trkpt->lon;
-            if(trkpt->lat < south) south = trkpt->lat;
-            if(trkpt->lat > north) north = trkpt->lat;
-        }
-        ++trkpt;
-    }
-
-    CMapDB::self().getMap().zoom(west * DEG_TO_RAD, north * DEG_TO_RAD, east * DEG_TO_RAD, south * DEG_TO_RAD);
+    CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }
 
 

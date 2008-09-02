@@ -60,6 +60,23 @@ CTrackToolWidget * CTrackDB::getToolWidget()
     return qobject_cast<CTrackToolWidget*>(toolview);
 }
 
+QRectF CTrackDB::getBoundingRectF(const QString key)
+{
+	if(!tracks.contains(key)) {
+        return QRectF();
+    }
+	return tracks.value(key)->getBoundingRectF();
+}
+
+QRectF CTrackDB::getBoundingRectF()
+{
+	QRectF r;
+	foreach(CTrack *track, tracks.values())
+	{
+		r = r.united(track->getBoundingRectF());
+	}
+	return r;
+}
 
 void CTrackDB::loadQLB(CQlb& qlb)
 {
@@ -451,4 +468,5 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
         }
     }
 }
+
 
