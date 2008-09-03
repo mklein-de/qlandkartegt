@@ -31,6 +31,8 @@
 #include "IUnit.h"
 #include "CDlgEditWpt.h"
 #include "GeoMath.h"
+#include "CSearch.h"
+#include "CSearchDB.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -40,10 +42,14 @@ IMouse::IMouse(CCanvas * canvas)
 , selTrkPt(0)
 , doSpecialCursor(false)
 {
-    rectDelWpt  = QRect(0,0,16,16);
-    rectMoveWpt = QRect(32,0,16,16);
-    rectEditWpt = QRect(0,32,16,16);
-    rectCopyWpt = QRect(32,32,16,16);
+    rectDelWpt          = QRect(0,0,16,16);
+    rectMoveWpt         = QRect(32,0,16,16);
+    rectEditWpt         = QRect(0,32,16,16);
+    rectCopyWpt         = QRect(32,32,16,16);
+
+    rectDelSearch       = QRect(0,0,16,16);
+    rectConvertSearch   = QRect(0,32,16,16);
+    rectCopySearch      = QRect(32,32,16,16);
 }
 
 
@@ -144,6 +150,28 @@ void IMouse::drawSelWpt(QPainter& p)
     }
 }
 
+
+void IMouse::drawSelSearch(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    if(!selSearch.isNull()) {
+        double u = selSearch->lon * DEG_TO_RAD;
+        double v = selSearch->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        p.setPen(QColor(100,100,255,200));
+        p.setBrush(QColor(255,255,255,200));
+        p.drawEllipse(u - 35, v - 35, 70, 70);
+
+        p.save();
+        p.translate(u - 24, v - 24);
+        p.drawPixmap(rectDelSearch, QPixmap(":/icons/iconClear16x16.png"));
+        p.drawPixmap(rectConvertSearch, QPixmap(":/icons/iconWaypoint16x16.png"));
+        p.drawPixmap(rectCopySearch, QPixmap(":/icons/iconClipboard16x16.png"));
+        p.restore();
+
+    }
+}
 
 void IMouse::drawSelTrkPt(QPainter& p)
 {
@@ -249,10 +277,29 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
 void IMouse::mouseMoveEventSearch(QMouseEvent * e)
 {
-    QPoint pos      = e->pos();
-    IMap& map       = CMapDB::self().getMap();
-//     CSearch     * oldWpt = selWpt; selWpt = 0;
+    QPoint pos          = e->pos();
+    IMap& map           = CMapDB::self().getMap();
+    CSearch * oldSearch = selSearch; selSearch = 0;
 
+    // find the search close to the cursor
+    QMap<QString,CSearch*>::const_iterator search = CSearchDB::self().begin();
+    while(search != CSearchDB::self().end()) {
+        double u = (*search)->lon * DEG_TO_RAD;
+        double v = (*search)->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225) {
+            selSearch = *search;
+            break;
+        }
+
+        ++search;
+    }
+
+    // do a canvas update on a change only
+    if(oldSearch != selSearch) {
+        canvas->update();
+    }
 }
 
 void IMouse::mousePressEventWpt(QMouseEvent * e)

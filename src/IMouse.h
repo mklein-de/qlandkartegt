@@ -31,6 +31,7 @@ class QMenu;
 class CCanvas;
 class CWpt;
 class IOverlay;
+class CSearch;
 
 
 /// Base class to all mouse function objects
@@ -86,6 +87,8 @@ class IMouse : public QObject
         void drawSelWpt(QPainter& p);
         /// draw selected track point
         void drawSelTrkPt(QPainter& p);
+        /// draw selected search
+        void drawSelSearch(QPainter& p);
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
@@ -118,6 +121,12 @@ class IMouse : public QObject
         QRect rectEditWpt;
         QRect rectCopyWpt;
 
+        QRect rectDelSearch;
+        QRect rectConvertSearch;
+        QRect rectCopySearch;
+
         bool doSpecialCursor;
+
+        QPointer<CSearch> selSearch;
 };
 #endif                           //IMOUSE_H

@@ -55,6 +55,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
     mouseMoveEventWpt(e);
     mouseMoveEventTrack(e);
     mouseMoveEventOverlay(e);
+    mouseMoveEventSearch(e);
 }
 
 
@@ -97,6 +98,7 @@ void CMouseMoveMap::draw(QPainter& p)
 {
     drawSelWpt(p);
     drawSelTrkPt(p);
+    drawSelSearch(p);
 }
 
 void CMouseMoveMap::contextMenu(QMenu& menu)
