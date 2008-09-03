@@ -20,6 +20,7 @@
 #define CSEARCHDB_H
 
 #include "IDB.h"
+#include "CSearch.h"
 
 #include <QMap>
 
@@ -32,12 +33,12 @@ class CSearchDB : public IDB
     public:
         virtual ~CSearchDB();
 
-        struct result_t
-        {
-            qreal   lon;
-            qreal   lat;
-            QString query;
-        };
+//         struct result_t
+//         {
+//             qreal   lon;
+//             qreal   lat;
+//             QString query;
+//         };
 
         static CSearchDB& self(){return *m_self;}
 
@@ -46,11 +47,11 @@ class CSearchDB : public IDB
         /// start a query with given string
         void search(const QString& str);
         /// get iterator access to track point list
-        QMap<QString,result_t>::iterator begin(){return results.begin();}
+        QMap<QString,CSearch*>::iterator begin(){return results.begin();}
         /// get iterator access to track point list
-        QMap<QString,result_t>::iterator end(){return results.end();}
+        QMap<QString,CSearch*>::iterator end(){return results.end();}
 
-        result_t * getResultByKey(const QString& key);
+        CSearch * getResultByKey(const QString& key);
 
         void delResults(const QStringList& keys);
 
@@ -81,7 +82,7 @@ class CSearchDB : public IDB
         static CSearchDB * m_self;
 
         QHttp * google;
-        result_t tmpResult;
-        QMap<QString,result_t> results;
+        CSearch tmpResult;
+        QMap<QString,CSearch*> results;
 };
 #endif                           //CSEARCHDB_H

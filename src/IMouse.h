@@ -93,6 +93,8 @@ class IMouse : public QObject
         void mouseMoveEventTrack(QMouseEvent * e);
         /// choose overlay under cursor
         void mouseMoveEventOverlay(QMouseEvent * e);
+        /// choose waypoint close to cursor
+        void mouseMoveEventSearch(QMouseEvent * e);
 
         /// trigger waypoint function
         void mousePressEventWpt(QMouseEvent * e);

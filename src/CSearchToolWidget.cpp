@@ -81,10 +81,10 @@ void CSearchToolWidget::slotDBChanged()
 {
     listResults->clear();
 
-    QMap<QString,CSearchDB::result_t>::const_iterator result = CSearchDB::self().begin();
+    QMap<QString,CSearch*>::const_iterator result = CSearchDB::self().begin();
     while(result != CSearchDB::self().end()) {
         QListWidgetItem * item = new QListWidgetItem(listResults);
-        item->setText(result->query);
+        item->setText((*result)->query);
 
         ++result;
     }
@@ -102,7 +102,7 @@ void CSearchToolWidget::slotContextMenu(const QPoint& pos)
 
 void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
 {
-    CSearchDB::result_t * result = CSearchDB::self().getResultByKey(item->text());
+    CSearch * result = CSearchDB::self().getResultByKey(item->text());
     if(result) {
         theMainWindow->getCanvas()->move(result->lon, result->lat);
     }
@@ -124,7 +124,7 @@ void CSearchToolWidget::slotCopyPosition()
 {
     QListWidgetItem * item = listResults->currentItem();
     if(item == 0) return;
-    CSearchDB::result_t * result = CSearchDB::self().getResultByKey(item->text());
+    CSearch * result = CSearchDB::self().getResultByKey(item->text());
     if(result == 0) return;
 
     QString position;
@@ -139,7 +139,7 @@ void CSearchToolWidget::slotAdd()
 {
     QListWidgetItem * item = listResults->currentItem();
     if(item == 0) return;
-    CSearchDB::result_t * result = CSearchDB::self().getResultByKey(item->text());
+    CSearch * result = CSearchDB::self().getResultByKey(item->text());
     if(result == 0) return;
 
     float ele = CMapDB::self().getDEM().getElevation(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD);

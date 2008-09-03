@@ -247,6 +247,14 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
     }
 }
 
+void IMouse::mouseMoveEventSearch(QMouseEvent * e)
+{
+    QPoint pos      = e->pos();
+    IMap& map       = CMapDB::self().getMap();
+//     CSearch     * oldWpt = selWpt; selWpt = 0;
+
+}
+
 void IMouse::mousePressEventWpt(QMouseEvent * e)
 {
     if(selWpt.isNull()) return;

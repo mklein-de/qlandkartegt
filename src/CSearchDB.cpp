@@ -35,6 +35,7 @@ static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , google(0)
+, tmpResult(0)
 {
     m_self      = this;
     toolview    = new CSearchToolWidget(tb);
@@ -127,9 +128,15 @@ void CSearchDB::slotRequestFinished(int , bool error)
 
         tmpResult.lat = values[2].toDouble();
         tmpResult.lon = values[3].toDouble();
-        results[tmpResult.query] = tmpResult;
 
-        theMainWindow->getCanvas()->move(tmpResult.lon, tmpResult.lat);
+        CSearch * item = new CSearch(this);
+        item->lon   = tmpResult.lon;
+        item->lat   = tmpResult.lat;
+        item->query = tmpResult.query;
+
+        results[item->query] = item;
+
+        theMainWindow->getCanvas()->move(item->lon, item->lat);
 
         emit sigStatus(tr("Success."));
     }
@@ -157,26 +164,26 @@ void CSearchDB::slotRequestFinished(int , bool error)
 }
 
 
-CSearchDB::result_t * CSearchDB::getResultByKey(const QString& key)
+CSearch * CSearchDB::getResultByKey(const QString& key)
 {
     if(!results.contains(key)) return 0;
 
-    return &results[key];
+    return results[key];
 }
 
 void CSearchDB::draw(QPainter& p, const QRect& rect)
 {
     IMap& map = CMapDB::self().getMap();
 
-    QMap<QString,CSearchDB::result_t>::const_iterator result = results.begin();
+    QMap<QString,CSearch*>::const_iterator result = results.begin();
     while(result != results.end()) {
-        double u = result->lon * DEG_TO_RAD;
-        double v = result->lat * DEG_TO_RAD;
+        double u = (*result)->lon * DEG_TO_RAD;
+        double v = (*result)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
         if(rect.contains(QPoint(u,v))) {
             p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
-            CCanvas::drawText(result->query, p, QPoint(u, v - 10));
+            CCanvas::drawText((*result)->query, p, QPoint(u, v - 10));
         }
 
         ++result;
