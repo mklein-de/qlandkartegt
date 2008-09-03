@@ -65,12 +65,15 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(selWpt) {
+        if(!selWpt.isNull()) {
             CWptDB::self().selWptByKey(selWpt->key());
             mousePressEventWpt(e);
         }
         else if(track && selTrkPt) {
             track->setPointOfFocus(selTrkPt->idx);
+        }
+        else if(!selSearch.isNull()){
+            mousePressEventSearch(e);
         }
         else{
             cursor = QCursor(QPixmap(":/cursors/cursorMove"));

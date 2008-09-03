@@ -296,6 +296,35 @@ void IMouse::mouseMoveEventSearch(QMouseEvent * e)
         ++search;
     }
 
+    // check for cursor-over-function
+    if(selSearch){
+        double u = selSearch->lon * DEG_TO_RAD;
+        double v = selSearch->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        QPoint pt = pos - QPoint(u - 24, v - 24);
+
+        if(rectDelSearch.contains(pt) || rectCopySearch.contains(pt) ||  rectConvertSearch.contains(pt)){
+            if(!doSpecialCursor){
+                QApplication::setOverrideCursor(Qt::PointingHandCursor);
+                doSpecialCursor = true;
+            }
+        }
+        else{
+            if(doSpecialCursor){
+                QApplication::restoreOverrideCursor();
+                doSpecialCursor = false;
+            }
+        }
+    }
+    else {
+        if(doSpecialCursor){
+            QApplication::restoreOverrideCursor();
+            doSpecialCursor = false;
+        }
+    }
+
+
     // do a canvas update on a change only
     if(oldSearch != selSearch) {
         canvas->update();
@@ -341,6 +370,40 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     }
 }
 
+void IMouse::mousePressEventSearch(QMouseEvent * e)
+{
+    if(selSearch.isNull()) return;
+
+    IMap& map   = CMapDB::self().getMap();
+    QPoint pos  = e->pos();
+    double u    = selSearch->lon * DEG_TO_RAD;
+    double v    = selSearch->lat * DEG_TO_RAD;
+    map.convertRad2Pt(u,v);
+
+    QPoint pt = pos - QPoint(u - 24, v - 24);
+    if(rectDelSearch.contains(pt)){
+        QStringList keys;
+        keys << selSearch->query;
+        CSearchDB::self().delResults(keys);
+    }
+    else if(rectConvertSearch.contains(pt)){
+//         float ele = CMapDB::self().getDEM().getElevation(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD);
+//         CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele);
+//
+//         CDlgEditWpt dlg(*selWpt,canvas);
+//         dlg.exec();
+    }
+    else if(rectCopyWpt.contains(pt)){
+        QString position;
+        GPS_Math_Deg_To_Str(selSearch->lon, selSearch->lat, position);
+
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(position);
+
+        selWpt = 0;
+        canvas->update();
+    }
+}
 
 void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 {

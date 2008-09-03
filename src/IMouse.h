@@ -101,6 +101,8 @@ class IMouse : public QObject
 
         /// trigger waypoint function
         void mousePressEventWpt(QMouseEvent * e);
+        /// trigger search function
+        void mousePressEventSearch(QMouseEvent * e);
 
         /// the functions mouse icon
         QCursor cursor;
