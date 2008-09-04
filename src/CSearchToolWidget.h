@@ -32,6 +32,9 @@ class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
         CSearchToolWidget(QTabWidget * parent);
         virtual ~CSearchToolWidget();
 
+    protected:
+        void keyPressEvent(QKeyEvent * e);
+
     private slots:
         void slotReturnPressed();
         void slotQueryFinished();

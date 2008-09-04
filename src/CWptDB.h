@@ -50,8 +50,10 @@ class CWptDB : public IDB
             @param lon longitude in [rad]
             @param lat latitude in [rad]
             @param ele elevation in [m]
+
+            @return A temporary pointer to the waypoint object or 0 if the waypoint dialog was canceled.
         */
-        void newWpt(float lon, float lat, float ele);
+        CWpt * newWpt(float lon, float lat, float ele);
 
         /// get pointer access to waypoint via it's key
         CWpt * getWptByKey(const QString& key);

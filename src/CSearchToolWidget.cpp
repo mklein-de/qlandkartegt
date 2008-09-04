@@ -145,3 +145,17 @@ void CSearchToolWidget::slotAdd()
     float ele = CMapDB::self().getDEM().getElevation(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD);
     CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele);
 }
+
+void CSearchToolWidget::keyPressEvent(QKeyEvent * e)
+{
+    if(e->key() == Qt::Key_Delete) {
+        slotDelete();
+        e->accept();
+    }
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier){
+        slotCopyPosition();
+    }
+    else {
+        QWidget::keyPressEvent(e);
+    }
+}

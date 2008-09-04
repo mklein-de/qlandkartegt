@@ -71,7 +71,7 @@ void CWptDB::clear()
 }
 
 
-void CWptDB::newWpt(float lon, float lat, float ele)
+CWpt * CWptDB::newWpt(float lon, float lat, float ele)
 {
     CWpt * wpt = new CWpt(this);
     wpt->lon = lon * RAD_TO_DEG;
@@ -84,7 +84,7 @@ void CWptDB::newWpt(float lon, float lat, float ele)
     CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
     if(dlg.exec() == QDialog::Rejected) {
         delete wpt;
-        return;
+        return 0;
     }
     wpts[wpt->key()] = wpt;
 
@@ -92,6 +92,8 @@ void CWptDB::newWpt(float lon, float lat, float ele)
 
     emit sigChanged();
     emit sigModified();
+
+    return wpt;
 }
 
 

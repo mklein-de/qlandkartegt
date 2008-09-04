@@ -166,7 +166,7 @@ void IMouse::drawSelSearch(QPainter& p)
         p.save();
         p.translate(u - 24, v - 24);
         p.drawPixmap(rectDelSearch, QPixmap(":/icons/iconClear16x16.png"));
-        p.drawPixmap(rectConvertSearch, QPixmap(":/icons/iconWaypoint16x16.png"));
+        p.drawPixmap(rectConvertSearch, QPixmap(":/icons/iconAdd16x16.png"));
         p.drawPixmap(rectCopySearch, QPixmap(":/icons/iconClipboard16x16.png"));
         p.restore();
 
@@ -385,13 +385,20 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
         QStringList keys;
         keys << selSearch->query;
         CSearchDB::self().delResults(keys);
+        selSearch = 0;
+        canvas->update();
     }
     else if(rectConvertSearch.contains(pt)){
-//         float ele = CMapDB::self().getDEM().getElevation(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD);
-//         CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele);
-//
-//         CDlgEditWpt dlg(*selWpt,canvas);
-//         dlg.exec();
+        float ele = CMapDB::self().getDEM().getElevation(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD);
+        CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele);
+        if(wpt){
+            selWpt = wpt;
+            QStringList keys;
+            keys << selSearch->query;
+            CSearchDB::self().delResults(keys);
+            canvas->update();
+        }
+
     }
     else if(rectCopyWpt.contains(pt)){
         QString position;
@@ -400,7 +407,7 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(position);
 
-        selWpt = 0;
+        selSearch = 0;
         canvas->update();
     }
 }
@@ -470,4 +477,5 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
         canvas->update();
     }
 }
+
 
