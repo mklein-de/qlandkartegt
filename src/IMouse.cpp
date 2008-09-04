@@ -33,6 +33,7 @@
 #include "GeoMath.h"
 #include "CSearch.h"
 #include "CSearchDB.h"
+#include "WptIcons.h"
 #include <QtGui>
 
 IMouse::IMouse(CCanvas * canvas)
@@ -93,6 +94,7 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(u - 35, v - 35, 70, 70);
+        p.drawPixmap(u-7 , v-7, getWptIconByName(selWpt->icon));
 
         p.save();
         p.translate(u - 24, v - 24);
@@ -162,6 +164,7 @@ void IMouse::drawSelSearch(QPainter& p)
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(u - 35, v - 35, 70, 70);
+        p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
 
         p.save();
         p.translate(u - 24, v - 24);
@@ -342,10 +345,10 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     map.convertRad2Pt(u,v);
 
     QPoint pt = pos - QPoint(u - 24, v - 24);
-    if(rectDelWpt.contains(pt)){
+    if(rectDelWpt.contains(pt) && !selWpt->sticky){
         CWptDB::self().delWpt(selWpt->key(), false, true);
     }
-    else if(rectMoveWpt.contains(pt)){
+    else if(rectMoveWpt.contains(pt) && !selWpt->sticky){
         canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 
         QMouseEvent event1(QEvent::MouseMove, QPoint(u,v), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
