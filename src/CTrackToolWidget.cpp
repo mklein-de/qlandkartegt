@@ -129,8 +129,8 @@ void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     QString key = item->data(Qt::UserRole).toString();
 
     QRectF r = CTrackDB::self().getBoundingRectF(key);
-
-    CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    if (!r.isNull ())
+       CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }
 
 
