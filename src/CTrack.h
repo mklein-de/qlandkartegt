@@ -75,6 +75,11 @@ class CTrack : public QObject
             float ascend;
             /// secondary data: the total descend of all visible points up to this point
             float descend;
+            /// secondary data: the heart rate in bpm
+            int heartReateBpm;
+            /// secondary data: cadence in rpm
+            int cadenceRpm;
+
             /// display flags
             quint32 flags;
             /// the current location in pixel

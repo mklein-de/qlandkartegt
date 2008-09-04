@@ -5,6 +5,7 @@ include( ${QT_USE_FILE})
 set(qlandkarte_SRCS
     main.cpp
     mitab.cpp
+    tcxreader.cpp
     printpreview.cpp
     GeoMath.cpp
     WptIcons.cpp
@@ -97,6 +98,7 @@ ENDIF(WIN32)
 set(qlandkarte_HDRS
     version.h
     mitab.h
+    tcxreader.h
     printpreview.h
     GeoMath.h
     WptIcons.h

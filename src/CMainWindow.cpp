@@ -30,6 +30,7 @@
 #include "CDlgConfig.h"
 #include "CQlb.h"
 #include "CGpx.h"
+#include "tcxreader.h"
 #include "CTabWidget.h"
 #include "printpreview.h"
 #include "CLiveLogDB.h"
@@ -332,7 +333,7 @@ void CMainWindow::slotLoadData()
     QString filter   = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
         ,pathData
-        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
+        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)"
         ,&filter
         );
     if(filename.isEmpty()) return;
@@ -363,7 +364,7 @@ void CMainWindow::slotAddData()
     QString filter   = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
         ,pathData
-        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
+        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)"
         ,&filter
         );
 
@@ -391,6 +392,10 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         if(ext != ".gpx") filename += ".gpx";
         ext = "GPX";
     }
+    else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
+           if(ext != ".tcx") filename += ".tcx";
+           ext = "TCX";
+    }
     else {
         filename += ".qlb";
         ext = "QLB";
@@ -417,6 +422,21 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CTrackDB::self().loadGPX(gpx);
             CDiaryDB::self().loadGPX(gpx);
             COverlayDB::self().loadGPX(gpx);
+        }
+        else if(ext == "TCX") {
+            TcxReader tcxReader(this);
+            if (!tcxReader.read(filename)) {
+                throw(tcxReader.errorString());
+            }
+            else
+            {
+                //emit CTrackDB::self().sigChanged(); //??
+                QRectF r = CTrackDB::self().getBoundingRectF();
+                if (!r.isNull ())
+                   CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+
+            }
+
         }
 
         wksFile = filename;
