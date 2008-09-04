@@ -234,6 +234,8 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
     qDebug() << "TrackPoint";
     pt->lat = pold.lat;
     pt->lon = pold.lon;
+    pt->ele = pold.ele;
+    pt->distance = pold.distance;
     while (!atEnd())
     {
         readNext();
@@ -253,10 +255,12 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
             else if (name() == "AltitudeMeters")
             {
                 pt->ele = readElementText().toDouble();
+                pold.ele = pt->ele;
             }
             else if (name() == "DistanceMeters")
             {
                 pt->distance = readElementText().toDouble();
+                pold.distance = pt->distance;
             }
             else if (name() == "Position")
             {
