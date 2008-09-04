@@ -529,7 +529,7 @@ void CCreateMapOSM::addZoomLevel(int level, int zoom, double lon1, double lat1, 
     for(y = y1; y <= y2; ++y) {
         for(x = x1; x <= x2; ++x) {
             tile_t t;
-            t.url.setPath(QString("/Tiles/tile.php/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
+            t.url.setPath(QString("/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
             //             t.url.setPath(QString("/%1/%2/%3.png").arg(zoom).arg(x).arg(y));
             t.x         = x - x1;
             t.y         = y - y1;
