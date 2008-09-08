@@ -90,7 +90,7 @@ void TcxReader::readUnknownElement()
 
 void TcxReader::readTcx()
 {
-    //Q_ASSERT(isStartElement() && name() == "xbel");
+    Q_ASSERT(isStartElement() && name() == "TrainingCenterDatabase");
 
     while (!atEnd())
     {
@@ -115,7 +115,8 @@ void TcxReader::readTcx()
 
 void TcxReader::readActivities()
 {
-    qDebug() << "activities";
+    Q_ASSERT(isStartElement() && name() == "Activities");
+
     while (!atEnd())
     {
         readNext();
@@ -141,7 +142,8 @@ void TcxReader::readActivities()
 
 void TcxReader::readActivity()
 {
-    qDebug() << "activity";
+    Q_ASSERT(isStartElement() && name() == "Activity");
+
     CTrack *track = new CTrack(parent);
     while (!atEnd())
     {
@@ -160,13 +162,13 @@ void TcxReader::readActivity()
             {
                 readLap(track);
             }
-
             else
                 readUnknownElement();
         }
     }
     if (track->getTrackPoints().count() > 0)
     {
+        track->rebuild(true);
         CTrackDB::self().addTrack(track, false);
     }
     else
@@ -177,7 +179,8 @@ void TcxReader::readActivity()
 
 void TcxReader::readLap(CTrack *track)
 {
-    qDebug() << "Lap";
+    Q_ASSERT(isStartElement() && name() == "Lap");
+
     int lap = 1;
     while (!atEnd())
     {
@@ -188,13 +191,10 @@ void TcxReader::readLap(CTrack *track)
 
         if (isStartElement())
         {
-            if (name() == "Hrearrjr")
-                qDebug() << "yy"; //activity->setId(readElementText());
-            else if (name() == "Track")
+            if (name() == "Track")
             {
                 readTrack(track, lap);
             }
-
             else
                 readUnknownElement();
         }
@@ -204,7 +204,8 @@ void TcxReader::readLap(CTrack *track)
 
 void TcxReader::readTrack(CTrack *track, int lap)
 {
-    qDebug() << "Track";
+    Q_ASSERT(isStartElement() && name() == "Track");
+
     firstPositionFound = false;
 
     while (!atEnd())
@@ -220,7 +221,6 @@ void TcxReader::readTrack(CTrack *track, int lap)
             {
                 readTrackpoint(track, lap);
             }
-
             else
                 readUnknownElement();
         }
@@ -230,8 +230,9 @@ void TcxReader::readTrack(CTrack *track, int lap)
 
 void TcxReader::readTrackpoint(CTrack *track, int lap)
 {
+    Q_ASSERT(isStartElement() && name() == "Trackpoint");
+
     CTrack::pt_t *pt = new CTrack::pt_t();
-    qDebug() << "TrackPoint";
     pt->lat = pold.lat;
     pt->lon = pold.lon;
     pt->ele = pold.ele;
@@ -285,7 +286,8 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
 
 void TcxReader::readHeartRateBpm(CTrack::pt_t *pt)
 {
-    //	qDebug() << "HeartRate";
+    Q_ASSERT(isStartElement() && name() == "HeartRateBpm");
+
     while (!atEnd())
     {
         readNext();
@@ -307,7 +309,8 @@ void TcxReader::readHeartRateBpm(CTrack::pt_t *pt)
 
 void TcxReader::readPosition(CTrack::pt_t *pt)
 {
-    //	qDebug() << "TrackPoint";
+    Q_ASSERT(isStartElement() && name() == "Position");
+
     while (!atEnd())
     {
         readNext();
@@ -317,9 +320,7 @@ void TcxReader::readPosition(CTrack::pt_t *pt)
 
         if (isStartElement())
         {
-            if (name() == "Hrearrjr")
-                qDebug() << "yy"; //activity->setId(readElementText());
-            else if (name() == "LatitudeDegrees")
+            if (name() == "LatitudeDegrees")
                 pt->lat = readElementText().toDouble();
             else if (name() == "LongitudeDegrees")
                 pt->lon = readElementText().toDouble();
