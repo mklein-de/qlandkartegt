@@ -424,8 +424,8 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     int d1      = 20;
     selTrkPt    = 0;
 
-    QVector<CTrack::pt_t>& pts          = track->getTrackPoints();
-    QVector<CTrack::pt_t>::iterator pt  = pts.begin();
+    QList<CTrack::pt_t>& pts          = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator pt  = pts.begin();
     while(pt != pts.end()) {
         if(pt->flags & CTrack::pt_t::eDeleted) {
             ++pt; continue;

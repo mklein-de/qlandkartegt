@@ -141,8 +141,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     entryTrkPts.type = CTrack::eTrkPts;
     QDataStream s2(&entryTrkPts.data, QIODevice::WriteOnly);
 
-    QVector<CTrack::pt_t>& trkpts = track.getTrackPoints();
-    QVector<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
 
     s2 << (quint32)trkpts.size();
 
@@ -239,6 +239,11 @@ const QColor CTrack::colors[] =
     ,Qt::transparent             // 16
 };
 
+bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
+{
+    return p1.timestamp < p2.timestamp;
+}
+
 CTrack::CTrack(QObject * parent)
 : QObject(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
@@ -264,8 +269,8 @@ QRectF CTrack::getBoundingRectF()
     double east  = -180.0;
 
     //CTrack * track = tracks[key];
-    QVector<CTrack::pt_t>& trkpts = getTrackPoints();
-    QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts = getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
         if(!(trkpt->flags & CTrack::pt_t::eDeleted)) {
             if(trkpt->lon < west)  west  = trkpt->lon;
@@ -320,11 +325,13 @@ CTrack& CTrack::operator+=(const CTrack& trk)
 
 void CTrack::rebuild(bool reindex)
 {
+    qSort(track.begin(), track.end(), trackpointLessThan);
+
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
-    QVector<pt_t>::iterator pt1 = track.begin();
-    QVector<pt_t>::iterator pt2 = track.begin();
+    QList<pt_t>::iterator pt1 = track.begin();
+    QList<pt_t>::iterator pt2 = track.begin();
 
     totalTime       = 0;
     totalDistance   = 0;
@@ -424,8 +431,8 @@ void CTrack::rebuild(bool reindex)
 void CTrack::setPointOfFocus(int idx)
 {
     // reset previous selections
-    QVector<CTrack::pt_t>& trkpts           = track;
-    QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts           = track;
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
         trkpt->flags &= ~CTrack::pt_t::eFocus;
         ++trkpt;

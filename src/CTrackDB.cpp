@@ -193,8 +193,8 @@ void CTrackDB::saveGPX(CGpx& gpx)
         QDomElement trkseg = gpx.createElement("trkseg");
         trk.appendChild(trkseg);
 
-        QVector<CTrack::pt_t>& pts = (*track)->getTrackPoints();
-        QVector<CTrack::pt_t>::const_iterator pt = pts.begin();
+        QList<CTrack::pt_t>& pts = (*track)->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator pt = pts.begin();
         while(pt != pts.end()) {
             QDomElement trkpt = gpx.createElement("trkpt");
             trkseg.appendChild(trkpt);
@@ -343,8 +343,8 @@ void CTrackDB::splitTrack(int idx)
     if(theTrack == 0) return;
 
     int i;
-    QVector<CTrack::pt_t>& track          = theTrack->getTrackPoints();
-    QVector<CTrack::pt_t>::iterator trkpt = track.begin();
+    QList<CTrack::pt_t>& track          = theTrack->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = track.begin();
 
     CTrack * track1 = new CTrack(this);
     track1->setName(theTrack->getName() + "_1");
@@ -378,8 +378,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
         QPolygon& line = (*track)->getPolyline();
         line.clear();
 
-        QVector<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
-        QVector<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+        QList<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
+        QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end()) {
             double u = trkpt->lon * DEG_TO_RAD;
             double v = trkpt->lat * DEG_TO_RAD;

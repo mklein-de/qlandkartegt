@@ -110,7 +110,7 @@ class CTrack : public QObject
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
         /// get list of track points
-        QVector<pt_t>& getTrackPoints(){return track;};
+        QList<pt_t>& getTrackPoints(){return track;};
         /// get polyline representation of track
         QPolygon& getPolyline(){return polyline;}
         /// get the total distance of the track in [m]
@@ -157,7 +157,7 @@ class CTrack : public QObject
         /// the track line color by index
         unsigned colorIdx;
         /// the track points
-        QVector<pt_t> track;
+        QList<pt_t> track;
 
         /// set true to draw track highlighted
         bool highlight;

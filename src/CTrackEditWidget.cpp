@@ -113,8 +113,8 @@ void CTrackEditWidget::slotUpdate()
 
     QString str, val, unit;
     QTreeWidgetItem * focus                 = 0;
-    QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-    QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
         QTreeWidgetItem * item = new QTreeWidgetItem(treePoints);
         item->setData(0, Qt::UserRole, trkpt->idx);
@@ -238,8 +238,8 @@ void CTrackEditWidget::slotApply()
     originator = true;
 
     if(checkResetDelTrkPt->isChecked()) {
-        QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
         while(trkpt != trkpts.end()) {
             trkpt->flags &= ~CTrack::pt_t::eDeleted;
             ++trkpt;
@@ -252,8 +252,8 @@ void CTrackEditWidget::slotApply()
         QMessageBox::warning(0,tr("Remove track points ...")
             ,tr("You are about to remove purged track points permanently. If you press 'yes', all information will be lost.")
             ,QMessageBox::Yes|QMessageBox::No);
-        QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
         while(trkpt != trkpts.end()) {
 
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
@@ -282,8 +282,8 @@ void CTrackEditWidget::slotPointSelectionChanged()
 //     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
 
     // reset previous selections
-    QVector<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-    QVector<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
         trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
@@ -315,7 +315,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 
 void CTrackEditWidget::slotPurge()
 {
-    QVector<CTrack::pt_t>& trkpts                   = track->getTrackPoints();
+    QList<CTrack::pt_t>& trkpts                   = track->getTrackPoints();
     QList<QTreeWidgetItem*> items                   = treePoints->selectedItems();
     QList<QTreeWidgetItem*>::const_iterator item    = items.begin();
     while(item != items.end()) {

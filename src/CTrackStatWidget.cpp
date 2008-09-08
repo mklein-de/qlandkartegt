@@ -86,8 +86,8 @@ void CTrackStatWidget::slotChanged()
     float speedfactor = IUnit::self().speedfactor;
     float basefactor = IUnit::self().basefactor;
 
-    QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
@@ -146,8 +146,8 @@ void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
         if(plot == 0) return;
 
         double dist = plot->getXValByPixel(pos.x() - SPACING);
-        QVector<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        QVector<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         quint32 idx = 0;
         while(trkpt != trkpts.end()) {
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
