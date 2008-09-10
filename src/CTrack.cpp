@@ -104,7 +104,20 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 }
                 break;
             }
+            case CTrack::eTrain:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
 
+                while (pt1 != track.track.end())
+                {
+                    s1 >> pt1->heartReateBpm;
+                    s1 >> pt1->cadenceRpm;
+                    pt1++;
+                }
+
+                break;
+            }
             default:;
         }
 
@@ -156,6 +169,23 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     }
 
     entries << entryTrkPts;
+
+    //---------------------------------------
+    // prepare trainings data
+    //---------------------------------------
+    trk_head_entry_t entryTrainPts;
+    entryTrainPts.type = CTrack::eTrain;
+    QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
+
+    trkpt = trkpts.begin();
+
+    while(trkpt != trkpts.end()) {
+        s3 << trkpt->heartReateBpm;
+        s3 << trkpt->cadenceRpm;
+        ++trkpt;
+    }
+
+    entries << entryTrainPts;
 
     //---------------------------------------
     // prepare terminator
@@ -323,9 +353,13 @@ CTrack& CTrack::operator+=(const CTrack& trk)
     return *this;
 }
 
-void CTrack::rebuild(bool reindex)
+void CTrack::sortByTimestamp()
 {
     qSort(track.begin(), track.end(), trackpointLessThan);
+}
+
+void CTrack::rebuild(bool reindex)
+{
 
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();

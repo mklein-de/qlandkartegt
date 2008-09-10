@@ -36,7 +36,7 @@ class CTrack : public QObject
         CTrack(QObject * parent);
         virtual ~CTrack();
 
-        enum type_e {eEnd,eBase,eTrkPts};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain};
 
         struct pt_t
         {
@@ -128,7 +128,7 @@ class CTrack : public QObject
         double getDescend(){return totalDescend;}
 
         QRectF getBoundingRectF();
-
+        void sortByTimestamp();
         CTrack& operator+=(const CTrack& trk);
 
         static const QColor colors[];

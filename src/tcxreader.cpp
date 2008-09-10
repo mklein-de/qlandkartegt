@@ -169,6 +169,7 @@ void TcxReader::readActivity()
     if (track->getTrackPoints().count() > 0)
     {
         track->rebuild(true);
+        track->sortByTimestamp();
         CTrackDB::self().addTrack(track, false);
     }
     else
