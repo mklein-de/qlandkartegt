@@ -25,6 +25,7 @@
 
 class CTrack;
 class CTrackStatWidget;
+class CTrackStatProfileWidget;
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -68,6 +69,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         bool originator;
 
         QPointer<CTrackStatWidget> trackStat;
+        QPointer<CTrackStatProfileWidget> trackStatProfile;
 
 };
 #endif                           //CTRACKEDITWIDGET_H

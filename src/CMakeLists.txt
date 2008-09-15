@@ -68,7 +68,9 @@ set(qlandkarte_SRCS
     CTrackDB.cpp
     CTrackToolWidget.cpp
     CTrackEditWidget.cpp
+    ITrackStat.cpp
     CTrackStatWidget.cpp
+    CTrackStatProfileWidget.cpp
     CTabWidget.cpp
     CDiary.cpp
     CDiaryDB.cpp
@@ -161,7 +163,9 @@ set(qlandkarte_HDRS
     CTrackDB.h
     CTrackToolWidget.h
     CTrackEditWidget.h
+    ITrackStat.h
     CTrackStatWidget.h
+    CTrackStatProfileWidget.h
     CTabWidget.h
     CDiary.h
     CDiaryDB.h
@@ -194,6 +198,7 @@ SET(qlandkarte_UIS
     ITrackToolWidget.ui
     ITrackEditWidget.ui
     ITrackStatWidget.ui
+    ITrackStatProfileWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui

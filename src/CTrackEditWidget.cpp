@@ -19,6 +19,7 @@
 
 #include "CTrackEditWidget.h"
 #include "CTrackStatWidget.h"
+#include "CTrackStatProfileWidget.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -61,6 +62,9 @@ CTrackEditWidget::~CTrackEditWidget()
 {
     if(!trackStat.isNull()){
         delete trackStat;
+    }
+    if(!trackStatProfile.isNull()){
+        delete trackStatProfile;
     }
 }
 
@@ -341,5 +345,13 @@ void CTrackEditWidget::slotToggleStat()
     }
     else{
         delete trackStat;
+    }
+
+    if(trackStatProfile.isNull()){
+        trackStatProfile = new CTrackStatProfileWidget(this);
+        theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
+    }
+    else{
+        delete trackStatProfile;
     }
 }
