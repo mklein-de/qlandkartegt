@@ -198,7 +198,6 @@ SET(qlandkarte_UIS
     ITrackToolWidget.ui
     ITrackEditWidget.ui
     ITrackStatWidget.ui
-    ITrackStatProfileWidget.ui
     ISearchToolWidget.ui
     IDlgConfig.ui
     IDlgEditWpt.ui

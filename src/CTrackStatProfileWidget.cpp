@@ -18,10 +18,11 @@
 **********************************************************************************************/
 
 #include "CTrackStatProfileWidget.h"
+#include "CPlot.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
-#include "CPlot.h"
 #include "IUnit.h"
+
 
 #include <QtGui>
 

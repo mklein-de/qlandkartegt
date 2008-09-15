@@ -39,6 +39,9 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         virtual ~ITrackStat();
 
     protected:
+        void mousePressEvent(QMouseEvent * e);
+
+
         CPlot * plot;
         QPointer<CTrack> track;
 };

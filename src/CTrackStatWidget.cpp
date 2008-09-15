@@ -49,8 +49,6 @@ CTrackStatWidget::CTrackStatWidget(QWidget * parent)
 
     slotChanged();
 
-    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
-    connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 CTrackStatWidget::~CTrackStatWidget()
