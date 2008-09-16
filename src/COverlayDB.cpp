@@ -124,6 +124,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
 void COverlayDB::saveGPX(CGpx& gpx)
 {
+    QString str;
     QDomElement root        = gpx.documentElement();
 
     QDomElement extensions  = gpx.createElement("extensions");
@@ -163,8 +164,10 @@ void COverlayDB::saveGPX(CGpx& gpx)
             text.setAttribute("height", ovl->rect.height());
             text.setAttribute("anchorx", ovl->pt.x());
             text.setAttribute("anchory", ovl->pt.y());
-            text.setAttribute("lon", ovl->lon * RAD_TO_DEG);
-            text.setAttribute("lat", ovl->lat * RAD_TO_DEG);
+            str.sprintf("%1.8f",ovl->lon * RAD_TO_DEG);
+            text.setAttribute("lon", str);
+            str.sprintf("%1.8f",ovl->lat * RAD_TO_DEG);
+            text.setAttribute("lat", str);
 
             QDomText _text_ = gpx.createTextNode(ovl->text);
             text.appendChild(_text_);
@@ -187,8 +190,10 @@ void COverlayDB::saveGPX(CGpx& gpx)
             XY pt;
             foreach(pt, ovl->points){
                 QDomElement point = gpx.createElement("point");
-                point.setAttribute("lon", pt.u * RAD_TO_DEG);
-                point.setAttribute("lat", pt.v * RAD_TO_DEG);
+                str.sprintf("%1.8f",pt.u * RAD_TO_DEG);
+                point.setAttribute("lon",str);
+                str.sprintf("%1.8f",pt.v * RAD_TO_DEG);
+                point.setAttribute("lat", str);
                 elem.appendChild(point);
             }
         }

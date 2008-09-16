@@ -211,6 +211,7 @@ void CWptDB::loadGPX(CGpx& gpx)
 
 void CWptDB::saveGPX(CGpx& gpx)
 {
+    QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end()) {
@@ -220,8 +221,10 @@ void CWptDB::saveGPX(CGpx& gpx)
         }
         QDomElement waypoint = gpx.createElement("wpt");
         root.appendChild(waypoint);
-        waypoint.setAttribute("lat",(double)(*wpt)->lat);
-        waypoint.setAttribute("lon",(double)(*wpt)->lon);
+        str.sprintf("%1.8f", (*wpt)->lat);
+        waypoint.setAttribute("lat",str);
+        str.sprintf("%1.8f", (*wpt)->lon);
+        waypoint.setAttribute("lon",str);
 
         if((*wpt)->ele != 1e25f) {
             QDomElement ele = gpx.createElement("ele");

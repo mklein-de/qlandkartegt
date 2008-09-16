@@ -171,6 +171,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
 void CTrackDB::saveGPX(CGpx& gpx)
 {
+    QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CTrack*>::iterator track = tracks.begin();
     while(track != tracks.end()) {
@@ -198,8 +199,10 @@ void CTrackDB::saveGPX(CGpx& gpx)
         while(pt != pts.end()) {
             QDomElement trkpt = gpx.createElement("trkpt");
             trkseg.appendChild(trkpt);
-            trkpt.setAttribute("lat",(double)pt->lat);
-            trkpt.setAttribute("lon",(double)pt->lon);
+            str.sprintf("%1.8f", pt->lat);
+            trkpt.setAttribute("lat",str);
+            str.sprintf("%1.8f", pt->lon);
+            trkpt.setAttribute("lon",str);
 
             if(pt->ele != WPT_NOFLOAT) {
                 QDomElement ele = gpx.createElement("ele");
