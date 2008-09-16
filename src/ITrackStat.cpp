@@ -40,6 +40,10 @@ ITrackStat::ITrackStat(QWidget * parent)
 
     layout()->setSpacing(SPACING);
 
+    plot = new CPlot(this);
+    layout()->addWidget(plot);
+
+
 }
 
 ITrackStat::~ITrackStat()

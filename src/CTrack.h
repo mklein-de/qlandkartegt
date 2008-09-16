@@ -51,7 +51,7 @@ class CTrack : public QObject
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
-                speed(WPT_NOFLOAT), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), ascend(0), descend(0), flags(0), dem(WPT_NOFLOAT){}
+                speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), ascend(0), descend(0), flags(0), dem(WPT_NOFLOAT){}
             /// index counter for easy QVector access
             qint32  idx;
             /// longitude [°]
@@ -65,6 +65,8 @@ class CTrack : public QObject
 
             /// secondary data: the speed between this and the previous point
             float speed;
+            /// secondary data: the short term average speed
+            float avgspeed;
             /// secondary data: the distance between this and the previous point
             float delta;
             /// secondary data: the azimuth to the next point
@@ -174,6 +176,9 @@ class CTrack : public QObject
 
         /// the Qt polyline for faster processing
         QPolygon polyline;
+
+        float avgspeed0;
+        float avgspeed1;
 
 };
 

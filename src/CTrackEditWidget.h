@@ -24,8 +24,8 @@
 #include "ui_ITrackEditWidget.h"
 
 class CTrack;
-class CTrackStatWidget;
 class CTrackStatProfileWidget;
+class CTrackStatSpeedWidget;
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -68,8 +68,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         bool originator;
 
-        QPointer<CTrackStatWidget> trackStat;
         QPointer<CTrackStatProfileWidget> trackStatProfile;
+        QPointer<CTrackStatSpeedWidget> trackStatSpeed;
 
 };
 #endif                           //CTRACKEDITWIDGET_H

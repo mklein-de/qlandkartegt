@@ -358,6 +358,9 @@ void CTrack::sortByTimestamp()
     qSort(track.begin(), track.end(), trackpointLessThan);
 }
 
+
+#define A 0.22140
+
 void CTrack::rebuild(bool reindex)
 {
 
@@ -371,6 +374,8 @@ void CTrack::rebuild(bool reindex)
     totalDistance   = 0;
     totalAscend     = 0;
     totalDescend    = 0;
+    avgspeed0       = 0;
+    avgspeed1       = 0;
 
 
     // reindex track if desired
@@ -452,8 +457,11 @@ void CTrack::rebuild(bool reindex)
         t2              = pt2->timestamp;
         totalDistance   = pt2->distance;
 
-        pt1 = pt2;
+        avgspeed0       = A * pt2->speed + (1.0 - A) * avgspeed1;
+        avgspeed1       = avgspeed0;
+        pt2->avgspeed   = avgspeed0;
 
+        pt1 = pt2;
     }
 
     totalTime = t2 - t1;

@@ -30,10 +30,8 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
 : ITrackStat(parent)
 {
 
-    plot = new CPlot(this);
     plot->setXLabel(tr("distance [m]"));
     plot->setYLabel(tr("alt. [m]"));
-    layout()->addWidget(plot);
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 

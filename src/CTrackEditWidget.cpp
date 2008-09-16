@@ -20,6 +20,7 @@
 #include "CTrackEditWidget.h"
 #include "CTrackStatWidget.h"
 #include "CTrackStatProfileWidget.h"
+#include "CTrackStatSpeedWidget.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -60,11 +61,11 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 CTrackEditWidget::~CTrackEditWidget()
 {
-    if(!trackStat.isNull()){
-        delete trackStat;
-    }
     if(!trackStatProfile.isNull()){
         delete trackStatProfile;
+    }
+    if(!trackStatSpeed.isNull()){
+        delete trackStatSpeed;
     }
 }
 
@@ -310,7 +311,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 {
     if(track.isNull()) return;
-//     qDebug() << "CTrackEditWidget::slotPointSelection()";
+
     originator = true;
     track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
     originator = false;
@@ -339,19 +340,19 @@ void CTrackEditWidget::slotPurge()
 
 void CTrackEditWidget::slotToggleStat()
 {
-    if(trackStat.isNull()){
-        trackStat = new CTrackStatWidget(this);
-        theMainWindow->getCanvasTab()->addTab(trackStat, tr("Track"));
-    }
-    else{
-        delete trackStat;
-    }
-
     if(trackStatProfile.isNull()){
         trackStatProfile = new CTrackStatProfileWidget(this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
     }
     else{
         delete trackStatProfile;
+    }
+
+    if(trackStatSpeed.isNull()){
+        trackStatSpeed = new CTrackStatSpeedWidget(this);
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
+    }
+    else{
+        delete trackStatSpeed;
     }
 }
