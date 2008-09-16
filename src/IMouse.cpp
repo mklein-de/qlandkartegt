@@ -41,7 +41,8 @@ IMouse::IMouse(CCanvas * canvas)
 , cursor(QPixmap(":/cursor/Arrow"))
 , canvas(canvas)
 , selTrkPt(0)
-, doSpecialCursor(false)
+, doSpecialCursorWpt(false)
+, doSpecialCursorSearch(false)
 {
     rectDelWpt          = QRect(0,0,16,16);
     rectMoveWpt         = QRect(32,0,16,16);
@@ -253,22 +254,22 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         QPoint pt = pos - QPoint(u - 24, v - 24);
 
         if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt)){
-            if(!doSpecialCursor){
+            if(!doSpecialCursorWpt){
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                doSpecialCursor = true;
+                doSpecialCursorWpt = true;
             }
         }
         else{
-            if(doSpecialCursor){
+            if(doSpecialCursorWpt){
                 QApplication::restoreOverrideCursor();
-                doSpecialCursor = false;
+                doSpecialCursorWpt = false;
             }
         }
     }
     else {
-        if(doSpecialCursor){
+        if(doSpecialCursorWpt){
             QApplication::restoreOverrideCursor();
-            doSpecialCursor = false;
+            doSpecialCursorWpt = false;
         }
     }
 
@@ -308,22 +309,22 @@ void IMouse::mouseMoveEventSearch(QMouseEvent * e)
         QPoint pt = pos - QPoint(u - 24, v - 24);
 
         if(rectDelSearch.contains(pt) || rectCopySearch.contains(pt) ||  rectConvertSearch.contains(pt)){
-            if(!doSpecialCursor){
+            if(!doSpecialCursorSearch){
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                doSpecialCursor = true;
+                doSpecialCursorSearch = true;
             }
         }
         else{
-            if(doSpecialCursor){
+            if(doSpecialCursorSearch){
                 QApplication::restoreOverrideCursor();
-                doSpecialCursor = false;
+                doSpecialCursorSearch = false;
             }
         }
     }
     else {
-        if(doSpecialCursor){
+        if(doSpecialCursorSearch){
             QApplication::restoreOverrideCursor();
-            doSpecialCursor = false;
+            doSpecialCursorSearch = false;
         }
     }
 

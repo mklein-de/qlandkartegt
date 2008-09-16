@@ -127,7 +127,8 @@ class IMouse : public QObject
         QRect rectConvertSearch;
         QRect rectCopySearch;
 
-        bool doSpecialCursor;
+        bool doSpecialCursorWpt;
+        bool doSpecialCursorSearch;
 
         QPointer<CSearch> selSearch;
 };
