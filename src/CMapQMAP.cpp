@@ -145,6 +145,8 @@ void CMapQMAP::draw(QPainter& p)
 
         // the viewport rectangel in [m]
         QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
+        float xscale = map->xscale, yscale = map->yscale;
+        float xzoomFactor, yzoomFactor;
 
 
         // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
@@ -167,12 +169,17 @@ void CMapQMAP::draw(QPainter& p)
                 qint32 pxx  =   (qint32)(intersect.width()  / map->xscale);
                 qint32 pxy  =  -(qint32)(intersect.height() / map->yscale);
 
+                // all calculations should be in relation to a first map,
+                // so need additional zoom factor
+                xzoomFactor = xscale / (float) map->xscale;
+                yzoomFactor = yscale / (float) map->yscale;
+
                 // the final image width and height in pixel
-                qint32 w    =   (qint32)(pxx / zoomFactor) & 0xFFFFFFFC;
-                qint32 h    =   (qint32)(pxy / zoomFactor);
+                qint32 w    =   (qint32)(pxx / (zoomFactor * xzoomFactor)) & 0xFFFFFFFC;
+                qint32 h    =   (qint32)(pxy / (zoomFactor * yzoomFactor));
 
                 // correct pxx by truncation
-                pxx         =   (qint32)(w * zoomFactor);
+                pxx         =   (qint32)(w * zoomFactor * xzoomFactor);
 
                 if(w != 0 && h != 0){
 
