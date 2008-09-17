@@ -340,6 +340,14 @@ void CTrackEditWidget::slotPurge()
 
 void CTrackEditWidget::slotToggleStat()
 {
+    if(trackStatSpeed.isNull()){
+        trackStatSpeed = new CTrackStatSpeedWidget(this);
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
+    }
+    else{
+        delete trackStatSpeed;
+    }
+
     if(trackStatProfile.isNull()){
         trackStatProfile = new CTrackStatProfileWidget(this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
@@ -348,11 +356,4 @@ void CTrackEditWidget::slotToggleStat()
         delete trackStatProfile;
     }
 
-    if(trackStatSpeed.isNull()){
-        trackStatSpeed = new CTrackStatSpeedWidget(this);
-        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
-    }
-    else{
-        delete trackStatSpeed;
-    }
 }

@@ -16,22 +16,20 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-
-#include "CTrackStatProfileWidget.h"
+#include "CTrackStatSpeedWidget.h"
 #include "CPlot.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "IUnit.h"
 
-
 #include <QtGui>
 
-CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
+
+CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
 : ITrackStat(parent)
 {
-
     plot->setXLabel(tr("distance [m]"));
-    plot->setYLabel(tr("alt. [m]"));
+    plot->setYLabel(tr("speed [km/h]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
@@ -39,12 +37,12 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
 
 }
 
-CTrackStatProfileWidget::~CTrackStatProfileWidget()
+CTrackStatSpeedWidget::~CTrackStatSpeedWidget()
 {
 
 }
 
-void CTrackStatProfileWidget::slotChanged()
+void CTrackStatSpeedWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
     if(track.isNull()) {
@@ -53,16 +51,16 @@ void CTrackStatProfileWidget::slotChanged()
     }
 
     plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
-    plot->setYLabel(tr("alt. [%1]").arg(IUnit::self().baseunit));
+    plot->setYLabel(tr("speed [%1]").arg(IUnit::self().speedunit));
 
+    QPolygonF lineSpeed;
+    QPolygonF marksSpeed;
+    QPointF   focusSpeed;
 
-    QPolygonF lineDEM;
+    QPolygonF lineAvgSpeed;
 
-    QPolygonF lineElev;
-    QPolygonF marksElev;
-    QPointF   focusElev;
+    float speedfactor = IUnit::self().speedfactor;
 
-    float basefactor = IUnit::self().basefactor;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
@@ -70,31 +68,22 @@ void CTrackStatProfileWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        if(trkpt->dem != WPT_NOFLOAT){
-            lineDEM << QPointF(trkpt->distance, trkpt->dem * basefactor);
-        }
-        lineElev    << QPointF(trkpt->distance, trkpt->ele * basefactor);
+        lineSpeed       << QPointF(trkpt->distance, trkpt->speed * speedfactor);
+        lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marksElev  << QPointF(trkpt->distance, trkpt->ele * basefactor);
+            marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focusElev  = QPointF(trkpt->distance, trkpt->ele * basefactor);
+            focusSpeed = QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
 
         ++trkpt;
     }
 
-    CPlotData::point_t tag;
-    tag.point = QPointF(100,200);
-    tag.icon = QPixmap(":/icons/flag_pin_blue15x15.png");
-    plot->addTag(tag);
-
-    plot->newLine(lineElev,focusElev, "GPS");
-    plot->newMarks(marksElev);
-    if(!lineDEM.isEmpty()){
-        plot->addLine(lineDEM, "DEM");
-    }
+    plot->newLine(lineSpeed,focusSpeed, "speed");
+    plot->addLine(lineAvgSpeed, "avg. speed");
+    plot->newMarks(marksSpeed);
 }
 
 

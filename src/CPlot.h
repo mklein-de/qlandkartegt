@@ -22,7 +22,7 @@
 
 #include <QWidget>
 
-class CPlotData;
+#include "CPlotData.h"
 
 class CPlot : public QWidget
 {
@@ -37,6 +37,7 @@ class CPlot : public QWidget
         void newLine(const QPolygonF& line, const QPointF& focus, const QString& label);
         void addLine(const QPolygonF& line, const QString& label);
         void newMarks(const QPolygonF& line);
+        void addTag(CPlotData::point_t& tag);
 
         void clear();
 
@@ -60,6 +61,7 @@ class CPlot : public QWidget
 
         void setSizes();
         void setLRTB();
+        void setSizeIconArea();
         void setSizeXLabel();
         void setSizeYLabel();
         void setSizeDrawArea();
@@ -86,6 +88,7 @@ class CPlot : public QWidget
         QRect rectX1Label;
         QRect rectY1Label;
         QRect rectGraphArea;
+        QRect rectIconArea;
 
         QFontMetrics fm;
 

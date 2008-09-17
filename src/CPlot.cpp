@@ -18,7 +18,6 @@
 **********************************************************************************************/
 
 #include "CPlot.h"
-#include "CPlotData.h"
 #include "CPlotAxis.h"
 #include "CResources.h"
 
@@ -50,6 +49,7 @@ void CPlot::clear()
 {
     m_pData->lines.clear();
     m_pData->marks.points.clear();
+    m_pData->tags.clear();
     update();
 }
 
@@ -111,6 +111,11 @@ void CPlot::newMarks(const QPolygonF& line)
     m_pData->marks.points = line;
 }
 
+void CPlot::addTag(CPlotData::point_t& tag)
+{
+    m_pData->tags << tag;
+}
+
 void CPlot::paintEvent(QPaintEvent * )
 {
     QPainter p(this);
@@ -143,12 +148,12 @@ void CPlot::setSizes()
     deadAreaY       = ( fontHeight + 1 ) >> 1;
 
     setLRTB();
+    setSizeIconArea();
     setSizeXLabel();
     setSizeYLabel();
     setSizeDrawArea();
 
 }
-
 
 void CPlot::setLRTB()
 {
@@ -163,6 +168,10 @@ void CPlot::setLRTB()
     right -= scaleWidthX1 / 2;
 
     top = 0;
+    if(!m_pData->tags.isEmpty()){
+        top += deadAreaY;
+        top += 16;
+    }
     top += deadAreaY;
 
     bottom = size().height();
@@ -172,6 +181,10 @@ void CPlot::setLRTB()
     bottom -= deadAreaY;
 }
 
+void CPlot::setSizeIconArea()
+{
+    rectIconArea = QRect(left, deadAreaY, right - left, 16);
+}
 
 /*
   x = a <br>

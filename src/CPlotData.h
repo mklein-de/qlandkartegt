@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QColor>
 #include <QPolygonF>
+#include <QIcon>
 
 class CPlotAxis;
 
@@ -54,8 +55,8 @@ class CPlotData : public QObject
         /// set true for grid
         bool grid;
 
+        /// list of plot lines
         QList<line_t> lines;
-
         /// marks on line1
         line_t marks;
 
@@ -63,9 +64,13 @@ class CPlotData : public QObject
         {
             QColor color;
             QPointF point;
+            QIcon icon;
         };
 
         point_t point1;
+
+        /// vector of plot tags such as waypoints
+        QVector<point_t> tags;
 
     protected:
         CPlotAxis * xaxis;
