@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QColor>
 #include <QPolygonF>
-#include <QIcon>
+#include <QPixmap>
 
 class CPlotAxis;
 
@@ -64,7 +64,8 @@ class CPlotData : public QObject
         {
             QColor color;
             QPointF point;
-            QIcon icon;
+            QPixmap icon;
+            QString label;
         };
 
         point_t point1;

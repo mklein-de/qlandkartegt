@@ -58,6 +58,7 @@ class CPlot : public QWidget
         void drawGridY(QPainter& p);
         void drawData(QPainter& p);
         void drawLegend(QPainter& p);
+        void drawTags(QPainter& p);
 
         void setSizes();
         void setLRTB();

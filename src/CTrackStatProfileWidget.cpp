@@ -85,10 +85,11 @@ void CTrackStatProfileWidget::slotChanged()
         ++trkpt;
     }
 
-    CPlotData::point_t tag;
-    tag.point = QPointF(100,200);
-    tag.icon = QPixmap(":/icons/flag_pin_blue15x15.png");
-    plot->addTag(tag);
+//     CPlotData::point_t tag;
+//     tag.point = QPointF(1000,400);
+//     tag.icon  = QPixmap(":/icons/wpt/flag_pin_red15x15.png");
+//     tag.label = tr("test label");
+//     plot->addTag(tag);
 
     plot->newLine(lineElev,focusElev, "GPS");
     plot->newMarks(marksElev);

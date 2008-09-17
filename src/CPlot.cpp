@@ -169,7 +169,7 @@ void CPlot::setLRTB()
 
     top = 0;
     if(!m_pData->tags.isEmpty()){
-        top += deadAreaY;
+        top += fontHeight;
         top += 16;
     }
     top += deadAreaY;
@@ -183,7 +183,7 @@ void CPlot::setLRTB()
 
 void CPlot::setSizeIconArea()
 {
-    rectIconArea = QRect(left, deadAreaY, right - left, 16);
+    rectIconArea = QRect(left, deadAreaY, right - left, 16 + fontHeight + deadAreaY);
 }
 
 /*
@@ -257,6 +257,7 @@ void CPlot::draw(QPainter& p)
     drawYTic(p);
     p.setPen(QPen(Qt::black,2));
     p.drawRect(rectGraphArea);
+    drawTags(p);
 
     drawLegend(p);
 
@@ -515,4 +516,36 @@ void CPlot::drawLegend(QPainter& p)
         ++line;
     }
 
+}
+
+void CPlot::drawTags(QPainter& p)
+{
+    if(m_pData->tags.isEmpty()) return;
+
+    QRect rect;
+    int ptx, pty;
+    CPlotAxis& xaxis = m_pData->x();
+    CPlotAxis& yaxis = m_pData->y();
+
+    QFontMetrics fm(p.font());
+
+    QVector<CPlotData::point_t>::const_iterator tag = m_pData->tags.begin();
+    while(tag != m_pData->tags.end()){
+        ptx = left   + xaxis.val2pt( tag->point.x() );
+        pty = bottom - yaxis.val2pt( tag->point.y() );
+
+        rect = fm.boundingRect(tag->label);
+        rect.moveCenter(QPoint(ptx, fontHeight / 2));
+        p.setPen(Qt::darkBlue);
+        p.drawText(rect, Qt::AlignCenter, tag->label);
+
+        p.drawPixmap(ptx - tag->icon.width() / 2, fontHeight, tag->icon);
+
+        p.setPen(QPen(Qt::white, 3));
+        p.drawLine(ptx, fontHeight + 16, ptx, pty);
+        p.setPen(QPen(Qt::black, 1));
+        p.drawLine(ptx, fontHeight + 16, ptx, pty);
+
+        ++tag;
+    }
 }
