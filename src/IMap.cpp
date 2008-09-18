@@ -91,7 +91,6 @@ void IMap::convertPt2Rad(double& u, double& v)
 void IMap::convertRad2Pt(double& u, double& v)
 {
     if(pjsrc == 0) {
-//         u = v = 0;
         return;
     }
 
@@ -107,6 +106,14 @@ void IMap::convertRad2Pt(double& u, double& v)
     convertM2Pt(u,v);
 }
 
+void IMap::convertRad2M(double& u, double& v)
+{
+    if(pjsrc == 0) {
+        return;
+    }
+
+    pj_transform(pjtar,pjsrc,1,0,&u,&v,0);
+}
 
 float IMap::getElevation(float lon, float lat)
 {

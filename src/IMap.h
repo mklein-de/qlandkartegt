@@ -72,6 +72,14 @@ class IMap : public QObject
             @param u longitude (x) value
             @param v latitude (y) value
         */
+        virtual void convertRad2M(double& u, double& v);
+        /// convert geo. coordinates [rad] into cartesian coordinates [m]
+        /**
+            The conversion will be done in place.
+
+            @param u longitude (x) value
+            @param v latitude (y) value
+        */
         virtual void convertRad2Pt(double& u, double& v);
         /// move the map [px]
         /**
