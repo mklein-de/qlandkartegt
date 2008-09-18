@@ -80,6 +80,7 @@ class CWptDB : public IDB
     private:
         friend class CMainWindow;
         friend class CDlgEditWpt;
+        friend class CMouseMoveWpt;
 
         CWptDB(QTabWidget * tb, QObject * parent);
         void addWpt(CWpt * wpt);

@@ -25,6 +25,7 @@
 #include "GeoMath.h"
 #include "CResources.h"
 #include "IUnit.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 
@@ -71,6 +72,9 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
 
             float ele = CMapDB::self().getDEM().getElevation(selWpt->lon * DEG_TO_RAD, selWpt->lat * DEG_TO_RAD);
             if(ele != WPT_NOFLOAT) selWpt->ele = ele;
+
+            emit CWptDB::self().sigChanged();
+            emit CWptDB::self().sigModified();
 
             moveWpt = false;
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
