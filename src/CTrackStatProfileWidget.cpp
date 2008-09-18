@@ -22,6 +22,8 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "IUnit.h"
+#include "CWptDB.h"
+#include "WptIcons.h"
 
 
 #include <QtGui>
@@ -34,6 +36,7 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
     plot->setYLabel(tr("alt. [m]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CWptDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
     slotChanged();
 
@@ -85,11 +88,23 @@ void CTrackStatProfileWidget::slotChanged()
         ++trkpt;
     }
 
-//     CPlotData::point_t tag;
-//     tag.point = QPointF(1000,400);
-//     tag.icon  = QPixmap(":/icons/wpt/flag_pin_red15x15.png");
-//     tag.label = tr("test label");
-//     plot->addTag(tag);
+    QVector<wpt_t> wpts;
+
+    plot->clear();
+    addWptTags(wpts);
+
+    QVector<wpt_t>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end()){
+        if(wpt->d < 400){
+            CPlotData::point_t tag;
+            tag.point = QPointF(wpt->trkpt.distance, wpt->trkpt.ele);
+            tag.icon  = getWptIconByName(wpt->wpt->icon);
+            tag.label = wpt->wpt->name;
+            plot->addTag(tag);
+
+        }
+        ++wpt;
+    }
 
     plot->newLine(lineElev,focusElev, "GPS");
     plot->newMarks(marksElev);

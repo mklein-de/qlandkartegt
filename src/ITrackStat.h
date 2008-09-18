@@ -27,8 +27,10 @@
 #include <QPointer>
 #include "ui_ITrackStatWidget.h"
 
+#include "CTrack.h"
+
 class CPlot;
-class CTrack;
+class CWpt;
 
 
 class ITrackStat : public QWidget, private Ui::ITrackStatWidget
@@ -39,8 +41,18 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         virtual ~ITrackStat();
 
     protected:
+        struct wpt_t {
+            wpt_t() : wpt(0), d(1e25f), x(0), y(0) {}
+            CWpt * wpt;
+            double d;
+            double x;
+            double y;
+            CTrack::pt_t trkpt;
+        };
+
         void mousePressEvent(QMouseEvent * e);
 
+        void addWptTags(QVector<wpt_t>& wpts);
 
         CPlot * plot;
         QPointer<CTrack> track;
