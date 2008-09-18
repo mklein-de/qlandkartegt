@@ -104,10 +104,10 @@ class CWpt : public QObject
         QString icon;
         QString name;
         QString comment;
-        float   lat;
-        float   lon;
-        float   ele;
-        float   prx;
+        float   lat;    ///< [deg]
+        float   lon;    ///< [deg]
+        float   ele;    ///< [m]
+        float   prx;    ///< [m]
         QString link;
 
         struct image_t
