@@ -422,7 +422,7 @@ void CMegaMenu::funcSwitchToOverlay()
 void CMegaMenu::funcSwitchToMainMore()
 {
     menuTitle->setText(tr("<b>Main (More) ...</b>"));
-    setPixmap(QPixmap(":/icons/backGlobe128x128"));
+    setPixmap(QPixmap(":/icons/backGlobe+128x128"));
     switchState(fsMainMore);
     funcMoveArea();
 }
