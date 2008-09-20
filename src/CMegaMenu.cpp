@@ -79,7 +79,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
     ,{":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
-    ,{":/icons/iconGlobe16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
+    ,{":/icons/iconGlobe+16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
     ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data to device.")}
@@ -93,7 +93,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconSelMap16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
+    ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}

@@ -13,9 +13,11 @@
         <file>icons/iconOpenMap16x16.png</file>
         <file>icons/iconExit16x16.png</file>
         <file>icons/iconGlobe16x16.png</file>
+        <file>icons/iconGlobe+16x16.png</file>
         <file>icons/iconMap16x16.png</file>
         <file>icons/iconMoveMap16x16.png</file>
         <file>icons/iconSelMap16x16.png</file>
+        <file>icons/iconSelect16x16.png</file>
         <file>icons/iconBack16x16.png</file>
         <file>icons/iconWaypoint16x16.png</file>
         <file>icons/iconSearch16x16.png</file>
