@@ -473,3 +473,20 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
 }
 
 
+void CTrackDB::select(const QRect& rect)
+{
+    CTrack * track = highlightedTrack();
+    if(track == 0) return;
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    while(trkpt != trkpts.end()) {
+        if(rect.contains(trkpt->px) && !(trkpt->flags & CTrack::pt_t::eDeleted)){
+            trkpt->flags |= CTrack::pt_t::eSelected;
+        }
+
+        ++trkpt;
+    }
+
+    emit track->sigChanged();
+}

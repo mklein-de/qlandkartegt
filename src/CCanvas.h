@@ -42,6 +42,7 @@ class QSize;
 class QPrinter;
 class QMenu;
 class CMouseCutTrack;
+class CMouseSelTrack;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -138,6 +139,7 @@ class CCanvas : public QWidget
         CMouseEditWpt * mouseEditWpt;
         CMouseRefPoint * mouseRefPoint;
         CMouseCutTrack * mouseCutTrack;
+        CMouseSelTrack * mouseSelTrack;
         CMouseAddText * mouseAddText;
         CMouseAddTextBox * mouseAddTextBox;
         CMouseAddDistance * mouseAddDistance;

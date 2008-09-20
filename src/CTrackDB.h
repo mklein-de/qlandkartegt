@@ -74,6 +74,8 @@ class CTrackDB : public IDB
 
         void draw(QPainter& p, const QRect& rect);
 
+        void select(const QRect& rect);
+
     signals:
         void sigHighlightTrack(CTrack * track);
 

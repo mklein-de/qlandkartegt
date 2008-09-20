@@ -55,7 +55,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
     connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
-
 }
 
 
@@ -113,6 +112,7 @@ void CTrackEditWidget::slotUpdate()
     lineName->setText(track->getName());
     comboColor->setCurrentIndex(track->getColorIdx());
 
+    treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
     treePoints->clear();
 
 
@@ -132,6 +132,10 @@ void CTrackEditWidget::slotUpdate()
         // temp. store item of user focus
         if(trkpt->flags & CTrack::pt_t::eFocus) {
             focus = item;
+        }
+
+        if(trkpt->flags & CTrack::pt_t::eSelected) {
+            item->setSelected(true);
         }
 
         // point number
@@ -213,10 +217,11 @@ void CTrackEditWidget::slotUpdate()
 
     // scroll to item of user focus
     if(focus) {
-        treePoints->setCurrentItem(focus);
+//         treePoints->setCurrentItem(focus);
         treePoints->scrollToItem(focus);
     }
 
+    treePoints->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 
@@ -283,6 +288,8 @@ void CTrackEditWidget::slotApply()
 void CTrackEditWidget::slotPointSelectionChanged()
 {
     if(track.isNull()) return;
+
+    if(treePoints->selectionMode() == QAbstractItemView::MultiSelection) return;
 
 //     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
 

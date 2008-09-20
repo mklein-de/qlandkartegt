@@ -142,6 +142,7 @@ class CTrack : public QObject
         void sigChanged();
 
     private:
+        friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
         void genKey();

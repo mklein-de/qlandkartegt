@@ -22,6 +22,7 @@ set(qlandkarte_SRCS
     CMouseEditWpt.cpp
     CMouseRefPoint.cpp
     CMouseCutTrack.cpp
+    CMouseSelTrack.cpp
     CMouseAddText.cpp
     CMouseAddTextBox.cpp
     CMouseAddDistance.cpp
@@ -118,6 +119,7 @@ set(qlandkarte_HDRS
     CMouseEditWpt.h
     CMouseRefPoint.h
     CMouseCutTrack.h
+    CMouseSelTrack.h
     CMouseAddText.h
     CMouseAddTextBox.h
     CMouseAddDistance.h
