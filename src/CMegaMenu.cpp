@@ -79,7 +79,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
     ,{":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
-    ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
+    ,{":/icons/iconGlobe16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
     ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data to device.")}
@@ -156,6 +156,23 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
     ,{":/icons/iconText16x16",QObject::tr("Add Static Text Box"),&CMegaMenu::funcText,tr("Add text on the map.")}
     ,{":/icons/iconTextBox16x16",QObject::tr("Add Geo-Ref. Text Box"),&CMegaMenu::funcTextBox,tr("Add a textbox on the map.")}
     ,{":/icons/iconDistance16x16",QObject::tr("Add Distance Polyline"),&CMegaMenu::funcDistance,tr("Add a polyline to measure distances.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+};
+
+
+const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -397,6 +414,15 @@ void CMegaMenu::funcSwitchToOverlay()
     setPixmap(QPixmap(":/icons/backOverlay128x128"));
     switchState(fsOverlay);
     COverlayDB::self().gainFocus();
+    funcMoveArea();
+}
+
+
+void CMegaMenu::funcSwitchToMainMore()
+{
+    menuTitle->setText(tr("<b>Main (More) ...</b>"));
+    setPixmap(QPixmap(":/icons/backGlobe128x128"));
+    switchState(fsMainMore);
     funcMoveArea();
 }
 

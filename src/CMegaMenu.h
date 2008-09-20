@@ -67,7 +67,7 @@ class CMegaMenu : public QLabel
 
         void funcSwitchToLiveLog();
         void funcSwitchToOverlay();
-        void funcDiary();
+        void funcSwitchToMainMore();
         void funcClearAll();
         void funcUploadAll();
         void funcDownloadAll();
@@ -97,6 +97,9 @@ class CMegaMenu : public QLabel
         void funcText();
         void funcTextBox();
         void funcDistance();
+
+
+        void funcDiary();
 
         static CMegaMenu * m_self;
 
@@ -129,5 +132,6 @@ class CMegaMenu : public QLabel
         static const func_key_state_t fsTrack[];
         static const func_key_state_t fsLiveLog[];
         static const func_key_state_t fsOverlay[];
+        static const func_key_state_t fsMainMore[];
 };
 #endif                           //CMEGAMENU_H
