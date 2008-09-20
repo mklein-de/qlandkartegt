@@ -65,6 +65,7 @@ class CCanvas : public QWidget
             , eMouseMoveRefPoint ///< use mouse to drag-n-drop reference points
             //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
             , eMouseCutTrack     ///< use mouse to cut a track into two pieces
+            , eMouseSelTrack     ///< use mouse to select points of a track by a rectangle
             //, eMouseEditRte     ///< use mouse to define a new route polyline
             //, eMouseMoveRte     ///< use mouse to move route points
             //, eMouseDelRte      ///< use mouse to delete route points

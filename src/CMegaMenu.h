@@ -87,6 +87,7 @@ class CMegaMenu : public QLabel
         void funcCombineTrack();
         void funcEditTrack();
         void funcCutTrack();
+        void funcSelTrack();
         void funcUploadTrack();
         void funcDownloadTrack();
 
