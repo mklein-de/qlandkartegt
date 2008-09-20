@@ -27,6 +27,7 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "CDlgEditDistance.h"
+#include "CMegaMenu.h"
 
 #include <QtGui>
 
@@ -387,6 +388,8 @@ void COverlayDistance::slotToTrack()
     }
 
     CTrackDB::self().addTrack(track, false);
+
+    CMegaMenu::self().switchByKeyWord("Tracks");
 }
 
 void COverlayDistance::slotEdit()
