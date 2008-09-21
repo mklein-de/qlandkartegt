@@ -131,7 +131,7 @@ class CCanvas : public QWidget
 
         void mouseMoveEventCoord(QMouseEvent * e);
 
-        IMouse * mouse;
+        QPointer<IMouse>  mouse;
         CMouseMoveMap * mouseMoveMap;
         CMouseSelMap * mouseSelMap;
         CMouseAddWpt * mouseAddWpt;

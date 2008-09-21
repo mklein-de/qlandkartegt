@@ -40,9 +40,9 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
 
     comboSource->insertItem(eNone,tr(""));
 
-    comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
-    widgetOSM       = new CCreateMapOSM(stackedWidget);
-    stackedWidget->insertWidget(eOSM, widgetOSM);
+//     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
+//     widgetOSM       = new CCreateMapOSM(stackedWidget);
+//     stackedWidget->insertWidget(eOSM, widgetOSM);
 
     comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
     widgetQMAP      = new CCreateMapQMAP(stackedWidget);

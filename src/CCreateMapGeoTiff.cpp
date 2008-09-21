@@ -86,7 +86,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
     if(closemap) CMapDB::self().closeMap();
-    theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
+    if(theMainWindow->getCanvas()) theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     m_self = 0;
 }
 

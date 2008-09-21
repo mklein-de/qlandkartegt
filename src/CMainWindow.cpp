@@ -172,6 +172,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/data",pathData);
 
+    canvas = 0;
 }
 
 
