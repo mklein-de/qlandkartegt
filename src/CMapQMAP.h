@@ -61,9 +61,6 @@ class CMapQMAP : public IMap
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
-    public slots:
-        void resize(const QSize& size);
-
     private:
         friend class CExportMapThread;
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
@@ -83,7 +80,7 @@ class CMapQMAP : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-        QPixmap buffer;
+//         QPixmap buffer;
 
         bool foundMap;
 };

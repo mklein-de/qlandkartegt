@@ -59,6 +59,9 @@ void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
+    buffer = QPixmap(size);
+
+    needsRedraw = true;
 }
 
 

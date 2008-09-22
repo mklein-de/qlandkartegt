@@ -113,13 +113,6 @@ CMapQMAP::~CMapQMAP()
 }
 
 
-void CMapQMAP::resize(const QSize& size)
-{
-    IMap::resize(size);
-    buffer      = QPixmap(size);
-    needsRedraw = true;
-}
-
 void CMapQMAP::draw(QPainter& p)
 {
     if(pMaplevel.isNull() || pjsrc == 0) {

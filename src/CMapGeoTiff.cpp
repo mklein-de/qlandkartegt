@@ -146,6 +146,9 @@ void CMapGeoTiff::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
 
+    buffer.fill(Qt::white);
+    QPainter _p_(&buffer);
+
     QRectF viewport  = QRectF(x, y, size.width() * xscale * zoomFactor,  size.height() * yscale * zoomFactor);
     QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));
     QRectF intersect = viewport.intersected(maparea);
@@ -192,7 +195,7 @@ void CMapGeoTiff::draw(QPainter& p)
 
 //                 qDebug() << xx << yy;
 
-                p.drawPixmap(xx,yy,QPixmap::fromImage(img));
+                _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
             }
         }
     }
@@ -205,6 +208,8 @@ void CMapGeoTiff::draw(QPainter& p)
     else{
         str = tr("Zoom level x%1").arg(zoomidx);
     }
+
+    p.drawPixmap(0,0,buffer);
 
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));

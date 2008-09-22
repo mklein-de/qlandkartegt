@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QRect>
 #include <QSize>
+#include <QPixmap>
 
 #include <projects.h>
 
@@ -130,6 +131,9 @@ class IMap : public QObject
             @return A string for registered maps. Empty string for all others
         */
         const QString& getKey(){return key;}
+
+        /// get read access to the internally used pixmap buffer
+        const QPixmap& getBuffer(){return buffer;}
     signals:
         void sigChanged();
 
@@ -168,5 +172,7 @@ class IMap : public QObject
         bool needsRedraw;
         /// the key used to register the map
         QString key;
+        /// the internal pixmap buffer to draw a map on
+        QPixmap buffer;
 };
 #endif                           //IMAP_H
