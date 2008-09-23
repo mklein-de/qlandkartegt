@@ -39,7 +39,8 @@ ITrackStat::ITrackStat(QWidget * parent)
 
     plot = new CPlot(this);
     layout()->addWidget(plot);
-
+	QObject::connect(plot, SIGNAL(activePointSignal(double)),
+				this, SLOT(activePointEvent(double)));
 
 }
 
@@ -48,32 +49,26 @@ ITrackStat::~ITrackStat()
 
 }
 
-void ITrackStat::mousePressEvent(QMouseEvent * e)
+void ITrackStat::activePointEvent(double dist)
 {
+    qDebug() << "ITrackStat::activePointEvent" << endl;
     if(track.isNull()) return;
-
-    if(e->button() == Qt::LeftButton) {
-        QPoint pos = e->pos();
-
-        if(plot == 0) return;
-
-        double dist = plot->getXValByPixel(pos.x() - SPACING);
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-        quint32 idx = 0;
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                ++trkpt; continue;
-            }
-
-            if(dist < trkpt->distance) {
-                track->setPointOfFocus(idx);
-                break;
-            }
-            idx = trkpt->idx;
-
-            ++trkpt;
+    if(plot == 0) return;
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    quint32 idx = 0;
+    while(trkpt != trkpts.end()) {
+        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+            ++trkpt; continue;
         }
+
+        if(dist < trkpt->distance) {
+            track->setPointOfFocus(idx);
+            break;
+        }
+        idx = trkpt->idx;
+
+        ++trkpt;
     }
 }
 

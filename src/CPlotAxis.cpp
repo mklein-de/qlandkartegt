@@ -26,10 +26,8 @@
 CPlotAxis::CPlotAxis( QObject * parent )
 : QObject( parent )
 , initialized( false )
-, autoscale( true )
+, autoscale( false )
 , scale( 1.0 )
-, given_min( 0.0 )
-, given_max( 0.0 )
 , used_min( 0.0 )
 , used_max( 0.0 )
 , interval( 0.0 )
@@ -44,12 +42,15 @@ CPlotAxis::CPlotAxis( QObject * parent )
 CPlotAxis::~CPlotAxis()
 {}
 
-void CPlotAxis::setMinMax( double min, double max )
+void CPlotAxis::setLimits(double min, double max)
+{
+    limit_min = min;
+    limit_max = max;
+}
+
+void CPlotAxis::setMinMax( double given_min, double given_max )
 {
     double tmp;
-
-    given_min = min;
-    given_max = max;
 
     if ( given_min == given_max ) {
         if ( given_min != 0.0 ) {
@@ -301,4 +302,34 @@ void CPlotAxis::setScale( const unsigned int pts )
     //qWarning( "you try to set the scale before defining the min & max value. not very sensible." );
     points = pts;
     scale = pts / ( used_max - used_min );
+}
+
+void CPlotAxis::resetZoom()
+{
+    setMinMax(limit_min, limit_max);
+}
+
+void CPlotAxis::zoom(bool in, int point)
+{
+    double min, p, d, factor;
+    if (in)
+        factor = 1/1.1;
+    else
+    factor = 1.1;
+
+    p = pt2val(point);
+    min = (p - used_min) * (1 - factor) + used_min;
+    d = min - used_min * factor;
+    setMinMax(min, used_max * factor + d);
+}
+
+void CPlotAxis::move(int delta_pt)
+{
+    double delta_val = pt2val(delta_pt) - pt2val(0);
+    bool f = ! (used_max - used_min < limit_max - limit_min);
+    if (f ^ (used_min + delta_val < limit_min))
+        delta_val = (limit_min - used_min);
+    if (f ^ (used_max + delta_val > limit_max))
+        delta_val = (limit_max - used_max);
+    setMinMax(used_min + delta_val, used_max + delta_val);
 }

@@ -34,7 +34,8 @@ CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 
     slotChanged();
-
+    plot->setLimits();
+    plot->resetZoom();
 }
 
 CTrackStatSpeedWidget::~CTrackStatSpeedWidget()

@@ -46,12 +46,12 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
             CTrack::pt_t trkpt;
         };
 
-        void mousePressEvent(QMouseEvent * e);
-
         void addWptTags(QVector<wpt_t>& wpts);
 
         CPlot * plot;
         QPointer<CTrack> track;
+    protected slots:
+	void activePointEvent(double x);
 };
 
 #endif //ITRACKSTAT_H

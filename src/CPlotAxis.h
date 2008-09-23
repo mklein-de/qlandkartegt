@@ -47,8 +47,16 @@ class CPlotAxis : public QObject
             full                 /**< minmax && norm*/
         };
 
+        ///zoom in/out with a given point as static
+        virtual void zoom(bool in, int point);
+        ///set the desired minimum and maximum value equal to limit values
+        virtual void resetZoom();
+        ///add delta_pt to min and max values
+        virtual void move(int delta_pt);
         ///set the desired minimum and maximum value
         virtual void setMinMax(double min, double max);
+        ///set the limit minimum and maximum value
+        virtual void setLimits(double min, double max);
         ///set the scale factor for a given size in points
         virtual void setScale(const unsigned int pts);
         ///calculate format for the given value
@@ -94,15 +102,13 @@ class CPlotAxis : public QObject
         ///scalefactor
         double scale;
 
-        ///the user applied min value
-        double given_min;
-        ///the user applied max value
-        double given_max;
-
         ///the actual applied min value
         double used_min;
         ///the actual applied max value
         double used_max;
+
+        double limit_min;
+        double limit_max;
 
         ///the intervall of the ticmarks
         double interval;

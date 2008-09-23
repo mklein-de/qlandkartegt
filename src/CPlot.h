@@ -38,12 +38,21 @@ class CPlot : public QWidget
         void addLine(const QPolygonF& line, const QString& label);
         void newMarks(const QPolygonF& line);
         void addTag(CPlotData::point_t& tag);
+        void setLimits();
 
         void clear();
 
         double getXValByPixel(int px);
 
+    signals:
+        void activePointSignal(double dist);
+
     protected:
+        void contextMenuEvent(QContextMenuEvent *event);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+        void wheelEvent ( QWheelEvent * e );
         void paintEvent(QPaintEvent * e);
         void resizeEvent(QResizeEvent * e);
 
@@ -66,6 +75,12 @@ class CPlot : public QWidget
         void setSizeXLabel();
         void setSizeYLabel();
         void setSizeDrawArea();
+        void zoom(CPlotAxis &axis, bool in, int cur = 0);
+
+        void createActions();
+        QAction *hZoomAct;
+        QAction *vZoomAct;
+        QAction *resetZoomAct;
 
         CPlotData * m_pData;
 
@@ -93,5 +108,9 @@ class CPlot : public QWidget
 
         QFontMetrics fm;
 
+        QPoint startMovePos;
+        int checkClick;
+    public slots:
+        void resetZoom();
 };
 #endif                           //CPLOT_H

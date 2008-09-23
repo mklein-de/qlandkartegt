@@ -28,10 +28,11 @@ class CTrackStatProfileWidget : public ITrackStat
     public:
         CTrackStatProfileWidget(QWidget * parent);
         virtual ~CTrackStatProfileWidget();
-
+    private:
+        bool needResetZoom;
     private slots:
         void slotChanged();
-
+        void slotSetTrack(CTrack *track);
 
 };
 

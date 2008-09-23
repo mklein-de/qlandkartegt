@@ -61,6 +61,6 @@ void CPlotData::setLimits()
         ++line;
     }
 
-    xaxis->setMinMax(xmin,xmax);
-    yaxis->setMinMax(ymin,ymax);
+    xaxis->setLimits(xmin,xmax);
+    yaxis->setLimits(ymin,ymax);
 }
