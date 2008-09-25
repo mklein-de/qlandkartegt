@@ -26,6 +26,7 @@
 class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
+class CTrackStatTraineeWidget;
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -44,6 +45,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotPurge();
         void slotUpdate();
         void slotToggleStat();
+        void slotToggleTrainee();
 
     protected:
         void keyPressEvent(QKeyEvent * e);
@@ -70,6 +72,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         QPointer<CTrackStatProfileWidget> trackStatProfile;
         QPointer<CTrackStatSpeedWidget> trackStatSpeed;
+        QPointer<CTrackStatTraineeWidget> trackStatTrainee;
 
 };
 #endif                           //CTRACKEDITWIDGET_H

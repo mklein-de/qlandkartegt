@@ -81,6 +81,10 @@ class CTrack : public QObject
             int heartReateBpm;
             /// secondary data: cadence in rpm
             int cadenceRpm;
+            /// secondary data: slope in %
+            float slope;
+
+
 
             /// display flags
             quint32 flags;
@@ -137,11 +141,14 @@ class CTrack : public QObject
 
         /// track name
         QString name;
+        bool hasTraineeData() { return traineeData;};
+        void setTraineedata() { traineeData = true;};
 
         signals:
         void sigChanged();
 
     private:
+        bool traineeData;
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);

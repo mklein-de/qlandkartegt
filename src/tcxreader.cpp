@@ -145,6 +145,7 @@ void TcxReader::readActivity()
     Q_ASSERT(isStartElement() && name() == "Activity");
 
     CTrack *track = new CTrack(parent);
+    track->setTraineedata();
     while (!atEnd())
     {
         readNext();
@@ -238,6 +239,8 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
     pt->lon = pold.lon;
     pt->ele = pold.ele;
     pt->distance = pold.distance;
+    pt->heartReateBpm = pold.heartReateBpm;
+
     while (!atEnd())
     {
         readNext();
@@ -274,6 +277,7 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
             else if (name() == "HeartRateBpm")
             {
                 readHeartRateBpm(pt);
+                pold.heartReateBpm  = pt->heartReateBpm;
             }
             else
                 readUnknownElement();

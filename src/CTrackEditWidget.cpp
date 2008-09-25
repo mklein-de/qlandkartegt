@@ -21,6 +21,7 @@
 #include "CTrackStatWidget.h"
 #include "CTrackStatProfileWidget.h"
 #include "CTrackStatSpeedWidget.h"
+#include "CTrackStatTraineeWidget.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -44,6 +45,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     toolGraph->setIcon(QIcon(":/icons/iconGraph16x16.png"));
     connect(toolGraph, SIGNAL(clicked()), this, SLOT(slotToggleStat()));
 
+    traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
+    connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
+
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i) {
         icon.fill(CTrack::colors[i]);
@@ -65,6 +69,9 @@ CTrackEditWidget::~CTrackEditWidget()
     }
     if(!trackStatSpeed.isNull()){
         delete trackStatSpeed;
+    }
+    if(!trackStatTrainee.isNull()){
+        delete trackStatTrainee;
     }
 }
 
@@ -106,6 +113,15 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
 void CTrackEditWidget::slotUpdate()
 {
+
+    if (track->hasTraineeData())
+       traineeGraph->setEnabled(true);
+    else
+    {
+       traineeGraph->setEnabled(false);
+       if (!trackStatTrainee.isNull())
+          delete trackStatTrainee;
+    }
 
     if(originator) return;
 
@@ -362,5 +378,15 @@ void CTrackEditWidget::slotToggleStat()
     else{
         delete trackStatProfile;
     }
+}
 
+void CTrackEditWidget::slotToggleTrainee()
+{
+    if(trackStatTrainee.isNull()){
+       trackStatTrainee = new CTrackStatTraineeWidget(this);
+       theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
+    }
+   else{
+       delete trackStatTrainee;
+   }
 }

@@ -281,7 +281,7 @@ CTrack::CTrack(QObject * parent)
 , colorIdx(4)
 , highlight(false)
 {
-
+    traineeData = false;
 }
 
 
@@ -412,6 +412,7 @@ void CTrack::rebuild(bool reindex)
     pt1->ascend     = totalAscend;
     pt1->descend    = totalDescend;
     pt1->dem        = dem.getElevation(pt1->lon * DEG_TO_RAD, pt1->lat * DEG_TO_RAD);
+    pt1->slope      = 0.0;
     t1              = pt1->timestamp;
 
     // process track
@@ -443,6 +444,10 @@ void CTrack::rebuild(bool reindex)
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
         slope           = pt2->ele - pt1->ele;
+        pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
+        if (qAbs(pt2->slope )>100)
+            pt2->slope = pt1->slope;
+       // qDebug() << slope << pt2->delta << pt2->slope;
         if(slope > 0){
             totalAscend  += slope;
         }

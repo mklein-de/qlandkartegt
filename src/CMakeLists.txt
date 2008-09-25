@@ -73,6 +73,7 @@ set(qlandkarte_SRCS
     CTrackStatWidget.cpp
     CTrackStatProfileWidget.cpp
     CTrackStatSpeedWidget.cpp
+    CTrackStatTraineeWidget.cpp
     CTabWidget.cpp
     CDiary.cpp
     CDiaryDB.cpp
@@ -96,7 +97,7 @@ set(qlandkarte_SRCS
 )
 
 IF(WIN32)
-	SET(qlandkarte_SRCS ${qlandkarte_SRCS} qlandkarte.rc)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} qlandkarte.rc)
 ENDIF(WIN32)
 
 set(qlandkarte_HDRS
@@ -170,6 +171,7 @@ set(qlandkarte_HDRS
     CTrackStatWidget.h
     CTrackStatProfileWidget.h
     CTrackStatSpeedWidget.h
+    CTrackStatTraineeWidget.h
     CTabWidget.h
     CDiary.h
     CDiaryDB.h
