@@ -145,7 +145,7 @@ void TcxReader::readActivity()
     Q_ASSERT(isStartElement() && name() == "Activity");
 
     CTrack *track = new CTrack(parent);
-    track->setTraineedata();
+    track->setTraineeData();
     while (!atEnd())
     {
         readNext();

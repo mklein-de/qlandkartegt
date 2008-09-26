@@ -51,7 +51,8 @@ class CTrack : public QObject
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
-                speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT), ascend(0), descend(0), flags(0), dem(WPT_NOFLOAT){}
+                speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT),
+                ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), flags(0), dem(WPT_NOFLOAT){}
             /// index counter for easy QVector access
             qint32  idx;
             /// longitude [°]
@@ -84,6 +85,21 @@ class CTrack : public QObject
             /// secondary data: slope in %
             float slope;
 
+            // extended data 1
+            float   altitude;   ///< [m] Altitude, Meters, above mean sea level
+            float   height;     ///< [m] Height of geoid (mean sea level) above WGS84 ellipsoid
+            float   velocity;   ///< [m/s] Ground speed, meters per hour
+            float   heading;    ///< [°] Track angle in degrees True
+            float   magnetic;   ///< [°] Magnetic Variation
+            float   vdop;       ///< Vertical dilution of precision (VDOP)
+            float   hdop;       ///< Horizontal dilution of precision (HDOP)
+            float   pdop;       ///< PDOP (dilution of precision)
+            float   x;          ///< [m] cartesian gps coordinate
+            float   y;          ///< [m] cartesian gps coordinate
+            float   z;          ///< [m] cartesian gps coordinate
+            float   vx;         ///< [m/s] velocity
+            float   vy;         ///< [m/s] velocity
+            float   vz;         ///< [m/s] velocity
 
 
             /// display flags
@@ -141,14 +157,16 @@ class CTrack : public QObject
 
         /// track name
         QString name;
+
         bool hasTraineeData() { return traineeData;};
-        void setTraineedata() { traineeData = true;};
+        void setTraineeData() { traineeData = true;};
+        bool hasExt1Data() { return ext1Data;};
+        void setExt1Data() { ext1Data = true;};
 
         signals:
         void sigChanged();
 
     private:
-        bool traineeData;
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
@@ -187,6 +205,9 @@ class CTrack : public QObject
 
         float avgspeed0;
         float avgspeed1;
+
+        bool traineeData;
+        bool ext1Data;
 
 };
 

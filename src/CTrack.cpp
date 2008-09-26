@@ -280,8 +280,10 @@ CTrack::CTrack(QObject * parent)
 , color(Qt::darkBlue)
 , colorIdx(4)
 , highlight(false)
+, traineeData(false)
+, ext1Data(false)
 {
-    traineeData = false;
+
 }
 
 
