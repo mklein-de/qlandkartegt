@@ -37,8 +37,10 @@ class CDlgCombineTracks : public QDialog, private Ui::IDlgCombineTracks
     private slots:
         void slotAdd();
         void slotDel();
-
-
+        void slotSortTimestamp(bool yes);
+        void slotUp();
+        void slotDown();
+        void slotItemSelectionChanged();
 };
 
 #endif //CDLGCOMBINETRACKS_H

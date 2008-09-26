@@ -38,6 +38,14 @@ CDlgCombineTracks::CDlgCombineTracks(QWidget * parent)
     toolDel->setIcon(QPixmap(":/icons/iconLeft16x16.png"));
     connect(toolDel, SIGNAL(clicked()), this, SLOT(slotDel()));
 
+    toolUp->setIcon(QPixmap(":/icons/iconUpload16x16.png"));
+    connect(toolUp, SIGNAL(clicked()), this, SLOT(slotUp()));
+    toolDown->setIcon(QPixmap(":/icons/iconDownload16x16.png"));
+    connect(toolDown, SIGNAL(clicked()), this, SLOT(slotDown()));
+
+    connect(checkSortTimestamp, SIGNAL(toggled(bool)), this, SLOT(slotSortTimestamp(bool)));
+    connect(listSelTracks, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+
     CTrack * track;
     QList<CTrack*> tracks =  CTrackDB::self().getTracks().values();
 
@@ -92,7 +100,9 @@ void CDlgCombineTracks::accept()
 
     if(tracks.isEmpty() || lineTrackName->text().isEmpty()) return;
 
-    qSort(tracks.begin(), tracks.end(), trackLessThan);
+    if(checkSortTimestamp->isChecked()){
+        qSort(tracks.begin(), tracks.end(), trackLessThan);
+    }
 
     CTrack * newtrack = new CTrack(&CTrackDB::self());
     newtrack->setName(lineTrackName->text());
@@ -104,5 +114,48 @@ void CDlgCombineTracks::accept()
     CTrackDB::self().addTrack(newtrack, false);
 
     QDialog::accept();
+}
+
+void CDlgCombineTracks::slotSortTimestamp(bool yes)
+{
+    if(yes || (listSelTracks->currentItem() == 0)){
+        toolUp->setEnabled(false);
+        toolDown->setEnabled(false);
+    }
+    else{
+        toolUp->setEnabled(true);
+        toolDown->setEnabled(true);
+    }
+}
+
+void CDlgCombineTracks::slotItemSelectionChanged ()
+{
+    slotSortTimestamp(checkSortTimestamp->isChecked());
+}
+
+void CDlgCombineTracks::slotUp()
+{
+    QListWidgetItem * item = listSelTracks->currentItem();
+    if(item){
+        int row = listSelTracks->row(item);
+        if(row == 0) return;
+        listSelTracks->takeItem(row);
+        row = row - 1;
+        listSelTracks->insertItem(row,item);
+        listSelTracks->setCurrentItem(item);
+    }
+}
+
+void CDlgCombineTracks::slotDown()
+{
+    QListWidgetItem * item = listSelTracks->currentItem();
+    if(item){
+        int row = listSelTracks->row(item);
+        if(row == (listSelTracks->count() - 1)) return;
+        listSelTracks->takeItem(row);
+        row = row + 1;
+        listSelTracks->insertItem(row,item);
+        listSelTracks->setCurrentItem(item);
+    }
 }
 
