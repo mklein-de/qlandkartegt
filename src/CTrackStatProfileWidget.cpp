@@ -30,7 +30,6 @@
 
 CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
 : ITrackStat(parent)
-, needResetZoom(true)
 {
 
     plot->setXLabel(tr("distance [m]"));
@@ -38,7 +37,6 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CWptDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
     slotChanged();
     plot->setLimits();
@@ -48,11 +46,6 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
 CTrackStatProfileWidget::~CTrackStatProfileWidget()
 {
 
-}
-
-void CTrackStatProfileWidget::slotSetTrack(CTrack* track)
-{
-        needResetZoom = true;
 }
 
 void CTrackStatProfileWidget::slotChanged()
@@ -118,11 +111,6 @@ void CTrackStatProfileWidget::slotChanged()
     plot->newMarks(marksElev);
     if(!lineDEM.isEmpty()){
         plot->addLine(lineDEM, "DEM");
-    }
-    plot->setLimits();
-    if (needResetZoom) {
-            plot->resetZoom();
-            needResetZoom = false;
     }
 }
 
