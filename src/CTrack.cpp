@@ -106,8 +106,16 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             case CTrack::eTrain:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
-                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
 
+                quint32 nTrkPts1 = 0;
+
+                s1 >> nTrkPts1;
+                if(nTrkPts1 != nTrkPts){
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of training data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    break;
+                }
+
+                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
                 while (pt1 != track.track.end())
                 {
                     s1 >> pt1->heartReateBpm;
@@ -115,6 +123,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                     pt1++;
                 }
 
+                track.setTraineeData();
                 break;
             }
             case CTrack::eTrkExt1:
@@ -124,11 +133,11 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
 
                 s1 >> nTrkPts1;
                 if(nTrkPts1 != nTrkPts){
-                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of extended data tarckpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of extended data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
                     break;
                 }
-                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
 
+                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
                 while (pt1 != track.track.end())
                 {
                     s1 >> pt1->altitude;    ///< [m]
@@ -205,50 +214,53 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     //---------------------------------------
     // prepare trainings data
     //---------------------------------------
-    trk_head_entry_t entryTrainPts;
-    entryTrainPts.type = CTrack::eTrain;
-    QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
+    if(track.traineeData){
+        trk_head_entry_t entryTrainPts;
+        entryTrainPts.type = CTrack::eTrain;
+        QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
 
-    trkpt = trkpts.begin();
+        trkpt = trkpts.begin();
 
-    while(trkpt != trkpts.end()) {
-        s3 << trkpt->heartReateBpm;
-        s3 << trkpt->cadenceRpm;
-        ++trkpt;
+        s3 << (quint32)trkpts.size();
+        while(trkpt != trkpts.end()) {
+            s3 << trkpt->heartReateBpm;
+            s3 << trkpt->cadenceRpm;
+            ++trkpt;
+        }
+
+        entries << entryTrainPts;
     }
-
-    entries << entryTrainPts;
-
     //---------------------------------------
     // prepare extended trackpoint data 1
     //---------------------------------------
-    trk_head_entry_t entryTrkExt1;
-    entryTrkExt1.type = CTrack::eTrkExt1;
-    QDataStream s4(&entryTrkExt1.data, QIODevice::WriteOnly);
+    if(track.ext1Data){
+        trk_head_entry_t entryTrkExt1;
+        entryTrkExt1.type = CTrack::eTrkExt1;
+        QDataStream s4(&entryTrkExt1.data, QIODevice::WriteOnly);
 
-    trkpt = trkpts.begin();
+        trkpt = trkpts.begin();
 
-    s4 << (quint32)trkpts.size();
-    while(trkpt != trkpts.end()) {
-        s4 << trkpt->altitude;    ///< [m]
-        s4 << trkpt->height;      ///< [m]
-        s4 << trkpt->velocity;    ///< [m/s]
-        s4 << trkpt->heading;     ///< [°]
-        s4 << trkpt->magnetic;    ///< [°]
-        s4 << trkpt->vdop;        ///<
-        s4 << trkpt->hdop;        ///<
-        s4 << trkpt->pdop;        ///<
-        s4 << trkpt->x;           ///< [m] cartesian gps coordinate
-        s4 << trkpt->y;           ///< [m] cartesian gps coordinate
-        s4 << trkpt->z;           ///< [m] cartesian gps coordinate
-        s4 << trkpt->vx;          ///< [m/s] velocity
-        s4 << trkpt->vy;          ///< [m/s] velocity
-        s4 << trkpt->vz;          ///< [m/s] velocity
-        ++trkpt;
+        s4 << (quint32)trkpts.size();
+        while(trkpt != trkpts.end()) {
+            s4 << trkpt->altitude;    ///< [m]
+            s4 << trkpt->height;      ///< [m]
+            s4 << trkpt->velocity;    ///< [m/s]
+            s4 << trkpt->heading;     ///< [°]
+            s4 << trkpt->magnetic;    ///< [°]
+            s4 << trkpt->vdop;        ///<
+            s4 << trkpt->hdop;        ///<
+            s4 << trkpt->pdop;        ///<
+            s4 << trkpt->x;           ///< [m] cartesian gps coordinate
+            s4 << trkpt->y;           ///< [m] cartesian gps coordinate
+            s4 << trkpt->z;           ///< [m] cartesian gps coordinate
+            s4 << trkpt->vx;          ///< [m/s] velocity
+            s4 << trkpt->vy;          ///< [m/s] velocity
+            s4 << trkpt->vz;          ///< [m/s] velocity
+            ++trkpt;
+        }
+
+        entries << entryTrkExt1;
     }
-
-    entries << entryTrkExt1;
-
     //---------------------------------------
     // prepare terminator
     //---------------------------------------
