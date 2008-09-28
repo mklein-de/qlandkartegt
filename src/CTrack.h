@@ -36,7 +36,7 @@ class CTrack : public QObject
         CTrack(QObject * parent);
         virtual ~CTrack();
 
-        enum type_e {eEnd,eBase,eTrkPts,eTrain};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1};
 
         struct pt_t
         {
@@ -53,6 +53,9 @@ class CTrack : public QObject
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
                 speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT),
                 ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), flags(0), dem(WPT_NOFLOAT){}
+
+            bool operator==(const pt_t& pt){return pt.idx == idx;}
+
             /// index counter for easy QVector access
             qint32  idx;
             /// longitude [°]

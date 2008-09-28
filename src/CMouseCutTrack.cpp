@@ -73,23 +73,28 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
     nextTrkPt = 0;
     mouseMoveEventTrack(e);
 
+    if(selTrkPt == 0) return;
+    qDebug() << selTrkPt->lon << selTrkPt->lat;
+
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track == 0) return;
 
+    int idx = 0;
     if(selTrkPt){
-        CTrack::pt_t * next = selTrkPt;
-        CTrack::pt_t * last = &track->getTrackPoints().last();
-        while(next != last){
-            if(next != selTrkPt && !(next->flags & CTrack::pt_t::eDeleted)){
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        idx = trkpts.indexOf(*selTrkPt);
+        while(idx < trkpts.size()){
+            if(&trkpts[idx] != selTrkPt && !(trkpts[idx].flags & CTrack::pt_t::eDeleted)){
                 break;
             }
 
-            ++next;
+            ++idx;
         }
-        if(!(next->flags & CTrack::pt_t::eDeleted)){
-            nextTrkPt = next;
+        if(idx < trkpts.size()){
+            nextTrkPt = &trkpts[idx];
         }
     }
+    qDebug() << nextTrkPt->lon << nextTrkPt->lat;
 }
 
 void CMouseCutTrack::mousePressEvent(QMouseEvent * e)

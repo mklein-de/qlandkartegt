@@ -71,6 +71,7 @@ void CTrackStatSpeedWidget::slotChanged()
         }
         lineSpeed       << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
+//         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
             marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
