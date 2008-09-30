@@ -48,6 +48,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
 
+    // for 0.7.3 release only
+    traineeGraph->hide();
+
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i) {
         icon.fill(CTrack::colors[i]);
