@@ -1,3 +1,37 @@
+--- 2008.09.30 ---
+
+Request #12:
+Add icon wheel to search results
+
+Request #13:
+Reorganize track statistics graphs
+
+Request #14:
+Add shortterm average speed to track and graph
+
+Request #15:
+Read Garmin \*tcx
+
+Bug     #16:
+Fix QT bug for floating point attributes in XML
+
+Request #17:
+Select trackpoints by rectangle on map
+
+Request #18:
+Add waypoint icons to profile graph
+
+Request #19:
+Add zoom to track statistic graphs
+
+Request #20:
+Combine tracks sorted either by timestamp or list order
+
+Bug     #21:
+Fixed bug in "cut track" marker
+
+
+
 --- 2008.09.01 ---
 
 Request #6:
@@ -230,6 +264,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
