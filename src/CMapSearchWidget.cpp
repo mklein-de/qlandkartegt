@@ -23,6 +23,8 @@
 #include "GeoMath.h"
 #include "CMapDB.h"
 #include "CPicProcess.h"
+#include "CMapSearchCanvas.h"
+#include "CTabWidget.h"
 
 #include <QtGui>
 
@@ -43,6 +45,9 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
 CMapSearchWidget::~CMapSearchWidget()
 {
+    if(!canvas.isNull()){
+        delete canvas;
+    }
 
 }
 
@@ -61,6 +66,13 @@ void CMapSearchWidget::slotSelectMask()
     int nThreshold = imgProcess.Binarize() ;
     imgProcess.setThreashold( nThreshold);
     imgProcess.writeOut("./binary.png");
+
+    if(canvas.isNull()){
+        canvas = new CMapSearchCanvas(this);
+        theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
+    }
+
+    canvas->setBuffer(imgProcess);
 }
 
 void CMapSearchWidget::slotSearch()

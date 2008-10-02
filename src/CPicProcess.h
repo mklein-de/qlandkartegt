@@ -23,6 +23,7 @@
 #include "math.h"
 #include <QObject>
 #include <QImage>
+#include <QPixmap>
 #include <vector>
 #include <queue>
 
@@ -44,6 +45,7 @@ class CPicProcess : public QObject
 		virtual ~CPicProcess();
 
         CPicProcess& operator =(const CPicProcess &Other);
+        operator const QPixmap&();
 		/* Pixel works */
 		int **GetGris(){return myGray;}
 		int **GetRed(){return myRed;}
@@ -83,7 +85,7 @@ class CPicProcess : public QObject
 		int **p_anglerad, **p_projX, **p_projY;
 		int myHeight,myWidth;
 
-
+        QPixmap buffer;
 };
 
 

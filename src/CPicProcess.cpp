@@ -32,27 +32,26 @@ const double Pi = 3.141592653589793238462643383279;
  */
 CPicProcess::CPicProcess(int Width,int Height, QObject * parent)
 {
-	myHeight=Height;
-	myWidth=Width;
-	myGray=0;
-	myRed=0;
-	myGreen=0;
-	myBlue=0;
-	p_anglerad=0;
-	p_projX=0;
-	p_projY=0;
-	myGray=AllocT(myGray,myWidth,myHeight);
-	p_projX=AllocT(p_projX,myWidth,myHeight);
-	p_projY=AllocT(p_projY,myWidth,myHeight);
+	myHeight   = Height;
+	myWidth    = Width;
+	myGray     = 0;
+	myRed      = 0;
+	myGreen    = 0;
+	myBlue     = 0;
+	p_anglerad = 0;
+	p_projX    = 0;
+	p_projY    = 0;
+	myGray     = AllocT(myGray,myWidth,myHeight);
+	p_projX    = AllocT(p_projX,myWidth,myHeight);
+	p_projY    = AllocT(p_projY,myWidth,myHeight);
 
-	for(int i=myWidth-1;i>=0;i--)
-		for(int j=myHeight-1;j>=0;j--)
-		{
+	for(int i=myWidth-1;i>=0;i--){
+		for(int j=myHeight-1;j>=0;j--){
 			p_projX[i][j]=0;
 			p_projY[i][j]=0;
 			myGray[i][j]=0;
 		}
-
+    }
 }
 
 /*
@@ -60,29 +59,32 @@ CPicProcess::CPicProcess(int Width,int Height, QObject * parent)
  */
 CPicProcess::CPicProcess(const CPicProcess &Img, QObject * parent)
 {
-	myHeight=Img.myHeight;
-	myWidth=Img.myWidth;
-	myGray=0;
-	myRed=0;
-	myGreen=0;
-	myBlue=0;
-	p_anglerad=0;
-	p_projX=0;
-	p_projY=0;
-	myGray=AllocT(myGray,myWidth,myHeight);
-	p_projX=AllocT(p_projX,myWidth,myHeight);
-	p_projY=AllocT(p_projY,myWidth,myHeight);
+	myHeight   = Img.myHeight;
+	myWidth    = Img.myWidth;
+	myGray     = 0;
+	myRed      = 0;
+	myGreen    = 0;
+	myBlue     = 0;
+	p_anglerad = 0;
+	p_projX    = 0;
+	p_projY    = 0;
+	myGray     = AllocT(myGray,myWidth,myHeight);
+	p_projX    = AllocT(p_projX,myWidth,myHeight);
+	p_projY    = AllocT(p_projY,myWidth,myHeight);
 
 
-	for(int i=myWidth-1;i>=0;i--)
-		for(int j=myHeight-1;j>=0;j--)
+	for(int i=myWidth-1;i>=0;i--){
+		for(int j=myHeight-1;j>=0;j--){
 			myGray[i][j]=Img.myGray[i][j];
-	for(int i=myWidth-1;i>=0;i--)
-		for(int j=myHeight-1;j>=0;j--)
-		{
+        }
+    }
+
+	for(int i=myWidth-1;i>=0;i--){
+		for(int j=myHeight-1;j>=0;j--){
 			p_projX[i][j]=0;
 			p_projY[i][j]=0;
 		}
+    }
 }
 
 /*
@@ -90,25 +92,24 @@ CPicProcess::CPicProcess(const CPicProcess &Img, QObject * parent)
  */
 CPicProcess::CPicProcess(const QImage &Img, QObject * parent)
 {
-	myGray=0;
-	myRed=0;
-	myGreen=0;
-	myBlue=0;
-	p_projX=0;
-	p_projY=0;
-    	p_anglerad=0;
-	myWidth=Img.width();
-	myHeight=Img.height();
-	myGray=AllocT(myGray,myWidth,myHeight);
-	myRed=AllocT(myRed,myWidth,myHeight);
-	myGreen=AllocT(myGreen,myWidth,myHeight);
-	myBlue=AllocT(myBlue,myWidth,myHeight);
-	p_projX=AllocT(p_projX,myWidth,myHeight);
-	p_projY=AllocT(p_projY,myWidth,myHeight);
+	myGray     =0;
+	myRed      =0;
+	myGreen    =0;
+	myBlue     =0;
+	p_projX    =0;
+	p_projY    =0;
+    p_anglerad =0;
+	myWidth    =Img.width();
+	myHeight   =Img.height();
+	myGray     =AllocT(myGray,myWidth,myHeight);
+	myRed      =AllocT(myRed,myWidth,myHeight);
+	myGreen    =AllocT(myGreen,myWidth,myHeight);
+	myBlue     =AllocT(myBlue,myWidth,myHeight);
+	p_projX    =AllocT(p_projX,myWidth,myHeight);
+	p_projY    =AllocT(p_projY,myWidth,myHeight);
 
-	for(int i=0;i<myWidth;i++)
-		for(int j=0;j<myHeight;j++)
-		{
+	for(int i=0;i<myWidth;i++){
+		for(int j=0;j<myHeight;j++){
 			myRed[i][j]=qRed( Img.pixel(i,j) );
 			myGreen[i][j]=qGreen( Img.pixel(i,j) );
 			myBlue[i][j]=qBlue( Img.pixel(i,j) );
@@ -120,6 +121,7 @@ CPicProcess::CPicProcess(const QImage &Img, QObject * parent)
 				myGray[i][j]=255;
 */
 		}
+    }
 }
 
 /*
@@ -129,13 +131,16 @@ CPicProcess& CPicProcess::operator =(const CPicProcess &Other)
 {
 	if(this->myHeight!=Other.myHeight || this->myWidth!=Other.myWidth)
 		return *this;
+
 	if(this==&Other || Other.myGray==0)
 		return *this;
 
 
-	for(int i=myWidth-1;i>=0;i--)
-		for(int j=myHeight-1;j>=0;j--)
+	for(int i=myWidth-1;i>=0;i--){
+		for(int j=myHeight-1;j>=0;j--){
 			myGray[i][j]=Other.myGray[i][j];
+        }
+    }
 	return *this;
 }
 
@@ -243,28 +248,24 @@ void CPicProcess::Sobel(CPicProcess *Img)
  */
 double* CPicProcess::ComputeGrayLeveldistibutionHistogramm(void)
 {
-  double *GrayLevelHist = new double[256] ;
-  memset(GrayLevelHist, 0.0, 256 * sizeof(double)) ;
-  for(int j = 0 ; j < myHeight ; j++ )
-  {
-    for(int i = 0 ; i < myWidth ; i++ )
-    {
-       GrayLevelHist[myGray[i][j]] += 1.0 ;
+    double * GrayLevelHist = new double [256];
+    memset(GrayLevelHist, 0.0, 256 * sizeof(double)) ;
+    for(int j = 0 ; j < myHeight ; j++ ){
+        for(int i = 0 ; i < myWidth ; i++ ){
+            GrayLevelHist[myGray[i][j]] += 1.0 ;
+        }
     }
-  }
-  // calculate for each pixel which one have same gray level
+    // calculate for each pixel which one have same gray level
 
-  unsigned Sum = 0;
-  for(int j = 0 ; j < 256 ; j++ )
-  {
-   Sum += GrayLevelHist[j] ;
-  }
-  //
-   for(int j = 0 ; j < 256 ; j++ )
-  {
-   GrayLevelHist[j] /= Sum ;
-  }
-  return GrayLevelHist;
+    unsigned Sum = 0;
+    for(int j = 0 ; j < 256 ; j++ ) {
+        Sum += GrayLevelHist[j] ;
+    }
+
+    for(int j = 0 ; j < 256 ; j++ )  {
+        GrayLevelHist[j] /= Sum ;
+    }
+    return GrayLevelHist;
 }
 
 
@@ -619,11 +620,26 @@ void CPicProcess::Optimisation()
  */
 void CPicProcess::writeOut(QString szout)
 {
-	QImage *imgOut = new QImage( myWidth, myHeight, QImage::Format_RGB32);
-	for(int i=myWidth-1;i>=0;i--)
-		for(int j=myHeight-1;j>=0;j--)
-			imgOut->setPixel(i,j, qRgb(myGray[i][j], myGray[i][j], myGray[i][j]) );
-	imgOut->save(szout, "PNG" );
+	QImage imgOut( myWidth, myHeight, QImage::Format_RGB32);
+	for(int i=myWidth-1;i>=0;i--){
+		for(int j=myHeight-1;j>=0;j--){
+			imgOut.setPixel(i,j, qRgb(myGray[i][j], myGray[i][j], myGray[i][j]) );
+        }
+    }
+	imgOut.save(szout, "PNG" );
+}
+
+CPicProcess::operator const QPixmap&()
+{
+    QImage imgOut = QImage( myWidth, myHeight, QImage::Format_RGB32);
+    for(int i=myWidth-1;i>=0;i--){
+        for(int j=myHeight-1;j>=0;j--){
+            imgOut.setPixel(i,j, qRgb(myGray[i][j], myGray[i][j], myGray[i][j]) );
+        }
+     }
+
+    buffer = QPixmap::fromImage(imgOut);
+    return buffer;
 }
 
 /*
@@ -631,13 +647,14 @@ void CPicProcess::writeOut(QString szout)
  */
 void CPicProcess::writeProj(QString szout)
 {
-	QImage *imgOut = new QImage( myWidth, myHeight, QImage::Format_RGB32);
-	for(int i=myWidth-1;i>=0;i--)
+	QImage imgOut( myWidth, myHeight, QImage::Format_RGB32);
+	for(int i=myWidth-1;i>=0;i--){
 		for(int j=myHeight-1;j>=0;j--)
 		{
-			imgOut->setPixel(i,j, qRgb(p_projX[i][j], myGray[i][j], p_projY[i][j]) );
+			imgOut.setPixel(i,j, qRgb(p_projX[i][j], myGray[i][j], p_projY[i][j]) );
 		}
-	imgOut->save(szout, "PNG" );
+    }
+	imgOut.save(szout, "PNG" );
 }
 
 /*
@@ -647,9 +664,12 @@ int **AllocT(int **Tab,int Width,int Height)
 {
 	if(Tab!=0)
 		return Tab;
-	Tab=new int*[Width];
-	for(int i=0;i<Width;i++)
-		Tab[i]=new int[Height];
+
+    Tab = new int*[Width];
+
+    for(int i=0;i<Width;i++){
+		Tab[i] = new int[Height];
+    }
 
 	return Tab;
 }
@@ -659,12 +679,14 @@ int **AllocT(int **Tab,int Width,int Height)
  */
 void DesAllocT(int **Tab,int Width)
 {
-	if(Tab==0)return;
+	if(Tab == 0)return;
 
-	for(int i=0;i<Width;i++)
+	for(int i=0;i<Width;i++){
 		delete []Tab[i];
-	delete []Tab;
-	Tab=0;
+    }
+
+	delete [] Tab;
+	Tab = 0;
 }
 
 /*

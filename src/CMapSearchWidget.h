@@ -22,7 +22,10 @@
 
 #include "CMapSelection.h"
 #include <QWidget>
+#include <QPointer>
 #include "ui_IMapSearchWidget.h"
+
+class CMapSearchCanvas;
 
 class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 {
@@ -40,6 +43,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 
     private:
         CMapSelection area;
+        QPointer<CMapSearchCanvas> canvas;
 };
 
 #endif //CMAPSEARCHWIDGET_H
