@@ -31,6 +31,7 @@ class QPainter;
 class CCanvas;
 class CMapNoMap;
 class CMapEditWidget;
+class CMapSearchWidget;
 
 class CMapDB : public IDB
 {
@@ -58,6 +59,8 @@ class CMapDB : public IDB
         /// delete selected maps by keys
         void delSelectedMap(const QStringList& keys);
 
+        void selSelectedMap(const QString& key);
+
         /// draw visible maps
         void draw(QPainter& p, const QRect& rect);
 
@@ -70,9 +73,12 @@ class CMapDB : public IDB
         void upload();
         void download();
 
+        /// remove all selected map areas
         void clear();
-
+        /// create map edit dialog
         void editMap();
+        /// create map search dialog
+        void searchMap();
 
         /// select an area of the map for export [px]
         /**
@@ -120,6 +126,8 @@ class CMapDB : public IDB
         QPointer<IMap> demMap;
 
         QPointer<CMapEditWidget> mapedit;
+
+        QPointer<CMapSearchWidget> mapsearch;
 
         QMap<QString,CMapSelection> selectedMaps;
 };

@@ -95,7 +95,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconFind16x16",QObject::tr("Find Symbols"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -480,6 +480,10 @@ void CMegaMenu::funcEditMap()
     }
 }
 
+void CMegaMenu::funcSearchMap()
+{
+    CMapDB::self().searchMap();
+}
 
 void CMegaMenu::funcNewWpt()
 {

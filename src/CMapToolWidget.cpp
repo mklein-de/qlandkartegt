@@ -113,6 +113,7 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
     if(selectedMaps.contains(key)){
         const CMapSelection& ms = selectedMaps[key];
         CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
+        CMapDB::self().selSelectedMap(key);
     }
 
 }

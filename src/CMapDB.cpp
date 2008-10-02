@@ -25,6 +25,7 @@
 #include "CMapDEM.h"
 #include "CMainWindow.h"
 #include "CMapEditWidget.h"
+#include "CMapSearchWidget.h"
 #include "GeoMath.h"
 #include "CCanvas.h"
 
@@ -227,6 +228,14 @@ void CMapDB::delSelectedMap(const QStringList& keys)
     emit sigChanged();
 }
 
+void CMapDB::selSelectedMap(const QString& key)
+{
+    if(!selectedMaps.contains(key)) return;
+
+    const CMapSelection& ms = selectedMaps[key];
+    if(mapsearch) mapsearch->setArea(ms);
+}
+
 void CMapDB::loadGPX(CGpx& gpx)
 {
 }
@@ -315,6 +324,14 @@ void CMapDB::editMap()
     }
 }
 
+void CMapDB::searchMap()
+{
+    if(mapsearch.isNull()) {
+        mapsearch = new CMapSearchWidget(theMainWindow->getCanvas());
+        theMainWindow->setTempWidget(mapsearch);
+    }
+}
+
 void CMapDB::select(const QRect& rect)
 {
     CMapSelection ms;
@@ -338,6 +355,9 @@ void CMapDB::select(const QRect& rect)
     ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
 
     selectedMaps[ms.key] = ms;
+
+    if(mapsearch) mapsearch->setArea(ms);
+
     emit sigChanged();
 }
 
