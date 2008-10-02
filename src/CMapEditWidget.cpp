@@ -37,23 +37,22 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
     bool haveGDAL = haveGDALWarp && haveGDALTranslate;
 
-
     comboSource->insertItem(eNone,tr(""));
 
-//     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
-//     widgetOSM       = new CCreateMapOSM(stackedWidget);
-//     stackedWidget->insertWidget(eOSM, widgetOSM);
+    //     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
+    //     widgetOSM       = new CCreateMapOSM(stackedWidget);
+    //     stackedWidget->insertWidget(eOSM, widgetOSM);
 
     comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
     widgetQMAP      = new CCreateMapQMAP(stackedWidget);
     stackedWidget->insertWidget(eQMAP, widgetQMAP);
 
     comboSource->insertItem(eGTIFF,QIcon(":/icons/iconGlobe16x16.png"),tr("Convert a TIFF into GeoTiff by geo referencing it."));
-    if(haveGDAL){
+    if(haveGDAL) {
         widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
         stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
     }
-    else{
+    else {
         QLabel * label = new QLabel(stackedWidget);
         label->setAlignment(Qt::AlignCenter);
         label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));

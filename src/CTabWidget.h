@@ -33,6 +33,4 @@ class CTabWidget : public QTabWidget
     private slots:
         void slotDestroyChild(QObject * child);
 };
-
-#endif //CTABWIDGET_H
-
+#endif                           //CTABWIDGET_H

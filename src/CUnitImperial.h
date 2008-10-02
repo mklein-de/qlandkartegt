@@ -32,6 +32,4 @@ class CUnitImperial : public IUnit
         void meter2distance(float meter, QString& val, QString& unit);
         float elevation2meter(const QString& val);
 };
-
-#endif //CUNITIMPERIAL_H
-
+#endif                           //CUNITIMPERIAL_H

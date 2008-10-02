@@ -49,6 +49,4 @@ class IUnit : public QObject
     private:
         static IUnit * m_self;
 };
-
-#endif //IUNIT_H
-
+#endif                           //IUNIT_H

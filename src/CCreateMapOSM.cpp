@@ -320,7 +320,7 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     setupUi(this);
     labelPath->setText(CResources::self().pathMaps);
 
-   	QRectF r = CTrackDB::self().getBoundingRectF();
+    QRectF r = CTrackDB::self().getBoundingRectF();
 
     QString positionTop;
     GPS_Math_Deg_To_Str(r.left(), r.top(), positionTop);
@@ -328,13 +328,10 @@ CCreateMapOSM::CCreateMapOSM(QWidget * parent)
     QString positionBottom;
     GPS_Math_Deg_To_Str(r.right(), r.bottom(), positionBottom);
 
+    lineBottomRight->setText(positionBottom);
+    lineTopLeft->setText(positionTop);
 
-     lineBottomRight->setText(positionBottom);
-     lineTopLeft->setText(positionTop);
-
-     connect(pushCreate, SIGNAL(clicked()), this, SLOT(slotCreate()));
-
-
+    connect(pushCreate, SIGNAL(clicked()), this, SLOT(slotCreate()));
 
     QString url;
     quint16 port;

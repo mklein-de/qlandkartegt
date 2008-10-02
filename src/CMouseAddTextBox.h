@@ -40,6 +40,4 @@ class CMouseAddTextBox : public IMouse
 
         QPoint anchor;
 };
-
-#endif //CMOUSEADDTEXTBOX_H
-
+#endif                           //CMOUSEADDTEXTBOX_H

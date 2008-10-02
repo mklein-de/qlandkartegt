@@ -90,7 +90,6 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 track.track.clear();
                 s1 >> nTrkPts;
 
-
                 for(n = 0; n < nTrkPts; ++n) {
                     CTrack::pt_t trkpt;
                     s1 >> trkpt.lon;
@@ -110,14 +109,13 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 quint32 nTrkPts1 = 0;
 
                 s1 >> nTrkPts1;
-                if(nTrkPts1 != nTrkPts){
+                if(nTrkPts1 != nTrkPts) {
                     QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of training data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
                     break;
                 }
 
                 QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
-                while (pt1 != track.track.end())
-                {
+                while (pt1 != track.track.end()) {
                     s1 >> pt1->heartReateBpm;
                     s1 >> pt1->cadenceRpm;
                     pt1++;
@@ -132,28 +130,38 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 quint32 nTrkPts1 = 0;
 
                 s1 >> nTrkPts1;
-                if(nTrkPts1 != nTrkPts){
+                if(nTrkPts1 != nTrkPts) {
                     QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of extended data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
                     break;
                 }
 
                 QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
-                while (pt1 != track.track.end())
-                {
-                    s1 >> pt1->altitude;    ///< [m]
-                    s1 >> pt1->height;      ///< [m]
-                    s1 >> pt1->velocity;    ///< [m/s]
-                    s1 >> pt1->heading;     ///< [°]
-                    s1 >> pt1->magnetic;    ///< [°]
-                    s1 >> pt1->vdop;        ///<
-                    s1 >> pt1->hdop;        ///<
-                    s1 >> pt1->pdop;        ///<
-                    s1 >> pt1->x;           ///< [m] cartesian gps coordinate
-                    s1 >> pt1->y;           ///< [m] cartesian gps coordinate
-                    s1 >> pt1->z;           ///< [m] cartesian gps coordinate
-                    s1 >> pt1->vx;          ///< [m/s] velocity
-                    s1 >> pt1->vy;          ///< [m/s] velocity
-                    s1 >> pt1->vz;          ///< [m/s] velocity
+                while (pt1 != track.track.end()) {
+                                 ///< [m]
+                    s1 >> pt1->altitude;
+                                 ///< [m]
+                    s1 >> pt1->height;
+                                 ///< [m/s]
+                    s1 >> pt1->velocity;
+                                 ///< []
+                    s1 >> pt1->heading;
+                                 ///< []
+                    s1 >> pt1->magnetic;
+                                 ///<
+                    s1 >> pt1->vdop;
+                                 ///<
+                    s1 >> pt1->hdop;
+                                 ///<
+                    s1 >> pt1->pdop;
+                    s1 >> pt1->x;///< [m] cartesian gps coordinate
+                    s1 >> pt1->y;///< [m] cartesian gps coordinate
+                    s1 >> pt1->z;///< [m] cartesian gps coordinate
+                                 ///< [m/s] velocity
+                    s1 >> pt1->vx;
+                                 ///< [m/s] velocity
+                    s1 >> pt1->vy;
+                                 ///< [m/s] velocity
+                    s1 >> pt1->vz;
                     pt1++;
                 }
 
@@ -214,7 +222,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     //---------------------------------------
     // prepare trainings data
     //---------------------------------------
-    if(track.traineeData){
+    if(track.traineeData) {
         trk_head_entry_t entryTrainPts;
         entryTrainPts.type = CTrack::eTrain;
         QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
@@ -233,7 +241,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     //---------------------------------------
     // prepare extended trackpoint data 1
     //---------------------------------------
-    if(track.ext1Data){
+    if(track.ext1Data) {
         trk_head_entry_t entryTrkExt1;
         entryTrkExt1.type = CTrack::eTrkExt1;
         QDataStream s4(&entryTrkExt1.data, QIODevice::WriteOnly);
@@ -242,20 +250,23 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
         s4 << (quint32)trkpts.size();
         while(trkpt != trkpts.end()) {
-            s4 << trkpt->altitude;    ///< [m]
-            s4 << trkpt->height;      ///< [m]
-            s4 << trkpt->velocity;    ///< [m/s]
-            s4 << trkpt->heading;     ///< [°]
-            s4 << trkpt->magnetic;    ///< [°]
-            s4 << trkpt->vdop;        ///<
-            s4 << trkpt->hdop;        ///<
-            s4 << trkpt->pdop;        ///<
-            s4 << trkpt->x;           ///< [m] cartesian gps coordinate
-            s4 << trkpt->y;           ///< [m] cartesian gps coordinate
-            s4 << trkpt->z;           ///< [m] cartesian gps coordinate
-            s4 << trkpt->vx;          ///< [m/s] velocity
-            s4 << trkpt->vy;          ///< [m/s] velocity
-            s4 << trkpt->vz;          ///< [m/s] velocity
+                                 ///< [m]
+            s4 << trkpt->altitude;
+            s4 << trkpt->height; ///< [m]
+                                 ///< [m/s]
+            s4 << trkpt->velocity;
+            s4 << trkpt->heading;///< []
+                                 ///< []
+            s4 << trkpt->magnetic;
+            s4 << trkpt->vdop;   ///<
+            s4 << trkpt->hdop;   ///<
+            s4 << trkpt->pdop;   ///<
+            s4 << trkpt->x;      ///< [m] cartesian gps coordinate
+            s4 << trkpt->y;      ///< [m] cartesian gps coordinate
+            s4 << trkpt->z;      ///< [m] cartesian gps coordinate
+            s4 << trkpt->vx;     ///< [m/s] velocity
+            s4 << trkpt->vy;     ///< [m/s] velocity
+            s4 << trkpt->vz;     ///< [m/s] velocity
             ++trkpt;
         }
 
@@ -348,6 +359,7 @@ bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
     return p1.timestamp < p2.timestamp;
 }
 
+
 CTrack::CTrack(QObject * parent)
 : QObject(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
@@ -365,6 +377,7 @@ CTrack::~CTrack()
 {
 
 }
+
 
 QRectF CTrack::getBoundingRectF()
 {
@@ -389,6 +402,7 @@ QRectF CTrack::getBoundingRectF()
 
     return QRectF(QPointF(west,north),QPointF(east,south));
 }
+
 
 void CTrack::setColor(unsigned i)
 {
@@ -422,12 +436,14 @@ CTrack& CTrack::operator<<(pt_t& pt)
     return *this;
 }
 
+
 CTrack& CTrack::operator+=(const CTrack& trk)
 {
     track += trk.track;
     rebuild(true);
     return *this;
 }
+
 
 void CTrack::sortByTimestamp()
 {
@@ -452,7 +468,6 @@ void CTrack::rebuild(bool reindex)
     totalDescend    = 0;
     avgspeed0       = 0;
     avgspeed1       = 0;
-
 
     // reindex track if desired
     if(reindex) {
@@ -523,20 +538,20 @@ void CTrack::rebuild(bool reindex)
         pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
         if (qAbs(pt2->slope )>100)
             pt2->slope = pt1->slope;
-       // qDebug() << slope << pt2->delta << pt2->slope;
-        if(slope > 0){
+        // qDebug() << slope << pt2->delta << pt2->slope;
+        if(slope > 0) {
             totalAscend  += slope;
         }
-        else{
+        else {
             totalDescend += slope;
         }
         pt2->ascend     = totalAscend;
         pt2->descend    = totalDescend;
-        if(ext1Data && pt2->velocity != WPT_NOFLOAT){
+        if(ext1Data && pt2->velocity != WPT_NOFLOAT) {
             pt2->speed  =  pt2->velocity;
-//             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
+            //             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
         }
-        else{
+        else {
             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
         }
         pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);

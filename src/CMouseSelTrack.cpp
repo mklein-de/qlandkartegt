@@ -30,16 +30,19 @@ CMouseSelTrack::CMouseSelTrack(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorArrow"),0,0);
 }
 
+
 CMouseSelTrack::~CMouseSelTrack()
 {
 
 }
+
 
 void CMouseSelTrack::mouseMoveEvent(QMouseEvent * e)
 {
     if(!selTrack) return;
     resizeRect(e->pos());
 }
+
 
 void CMouseSelTrack::mousePressEvent(QMouseEvent * e)
 {
@@ -49,19 +52,20 @@ void CMouseSelTrack::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseSelTrack::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
         selTrack = false;
         resizeRect(e->pos());
         CTrackDB::self().select(rect.normalized());
-//         canvas->setMouseMode(CCanvas::eMouseMoveArea);
+        //         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }
+
 
 void CMouseSelTrack::draw(QPainter& p)
 {
     if(!selTrack) return;
     drawRect(p);
 }
-

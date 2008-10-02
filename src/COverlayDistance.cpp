@@ -36,6 +36,7 @@ bool operator==(const XY& p1, const XY& p2)
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
+
 COverlayDistance::COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent)
 : IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
 , points(pts)
@@ -55,20 +56,23 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
     calcDistance();
 }
 
+
 COverlayDistance::~COverlayDistance()
 {
 
 }
 
+
 void COverlayDistance::save(QDataStream& s)
 {
     s << name << comment << points.size();
     XY pt;
-    foreach(pt, points){
+    foreach(pt, points) {
         s << pt.u << pt.v;
     }
 
 }
+
 
 void COverlayDistance::load(QDataStream& s)
 {
@@ -78,7 +82,7 @@ void COverlayDistance::load(QDataStream& s)
     points.clear();
 
     s >> name >> comment >> size;
-    for(int i = 0; i < size; ++i){
+    for(int i = 0; i < size; ++i) {
         s >> pt.u >> pt.v;
         points << pt;
     }
@@ -91,10 +95,10 @@ QString COverlayDistance::getInfo()
     QString info;
     QString val, unit;
 
-    if(!name.isEmpty()){
+    if(!name.isEmpty()) {
         info += name + "\n";
     }
-    if(!comment.isEmpty()){
+    if(!comment.isEmpty()) {
         info += comment + "\n";
     }
 
@@ -102,6 +106,7 @@ QString COverlayDistance::getInfo()
     info += tr("Length: %1 %2").arg(val).arg(unit);
     return info;
 }
+
 
 bool COverlayDistance::isCloseEnought(const QPoint& pt)
 {
@@ -111,12 +116,12 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
     thePoint = 0;
 
     double dist = 1225.0;
-    while(p != points.end()){
+    while(p != points.end()) {
         XY pt1 = *p;
         map.convertRad2Pt(pt1.u, pt1.v);
 
         double d = (pt.x() - pt1.u) * (pt.x() - pt1.u) + (pt.y() - pt1.v) * (pt.y() - pt1.v);
-        if(d < dist){
+        if(d < dist) {
             thePoint = &(*p);
             dist = d;
         }
@@ -126,6 +131,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
     return (dist != 1225.0);
 }
 
+
 void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 {
 
@@ -133,15 +139,14 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
     QPoint pos  = e->pos();
     QPoint pos1 = e->pos();
 
-    if(thePoint){
+    if(thePoint) {
         XY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
         pos1 -= QPoint(pt.u - 24, pt.v - 24);
     }
 
-
-    if(thePoint){
-        if(doMove){
+    if(thePoint) {
+        if(doMove) {
             XY pt;
             pt.u = pos.x();
             pt.v = pos.y();
@@ -149,20 +154,21 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             *thePoint = pt;
             theMainWindow->getCanvas()->update();
         }
-        else if(rectMove.contains(pos1) || rectDel.contains(pos1) || rectAdd1.contains(pos1) || rectAdd2.contains(pos1)){
-            if(!doSpecialCursor){
+        else if(rectMove.contains(pos1) || rectDel.contains(pos1) || rectAdd1.contains(pos1) || rectAdd2.contains(pos1)) {
+            if(!doSpecialCursor) {
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
                 doSpecialCursor = true;
             }
         }
-        else{
-            if(doSpecialCursor){
+        else {
+            if(doSpecialCursor) {
                 QApplication::restoreOverrideCursor();
                 doSpecialCursor = false;
             }
         }
     }
 }
+
 
 void COverlayDistance::mousePressEvent(QMouseEvent * e)
 {
@@ -175,22 +181,22 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
     map.convertRad2Pt(pt.u, pt.v);
     pos1 -= QPoint(pt.u - 24, pt.v - 24);
 
-    if(rectDel.contains(pos1)){
+    if(rectDel.contains(pos1)) {
         int idx = points.indexOf(*thePoint);
 
         if(idx == -1) return;
 
         points.takeAt(idx);
 
-        if(points.isEmpty()){
+        if(points.isEmpty()) {
             QStringList keys(key);
             COverlayDB::self().delOverlays(keys);
         }
     }
-    else if(rectMove.contains(pos1)){
+    else if(rectMove.contains(pos1)) {
         doMove = true;
     }
-    else if(rectAdd1.contains(pos1)){
+    else if(rectAdd1.contains(pos1)) {
         int idx = points.indexOf(*thePoint);
 
         if(idx == -1) return;
@@ -206,7 +212,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
         theMainWindow->getCanvas()->update();
     }
-    else if(rectAdd2.contains(pos1)){
+    else if(rectAdd2.contains(pos1)) {
         int idx = points.indexOf(*thePoint);
 
         if(idx == -1) return;
@@ -228,12 +234,13 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
 }
 
+
 void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 {
     QPoint pos = e->pos();
     IMap& map  = CMapDB::self().getMap();
 
-    if(doMove && thePoint){
+    if(doMove && thePoint) {
         XY pt;
         pt.u = pos.x();
         pt.v = pos.y();
@@ -249,6 +256,7 @@ void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
     emit sigChanged();
 }
 
+
 void COverlayDistance::draw(QPainter& p)
 {
     if(points.isEmpty()) return;
@@ -260,7 +268,7 @@ void COverlayDistance::draw(QPainter& p)
     pt1 = points.first();
     map.convertRad2Pt(pt1.u, pt1.v);
 
-    for(int i = 1; i < points.count(); i++){
+    for(int i = 1; i < points.count(); i++) {
         pt2 = points[i];
         map.convertRad2Pt(pt2.u, pt2.v);
 
@@ -276,13 +284,13 @@ void COverlayDistance::draw(QPainter& p)
         pt1 = pt2;
     }
 
-    for(int i = 0; i < points.count(); i++){
+    for(int i = 0; i < points.count(); i++) {
         pt2 = points[i];
         map.convertRad2Pt(pt2.u, pt2.v);
         p.drawPixmap(pt2.u - 5, pt2.v - 5, icon);
     }
 
-    if(thePoint && !doMove){
+    if(thePoint && !doMove) {
         pt2 = *thePoint;
         map.convertRad2Pt(pt2.u, pt2.v);
 
@@ -303,12 +311,14 @@ void COverlayDistance::draw(QPainter& p)
     }
 }
 
+
 void COverlayDistance::addPoint(XY& pt)
 {
     points << pt;
     calcDistance();
     emit sigChanged();
 }
+
 
 void COverlayDistance::calcDistance()
 {
@@ -318,7 +328,7 @@ void COverlayDistance::calcDistance()
     XY pt1, pt2;
     pt1 = points.first();
 
-    for(int i = 1; i < points.count(); i++){
+    for(int i = 1; i < points.count(); i++) {
         pt2 = points[i];
 
         distance += ::distance(pt1, pt2, a1, a2);
@@ -328,11 +338,13 @@ void COverlayDistance::calcDistance()
 
 }
 
+
 void COverlayDistance::customMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
     menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
 }
+
 
 void COverlayDistance::slotToTrack()
 {
@@ -347,7 +359,7 @@ void COverlayDistance::slotToTrack()
     XY pt1, pt2, ptx;
     CTrack::pt_t pt;
 
-    if((distance / delta) > (MAX_TRACK_SIZE - points.count())){
+    if((distance / delta) > (MAX_TRACK_SIZE - points.count())) {
         delta = distance / (MAX_TRACK_SIZE - points.count());
     }
 
@@ -359,16 +371,15 @@ void COverlayDistance::slotToTrack()
     *track << pt;
 
     // all other points
-    for(int i = 1; i < points.count(); ++i){
+    for(int i = 1; i < points.count(); ++i) {
         pt2 = points[i];
-
 
         // all points from pt1 -> pt2, with 10m steps
         dist = ::distance(pt1, pt2, a1, a2);
         a1 *= DEG_TO_RAD;
 
         d = delta;
-        while(d < dist){
+        while(d < dist) {
             ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
             pt.lon = ptx.u * RAD_TO_DEG;
             pt.lat = ptx.v * RAD_TO_DEG;
@@ -392,6 +403,7 @@ void COverlayDistance::slotToTrack()
     CMegaMenu::self().switchByKeyWord("Tracks");
 }
 
+
 void COverlayDistance::slotEdit()
 {
     CDlgEditDistance dlg(*this, 0);
@@ -409,7 +421,7 @@ void COverlayDistance::makeVisible()
     double east  = -180.0 * DEG_TO_RAD;
 
     XY pt;
-    foreach(pt, points){
+    foreach(pt, points) {
         if(pt.u < west)  west  = pt.u;
         if(pt.u > east)  east  = pt.u;
         if(pt.v < south) south = pt.v;

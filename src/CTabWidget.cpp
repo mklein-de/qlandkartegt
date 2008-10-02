@@ -22,15 +22,17 @@
 #include <QtGui>
 
 CTabWidget::CTabWidget(QWidget * parent)
-    : QTabWidget(parent)
+: QTabWidget(parent)
 {
-     tabBar()->hide();
+    tabBar()->hide();
 }
+
 
 CTabWidget::~CTabWidget()
 {
 
 }
+
 
 void CTabWidget::addTab(QWidget * w, const QString& label)
 {

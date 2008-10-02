@@ -90,10 +90,10 @@ void CTrackToolWidget::slotDBChanged()
 
         QTime time;
         time = time.addSecs(ttime);
-        if(days){
+        if(days) {
             str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
         }
-        else{
+        else {
             str += tr("\ntime: ") + time.toString("HH:mm:ss");
         }
 
@@ -130,7 +130,7 @@ void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 
     QRectF r = CTrackDB::self().getBoundingRectF(key);
     if (!r.isNull ())
-       CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }
 
 
@@ -179,7 +179,7 @@ void CTrackToolWidget::slotEdit()
         theMainWindow->setTempWidget(trackedit);
         trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
     }
-    else{
+    else {
         delete trackedit;
     }
 }

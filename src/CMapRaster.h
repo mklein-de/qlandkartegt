@@ -25,7 +25,6 @@
 
 class GDALDataset;
 
-
 class CMapRaster  : public IMap
 {
     Q_OBJECT;
@@ -56,6 +55,4 @@ class CMapRaster  : public IMap
         int   zoomlevel;
         float zoomfactor;
 };
-
-#endif //CMAPRASTER_H
-
+#endif                           //CMAPRASTER_H

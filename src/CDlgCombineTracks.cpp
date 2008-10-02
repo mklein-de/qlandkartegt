@@ -23,13 +23,14 @@
 
 #include <QtGui>
 
- bool trackLessThan(CTrack * s1, CTrack * s2)
- {
-     return s1->getEndTimestamp() < s2->getStartTimestamp();
- }
+bool trackLessThan(CTrack * s1, CTrack * s2)
+{
+    return s1->getEndTimestamp() < s2->getStartTimestamp();
+}
+
 
 CDlgCombineTracks::CDlgCombineTracks(QWidget * parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
     setupUi(this);
 
@@ -49,7 +50,7 @@ CDlgCombineTracks::CDlgCombineTracks(QWidget * parent)
     CTrack * track;
     QList<CTrack*> tracks =  CTrackDB::self().getTracks().values();
 
-    foreach(track, tracks){
+    foreach(track, tracks) {
         QListWidgetItem * item = new QListWidgetItem();
         item->setText(track->getName());
         item->setData(Qt::UserRole, track->key());
@@ -58,30 +59,34 @@ CDlgCombineTracks::CDlgCombineTracks(QWidget * parent)
 
 }
 
+
 CDlgCombineTracks::~CDlgCombineTracks()
 {
 
 }
+
 
 void CDlgCombineTracks::slotAdd()
 {
     QListWidgetItem * item;
     QList<QListWidgetItem*> items = listTracks->selectedItems();
 
-    foreach(item, items){
+    foreach(item, items) {
         listSelTracks->addItem(listTracks->takeItem(listTracks->row(item)));
     }
 }
+
 
 void CDlgCombineTracks::slotDel()
 {
     QListWidgetItem * item;
     QList<QListWidgetItem*> items = listSelTracks->selectedItems();
 
-    foreach(item, items){
+    foreach(item, items) {
         listTracks->addItem(listSelTracks->takeItem(listSelTracks->row(item)));
     }
 }
+
 
 void CDlgCombineTracks::accept()
 {
@@ -93,21 +98,20 @@ void CDlgCombineTracks::accept()
     QListWidgetItem * item;
     QList<QListWidgetItem*> items = listSelTracks->findItems("*",Qt::MatchWildcard);
 
-    foreach(item, items){
+    foreach(item, items) {
         tracks << dict[item->data(Qt::UserRole).toString()];
     }
 
-
     if(tracks.isEmpty() || lineTrackName->text().isEmpty()) return;
 
-    if(checkSortTimestamp->isChecked()){
+    if(checkSortTimestamp->isChecked()) {
         qSort(tracks.begin(), tracks.end(), trackLessThan);
     }
 
     CTrack * newtrack = new CTrack(&CTrackDB::self());
     newtrack->setName(lineTrackName->text());
 
-    foreach(track, tracks){
+    foreach(track, tracks) {
         *newtrack += *track;
     }
 
@@ -116,27 +120,30 @@ void CDlgCombineTracks::accept()
     QDialog::accept();
 }
 
+
 void CDlgCombineTracks::slotSortTimestamp(bool yes)
 {
-    if(yes || (listSelTracks->currentItem() == 0)){
+    if(yes || (listSelTracks->currentItem() == 0)) {
         toolUp->setEnabled(false);
         toolDown->setEnabled(false);
     }
-    else{
+    else {
         toolUp->setEnabled(true);
         toolDown->setEnabled(true);
     }
 }
+
 
 void CDlgCombineTracks::slotItemSelectionChanged ()
 {
     slotSortTimestamp(checkSortTimestamp->isChecked());
 }
 
+
 void CDlgCombineTracks::slotUp()
 {
     QListWidgetItem * item = listSelTracks->currentItem();
-    if(item){
+    if(item) {
         int row = listSelTracks->row(item);
         if(row == 0) return;
         listSelTracks->takeItem(row);
@@ -146,10 +153,11 @@ void CDlgCombineTracks::slotUp()
     }
 }
 
+
 void CDlgCombineTracks::slotDown()
 {
     QListWidgetItem * item = listSelTracks->currentItem();
-    if(item){
+    if(item) {
         int row = listSelTracks->row(item);
         if(row == (listSelTracks->count() - 1)) return;
         listSelTracks->takeItem(row);
@@ -158,4 +166,3 @@ void CDlgCombineTracks::slotDown()
         listSelTracks->setCurrentItem(item);
     }
 }
-

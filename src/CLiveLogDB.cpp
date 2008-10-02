@@ -40,8 +40,8 @@
 CLiveLogDB * CLiveLogDB::m_self = 0;
 
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
-    : IDB(tb,parent)
-    , m_lockToCenter(false)
+: IDB(tb,parent)
+, m_lockToCenter(false)
 {
     m_self      = this;
     toolview    = new CLiveLogToolWidget(tb);
@@ -52,14 +52,16 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
     backup = new QFile(QDir::temp().filePath("qlBackupLog"),this);
 }
 
+
 CLiveLogDB::~CLiveLogDB()
 {
 
 }
 
+
 void CLiveLogDB::saveBackupLog()
 {
-    if(QFile::exists(QDir::temp().filePath("qlBackupLog"))){
+    if(QFile::exists(QDir::temp().filePath("qlBackupLog"))) {
         QFile tmp(QDir::temp().filePath("qlBackupLog"));
         tmp.open(QIODevice::ReadOnly);
         QDataStream in(&tmp);
@@ -71,7 +73,7 @@ void CLiveLogDB::saveBackupLog()
 
         in >> log;
 
-        while(!tmp.atEnd()){
+        while(!tmp.atEnd()) {
             CTrack::pt_t pt;
             pt.timestamp = log.timestamp;
             pt.lon       = log.lon;
@@ -81,7 +83,7 @@ void CLiveLogDB::saveBackupLog()
 
             in >> log;
         }
-        if(t->getTrackPoints().size()){
+        if(t->getTrackPoints().size()) {
             CTrackDB::self().addTrack(t, false);
         }
         else {
@@ -100,11 +102,12 @@ void CLiveLogDB::start(bool yes)
     if(dev == 0) return;
 
     dev->setLiveLog(yes);
-    if(!yes){
+    if(!yes) {
         clear();
     }
 
 }
+
 
 bool CLiveLogDB::logging()
 {
@@ -114,6 +117,7 @@ bool CLiveLogDB::logging()
     return dev->liveLog();
 }
 
+
 void CLiveLogDB::clear()
 {
     saveBackupLog();
@@ -122,6 +126,7 @@ void CLiveLogDB::clear()
     m_log.fix = CLiveLog::eOff;
     emit sigChanged();
 }
+
 
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
@@ -152,8 +157,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     QString pos;
     GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
 
-
-    if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix){
+    if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix) {
         QString val, unit;
 
         w->lblPosition->setText(pos);
@@ -163,10 +167,10 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblErrorVert->setText(tr("\261%1 m").arg(log.error_vert/2,0,'f',0));
         IUnit::self().meter2speed(speed_km_h / 3.6, val,unit);
         w->lblSpeed->setText(tr("%1 %2").arg(val).arg(unit));
-        if(isnan(heading)){
+        if(isnan(heading)) {
             w->lblHeading->setText(tr("-"));
         }
-        else{
+        else {
             w->lblHeading->setText(tr("%1\260 T").arg((int)(heading + 0.5),3,'f',0,'0'));
         }
         w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
@@ -184,20 +188,20 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         map.convertRad2Pt(u,v);
         polyline << QPoint(u,v);
 
-        if(m_lockToCenter){
+        if(m_lockToCenter) {
             QSize size  = map.getSize();
             int   dx    = size.width()  / 4;
             int   dy    = size.height() / 4;
             QRect area  = QRect(dx, dy, 2*dx, 2*dy);
-            if(!area.contains(u,v)){
+            if(!area.contains(u,v)) {
                 map.move(QPoint(u,v), area.center());
             }
         }
     }
-    else if(log.fix == CLiveLog::eNoFix){
+    else if(log.fix == CLiveLog::eNoFix) {
         w->lblPosition->setText(tr("GPS signal low"));
     }
-    else{
+    else {
         w->lblPosition->setText(tr("GPS off"));
         w->lblAltitude->setText("-");
         w->lblErrorHoriz->setText("-");
@@ -207,15 +211,16 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblTime->setText("-");
     }
 
-    if(m_lockToCenter){
+    if(m_lockToCenter) {
         w->labelCenter->show();
     }
-    else{
+    else {
         w->labelCenter->hide();
     }
 
     emit sigChanged();
 }
+
 
 void CLiveLogDB::slotMapChanged()
 {
@@ -225,7 +230,7 @@ void CLiveLogDB::slotMapChanged()
     polyline.clear();
     const simplelog_t * plog = track.data();
 
-    for(quint32 i = 0; i < limit; ++i){
+    for(quint32 i = 0; i < limit; ++i) {
 
         double u = plog->lon * DEG_TO_RAD;
         double v = plog->lat * DEG_TO_RAD;
@@ -234,6 +239,7 @@ void CLiveLogDB::slotMapChanged()
         ++plog;
     }
 }
+
 
 void CLiveLogDB::draw(QPainter& p, const QRect& rect)
 {
@@ -245,7 +251,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect)
     p.drawPolyline(polyline);
 
     IMap& map = CMapDB::self().getMap();
-    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix){
+    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix) {
         double u = m_log.lon * DEG_TO_RAD;
         double v = m_log.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -258,7 +264,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect)
             p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1"));
             p.restore();
         }
-        else{
+        else {
             p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
         }
 
@@ -269,7 +275,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect)
 
 void CLiveLogDB::addWpt()
 {
-    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix){
+    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix) {
         CWptDB::self().newWpt(m_log.lon * DEG_TO_RAD, m_log.lat * DEG_TO_RAD, m_log.ele);
     }
 }

@@ -55,6 +55,7 @@ CQlb& CQlb::operator <<(CTrack& trk)
     return *this;
 }
 
+
 CQlb& CQlb::operator <<(CDiary& dry)
 {
     QDataStream stream(&drys, QIODevice::Append);
@@ -62,6 +63,7 @@ CQlb& CQlb::operator <<(CDiary& dry)
 
     return *this;
 }
+
 
 CQlb& CQlb::operator <<(IOverlay& ovl)
 {

@@ -94,6 +94,4 @@ class CMapDEM : public IMap
         weight_t * weights;
 
 };
-
-#endif //CMAPDEM_H
-
+#endif                           //CMAPDEM_H

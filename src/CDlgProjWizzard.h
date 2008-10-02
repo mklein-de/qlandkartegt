@@ -39,6 +39,4 @@ class CDlgProjWizzard : public QDialog, private Ui::IDlgProjWizzard
     private:
         QLineEdit& line;
 };
-
-#endif //CDLGPROJWIZZARD_H
-
+#endif                           //CDLGPROJWIZZARD_H

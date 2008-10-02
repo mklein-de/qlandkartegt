@@ -134,7 +134,7 @@ class IMap : public QObject
 
         /// get read access to the internally used pixmap buffer
         const QPixmap& getBuffer(){return buffer;}
-    signals:
+        signals:
         void sigChanged();
 
     public slots:

@@ -41,6 +41,4 @@ class CMouseAddDistance : public IMouse
         QPointer<COverlayDistance> overlay;
         QPoint pos;
 };
-
-#endif //CMOUSEADDDISTANCE_H
-
+#endif                           //CMOUSEADDDISTANCE_H

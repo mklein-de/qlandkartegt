@@ -30,13 +30,10 @@ class CMapSelection
         QString key;
         QString mapkey;
         QString description;
-        double lon1; ///< top left longitude [rad]
-        double lat1; ///< top left latitude [rad]
-        double lon2; ///< bottom right longitude [rad]
-        double lat2; ///< bottom right latitude [rad]
-
+        double lon1;             ///< top left longitude [rad]
+        double lat1;             ///< top left latitude [rad]
+        double lon2;             ///< bottom right longitude [rad]
+        double lat2;             ///< bottom right latitude [rad]
 
 };
-
-#endif //CMAPSELECTION_H
-
+#endif                           //CMAPSELECTION_H

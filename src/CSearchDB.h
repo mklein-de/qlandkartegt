@@ -33,12 +33,12 @@ class CSearchDB : public IDB
     public:
         virtual ~CSearchDB();
 
-//         struct result_t
-//         {
-//             qreal   lon;
-//             qreal   lat;
-//             QString query;
-//         };
+        //         struct result_t
+        //         {
+        //             qreal   lon;
+        //             qreal   lat;
+        //             QString query;
+        //         };
 
         static CSearchDB& self(){return *m_self;}
 

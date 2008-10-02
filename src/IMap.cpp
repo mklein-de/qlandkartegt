@@ -75,7 +75,7 @@ void IMap::draw(QPainter& p)
 void IMap::convertPt2Rad(double& u, double& v)
 {
     if(pjsrc == 0) {
-//         u = v = 0;
+        //         u = v = 0;
         return;
     }
     convertPt2M(u,v);
@@ -109,6 +109,7 @@ void IMap::convertRad2Pt(double& u, double& v)
     convertM2Pt(u,v);
 }
 
+
 void IMap::convertRad2M(double& u, double& v)
 {
     if(pjsrc == 0) {
@@ -118,10 +119,12 @@ void IMap::convertRad2M(double& u, double& v)
     pj_transform(pjtar,pjsrc,1,0,&u,&v,0);
 }
 
+
 float IMap::getElevation(float lon, float lat)
 {
     return WPT_NOFLOAT;
 }
+
 
 void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {

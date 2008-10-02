@@ -35,6 +35,4 @@ class CTrackStatProfileWidget : public ITrackStat
         void slotSetTrack(CTrack *track);
 
 };
-
-#endif //CTRACKSTATPROFILEWIDGET_H
-
+#endif                           //CTRACKSTATPROFILEWIDGET_H

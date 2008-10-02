@@ -66,6 +66,4 @@ class COverlayText : public IOverlay
         QString sometext;
         QTextDocument * doc;
 };
-
-#endif //COVERLAYTEXT_H
-
+#endif                           //COVERLAYTEXT_H

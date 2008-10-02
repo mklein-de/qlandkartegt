@@ -31,6 +31,7 @@ namespace Garmin
     class IDevice;
 }
 
+
 class CDeviceGarmin : public IDevice
 {
     Q_OBJECT;
@@ -73,6 +74,4 @@ class CDeviceGarmin : public IDevice
         QTimer * timer;
 
 };
-
-#endif //CDEVICEGARMIN_H
-
+#endif                           //CDEVICEGARMIN_H

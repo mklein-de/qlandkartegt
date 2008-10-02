@@ -25,17 +25,18 @@
 #include "COverlayDistance.h"
 #include <QtGui>
 
-
 CMouseAddDistance::CMouseAddDistance(CCanvas * canvas)
 : IMouse(canvas)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorDistance"),0,0);
 }
 
+
 CMouseAddDistance::~CMouseAddDistance()
 {
 
 }
+
 
 void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
 {
@@ -43,6 +44,7 @@ void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
     pos = e->pos();
     canvas->update();
 }
+
 
 void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 {
@@ -68,15 +70,17 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 
         overlay->addPoint(pt);
     }
-    else if(e->button() == Qt::RightButton){
+    else if(e->button() == Qt::RightButton) {
         overlay = 0;
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }
 
+
 void CMouseAddDistance::mouseReleaseEvent(QMouseEvent * e)
 {
 }
+
 
 void CMouseAddDistance::draw(QPainter& p)
 {

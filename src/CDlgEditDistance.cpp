@@ -29,10 +29,12 @@ CDlgEditDistance::CDlgEditDistance(COverlayDistance &ovl, QWidget * parent)
     textComment->setText(ovl.comment);
 }
 
+
 CDlgEditDistance::~CDlgEditDistance()
 {
 
 }
+
 
 void CDlgEditDistance::accept()
 {

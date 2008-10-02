@@ -43,18 +43,21 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
 }
 
+
 CMapSearchWidget::~CMapSearchWidget()
 {
-    if(!canvas.isNull()){
+    if(!canvas.isNull()) {
         delete canvas;
     }
 
 }
 
+
 void CMapSearchWidget::slotSelectArea()
 {
-   theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseSelectArea);
+    theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseSelectArea);
 }
+
 
 void CMapSearchWidget::slotSelectMask()
 {
@@ -67,7 +70,7 @@ void CMapSearchWidget::slotSelectMask()
     imgProcess.setThreashold( nThreshold);
     imgProcess.writeOut("./binary.png");
 
-    if(canvas.isNull()){
+    if(canvas.isNull()) {
         canvas = new CMapSearchCanvas(this);
         theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
     }
@@ -75,10 +78,12 @@ void CMapSearchWidget::slotSelectMask()
     canvas->setBuffer(imgProcess);
 }
 
+
 void CMapSearchWidget::slotSearch()
 {
 
 }
+
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)
 {

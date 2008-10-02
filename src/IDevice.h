@@ -29,7 +29,6 @@ class CWpt;
 class CTrack;
 class QProgressDialog;
 
-
 class IDevice : public QObject
 {
     Q_OBJECT;
@@ -56,7 +55,7 @@ class IDevice : public QObject
         static bool m_UploadAllTrk;
         static bool m_DownloadAllTrk;
 
-    signals:
+        signals:
         void sigLiveLog(const CLiveLog& log);
 
     protected:

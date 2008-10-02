@@ -25,7 +25,6 @@
 #include "CWptDB.h"
 #include "WptIcons.h"
 
-
 #include <QtGui>
 
 CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
@@ -45,15 +44,18 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(QWidget * parent)
     plot->resetZoom();
 }
 
+
 CTrackStatProfileWidget::~CTrackStatProfileWidget()
 {
 
 }
 
+
 void CTrackStatProfileWidget::slotSetTrack(CTrack* track)
 {
-        needResetZoom = true;
+    needResetZoom = true;
 }
+
 
 void CTrackStatProfileWidget::slotChanged()
 {
@@ -65,7 +67,6 @@ void CTrackStatProfileWidget::slotChanged()
 
     plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
     plot->setYLabel(tr("alt. [%1]").arg(IUnit::self().baseunit));
-
 
     QPolygonF lineDEM;
 
@@ -81,7 +82,7 @@ void CTrackStatProfileWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        if(trkpt->dem != WPT_NOFLOAT){
+        if(trkpt->dem != WPT_NOFLOAT) {
             lineDEM << QPointF(trkpt->distance, trkpt->dem * basefactor);
         }
         lineElev    << QPointF(trkpt->distance, trkpt->ele * basefactor);
@@ -102,8 +103,8 @@ void CTrackStatProfileWidget::slotChanged()
     addWptTags(wpts);
 
     QVector<wpt_t>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()){
-        if(wpt->d < 400){
+    while(wpt != wpts.end()) {
+        if(wpt->d < 400) {
             CPlotData::point_t tag;
             tag.point = QPointF(wpt->trkpt.distance, wpt->trkpt.ele);
             tag.icon  = getWptIconByName(wpt->wpt->icon);
@@ -116,7 +117,7 @@ void CTrackStatProfileWidget::slotChanged()
 
     plot->newLine(lineElev,focusElev, "GPS");
     plot->newMarks(marksElev);
-    if(!lineDEM.isEmpty()){
+    if(!lineDEM.isEmpty()) {
         plot->addLine(lineDEM, "DEM");
     }
     plot->setLimits();
@@ -125,5 +126,3 @@ void CTrackStatProfileWidget::slotChanged()
         needResetZoom = false;
     }
 }
-
-

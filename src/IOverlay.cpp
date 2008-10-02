@@ -29,7 +29,6 @@ struct ovl_head_entry_t
     QByteArray  data;
 };
 
-
 QDataStream& operator >>(QDataStream& s, COverlayDB& db)
 {
     QIODevice * dev = s.device();
@@ -66,13 +65,13 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                 QString type;
 
                 s1 >> type;
-                if(type == "Text"){
+                if(type == "Text") {
                     QRect rect;
                     QString text;
                     s1 >> rect >> text;
                     db.addText(text,rect);
                 }
-                else if(type == "TextBox"){
+                else if(type == "TextBox") {
                     QRect rect;
                     QPoint pt;
                     QString text;
@@ -80,14 +79,14 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     s1 >> lon >> lat >> pt >> rect >> text;
                     db.addTextBox(text, lon, lat, pt, rect);
                 }
-                else if(type == "Distance"){
+                else if(type == "Distance") {
                     QString name;
                     QString comment;
                     int size;
                     XY pt;
                     QList<XY> points;
                     s1 >> name >> comment >> size;
-                    for(int i = 0; i < size; ++i){
+                    for(int i = 0; i < size; ++i) {
                         s1 >> pt.u >> pt.v;
                         points << pt;
                     }
@@ -102,6 +101,7 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
     }
     return s;
 }
+
 
 QDataStream& operator <<(QDataStream& s, IOverlay& ovl)
 {
@@ -159,6 +159,7 @@ QDataStream& operator <<(QDataStream& s, IOverlay& ovl)
     return s;
 }
 
+
 void operator >>(QFile& f, COverlayDB& db)
 {
     f.open(QIODevice::ReadOnly);
@@ -189,8 +190,8 @@ IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 
 }
 
+
 IOverlay::~IOverlay()
 {
 
 }
-

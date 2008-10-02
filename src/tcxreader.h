@@ -24,25 +24,24 @@ class CTrack;
 
 class TcxReader : public QXmlStreamReader
 {
-public:
-    TcxReader(QObject *parent);
-    virtual ~TcxReader();
-    bool read(QString path);
-    bool read(QIODevice *device);
-private:
-    QObject *parent;
-    CTrack::pt_t pold;
-    bool firstPositionFound;
-    void readUnknownElement();
-    void readTcx();
-    void readActivities();
-    void readActivity();
-    void readLap(CTrack *track);
-    void readTrack(CTrack *track, int lap);
-    void readTrackpoint(CTrack *track, int lap);
-    void readHeartRateBpm(CTrack::pt_t *pt);
-    void readPosition(CTrack::pt_t *pt);
+    public:
+        TcxReader(QObject *parent);
+        virtual ~TcxReader();
+        bool read(QString path);
+        bool read(QIODevice *device);
+    private:
+        QObject *parent;
+        CTrack::pt_t pold;
+        bool firstPositionFound;
+        void readUnknownElement();
+        void readTcx();
+        void readActivities();
+        void readActivity();
+        void readLap(CTrack *track);
+        void readTrack(CTrack *track, int lap);
+        void readTrackpoint(CTrack *track, int lap);
+        void readHeartRateBpm(CTrack::pt_t *pt);
+        void readPosition(CTrack::pt_t *pt);
 
 };
-
-#endif /* TCXREADER_H_ */
+#endif                           /* TCXREADER_H_ */

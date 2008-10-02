@@ -64,13 +64,13 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 CTrackEditWidget::~CTrackEditWidget()
 {
-    if(!trackStatProfile.isNull()){
+    if(!trackStatProfile.isNull()) {
         delete trackStatProfile;
     }
-    if(!trackStatSpeed.isNull()){
+    if(!trackStatSpeed.isNull()) {
         delete trackStatSpeed;
     }
-    if(!trackStatTrainee.isNull()){
+    if(!trackStatTrainee.isNull()) {
         delete trackStatTrainee;
     }
 }
@@ -115,12 +115,11 @@ void CTrackEditWidget::slotUpdate()
 {
 
     if (track->hasTraineeData())
-       traineeGraph->setEnabled(true);
-    else
-    {
-       traineeGraph->setEnabled(false);
-       if (!trackStatTrainee.isNull())
-          delete trackStatTrainee;
+        traineeGraph->setEnabled(true);
+    else {
+        traineeGraph->setEnabled(false);
+        if (!trackStatTrainee.isNull())
+            delete trackStatTrainee;
     }
 
     if(originator) return;
@@ -130,7 +129,6 @@ void CTrackEditWidget::slotUpdate()
 
     treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
     treePoints->clear();
-
 
     QString str, val, unit;
     QTreeWidgetItem * focus                 = 0;
@@ -233,7 +231,7 @@ void CTrackEditWidget::slotUpdate()
 
     // scroll to item of user focus
     if(focus) {
-//         treePoints->setCurrentItem(focus);
+        //         treePoints->setCurrentItem(focus);
         treePoints->scrollToItem(focus);
     }
 
@@ -307,7 +305,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 
     if(treePoints->selectionMode() == QAbstractItemView::MultiSelection) return;
 
-//     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
+    //     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
 
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
@@ -361,32 +359,34 @@ void CTrackEditWidget::slotPurge()
     emit CTrackDB::self().sigModified();
 }
 
+
 void CTrackEditWidget::slotToggleStat()
 {
-    if(trackStatSpeed.isNull()){
+    if(trackStatSpeed.isNull()) {
         trackStatSpeed = new CTrackStatSpeedWidget(this);
         theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
     }
-    else{
+    else {
         delete trackStatSpeed;
     }
 
-    if(trackStatProfile.isNull()){
+    if(trackStatProfile.isNull()) {
         trackStatProfile = new CTrackStatProfileWidget(this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
     }
-    else{
+    else {
         delete trackStatProfile;
     }
 }
 
+
 void CTrackEditWidget::slotToggleTrainee()
 {
-    if(trackStatTrainee.isNull()){
-       trackStatTrainee = new CTrackStatTraineeWidget(this);
-       theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
+    if(trackStatTrainee.isNull()) {
+        trackStatTrainee = new CTrackStatTraineeWidget(this);
+        theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
     }
-   else{
-       delete trackStatTrainee;
-   }
+    else {
+        delete trackStatTrainee;
+    }
 }

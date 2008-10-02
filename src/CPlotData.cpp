@@ -48,7 +48,7 @@ void CPlotData::setLimits()
     double ymin = p->y();
     double ymax = p->y();
 
-    while(line != lines.end()){
+    while(line != lines.end()) {
         QPolygonF::const_iterator p = line->points.begin();
         while(p != line->points.end()) {
             if(p->x() > xmax) xmax = p->x();

@@ -80,10 +80,8 @@ class CMapQMAP : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-//         QPixmap buffer;
+        //         QPixmap buffer;
 
         bool foundMap;
 };
-
-
 #endif                           //CMAPQMAP_H

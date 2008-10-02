@@ -26,8 +26,8 @@ class CLiveLog
 {
     public:
         CLiveLog() : fix(eOff), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT)
-                   , timestamp(0xFFFFFFFF), error_horz(WPT_NOFLOAT), error_vert(WPT_NOFLOAT)
-                   , heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
+            , timestamp(0xFFFFFFFF), error_horz(WPT_NOFLOAT), error_vert(WPT_NOFLOAT)
+            , heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
         virtual ~CLiveLog();
 
         enum fix_e {eNoFix, e2DFix, e3DFix, eOff};
@@ -46,8 +46,4 @@ class CLiveLog
 extern void operator <<(QDataStream& s, const CLiveLog& log);
 extern void operator <<(QFile& f, const CLiveLog& log);
 extern void operator >>(QDataStream& s, CLiveLog& log);
-
-
-
-#endif //CLIVELOG_H
-
+#endif                           //CLIVELOG_H

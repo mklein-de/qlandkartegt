@@ -85,6 +85,4 @@ class COverlayDistance : public IOverlay
         bool doSpecialCursor;
         bool doMove;
 };
-
-#endif //COVERLAYDISTANCE_H
-
+#endif                           //COVERLAYDISTANCE_H

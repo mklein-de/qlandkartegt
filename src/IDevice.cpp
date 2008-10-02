@@ -27,7 +27,6 @@ bool IDevice::m_DownloadAllWpt  = true;
 bool IDevice::m_UploadAllTrk    = true;
 bool IDevice::m_DownloadAllTrk  = true;
 
-
 IDevice::IDevice(const QString& devkey, QObject * parent)
 : QObject(parent)
 , devkey(devkey)
@@ -60,11 +59,13 @@ void IDevice::downloadAll()
     if(m_DownloadAllTrk) CTrackDB::self().download();
 }
 
+
 void IDevice::uploadAll()
 {
     if(m_UploadAllWpt) CWptDB::self().upload();
     if(m_UploadAllTrk) CTrackDB::self().upload();
 }
+
 
 void IDevice::setLiveLog(bool on)
 {

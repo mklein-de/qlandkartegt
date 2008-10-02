@@ -38,21 +38,19 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
 , weights(0)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
-    if(dataset == 0){
+    if(dataset == 0) {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
-
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    if(pBand == 0){
+    if(pBand == 0) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
     pBand->GetBlockSize(&tileWidth,&tileHeight);
-
 
     char str[1024];
     strncpy(str,dataset->GetProjectionRef(),sizeof(str));
@@ -61,7 +59,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
     QString strProj = ptr;
-    if(!datum.isEmpty() && !gridfile.isEmpty()){
+    if(!datum.isEmpty() && !gridfile.isEmpty()) {
         strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
     }
 
@@ -84,7 +82,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-//     qDebug() << xref1 << yref1 << xref2 << yref2;
+    //     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     int i;
     for(i = 0; i < 256; ++i) {
@@ -107,8 +105,8 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
 
     weights = new weight_t[R * C];
 
-    for(int r=0; r < R; ++r){
-        for(int c=0; c < C; ++c){
+    for(int r=0; r < R; ++r) {
+        for(int c=0; c < C; ++c) {
             weight_t& w = weights[(r * C) + c];
 
             //    p1            p2
@@ -117,13 +115,11 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
             //    p3            p4
             float _r = r; float r_ = R - r;
 
-
             //    p1                              p2
             float d1 = sqrt(_c*_c + _r*_r); float d2 = sqrt(c_*c_ + _r*_r);
 
             //    p3                              p4
             float d3 = sqrt(_c*_c + r_*r_); float d4 = sqrt(c_*c_ + r_*r_);
-
 
             w.c1 = pow(d1,-2);
             w.c2 = pow(d2,-2);
@@ -137,11 +133,12 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
             w.c3 = w.c3 / f; if(isnan(w.c3)) w.c3 = 1.0;
             w.c4 = w.c4 / f; if(isnan(w.c4)) w.c4 = 1.0;
 
-//             qDebug() << r << c << "\t" << w.c1 << w.c2;
-//             qDebug() << "\t" << w.c3 << w.c4;
+            //             qDebug() << r << c << "\t" << w.c1 << w.c2;
+            //             qDebug() << "\t" << w.c3 << w.c4;
         }
     }
 }
+
 
 CMapDEM::~CMapDEM()
 {
@@ -151,33 +148,41 @@ CMapDEM::~CMapDEM()
     delete status;
 }
 
+
 void CMapDEM::convertPt2M(double& u, double& v)
 {
 }
+
 
 void CMapDEM::convertM2Pt(double& u, double& v)
 {
 }
 
+
 void CMapDEM::move(const QPoint& old, const QPoint& next)
 {
 }
+
 
 void CMapDEM::zoom(bool zoomIn, const QPoint& p)
 {
 }
 
+
 void CMapDEM::zoom(double lon1, double lat1, double lon2, double lat2)
 {
 }
+
 
 void CMapDEM::select(const QRect& rect)
 {
 }
 
+
 void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
 }
+
 
 float CMapDEM::getElevation(float lon, float lat)
 {
@@ -195,7 +200,7 @@ float CMapDEM::getElevation(float lon, float lat)
     int c = (xoff - (int)xoff) * abs(xscale);
     int r = (yoff - (int)yoff) * abs(yscale);
 
-//     qDebug() << xoff << yoff << c << r;
+    //     qDebug() << xoff << yoff << c << r;
 
     CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
@@ -206,11 +211,12 @@ float CMapDEM::getElevation(float lon, float lat)
 
     float ele = w.c1 * e[0] + w.c2 * e[1] + w.c3 * e[2] + w.c4 * e[3];
 
-//     qDebug() << c << r << "\t" << w.c1 << e[0] << w.c2 << e[1];
-//     qDebug() << "\t"           << w.c3 << e[2] << w.c4 << e[3];
+    //     qDebug() << c << r << "\t" << w.c1 << e[0] << w.c2 << e[1];
+    //     qDebug() << "\t"           << w.c3 << e[2] << w.c4 << e[3];
 
     return ele;
 }
+
 
 void CMapDEM::draw(QPainter& p)
 {

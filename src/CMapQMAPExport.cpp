@@ -26,8 +26,8 @@
 #include <QtGui>
 
 CMapQMAPExport::CMapQMAPExport(const CMapSelection& mapsel, QWidget * parent)
-    : QDialog(parent)
-    , mapsel(mapsel)
+: QDialog(parent)
+, mapsel(mapsel)
 {
     setupUi(this);
 
@@ -49,10 +49,12 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelection& mapsel, QWidget * parent)
 
 }
 
+
 CMapQMAPExport::~CMapQMAPExport()
 {
 
 }
+
 
 void CMapQMAPExport::slotOutputPath()
 {
@@ -64,11 +66,13 @@ void CMapQMAPExport::slotOutputPath()
     labelPath->setText(path);
 }
 
+
 void CMapQMAPExport::slotStderr()
 {
     textBrowser->setTextColor(Qt::red);
     textBrowser->append(cmd.readAllStandardError());
 }
+
 
 void CMapQMAPExport::slotStdout()
 {
@@ -93,16 +97,16 @@ void CMapQMAPExport::slotStart()
     QSettings srcdef(map.filename, QSettings::IniFormat);
     QSettings tardef(tarPath.filePath(QString("%1.qmap").arg(prefix)), QSettings::IniFormat);
 
-// [description]
-// bottomright=" N43\xb0 43.980 E004\xb0 12.380 "
-// comment=Vergeze IGN
-// height=22075.3633436567
-// topleft=" N43\xb0 55.901 E004\xb0 14.722 "
-// width=3134.92507596005
-//
-// [home]
-// center=N43 47.589 E004 10.133
-// zoom=2
+    // [description]
+    // bottomright=" N43\xb0 43.980 E004\xb0 12.380 "
+    // comment=Vergeze IGN
+    // height=22075.3633436567
+    // topleft=" N43\xb0 55.901 E004\xb0 14.722 "
+    // width=3134.92507596005
+    //
+    // [home]
+    // center=N43 47.589 E004 10.133
+    // zoom=2
     tardef.beginGroup("description");
     QString pos;
     GPS_Math_Deg_To_Str(mapsel.lon1 * RAD_TO_DEG, mapsel.lat1 * RAD_TO_DEG, pos);
@@ -126,13 +130,13 @@ void CMapQMAPExport::slotStart()
     int levels = srcdef.value("main/levels",0).toInt();
     tardef.setValue("main/levels",levels);
 
-    for(int level = 1; level <= levels; ++level){
+    for(int level = 1; level <= levels; ++level) {
         QStringList outfiles;
         QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
         QString filename;
-        foreach(filename, filenames){
+        foreach(filename, filenames) {
             CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
-            if(!mapfile->ok){
+            if(!mapfile->ok) {
                 delete mapfile;
                 QMessageBox::critical(0,tr("Error ..."), tr("Failed to read %1").arg(filename), QMessageBox::Abort,  QMessageBox::Abort);
                 return QDialog::reject();
@@ -153,8 +157,8 @@ void CMapQMAPExport::slotStart()
             QRectF selarea(QPointF(p1.u, p1.v), QPointF(p2.u, p2.v));
             QRect  intersect = selarea.intersected(maparea).toRect();
 
-//             qDebug() << maparea << selarea << intersect;
-            if(intersect.isValid()){
+            //             qDebug() << maparea << selarea << intersect;
+            if(intersect.isValid()) {
                 job_t job;
                 job.idx    = idx++;
                 job.srcFilename = mapfile->filename;
@@ -164,10 +168,10 @@ void CMapQMAPExport::slotStart()
                 job.width  =  intersect.width()  / mapfile->xscale;
                 job.height = -intersect.height() / mapfile->yscale;
 
-//                 qDebug() << "xoff: 0 <" << job.xoff;
-//                 qDebug() << "yoff: 0 <" << job.yoff;
-//                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
-//                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
+                //                 qDebug() << "xoff: 0 <" << job.xoff;
+                //                 qDebug() << "yoff: 0 <" << job.yoff;
+                //                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
+                //                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
 
                 jobs        << job;
                 outfiles    << tarPath.relativeFilePath(job.tarFilename);
@@ -185,9 +189,9 @@ void CMapQMAPExport::slotStart()
 
 void CMapQMAPExport::slotFinished( int exitCode, QProcess::ExitStatus status)
 {
-//     qDebug() << exitCode << status;
+    //     qDebug() << exitCode << status;
 
-    if(jobs.isEmpty()){
+    if(jobs.isEmpty()) {
         textBrowser->setTextColor(Qt::black);
         textBrowser->append(tr("--- finished ---\n"));
         return;

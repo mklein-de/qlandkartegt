@@ -48,25 +48,24 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
     connect(lineYSpacing, SIGNAL(editingFinished()), this, SLOT(slotCheck()));
 
     QWidget * mapedit = theMainWindow->findChild<QWidget*>("CMapEditWidget");
-    if(mapedit){
+    if(mapedit) {
         mapedit->hide();
     }
-
 
     QSettings cfg;
     lineProjection->setText(cfg.value("create/ref.proj","").toString());
     lineXSpacing->setText(cfg.value("create/grid.x.spacing","1000").toString());
     lineYSpacing->setText(cfg.value("create/grid.y.spacing","1000").toString());
 
-    if(geotifftool->treeWidget->topLevelItemCount() < 2){
+    if(geotifftool->treeWidget->topLevelItemCount() < 2) {
         place4GCPs();
     }
     else {
         int res = QMessageBox::question(0,tr("Reference points found."), tr("Do you want to take the existing reference points to calculate additional points on the grid?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
-        if(res == QMessageBox::No){
+        if(res == QMessageBox::No) {
             place4GCPs();
         }
-        else{
+        else {
             lineLongitude->setEnabled(false);
             lineLatitude->setEnabled(false);
             labelEasting->setEnabled(false);
@@ -80,6 +79,7 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
     connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
 }
 
+
 CCreateMapGridTool::~CCreateMapGridTool()
 {
 
@@ -88,21 +88,22 @@ CCreateMapGridTool::~CCreateMapGridTool()
     cfg.setValue("create/grid.x.spacing",lineXSpacing->text());
     cfg.setValue("create/grid.y.spacing",lineYSpacing->text());
 
-    for(int i = 1;  i != 5; ++i){
+    for(int i = 1;  i != 5; ++i) {
         CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
         if(pt.item) delete pt.item;
         geotifftool->refpts.remove(-i);
     }
 
     QWidget * mapedit = theMainWindow->findChild<QWidget*>("CMapEditWidget");
-    if(mapedit){
+    if(mapedit) {
         mapedit->show();
     }
 }
 
+
 void CCreateMapGridTool::place4GCPs()
 {
-    for(int i = 1;  i != 5; ++i){
+    for(int i = 1;  i != 5; ++i) {
 
         CCreateMapGeoTiff::refpt_t& pt = geotifftool->refpts[-i];
         pt.item         = new QTreeWidgetItem();
@@ -111,10 +112,9 @@ void CCreateMapGridTool::place4GCPs()
         pt.item->setText(CCreateMapGeoTiff::eLabel,tr("%1").arg(i));
         pt.item->setText(CCreateMapGeoTiff::eLonLat,tr(""));
 
-
         QPoint center   = theMainWindow->getCanvas()->rect().center();
         IMap& map       = CMapDB::self().getMap();
-        switch(i){
+        switch(i) {
             case 1:
                 pt.x            = center.x() - 50;
                 pt.y            = center.y();
@@ -137,6 +137,7 @@ void CCreateMapGridTool::place4GCPs()
     theMainWindow->getCanvas()->update();
 }
 
+
 void CCreateMapGridTool::slotCheck()
 {
     pushOk->setEnabled(false);
@@ -150,6 +151,7 @@ void CCreateMapGridTool::slotCheck()
 
 }
 
+
 void CCreateMapGridTool::slotOk()
 {
     int res;
@@ -162,7 +164,7 @@ void CCreateMapGridTool::slotOk()
     int         n    = 0;
     GDAL_GCP  * gcps = 0;
 
-    if(lineLatitude->isEnabled() && lineLongitude->isEnabled()){
+    if(lineLatitude->isEnabled() && lineLongitude->isEnabled()) {
 
         CCreateMapGeoTiff::refpt_t& pt1 = geotifftool->refpts[-1];
         CCreateMapGeoTiff::refpt_t& pt2 = geotifftool->refpts[-2];
@@ -193,13 +195,13 @@ void CCreateMapGridTool::slotOk()
         gcps[3].dfGCPX      = easting;
         gcps[3].dfGCPY      = northing - stepy;
     }
-    else if(geotifftool->treeWidget->topLevelItemCount() > 2){
+    else if(geotifftool->treeWidget->topLevelItemCount() > 2) {
         n = geotifftool->treeWidget->topLevelItemCount();
         gcps = new GDAL_GCP[n];
         memset(gcps,0,n*sizeof(GDAL_GCP));
 
         QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator pt = geotifftool->refpts.begin();
-        for(int i = 0; i < n; ++i){
+        for(int i = 0; i < n; ++i) {
 
             float lon, lat;
             if(!GPS_Math_Str_To_LongLat(pt->item->text(CCreateMapGeoTiff::eLonLat), lon, lat, lineProjection->text())) {
@@ -215,7 +217,7 @@ void CCreateMapGridTool::slotOk()
             ++pt;
         }
     }
-    else{
+    else {
         float lon, lat;
         n = 3;
         gcps = new GDAL_GCP[n];
@@ -271,7 +273,7 @@ void CCreateMapGridTool::slotOk()
     res = GDALGCPsToGeoTransform(n,gcps,adfGeoTransform1,TRUE);
     if(gcps) delete [] gcps; gcps = 0; n = 0;
 
-    if(res == FALSE){
+    if(res == FALSE) {
         QMessageBox::warning(0,tr("Error ..."), tr("Failed to calculate transformation for ref. points. Are all 4 points placed propperly?"), QMessageBox::Abort,QMessageBox::Abort);
         return;
     }
@@ -279,9 +281,9 @@ void CCreateMapGridTool::slotOk()
     GDALInvGeoTransform(adfGeoTransform1, adfGeoTransform2);
 
     PJ * pjWGS84 = 0, * pjSrc = 0;
-    if(!lineProjection->text().isEmpty()){
+    if(!lineProjection->text().isEmpty()) {
         pjSrc   = pj_init_plus(lineProjection->text().toLatin1());
-        if(pjSrc == 0){
+        if(pjSrc == 0) {
             QMessageBox::warning(0,tr("Error ..."), tr("Failed to setup projection. Bad syntax?"), QMessageBox::Abort,QMessageBox::Abort);
             return;
         }
@@ -297,13 +299,13 @@ void CCreateMapGridTool::slotOk()
     double x = 0,  y = 0;
     bool go         = true;
     bool validLine  = false;
-    while(go){
+    while(go) {
         GDALApplyGeoTransform(adfGeoTransform2, u, v, &x, &y);
-        if(rect.contains(QPoint(x,y))){
+        if(rect.contains(QPoint(x,y))) {
             // add ref point
             double _u = u;
             double _v = v;
-            if(pjSrc){
+            if(pjSrc) {
                 pj_transform(pjSrc,pjWGS84,1,0,&_u,&_v,0);
                 _u = _u * RAD_TO_DEG;
                 _v = _v * RAD_TO_DEG;
@@ -312,8 +314,8 @@ void CCreateMapGridTool::slotOk()
             geotifftool->addRef(x,y,_u,_v);
             validLine = true;
         }
-        else{
-            if(x > rect.width()){
+        else {
+            if(x > rect.width()) {
                 if(!validLine) break;
                 validLine = false;
 
@@ -334,6 +336,7 @@ void CCreateMapGridTool::slotOk()
     theMainWindow->getCanvas()->update();
     deleteLater();
 }
+
 
 void CCreateMapGridTool::slotProjWizard()
 {

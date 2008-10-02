@@ -37,6 +37,4 @@ class CDlgEditDistance : public QDialog, private Ui::IDlgEditDistance
     private:
         COverlayDistance& ovl;
 };
-
-#endif //CDLGEDITDISTANCE_H
-
+#endif                           //CDLGEDITDISTANCE_H

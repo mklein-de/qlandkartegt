@@ -33,21 +33,20 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     filename = fn;
 
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
-    if(dataset == 0){
+    if(dataset == 0) {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    if(pBand == 0){
+    if(pBand == 0) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
-
-    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex){
+    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
         return;
@@ -56,14 +55,14 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     maparea.setWidth(dataset->GetRasterXSize());
     maparea.setHeight(dataset->GetRasterYSize());
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ){
+    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
         GDALColorTable * pct = pBand->GetColorTable();
         for(int i=0; i < pct->GetColorEntryCount(); ++i) {
             const GDALColorEntry& e = *pct->GetColorEntry(i);
             colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
         }
     }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ){
+    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
         for(int i=0; i < 256; ++i) {
             colortable << qRgba(i, i, i, 255);
         }
@@ -80,10 +79,12 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 
 }
 
+
 CMapRaster::~CMapRaster()
 {
     if(dataset) delete dataset;
 }
+
 
 void CMapRaster::convertPt2M(double& u, double& v)
 {
@@ -91,11 +92,13 @@ void CMapRaster::convertPt2M(double& u, double& v)
     v = y + v * zoomfactor;
 }
 
+
 void CMapRaster::convertM2Pt(double& u, double& v)
 {
     u = (u - x) / zoomfactor;
     v = (v - y) / zoomfactor;
 }
+
 
 void CMapRaster::move(const QPoint& old, const QPoint& next)
 {
@@ -105,20 +108,19 @@ void CMapRaster::move(const QPoint& old, const QPoint& next)
 
 }
 
+
 void CMapRaster::zoom(bool zoomIn, const QPoint& p)
 {
     double x1 = p.x();
     double y1 = p.y();
 
-
     convertPt2M(x1,y1);
 
-
     zoomlevel += zoomIn ? -1 : +1;
-    if(zoomlevel < 1){
+    if(zoomlevel < 1) {
         zoomfactor  = 1.0 / - (zoomlevel - 2);
     }
-    else{
+    else {
         zoomfactor = zoomlevel;
     }
 
@@ -126,13 +128,16 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p)
     move(QPoint(x1,y1),p);
 }
 
+
 void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 {
 }
 
+
 void CMapRaster::select(const QRect& rect)
 {
 }
+
 
 void CMapRaster::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
@@ -189,7 +194,7 @@ void CMapRaster::draw(QPainter& p)
     if(zoomfactor < 1.0) {
         str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
     }
-    else{
+    else {
         str = tr("Zoom level x%1").arg(zoomlevel);
     }
 
@@ -205,5 +210,3 @@ void CMapRaster::draw(QPainter& p)
     p.drawText(10,24,str);
 
 }
-
-

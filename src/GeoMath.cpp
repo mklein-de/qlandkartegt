@@ -250,30 +250,31 @@ void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
     str.sprintf("%s%02d\260 %06.3f %s%03d\260 %06.3f",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
 }
 
+
 bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const QString& projstr)
 {
     double u = 0, v = 0;
     QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");
 
     PJ * pjTar = 0;
-    if(!projstr.isEmpty()){
+    if(!projstr.isEmpty()) {
         pjTar = pj_init_plus(projstr.toLatin1());
-        if(pjTar == 0){
+        if(pjTar == 0) {
             QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to setup projection. Bad syntax?\n%1").arg(projstr), QMessageBox::Abort,QMessageBox::Abort);
             return false;
         }
     }
     PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
-    if(GPS_Math_Str_To_Deg(str, lon, lat,true)){
-        if(pjTar){
+    if(GPS_Math_Str_To_Deg(str, lon, lat,true)) {
+        if(pjTar) {
             u = lon * DEG_TO_RAD;
             v = lat * DEG_TO_RAD;
             pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);
         }
     }
-    else{
-        if(!re.exactMatch(str)){
+    else {
+        if(!re.exactMatch(str)) {
             QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to read reference coordinate. Bad syntax?\n%1").arg(str), QMessageBox::Abort,QMessageBox::Abort);
             if(pjWGS84) pj_free(pjWGS84);
             if(pjTar) pj_free(pjTar);
@@ -282,7 +283,7 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
         u = re.cap(1).toDouble();
         v = re.cap(2).toDouble();
 
-        if((abs(u) <= 180) && (abs(v) <= 90) && pjTar){
+        if((abs(u) <= 180) && (abs(v) <= 90) && pjTar) {
             u = u * DEG_TO_RAD;
             v = v * DEG_TO_RAD;
             pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);

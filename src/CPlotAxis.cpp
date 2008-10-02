@@ -48,6 +48,7 @@ void CPlotAxis::setLimits(double min, double max)
     limit_max = max;
 }
 
+
 void CPlotAxis::setMinMax( double given_min, double given_max )
 {
     double tmp;
@@ -304,10 +305,12 @@ void CPlotAxis::setScale( const unsigned int pts )
     scale = pts / ( used_max - used_min );
 }
 
+
 void CPlotAxis::resetZoom()
 {
     setMinMax(limit_min, limit_max);
 }
+
 
 void CPlotAxis::zoom(bool in, int point)
 {
@@ -315,13 +318,14 @@ void CPlotAxis::zoom(bool in, int point)
     if (in)
         factor = 1/1.1;
     else
-    factor = 1.1;
+        factor = 1.1;
 
     p = pt2val(point);
     min = (p - used_min) * (1 - factor) + used_min;
     d = min - used_min * factor;
     setMinMax(min, used_max * factor + d);
 }
+
 
 void CPlotAxis::move(int delta_pt)
 {

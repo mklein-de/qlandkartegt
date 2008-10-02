@@ -44,10 +44,12 @@ CDlgEditText::CDlgEditText(QString& content, QWidget * parent)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
+
 CDlgEditText::~CDlgEditText()
 {
 
 }
+
 
 void CDlgEditText::accept()
 {

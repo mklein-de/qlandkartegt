@@ -44,6 +44,4 @@ class CMouseRefPoint :  public IMouse
 
         CCreateMapGeoTiff::refpt_t * selRefPt;
 };
-
-#endif //CMOUSEREFPOINT_H
-
+#endif                           //CMOUSEREFPOINT_H

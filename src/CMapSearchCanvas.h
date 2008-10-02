@@ -37,6 +37,4 @@ class CMapSearchCanvas : public QWidget
     private:
         QPixmap buffer;
 };
-
-#endif //CMAPSEARCHCANVAS_H
-
+#endif                           //CMAPSEARCHCANVAS_H

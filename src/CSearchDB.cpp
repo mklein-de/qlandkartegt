@@ -171,6 +171,7 @@ CSearch * CSearchDB::getResultByKey(const QString& key)
     return results[key];
 }
 
+
 void CSearchDB::draw(QPainter& p, const QRect& rect)
 {
     IMap& map = CMapDB::self().getMap();
@@ -189,6 +190,7 @@ void CSearchDB::draw(QPainter& p, const QRect& rect)
         ++result;
     }
 }
+
 
 void CSearchDB::delResults(const QStringList& keys)
 {

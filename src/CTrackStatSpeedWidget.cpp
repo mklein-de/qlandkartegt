@@ -24,7 +24,6 @@
 
 #include <QtGui>
 
-
 CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
 : ITrackStat(parent)
 {
@@ -38,10 +37,12 @@ CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
     plot->resetZoom();
 }
 
+
 CTrackStatSpeedWidget::~CTrackStatSpeedWidget()
 {
 
 }
+
 
 void CTrackStatSpeedWidget::slotChanged()
 {
@@ -62,7 +63,6 @@ void CTrackStatSpeedWidget::slotChanged()
 
     float speedfactor = IUnit::self().speedfactor;
 
-
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
@@ -71,7 +71,7 @@ void CTrackStatSpeedWidget::slotChanged()
         }
         lineSpeed       << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
-//         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
+        //         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
             marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         }
@@ -87,5 +87,3 @@ void CTrackStatSpeedWidget::slotChanged()
     plot->addLine(lineAvgSpeed, "avg. speed");
     plot->newMarks(marksSpeed);
 }
-
-

@@ -91,6 +91,7 @@ void CSearchToolWidget::slotDBChanged()
 
 }
 
+
 void CSearchToolWidget::slotContextMenu(const QPoint& pos)
 {
     if(listResults->currentItem()) {
@@ -108,6 +109,7 @@ void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
     }
 }
 
+
 void CSearchToolWidget::slotDelete()
 {
     QStringList keys;
@@ -119,6 +121,7 @@ void CSearchToolWidget::slotDelete()
     }
     CSearchDB::self().delResults(keys);
 }
+
 
 void CSearchToolWidget::slotCopyPosition()
 {
@@ -135,6 +138,7 @@ void CSearchToolWidget::slotCopyPosition()
 
 }
 
+
 void CSearchToolWidget::slotAdd()
 {
     QListWidgetItem * item = listResults->currentItem();
@@ -146,13 +150,14 @@ void CSearchToolWidget::slotAdd()
     CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele);
 }
 
+
 void CSearchToolWidget::keyPressEvent(QKeyEvent * e)
 {
     if(e->key() == Qt::Key_Delete) {
         slotDelete();
         e->accept();
     }
-    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier){
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier) {
         slotCopyPosition();
     }
     else {

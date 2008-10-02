@@ -1,40 +1,40 @@
 /****************************************************************************
-**
-** Copyright (C) 2004-2007 Trolltech ASA. All rights reserved.
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.  Please review the following information to ensure GNU
-** General Public Licensing requirements will be met:
-** http://trolltech.com/products/qt/licenses/licensing/opensource/
-**
-** If you are unsure which license is appropriate for your use, please
-** review the following information:
-** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
-** or contact the sales department at sales@trolltech.com.
-**
-** In addition, as a special exception, Trolltech gives you certain
-** additional rights. These rights are described in the Trolltech GPL
-** Exception version 1.0, which can be found at
-** http://www.trolltech.com/products/qt/gplexception/ and in the file
-** GPL_EXCEPTION.txt in this package.
-**
-** In addition, as a special exception, Trolltech, as the sole copyright
-** holder for Qt Designer, grants users of the Qt/Eclipse Integration
-** plug-in the right for the Qt/Eclipse Integration to link to
-** functionality provided by Qt Designer and its related libraries.
-**
-** Trolltech reserves all rights not expressly granted herein.
-**
-** Trolltech ASA (c) 2007
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
+ **
+ ** Copyright (C) 2004-2007 Trolltech ASA. All rights reserved.
+ **
+ ** This file is part of the demonstration applications of the Qt Toolkit.
+ **
+ ** This file may be used under the terms of the GNU General Public
+ ** License version 2.0 as published by the Free Software Foundation
+ ** and appearing in the file LICENSE.GPL included in the packaging of
+ ** this file.  Please review the following information to ensure GNU
+ ** General Public Licensing requirements will be met:
+ ** http://trolltech.com/products/qt/licenses/licensing/opensource/
+ **
+ ** If you are unsure which license is appropriate for your use, please
+ ** review the following information:
+ ** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
+ ** or contact the sales department at sales@trolltech.com.
+ **
+ ** In addition, as a special exception, Trolltech gives you certain
+ ** additional rights. These rights are described in the Trolltech GPL
+ ** Exception version 1.0, which can be found at
+ ** http://www.trolltech.com/products/qt/gplexception/ and in the file
+ ** GPL_EXCEPTION.txt in this package.
+ **
+ ** In addition, as a special exception, Trolltech, as the sole copyright
+ ** holder for Qt Designer, grants users of the Qt/Eclipse Integration
+ ** plug-in the right for the Qt/Eclipse Integration to link to
+ ** functionality provided by Qt Designer and its related libraries.
+ **
+ ** Trolltech reserves all rights not expressly granted herein.
+ **
+ ** Trolltech ASA (c) 2007
+ **
+ ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ **
+ ****************************************************************************/
 
 #include "printpreview.h"
 #include "CMainWindow.h"
@@ -47,6 +47,7 @@ static inline int inchesToPixels(float inches, QPaintDevice *device)
     return qRound(inches * device->logicalDpiY());
 }
 
+
 static inline qreal mmToInches(double mm)
 {
     return mm*0.039370147;
@@ -54,7 +55,7 @@ static inline qreal mmToInches(double mm)
 
 
 PreviewView::PreviewView(QTextDocument *document, PrintPreview *printPrev)
-    : printPreview(printPrev)
+: printPreview(printPrev)
 {
     verticalScrollBar()->setSingleStep(20);
     horizontalScrollBar()->setSingleStep(20);
@@ -66,6 +67,7 @@ PreviewView::PreviewView(QTextDocument *document, PrintPreview *printPrev)
     interPageSpacing = 30;
 }
 
+
 void PreviewView::zoomIn()
 {
     scale += 0.2;
@@ -73,12 +75,14 @@ void PreviewView::zoomIn()
     viewport()->update();
 }
 
+
 void PreviewView::zoomOut()
 {
     scale -= 0.2;
     resizeEvent(0);
     viewport()->update();
 }
+
 
 void PreviewView::paintEvent(QPaintEvent *)
 {
@@ -103,6 +107,7 @@ void PreviewView::paintEvent(QPaintEvent *)
     }
 }
 
+
 void PreviewView::paintMap(QPainter *painter, int page)
 {
 
@@ -117,11 +122,11 @@ void PreviewView::paintMap(QPainter *painter, int page)
 
     col = col.light();
     painter->drawLine(QLineF(printPreview->paperSize.width(), 1,
-                             printPreview->paperSize.width(), printPreview->paperSize.height() - 1));
+        printPreview->paperSize.width(), printPreview->paperSize.height() - 1));
 
     col = col.light();
     painter->drawLine(QLineF(printPreview->paperSize.width(), 2,
-                             printPreview->paperSize.width(), printPreview->paperSize.height() - 2));
+        printPreview->paperSize.width(), printPreview->paperSize.height() - 2));
 
     QRectF docRect(QPointF(0, (page) * pgSize.height()), pgSize);
 
@@ -129,6 +134,7 @@ void PreviewView::paintMap(QPainter *painter, int page)
     canvas->print(*painter, pgSize.toSize());
 
 }
+
 
 void PreviewView::paintPage(QPainter *painter, int page)
 {
@@ -143,11 +149,11 @@ void PreviewView::paintPage(QPainter *painter, int page)
 
     col = col.light();
     painter->drawLine(QLineF(printPreview->paperSize.width(), 1,
-                             printPreview->paperSize.width(), printPreview->paperSize.height() - 1));
+        printPreview->paperSize.width(), printPreview->paperSize.height() - 1));
 
     col = col.light();
     painter->drawLine(QLineF(printPreview->paperSize.width(), 2,
-                             printPreview->paperSize.width(), printPreview->paperSize.height() - 2));
+        printPreview->paperSize.width(), printPreview->paperSize.height() - 2));
 
     QRectF docRect(QPointF(0, page * pgSize.height()), pgSize);
     QAbstractTextDocumentLayout::PaintContext ctx;
@@ -165,6 +171,7 @@ void PreviewView::paintPage(QPainter *painter, int page)
     doc->documentLayout()->draw(painter, ctx);
 }
 
+
 void PreviewView::resizeEvent(QResizeEvent *)
 {
     const QSize viewportSize = viewport()->size();
@@ -181,6 +188,7 @@ void PreviewView::resizeEvent(QResizeEvent *)
     verticalScrollBar()->setPageStep(viewportSize.height());
 }
 
+
 void PreviewView::mousePressEvent(QMouseEvent *e)
 {
     mousePressPos = e->pos();
@@ -188,6 +196,7 @@ void PreviewView::mousePressEvent(QMouseEvent *e)
     scrollBarValuesOnMousePress.ry() = verticalScrollBar()->value();
     e->accept();
 }
+
 
 void PreviewView::mouseMoveEvent(QMouseEvent *e)
 {
@@ -203,14 +212,16 @@ void PreviewView::mouseMoveEvent(QMouseEvent *e)
     e->accept();
 }
 
+
 void PreviewView::mouseReleaseEvent(QMouseEvent *e)
 {
     mousePressPos = QPoint();
     e->accept();
 }
 
+
 PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
-    : QMainWindow(parent), printer(QPrinter::HighResolution)
+: QMainWindow(parent), printer(QPrinter::HighResolution)
 {
     setWindowTitle(tr("Diary - Print Preview"));
 
@@ -268,6 +279,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     statusBar()->setSizeGripEnabled(true);
 }
 
+
 void PrintPreview::setup()
 {
     QSizeF page = printer.pageRect().size();
@@ -291,10 +303,12 @@ void PrintPreview::setup()
     doc->setPageSize(page);
 }
 
+
 PrintPreview::~PrintPreview()
 {
     delete doc;
 }
+
 
 void PrintPreview::print()
 {
@@ -308,11 +322,11 @@ void PrintPreview::print()
     if (dialog.exec() != QDialog::Accepted)
         return;
 
-
     canvas->print(printer);
     doc->print(&printer);
 
 }
+
 
 void PrintPreview::pageSetup()
 {

@@ -31,6 +31,4 @@ class CTrackStatSpeedWidget : public ITrackStat
     private slots:
         void slotChanged();
 };
-
-#endif //CTRACKSTATSPEEDWIDGET_H
-
+#endif                           //CTRACKSTATSPEEDWIDGET_H

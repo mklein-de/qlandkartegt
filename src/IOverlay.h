@@ -85,7 +85,7 @@ class IOverlay : public QObject
         /// the unique overlay key used by the database
         const QString key;
 
-    signals:
+        signals:
         void sigChanged();
 
     protected:
@@ -100,7 +100,4 @@ QDataStream& operator <<(QDataStream& s, IOverlay& ovl);
 
 void operator >>(QFile& f, COverlayDB& db);
 void operator <<(QFile& f, IOverlay& ovl);
-
-
-#endif //IOVERLAY_H
-
+#endif                           //IOVERLAY_H

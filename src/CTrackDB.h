@@ -76,7 +76,7 @@ class CTrackDB : public IDB
 
         void select(const QRect& rect);
 
-    signals:
+        signals:
         void sigHighlightTrack(CTrack * track);
 
     private:

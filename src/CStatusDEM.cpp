@@ -50,12 +50,14 @@ CStatusDEM::CStatusDEM(QWidget * parent)
 
 }
 
+
 CStatusDEM::~CStatusDEM()
 {
     QSettings cfg;
     cfg.setValue("map/overlay",overlay);
 
 }
+
 
 void CStatusDEM::slotShowShading()
 {
@@ -72,4 +74,3 @@ void CStatusDEM::slotShowShading()
 
     theMainWindow->getCanvas()->update();
 }
-

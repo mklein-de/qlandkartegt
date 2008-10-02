@@ -38,6 +38,4 @@ class CMouseAddText : public IMouse
         bool selArea;
 
 };
-
-#endif //CMOUSEADDTEXT_H
-
+#endif                           //CMOUSEADDTEXT_H

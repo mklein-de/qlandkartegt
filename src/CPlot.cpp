@@ -46,6 +46,7 @@ CPlot::~CPlot()
 
 }
 
+
 void CPlot::clear()
 {
     m_pData->lines.clear();
@@ -54,10 +55,12 @@ void CPlot::clear()
     update();
 }
 
+
 double CPlot::getXValByPixel(int px)
 {
     return m_pData->x().pt2val(px - left);
 }
+
 
 void CPlot::setYLabel(const QString& str)
 {
@@ -66,6 +69,7 @@ void CPlot::setYLabel(const QString& str)
     update();
 }
 
+
 void CPlot::setXLabel(const QString& str)
 {
     m_pData->xlabel = str;
@@ -73,10 +77,12 @@ void CPlot::setXLabel(const QString& str)
     update();
 }
 
+
 void CPlot::setLimits()
 {
     m_pData->setLimits();
 }
+
 
 void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& label)
 {
@@ -96,6 +102,7 @@ void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& 
 
 }
 
+
 void CPlot::addLine(const QPolygonF& line, const QString& label)
 {
     CPlotData::line_t l;
@@ -109,15 +116,18 @@ void CPlot::addLine(const QPolygonF& line, const QString& label)
     update();
 }
 
+
 void CPlot::newMarks(const QPolygonF& line)
 {
     m_pData->marks.points = line;
 }
 
+
 void CPlot::addTag(CPlotData::point_t& tag)
 {
     m_pData->tags << tag;
 }
+
 
 void CPlot::paintEvent(QPaintEvent * )
 {
@@ -156,6 +166,7 @@ void CPlot::setSizes()
 
 }
 
+
 void CPlot::setLRTB()
 {
     left = 0;
@@ -169,7 +180,7 @@ void CPlot::setLRTB()
     right -= scaleWidthX1 / 2;
 
     top = 0;
-    if(!m_pData->tags.isEmpty()){
+    if(!m_pData->tags.isEmpty()) {
         top += fontHeight;
         top += 16;
     }
@@ -182,10 +193,12 @@ void CPlot::setLRTB()
     bottom -= deadAreaY;
 }
 
+
 void CPlot::setSizeIconArea()
 {
     rectIconArea = QRect(left, deadAreaY, right - left, 16 + fontHeight + deadAreaY);
 }
+
 
 /*
   x = a <br>
@@ -424,8 +437,10 @@ void CPlot::drawGridY( QPainter &p )
     m_pData->y().setTicType( oldtic );
 }
 
-QPen pens[] = {
-      QPen(Qt::blue,3)
+
+QPen pens[] =
+{
+    QPen(Qt::blue,3)
     , QPen(Qt::red,1)
     , QPen(Qt::darkYellow,2)
     , QPen(Qt::darkGreen,2)
@@ -442,7 +457,7 @@ void CPlot::drawData(QPainter& p)
     CPlotAxis& xaxis = m_pData->x();
     CPlotAxis& yaxis = m_pData->y();
 
-    while(line != lines.end()){
+    while(line != lines.end()) {
 
         const QPolygonF& polyline       = line->points;
         QPolygonF::const_iterator point = polyline.begin();
@@ -467,7 +482,6 @@ void CPlot::drawData(QPainter& p)
         ++line;
     }
 
-
     {
         QPolygonF& marks                = m_pData->marks.points;
         QPolygonF::const_iterator point = marks.begin();
@@ -484,7 +498,7 @@ void CPlot::drawData(QPainter& p)
         }
     }
 
-    if(!m_pData->point1.point.isNull()){
+    if(!m_pData->point1.point.isNull()) {
         p.setPen(QPen(Qt::darkGreen));
         ptx = left   + xaxis.val2pt( m_pData->point1.point.x() );
         pty = bottom - yaxis.val2pt( m_pData->point1.point.y() );
@@ -493,6 +507,7 @@ void CPlot::drawData(QPainter& p)
         p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
     }
 }
+
 
 void CPlot::drawLegend(QPainter& p)
 {
@@ -508,18 +523,18 @@ void CPlot::drawLegend(QPainter& p)
     QList<CPlotData::line_t> lines                  = m_pData->lines;
     QList<CPlotData::line_t>::const_iterator line   = lines.begin();
 
-    while(line != lines.end()){
+    while(line != lines.end()) {
         p.setPen(Qt::black);
         p.drawText(x + 30 ,y,line->label);
         p.setPen(pens[penIdx++]);
         p.drawLine(x, y, x + 20, y);
-
 
         y += fm.height();
         ++line;
     }
 
 }
+
 
 void CPlot::drawTags(QPainter& p)
 {
@@ -533,30 +548,31 @@ void CPlot::drawTags(QPainter& p)
     QFontMetrics fm(p.font());
 
     QVector<CPlotData::point_t>::const_iterator tag = m_pData->tags.begin();
-    while(tag != m_pData->tags.end()){
+    while(tag != m_pData->tags.end()) {
         ptx = left   + xaxis.val2pt( tag->point.x() );
         pty = bottom - yaxis.val2pt( tag->point.y() );
 
         if (left < ptx &&  ptx < right) {
-                rect = fm.boundingRect(tag->label);
-                rect.moveCenter(QPoint(ptx, fontHeight / 2));
-                p.setPen(Qt::darkBlue);
-                p.drawText(rect, Qt::AlignCenter, tag->label);
+            rect = fm.boundingRect(tag->label);
+            rect.moveCenter(QPoint(ptx, fontHeight / 2));
+            p.setPen(Qt::darkBlue);
+            p.drawText(rect, Qt::AlignCenter, tag->label);
 
-                p.drawPixmap(ptx - tag->icon.width() / 2, fontHeight, tag->icon);
+            p.drawPixmap(ptx - tag->icon.width() / 2, fontHeight, tag->icon);
 
-                p.setPen(QPen(Qt::white, 3));
-                if (fontHeight + 16 < pty) {
-                    p.drawLine(ptx, fontHeight + 16, ptx, pty);
-                    p.setPen(QPen(Qt::black, 1));
-                    if (pty > bottom)
-                        pty = bottom;
-                    p.drawLine(ptx, fontHeight + 16, ptx, pty);
-                }
+            p.setPen(QPen(Qt::white, 3));
+            if (fontHeight + 16 < pty) {
+                p.drawLine(ptx, fontHeight + 16, ptx, pty);
+                p.setPen(QPen(Qt::black, 1));
+                if (pty > bottom)
+                    pty = bottom;
+                p.drawLine(ptx, fontHeight + 16, ptx, pty);
+            }
         }
         ++tag;
     }
 }
+
 
 void CPlot::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -567,6 +583,7 @@ void CPlot::contextMenuEvent(QContextMenuEvent *event)
 
     menu.exec(event->globalPos());
 }
+
 
 void CPlot::createActions()
 {
@@ -582,6 +599,7 @@ void CPlot::createActions()
     connect(resetZoomAct, SIGNAL(triggered()), this, SLOT(resetZoom()));
 }
 
+
 void CPlot::resetZoom()
 {
     m_pData->x().resetZoom();
@@ -589,6 +607,7 @@ void CPlot::resetZoom()
     setSizes();
     update();
 }
+
 
 void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 {
@@ -599,6 +618,7 @@ void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
     update();
 }
 
+
 void CPlot::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
@@ -607,6 +627,7 @@ void CPlot::wheelEvent ( QWheelEvent * e )
     if (vZoomAct->isChecked())
         zoom(m_pData->y(), in, - e->pos().y() + bottom);
 }
+
 
 void CPlot::mouseMoveEvent(QMouseEvent * e)
 {
@@ -622,6 +643,7 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
     update();
 }
 
+
 void CPlot::mouseReleaseEvent(QMouseEvent * e)
 {
     if (checkClick && e->button() == Qt::LeftButton) {
@@ -631,9 +653,9 @@ void CPlot::mouseReleaseEvent(QMouseEvent * e)
     }
 }
 
+
 void CPlot::mousePressEvent(QMouseEvent * e)
 {
     startMovePos = e->pos();
     checkClick = true;
 }
-

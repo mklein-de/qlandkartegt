@@ -24,8 +24,8 @@ CSearch::CSearch(QObject * parent)
 
 }
 
+
 CSearch::~CSearch()
 {
 
 }
-

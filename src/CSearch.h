@@ -32,6 +32,4 @@ class CSearch : public QObject
         qreal   lat;
         QString query;
 };
-
-#endif //CSEARCH_H
-
+#endif                           //CSEARCH_H

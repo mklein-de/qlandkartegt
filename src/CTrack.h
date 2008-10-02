@@ -43,7 +43,7 @@ class CTrack : public QObject
 
             enum flag_e
             {
-                 eSelected  = 1   ///< selected by track info view
+                eSelected  = 1   ///< selected by track info view
                 ,eCursor    = 2  ///< selected by cursor
                 ,eDeleted   = 4  ///< mark point as deleted
                 ,eFocus     = 8  ///< mark current point of user focus
@@ -58,9 +58,9 @@ class CTrack : public QObject
 
             /// index counter for easy QVector access
             qint32  idx;
-            /// longitude [°]
+            /// longitude []
             float   lon;
-            /// latitude [°]
+            /// latitude []
             float   lat;
             /// elevation [m]
             float   ele;
@@ -89,21 +89,20 @@ class CTrack : public QObject
             float slope;
 
             // extended data 1
-            float   altitude;   ///< [m] Altitude, Meters, above mean sea level
-            float   height;     ///< [m] Height of geoid (mean sea level) above WGS84 ellipsoid
-            float   velocity;   ///< [m/s] Ground speed, meters per hour
-            float   heading;    ///< [°] Track angle in degrees True
-            float   magnetic;   ///< [°] Magnetic Variation
-            float   vdop;       ///< Vertical dilution of precision (VDOP)
-            float   hdop;       ///< Horizontal dilution of precision (HDOP)
-            float   pdop;       ///< PDOP (dilution of precision)
-            float   x;          ///< [m] cartesian gps coordinate
-            float   y;          ///< [m] cartesian gps coordinate
-            float   z;          ///< [m] cartesian gps coordinate
-            float   vx;         ///< [m/s] velocity
-            float   vy;         ///< [m/s] velocity
-            float   vz;         ///< [m/s] velocity
-
+            float   altitude;    ///< [m] Altitude, Meters, above mean sea level
+            float   height;      ///< [m] Height of geoid (mean sea level) above WGS84 ellipsoid
+            float   velocity;    ///< [m/s] Ground speed, meters per hour
+            float   heading;     ///< [] Track angle in degrees True
+            float   magnetic;    ///< [] Magnetic Variation
+            float   vdop;        ///< Vertical dilution of precision (VDOP)
+            float   hdop;        ///< Horizontal dilution of precision (HDOP)
+            float   pdop;        ///< PDOP (dilution of precision)
+            float   x;           ///< [m] cartesian gps coordinate
+            float   y;           ///< [m] cartesian gps coordinate
+            float   z;           ///< [m] cartesian gps coordinate
+            float   vx;          ///< [m/s] velocity
+            float   vy;          ///< [m/s] velocity
+            float   vz;          ///< [m/s] velocity
 
             /// display flags
             quint32 flags;

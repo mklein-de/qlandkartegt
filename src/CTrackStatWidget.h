@@ -46,6 +46,4 @@ class CTrackStatWidget : public QWidget, protected Ui::ITrackStatWidget
         CPlot * speed;
         QPointer<CTrack> track;
 };
-
-#endif //CTRACKSTATWIDGET_H
-
+#endif                           //CTRACKSTATWIDGET_H

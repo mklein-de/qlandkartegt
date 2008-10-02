@@ -118,7 +118,6 @@ CMainWindow::CMainWindow()
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
     connect(mapdb, SIGNAL(sigChanged()), this, SLOT(update()));
 
-
     connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
@@ -161,7 +160,6 @@ CMainWindow::CMainWindow()
 
     connect(summary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 
-
 }
 
 
@@ -178,13 +176,14 @@ CMainWindow::~CMainWindow()
 
 void CMainWindow::setTitleBar()
 {
-    if(wksFile.isEmpty()){
+    if(wksFile.isEmpty()) {
         setWindowTitle(QString("QLandkarte GT") + (modified ? " *" : ""));
     }
-    else{
+    else {
         setWindowTitle(QString("QLandkarte GT - ") + QFileInfo(wksFile).fileName() + (modified ? " *" : ""));
     }
 }
+
 
 void CMainWindow::clearAll()
 {
@@ -201,12 +200,14 @@ void CMainWindow::clearAll()
     }
 }
 
+
 void CMainWindow::clear()
 {
     modified = false;
     wksFile.clear();
     setTitleBar();
 }
+
 
 void CMainWindow::setTempWidget(QWidget * w)
 {
@@ -271,9 +272,10 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
     return e->ignore();
 }
 
+
 void CMainWindow::closeEvent(QCloseEvent * e)
 {
-    if(!modified){
+    if(!modified) {
         e->accept();
         return;
     }
@@ -285,6 +287,7 @@ void CMainWindow::closeEvent(QCloseEvent * e)
         e->ignore();
     }
 }
+
 
 void CMainWindow::slotLoadMapSet()
 {
@@ -300,7 +303,6 @@ void CMainWindow::slotLoadMapSet()
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
     CMapDB::self().openMap(filename, false, *canvas);
-
 
     cfg.setValue("maps/filter",filter);
 }
@@ -339,8 +341,8 @@ void CMainWindow::slotLoadData()
         );
     if(filename.isEmpty()) return;
 
-    if(modified){
-        if(!maybeSave()){
+    if(modified) {
+        if(!maybeSave()) {
             return;
         }
     }
@@ -358,6 +360,7 @@ void CMainWindow::slotLoadData()
 
     cfg.setValue("geodata/filter",filter);
 }
+
 
 void CMainWindow::slotAddData()
 {
@@ -381,6 +384,7 @@ void CMainWindow::slotAddData()
     cfg.setValue("geodata/filter",filter);
 }
 
+
 void CMainWindow::loadData(QString& filename, const QString& filter)
 {
     QString ext = filename.right(4);
@@ -394,8 +398,8 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         ext = "GPX";
     }
     else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
-           if(ext != ".tcx") filename += ".tcx";
-           ext = "TCX";
+        if(ext != ".tcx") filename += ".tcx";
+        ext = "TCX";
     }
     else {
         filename += ".qlb";
@@ -429,12 +433,11 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             if (!tcxReader.read(filename)) {
                 throw(tcxReader.errorString());
             }
-            else
-            {
+            else {
                 //emit CTrackDB::self().sigChanged(); //??
                 QRectF r = CTrackDB::self().getBoundingRectF();
                 if (!r.isNull ())
-                   CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+                    CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 
             }
 
@@ -448,30 +451,32 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     }
 }
 
+
 bool CMainWindow::maybeSave()
 {
     QMessageBox::StandardButton ret;
     ret = QMessageBox::warning(this, tr("Save geo data?"),
-                               tr("The loaded data has been modified.\n"
-                                  "Do you want to save your changes?"),
-                               QMessageBox::Save | QMessageBox::Discard| QMessageBox::Cancel);
+        tr("The loaded data has been modified.\n"
+        "Do you want to save your changes?"),
+        QMessageBox::Save | QMessageBox::Discard| QMessageBox::Cancel);
 
-    if (ret == QMessageBox::Save){
-        if(wksFile.isEmpty()){
+    if (ret == QMessageBox::Save) {
+        if(wksFile.isEmpty()) {
             slotSaveData();
         }
-        else{
+        else {
             QSettings cfg;
             QString filter = cfg.value("geodata/filter","").toString();
             saveData(wksFile, filter);
         }
         return true;
     }
-    else if (ret == QMessageBox::Cancel){
+    else if (ret == QMessageBox::Cancel) {
         return false;
     }
     return true;
 }
+
 
 void CMainWindow::slotSaveData()
 {
@@ -489,6 +494,7 @@ void CMainWindow::slotSaveData()
 
     saveData(filename, filter);
 }
+
 
 void CMainWindow::saveData(const QString& fn, const QString& filter)
 {
@@ -555,11 +561,13 @@ void CMainWindow::slotPrint()
     canvas->print(printer);
 }
 
+
 void CMainWindow::slotModified()
 {
     modified = true;
     setTitleBar();
 }
+
 
 void CMainWindow::slotPrintPreview()
 {
@@ -571,6 +579,7 @@ void CMainWindow::slotPrintPreview()
     preview->show();
 }
 
+
 void CMainWindow::slotDataChanged()
 {
 
@@ -579,52 +588,51 @@ void CMainWindow::slotDataChanged()
 
     str += "<p>";
     c = CWptDB::self().count();
-    if(c > 0){
-        if(c == 1){
+    if(c > 0) {
+        if(c == 1) {
             str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a>, ").arg(c);
         }
-        else{
+        else {
             str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a>, ").arg(c);
         }
     }
-    else{
+    else {
         str += tr("There are no waypoints, ");
     }
 
     c = CTrackDB::self().count();
-    if(c > 0){
-        if(c == 1){
+    if(c > 0) {
+        if(c == 1) {
             str += tr(" %1 <a href='Tracks'>track</a> and ").arg(c);
         }
-        else{
+        else {
             str += tr(" %1 <a href='Tracks'>tracks</a> and ").arg(c);
         }
     }
-    else{
+    else {
         str += tr("no tracks and ");
     }
 
     c = COverlayDB::self().count();
-    if(c > 0){
-        if(c == 1){
+    if(c > 0) {
+        if(c == 1) {
             str += tr(" %1 <a href='Overlay'>overlay</a>. ").arg(c);
         }
-        else{
+        else {
             str += tr(" %1 <a href='Overlay'>overlays</a>. ").arg(c);
         }
     }
-    else{
+    else {
         str += tr("no overlays. ");
     }
 
     c = CDiaryDB::self().count();
-    if(c > 0){
+    if(c > 0) {
         str += tr("A <a href='Diary'>diary</a> is loaded.");
     }
-    else{
+    else {
         str += tr("The diary (<a href='Diary'>new</a>) is empty.");
     }
-
 
     str += "</p>";
 
@@ -632,12 +640,13 @@ void CMainWindow::slotDataChanged()
 
 }
 
+
 void CMainWindow::slotOpenLink(const QString& link)
 {
-    if(link == "Diary"){
+    if(link == "Diary") {
         CDiaryDB::self().openEditWidget();
     }
-    else if(link == "Clear"){
+    else if(link == "Clear") {
         clearAll();
     }
     else {
@@ -645,10 +654,12 @@ void CMainWindow::slotOpenLink(const QString& link)
     }
 }
 
+
 void CMainWindow::slotCurrentDeviceChanged(int i)
 {
     resources->m_devKey = comboDevice->itemData(i).toString();
 }
+
 
 void CMainWindow::slotDeviceChanged()
 {

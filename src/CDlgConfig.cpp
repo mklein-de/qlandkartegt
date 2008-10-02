@@ -53,13 +53,13 @@ void CDlgConfig::exec()
     lineProxyPort->setText(QString("%1").arg(resources.m_httpProxyPort));
 
     labelFont->setFont(resources.m_mapfont);
-    if(resources.unit->type == "metric"){
+    if(resources.unit->type == "metric") {
         radioMetric->setChecked(true);
     }
-    else if(resources.unit->type == "nautic"){
+    else if(resources.unit->type == "nautic") {
         radioNautic->setChecked(true);
     }
-    else if(resources.unit->type == "imperial"){
+    else if(resources.unit->type == "imperial") {
         radioImperial->setChecked(true);
     }
 
@@ -78,7 +78,6 @@ void CDlgConfig::exec()
     lineDevIPAddr->setText(resources.m_devIPAddress);
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
-
 
     checkDownloadTrk->setChecked(IDevice::m_DownloadAllTrk);
     checkDownloadWpt->setChecked(IDevice::m_DownloadAllWpt);
@@ -101,13 +100,13 @@ void CDlgConfig::accept()
 
     resources.m_mapfont         = labelFont->font();
 
-    if(radioMetric->isChecked()){
+    if(radioMetric->isChecked()) {
         resources.unit = new CUnitMetric(&resources);
     }
-    if(radioImperial->isChecked()){
+    if(radioImperial->isChecked()) {
         resources.unit = new CUnitImperial(&resources);
     }
-    if(radioNautic->isChecked()){
+    if(radioNautic->isChecked()) {
         resources.unit = new CUnitNautic(&resources);
     }
 
@@ -122,8 +121,7 @@ void CDlgConfig::accept()
     resources.m_devSerialPort   = lineDevSerialPort->text();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
 
-
-    if(resources.m_device){
+    if(resources.m_device) {
         delete resources.m_device;
         resources.m_device = 0;
     }
@@ -176,6 +174,7 @@ void CDlgConfig::slotSelectFont()
 
 }
 
+
 void CDlgConfig::fillTypeCombo()
 {
     comboDevType->clear();
@@ -194,10 +193,10 @@ void CDlgConfig::fillTypeCombo()
     }
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
 
-    if(files.isEmpty()){
+    if(files.isEmpty()) {
         labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(QL_LIBDIR)));
     }
-    else{
+    else {
         labelMessage->setText("");
     }
 }

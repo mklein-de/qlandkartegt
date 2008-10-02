@@ -60,23 +60,25 @@ CTrackToolWidget * CTrackDB::getToolWidget()
     return qobject_cast<CTrackToolWidget*>(toolview);
 }
 
+
 QRectF CTrackDB::getBoundingRectF(const QString key)
 {
-	if(!tracks.contains(key)) {
+    if(!tracks.contains(key)) {
         return QRectF();
     }
-	return tracks.value(key)->getBoundingRectF();
+    return tracks.value(key)->getBoundingRectF();
 }
+
 
 QRectF CTrackDB::getBoundingRectF()
 {
-	QRectF r;
-	foreach(CTrack *track, tracks.values())
-	{
-		r = r.united(track->getBoundingRectF());
-	}
-	return r;
+    QRectF r;
+    foreach(CTrack *track, tracks.values()) {
+        r = r.united(track->getBoundingRectF());
+    }
+    return r;
 }
+
 
 void CTrackDB::loadQLB(CQlb& qlb)
 {
@@ -158,10 +160,10 @@ void CTrackDB::loadGPX(CGpx& gpx)
             trkpt = trkpt.nextSiblingElement("trkpt");
         }
 
-        if(track->getTrackPoints().count() > 0){
+        if(track->getTrackPoints().count() > 0) {
             addTrack(track, true);
         }
-        else{
+        else {
             delete track;
         }
     }
@@ -245,7 +247,7 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
     tracks[track->key()] = track;
 
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    if(!silent){
+    if(!silent) {
         emit sigChanged();
         emit sigModified();
     }
@@ -256,7 +258,7 @@ void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
     delete tracks.take(key);
-    if(!silent){
+    if(!silent) {
         emit sigChanged();
         emit sigModified();
     }
@@ -303,6 +305,7 @@ CTrack* CTrackDB::highlightedTrack()
 
 }
 
+
 void CTrackDB::upload()
 {
     if(tracks.isEmpty()) return;
@@ -313,6 +316,7 @@ void CTrackDB::upload()
         dev->uploadTracks(tmptrks);
     }
 }
+
 
 void CTrackDB::download()
 {
@@ -333,6 +337,7 @@ void CTrackDB::download()
     emit sigModified();
 }
 
+
 void CTrackDB::CombineTracks()
 {
     CDlgCombineTracks dlg(0);
@@ -351,13 +356,13 @@ void CTrackDB::splitTrack(int idx)
 
     CTrack * track1 = new CTrack(this);
     track1->setName(theTrack->getName() + "_1");
-    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i){
+    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i) {
         *track1 << *trkpt++;
     }
 
     CTrack * track2 = new CTrack(this);
     track2->setName(theTrack->getName() + "_2");
-    for( ;(trkpt != track.end()); ++i){
+    for( ;(trkpt != track.end()); ++i) {
         *track2 << *trkpt++;
     }
 
@@ -368,12 +373,13 @@ void CTrackDB::splitTrack(int idx)
     emit sigModified();
 }
 
+
 void CTrackDB::draw(QPainter& p, const QRect& rect)
 {
     QPoint focus(-1,-1);
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
-//     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
+    //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
     QMap<QString,CTrack*>::iterator highlighted = tracks.end();
 
@@ -481,7 +487,7 @@ void CTrackDB::select(const QRect& rect)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
-        if(rect.contains(trkpt->px) && !(trkpt->flags & CTrack::pt_t::eDeleted)){
+        if(rect.contains(trkpt->px) && !(trkpt->flags & CTrack::pt_t::eDeleted)) {
             trkpt->flags |= CTrack::pt_t::eSelected;
         }
 

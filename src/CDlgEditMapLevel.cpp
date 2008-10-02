@@ -87,21 +87,23 @@ void CDlgEditMapLevel::slotSelectFiles()
     }
 }
 
+
 void CDlgEditMapLevel::slotListChanged()
 {
     QListWidgetItem * item = listFiles->currentItem();
-    if(item != 0){
+    if(item != 0) {
         toolDel->setEnabled(true);
         toolUp->setEnabled(true);
         toolDown->setEnabled(true);
     }
-    else{
+    else {
         toolDel->setEnabled(false);
         toolUp->setEnabled(false);
         toolDown->setEnabled(false);
     }
 
 }
+
 
 void CDlgEditMapLevel::slotAdd()
 {
@@ -115,18 +117,20 @@ void CDlgEditMapLevel::slotAdd()
     }
 }
 
+
 void CDlgEditMapLevel::slotDel()
 {
     QListWidgetItem * item = listFiles->currentItem();
-    if(item != 0){
+    if(item != 0) {
         delete item;
     }
 }
 
+
 void CDlgEditMapLevel::slotUp()
 {
     QListWidgetItem * item = listFiles->currentItem();
-    if(item){
+    if(item) {
         int row = listFiles->row(item);
         if(row == 0) return;
         listFiles->takeItem(row);
@@ -136,10 +140,11 @@ void CDlgEditMapLevel::slotUp()
     }
 }
 
+
 void CDlgEditMapLevel::slotDown()
 {
     QListWidgetItem * item = listFiles->currentItem();
-    if(item){
+    if(item) {
         int row = listFiles->row(item);
         if(row == (listFiles->count() - 1)) return;
         listFiles->takeItem(row);
@@ -148,4 +153,3 @@ void CDlgEditMapLevel::slotDown()
         listFiles->setCurrentItem(item);
     }
 }
-

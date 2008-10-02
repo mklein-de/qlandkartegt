@@ -57,6 +57,4 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         QList<job_t> jobs;
 };
-
-#endif //CMAPQMAPEXPORT_H
-
+#endif                           //CMAPQMAPEXPORT_H

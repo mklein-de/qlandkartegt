@@ -42,6 +42,4 @@ class COverlayToolWidget : public QWidget, private Ui::IOverlayToolWidget
         void slotDelete();
 
 };
-
-#endif //COVERLAYTOOLWIDGET_H
-
+#endif                           //COVERLAYTOOLWIDGET_H

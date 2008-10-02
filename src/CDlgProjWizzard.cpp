@@ -29,6 +29,7 @@ static bool mitabLessThan(const mitab_entry_t &s1, const mitab_entry_t &s2)
     return s1.name < s2.name;
 }
 
+
 CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
 : QDialog(parent)
 , line(line)
@@ -40,7 +41,7 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
     int idx                 = 0;
     const MapInfoDatumInfo * di   = asDatumInfoList;
 
-    while(di->nMapInfoDatumID != -1){
+    while(di->nMapInfoDatumID != -1) {
         entry.name  = di->pszOGCDatumName;
         entry.idx   = idx;
         list << entry;
@@ -48,7 +49,7 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
     }
     qSort(list.begin(), list.end(), mitabLessThan);
 
-    foreach(entry, list){
+    foreach(entry, list) {
         comboDatum->addItem(entry.name, entry.idx);
     }
 
@@ -61,34 +62,36 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
     connect(spinUTMZone, SIGNAL(valueChanged(int)), this, SLOT(slotChange()));
 }
 
+
 CDlgProjWizzard::~CDlgProjWizzard()
 {
 
 }
 
+
 void CDlgProjWizzard::slotChange()
 {
     QString str;
-    if(radioMercator->isChecked()){
+    if(radioMercator->isChecked()) {
         str += "+proj=merc ";
     }
-    else if(radioWorldMercator->isChecked()){
+    else if(radioWorldMercator->isChecked()) {
         str += "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs";
         labelResult->setText(str);
         return;
     }
-    else if(radioUTM->isChecked()){
+    else if(radioUTM->isChecked()) {
         str += QString("+proj=utm +zone=%1 ").arg(spinUTMZone->value());
     }
-    else if(radioUserDef->isChecked()){
+    else if(radioUserDef->isChecked()) {
         str += lineUserDef->text() + " ";
     }
 
     int idx = comboDatum->itemData(comboDatum->currentIndex()).toInt();
     const MapInfoDatumInfo      di = asDatumInfoList[idx];
-    if(di.pszOGCDatumName != QString("")){
+    if(di.pszOGCDatumName != QString("")) {
         const MapInfoSpheroidInfo * si = asSpheroidInfoList;
-        while(si->nMapInfoId != -1){
+        while(si->nMapInfoId != -1) {
             if(si->nMapInfoId == di.nEllipsoid) break;
             ++si;
         }
@@ -100,6 +103,7 @@ void CDlgProjWizzard::slotChange()
 
     labelResult->setText(str);
 }
+
 
 void CDlgProjWizzard::accept()
 {

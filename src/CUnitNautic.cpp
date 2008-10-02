@@ -25,10 +25,12 @@ CUnitNautic::CUnitNautic(QObject * parent)
 
 }
 
+
 CUnitNautic::~CUnitNautic()
 {
 
 }
+
 
 void CUnitNautic::meter2elevation(float meter, QString& val, QString& unit)
 {
@@ -36,17 +38,20 @@ void CUnitNautic::meter2elevation(float meter, QString& val, QString& unit)
     unit = "m";
 }
 
+
 void CUnitNautic::meter2distance(float meter, QString& val, QString& unit)
 {
     val.sprintf("%1.2f", meter * basefactor);
     unit = baseunit;
 }
 
+
 void CUnitNautic::meter2speed(float meter, QString& val, QString& unit)
 {
     val.sprintf("%1.2f",meter * speedfactor);
     unit = speedunit;
 }
+
 
 float CUnitNautic::elevation2meter(const QString& val)
 {

@@ -32,8 +32,8 @@
     On error and not silent a messagebox is raised.
 
     @param str input string
-    @param lon reference to store the output longitude [°]
-    @param lat reference to store the output latitude [°]
+    @param lon reference to store the output longitude []
+    @param lat reference to store the output latitude []
 
 */
 extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent = false);
@@ -50,8 +50,8 @@ extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool
     On error a messagebox is raised.
 
     @param str input string
-    @param lon reference to store the output longitude / easting [°]|[m]|[ft]
-    @param lat reference to store the output latitude / northing [°]|[m]|[ft]
+    @param lon reference to store the output longitude / easting []|[m]|[ft]
+    @param lat reference to store the output latitude / northing []|[m]|[ft]
     @param projstr a valid proj4 projection string
 
     @return Return true on success.
@@ -61,12 +61,11 @@ extern bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, 
 /**
     The output format will be [N|S] ddd mm.sss [W|E] ddd mm.sss
 
-    @param lon the input longitude in [°]
-    @param lon the input latitude in [°]
+    @param lon the input longitude in []
+    @param lon the input latitude in []
     @param str reference to string to store resulting output
 */
 extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
-
 
 extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2);
 

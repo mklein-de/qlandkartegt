@@ -77,6 +77,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
     return s;
 }
 
+
 QDataStream& operator <<(QDataStream& s, CDiary& diary)
 {
     QList<diary_head_entry_t> entries;
@@ -134,6 +135,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     return s;
 }
 
+
 void operator >>(QFile& f, CDiary& diary)
 {
     f.open(QIODevice::ReadOnly);
@@ -141,6 +143,7 @@ void operator >>(QFile& f, CDiary& diary)
     s >> diary;
     f.close();
 }
+
 
 void operator <<(QFile& f, CDiary& diary)
 {
@@ -159,15 +162,15 @@ CDiary::CDiary(QObject * parent)
 
 }
 
+
 CDiary::CDiary(const CDiary& parent)
 // : m_text("<img src='/tmp/ql.png'/>")
 {
     *this = parent;
 }
 
+
 CDiary::~CDiary()
 {
 
 }
-
-

@@ -41,6 +41,4 @@ class CDlgEditText : public QDialog
 
         QString& content;
 };
-
-#endif //CDLGEDITTEXT_H
-
+#endif                           //CDLGEDITTEXT_H

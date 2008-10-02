@@ -17,42 +17,42 @@
 
 **********************************************************************************************/
 /****************************************************************************
-**
-** Copyright (C) 2004-2007 Trolltech ASA. All rights reserved.
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** This file may be used under the terms of the GNU General Public
-** License version 2.0 as published by the Free Software Foundation
-** and appearing in the file LICENSE.GPL included in the packaging of
-** this file.  Please review the following information to ensure GNU
-** General Public Licensing requirements will be met:
-** http://trolltech.com/products/qt/licenses/licensing/opensource/
-**
-** If you are unsure which license is appropriate for your use, please
-** review the following information:
-** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
-** or contact the sales department at sales@trolltech.com.
-**
-** In addition, as a special exception, Trolltech gives you certain
-** additional rights. These rights are described in the Trolltech GPL
-** Exception version 1.0, which can be found at
-** http://www.trolltech.com/products/qt/gplexception/ and in the file
-** GPL_EXCEPTION.txt in this package.
-**
-** In addition, as a special exception, Trolltech, as the sole copyright
-** holder for Qt Designer, grants users of the Qt/Eclipse Integration
-** plug-in the right for the Qt/Eclipse Integration to link to
-** functionality provided by Qt Designer and its related libraries.
-**
-** Trolltech reserves all rights not expressly granted herein.
-**
-** Trolltech ASA (c) 2007
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
+ **
+ ** Copyright (C) 2004-2007 Trolltech ASA. All rights reserved.
+ **
+ ** This file is part of the demonstration applications of the Qt Toolkit.
+ **
+ ** This file may be used under the terms of the GNU General Public
+ ** License version 2.0 as published by the Free Software Foundation
+ ** and appearing in the file LICENSE.GPL included in the packaging of
+ ** this file.  Please review the following information to ensure GNU
+ ** General Public Licensing requirements will be met:
+ ** http://trolltech.com/products/qt/licenses/licensing/opensource/
+ **
+ ** If you are unsure which license is appropriate for your use, please
+ ** review the following information:
+ ** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
+ ** or contact the sales department at sales@trolltech.com.
+ **
+ ** In addition, as a special exception, Trolltech gives you certain
+ ** additional rights. These rights are described in the Trolltech GPL
+ ** Exception version 1.0, which can be found at
+ ** http://www.trolltech.com/products/qt/gplexception/ and in the file
+ ** GPL_EXCEPTION.txt in this package.
+ **
+ ** In addition, as a special exception, Trolltech, as the sole copyright
+ ** holder for Qt Designer, grants users of the Qt/Eclipse Integration
+ ** plug-in the right for the Qt/Eclipse Integration to link to
+ ** functionality provided by Qt Designer and its related libraries.
+ **
+ ** Trolltech reserves all rights not expressly granted herein.
+ **
+ ** Trolltech ASA (c) 2007
+ **
+ ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ **
+ ****************************************************************************/
 #include "CDiaryEditWidget.h"
 #include "CDiaryDB.h"
 #include "CWptDB.h"
@@ -118,7 +118,6 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
     actionAlignJustify->setShortcut(Qt::CTRL + Qt::Key_J);
     actionAlignJustify->setCheckable(true);
     toolBlock->setDefaultAction(actionAlignJustify);
-
 
     QPixmap pix(24, 24);
     pix.fill(Qt::black);
@@ -200,24 +199,25 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
 
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
-    if(!embedded){
+    if(!embedded) {
         toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
         connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
-
 
         toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
         connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
     }
-    else{
+    else {
         toolWizard->hide();
         toolExit->hide();
     }
 }
 
+
 CDiaryEditWidget::~CDiaryEditWidget()
 {
 
 }
+
 
 void CDiaryEditWidget::textBold()
 {
@@ -226,6 +226,7 @@ void CDiaryEditWidget::textBold()
     mergeFormatOnWordOrSelection(fmt);
 }
 
+
 void CDiaryEditWidget::textUnderline()
 {
     QTextCharFormat fmt;
@@ -233,12 +234,14 @@ void CDiaryEditWidget::textUnderline()
     mergeFormatOnWordOrSelection(fmt);
 }
 
+
 void CDiaryEditWidget::textItalic()
 {
     QTextCharFormat fmt;
     fmt.setFontItalic(actionTextItalic->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
+
 
 void CDiaryEditWidget::textAlign(QAction *a)
 {
@@ -252,6 +255,7 @@ void CDiaryEditWidget::textAlign(QAction *a)
         textEdit->setAlignment(Qt::AlignJustify);
 }
 
+
 void CDiaryEditWidget::textFamily(const QString &f)
 {
     QTextCharFormat fmt;
@@ -259,12 +263,14 @@ void CDiaryEditWidget::textFamily(const QString &f)
     mergeFormatOnWordOrSelection(fmt);
 }
 
+
 void CDiaryEditWidget::textSize(const QString &p)
 {
     QTextCharFormat fmt;
     fmt.setFontPointSize(p.toFloat());
     mergeFormatOnWordOrSelection(fmt);
 }
+
 
 void CDiaryEditWidget::textStyle(int styleIndex)
 {
@@ -303,7 +309,8 @@ void CDiaryEditWidget::textStyle(int styleIndex)
 
         if (cursor.currentList()) {
             listFmt = cursor.currentList()->format();
-        } else {
+        }
+        else {
             listFmt.setIndent(blockFmt.indent() + 1);
             blockFmt.setIndent(0);
             cursor.setBlockFormat(blockFmt);
@@ -314,13 +321,15 @@ void CDiaryEditWidget::textStyle(int styleIndex)
         cursor.createList(listFmt);
 
         cursor.endEditBlock();
-    } else {
+    }
+    else {
         // ####
         QTextBlockFormat bfmt;
         bfmt.setObjectIndex(-1);
         cursor.mergeBlockFormat(bfmt);
     }
 }
+
 
 void CDiaryEditWidget::textColor()
 {
@@ -333,6 +342,7 @@ void CDiaryEditWidget::textColor()
     colorChanged(col);
 }
 
+
 void CDiaryEditWidget::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = textEdit->textCursor();
@@ -341,6 +351,7 @@ void CDiaryEditWidget::mergeFormatOnWordOrSelection(const QTextCharFormat &forma
     cursor.mergeCharFormat(format);
     textEdit->mergeCurrentCharFormat(format);
 }
+
 
 void CDiaryEditWidget::fontChanged(const QFont &f)
 {
@@ -351,6 +362,7 @@ void CDiaryEditWidget::fontChanged(const QFont &f)
     actionTextUnderline->setChecked(f.underline());
 }
 
+
 void CDiaryEditWidget::colorChanged(const QColor &c)
 {
     QPixmap pix(16, 16);
@@ -358,18 +370,23 @@ void CDiaryEditWidget::colorChanged(const QColor &c)
     actionTextColor->setIcon(pix);
 }
 
+
 void CDiaryEditWidget::alignmentChanged(Qt::Alignment a)
 {
     if (a & Qt::AlignLeft) {
         actionAlignLeft->setChecked(true);
-    } else if (a & Qt::AlignHCenter) {
+    }
+    else if (a & Qt::AlignHCenter) {
         actionAlignCenter->setChecked(true);
-    } else if (a & Qt::AlignRight) {
+    }
+    else if (a & Qt::AlignRight) {
         actionAlignRight->setChecked(true);
-    } else if (a & Qt::AlignJustify) {
+    }
+    else if (a & Qt::AlignJustify) {
         actionAlignJustify->setChecked(true);
     }
 }
+
 
 void CDiaryEditWidget::currentCharFormatChanged(const QTextCharFormat &format)
 {
@@ -377,39 +394,42 @@ void CDiaryEditWidget::currentCharFormatChanged(const QTextCharFormat &format)
     colorChanged(format.foreground().color());
 }
 
+
 void CDiaryEditWidget::cursorPositionChanged()
 {
     alignmentChanged(textEdit->alignment());
 }
 
+
 void CDiaryEditWidget::setWindowModified(bool yes)
 {
-    if(yes && !embedded){
+    if(yes && !embedded) {
         emit CDiaryDB::self().sigModified();
         emit CDiaryDB::self().sigChanged();
     }
 }
+
 
 void CDiaryEditWidget::clipboardDataChanged()
 {
     actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
 }
 
+
 void CDiaryEditWidget::slotDocWizard()
 {
-    if(!textEdit->toPlainText().isEmpty()){
+    if(!textEdit->toPlainText().isEmpty()) {
         QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizzard"), tr("The wizzard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
         if(res == QMessageBox::Cancel) return;
     }
 
-
     QString str;
 
     const QString& file = theMainWindow->getCurrentFilename();
-    if(file.isEmpty()){
+    if(file.isEmpty()) {
         str += tr("<h1>Default Title</h1>");
     }
-    else{
+    else {
 
         str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
     }
@@ -420,7 +440,7 @@ void CDiaryEditWidget::slotDocWizard()
     QStringList keys;
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
 
-    if(!wpts.isEmpty()){
+    if(!wpts.isEmpty()) {
         str += "<h2>Waypoints</h2>";
         str += "<p>";
         str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
@@ -433,7 +453,7 @@ void CDiaryEditWidget::slotDocWizard()
         str += "</tr>";
         keys = wpts.keys();
         keys.sort();
-        foreach(key,keys){
+        foreach(key,keys) {
             CWpt * wpt = wpts[key];
             if(wpt->sticky) continue;
 
@@ -442,10 +462,10 @@ void CDiaryEditWidget::slotDocWizard()
             str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
             str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
 
-            if(wpt->ele != WPT_NOFLOAT){
+            if(wpt->ele != WPT_NOFLOAT) {
                 str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
             }
-            else{
+            else {
                 str += QString("<td align='left' valign='top'>-</td>");
             }
 
@@ -458,7 +478,7 @@ void CDiaryEditWidget::slotDocWizard()
     }
 
     const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
-    if(!tracks.isEmpty()){
+    if(!tracks.isEmpty()) {
         str += "<h2>Tracks</h2>";
         str += "<p>";
         str += "<table border='0' cellspacing='1' cellpadding='4' bgcolor='#448e35'>";
@@ -474,7 +494,7 @@ void CDiaryEditWidget::slotDocWizard()
 
         keys = tracks.keys();
         keys.sort();
-        foreach(key,keys){
+        foreach(key,keys) {
             CTrack * track = tracks[key];
             str += "<tr bgcolor='#ffffff'>";
             str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());

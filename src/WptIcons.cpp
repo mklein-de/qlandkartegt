@@ -333,9 +333,10 @@ const QPixmap getWptIconByName(const QString& name)
     return QPixmap(wptDefault);
 }
 
+
 QString getWptResourceByName(const QString& name)
 {
-   const wpt_icon_t * ptr = wptIcons;
+    const wpt_icon_t * ptr = wptIcons;
     while(ptr->name != 0) {
         if(ptr->name == name) {
             return ptr->icon;

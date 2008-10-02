@@ -57,10 +57,9 @@ class CDeviceTBDOE : public IDevice
         void uploadTracks(const QList<CTrack*>& trks);
         void downloadTracks(QList<CTrack*>& trks);
 
-
         enum packet_e
         {
-              eNone
+            eNone
             , eError             ///< error occured
             , eAck               ///<
             , eC2HAlive

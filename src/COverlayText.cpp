@@ -51,29 +51,33 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
 
 }
 
+
 COverlayText::~COverlayText()
 {
 
 }
+
 
 bool COverlayText::isCloseEnought(const QPoint& pt)
 {
     return rectMouse.contains(pt);
 }
 
+
 QString COverlayText::getInfo()
 {
     QString text = doc->toPlainText();
-    if(text.isEmpty()){
+    if(text.isEmpty()) {
         return tr("no text");
     }
-    else if(text.length() < 40){
+    else if(text.length() < 40) {
         return text;
     }
-    else{
+    else {
         return text.left(37) + "...";
     }
 }
+
 
 void COverlayText::draw(QPainter& p)
 {
@@ -81,7 +85,7 @@ void COverlayText::draw(QPainter& p)
     p.setPen(Qt::black);
     p.drawRect(rect);
 
-    if(selected == this){
+    if(selected == this) {
         p.setBrush(Qt::white);
         p.setPen(QPen(Qt::red, 2));
         p.drawRect(rect);
@@ -98,10 +102,11 @@ void COverlayText::draw(QPainter& p)
     p.restore();
 }
 
+
 void COverlayText::mouseMoveEvent(QMouseEvent * e)
 {
     QPoint pos = e->pos();
-    if(doMove){
+    if(doMove) {
         rect.moveTopLeft(pos);
         rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
         rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
@@ -117,7 +122,7 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
 
         theMainWindow->getCanvas()->update();
     }
-    else if(doSize){
+    else if(doSize) {
         rect.setBottomRight(pos);
         rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
         rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
@@ -133,36 +138,37 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
 
         theMainWindow->getCanvas()->update();
     }
-    else if(rectMove.contains(pos) || rectSize.contains(pos) || rectEdit.contains(pos) || rectDel.contains(pos)){
-        if(!doSpecialCursor){
+    else if(rectMove.contains(pos) || rectSize.contains(pos) || rectEdit.contains(pos) || rectDel.contains(pos)) {
+        if(!doSpecialCursor) {
             QApplication::setOverrideCursor(Qt::PointingHandCursor);
             doSpecialCursor = true;
         }
     }
-    else{
-        if(doSpecialCursor){
+    else {
+        if(doSpecialCursor) {
             QApplication::restoreOverrideCursor();
             doSpecialCursor = false;
         }
     }
 }
 
+
 void COverlayText::mousePressEvent(QMouseEvent * e)
 {
-    if(rectMove.contains(e->pos())){
+    if(rectMove.contains(e->pos())) {
         doMove = true;
     }
-    else if(rectSize.contains(e->pos())){
+    else if(rectSize.contains(e->pos())) {
         doSize = true;
     }
-    else if(rectEdit.contains(e->pos())){
+    else if(rectEdit.contains(e->pos())) {
         CDlgEditText dlg(sometext, theMainWindow->getCanvas());
         dlg.exec();
         doc->setHtml(sometext);
         theMainWindow->getCanvas()->update();
         emit sigChanged();
     }
-    else if(rectDel.contains(e->pos())){
+    else if(rectDel.contains(e->pos())) {
         QStringList keys(key);
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
@@ -170,22 +176,23 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void COverlayText::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(doSize || doMove){
+    if(doSize || doMove) {
         emit sigChanged();
     }
     doSize = doMove = false;
 }
+
 
 void COverlayText::save(QDataStream& s)
 {
     s << rect << sometext;
 }
 
+
 void COverlayText::load(QDataStream& s)
 {
     s >> rect >> sometext;
 }
-
-

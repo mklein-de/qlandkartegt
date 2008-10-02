@@ -34,7 +34,8 @@ class CLiveLogDB : public IDB
     public:
         virtual ~CLiveLogDB();
 
-        struct simplelog_t {
+        struct simplelog_t
+        {
             simplelog_t() : timestamp(0xFFFFFFFF), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT) {}
             quint32 timestamp;
             float lon;
@@ -84,6 +85,4 @@ class CLiveLogDB : public IDB
 
         QFile * backup;
 };
-
-#endif //CLIVELOGDB_H
-
+#endif                           //CLIVELOGDB_H

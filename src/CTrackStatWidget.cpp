@@ -28,7 +28,7 @@
 #define SPACING 9
 
 CTrackStatWidget::CTrackStatWidget(QWidget * parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
@@ -50,6 +50,7 @@ CTrackStatWidget::CTrackStatWidget(QWidget * parent)
     slotChanged();
 
 }
+
 
 CTrackStatWidget::~CTrackStatWidget()
 {
@@ -90,7 +91,7 @@ void CTrackStatWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        if(trkpt->dem != WPT_NOFLOAT){
+        if(trkpt->dem != WPT_NOFLOAT) {
             lineDEM << QPointF(trkpt->distance, trkpt->dem * basefactor);
         }
         lineElev    << QPointF(trkpt->distance, trkpt->ele * basefactor);
@@ -110,7 +111,7 @@ void CTrackStatWidget::slotChanged()
 
     elevation->newLine(lineElev,focusElev, "GPS");
     elevation->newMarks(marksElev);
-    if(!lineDEM.isEmpty()){
+    if(!lineDEM.isEmpty()) {
         elevation->addLine(lineDEM, "DEM");
     }
 
@@ -118,6 +119,7 @@ void CTrackStatWidget::slotChanged()
     speed->newMarks(marksSpeed);
 
 }
+
 
 void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
 {
@@ -128,7 +130,7 @@ void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
         CPlot * plot = 0;
 
         // test for elevation graph
-        if(elevation->rect().contains(pos)){
+        if(elevation->rect().contains(pos)) {
             plot = elevation;
         }
 
@@ -136,10 +138,9 @@ void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
         pos.setY(pos.y() - elevation->rect().height());
 
         // test for speed graph
-        if(speed->rect().contains(pos)){
+        if(speed->rect().contains(pos)) {
             plot = speed;
         }
-
 
         if(plot == 0) return;
 
@@ -162,4 +163,3 @@ void CTrackStatWidget::mousePressEvent(QMouseEvent * e)
         }
     }
 }
-

@@ -38,6 +38,4 @@ class CMouseCutTrack  : public IMouse
         CTrack::pt_t * nextTrkPt;
 
 };
-
-#endif //CMOUSECUTTRACK_H
-
+#endif                           //CMOUSECUTTRACK_H

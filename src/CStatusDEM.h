@@ -41,6 +41,4 @@ class CStatusDEM : public QWidget, private Ui::IStatusDEM
     private:
         IMap::overlay_e overlay;
 };
-
-#endif //CSTATUSDEM_H
-
+#endif                           //CSTATUSDEM_H

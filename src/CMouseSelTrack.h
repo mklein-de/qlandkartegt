@@ -38,6 +38,4 @@ class CMouseSelTrack : public IMouse
         bool selTrack;
 
 };
-
-#endif //CMOUSESELTRACK_H
-
+#endif                           //CMOUSESELTRACK_H

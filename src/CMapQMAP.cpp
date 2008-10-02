@@ -30,8 +30,6 @@
 #include <ogr_spatialref.h>
 #include <projects.h>
 
-
-
 CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(key,parent)
 , pMaplevel(0)
@@ -44,7 +42,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     // load map definition
     QSettings mapdef(filename,QSettings::IniFormat);
     int nLevels = mapdef.value("main/levels",0).toInt();
-
 
     QString datum = mapdef.value("gridshift/datum","").toString();
     QString gridfile = mapdef.value("gridshift/file","").toString();
@@ -120,7 +117,7 @@ void CMapQMAP::draw(QPainter& p)
         return;
     }
 
-    if(needsRedraw){
+    if(needsRedraw) {
         buffer.fill(Qt::white);
         QPainter _p_(&buffer);
 
@@ -140,7 +137,6 @@ void CMapQMAP::draw(QPainter& p)
         QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
         float xscale = map->xscale, yscale = map->yscale;
         float xzoomFactor, yzoomFactor;
-
 
         // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
         // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
@@ -174,7 +170,7 @@ void CMapQMAP::draw(QPainter& p)
                 // correct pxx by truncation
                 pxx         =   (qint32)(w * zoomFactor * xzoomFactor);
 
-                if(w != 0 && h != 0){
+                if(w != 0 && h != 0) {
 
                     GDALRasterBand * pBand;
                     pBand = map->dataset->GetRasterBand(1);
@@ -205,7 +201,7 @@ void CMapQMAP::draw(QPainter& p)
     if(!foundMap) {
         IMap::draw(p);
     }
-    else{
+    else {
         p.drawPixmap(0,0,buffer);
     }
 
@@ -213,7 +209,7 @@ void CMapQMAP::draw(QPainter& p)
     if(zoomFactor < 1.0) {
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
-    else{
+    else {
         str = tr("Zoom level x%1").arg(zoomidx);
     }
 
@@ -231,7 +227,6 @@ void CMapQMAP::draw(QPainter& p)
 
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
-
 
 }
 
@@ -310,7 +305,6 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     // convert back to new top left geo coordinate
     convertPt2Rad(p2.u, p2.v);
     topLeft = p2;
-
 
     emit sigChanged();
 }
@@ -409,6 +403,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
         ++maplevel;
     }
 }
+
 
 void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {

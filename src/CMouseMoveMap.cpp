@@ -72,10 +72,10 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         else if(track && selTrkPt) {
             track->setPointOfFocus(selTrkPt->idx);
         }
-        else if(!selSearch.isNull()){
+        else if(!selSearch.isNull()) {
             mousePressEventSearch(e);
         }
-        else{
+        else {
             cursor = QCursor(QPixmap(":/cursors/cursorMove"));
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
@@ -87,6 +87,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
     if(moveMap && (e->button() == Qt::LeftButton)) {
@@ -97,6 +98,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseMoveMap::draw(QPainter& p)
 {
     drawSelWpt(p);
@@ -104,28 +106,30 @@ void CMouseMoveMap::draw(QPainter& p)
     drawSelSearch(p);
 }
 
+
 void CMouseMoveMap::contextMenu(QMenu& menu)
 {
-    if(!selWpt.isNull()){
+    if(!selWpt.isNull()) {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint ..."),this,SLOT(slotEditWpt()));
-        if(!selWpt->sticky){
+        if(!selWpt->sticky) {
             menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
             menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
     }
-    else{
+    else {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     }
 
-    if(selTrkPt){
+    if(selTrkPt) {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
     }
 }
+
 
 void CMouseMoveMap::slotEditWpt()
 {
@@ -134,6 +138,7 @@ void CMouseMoveMap::slotEditWpt()
     CDlgEditWpt dlg(*selWpt,canvas);
     dlg.exec();
 }
+
 
 void CMouseMoveMap::slotCopyPositionWpt()
 {
@@ -146,6 +151,7 @@ void CMouseMoveMap::slotCopyPositionWpt()
     clipboard->setText(position);
 }
 
+
 void CMouseMoveMap::slotDeleteWpt()
 {
     if(selWpt.isNull()) return;
@@ -153,6 +159,7 @@ void CMouseMoveMap::slotDeleteWpt()
     QString key = selWpt->key();
     CWptDB::self().delWpt(key);
 }
+
 
 void CMouseMoveMap::slotMoveWpt()
 {
@@ -170,6 +177,7 @@ void CMouseMoveMap::slotMoveWpt()
     QCoreApplication::sendEvent(canvas,&event2);
 }
 
+
 void CMouseMoveMap::slotAddWpt()
 {
     IMap& map = CMapDB::self().getMap();
@@ -183,6 +191,7 @@ void CMouseMoveMap::slotAddWpt()
 
 }
 
+
 void CMouseMoveMap::slotCopyPositionTrack()
 {
     if(!selTrkPt) return;
@@ -194,6 +203,7 @@ void CMouseMoveMap::slotCopyPositionTrack()
     clipboard->setText(position);
 
 }
+
 
 void CMouseMoveMap::slotEditTrack()
 {

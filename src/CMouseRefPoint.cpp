@@ -23,7 +23,6 @@
 
 #include <QtGui>
 
-
 CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 : IMouse(canvas)
 , moveMap(false)
@@ -33,14 +32,16 @@ CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
 }
 
+
 CMouseRefPoint::~CMouseRefPoint()
 {
 
 }
 
+
 void CMouseRefPoint::draw(QPainter& p)
 {
-    if(selRefPt){
+    if(selRefPt) {
         IMap& map = CMapDB::self().getMap();
 
         double x = selRefPt->x;
@@ -51,6 +52,7 @@ void CMouseRefPoint::draw(QPainter& p)
 
     }
 }
+
 
 void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 {
@@ -65,7 +67,7 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
     CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
     if(dlg == 0) return;
 
-    if(moveRef && selRefPt){
+    if(moveRef && selRefPt) {
         double x = e->pos().x();
         double y = e->pos().y();
         map.convertPt2M(x,y);
@@ -80,7 +82,7 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 
         QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
         QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
-        while(refpt != refpts.end()){
+        while(refpt != refpts.end()) {
             double x = refpt->x;
             double y = refpt->y;
             map.convertM2Pt(x,y);
@@ -100,10 +102,11 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        if(selRefPt){
+        if(selRefPt) {
             IMap& map = CMapDB::self().getMap();
             double x = e->pos().x();
             double y = e->pos().y();
@@ -114,13 +117,13 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
             selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
 
             CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
-            if(dlg != 0){
+            if(dlg != 0) {
                 dlg->selRefPointByKey(selRefPt->item->data(CCreateMapGeoTiff::eLabel,Qt::UserRole).toInt());
             }
 
             moveRef = true;
         }
-        else{
+        else {
             cursor = QCursor(QPixmap(":/cursors/cursorMove"));
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
@@ -131,16 +134,17 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
     canvas->update();
 }
 
+
 void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        if(moveMap){
+        if(moveMap) {
             moveMap = false;
             cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
             QApplication::restoreOverrideCursor();
             canvas->update();
         }
-        if(moveRef){
+        if(moveRef) {
             IMap& map = CMapDB::self().getMap();
             double x = e->pos().x();
             double y = e->pos().y();

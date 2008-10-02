@@ -24,7 +24,6 @@
 
 #include <QtGui>
 
-
 CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
 : ITrackStat(parent)
 {
@@ -38,10 +37,12 @@ CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
     plot->resetZoom();
 }
 
+
 CTrackStatTraineeWidget::~CTrackStatTraineeWidget()
 {
 
 }
+
 
 void CTrackStatTraineeWidget::slotChanged()
 {
@@ -62,7 +63,6 @@ void CTrackStatTraineeWidget::slotChanged()
 
     float speedfactor = IUnit::self().speedfactor;
 
-
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end()) {
@@ -72,10 +72,10 @@ void CTrackStatTraineeWidget::slotChanged()
         //qDebug() << trkpt->heartReateBpm;
         heartRate       << QPointF(trkpt->distance, trkpt->heartReateBpm);
         slopeRate       << QPointF(trkpt->distance, trkpt->slope + 100.0);
-  //      lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
-  //      if(trkpt->flags & CTrack::pt_t::eSelected) {
-  //          marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
-  //      }
+        //      lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
+        //      if(trkpt->flags & CTrack::pt_t::eSelected) {
+        //          marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
+        //      }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
             focusSpeed = QPointF(trkpt->distance, trkpt->heartReateBpm);
@@ -86,7 +86,5 @@ void CTrackStatTraineeWidget::slotChanged()
 
     plot->newLine(heartRate,focusSpeed, "speed");
     plot->addLine(slopeRate, "slope");
-   // plot->newMarks(marksSpeed);
+    // plot->newMarks(marksSpeed);
 }
-
-

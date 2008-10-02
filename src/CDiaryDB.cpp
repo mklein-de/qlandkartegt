@@ -28,16 +28,18 @@
 CDiaryDB * CDiaryDB::m_self = 0;
 
 CDiaryDB::CDiaryDB(QTabWidget * tb, QObject * parent)
-    : IDB(tb, parent)
-    , diary(this)
+: IDB(tb, parent)
+, diary(this)
 {
     m_self = this;
 }
+
 
 CDiaryDB::~CDiaryDB()
 {
 
 }
+
 
 void CDiaryDB::openEditWidget()
 {
@@ -45,44 +47,47 @@ void CDiaryDB::openEditWidget()
     CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
     if(tb == 0) return;
 
-    if(editWidget.isNull()){
+    if(editWidget.isNull()) {
         editWidget = new CDiaryEditWidget(diary.text(), tabbar);
         tb->addTab(editWidget,tr("Diary"));
 
     }
-    else{
+    else {
         diary.setText(editWidget->textEdit->toHtml());
         delete editWidget;
 
     }
 }
 
+
 void CDiaryDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream >> diary;
-    if(!editWidget.isNull()){
+    if(!editWidget.isNull()) {
         editWidget->textEdit->setHtml(diary.text());
     }
-    if(count()){
+    if(count()) {
         emit sigChanged();
     }
 }
 
+
 void CDiaryDB::saveQLB(CQlb& qlb)
 {
-    if(!editWidget.isNull()){
+    if(!editWidget.isNull()) {
         diary.setText(editWidget->textEdit->toHtml());
     }
     qlb << diary;
 }
+
 
 void CDiaryDB::clear()
 {
     CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
     if(tb == 0) return;
 
-    if(!editWidget.isNull()){
+    if(!editWidget.isNull()) {
         delete editWidget;
     }
     diary = CDiary(this);
@@ -92,21 +97,23 @@ void CDiaryDB::clear()
 
 const QString CDiaryDB::getDiary()
 {
-    if(!editWidget.isNull()){
+    if(!editWidget.isNull()) {
         diary.setText(editWidget->textEdit->toHtml());
     }
     return diary.text();
 }
 
+
 int CDiaryDB::count()
 {
-    if(!editWidget.isNull()){
+    if(!editWidget.isNull()) {
         diary.setText(editWidget->textEdit->toHtml());
     }
     QTextBrowser browser;
     browser.setHtml(diary.text());
     return !browser.toPlainText().isEmpty();
 }
+
 
 void CDiaryDB::loadGPX(CGpx& gpx)
 {
@@ -117,13 +124,14 @@ void CDiaryDB::loadGPX(CGpx& gpx)
         QString tmp = diary.text();
         tmp += dry.toElement().text();
         diary.setText(tmp);
-        break; // only entry allowed sofar
+        break;                   // only entry allowed sofar
     }
 
-    if(count()){
+    if(count()) {
         emit sigChanged();
     }
 }
+
 
 void CDiaryDB::saveGPX(CGpx& gpx)
 {

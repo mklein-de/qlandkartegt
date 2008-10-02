@@ -61,7 +61,7 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
         slotDelete();
         e->accept();
     }
-    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier){
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier) {
         slotCopyPosition();
     }
     else {
@@ -77,10 +77,10 @@ void CWptToolWidget::slotDBChanged()
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()) {
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        if((*wpt)->sticky){
+        if((*wpt)->sticky) {
             item->setText((*wpt)->name + tr(" (sticky)"));
         }
-        else{
+        else {
             item->setText((*wpt)->name);
         }
 
@@ -131,6 +131,7 @@ void CWptToolWidget::slotDelete()
     CWptDB::self().delWpt(keys, false);
 }
 
+
 void CWptToolWidget::slotCopyPosition()
 {
     QListWidgetItem * item = listWpts->currentItem();
@@ -145,6 +146,7 @@ void CWptToolWidget::slotCopyPosition()
     clipboard->setText(position);
 
 }
+
 
 void CWptToolWidget::selWptByKey(const QString& key)
 {

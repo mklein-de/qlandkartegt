@@ -46,34 +46,33 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     filename = fn;
 
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
-    if(dataset == 0){
+    if(dataset == 0) {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    if(pBand == 0){
+    if(pBand == 0) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
-
-    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex){
+    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
         return;
     }
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ){
+    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
         GDALColorTable * pct = pBand->GetColorTable();
         for(int i=0; i < pct->GetColorEntryCount(); ++i) {
             const GDALColorEntry& e = *pct->GetColorEntry(i);
             colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
         }
     }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ){
+    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
         for(int i=0; i < 256; ++i) {
             colortable << qRgba(i, i, i, 255);
         }
@@ -88,7 +87,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
         colortable[idx] = tmp.rgba();
     }
 
-
     char str[1024];
     strncpy(str,dataset->GetProjectionRef(),sizeof(str));
     char * ptr = str;
@@ -99,7 +97,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     qDebug() << ptr;
 
     pjsrc = pj_init_plus(ptr);
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("No georeference information found."));
         return;
@@ -120,7 +118,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-//     qDebug() << xref1 << yref1 << xref2 << yref2;
+    //     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     lon1 = xref1;
     lat1 = yref1;
@@ -136,11 +134,13 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     zoomidx = 1;
 }
 
+
 CMapGeoTiff::~CMapGeoTiff()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
 }
+
 
 void CMapGeoTiff::draw(QPainter& p)
 {
@@ -153,7 +153,7 @@ void CMapGeoTiff::draw(QPainter& p)
     QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));
     QRectF intersect = viewport.intersected(maparea);
 
-//     qDebug() << maparea << viewport << intersect;
+    //     qDebug() << maparea << viewport << intersect;
 
     if(intersect.isValid()) {
 
@@ -172,9 +172,9 @@ void CMapGeoTiff::draw(QPainter& p)
         // correct pxx by truncation
         pxx         =   (qint32)(w * zoomFactor);
 
-//         qDebug() << xoff << yoff << pxx << pxy << w << h;
+        //         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
-        if(w != 0 && h != 0){
+        if(w != 0 && h != 0) {
 
             GDALRasterBand * pBand;
             pBand = dataset->GetRasterBand(1);
@@ -193,19 +193,18 @@ void CMapGeoTiff::draw(QPainter& p)
                 double xx = intersect.left(), yy = intersect.bottom();
                 convertM2Pt(xx,yy);
 
-//                 qDebug() << xx << yy;
+                //                 qDebug() << xx << yy;
 
                 _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
             }
         }
     }
 
-
     QString str;
     if(zoomFactor < 1.0) {
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
-    else{
+    else {
         str = tr("Zoom level x%1").arg(zoomidx);
     }
 
@@ -228,17 +227,20 @@ void CMapGeoTiff::draw(QPainter& p)
 
 }
 
+
 void CMapGeoTiff::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
 }
 
+
 void CMapGeoTiff::convertM2Pt(double& u, double& v)
 {
     u = (u - x) / (xscale * zoomFactor);
     v = (v - y) / (yscale * zoomFactor);
 }
+
 
 void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
 {
@@ -254,6 +256,7 @@ void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
     y = yy;
     emit sigChanged();
 }
+
 
 void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -285,6 +288,7 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     emit sigChanged();
 }
 
+
 void CMapGeoTiff::zoom(qint32& level)
 {
     // no level less than 1
@@ -297,6 +301,7 @@ void CMapGeoTiff::zoom(qint32& level)
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
+
 
 void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -320,7 +325,6 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
 
-
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
     convertRad2Pt(u_,v_);
@@ -331,9 +335,11 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapGeoTiff::select(const QRect& rect)
 {
 }
+
 
 void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
@@ -342,4 +348,3 @@ void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& l
     lon2 = this->lon2;
     lat2 = this->lat2;
 }
-

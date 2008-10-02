@@ -54,7 +54,7 @@ CWptDB::~CWptDB()
 
     QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end()) {
-        if((*wpt)->sticky){
+        if((*wpt)->sticky) {
             qlb << *(*wpt);
         }
         ++wpt;
@@ -348,6 +348,7 @@ void CWptDB::selWptByKey(const QString& key)
         t->selWptByKey(key);
     }
 }
+
 
 void CWptDB::draw(QPainter& p, const QRect& rect)
 {

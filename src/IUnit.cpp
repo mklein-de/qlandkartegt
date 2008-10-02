@@ -33,10 +33,12 @@ IUnit::IUnit(const QString& type, const QString& baseunit, const float basefacto
     m_self = this;
 }
 
+
 IUnit::~IUnit()
 {
 
 }
+
 
 void IUnit::meter2speed(float meter, QString& val, QString& unit)
 {

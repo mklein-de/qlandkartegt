@@ -33,6 +33,4 @@ class CUnitMetric : public IUnit
         void meter2speed(float meter, QString& val, QString& unit);
         float elevation2meter(const QString& val);
 };
-
-#endif //CUNITMETRIC_H
-
+#endif                           //CUNITMETRIC_H

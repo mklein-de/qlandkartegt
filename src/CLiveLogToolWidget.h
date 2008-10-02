@@ -35,6 +35,4 @@ class CLiveLogToolWidget : public QWidget, public Ui::ILiveLogToolWidget
     private slots:
         void slotChanged();
 };
-
-#endif //CLIVELOGTOOLWIDGET_H
-
+#endif                           //CLIVELOGTOOLWIDGET_H

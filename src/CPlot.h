@@ -44,7 +44,7 @@ class CPlot : public QWidget
 
         double getXValByPixel(int px);
 
-    signals:
+        signals:
         void activePointSignal(double dist);
 
     protected:

@@ -96,7 +96,6 @@ int CDlgEditWpt::exec()
         labelLink->setText(str);
     }
 
-
     return QDialog::exec();
 }
 
@@ -122,7 +121,7 @@ void CDlgEditWpt::accept()
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineAltitude->text());
 
     // change elevation if position has changed and DEM data is present
-    if(oldLon != wpt.lon || oldLat != wpt.lat){
+    if(oldLon != wpt.lon || oldLat != wpt.lat) {
         float ele = CMapDB::self().getDEM().getElevation(wpt.lon * DEG_TO_RAD, wpt.lat * DEG_TO_RAD);
         if(ele != WPT_NOFLOAT) wpt.ele = ele;
     }
@@ -131,7 +130,7 @@ void CDlgEditWpt::accept()
     wpt.comment     = textComment->toPlainText();
     wpt.link        = link;
 
-    if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty()){
+    if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty()) {
         double bearing  = lineBearing->text().toDouble() * DEG_TO_RAD;
         double distance = lineDistance->text().toDouble();
 
@@ -226,10 +225,12 @@ void CDlgEditWpt::showImage(int idx)
     }
 }
 
+
 void CDlgEditWpt::slotOpenLink(const QString& link)
 {
     CResources::self().openLink(link);
 }
+
 
 void CDlgEditWpt::slotEditLink()
 {

@@ -100,7 +100,6 @@ class CMegaMenu : public QLabel
         void funcTextBox();
         void funcDistance();
 
-
         void funcDiary();
 
         static CMegaMenu * m_self;

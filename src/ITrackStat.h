@@ -28,7 +28,6 @@
 class CPlot;
 class CWpt;
 
-
 class ITrackStat : public QWidget, private Ui::ITrackStatWidget
 {
     Q_OBJECT;
@@ -37,7 +36,8 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         virtual ~ITrackStat();
 
     protected:
-        struct wpt_t {
+        struct wpt_t
+        {
             wpt_t() : wpt(0), d(1e25f), x(0), y(0) {}
             CWpt * wpt;
             double d;
@@ -51,8 +51,6 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         CPlot * plot;
         QPointer<CTrack> track;
     protected slots:
-	void activePointEvent(double x);
+        void activePointEvent(double x);
 };
-
-#endif //ITRACKSTAT_H
-
+#endif                           //ITRACKSTAT_H

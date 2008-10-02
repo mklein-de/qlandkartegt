@@ -28,10 +28,12 @@ CMouseOverlay::CMouseOverlay(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorArrow"),0,0);
 }
 
+
 CMouseOverlay::~CMouseOverlay()
 {
 
 }
+
 
 void CMouseOverlay::mouseMoveEvent(QMouseEvent * e)
 {
@@ -39,14 +41,14 @@ void CMouseOverlay::mouseMoveEvent(QMouseEvent * e)
     if(selOverlay) selOverlay->mouseMoveEvent(e);
 }
 
+
 void CMouseOverlay::mousePressEvent(QMouseEvent * e)
 {
     if(selOverlay) selOverlay->mousePressEvent(e);
 }
 
+
 void CMouseOverlay::mouseReleaseEvent(QMouseEvent * e)
 {
     if(selOverlay) selOverlay->mouseReleaseEvent(e);
 }
-
-

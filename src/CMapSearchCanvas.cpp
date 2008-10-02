@@ -27,16 +27,19 @@ CMapSearchCanvas::CMapSearchCanvas(QWidget * parent)
     setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
+
 CMapSearchCanvas::~CMapSearchCanvas()
 {
 
 }
+
 
 void CMapSearchCanvas::setBuffer(const QPixmap& pic)
 {
     buffer = pic;
     update();
 }
+
 
 void CMapSearchCanvas::paintEvent(QPaintEvent * e)
 {

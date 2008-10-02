@@ -33,8 +33,6 @@
 
 CMapDB * CMapDB::m_self = 0;
 
-
-
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
@@ -46,7 +44,6 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
     knownMaps[m.key]    = m;
-
 
     QSettings cfg;
     QString map;
@@ -61,18 +58,17 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         knownMaps[m.key] = m;
     }
 
-
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
         openMap(map, false, *theMainWindow->getCanvas());
-//         QFileInfo fi(map);
-//         QString ext = fi.suffix();
-//         if(ext == "qmap") {
-//             theMap = new CMapQMAP(map,theMainWindow->getCanvas());
-//         }
-//         else{
-//             theMap = new CMapRaster(map,theMainWindow->getCanvas());
-//         }
+        //         QFileInfo fi(map);
+        //         QString ext = fi.suffix();
+        //         if(ext == "qmap") {
+        //             theMap = new CMapQMAP(map,theMainWindow->getCanvas());
+        //         }
+        //         else{
+        //             theMap = new CMapRaster(map,theMainWindow->getCanvas());
+        //         }
         //TODO: has to be removed for several layers
         break;
     }
@@ -92,20 +88,25 @@ CMapDB::~CMapDB()
     cfg.setValue("maps/knownMaps",maps);
 }
 
+
 void CMapDB::clear()
 {
     selectedMaps.clear();
     emit sigChanged();
 }
 
-IMap& CMapDB::getMap() {
+
+IMap& CMapDB::getMap()
+{
     return (theMap.isNull() ? *defaultMap : *theMap);
 }
+
 
 IMap& CMapDB::getDEM()
 {
     return (demMap.isNull() ? *defaultMap : *demMap);
 }
+
 
 void CMapDB::closeVisibleMaps()
 {
@@ -152,10 +153,10 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
     else {
-        if(asRaster){
+        if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
         }
-        else{
+        else {
             theMap = new CMapGeoTiff(filename,&canvas);
             // store current map filename for next session
             QSettings cfg;
@@ -176,10 +177,10 @@ void CMapDB::openMap(const QString& key)
 
     // create base map
     QString filename = knownMaps[key].filename;
-    if(filename.isEmpty()){
+    if(filename.isEmpty()) {
         theMap = defaultMap;
     }
-    else{
+    else {
         theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
     }
 
@@ -201,12 +202,14 @@ void CMapDB::openMap(const QString& key)
 
 }
 
+
 void CMapDB::closeMap()
 {
     QSettings cfg;
     cfg.setValue("maps/visibleMaps",theMap->getFilename());
     closeVisibleMaps();
 }
+
 
 void CMapDB::delKnownMap(const QStringList& keys)
 {
@@ -218,6 +221,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
     emit sigChanged();
 }
 
+
 void CMapDB::delSelectedMap(const QStringList& keys)
 {
     QString key;
@@ -228,6 +232,7 @@ void CMapDB::delSelectedMap(const QStringList& keys)
     emit sigChanged();
 }
 
+
 void CMapDB::selSelectedMap(const QString& key)
 {
     if(!selectedMaps.contains(key)) return;
@@ -235,6 +240,7 @@ void CMapDB::selSelectedMap(const QString& key)
     const CMapSelection& ms = selectedMaps[key];
     if(mapsearch) mapsearch->setArea(ms);
 }
+
 
 void CMapDB::loadGPX(CGpx& gpx)
 {
@@ -268,23 +274,22 @@ void CMapDB::download()
 
 void CMapDB::draw(QPainter& p, const QRect& rect)
 {
-    if(theMap.isNull()){
+    if(theMap.isNull()) {
         defaultMap->draw(p);
         return;
     }
     theMap->draw(p);
 
-    if(!demMap.isNull()){
+    if(!demMap.isNull()) {
         demMap->draw(p);
     }
 
-    if(tabbar-> currentWidget() != toolview){
+    if(tabbar-> currentWidget() != toolview) {
         return;
     }
 
     CMapSelection ms;
-    foreach(ms, selectedMaps){
-
+    foreach(ms, selectedMaps) {
 
         QString pos1, pos2;
 
@@ -296,25 +301,25 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
 
         p.setBrush(QColor(150,150,255,100));
 
-        if(ms.focusedMap == ms.key){
+        if(ms.focusedMap == ms.key) {
             p.setPen(QPen(Qt::red,2));
         }
-        else if(ms.mapkey == theMap->getKey()){
+        else if(ms.mapkey == theMap->getKey()) {
             p.setPen(QPen(Qt::darkBlue,2));
         }
-        else{
+        else {
             p.setPen(QPen(Qt::gray,2));
         }
 
-
         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
-        if(rect.intersects(r)){
+        if(rect.intersects(r)) {
             p.drawRect(r);
         }
 
         CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
     }
 }
+
 
 void CMapDB::editMap()
 {
@@ -324,6 +329,7 @@ void CMapDB::editMap()
     }
 }
 
+
 void CMapDB::searchMap()
 {
     if(mapsearch.isNull()) {
@@ -332,15 +338,15 @@ void CMapDB::searchMap()
     }
 }
 
+
 void CMapDB::select(const QRect& rect)
 {
     CMapSelection ms;
     ms.mapkey = theMap->getKey();
-    if(ms.mapkey.isEmpty()){
+    if(ms.mapkey.isEmpty()) {
         QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
-
 
     ms.description = knownMaps[ms.mapkey].description;
 
@@ -360,4 +366,3 @@ void CMapDB::select(const QRect& rect)
 
     emit sigChanged();
 }
-

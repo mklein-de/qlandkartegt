@@ -33,7 +33,6 @@ class CWpt;
 class IOverlay;
 class CSearch;
 
-
 /// Base class to all mouse function objects
 /**
     The function of the mouse changes depending on the mega menu selection.

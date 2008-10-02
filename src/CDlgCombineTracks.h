@@ -23,7 +23,6 @@
 #include <QDialog>
 #include "ui_IDlgCombineTracks.h"
 
-
 class CDlgCombineTracks : public QDialog, private Ui::IDlgCombineTracks
 {
     Q_OBJECT;
@@ -42,6 +41,4 @@ class CDlgCombineTracks : public QDialog, private Ui::IDlgCombineTracks
         void slotDown();
         void slotItemSelectionChanged();
 };
-
-#endif //CDLGCOMBINETRACKS_H
-
+#endif                           //CDLGCOMBINETRACKS_H

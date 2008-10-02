@@ -81,6 +81,7 @@ CCanvas::~CCanvas()
 {
 }
 
+
 void CCanvas::slotCopyPosition()
 {
     IMap& map = CMapDB::self().getMap();
@@ -228,6 +229,7 @@ void CCanvas::leaveEvent(QEvent * )
     QApplication::restoreOverrideCursor();
 }
 
+
 #define BORDER  20
 
 void CCanvas::print(QPainter& p, const QSize& pagesize)
@@ -238,7 +240,7 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
 
     p.save();
 
-    if(pagesize.height() > pagesize.width()){
+    if(pagesize.height() > pagesize.width()) {
         _size_.setWidth(pagesize.height());
         _size_.setHeight(pagesize.width());
         rotate = true;
@@ -271,6 +273,7 @@ void CCanvas::print(QPrinter& printer)
 
 }
 
+
 void CCanvas::draw(QPainter& p)
 {
     CMapDB::self().draw(p,rect());
@@ -289,6 +292,7 @@ void CCanvas::draw(QPainter& p)
     p.setRenderHint(QPainter::Antialiasing,false);
 }
 
+
 void CCanvas::drawRefPoints(QPainter& p)
 {
     CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
@@ -298,12 +302,12 @@ void CCanvas::drawRefPoints(QPainter& p)
 
     QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
     QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
-    while(refpt != refpts.end()){
+    while(refpt != refpts.end()) {
         double x = refpt->x;
         double y = refpt->y;
         map.convertM2Pt(x,y);
 
-        if(rect().contains(x,y)){
+        if(rect().contains(x,y)) {
             p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPoint31x31"));
             drawText(refpt->item->text(CCreateMapGeoTiff::eLabel),p,QPoint(x, y - 35));
         }
@@ -311,6 +315,7 @@ void CCanvas::drawRefPoints(QPainter& p)
         ++refpt;
     }
 }
+
 
 void CCanvas::drawScale(QPainter& p)
 {
@@ -334,19 +339,19 @@ void CCanvas::drawScale(QPainter& p)
     double a = (int)log10(d);
     double b = log10(d) - a;
 
-//     qDebug() << log10(d) << d << a << b;
+    //     qDebug() << log10(d) << d << a << b;
 
-    if(0 <= b && b < log10(3.0f)){
+    if(0 <= b && b < log10(3.0f)) {
         d = 1 * pow(10,a);
     }
-    else if(log10(3.0f) < b && b < log10(5.0f)){
+    else if(log10(3.0f) < b && b < log10(5.0f)) {
         d = 3 * pow(10,a);
     }
-    else{
+    else {
         d = 5 * pow(10,a);
     }
 
-//     qDebug() << "----" << d;
+    //     qDebug() << "----" << d;
 
     // step III: convert the scale length from [m] into [px]
     XY pt1, pt2;
@@ -354,8 +359,7 @@ void CCanvas::drawScale(QPainter& p)
     pt1.v = px1.y();
     map.convertPt2Rad(pt1.u,pt1.v);
 
-
-    if(pt1.u == px1.x() && pt1.v == px1.y()){
+    if(pt1.u == px1.x() && pt1.v == px1.y()) {
         return;
     }
 
@@ -386,6 +390,7 @@ void CCanvas::drawScale(QPainter& p)
     drawText(QString("%1 %2").arg(val).arg(unit), p, px3, Qt::black);
 }
 
+
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
     QFont           f = CResources::self().getMapFont();
@@ -412,6 +417,7 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, co
     p.drawText(r.topLeft(),str);
 
 }
+
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QRect& r, const QColor& color)
 {
@@ -518,7 +524,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
     map.convertPt2Rad(x,y);
 
-    if((x == e->x()) && (y == e->y())){
+    if((x == e->x()) && (y == e->y())) {
         map.convertPt2M(x,y);
         info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
     }
@@ -543,6 +549,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
 }
 
+
 void CCanvas::raiseContextMenu(const QPoint& pos)
 {
     QMenu menu(this);
@@ -552,4 +559,3 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     QPoint p = mapToGlobal(pos);
     menu.exec(p);
 }
-

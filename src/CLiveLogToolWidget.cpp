@@ -23,7 +23,7 @@
 #include <QtGui>
 
 CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
-    :QWidget(parent)
+:QWidget(parent)
 {
     setupUi(this);
 
@@ -37,10 +37,12 @@ CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
     labelCenter->hide();
 }
 
+
 CLiveLogToolWidget::~CLiveLogToolWidget()
 {
 
 }
+
 
 void CLiveLogToolWidget::slotChanged()
 {

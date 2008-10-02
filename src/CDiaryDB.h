@@ -30,7 +30,7 @@ class CDiaryEditWidget;
 class CDiaryDB : public IDB
 {
     Q_OBJECT
-    public:
+        public:
         virtual ~CDiaryDB();
 
         static CDiaryDB& self(){return *m_self;}
@@ -63,6 +63,4 @@ class CDiaryDB : public IDB
 
         CDiary diary;
 };
-
-#endif //CDIARYDB_H
-
+#endif                           //CDIARYDB_H

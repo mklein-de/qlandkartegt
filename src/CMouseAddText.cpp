@@ -31,15 +31,17 @@ CMouseAddText::CMouseAddText(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorText"),0,0);
 }
 
+
 CMouseAddText::~CMouseAddText()
 {
 
 }
 
+
 void CMouseAddText::draw(QPainter& p)
 {
 
-    if(selArea){
+    if(selArea) {
         p.setBrush(Qt::white);
         p.setPen(Qt::black);
         p.drawRect(rect);
@@ -49,25 +51,27 @@ void CMouseAddText::draw(QPainter& p)
 
 void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
 {
-    if(selArea){
+    if(selArea) {
         resizeRect(e->pos());
     }
 }
 
+
 void CMouseAddText::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        if(!selArea){
+        if(!selArea) {
             startRect(e->pos());
             selArea = true;
         }
     }
 }
 
+
 void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
-        if(selArea){
+        if(selArea) {
             resizeRect(e->pos());
             selArea     = false;
             COverlayDB::self().addText("",rect);

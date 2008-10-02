@@ -90,10 +90,9 @@ void CCreateMapQMAP::slotNewMap()
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
-    if(fi.suffix() != "qmap"){
+    if(fi.suffix() != "qmap") {
         filename += ".qmap";
     }
-
 
     resetdlg();
     mapPath = QFileInfo(filename).path();
@@ -160,11 +159,11 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
         }
         projection = map.strProj;
 
-//         if((xscale && (xscale != map.xscale)) || (yscale && (yscale != map.yscale))) {
-//             QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the x and y scale."), QMessageBox::Ok, QMessageBox::Ok);
-//             delete item;
-//             return;
-//         }
+        //         if((xscale && (xscale != map.xscale)) || (yscale && (yscale != map.yscale))) {
+        //             QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the x and y scale."), QMessageBox::Ok, QMessageBox::Ok);
+        //             delete item;
+        //             return;
+        //         }
         xscale = map.xscale;
         yscale = map.yscale;
 
@@ -297,12 +296,10 @@ void CCreateMapQMAP::writeqmap(const QString& filename)
     QString dem = labelDEMData->text();
     mapdef.setValue("DEM/file",labelDEMData->text());
 
-
     QString gridfile = labelGridFile->text();
     QString datum    = lineDatum->text();
     mapdef.setValue("gridshift/datum",datum);
     mapdef.setValue("gridshift/file",gridfile);
-
 
     mapdef.setValue("main/levels",treeLevels->topLevelItemCount());
 
@@ -430,6 +427,7 @@ void CCreateMapQMAP::slotDelDEM()
     labelDEMData->setText("");
 }
 
+
 void CCreateMapQMAP::slotAddGridFile()
 {
     QString filename = QFileDialog::getOpenFileName(0,tr("Select grid data file..."), mapPath,"*.*");
@@ -439,9 +437,8 @@ void CCreateMapQMAP::slotAddGridFile()
     labelGridFile->setText(dir.relativeFilePath(filename));
 }
 
+
 void CCreateMapQMAP::slotDelGridFile()
 {
     labelGridFile->setText("");
 }
-
-

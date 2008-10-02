@@ -32,17 +32,20 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
     pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
 }
 
+
 void CMapNoMap::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
 }
 
+
 void CMapNoMap::convertM2Pt(double& u, double& v)
 {
     u = (u - x) / (xscale * zoomFactor);
     v = (v - y) / (yscale * zoomFactor);
 }
+
 
 void CMapNoMap::move(const QPoint& old, const QPoint& next)
 {
@@ -58,6 +61,7 @@ void CMapNoMap::move(const QPoint& old, const QPoint& next)
     y = yy;
     emit sigChanged();
 }
+
 
 void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -88,6 +92,7 @@ void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
 
     emit sigChanged();
 }
+
 
 void CMapNoMap::zoom(qint32& level)
 {
@@ -124,7 +129,6 @@ void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
-
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;

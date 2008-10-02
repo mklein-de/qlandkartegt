@@ -25,7 +25,6 @@
 #include <QRgb>
 #include <QVector>
 
-
 class GDALDataset;
 
 class CMapGeoTiff : public IMap
@@ -81,14 +80,10 @@ class CMapGeoTiff : public IMap
         /// QT representation of the GeoTiff's color table
         QVector<QRgb> colortable;
 
-
         double x;
         double y;
 
         double zoomFactor;
 
-
 };
-
-#endif //CMAPGEOTIFF_H
-
+#endif                           //CMAPGEOTIFF_H

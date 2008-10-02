@@ -24,10 +24,12 @@ CUnitMetric::CUnitMetric(QObject * parent)
 
 }
 
+
 CUnitMetric::~CUnitMetric()
 {
 
 }
+
 
 void CUnitMetric::meter2elevation(float meter, QString& val, QString& unit)
 {
@@ -35,29 +37,31 @@ void CUnitMetric::meter2elevation(float meter, QString& val, QString& unit)
     unit = "m";
 }
 
+
 void CUnitMetric::meter2distance(float meter, QString& val, QString& unit)
 {
-    if(meter < 10){
+    if(meter < 10) {
         val.sprintf("%1.1f", meter);
         unit = "m";
     }
-    else if(meter < 1000){
+    else if(meter < 1000) {
         val.sprintf("%1.0f", meter);
         unit = "m";
     }
-    else if(meter < 10000){
+    else if(meter < 10000) {
         val.sprintf("%1.2f", meter / 1000);
         unit = "km";
     }
-    else if(meter < 20000){
+    else if(meter < 20000) {
         val.sprintf("%1.1f", meter / 1000);
         unit = "km";
     }
-    else{
+    else {
         val.sprintf("%1.0f", meter / 1000);
         unit = "km";
     }
 }
+
 
 void CUnitMetric::meter2speed(float meter, QString& val, QString& unit)
 {
@@ -69,6 +73,7 @@ void CUnitMetric::meter2speed(float meter, QString& val, QString& unit)
     }
     unit = speedunit;
 }
+
 
 float CUnitMetric::elevation2meter(const QString& val)
 {

@@ -69,7 +69,6 @@ class COverlayDB : public IDB
 
         void customMenu(const QString& key, QMenu& menu);
 
-
     private:
         friend class CMainWindow;
         friend class COverlayToolWidget;
@@ -79,6 +78,4 @@ class COverlayDB : public IDB
 
         QMap<QString,IOverlay*> overlays;
 };
-
-#endif //COVERLAYDB_H
-
+#endif                           //COVERLAYDB_H

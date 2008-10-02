@@ -30,7 +30,6 @@
 
 class QTemporaryFile;
 
-
 class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 {
     Q_OBJECT;
@@ -53,7 +52,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         enum columns_e
         {
 
-              eLabel        = 0
+            eLabel        = 0
             , eLonLat       = 1
             , eX            = 2
             , eY            = 3
@@ -62,7 +61,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         enum mode_e
         {
-              eThinPlate = -1
+            eThinPlate = -1
             , eSquare = -2
             , eLinear = 1
             , eQuadratic = 2
@@ -110,7 +109,6 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void saveGCP(const QString& filename);
         void saveTAB(const QString& filename);
-
 
         void gdalGCP2RefPt(const GDAL_GCP* gcps, int n);
 

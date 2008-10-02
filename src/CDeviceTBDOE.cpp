@@ -202,6 +202,7 @@ void CDeviceTBDOE::downloadWpts(QList<CWpt*>& wpts)
     return release();
 }
 
+
 void CDeviceTBDOE::uploadTracks(const QList<CTrack*>& trks)
 {
     packet_e type;
@@ -235,6 +236,7 @@ void CDeviceTBDOE::uploadTracks(const QList<CTrack*>& trks)
 
     return release();
 }
+
 
 void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
 {
@@ -292,4 +294,3 @@ void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
 
     return release();
 }
-

@@ -81,6 +81,4 @@ class COverlayTextBox : public IOverlay
         bool doPos;
         bool doSpecialCursor;
 };
-
-#endif //COVERLAYTEXTBOX_H
-
+#endif                           //COVERLAYTEXTBOX_H

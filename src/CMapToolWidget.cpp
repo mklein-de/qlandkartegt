@@ -35,7 +35,6 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
-
     contextMenuKnownMaps = new QMenu(this);
     contextMenuKnownMaps->addAction(QPixmap(),tr("<---->"));
     contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
@@ -105,18 +104,20 @@ void CMapToolWidget::slotKnownMapClicked(QListWidgetItem* item)
     CMapDB::self().openMap(key);
 }
 
+
 void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 {
     QString key = item->data(Qt::UserRole).toString();
 
     const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
-    if(selectedMaps.contains(key)){
+    if(selectedMaps.contains(key)) {
         const CMapSelection& ms = selectedMaps[key];
         CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
         CMapDB::self().selSelectedMap(key);
     }
 
 }
+
 
 void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
@@ -126,6 +127,7 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     }
 }
 
+
 void CMapToolWidget::slotContextMenuSelectedMaps(const QPoint& pos)
 {
     if(listSelectedMaps->currentItem()) {
@@ -133,6 +135,7 @@ void CMapToolWidget::slotContextMenuSelectedMaps(const QPoint& pos)
         contextMenuSelectedMaps->exec(p);
     }
 }
+
 
 void CMapToolWidget::slotDeleteKnownMap()
 {
@@ -145,6 +148,7 @@ void CMapToolWidget::slotDeleteKnownMap()
     }
     CMapDB::self().delKnownMap(keys);
 }
+
 
 void CMapToolWidget::slotDeleteSelectedMap()
 {
@@ -160,28 +164,31 @@ void CMapToolWidget::slotDeleteSelectedMap()
     updateEportButton();
 }
 
+
 void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
 {
     const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
     QString key = item->data(Qt::UserRole).toString();
-    if(selectedMaps.contains(key)){
+    if(selectedMaps.contains(key)) {
         CMapSelection::focusedMap = key;
         theMainWindow->getCanvas()->update();
     }
     updateEportButton();
 }
 
+
 void CMapToolWidget::updateEportButton()
 {
     pushExportMap->setEnabled(listSelectedMaps->currentItem() != 0);
 }
+
 
 void CMapToolWidget::slotExportMap()
 {
     bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
     bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
     bool haveGDAL = haveGDALWarp && haveGDALTranslate;
-    if(!haveGDAL){
+    if(!haveGDAL) {
         QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }

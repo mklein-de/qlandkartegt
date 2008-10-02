@@ -102,7 +102,7 @@ class CCanvas : public QWidget
 
         void raiseContextMenu(const QPoint& pos);
 
-    signals:
+        signals:
         void sigResize(const QSize& size);
 
     private slots:
@@ -124,7 +124,6 @@ class CCanvas : public QWidget
         void draw(QPainter& p);
         void drawRefPoints(QPainter& p);
         void drawScale(QPainter& p);
-
 
     private:
         friend class CStatusCanvas;

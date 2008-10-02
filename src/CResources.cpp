@@ -80,13 +80,13 @@ CResources::CResources(QObject * parent)
     QString unittype = cfg.value("environment/unittype","metric").toString();
     if(unittype == "metric")
         unit = new CUnitMetric(this);
-    else if(unittype == "nautic"){
+    else if(unittype == "nautic") {
         unit = new CUnitNautic(this);
     }
-    else if(unittype == "imperial"){
+    else if(unittype == "imperial") {
         unit = new CUnitImperial(this);
     }
-    else{
+    else {
         qWarning("Unknown unit type. Using 'metric'");
         unit = new CUnitMetric(this);
     }
@@ -162,6 +162,7 @@ IDevice * CResources::device()
 
     return m_device;
 }
+
 
 void CResources::openLink(const QString& link)
 {

@@ -162,7 +162,6 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
     ,{0,QObject::tr("-"),0,tr("")}
 };
 
-
 const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
@@ -408,6 +407,7 @@ void CMegaMenu::funcSwitchToLiveLog()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcSwitchToOverlay()
 {
     menuTitle->setText(tr("<b>Overlay ...</b>"));
@@ -426,15 +426,18 @@ void CMegaMenu::funcSwitchToMainMore()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcDiary()
 {
     CDiaryDB::self().openEditWidget();
 }
 
+
 void CMegaMenu::funcClearAll()
 {
     theMainWindow->clearAll();
 }
+
 
 void CMegaMenu::funcUploadAll()
 {
@@ -444,6 +447,7 @@ void CMegaMenu::funcUploadAll()
     dev->uploadAll();
 }
 
+
 void CMegaMenu::funcDownloadAll()
 {
     IDevice * dev = CResources::self().device();
@@ -451,6 +455,7 @@ void CMegaMenu::funcDownloadAll()
 
     dev->downloadAll();
 }
+
 
 void CMegaMenu::funcMoveArea()
 {
@@ -474,16 +479,18 @@ void CMegaMenu::funcEditMap()
 {
 
     CMapDB::self().editMap();
-    if(CCreateMapGeoTiff::self()){
+    if(CCreateMapGeoTiff::self()) {
         setEnabled(false);
         connect(CCreateMapGeoTiff::self(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEnable()));
     }
 }
 
+
 void CMegaMenu::funcSearchMap()
 {
     CMapDB::self().searchMap();
 }
+
 
 void CMegaMenu::funcNewWpt()
 {
@@ -521,55 +528,66 @@ void CMegaMenu::funcEditTrack()
     if(toolview) toolview->slotEdit();
 }
 
+
 void CMegaMenu::funcCombineTrack()
 {
     CTrackDB::self().CombineTracks();
 }
+
 
 void CMegaMenu::funcCutTrack()
 {
     canvas->setMouseMode(CCanvas::eMouseCutTrack);
 }
 
+
 void CMegaMenu::funcSelTrack()
 {
     canvas->setMouseMode(CCanvas::eMouseSelTrack);
 }
+
 
 void CMegaMenu::funcUploadTrack()
 {
     CTrackDB::self().upload();
 }
 
+
 void CMegaMenu::funcDownloadTrack()
 {
     CTrackDB::self().download();
 }
+
 
 void CMegaMenu::funcLiveLog()
 {
     CLiveLogDB::self().start(!CLiveLogDB::self().logging());
 }
 
+
 void CMegaMenu::funcLockMap()
 {
     CLiveLogDB::self().setLockToCenter(!CLiveLogDB::self().lockToCenter());
 }
+
 
 void CMegaMenu::funcAddWpt()
 {
     CLiveLogDB::self().addWpt();
 }
 
+
 void CMegaMenu::funcText()
 {
     canvas->setMouseMode(CCanvas::eMouseAddText);
 }
 
+
 void CMegaMenu::funcTextBox()
 {
     canvas->setMouseMode(CCanvas::eMouseAddTextBox);
 }
+
 
 void CMegaMenu::funcDistance()
 {

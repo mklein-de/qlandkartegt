@@ -19,7 +19,6 @@
 
 #include "CLiveLog.h"
 
-
 void operator <<(QFile& f, const CLiveLog& log)
 {
     f.open(QIODevice::Append);
@@ -28,15 +27,17 @@ void operator <<(QFile& f, const CLiveLog& log)
     f.close();
 }
 
+
 void operator <<(QDataStream& s, const CLiveLog& log)
 {
     s << log.timestamp;
     s << log.lon;
     s << log.lat;
     s << log.ele;
-    s << (quint32)0; // terminator, non-zero defines additional data
-//     s << (quint32)0; // sizeof additional data in bytes if terminator is non-zero
+    s << (quint32)0;             // terminator, non-zero defines additional data
+    //     s << (quint32)0; // sizeof additional data in bytes if terminator is non-zero
 }
+
 
 void operator >>(QDataStream& s, CLiveLog& log)
 {
@@ -54,4 +55,3 @@ CLiveLog::~CLiveLog()
 {
 
 }
-

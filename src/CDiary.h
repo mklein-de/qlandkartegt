@@ -37,7 +37,7 @@ class CDiary : public QObject
         QString text(){return m_text;}
         void setText(const QString& t){m_text = t;}
 
-        CDiary& operator=(const CDiary& d){
+        CDiary& operator=(const CDiary& d) {
             setParent(d.parent());
             timestamp   = d.timestamp;
             m_text      = d.m_text;
@@ -60,6 +60,4 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary);
 
 void operator >>(QFile& f, CDiary& diary);
 void operator <<(QFile& f, CDiary& diary);
-
-#endif //CDIARY_H
-
+#endif                           //CDIARY_H

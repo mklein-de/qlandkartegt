@@ -86,7 +86,6 @@ class CMapDB : public IDB
         */
         void select(const QRect& rect);
 
-
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;
@@ -98,7 +97,6 @@ class CMapDB : public IDB
             QString description;
             QString key;
         };
-
 
         CMapDB(QTabWidget * tb, QObject * parent);
 

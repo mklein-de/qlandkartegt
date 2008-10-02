@@ -39,15 +39,17 @@ ITrackStat::ITrackStat(QWidget * parent)
 
     plot = new CPlot(this);
     layout()->addWidget(plot);
-	QObject::connect(plot, SIGNAL(activePointSignal(double)),
-				this, SLOT(activePointEvent(double)));
+    QObject::connect(plot, SIGNAL(activePointSignal(double)),
+        this, SLOT(activePointEvent(double)));
 
 }
+
 
 ITrackStat::~ITrackStat()
 {
 
 }
+
 
 void ITrackStat::activePointEvent(double dist)
 {
@@ -72,6 +74,7 @@ void ITrackStat::activePointEvent(double dist)
     }
 }
 
+
 void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
 {
 
@@ -84,7 +87,7 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
     QVector<wpt_t>::iterator wpt = wpts.begin();
     QMap<QString,CWpt*>::const_iterator w = wptdb.begin();
 
-    while(wpt != wpts.end()){
+    while(wpt != wpts.end()) {
         wpt->wpt    = (*w);
         wpt->x      = wpt->wpt->lon * DEG_TO_RAD;
         wpt->y      = wpt->wpt->lat * DEG_TO_RAD;
@@ -94,12 +97,10 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
         ++wpt; ++w;
     }
 
-
-
     QList<CTrack::pt_t>& trkpts                 = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()){
-        if(trkpt->flags & CTrack::pt_t::eDeleted){
+    while(trkpt != trkpts.end()) {
+        if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt;
             continue;
         }
@@ -109,9 +110,9 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
         map.convertRad2M(x, y);
 
         wpt = wpts.begin();
-        while(wpt != wpts.end()){
+        while(wpt != wpts.end()) {
             double d = (x - wpt->x) * (x - wpt->x) + (y - wpt->y) * (y - wpt->y);
-            if(d < wpt->d){
+            if(d < wpt->d) {
                 wpt->d      = d;
                 wpt->trkpt  = *trkpt;
             }
@@ -120,4 +121,3 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
         ++trkpt;
     }
 }
-

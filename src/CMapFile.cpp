@@ -48,7 +48,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
     strOrigProj = strProj = ptr;
-    if(!datum.isEmpty() && !gridfile.isEmpty()){
+    if(!datum.isEmpty() && !gridfile.isEmpty()) {
         strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
     }
 
@@ -78,14 +78,14 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
     pBand = dataset->GetRasterBand(1);
     if(pBand == 0) return;
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ){
+    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
         GDALColorTable * pct = pBand->GetColorTable();
         for(int i=0; i < pct->GetColorEntryCount(); ++i) {
             const GDALColorEntry& e = *pct->GetColorEntry(i);
             colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
         }
     }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ){
+    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
         for(int i=0; i < 256; ++i) {
             colortable << qRgba(i, i, i, 255);
         }
