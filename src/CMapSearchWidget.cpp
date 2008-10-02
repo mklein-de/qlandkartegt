@@ -21,6 +21,8 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "GeoMath.h"
+#include "CMapDB.h"
+#include "CPicProcess.h"
 
 #include <QtGui>
 
@@ -51,7 +53,14 @@ void CMapSearchWidget::slotSelectArea()
 
 void CMapSearchWidget::slotSelectMask()
 {
+    const QPixmap& map  = CMapDB::self().getMap().getBuffer();
+    const QImage& img   = map.toImage();
 
+    CPicProcess imgProcess(img, 0);
+    imgProcess.writeOut("./input.png");
+    int nThreshold = imgProcess.Binarize() ;
+    imgProcess.setThreashold( nThreshold);
+    imgProcess.writeOut("./binary.png");
 }
 
 void CMapSearchWidget::slotSearch()
