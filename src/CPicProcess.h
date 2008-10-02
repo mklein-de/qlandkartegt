@@ -64,7 +64,7 @@ class CPicProcess : public QObject
 
         /* Picture works */
         void setAutoContrast();
-        void setThreashold(int level);
+        void setThreshold(int level);
         void Hough(CPicProcess *ImgHough);
         void HoughInv(CPicProcess *ImgHoughInv,CPicProcess *ImgHough);
         void Optimisation();

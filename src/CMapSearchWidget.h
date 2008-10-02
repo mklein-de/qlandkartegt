@@ -39,8 +39,11 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotSelectArea();
         void slotSelectMask();
         void slotSearch();
+        void slotThreshold(int i);
 
     private:
+        void binarizeViewport(int t);
+
         CMapSelection area;
         QPointer<CMapSearchCanvas> canvas;
 };

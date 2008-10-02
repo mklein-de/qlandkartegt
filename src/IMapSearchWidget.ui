@@ -12,7 +12,7 @@
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_4" >
    <item>
     <layout class="QHBoxLayout" >
      <item>
@@ -20,7 +20,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -38,7 +38,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
       <layout class="QVBoxLayout" >
        <item>
@@ -67,7 +67,7 @@
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>20</width>
            <height>40</height>
@@ -78,97 +78,99 @@
       </layout>
      </item>
      <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+      <widget class="QFrame" name="frame" >
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
        </property>
-       <property name="sizeHint" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
        </property>
-      </spacer>
+       <layout class="QVBoxLayout" name="verticalLayout" >
+        <item>
+         <widget class="QLabel" name="label" >
+          <property name="text" >
+           <string>Area:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelArea" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text" >
+           <string>No area selected</string>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" >
-       <item>
-        <widget class="QLabel" name="label" >
-         <property name="text" >
-          <string>Area:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelArea" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>No area selected</string>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QFrame" name="frame_2" >
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2" >
+        <item>
+         <widget class="QLabel" name="label_2" >
+          <property name="text" >
+           <string>Mask:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelMask" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text" >
+           <string>No mask selected</string>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+      <widget class="QFrame" name="frame_3" >
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
        </property>
-       <property name="sizeHint" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
        </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" >
-       <item>
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
-          <string>Mask:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelMask" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>No mask selected</string>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+       <layout class="QVBoxLayout" name="verticalLayout_3" >
+        <item>
+         <widget class="QSlider" name="sliderThreshold" >
+          <property name="maximum" >
+           <number>255</number>
+          </property>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="tickPosition" >
+           <enum>QSlider::TicksBelow</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </item>

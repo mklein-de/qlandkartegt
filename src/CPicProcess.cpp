@@ -201,7 +201,7 @@ void CPicProcess::setAutoContrast()
 /*
  * set threshold value
  */
-void CPicProcess::setThreashold(int level)
+void CPicProcess::setThreshold(int level)
 {
     for(int i=myWidth-1;i>=0;i--) {
         for(int j=myHeight-1;j>=0;j--) {

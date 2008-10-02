@@ -41,6 +41,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(pushMask, SIGNAL(clicked()), this, SLOT(slotSelectMask()));
     connect(pushSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
 
+    connect(sliderThreshold, SIGNAL( valueChanged (int)), this, SLOT(slotThreshold(int)));
 }
 
 
@@ -61,22 +62,9 @@ void CMapSearchWidget::slotSelectArea()
 
 void CMapSearchWidget::slotSelectMask()
 {
-    const QPixmap& map  = CMapDB::self().getMap().getBuffer();
-    const QImage& img   = map.toImage();
-
-    CPicProcess imgProcess(img, 0);
-    imgProcess.writeOut("./input.png");
-    int nThreshold = imgProcess.Binarize() ;
-    imgProcess.setThreashold( nThreshold);
-    imgProcess.writeOut("./binary.png");
-
-    if(canvas.isNull()) {
-        canvas = new CMapSearchCanvas(this);
-        theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
-    }
-
-    canvas->setBuffer(imgProcess);
+    binarizeViewport(-1);
 }
+
 
 
 void CMapSearchWidget::slotSearch()
@@ -84,6 +72,10 @@ void CMapSearchWidget::slotSearch()
 
 }
 
+void CMapSearchWidget::slotThreshold(int i)
+{
+    binarizeViewport(sliderThreshold->value());
+}
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)
 {
@@ -94,4 +86,32 @@ void CMapSearchWidget::setArea(const CMapSelection& ms)
     GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
 
     labelArea->setText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2));
+}
+
+
+void CMapSearchWidget::binarizeViewport(int t)
+{
+    int nThreshold      = 0;
+    const QPixmap& map  = CMapDB::self().getMap().getBuffer();
+    const QImage& img   = map.toImage();
+
+    CPicProcess imgProcess(img, 0);
+
+    if(t == -1){
+        nThreshold = imgProcess.Binarize() ;
+    }
+    else{
+        nThreshold = t;
+    }
+
+    imgProcess.setThreshold( nThreshold);
+
+    if(canvas.isNull()) {
+        canvas = new CMapSearchCanvas(this);
+        theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
+    }
+
+    canvas->setBuffer(imgProcess);
+
+    sliderThreshold->setValue(nThreshold);
 }
