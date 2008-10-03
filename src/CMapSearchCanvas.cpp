@@ -47,5 +47,34 @@ void CMapSearchCanvas::paintEvent(QPaintEvent * e)
     p.begin(this);
     p.fillRect(rect(),Qt::white);
     p.drawPixmap(0,0,buffer);
+
+    p.setPen(QPen(Qt::yellow, 2));
+    p.drawRect(rectSelect);
+
     p.end();
 }
+
+void CMapSearchCanvas::mouseMoveEvent(QMouseEvent * e)
+{
+    rectSelect.setBottomRight(e->pos());
+    update();
+}
+
+void CMapSearchCanvas::mousePressEvent(QMouseEvent * e)
+{
+    if(e->button() == Qt::LeftButton){
+        rectSelect = QRect(e->pos(), QSize(1, 1));
+        update();
+    }
+}
+
+void CMapSearchCanvas::mouseReleaseEvent(QMouseEvent * e)
+{
+    if(e->button() == Qt::LeftButton){
+        rectSelect.setBottomRight(e->pos());
+        emit sigSelection(buffer.copy(rectSelect));
+
+        update();
+    }
+}
+

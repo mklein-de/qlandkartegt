@@ -40,6 +40,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotSelectMask();
         void slotSearch();
         void slotThreshold(int i);
+        void slotMaskSelection(const QPixmap& pixmap);
 
     private:
         void binarizeViewport(int t);

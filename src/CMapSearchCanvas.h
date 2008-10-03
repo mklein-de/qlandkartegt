@@ -31,10 +31,19 @@ class CMapSearchCanvas : public QWidget
 
         void setBuffer(const QPixmap& pic);
 
+    signals:
+        void sigSelection(const QPixmap& pixmap);
+
     protected:
         void paintEvent(QPaintEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
+
 
     private:
         QPixmap buffer;
+
+        QRect rectSelect;
 };
 #endif                           //CMAPSEARCHCANVAS_H

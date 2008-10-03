@@ -62,6 +62,7 @@ void CMapSearchWidget::slotSelectArea()
 
 void CMapSearchWidget::slotSelectMask()
 {
+    labelMask->setText(tr("No mask selected."));
     binarizeViewport(-1);
 }
 
@@ -75,6 +76,11 @@ void CMapSearchWidget::slotSearch()
 void CMapSearchWidget::slotThreshold(int i)
 {
     binarizeViewport(sliderThreshold->value());
+}
+
+void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
+{
+    labelMask->setPixmap(pixmap);
 }
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)
@@ -108,7 +114,9 @@ void CMapSearchWidget::binarizeViewport(int t)
 
     if(canvas.isNull()) {
         canvas = new CMapSearchCanvas(this);
+        connect(canvas, SIGNAL(sigSelection(const QPixmap&)), this, SLOT(slotMaskSelection(const QPixmap&)));
         theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
+
     }
 
     canvas->setBuffer(imgProcess);
