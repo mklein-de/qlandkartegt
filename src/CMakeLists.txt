@@ -97,6 +97,7 @@ set(qlandkarte_SRCS
     CUnitImperial.cpp
     CUnitNautic.cpp
     CPicProcess.cpp
+    CImage.cpp
 )
 
 IF(WIN32)
@@ -198,6 +199,7 @@ set(qlandkarte_HDRS
     CUnitImperial.h
     CUnitNautic.h
     CPicProcess.h
+    CImage.h
 )
 
 

@@ -25,6 +25,7 @@
 #include "CPicProcess.h"
 #include "CMapSearchCanvas.h"
 #include "CTabWidget.h"
+#include "CImage.h"
 
 #include <QtGui>
 
@@ -97,20 +98,7 @@ void CMapSearchWidget::setArea(const CMapSelection& ms)
 
 void CMapSearchWidget::binarizeViewport(int t)
 {
-    int nThreshold      = 0;
-    const QPixmap& map  = CMapDB::self().getMap().getBuffer();
-    const QImage& img   = map.toImage();
-
-    CPicProcess imgProcess(img, 0);
-
-    if(t == -1){
-        nThreshold = imgProcess.Binarize() ;
-    }
-    else{
-        nThreshold = t;
-    }
-
-    imgProcess.setThreshold( nThreshold);
+    CImage xxx(CMapDB::self().getMap().getBuffer());
 
     if(canvas.isNull()) {
         canvas = new CMapSearchCanvas(this);
@@ -119,7 +107,7 @@ void CMapSearchWidget::binarizeViewport(int t)
 
     }
 
-    canvas->setBuffer(imgProcess);
+    canvas->setBuffer(QPixmap::fromImage(xxx.binarize(t)));
 
-    sliderThreshold->setValue(nThreshold);
+    if(t < 0)sliderThreshold->setValue(xxx.getThreshold());
 }
