@@ -33,11 +33,13 @@ class CImage : public QObject
 
         int getThreshold(){return threshold;}
         const QImage& binarize(int threshold);
+        QImage mask();
 
     private:
         int calcThreshold(const QVector<double>& hist);
 
         QVector<QRgb> graytable;
+        QVector<QRgb> bintable;
         QImage  imgRgb;
         QImage  imgGray;
         QImage  imgBinary;

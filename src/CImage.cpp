@@ -23,9 +23,13 @@
 
 CImage::CImage(const QPixmap& pix, QObject * parent)
 : QObject(parent)
+, bintable(256, qRgba(0,0,0,0))
 , grayHistogram(256, 0.0)
 , threshold(128)
 {
+    bintable[0] = qRgba(255,255,255,255);
+    bintable[1] = qRgba(0,0,0,255);
+
     QRect rect  = pix.rect();
     rect.setWidth((rect.width() >> 2) << 2);
     imgRgb      = pix.copy(rect).toImage();
@@ -131,15 +135,101 @@ const QImage& CImage::binarize(int t)
     t = t < 0 ? threshold : t;
 
     imgBinary = QImage(imgGray.size(), QImage::Format_Indexed8);
-    imgBinary.setColorTable(graytable);
+    imgBinary.setColorTable(bintable);
 
     quint8 * p1 = imgGray.bits();
     quint8 * p2 = imgBinary.bits();
 
     int i, n = imgGray.width() * imgGray.height();
     for(i = 0; i < n; ++i, ++p1, ++p2){
-        *p2 = *p1 > t ? 255 : 0;
+        *p2 = *p1 > t ? 0 : 1;
     }
 
     return imgBinary;
+}
+
+QImage CImage::mask()
+{
+    binarize(-1);
+
+    quint8 *p1, *p2, *p3, *p;
+    int i, j;
+
+    const int w = imgBinary.width();
+    const int h = imgBinary.height();
+
+    QImage result(w,h,QImage::Format_Indexed8);
+    result.setColorTable(bintable);
+
+    p1  = imgBinary.bits();
+    p2  = imgBinary.bits() + w;
+    p3  = imgBinary.bits() + w + w;
+
+    p   = result.bits();
+
+    // first row
+    *p++    = *p1 + *(p1 + 1)
+            + *p2 + *(p2 + 1)
+            ? *p1 : 2;
+
+    ++p1; ++p2;
+
+    for(i = 1; i < (w - 1); ++i, ++p1, ++p2){
+        *p++    = *(p1 - 1) + *p1 + *(p1 + 1)
+                + *(p2 - 1) + *p2 + *(p2 + 1)
+                ? *p1 : 2;
+    }
+
+    *p++    = *(p1 - 1) + *p1
+            + *(p2 - 1) + *p2
+            ? *p1 : 2;
+
+    // 2nd to h - 1 row
+    p1  = imgBinary.bits();
+    p2  = imgBinary.bits() + w;
+    p3  = imgBinary.bits() + w + w;
+
+    for(j = 1; j < (h - 1); ++j){
+
+        *p++    = *p1 + *(p1 + 1)
+                + *p2 + *(p2 + 1)
+                + *p3 + *(p3 + 1)
+                ? *p2 : 2;
+
+        ++p1; ++p2; ++p3;
+
+        for(i = 1; i < (w - 1); ++i, ++p1, ++p2, ++p3){
+            *p++    = *(p1 -1) + *p1 + *(p1 + 1)
+                    + *(p2 -1) + *p2 + *(p2 + 1)
+                    + *(p3 -1) + *p3 + *(p3 + 1)
+                    ? *p2 : 2;
+        }
+
+        *p++    = *(p1 - 1) + *p1
+                + *(p2 - 1) + *p2
+                + *(p3 - 1) + *p3
+                ? *p2 : 2;
+
+        ++p1; ++p2; ++p3;
+    }
+
+    // last row
+    *p++    = *p1 + *(p1 + 1)
+            + *p2 + *(p2 + 1)
+            ? *p2 : 2;
+
+    ++p1; ++p2;
+
+    for(i = 1; i < (w - 1); ++i, ++p1, ++p2){
+        *p++    = *(p1 - 1) + *p1 + *(p1 + 1)
+                + *(p2 - 1) + *p2 + *(p2 + 1)
+                ? *p2 : 2;
+    }
+
+    *p++    = *(p1 - 1) + *p1
+            + *(p2 - 1) + *p2
+            ? *p2 : 2;
+
+    result.save("mask.png");
+    return result;
 }

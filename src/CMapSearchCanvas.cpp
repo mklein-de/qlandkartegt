@@ -57,6 +57,7 @@ void CMapSearchCanvas::paintEvent(QPaintEvent * e)
 void CMapSearchCanvas::mouseMoveEvent(QMouseEvent * e)
 {
     rectSelect.setBottomRight(e->pos());
+    rectSelect.setWidth((rectSelect.width()>>2)<<2);
     update();
 }
 
@@ -72,6 +73,7 @@ void CMapSearchCanvas::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton){
         rectSelect.setBottomRight(e->pos());
+        rectSelect.setWidth((rectSelect.width()>>2)<<2);
         emit sigSelection(buffer.copy(rectSelect));
 
         update();
