@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QImage>
 #include <QPixmap>
+#include <QList>
 
 class CImage : public QObject
 {
@@ -31,9 +32,19 @@ class CImage : public QObject
         CImage(const QPixmap& pix, QObject * parent = 0);
         virtual ~CImage();
 
+        /// get treshold found by the Otsu algorithm
         int getThreshold(){return threshold;}
+        /// binarize the image by the given threshold
         const QImage& binarize(int threshold);
+        /// create a mask for correlation
+        /**
+            The resuling image will be 8 bit pallet with only 3 colors
+            0 = white, 1 = black, 2 = transparent
+        */
         QImage mask();
+
+        /// find symbols by crrelation with the mask
+        void findSymbol(QList<QPoint>& finds, CImage& mask);
 
     private:
         int calcThreshold(const QVector<double>& hist);

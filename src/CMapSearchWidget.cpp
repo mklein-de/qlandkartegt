@@ -71,7 +71,14 @@ void CMapSearchWidget::slotSelectMask()
 
 void CMapSearchWidget::slotSearch()
 {
+    if(!mask.size().isValid()) return;
+    CImage imgMask(mask);
 
+    CImage xxx(CMapDB::self().getMap().getBuffer());
+    xxx.binarize(sliderThreshold->value());
+
+    QList<QPoint> symbols;
+    xxx.findSymbol(symbols, imgMask);
 }
 
 void CMapSearchWidget::slotThreshold(int i)
@@ -81,8 +88,8 @@ void CMapSearchWidget::slotThreshold(int i)
 
 void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 {
-    CImage mask(pixmap);
-    labelMask->setPixmap(QPixmap::fromImage(mask.mask()));
+    mask = pixmap;
+    labelMask->setPixmap(mask);
 }
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)

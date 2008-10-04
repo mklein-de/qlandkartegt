@@ -230,6 +230,11 @@ QImage CImage::mask()
             + *(p2 - 1) + *p2
             ? *p2 : 2;
 
-    result.save("mask.png");
+//     result.save("mask.png");
     return result;
+}
+
+void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
+{
+    qDebug() << "CImage::findSymbol(QList<QPoint>& finds, CImage& mask)";
 }
