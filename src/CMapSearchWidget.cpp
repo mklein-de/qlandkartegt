@@ -89,7 +89,9 @@ void CMapSearchWidget::slotThreshold(int i)
 void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 {
     mask = pixmap;
-    labelMask->setPixmap(mask);
+
+    CImage img(mask);
+    labelMask->setPixmap(QPixmap::fromImage(img.mask()));
 }
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)

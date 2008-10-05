@@ -247,14 +247,16 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
 
 //     qDebug() << w1 << h1;
 
+    quint8 * pd     = imgGray.bits();
+
     quint8 * p      = imgMask.bits();
     int denom       = 0;
     for(i = 0; i  < (w1*h1); ++i, ++p){
-        denom += *p == 1 ? 1 : 0;
+        denom += *p == 2 ? 0 : 1;
     }
 
-    quint32 * p1    = (quint32 *)imgMask.bits();
-    quint8 *  p2    = imgBinary.bits();
+    quint8 * p1     = imgMask.bits();
+    quint8 * p2     = imgBinary.bits();
 
     // for each line in image
     for(n = 0; n < (h2 - h1); ++n){
@@ -264,28 +266,27 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
         for(m = 0; m < (w2 - w1); ++m, ++p2){
             int nom = 0;
 
-            p1 = (quint32 *)imgMask.bits();
+            p1 = imgMask.bits();
             // for each line in mask
             for(i = 0; i < h1; ++i){
-                quint32 * p3 = (quint32*)p2 + i * (w2 >> 2);
+                quint8 * p3 = p2 + i * w2;
 
                 // for each 32 bit value in line
-                for(j = 0; j < (w1 >> 2); ++j, ++p1, ++p3){
-                    quint32 x = (*p1 & *p3) | (*p1 & 0x02020202);
-//                     printf("%08X ", x);
-
-                    nom += (x & 0x00000003) == 0x00000001 ? 1 : 0;
-                    nom += (x & 0x00000300) == 0x00000100 ? 1 : 0;
-                    nom += (x & 0x00030000) == 0x00010000 ? 1 : 0;
-                    nom += (x & 0x03000000) == 0x01000000 ? 1 : 0;
+                for(j = 0; j < w1; ++j, ++p1, ++p3){
+                    if(*p1 & 0x02) continue;
+                    if(*p1 == *p3) ++nom;
                 }
 //                 printf("\n");
             }
-//             qDebug() << denom << nom;
+            quint8 color = ((double)nom / denom) * 255;
+            *(pd + n * w2 + m) = color;
+
+            if(color > 200) qDebug() << m << n << color;
+
+//             qDebug() << m << n << nom;
 //             return;
-            if(nom){
-                if(nom > (0.95 * denom)) qDebug() << denom << nom << m << n <<"+++++++++++++++++++++++++++++";
-            }
         }
     }
+
+    imgGray.save("dbg.png");
 }
