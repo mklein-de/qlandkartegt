@@ -238,6 +238,7 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
 {
     qDebug() << "CImage::findSymbol(QList<QPoint>& finds, CImage& mask)";
 
+    QPoint last;
     int i, j, n, m;
     QImage imgMask  = mask.mask();
     const int w1    = imgMask.width();
@@ -245,14 +246,13 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
     const int w2    = imgBinary.width();
     const int h2    = imgBinary.height();
 
-//     qDebug() << w1 << h1;
-
     quint8 * pd     = imgGray.bits();
 
     quint8 * p      = imgMask.bits();
     int denom       = 0;
     for(i = 0; i  < (w1*h1); ++i, ++p){
-        denom += *p == 2 ? 0 : 1;
+        if(*p & 0x02) continue;
+        ++denom;
     }
 
     quint8 * p1     = imgMask.bits();
@@ -270,21 +270,22 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
             // for each line in mask
             for(i = 0; i < h1; ++i){
                 quint8 * p3 = p2 + i * w2;
-
                 // for each 32 bit value in line
                 for(j = 0; j < w1; ++j, ++p1, ++p3){
                     if(*p1 & 0x02) continue;
                     if(*p1 == *p3) ++nom;
                 }
-//                 printf("\n");
             }
-            quint8 color = ((double)nom / denom) * 255;
-            *(pd + n * w2 + m) = color;
+            quint8 correlation = ((double)nom / denom) * 255;
+            *(pd + n * w2 + m) = correlation;
 
-            if(color > 200) qDebug() << m << n << color;
-
-//             qDebug() << m << n << nom;
-//             return;
+            if(correlation > 190){
+                QPoint pt(m + (w1 >> 1), n + (h1 >> 1));
+                if(abs(pt.x() - last.x()) > w1 || abs(pt.y() - last.y()) > h1){
+                    finds << pt;
+                    last = pt;
+                }
+            }
         }
     }
 

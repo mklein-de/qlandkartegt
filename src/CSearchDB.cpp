@@ -203,3 +203,15 @@ void CSearchDB::delResults(const QStringList& keys)
     emit sigChanged();
 
 }
+
+void CSearchDB::add(const QString& label, double lon, double lat)
+{
+    CSearch * item = new CSearch(this);
+    item->lon   = lon * RAD_TO_DEG;
+    item->lat   = lat * RAD_TO_DEG;
+    item->query = label;
+
+    results[item->query] = item;
+
+    emit sigChanged();
+}

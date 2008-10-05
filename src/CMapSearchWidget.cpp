@@ -22,6 +22,7 @@
 #include "CCanvas.h"
 #include "GeoMath.h"
 #include "CMapDB.h"
+#include "CSearchDB.h"
 #include "CPicProcess.h"
 #include "CMapSearchCanvas.h"
 #include "CTabWidget.h"
@@ -79,6 +80,17 @@ void CMapSearchWidget::slotSearch()
 
     QList<QPoint> symbols;
     xxx.findSymbol(symbols, imgMask);
+
+    IMap& map = CMapDB::self().getMap();
+    QPoint symbol;
+    int cnt = 0;
+    foreach(symbol, symbols){
+        double u = symbol.x();
+        double v = symbol.y();
+
+        map.convertPt2Rad(u,v);
+        CSearchDB::self().add(tr("Sym. %1").arg(++cnt), u, v);
+    }
 }
 
 void CMapSearchWidget::slotThreshold(int i)
@@ -121,3 +133,4 @@ void CMapSearchWidget::binarizeViewport(int t)
 
     if(t < 0)sliderThreshold->setValue(xxx.getThreshold());
 }
+

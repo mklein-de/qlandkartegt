@@ -66,6 +66,8 @@ class CSearchDB : public IDB
 
         void clear();
 
+        void add(const QString& label, double lon, double lat);
+
         signals:
         void sigStatus(const QString& msg);
         void sigFinished();
