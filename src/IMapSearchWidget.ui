@@ -43,6 +43,9 @@
       <layout class="QVBoxLayout" >
        <item>
         <widget class="QPushButton" name="pushArea" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="text" >
           <string>Select Area</string>
          </property>
@@ -57,6 +60,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushSearch" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="text" >
           <string>Search...</string>
          </property>

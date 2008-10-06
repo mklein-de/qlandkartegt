@@ -104,6 +104,10 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 
     CImage img(mask);
     labelMask->setPixmap(QPixmap::fromImage(img.mask()));
+
+    img.mask().save("mask.png");
+
+    pushSearch->setEnabled(true);
 }
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)

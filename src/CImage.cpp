@@ -230,8 +230,54 @@ QImage CImage::mask()
             + *(p2 - 1) + *p2
             ? *p2 : 2;
 
-//     result.save("mask.png");
-    return result;
+    // optimize size of mask
+    int x1  = 0;
+    int x2  = w;
+    int y1  = 0;
+    int y2  = h;
+    p1      = result.bits();
+
+    for(j = 0; j < h; ++j){
+        for(i = 0; i < w; ++i){
+            if( *(p1 + i + (j * w)) != 0x2){
+                y1 = j;
+                j  = h;
+                break;
+            }
+        }
+    }
+
+    for(j = h - 1; j >= 0; --j){
+        for(i = 0; i < w; ++i){
+            if( *(p1 + i + (j * w)) != 0x2){
+                y2 = j + 1;
+                j  = -1;
+                break;
+            }
+        }
+    }
+
+    for(i = 0; i < w; ++i){
+        for(j = 0; j < h; ++j){
+            if( *(p1 + i + (j * w)) != 0x2){
+                x1 = i;
+                i  = w;
+                break;
+            }
+        }
+    }
+
+    for(i = w - 1; i >= 0; --i){
+        for(j = 0; j < h; ++j){
+            if( *(p1 + i + (j * w)) != 0x2){
+                x2 = i + 1;
+                i  = -1;
+                break;
+            }
+        }
+    }
+
+    return result.copy(x1, y1, x2 - x1, y2 - y1);
 }
 
 void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
@@ -289,5 +335,5 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
         }
     }
 
-    imgGray.save("dbg.png");
+//     imgGray.save("dbg.png");
 }
