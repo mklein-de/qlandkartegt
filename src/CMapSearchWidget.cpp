@@ -37,6 +37,9 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     setObjectName("CMapSearchWidget");
     setAttribute(Qt::WA_DeleteOnClose,true);
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+    toolNewMask->setIcon(QIcon(":/icons/iconWizzard16x16.png"));
+    toolSaveMask->setIcon(QIcon(":/icons/iconFileSave16x16.png"));
+
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
     connect(pushArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
