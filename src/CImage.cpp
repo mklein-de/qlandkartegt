@@ -237,6 +237,7 @@ QImage CImage::mask()
     int y2  = h;
     p1      = result.bits();
 
+    // top rows of void
     for(j = 0; j < h; ++j){
         for(i = 0; i < w; ++i){
             if( *(p1 + i + (j * w)) != 0x2){
@@ -247,6 +248,7 @@ QImage CImage::mask()
         }
     }
 
+    // bottom rows of void
     for(j = h - 1; j >= 0; --j){
         for(i = 0; i < w; ++i){
             if( *(p1 + i + (j * w)) != 0x2){
@@ -257,6 +259,7 @@ QImage CImage::mask()
         }
     }
 
+    // left columns of void
     for(i = 0; i < w; ++i){
         for(j = 0; j < h; ++j){
             if( *(p1 + i + (j * w)) != 0x2){
@@ -267,6 +270,7 @@ QImage CImage::mask()
         }
     }
 
+    // right columns of void
     for(i = w - 1; i >= 0; --i){
         for(j = 0; j < h; ++j){
             if( *(p1 + i + (j * w)) != 0x2){
@@ -277,7 +281,15 @@ QImage CImage::mask()
         }
     }
 
+    // 32bit align the width (important!)
+    int w1 = x2 - x1;
+    if(w1 & 0x03){
+        int cnt = 4 - (w1 & 0x03);
+        for(; cnt && x2 <  w; --cnt, ++x2);
+        for(; cnt && x1 >= 0; --cnt, --x1);
+    }
     return result.copy(x1, y1, x2 - x1, y2 - y1);
+
 }
 
 void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
@@ -335,5 +347,5 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
         }
     }
 
-//     imgGray.save("dbg.png");
+    imgGray.save("dbg.png");
 }

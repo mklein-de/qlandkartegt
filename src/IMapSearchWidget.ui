@@ -128,11 +128,32 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" >
         <item>
-         <widget class="QLabel" name="label_2" >
-          <property name="text" >
-           <string>Mask:</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" >
+          <item>
+           <widget class="QLineEdit" name="lineMaskName" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolNewMask" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolSaveMask" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QLabel" name="labelMask" >
@@ -149,6 +170,9 @@
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboSymbols" />
         </item>
        </layout>
       </widget>
