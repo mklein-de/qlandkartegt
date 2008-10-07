@@ -44,12 +44,14 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotSearch();
         void slotThreshold(int i);
         void slotMaskSelection(const QPixmap& pixmap);
+        void slotDeleteMask();
 
         void slotSaveMask();
 
     private:
         void binarizeViewport(int t);
         void loadMaskCollection();
+        void checkGui();
 
         CMapSelection area;
         QPointer<CMapSearchCanvas> canvas;

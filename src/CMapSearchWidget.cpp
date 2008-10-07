@@ -39,6 +39,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     toolNewMask->setIcon(QIcon(":/icons/iconWizzard16x16.png"));
     toolSaveMask->setIcon(QIcon(":/icons/iconFileSave16x16.png"));
+    toolDeleteMask->setIcon(QIcon(":/icons/iconDelete16x16.png"));
 
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
     connect(pushArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
@@ -47,6 +48,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(toolSaveMask, SIGNAL(clicked()), this, SLOT(slotSaveMask()));
     connect(toolNewMask, SIGNAL(clicked()), this, SLOT(slotSelectMask()));
     connect(comboSymbols, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectMaskByName(const QString&)));
+    connect(toolDeleteMask, SIGNAL(clicked()), this, SLOT(slotDeleteMask()));
 
     mask = new CImage(this);
 
@@ -115,8 +117,7 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
     mask->setPixmap(pixmap);
     labelMask->setPixmap(QPixmap::fromImage(mask->mask()));
 
-    pushSearch->setEnabled(true);
-    toolSaveMask->setEnabled(true);
+    checkGui();
 }
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)
@@ -134,9 +135,6 @@ void CMapSearchWidget::setArea(const CMapSelection& ms)
 void CMapSearchWidget::binarizeViewport(int t)
 {
     if(canvas.isNull()) {
-//         canvas = new CMapSearchCanvas(this);
-//         connect(canvas, SIGNAL(sigSelection(const QPixmap&)), this, SLOT(slotMaskSelection(const QPixmap&)));
-//         theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
         return;
     }
 
@@ -194,16 +192,33 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
     }
     else{
         labelMask->setText(tr("No mask selected."));
-        lineMaskName->clear();
-        pushSearch->setEnabled(false);
-        toolSaveMask->setEnabled(false);
     }
+
+    checkGui();
+}
+
+void CMapSearchWidget::slotDeleteMask()
+{
+    QString name    = lineMaskName->text();
+    int index       = comboSymbols->findText(name);
+
+    if(index != -1){
+        comboSymbols->removeItem(index);
+        QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+        QFile file(path.filePath(name + ".msk"));
+        file.remove();
+
+        labelMask->setText(tr("No mask selected."));
+    }
+
+    checkGui();
 }
 
 void CMapSearchWidget::loadMaskCollection()
 {
-    comboSymbols->clear();
+    QString name = lineMaskName->text();
 
+    comboSymbols->clear();
     comboSymbols->addItem(tr("no mask"));
 
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
@@ -230,5 +245,23 @@ void CMapSearchWidget::loadMaskCollection()
 
         comboSymbols->addItem(pixmap, QFileInfo(maskfile).baseName());
     }
+
+    comboSymbols->setCurrentIndex(comboSymbols->findText(name));
+
+    checkGui();
 }
 
+void CMapSearchWidget::checkGui()
+{
+    if(!labelMask->text().isEmpty()){
+        lineMaskName->clear();
+        pushSearch->setEnabled(false);
+        toolSaveMask->setEnabled(false);
+        toolDeleteMask->setEnabled(false);
+    }
+    else{
+        pushSearch->setEnabled(true);
+        toolSaveMask->setEnabled(true);
+        toolDeleteMask->setEnabled(true);
+    }
+}
