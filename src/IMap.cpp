@@ -38,10 +38,11 @@ IMap::IMap(const QString& key, CCanvas * parent)
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
 
-    resize(parent->size());
-    connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
-
-    parent->update();
+    if(parent){
+        resize(parent->size());
+        connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
+        parent->update();
+    }
 }
 
 

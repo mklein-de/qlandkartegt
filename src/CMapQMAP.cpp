@@ -85,8 +85,10 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 
-    connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
-    resize(parent->size());
+    if(parent){
+        connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
+        resize(parent->size());
+    }
 
     qDebug() << "done";
 }

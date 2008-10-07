@@ -39,6 +39,7 @@ set(qlandkarte_SRCS
     CMapSelection.cpp
     CMapSearchWidget.cpp
     CMapSearchCanvas.cpp
+    CMapSearchThread.cpp
     CMegaMenu.cpp
     IDB.cpp
     CWpt.cpp
@@ -141,6 +142,7 @@ set(qlandkarte_HDRS
     CMapSelection.h
     CMapSearchWidget.h
     CMapSearchCanvas.h
+    CMapSearchThread.h
     CMegaMenu.h
     IDB.h
     CWpt.h
