@@ -646,6 +646,7 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
 void CPlot::mouseReleaseEvent(QMouseEvent * e)
 {
+    QApplication::restoreOverrideCursor();
     if (checkClick && e->button() == Qt::LeftButton) {
         QPoint pos = e->pos();
         double dist = getXValByPixel(pos.x());
@@ -656,6 +657,7 @@ void CPlot::mouseReleaseEvent(QMouseEvent * e)
 
 void CPlot::mousePressEvent(QMouseEvent * e)
 {
+    QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
     startMovePos = e->pos();
     checkClick = true;
 }
