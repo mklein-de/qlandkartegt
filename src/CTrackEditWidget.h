@@ -27,6 +27,9 @@ class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
+#ifdef PLOT_3D
+class CTrack3DWidget;
+#endif
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -73,6 +76,9 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatProfileWidget> trackStatProfile;
         QPointer<CTrackStatSpeedWidget> trackStatSpeed;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
+#ifdef PLOT_3D
+        QPointer<CTrack3DWidget> track3D;
+#endif
 
 };
 #endif                           //CTRACKEDITWIDGET_H

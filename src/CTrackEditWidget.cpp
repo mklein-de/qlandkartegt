@@ -22,6 +22,9 @@
 #include "CTrackStatProfileWidget.h"
 #include "CTrackStatSpeedWidget.h"
 #include "CTrackStatTraineeWidget.h"
+#ifdef PLOT_3D
+#	include "CTrack3DWidget.h"
+#endif
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -73,6 +76,12 @@ CTrackEditWidget::~CTrackEditWidget()
     if(!trackStatTrainee.isNull()) {
         delete trackStatTrainee;
     }
+#ifdef PLOT_3D
+    if(!track3D.isNull()){
+        delete track3D;
+    }
+#endif
+
 }
 
 
@@ -377,6 +386,15 @@ void CTrackEditWidget::slotToggleStat()
     else {
         delete trackStatProfile;
     }
+#ifdef PLOT_3D
+    if(track3D.isNull()){
+        track3D = new CTrack3DWidget(this);
+        theMainWindow->getCanvasTab()->addTab(track3D, tr("Plot 3D"));
+    }
+    else{
+        delete track3D;
+    }
+#endif
 }
 
 
