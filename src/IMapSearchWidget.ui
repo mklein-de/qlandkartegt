@@ -5,14 +5,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1242</width>
-    <height>300</height>
+    <width>1084</width>
+    <height>196</height>
    </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>1024</width>
+    <height>196</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>16777214</width>
+    <height>250</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4" >
+  <layout class="QVBoxLayout" >
    <item>
     <layout class="QHBoxLayout" >
      <item>
@@ -20,7 +32,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -38,7 +50,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+    <layout class="QHBoxLayout" >
      <item>
       <layout class="QVBoxLayout" >
        <item>
@@ -48,13 +60,6 @@
          </property>
          <property name="text" >
           <string>Select Area</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushMask" >
-         <property name="text" >
-          <string>Select Mask</string>
          </property>
         </widget>
        </item>
@@ -73,7 +78,7 @@
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" >
           <size>
            <width>20</width>
            <height>40</height>
@@ -91,7 +96,7 @@
        <property name="frameShadow" >
         <enum>QFrame::Raised</enum>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" >
+       <layout class="QVBoxLayout" >
         <item>
          <widget class="QLabel" name="label" >
           <property name="text" >
@@ -111,7 +116,10 @@
            <string>No area selected</string>
           </property>
           <property name="alignment" >
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap" >
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -126,9 +134,9 @@
        <property name="frameShadow" >
         <enum>QFrame::Raised</enum>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2" >
+       <layout class="QVBoxLayout" >
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" >
+         <layout class="QHBoxLayout" >
           <item>
            <widget class="QLineEdit" name="lineMaskName" >
             <property name="sizePolicy" >
@@ -148,6 +156,9 @@
           </item>
           <item>
            <widget class="QToolButton" name="toolSaveMask" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
             <property name="text" >
              <string>...</string>
             </property>
@@ -167,7 +178,7 @@
            <string>No mask selected</string>
           </property>
           <property name="alignment" >
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
           </property>
          </widget>
         </item>
@@ -185,7 +196,7 @@
        <property name="frameShadow" >
         <enum>QFrame::Raised</enum>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3" >
+       <layout class="QVBoxLayout" >
         <item>
          <widget class="QLabel" name="label_2" >
           <property name="text" >
@@ -216,11 +227,11 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer" >
+         <spacer>
           <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" >
            <size>
             <width>20</width>
             <height>40</height>

@@ -21,6 +21,21 @@
 
 #include <QtGui>
 
+CImage::CImage(QObject * parent)
+: QObject(parent)
+, bintable(256, qRgba(0,0,0,0))
+, grayHistogram(256, 0.0)
+, threshold(128)
+{
+    bintable[0] = qRgba(255,255,255,255);
+    bintable[1] = qRgba(0,0,0,255);
+
+    int i;
+    for(i = 0; i < 256; ++i) {
+        graytable << qRgb(i,i,i);
+    }
+}
+
 CImage::CImage(const QPixmap& pix, QObject * parent)
 : QObject(parent)
 , bintable(256, qRgba(0,0,0,0))
@@ -30,19 +45,34 @@ CImage::CImage(const QPixmap& pix, QObject * parent)
     bintable[0] = qRgba(255,255,255,255);
     bintable[1] = qRgba(0,0,0,255);
 
+    int i;
+    for(i = 0; i < 256; ++i) {
+        graytable << qRgb(i,i,i);
+    }
+
+    setPixmap(pix);
+}
+
+CImage::~CImage()
+{
+
+}
+
+void CImage::setPixmap(const QPixmap& pix)
+{
+
     QRect rect  = pix.rect();
     rect.setWidth((rect.width() >> 2) << 2);
     imgRgb      = pix.copy(rect).toImage();
 
     int i;
-    for(i = 0; i < 256; ++i) {
-        graytable << qRgb(i,i,i);
-    }
     imgGray = QImage(rect.size(), QImage::Format_Indexed8);
     imgGray.setColorTable(graytable);
 
     QRgb *   p1 = (QRgb*)imgRgb.bits();
     quint8 * p2 = (quint8*)imgGray.bits();
+
+    grayHistogram = QVector<double>(256, 0.0);
 
     const int nPixel = imgGray.width() * imgGray.height();
     for(i = 0; i < nPixel; ++i, ++p1, ++p2){
@@ -60,11 +90,6 @@ CImage::CImage(const QPixmap& pix, QObject * parent)
     }
 
     threshold = calcThreshold(grayHistogram);
-}
-
-CImage::~CImage()
-{
-
 }
 
 int CImage::calcThreshold(const QVector<double>& hist)

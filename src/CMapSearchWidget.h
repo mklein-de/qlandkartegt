@@ -22,10 +22,11 @@
 #include "CMapSelection.h"
 #include <QWidget>
 #include <QPointer>
-#include <QPixmap>
 #include "ui_IMapSearchWidget.h"
 
 class CMapSearchCanvas;
+class QPixmap;
+class CImage;
 
 class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 {
@@ -39,16 +40,20 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
     private slots:
         void slotSelectArea();
         void slotSelectMask();
+        void slotSelectMaskByName(const QString& name);
         void slotSearch();
         void slotThreshold(int i);
         void slotMaskSelection(const QPixmap& pixmap);
 
+        void slotSaveMask();
+
     private:
         void binarizeViewport(int t);
+        void loadMaskCollection();
 
         CMapSelection area;
         QPointer<CMapSearchCanvas> canvas;
 
-        QPixmap mask;
+        CImage * mask;
 };
 #endif                           //CMAPSEARCHWIDGET_H

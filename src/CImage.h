@@ -29,8 +29,11 @@ class CImage : public QObject
 {
     Q_OBJECT;
     public:
+        CImage(QObject * parent = 0);
         CImage(const QPixmap& pix, QObject * parent = 0);
         virtual ~CImage();
+
+        void setPixmap(const QPixmap& pix);
 
         /// get treshold found by the Otsu algorithm
         int getThreshold(){return threshold;}
@@ -42,6 +45,7 @@ class CImage : public QObject
             0 = white, 1 = black, 2 = transparent
         */
         QImage mask();
+        const QImage& rgb(){return imgRgb;}
 
         /// find symbols by crrelation with the mask
         void findSymbol(QList<QPoint>& finds, CImage& mask);
