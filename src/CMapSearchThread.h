@@ -29,6 +29,15 @@ class CMapSearchThread : public QThread
         virtual ~CMapSearchThread();
 
         void run();
+
+    private:
+        QString mapfilename;
+
+        double lon1;
+        double lat1;
+
+        double lon2;
+        double lat2;
 };
 
 #endif //CMAPSEARCHTHREAD_H

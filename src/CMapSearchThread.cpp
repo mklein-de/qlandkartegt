@@ -18,9 +18,14 @@
 **********************************************************************************************/
 
 #include "CMapSearchThread.h"
+#include "CMapQMAP.h"
 
 CMapSearchThread::CMapSearchThread(QObject * parent)
 : QThread(parent)
+, lon1(0.0)
+, lat1(0.0)
+, lon2(0.0)
+, lat2(0.0)
 {
 
 }
@@ -32,5 +37,7 @@ CMapSearchThread::~CMapSearchThread()
 
 void CMapSearchThread::run()
 {
+    CMapQMAP map("", mapfilename, 0);
+    map.resize(QSize(1024,1024));
 
 }
