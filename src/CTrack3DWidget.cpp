@@ -275,8 +275,8 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
         setXRotation(xRot - xRotSens * dy);
         setZRotation(zRot + zRotSens * dx);
     } else if (event->buttons() & Qt::RightButton) {
-        xShift += dx;
-        yShift -= dy;
+        xShift += dx / zoomFactor;
+        yShift -= dy / zoomFactor;
         updateGL();
     }
     lastPos = event->pos();
