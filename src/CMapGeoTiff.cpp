@@ -208,7 +208,7 @@ void CMapGeoTiff::draw(QPainter& p)
         str = tr("Zoom level x%1").arg(zoomidx);
     }
 
-    p.drawPixmap(0,0,buffer);
+    p.drawImage(0,0,buffer);
 
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));

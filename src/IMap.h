@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QRect>
 #include <QSize>
-#include <QPixmap>
+#include <QImage>
 
 #include <projects.h>
 
@@ -66,7 +66,8 @@ class IMap : public QObject
             @param v y (latitude) value
         */
         virtual void convertPt2Rad(double& u, double& v);
-        /// convert geo. coordinates [rad] into a point on the screen [px]
+
+        /// convert geo. coordinates [rad] into cartesian coordinates [m]
         /**
             The conversion will be done in place.
 
@@ -74,7 +75,17 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertRad2M(double& u, double& v);
-        /// convert geo. coordinates [rad] into cartesian coordinates [m]
+
+        /// convert cartesian coordinates [m] into geo. coordinates [rad]
+        /**
+            The conversion will be done in place.
+
+            @param u longitude (x) value
+            @param v latitude (y) value
+        */
+        virtual void convertM2Rad(double& u, double& v);
+
+        /// convert geo. coordinates [rad] into a point on the screen [px]
         /**
             The conversion will be done in place.
 
@@ -102,6 +113,14 @@ class IMap : public QObject
             @param lat2 the southbound value in [rad]
         */
         virtual void zoom(double lon1, double lat1, double lon2, double lat2) = 0;
+
+        /// set map to a certain zoom level
+        /**
+            level <  1 overzoom
+            level == 1 no zoom
+            level >  1 zoom out
+        */
+        virtual void zoom(qint32& level) = 0;
 
         /// get the top left and bottom right corner
         /**
@@ -133,7 +152,7 @@ class IMap : public QObject
         const QString& getKey(){return key;}
 
         /// get read access to the internally used pixmap buffer
-        const QPixmap& getBuffer(){return buffer;}
+        const QImage& getBuffer(){return buffer;}
         signals:
         void sigChanged();
 
@@ -173,6 +192,6 @@ class IMap : public QObject
         /// the key used to register the map
         QString key;
         /// the internal pixmap buffer to draw a map on
-        QPixmap buffer;
+        QImage buffer;
 };
 #endif                           //IMAP_H

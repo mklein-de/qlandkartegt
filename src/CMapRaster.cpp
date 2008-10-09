@@ -128,6 +128,10 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p)
     move(QPoint(x1,y1),p);
 }
 
+void CMapRaster::zoom(qint32& level)
+{
+
+}
 
 void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -188,7 +192,7 @@ void CMapRaster::draw(QPainter& p)
         _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
     }
 
-    p.drawPixmap(0,0,buffer);
+    p.drawImage(0,0,buffer);
 
     QString str;
     if(zoomfactor < 1.0) {

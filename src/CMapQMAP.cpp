@@ -190,7 +190,7 @@ void CMapQMAP::draw(QPainter& p)
                     if(!err) {
                         double xx = intersect.left(), yy = intersect.bottom();
                         convertM2Pt(xx,yy);
-                        _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+                        _p_.drawImage(xx,yy,img);
                         foundMap = true;
                     }
                 }
@@ -204,7 +204,7 @@ void CMapQMAP::draw(QPainter& p)
         IMap::draw(p);
     }
     else {
-        p.drawPixmap(0,0,buffer);
+        p.drawImage(0,0,buffer);
     }
 
     QString str;

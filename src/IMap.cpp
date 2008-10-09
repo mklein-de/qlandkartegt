@@ -60,7 +60,7 @@ void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
-    buffer = QPixmap(size);
+    buffer = QImage(size, QImage::Format_ARGB32);
 
     needsRedraw = true;
 }
@@ -118,6 +118,15 @@ void IMap::convertRad2M(double& u, double& v)
     }
 
     pj_transform(pjtar,pjsrc,1,0,&u,&v,0);
+}
+
+void IMap::convertM2Rad(double& u, double& v)
+{
+    if(pjsrc == 0) {
+        return;
+    }
+
+    pj_transform(pjsrc,pjtar,1,0,&u,&v,0);
 }
 
 

@@ -36,7 +36,7 @@ CImage::CImage(QObject * parent)
     }
 }
 
-CImage::CImage(const QPixmap& pix, QObject * parent)
+CImage::CImage(const QImage& pix, QObject * parent)
 : QObject(parent)
 , bintable(256, qRgba(0,0,0,0))
 , grayHistogram(256, 0.0)
@@ -58,12 +58,12 @@ CImage::~CImage()
 
 }
 
-void CImage::setPixmap(const QPixmap& pix)
+void CImage::setPixmap(const QImage& pix)
 {
 
     QRect rect  = pix.rect();
     rect.setWidth((rect.width() >> 2) << 2);
-    imgRgb      = pix.copy(rect).toImage();
+    imgRgb      = pix.copy(rect);
 
     int i;
     imgGray = QImage(rect.size(), QImage::Format_Indexed8);
@@ -372,5 +372,5 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
         }
     }
 
-    imgGray.save("dbg.png");
+//     imgGray.save("dbg.png");
 }

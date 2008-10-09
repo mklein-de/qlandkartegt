@@ -27,6 +27,7 @@
 #include "CMapSearchCanvas.h"
 #include "CTabWidget.h"
 #include "CImage.h"
+#include "CMapSearchThread.h"
 
 #include <QtGui>
 
@@ -53,6 +54,9 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     mask = new CImage(this);
 
     loadMaskCollection();
+
+    thread = new CMapSearchThread(this);
+    connect(thread, SIGNAL(finished()), this, SLOT(slotSearchFinished()));
 }
 
 
@@ -88,6 +92,8 @@ void CMapSearchWidget::slotSelectMask()
 
 void CMapSearchWidget::slotSearch()
 {
+
+/*
     CImage xxx(CMapDB::self().getMap().getBuffer());
     xxx.binarize(sliderThreshold->value());
 
@@ -105,6 +111,31 @@ void CMapSearchWidget::slotSearch()
         map.convertPt2Rad(u,v);
         CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
     }
+
+*/
+    thread->start(sliderThreshold->value(), mask->rgb(), area);
+    pushSearch->setEnabled(false);
+
+}
+
+void CMapSearchWidget::slotSearchFinished()
+{
+    QPoint symbol;
+    const QList<QPoint>& symbols = thread->getLastResult();
+
+    IMap& map = CMapDB::self().getMap();
+
+    int cnt = 0;
+    QString name = lineMaskName->text().isEmpty() ? "Sym." : lineMaskName->text();
+
+    foreach(symbol, symbols){
+        double u = symbol.x();
+        double v = symbol.y();
+
+        map.convertM2Rad(u,v);
+        CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
+    }
+
 }
 
 void CMapSearchWidget::slotThreshold(int i)
@@ -114,7 +145,7 @@ void CMapSearchWidget::slotThreshold(int i)
 
 void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 {
-    mask->setPixmap(pixmap);
+    mask->setPixmap(pixmap.toImage());
     labelMask->setPixmap(QPixmap::fromImage(mask->mask()));
 
     checkGui();
@@ -167,7 +198,7 @@ void CMapSearchWidget::slotSaveMask()
 
 void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 {
-    QPixmap pixmap;
+    QImage pixmap;
     int     intval;
 
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
@@ -228,7 +259,7 @@ void CMapSearchWidget::loadMaskCollection()
     QString     maskfile;
 
     foreach(maskfile, maskfiles){
-        QPixmap pixmap;
+        QImage pixmap;
         int     intval;
 
         QFile file(path.filePath(maskfile));
@@ -241,9 +272,9 @@ void CMapSearchWidget::loadMaskCollection()
         file.close();
 
         CImage imgMask(pixmap);
-        pixmap = QPixmap::fromImage(imgMask.mask());
+        pixmap = imgMask.mask();
 
-        comboSymbols->addItem(pixmap, QFileInfo(maskfile).baseName());
+        comboSymbols->addItem(QPixmap::fromImage(pixmap), QFileInfo(maskfile).baseName());
     }
 
     comboSymbols->setCurrentIndex(comboSymbols->findText(name));

@@ -39,11 +39,11 @@ class CMapNoMap : public IMap
         void move(const QPoint&, const QPoint&);
         void zoom(bool, const QPoint&);
         void zoom(double lon1, double lat1, double lon2, double lat2);
+        void zoom(qint32& level);
         void select(const QRect&){};
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
 
     private:
-        void zoom(qint32& level);
         double xscale;
         double yscale;
         double x;

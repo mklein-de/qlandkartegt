@@ -20,6 +20,12 @@
 #define CMAPSEARCHTHREAD_H
 
 #include <QThread>
+#include <QPixmap>
+#include <QList>
+#include <QPoint>
+#include "CMapSelection.h"
+
+class CImage;
 
 class CMapSearchThread : public QThread
 {
@@ -28,16 +34,22 @@ class CMapSearchThread : public QThread
         CMapSearchThread(QObject * parent);
         virtual ~CMapSearchThread();
 
+        void start(const int threshold, const QImage& mask, const CMapSelection& mapsel);
+
+        const QList<QPoint>& getLastResult(){return symbols;}
+
+    protected:
         void run();
 
     private:
         QString mapfilename;
 
-        double lon1;
-        double lat1;
+        int threshold;
+        CMapSelection area;
+        CImage * mask;
+        qint32 zoomlevel;
+        QList<QPoint> symbols;
 
-        double lon2;
-        double lat2;
 };
 
 #endif //CMAPSEARCHTHREAD_H

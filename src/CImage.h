@@ -30,10 +30,10 @@ class CImage : public QObject
     Q_OBJECT;
     public:
         CImage(QObject * parent = 0);
-        CImage(const QPixmap& pix, QObject * parent = 0);
+        CImage(const QImage& pix, QObject * parent = 0);
         virtual ~CImage();
 
-        void setPixmap(const QPixmap& pix);
+        void setPixmap(const QImage& pix);
 
         /// get treshold found by the Otsu algorithm
         int getThreshold(){return threshold;}

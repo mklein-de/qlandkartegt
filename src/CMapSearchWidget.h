@@ -27,6 +27,7 @@
 class CMapSearchCanvas;
 class QPixmap;
 class CImage;
+class CMapSearchThread;
 
 class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 {
@@ -45,8 +46,8 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotThreshold(int i);
         void slotMaskSelection(const QPixmap& pixmap);
         void slotDeleteMask();
-
         void slotSaveMask();
+        void slotSearchFinished();
 
     private:
         void binarizeViewport(int t);
@@ -55,7 +56,8 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 
         CMapSelection area;
         QPointer<CMapSearchCanvas> canvas;
-
         CImage * mask;
+
+        CMapSearchThread * thread;
 };
 #endif                           //CMAPSEARCHWIDGET_H

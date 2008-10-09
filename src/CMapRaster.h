@@ -38,6 +38,7 @@ class CMapRaster  : public IMap
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);
+        void zoom(qint32& level);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
