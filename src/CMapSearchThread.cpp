@@ -52,8 +52,10 @@ void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection&
 void CMapSearchThread::run()
 {
     qDebug() << "thread start...";
-    QList<QPoint> syms;
+    emit sigProgress(tr(""), 0);
 
+
+    QList<QPoint> syms;
     QSize size = QSize(1024,1024) + mask->mask().size();
 
     int n,m;
@@ -67,8 +69,6 @@ void CMapSearchThread::run()
     double v1 = area.lat1;
     double u2 = area.lon2;
     double v2 = area.lat2;
-
-    symbols.clear();
 
     CMapQMAP map("", area.mapkey, 0);
     map.resize(size);
@@ -88,6 +88,8 @@ void CMapSearchThread::run()
     int maxM = ceil(w/1024);
 
     map.move(QPoint(x1,y1), QPoint(0, 0));
+
+    symbols.clear();
 
     for(n = 0; n < maxN; ++n){
 
@@ -110,9 +112,15 @@ void CMapSearchThread::run()
                     symbols << QPoint(x,y);
                 }
             }
+
+            emit sigProgress(tr("Parsing..."), (100 * (n * maxM + m + 1)) / (maxN * maxM));
+
             map.move(QPoint(1024, 0), QPoint(0,0));
         }
         map.move(QPoint(-(maxM * 1024), 1024), QPoint(0,0));
     }
+
+    emit sigProgress(tr("Done!"), 100);
     qDebug() << "...thread stop";
 }
+

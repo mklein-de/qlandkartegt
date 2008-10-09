@@ -48,6 +48,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotDeleteMask();
         void slotSaveMask();
         void slotSearchFinished();
+        void slotProgress(const QString& status, const int progress);
 
     private:
         void binarizeViewport(int t);

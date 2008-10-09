@@ -38,6 +38,9 @@ class CMapSearchThread : public QThread
 
         const QList<QPoint>& getLastResult(){return symbols;}
 
+    signals:
+        void sigProgress(const QString& status, const int progress);
+
     protected:
         void run();
 

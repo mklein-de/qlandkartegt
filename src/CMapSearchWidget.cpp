@@ -57,6 +57,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
     thread = new CMapSearchThread(this);
     connect(thread, SIGNAL(finished()), this, SLOT(slotSearchFinished()));
+    connect(thread, SIGNAL(sigProgress(const QString&, const int)), this, SLOT(slotProgress(const QString&, const int)));
 }
 
 
@@ -115,7 +116,12 @@ void CMapSearchWidget::slotSearch()
 */
     thread->start(sliderThreshold->value(), mask->rgb(), area);
     pushSearch->setEnabled(false);
+    pushArea->setEnabled(false);
+}
 
+void CMapSearchWidget::slotProgress(const QString& status, const int progress)
+{
+    progressBar->setValue(progress);
 }
 
 void CMapSearchWidget::slotSearchFinished()
@@ -136,6 +142,8 @@ void CMapSearchWidget::slotSearchFinished()
         CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
     }
 
+    pushSearch->setEnabled(true);
+    pushArea->setEnabled(true);
 }
 
 void CMapSearchWidget::slotThreshold(int i)

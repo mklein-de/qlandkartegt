@@ -321,6 +321,8 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
 {
     qDebug() << "CImage::findSymbol(QList<QPoint>& finds, CImage& mask)";
 
+    finds.clear();
+
     QPoint last;
     int i, j, n, m;
     QImage imgMask  = mask.mask();
