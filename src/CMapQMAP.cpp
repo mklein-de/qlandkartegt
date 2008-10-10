@@ -120,83 +120,7 @@ void CMapQMAP::draw(QPainter& p)
     }
 
     if(needsRedraw) {
-        buffer.fill(Qt::white);
-        QPainter _p_(&buffer);
-
-        foundMap = false;
-
-        const CMapFile * map = *pMaplevel->begin();
-
-        // top left
-        XY pt = topLeft;
-        pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
-
-        bottomRight.u = pt.u + size.width() * map->xscale * zoomFactor;
-        bottomRight.v = pt.v + size.height() * map->yscale * zoomFactor;
-        pj_transform(pjsrc,pjtar,1,0,&bottomRight.u,&bottomRight.v,0);
-
-        // the viewport rectangel in [m]
-        QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
-        float xscale = map->xscale, yscale = map->yscale;
-        float xzoomFactor, yzoomFactor;
-
-        // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
-        // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
-        QVector<CMapFile*>::const_iterator mapfile = pMaplevel->begin();
-        while(mapfile != pMaplevel->end()) {
-
-            map = *mapfile;
-
-            QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
-            QRectF intersect = viewport.intersected(maparea);
-
-            if(intersect.isValid()) {
-
-                // x/y offset [pixel] into file matrix
-                qint32 xoff = (intersect.left()   - map->xref1) / map->xscale;
-                qint32 yoff = (intersect.bottom() - map->yref1) / map->yscale;
-
-                // number of x/y pixel to read
-                qint32 pxx  =   (qint32)(intersect.width()  / map->xscale);
-                qint32 pxy  =  -(qint32)(intersect.height() / map->yscale);
-
-                // all calculations should be in relation to a first map,
-                // so need additional zoom factor
-                xzoomFactor = xscale / (float) map->xscale;
-                yzoomFactor = yscale / (float) map->yscale;
-
-                // the final image width and height in pixel
-                qint32 w    =   (qint32)(pxx / (zoomFactor * xzoomFactor)) & 0xFFFFFFFC;
-                qint32 h    =   (qint32)(pxy / (zoomFactor * yzoomFactor));
-
-                // correct pxx by truncation
-                pxx         =   (qint32)(w * zoomFactor * xzoomFactor);
-
-                if(w != 0 && h != 0) {
-
-                    GDALRasterBand * pBand;
-                    pBand = map->dataset->GetRasterBand(1);
-
-                    QImage img(QSize(w,h),QImage::Format_Indexed8);
-                    img.setColorTable(map->colortable);
-
-                    CPLErr err = pBand->RasterIO(GF_Read
-                        ,(int)xoff,(int)yoff
-                        ,pxx,pxy
-                        ,img.bits()
-                        ,w,h
-                        ,GDT_Byte,0,0);
-
-                    if(!err) {
-                        double xx = intersect.left(), yy = intersect.bottom();
-                        convertM2Pt(xx,yy);
-                        _p_.drawImage(xx,yy,img);
-                        foundMap = true;
-                    }
-                }
-            }
-            ++mapfile;
-        }
+        draw();
         needsRedraw = !foundMap;
     }
 
@@ -232,6 +156,87 @@ void CMapQMAP::draw(QPainter& p)
 
 }
 
+
+void CMapQMAP::draw()
+{
+    buffer.fill(Qt::white);
+    QPainter _p_(&buffer);
+
+    foundMap = false;
+
+    const CMapFile * map = *pMaplevel->begin();
+
+    // top left
+    XY pt = topLeft;
+    pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
+
+    bottomRight.u = pt.u + size.width() * map->xscale * zoomFactor;
+    bottomRight.v = pt.v + size.height() * map->yscale * zoomFactor;
+    pj_transform(pjsrc,pjtar,1,0,&bottomRight.u,&bottomRight.v,0);
+
+    // the viewport rectangel in [m]
+    QRectF viewport(pt.u, pt.v, size.width() * map->xscale * zoomFactor,  size.height() * map->yscale * zoomFactor);
+    float xscale = map->xscale, yscale = map->yscale;
+    float xzoomFactor, yzoomFactor;
+
+    // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
+    // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
+    QVector<CMapFile*>::const_iterator mapfile = pMaplevel->begin();
+    while(mapfile != pMaplevel->end()) {
+
+        map = *mapfile;
+
+        QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
+        QRectF intersect = viewport.intersected(maparea);
+
+        if(intersect.isValid()) {
+
+            // x/y offset [pixel] into file matrix
+            qint32 xoff = (intersect.left()   - map->xref1) / map->xscale;
+            qint32 yoff = (intersect.bottom() - map->yref1) / map->yscale;
+
+            // number of x/y pixel to read
+            qint32 pxx  =   (qint32)(intersect.width()  / map->xscale);
+            qint32 pxy  =  -(qint32)(intersect.height() / map->yscale);
+
+            // all calculations should be in relation to a first map,
+            // so need additional zoom factor
+            xzoomFactor = xscale / (float) map->xscale;
+            yzoomFactor = yscale / (float) map->yscale;
+
+            // the final image width and height in pixel
+            qint32 w    =   (qint32)(pxx / (zoomFactor * xzoomFactor)) & 0xFFFFFFFC;
+            qint32 h    =   (qint32)(pxy / (zoomFactor * yzoomFactor));
+
+            // correct pxx by truncation
+            pxx         =   (qint32)(w * zoomFactor * xzoomFactor);
+
+            if(w != 0 && h != 0) {
+
+                GDALRasterBand * pBand;
+                pBand = map->dataset->GetRasterBand(1);
+
+                QImage img(QSize(w,h),QImage::Format_Indexed8);
+                img.setColorTable(map->colortable);
+
+                CPLErr err = pBand->RasterIO(GF_Read
+                    ,(int)xoff,(int)yoff
+                    ,pxx,pxy
+                    ,img.bits()
+                    ,w,h
+                    ,GDT_Byte,0,0);
+
+                if(!err) {
+                    double xx = intersect.left(), yy = intersect.bottom();
+                    convertM2Pt(xx,yy);
+                    _p_.drawImage(xx,yy,img);
+                    foundMap = true;
+                }
+            }
+        }
+        ++mapfile;
+    }
+}
 
 void CMapQMAP::convertPt2M(double& u, double& v)
 {

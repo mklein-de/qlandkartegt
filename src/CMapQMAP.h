@@ -54,6 +54,7 @@ class CMapQMAP : public IMap
         virtual ~CMapQMAP();
 
         void draw(QPainter& p);
+        void draw();
         void convertPt2M(double& u, double& v);
         void convertM2Pt(double& u, double& v);
         void move(const QPoint& old, const QPoint& next);

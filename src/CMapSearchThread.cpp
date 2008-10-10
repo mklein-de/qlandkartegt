@@ -52,7 +52,7 @@ void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection&
 void CMapSearchThread::run()
 {
     qDebug() << "thread start...";
-    emit sigProgress(tr(""), 0);
+    emit sigProgress(tr("Start..."), 0);
 
 
     QList<QPoint> syms;
@@ -94,10 +94,7 @@ void CMapSearchThread::run()
     for(n = 0; n < maxN; ++n){
 
         for(m = 0; m < maxM; ++m){
-            qDebug() << n << m;
-
-            QPainter p(&buffer);
-            map.draw(p);
+            map.draw();
 
             CImage img(map.getBuffer());
             img.binarize(threshold);
@@ -120,7 +117,7 @@ void CMapSearchThread::run()
         map.move(QPoint(-(maxM * 1024), 1024), QPoint(0,0));
     }
 
-    emit sigProgress(tr("Done!"), 100);
+    emit sigProgress(tr("Done! Found %1 items.").arg(symbols.count()), 0);
     qDebug() << "...thread stop";
 }
 

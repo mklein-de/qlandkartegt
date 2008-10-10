@@ -41,9 +41,10 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     toolNewMask->setIcon(QIcon(":/icons/iconWizzard16x16.png"));
     toolSaveMask->setIcon(QIcon(":/icons/iconFileSave16x16.png"));
     toolDeleteMask->setIcon(QIcon(":/icons/iconDelete16x16.png"));
+    toolSelectArea->setIcon(QIcon(":/icons/iconSelect16x16.png"));
 
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
-    connect(pushArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
+    connect(toolSelectArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
     connect(pushSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
     connect(sliderThreshold, SIGNAL( valueChanged (int)), this, SLOT(slotThreshold(int)));
     connect(toolSaveMask, SIGNAL(clicked()), this, SLOT(slotSaveMask()));
@@ -116,11 +117,12 @@ void CMapSearchWidget::slotSearch()
 */
     thread->start(sliderThreshold->value(), mask->rgb(), area);
     pushSearch->setEnabled(false);
-    pushArea->setEnabled(false);
+    toolSelectArea->setEnabled(false);
 }
 
 void CMapSearchWidget::slotProgress(const QString& status, const int progress)
 {
+    labelProgress->setText(status);
     progressBar->setValue(progress);
 }
 
@@ -143,7 +145,7 @@ void CMapSearchWidget::slotSearchFinished()
     }
 
     pushSearch->setEnabled(true);
-    pushArea->setEnabled(true);
+    toolSelectArea->setEnabled(true);
 }
 
 void CMapSearchWidget::slotThreshold(int i)
