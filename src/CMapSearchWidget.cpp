@@ -52,13 +52,12 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(comboSymbols, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(slotSelectMaskByName(const QString&)));
     connect(toolDeleteMask, SIGNAL(clicked()), this, SLOT(slotDeleteMask()));
 
-    mask = new CImage(this);
-
-    loadMaskCollection();
-
     thread = new CMapSearchThread(this);
     connect(thread, SIGNAL(finished()), this, SLOT(slotSearchFinished()));
     connect(thread, SIGNAL(sigProgress(const QString&, const int)), this, SLOT(slotProgress(const QString&, const int)));
+
+    mask = new CImage(this);
+    loadMaskCollection();
 }
 
 
@@ -95,29 +94,8 @@ void CMapSearchWidget::slotSelectMask()
 void CMapSearchWidget::slotSearch()
 {
 
-/*
-    CImage xxx(CMapDB::self().getMap().getBuffer());
-    xxx.binarize(sliderThreshold->value());
-
-    QList<QPoint> symbols;
-    xxx.findSymbol(symbols, *mask);
-
-    IMap& map = CMapDB::self().getMap();
-    QPoint symbol;
-    int cnt = 0;
-    QString name = lineMaskName->text().isEmpty() ? "Sym." : lineMaskName->text();
-    foreach(symbol, symbols){
-        double u = symbol.x();
-        double v = symbol.y();
-
-        map.convertPt2Rad(u,v);
-        CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
-    }
-
-*/
     thread->start(sliderThreshold->value(), mask->rgb(), area);
-    pushSearch->setEnabled(false);
-    toolSelectArea->setEnabled(false);
+    checkGui();
 }
 
 void CMapSearchWidget::slotProgress(const QString& status, const int progress)
@@ -144,8 +122,7 @@ void CMapSearchWidget::slotSearchFinished()
         CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
     }
 
-    pushSearch->setEnabled(true);
-    toolSelectArea->setEnabled(true);
+    checkGui();
 }
 
 void CMapSearchWidget::slotThreshold(int i)
@@ -170,6 +147,8 @@ void CMapSearchWidget::setArea(const CMapSelection& ms)
     GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
 
     labelArea->setText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2));
+
+    checkGui();
 }
 
 
@@ -287,8 +266,10 @@ void CMapSearchWidget::loadMaskCollection()
         comboSymbols->addItem(QPixmap::fromImage(pixmap), QFileInfo(maskfile).baseName());
     }
 
-    comboSymbols->setCurrentIndex(comboSymbols->findText(name));
-
+    int idx = comboSymbols->findText(name);
+    if(idx != -1){
+        comboSymbols->setCurrentIndex(comboSymbols->findText(name));
+    }
     checkGui();
 }
 
@@ -296,13 +277,20 @@ void CMapSearchWidget::checkGui()
 {
     if(!labelMask->text().isEmpty()){
         lineMaskName->clear();
-        pushSearch->setEnabled(false);
         toolSaveMask->setEnabled(false);
         toolDeleteMask->setEnabled(false);
     }
     else{
-        pushSearch->setEnabled(true);
         toolSaveMask->setEnabled(true);
         toolDeleteMask->setEnabled(true);
     }
+
+    if(!labelMask->text().isEmpty() || labelArea->text() == tr("No area selected.") || thread->isRunning()){
+        pushSearch->setEnabled(false);
+    }
+    else{
+        pushSearch->setEnabled(true);
+    }
+
+    toolSelectArea->setEnabled(!thread->isRunning());
 }
