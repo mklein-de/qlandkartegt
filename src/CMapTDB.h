@@ -34,7 +34,50 @@ class CMapTDB : public IMap
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
+
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+
+        const QString& getName(){return name;}
+
+    private:
+#pragma pack(1)
+        struct tdb_hdr_t
+        {
+            quint8  type;
+            quint16 size;
+        };
+
+        struct tdb_product_t : public tdb_hdr_t
+        {
+            quint32 id;
+            quint16 version;
+            char *  name[];
+        };
+
+        struct tdb_map_t : public tdb_hdr_t
+        {
+            quint32 id;
+            quint32 country;
+            qint32  north;
+            qint32  east;
+            qint32  south;
+            qint32  west;
+            char    name[];
+        };
+#pragma pack(0)
+
+        /// map collection name
+        QString name;
+        /// basemap filename
+        QString basemap;
+        /// north boundary of basemap [°]
+        double north;
+        /// east boundary of basemap [°]
+        double east;
+        /// south boundary of basemap [°]
+        double south;
+        /// west boundary of basemap [°]
+        double west;
 };
 
 #endif //CMAPTDB_H

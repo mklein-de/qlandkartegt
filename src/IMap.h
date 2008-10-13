@@ -153,6 +153,9 @@ class IMap : public QObject
 
         /// get read access to the internally used pixmap buffer
         const QImage& getBuffer(){return buffer;}
+
+        char * getProjection();
+
         signals:
         void sigChanged();
 

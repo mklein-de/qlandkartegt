@@ -120,6 +120,8 @@ void CMapDB::closeVisibleMaps()
     if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
     if(!vctMap.isNull()) delete vctMap;
+
+    theMap = defaultMap;
 }
 
 
@@ -162,11 +164,13 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
 #ifdef GARMIN
-    if(ext == "tdb") {
-        vctMap = new CMapTDB(map.key, filename, &canvas);
+    else if(ext == "tdb") {
+        CMapTDB * maptdb;
+        vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
 
         map.filename    = filename;
-        map.description = fi.fileName();
+        map.description = maptdb->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
         map.type        = eRaster;
 
@@ -201,30 +205,40 @@ void CMapDB::openMap(const QString& key)
 
     closeVisibleMaps();
 
-    // create base map
     QString filename = knownMaps[key].filename;
-    if(filename.isEmpty()) {
-        theMap = defaultMap;
-    }
-    else {
-        theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
-    }
+    QFileInfo fi(filename);
+    QString ext = fi.suffix().toLower();
 
-    // create DEM map if any
-    QSettings mapdef(filename,QSettings::IniFormat);
-    QDir    path        = QFileInfo(filename).absolutePath();
-    QString fileDEM     = mapdef.value("DEM/file","").toString();
-    QString datum       = mapdef.value("gridshift/datum","").toString();
-    QString gridfile    = mapdef.value("gridshift/file","").toString();
+    if(ext == "qmap"){
+        // create base map
+        if(filename.isEmpty()) {
+            theMap = defaultMap;
+        }
+        else {
+            theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
+        }
 
-    if(!fileDEM.isEmpty()) {
-        demMap = new CMapDEM(path.filePath(fileDEM), theMainWindow->getCanvas(), datum, path.filePath(gridfile));
+        // create DEM map if any
+        QSettings mapdef(filename,QSettings::IniFormat);
+        QDir    path        = QFileInfo(filename).absolutePath();
+        QString fileDEM     = mapdef.value("DEM/file","").toString();
+        QString datum       = mapdef.value("gridshift/datum","").toString();
+        QString gridfile    = mapdef.value("gridshift/file","").toString();
+
+        if(!fileDEM.isEmpty()) {
+            demMap = new CMapDEM(path.filePath(fileDEM), theMainWindow->getCanvas(), datum, path.filePath(gridfile));
+        }
     }
-
+#ifdef GARMIN
+    else if(ext == "tdb"){
+        vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+    }
+#endif
     connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
+
     // store current map filename for next session
     QSettings cfg;
-    cfg.setValue("maps/visibleMaps",theMap->getFilename());
+    cfg.setValue("maps/visibleMaps",filename);
 
 }
 

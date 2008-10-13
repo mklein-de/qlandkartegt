@@ -140,3 +140,12 @@ void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& m
 {
     CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }
+
+char * IMap::getProjection()
+{
+    if(pjsrc == 0){
+        return "";
+    }
+    return pj_get_def(pjsrc,0);
+}
+

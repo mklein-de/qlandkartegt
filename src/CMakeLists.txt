@@ -252,7 +252,7 @@ ENDIF(PLOT_3D AND OPENGL_FOUND)
 SET (GARMIN OFF CACHE BOOL "this feature isn't finished yet, so disable by default")
 IF(GARMIN)
     add_definitions(-DGARMIN)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h Garmin.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapTDB.cpp)
 ENDIF(GARMIN)
 
