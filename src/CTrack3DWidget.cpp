@@ -315,6 +315,7 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     }
     if (selTrkPt) {
         selTrkPt->flags |= CTrack::pt_t::eSelected;
+        track->setPointOfFocus(selTrkPt->idx);
         updateGL();
     }
 }
