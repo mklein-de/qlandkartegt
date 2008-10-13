@@ -49,6 +49,8 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
 
+    selTrkPt = 0;
+
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
@@ -108,22 +110,16 @@ GLuint CTrack3DWidget::makeObject()
         }
         
         trkpt = trkpts.begin();
-        pt1.u = trkpt->lon * DEG_TO_RAD;
-        pt1.v = trkpt->lat * DEG_TO_RAD;
+        pt1.u = trkpt->px.x() - w/2;
+        pt1.v = h/2 - trkpt->px.y();
         ele1 = trkpt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
-        map.convertRad2Pt(pt1.u, pt1.v);
-        pt1.u -= w/2;
-        pt1.v = h/2 - pt1.v;
 
         while(trkpt != trkpts.end()) {
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
                 ++trkpt; continue;
             }
-            pt2.u = trkpt->lon * DEG_TO_RAD;
-               pt2.v = trkpt->lat * DEG_TO_RAD;
-            map.convertRad2Pt(pt2.u, pt2.v);
-            pt2.u -= w/2;
-            pt2.v = h/2 - pt2.v;
+            pt2.u = trkpt->px.x() - w/2;;
+            pt2.v = h/2 - trkpt->px.y();
             ele2 = trkpt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
             quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);
             ele1 = ele2;
@@ -236,6 +232,7 @@ void CTrack3DWidget::paintGL()
 
     /*draw the grid*/
     int i, d = 100, n = 10;
+
     glBegin(GL_LINES);
     glColor3f(0.5, 0.5, 0.5);
     for(i = -n; i <= n; i ++) {
@@ -247,7 +244,22 @@ void CTrack3DWidget::paintGL()
     }
     glEnd();
 
+    // draw a selected track point
+    if (selTrkPt) {
+            XY pt;
+            double ele;
+            glColor3f(1.0, 0.0, 0.0);
+            glPointSize(3.0);
+            glBegin(GL_POINTS);
+            pt.u = selTrkPt->px.x();
+            pt.v = selTrkPt->px.y();
+            pt.u -= width()/2;
+            pt.v = height()/2 - pt.v;
+            ele = selTrkPt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
 
+            glVertex3d(pt.u,pt.v,ele);
+            glEnd();
+    }
 }
 
 void CTrack3DWidget::resizeGL(int width, int height)
@@ -258,7 +270,53 @@ void CTrack3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-width, width, -height, height, 2 * side, 6 * side);
+    //glOrtho(-width, width, -height, height, 2 * side, 6 * side);
     glMatrixMode(GL_MODELVIEW);
+}
+
+void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+    GLdouble projection[16];
+    GLdouble modelview[16];
+    GLdouble x0, y0, z0;
+    GLsizei vx, vy;
+    GLfloat depth;
+    GLint viewport[4];
+    vx = event->pos().x();
+    vy = height() - event->pos().y();
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+    glReadPixels(vx, vy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    gluUnProject(vx, vy, depth, modelview, projection, viewport, &x0, &y0, &z0);
+
+    x0 += width() / 2;
+    y0 = height() / 2 - y0;
+
+    selTrkPt = 0;
+    int d1 = 20;
+
+    QList<CTrack::pt_t>& pts          = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator pt  = pts.begin();
+    while(pt != pts.end()) {
+        if(pt->flags & CTrack::pt_t::eDeleted) {
+            ++pt; continue;
+        }
+
+        int d2 = abs(x0 - pt->px.x()) + abs(y0 - pt->px.y());
+
+        if(d2 < d1) {
+            selTrkPt = &(*pt);
+            d1 = d2;
+        }
+
+        ++pt;
+    }
+    if (selTrkPt) {
+        selTrkPt->flags |= CTrack::pt_t::eSelected;
+        updateGL();
+    }
 }
 
 void CTrack3DWidget::mousePressEvent(QMouseEvent *event)

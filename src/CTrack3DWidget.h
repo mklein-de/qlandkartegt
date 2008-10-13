@@ -41,6 +41,7 @@ class CTrack3DWidget: public QGLWidget
         void resizeGL(int width, int height);
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
+        void mouseDoubleClickEvent ( QMouseEvent * event );
         void wheelEvent ( QWheelEvent * e );
 
     private:
@@ -63,6 +64,8 @@ class CTrack3DWidget: public QGLWidget
         QColor wallCollor;
         QColor highBorderColor;
 
+        /// current selected trackpoint
+        CTrack::pt_t * selTrkPt;
 
     private slots:
         void slotChanged();
