@@ -32,7 +32,7 @@
 
 #include <math.h>
 
-CTrack3DWidget::CTrack3DWidget(QWidget * parent) 
+CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     : QGLWidget(parent)
 {
     object = 0;
@@ -54,7 +54,7 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
- 
+
 CTrack3DWidget::~CTrack3DWidget()
 {
     makeCurrent();
@@ -74,7 +74,7 @@ void CTrack3DWidget::setMapTexture()
 void CTrack3DWidget::slotChanged()
 {
     deleteTexture(mapTexture);
-    setMapTexture();    
+    setMapTexture();
     glDeleteLists(object, 1);
     object = makeObject();
     updateGL();
@@ -93,7 +93,7 @@ GLuint CTrack3DWidget::makeObject()
     if(! track.isNull()) {
         IMap& map = CMapDB::self().getMap();
         XY pt1, pt2;
-        
+
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         maxElevation = trkpt->ele;
@@ -105,10 +105,10 @@ GLuint CTrack3DWidget::makeObject()
             if (trkpt->ele > maxElevation)
                 maxElevation = trkpt->ele;
             if (trkpt->ele < minElevation)
-                minElevation = trkpt->ele;    
+                minElevation = trkpt->ele;
             ++trkpt;
         }
-        
+
         trkpt = trkpts.begin();
         pt1.u = trkpt->px.x() - w/2;
         pt1.v = h/2 - trkpt->px.y();
@@ -185,7 +185,7 @@ void CTrack3DWidget::setZRotation(double angle)
 void CTrack3DWidget::initializeGL()
 {
     glClearColor(1.0, 1.0, 1.0, 0.0);
-    setMapTexture();    
+    setMapTexture();
     object = makeObject();
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
@@ -367,7 +367,7 @@ void CTrack3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GL
 
     glEnd();
 
-    glBegin(GL_LINES);    
+    glBegin(GL_LINES);
     qglColor(highBorderColor);
     glVertex3d(x1, y1, z1);
     glVertex3d(x2, y2, z2);

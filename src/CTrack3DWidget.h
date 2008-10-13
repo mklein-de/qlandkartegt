@@ -25,7 +25,7 @@
 
 #include "CTrack.h"
 
-class CTrack3DWidget: public QGLWidget 
+class CTrack3DWidget: public QGLWidget
 {
     Q_OBJECT;
     public:
@@ -46,7 +46,7 @@ class CTrack3DWidget: public QGLWidget
 
     private:
         GLuint makeObject();
-        void setMapTexture();    
+        void setMapTexture();
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
         void normalizeAngle(double *angle);
 
