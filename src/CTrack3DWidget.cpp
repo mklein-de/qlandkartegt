@@ -269,8 +269,9 @@ void CTrack3DWidget::resizeGL(int width, int height)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-width, width, -height, height, 2 * side, 6 * side);
-    //glOrtho(-width, width, -height, height, 2 * side, 6 * side);
+    /* 20 is equal to value of a maximum zoom factor. */
+    glFrustum(-width/2, width/2, -height/2, height/2, side, 20 * side);
+    //glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
 }
 
