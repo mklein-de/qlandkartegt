@@ -20,6 +20,7 @@
 #define CMAPTDB_H
 
 #include "IMap.h"
+#include <QMap>
 
 class CMapTDB : public IMap
 {
@@ -40,6 +41,9 @@ class CMapTDB : public IMap
         const QString& getName(){return name;}
 
     private:
+        void readTDB(const QString& filename);
+        bool processPrimaryMapData();
+
 #pragma pack(1)
         struct tdb_hdr_t
         {
@@ -64,8 +68,50 @@ class CMapTDB : public IMap
             qint32  west;
             char    name[];
         };
+
+        struct tdb_map_size_t
+        {
+            quint16 dummy;
+            quint16 count;
+            quint32 sizes[1];
+        };
+
+        struct tdb_copyright_t
+        {
+            quint8  type;
+            quint16 count;
+            quint8  flag;
+            char    str[];
+        };
+
+        struct tdb_copyrights_t : public tdb_hdr_t
+        {
+            tdb_copyright_t entry;
+        };
 #pragma pack(0)
 
+        struct tile_t
+        {
+            quint32 id;
+            QString key;
+            QString name;
+//             std::string cname;
+            QString file;
+            double north;
+            double east;
+            double south;
+            double west;
+            QRectF area;
+//             QVector<XY> definitionArea;
+
+//             QPointer<CGarminImg> img;
+
+            quint32 memSize;
+        };
+        /// tdb filename
+        QString filename;
+        /// copyright string
+        QString copyright;
         /// map collection name
         QString name;
         /// basemap filename
@@ -78,6 +124,10 @@ class CMapTDB : public IMap
         double south;
         /// west boundary of basemap [°]
         double west;
+        /// the area in [m] covered by the basemap
+        QRect area;
+
+        QMap<QString,tile_t> tiles;
 };
 
 #endif //CMAPTDB_H
