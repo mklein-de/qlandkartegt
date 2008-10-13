@@ -20,6 +20,9 @@
 #include "CMapDB.h"
 #include "CMapToolWidget.h"
 #include "CMapQMAP.h"
+#ifdef GARMIN
+#include "CMapTDB.h"
+#endif
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapDEM.h"
@@ -43,18 +46,22 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     map_t m;
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
+    m.type              = eRaster;
     knownMaps[m.key]    = m;
 
     QSettings cfg;
     QString map;
     QStringList maps = cfg.value("maps/knownMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps) {
+        QFileInfo fi(map);
+        QString ext     = fi.suffix().toLower();
         QSettings mapdef(map,QSettings::IniFormat);
         map_t m;
-        m.filename    = map;
-        m.description = mapdef.value("description/comment","").toString();
+        m.filename      = map;
+        m.description   = mapdef.value("description/comment","").toString();
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
-        m.key         = map;
+        m.key           = map;
+        m.type          = ext == "qmap" ? eRaster : ext == "tdb" ? eVector : eRaster;
         knownMaps[m.key] = m;
     }
 
@@ -112,6 +119,7 @@ void CMapDB::closeVisibleMaps()
 {
     if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
+    if(!vctMap.isNull()) delete vctMap;
 }
 
 
@@ -122,7 +130,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     map_t map;
     QFileInfo fi(filename);
-    QString ext = fi.suffix();
+    QString ext = fi.suffix().toLower();
     if(ext == "qmap") {
 
         // create map descritor
@@ -131,6 +139,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.description = mapdef.value("description/comment","").toString();
         if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
+        map.type        = eRaster;
 
         // create base map
         theMap = new CMapQMAP(map.key, filename,&canvas);
@@ -152,6 +161,23 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
+#ifdef GARMIN
+    if(ext == "tdb") {
+        vctMap = new CMapTDB(map.key, filename, &canvas);
+
+        map.filename    = filename;
+        map.description = fi.fileName();
+        map.key         = filename;
+        map.type        = eRaster;
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+
+        // store current map filename for next session
+        QSettings cfg;
+        cfg.setValue("maps/visibleMaps",filename);
+    }
+#endif
     else {
         if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
@@ -282,6 +308,10 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
 
     if(!demMap.isNull()) {
         demMap->draw(p);
+    }
+
+    if(!vctMap.isNull()) {
+        vctMap->draw(p);
     }
 
     if(tabbar-> currentWidget() != toolview) {

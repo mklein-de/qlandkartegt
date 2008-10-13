@@ -91,11 +91,14 @@ class CMapDB : public IDB
         friend class CMapToolWidget;
         friend class CMapQMAPExport;
 
+        enum maptype_e {eRaster, eVector};
+
         struct map_t
         {
-            QString filename;
-            QString description;
-            QString key;
+            QString     filename;
+            QString     description;
+            QString     key;
+            maptype_e   type;
         };
 
         CMapDB(QTabWidget * tb, QObject * parent);
@@ -122,6 +125,8 @@ class CMapDB : public IDB
         QPointer<IMap> theMap;
 
         QPointer<IMap> demMap;
+
+        QPointer<IMap> vctMap;
 
         QPointer<CMapEditWidget> mapedit;
 

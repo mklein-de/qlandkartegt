@@ -4,6 +4,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/./bin)
 cmake_minimum_required(VERSION 2.4)
 
 find_package(Qt4 REQUIRED)
+find_package(OpenGL)
 
 set(VER_MAJOR     0)
 set(VER_MINOR     ~8)
