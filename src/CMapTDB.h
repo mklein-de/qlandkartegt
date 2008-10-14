@@ -22,6 +22,8 @@
 #include "IMap.h"
 #include <QMap>
 
+class CMapGarminTile;
+
 class CMapTDB : public IMap
 {
     Q_OBJECT;
@@ -103,9 +105,7 @@ class CMapTDB : public IMap
             double west;
             QRectF area;
 //             QVector<XY> definitionArea;
-
-//             QPointer<CGarminImg> img;
-
+            CMapGarminTile * img;
             quint32 memSize;
         };
         /// tdb filename
@@ -126,7 +126,13 @@ class CMapTDB : public IMap
         double west;
         /// the area in [m] covered by the basemap
         QRect area;
-
+        /// set true for encrypted maps
+        bool encrypted;
+        /// the unlock key
+        QString key;
+        /// the basemap tile;
+        CMapGarminTile * img;
+        /// high detail map tiles
         QMap<QString,tile_t> tiles;
 };
 

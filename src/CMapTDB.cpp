@@ -19,6 +19,7 @@
 #include "CMapTDB.h"
 #include "CMapDB.h"
 #include "Garmin.h"
+#include "CMapGarminTile.h"
 
 #include <QtGui>
 
@@ -29,6 +30,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , east(-180.0)
 , south(90.0)
 , west(180.0)
+, encrypted(false)
+, img(0)
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
@@ -38,11 +41,13 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     readTDB(filename);
     processPrimaryMapData();
+
+    qDebug() << "CMapTDB::CMapTDB()";
 }
 
 CMapTDB::~CMapTDB()
 {
-
+    qDebug() << "CMapTDB::~CMapTDB()";
 }
 
 void CMapTDB::readTDB(const QString& filename)
@@ -75,10 +80,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tdb_map_t * p   = (tdb_map_t*)pRecord;
 
                 basemapId       = p->id;
-                double n        = GMN_DEG((p->north >> 8) & 0x00FFFFFF);
-                double e        = GMN_DEG((p->east >> 8)  & 0x00FFFFFF);
-                double s        = GMN_DEG((p->south >> 8) & 0x00FFFFFF);
-                double w        = GMN_DEG((p->west >> 8)  & 0x00FFFFFF);
+                double n        = GARMIN_DEG((p->north >> 8) & 0x00FFFFFF);
+                double e        = GARMIN_DEG((p->east >> 8)  & 0x00FFFFFF);
+                double s        = GARMIN_DEG((p->south >> 8) & 0x00FFFFFF);
+                double w        = GARMIN_DEG((p->west >> 8)  & 0x00FFFFFF);
 
                 if(north < n) north = n;
                 if(east  < e) east  = e;
@@ -87,6 +92,10 @@ void CMapTDB::readTDB(const QString& filename)
 
                 cfg.beginGroup("garmin/maps/basemap");
                 basemap = cfg.value(name,"").toString();
+                cfg.endGroup();
+
+                cfg.beginGroup("garmin/maps/key");
+                key = cfg.value(name).toString();
                 cfg.endGroup();
 
                 QFileInfo basemapFileInfo(basemap);
@@ -108,6 +117,16 @@ void CMapTDB::readTDB(const QString& filename)
                 }
 
                 area = QRect(QPoint(west, north), QPoint(east, south));
+                try {
+                    img = new CMapGarminTile(this);
+                    img->readBasics(basemap);
+                }
+                catch(CMapGarminTile::exce_t e){
+                    // no basemap? bad luck!
+                    QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
+                    deleteLater();
+                    return;
+                }
 
                 qDebug() << "basemap:\t" << basemap;
                 qDebug() << "dimensions:\t" << "N" << north << "E" << east << "S" << south << "W" << west;
@@ -117,6 +136,8 @@ void CMapTDB::readTDB(const QString& filename)
 
             case 0x4C:           // map tiles
             {
+                if(encrypted) break;
+
                 tdb_map_t * p = (tdb_map_t*)pRecord;
                 if(p->id == basemapId) break;
 
@@ -132,10 +153,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
-                tile.north  = GMN_DEG((p->north >> 8) & 0x00FFFFFF);
-                tile.east   = GMN_DEG((p->east >> 8)  & 0x00FFFFFF);
-                tile.south  = GMN_DEG((p->south >> 8) & 0x00FFFFFF);
-                tile.west   = GMN_DEG((p->west >> 8)  & 0x00FFFFFF);
+                tile.north  = GARMIN_DEG((p->north >> 8) & 0x00FFFFFF);
+                tile.east   = GARMIN_DEG((p->east >> 8)  & 0x00FFFFFF);
+                tile.south  = GARMIN_DEG((p->south >> 8) & 0x00FFFFFF);
+                tile.west   = GARMIN_DEG((p->west >> 8)  & 0x00FFFFFF);
                 tile.area   = QRect(QPoint(tile.west, tile.north), QPoint(tile.east, tile.south));
 
                 tile.memSize = 0;
@@ -143,6 +164,43 @@ void CMapTDB::readTDB(const QString& filename)
 
                 for(quint16 i=0; i < s->count; ++i) {
                     tile.memSize += s->sizes[i];
+                }
+
+                try {
+                    tile.img = new CMapGarminTile(this);
+                    tile.img->readBasics(tile.file);
+                }
+                catch(CMapGarminTile::exce_t e){
+                    QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
+
+                    if(e.err == CMapGarminTile::errLock){
+                        tiles.clear();
+                        encrypted = true;
+                    }
+                    else{
+                        deleteLater();
+                        return;
+                    }
+
+                    if(key.isEmpty()) {
+                        // help is on the way!!!
+                        key = QInputDialog::getText(0,tr("However ...")
+                            ,tr("<p><b>However ...</b></p>"
+                            "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
+                            "I am able to let you select the map tiles for upload. To do this I<br/>"
+                            "need the unlock key (25 digits) for this map, as it has to be uploaded<br/>"
+                            "to the unit together with the map.</p>"
+                            ));
+                        // no money, no brother, no sister - no key
+                        if(key.isEmpty()) {
+                            deleteLater();
+                            return;
+                        }
+                    }
+                    QSettings cfg;
+                    cfg.beginGroup("garmin/maps/key");
+                    cfg.setValue(name,key);
+                    cfg.endGroup();
                 }
 
 //                 qDebug() << "tile:\t\t" << tile.file;

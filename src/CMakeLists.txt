@@ -106,6 +106,7 @@ IF(WIN32)
 ENDIF(WIN32)
 
 set(qlandkarte_HDRS
+    Platform.h
     version.h
     mitab.h
     tcxreader.h
@@ -252,8 +253,8 @@ ENDIF(PLOT_3D AND OPENGL_FOUND)
 SET (GARMIN OFF CACHE BOOL "this feature isn't finished yet, so disable by default")
 IF(GARMIN)
     add_definitions(-DGARMIN)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h Garmin.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapTDB.cpp)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h CMapGarminTile.h Garmin.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapTDB.cpp CMapGarminTile.cpp)
 ENDIF(GARMIN)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
@@ -261,6 +262,25 @@ qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTOPENGL_INCLUDE_DIR} ${QL_OPENGL_INCLUDE_DIR} ../include)
+
+if(CMAKE_HAVE_STDINT_H)
+    add_definitions(-DHAVE_STDINT_H)
+endif(CMAKE_HAVE_STDINT_H)
+
+if(CMAKE_HAVE_INTTYPES_H)
+    add_definitions(-DHAVE_INTTYPES_H)
+endif(CMAKE_HAVE_INTTYPES_H)
+
+if(CMAKE_HAVE_BYTESWAP_H)
+    add_definitions(-DHAVE_BYTESWAP_H)
+endif(CMAKE_HAVE_BYTESWAP_H)
+
+if(CMAKE_HAVE_BIGENDIAN)
+    add_definitions(-DHAVE_BIGENDIAN)
+endif(CMAKE_HAVE_BIGENDIAN)
+
+#TODO test for alignment
+add_definitions(-DCAN_UNALIGNED)
 
 add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
 
