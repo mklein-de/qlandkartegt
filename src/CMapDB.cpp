@@ -58,7 +58,14 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         QSettings mapdef(map,QSettings::IniFormat);
         map_t m;
         m.filename      = map;
-        m.description   = mapdef.value("description/comment","").toString();
+        if(ext == "tdb"){
+            cfg.beginGroup("garmin/maps/alias");
+            m.description = cfg.value(fi.fileName(),"").toString();
+            cfg.endGroup();
+        }
+        else{
+            m.description = mapdef.value("description/comment","").toString();
+        }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
         m.key           = map;
         m.type          = ext == "qmap" ? eRaster : ext == "tdb" ? eVector : eRaster;
@@ -180,6 +187,10 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",filename);
+        cfg.beginGroup("garmin/maps/alias");
+        cfg.setValue(fi.fileName(),map.description);
+        cfg.endGroup();
+
     }
 #endif
     else {

@@ -99,6 +99,7 @@ class CMapGarminTile : public QObject
         /// get access to map data
         const QMap<QString,subfile_desc_t>& getSubFiles(){return subfiles;}
 
+        bool isTransparent(){return transparent;}
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);

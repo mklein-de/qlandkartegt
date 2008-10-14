@@ -22,6 +22,9 @@
 #include "CMapGarminTile.h"
 
 #include <QtGui>
+#include <algorithm>
+
+#define DEBUG_SHOW_MAPLEVELS
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(key,parent)
@@ -31,7 +34,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , south(90.0)
 , west(180.0)
 , encrypted(false)
-, img(0)
+, baseimg(0)
+, isTransparent(false)
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
@@ -74,9 +78,8 @@ void CMapTDB::readTDB(const QString& filename)
             }
             break;
 
-            case 0x42:           // base map
+            case 0x42:           // basemap
             {
-                QSettings cfg;
                 tdb_map_t * p   = (tdb_map_t*)pRecord;
 
                 basemapId       = p->id;
@@ -90,12 +93,13 @@ void CMapTDB::readTDB(const QString& filename)
                 if(south > s) south = s;
                 if(west  > w) west  = w;
 
+                QSettings cfg;
                 cfg.beginGroup("garmin/maps/basemap");
                 basemap = cfg.value(name,"").toString();
                 cfg.endGroup();
 
                 cfg.beginGroup("garmin/maps/key");
-                key = cfg.value(name).toString();
+                mapkey = cfg.value(name,"").toString();
                 cfg.endGroup();
 
                 QFileInfo basemapFileInfo(basemap);
@@ -117,19 +121,6 @@ void CMapTDB::readTDB(const QString& filename)
                 }
 
                 area = QRect(QPoint(west, north), QPoint(east, south));
-                try {
-                    img = new CMapGarminTile(this);
-                    img->readBasics(basemap);
-                }
-                catch(CMapGarminTile::exce_t e){
-                    // no basemap? bad luck!
-                    QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
-                    deleteLater();
-                    return;
-                }
-
-                qDebug() << "basemap:\t" << basemap;
-                qDebug() << "dimensions:\t" << "N" << north << "E" << east << "S" << south << "W" << west;
 
             }
             break;
@@ -141,15 +132,15 @@ void CMapTDB::readTDB(const QString& filename)
                 tdb_map_t * p = (tdb_map_t*)pRecord;
                 if(p->id == basemapId) break;
 
-                QString name = QString::fromLatin1(p->name);
+                QString tilename = QString::fromLatin1(p->name);
                 // produce a unique key form the tile name and it's ID. Some tiles
                 // might have the same name but never the same ID
-                QString key = QString("%1 (%2)").arg(name).arg(p->id,8,10,QChar('0'));
+                QString key = QString("%1 (%2)").arg(tilename).arg(p->id,8,10,QChar('0'));
 
                 tile_t& tile    = tiles[key];
                 tile.id         = p->id;
                 tile.key        = key;
-                tile.name       = name;
+                tile.name       = tilename;
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
@@ -160,7 +151,7 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.area   = QRect(QPoint(tile.west, tile.north), QPoint(tile.east, tile.south));
 
                 tile.memSize = 0;
-                tdb_map_size_t * s = (tdb_map_size_t*)(p->name + name.size() + 1);
+                tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
                 for(quint16 i=0; i < s->count; ++i) {
                     tile.memSize += s->sizes[i];
@@ -171,20 +162,21 @@ void CMapTDB::readTDB(const QString& filename)
                     tile.img->readBasics(tile.file);
                 }
                 catch(CMapGarminTile::exce_t e){
-                    QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
 
                     if(e.err == CMapGarminTile::errLock){
                         tiles.clear();
                         encrypted = true;
                     }
                     else{
+                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
                         deleteLater();
                         return;
                     }
 
-                    if(key.isEmpty()) {
+                    if(mapkey.isEmpty()) {
+                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
                         // help is on the way!!!
-                        key = QInputDialog::getText(0,tr("However ...")
+                        mapkey = QInputDialog::getText(0,tr("However ...")
                             ,tr("<p><b>However ...</b></p>"
                             "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
                             "I am able to let you select the map tiles for upload. To do this I<br/>"
@@ -192,14 +184,14 @@ void CMapTDB::readTDB(const QString& filename)
                             "to the unit together with the map.</p>"
                             ));
                         // no money, no brother, no sister - no key
-                        if(key.isEmpty()) {
+                        if(mapkey.isEmpty()) {
                             deleteLater();
                             return;
                         }
                     }
                     QSettings cfg;
                     cfg.beginGroup("garmin/maps/key");
-                    cfg.setValue(name,key);
+                    cfg.setValue(name,mapkey);
                     cfg.endGroup();
                 }
 
@@ -240,6 +232,99 @@ void CMapTDB::readTDB(const QString& filename)
 
 bool CMapTDB::processPrimaryMapData()
 {
+    try {
+        baseimg = new CMapGarminTile(this);
+        baseimg->readBasics(basemap);
+    }
+    catch(CMapGarminTile::exce_t e){
+        // no basemap? bad luck!
+        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
+        deleteLater();
+        return false;
+    }
+
+    qDebug() << "name:\t\t" << name;
+    qDebug() << "basemap:\t" << basemap;
+    qDebug() << "dimensions:\t" << "N" << north << "E" << east << "S" << south << "W" << west;
+
+    const QMap<QString,CMapGarminTile::subfile_desc_t>& subfiles            = baseimg->getSubFiles();
+    QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator subfile    = subfiles.begin();
+    quint8 fewest_map_bits = 0xFF;
+
+    /* Put here so the submap check doesn't do the basemap again. */
+    QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator basemap_subfile;
+
+    /* Find best candidate for basemap. */
+    while (subfile != subfiles.end()) {
+        QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+        /* Skip any upper levels that contain no real data. */
+        while (!maplevel->inherited) {
+            ++maplevel;
+        }
+        /* Check for the least detailed map. */
+        if (maplevel->bits < fewest_map_bits) {
+            fewest_map_bits = maplevel->bits;
+            basemap_subfile = subfile;
+        }
+        ++subfile;
+    }
+
+    /* Add all basemap levels to the list. */
+    QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
+    while(maplevel != basemap_subfile->maplevels.end()) {
+        if (!maplevel->inherited) {
+            map_level_t ml;
+            ml.bits  = maplevel->bits;
+            ml.level = maplevel->level;
+            ml.useBaseMap = true;
+            maplevels << ml;
+        }
+        ++maplevel;
+    }
+
+    if(!tiles.isEmpty()){
+        CMapGarminTile * img = tiles.values().first().img;
+        const QMap<QString,CMapGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
+        QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
+        /*
+        * Query all subfiles for possible maplevels.
+        * Exclude basemap to avoid polution.
+        */
+        while (subfile != subfiles.end()) {
+            QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+            /* Skip basemap. */
+            if (subfile == basemap_subfile) {
+                ++subfile;
+                continue;
+            }
+            while (maplevel != subfile->maplevels.end()) {
+                if (!maplevel->inherited) {
+                    map_level_t ml;
+                    ml.bits  = maplevel->bits;
+                    ml.level = maplevel->level;
+                    ml.useBaseMap = false;
+                    maplevels << ml;
+                }
+                ++maplevel;
+            }
+            ++subfile;
+        }
+
+        /* Sort all entries, note that stable sort should insure that basemap is preferred when available. */
+        qStableSort(maplevels.begin(), maplevels.end(), map_level_t::GreaterThan);
+        /* Delete any duplicates for obvious performance reasons. */
+        QVector<map_level_t>::iterator where;
+        where = std::unique(maplevels.begin(), maplevels.end());
+        maplevels.erase(where, maplevels.end());
+        isTransparent = img->isTransparent();
+    }
+
+#ifdef DEBUG_SHOW_MAPLEVELS
+    for(int i=0; i < maplevels.count(); ++i){
+        map_level_t& ml = maplevels[i];
+        qDebug() << ml.bits << ml.level << ml.useBaseMap;
+    }
+#endif
 
     return true;
 }
@@ -267,7 +352,6 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
 void CMapTDB::zoom(qint32& level)
 {
 }
-
 
 void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {

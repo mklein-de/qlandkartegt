@@ -108,6 +108,29 @@ class CMapTDB : public IMap
             CMapGarminTile * img;
             quint32 memSize;
         };
+
+        struct map_level_t
+        {
+            quint8 bits;
+            quint8 level;
+            bool useBaseMap;
+
+            bool operator==(const map_level_t &ml)
+            {
+                if (ml.bits != bits || ml.level != level || ml.useBaseMap != useBaseMap)
+                    return false;
+                else
+                    return true;
+            }
+
+            static bool GreaterThan(const map_level_t &ml1, const map_level_t &ml2)
+            {
+                return ml1.bits < ml2.bits;
+            }
+
+        };
+
+
         /// tdb filename
         QString filename;
         /// copyright string
@@ -129,11 +152,16 @@ class CMapTDB : public IMap
         /// set true for encrypted maps
         bool encrypted;
         /// the unlock key
-        QString key;
+        QString mapkey;
         /// the basemap tile;
-        CMapGarminTile * img;
+        CMapGarminTile * baseimg;
         /// high detail map tiles
         QMap<QString,tile_t> tiles;
+        /// combined maplevels of basemap & submap tiles
+        QVector<map_level_t> maplevels;
+        /// flag for transparent maps
+        bool isTransparent;
+
 };
 
 #endif //CMAPTDB_H
