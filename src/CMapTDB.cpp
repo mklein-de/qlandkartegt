@@ -476,11 +476,42 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
 
     emit sigChanged();
 
-     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
+    qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
 
 void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
 {
+    double u[3];
+    double v[3];
+    double dU, dV;
+
+    u[0] = lon1;
+    v[0] = lat1;
+    u[1] = lon2;
+    v[1] = lat1;
+    u[2] = lon1;
+    v[2] = lat2;
+
+    pj_transform(pjtar, pjsrc,3,0,u,v,0);
+    dU = u[1] - u[0];
+    dV = v[2] - v[0];
+
+    for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i){
+
+        double z    = scales[i].scale;
+        double pxU  = dU / (+1.0 * z);
+        double pxV  = dV / (-1.0 * z);
+
+        if((pxU < size.width()) && (pxV < size.height())) {
+            zoomFactor  = z;
+            zoomidx     = i;
+            double u = lon1 + (lon2 - lon1)/2;
+            double v = lat1 + (lat2 - lat1)/2;
+            convertRad2Pt(u,v);
+            move(QPoint(u,v), rect.center());
+            return;
+        }
+    }
 }
 
 void CMapTDB::zoom(qint32& level)
@@ -495,7 +526,6 @@ void CMapTDB::zoom(qint32& level)
     emit sigChanged();
 }
 
-
 void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     lon1 = DEG_TO_RAD * west;
@@ -503,3 +533,39 @@ void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lon2 = DEG_TO_RAD * east;
     lat2 = DEG_TO_RAD * south;
 }
+
+void CMapTDB::draw(QPainter& p)
+{
+    bottomRight.u = size.width();
+    bottomRight.v = size.height();
+    convertPt2Rad(bottomRight.u, bottomRight.v);
+
+    if(needsRedraw){
+        draw();
+    }
+    p.drawImage(0,0,buffer);
+}
+
+void CMapTDB::draw()
+{
+    QPainter p(&buffer);
+
+    quint8 bits = scales[zoomidx].bits;
+    QVector<map_level_t>::const_iterator maplevel = maplevels.end();
+    do{
+        --maplevel;
+        if(bits >= maplevel->bits) break;
+    } while(maplevel != maplevels.begin());
+
+    QRectF viewport(QPointF(topLeft.u * RAD_TO_DEG, topLeft.v  * RAD_TO_DEG), QPointF(bottomRight.u * RAD_TO_DEG, bottomRight.v * RAD_TO_DEG));
+
+    if(maplevel->useBaseMap){
+        // draw basemap
+        baseimg->draw(p, zoomFactor, viewport);
+    }
+    else{
+        // draw tiles
+    }
+}
+
+

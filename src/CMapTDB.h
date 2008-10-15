@@ -37,10 +37,10 @@ class CMapTDB : public IMap
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
-
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-
         const QString& getName(){return name;}
+        void draw(QPainter& p);
+        void draw();
 
     private:
         void readTDB(const QString& filename);

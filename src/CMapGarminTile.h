@@ -30,6 +30,7 @@
 
 class QFile;
 class QByteArray;
+class QPainter;
 
 class CMapGarminTile : public QObject
 {
@@ -56,6 +57,59 @@ class CMapGarminTile : public QObject
             quint8 bits;
         };
 
+        /// subdivision  information
+        struct subdiv_desc_t
+        {
+            quint32 n;
+            /// section of next level
+            quint16 next;
+            /// end of section group
+            bool terminate;
+            /// offset into the subfile's RGN part
+            quint32 rgn_start;
+            /// end of section in RGN part (last offset = rgn_end - 1)
+            quint32 rgn_end;
+
+            /// there are points stored in the RGN subsection
+            bool hasPoints;
+            /// there are indexd points stored in the RGN subsection
+            bool hasIdxPoints;
+            /// there are polylines stored in the RGN subsection
+            bool hasPolylines;
+            /// there are polygons stored in the RGN subsection
+            bool hasPolygons;
+
+            /// the center longitude of the area covered by this subdivision
+            qint32 iCenterLng;
+            /// the center latiude of the area covered by this subdivision
+            qint32 iCenterLat;
+
+            /// north boundary of area covered by this subsection
+            double north;
+            /// east boundary of area covered by this subsection
+            double east;
+            /// south boundary of area covered by this subsection
+            double south;
+            /// west boundary of area covered by this subsection
+            double west;
+
+            /// area in meter coordinates covered by this subdivision
+            QRectF area;
+
+            /// number of left shifts for RGN data
+            quint32 shift;
+            /// map level this subdivision is shown
+            quint32 level;
+            /// pointer to string table (LBL section) object
+//             IGarminStrTbl * strtbl;
+
+//             QVector<CGarminPoint>               points;
+//             QVector<CGarminPoint>               pois;
+//             QVector<CGarminPolygon>             polylines;
+            /// polygons are stored as multimap. See CGarminMap::drawPolygons()
+//             QMultiMap<quint16,CGarminPolygon>   polygons;
+        };
+
         struct subfile_desc_t
         {
             subfile_desc_t() : north(0.0), east(0.0), south(0.0), west(0.0), isTransparent(false) {}
@@ -80,7 +134,7 @@ class CMapGarminTile : public QObject
 //             QMap<QString,CGarminPolygon> definitionAreas;
 
             /// list of subdivisions
-//             QVector<subdiv_desc_t> subdivs;
+            QVector<subdiv_desc_t> subdivs;
             /// used maplevels
             QVector<maplevel_t> maplevels;
             /// bit 1 of POI_flags (TRE header @ 0x3F)
@@ -101,9 +155,17 @@ class CMapGarminTile : public QObject
 
         bool isTransparent(){return transparent;}
 
+        /// draw file content
+        /**
+            @param p the painter
+            @param viewport the actual view port to draw in [°]
+        */
+        void draw(QPainter& p, double scale, const QRectF& viewport);
+
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
+        void drawPolylines(QPainter& p, double scale, const QRectF& viewport);
 
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks
@@ -207,8 +269,25 @@ class CMapGarminTile : public QObject
             quint16 nsubdiv;
         };
 
-#pragma pack(0)
+        // map subdivision definition, without pointer to the lower level subparts
+        struct tre_subdiv_t
+        {
+            quint24 rgn_offset;
+            quint8  elements;
+            quint24 center_lng;
+            quint24 center_lat;
+            quint16 width_trm;
+        #define TRE_SUBDIV_WIDTH(r)    (gar_load(uint16_t, (r)->width_trm) & 0x7FFF)
+        #define TRE_SUBDIV_TERM(r)     ((gar_load(uint16_t, (r)->width_trm) & 0x8000) != 0)
+            quint16 height;
+        };
 
+        // pointer to the lower level subparts
+        struct tre_subdiv_next_t : public tre_subdiv_t
+        {
+            quint16 next;
+        };
+#pragma pack(0)
         /// the tile's filename
         QString filename;
         /// xor mask for encrypted files
