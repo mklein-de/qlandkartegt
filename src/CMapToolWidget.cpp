@@ -60,6 +60,9 @@ CMapToolWidget::~CMapToolWidget()
 
 void CMapToolWidget::slotDBChanged()
 {
+    QString key                 = CMapDB::self().getMap().getKey();
+    QListWidgetItem * selected  = 0;
+
     listKnownMaps->clear();
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
     {
@@ -68,10 +71,12 @@ void CMapToolWidget::slotDBChanged()
             QListWidgetItem * item = new QListWidgetItem(listKnownMaps);
             item->setText(map->description);
             item->setData(Qt::UserRole, map.key());
+            if(map.key() == key) selected = item;
             ++map;
         }
     }
     listKnownMaps->sortItems();
+    if(selected)listKnownMaps->setCurrentItem(selected);
 
     listSelectedMaps->clear();
     const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();

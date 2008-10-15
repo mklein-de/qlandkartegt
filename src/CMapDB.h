@@ -126,7 +126,7 @@ class CMapDB : public IDB
 
         QPointer<IMap> demMap;
 
-        QPointer<IMap> vctMap;
+//         QPointer<IMap> vctMap;
 
         QPointer<CMapEditWidget> mapedit;
 

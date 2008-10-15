@@ -126,7 +126,7 @@ void CMapDB::closeVisibleMaps()
 {
     if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
-    if(!vctMap.isNull()) delete vctMap;
+//     if(!vctMap.isNull()) delete vctMap;
 
     theMap = defaultMap;
 }
@@ -173,13 +173,16 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 #ifdef GARMIN
     else if(ext == "tdb") {
         CMapTDB * maptdb;
-        vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
 
         map.filename    = filename;
+        map.key         = filename;
+        map.type        = eVector;
+
+//         vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
+        theMap = maptdb = new CMapTDB(map.key, filename, &canvas);
+
         map.description = maptdb->getName();
         if(map.description.isEmpty()) map.description = fi.fileName();
-        map.key         = filename;
-        map.type        = eRaster;
 
         // add map to known maps
         knownMaps[map.key] = map;
@@ -242,7 +245,8 @@ void CMapDB::openMap(const QString& key)
     }
 #ifdef GARMIN
     else if(ext == "tdb"){
-        vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+//         vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+        theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
 #endif
     connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
@@ -335,9 +339,9 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
         demMap->draw(p);
     }
 
-    if(!vctMap.isNull()) {
-        vctMap->draw(p);
-    }
+//     if(!vctMap.isNull()) {
+//         vctMap->draw(p);
+//     }
 
     if(tabbar-> currentWidget() != toolview) {
         return;
