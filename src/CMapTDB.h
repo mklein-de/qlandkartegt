@@ -127,7 +127,17 @@ class CMapTDB : public IMap
             {
                 return ml1.bits < ml2.bits;
             }
+        };
 
+        /// scale entry
+        struct scale_t
+        {
+            /// scale name
+            QString label;
+            /// scale factor
+            double scale;
+            /// minimum bits required for this resolution
+            quint32 bits;
         };
 
 
@@ -161,6 +171,17 @@ class CMapTDB : public IMap
         QVector<map_level_t> maplevels;
         /// flag for transparent maps
         bool isTransparent;
+
+        bool needRedraw;
+
+        /// different scale entries indexed by idxZoom,
+        static scale_t scales[];
+        /// the used scale
+        double zoomFactor;
+        /// top left corner as long / lat [rad]
+        XY topLeft;
+        /// top bottom right as long / lat [rad]
+        XY bottomRight;
 
 };
 

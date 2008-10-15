@@ -20,11 +20,57 @@
 #include "CMapDB.h"
 #include "Garmin.h"
 #include "CMapGarminTile.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include <algorithm>
 
+
+#define MAX_IDX_ZOOM 34
+#define MIN_IDX_ZOOM 0
+#undef DEBUG_SHOW_SECTION_BORDERS
 #define DEBUG_SHOW_MAPLEVELS
+
+CMapTDB::scale_t CMapTDB::scales[] =
+{
+    {QString("7000 km"), 70000.0, 8}
+    ,{QString("5000 km"), 50000.0, 8}
+    ,{QString("3000 km"), 30000.0, 9}
+    ,{QString("2000 km"), 20000.0, 9}
+    ,{QString("1500 km"), 15000.0, 10}
+    ,{QString("1000 km"), 10000.0, 10}
+    ,{QString("700 km"), 7000.0, 11}
+    ,{QString("500 km"), 5000.0, 11}
+    ,{QString("300 km"), 3000.0, 13}
+    ,{QString("200 km"), 2000.0, 13}
+    ,{QString("150 km"), 1500.0, 13}
+    ,{QString("100 km"), 1000.0, 14}
+    ,{QString("70 km"), 700.0, 15}
+    ,{QString("50 km"), 500.0, 16}
+    ,{QString("30 km"), 300.0, 16}
+    ,{QString("20 km"), 200.0, 17}
+    ,{QString("15 km"), 150.0, 17}
+    ,{QString("10 km"), 100.0, 18}
+    ,{QString("7 km"), 70.0, 18}
+    ,{QString("5 km"), 50.0, 19}
+    ,{QString("3 km"), 30.0, 19}
+    ,{QString("2 km"), 20.0, 20}
+    ,{QString("1.5 km"), 15.0, 22}
+    ,{QString("1 km"), 10.0, 24}
+    ,{QString("700 m"), 7.0, 24}
+    ,{QString("500 m"), 5.0, 24}
+    ,{QString("300 m"), 3.0, 24}
+    ,{QString("200 m"), 2.0, 24}
+    ,{QString("150 m"), 1.5, 24}
+    ,{QString("100 m"), 1.0, 24}
+    ,{QString("70 m"), 0.7, 24}
+    ,{QString("50 m"), 0.5, 24}
+    ,{QString("30 m"), 0.3, 24}
+    ,{QString("20 m"), 0.2, 24}
+    ,{QString("15 m"), 0.1, 24}
+    ,{QString("10 m"), 0.15, 24}
+};
+
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(key,parent)
@@ -36,6 +82,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , encrypted(false)
 , baseimg(0)
 , isTransparent(false)
+, needRedraw(true)
+, zoomFactor(0)
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
@@ -46,16 +94,47 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     readTDB(filename);
     processPrimaryMapData();
 
+    QSettings cfg;
+    cfg.beginGroup("garmin/maps");
+    cfg.beginGroup(name);
+    QString pos = cfg.value("topleft","").toString();
+    zoomidx     = cfg.value("zoomidx",11).toInt();
+    cfg.endGroup();
+    cfg.endGroup();
+
+    float u = 0;
+    float v = 0;
+    GPS_Math_Str_To_Deg(pos, u, v);
+    topLeft.u = u * DEG_TO_RAD;
+    topLeft.v = v * DEG_TO_RAD;
+
+    zoom(zoomidx);
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
 CMapTDB::~CMapTDB()
 {
+    QString pos;
+    QSettings cfg;
+    cfg.beginGroup("garmin/maps");
+    cfg.beginGroup(name);
+    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
+    pos = pos.replace("\260","");
+    cfg.setValue("topleft",pos);
+    cfg.setValue("zoomidx",zoomidx);
+    cfg.endGroup();
+    cfg.endGroup();
+
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
 void CMapTDB::readTDB(const QString& filename)
 {
+#ifdef HAVE_BIGENDIAN
+    QMessageBox::warning(0,tr("No big endian.."),tr("*tdb import has not been ported to big endian architectures, yet."),QMessageBox::Abort,QMessageBox::Abort);
+    return;
+#endif
     QByteArray  data;
     QFile       file(filename);
     QFileInfo   finfo(filename);
@@ -94,12 +173,11 @@ void CMapTDB::readTDB(const QString& filename)
                 if(west  > w) west  = w;
 
                 QSettings cfg;
-                cfg.beginGroup("garmin/maps/basemap");
-                basemap = cfg.value(name,"").toString();
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                basemap = cfg.value("basemap","").toString();
+                mapkey  = cfg.value("key","").toString();
                 cfg.endGroup();
-
-                cfg.beginGroup("garmin/maps/key");
-                mapkey = cfg.value(name,"").toString();
                 cfg.endGroup();
 
                 QFileInfo basemapFileInfo(basemap);
@@ -113,8 +191,10 @@ void CMapTDB::readTDB(const QString& filename)
                         return;
                     }
 
-                    cfg.beginGroup("garmin/maps/basemap");
-                    cfg.setValue(name,filename);
+                    cfg.beginGroup("garmin/maps");
+                    cfg.beginGroup(name);
+                    cfg.setValue("basemap",filename);
+                    cfg.endGroup();
                     cfg.endGroup();
 
                     basemap = filename;
@@ -190,8 +270,10 @@ void CMapTDB::readTDB(const QString& filename)
                         }
                     }
                     QSettings cfg;
-                    cfg.beginGroup("garmin/maps/key");
-                    cfg.setValue(name,mapkey);
+                    cfg.beginGroup("garmin/maps");
+                    cfg.beginGroup(name);
+                    cfg.setValue("key",mapkey);
+                    cfg.endGroup();
                     cfg.endGroup();
                 }
 
@@ -331,18 +413,70 @@ bool CMapTDB::processPrimaryMapData()
 
 void CMapTDB::convertPt2M(double& u, double& v)
 {
+    XY pt = topLeft;
+    pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
+
+    u = pt.u + u * +1.0 * zoomFactor;
+    v = pt.v + v * -1.0 * zoomFactor;
 }
 
 void CMapTDB::convertM2Pt(double& u, double& v)
 {
+    XY pt = topLeft;
+    pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
+
+    u = (u - pt.u) / (+1.0 * zoomFactor);
+    v = (v - pt.v) / (-1.0 * zoomFactor);
 }
 
 void CMapTDB::move(const QPoint& old, const QPoint& next)
 {
+    XY p2 = topLeft;
+    convertRad2Pt(p2.u, p2.v);
+
+    // move top left point by difference
+    p2.u += old.x() - next.x();
+    p2.v += old.y() - next.y();
+
+    // convert back to new top left geo coordinate
+    convertPt2Rad(p2.u, p2.v);
+    topLeft = p2;
+
+    needsRedraw = true;
+    emit sigChanged();
 }
 
-void CMapTDB::zoom(bool zoomIn, const QPoint& p)
+void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
 {
+    XY p1;
+
+    needsRedraw = true;
+
+    // convert point to geo. coordinates
+    p1.u = p0.x();
+    p1.v = p0.y();
+    convertPt2Rad(p1.u, p1.v);
+
+    zoomidx += zoomIn ? +1 : -1;
+    zoom(zoomidx);
+
+    // convert geo. coordinates back to point
+    convertRad2Pt(p1.u, p1.v);
+
+    XY p2 = topLeft;
+    convertRad2Pt(p2.u, p2.v);
+
+    // move top left point by difference point befor and after zoom
+    p2.u += p1.u - p0.x();
+    p2.v += p1.v - p0.y();
+
+    // convert back to new top left geo coordinate
+    convertPt2Rad(p2.u, p2.v);
+    topLeft = p2;
+
+    emit sigChanged();
+
+     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
 
 void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
@@ -351,7 +485,16 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
 
 void CMapTDB::zoom(qint32& level)
 {
+    needsRedraw = true;
+
+    zoomidx = level;
+    if(zoomidx < MIN_IDX_ZOOM) zoomidx = MIN_IDX_ZOOM;
+    if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
+    zoomFactor = scales[zoomidx].scale;
+
+    emit sigChanged();
 }
+
 
 void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
