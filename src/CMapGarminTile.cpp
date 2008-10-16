@@ -24,6 +24,7 @@
 #undef DEBUG_SHOW_SECT_DESC
 #undef DEBUG_SHOW_TRE_DATA
 #undef DEBUG_SHOW_MAPLEVEL_DATA
+#undef DEBUG_SHOW_SUBDIV_DATA
 
 CMapGarminTile::CMapGarminTile(QObject * parent)
 : QObject(parent)
@@ -269,21 +270,19 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     }
 
     quint32 nsubdivs_next = nsubdivs - nsubdivs_last;
-#if(0)
+
     //////////////////////////////////
     // read subdivision information
     //////////////////////////////////
     // point to first map level definition
-//    maplevel        = (tre_map_level_t *)(pRawData + subfile.parts["TRE"].offset + gar_load(uint32_t, trehdr->tre1_offset));
     pMapLevel = (const tre_map_level_t * )maplevel.data();
     // number of subdivisions per map level
     quint32 nsubdiv = gar_load(uint16_t, pMapLevel->nsubdiv);
 
     // point to first 16 byte subdivision definition entry
-//     tre_subdiv_next_t* subdiv_n = (tre_subdiv_next_t *)(pRawData + subfile.parts["TRE"].offset + gar_load(uint32_t, trehdr->tre2_offset));
     QByteArray subdiv_n;
     readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre2_offset), gar_load(uint32_t, pTreHdr->tre2_size), subdiv_n);
-    tre_subdiv_next_t * pSubdivN = (tre_subdiv_next_t*)subdiv_n.data();
+    tre_subdiv_next_t * pSubDivN = (tre_subdiv_next_t*)subdiv_n.data();
 
     QVector<subdiv_desc_t> subdivs;
     subdivs.resize(nsubdivs);
@@ -291,7 +290,10 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     QVector<subdiv_desc_t>::iterator subdiv_prev = subdivs.end();
 
     // absolute offset of RGN data
-    quint32 rgnoff = subfile.parts["RGN"].offset + gar_load(uint32_t, rgnhdr->offset);
+    QByteArray rgnhdr;
+    readFile(file, subfile.parts["RGN"].offset, sizeof(hdr_rgn_t), rgnhdr);
+    hdr_rgn_t * pRgnHdr = (hdr_rgn_t*)rgnhdr.data();
+    quint32 rgnoff = subfile.parts["RGN"].offset + gar_load(uint32_t, pRgnHdr->offset);
 
     // parse all 16 byte subdivision entries
     for(i=0; i<nsubdivs_next; ++i, --nsubdiv) {
@@ -299,103 +301,123 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         qint32 width, height;
 
         subdiv->n = i;
-        subdiv->next         = gar_load(uint16_t, subdiv_n->next);
-        subdiv->terminate    = TRE_SUBDIV_TERM(subdiv_n);
-        subdiv->rgn_start    = gar_ptr_load(uint24_t, subdiv_n->rgn_offset);
+        subdiv->next         = gar_load(uint16_t, pSubDivN->next);
+        subdiv->terminate    = TRE_SUBDIV_TERM(pSubDivN);
+        subdiv->rgn_start    = gar_ptr_load(uint24_t, pSubDivN->rgn_offset);
         subdiv->rgn_start   += rgnoff;
         // skip if this is the first entry
         if(subdiv_prev != subdivs.end()) {
             subdiv_prev->rgn_end = subdiv->rgn_start;
         }
 
-        subdiv->hasPoints    = subdiv_n->elements & 0x10;
-        subdiv->hasIdxPoints = subdiv_n->elements & 0x20;
-        subdiv->hasPolylines = subdiv_n->elements & 0x40;
-        subdiv->hasPolygons  = subdiv_n->elements & 0x80;
+        subdiv->hasPoints    = pSubDivN->elements & 0x10;
+        subdiv->hasIdxPoints = pSubDivN->elements & 0x20;
+        subdiv->hasPolylines = pSubDivN->elements & 0x40;
+        subdiv->hasPolygons  = pSubDivN->elements & 0x80;
 
         // if all subdivisions of this level have been parsed, switch to the next one
         if(nsubdiv == 0) {
-            ++maplevel;
-            nsubdiv = gar_load(uint16_t, maplevel->nsubdiv);
+            ++pMapLevel;
+            nsubdiv = gar_load(uint16_t, pMapLevel->nsubdiv);
         }
 
-        subdiv->level = TRE_MAP_LEVEL(maplevel);
-        subdiv->shift = 24 - maplevel->bits;
+        subdiv->level = TRE_MAP_LEVEL(pMapLevel);
+        subdiv->shift = 24 - pMapLevel->bits;
 
-        cx = gar_ptr_load(uint24_t, subdiv_n->center_lng);
+        cx = gar_ptr_load(uint24_t, pSubDivN->center_lng);
         subdiv->iCenterLng = cx;
-        cy = gar_ptr_load(uint24_t, subdiv_n->center_lat);
+        cy = gar_ptr_load(uint24_t, pSubDivN->center_lat);
         subdiv->iCenterLat = cy;
-        width   = TRE_SUBDIV_WIDTH(subdiv_n) << subdiv->shift;
-        height  = gar_load(uint16_t, subdiv_n->height) << subdiv->shift;
+        width   = TRE_SUBDIV_WIDTH(pSubDivN) << subdiv->shift;
+        height  = gar_load(uint16_t, pSubDivN->height) << subdiv->shift;
 
-        subdiv->north = RAD(cy + height + 1);
-        subdiv->south = RAD(cy - height);
-        subdiv->east  = RAD(cx + width + 1);
-        subdiv->west  = RAD(cx - width);
+        subdiv->north = GARMIN_DEG(cy + height + 1);
+        subdiv->south = GARMIN_DEG(cy - height);
+        subdiv->east  = GARMIN_DEG(cx + width + 1);
+        subdiv->west  = GARMIN_DEG(cx - width);
 
-        gpProj->fwdQRectF(subdiv->north, subdiv->east, subdiv->south, subdiv->west, subdiv->area);
+        subdiv->area = QRectF(QPointF(subdiv->north, subdiv->west), QPointF(subdiv->south, subdiv->east));
 
-        if(!subdiv->area.isValid()) {
-            qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
-        }
+//         if(!subdiv->area.isValid()) {
+//             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
+//         }
 
-        subdiv->strtbl = strtbl;
-
-        //qDebug() << subdiv->n << subdiv->level << subdiv_n->terminate << subdiv_n->next;
+//         subdiv->strtbl = strtbl;
 
         subdiv_prev = subdiv;
-        ++subdiv_n; ++subdiv;
+        ++pSubDivN; ++subdiv;
     }
 
     // switch to last map level
-    ++maplevel;
+    ++pMapLevel;
     // witch pointer to 14 byte subdivision sections
-    tre_subdiv_t* subdiv_l = subdiv_n;
+    tre_subdiv_t* pSubDivL = pSubDivN;
     // parse all 14 byte subdivision entries of last map level
     for(; i<nsubdivs; ++i) {
         qint32 cx,cy;
         qint32 width, height;
         subdiv->n = i;
         subdiv->next         = 0;
-        subdiv->terminate    = TRE_SUBDIV_TERM(subdiv_l);
-        subdiv->rgn_start    = gar_ptr_load(uint24_t, subdiv_l->rgn_offset);
+        subdiv->terminate    = TRE_SUBDIV_TERM(pSubDivL);
+        subdiv->rgn_start    = gar_ptr_load(uint24_t, pSubDivL->rgn_offset);
         subdiv->rgn_start   += rgnoff;
         subdiv_prev->rgn_end = subdiv->rgn_start;
-        subdiv->hasPoints    = subdiv_l->elements & 0x10;
-        subdiv->hasIdxPoints = subdiv_l->elements & 0x20;
-        subdiv->hasPolylines = subdiv_l->elements & 0x40;
-        subdiv->hasPolygons  = subdiv_l->elements & 0x80;
+        subdiv->hasPoints    = pSubDivL->elements & 0x10;
+        subdiv->hasIdxPoints = pSubDivL->elements & 0x20;
+        subdiv->hasPolylines = pSubDivL->elements & 0x40;
+        subdiv->hasPolygons  = pSubDivL->elements & 0x80;
 
-        subdiv->level = TRE_MAP_LEVEL(maplevel);
-        subdiv->shift = 24 - maplevel->bits;
+        subdiv->level = TRE_MAP_LEVEL(pMapLevel);
+        subdiv->shift = 24 - pMapLevel->bits;
 
-        cx = gar_ptr_load(uint24_t, subdiv_l->center_lng);
+        cx = gar_ptr_load(uint24_t, pSubDivL->center_lng);
         subdiv->iCenterLng = cx;
-        cy = gar_ptr_load(uint24_t, subdiv_l->center_lat);
+        cy = gar_ptr_load(uint24_t, pSubDivL->center_lat);
         subdiv->iCenterLat = cy;
-        width   = TRE_SUBDIV_WIDTH(subdiv_l) << subdiv->shift;
-        height  = gar_load(uint16_t, subdiv_l->height) << subdiv->shift;
+        width   = TRE_SUBDIV_WIDTH(pSubDivL) << subdiv->shift;
+        height  = gar_load(uint16_t, pSubDivL->height) << subdiv->shift;
 
-        subdiv->north = RAD(cy + height + 1);
-        subdiv->south = RAD(cy - height);
-        subdiv->east  = RAD(cx + width + 1);
-        subdiv->west  = RAD(cx - width);
+        subdiv->north = GARMIN_DEG(cy + height + 1);
+        subdiv->south = GARMIN_DEG(cy - height);
+        subdiv->east  = GARMIN_DEG(cx + width + 1);
+        subdiv->west  = GARMIN_DEG(cx - width);
 
-        gpProj->fwdQRectF(subdiv->north, subdiv->east, subdiv->south, subdiv->west, subdiv->area);
-        if(!subdiv->area.isValid()) {
-            qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
-        }
+        subdiv->area = QRectF(QPointF(subdiv->north, subdiv->west), QPointF(subdiv->south, subdiv->east));
+//         if(!subdiv->area.isValid()) {
+//             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
+//         }
 
-        subdiv->strtbl = strtbl;
+//         subdiv->strtbl = strtbl;
 
         subdiv_prev = subdiv;
-        ++subdiv_l; ++subdiv;
+        ++pSubDivL; ++subdiv;
     }
     subdivs.last().rgn_end = subfile.parts["RGN"].offset + subfile.parts["RGN"].size;
+
+
     subfile.subdivs = subdivs;
 
-#endif
+#ifdef DEBUG_SHOW_SUBDIV_DATA
+    {
+        QVector<subdiv_desc_t>::iterator subdiv = subfile.subdivs.begin();
+        while(subdiv != subfile.subdivs.end()) {
+            qDebug() << "--- subdiv" << subdiv->n << "---";
+            qDebug() << "RGN start          " << hex << subdiv->rgn_start;
+            qDebug() << "RGN end            " << hex << subdiv->rgn_end;
+            qDebug() << "center lng         " << GARMIN_DEG(subdiv->iCenterLng);
+            qDebug() << "center lat         " << GARMIN_DEG(subdiv->iCenterLat);
+            qDebug() << "has points         " << subdiv->hasPoints;
+            qDebug() << "has indexed points " << subdiv->hasIdxPoints;
+            qDebug() << "has polylines      " << subdiv->hasPolylines;
+            qDebug() << "has polygons       " << subdiv->hasPolygons;
+            qDebug() << "bounding area (m)  " << subdiv->area.topLeft() << subdiv->area.bottomRight();
+            qDebug() << "map level          " << subdiv->level;
+            qDebug() << "left shifts        " << subdiv->shift;
+            ++subdiv;
+        }
+    }
+#endif                       // DEBUG_SHOW_SUBDIV_DATA
+
 }
 
 

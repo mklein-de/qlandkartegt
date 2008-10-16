@@ -84,13 +84,13 @@ class CMapGarminTile : public QObject
             /// the center latiude of the area covered by this subdivision
             qint32 iCenterLat;
 
-            /// north boundary of area covered by this subsection
+            /// north boundary of area covered by this subsection [°]
             double north;
-            /// east boundary of area covered by this subsection
+            /// east boundary of area covered by this subsection [°]
             double east;
-            /// south boundary of area covered by this subsection
+            /// south boundary of area covered by this subsection [°]
             double south;
-            /// west boundary of area covered by this subsection
+            /// west boundary of area covered by this subsection [°]
             double west;
 
             /// area in meter coordinates covered by this subdivision
@@ -257,6 +257,14 @@ class CMapGarminTile : public QObject
             quint16 tre9_rec_size;       ///< 0x000000B6 .. 0x000000B7
 
         };
+
+        // RGN part header
+        struct hdr_rgn_t : public hdr_subfile_part_t
+        {
+            quint32 offset;              ///< 0x00000015 .. 0x00000018
+            quint32 length;              ///< 0x00000019 .. 0x0000000C
+        };
+
 
 #define TRE_MAP_LEVEL(r) ((r)->zoom & 0x0f)
 #define TRE_MAP_INHER(r) (((r)->zoom & 0x80) != 0)
