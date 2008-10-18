@@ -31,8 +31,8 @@ class CTrack3DWidget: public QGLWidget
     public:
         CTrack3DWidget(QWidget * parent);
         virtual ~CTrack3DWidget();
-        QSize minimumSizeHint() const;
-        QSize sizeHint() const;
+        void convertPt23D(double& u, double& v, double &ele);
+        void convert3D2Pt(double& u, double& v, double &ele);
 
     protected:
         QPointer<CTrack> track;
@@ -43,12 +43,24 @@ class CTrack3DWidget: public QGLWidget
         void mouseMoveEvent(QMouseEvent *event);
         void mouseDoubleClickEvent ( QMouseEvent * event );
         void wheelEvent ( QWheelEvent * e );
+        void contextMenuEvent(QContextMenuEvent *event);
+        void createActions();
+
+        QAction *eleZoomInAct;
+        QAction *eleZoomOutAct;
+        QAction *eleZoomResetAct;
+        QAction *map3DAct;
+        QAction *showTrackAct;
 
     private:
         GLuint makeObject();
         void setMapTexture();
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
         void normalizeAngle(double *angle);
+        void drawFlatMap();
+        /// using DEM data file to display terrain in 3D
+        void draw3DMap();
+        void drawTrack();
 
         GLuint object;
         double xRot;
@@ -73,6 +85,9 @@ class CTrack3DWidget: public QGLWidget
     public slots:
         void setXRotation(double angle);
         void setZRotation(double angle);
+        void eleZoomOut();
+        void eleZoomIn();
+        void eleZoomReset();
 
     signals:
         void xRotationChanged(double angle);

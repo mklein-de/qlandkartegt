@@ -51,9 +51,58 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
 
     selTrkPt = 0;
 
+    createActions();
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
+void CTrack3DWidget::createActions()
+{
+    map3DAct = new QAction("3D map", this);
+    map3DAct->setCheckable(true);
+    map3DAct->setChecked(false);
+    connect(map3DAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
+
+    showTrackAct = new QAction("show track", this);
+    showTrackAct->setCheckable(true);
+    showTrackAct->setChecked(true);
+    connect(showTrackAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
+
+    eleZoomInAct = new QAction(tr("zZoom In"), this);
+    connect(eleZoomInAct, SIGNAL(triggered()), this, SLOT(eleZoomIn()));
+    eleZoomOutAct = new QAction(tr("zZoom Out"), this);
+    connect(eleZoomOutAct, SIGNAL(triggered()), this, SLOT(eleZoomOut()));
+    eleZoomResetAct = new QAction(tr("reset zZoom"), this);
+    connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
+}
+
+void CTrack3DWidget::eleZoomOut()
+{
+    eleZoomFactor = eleZoomFactor / 1.2;
+    slotChanged();
+}
+
+void CTrack3DWidget::eleZoomIn()
+{
+    eleZoomFactor = eleZoomFactor * 1.2;
+    slotChanged();
+}
+
+void CTrack3DWidget::eleZoomReset()
+{
+    eleZoomFactor = 1;
+    slotChanged();
+}
+void CTrack3DWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    menu.addAction(eleZoomInAct);
+    menu.addAction(eleZoomOutAct);
+    menu.addAction(eleZoomResetAct);
+    menu.addAction(map3DAct);
+    menu.addAction(showTrackAct);
+
+    menu.exec(event->globalPos());
+}
 
 CTrack3DWidget::~CTrack3DWidget()
 {
@@ -80,18 +129,101 @@ void CTrack3DWidget::slotChanged()
     updateGL();
 }
 
-GLuint CTrack3DWidget::makeObject()
+void CTrack3DWidget::convertPt23D(double& u, double& v, double &ele)
 {
-    int w = width();
-    int h = height();
-    double ele1, ele2;
+    u = u - width()/2;
+    v = height()/2 - v;
+    ele = ele * eleZoomFactor * (width() / 10.0) / maxElevation;
+}
 
-    GLuint list = glGenLists(1);
-    glNewList(list, GL_COMPILE);
+void CTrack3DWidget::convert3D2Pt(double& u, double& v, double &ele)
+{
+    u = u + width()/2;
+    v = height()/2 - v;
+    ele = ele / eleZoomFactor / (width() / 10.0) * maxElevation;
+}
+
+void CTrack3DWidget::drawFlatMap()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+    glBindTexture(GL_TEXTURE_2D, mapTexture);
+    glTexCoord2d(0.0, 0.0);
+    glVertex3d(-width()/2, -height()/2, 0);
+    glTexCoord2d(1.0, 0.0);
+    glVertex3d(width()/2, -height()/2, 0);
+    glTexCoord2d(1.0, 1.0);
+    glVertex3d(width()/2, height()/2, 0);
+    glTexCoord2d(0.0, 1.0);
+    glVertex3d(-width()/2, height()/2, 0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
+
+void CTrack3DWidget::draw3DMap()
+{
+    int i, j;
+    double step = 5;
+    double x, y, u, v;
+    double w = width();
+    double h = height();
+    GLdouble vertices[4][3];
+    GLdouble texCoords[4][2];
+
+    IMap& map = CMapDB::self().getMap();
+
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_QUADS);
+    glBindTexture(GL_TEXTURE_2D, mapTexture);
+
+    IMap& dem = CMapDB::self().getDEM();
+    /*
+     * next code can be more optimal if used array of coordinates or VBO
+     */
+    for (y = 0; y < height() - step; y += step) {
+        for (x = 0; x < width(); x += step) {
+            /* copy points 3 -> 0, 2 -> 1 */
+            for (j = 0; j < 3; j++) {
+                    vertices[0][j] = vertices[3][j];
+                    vertices[1][j] = vertices[2][j];
+                    if (j < 2) {
+                            texCoords[0][j] = texCoords[3][j];
+                            texCoords[1][j] = texCoords[2][j];
+                    }
+            }
+            /* compute values for points 2,3 */
+            for (i =2; i < 4; i ++) {
+                vertices[i][0] = x;
+                vertices[i][1] = y;
+                if ((i % 4) == 2)
+                        vertices[i][1] += 10;
+                u = vertices[i][0];
+                v = vertices[i][1];
+                texCoords[i][0] = u / w;
+                texCoords[i][1] = 1 - v / h;
+                map.convertPt2Rad(u, v);
+                vertices[i][2] = dem.getElevation(u,v);
+                convertPt23D(vertices[i][0], vertices[i][1], vertices[i][2]);
+            }
+            /* points 0, 1 are absent on the first iteration, so spip it*/
+            if (x > step/2)
+                for (i = 0; i < 4; i++) {
+                    glTexCoord2d(texCoords[i][0], texCoords[i][1]);
+                    glVertex3d(vertices[i][0], vertices[i][1], vertices[i][2]);
+                }
+        }
+    }
+
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+}
+
+void CTrack3DWidget::drawTrack()
+{
     glLineWidth(2.0);
-
+    double ele1, ele2;
     if(! track.isNull()) {
-        IMap& map = CMapDB::self().getMap();
         XY pt1, pt2;
 
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -110,17 +242,21 @@ GLuint CTrack3DWidget::makeObject()
         }
 
         trkpt = trkpts.begin();
-        pt1.u = trkpt->px.x() - w/2;
-        pt1.v = h/2 - trkpt->px.y();
-        ele1 = trkpt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
+
+        pt1.u = trkpt->px.x();
+        pt1.v = trkpt->px.y();
+        ele1 = trkpt->ele;
+        convertPt23D(pt1.u, pt1.v, ele1);
 
         while(trkpt != trkpts.end()) {
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
                 ++trkpt; continue;
             }
-            pt2.u = trkpt->px.x() - w/2;;
-            pt2.v = h/2 - trkpt->px.y();
-            ele2 = trkpt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
+            pt2.u = trkpt->px.x();
+            pt2.v = trkpt->px.y();
+            ele2 = trkpt->ele;
+            convertPt23D(pt2.u, pt2.v, ele2);
+
             quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);
             ele1 = ele2;
             pt1 = pt2;
@@ -131,35 +267,31 @@ GLuint CTrack3DWidget::makeObject()
     // restore line width by default
     glLineWidth(1);
 
+}
+
+GLuint CTrack3DWidget::makeObject()
+{
+    GLuint list = glGenLists(1);
+    glNewList(list, GL_COMPILE);
+
+    if (showTrackAct->isChecked())
+        drawTrack();
+
     //draw map
     glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
-    glTexCoord2d(0.0, 0.0);
-    glVertex3d(-width()/2, -height()/2, 0);
-    glTexCoord2d(1.0, 0.0);
-    glVertex3d(width()/2, -height()/2, 0);
-    glTexCoord2d(1.0, 1.0);
-    glVertex3d(width()/2, height()/2, 0);
-    glTexCoord2d(0.0, 1.0);
-    glVertex3d(-width()/2, height()/2, 0);
-    glEnd();
+    if (!map3DAct->isChecked()) {
+            /*draw flat map*/
+            drawFlatMap();
+    } else {
+            /*using DEM data file to display terrain in 3D*/
+            draw3DMap();
+    }
     glDisable(GL_TEXTURE_2D);
-
 
     glEndList();
 
     return list;
-}
-
-QSize CTrack3DWidget::minimumSizeHint() const
-{
-    return QSize(400, 400);
-}
-
-QSize CTrack3DWidget::sizeHint() const
-{
-    return QSize(700, 700);
 }
 
 void CTrack3DWidget::setXRotation(double angle)
@@ -334,7 +466,7 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot - xRotSens * dy);
         setZRotation(zRot + zRotSens * dx);
-    } else if (event->buttons() & Qt::RightButton) {
+    } else if (event->buttons() & Qt::MidButton) {
         xShift += dx / zoomFactor;
         yShift -= dy / zoomFactor;
         updateGL();
