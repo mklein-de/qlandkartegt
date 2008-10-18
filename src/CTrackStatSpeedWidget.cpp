@@ -26,11 +26,13 @@
 
 CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
 : ITrackStat(parent)
+, needResetZoom(true)
 {
     plot->setXLabel(tr("distance [m]"));
     plot->setYLabel(tr("speed [km/h]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
     slotChanged();
     plot->setLimits();
@@ -43,6 +45,10 @@ CTrackStatSpeedWidget::~CTrackStatSpeedWidget()
 
 }
 
+void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
+{
+    needResetZoom = true;
+}
 
 void CTrackStatSpeedWidget::slotChanged()
 {
@@ -86,4 +92,10 @@ void CTrackStatSpeedWidget::slotChanged()
     plot->newLine(lineSpeed,focusSpeed, "speed");
     plot->addLine(lineAvgSpeed, "avg. speed");
     plot->newMarks(marksSpeed);
+
+    plot->setLimits();
+    if (needResetZoom) {
+        plot->resetZoom();
+        needResetZoom = false;
+    }
 }

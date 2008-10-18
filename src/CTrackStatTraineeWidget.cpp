@@ -26,11 +26,13 @@
 
 CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
 : ITrackStat(parent)
+, needResetZoom(true)
 {
     plot->setXLabel(tr("distance [m]"));
     plot->setYLabel(tr("heardrate [bpm]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
     slotChanged();
     plot->setLimits();
@@ -41,6 +43,11 @@ CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
 CTrackStatTraineeWidget::~CTrackStatTraineeWidget()
 {
 
+}
+
+void CTrackStatTraineeWidget::slotSetTrack(CTrack* track)
+{
+    needResetZoom = true;
 }
 
 
@@ -61,7 +68,7 @@ void CTrackStatTraineeWidget::slotChanged()
 
     QPolygonF lineAvgSpeed;
 
-    float speedfactor = IUnit::self().speedfactor;
+//     float speedfactor = IUnit::self().speedfactor;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
@@ -87,4 +94,10 @@ void CTrackStatTraineeWidget::slotChanged()
     plot->newLine(heartRate,focusSpeed, "speed");
     plot->addLine(slopeRate, "slope");
     // plot->newMarks(marksSpeed);
+
+    plot->setLimits();
+    if (needResetZoom) {
+        plot->resetZoom();
+        needResetZoom = false;
+    }
 }

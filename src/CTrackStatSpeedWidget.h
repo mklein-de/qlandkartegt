@@ -30,5 +30,9 @@ class CTrackStatSpeedWidget : public ITrackStat
 
     private slots:
         void slotChanged();
+        void slotSetTrack(CTrack* track);
+
+    private:
+        bool needResetZoom;
 };
 #endif                           //CTRACKSTATSPEEDWIDGET_H
