@@ -117,6 +117,16 @@ void IMap::convertRad2Pt(double& u, double& v)
 }
 
 
+void IMap::convertRad2Pt(double* u, double* v, int n)
+{
+    if(pjsrc == 0) {
+        return;
+    }
+
+    pj_transform(pjtar,pjsrc,n,0,u,v,0);
+    convertM2Pt(u,v,n);
+}
+
 void IMap::convertRad2M(double& u, double& v)
 {
     if(pjsrc == 0) {

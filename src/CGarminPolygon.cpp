@@ -73,7 +73,7 @@ CGarminPolygon::~CGarminPolygon()
 }
 
 
-quint32 CGarminPolygon::decode(CMapGarminTile::subdiv_desc_t& subdiv, bool line, quint8 * pData)
+quint32 CGarminPolygon::decode(/*CMapGarminTile::subdiv_desc_t& subdiv,*/qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData)
 {
     quint32 bytes_total = 10;
     // bitstream has a two byte length
@@ -167,10 +167,10 @@ quint32 CGarminPolygon::decode(CMapGarminTile::subdiv_desc_t& subdiv, bool line,
     qint32 x1,y1,x = 0,y = 0;
     XY xy;
 
-    bool isNegative = (subdiv.iCenterLng >= 0x800000);
+    bool isNegative = (iCenterLon >= 0x800000);
     // first point
-    x1 = ((qint32)dLng << subdiv.shift) + subdiv.iCenterLng;
-    y1 = ((qint32)dLat << subdiv.shift) + subdiv.iCenterLat;
+    x1 = ((qint32)dLng << shift) + iCenterLon;
+    y1 = ((qint32)dLat << shift) + iCenterLat;
 
     if(x1 >= 0x800000 && !isNegative) x1 = 0x7fffff;
 
@@ -180,12 +180,14 @@ quint32 CGarminPolygon::decode(CMapGarminTile::subdiv_desc_t& subdiv, bool line,
 #ifdef DEBUG_SHOW_POLY_PTS
     qDebug() << xy.u << xy.v << hex << x1 << y1 << DEG(x1) << DEG(y1);
 #endif
-    points.append(xy);
+//     points.append(xy);
+    u << xy.u;
+    v << xy.v;
 
     // next points
     while(sr.get(x,y)) {
-        x1 += (x << subdiv.shift);
-        y1 += (y << subdiv.shift);
+        x1 += (x << shift);
+        y1 += (y << shift);
 
         if(x1 >= 0x800000 && !isNegative) x1 = 0x7fffff;
 
@@ -195,10 +197,13 @@ quint32 CGarminPolygon::decode(CMapGarminTile::subdiv_desc_t& subdiv, bool line,
 #ifdef DEBUG_SHOW_POLY_PTS
         qDebug() << xy.u << xy.v << hex << x1 << y1 << DEG(x1) << DEG(y1);
 #endif
-        points.append(xy);
+        u << xy.u;
+        v << xy.v;
+
     }
 
-    points.squeeze();
+    u.squeeze();
+    v.squeeze();
     id = cnt++;
     //     qDebug() << "<<<" << id;
     return bytes_total;
@@ -250,7 +255,7 @@ int CGarminPolygon::bits_per_coord(quint8 base, bool is_signed)
 }
 
 
-CShiftReg::CShiftReg(quint8* pData, quint32 n, quint32 bx, quint32 by, bool extra_bit, sign_info_t& si)
+CShiftReg::CShiftReg(const quint8* pData, quint32 n, quint32 bx, quint32 by, bool extra_bit, sign_info_t& si)
 : reg(0)
 , pData(pData)
 , bytes(n)

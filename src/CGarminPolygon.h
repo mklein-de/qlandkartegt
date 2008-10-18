@@ -26,8 +26,6 @@
 #ifndef CGARMINPOLYGON_H
 #define CGARMINPOLYGON_H
 
-#include "CMapGarminTile.h"
-
 #include <projects.h>
 #include <QtCore>
 
@@ -40,7 +38,7 @@ class CGarminPolygon
         CGarminPolygon();
         virtual ~CGarminPolygon();
 
-        quint32 decode(CMapGarminTile::subdiv_desc_t& subdiv, bool line, quint8 * pData);
+        quint32 decode(/*CMapGarminTile::subdiv_desc_t& subdiv,*/qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData);
 
         quint16 type;
         /// direction of line (polyline, only)
@@ -54,7 +52,8 @@ class CGarminPolygon
         /// delta latitude from subdivision center
         qint16 dLat;
         /// the actual polyline points as longitude / latitude [rad]
-        QVector<XY> points;
+        QVector<double> u;
+        QVector<double> v;
 
         quint32 id;
 
@@ -69,7 +68,7 @@ class CGarminPolygon
 class CShiftReg
 {
     public:
-        CShiftReg(quint8* pData, quint32 n, quint32 bx, quint32 by, bool extra_bit, sign_info_t& si);
+        CShiftReg(const quint8* pData, quint32 n, quint32 bx, quint32 by, bool extra_bit, sign_info_t& si);
 
         bool get(qint32& x, qint32& y);
     private:
@@ -77,7 +76,7 @@ class CShiftReg
         /// the register to work on
         quint64 reg;
         /// the data stream to get data from
-        quint8 * pData;
+        const quint8 * pData;
         /// bytes left in stream
         quint32 bytes;
         /// bitmask x coord.

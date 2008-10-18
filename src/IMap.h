@@ -60,6 +60,7 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertM2Pt(double& u, double& v) = 0;
+        virtual void convertM2Pt(double* u, double* v, int n){};
         /// convert a point on the screen [px] to geo. coordinates [rad]
         /**
             The conversion will be done in place.
@@ -95,6 +96,7 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertRad2Pt(double& u, double& v);
+        virtual void convertRad2Pt(double* u, double* v, int n);
         /// move the map [px]
         /**
             @param old the (old) starting point

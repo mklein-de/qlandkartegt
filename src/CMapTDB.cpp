@@ -26,49 +26,49 @@
 #include <algorithm>
 
 
-#define MAX_IDX_ZOOM 34
+#define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
 #define DEBUG_SHOW_MAPLEVELS
 
 CMapTDB::scale_t CMapTDB::scales[] =
 {
-    {QString("7000 km"), 70000.0, 8}
-    ,{QString("5000 km"), 50000.0, 8}
-    ,{QString("3000 km"), 30000.0, 9}
-    ,{QString("2000 km"), 20000.0, 9}
-    ,{QString("1500 km"), 15000.0, 10}
-    ,{QString("1000 km"), 10000.0, 10}
-    ,{QString("700 km"), 7000.0, 11}
-    ,{QString("500 km"), 5000.0, 11}
-    ,{QString("300 km"), 3000.0, 13}
-    ,{QString("200 km"), 2000.0, 13}
-    ,{QString("150 km"), 1500.0, 13}
-    ,{QString("100 km"), 1000.0, 14}
-    ,{QString("70 km"), 700.0, 15}
-    ,{QString("50 km"), 500.0, 16}
-    ,{QString("30 km"), 300.0, 16}
-    ,{QString("20 km"), 200.0, 17}
-    ,{QString("15 km"), 150.0, 17}
-    ,{QString("10 km"), 100.0, 18}
-    ,{QString("7 km"), 70.0, 18}
-    ,{QString("5 km"), 50.0, 19}
-    ,{QString("3 km"), 30.0, 19}
-    ,{QString("2 km"), 20.0, 20}
-    ,{QString("1.5 km"), 15.0, 22}
-    ,{QString("1 km"), 10.0, 24}
-    ,{QString("700 m"), 7.0, 24}
-    ,{QString("500 m"), 5.0, 24}
-    ,{QString("300 m"), 3.0, 24}
-    ,{QString("200 m"), 2.0, 24}
-    ,{QString("150 m"), 1.5, 24}
-    ,{QString("100 m"), 1.0, 24}
-    ,{QString("70 m"), 0.7, 24}
-    ,{QString("50 m"), 0.5, 24}
-    ,{QString("30 m"), 0.3, 24}
-    ,{QString("20 m"), 0.2, 24}
-    ,{QString("15 m"), 0.1, 24}
-    ,{QString("10 m"), 0.15, 24}
+    {QString("7000 km"), 70000.0, 8}        //0
+    ,{QString("5000 km"), 50000.0, 8}       //1
+    ,{QString("3000 km"), 30000.0, 9}       //2
+    ,{QString("2000 km"), 20000.0, 9}       //3
+    ,{QString("1500 km"), 15000.0, 10}      //4
+    ,{QString("1000 km"), 10000.0, 10}      //5
+    ,{QString("700 km"), 7000.0, 11}        //6
+    ,{QString("500 km"), 5000.0, 11}        //7
+    ,{QString("300 km"), 3000.0, 13}        //8
+    ,{QString("200 km"), 2000.0, 13}        //9
+    ,{QString("150 km"), 1500.0, 13}        //10
+    ,{QString("100 km"), 1000.0, 14}        //11
+    ,{QString("70 km"), 700.0, 15}          //12
+    ,{QString("50 km"), 500.0, 16}          //13
+    ,{QString("30 km"), 300.0, 16}          //14
+    ,{QString("20 km"), 200.0, 17}          //15
+    ,{QString("15 km"), 150.0, 17}          //16
+    ,{QString("10 km"), 100.0, 18}          //17
+    ,{QString("7 km"), 70.0, 18}            //18
+    ,{QString("5 km"), 50.0, 19}            //19
+    ,{QString("3 km"), 30.0, 19}            //20
+    ,{QString("2 km"), 20.0, 20}            //21
+    ,{QString("1.5 km"), 15.0, 22}          //22
+    ,{QString("1 km"), 10.0, 24}            //23
+    ,{QString("700 m"), 7.0, 24}            //24
+    ,{QString("500 m"), 5.0, 24}            //25
+    ,{QString("300 m"), 3.0, 24}            //26
+    ,{QString("200 m"), 2.0, 24}            //27
+    ,{QString("150 m"), 1.5, 24}            //28
+    ,{QString("100 m"), 1.0, 24}            //29
+    ,{QString("70 m"), 0.7, 24}             //30
+    ,{QString("50 m"), 0.5, 24}             //31
+    ,{QString("30 m"), 0.3, 24}             //32
+    ,{QString("20 m"), 0.2, 24}             //33
+    ,{QString("15 m"), 0.1, 24}             //34
+    ,{QString("10 m"), 0.15, 24}            //35
 };
 
 
@@ -162,10 +162,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tdb_map_t * p   = (tdb_map_t*)pRecord;
 
                 basemapId       = p->id;
-                double n        = GARMIN_DEG((p->north >> 8) & 0x00FFFFFF);
-                double e        = GARMIN_DEG((p->east >> 8)  & 0x00FFFFFF);
-                double s        = GARMIN_DEG((p->south >> 8) & 0x00FFFFFF);
-                double w        = GARMIN_DEG((p->west >> 8)  & 0x00FFFFFF);
+                double n        = GARMIN_RAD((p->north >> 8) & 0x00FFFFFF);
+                double e        = GARMIN_RAD((p->east >> 8)  & 0x00FFFFFF);
+                double s        = GARMIN_RAD((p->south >> 8) & 0x00FFFFFF);
+                double w        = GARMIN_RAD((p->west >> 8)  & 0x00FFFFFF);
 
                 if(north < n) north = n;
                 if(east  < e) east  = e;
@@ -224,10 +224,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
-                tile.north  = GARMIN_DEG((p->north >> 8) & 0x00FFFFFF);
-                tile.east   = GARMIN_DEG((p->east >> 8)  & 0x00FFFFFF);
-                tile.south  = GARMIN_DEG((p->south >> 8) & 0x00FFFFFF);
-                tile.west   = GARMIN_DEG((p->west >> 8)  & 0x00FFFFFF);
+                tile.north  = GARMIN_RAD((p->north >> 8) & 0x00FFFFFF);
+                tile.east   = GARMIN_RAD((p->east >> 8)  & 0x00FFFFFF);
+                tile.south  = GARMIN_RAD((p->south >> 8) & 0x00FFFFFF);
+                tile.west   = GARMIN_RAD((p->west >> 8)  & 0x00FFFFFF);
                 tile.area   = QRect(QPoint(tile.west, tile.north), QPoint(tile.east, tile.south));
 
                 tile.memSize = 0;
@@ -429,6 +429,17 @@ void CMapTDB::convertM2Pt(double& u, double& v)
     v = (v - pt.v) / (-1.0 * zoomFactor);
 }
 
+void CMapTDB::convertM2Pt(double* u, double* v, int n)
+{
+    XY pt = topLeft;
+    pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
+
+    for(int i = 0; i < n; ++i, ++u, ++v){
+        *u = (*u - pt.u) / (+1.0 * zoomFactor);
+        *v = (*v - pt.v) / (-1.0 * zoomFactor);
+    }
+};
+
 void CMapTDB::move(const QPoint& old, const QPoint& next)
 {
     XY p2 = topLeft;
@@ -523,15 +534,17 @@ void CMapTDB::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].scale;
 
+    qDebug() << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
+
     emit sigChanged();
 }
 
 void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
-    lon1 = DEG_TO_RAD * west;
-    lat1 = DEG_TO_RAD * north;
-    lon2 = DEG_TO_RAD * east;
-    lat2 = DEG_TO_RAD * south;
+    lon1 = west;
+    lat1 = north;
+    lon2 = east;
+    lat2 = south;
 }
 
 void CMapTDB::draw(QPainter& p)
@@ -558,7 +571,7 @@ void CMapTDB::draw()
         if(bits >= maplevel->bits) break;
     } while(maplevel != maplevels.begin());
 
-    QRectF viewport(QPointF(topLeft.u * RAD_TO_DEG, topLeft.v  * RAD_TO_DEG), QPointF(bottomRight.u * RAD_TO_DEG, bottomRight.v * RAD_TO_DEG));
+    QRectF viewport(QPointF(topLeft.u, topLeft.v), QPointF(bottomRight.u, bottomRight.v));
 
     if(maplevel->useBaseMap){
         // draw basemap
