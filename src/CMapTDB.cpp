@@ -548,6 +548,7 @@ void CMapTDB::draw(QPainter& p)
 
 void CMapTDB::draw()
 {
+    buffer.fill(Qt::white);
     QPainter p(&buffer);
 
     quint8 bits = scales[zoomidx].bits;
@@ -561,7 +562,7 @@ void CMapTDB::draw()
 
     if(maplevel->useBaseMap){
         // draw basemap
-        baseimg->draw(p, zoomFactor, viewport);
+        baseimg->draw(p, maplevel->level, zoomFactor, viewport);
     }
     else{
         // draw tiles

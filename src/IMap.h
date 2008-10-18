@@ -42,6 +42,8 @@ class IMap : public QObject
 
         /// draw map
         virtual void draw(QPainter& p);
+        /// just draw map to internal buffer
+        virtual void draw();
         /// convert a point on the screen [px] to world coordinates [m]
         /**
             The conversion will be done in place.
@@ -144,6 +146,7 @@ class IMap : public QObject
         /// get the map's filename
         virtual const QString& getFilename(){return filename;}
 
+        /// get size of viewport in [px]
         virtual const QSize& getSize(){return size;}
         /// return the key for registered maps
         /**

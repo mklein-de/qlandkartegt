@@ -99,6 +99,7 @@ set(qlandkarte_SRCS
     CUnitNautic.cpp
     CPicProcess.cpp
     CImage.cpp
+    CGarminPolygon.cpp
 )
 
 IF(WIN32)
@@ -203,6 +204,7 @@ set(qlandkarte_HDRS
     CUnitNautic.h
     CPicProcess.h
     CImage.h
+    CGarminPolygon.h
 )
 
 

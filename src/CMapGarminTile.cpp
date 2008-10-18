@@ -21,9 +21,9 @@
 
 #include <QtGui>
 
-#undef DEBUG_SHOW_SECT_DESC
-#undef DEBUG_SHOW_TRE_DATA
-#undef DEBUG_SHOW_MAPLEVEL_DATA
+#define DEBUG_SHOW_SECT_DESC
+#define DEBUG_SHOW_TRE_DATA
+#define DEBUG_SHOW_MAPLEVEL_DATA
 #undef DEBUG_SHOW_SUBDIV_DATA
 
 CMapGarminTile::CMapGarminTile(QObject * parent)
@@ -336,7 +336,7 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv->east  = GARMIN_DEG(cx + width + 1);
         subdiv->west  = GARMIN_DEG(cx - width);
 
-        subdiv->area = QRectF(QPointF(subdiv->north, subdiv->west), QPointF(subdiv->south, subdiv->east));
+        subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
 
 //         if(!subdiv->area.isValid()) {
 //             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
@@ -382,7 +382,7 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv->east  = GARMIN_DEG(cx + width + 1);
         subdiv->west  = GARMIN_DEG(cx - width);
 
-        subdiv->area = QRectF(QPointF(subdiv->north, subdiv->west), QPointF(subdiv->south, subdiv->east));
+        subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
 //         if(!subdiv->area.isValid()) {
 //             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
 //         }
@@ -416,24 +416,44 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
             ++subdiv;
         }
     }
-#endif                       // DEBUG_SHOW_SUBDIV_DATA
+#endif // DEBUG_SHOW_SUBDIV_DATA
 
 }
 
 
-void CMapGarminTile::draw(QPainter& p, double scale, const QRectF& viewport)
+void CMapGarminTile::draw(QPainter& p, unsigned level, double scale, const QRectF& viewport)
 {
-    qDebug() << viewport.topLeft() << viewport.bottomRight();
-    drawPolylines(p, scale, viewport);
+//     qDebug() << viewport.topLeft() << viewport.bottomRight();
+    drawPolylines(p, level, scale, viewport);
 }
 
-void CMapGarminTile::drawPolylines(QPainter& p, double scale, const QRectF& viewport)
+void CMapGarminTile::drawPolylines(QPainter& p, unsigned level, double scale, const QRectF& viewport)
 {
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()){
+        if(!subfile->area.intersects(viewport)){
+            ++subfile;
+            continue;
+        }
+
+        const QVector<subdiv_desc_t>&  subdivs = subfile->subdivs;
+        // collect polylines
+        QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
+        while(subdiv != subdivs.end()){
+
+            if(subdiv->level != level || !subdiv->area.intersects(viewport)){
+                ++subdiv;
+                continue;
+            }
+//             qDebug() << subdiv->n << subdiv->area << viewport << subdiv->area.intersects(viewport);
 
 
-
+            ++subdiv;
+        }
         ++subfile;
     }
+
+//     qDebug() << "------------------";
 }
+
+

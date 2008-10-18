@@ -225,6 +225,17 @@ void CMapDEM::draw(QPainter& p)
 {
     if(pjsrc == 0) return;
 
+    draw();
+    p.drawImage(0,0, buffer);
+    //     qDebug() << "--------------------------";
+}
+
+void CMapDEM::draw()
+{
+    buffer.fill(Qt::transparent);
+
+    if(pjsrc == 0) return;
+
     IMap::overlay_e overlay = status->getOverlayType();
     if(overlay == IMap::eNone) return;
 
@@ -318,10 +329,10 @@ void CMapDEM::draw(QPainter& p)
 
     // Finally scale the image to viewport size. QT will do the smoothing
     img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-    p.drawPixmap(-pxx, -pxy, QPixmap::fromImage(img));
-    //     qDebug() << "--------------------------";
-}
 
+    QPainter p(&buffer);
+    p.drawImage(-pxx, -pxy, img);
+}
 
 void CMapDEM::shading(QImage& img, qint16 * data)
 {

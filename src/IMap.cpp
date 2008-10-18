@@ -72,6 +72,12 @@ void IMap::draw(QPainter& p)
     p.drawText(rect,Qt::AlignCenter,"no map");
 }
 
+void IMap::draw()
+{
+    QPainter p(&buffer);
+    p.fillRect(rect,QColor("#ffffcc"));
+    p.drawText(rect,Qt::AlignCenter,"no map");
+}
 
 void IMap::convertPt2Rad(double& u, double& v)
 {

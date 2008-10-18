@@ -156,6 +156,35 @@ void CMapRaster::draw(QPainter& p)
 {
     if(!dataset) return;
 
+    draw();
+
+    p.drawImage(0,0,buffer);
+
+    QString str;
+    if(zoomfactor < 1.0) {
+        str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
+    }
+    else {
+        str = tr("Zoom level x%1").arg(zoomlevel);
+    }
+
+    p.setPen(Qt::white);
+    p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+    p.drawText(9 ,23, str);
+    p.drawText(11,23, str);
+    p.drawText(9 ,25, str);
+    p.drawText(11,25, str);
+
+    p.setPen(Qt::darkBlue);
+    p.drawText(10,24,str);
+
+}
+
+void CMapRaster::draw()
+{
+    if(!dataset) return;
+
     buffer.fill(Qt::white);
     QPainter _p_(&buffer);
 
@@ -191,26 +220,4 @@ void CMapRaster::draw(QPainter& p)
         double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
         _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
     }
-
-    p.drawImage(0,0,buffer);
-
-    QString str;
-    if(zoomfactor < 1.0) {
-        str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
-    }
-    else {
-        str = tr("Zoom level x%1").arg(zoomlevel);
-    }
-
-    p.setPen(Qt::white);
-    p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-    p.drawText(9 ,23, str);
-    p.drawText(11,23, str);
-    p.drawText(9 ,25, str);
-    p.drawText(11,25, str);
-
-    p.setPen(Qt::darkBlue);
-    p.drawText(10,24,str);
-
 }

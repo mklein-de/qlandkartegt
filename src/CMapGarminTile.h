@@ -93,7 +93,7 @@ class CMapGarminTile : public QObject
             /// west boundary of area covered by this subsection [°]
             double west;
 
-            /// area in meter coordinates covered by this subdivision
+            /// area in meter coordinates covered by this subdivision [°]
             QRectF area;
 
             /// number of left shifts for RGN data
@@ -160,12 +160,13 @@ class CMapGarminTile : public QObject
             @param p the painter
             @param viewport the actual view port to draw in [°]
         */
-        void draw(QPainter& p, double scale, const QRectF& viewport);
+        void draw(QPainter& p, unsigned level, double scale, const QRectF& viewport);
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void drawPolylines(QPainter& p, double scale, const QRectF& viewport);
+        void drawPolylines(QPainter& p, unsigned level, double scale, const QRectF& viewport);
+
 
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks
