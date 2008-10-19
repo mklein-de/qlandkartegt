@@ -34,6 +34,8 @@ class QByteArray;
 class QPainter;
 class IMap;
 
+typedef QVector<CGarminPolygon> polytype_t;
+
 class CMapGarminTile : public QObject
 {
     Q_OBJECT;
@@ -162,13 +164,12 @@ class CMapGarminTile : public QObject
             @param p the painter
             @param viewport the actual view port to draw in [°]
         */
-        void draw(QPainter& p, unsigned level, double scale, const QRectF& viewport);
+        void loadVisibleData(polytype_t& polygons, polytype_t& polylines, unsigned level, double scale, const QRectF& viewport);
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void drawPolylines(QPainter& p, unsigned level, double scale, const QRectF& viewport);
-        void loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, QVector<CGarminPolygon>& polylines, QVector<CGarminPolygon>& polygons);
+        void loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons);
 
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks

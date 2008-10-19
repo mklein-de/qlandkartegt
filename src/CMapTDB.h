@@ -20,7 +20,12 @@
 #define CMAPTDB_H
 
 #include "IMap.h"
+#include "CMapGarminTile.h"
 #include <QMap>
+#include <QPen>
+#include <QBrush>
+#include <QFont>
+
 
 class CMapGarminTile;
 
@@ -46,6 +51,7 @@ class CMapTDB : public IMap
     private:
         void readTDB(const QString& filename);
         bool processPrimaryMapData();
+        void drawPolylines(QPainter& p, polytype_t& lines);
 
 #pragma pack(1)
         struct tdb_hdr_t
@@ -184,6 +190,20 @@ class CMapTDB : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
+
+        static const QString polyline_typestr[];
+        struct polyline_property{
+            polyline_property(): type(0), pen(Qt::magenta){};
+            polyline_property(quint16 type, const QColor& color, qreal width, Qt::PenStyle style)
+                : type(type)
+                , pen(QBrush(color), width, style, Qt::RoundCap, Qt::RoundJoin)
+                {}
+            quint16 type;
+            QPen pen;
+            QFont font;
+        };
+
+        QVector<polyline_property> polylineProperties;
 };
 
 #endif //CMAPTDB_H

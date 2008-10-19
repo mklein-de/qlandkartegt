@@ -38,7 +38,7 @@ class CGarminPolygon
         CGarminPolygon();
         virtual ~CGarminPolygon();
 
-        quint32 decode(/*CMapGarminTile::subdiv_desc_t& subdiv,*/qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData);
+        quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData);
 
         quint16 type;
         /// direction of line (polyline, only)
