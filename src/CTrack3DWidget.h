@@ -42,9 +42,11 @@ class CTrack3DWidget: public QGLWidget
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mouseDoubleClickEvent ( QMouseEvent * event );
-        void wheelEvent ( QWheelEvent * e );
         void contextMenuEvent(QContextMenuEvent *event);
+        void keyPressEvent ( QKeyEvent * event );
         void createActions();
+        void cameraTranslated(GLdouble x, GLdouble y, GLdouble z);
+        void cameraRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z, bool correct = true);
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
@@ -63,12 +65,11 @@ class CTrack3DWidget: public QGLWidget
         void drawTrack();
 
         GLuint object;
-        double xRot;
-        double zRot;
-        double xRotSens;
-        double zRotSens;
+        double mouseRotSens;
+        double keyboardRotSens;
+        double translateSens;
         GLuint mapTexture;
-        double xShift, yShift, zoomFactor, eleZoomFactor;
+        double eleZoomFactor;
 
         double maxElevation, minElevation;
 
@@ -78,13 +79,12 @@ class CTrack3DWidget: public QGLWidget
 
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
+        double cameraRotX;
 
     private slots:
         void slotChanged();
 
     public slots:
-        void setXRotation(double angle);
-        void setZRotation(double angle);
         void eleZoomOut();
         void eleZoomIn();
         void eleZoomReset();

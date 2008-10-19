@@ -36,15 +36,12 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     : QGLWidget(parent)
 {
     object = 0;
-    xRot = 45;
-    zRot = 0;
-    xRotSens = 0.3;
-    zRotSens = 0.3;
+    translateSens = 20;
+    mouseRotSens = 0.3;
+    keyboardRotSens = 1;
 
-    xShift = 0;
-    yShift = 0;
-    zoomFactor = 1;
     eleZoomFactor = 1;
+    cameraRotX = 0;
 
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
@@ -53,6 +50,7 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
 
     createActions();
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 void CTrack3DWidget::createActions()
@@ -294,28 +292,9 @@ GLuint CTrack3DWidget::makeObject()
     return list;
 }
 
-void CTrack3DWidget::setXRotation(double angle)
-{
-    normalizeAngle(&angle);
-    if (angle > 0 && angle < 90) {
-        xRot = angle;
-        emit xRotationChanged(angle);
-        updateGL();
-    }
-}
-
-void CTrack3DWidget::setZRotation(double angle)
-{
-    normalizeAngle(&angle);
-    if (angle != zRot) {
-        zRot = angle;
-        emit zRotationChanged(angle);
-        updateGL();
-    }
-}
-
 void CTrack3DWidget::initializeGL()
 {
+    int side = qMax(width(), height());
     glClearColor(1.0, 1.0, 1.0, 0.0);
     setMapTexture();
     object = makeObject();
@@ -328,21 +307,18 @@ void CTrack3DWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+
+    glLoadIdentity();
+//    glTranslated(0.0, 0.0, -2 * side);
+    cameraTranslated(0.0, side/2, -2 * side);
+    cameraRotated(-15, 0.1, 0.0, 0.0);
+
     slotChanged();
 }
 
 void CTrack3DWidget::paintGL()
 {
-    int side = qMax(width(), height());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glTranslated(0.0, -0.25 * side, 0.0);
-    glTranslated(0.0, 0.0, - 3 * side);
-    glRotated(-xRot, 1.0, 0.0, 0.0);
-    glScalef(zoomFactor, zoomFactor, zoomFactor);
-    glTranslated(xShift * 2, 2 * yShift, 0.0);
-
-    glRotated(zRot, 0.0, 0.0, 1.0);
     glCallList(object);
 
     /*draw axis*/
@@ -402,9 +378,36 @@ void CTrack3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     /* 20 is equal to value of a maximum zoom factor. */
-    glFrustum(-width/2, width/2, -height/2, height/2, side, 20 * side);
+    glFrustum(-width/200, width/200, -height/200, height/200, side/100, 20 * side);
     //glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
+}
+
+void CTrack3DWidget::cameraTranslated(GLdouble x, GLdouble y, GLdouble z)
+{
+    GLdouble modelview[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glLoadIdentity();
+    glTranslated(x, y, z);
+    glMultMatrixd(modelview);
+}
+
+void CTrack3DWidget::cameraRotated(GLdouble angle, const GLdouble x, GLdouble y, GLdouble z, bool correct)
+{
+    if (correct) {
+            if (x < 0.1)
+                cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
+            else
+                cameraRotX += angle;
+    }
+
+    GLdouble modelview[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glLoadIdentity();
+    glRotated(angle, x, y, z);
+    glMultMatrixd(modelview);
+    if (correct && x < 0.1)
+        cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
 }
 
 void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
@@ -458,20 +461,83 @@ void CTrack3DWidget::mousePressEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
+void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
+{
+    qDebug() << "CTrack3DWidget::keyPressEvent" << endl;
+    switch (event->key())
+    {
+        case Qt::Key_Up:
+        case Qt::Key_W:
+            qDebug() << "up" << endl;
+            cameraTranslated(0.0, 0.0, translateSens);
+            break;
+
+        case Qt::Key_Down:
+        case Qt::Key_S:
+            qDebug() << "down" << endl;
+            cameraTranslated(0.0, 0.0, -translateSens);
+            break;
+
+        case Qt::Key_A:
+            cameraTranslated(+translateSens, 0.0, 0.0);
+            break;
+
+        case Qt::Key_D:
+            cameraTranslated(-translateSens, 0.0, 0.0);
+            break;
+
+        case Qt::Key_R:
+            cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
+            cameraTranslated(0.0, 0.0, -translateSens);
+            cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
+            break;
+
+        case Qt::Key_F:
+            cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
+            cameraTranslated(0.0, 0.0, translateSens);
+            cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
+            break;
+
+        case Qt::Key_Left:
+            cameraRotated(-keyboardRotSens, 0.0, 0.0, 1.0);
+            break;
+
+        case Qt::Key_Right:
+            cameraRotated(keyboardRotSens, 0.0, 0.0, 1.0);
+            break;
+
+        case Qt::Key_PageUp:
+            cameraRotated(-keyboardRotSens, 1.0, 0.0, 0.0);
+            break;
+
+        case Qt::Key_PageDown:
+            cameraRotated(keyboardRotSens, 1.0, 0.0, 0.0);
+            break;
+
+        case Qt::Key_Home:
+            cameraRotated(-keyboardRotSens, 0.0, 1.0, 0.0);
+            break;
+
+        case Qt::Key_End:
+            cameraRotated(keyboardRotSens, 0.0, 1.0, 0.0);
+            break;
+    }
+    updateGL();
+}
+
 void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
+    cameraRotated(mouseRotSens * dy, 1.0, 0.0, 0.0);
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot - xRotSens * dy);
-        setZRotation(zRot + zRotSens * dx);
+        cameraRotated(mouseRotSens * dx, 0.0, 0.0, 1.0);
     } else if (event->buttons() & Qt::MidButton) {
-        xShift += dx / zoomFactor;
-        yShift -= dy / zoomFactor;
-        updateGL();
+        cameraRotated(mouseRotSens * dx, 0.0, 0.0, 1.0);
     }
     lastPos = event->pos();
+    updateGL();
 }
 
 void CTrack3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
@@ -513,17 +579,4 @@ void CTrack3DWidget::normalizeAngle(double *angle)
         *angle += 360;
     while (*angle > 360)
         *angle -= 360;
-}
-
-void CTrack3DWidget::wheelEvent ( QWheelEvent * e )
-{
-    bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
-    if (in) {
-        qDebug() << "in" << endl;
-        zoomFactor *= 1.1;
-    } else {
-        qDebug() << "out" << endl;
-        zoomFactor /= 1.1;
-    }
-    updateGL();
 }
