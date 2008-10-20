@@ -67,8 +67,8 @@ CMapTDB::scale_t CMapTDB::scales[] =
     ,{QString("50 m"), 0.5, 24}             //31
     ,{QString("30 m"), 0.3, 24}             //32
     ,{QString("20 m"), 0.2, 24}             //33
-    ,{QString("15 m"), 0.1, 24}             //34
-    ,{QString("10 m"), 0.15, 24}            //35
+    ,{QString("15 m"), 0.15, 24}             //34
+    ,{QString("10 m"), 0.10, 24}            //35
 };
 
 const QString CMapTDB::polyline_typestr[]=
@@ -133,6 +133,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , needRedraw(true)
 , zoomFactor(0)
 , polylineProperties(0x40)
+, polygonProperties(0x80)
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
@@ -159,30 +160,22 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     zoom(zoomidx);
 
-    polylineProperties[0x00] = polyline_property(0x00, Qt::magenta, 2, Qt::SolidLine);
+
     polylineProperties[0x01] = polyline_property(0x01, "#c46442",   4, Qt::SolidLine);
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine);
     polylineProperties[0x03] = polyline_property(0x03, "#e68664",   2, Qt::SolidLine);
     polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine);
     polylineProperties[0x05] = polyline_property(0x05, "#ffff66",   2, Qt::SolidLine);
-    polylineProperties[0x06] = polyline_property(0x06, Qt::white,   2, Qt::SolidLine);
+    polylineProperties[0x06] = polyline_property(0x06, "#FFFFFF",   2, Qt::SolidLine);
     polylineProperties[0x07] = polyline_property(0x07, "#c46442",   2, Qt::SolidLine);
     polylineProperties[0x08] = polyline_property(0x08, "#e88866",   2, Qt::SolidLine);
     polylineProperties[0x09] = polyline_property(0x09, "#e88866",   2, Qt::SolidLine);
     polylineProperties[0x0A] = polyline_property(0x0A, "#808080",   2, Qt::SolidLine);
     polylineProperties[0x0B] = polyline_property(0x0B, "#c46442",   2, Qt::SolidLine);
-    polylineProperties[0x0C] = polyline_property(0x0C, "#ffffff",   2, Qt::SolidLine);
-    polylineProperties[0x0D] = polyline_property(0x0D, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x0E] = polyline_property(0x0E, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x0F] = polyline_property(0x0F, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x10] = polyline_property(0x10, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x11] = polyline_property(0x11, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x12] = polyline_property(0x12, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x13] = polyline_property(0x13, Qt::magenta, 2, Qt::SolidLine);
+    polylineProperties[0x0C] = polyline_property(0x0C, "#FFFFFF",   2, Qt::SolidLine);
     polylineProperties[0x14] = polyline_property(0x14, "#FFFFFF",   2, Qt::DotLine);
     polylineProperties[0x15] = polyline_property(0x15, "#000080",   2, Qt::SolidLine);
-    polylineProperties[0x16] = polyline_property(0x16, "#808080",   4, Qt::SolidLine);
-    polylineProperties[0x17] = polyline_property(0x17, Qt::magenta, 2, Qt::SolidLine);
+    polylineProperties[0x16] = polyline_property(0x16, "#808080",   2, Qt::SolidLine);
     polylineProperties[0x18] = polyline_property(0x18, "#0000ff",   2, Qt::SolidLine);
     polylineProperties[0x19] = polyline_property(0x19, "#00ff00",   2, Qt::SolidLine);
     polylineProperties[0x1A] = polyline_property(0x1A, "#000000",   2, Qt::SolidLine);
@@ -203,27 +196,63 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polylineProperties[0x29] = polyline_property(0x29, "#ff0000",   2, Qt::SolidLine);
     polylineProperties[0x2A] = polyline_property(0x2A, "#000000",   2, Qt::SolidLine);
     polylineProperties[0x2B] = polyline_property(0x2B, "#000000",   2, Qt::SolidLine);
-    polylineProperties[0x2C] = polyline_property(0x2C, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x2D] = polyline_property(0x2D, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x2E] = polyline_property(0x2E, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x2F] = polyline_property(0x2F, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x30] = polyline_property(0x30, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x31] = polyline_property(0x31, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x32] = polyline_property(0x32, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x33] = polyline_property(0x33, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x34] = polyline_property(0x34, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x35] = polyline_property(0x35, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x36] = polyline_property(0x36, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x37] = polyline_property(0x37, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x38] = polyline_property(0x38, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x39] = polyline_property(0x39, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3A] = polyline_property(0x3A, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3B] = polyline_property(0x3B, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3C] = polyline_property(0x3C, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3D] = polyline_property(0x3D, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3E] = polyline_property(0x3E, Qt::magenta, 2, Qt::SolidLine);
-    polylineProperties[0x3F] = polyline_property(0x3F, Qt::magenta, 2, Qt::SolidLine);
 
+    polygonProperties[0x00] = polygon_property(0x00, Qt::magenta,   "#000000", Qt::NoBrush);
+    polygonProperties[0x01] = polygon_property(0x01, Qt::NoPen,     "#d2c0c0", Qt::SolidPattern);
+    polygonProperties[0x02] = polygon_property(0x02, Qt::NoPen,     "#fbeab7", Qt::SolidPattern);
+    polygonProperties[0x03] = polygon_property(0x03, Qt::NoPen,     "#a4b094", Qt::SolidPattern);
+    polygonProperties[0x04] = polygon_property(0x04, Qt::NoPen,     "#808080", Qt::SolidPattern);
+    polygonProperties[0x05] = polygon_property(0x05, Qt::NoPen,     "#f0f0f0", Qt::SolidPattern);
+    polygonProperties[0x06] = polygon_property(0x06, Qt::NoPen,     "#cacaca", Qt::SolidPattern);
+    polygonProperties[0x07] = polygon_property(0x07, Qt::NoPen,     "#feebcf", Qt::SolidPattern);
+    polygonProperties[0x08] = polygon_property(0x08, Qt::NoPen,     "#fde8d5", Qt::SolidPattern);
+    polygonProperties[0x09] = polygon_property(0x09, Qt::NoPen,     "#fee8b8", Qt::SolidPattern);
+    polygonProperties[0x0a] = polygon_property(0x0a, Qt::NoPen,     "#fdeac6", Qt::SolidPattern);
+    polygonProperties[0x0b] = polygon_property(0x0b, Qt::NoPen,     "#fddfbd", Qt::SolidPattern);
+    polygonProperties[0x0c] = polygon_property(0x0c, Qt::NoPen,     "#ebeada", Qt::SolidPattern);
+    polygonProperties[0x0d] = polygon_property(0x0d, Qt::NoPen,     "#f8e3be", Qt::SolidPattern);
+    polygonProperties[0x0e] = polygon_property(0x0e, Qt::NoPen,     "#e0e0e0", Qt::SolidPattern);
+    polygonProperties[0x13] = polygon_property(0x13, Qt::NoPen,     "#cc9900", Qt::SolidPattern);
+    polygonProperties[0x14] = polygon_property(0x14, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x15] = polygon_property(0x15, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x16] = polygon_property(0x16, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x17] = polygon_property(0x17, Qt::NoPen,     "#90be00", Qt::SolidPattern);
+    polygonProperties[0x18] = polygon_property(0x18, Qt::NoPen,     "#00ff00", Qt::SolidPattern);
+    polygonProperties[0x19] = polygon_property(0x19, Qt::NoPen,     "#f8e3be", Qt::SolidPattern);
+    polygonProperties[0x1a] = polygon_property(0x1a, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
+    polygonProperties[0x1e] = polygon_property(0x1e, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x1f] = polygon_property(0x1f, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x20] = polygon_property(0x20, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x28] = polygon_property(0x28, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x29] = polygon_property(0x29, Qt::NoPen,     "#0000ff", Qt::SolidPattern);
+    polygonProperties[0x32] = polygon_property(0x32, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x3b] = polygon_property(0x3b, Qt::NoPen,     "#0000ff", Qt::SolidPattern);
+    polygonProperties[0x3c] = polygon_property(0x3c, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x3d] = polygon_property(0x3d, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x3e] = polygon_property(0x3e, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x3f] = polygon_property(0x3f, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x40] = polygon_property(0x40, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x41] = polygon_property(0x41, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x42] = polygon_property(0x42, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x43] = polygon_property(0x43, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x44] = polygon_property(0x44, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x45] = polygon_property(0x45, Qt::NoPen,     "#0000ff", Qt::SolidPattern);
+    polygonProperties[0x46] = polygon_property(0x46, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x47] = polygon_property(0x47, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x48] = polygon_property(0x48, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x49] = polygon_property(0x49, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x4a] = polygon_property(0x4a, "#000000",     Qt::NoBrush, Qt::NoBrush);
+    polygonProperties[0x4b] = polygon_property(0x4b, "#000000",     Qt::NoBrush, Qt::NoBrush);
+    polygonProperties[0x4c] = polygon_property(0x4c, Qt::NoPen,     "#f0e68c", Qt::SolidPattern);
+    polygonProperties[0x4d] = polygon_property(0x4d, Qt::NoPen,     "#00ffff", Qt::SolidPattern);
+    polygonProperties[0x4e] = polygon_property(0x4e, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
+    polygonProperties[0x4f] = polygon_property(0x4f, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
+    polygonProperties[0x50] = polygon_property(0x50, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
+    polygonProperties[0x51] = polygon_property(0x51, Qt::NoPen,     "#ffffff", Qt::SolidPattern);
+    polygonProperties[0x52] = polygon_property(0x52, Qt::NoPen,     "#4aca4a", Qt::SolidPattern);
+    polygonProperties[0x53] = polygon_property(0x53, Qt::NoPen,     "#bcedfa", Qt::SolidPattern);
+    polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+    polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -703,53 +732,18 @@ void CMapTDB::draw()
     }
 
 
-    polytype_t::iterator item = polygons.begin();
-    p.setPen(Qt::magenta);
-    while (item != polygons.end()) {
-        double * u      = item->u.data();
-        double * v      = item->v.data();
-        const int size  = item->u.size();
-
-        convertRad2Pt(u,v,size);
-
-        QPolygonF line(size);
-
-        for(int i = 0; i < size; ++i){
-            line[i].setX(*u++);
-            line[i].setY(*v++);
-        }
-
-        p.drawPolyline(line);
-        ++item;
-    }
 
 
+    drawPolygons(p, polygons);
     drawPolylines(p, polylines);
-//     item = polylines.begin();
-//     p.setPen(Qt::black);
-//     while (item != polylines.end()) {
-//         double * u      = item->u.data();
-//         double * v      = item->v.data();
-//         const int size  = item->u.size();
-//
-//         convertRad2Pt(u,v,size);
-//
-//         QPolygonF line(size);
-//
-//         for(int i = 0; i < size; ++i){
-//             line[i].setX(*u++);
-//             line[i].setY(*v++);
-//         }
-//
-//         p.drawPolyline(line);
-//         ++item;
-//     }
 }
 
 
-static quint16 streets[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x14};
+static quint16 streets[] = {0x16, 0x14, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01};
+// { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x14, 0x16};
+
 static quint16 others[]  = { 0x00, /*0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B, 0x0C,*/ 0x0D, 0x0E, 0x0F
-                            ,0x10, 0x11, 0x12, 0x13, /*0x14,*/ 0x15, 0x16, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+                            ,0x10, 0x11, 0x12, 0x13, /*0x14,*/ 0x15, /*0x16,*/ 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
                             ,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
                             ,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
                            };
@@ -759,10 +753,59 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int n;
     const int N = sizeof(streets)/sizeof(quint16);
 
+//     QSet<quint16> setStreets;
+//     setStreets << 0x01 << 0x02 << 0x03 << 0x04 << 0x05 << 0x06 << 0x08 << 0x09 << 0x0A << 0x0B << 0x0C << 0x14;
+//
+//     polytype_t::iterator item = lines.begin();
+//     while(item != lines.end()){
+//         if(setStreets.contains(item->type)){
+//             double * u      = item->u.data();
+//             double * v      = item->v.data();
+//             const int size  = item->u.size();
+//
+//             convertRad2Pt(u,v,size);
+//
+//             QPolygonF line(size);
+//
+//             for(int i = 0; i < size; ++i){
+//                 line[i].setX(*u++);
+//                 line[i].setY(*v++);
+//             }
+//
+//             p.setPen(QPen(Qt::black, polylineProperties[item->type].pen.width() + 2));
+//             p.drawPolyline(line);
+//         }
+//         ++item;
+//     }
+//
+//     item = lines.begin();
+//     while(item != lines.end()){
+//         if(setStreets.contains(item->type)){
+//             double * u      = item->u.data();
+//             double * v      = item->v.data();
+//             const int size  = item->u.size();
+//
+//             QPolygonF line(size);
+//
+//             for(int i = 0; i < size; ++i){
+//                 line[i].setX(*u++);
+//                 line[i].setY(*v++);
+//             }
+//
+//             p.setPen(polylineProperties[item->type].pen);
+//             p.drawPolyline(line);
+//         }
+//         ++item;
+//     }
+
+
     for(n = 0; n < N; ++n){
         quint16 type = streets[n];
 
-        p.setPen(QPen(Qt::black, polylineProperties[type].pen.width() + 2));
+        int width = polylineProperties[type].pen.width();
+        width = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
+
+        p.setPen(QPen(Qt::black, width + 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()){
@@ -789,7 +832,12 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     for(n = 0; n < N; ++n){
         quint16 type = streets[n];
 
-        p.setPen(polylineProperties[type].pen);
+        QPen pen    = polylineProperties[type].pen;
+        int width   = pen.width();
+        width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
+        pen.setWidth(width);
+
+        p.setPen(pen);
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()){
@@ -839,4 +887,31 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             ++item;
         }
     }
+}
+
+
+void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
+{
+    polytype_t::iterator item = lines.begin();
+    p.setPen(Qt::magenta);
+    while (item != lines.end()) {
+        double * u      = item->u.data();
+        double * v      = item->v.data();
+        const int size  = item->u.size();
+
+        convertRad2Pt(u,v,size);
+
+        QPolygonF line(size);
+
+        for(int i = 0; i < size; ++i){
+            line[i].setX(*u++);
+            line[i].setY(*v++);
+        }
+
+        p.setPen(polygonProperties[item->type].pen);
+        p.setBrush(polygonProperties[item->type].brush);
+        p.drawPolygon(line);
+        ++item;
+    }
+
 }

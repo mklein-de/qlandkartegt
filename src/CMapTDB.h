@@ -52,6 +52,7 @@ class CMapTDB : public IMap
         void readTDB(const QString& filename);
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
+        void drawPolygons(QPainter& p, polytype_t& lines);
 
 #pragma pack(1)
         struct tdb_hdr_t
@@ -203,11 +204,31 @@ class CMapTDB : public IMap
                 , pen(QBrush(color), width, style, Qt::RoundCap, Qt::RoundJoin)
                 {}
             quint16 type;
-            QPen pen;
-            QFont font;
+            QPen    pen;
+            QFont   font;
         };
 
         QVector<polyline_property> polylineProperties;
+
+        struct polygon_property{
+            polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern){}
+            polygon_property(quint16 type, const Qt::PenStyle pen, const QColor& brushColor, Qt::BrushStyle pattern)
+                : type(type)
+                , pen(pen)
+                , brush(brushColor, pattern)
+                {}
+            polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
+                : type(type)
+                , pen(penColor)
+                , brush(brushColor, pattern)
+                {}
+            quint16 type;
+            QPen    pen;
+            QBrush  brush;
+            QFont   font;
+        };
+
+        QVector<polygon_property> polygonProperties;
 };
 
 #endif //CMAPTDB_H

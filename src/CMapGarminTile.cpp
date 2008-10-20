@@ -516,7 +516,7 @@ void CMapGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines
 //     }
 
 //     }
-    qDebug() << "------------------";
+//     qDebug() << "------------------";
 }
 
 void CMapGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons)
