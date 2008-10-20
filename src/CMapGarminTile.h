@@ -299,7 +299,11 @@ class CMapGarminTile : public QObject
         {
             quint16 next;
         };
+#ifdef WIN32
+#pragma pack()
+#else
 #pragma pack(0)
+#endif
         /// the tile's filename
         QString filename;
         /// xor mask for encrypted files

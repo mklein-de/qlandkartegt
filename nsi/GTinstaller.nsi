@@ -74,12 +74,12 @@ Var StartMenuFolder
   Section "FWTools" FWTools
   	SetOutPath $INSTDIR
   	; Don't do it if we can package install
-  	NSISdl::download http://home.gdal.org/fwtools/FWTools210.exe $TEMP\FWTools210.exe
+  	NSISdl::download http://home.gdal.org/fwtools/FWTools226.exe $TEMP\FWTools226.exe
   	Pop $R0 ;Get the return value
   	  StrCmp $R0 "success" +3
   	    MessageBox MB_OK "Download failed: $R0"
   	    Quit
-  	ExecWait '"$TEMP\FWTools210.exe"'    
+  	ExecWait '"$TEMP\FWTools226.exe"'    
   SectionEnd
   LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
 

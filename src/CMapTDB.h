@@ -64,7 +64,7 @@ class CMapTDB : public IMap
         {
             quint32 id;
             quint16 version;
-            char *  name[];
+            char *  name[1];
         };
 
         struct tdb_map_t : public tdb_hdr_t
@@ -75,7 +75,7 @@ class CMapTDB : public IMap
             qint32  east;
             qint32  south;
             qint32  west;
-            char    name[];
+            char    name[1];
         };
 
         struct tdb_map_size_t
@@ -90,14 +90,18 @@ class CMapTDB : public IMap
             quint8  type;
             quint16 count;
             quint8  flag;
-            char    str[];
+            char    str[1];
         };
 
         struct tdb_copyrights_t : public tdb_hdr_t
         {
             tdb_copyright_t entry;
         };
+#ifdef WIN32
+#pragma pack()
+#else
 #pragma pack(0)
+#endif
 
         struct tile_t
         {

@@ -19,7 +19,7 @@
 #include "CUnitMetric.h"
 
 CUnitMetric::CUnitMetric(QObject * parent)
-: IUnit("metric", "m", 1.0, "km/h", 3.6, parent)
+: IUnit("metric", "m", 1.0f, "km/h", 3.6f, parent)
 {
 
 }

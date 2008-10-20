@@ -20,7 +20,7 @@
 #include "CUnitImperial.h"
 
 CUnitImperial::CUnitImperial(QObject * parent)
-: IUnit("imperial", "ft", 3.28084, "ml/h", 2.23693164, parent)
+: IUnit("imperial", "ft", 3.28084f, "ml/h", 2.23693164f, parent)
 {
 
 }
