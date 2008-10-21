@@ -730,9 +730,6 @@ void CMapTDB::draw()
         }
     }
 
-
-
-
     drawPolygons(p, polygons);
     drawPolylines(p, polylines);
 }
@@ -749,52 +746,6 @@ static quint16 others[]  = { 0x00, /*0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
-
-//     QSet<quint16> setStreets;
-//     setStreets << 0x01 << 0x02 << 0x03 << 0x04 << 0x05 << 0x06 << 0x08 << 0x09 << 0x0A << 0x0B << 0x0C << 0x14;
-//
-//     polytype_t::iterator item = lines.begin();
-//     while(item != lines.end()){
-//         if(setStreets.contains(item->type)){
-//             double * u      = item->u.data();
-//             double * v      = item->v.data();
-//             const int size  = item->u.size();
-//
-//             convertRad2Pt(u,v,size);
-//
-//             QPolygonF line(size);
-//
-//             for(int i = 0; i < size; ++i){
-//                 line[i].setX(*u++);
-//                 line[i].setY(*v++);
-//             }
-//
-//             p.setPen(QPen(Qt::black, polylineProperties[item->type].pen.width() + 2));
-//             p.drawPolyline(line);
-//         }
-//         ++item;
-//     }
-//
-//     item = lines.begin();
-//     while(item != lines.end()){
-//         if(setStreets.contains(item->type)){
-//             double * u      = item->u.data();
-//             double * v      = item->v.data();
-//             const int size  = item->u.size();
-//
-//             QPolygonF line(size);
-//
-//             for(int i = 0; i < size; ++i){
-//                 line[i].setX(*u++);
-//                 line[i].setY(*v++);
-//             }
-//
-//             p.setPen(polylineProperties[item->type].pen);
-//             p.drawPolyline(line);
-//         }
-//         ++item;
-//     }
-
     int n;
     const int N = sizeof(streets)/sizeof(quint16);
 
@@ -804,7 +755,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         int width = polylineProperties[type].pen.width();
         width = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
 
-        p.setPen(QPen(Qt::black, width + 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        p.setPen(QPen(Qt::black, width + (zoomFactor < 3.0 ? 4 : 2), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()){

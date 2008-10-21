@@ -468,55 +468,6 @@ void CMapGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines
         }
         ++subfile;
     }
-
-//     {
-//         p.setPen(Qt::magenta);
-//         p.setBrush(Qt::gray);
-//         qDebug() << polygons.count();
-//         const int n = polygons.count();
-//         for(int i = 0; i < n; ++i){
-//             CGarminPolygon& poly = polygons[i];
-//
-//             double * u = poly.u.data();
-//             double * v = poly.v.data();
-//             const int size = poly.u.size();
-//
-//             map.convertRad2Pt(u, v, size);
-//
-//             QPolygonF line(size);
-//             for(int j=0; j < size; ++j){
-//                 line[j].setX(*u++);
-//                 line[j].setY(*v++);
-//             }
-//
-//             p.drawPolygon(line);
-//         }
-//
-//     {
-//         p.setPen(Qt::black);
-//         qDebug() << polylines.count();
-//         const int n = polylines.count();
-//         for(int i = 0; i < n; ++i){
-//             CGarminPolygon& poly = polylines[i];
-//
-//             double * u = poly.u.data();
-//             double * v = poly.v.data();
-//             const int size = poly.u.size();
-//
-//             map.convertRad2Pt(u, v, size);
-//
-//             QPolygonF line(size);
-//             for(int j=0; j < size; ++j){
-//                 line[j].setX(*u++);
-//                 line[j].setY(*v++);
-//             }
-//
-//             p.drawPolyline(line);
-//         }
-//     }
-
-//     }
-//     qDebug() << "------------------";
 }
 
 void CMapGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons)
@@ -588,10 +539,6 @@ void CMapGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& r
         while(pData < pEnd) {
             polylines.push_back(CGarminPolygon());
             pData += polylines.last().decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
-
-//             if(polygon.type == 0x4a && polygon.labels.size() > 1) {
-//                 subfile.definitionAreas[polygon.labels[1]] = polygon;
-//             }
         }
     }
 
