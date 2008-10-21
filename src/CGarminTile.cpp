@@ -25,7 +25,7 @@
 
 #undef DEBUG_SHOW_SECT_DESC
 #undef DEBUG_SHOW_TRE_DATA
-#define DEBUG_SHOW_MAPLEVEL_DATA
+#undef DEBUG_SHOW_MAPLEVEL_DATA
 #undef DEBUG_SHOW_SUBDIV_DATA
 #undef DEBUG_SHOW_POLY_DATA
 
@@ -205,15 +205,12 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     // test for mandatory subfile parts
     if(!(subfile.parts.contains("TRE") && subfile.parts.contains("RGN"))) return;
 
+    void (*minno)(hdr_tre_t*,QByteArray&) = 0;
+    minno = (void (*)(hdr_tre_t*,QByteArray&))QLibrary::resolve(QDir::home().filePath(".config/QLandkarteGT/mellon.so"),"minno");
+
     QByteArray trehdr;
     readFile(file, subfile.parts["TRE"].offset, sizeof(hdr_tre_t), trehdr);
-    const hdr_tre_t * pTreHdr = (const hdr_tre_t * )trehdr.data();
-
-    if(pTreHdr->flag & 0x80) {
-        throw exce_t(errLock,tr("File contains locked / encypted data. Garmin does not "
-                                "want you to use this file with any other software than "
-                                "the one supplied by Garmin."));
-    }
+    hdr_tre_t * pTreHdr = (hdr_tre_t * )trehdr.data();
 
     subfile.isTransparent   = pTreHdr->POI_flags & 0x0002;
     transparent             = subfile.isTransparent ? true : transparent;
@@ -249,9 +246,18 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     qDebug() << "bounding area (\260)" << subfile.area;
 #endif                       // DEBUG_SHOW_TRE_DATA
 
+
     QByteArray maplevel;
     readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre1_offset), gar_load(uint32_t, pTreHdr->tre1_size), maplevel);
     const tre_map_level_t * pMapLevel = (const tre_map_level_t * )maplevel.data();
+
+    if(minno) minno(pTreHdr, maplevel);
+
+    if(pTreHdr->flag & 0x80) {
+        throw exce_t(errLock,tr("File contains locked / encypted data. Garmin does not "
+                                "want you to use this file with any other software than "
+                                "the one supplied by Garmin."));
+    }
 
     quint32 nlevels             = gar_load(uint32_t, pTreHdr->tre1_size) / sizeof(tre_map_level_t);
     quint32 nsubdivs            = 0;

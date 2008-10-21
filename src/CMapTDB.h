@@ -198,37 +198,46 @@ class CMapTDB : public IMap
 
         static const QString polyline_typestr[];
         struct polyline_property{
-            polyline_property(): type(0), pen(Qt::magenta){};
+            polyline_property(): type(0), pen(Qt::magenta), known(false){};
             polyline_property(quint16 type, const QColor& color, qreal width, Qt::PenStyle style)
                 : type(type)
                 , pen(QBrush(color), width, style, Qt::RoundCap, Qt::RoundJoin)
+                , known(true)
                 {}
             quint16 type;
             QPen    pen;
             QFont   font;
+            bool    known;
         };
 
         QVector<polyline_property> polylineProperties;
 
         struct polygon_property{
-            polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern){}
+            polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
             polygon_property(quint16 type, const Qt::PenStyle pen, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(pen)
                 , brush(brushColor, pattern)
+                , known(true)
                 {}
             polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(penColor)
                 , brush(brushColor, pattern)
+                , known(true)
                 {}
             quint16 type;
             QPen    pen;
             QBrush  brush;
             QFont   font;
+            bool    known;
         };
 
         QVector<polygon_property> polygonProperties;
+
+        polytype_t polygons;
+        polytype_t polylines;
+
 };
 
 #endif //CMAPTDB_H
