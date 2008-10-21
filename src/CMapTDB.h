@@ -170,7 +170,7 @@ class CMapTDB : public IMap
         /// west boundary of basemap [°]
         double west;
         /// the area in [m] covered by the basemap
-        QRect area;
+        QRectF area;
         /// set true for encrypted maps
         bool encrypted;
         /// the unlock key

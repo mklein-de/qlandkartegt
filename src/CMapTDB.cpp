@@ -342,7 +342,7 @@ void CMapTDB::readTDB(const QString& filename)
                     basemap = filename;
                 }
 
-                area = QRect(QPoint(west, north), QPoint(east, south));
+                area = QRectF(QPointF(west, north), QPointF(east, south));
 
             }
             break;
@@ -370,7 +370,7 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.east   = GARMIN_RAD((p->east >> 8)  & 0x00FFFFFF);
                 tile.south  = GARMIN_RAD((p->south >> 8) & 0x00FFFFFF);
                 tile.west   = GARMIN_RAD((p->west >> 8)  & 0x00FFFFFF);
-                tile.area   = QRect(QPoint(tile.west, tile.north), QPoint(tile.east, tile.south));
+                tile.area   = QRectF(QPointF(tile.west, tile.north), QPointF(tile.east, tile.south));
 
                 tile.memSize = 0;
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
@@ -678,7 +678,7 @@ void CMapTDB::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].scale;
 
-//     qDebug() << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
+    qDebug() << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
 
     emit sigChanged();
 }
@@ -727,6 +727,7 @@ void CMapTDB::draw()
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
         while(tile != tiles.end()){
             if(tile->area.intersects(viewport)){
+                qDebug() << tile->name;
                 tile->img->loadVisibleData(polygons, polylines, maplevel->level, zoomFactor, viewport);
             }
             ++tile;
@@ -758,7 +759,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         int width = polylineProperties[type].pen.width();
         width = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
 
-        p.setPen(QPen(Qt::black, width + (zoomFactor < 3.0 ? 4 : 2), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        p.setPen(QPen(Qt::black, width + (zoomFactor < 5.0 ? 4 : 2), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()){
