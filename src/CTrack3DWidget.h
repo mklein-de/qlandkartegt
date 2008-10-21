@@ -44,11 +44,10 @@ class CTrack3DWidget: public QGLWidget
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mouseDoubleClickEvent ( QMouseEvent * event );
+        void wheelEvent ( QWheelEvent * e );
         void contextMenuEvent(QContextMenuEvent *event);
         void keyPressEvent ( QKeyEvent * event );
         void createActions();
-        void cameraTranslated(GLdouble x, GLdouble y, GLdouble z);
-        void cameraRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z, bool correct = true);
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
@@ -57,8 +56,10 @@ class CTrack3DWidget: public QGLWidget
         QAction *showTrackAct;
 
     private:
-	CMapQMAP *map;
-	void loadMap();
+        CMapQMAP *map;
+        void loadMap();
+        /// expand map relative to the center
+        void expandMap(bool zoomIn);
         GLuint makeObject();
         void setMapTexture();
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
@@ -69,11 +70,12 @@ class CTrack3DWidget: public QGLWidget
         void drawTrack();
 
         GLuint object;
-        double mouseRotSens;
-        double keyboardRotSens;
-        double translateSens;
+        double xRot;
+        double zRot;
+        double xRotSens;
+        double zRotSens;
         GLuint mapTexture;
-        double eleZoomFactor;
+        double xShift, yShift, zoomFactor, eleZoomFactor;
 
         double maxElevation, minElevation;
 
@@ -83,12 +85,13 @@ class CTrack3DWidget: public QGLWidget
 
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
-        double cameraRotX;
 
     private slots:
         void slotChanged();
 
     public slots:
+        void setXRotation(double angle);
+        void setZRotation(double angle);
         void eleZoomOut();
         void eleZoomIn();
         void eleZoomReset();

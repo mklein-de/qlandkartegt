@@ -37,12 +37,16 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     : QGLWidget(parent)
 {
     object = 0;
-    translateSens = 20;
-    mouseRotSens = 0.3;
-    keyboardRotSens = 1;
+    xRot = 45;
+    zRot = 0;
+    xRotSens = 0.3;
+    zRotSens = 0.3;
+
+    xShift = 0;
+    yShift = 0;
+    zoomFactor = 1;
 
     eleZoomFactor = 1;
-    cameraRotX = 0;
 
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
@@ -318,11 +322,30 @@ GLuint CTrack3DWidget::makeObject()
     return list;
 }
 
+void CTrack3DWidget::setXRotation(double angle)
+{
+    normalizeAngle(&angle);
+    if (angle > 0 && angle < 90) {
+        xRot = angle;
+        emit xRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void CTrack3DWidget::setZRotation(double angle)
+{
+    normalizeAngle(&angle);
+    if (angle != zRot) {
+        zRot = angle;
+        emit zRotationChanged(angle);
+        updateGL();
+    }
+}
+
 void CTrack3DWidget::initializeGL()
 {
     loadMap();
     QSize s = map->getSize();
-    int side = qMax(s.width(), s.height());
     glClearColor(1.0, 1.0, 1.0, 0.0);
     setMapTexture();
     object = makeObject();
@@ -336,18 +359,22 @@ void CTrack3DWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    glLoadIdentity();
-//    glTranslated(0.0, 0.0, -2 * side);
-    cameraTranslated(0.0, side/2, -2 * side);
-    cameraRotated(-15, 0.1, 0.0, 0.0);
-
     slotChanged();
 }
 
 void CTrack3DWidget::paintGL()
 {
     QSize s = map->getSize();
+    int side = qMax(s.width(), s.height());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslated(0.0, -0.25 * side, 0.0);
+    glTranslated(0.0, 0.0, - 3 * side);
+    glRotated(-xRot, 1.0, 0.0, 0.0);
+    glScalef(zoomFactor, zoomFactor, zoomFactor);
+    glTranslated(xShift * 2, 2 * yShift, 0.0);
+
+    glRotated(zRot, 0.0, 0.0, 1.0);
     glCallList(object);
 
     /*draw axis*/
@@ -414,33 +441,6 @@ void CTrack3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void CTrack3DWidget::cameraTranslated(GLdouble x, GLdouble y, GLdouble z)
-{
-    GLdouble modelview[16];
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-    glLoadIdentity();
-    glTranslated(x, y, z);
-    glMultMatrixd(modelview);
-}
-
-void CTrack3DWidget::cameraRotated(GLdouble angle, const GLdouble x, GLdouble y, GLdouble z, bool correct)
-{
-    if (correct) {
-            if (x < 0.1)
-                cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
-            else
-                cameraRotX += angle;
-    }
-
-    GLdouble modelview[16];
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-    glLoadIdentity();
-    glRotated(angle, x, y, z);
-    glMultMatrixd(modelview);
-    if (correct && x < 0.1)
-        cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
-}
-
 void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     GLdouble projection[16];
@@ -501,67 +501,64 @@ void CTrack3DWidget::mousePressEvent(QMouseEvent *event)
     lastPos = event->pos();
 }
 
+void CTrack3DWidget::expandMap(bool zoomIn)
+{
+    QSize s = map->getSize();
+    double zoomFactor = zoomIn ? 1.1 : 1/1.1;
+    XY pv;
+    /*save coord of the center map*/
+    pv.u = s.width() / 2;
+    pv.v = s.height() / 2;
+    map->convertPt2Rad(pv.u, pv.v);
+
+    map->resize(QSize(s.width() * zoomFactor, s.height() * zoomFactor));
+
+    /*restore coord of the center map*/
+    map->convertRad2Pt(pv.u, pv.v);
+    s = map->getSize();
+    map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
+}
+
 void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
 {
+    qint32 dx = 0, dy = 0;
+    qint32 zoomMap = 0;
+    QSize s = map->getSize();
     qDebug() << "CTrack3DWidget::keyPressEvent" << endl;
     switch (event->key())
     {
         case Qt::Key_Up:
-        case Qt::Key_W:
-            qDebug() << "up" << endl;
-            cameraTranslated(0.0, 0.0, translateSens);
+            dy += 100;
             break;
 
         case Qt::Key_Down:
-        case Qt::Key_S:
-            qDebug() << "down" << endl;
-            cameraTranslated(0.0, 0.0, -translateSens);
-            break;
-
-        case Qt::Key_A:
-            cameraTranslated(+translateSens, 0.0, 0.0);
-            break;
-
-        case Qt::Key_D:
-            cameraTranslated(-translateSens, 0.0, 0.0);
-            break;
-
-        case Qt::Key_R:
-            cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
-            cameraTranslated(0.0, 0.0, -translateSens);
-            cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
-            break;
-
-        case Qt::Key_F:
-            cameraRotated(-cameraRotX, 1.0, 0.0, 0.0, false);
-            cameraTranslated(0.0, 0.0, translateSens);
-            cameraRotated(cameraRotX, 1.0, 0.0, 0.0, false);
+            dy -= 100;
             break;
 
         case Qt::Key_Left:
-            cameraRotated(-keyboardRotSens, 0.0, 0.0, 1.0);
+            dx += 100;
             break;
 
         case Qt::Key_Right:
-            cameraRotated(keyboardRotSens, 0.0, 0.0, 1.0);
+            dx -= 100;
             break;
-
         case Qt::Key_PageUp:
-            cameraRotated(-keyboardRotSens, 1.0, 0.0, 0.0);
+            zoomMap = 1;
             break;
-
         case Qt::Key_PageDown:
-            cameraRotated(keyboardRotSens, 1.0, 0.0, 0.0);
+            zoomMap = -1;
             break;
-
         case Qt::Key_Home:
-            cameraRotated(-keyboardRotSens, 0.0, 1.0, 0.0);
+            expandMap(true);
             break;
-
         case Qt::Key_End:
-            cameraRotated(keyboardRotSens, 0.0, 1.0, 0.0);
+            expandMap(false);
             break;
     }
+    if (zoomMap)
+            map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
+    if (dx or dy)
+        map->move(QPoint(dx, dy), QPoint(0, 0));
     updateGL();
 }
 
@@ -571,10 +568,12 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        cameraRotated(mouseRotSens * dy, 1.0, 0.0, 0.0);
-        cameraRotated(mouseRotSens * dx, 0.0, 0.0, 1.0);
+        setXRotation(xRot - xRotSens * dy);
+        setZRotation(zRot + zRotSens * dx);
     } else if (event->buttons() & Qt::MidButton) {
-        map->move(QPoint(-dx,-dy), QPoint(0, 0));
+        xShift += dx / zoomFactor;
+        yShift -= dy / zoomFactor;
+//        map->move(QPoint(-dx,-dy), QPoint(0, 0));
     }
     lastPos = event->pos();
     updateGL();
@@ -619,4 +618,17 @@ void CTrack3DWidget::normalizeAngle(double *angle)
         *angle += 360;
     while (*angle > 360)
         *angle -= 360;
+}
+
+void CTrack3DWidget::wheelEvent ( QWheelEvent * e )
+{
+    bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
+    if (in) {
+        qDebug() << "in" << endl;
+        zoomFactor *= 1.1;
+    } else {
+        qDebug() << "out" << endl;
+        zoomFactor /= 1.1;
+    }
+    updateGL();
 }
