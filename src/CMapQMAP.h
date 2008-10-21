@@ -60,6 +60,7 @@ class CMapQMAP : public IMap
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);
+        qint32 getZoomLevel();
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 

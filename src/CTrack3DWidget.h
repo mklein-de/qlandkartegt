@@ -24,6 +24,8 @@
 #include <QWidget>
 
 #include "CTrack.h"
+#include "CMapQMAP.h"
+#include "IMap.h"
 
 class CTrack3DWidget: public QGLWidget
 {
@@ -55,6 +57,8 @@ class CTrack3DWidget: public QGLWidget
         QAction *showTrackAct;
 
     private:
+	CMapQMAP *map;
+	void loadMap();
         GLuint makeObject();
         void setMapTexture();
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);

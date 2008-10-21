@@ -19,6 +19,7 @@
 #include "CTrack3DWidget.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CMapQMAP.h"
 #include "IUnit.h"
 #include "IMap.h"
 #include "CMapDB.h"
@@ -51,6 +52,22 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     createActions();
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     setFocusPolicy(Qt::StrongFocus);
+}
+
+void CTrack3DWidget::loadMap()
+{
+    double x1 = 0, y1 = 0;
+    int side = qMax(width(), height());
+    IMap& src_map = CMapDB::self().getMap();
+    map = new CMapQMAP("", src_map.getKey(), 0);
+    qint32 zoomLevel = src_map.getZoomLevel();
+    qDebug() << zoomLevel << endl;
+    map->zoom(zoomLevel);
+    map->resize(QSize(side, side));
+    src_map.convertPt2Rad(x1, y1);
+    map->convertRad2Pt(x1, y1);
+    map->move(QPoint(x1,y1), QPoint(0, 0));
+    connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
 void CTrack3DWidget::createActions()
@@ -107,13 +124,15 @@ CTrack3DWidget::~CTrack3DWidget()
     makeCurrent();
     deleteTexture(mapTexture);
     glDeleteLists(object, 1);
+    delete map;
 }
 
 void CTrack3DWidget::setMapTexture()
 {
-    QPixmap pm(width(), height());
+    QSize s = map->getSize();
+    QPixmap pm(s.width(), s.height());
     QPainter p(&pm);
-    CMapDB::self().draw(p,pm.rect());
+    map->draw(p);
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
     track = CTrackDB::self().highlightedTrack();
 }
@@ -129,46 +148,54 @@ void CTrack3DWidget::slotChanged()
 
 void CTrack3DWidget::convertPt23D(double& u, double& v, double &ele)
 {
-    u = u - width()/2;
-    v = height()/2 - v;
-    ele = ele * eleZoomFactor * (width() / 10.0) / maxElevation;
+    QSize s = map->getSize();
+    u = u - s.width()/2;
+    v = s.height()/2 - v;
+    ele = ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 }
 
 void CTrack3DWidget::convert3D2Pt(double& u, double& v, double &ele)
 {
-    u = u + width()/2;
-    v = height()/2 - v;
-    ele = ele / eleZoomFactor / (width() / 10.0) * maxElevation;
+    QSize s = map->getSize();
+    u = u + s.width()/2;
+    v = s.height()/2 - v;
+    ele = ele / eleZoomFactor / (s.width() / 10.0) * maxElevation;
 }
 
 void CTrack3DWidget::drawFlatMap()
 {
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+
     glEnable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
     glTexCoord2d(0.0, 0.0);
-    glVertex3d(-width()/2, -height()/2, 0);
+    glVertex3d(-w/2, -h/2, 0);
     glTexCoord2d(1.0, 0.0);
-    glVertex3d(width()/2, -height()/2, 0);
+    glVertex3d( w/2, -h/2, 0);
     glTexCoord2d(1.0, 1.0);
-    glVertex3d(width()/2, height()/2, 0);
+    glVertex3d( w/2,  h/2, 0);
     glTexCoord2d(0.0, 1.0);
-    glVertex3d(-width()/2, height()/2, 0);
+    glVertex3d(-w/2,  h/2, 0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
 
 void CTrack3DWidget::draw3DMap()
 {
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+
     int i, j;
     double step = 5;
     double x, y, u, v;
-    double w = width();
-    double h = height();
     GLdouble vertices[4][3];
     GLdouble texCoords[4][2];
 
-    IMap& map = CMapDB::self().getMap();
+//    IMap& map = CMapDB::self().getMap();
 
     glEnable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
@@ -178,8 +205,8 @@ void CTrack3DWidget::draw3DMap()
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
-    for (y = 0; y < height() - step; y += step) {
-        for (x = 0; x < width(); x += step) {
+    for (y = 0; y < h - step; y += step) {
+        for (x = 0; x < w; x += step) {
             /* copy points 3 -> 0, 2 -> 1 */
             for (j = 0; j < 3; j++) {
                     vertices[0][j] = vertices[3][j];
@@ -199,7 +226,8 @@ void CTrack3DWidget::draw3DMap()
                 v = vertices[i][1];
                 texCoords[i][0] = u / w;
                 texCoords[i][1] = 1 - v / h;
-                map.convertPt2Rad(u, v);
+                map->convertPt2Rad(u, v);
+                // FIXME can't use map instead of dem. need investigation.
                 vertices[i][2] = dem.getElevation(u,v);
                 convertPt23D(vertices[i][0], vertices[i][1], vertices[i][2]);
             }
@@ -241,8 +269,9 @@ void CTrack3DWidget::drawTrack()
 
         trkpt = trkpts.begin();
 
-        pt1.u = trkpt->px.x();
-        pt1.v = trkpt->px.y();
+        pt1.u = trkpt->lon * DEG_TO_RAD;
+        pt1.v = trkpt->lat * DEG_TO_RAD;
+        map->convertRad2Pt(pt1.u, pt1.v);
         ele1 = trkpt->ele;
         convertPt23D(pt1.u, pt1.v, ele1);
 
@@ -250,8 +279,9 @@ void CTrack3DWidget::drawTrack()
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
                 ++trkpt; continue;
             }
-            pt2.u = trkpt->px.x();
-            pt2.v = trkpt->px.y();
+            pt2.u = trkpt->lon * DEG_TO_RAD;
+            pt2.v = trkpt->lat * DEG_TO_RAD;
+            map->convertRad2Pt(pt2.u, pt2.v);
             ele2 = trkpt->ele;
             convertPt23D(pt2.u, pt2.v, ele2);
 
@@ -276,16 +306,12 @@ GLuint CTrack3DWidget::makeObject()
         drawTrack();
 
     //draw map
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, mapTexture);
-    if (!map3DAct->isChecked()) {
+    if (!map3DAct->isChecked())
             /*draw flat map*/
             drawFlatMap();
-    } else {
+    else
             /*using DEM data file to display terrain in 3D*/
             draw3DMap();
-    }
-    glDisable(GL_TEXTURE_2D);
 
     glEndList();
 
@@ -294,7 +320,9 @@ GLuint CTrack3DWidget::makeObject()
 
 void CTrack3DWidget::initializeGL()
 {
-    int side = qMax(width(), height());
+    loadMap();
+    QSize s = map->getSize();
+    int side = qMax(s.width(), s.height());
     glClearColor(1.0, 1.0, 1.0, 0.0);
     setMapTexture();
     object = makeObject();
@@ -318,6 +346,7 @@ void CTrack3DWidget::initializeGL()
 
 void CTrack3DWidget::paintGL()
 {
+    QSize s = map->getSize();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glCallList(object);
 
@@ -359,11 +388,13 @@ void CTrack3DWidget::paintGL()
             glColor3f(1.0, 0.0, 0.0);
             glPointSize(3.0);
             glBegin(GL_POINTS);
-            pt.u = selTrkPt->px.x();
-            pt.v = selTrkPt->px.y();
-            pt.u -= width()/2;
-            pt.v = height()/2 - pt.v;
-            ele = selTrkPt->ele * eleZoomFactor * (width() / 10.0) / maxElevation;
+            pt.u = selTrkPt->lon * DEG_TO_RAD;
+            pt.v = selTrkPt->lat * DEG_TO_RAD;
+            map->convertRad2Pt(pt.u, pt.v);
+
+            pt.u -= s.width()/2;
+            pt.v = s.height()/2 - pt.v;
+            ele = selTrkPt->ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 
             glVertex3d(pt.u,pt.v,ele);
             glEnd();
@@ -414,7 +445,8 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     GLdouble projection[16];
     GLdouble modelview[16];
-    GLdouble x0, y0, z0;
+    GLdouble gl_x0, gl_y0, gl_z0;
+    double x0, y0, z0;
     GLsizei vx, vy;
     GLfloat depth;
     GLint viewport[4];
@@ -425,13 +457,18 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 
     glReadPixels(vx, vy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-    gluUnProject(vx, vy, depth, modelview, projection, viewport, &x0, &y0, &z0);
-
-    x0 += width() / 2;
-    y0 = height() / 2 - y0;
+    gluUnProject(vx, vy, depth, modelview, projection, viewport, &gl_x0, &gl_y0, &gl_z0);
+    x0 = gl_x0;
+    y0 = gl_y0;
+    z0 = gl_z0;
+    convert3D2Pt(x0, y0, z0);
+/*    x0 += width() / 2;
+    y0 = height() / 2 - y0;*/
 
     selTrkPt = 0;
     int d1 = 20;
+
+    XY p;
 
     QList<CTrack::pt_t>& pts          = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator pt  = pts.begin();
@@ -439,8 +476,11 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
         if(pt->flags & CTrack::pt_t::eDeleted) {
             ++pt; continue;
         }
+        p.u = pt->lon * DEG_TO_RAD;
+        p.v = pt->lat * DEG_TO_RAD;
+        map->convertRad2Pt(p.u, p.v);
 
-        int d2 = abs(x0 - pt->px.x()) + abs(y0 - pt->px.y());
+        int d2 = abs(x0 - p.u) + abs(y0 - p.v);
 
         if(d2 < d1) {
             selTrkPt = &(*pt);
@@ -530,11 +570,11 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-    cameraRotated(mouseRotSens * dy, 1.0, 0.0, 0.0);
     if (event->buttons() & Qt::LeftButton) {
+        cameraRotated(mouseRotSens * dy, 1.0, 0.0, 0.0);
         cameraRotated(mouseRotSens * dx, 0.0, 0.0, 1.0);
     } else if (event->buttons() & Qt::MidButton) {
-        cameraRotated(mouseRotSens * dx, 0.0, 0.0, 1.0);
+        map->move(QPoint(-dx,-dy), QPoint(0, 0));
     }
     lastPos = event->pos();
     updateGL();

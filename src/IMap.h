@@ -124,6 +124,7 @@ class IMap : public QObject
             level == 1 no zoom
             level >  1 zoom out
         */
+	virtual qint32 getZoomLevel() { return 1; }
         virtual void zoom(qint32& level) = 0;
 
         /// get the top left and bottom right corner

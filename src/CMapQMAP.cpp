@@ -316,7 +316,13 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     emit sigChanged();
 }
 
-
+qint32 CMapQMAP::getZoomLevel()
+{
+        if (zoomFactor < 1)
+                return 1 / zoomFactor;
+        else
+                return zoomFactor + pMaplevel->min -1;
+}
 void CMapQMAP::zoom(qint32& level)
 {
     needsRedraw = true;
