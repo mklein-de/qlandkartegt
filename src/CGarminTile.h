@@ -17,8 +17,8 @@
 
 **********************************************************************************************/
 
-#ifndef CMAPGARMINTILE_H
-#define CMAPGARMINTILE_H
+#ifndef CGARMINTILE_H
+#define CGARMINTILE_H
 
 #include <QObject>
 #include <QList>
@@ -36,12 +36,12 @@ class IMap;
 
 typedef QVector<CGarminPolygon> polytype_t;
 
-class CMapGarminTile : public QObject
+class CGarminTile : public QObject
 {
     Q_OBJECT;
     public:
-        CMapGarminTile(IMap * parent);
-        virtual ~CMapGarminTile();
+        CGarminTile(IMap * parent);
+        virtual ~CGarminTile();
 
 
         /// subfile part (TRE, RGN, ...) location information

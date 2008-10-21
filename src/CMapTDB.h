@@ -20,14 +20,14 @@
 #define CMAPTDB_H
 
 #include "IMap.h"
-#include "CMapGarminTile.h"
+#include "CGarminTile.h"
 #include <QMap>
 #include <QPen>
 #include <QBrush>
 #include <QFont>
 
 
-class CMapGarminTile;
+class CGarminTile;
 
 class CMapTDB : public IMap
 {
@@ -117,7 +117,7 @@ class CMapTDB : public IMap
             double west;
             QRectF area;
 //             QVector<XY> definitionArea;
-            CMapGarminTile * img;
+            CGarminTile * img;
             quint32 memSize;
         };
 
@@ -176,7 +176,7 @@ class CMapTDB : public IMap
         /// the unlock key
         QString mapkey;
         /// the basemap tile;
-        CMapGarminTile * baseimg;
+        CGarminTile * baseimg;
         /// high detail map tiles
         QMap<QString,tile_t> tiles;
         /// combined maplevels of basemap & submap tiles

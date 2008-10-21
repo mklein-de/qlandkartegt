@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#include "CMapGarminTile.h"
+#include "CGarminTile.h"
 #include "Platform.h"
 #include "IMap.h"
 #include "CMapDB.h"
@@ -31,17 +31,17 @@
 
 #undef DEBUG_SHOW_SECTION_BORDERS
 
-CMapGarminTile::CMapGarminTile(IMap * parent)
+CGarminTile::CGarminTile(IMap * parent)
 : QObject(parent)
 , transparent(false)
 {
 }
 
-CMapGarminTile::~CMapGarminTile()
+CGarminTile::~CGarminTile()
 {
 }
 
-void CMapGarminTile::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
+void CGarminTile::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
 {
     file.seek(offset);
     data = file.read(size);
@@ -57,7 +57,7 @@ void CMapGarminTile::readFile(QFile& file, quint32 offset, quint32 size, QByteAr
 
 }
 
-void CMapGarminTile::readBasics(const QString& fn)
+void CGarminTile::readBasics(const QString& fn)
 {
     char tmpstr[64];
 
@@ -199,7 +199,7 @@ void CMapGarminTile::readBasics(const QString& fn)
     }
 }
 
-void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
+void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 {
     quint32 i;
     // test for mandatory subfile parts
@@ -424,7 +424,7 @@ void CMapGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 }
 
 
-void CMapGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, unsigned level, double scale, const QRectF& viewport)
+void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, unsigned level, double scale, const QRectF& viewport)
 {
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)){
@@ -470,7 +470,7 @@ void CMapGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines
     }
 }
 
-void CMapGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons)
+void CGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons)
 {
     if(subdiv.rgn_start == subdiv.rgn_end) return;
 

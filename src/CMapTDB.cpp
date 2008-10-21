@@ -19,7 +19,7 @@
 #include "CMapTDB.h"
 #include "CMapDB.h"
 #include "Garmin.h"
-#include "CMapGarminTile.h"
+#include "CGarminTile.h"
 #include "GeoMath.h"
 
 #include <QtGui>
@@ -380,12 +380,12 @@ void CMapTDB::readTDB(const QString& filename)
                 }
 
                 try {
-                    tile.img = new CMapGarminTile(this);
+                    tile.img = new CGarminTile(this);
                     tile.img->readBasics(tile.file);
                 }
-                catch(CMapGarminTile::exce_t e){
+                catch(CGarminTile::exce_t e){
 
-                    if(e.err == CMapGarminTile::errLock){
+                    if(e.err == CGarminTile::errLock){
                         tiles.clear();
                         encrypted = true;
                     }
@@ -457,10 +457,10 @@ void CMapTDB::readTDB(const QString& filename)
 bool CMapTDB::processPrimaryMapData()
 {
     try {
-        baseimg = new CMapGarminTile(this);
+        baseimg = new CGarminTile(this);
         baseimg->readBasics(basemap);
     }
-    catch(CMapGarminTile::exce_t e){
+    catch(CGarminTile::exce_t e){
         // no basemap? bad luck!
         QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
         deleteLater();
@@ -471,16 +471,16 @@ bool CMapTDB::processPrimaryMapData()
     qDebug() << "basemap:\t" << basemap;
     qDebug() << "dimensions:\t" << "N" << north << "E" << east << "S" << south << "W" << west;
 
-    const QMap<QString,CMapGarminTile::subfile_desc_t>& subfiles            = baseimg->getSubFiles();
-    QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator subfile    = subfiles.begin();
+    const QMap<QString,CGarminTile::subfile_desc_t>& subfiles            = baseimg->getSubFiles();
+    QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile    = subfiles.begin();
     quint8 fewest_map_bits = 0xFF;
 
     /* Put here so the submap check doesn't do the basemap again. */
-    QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator basemap_subfile;
+    QMap<QString,CGarminTile::subfile_desc_t>::const_iterator basemap_subfile;
 
     /* Find best candidate for basemap. */
     while (subfile != subfiles.end()) {
-        QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+        QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
         /* Skip any upper levels that contain no real data. */
         while (!maplevel->inherited) {
             ++maplevel;
@@ -494,7 +494,7 @@ bool CMapTDB::processPrimaryMapData()
     }
 
     /* Add all basemap levels to the list. */
-    QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
+    QVector<CGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
     while(maplevel != basemap_subfile->maplevels.end()) {
         if (!maplevel->inherited) {
             map_level_t ml;
@@ -507,15 +507,15 @@ bool CMapTDB::processPrimaryMapData()
     }
 
     if(!tiles.isEmpty()){
-        CMapGarminTile * img = tiles.values().first().img;
-        const QMap<QString,CMapGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
-        QMap<QString,CMapGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
+        CGarminTile * img = tiles.values().first().img;
+        const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
+        QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
         /*
         * Query all subfiles for possible maplevels.
         * Exclude basemap to avoid polution.
         */
         while (subfile != subfiles.end()) {
-            QVector<CMapGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+            QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
             /* Skip basemap. */
             if (subfile == basemap_subfile) {
                 ++subfile;
