@@ -638,6 +638,8 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     double v[3];
     double dU, dV;
 
+    needsRedraw = true;
+
     u[0] = lon1;
     v[0] = lat1;
     u[1] = lon2;
@@ -697,6 +699,7 @@ void CMapTDB::draw(QPainter& p)
 
     if(needsRedraw){
         draw();
+        needsRedraw = false;
     }
     p.drawImage(0,0,buffer);
 }
