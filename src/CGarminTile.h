@@ -28,6 +28,7 @@
 
 #include "Garmin.h"
 #include "CGarminPolygon.h"
+#include "CGarminPoint.h"
 
 class QFile;
 class QByteArray;
@@ -35,6 +36,7 @@ class QPainter;
 class IMap;
 
 typedef QVector<CGarminPolygon> polytype_t;
+typedef QVector<CGarminPoint> pointtype_t;
 
 class CGarminTile : public QObject
 {
@@ -164,12 +166,12 @@ class CGarminTile : public QObject
             @param p the painter
             @param viewport the actual view port to draw in [°]
         */
-        void loadVisibleData(polytype_t& polygons, polytype_t& polylines, unsigned level, double scale, const QRectF& viewport);
+        void loadVisibleData(polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport);
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons);
+        void loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
 
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks

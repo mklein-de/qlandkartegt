@@ -430,7 +430,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 }
 
 
-void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, unsigned level, double scale, const QRectF& viewport)
+void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport)
 {
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)){
@@ -458,7 +458,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, u
                 continue;
             }
 
-            loadSuvDiv(*subdiv, rgndata, polylines, polygons);
+            loadSuvDiv(*subdiv, rgndata, polylines, polygons, points, pois);
 
 #ifdef DEBUG_SHOW_SECTION_BORDERS
             const QRectF& a = subdiv->area;
@@ -476,7 +476,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, u
     }
 }
 
-void CGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons)
+void CGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
 {
     if(subdiv.rgn_start == subdiv.rgn_end) return;
 
@@ -537,6 +537,26 @@ void CGarminTile::loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgnd
 
     const quint8 *  pData;
     const quint8 *  pEnd;
+
+    // decode points
+    if(subdiv.hasPoints) {
+        pData = pRawData + opnt;
+        pEnd  = pRawData + (oidx ? oidx : opline ? opline : opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            points.push_back(CGarminPoint());
+            pData += points.last().decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+        }
+    }
+
+    // decode indexed points
+    if(subdiv.hasIdxPoints) {
+        pData = pRawData + oidx;
+        pEnd  = pRawData + (opline ? opline : opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            pois.push_back(CGarminPoint());
+            pData += pois.last().decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+        }
+    }
 
     // decode polylines
     if(subdiv.hasPolylines) {

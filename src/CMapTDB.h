@@ -57,6 +57,8 @@ class CMapTDB : public IMap
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
+        void drawPoints(QPainter& p, pointtype_t& points);
+        void drawPois(QPainter& p, pointtype_t& points);
         void setFastDraw();
 #pragma pack(1)
         struct tdb_hdr_t
@@ -244,6 +246,8 @@ class CMapTDB : public IMap
 
         polytype_t polygons;
         polytype_t polylines;
+        pointtype_t points;
+        pointtype_t pois;
 
 };
 

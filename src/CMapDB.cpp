@@ -135,6 +135,8 @@ void CMapDB::closeVisibleMaps()
 void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 {
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     closeVisibleMaps();
 
     map_t map;
@@ -210,12 +212,16 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
     emit sigChanged();
+
+    QApplication::restoreOverrideCursor();
 }
 
 
 void CMapDB::openMap(const QString& key)
 {
     if(!knownMaps.contains(key)) return;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     closeVisibleMaps();
 
@@ -255,6 +261,7 @@ void CMapDB::openMap(const QString& key)
     QSettings cfg;
     cfg.setValue("maps/visibleMaps",filename);
 
+    QApplication::restoreOverrideCursor();
 }
 
 

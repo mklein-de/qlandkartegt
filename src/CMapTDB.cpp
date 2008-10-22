@@ -725,6 +725,8 @@ void CMapTDB::draw(QPainter& p)
         needsRedraw = false;
     }
     p.drawImage(0,0,buffer);
+
+    if(doFastDraw) setFastDraw();
 }
 
 void CMapTDB::draw()
@@ -742,15 +744,17 @@ void CMapTDB::draw()
     QRectF viewport(QPointF(topLeft.u, topLeft.v), QPointF(bottomRight.u, bottomRight.v));
     polygons.clear();
     polylines.clear();
+    pois.clear();
+    points.clear();
 
     if(maplevel->useBaseMap){
-        baseimg->loadVisibleData(polygons, polylines, maplevel->level, zoomFactor, viewport);
+        baseimg->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
     }
     else{
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
         while(tile != tiles.end()){
             if(tile->img && tile->area.intersects(viewport)){
-                tile->img->loadVisibleData(polygons, polylines, maplevel->level, zoomFactor, viewport);
+                tile->img->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
             }
             ++tile;
         }
@@ -760,6 +764,11 @@ void CMapTDB::draw()
         drawPolygons(p, polygons);
     }
     drawPolylines(p, polylines);
+    if(!doFastDraw){
+        drawPoints(p, points);
+        drawPois(p, pois);
+    }
+
 }
 
 
@@ -919,6 +928,28 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
             }
             ++item;
         }
+    }
+}
+
+void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
+{
+    if(zoomFactor > 1.0) return;
+
+    pointtype_t::iterator pt = pts.begin();
+    while(pt != pts.end()){
+        convertRad2Pt(pt->lon, pt->lat);
+        p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
+        ++pt;
+    }
+}
+
+void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
+{
+    pointtype_t::iterator pt = pts.begin();
+    while(pt != pts.end()){
+        convertRad2Pt(pt->lon, pt->lat);
+        p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
+        ++pt;
     }
 }
 

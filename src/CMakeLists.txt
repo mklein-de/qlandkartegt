@@ -100,6 +100,7 @@ set(qlandkarte_SRCS
     CPicProcess.cpp
     CImage.cpp
     CGarminPolygon.cpp
+    CGarminPoint.cpp
 )
 
 IF(WIN32)
@@ -205,6 +206,7 @@ set(qlandkarte_HDRS
     CPicProcess.h
     CImage.h
     CGarminPolygon.h
+    CGarminPoint.h
 )
 
 
