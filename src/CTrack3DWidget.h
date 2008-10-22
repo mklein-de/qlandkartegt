@@ -35,6 +35,8 @@ class CTrack3DWidget: public QGLWidget
         virtual ~CTrack3DWidget();
         void convertPt23D(double& u, double& v, double &ele);
         void convert3D2Pt(double& u, double& v, double &ele);
+        /// conver coord of point a on the window to the flat z = 0
+        void convertDsp2Z0(QPoint &a);
 
     protected:
         QPointer<CTrack> track;
@@ -47,6 +49,7 @@ class CTrack3DWidget: public QGLWidget
         void wheelEvent ( QWheelEvent * e );
         void contextMenuEvent(QContextMenuEvent *event);
         void keyPressEvent ( QKeyEvent * event );
+        void keyReleaseEvent ( QKeyEvent * event );
         void createActions();
 
         QAction *eleZoomInAct;
@@ -54,6 +57,7 @@ class CTrack3DWidget: public QGLWidget
         QAction *eleZoomResetAct;
         QAction *map3DAct;
         QAction *showTrackAct;
+        QMap<int, bool> pressedKeys;
 
     private:
         CMapQMAP *map;

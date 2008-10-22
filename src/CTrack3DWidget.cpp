@@ -441,6 +441,34 @@ void CTrack3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
+void CTrack3DWidget::convertDsp2Z0(QPoint &a)
+{
+    GLdouble projection[16];
+	GLdouble modelview[16];
+	GLdouble k1, z1, x1, y1, x0, xk, y0, yk, z0, zk;
+	GLint viewport[4];
+    GLsizei vx, vy;
+
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+    vx = a.x();
+    vy = height() - a.y();
+    gluUnProject(vx, vy, 0, modelview, projection, viewport, &x0, &y0, &z0);
+    gluUnProject(vx, vy, 1, modelview, projection, viewport, &xk, &yk, &zk);
+
+    xk -= x0;
+    yk -= y0;
+    zk -= z0;
+    /* the line equation A0 + tAk, where A0 = |x0, y0, z0|, Ak = |xk, yk, zk| */
+    /* point of intersection with flat z = 0 */
+    z1 = 0;
+    k1 = (z1 - z0) / zk;
+    a.rx() = x0 + xk * k1;
+    a.ry() = y0 + yk * k1;
+}
+
 void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     GLdouble projection[16];
@@ -462,8 +490,6 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     y0 = gl_y0;
     z0 = gl_z0;
     convert3D2Pt(x0, y0, z0);
-/*    x0 += width() / 2;
-    y0 = height() / 2 - y0;*/
 
     selTrkPt = 0;
     int d1 = 20;
@@ -519,12 +545,18 @@ void CTrack3DWidget::expandMap(bool zoomIn)
     map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
 }
 
+void CTrack3DWidget::keyReleaseEvent ( QKeyEvent * event )
+{
+    pressedKeys[event->key()] = false;
+}
+
 void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
 {
+    pressedKeys[event->key()] = true;
+
     qint32 dx = 0, dy = 0;
     qint32 zoomMap = 0;
     QSize s = map->getSize();
-    qDebug() << "CTrack3DWidget::keyPressEvent" << endl;
     switch (event->key())
     {
         case Qt::Key_Up:
@@ -567,13 +599,19 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-    if (event->buttons() & Qt::LeftButton) {
+    if (pressedKeys.value(Qt::Key_M, false)) {
+        QPoint p1 = event->pos(), p2 = lastPos;
+        convertDsp2Z0(p1);
+        convertDsp2Z0(p2);
+        dx = -(p1.x() - p2.x());
+        dy = p1.y() - p2.y();
+        map->move(QPoint(dx, dy), QPoint(0, 0));
+    } else if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot - xRotSens * dy);
         setZRotation(zRot + zRotSens * dx);
     } else if (event->buttons() & Qt::MidButton) {
         xShift += dx / zoomFactor;
         yShift -= dy / zoomFactor;
-//        map->move(QPoint(-dx,-dy), QPoint(0, 0));
     }
     lastPos = event->pos();
     updateGL();
