@@ -28,6 +28,7 @@
 
 
 class CGarminTile;
+class QTimer;
 
 class CMapTDB : public IMap
 {
@@ -48,12 +49,15 @@ class CMapTDB : public IMap
         void draw(QPainter& p);
         void draw();
 
+    private slots:
+        void slotResetFastDraw();
+
     private:
         void readTDB(const QString& filename);
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
-
+        void setFastDraw();
 #pragma pack(1)
         struct tdb_hdr_t
         {
@@ -234,6 +238,9 @@ class CMapTDB : public IMap
         };
 
         QVector<polygon_property> polygonProperties;
+
+        bool doFastDraw;
+        QTimer * timerFastDraw;
 
         polytype_t polygons;
         polytype_t polylines;

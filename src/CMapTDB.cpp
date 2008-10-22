@@ -29,7 +29,7 @@
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
-#undef DEBUG_SHOW_MAPLEVELS
+#define DEBUG_SHOW_MAPLEVELS
 
 CMapTDB::scale_t CMapTDB::scales[] =
 {
@@ -134,12 +134,17 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , zoomFactor(0)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
+, doFastDraw(false)
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
 
     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
+
+    timerFastDraw = new QTimer(this);
+    timerFastDraw->setSingleShot(true);
+    connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
 
     readTDB(filename);
     processPrimaryMapData();
@@ -253,6 +258,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polygonProperties[0x54] = polygon_property(0x54, Qt::NoPen,     "#fde8d5", Qt::SolidPattern);
     polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -289,7 +295,8 @@ void CMapTDB::readTDB(const QString& filename)
     quint8 * const pRawData = (quint8*)data.data();
     tdb_hdr_t * pRecord     = (tdb_hdr_t*)pRawData;
 
-    quint32 basemapId = 0;
+    quint32 basemapId   = 0;
+    bool    tainted     = false;
 
     while((quint8*)pRecord < pRawData + data.size()) {
         switch(pRecord->type) {
@@ -391,8 +398,12 @@ void CMapTDB::readTDB(const QString& filename)
                         encrypted = true;
                     }
                     else{
-                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
-                        deleteLater();
+                        if(!tainted){
+                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
+                            tainted = true;
+                        }
+                        delete tile.img;
+                        tile.img = 0;
                         return;
                     }
 
@@ -508,40 +519,48 @@ bool CMapTDB::processPrimaryMapData()
     }
 
     if(!tiles.isEmpty()){
-        CGarminTile * img = tiles.values().first().img;
-        const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
-        QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
-        /*
-        * Query all subfiles for possible maplevels.
-        * Exclude basemap to avoid polution.
-        */
-        while (subfile != subfiles.end()) {
-            QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
-            /* Skip basemap. */
-            if (subfile == basemap_subfile) {
-                ++subfile;
-                continue;
-            }
-            while (maplevel != subfile->maplevels.end()) {
-                if (!maplevel->inherited) {
-                    map_level_t ml;
-                    ml.bits  = maplevel->bits;
-                    ml.level = maplevel->level;
-                    ml.useBaseMap = false;
-                    maplevels << ml;
-                }
-                ++maplevel;
-            }
-            ++subfile;
+        CGarminTile * img = 0;
+        QMap<QString,tile_t>::iterator tile = tiles.begin();
+        while(tile != tiles.end()){
+            img = tile->img;
+            if(img) break;
+            ++tile;
         }
+        if(img){
+            const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
+            QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
+            /*
+            * Query all subfiles for possible maplevels.
+            * Exclude basemap to avoid polution.
+            */
+            while (subfile != subfiles.end()) {
+                QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+                /* Skip basemap. */
+                if (subfile == basemap_subfile) {
+                    ++subfile;
+                    continue;
+                }
+                while (maplevel != subfile->maplevels.end()) {
+                    if (!maplevel->inherited) {
+                        map_level_t ml;
+                        ml.bits  = maplevel->bits;
+                        ml.level = maplevel->level;
+                        ml.useBaseMap = false;
+                        maplevels << ml;
+                    }
+                    ++maplevel;
+                }
+                ++subfile;
+            }
 
+            isTransparent = img->isTransparent();
+        }
         /* Sort all entries, note that stable sort should insure that basemap is preferred when available. */
         qStableSort(maplevels.begin(), maplevels.end(), map_level_t::GreaterThan);
         /* Delete any duplicates for obvious performance reasons. */
         QVector<map_level_t>::iterator where;
         where = std::unique(maplevels.begin(), maplevels.end());
         maplevels.erase(where, maplevels.end());
-        isTransparent = img->isTransparent();
     }
 
 #ifdef DEBUG_SHOW_MAPLEVELS
@@ -597,6 +616,7 @@ void CMapTDB::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
     needsRedraw = true;
+    setFastDraw();
     emit sigChanged();
 }
 
@@ -681,6 +701,8 @@ void CMapTDB::zoom(qint32& level)
 
     qDebug() << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
 
+    setFastDraw();
+
     emit sigChanged();
 }
 
@@ -727,14 +749,16 @@ void CMapTDB::draw()
     else{
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
         while(tile != tiles.end()){
-            if(tile->area.intersects(viewport)){
+            if(tile->img && tile->area.intersects(viewport)){
                 tile->img->loadVisibleData(polygons, polylines, maplevel->level, zoomFactor, viewport);
             }
             ++tile;
         }
     }
 
-    drawPolygons(p, polygons);
+    if(!doFastDraw){
+        drawPolygons(p, polygons);
+    }
     drawPolylines(p, polylines);
 }
 
@@ -750,6 +774,37 @@ static quint16 others[]  = { 0x00, /*0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
+    int m;
+    const int M = sizeof(others)/sizeof(quint16);
+
+    for(m = 0; m < M; ++m){
+        quint16 type = others[m];
+
+        p.setPen(polylineProperties[type].pen);
+
+        polytype_t::iterator item = lines.begin();
+        while(item != lines.end()){
+            if(item->type == type){
+                double * u      = item->u.data();
+                double * v      = item->v.data();
+                const int size  = item->u.size();
+
+                convertRad2Pt(u,v,size);
+                QPolygonF line(size);
+
+                for(int i = 0; i < size; ++i){
+                    line[i].setX(*u++);
+                    line[i].setY(*v++);
+                }
+
+                p.drawPolyline(line);
+
+                if(!polylineProperties[type].known) qDebug() << "unknown polyline" << hex << type;
+            }
+            ++item;
+        }
+    }
+
     int n;
     const int N = sizeof(streets)/sizeof(quint16);
 
@@ -783,6 +838,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
     }
 
+    if(doFastDraw) return;
+
     for(n = 0; n < N; ++n){
         quint16 type = streets[n];
 
@@ -808,37 +865,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
-            }
-            ++item;
-        }
-    }
-
-    int m;
-    const int M = sizeof(others)/sizeof(quint16);
-
-    for(m = 0; m < M; ++m){
-        quint16 type = others[m];
-
-        p.setPen(polylineProperties[type].pen);
-
-        polytype_t::iterator item = lines.begin();
-        while(item != lines.end()){
-            if(item->type == type){
-                double * u      = item->u.data();
-                double * v      = item->v.data();
-                const int size  = item->u.size();
-
-                convertRad2Pt(u,v,size);
-                QPolygonF line(size);
-
-                for(int i = 0; i < size; ++i){
-                    line[i].setX(*u++);
-                    line[i].setY(*v++);
-                }
-
-                p.drawPolyline(line);
-
-                if(!polylineProperties[type].known) qDebug() << "unknown polyline" << hex << type;
             }
             ++item;
         }
@@ -894,4 +920,17 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
             ++item;
         }
     }
+}
+
+void CMapTDB::setFastDraw()
+{
+    timerFastDraw->start(500);
+    doFastDraw = true;
+}
+
+void CMapTDB::slotResetFastDraw()
+{
+    needsRedraw = true;
+    doFastDraw  = false;
+    emit sigChanged();
 }
