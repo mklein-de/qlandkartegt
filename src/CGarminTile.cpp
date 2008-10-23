@@ -17,6 +17,7 @@
 
 **********************************************************************************************/
 #include "CGarminTile.h"
+#include "CGarminStrTbl8.h"
 #include "Platform.h"
 #include "IMap.h"
 #include "CMapDB.h"
@@ -426,6 +427,54 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         }
     }
 #endif // DEBUG_SHOW_SUBDIV_DATA
+
+    if(subfile.parts.contains("LBL")){
+        QByteArray lblhdr;
+        readFile(file, subfile.parts["LBL"].offset, sizeof(hdr_lbl_t), lblhdr);
+        hdr_lbl_t * pLblHdr = (hdr_lbl_t*)lblhdr.data();
+
+        quint32 offsetLbl1 = subfile.parts["LBL"].offset + gar_load(uint32_t, pLblHdr->lbl1_offset);
+        quint32 offsetLbl6 = subfile.parts["LBL"].offset + gar_load(uint32_t, pLblHdr->lbl6_offset);
+
+        quint32 offsetNet1  = 0;
+        hdr_net_t * pNetHdr = 0;
+        if(subfile.parts.contains("NET")){
+            QByteArray nethdr;
+            readFile(file, subfile.parts["NET"].offset, sizeof(hdr_net_t), nethdr);
+            pNetHdr = (hdr_net_t*)nethdr.data();
+            offsetNet1 = subfile.parts["NET"].offset + gar_load(uint32_t, pNetHdr->net1_offset);
+        }
+
+        quint16 codepage = 0;
+        if(gar_load(uint16_t, pLblHdr->length) > 0xAA){
+            codepage = gar_load(uint16_t, pLblHdr->codepage);
+        }
+
+        switch(pLblHdr->coding) {
+            case 0x06:
+                qDebug() << "6bit";
+//                 tbl = new CGarminStrTbl6(pDataLBL,sizeLBL,parent);
+                break;
+
+            case 0x09:
+//                 tbl = new CGarminStrTbl8(pDataLBL,sizeLBL,parent);
+                subfile.strtbl = new CGarminStrTbl8(codepage, this);
+                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
+                break;
+
+            case 0x0A:
+                qDebug() << "utf-8";
+//                 tbl = new CGarminStrTbl10(pDataLBL,sizeLBL,parent);
+                break;
+
+            default:;
+                qWarning() << "Unknown label coding" << hex << pLblHdr->coding;
+        }
+
+    }
+
 
 }
 

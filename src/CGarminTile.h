@@ -34,6 +34,7 @@ class QFile;
 class QByteArray;
 class QPainter;
 class IMap;
+class IGarminStrTbl;
 
 typedef QVector<CGarminPolygon> polytype_t;
 typedef QVector<CGarminPoint> pointtype_t;
@@ -118,7 +119,7 @@ class CGarminTile : public QObject
 
         struct subfile_desc_t
         {
-            subfile_desc_t() : north(0.0), east(0.0), south(0.0), west(0.0), isTransparent(false) {}
+            subfile_desc_t() : north(0.0), east(0.0), south(0.0), west(0.0), isTransparent(false), strtbl(0) {}
 
             /// the name of the subfile (not really needed)
             QString name;
@@ -145,6 +146,8 @@ class CGarminTile : public QObject
             QVector<maplevel_t> maplevels;
             /// bit 1 of POI_flags (TRE header @ 0x3F)
             bool isTransparent;
+            /// object to manage the string tables
+            IGarminStrTbl * strtbl;
         };
 
         enum exce_e {eErrOpen, eErrAccess, errFormat, errLock};
@@ -271,6 +274,71 @@ class CGarminTile : public QObject
             quint32 length;              ///< 0x00000019 .. 0x0000000C
         };
 
+
+        // LBL part header
+        struct hdr_lbl_t : public hdr_subfile_part_t
+        {
+            quint32 lbl1_offset;         ///< 0x00000015 .. 0x00000018
+            quint32 lbl1_length;         ///< 0x00000019 .. 0x0000001C
+            quint8  addr_shift;          ///< 0x0000001D
+            quint8  coding;              ///< 0x0000001E
+            quint32 lbl2_offset;         ///< 0x0000001F .. 0x00000022
+            quint32 lbl2_length;         ///< 0x00000023 .. 0x00000026
+            quint16 lbl2_rec_size;       ///< 0x00000027 .. 0x00000028
+            quint8  byte0x00000029_0x0000002C[4];
+            quint32 lbl3_offset;         ///< 0x0000002D .. 0x00000030
+            quint32 lbl3_length;         ///< 0x00000031 .. 0x00000034
+            quint16 lbl3_rec_size;       ///< 0x00000035 .. 0x00000036
+            quint8  byte0x00000037_0x0000003A[4];
+            quint32 lbl4_offset;         ///< 0x0000003B .. 0x0000003E
+            quint32 lbl4_length;         ///< 0x0000003F .. 0x00000042
+            quint16 lbl4_rec_size;       ///< 0x00000043 .. 0x00000044
+            quint8  byte0x00000045_0x00000048[4];
+            quint32 lbl5_offset;         ///< 0x00000049 .. 0x0000004C
+            quint32 lbl5_length;         ///< 0x0000004D .. 0x00000050
+            quint16 lbl5_rec_size;       ///< 0x00000051 .. 0x00000052
+            quint8  byte0x00000053_0x00000056[4];
+            quint32 lbl6_offset;         ///< 0x00000057 .. 0x0000005A
+            quint32 lbl6_length;         ///< 0x0000005B .. 0x0000005E
+            quint8  lbl6_addr_shift;     ///< 0x0000005F
+            quint8  lbl6_glob_mask;      ///< 0x00000060
+            quint8  byte0x00000061_0x00000063[3];
+            quint32 lbl7_offset;         ///< 0x00000064 .. 0x00000067
+            quint32 lbl7_length;         ///< 0x00000068 .. 0x0000006B
+            quint16 lbl7_rec_size;       ///< 0x0000006C .. 0x0000006D
+            quint8  byte0x0000006E_0x00000071[4];
+            quint32 lbl8_offset;         ///< 0x00000072 .. 0x00000075
+            quint32 lbl8_length;         ///< 0x00000076 .. 0x00000079
+            quint16 lbl8_rec_size;       ///< 0x0000007A .. 0x0000007B
+            quint8  byte0x0000007C_0x0000007F[4];
+            quint32 lbl9_offset;         ///< 0x00000080 .. 0x00000083
+            quint32 lbl9_length;         ///< 0x00000084 .. 0x00000087
+            quint16 lbl9_rec_size;       ///< 0x00000088 .. 0x00000089
+            quint8  byte0x0000008A_0x0000008D[4];
+            quint32 lbl10_offset;        ///< 0x0000008E .. 0x00000091
+            quint32 lbl10_length;        ///< 0x00000092 .. 0x00000095
+            quint16 lbl10_rec_size;      ///< 0x00000096 .. 0x00000097
+            quint8  byte0x00000098_0x0000009B[4];
+            quint32 lbl11_offset;        ///< 0x0000009C .. 0x0000009F
+            quint32 lbl11_length;        ///< 0x000000A0 .. 0x000000A3
+            quint16 lbl11_rec_size;      ///< 0x000000A4 .. 0x000000A5
+            quint8  byte0x000000A6_0x000000A9[4];
+            quint16 codepage;            ///< 0x000000AA .. 0x000000AB  optional check length
+
+        };
+
+        // NET part header
+        struct hdr_net_t : public hdr_subfile_part_t
+        {
+            quint32 net1_offset;         ///< 0x00000015 .. 0x00000018
+            quint32 net1_length;         ///< 0x00000019 .. 0x0000001C
+            quint8  net1_addr_shift;     ///< 0x0000001D
+            quint32 net2_offset;         ///< 0x0000001E .. 0x00000021
+            quint32 net2_length;         ///< 0x00000022 .. 0x00000025
+            quint8  net2_addr_shift;     ///< 0x00000026
+            quint32 net3_offset;         ///< 0x00000027 .. 0x0000002A
+            quint32 net3_length;         ///< 0x0000002B .. 0x0000002E
+        };
 
 #define TRE_MAP_LEVEL(r) ((r)->zoom & 0x0f)
 #define TRE_MAP_INHER(r) (((r)->zoom & 0x80) != 0)
