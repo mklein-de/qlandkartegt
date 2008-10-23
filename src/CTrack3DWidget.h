@@ -22,6 +22,7 @@
 #include <QGLWidget>
 #include <QPointer>
 #include <QWidget>
+#include <QSet>
 
 #include "CTrack.h"
 #include "CMapQMAP.h"
@@ -50,6 +51,7 @@ class CTrack3DWidget: public QGLWidget
         void contextMenuEvent(QContextMenuEvent *event);
         void keyPressEvent ( QKeyEvent * event );
         void keyReleaseEvent ( QKeyEvent * event );
+        void focusOutEvent ( QFocusEvent * event );
         void createActions();
 
         QAction *eleZoomInAct;
@@ -57,7 +59,7 @@ class CTrack3DWidget: public QGLWidget
         QAction *eleZoomResetAct;
         QAction *map3DAct;
         QAction *showTrackAct;
-        QMap<int, bool> pressedKeys;
+        QSet<int> pressedKeys;
 
     private:
         CMapQMAP *map;

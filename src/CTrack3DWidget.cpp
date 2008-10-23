@@ -136,6 +136,7 @@ void CTrack3DWidget::setMapTexture()
     QSize s = map->getSize();
     QPixmap pm(s.width(), s.height());
     QPainter p(&pm);
+    p.eraseRect(pm.rect());
     map->draw(p);
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
     track = CTrackDB::self().highlightedTrack();
@@ -547,12 +548,12 @@ void CTrack3DWidget::expandMap(bool zoomIn)
 
 void CTrack3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
-    pressedKeys[event->key()] = false;
+    pressedKeys.remove(event->key());
 }
 
 void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
 {
-    pressedKeys[event->key()] = true;
+    pressedKeys.insert(event->key());
 
     qint32 dx = 0, dy = 0;
     qint32 zoomMap = 0;
@@ -594,12 +595,17 @@ void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
     updateGL();
 }
 
+void CTrack3DWidget::focusOutEvent ( QFocusEvent * event )
+{
+    pressedKeys.clear();
+}
+
 void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-    if (pressedKeys.value(Qt::Key_M, false)) {
+    if (pressedKeys.contains(Qt::Key_M)) {
         QPoint p1 = event->pos(), p2 = lastPos;
         convertDsp2Z0(p1);
         convertDsp2Z0(p2);
