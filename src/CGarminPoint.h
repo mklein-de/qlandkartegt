@@ -24,6 +24,9 @@
 #define CGARMINPOINT_H
 
 #include <QtGlobal>
+#include <QStringList>
+
+class CGarminTile;
 
 class CGarminPoint
 {
@@ -40,6 +43,8 @@ class CGarminPoint
         //QString label;
         double lon;
         double lat;
+
+        QStringList labels;
 };
 
 #endif //CGARMINPOINT_H

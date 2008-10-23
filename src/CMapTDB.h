@@ -60,6 +60,7 @@ class CMapTDB : public IMap
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
         void setFastDraw();
+
 #pragma pack(1)
         struct tdb_hdr_t
         {

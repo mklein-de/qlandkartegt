@@ -57,11 +57,15 @@ class CGarminPolygon
 
         quint32 id;
 
+        QStringList labels;
+
     private:
         void bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, quint32& by, sign_info_t& signinfo);
         int bits_per_coord(quint8 base, bool is_signed);
 
         static quint32 cnt;
+
+
 
 };
 

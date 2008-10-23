@@ -1,20 +1,12 @@
 <ui version="4.0" >
  <class>ITrackEditWidget</class>
  <widget class="QWidget" name="ITrackEditWidget" >
-  <property name="geometry" >
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>840</width>
-    <height>341</height>
-   </rect>
-  </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
+  <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+    <layout class="QHBoxLayout" >
      <item>
       <widget class="QToolButton" name="toolGraph" >
        <property name="toolTip" >
@@ -43,7 +35,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" >
         <size>
          <width>718</width>
          <height>20</height>
