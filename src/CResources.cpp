@@ -48,7 +48,12 @@ CResources::CResources(QObject * parent)
 
     QString family  = cfg.value("environment/mapfont/family","Arial").toString();
     int size        = cfg.value("environment/mapfont/size",8).toInt();
+    bool bold       = cfg.value("environment/mapfont/bold",false).toBool();
+    bool italic     = cfg.value("environment/mapfont/italic",false).toBool();
     m_mapfont = QFont(family,size);
+    m_mapfont.setBold(bold);
+    m_mapfont.setItalic(italic);
+
 
     //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
     m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
@@ -99,6 +104,9 @@ CResources::~CResources()
 
     cfg.setValue("environment/mapfont/family",m_mapfont.family());
     cfg.setValue("environment/mapfont/size",m_mapfont.pointSize());
+    cfg.setValue("environment/mapfont/bold",m_mapfont.bold());
+    cfg.setValue("environment/mapfont/italic",m_mapfont.italic());
+
     cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
 
     cfg.setValue("network/useProxy",m_useHttpProxy);

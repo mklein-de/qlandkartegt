@@ -114,11 +114,12 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
         bit 22      use extra bit for coordinates
         bit 23      use label data of NET section
     */
-    lbl_info    = gar_ptr_load(uint24_t, pData); pData += 3;
+    lbl_info    = gar_ptr_load(uint24_t, pData);
     lbl_in_NET  = lbl_info & 0x800000;
     extra_bit   = lbl_info & 0x400000;
     lbl_info    = lbl_info & 0x3FFFFF;
 
+    pData += 3;
 
 //     qDebug() << lbl_in_NET << extra_bit << lbl_info;
 

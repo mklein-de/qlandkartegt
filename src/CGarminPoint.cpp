@@ -31,6 +31,7 @@ CGarminPoint::CGarminPoint()
 : type(0)
 , isLbl6(false)
 , hasSubType(false)
+, lbl_ptr(0xFFFFFFFF)
 {
 
 }
@@ -48,9 +49,10 @@ quint32 CGarminPoint::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift
 
     ++pData;
 
-    quint32 lbl_ptr = gar_ptr_load(uint24_t, pData);
+    lbl_ptr     = gar_ptr_load(uint24_t, pData);
     hasSubType  = lbl_ptr & 0x00800000;
     isLbl6      = lbl_ptr & 0x00400000;
+    lbl_ptr     = lbl_ptr & 0x003FFFFF;
 
     pData += 3;
 

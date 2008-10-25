@@ -276,13 +276,14 @@ void CCanvas::print(QPrinter& printer)
 
 void CCanvas::draw(QPainter& p)
 {
+    p.setRenderHint(QPainter::Antialiasing,false);
     CMapDB::self().draw(p,rect());
     CTrackDB::self().draw(p, rect());
     CLiveLogDB::self().draw(p, rect());
     CWptDB::self().draw(p, rect());
     CSearchDB::self().draw(p, rect());
 
-    p.setRenderHint(QPainter::Antialiasing,true);
+//     p.setRenderHint(QPainter::Antialiasing,true);
     COverlayDB::self().draw(p, rect());
 
     drawRefPoints(p);

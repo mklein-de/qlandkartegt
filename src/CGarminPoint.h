@@ -45,6 +45,8 @@ class CGarminPoint
         double lat;
 
         QStringList labels;
+
+        quint32 lbl_ptr;
 };
 
 #endif //CGARMINPOINT_H

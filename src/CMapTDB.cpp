@@ -189,12 +189,12 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polylineProperties[0x1D] = polyline_property(0x1D, "#00c864",   2, Qt::DotLine);
     polylineProperties[0x1E] = polyline_property(0x1E, "#00c864",   2, Qt::DotLine);
     polylineProperties[0x1F] = polyline_property(0x1F, "#0000ff",   2, Qt::SolidLine);
-    polylineProperties[0x20] = polyline_property(0x20, "#b67824",   1, Qt::DotLine);
-    polylineProperties[0x21] = polyline_property(0x21, "#b67824",   1, Qt::SolidLine);
-    polylineProperties[0x22] = polyline_property(0x22, "#b67824",   2, Qt::SolidLine);
-    polylineProperties[0x23] = polyline_property(0x23, "#b67824",   1, Qt::DotLine);
-    polylineProperties[0x24] = polyline_property(0x24, "#b67824",   1, Qt::SolidLine);
-    polylineProperties[0x25] = polyline_property(0x25, "#b67824",   2, Qt::SolidLine);
+    polylineProperties[0x20] = polyline_property(0x20, "#b67824",   1, Qt::SolidLine);
+    polylineProperties[0x21] = polyline_property(0x21, "#b67824",   2, Qt::SolidLine);
+    polylineProperties[0x22] = polyline_property(0x22, "#b67824",   3, Qt::SolidLine);
+    polylineProperties[0x23] = polyline_property(0x23, "#b67824",   1, Qt::SolidLine);
+    polylineProperties[0x24] = polyline_property(0x24, "#b67824",   2, Qt::SolidLine);
+    polylineProperties[0x25] = polyline_property(0x25, "#b67824",   3, Qt::SolidLine);
     polylineProperties[0x26] = polyline_property(0x26, "#0000ff",   2, Qt::DotLine);
     polylineProperties[0x27] = polyline_property(0x27, "#c46442",   4, Qt::SolidLine);
     polylineProperties[0x28] = polyline_property(0x28, "#aa0000",   2, Qt::SolidLine);
@@ -732,8 +732,9 @@ void CMapTDB::draw(QPainter& p)
 
 void CMapTDB::draw()
 {
-    buffer.fill(Qt::white);
+    buffer.fill(Qt::lightGray);
     QPainter p(&buffer);
+
 
     quint8 bits = scales[zoomidx].bits;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
@@ -760,6 +761,8 @@ void CMapTDB::draw()
             ++tile;
         }
     }
+
+    p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
     if(!doFastDraw){
         drawPolygons(p, polygons);
@@ -977,6 +980,9 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
     while(pt != pts.end()){
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
+        if(!pt->labels.isEmpty()){
+            CCanvas::drawText(pt->labels[0], p, QPoint(pt->lon, pt->lat), Qt::black);
+        }
         ++pt;
     }
 }
@@ -988,6 +994,9 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
     while(pt != pts.end()){
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
+        if(!pt->labels.isEmpty()){
+            CCanvas::drawText(pt->labels[0], p, QPoint(pt->lon, pt->lat), Qt::black);
+        }
         ++pt;
     }
 }

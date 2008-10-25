@@ -108,13 +108,6 @@ class CGarminTile : public QObject
             /// map level this subdivision is shown
             quint32 level;
             /// pointer to string table (LBL section) object
-//             IGarminStrTbl * strtbl;
-
-//             QVector<CGarminPoint>               points;
-//             QVector<CGarminPoint>               pois;
-//             QVector<CGarminPolygon>             polylines;
-            /// polygons are stored as multimap. See CGarminMap::drawPolygons()
-//             QMultiMap<quint16,CGarminPolygon>   polygons;
         };
 
         struct subfile_desc_t
@@ -174,7 +167,7 @@ class CGarminTile : public QObject
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void loadSuvDiv(const subdiv_desc_t& subdiv, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
+        void loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
 
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks
