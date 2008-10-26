@@ -121,7 +121,7 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
     pData += 3;
 
-//     qDebug() << lbl_in_NET << extra_bit << lbl_info;
+//     qDebug() << hex << lbl_in_NET << extra_bit << lbl_info;
 
     // delta longitude and latitude
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;

@@ -100,7 +100,9 @@ set(qlandkarte_SRCS
     CPicProcess.cpp
     CImage.cpp
     IGarminStrTbl.cpp
+    CGarminStrTbl6.cpp
     CGarminStrTbl8.cpp
+    CGarminStrTblUtf8.cpp
     CGarminPolygon.cpp
     CGarminPoint.cpp
 )
@@ -208,7 +210,9 @@ set(qlandkarte_HDRS
     CPicProcess.h
     CImage.h
     IGarminStrTbl.h
+    CGarminStrTbl6.h
     CGarminStrTbl8.h
+    CGarminStrTblUtf8.h
     CGarminPolygon.h
     CGarminPoint.h
 )

@@ -846,6 +846,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
+
             }
             ++item;
         }
@@ -878,6 +879,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
+
+
+
             }
             ++item;
         }
@@ -974,13 +978,13 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
-    if(zoomFactor > 1.0) return;
+    if(zoomFactor > 3.0) return;
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()){
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
-        if(!pt->labels.isEmpty()){
+        if(!pt->labels.isEmpty() && zoomFactor < 1.5 ){
             CCanvas::drawText(pt->labels[0], p, QPoint(pt->lon, pt->lat), Qt::black);
         }
         ++pt;

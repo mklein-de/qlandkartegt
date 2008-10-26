@@ -89,9 +89,9 @@ quint32 IGarminStrTbl::calcOffset(QFile& file, const quint32 offset, type_e t)
             return 0xFFFFFFFF;
         }
 
-        QByteArray buffer;
-        readFile(file,  offsetNET1 + (offset << addrshift2), sizeof(uint32_t), buffer);
-        newOffset = gar_ptr_load(uint32_t, buffer.data());
+        QByteArray data;
+        readFile(file,  offsetNET1 + (offset << addrshift2), sizeof(uint32_t), data);
+        newOffset = gar_ptr_load(uint32_t, data.data());
         if(newOffset & 0x00400000) {
             return 0xFFFFFFFF;
         }

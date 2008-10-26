@@ -18,6 +18,8 @@
 **********************************************************************************************/
 #include "CGarminTile.h"
 #include "CGarminStrTbl8.h"
+#include "CGarminStrTbl6.h"
+#include "CGarminStrTblUtf8.h"
 #include "Platform.h"
 #include "IMap.h"
 #include "CMapDB.h"
@@ -442,7 +444,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
             QByteArray nethdr;
             readFile(file, subfile.parts["NET"].offset, sizeof(hdr_net_t), nethdr);
             pNetHdr = (hdr_net_t*)nethdr.data();
-            offsetNet1 = subfile.parts["NET"].offset + gar_load(uint32_t, pNetHdr->net1_offset) + gar_load(uint32_t, pLblHdr->length);
+            offsetNet1 = subfile.parts["NET"].offset + gar_load(uint32_t, pNetHdr->net1_offset);
         }
 
         quint16 codepage = 0;
@@ -454,12 +456,13 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         switch(pLblHdr->coding) {
             case 0x06:
-                qDebug() << "6bit";
-//                 tbl = new CGarminStrTbl6(pDataLBL,sizeLBL,parent);
+                subfile.strtbl = new CGarminStrTbl6(codepage, mask, this);
+                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
                 break;
 
             case 0x09:
-//                 tbl = new CGarminStrTbl8(pDataLBL,sizeLBL,parent);
                 subfile.strtbl = new CGarminStrTbl8(codepage, mask, this);
                 subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
                 subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
@@ -467,8 +470,10 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
                 break;
 
             case 0x0A:
-                qDebug() << "utf-8";
-//                 tbl = new CGarminStrTbl10(pDataLBL,sizeLBL,parent);
+                subfile.strtbl = new CGarminStrTblUtf8(codepage, mask, this);
+                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
                 break;
 
             default:;
@@ -634,7 +639,7 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
 
-//             qDebug() << p.labels;
+//             qDebug() << p.labels << hex << p.lbl_info;
         }
 
     }

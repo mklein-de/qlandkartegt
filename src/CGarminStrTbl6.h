@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2006, 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,42 +15,34 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
-  Garmin and MapSource are registered trademarks or trademarks of Garmin Ltd.
-  or one of its subsidiaries.
-
-  This source is based on John Mechalas documentation "Garmin IMG File Format" found
-  at sourceforge. The missing bits and error were rectified by the source code of
-  Konstantin Galichsky (kg@geopainting.com), http://www.geopainting.com
-
 **********************************************************************************************/
-#ifndef CGARMINPOINT_H
-#define CGARMINPOINT_H
+#ifndef CGARMINSTRTBL6_H
+#define CGARMINSTRTBL6_H
 
-#include <QtGlobal>
-#include <QStringList>
+#include "IGarminStrTbl.h"
 
-class CGarminTile;
-
-class CGarminPoint
+class CGarminStrTbl6 : public IGarminStrTbl
 {
     public:
-        CGarminPoint();
-        virtual ~CGarminPoint();
+        CGarminStrTbl6(const quint16 codepage, const quint8 mask, QObject * parent);
+        virtual ~CGarminStrTbl6();
 
-        quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData);
+        void get(QFile& file, quint32 offset, type_e t, QStringList& info);
 
-        quint16 type;
-        bool isLbl6;
-        bool hasSubType;
+    private:
+        static const char str6tbl1[];
+        static const char str6tbl2[];
+        static const char str6tbl3[];
 
-        //QString label;
-        double lon;
-        double lat;
+        void fill();
+        /// temp shift reg buffer
+        quint32 reg;
+        /// bits in buffer
+        quint32 bits;
+        /// pointer to current data;
+        const quint8 * p;
 
-        QStringList labels;
-
-        quint32 lbl_ptr;
 };
 
-#endif //CGARMINPOINT_H
+#endif //CGARMINSTRTBL6_H
 

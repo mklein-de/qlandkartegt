@@ -16,25 +16,23 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-
-#include "CGarminStrTbl8.h"
+#include "CGarminStrTblUtf8.h"
 
 #include <QtCore>
 
-CGarminStrTbl8::CGarminStrTbl8(const quint16 codepage, const quint8 mask, QObject * parent)
+CGarminStrTblUtf8::CGarminStrTblUtf8(const quint16 codepage, const quint8 mask, QObject * parent)
 : IGarminStrTbl(codepage, mask, parent)
 {
 
 }
 
-CGarminStrTbl8::~CGarminStrTbl8()
+CGarminStrTblUtf8::~CGarminStrTblUtf8()
 {
 
 }
 
-void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& info)
+void CGarminStrTblUtf8::get(QFile& file, quint32 offset, type_e t, QStringList& labels)
 {
-
     offset = calcOffset(file, offset, t);
 
     if(offset == 0xFFFFFFFF) return;
@@ -53,12 +51,7 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
         if((unsigned)*lbl >= 0x1B && (unsigned)*lbl <= 0x1F) {
             *pBuffer = 0;
             if(strlen(buffer)) {
-                if (codepage != 0){
-                    info << codec->toUnicode(buffer);
-                }
-                else{
-                    info << buffer;
-                }
+                labels << codec->toUnicode(buffer);
                 pBuffer = buffer; *pBuffer = 0;
             }
             ++lbl;
@@ -75,9 +68,7 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
 
     *pBuffer = 0;
     if(strlen(buffer)) {
-        if (codepage != 0)
-            info << codec->toUnicode(buffer);
-        else
-            info << buffer;
+        //         qDebug() << QString(buffer);
+        labels << codec->toUnicode(buffer);
     }
 }

@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2006, 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,42 +15,20 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
-  Garmin and MapSource are registered trademarks or trademarks of Garmin Ltd.
-  or one of its subsidiaries.
-
-  This source is based on John Mechalas documentation "Garmin IMG File Format" found
-  at sourceforge. The missing bits and error were rectified by the source code of
-  Konstantin Galichsky (kg@geopainting.com), http://www.geopainting.com
-
 **********************************************************************************************/
-#ifndef CGARMINPOINT_H
-#define CGARMINPOINT_H
+#ifndef CGARMINSTRTBLUTF8_H
+#define CGARMINSTRTBLUTF8_H
 
-#include <QtGlobal>
-#include <QStringList>
+#include "IGarminStrTbl.h"
 
-class CGarminTile;
-
-class CGarminPoint
+class CGarminStrTblUtf8 : public IGarminStrTbl
 {
     public:
-        CGarminPoint();
-        virtual ~CGarminPoint();
+        CGarminStrTblUtf8(const quint16 codepage, const quint8 mask, QObject * parent);
+        virtual ~CGarminStrTblUtf8();
 
-        quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData);
-
-        quint16 type;
-        bool isLbl6;
-        bool hasSubType;
-
-        //QString label;
-        double lon;
-        double lat;
-
-        QStringList labels;
-
-        quint32 lbl_ptr;
+        void get(QFile& file, quint32 offset, type_e t, QStringList& info);
 };
 
-#endif //CGARMINPOINT_H
+#endif //CGARMINSTRTBLUTF8_H
 
