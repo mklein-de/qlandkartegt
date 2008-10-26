@@ -324,7 +324,7 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
             infotext += "<br/>";
         }
 
-        emit sigChanged();
+        if(!doFastDraw) emit sigChanged();
     }
 
     return IMap::eventFilter(watched, event);
@@ -813,6 +813,10 @@ void CMapTDB::draw()
 
     QFont f = CResources::self().getMapFont();
     fm = QFontMetrics(f);
+
+    p.setFont(f);
+    p.setPen(Qt::black);
+    p.setBrush(Qt::NoBrush);
 
     quint8 bits = scales[zoomidx].bits;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
