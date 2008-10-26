@@ -30,6 +30,7 @@
 
 class CGarminTile;
 class QTimer;
+class QTextDocument;
 
 class CMapTDB : public IMap
 {
@@ -261,6 +262,10 @@ class CMapTDB : public IMap
 
         QFontMetrics      fm;
         QVector<strlbl_t> labels;
+
+
+        QTextDocument * info;
+        QString         infotext;
 
 };
 

@@ -350,12 +350,6 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
 
-//         if(!subdiv->area.isValid()) {
-//             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
-//         }
-
-//         subdiv->strtbl = strtbl;
-
         subdiv_prev = subdiv;
         ++pSubDivN; ++subdiv;
     }
@@ -395,16 +389,11 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv->west  = GARMIN_RAD(cx - width);
 
         subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
-//         if(!subdiv->area.isValid()) {
-//             qDebug() << subdiv->north << subdiv->east << subdiv->south << subdiv->west << subdiv->area;
-//         }
-
-//         subdiv->strtbl = strtbl;
 
         subdiv_prev = subdiv;
         ++pSubDivL; ++subdiv;
     }
-    subdivs.last().rgn_end = /*subfile.parts["RGN"].offset +*/ subfile.parts["RGN"].size;
+    subdivs.last().rgn_end = subfile.parts["RGN"].size;
 
 
     subfile.subdivs = subdivs;

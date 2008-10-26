@@ -261,6 +261,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
+    info = new QTextDocument(this);
+    infotext = "<h1>Area</h1><h1>Point of interest</h1>";
+    info->setHtml(infotext);
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -769,7 +773,7 @@ void CMapTDB::draw()
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
-    if(!doFastDraw){
+    if(!doFastDraw && !isTransparent){
         drawPolygons(p, polygons);
     }
     drawPolylines(p, polylines);
@@ -885,9 +889,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
-
-
-
             }
             ++item;
         }
@@ -990,15 +991,21 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
     while(pt != pts.end()){
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
-        if(!pt->labels.isEmpty() && zoomFactor < 1.5 ){
+        if(!pt->labels.isEmpty() && zoomFactor < 2 ){
+
+            // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
             rect.adjust(0,0,4,4);
             rect.moveCenter(QPoint(pt->lon, pt->lat));
+
+            // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
             while(label != labels.end()){
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
+
+            // if no intersection was found, add label to list
             if(label == labels.end()){
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
@@ -1019,14 +1026,20 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         if(!pt->labels.isEmpty()){
+
+            // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
             rect.adjust(0,0,4,4);
             rect.moveCenter(QPoint(pt->lon, pt->lat));
+
+            // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
             while(label != labels.end()){
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
+
+            // if no intersection was found, add label to list
             if(label == labels.end()){
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();

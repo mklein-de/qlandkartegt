@@ -177,12 +177,9 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
     xy.u = GARMIN_RAD(x1);
     xy.v = GARMIN_RAD(y1);
-//     xy = pj_fwd(xy,*gpProj);
 #ifdef DEBUG_SHOW_POLY_PTS
     qDebug() << xy.u << xy.v << hex << x1 << y1 << DEG(x1) << DEG(y1);
 #endif
-//     points.append(xy);
-
     u << xy.u;
     v << xy.v;
 
@@ -195,7 +192,6 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
         xy.u = GARMIN_RAD(x1);
         xy.v = GARMIN_RAD(y1);
-//         xy = pj_fwd(xy,*gpProj);
 #ifdef DEBUG_SHOW_POLY_PTS
         qDebug() << xy.u << xy.v << hex << x1 << y1 << DEG(x1) << DEG(y1);
 #endif
@@ -203,8 +199,6 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
         v << xy.v;
     }
 
-    u.squeeze();
-    v.squeeze();
     id = cnt++;
 //         qDebug() << "<<<" << id;
     return bytes_total;
