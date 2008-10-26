@@ -25,6 +25,7 @@
 #include <QPen>
 #include <QBrush>
 #include <QFont>
+#include <QFontMetrics>
 
 
 class CGarminTile;
@@ -53,12 +54,20 @@ class CMapTDB : public IMap
         void slotResetFastDraw();
 
     private:
+
+        struct strlbl_t{
+            QPoint  pt;
+            QRect   rect;
+            QString str;
+        };
+
         void readTDB(const QString& filename);
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
+        void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
         void setFastDraw();
 
 #pragma pack(1)
@@ -249,6 +258,9 @@ class CMapTDB : public IMap
         polytype_t polylines;
         pointtype_t points;
         pointtype_t pois;
+
+        QFontMetrics      fm;
+        QVector<strlbl_t> labels;
 
 };
 

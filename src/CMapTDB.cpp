@@ -21,6 +21,7 @@
 #include "Garmin.h"
 #include "CGarminTile.h"
 #include "GeoMath.h"
+#include "CResources.h"
 
 #include <QtGui>
 #include <algorithm>
@@ -135,6 +136,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
 , doFastDraw(false)
+, fm(CResources::self().getMapFont())
 {
     IMap& map   = CMapDB::self().getMap();
     pjsrc       = pj_init_plus(map.getProjection());
@@ -700,7 +702,7 @@ void CMapTDB::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].scale;
 
-    qDebug() << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
+    qDebug() << zoomidx << zoomFactor << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
 
     setFastDraw();
 
@@ -735,6 +737,8 @@ void CMapTDB::draw()
     buffer.fill(Qt::lightGray);
     QPainter p(&buffer);
 
+    QFont f = CResources::self().getMapFont();
+    fm = QFontMetrics(f);
 
     quint8 bits = scales[zoomidx].bits;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
@@ -748,6 +752,7 @@ void CMapTDB::draw()
     polylines.clear();
     pois.clear();
     points.clear();
+    labels.clear();
 
     if(maplevel->useBaseMap){
         baseimg->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
@@ -771,6 +776,7 @@ void CMapTDB::draw()
     if(!doFastDraw){
         drawPoints(p, points);
         drawPois(p, pois);
+        drawLabels(p, labels);
     }
 
 }
@@ -900,7 +906,7 @@ static quint16 order[] = {
 //                             , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
 //                             , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
 //                             , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
-//
+
                               0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
                             , 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
                             , 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
@@ -985,7 +991,21 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         if(!pt->labels.isEmpty() && zoomFactor < 1.5 ){
-            CCanvas::drawText(pt->labels[0], p, QPoint(pt->lon, pt->lat), Qt::black);
+            QRect rect = fm.boundingRect(pt->labels.join(" "));
+            rect.adjust(0,0,4,4);
+            rect.moveCenter(QPoint(pt->lon, pt->lat));
+            QVector<strlbl_t>::const_iterator label = labels.begin();
+            while(label != labels.end()){
+                if(label->rect.intersects(rect)) break;
+                ++label;
+            }
+            if(label == labels.end()){
+                labels.push_back(strlbl_t());
+                strlbl_t& strlbl = labels.last();
+                strlbl.pt   = QPoint(pt->lon, pt->lat);
+                strlbl.str  = pt->labels.join(" ");
+                strlbl.rect = rect;
+            }
         }
         ++pt;
     }
@@ -999,9 +1019,32 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         if(!pt->labels.isEmpty()){
-            CCanvas::drawText(pt->labels[0], p, QPoint(pt->lon, pt->lat), Qt::black);
+            QRect rect = fm.boundingRect(pt->labels.join(" "));
+            rect.adjust(0,0,4,4);
+            rect.moveCenter(QPoint(pt->lon, pt->lat));
+            QVector<strlbl_t>::const_iterator label = labels.begin();
+            while(label != labels.end()){
+                if(label->rect.intersects(rect)) break;
+                ++label;
+            }
+            if(label == labels.end()){
+                labels.push_back(strlbl_t());
+                strlbl_t& strlbl = labels.last();
+                strlbl.pt   = QPoint(pt->lon, pt->lat);
+                strlbl.str  = pt->labels.join(" ");
+                strlbl.rect = rect;
+            }
         }
         ++pt;
+    }
+}
+
+void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
+{
+    QVector<strlbl_t>::const_iterator lbl = lbls.begin();
+    while(lbl != lbls.end()){
+        CCanvas::drawText(lbl->str, p, lbl->pt, Qt::black);
+        ++lbl;
     }
 }
 
