@@ -266,6 +266,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
+    resize(parent->size());
+
     info = new QTextDocument(this);
     info->setTextWidth(TEXTWIDTH);
     info->setHtml(infotext);
