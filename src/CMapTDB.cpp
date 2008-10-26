@@ -1240,7 +1240,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
                         {
                             QString unit;
                             QString val = line->labels[0];
-                            IUnit::self().meter2elevation(val.toFloat(), val, unit);
+                            IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
                             value = QString("%1 %2").arg(val).arg(unit);
                         }
                         break;
