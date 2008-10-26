@@ -22,6 +22,9 @@
 #include "CGarminTile.h"
 #include "GeoMath.h"
 #include "CResources.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
+#include "IUnit.h"
 
 #include <QtGui>
 #include <algorithm>
@@ -31,6 +34,8 @@
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
 #define DEBUG_SHOW_MAPLEVELS
+
+#define TEXTWIDTH   300
 
 CMapTDB::scale_t CMapTDB::scales[] =
 {
@@ -262,8 +267,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
     info = new QTextDocument(this);
-    infotext = "<h1>Area</h1><h1>Point of interest</h1>";
+    info->setTextWidth(TEXTWIDTH);
     info->setHtml(infotext);
+
+    parent->installEventFilter(this);
 
     qDebug() << "CMapTDB::CMapTDB()";
 }
@@ -282,6 +289,43 @@ CMapTDB::~CMapTDB()
     cfg.endGroup();
 
     qDebug() << "CMapTDB::~CMapTDB()";
+}
+
+void CMapTDB::resize(const QSize& s)
+{
+    IMap::resize(s);
+    topLeftInfo = QPoint(size.width() - TEXTWIDTH - 10 , 10);
+}
+
+bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
+{
+
+    if(parent() == watched && event->type() == QEvent::MouseMove){
+        QMouseEvent * e = (QMouseEvent*)event;
+
+        pointFocus = e->pos();
+        QMultiMap<QString, QString> dict;
+        getInfoPoints(pointFocus, dict);
+        getInfoPois(pointFocus, dict);
+        getInfoPolygons(pointFocus, dict);
+        getInfoPolylines(pointFocus, dict);
+
+        QString key;
+        QStringList keys = dict.uniqueKeys();
+        qSort(keys);
+
+        infotext.clear();
+        foreach(key,keys) {
+            infotext += "<b>" + key + ":</b><br/>";
+            const QStringList& values = dict.values(key).toSet().toList();
+            infotext += values.join("<br/>");
+            infotext += "<br/>";
+        }
+
+        emit sigChanged();
+    }
+
+    return IMap::eventFilter(watched, event);
 }
 
 void CMapTDB::readTDB(const QString& filename)
@@ -733,6 +777,30 @@ void CMapTDB::draw(QPainter& p)
     }
     p.drawImage(0,0,buffer);
 
+    if(!infotext.isEmpty()){
+        QFont f = p.font();
+        f.setBold(false);
+        f.setItalic(false);
+        info->setDefaultFont(f);
+        info->setHtml(infotext);
+
+        p.save();
+        p.translate(topLeftInfo);
+
+        QRectF rectInfo(QPointF(0,0), info->size());
+        rectInfo.adjust(0,0,4,4);
+        rectInfo.moveTopLeft(QPointF(-2,-2));
+
+        p.setPen(Qt::black);
+        p.setBrush(QColor(0xff, 0xff, 0xcc, 0xE0));
+        p.drawRect(rectInfo);
+        info->drawContents(&p);
+
+        p.restore();
+    }
+
+    p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
+
     if(doFastDraw) setFastDraw();
 }
 
@@ -1073,3 +1141,161 @@ void CMapTDB::slotResetFastDraw()
     doFastDraw  = false;
     emit sigChanged();
 }
+
+void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
+{
+    pointtype_t::const_iterator point = points.begin();
+    while(point != points.end()){
+        QPoint x = pt - QPoint(point->lon, point->lat);
+        if(x.manhattanLength() < 10){
+            dict.insert(tr("Point of Interest"),point->labels.join(", "));
+        }
+        ++point;
+    }
+}
+
+void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
+{
+    pointtype_t::const_iterator point = pois.begin();
+    while(point != pois.end()){
+        QPoint x = pt - QPoint(point->lon, point->lat);
+        if(x.manhattanLength() < 10){
+            dict.insert(tr("Point of Interest"),point->labels.join(", "));
+        }
+        ++point;
+    }
+}
+
+void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
+{
+    int i = 0;                   // index into poly line
+    int len;                     // number of points in line
+    XY p1, p2;                   // the two points of the polyline close to pt
+    double dx,dy;                // delta x and y defined by p1 and p2
+    double d_p1_p2;              // distance between p1 and p2
+    double u;                    // ratio u the tangent point will divide d_p1_p2
+    double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
+    double distance;             // the distance to the polyline
+    double shortest;             // shortest distance sofar
+
+    QPointF resPt = pt;
+    QString key, value;
+
+    shortest = 50;
+
+    polytype_t::const_iterator line = polylines.begin();
+    while(line != polylines.end()) {
+        len = line->u.count();
+        // need at least 2 points
+        if(len < 2) {
+            ++line;
+            continue;
+        }
+
+        // see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
+        for(i=1; i<len; ++i) {
+            p1.u = line->u[i-1];
+            p1.v = line->v[i-1];
+            p2.u = line->u[i];
+            p2.v = line->v[i];
+
+            dx = p2.u - p1.u;
+            dy = p2.v - p1.v;
+
+            d_p1_p2 = sqrt(dx * dx + dy * dy);
+
+            u = ((pt.x() - p1.u) * dx + (pt.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
+
+            if(u < 0.0 || u > 1.0) continue;
+
+            x = p1.u + u * dx;
+            y = p1.v + u * dy;
+
+            distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
+
+            if(distance < shortest) {
+
+                key = polyline_typestr[line->type];
+
+                if(!line->labels.isEmpty()) {
+                    switch(line->type) {
+                                 // "Minor depht contour"
+                        case 0x23:
+                                 // "Minor land contour"
+                        case 0x20:
+                                 // "Intermediate depth contour",
+                        case 0x24:
+                                 // "Intermediate land contour",
+                        case 0x21:
+                                 // "Major depth contour",
+                        case 0x25:
+                                 // "Major land contour",
+                        case 0x22:
+                        {
+                            QString unit;
+                            QString val = line->labels[0];
+                            IUnit::self().meter2elevation(val.toFloat(), val, unit);
+                            value = QString("%1 %2").arg(val).arg(unit);
+                        }
+                        break;
+
+                        default:
+                            value = line->labels.join(" ").simplified();
+                    }
+                }
+                else {
+                    value = "-";
+                }
+                resPt.setX(x);
+                resPt.setY(y);
+                shortest = distance;
+            }
+
+        }
+        ++line;
+    }
+
+    if(!key.isEmpty()) {
+        dict.insert(key,value);
+    }
+
+    pt = resPt.toPoint();
+}
+
+void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict)
+{
+    int     npol;
+    int     i = 0, j = 0 ,c = 0;
+    XY      p1, p2;              // the two points of the polyline close to pt
+    double  x = pt.x();
+    double  y = pt.y();
+    QString value;
+
+
+    polytype_t::const_iterator line = polygons.begin();
+    while(line != polygons.end()) {
+
+        npol = line->u.count();
+        if(npol > 2) {
+            c = 0;
+            // see http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
+            for (i = 0, j = npol-1; i < npol; j = i++) {
+                p1.u = line->u[j];
+                p1.v = line->v[j];
+                p2.u = line->u[i];
+                p2.v = line->v[i];
+
+                if ((((p2.v <= y) && (y < p1.v))  || ((p1.v <= y) && (y < p2.v))) &&
+                (x < (p1.u - p2.u) * (y - p2.v) / (p1.v - p2.v) + p2.u)) {
+                    c = !c;
+                }
+            }
+
+            if(c && !line->labels.isEmpty()) {
+                dict.insert(tr("Area"), line->labels.join(" ").simplified());
+            }
+        }
+        ++line;
+    }
+}
+

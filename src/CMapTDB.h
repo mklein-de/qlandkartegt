@@ -51,6 +51,10 @@ class CMapTDB : public IMap
         void draw(QPainter& p);
         void draw();
 
+    protected:
+        void resize(const QSize& s);
+        bool eventFilter( QObject * watched, QEvent * event );
+
     private slots:
         void slotResetFastDraw();
 
@@ -70,6 +74,11 @@ class CMapTDB : public IMap
         void drawPois(QPainter& p, pointtype_t& points);
         void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
         void setFastDraw();
+
+        void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
+        void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
+        void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
+        void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
 
 #pragma pack(1)
         struct tdb_hdr_t
@@ -266,7 +275,9 @@ class CMapTDB : public IMap
 
         QTextDocument * info;
         QString         infotext;
+        QPoint          topLeftInfo;
 
+        QPoint          pointFocus;
 };
 
 #endif //CMAPTDB_H
