@@ -47,6 +47,8 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     zoomFactor = 1;
 
     eleZoomFactor = 1;
+    maxElevation = 50;
+    minElevation = 0;
 
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
