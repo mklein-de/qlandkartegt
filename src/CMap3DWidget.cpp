@@ -677,12 +677,17 @@ void CMap3DWidget::normalizeAngle(double *angle)
 void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
-    if (in) {
-        qDebug() << "in" << endl;
-        zoomFactor *= 1.1;
+    if (pressedKeys.contains(Qt::Key_M)) {
+        QSize s = map->getSize();
+        map->zoom(in, QPoint(s.width() / 2, s.height() / 2));
     } else {
-        qDebug() << "out" << endl;
-        zoomFactor /= 1.1;
+        if (in) {
+            qDebug() << "in" << endl;
+            zoomFactor *= 1.1;
+        } else {
+            qDebug() << "out" << endl;
+            zoomFactor /= 1.1;
+        }
     }
     updateGL();
 }
