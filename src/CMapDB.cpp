@@ -404,7 +404,7 @@ void CMapDB::show3DMap()
 {
     if(map3DWidget.isNull()) {
         map3DWidget = new CMap3DWidget(theMainWindow->getCanvas());
-        theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Profile"));
+        theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Map 3D..."));
     } else {
             theMainWindow->getCanvasTab()->removeTab(theMainWindow->getCanvasTab()->indexOf(map3DWidget));
             delete map3DWidget;

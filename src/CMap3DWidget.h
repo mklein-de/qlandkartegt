@@ -63,7 +63,7 @@ class CMap3DWidget: public QGLWidget
         QSet<int> pressedKeys;
 
     private:
-        QPointer<CMapQMAP> map;
+        QPointer<IMap> map;
         void loadMap();
         /// expand map relative to the center
         void expandMap(bool zoomIn);
