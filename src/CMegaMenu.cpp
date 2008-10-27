@@ -96,7 +96,11 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
     ,{":/icons/iconFind16x16",QObject::tr("Find Symbols"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
+#ifdef PLOT_3D
+    ,{":/icons/icon3D16x16.png",QObject::tr("Map 3D..."), &CMegaMenu::func3DMap, tr("Show 3D map")}
+#else
     ,{0,QObject::tr("-"),0,tr("")}
+#endif
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
 };
@@ -491,6 +495,12 @@ void CMegaMenu::funcSearchMap()
     CMapDB::self().searchMap();
 }
 
+#ifdef PLOT_3D
+void CMegaMenu::func3DMap()
+{
+    CMapDB::self().show3DMap();
+}
+#endif
 
 void CMegaMenu::funcNewWpt()
 {

@@ -78,6 +78,9 @@ class CMegaMenu : public QLabel
         void funcSelectArea();
         void funcEditMap();
         void funcSearchMap();
+#ifdef PLOT_3D
+        void func3DMap();
+#endif
 
         void funcNewWpt();
         void funcEditWpt();

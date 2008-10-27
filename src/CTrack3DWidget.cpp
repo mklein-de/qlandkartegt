@@ -206,8 +206,6 @@ void CTrack3DWidget::draw3DMap()
     GLdouble vertices[4][3];
     GLdouble texCoords[4][2];
 
-//    IMap& map = CMapDB::self().getMap();
-
     glEnable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
@@ -262,7 +260,7 @@ void CTrack3DWidget::drawTrack()
     double ele1, ele2;
     IMap& dem = CMapDB::self().getDEM();
 
-    if(! track.isNull()) {
+    if (! track.isNull()) {
         XY pt1, pt2;
 
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -373,8 +371,6 @@ void CTrack3DWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-
-    slotChanged();
 }
 
 void CTrack3DWidget::paintGL()

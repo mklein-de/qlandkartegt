@@ -32,6 +32,9 @@ class CCanvas;
 class CMapNoMap;
 class CMapEditWidget;
 class CMapSearchWidget;
+#ifdef PLOT_3D
+class CTrack3DWidget;
+#endif
 
 class CMapDB : public IDB
 {
@@ -77,6 +80,10 @@ class CMapDB : public IDB
         void clear();
         /// create map edit dialog
         void editMap();
+#ifdef PLOT_3D
+        /// create tab with 3D map
+        void show3DMap();
+#endif
         /// create map search dialog
         void searchMap();
 
@@ -129,7 +136,9 @@ class CMapDB : public IDB
 //         QPointer<IMap> vctMap;
 
         QPointer<CMapEditWidget> mapedit;
-
+#ifdef PLOT_3D
+        QPointer<CTrack3DWidget> map3DWidget;
+#endif
         QPointer<CMapSearchWidget> mapsearch;
 
         QMap<QString,CMapSelection> selectedMaps;

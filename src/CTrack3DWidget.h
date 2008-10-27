@@ -32,7 +32,7 @@ class CTrack3DWidget: public QGLWidget
 {
     Q_OBJECT;
     public:
-        CTrack3DWidget(QWidget * parent);
+        CTrack3DWidget(QWidget *parent);
         virtual ~CTrack3DWidget();
         void convertPt23D(double& u, double& v, double &ele);
         void convert3D2Pt(double& u, double& v, double &ele);
@@ -63,7 +63,7 @@ class CTrack3DWidget: public QGLWidget
         QSet<int> pressedKeys;
 
     private:
-        CMapQMAP *map;
+        QPointer<CMapQMAP> map;
         void loadMap();
         /// expand map relative to the center
         void expandMap(bool zoomIn);

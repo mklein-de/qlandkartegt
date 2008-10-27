@@ -31,6 +31,10 @@
 #include "CMapSearchWidget.h"
 #include "GeoMath.h"
 #include "CCanvas.h"
+#ifdef PLOT_3D
+#   include "CTrack3DWidget.h"
+#endif
+#include "CTabWidget.h"
 
 #include <QtGui>
 
@@ -395,6 +399,18 @@ void CMapDB::editMap()
     }
 }
 
+#ifdef PLOT_3D
+void CMapDB::show3DMap()
+{
+    if(map3DWidget.isNull()) {
+        map3DWidget = new CTrack3DWidget(theMainWindow->getCanvas());
+        theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Profile"));
+    } else {
+            theMainWindow->getCanvasTab()->removeTab(theMainWindow->getCanvasTab()->indexOf(map3DWidget));
+            delete map3DWidget;
+    }
+}
+#endif
 
 void CMapDB::searchMap()
 {
