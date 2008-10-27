@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#include "CTrack3DWidget.h"
+#include "CMap3DWidget.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "CMapQMAP.h"
@@ -33,7 +33,7 @@
 
 #include <math.h>
 
-CTrack3DWidget::CTrack3DWidget(QWidget * parent)
+CMap3DWidget::CMap3DWidget(QWidget * parent)
     : QGLWidget(parent)
 {
     object = 0;
@@ -58,7 +58,7 @@ CTrack3DWidget::CTrack3DWidget(QWidget * parent)
     setFocusPolicy(Qt::StrongFocus);
 }
 
-void CTrack3DWidget::loadMap()
+void CMap3DWidget::loadMap()
 {
     double x1 = 0, y1 = 0;
     int side = qMax(width(), height());
@@ -74,7 +74,7 @@ void CTrack3DWidget::loadMap()
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
-void CTrack3DWidget::createActions()
+void CMap3DWidget::createActions()
 {
     map3DAct = new QAction("3D map", this);
     map3DAct->setCheckable(true);
@@ -99,24 +99,24 @@ void CTrack3DWidget::createActions()
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
 }
 
-void CTrack3DWidget::eleZoomOut()
+void CMap3DWidget::eleZoomOut()
 {
     eleZoomFactor = eleZoomFactor / 1.2;
     slotChanged();
 }
 
-void CTrack3DWidget::eleZoomIn()
+void CMap3DWidget::eleZoomIn()
 {
     eleZoomFactor = eleZoomFactor * 1.2;
     slotChanged();
 }
 
-void CTrack3DWidget::eleZoomReset()
+void CMap3DWidget::eleZoomReset()
 {
     eleZoomFactor = 1;
     slotChanged();
 }
-void CTrack3DWidget::contextMenuEvent(QContextMenuEvent *event)
+void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
     menu.addAction(eleZoomInAct);
@@ -129,7 +129,7 @@ void CTrack3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
-CTrack3DWidget::~CTrack3DWidget()
+CMap3DWidget::~CMap3DWidget()
 {
     makeCurrent();
     deleteTexture(mapTexture);
@@ -137,7 +137,7 @@ CTrack3DWidget::~CTrack3DWidget()
     delete map;
 }
 
-void CTrack3DWidget::setMapTexture()
+void CMap3DWidget::setMapTexture()
 {
     QSize s = map->getSize();
     QPixmap pm(s.width(), s.height());
@@ -148,7 +148,7 @@ void CTrack3DWidget::setMapTexture()
     track = CTrackDB::self().highlightedTrack();
 }
 
-void CTrack3DWidget::slotChanged()
+void CMap3DWidget::slotChanged()
 {
     deleteTexture(mapTexture);
     setMapTexture();
@@ -157,7 +157,7 @@ void CTrack3DWidget::slotChanged()
     updateGL();
 }
 
-void CTrack3DWidget::convertPt23D(double& u, double& v, double &ele)
+void CMap3DWidget::convertPt23D(double& u, double& v, double &ele)
 {
     QSize s = map->getSize();
     u = u - s.width()/2;
@@ -165,7 +165,7 @@ void CTrack3DWidget::convertPt23D(double& u, double& v, double &ele)
     ele = ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 }
 
-void CTrack3DWidget::convert3D2Pt(double& u, double& v, double &ele)
+void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
 {
     QSize s = map->getSize();
     u = u + s.width()/2;
@@ -173,7 +173,7 @@ void CTrack3DWidget::convert3D2Pt(double& u, double& v, double &ele)
     ele = ele / eleZoomFactor / (s.width() / 10.0) * maxElevation;
 }
 
-void CTrack3DWidget::drawFlatMap()
+void CMap3DWidget::drawFlatMap()
 {
     QSize s = map->getSize();
     double w = s.width();
@@ -194,7 +194,7 @@ void CTrack3DWidget::drawFlatMap()
     glDisable(GL_TEXTURE_2D);
 }
 
-void CTrack3DWidget::draw3DMap()
+void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();
     double w = s.width();
@@ -254,7 +254,7 @@ void CTrack3DWidget::draw3DMap()
 
 }
 
-void CTrack3DWidget::drawTrack()
+void CMap3DWidget::drawTrack()
 {
     glLineWidth(2.0);
     double ele1, ele2;
@@ -314,7 +314,7 @@ void CTrack3DWidget::drawTrack()
 
 }
 
-GLuint CTrack3DWidget::makeObject()
+GLuint CMap3DWidget::makeObject()
 {
     GLuint list = glGenLists(1);
     glNewList(list, GL_COMPILE);
@@ -335,7 +335,7 @@ GLuint CTrack3DWidget::makeObject()
     return list;
 }
 
-void CTrack3DWidget::setXRotation(double angle)
+void CMap3DWidget::setXRotation(double angle)
 {
     normalizeAngle(&angle);
     if (angle > 0 && angle < 90) {
@@ -345,7 +345,7 @@ void CTrack3DWidget::setXRotation(double angle)
     }
 }
 
-void CTrack3DWidget::setZRotation(double angle)
+void CMap3DWidget::setZRotation(double angle)
 {
     normalizeAngle(&angle);
     if (angle != zRot) {
@@ -355,7 +355,7 @@ void CTrack3DWidget::setZRotation(double angle)
     }
 }
 
-void CTrack3DWidget::initializeGL()
+void CMap3DWidget::initializeGL()
 {
     loadMap();
     QSize s = map->getSize();
@@ -373,7 +373,7 @@ void CTrack3DWidget::initializeGL()
     glEnable(GL_CULL_FACE);
 }
 
-void CTrack3DWidget::paintGL()
+void CMap3DWidget::paintGL()
 {
     QSize s = map->getSize();
     int side = qMax(s.width(), s.height());
@@ -439,7 +439,7 @@ void CTrack3DWidget::paintGL()
     }
 }
 
-void CTrack3DWidget::resizeGL(int width, int height)
+void CMap3DWidget::resizeGL(int width, int height)
 {
     int side = qMax(width, height);
     glViewport(0, 0, width, height);
@@ -452,7 +452,7 @@ void CTrack3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void CTrack3DWidget::convertDsp2Z0(QPoint &a)
+void CMap3DWidget::convertDsp2Z0(QPoint &a)
 {
     GLdouble projection[16];
 	GLdouble modelview[16];
@@ -480,7 +480,7 @@ void CTrack3DWidget::convertDsp2Z0(QPoint &a)
     a.ry() = y0 + yk * k1;
 }
 
-void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
+void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     GLdouble projection[16];
     GLdouble modelview[16];
@@ -533,12 +533,12 @@ void CTrack3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     }
 }
 
-void CTrack3DWidget::mousePressEvent(QMouseEvent *event)
+void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
 
-void CTrack3DWidget::expandMap(bool zoomIn)
+void CMap3DWidget::expandMap(bool zoomIn)
 {
     QSize s = map->getSize();
     double zoomFactor = zoomIn ? 1.1 : 1/1.1;
@@ -556,12 +556,12 @@ void CTrack3DWidget::expandMap(bool zoomIn)
     map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
 }
 
-void CTrack3DWidget::keyReleaseEvent ( QKeyEvent * event )
+void CMap3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
     pressedKeys.remove(event->key());
 }
 
-void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
+void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
 {
     pressedKeys.insert(event->key());
 
@@ -605,12 +605,12 @@ void CTrack3DWidget::keyPressEvent ( QKeyEvent * event )
     updateGL();
 }
 
-void CTrack3DWidget::focusOutEvent ( QFocusEvent * event )
+void CMap3DWidget::focusOutEvent ( QFocusEvent * event )
 {
     pressedKeys.clear();
 }
 
-void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
+void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
@@ -633,7 +633,7 @@ void CTrack3DWidget::mouseMoveEvent(QMouseEvent *event)
     updateGL();
 }
 
-void CTrack3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
+void CMap3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
 {
     glBegin(GL_QUADS);
     double c1, c2;
@@ -666,7 +666,7 @@ void CTrack3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GL
     glEnd();
 }
 
-void CTrack3DWidget::normalizeAngle(double *angle)
+void CMap3DWidget::normalizeAngle(double *angle)
 {
     while (*angle < 0)
         *angle += 360;
@@ -674,7 +674,7 @@ void CTrack3DWidget::normalizeAngle(double *angle)
         *angle -= 360;
 }
 
-void CTrack3DWidget::wheelEvent ( QWheelEvent * e )
+void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
     if (in) {

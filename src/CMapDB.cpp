@@ -32,7 +32,7 @@
 #include "GeoMath.h"
 #include "CCanvas.h"
 #ifdef PLOT_3D
-#   include "CTrack3DWidget.h"
+#   include "CMap3DWidget.h"
 #endif
 #include "CTabWidget.h"
 
@@ -403,7 +403,7 @@ void CMapDB::editMap()
 void CMapDB::show3DMap()
 {
     if(map3DWidget.isNull()) {
-        map3DWidget = new CTrack3DWidget(theMainWindow->getCanvas());
+        map3DWidget = new CMap3DWidget(theMainWindow->getCanvas());
         theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Profile"));
     } else {
             theMainWindow->getCanvasTab()->removeTab(theMainWindow->getCanvasTab()->indexOf(map3DWidget));

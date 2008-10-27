@@ -28,12 +28,12 @@
 #include "CMapQMAP.h"
 #include "IMap.h"
 
-class CTrack3DWidget: public QGLWidget
+class CMap3DWidget: public QGLWidget
 {
     Q_OBJECT;
     public:
-        CTrack3DWidget(QWidget *parent);
-        virtual ~CTrack3DWidget();
+        CMap3DWidget(QWidget *parent);
+        virtual ~CMap3DWidget();
         void convertPt23D(double& u, double& v, double &ele);
         void convert3D2Pt(double& u, double& v, double &ele);
         /// conver coord of point a on the window to the flat z = 0
