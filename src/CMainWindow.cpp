@@ -335,12 +335,21 @@ void CMainWindow::slotConfig()
 
 void CMainWindow::slotLoadData()
 {
-    QSettings cfg;
 
+    bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
+    QString formats;
+    if(haveGPSBabel){
+        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
+    }
+    else{
+        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
+    }
+
+    QSettings cfg;
     QString filter   = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
         ,pathData
-        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)"
+        ,formats
         ,&filter
         );
     if(filename.isEmpty()) return;
@@ -368,11 +377,21 @@ void CMainWindow::slotLoadData()
 
 void CMainWindow::slotAddData()
 {
+    bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
+    QString formats;
+    if(haveGPSBabel){
+        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
+    }
+    else{
+        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
+    }
+
+
     QSettings cfg;
     QString filter   = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
         ,pathData
-        ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)"
+        ,formats
         ,&filter
         );
 
@@ -391,7 +410,10 @@ void CMainWindow::slotAddData()
 
 void CMainWindow::loadData(QString& filename, const QString& filter)
 {
-    QString ext = filename.right(4);
+    QTemporaryFile tmpfile;
+    bool loadGPXData = false;
+    QString ext      = filename.right(4);
+
 
     if(filter == "QLandkarte (*.qlb)") {
         if(ext != ".qlb") filename += ".qlb";
@@ -404,6 +426,14 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
         if(ext != ".tcx") filename += ".tcx";
         ext = "TCX";
+    }
+    else if(filter == "Geocaching.com/EasyGPS (*.loc)"){
+        if(ext != ".loc") filename += ".loc";
+        ext = "LOC";
+    }
+    else if(filter == "Mapsource (*.gdb)"){
+        if(ext != ".gdb") filename += ".gdb";
+        ext = "GDB";
     }
     else {
         filename += ".qlb";
@@ -440,19 +470,66 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             else {
                 //emit CTrackDB::self().sigChanged(); //??
                 QRectF r = CTrackDB::self().getBoundingRectF();
-                if (!r.isNull ())
+                if (!r.isNull ()){
                     CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
-
+                }
             }
-
         }
-
+        else if(ext == "LOC") {
+            tmpfile.open();
+            loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
+            if (!loadGPXData){
+                QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
+            }
+            else {
+                CGpx gpx(this);
+                gpx.load(tmpfile.fileName());
+                CMapDB::self().loadGPX(gpx);
+                CWptDB::self().loadGPX(gpx);
+                CTrackDB::self().loadGPX(gpx);
+                CDiaryDB::self().loadGPX(gpx);
+                COverlayDB::self().loadGPX(gpx);
+            }
+        }
+        else if(ext == "GDB") {
+            tmpfile.open();
+            loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
+            if (!loadGPXData){
+                QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
+            }
+            else {
+                CGpx gpx(this);
+                gpx.load(tmpfile.fileName());
+                CMapDB::self().loadGPX(gpx);
+                CWptDB::self().loadGPX(gpx);
+                CTrackDB::self().loadGPX(gpx);
+                CDiaryDB::self().loadGPX(gpx);
+                COverlayDB::self().loadGPX(gpx);
+            }
+        }
         wksFile = filename;
     }
     catch(const QString& msg) {
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
+}
+
+bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile)
+{
+     QString program = "gpsbabel";
+     QStringList arguments;
+     arguments << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+
+     QProcess *babelProcess = new QProcess(this);
+     babelProcess->start(program, arguments);
+     if (!babelProcess->waitForStarted())
+         return false;
+
+     if (!babelProcess->waitForFinished())
+         return false;
+
+     return babelProcess->exitCode() ==0;
 }
 
 

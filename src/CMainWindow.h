@@ -84,6 +84,8 @@ class CMainWindow : public QMainWindow
         void setTitleBar();
         bool maybeSave();
         void saveData(const QString& filename, const QString& filter);
+        bool convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile);
+
         /// horizontal main splitter holding the canvas and the tool view
         QSplitter * mainSplitter;
         /// the vertical splitter holding the tool views
