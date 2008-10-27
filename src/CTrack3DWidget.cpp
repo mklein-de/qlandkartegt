@@ -86,6 +86,11 @@ void CTrack3DWidget::createActions()
     showTrackAct->setChecked(true);
     connect(showTrackAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
+    mapEleAct = new QAction("map elevation", this);
+    mapEleAct->setCheckable(true);
+    mapEleAct->setChecked(false);
+    connect(mapEleAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
+
     eleZoomInAct = new QAction(tr("zZoom In"), this);
     connect(eleZoomInAct, SIGNAL(triggered()), this, SLOT(eleZoomIn()));
     eleZoomOutAct = new QAction(tr("zZoom Out"), this);
@@ -119,6 +124,7 @@ void CTrack3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(eleZoomResetAct);
     menu.addAction(map3DAct);
     menu.addAction(showTrackAct);
+    menu.addAction(mapEleAct);
 
     menu.exec(event->globalPos());
 }
@@ -254,6 +260,8 @@ void CTrack3DWidget::drawTrack()
 {
     glLineWidth(2.0);
     double ele1, ele2;
+    IMap& dem = CMapDB::self().getDEM();
+
     if(! track.isNull()) {
         XY pt1, pt2;
 
@@ -276,8 +284,11 @@ void CTrack3DWidget::drawTrack()
 
         pt1.u = trkpt->lon * DEG_TO_RAD;
         pt1.v = trkpt->lat * DEG_TO_RAD;
+        if (mapEleAct->isChecked())
+            ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+        else
+            ele1 = trkpt->ele;
         map->convertRad2Pt(pt1.u, pt1.v);
-        ele1 = trkpt->ele;
         convertPt23D(pt1.u, pt1.v, ele1);
 
         while(trkpt != trkpts.end()) {
@@ -286,8 +297,11 @@ void CTrack3DWidget::drawTrack()
             }
             pt2.u = trkpt->lon * DEG_TO_RAD;
             pt2.v = trkpt->lat * DEG_TO_RAD;
+            if (mapEleAct->isChecked())
+                ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+            else
+                ele2 = trkpt->ele +1;
             map->convertRad2Pt(pt2.u, pt2.v);
-            ele2 = trkpt->ele;
             convertPt23D(pt2.u, pt2.v, ele2);
 
             quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);

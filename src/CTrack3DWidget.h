@@ -59,6 +59,7 @@ class CTrack3DWidget: public QGLWidget
         QAction *eleZoomResetAct;
         QAction *map3DAct;
         QAction *showTrackAct;
+        QAction *mapEleAct;
         QSet<int> pressedKeys;
 
     private:
