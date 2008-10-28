@@ -53,6 +53,7 @@ class CMap3DWidget: public QGLWidget
         void keyReleaseEvent ( QKeyEvent * event );
         void focusOutEvent ( QFocusEvent * event );
         void createActions();
+        void updateElevationLimits();
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;

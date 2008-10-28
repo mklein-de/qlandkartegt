@@ -47,7 +47,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     zoomFactor = 1;
 
     eleZoomFactor = 1;
-    maxElevation = 50;
+    maxElevation = 0;
     minElevation = 0;
 
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
@@ -73,7 +73,7 @@ void CMap3DWidget::createActions()
 {
     map3DAct = new QAction("3D map", this);
     map3DAct->setCheckable(true);
-    map3DAct->setChecked(false);
+    map3DAct->setChecked(true);
     connect(map3DAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
     showTrackAct = new QAction("show track", this);
@@ -98,21 +98,21 @@ void CMap3DWidget::createActions()
 void CMap3DWidget::eleZoomOut()
 {
     eleZoomFactor = eleZoomFactor / 1.2;
-    slotChanged();
+    updateGL();
 }
 
 
 void CMap3DWidget::eleZoomIn()
 {
     eleZoomFactor = eleZoomFactor * 1.2;
-    slotChanged();
+    updateGL();
 }
 
 
 void CMap3DWidget::eleZoomReset()
 {
     eleZoomFactor = 1;
-    slotChanged();
+    updateGL();
 }
 
 
@@ -165,7 +165,6 @@ void CMap3DWidget::convertPt23D(double& u, double& v, double &ele)
     QSize s = map->getSize();
     u = u - s.width()/2;
     v = s.height()/2 - v;
-    ele = ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 }
 
 
@@ -174,7 +173,6 @@ void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
     QSize s = map->getSize();
     u = u + s.width()/2;
     v = s.height()/2 - v;
-    ele = ele / eleZoomFactor / (s.width() / 10.0) * maxElevation;
 }
 
 
@@ -188,13 +186,13 @@ void CMap3DWidget::drawFlatMap()
     glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
     glTexCoord2d(0.0, 0.0);
-    glVertex3d(-w/2, -h/2, 0);
+    glVertex3d(-w/2, -h/2, minElevation);
     glTexCoord2d(1.0, 0.0);
-    glVertex3d( w/2, -h/2, 0);
+    glVertex3d( w/2, -h/2, minElevation);
     glTexCoord2d(1.0, 1.0);
-    glVertex3d( w/2,  h/2, 0);
+    glVertex3d( w/2,  h/2, minElevation);
     glTexCoord2d(0.0, 1.0);
-    glVertex3d(-w/2,  h/2, 0);
+    glVertex3d(-w/2,  h/2, minElevation);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
@@ -260,7 +258,6 @@ void CMap3DWidget::draw3DMap()
 
 }
 
-
 void CMap3DWidget::drawTrack()
 {
     glLineWidth(2.0);
@@ -321,10 +318,66 @@ void CMap3DWidget::drawTrack()
 
 }
 
+void CMap3DWidget::updateElevationLimits()
+{
+    double x, y, u, v, ele;
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+    double step = 5;
+    IMap& dem = CMapDB::self().getDEM();
+
+    u = 0;
+    v = 0;
+    map->convertPt2Rad(u, v);
+    minElevation = maxElevation = dem.getElevation(u,v);
+
+    for (y = 0; y < h - step; y += step)
+        for (x = 0; x < w; x += step) {
+            u = x;
+            v = y;
+            map->convertPt2Rad(u, v);
+            // FIXME can't use map instead of dem. need investigation.
+            ele = dem.getElevation(u,v);
+            if (ele > maxElevation)
+                    maxElevation = ele;
+
+            if (ele < minElevation)
+                    minElevation = ele;
+        }
+
+    if (! track.isNull() && (maxElevation - minElevation < 1)) {
+        /*selected track exist and dem isn't present for this map*/
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        maxElevation = trkpt->ele;
+        minElevation = trkpt->ele;
+        while(trkpt != trkpts.end()) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+                ++trkpt; continue;
+            }
+            if (trkpt->ele > maxElevation)
+                maxElevation = trkpt->ele;
+            if (trkpt->ele < minElevation)
+                minElevation = trkpt->ele;
+            ++trkpt;
+        }
+    }
+
+    if (maxElevation - minElevation < 1) {
+            /*selected track and deb are absent*/
+            maxElevation = 1;
+            minElevation = 0;
+    }
+
+}
 
 GLuint CMap3DWidget::makeObject()
 {
     GLuint list = glGenLists(1);
+
+    updateElevationLimits();
+
     glNewList(list, GL_COMPILE);
 
     if (showTrackAct->isChecked())
@@ -391,6 +444,7 @@ void CMap3DWidget::paintGL()
     int side = qMax(s.width(), s.height());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+
     glTranslated(0.0, -0.25 * side, 0.0);
     glTranslated(0.0, 0.0, - 3 * side);
     glRotated(-xRot, 1.0, 0.0, 0.0);
@@ -398,10 +452,15 @@ void CMap3DWidget::paintGL()
     glTranslated(xShift * 2, 2 * yShift, 0.0);
 
     glRotated(zRot, 0.0, 0.0, 1.0);
+
+    /* subtract the offset and set the Z axis scale */
+    glScalef(1.0, 1.0, eleZoomFactor * (s.width() / 10.0) / (maxElevation - minElevation));
+    glTranslated(0.0, 0.0, -minElevation);
+
     glCallList(object);
 
     /*draw axis*/
-    glBegin(GL_LINES);
+/*    glBegin(GL_LINES);
 
     glColor3f(1.0, 0.0, 0.0);
     glVertex3f(0.0, 0.0, 0.0);
@@ -415,7 +474,7 @@ void CMap3DWidget::paintGL()
     glVertex3f(0.0, 0.0, 0.0);
     glVertex3f(0.0, 0.0, 100.0);
 
-    glEnd();
+    glEnd();*/
 
     /*draw the grid*/
     int i, d = 100, n = 10;
@@ -423,11 +482,11 @@ void CMap3DWidget::paintGL()
     glBegin(GL_LINES);
     glColor3f(0.5, 0.5, 0.5);
     for(i = -n; i <= n; i ++) {
-        glVertex3f(-d * n, i * d, 0.0);
-        glVertex3f(d * n, i * d, 0.0);
+        glVertex3f(-d * n, i * d, minElevation);
+        glVertex3f(d * n, i * d, minElevation);
 
-        glVertex3f(i * d, -d * n, 0.0);
-        glVertex3f(i * d, d * n, 0.0);
+        glVertex3f(i * d, -d * n, minElevation);
+        glVertex3f(i * d, d * n, minElevation);
     }
     glEnd();
 
@@ -441,12 +500,9 @@ void CMap3DWidget::paintGL()
         pt.u = selTrkPt->lon * DEG_TO_RAD;
         pt.v = selTrkPt->lat * DEG_TO_RAD;
         map->convertRad2Pt(pt.u, pt.v);
+        convertPt23D(pt.u, pt.v, ele);
 
-        pt.u -= s.width()/2;
-        pt.v = s.height()/2 - pt.v;
-        ele = selTrkPt->ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
-
-        glVertex3d(pt.u,pt.v,ele);
+        glVertex3d(pt.u, pt.v, ele);
         glEnd();
     }
 }
@@ -665,8 +721,8 @@ void CMap3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdo
     c2 = z2 / maxElevation * 255;
 
     qglColor(wallCollor);
-    glVertex3d(x2, y2, 0);
-    glVertex3d(x1, y1, 0);
+    glVertex3d(x2, y2, minElevation);
+    glVertex3d(x1, y1, minElevation);
     qglColor(wallCollor.dark(c1));
     glVertex3d(x1, y1, z1);
     qglColor(wallCollor.dark(c2));
@@ -677,8 +733,8 @@ void CMap3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdo
     qglColor(wallCollor.dark(c1));
     glVertex3d(x1, y1, z1);
     qglColor(wallCollor);
-    glVertex3d(x1, y1, 0);
-    glVertex3d(x2, y2, 0);
+    glVertex3d(x1, y1, minElevation);
+    glVertex3d(x2, y2, minElevation);
 
     glEnd();
 
