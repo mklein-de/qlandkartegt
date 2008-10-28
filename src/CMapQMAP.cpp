@@ -85,7 +85,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 
-    if(parent){
+    if(parent) {
         connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
         resize(parent->size());
     }
@@ -238,6 +238,7 @@ void CMapQMAP::draw()
     }
 }
 
+
 void CMapQMAP::convertPt2M(double& u, double& v)
 {
     if(pMaplevel.isNull() || pjsrc == 0) return;
@@ -316,13 +317,16 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     emit sigChanged();
 }
 
+
 qint32 CMapQMAP::getZoomLevel()
 {
-        if (zoomFactor < 1)
-                return 1 / zoomFactor;
-        else
-                return zoomFactor + pMaplevel->min -1;
+    if (zoomFactor < 1)
+        return 1 / zoomFactor;
+    else
+        return zoomFactor + pMaplevel->min -1;
 }
+
+
 void CMapQMAP::zoom(qint32& level)
 {
     needsRedraw = true;

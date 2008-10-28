@@ -40,25 +40,28 @@ CGarminTile::CGarminTile(IMap * parent)
 {
 }
 
+
 CGarminTile::~CGarminTile()
 {
 }
+
 
 void CGarminTile::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
 {
     file.seek(offset);
     data = file.read(size);
 
-    if((quint32)data.size() != size){
+    if((quint32)data.size() != size) {
         throw exce_t(eErrOpen, tr("Failed to read: ") + filename);
     }
 
     quint8 * p = (quint8*)data.data();
-    for(quint32 i = 0; i < size; ++i){
+    for(quint32 i = 0; i < size; ++i) {
         *p++ ^= mask;
     }
 
 }
+
 
 void CGarminTile::readBasics(const QString& fn)
 {
@@ -68,7 +71,7 @@ void CGarminTile::readBasics(const QString& fn)
     qint64 fsize    = QFileInfo(fn).size();
 
     QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)){
+    if(!file.open(QIODevice::ReadOnly)) {
         throw exce_t(eErrOpen, tr("Failed to open: ") + filename);
     }
     file.read((char*)&mask, 1);
@@ -87,7 +90,7 @@ void CGarminTile::readBasics(const QString& fn)
 
     mapdesc  = QByteArray((const char*)pImgHdr->desc1,20);
     mapdesc += pImgHdr->desc2;
-//     qDebug() << mapdesc;
+    //     qDebug() << mapdesc;
 
     size_t blocksize = pImgHdr->blocksize();
 
@@ -202,6 +205,7 @@ void CGarminTile::readBasics(const QString& fn)
     }
 }
 
+
 void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 {
     quint32 i;
@@ -249,7 +253,6 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     qDebug() << "bounding area (\260)" << subfile.area;
 #endif                       // DEBUG_SHOW_TRE_DATA
 
-
     QByteArray maplevel;
     readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre1_offset), gar_load(uint32_t, pTreHdr->tre1_size), maplevel);
     const tre_map_level_t * pMapLevel = (const tre_map_level_t * )maplevel.data();
@@ -258,8 +261,8 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
     if(pTreHdr->flag & 0x80) {
         throw exce_t(errLock,tr("File contains locked / encypted data. Garmin does not "
-                                "want you to use this file with any other software than "
-                                "the one supplied by Garmin."));
+            "want you to use this file with any other software than "
+            "the one supplied by Garmin."));
     }
 
     quint32 nlevels             = gar_load(uint32_t, pTreHdr->tre1_size) / sizeof(tre_map_level_t);
@@ -395,7 +398,6 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     }
     subdivs.last().rgn_end = subfile.parts["RGN"].size;
 
-
     subfile.subdivs = subdivs;
 
 #ifdef DEBUG_SHOW_SUBDIV_DATA
@@ -417,9 +419,9 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
             ++subdiv;
         }
     }
-#endif // DEBUG_SHOW_SUBDIV_DATA
+#endif                       // DEBUG_SHOW_SUBDIV_DATA
 
-    if(subfile.parts.contains("LBL")){
+    if(subfile.parts.contains("LBL")) {
         QByteArray lblhdr;
         readFile(file, subfile.parts["LBL"].offset, sizeof(hdr_lbl_t), lblhdr);
         hdr_lbl_t * pLblHdr = (hdr_lbl_t*)lblhdr.data();
@@ -429,7 +431,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         quint32 offsetNet1  = 0;
         hdr_net_t * pNetHdr = 0;
-        if(subfile.parts.contains("NET")){
+        if(subfile.parts.contains("NET")) {
             QByteArray nethdr;
             readFile(file, subfile.parts["NET"].offset, sizeof(hdr_net_t), nethdr);
             pNetHdr = (hdr_net_t*)nethdr.data();
@@ -437,11 +439,11 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         }
 
         quint16 codepage = 0;
-        if(gar_load(uint16_t, pLblHdr->length) > 0xAA){
+        if(gar_load(uint16_t, pLblHdr->length) > 0xAA) {
             codepage = gar_load(uint16_t, pLblHdr->codepage);
         }
 
-//         qDebug() << file.fileName() << hex << offsetLbl1 << offsetLbl6 << offsetNet1;
+        //         qDebug() << file.fileName() << hex << offsetLbl1 << offsetLbl6 << offsetNet1;
 
         switch(pLblHdr->coding) {
             case 0x06:
@@ -466,11 +468,10 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
                 break;
 
             default:;
-                qWarning() << "Unknown label coding" << hex << pLblHdr->coding;
+            qWarning() << "Unknown label coding" << hex << pLblHdr->coding;
         }
 
     }
-
 
 }
 
@@ -478,14 +479,13 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport)
 {
     QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)){
+    if(!file.open(QIODevice::ReadOnly)) {
         return;
     }
 
-
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
-    while(subfile != subfiles.end()){
-        if(!subfile->area.intersects(viewport)){
+    while(subfile != subfiles.end()) {
+        if(!subfile->area.intersects(viewport)) {
             ++subfile;
             continue;
         }
@@ -496,9 +496,9 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, p
         const QVector<subdiv_desc_t>&  subdivs = subfile->subdivs;
         // collect polylines
         QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
-        while(subdiv != subdivs.end()){
+        while(subdiv != subdivs.end()) {
 
-            if(subdiv->level != level || !subdiv->area.intersects(viewport)){
+            if(subdiv->level != level || !subdiv->area.intersects(viewport)) {
                 ++subdiv;
                 continue;
             }
@@ -520,6 +520,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, p
         ++subfile;
     }
 }
+
 
 void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
 {
@@ -591,9 +592,9 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             points.push_back(CGarminPoint());
             CGarminPoint& p = points.last();
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
-            if(strtbl){
+            if(strtbl) {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
-                         : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+                    : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
         }
     }
@@ -606,9 +607,9 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             pois.push_back(CGarminPoint());
             CGarminPoint& p = pois.last();
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
-            if(strtbl){
+            if(strtbl) {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
-                         : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+                    : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
         }
     }
@@ -628,7 +629,7 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
 
-//             qDebug() << p.labels << hex << p.lbl_info;
+            //             qDebug() << p.labels << hex << p.lbl_info;
         }
 
     }
@@ -647,10 +648,9 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             else if(strtbl && p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
-//             if(polygon.type == 0x4a && polygon.labels.size() > 1) {
-//                 subfile.definitionAreas[polygon.labels[1]] = polygon;
-//             }
+            //             if(polygon.type == 0x4a && polygon.labels.size() > 1) {
+            //                 subfile.definitionAreas[polygon.labels[1]] = polygon;
+            //             }
         }
     }
 }
-

@@ -78,7 +78,6 @@ class CMegaMenu : public QLabel
         void funcMoveArea();
         void funcCenterMap();
 
-
         void funcSelectArea();
         void funcEditMap();
         void funcSearchMap();

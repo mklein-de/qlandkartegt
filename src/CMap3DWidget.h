@@ -103,10 +103,8 @@ class CMap3DWidget: public QGLWidget
         void eleZoomIn();
         void eleZoomReset();
 
-    signals:
+        signals:
         void xRotationChanged(double angle);
         void zRotationChanged(double angle);
 };
-
-#endif //CTRACK3DWIDGET_H
-
+#endif                           //CTRACK3DWIDGET_H

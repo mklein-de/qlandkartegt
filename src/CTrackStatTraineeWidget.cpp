@@ -45,6 +45,7 @@ CTrackStatTraineeWidget::~CTrackStatTraineeWidget()
 
 }
 
+
 void CTrackStatTraineeWidget::slotSetTrack(CTrack* track)
 {
     needResetZoom = true;
@@ -68,7 +69,7 @@ void CTrackStatTraineeWidget::slotChanged()
 
     QPolygonF lineAvgSpeed;
 
-//     float speedfactor = IUnit::self().speedfactor;
+    //     float speedfactor = IUnit::self().speedfactor;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();

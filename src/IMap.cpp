@@ -38,7 +38,7 @@ IMap::IMap(const QString& key, CCanvas * parent)
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
 
-    if(parent){
+    if(parent) {
         resize(parent->size());
         connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
         parent->update();
@@ -72,12 +72,14 @@ void IMap::draw(QPainter& p)
     p.drawText(rect,Qt::AlignCenter,"no map");
 }
 
+
 void IMap::draw()
 {
     QPainter p(&buffer);
     p.fillRect(rect,QColor("#ffffcc"));
     p.drawText(rect,Qt::AlignCenter,"no map");
 }
+
 
 void IMap::convertPt2Rad(double& u, double& v)
 {
@@ -127,6 +129,7 @@ void IMap::convertRad2Pt(double* u, double* v, int n)
     convertM2Pt(u,v,n);
 }
 
+
 void IMap::convertRad2M(double& u, double& v)
 {
     if(pjsrc == 0) {
@@ -135,6 +138,7 @@ void IMap::convertRad2M(double& u, double& v)
 
     pj_transform(pjtar,pjsrc,1,0,&u,&v,0);
 }
+
 
 void IMap::convertM2Rad(double& u, double& v)
 {
@@ -157,11 +161,11 @@ void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& m
     CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }
 
+
 const char * IMap::getProjection()
 {
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         return "";
     }
     return pj_get_def(pjsrc,0);
 }
-

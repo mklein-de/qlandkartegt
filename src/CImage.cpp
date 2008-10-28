@@ -36,6 +36,7 @@ CImage::CImage(QObject * parent)
     }
 }
 
+
 CImage::CImage(const QImage& pix, QObject * parent)
 : QObject(parent)
 , bintable(256, qRgba(0,0,0,0))
@@ -53,10 +54,12 @@ CImage::CImage(const QImage& pix, QObject * parent)
     setPixmap(pix);
 }
 
+
 CImage::~CImage()
 {
 
 }
+
 
 void CImage::setPixmap(const QImage& pix)
 {
@@ -75,7 +78,7 @@ void CImage::setPixmap(const QImage& pix)
     grayHistogram = QVector<double>(256, 0.0);
 
     const int nPixel = imgGray.width() * imgGray.height();
-    for(i = 0; i < nPixel; ++i, ++p1, ++p2){
+    for(i = 0; i < nPixel; ++i, ++p1, ++p2) {
         *p2 = qGray(*p1);
         grayHistogram[*p2] += 1.0;
     }
@@ -91,6 +94,7 @@ void CImage::setPixmap(const QImage& pix)
 
     threshold = calcThreshold(grayHistogram);
 }
+
 
 int CImage::calcThreshold(const QVector<double>& hist)
 {
@@ -155,6 +159,7 @@ int CImage::calcThreshold(const QVector<double>& hist)
     return nThreshold;
 }
 
+
 const QImage& CImage::binarize(int t)
 {
     t = t < 0 ? threshold : t;
@@ -166,12 +171,13 @@ const QImage& CImage::binarize(int t)
     quint8 * p2 = imgBinary.bits();
 
     int i, n = imgGray.width() * imgGray.height();
-    for(i = 0; i < n; ++i, ++p1, ++p2){
+    for(i = 0; i < n; ++i, ++p1, ++p2) {
         *p2 = *p1 > t ? 0 : 1;
     }
 
     return imgBinary;
 }
+
 
 QImage CImage::mask()
 {
@@ -194,66 +200,66 @@ QImage CImage::mask()
 
     // first row
     *p++    = *p1 + *(p1 + 1)
-            + *p2 + *(p2 + 1)
-            ? *p1 : 2;
+        + *p2 + *(p2 + 1)
+        ? *p1 : 2;
 
     ++p1; ++p2;
 
-    for(i = 1; i < (w - 1); ++i, ++p1, ++p2){
+    for(i = 1; i < (w - 1); ++i, ++p1, ++p2) {
         *p++    = *(p1 - 1) + *p1 + *(p1 + 1)
-                + *(p2 - 1) + *p2 + *(p2 + 1)
-                ? *p1 : 2;
+            + *(p2 - 1) + *p2 + *(p2 + 1)
+            ? *p1 : 2;
     }
 
     *p++    = *(p1 - 1) + *p1
-            + *(p2 - 1) + *p2
-            ? *p1 : 2;
+        + *(p2 - 1) + *p2
+        ? *p1 : 2;
 
     // 2nd to h - 1 row
     p1  = imgBinary.bits();
     p2  = imgBinary.bits() + w;
     p3  = imgBinary.bits() + w + w;
 
-    for(j = 1; j < (h - 1); ++j){
+    for(j = 1; j < (h - 1); ++j) {
 
         *p++    = *p1 + *(p1 + 1)
-                + *p2 + *(p2 + 1)
-                + *p3 + *(p3 + 1)
-                ? *p2 : 2;
+            + *p2 + *(p2 + 1)
+            + *p3 + *(p3 + 1)
+            ? *p2 : 2;
 
         ++p1; ++p2; ++p3;
 
-        for(i = 1; i < (w - 1); ++i, ++p1, ++p2, ++p3){
+        for(i = 1; i < (w - 1); ++i, ++p1, ++p2, ++p3) {
             *p++    = *(p1 -1) + *p1 + *(p1 + 1)
-                    + *(p2 -1) + *p2 + *(p2 + 1)
-                    + *(p3 -1) + *p3 + *(p3 + 1)
-                    ? *p2 : 2;
+                + *(p2 -1) + *p2 + *(p2 + 1)
+                + *(p3 -1) + *p3 + *(p3 + 1)
+                ? *p2 : 2;
         }
 
         *p++    = *(p1 - 1) + *p1
-                + *(p2 - 1) + *p2
-                + *(p3 - 1) + *p3
-                ? *p2 : 2;
+            + *(p2 - 1) + *p2
+            + *(p3 - 1) + *p3
+            ? *p2 : 2;
 
         ++p1; ++p2; ++p3;
     }
 
     // last row
     *p++    = *p1 + *(p1 + 1)
-            + *p2 + *(p2 + 1)
-            ? *p2 : 2;
+        + *p2 + *(p2 + 1)
+        ? *p2 : 2;
 
     ++p1; ++p2;
 
-    for(i = 1; i < (w - 1); ++i, ++p1, ++p2){
+    for(i = 1; i < (w - 1); ++i, ++p1, ++p2) {
         *p++    = *(p1 - 1) + *p1 + *(p1 + 1)
-                + *(p2 - 1) + *p2 + *(p2 + 1)
-                ? *p2 : 2;
+            + *(p2 - 1) + *p2 + *(p2 + 1)
+            ? *p2 : 2;
     }
 
     *p++    = *(p1 - 1) + *p1
-            + *(p2 - 1) + *p2
-            ? *p2 : 2;
+        + *(p2 - 1) + *p2
+        ? *p2 : 2;
 
     // optimize size of mask
     int x1  = 0;
@@ -263,9 +269,9 @@ QImage CImage::mask()
     p1      = result.bits();
 
     // top rows of void
-    for(j = 0; j < h; ++j){
-        for(i = 0; i < w; ++i){
-            if( *(p1 + i + (j * w)) != 0x2){
+    for(j = 0; j < h; ++j) {
+        for(i = 0; i < w; ++i) {
+            if( *(p1 + i + (j * w)) != 0x2) {
                 y1 = j;
                 j  = h;
                 break;
@@ -274,9 +280,9 @@ QImage CImage::mask()
     }
 
     // bottom rows of void
-    for(j = h - 1; j >= 0; --j){
-        for(i = 0; i < w; ++i){
-            if( *(p1 + i + (j * w)) != 0x2){
+    for(j = h - 1; j >= 0; --j) {
+        for(i = 0; i < w; ++i) {
+            if( *(p1 + i + (j * w)) != 0x2) {
                 y2 = j + 1;
                 j  = -1;
                 break;
@@ -285,9 +291,9 @@ QImage CImage::mask()
     }
 
     // left columns of void
-    for(i = 0; i < w; ++i){
-        for(j = 0; j < h; ++j){
-            if( *(p1 + i + (j * w)) != 0x2){
+    for(i = 0; i < w; ++i) {
+        for(j = 0; j < h; ++j) {
+            if( *(p1 + i + (j * w)) != 0x2) {
                 x1 = i;
                 i  = w;
                 break;
@@ -296,9 +302,9 @@ QImage CImage::mask()
     }
 
     // right columns of void
-    for(i = w - 1; i >= 0; --i){
-        for(j = 0; j < h; ++j){
-            if( *(p1 + i + (j * w)) != 0x2){
+    for(i = w - 1; i >= 0; --i) {
+        for(j = 0; j < h; ++j) {
+            if( *(p1 + i + (j * w)) != 0x2) {
                 x2 = i + 1;
                 i  = -1;
                 break;
@@ -308,7 +314,7 @@ QImage CImage::mask()
 
     // 32bit align the width (important!)
     int w1 = x2 - x1;
-    if(w1 & 0x03){
+    if(w1 & 0x03) {
         int cnt = 4 - (w1 & 0x03);
         for(; cnt && x2 <  w; --cnt, ++x2);
         for(; cnt && x1 >= 0; --cnt, --x1);
@@ -317,9 +323,10 @@ QImage CImage::mask()
 
 }
 
+
 void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
 {
-//     qDebug() << "CImage::findSymbol(QList<QPoint>& finds, CImage& mask)";
+    //     qDebug() << "CImage::findSymbol(QList<QPoint>& finds, CImage& mask)";
     finds.clear();
 
     QPoint last;
@@ -330,11 +337,11 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
     const int w2    = imgBinary.width();
     const int h2    = imgBinary.height();
 
-//     quint8 * pd     = imgGray.bits();
+    //     quint8 * pd     = imgGray.bits();
 
     quint8 * p      = imgMask.bits();
     int denom       = 0;
-    for(i = 0; i  < (w1*h1); ++i, ++p){
+    for(i = 0; i  < (w1*h1); ++i, ++p) {
         if(*p & 0x02) continue;
         ++denom;
     }
@@ -343,20 +350,20 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
     quint8 * p2     = imgBinary.bits();
 
     // for each line in image
-    for(n = 0; n < (h2 - h1); ++n){
+    for(n = 0; n < (h2 - h1); ++n) {
         p2 = imgBinary.bits() + n * w2;
 
         // for each pixel in line
-        for(m = 0; m < (w2 - w1); ++m, ++p2){
+        for(m = 0; m < (w2 - w1); ++m, ++p2) {
             int nom = 0;
 
             blacks  = 0;
             p1      = imgMask.bits();
             // for each line in mask
-            for(i = 0; i < h1; ++i){
+            for(i = 0; i < h1; ++i) {
                 quint8 * p3 = p2 + i * w2;
                 // for each 32 bit value in line
-                for(j = 0; j < w1; ++j, ++p1, ++p3){
+                for(j = 0; j < w1; ++j, ++p1, ++p3) {
 
                     blacks += *p3;
 
@@ -366,22 +373,22 @@ void CImage::findSymbol(QList<QPoint>& finds, CImage& mask)
                 }
             }
             quint8 correlation = ((double)nom / denom) * 255;
-//             *(pd + n * w2 + m) = correlation;
+            //             *(pd + n * w2 + m) = correlation;
 
-            if(correlation > 190){
+            if(correlation > 190) {
                 QPoint pt(m + (w1 >> 1), n + (h1 >> 1));
-                if(abs(pt.x() - last.x()) > w1 || abs(pt.y() - last.y()) > h1){
+                if(abs(pt.x() - last.x()) > w1 || abs(pt.y() - last.y()) > h1) {
                     finds << pt;
                     last = pt;
                 }
             }
 
-            if(blacks == 0){
+            if(blacks == 0) {
                 m  += w1 - 2;
                 p2 += w1 - 2;
             }
         }
     }
 
-//     imgGray.save("dbg.png");
+    //     imgGray.save("dbg.png");
 }

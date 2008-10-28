@@ -107,7 +107,7 @@ void TcxReader::readTcx()
              readAuthor();
              }
                          */
-            else                 
+            else
                 readUnknownElement();
         }
     }
@@ -133,7 +133,7 @@ void TcxReader::readActivities()
              readAuthor();
              }
                          */
-            else                 
+            else
                 readUnknownElement();
         }
     }

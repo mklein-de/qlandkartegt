@@ -90,7 +90,6 @@ void CMapSearchWidget::slotSelectMask()
 }
 
 
-
 void CMapSearchWidget::slotSearch()
 {
 
@@ -98,11 +97,13 @@ void CMapSearchWidget::slotSearch()
     checkGui();
 }
 
+
 void CMapSearchWidget::slotProgress(const QString& status, const int progress)
 {
     labelProgress->setText(status);
     progressBar->setValue(progress);
 }
+
 
 void CMapSearchWidget::slotSearchFinished()
 {
@@ -114,7 +115,7 @@ void CMapSearchWidget::slotSearchFinished()
     int cnt = 0;
     QString name = lineMaskName->text().isEmpty() ? "Sym." : lineMaskName->text();
 
-    foreach(symbol, symbols){
+    foreach(symbol, symbols) {
         double u = symbol.x();
         double v = symbol.y();
 
@@ -125,10 +126,12 @@ void CMapSearchWidget::slotSearchFinished()
     checkGui();
 }
 
+
 void CMapSearchWidget::slotThreshold(int i)
 {
     binarizeViewport(sliderThreshold->value());
 }
+
 
 void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 {
@@ -137,6 +140,7 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 
     checkGui();
 }
+
 
 void CMapSearchWidget::setArea(const CMapSelection& ms)
 {
@@ -164,9 +168,10 @@ void CMapSearchWidget::binarizeViewport(int t)
     if(t < 0)sliderThreshold->setValue(xxx.getThreshold());
 }
 
+
 void CMapSearchWidget::slotSaveMask()
 {
-    if(lineMaskName->text().isEmpty()){
+    if(lineMaskName->text().isEmpty()) {
         QMessageBox::warning(this, tr("Missing name..."), tr("Please provide a symbol name to save the symbol."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -185,6 +190,7 @@ void CMapSearchWidget::slotSaveMask()
     loadMaskCollection();
 }
 
+
 void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 {
     QImage pixmap;
@@ -192,7 +198,7 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
     QFile file(path.filePath(name + ".msk"));
-    if(file.open(QIODevice::ReadOnly)){
+    if(file.open(QIODevice::ReadOnly)) {
         QDataStream in(&file);
 
         in >> intval;
@@ -210,19 +216,20 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 
         file.close();
     }
-    else{
+    else {
         labelMask->setText(tr("No mask selected."));
     }
 
     checkGui();
 }
 
+
 void CMapSearchWidget::slotDeleteMask()
 {
     QString name    = lineMaskName->text();
     int index       = comboSymbols->findText(name);
 
-    if(index != -1){
+    if(index != -1) {
         comboSymbols->removeItem(index);
         QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
         QFile file(path.filePath(name + ".msk"));
@@ -233,6 +240,7 @@ void CMapSearchWidget::slotDeleteMask()
 
     checkGui();
 }
+
 
 void CMapSearchWidget::loadMaskCollection()
 {
@@ -247,7 +255,7 @@ void CMapSearchWidget::loadMaskCollection()
     QStringList maskfiles = path.entryList(filter, QDir::Files, QDir::Name);
     QString     maskfile;
 
-    foreach(maskfile, maskfiles){
+    foreach(maskfile, maskfiles) {
         QImage pixmap;
         int     intval;
 
@@ -267,28 +275,29 @@ void CMapSearchWidget::loadMaskCollection()
     }
 
     int idx = comboSymbols->findText(name);
-    if(idx != -1){
+    if(idx != -1) {
         comboSymbols->setCurrentIndex(comboSymbols->findText(name));
     }
     checkGui();
 }
 
+
 void CMapSearchWidget::checkGui()
 {
-    if(!labelMask->text().isEmpty()){
+    if(!labelMask->text().isEmpty()) {
         lineMaskName->clear();
         toolSaveMask->setEnabled(false);
         toolDeleteMask->setEnabled(false);
     }
-    else{
+    else {
         toolSaveMask->setEnabled(true);
         toolDeleteMask->setEnabled(true);
     }
 
-    if(!labelMask->text().isEmpty() || labelArea->text() == tr("No area selected.") || thread->isRunning()){
+    if(!labelMask->text().isEmpty() || labelArea->text() == tr("No area selected.") || thread->isRunning()) {
         pushSearch->setEnabled(false);
     }
-    else{
+    else {
         pushSearch->setEnabled(true);
     }
 

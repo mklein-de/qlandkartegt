@@ -51,6 +51,4 @@ class CGarminPoint
 
         quint32 lbl_ptr;
 };
-
-#endif //CGARMINPOINT_H
-
+#endif                           //CGARMINPOINT_H

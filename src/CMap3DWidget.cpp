@@ -34,7 +34,7 @@
 #include <math.h>
 
 CMap3DWidget::CMap3DWidget(QWidget * parent)
-    : QGLWidget(parent)
+: QGLWidget(parent)
 {
     object = 0;
     xRot = 45;
@@ -60,12 +60,14 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     setFocusPolicy(Qt::StrongFocus);
 }
 
+
 void CMap3DWidget::loadMap()
 {
     map = &CMapDB::self().getMap();
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
+
 
 void CMap3DWidget::createActions()
 {
@@ -92,11 +94,13 @@ void CMap3DWidget::createActions()
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
 }
 
+
 void CMap3DWidget::eleZoomOut()
 {
     eleZoomFactor = eleZoomFactor / 1.2;
     slotChanged();
 }
+
 
 void CMap3DWidget::eleZoomIn()
 {
@@ -104,11 +108,14 @@ void CMap3DWidget::eleZoomIn()
     slotChanged();
 }
 
+
 void CMap3DWidget::eleZoomReset()
 {
     eleZoomFactor = 1;
     slotChanged();
 }
+
+
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
@@ -122,12 +129,14 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
+
 CMap3DWidget::~CMap3DWidget()
 {
     makeCurrent();
     deleteTexture(mapTexture);
     glDeleteLists(object, 1);
 }
+
 
 void CMap3DWidget::setMapTexture()
 {
@@ -140,6 +149,7 @@ void CMap3DWidget::setMapTexture()
     track = CTrackDB::self().highlightedTrack();
 }
 
+
 void CMap3DWidget::slotChanged()
 {
     deleteTexture(mapTexture);
@@ -149,6 +159,7 @@ void CMap3DWidget::slotChanged()
     updateGL();
 }
 
+
 void CMap3DWidget::convertPt23D(double& u, double& v, double &ele)
 {
     QSize s = map->getSize();
@@ -157,6 +168,7 @@ void CMap3DWidget::convertPt23D(double& u, double& v, double &ele)
     ele = ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 }
 
+
 void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
 {
     QSize s = map->getSize();
@@ -164,6 +176,7 @@ void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
     v = s.height()/2 - v;
     ele = ele / eleZoomFactor / (s.width() / 10.0) * maxElevation;
 }
+
 
 void CMap3DWidget::drawFlatMap()
 {
@@ -185,6 +198,7 @@ void CMap3DWidget::drawFlatMap()
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
+
 
 void CMap3DWidget::draw3DMap()
 {
@@ -210,19 +224,19 @@ void CMap3DWidget::draw3DMap()
         for (x = 0; x < w; x += step) {
             /* copy points 3 -> 0, 2 -> 1 */
             for (j = 0; j < 3; j++) {
-                    vertices[0][j] = vertices[3][j];
-                    vertices[1][j] = vertices[2][j];
-                    if (j < 2) {
-                            texCoords[0][j] = texCoords[3][j];
-                            texCoords[1][j] = texCoords[2][j];
-                    }
+                vertices[0][j] = vertices[3][j];
+                vertices[1][j] = vertices[2][j];
+                if (j < 2) {
+                    texCoords[0][j] = texCoords[3][j];
+                    texCoords[1][j] = texCoords[2][j];
+                }
             }
             /* compute values for points 2,3 */
             for (i =2; i < 4; i ++) {
                 vertices[i][0] = x;
                 vertices[i][1] = y;
                 if ((i % 4) == 2)
-                        vertices[i][1] += 10;
+                    vertices[i][1] += 10;
                 u = vertices[i][0];
                 v = vertices[i][1];
                 texCoords[i][0] = u / w;
@@ -234,10 +248,10 @@ void CMap3DWidget::draw3DMap()
             }
             /* points 0, 1 are absent on the first iteration, so spip it*/
             if (x > step/2)
-                for (i = 0; i < 4; i++) {
-                    glTexCoord2d(texCoords[i][0], texCoords[i][1]);
-                    glVertex3d(vertices[i][0], vertices[i][1], vertices[i][2]);
-                }
+            for (i = 0; i < 4; i++) {
+                glTexCoord2d(texCoords[i][0], texCoords[i][1]);
+                glVertex3d(vertices[i][0], vertices[i][1], vertices[i][2]);
+            }
         }
     }
 
@@ -245,6 +259,7 @@ void CMap3DWidget::draw3DMap()
     glDisable(GL_TEXTURE_2D);
 
 }
+
 
 void CMap3DWidget::drawTrack()
 {
@@ -306,6 +321,7 @@ void CMap3DWidget::drawTrack()
 
 }
 
+
 GLuint CMap3DWidget::makeObject()
 {
     GLuint list = glGenLists(1);
@@ -316,16 +332,17 @@ GLuint CMap3DWidget::makeObject()
 
     //draw map
     if (!map3DAct->isChecked())
-            /*draw flat map*/
-            drawFlatMap();
+        /*draw flat map*/
+        drawFlatMap();
     else
-            /*using DEM data file to display terrain in 3D*/
-            draw3DMap();
+        /*using DEM data file to display terrain in 3D*/
+        draw3DMap();
 
     glEndList();
 
     return list;
 }
+
 
 void CMap3DWidget::setXRotation(double angle)
 {
@@ -337,6 +354,7 @@ void CMap3DWidget::setXRotation(double angle)
     }
 }
 
+
 void CMap3DWidget::setZRotation(double angle)
 {
     normalizeAngle(&angle);
@@ -346,6 +364,7 @@ void CMap3DWidget::setZRotation(double angle)
         updateGL();
     }
 }
+
 
 void CMap3DWidget::initializeGL()
 {
@@ -364,6 +383,7 @@ void CMap3DWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 }
+
 
 void CMap3DWidget::paintGL()
 {
@@ -413,23 +433,24 @@ void CMap3DWidget::paintGL()
 
     // draw a selected track point
     if (selTrkPt) {
-            XY pt;
-            double ele;
-            glColor3f(1.0, 0.0, 0.0);
-            glPointSize(3.0);
-            glBegin(GL_POINTS);
-            pt.u = selTrkPt->lon * DEG_TO_RAD;
-            pt.v = selTrkPt->lat * DEG_TO_RAD;
-            map->convertRad2Pt(pt.u, pt.v);
+        XY pt;
+        double ele;
+        glColor3f(1.0, 0.0, 0.0);
+        glPointSize(3.0);
+        glBegin(GL_POINTS);
+        pt.u = selTrkPt->lon * DEG_TO_RAD;
+        pt.v = selTrkPt->lat * DEG_TO_RAD;
+        map->convertRad2Pt(pt.u, pt.v);
 
-            pt.u -= s.width()/2;
-            pt.v = s.height()/2 - pt.v;
-            ele = selTrkPt->ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
+        pt.u -= s.width()/2;
+        pt.v = s.height()/2 - pt.v;
+        ele = selTrkPt->ele * eleZoomFactor * (s.width() / 10.0) / maxElevation;
 
-            glVertex3d(pt.u,pt.v,ele);
-            glEnd();
+        glVertex3d(pt.u,pt.v,ele);
+        glEnd();
     }
 }
+
 
 void CMap3DWidget::resizeGL(int width, int height)
 {
@@ -444,17 +465,18 @@ void CMap3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
+
 void CMap3DWidget::convertDsp2Z0(QPoint &a)
 {
     GLdouble projection[16];
-	GLdouble modelview[16];
-	GLdouble k1, z1, x1, y1, x0, xk, y0, yk, z0, zk;
-	GLint viewport[4];
+    GLdouble modelview[16];
+    GLdouble k1, z1, x1, y1, x0, xk, y0, yk, z0, zk;
+    GLint viewport[4];
     GLsizei vx, vy;
 
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 
     vx = a.x();
     vy = height() - a.y();
@@ -471,6 +493,7 @@ void CMap3DWidget::convertDsp2Z0(QPoint &a)
     a.rx() = x0 + xk * k1;
     a.ry() = y0 + yk * k1;
 }
+
 
 void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
@@ -525,10 +548,12 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     }
 }
 
+
 void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
 }
+
 
 void CMap3DWidget::expandMap(bool zoomIn)
 {
@@ -548,10 +573,12 @@ void CMap3DWidget::expandMap(bool zoomIn)
     map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
 }
 
+
 void CMap3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
     pressedKeys.remove(event->key());
 }
+
 
 void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
 {
@@ -560,8 +587,7 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
     qint32 dx = 0, dy = 0;
     qint32 zoomMap = 0;
     QSize s = map->getSize();
-    switch (event->key())
-    {
+    switch (event->key()) {
         case Qt::Key_Up:
             dy -= 100;
             break;
@@ -591,16 +617,18 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
             break;
     }
     if (zoomMap)
-            map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
+        map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
     if (dx || dy)
         map->move(QPoint(dx, dy), QPoint(0, 0));
     updateGL();
 }
 
+
 void CMap3DWidget::focusOutEvent ( QFocusEvent * event )
 {
     pressedKeys.clear();
 }
+
 
 void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
 {
@@ -614,16 +642,19 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
         dx = -(p1.x() - p2.x());
         dy = p1.y() - p2.y();
         map->move(QPoint(dx, dy), QPoint(0, 0));
-    } else if (event->buttons() & Qt::LeftButton) {
+    }
+    else if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot - xRotSens * dy);
         setZRotation(zRot + zRotSens * dx);
-    } else if (event->buttons() & Qt::MidButton) {
+    }
+    else if (event->buttons() & Qt::MidButton) {
         xShift += dx / zoomFactor;
         yShift -= dy / zoomFactor;
     }
     lastPos = event->pos();
     updateGL();
 }
+
 
 void CMap3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
 {
@@ -658,6 +689,7 @@ void CMap3DWidget::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdo
     glEnd();
 }
 
+
 void CMap3DWidget::normalizeAngle(double *angle)
 {
     while (*angle < 0)
@@ -666,17 +698,20 @@ void CMap3DWidget::normalizeAngle(double *angle)
         *angle -= 360;
 }
 
+
 void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
     if (pressedKeys.contains(Qt::Key_M)) {
         QSize s = map->getSize();
         map->zoom(in, QPoint(s.width() / 2, s.height() / 2));
-    } else {
+    }
+    else {
         if (in) {
             qDebug() << "in" << endl;
             zoomFactor *= 1.1;
-        } else {
+        }
+        else {
             qDebug() << "out" << endl;
             zoomFactor /= 1.1;
         }

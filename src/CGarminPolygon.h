@@ -65,8 +65,6 @@ class CGarminPolygon
 
         static quint32 cnt;
 
-
-
 };
 
 class CShiftReg

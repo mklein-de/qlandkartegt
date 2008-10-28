@@ -60,7 +60,4 @@ class IGarminStrTbl : public QObject
 
         char buffer[1024];
 };
-
-#endif //IGARMINSTRTBL_H
-
-
+#endif                           //IGARMINSTRTBL_H

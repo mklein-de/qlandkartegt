@@ -26,10 +26,12 @@ CGarminStrTblUtf8::CGarminStrTblUtf8(const quint16 codepage, const quint8 mask, 
 
 }
 
+
 CGarminStrTblUtf8::~CGarminStrTblUtf8()
 {
 
 }
+
 
 void CGarminStrTblUtf8::get(QFile& file, quint32 offset, type_e t, QStringList& labels)
 {

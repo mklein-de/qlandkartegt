@@ -63,6 +63,4 @@ class CImage : public QObject
 
         int threshold;
 };
-
-#endif //CIMAGE_H
-
+#endif                           //CIMAGE_H

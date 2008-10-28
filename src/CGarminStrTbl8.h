@@ -30,6 +30,4 @@ class CGarminStrTbl8 : public IGarminStrTbl
 
         void get(QFile& file, quint32 offset, type_e t, QStringList& info);
 };
-
-#endif //CGARMINSTRTBL8_H
-
+#endif                           //CGARMINSTRTBL8_H

@@ -45,17 +45,18 @@ const char CGarminStrTbl6::str6tbl3[] =
     '`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
 };
 
-
 CGarminStrTbl6::CGarminStrTbl6(const quint16 codepage, const quint8 mask, QObject * parent)
 : IGarminStrTbl(codepage, mask, parent)
 {
 
 }
 
+
 CGarminStrTbl6::~CGarminStrTbl6()
 {
 
 }
+
 
 void CGarminStrTbl6::fill()
 {
@@ -75,7 +76,7 @@ void CGarminStrTbl6::get(QFile& file, quint32 offset, type_e t, QStringList& lab
     if(offset == 0xFFFFFFFF) return;
 
     if(offset > (quint32)sizeLBL1) {
-//         qWarning() << "Index into string table to large" << hex << offset << dataLBL.size() << hdrLbl->addr_shift << hdrNet->net1_addr_shift;
+        //         qWarning() << "Index into string table to large" << hex << offset << dataLBL.size() << hdrLbl->addr_shift << hdrNet->net1_addr_shift;
         return;
     }
 
@@ -84,7 +85,6 @@ void CGarminStrTbl6::get(QFile& file, quint32 offset, type_e t, QStringList& lab
     quint32 idx = 0;
     reg         = 0;
     bits        = 0;
-
 
     QByteArray data;
     readFile(file, offsetLBL1 + offset, 200, data);

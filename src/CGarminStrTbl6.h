@@ -43,6 +43,4 @@ class CGarminStrTbl6 : public IGarminStrTbl
         const quint8 * p;
 
 };
-
-#endif //CGARMINSTRTBL6_H
-
+#endif                           //CGARMINSTRTBL6_H

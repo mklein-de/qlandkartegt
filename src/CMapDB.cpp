@@ -62,12 +62,12 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         QSettings mapdef(map,QSettings::IniFormat);
         map_t m;
         m.filename      = map;
-        if(ext == "tdb"){
+        if(ext == "tdb") {
             cfg.beginGroup("garmin/maps/alias");
             m.description = cfg.value(fi.fileName(),"").toString();
             cfg.endGroup();
         }
-        else{
+        else {
             m.description = mapdef.value("description/comment","").toString();
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
@@ -130,7 +130,7 @@ void CMapDB::closeVisibleMaps()
 {
     if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
-//     if(!vctMap.isNull()) delete vctMap;
+    //     if(!vctMap.isNull()) delete vctMap;
 
     theMap = defaultMap;
 }
@@ -184,7 +184,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.key         = filename;
         map.type        = eVector;
 
-//         vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
+        //         vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
         theMap = maptdb = new CMapTDB(map.key, filename, &canvas);
 
         map.description = maptdb->getName();
@@ -233,7 +233,7 @@ void CMapDB::openMap(const QString& key)
     QFileInfo fi(filename);
     QString ext = fi.suffix().toLower();
 
-    if(ext == "qmap"){
+    if(ext == "qmap") {
         // create base map
         if(filename.isEmpty()) {
             theMap = defaultMap;
@@ -254,8 +254,8 @@ void CMapDB::openMap(const QString& key)
         }
     }
 #ifdef GARMIN
-    else if(ext == "tdb"){
-//         vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+    else if(ext == "tdb") {
+        //         vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
 #endif
@@ -350,9 +350,9 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
         demMap->draw(p);
     }
 
-//     if(!vctMap.isNull()) {
-//         vctMap->draw(p);
-//     }
+    //     if(!vctMap.isNull()) {
+    //         vctMap->draw(p);
+    //     }
 
     if(tabbar-> currentWidget() != toolview) {
         return;
@@ -399,6 +399,7 @@ void CMapDB::editMap()
     }
 }
 
+
 #ifdef PLOT_3D
 void CMapDB::show3DMap(bool show)
 {
@@ -406,7 +407,7 @@ void CMapDB::show3DMap(bool show)
         map3DWidget = new CMap3DWidget(theMainWindow->getCanvas());
         theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Map 3D..."));
     }
-    else if(!map3DWidget.isNull() && !show){
+    else if(!map3DWidget.isNull() && !show) {
         delete map3DWidget;
     }
 }

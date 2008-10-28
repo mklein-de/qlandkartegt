@@ -29,6 +29,4 @@ class CGarminStrTblUtf8 : public IGarminStrTbl
 
         void get(QFile& file, quint32 offset, type_e t, QStringList& info);
 };
-
-#endif //CGARMINSTRTBLUTF8_H
-
+#endif                           //CGARMINSTRTBLUTF8_H

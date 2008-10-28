@@ -397,6 +397,8 @@ void CMegaMenu::funcSwitchToMap()
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
+
+
 #ifdef PLOT_3D
 void CMegaMenu::funcSwitchToMap3D()
 {
@@ -521,10 +523,12 @@ void CMegaMenu::funcSearchMap()
     CMapDB::self().searchMap();
 }
 
+
 void CMegaMenu::funcNewWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
+
 
 #ifdef PLOT_3D
 void CMegaMenu::funcCloseMap3D()

@@ -173,9 +173,11 @@ void CMapDEM::zoom(double lon1, double lat1, double lon2, double lat2)
 {
 }
 
+
 void CMapDEM::zoom(qint32& level)
 {
 }
+
 
 void CMapDEM::select(const QRect& rect)
 {
@@ -229,6 +231,7 @@ void CMapDEM::draw(QPainter& p)
     p.drawImage(0,0, buffer);
     //     qDebug() << "--------------------------";
 }
+
 
 void CMapDEM::draw()
 {
@@ -333,6 +336,7 @@ void CMapDEM::draw()
     QPainter p(&buffer);
     p.drawImage(-pxx, -pxy, img);
 }
+
 
 void CMapDEM::shading(QImage& img, qint16 * data)
 {

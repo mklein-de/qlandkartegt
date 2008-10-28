@@ -38,10 +38,12 @@ CGarminPoint::CGarminPoint()
 
 }
 
+
 CGarminPoint::~CGarminPoint()
 {
 
 }
+
 
 quint32 CGarminPoint::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData)
 {

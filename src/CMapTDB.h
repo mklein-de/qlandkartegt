@@ -27,7 +27,6 @@
 #include <QFont>
 #include <QFontMetrics>
 
-
 class CGarminTile;
 class QTimer;
 class QTextDocument;
@@ -60,7 +59,8 @@ class CMapTDB : public IMap
 
     private:
 
-        struct strlbl_t{
+        struct strlbl_t
+        {
             QPoint  pt;
             QRect   rect;
             QString str;
@@ -135,14 +135,14 @@ class CMapTDB : public IMap
             quint32 id;
             QString key;
             QString name;
-//             std::string cname;
+            //             std::string cname;
             QString file;
             double north;
             double east;
             double south;
             double west;
             QRectF area;
-//             QVector<XY> definitionArea;
+            //             QVector<XY> definitionArea;
             CGarminTile * img;
             quint32 memSize;
         };
@@ -153,16 +153,14 @@ class CMapTDB : public IMap
             quint8 level;
             bool useBaseMap;
 
-            bool operator==(const map_level_t &ml)
-            {
+            bool operator==(const map_level_t &ml) {
                 if (ml.bits != bits || ml.level != level || ml.useBaseMap != useBaseMap)
                     return false;
                 else
                     return true;
             }
 
-            static bool GreaterThan(const map_level_t &ml1, const map_level_t &ml2)
-            {
+            static bool GreaterThan(const map_level_t &ml1, const map_level_t &ml2) {
                 return ml1.bits < ml2.bits;
             }
         };
@@ -178,7 +176,6 @@ class CMapTDB : public IMap
             quint32 bits;
         };
 
-
         /// tdb filename
         QString filename;
         /// copyright string
@@ -187,13 +184,13 @@ class CMapTDB : public IMap
         QString name;
         /// basemap filename
         QString basemap;
-        /// north boundary of basemap [°]
+        /// north boundary of basemap []
         double north;
-        /// east boundary of basemap [°]
+        /// east boundary of basemap []
         double east;
-        /// south boundary of basemap [°]
+        /// south boundary of basemap []
         double south;
-        /// west boundary of basemap [°]
+        /// west boundary of basemap []
         double west;
         /// the area in [m] covered by the basemap
         QRectF area;
@@ -221,9 +218,9 @@ class CMapTDB : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-
         static const QString polyline_typestr[];
-        struct polyline_property{
+        struct polyline_property
+        {
             polyline_property(): type(0), pen(Qt::magenta), known(false){};
             polyline_property(quint16 type, const QColor& color, qreal width, Qt::PenStyle style)
                 : type(type)
@@ -238,7 +235,8 @@ class CMapTDB : public IMap
 
         QVector<polyline_property> polylineProperties;
 
-        struct polygon_property{
+        struct polygon_property
+        {
             polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
             polygon_property(quint16 type, const Qt::PenStyle pen, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
@@ -272,13 +270,10 @@ class CMapTDB : public IMap
         QFontMetrics      fm;
         QVector<strlbl_t> labels;
 
-
         QTextDocument * info;
         QString         infotext;
         QPoint          topLeftInfo;
 
         QPoint          pointFocus;
 };
-
-#endif //CMAPTDB_H
-
+#endif                           //CMAPTDB_H

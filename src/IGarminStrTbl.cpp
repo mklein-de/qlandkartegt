@@ -52,27 +52,30 @@ IGarminStrTbl::IGarminStrTbl(const quint16 codepage, const quint8 mask, QObject 
     }
 }
 
+
 IGarminStrTbl::~IGarminStrTbl()
 {
 
 }
+
 
 void IGarminStrTbl::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
 {
     file.seek(offset);
     data = file.read(size);
 
-    if((quint32)data.size() != size){
-//         throw exce_t(eErrOpen, tr("Failed to read: ") + file.filename());
+    if((quint32)data.size() != size) {
+        //         throw exce_t(eErrOpen, tr("Failed to read: ") + file.filename());
         return;
     }
 
     quint8 * p = (quint8*)data.data();
-    for(quint32 i = 0; i < size; ++i){
+    for(quint32 i = 0; i < size; ++i) {
         *p++ ^= mask;
     }
 
 }
+
 
 quint32 IGarminStrTbl::calcOffset(QFile& file, const quint32 offset, type_e t)
 {
@@ -102,4 +105,3 @@ quint32 IGarminStrTbl::calcOffset(QFile& file, const quint32 offset, type_e t)
     //     qDebug() << hex << newOffset;
     return newOffset;
 }
-

@@ -175,6 +175,7 @@ void CMapGeoTiff::draw(QPainter& p)
 
 }
 
+
 void CMapGeoTiff::draw()
 {
     if(pjsrc == 0) return IMap::draw();
@@ -233,6 +234,7 @@ void CMapGeoTiff::draw()
         }
     }
 }
+
 
 void CMapGeoTiff::convertPt2M(double& u, double& v)
 {

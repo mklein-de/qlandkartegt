@@ -31,7 +31,7 @@ class CMapSearchCanvas : public QWidget
 
         void setBuffer(const QPixmap& pic);
 
-    signals:
+        signals:
         void sigSelection(const QPixmap& pixmap);
 
     protected:
@@ -39,7 +39,6 @@ class CMapSearchCanvas : public QWidget
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
-
 
     private:
         QPixmap buffer;

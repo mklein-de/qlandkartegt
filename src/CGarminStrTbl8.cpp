@@ -27,10 +27,12 @@ CGarminStrTbl8::CGarminStrTbl8(const quint16 codepage, const quint8 mask, QObjec
 
 }
 
+
 CGarminStrTbl8::~CGarminStrTbl8()
 {
 
 }
+
 
 void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& info)
 {
@@ -53,10 +55,10 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
         if((unsigned)*lbl >= 0x1B && (unsigned)*lbl <= 0x1F) {
             *pBuffer = 0;
             if(strlen(buffer)) {
-                if (codepage != 0){
+                if (codepage != 0) {
                     info << codec->toUnicode(buffer);
                 }
-                else{
+                else {
                     info << buffer;
                 }
                 pBuffer = buffer; *pBuffer = 0;

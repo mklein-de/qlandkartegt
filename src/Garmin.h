@@ -25,6 +25,4 @@
 #define GARMIN_DEG(x) ((x) < 0x800000 ? (double)(x) * 360.0 / 16777216.0 : (double)((x) - 0x1000000) * 360.0 / 16777216.0)
 #define GARMIN_RAD(x) ((x) < 0x800000 ? (double)(x) * TWOPI / 16777216.0 : (double)((x) - 0x1000000) * TWOPI / 16777216.0)
 typedef quint8 quint24[3];
-
-#endif //GARMIN_H
-
+#endif                           //GARMIN_H

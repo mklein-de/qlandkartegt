@@ -29,7 +29,6 @@
 #include <QtGui>
 #include <algorithm>
 
-
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
@@ -39,42 +38,149 @@
 
 CMapTDB::scale_t CMapTDB::scales[] =
 {
-    {QString("7000 km"), 70000.0, 8}        //0
-    ,{QString("5000 km"), 50000.0, 8}       //1
-    ,{QString("3000 km"), 30000.0, 9}       //2
-    ,{QString("2000 km"), 20000.0, 9}       //3
-    ,{QString("1500 km"), 15000.0, 10}      //4
-    ,{QString("1000 km"), 10000.0, 10}      //5
-    ,{QString("700 km"), 7000.0, 11}        //6
-    ,{QString("500 km"), 5000.0, 11}        //7
-    ,{QString("300 km"), 3000.0, 13}        //8
-    ,{QString("200 km"), 2000.0, 13}        //9
-    ,{QString("150 km"), 1500.0, 13}        //10
-    ,{QString("100 km"), 1000.0, 14}        //11
-    ,{QString("70 km"), 700.0, 15}          //12
-    ,{QString("50 km"), 500.0, 16}          //13
-    ,{QString("30 km"), 300.0, 16}          //14
-    ,{QString("20 km"), 200.0, 17}          //15
-    ,{QString("15 km"), 150.0, 17}          //16
-    ,{QString("10 km"), 100.0, 18}          //17
-    ,{QString("7 km"), 70.0, 18}            //18
-    ,{QString("5 km"), 50.0, 19}            //19
-    ,{QString("3 km"), 30.0, 19}            //20
-    ,{QString("2 km"), 20.0, 20}            //21
-    ,{QString("1.5 km"), 15.0, 22}          //22
-    ,{QString("1 km"), 10.0, 24}            //23
-    ,{QString("700 m"), 7.0, 24}            //24
-    ,{QString("500 m"), 5.0, 24}            //25
-    ,{QString("300 m"), 3.0, 24}            //26
-    ,{QString("200 m"), 2.0, 24}            //27
-    ,{QString("150 m"), 1.5, 24}            //28
-    ,{QString("100 m"), 1.0, 24}            //29
-    ,{QString("70 m"), 0.7, 24}             //30
-    ,{QString("50 m"), 0.5, 24}             //31
-    ,{QString("30 m"), 0.3, 24}             //32
-    ,{QString("20 m"), 0.2, 24}             //33
-    ,{QString("15 m"), 0.15, 24}             //34
-    ,{QString("10 m"), 0.10, 24}            //35
+    {                            //0
+        QString("7000 km"), 70000.0, 8
+    }
+    ,                            //1
+    {
+        QString("5000 km"), 50000.0, 8
+    }
+    ,                            //2
+    {
+        QString("3000 km"), 30000.0, 9
+    }
+    ,                            //3
+    {
+        QString("2000 km"), 20000.0, 9
+    }
+    ,                            //4
+    {
+        QString("1500 km"), 15000.0, 10
+    }
+    ,                            //5
+    {
+        QString("1000 km"), 10000.0, 10
+    }
+    ,                            //6
+    {
+        QString("700 km"), 7000.0, 11
+    }
+    ,                            //7
+    {
+        QString("500 km"), 5000.0, 11
+    }
+    ,                            //8
+    {
+        QString("300 km"), 3000.0, 13
+    }
+    ,                            //9
+    {
+        QString("200 km"), 2000.0, 13
+    }
+    ,                            //10
+    {
+        QString("150 km"), 1500.0, 13
+    }
+    ,                            //11
+    {
+        QString("100 km"), 1000.0, 14
+    }
+    ,                            //12
+    {
+        QString("70 km"), 700.0, 15
+    }
+    ,                            //13
+    {
+        QString("50 km"), 500.0, 16
+    }
+    ,                            //14
+    {
+        QString("30 km"), 300.0, 16
+    }
+    ,                            //15
+    {
+        QString("20 km"), 200.0, 17
+    }
+    ,                            //16
+    {
+        QString("15 km"), 150.0, 17
+    }
+    ,                            //17
+    {
+        QString("10 km"), 100.0, 18
+    }
+    ,                            //18
+    {
+        QString("7 km"), 70.0, 18
+    }
+    ,                            //19
+    {
+        QString("5 km"), 50.0, 19
+    }
+    ,                            //20
+    {
+        QString("3 km"), 30.0, 19
+    }
+    ,                            //21
+    {
+        QString("2 km"), 20.0, 20
+    }
+    ,                            //22
+    {
+        QString("1.5 km"), 15.0, 22
+    }
+    ,                            //23
+    {
+        QString("1 km"), 10.0, 24
+    }
+    ,                            //24
+    {
+        QString("700 m"), 7.0, 24
+    }
+    ,                            //25
+    {
+        QString("500 m"), 5.0, 24
+    }
+    ,                            //26
+    {
+        QString("300 m"), 3.0, 24
+    }
+    ,                            //27
+    {
+        QString("200 m"), 2.0, 24
+    }
+    ,                            //28
+    {
+        QString("150 m"), 1.5, 24
+    }
+    ,                            //29
+    {
+        QString("100 m"), 1.0, 24
+    }
+    ,                            //30
+    {
+        QString("70 m"), 0.7, 24
+    }
+    ,                            //31
+    {
+        QString("50 m"), 0.5, 24
+    }
+    ,                            //32
+    {
+        QString("30 m"), 0.3, 24
+    }
+    ,                            //33
+    {
+        QString("20 m"), 0.2, 24
+    }
+    ,                            //34
+    {
+        QString("15 m"), 0.15, 24
+    }
+    ,                            //35
+    {
+        QString("10 m"), 0.10, 24
+    }
 };
 
 const QString CMapTDB::polyline_typestr[]=
@@ -125,7 +231,6 @@ const QString CMapTDB::polyline_typestr[]=
     /*0x2b,*/   tr("Hazard boundary")
 };
 
-
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(key,parent)
 , filename(filename)
@@ -171,7 +276,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     topLeft.v = v * DEG_TO_RAD;
 
     zoom(zoomidx);
-
 
     polylineProperties[0x01] = polyline_property(0x01, "#c46442",   4, Qt::SolidLine);
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine);
@@ -277,6 +381,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
+
 CMapTDB::~CMapTDB()
 {
     QString pos;
@@ -293,16 +398,18 @@ CMapTDB::~CMapTDB()
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
+
 void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
     topLeftInfo = QPoint(size.width() - TEXTWIDTH - 10 , 10);
 }
 
+
 bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 {
 
-    if(parent() == watched && event->type() == QEvent::MouseMove){
+    if(parent() == watched && event->type() == QEvent::MouseMove) {
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
@@ -329,6 +436,7 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
     return IMap::eventFilter(watched, event);
 }
+
 
 void CMapTDB::readTDB(const QString& filename)
 {
@@ -439,18 +547,19 @@ void CMapTDB::readTDB(const QString& filename)
                     tile.memSize += s->sizes[i];
                 }
 
-                try {
+                try
+                {
                     tile.img = new CGarminTile(this);
                     tile.img->readBasics(tile.file);
                 }
-                catch(CGarminTile::exce_t e){
+                catch(CGarminTile::exce_t e) {
 
-                    if(e.err == CGarminTile::errLock){
+                    if(e.err == CGarminTile::errLock) {
                         tiles.clear();
                         encrypted = true;
                     }
-                    else{
-                        if(!tainted){
+                    else {
+                        if(!tainted) {
                             QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
                             tainted = true;
                         }
@@ -483,10 +592,10 @@ void CMapTDB::readTDB(const QString& filename)
                     cfg.endGroup();
                 }
 
-//                 qDebug() << "tile:\t\t" << tile.file;
-//                 qDebug() << "name:\t\t" << tile.name;
-//                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
-//                 qDebug() << "memsize:\t" << tile.memSize;
+                //                 qDebug() << "tile:\t\t" << tile.file;
+                //                 qDebug() << "name:\t\t" << tile.name;
+                //                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
+                //                 qDebug() << "memsize:\t" << tile.memSize;
             }
             break;
 
@@ -509,7 +618,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 copyright += str;
 
-//                 qDebug() << "copyright:" << copyright;
+                //                 qDebug() << "copyright:" << copyright;
             }
             break;
         }
@@ -518,13 +627,15 @@ void CMapTDB::readTDB(const QString& filename)
     }
 }
 
+
 bool CMapTDB::processPrimaryMapData()
 {
-    try {
+    try
+    {
         baseimg = new CGarminTile(this);
         baseimg->readBasics(basemap);
     }
-    catch(CGarminTile::exce_t e){
+    catch(CGarminTile::exce_t e) {
         // no basemap? bad luck!
         QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
         deleteLater();
@@ -570,21 +681,21 @@ bool CMapTDB::processPrimaryMapData()
         ++maplevel;
     }
 
-    if(!tiles.isEmpty()){
+    if(!tiles.isEmpty()) {
         CGarminTile * img = 0;
         QMap<QString,tile_t>::iterator tile = tiles.begin();
-        while(tile != tiles.end()){
+        while(tile != tiles.end()) {
             img = tile->img;
             if(img) break;
             ++tile;
         }
-        if(img){
+        if(img) {
             const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
             QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
             /*
-            * Query all subfiles for possible maplevels.
-            * Exclude basemap to avoid polution.
-            */
+             * Query all subfiles for possible maplevels.
+             * Exclude basemap to avoid polution.
+             */
             while (subfile != subfiles.end()) {
                 QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
                 /* Skip basemap. */
@@ -616,7 +727,7 @@ bool CMapTDB::processPrimaryMapData()
     }
 
 #ifdef DEBUG_SHOW_MAPLEVELS
-    for(int i=0; i < maplevels.count(); ++i){
+    for(int i=0; i < maplevels.count(); ++i) {
         map_level_t& ml = maplevels[i];
         qDebug() << ml.bits << ml.level << ml.useBaseMap;
     }
@@ -635,6 +746,7 @@ void CMapTDB::convertPt2M(double& u, double& v)
     v = pt.v + v * -1.0 * zoomFactor;
 }
 
+
 void CMapTDB::convertM2Pt(double& u, double& v)
 {
     XY pt = topLeft;
@@ -644,12 +756,13 @@ void CMapTDB::convertM2Pt(double& u, double& v)
     v = (v - pt.v) / (-1.0 * zoomFactor);
 }
 
+
 void CMapTDB::convertM2Pt(double* u, double* v, int n)
 {
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
-    for(int i = 0; i < n; ++i, ++u, ++v){
+    for(int i = 0; i < n; ++i, ++u, ++v) {
         *u = (*u - pt.u) / (+1.0 * zoomFactor);
         *v = (*v - pt.v) / (-1.0 * zoomFactor);
     }
@@ -672,6 +785,7 @@ void CMapTDB::move(const QPoint& old, const QPoint& next)
     setFastDraw();
     emit sigChanged();
 }
+
 
 void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -703,8 +817,9 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
 
     emit sigChanged();
 
-//     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
+    //     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
+
 
 void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -725,7 +840,7 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     dU = u[1] - u[0];
     dV = v[2] - v[0];
 
-    for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i){
+    for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i) {
 
         double z    = scales[i].scale;
         double pxU  = dU / (+1.0 * z);
@@ -743,6 +858,7 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     }
 }
 
+
 void CMapTDB::zoom(qint32& level)
 {
     needsRedraw = true;
@@ -759,6 +875,7 @@ void CMapTDB::zoom(qint32& level)
     emit sigChanged();
 }
 
+
 void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     lon1 = west;
@@ -767,19 +884,20 @@ void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lat2 = south;
 }
 
+
 void CMapTDB::draw(QPainter& p)
 {
     bottomRight.u = size.width();
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
-    if(needsRedraw){
+    if(needsRedraw) {
         draw();
         needsRedraw = false;
     }
     p.drawImage(0,0,buffer);
 
-    if(!infotext.isEmpty()){
+    if(!infotext.isEmpty()) {
         QFont f = p.font();
         f.setBold(false);
         f.setItalic(false);
@@ -806,6 +924,7 @@ void CMapTDB::draw(QPainter& p)
     if(doFastDraw) setFastDraw();
 }
 
+
 void CMapTDB::draw()
 {
     buffer.fill(Qt::lightGray);
@@ -820,7 +939,7 @@ void CMapTDB::draw()
 
     quint8 bits = scales[zoomidx].bits;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
-    do{
+    do {
         --maplevel;
         if(bits >= maplevel->bits) break;
     } while(maplevel != maplevels.begin());
@@ -832,13 +951,13 @@ void CMapTDB::draw()
     points.clear();
     labels.clear();
 
-    if(maplevel->useBaseMap){
+    if(maplevel->useBaseMap) {
         baseimg->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
     }
-    else{
+    else {
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
-        while(tile != tiles.end()){
-            if(tile->img && tile->area.intersects(viewport)){
+        while(tile != tiles.end()) {
+            if(tile->img && tile->area.intersects(viewport)) {
                 tile->img->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
             }
             ++tile;
@@ -847,11 +966,11 @@ void CMapTDB::draw()
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
-    if(!doFastDraw && !isTransparent){
+    if(!doFastDraw && !isTransparent) {
         drawPolygons(p, polygons);
     }
     drawPolylines(p, polylines);
-    if(!doFastDraw){
+    if(!doFastDraw) {
         drawPoints(p, points);
         drawPois(p, pois);
         drawLabels(p, labels);
@@ -864,24 +983,24 @@ static quint16 streets[] = {0x16, 0x14, 0x0C, 0x0B, 0x0A, 0x09, 0x08, 0x07, 0x06
 // { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x14, 0x16};
 
 static quint16 others[]  = { 0x00, /*0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0A, 0x0B, 0x0C,*/ 0x0D, 0x0E, 0x0F
-                            ,0x10, 0x11, 0x12, 0x13, /*0x14,*/ 0x15, /*0x16,*/ 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
-                            ,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
-                            ,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
-                           };
+,0x10, 0x11, 0x12, 0x13, /*0x14,*/ 0x15, /*0x16,*/ 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
+,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+};
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
     int m;
     const int M = sizeof(others)/sizeof(quint16);
 
-    for(m = 0; m < M; ++m){
+    for(m = 0; m < M; ++m) {
         quint16 type = others[m];
 
         p.setPen(polylineProperties[type].pen);
 
         polytype_t::iterator item = lines.begin();
-        while(item != lines.end()){
-            if(item->type == type){
+        while(item != lines.end()) {
+            if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -889,7 +1008,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 convertRad2Pt(u,v,size);
                 QPolygonF line(size);
 
-                for(int i = 0; i < size; ++i){
+                for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
                 }
@@ -905,7 +1024,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int n;
     const int N = sizeof(streets)/sizeof(quint16);
 
-    for(n = 0; n < N; ++n){
+    for(n = 0; n < N; ++n) {
         quint16 type = streets[n];
 
         int width = polylineProperties[type].pen.width();
@@ -914,8 +1033,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         p.setPen(QPen(Qt::black, width + (zoomFactor < 5.0 ? 4 : 2), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
         polytype_t::iterator item = lines.begin();
-        while(item != lines.end()){
-            if(item->type == type){
+        while(item != lines.end()) {
+            if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -924,7 +1043,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
 
-                for(int i = 0; i < size; ++i){
+                for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
                 }
@@ -938,7 +1057,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     if(doFastDraw) return;
 
-    for(n = 0; n < N; ++n){
+    for(n = 0; n < N; ++n) {
         quint16 type = streets[n];
 
         QPen pen    = polylineProperties[type].pen;
@@ -949,15 +1068,15 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         p.setPen(pen);
 
         polytype_t::iterator item = lines.begin();
-        while(item != lines.end()){
-            if(item->type == type){
+        while(item != lines.end()) {
+            if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
 
                 QPolygonF line(size);
 
-                for(int i = 0; i < size; ++i){
+                for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
                 }
@@ -969,29 +1088,30 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     }
 }
 
-static quint16 order[] = {
-//                               0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
-//                             , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
-//                             , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
-//                             , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
-//                             , 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
-//                             , 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
-//                             , 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x00
-//                             , 0x50, 0x51, 0x52, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C
-//                             , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
-//                             , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
-//                             , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
 
-                              0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-                            , 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
-                            , 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
-                            , 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
-                            , 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F
-                            , 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F
-                            , 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
-                            , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
-                         };
+static quint16 order[] =
+{
+    //                               0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
+    //                             , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
+    //                             , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
+    //                             , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
+    //                             , 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
+    //                             , 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
+    //                             , 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x00
+    //                             , 0x50, 0x51, 0x52, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C
+    //                             , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
+    //                             , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
+    //                             , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
 
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+    , 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+    , 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
+    , 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+    , 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F
+    , 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F
+    , 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
+    , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
+};
 
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
@@ -999,7 +1119,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     int n;
     const int N = sizeof(order)/sizeof(quint16);
 
-    for(n = 0; n < N; ++n){
+    for(n = 0; n < N; ++n) {
         quint16 type = order[n];
 
         p.setPen(polygonProperties[type].pen);
@@ -1007,7 +1127,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
-            if(item->type == type){
+            if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -1016,7 +1136,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
 
-                for(int i = 0; i < size; ++i){
+                for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
                 }
@@ -1029,43 +1149,44 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         }
     }
 
-//     polytype_t::iterator item = lines.begin();
-//     while (item != lines.end()) {
-//         quint16 type = item->type;
-//
-//         p.setPen(polygonProperties[type].pen);
-//         p.setBrush(polygonProperties[type].brush);
-//
-//         double * u      = item->u.data();
-//         double * v      = item->v.data();
-//         const int size  = item->u.size();
-//
-//         convertRad2Pt(u,v,size);
-//
-//         QPolygonF line(size);
-//
-//         for(int i = 0; i < size; ++i){
-//             line[i].setX(*u++);
-//             line[i].setY(*v++);
-//         }
-//
-//         p.drawPolygon(line);
-//
-//         if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
-//
-//         ++item;
-//     }
+    //     polytype_t::iterator item = lines.begin();
+    //     while (item != lines.end()) {
+    //         quint16 type = item->type;
+    //
+    //         p.setPen(polygonProperties[type].pen);
+    //         p.setBrush(polygonProperties[type].brush);
+    //
+    //         double * u      = item->u.data();
+    //         double * v      = item->v.data();
+    //         const int size  = item->u.size();
+    //
+    //         convertRad2Pt(u,v,size);
+    //
+    //         QPolygonF line(size);
+    //
+    //         for(int i = 0; i < size; ++i){
+    //             line[i].setX(*u++);
+    //             line[i].setY(*v++);
+    //         }
+    //
+    //         p.drawPolygon(line);
+    //
+    //         if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+    //
+    //         ++item;
+    //     }
 }
+
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
     if(zoomFactor > 3.0) return;
 
     pointtype_t::iterator pt = pts.begin();
-    while(pt != pts.end()){
+    while(pt != pts.end()) {
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
-        if(!pt->labels.isEmpty() && zoomFactor < 2 ){
+        if(!pt->labels.isEmpty() && zoomFactor < 2 ) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
@@ -1074,13 +1195,13 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 
             // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end()){
+            while(label != labels.end()) {
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
 
             // if no intersection was found, add label to list
-            if(label == labels.end()){
+            if(label == labels.end()) {
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
                 strlbl.pt   = QPoint(pt->lon, pt->lat);
@@ -1091,15 +1212,16 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
         ++pt;
     }
 }
+
 
 void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 {
 
     pointtype_t::iterator pt = pts.begin();
-    while(pt != pts.end()){
+    while(pt != pts.end()) {
         convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
-        if(!pt->labels.isEmpty()){
+        if(!pt->labels.isEmpty()) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
@@ -1108,13 +1230,13 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 
             // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end()){
+            while(label != labels.end()) {
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
 
             // if no intersection was found, add label to list
-            if(label == labels.end()){
+            if(label == labels.end()) {
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
                 strlbl.pt   = QPoint(pt->lon, pt->lat);
@@ -1126,20 +1248,23 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
     }
 }
 
+
 void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
 {
     QVector<strlbl_t>::const_iterator lbl = lbls.begin();
-    while(lbl != lbls.end()){
+    while(lbl != lbls.end()) {
         CCanvas::drawText(lbl->str, p, lbl->pt, Qt::black);
         ++lbl;
     }
 }
+
 
 void CMapTDB::setFastDraw()
 {
     timerFastDraw->start(500);
     doFastDraw = true;
 }
+
 
 void CMapTDB::slotResetFastDraw()
 {
@@ -1148,29 +1273,32 @@ void CMapTDB::slotResetFastDraw()
     emit sigChanged();
 }
 
+
 void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     pointtype_t::const_iterator point = points.begin();
-    while(point != points.end()){
+    while(point != points.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
-        if(x.manhattanLength() < 10){
+        if(x.manhattanLength() < 10) {
             dict.insert(tr("Point of Interest"),point->labels.join(", "));
         }
         ++point;
     }
 }
 
+
 void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     pointtype_t::const_iterator point = pois.begin();
-    while(point != pois.end()){
+    while(point != pois.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
-        if(x.manhattanLength() < 10){
+        if(x.manhattanLength() < 10) {
             dict.insert(tr("Point of Interest"),point->labels.join(", "));
         }
         ++point;
     }
 }
+
 
 void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 {
@@ -1268,6 +1396,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     pt = resPt.toPoint();
 }
 
+
 void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     int     npol;
@@ -1276,7 +1405,6 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
     double  x = pt.x();
     double  y = pt.y();
     QString value;
-
 
     polytype_t::const_iterator line = polygons.begin();
     while(line != polygons.end()) {
@@ -1304,4 +1432,3 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
         ++line;
     }
 }
-

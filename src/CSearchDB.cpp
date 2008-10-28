@@ -204,6 +204,7 @@ void CSearchDB::delResults(const QStringList& keys)
 
 }
 
+
 void CSearchDB::add(const QString& label, double lon, double lat)
 {
     CSearch * item = new CSearch(this);

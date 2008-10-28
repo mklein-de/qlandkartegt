@@ -283,7 +283,7 @@ void CCanvas::draw(QPainter& p)
     CWptDB::self().draw(p, rect());
     CSearchDB::self().draw(p, rect());
 
-//     p.setRenderHint(QPainter::Antialiasing,true);
+    //     p.setRenderHint(QPainter::Antialiasing,true);
     COverlayDB::self().draw(p, rect());
 
     drawRefPoints(p);

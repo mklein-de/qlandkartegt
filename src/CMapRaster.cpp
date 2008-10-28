@@ -128,10 +128,12 @@ void CMapRaster::zoom(bool zoomIn, const QPoint& p)
     move(QPoint(x1,y1),p);
 }
 
+
 void CMapRaster::zoom(qint32& level)
 {
 
 }
+
 
 void CMapRaster::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -180,6 +182,7 @@ void CMapRaster::draw(QPainter& p)
     p.drawText(10,24,str);
 
 }
+
 
 void CMapRaster::draw()
 {

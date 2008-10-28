@@ -54,7 +54,6 @@ CResources::CResources(QObject * parent)
     m_mapfont.setBold(bold);
     m_mapfont.setItalic(italic);
 
-
     //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
     m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
 

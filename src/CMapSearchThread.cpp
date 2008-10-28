@@ -31,10 +31,12 @@ CMapSearchThread::CMapSearchThread(QObject * parent)
     mask = new CImage(this);
 }
 
+
 CMapSearchThread::~CMapSearchThread()
 {
 
 }
+
 
 void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection& ms)
 {
@@ -49,11 +51,11 @@ void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection&
     QThread::start();
 }
 
+
 void CMapSearchThread::run()
 {
     qDebug() << "thread start...";
     emit sigProgress(tr("Start..."), 0);
-
 
     QList<QPoint> syms;
     QSize size = QSize(1024,1024) + mask->mask().size();
@@ -91,9 +93,9 @@ void CMapSearchThread::run()
 
     symbols.clear();
 
-    for(n = 0; n < maxN; ++n){
+    for(n = 0; n < maxN; ++n) {
 
-        for(m = 0; m < maxM; ++m){
+        for(m = 0; m < maxM; ++m) {
             map.draw();
 
             CImage img(map.getBuffer());
@@ -101,11 +103,11 @@ void CMapSearchThread::run()
             img.findSymbol(syms, *mask);
 
             QPoint sym;
-            foreach(sym, syms){
+            foreach(sym, syms) {
                 double x = sym.x();
                 double y = sym.y();
                 map.convertPt2M(x,y);
-                if(rectArea.contains(x,y)){
+                if(rectArea.contains(x,y)) {
                     symbols << QPoint(x,y);
                 }
             }
@@ -120,4 +122,3 @@ void CMapSearchThread::run()
     emit sigProgress(tr("Done! Found %1 items.").arg(symbols.count()), 0);
     qDebug() << "...thread stop";
 }
-

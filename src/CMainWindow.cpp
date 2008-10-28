@@ -296,11 +296,11 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
-#ifdef GARMIN
+    #ifdef GARMIN
         ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb)"
-#else
+    #else
         ,"Map Collection (*.qmap);;GeoTiff (*.tif)"
-#endif
+    #endif
         , &filter
         );
     if(filename.isEmpty()) return;
@@ -338,10 +338,10 @@ void CMainWindow::slotLoadData()
 
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
-    if(haveGPSBabel){
+    if(haveGPSBabel) {
         formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
     }
-    else{
+    else {
         formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
 
@@ -379,13 +379,12 @@ void CMainWindow::slotAddData()
 {
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
-    if(haveGPSBabel){
+    if(haveGPSBabel) {
         formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
     }
-    else{
+    else {
         formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
-
 
     QSettings cfg;
     QString filter   = cfg.value("geodata/filter","").toString();
@@ -414,7 +413,6 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     bool loadGPXData = false;
     QString ext      = filename.right(4);
 
-
     if(filter == "QLandkarte (*.qlb)") {
         if(ext != ".qlb") filename += ".qlb";
         ext = "QLB";
@@ -427,11 +425,11 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         if(ext != ".tcx") filename += ".tcx";
         ext = "TCX";
     }
-    else if(filter == "Geocaching.com/EasyGPS (*.loc)"){
+    else if(filter == "Geocaching.com/EasyGPS (*.loc)") {
         if(ext != ".loc") filename += ".loc";
         ext = "LOC";
     }
-    else if(filter == "Mapsource (*.gdb)"){
+    else if(filter == "Mapsource (*.gdb)") {
         if(ext != ".gdb") filename += ".gdb";
         ext = "GDB";
     }
@@ -470,7 +468,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             else {
                 //emit CTrackDB::self().sigChanged(); //??
                 QRectF r = CTrackDB::self().getBoundingRectF();
-                if (!r.isNull ()){
+                if (!r.isNull ()) {
                     CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
                 }
             }
@@ -478,7 +476,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         else if(ext == "LOC") {
             tmpfile.open();
             loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData){
+            if (!loadGPXData) {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
             else {
@@ -494,7 +492,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         else if(ext == "GDB") {
             tmpfile.open();
             loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData){
+            if (!loadGPXData) {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
             else {
@@ -515,21 +513,22 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     }
 }
 
+
 bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile)
 {
-     QString program = "gpsbabel";
-     QStringList arguments;
-     arguments << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+    QString program = "gpsbabel";
+    QStringList arguments;
+    arguments << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
 
-     QProcess *babelProcess = new QProcess(this);
-     babelProcess->start(program, arguments);
-     if (!babelProcess->waitForStarted())
-         return false;
+    QProcess *babelProcess = new QProcess(this);
+    babelProcess->start(program, arguments);
+    if (!babelProcess->waitForStarted())
+        return false;
 
-     if (!babelProcess->waitForFinished())
-         return false;
+    if (!babelProcess->waitForFinished())
+        return false;
 
-     return babelProcess->exitCode() ==0;
+    return babelProcess->exitCode() ==0;
 }
 
 
