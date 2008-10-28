@@ -46,6 +46,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
     connect(toolSelectArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
     connect(pushSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
+    connect(pushCancel, SIGNAL(clicked()), this, SLOT(slotCancel()));
     connect(sliderThreshold, SIGNAL( valueChanged (int)), this, SLOT(slotThreshold(int)));
     connect(toolSaveMask, SIGNAL(clicked()), this, SLOT(slotSaveMask()));
     connect(toolNewMask, SIGNAL(clicked()), this, SLOT(slotSelectMask()));
@@ -104,6 +105,10 @@ void CMapSearchWidget::slotProgress(const QString& status, const int progress)
     progressBar->setValue(progress);
 }
 
+void CMapSearchWidget::slotCancel()
+{
+    thread->cancel();
+}
 
 void CMapSearchWidget::slotSearchFinished()
 {
@@ -301,5 +306,6 @@ void CMapSearchWidget::checkGui()
         pushSearch->setEnabled(true);
     }
 
+    pushCancel->setEnabled(thread->isRunning());
     toolSelectArea->setEnabled(!thread->isRunning());
 }

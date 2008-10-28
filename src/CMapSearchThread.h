@@ -23,6 +23,7 @@
 #include <QPixmap>
 #include <QList>
 #include <QPoint>
+#include <QMutex>
 #include "CMapSelection.h"
 
 class CImage;
@@ -38,6 +39,8 @@ class CMapSearchThread : public QThread
 
         const QList<QPoint>& getLastResult(){return symbols;}
 
+        void cancel();
+
         signals:
         void sigProgress(const QString& status, const int progress);
 
@@ -52,6 +55,8 @@ class CMapSearchThread : public QThread
         CImage * mask;
         qint32 zoomlevel;
         QList<QPoint> symbols;
+        QMutex mutex;
+        bool go;
 
 };
 #endif                           //CMAPSEARCHTHREAD_H

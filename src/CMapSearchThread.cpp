@@ -27,6 +27,7 @@ CMapSearchThread::CMapSearchThread(QObject * parent)
 : QThread(parent)
 , threshold(0)
 , zoomlevel(1)
+, go(true)
 {
     mask = new CImage(this);
 }
@@ -42,13 +43,20 @@ void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection&
 {
     if(isRunning()) return;
 
+    QMutexLocker lock(&mutex);
+
+    go          = true;
     threshold   = th;
     area        = ms;
     mask->setPixmap(m);
 
-    qDebug() << area.focusedMap << area.mapkey << area.lon1 << area.lat1 << area.lon2 << area.lat2;
-
     QThread::start();
+}
+
+void CMapSearchThread::cancel()
+{
+    QMutexLocker lock(&mutex);
+    go = false;
 }
 
 
@@ -71,6 +79,12 @@ void CMapSearchThread::run()
     double v1 = area.lat1;
     double u2 = area.lon2;
     double v2 = area.lat2;
+
+    QFileInfo fi(area.mapkey);
+    if(fi.completeSuffix() != "qmap"){
+        emit sigProgress(tr("Error. This only works on a *.qmap map collection."), 0);
+        return;
+    }
 
     CMapQMAP map("", area.mapkey, 0);
     map.resize(size);
@@ -96,6 +110,14 @@ void CMapSearchThread::run()
     for(n = 0; n < maxN; ++n) {
 
         for(m = 0; m < maxM; ++m) {
+            { // tmp. mutex lock context
+                QMutexLocker lock(&mutex);
+                if(!go){
+                    emit sigProgress(tr("Canceled!"), 0);
+                    return;
+                }
+            }
+
             map.draw();
 
             CImage img(map.getBuffer());
