@@ -602,7 +602,7 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
     }
     if (zoomMap)
             map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
-    if (dx or dy)
+    if (dx || dy)
         map->move(QPoint(dx, dy), QPoint(0, 0));
     updateGL();
 }
