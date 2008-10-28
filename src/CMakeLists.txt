@@ -251,18 +251,18 @@ SET(qlandkarte_RCS
     resources.qrc
 )
 
-SET (PLOT_3D OFF CACHE BOOL "this feature isn't finished yet, so disable by default")
+SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
 IF(PLOT_3D AND OPENGL_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D")
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3DWidget.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3DWidget.cpp)
-    SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR})
-    SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES})
+    SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+    SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
-SET (GARMIN OFF CACHE BOOL "this feature isn't finished yet, so disable by default")
+SET (GARMIN ON CACHE BOOL "Garmin map support.")
 IF(GARMIN)
     add_definitions(-DGARMIN)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h CGarminTile.h Garmin.h)
