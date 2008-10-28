@@ -400,14 +400,14 @@ void CMapDB::editMap()
 }
 
 #ifdef PLOT_3D
-void CMapDB::show3DMap()
+void CMapDB::show3DMap(bool show)
 {
-    if(map3DWidget.isNull()) {
+    if(map3DWidget.isNull() && show) {
         map3DWidget = new CMap3DWidget(theMainWindow->getCanvas());
         theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Map 3D..."));
-    } else {
-            theMainWindow->getCanvasTab()->removeTab(theMainWindow->getCanvasTab()->indexOf(map3DWidget));
-            delete map3DWidget;
+    }
+    else if(!map3DWidget.isNull() && !show){
+        delete map3DWidget;
     }
 }
 #endif

@@ -82,7 +82,7 @@ class CMapDB : public IDB
         void editMap();
 #ifdef PLOT_3D
         /// create tab with 3D map
-        void show3DMap();
+        void show3DMap(bool show);
 #endif
         /// create map search dialog
         void searchMap();

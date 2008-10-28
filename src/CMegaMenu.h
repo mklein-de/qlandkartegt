@@ -62,6 +62,9 @@ class CMegaMenu : public QLabel
 
         void funcSwitchToMain();
         void funcSwitchToMap();
+#ifdef PLOT_3D
+        void funcSwitchToMap3D();
+#endif
         void funcSwitchToWpt();
         void funcSwitchToTrack();
 
@@ -75,11 +78,13 @@ class CMegaMenu : public QLabel
         void funcMoveArea();
         void funcCenterMap();
 
+
         void funcSelectArea();
         void funcEditMap();
         void funcSearchMap();
+
 #ifdef PLOT_3D
-        void func3DMap();
+        void funcCloseMap3D();
 #endif
 
         void funcNewWpt();
@@ -132,6 +137,7 @@ class CMegaMenu : public QLabel
 
         static const func_key_state_t fsMain[];
         static const func_key_state_t fsMap[];
+        static const func_key_state_t fsMap3D[];
         static const func_key_state_t fsWpt[];
         static const func_key_state_t fsTrack[];
         static const func_key_state_t fsLiveLog[];

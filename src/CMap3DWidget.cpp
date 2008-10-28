@@ -62,17 +62,8 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
 
 void CMap3DWidget::loadMap()
 {
-    double x1 = 0, y1 = 0;
-    int side = qMax(width(), height());
-    IMap& src_map = CMapDB::self().getMap();
-    map = new CMapQMAP("", src_map.getKey(), 0);
-    qint32 zoomLevel = src_map.getZoomLevel();
-    qDebug() << zoomLevel << endl;
-    map->zoom(zoomLevel);
-    map->resize(QSize(side, side));
-    src_map.convertPt2Rad(x1, y1);
-    map->convertRad2Pt(x1, y1);
-    map->move(QPoint(x1,y1), QPoint(0, 0));
+    map = &CMapDB::self().getMap();
+    connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
 }
 
@@ -136,7 +127,6 @@ CMap3DWidget::~CMap3DWidget()
     makeCurrent();
     deleteTexture(mapTexture);
     glDeleteLists(object, 1);
-    delete map;
 }
 
 void CMap3DWidget::setMapTexture()
@@ -573,19 +563,19 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
     switch (event->key())
     {
         case Qt::Key_Up:
-            dy += 100;
-            break;
-
-        case Qt::Key_Down:
             dy -= 100;
             break;
 
+        case Qt::Key_Down:
+            dy += 100;
+            break;
+
         case Qt::Key_Left:
-            dx += 100;
+            dx -= 100;
             break;
 
         case Qt::Key_Right:
-            dx -= 100;
+            dx += 100;
             break;
         case Qt::Key_PageUp:
             zoomMap = 1;

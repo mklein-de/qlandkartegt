@@ -97,13 +97,30 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
     ,{":/icons/iconFind16x16",QObject::tr("Find Symbols"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
 #ifdef PLOT_3D
-    ,{":/icons/icon3D16x16.png",QObject::tr("Map 3D..."), &CMegaMenu::func3DMap, tr("Show 3D map")}
+    ,{":/icons/icon3D16x16.png",QObject::tr("Map 3D..."), &CMegaMenu::funcSwitchToMap3D, tr("Show 3D map")}
 #else
     ,{0,QObject::tr("-"),0,tr("")}
 #endif
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
 };
+
+#ifdef PLOT_3D
+const CMegaMenu::func_key_state_t CMegaMenu::fsMap3D[] =
+{
+    {":/icons/iconBack16x16",QObject::tr("Close"),&CMegaMenu::funcCloseMap3D,tr("Close 3D view.")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("-"),0,tr("")}
+};
+#endif
 
 const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] =
 {
@@ -380,7 +397,16 @@ void CMegaMenu::funcSwitchToMap()
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
-
+#ifdef PLOT_3D
+void CMegaMenu::funcSwitchToMap3D()
+{
+    menuTitle->setText(tr("<b>Maps 3D ...</b>"));
+    setPixmap(QPixmap(":/icons/backMap128x128"));
+    switchState(fsMap3D);
+    CMapDB::self().gainFocus();
+    CMapDB::self().show3DMap(true);
+}
+#endif
 
 void CMegaMenu::funcSwitchToWpt()
 {
@@ -495,18 +521,22 @@ void CMegaMenu::funcSearchMap()
     CMapDB::self().searchMap();
 }
 
-#ifdef PLOT_3D
-void CMegaMenu::func3DMap()
-{
-    CMapDB::self().show3DMap();
-}
-#endif
-
 void CMegaMenu::funcNewWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
+#ifdef PLOT_3D
+void CMegaMenu::funcCloseMap3D()
+{
+    CMapDB::self().show3DMap(false);
+    menuTitle->setText(tr("<b>Maps ...</b>"));
+    setPixmap(QPixmap(":/icons/backMap128x128"));
+    switchState(fsMap);
+    CMapDB::self().gainFocus();
+    funcMoveArea();
+}
+#endif
 
 void CMegaMenu::funcEditWpt()
 {
