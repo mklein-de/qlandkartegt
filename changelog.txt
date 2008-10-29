@@ -1,3 +1,22 @@
+--- 2008.10.29 ---
+
+Request #22:
+Search for symbols on raster maps (\*.qmap)
+
+Request #23:
+3D OpenGL track view
+
+Request #24:
+3D OpenGL landscape model
+
+Request #25:
+Add Garmin map (\*tdb) support.
+
+Request #26:
+Load \*loc and \*gdb files via GPSBabel
+
+
+
 --- 2008.09.30 ---
 
 Request #12:
@@ -264,6 +283,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
