@@ -25,6 +25,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "IUnit.h"
+#include "Platform.h"
 
 #include <QtGui>
 #include <algorithm>
@@ -459,6 +460,7 @@ void CMapTDB::readTDB(const QString& filename)
     bool    tainted     = false;
 
     while((quint8*)pRecord < pRawData + data.size()) {
+        pRecord->size = gar_load(quint16,pRecord->size);
         switch(pRecord->type) {
             case 0x50:           // product name
             {
@@ -471,11 +473,11 @@ void CMapTDB::readTDB(const QString& filename)
             {
                 tdb_map_t * p   = (tdb_map_t*)pRecord;
 
-                basemapId       = p->id;
-                double n        = GARMIN_RAD((p->north >> 8) & 0x00FFFFFF);
-                double e        = GARMIN_RAD((p->east >> 8)  & 0x00FFFFFF);
-                double s        = GARMIN_RAD((p->south >> 8) & 0x00FFFFFF);
-                double w        = GARMIN_RAD((p->west >> 8)  & 0x00FFFFFF);
+                basemapId       = gar_load(quint32,p->id);
+                double n        = GARMIN_RAD((gar_load(qint32,p->north) >> 8) & 0x00FFFFFF);
+                double e        = GARMIN_RAD((gar_load(qint32,p->east) >> 8)  & 0x00FFFFFF);
+                double s        = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
+                double w        = GARMIN_RAD((gar_load(qint32,p->west) >> 8)  & 0x00FFFFFF);
 
                 if(north < n) north = n;
                 if(east  < e) east  = e;
@@ -520,6 +522,7 @@ void CMapTDB::readTDB(const QString& filename)
                 if(encrypted) break;
 
                 tdb_map_t * p = (tdb_map_t*)pRecord;
+                p->id = gar_load(quint32,p->id);
                 if(p->id == basemapId) break;
 
                 QString tilename = QString::fromLatin1(p->name);
@@ -534,17 +537,17 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
-                tile.north  = GARMIN_RAD((p->north >> 8) & 0x00FFFFFF);
-                tile.east   = GARMIN_RAD((p->east >> 8)  & 0x00FFFFFF);
-                tile.south  = GARMIN_RAD((p->south >> 8) & 0x00FFFFFF);
-                tile.west   = GARMIN_RAD((p->west >> 8)  & 0x00FFFFFF);
+                tile.north  = GARMIN_RAD((gar_load(qint32,p->north) >> 8) & 0x00FFFFFF);
+                tile.east   = GARMIN_RAD((gar_load(qint32,p->east) >> 8)  & 0x00FFFFFF);
+                tile.south  = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
+                tile.west   = GARMIN_RAD((gar_load(qint32,p->west) >> 8)  & 0x00FFFFFF);
                 tile.area   = QRectF(QPointF(tile.west, tile.north), QPointF(tile.east, tile.south));
 
                 tile.memSize = 0;
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
                 for(quint16 i=0; i < s->count; ++i) {
-                    tile.memSize += s->sizes[i];
+                    tile.memSize += gar_load(quint32,s->sizes[i]);
                 }
 
                 try
@@ -608,7 +611,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 tdb_copyrights_t * p = (tdb_copyrights_t*)pRecord;
                 tdb_copyright_t  * c = &p->entry;
-                while((void*)c < (void*)((quint8*)p + p->size + 3)) {
+                while((void*)c < (void*)((quint8*)p + gar_load(quint16,p->size) + 3)) {
 
                     if(c->type != 0x07) {
                         out << c->str << "<br/>" << endl;
