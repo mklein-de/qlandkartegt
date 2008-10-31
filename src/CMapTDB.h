@@ -49,6 +49,8 @@ class CMapTDB : public IMap
         const QString& getName(){return name;}
         void draw(QPainter& p);
         void draw();
+        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
 
     protected:
         void resize(const QSize& s);
@@ -238,15 +240,15 @@ class CMapTDB : public IMap
         struct polygon_property
         {
             polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
-            polygon_property(quint16 type, const Qt::PenStyle pen, const QColor& brushColor, Qt::BrushStyle pattern)
+            polygon_property(quint16 type, const Qt::PenStyle pensty, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
-                , pen(pen)
+                , pen(pensty)
                 , brush(brushColor, pattern)
                 , known(true)
-                {}
+                {pen.setWidth(1);}
             polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
-                , pen(penColor)
+                , pen(penColor,1)
                 , brush(brushColor, pattern)
                 , known(true)
                 {}
