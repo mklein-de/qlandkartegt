@@ -35,7 +35,9 @@ class IMap : public QObject
 {
     Q_OBJECT;
     public:
-        IMap(const QString& key, CCanvas * parent);
+        enum maptype_e {eRaster, eVector, eDEM};
+
+        IMap(maptype_e type, const QString& key, CCanvas * parent);
         virtual ~IMap();
 
         enum overlay_e {eNone, eShading, eContour};
@@ -162,6 +164,7 @@ class IMap : public QObject
 
         const char * getProjection();
 
+        const maptype_e maptype;
         signals:
         void sigChanged();
 

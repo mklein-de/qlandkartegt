@@ -24,7 +24,7 @@
 #include <QtGui>
 
 CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
-: IMap("",parent)
+: IMap(eRaster, "",parent)
 , x(0)
 , y(0)
 , zoomlevel(1)

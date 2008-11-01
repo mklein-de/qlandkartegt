@@ -31,7 +31,7 @@
 #include <projects.h>
 
 CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
-: IMap(key,parent)
+: IMap(eRaster, key,parent)
 , pMaplevel(0)
 , zoomFactor(1)
 , foundMap(false)

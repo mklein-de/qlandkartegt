@@ -50,7 +50,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     map_t m;
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
-    m.type              = eRaster;
+    m.type              = IMap::eRaster;
     knownMaps[m.key]    = m;
 
     QSettings cfg;
@@ -72,7 +72,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
         m.key           = map;
-        m.type          = ext == "qmap" ? eRaster : ext == "tdb" ? eVector : eRaster;
+        m.type          = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eVector : IMap::eRaster;
         knownMaps[m.key] = m;
     }
 
@@ -154,7 +154,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.description = mapdef.value("description/comment","").toString();
         if(map.description.isEmpty()) map.description = fi.fileName();
         map.key         = filename;
-        map.type        = eRaster;
+        map.type        = IMap::eRaster;
 
         // create base map
         theMap = new CMapQMAP(map.key, filename,&canvas);
@@ -182,7 +182,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
         map.filename    = filename;
         map.key         = filename;
-        map.type        = eVector;
+        map.type        = IMap::eVector;
 
         //         vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
         theMap = maptdb = new CMapTDB(map.key, filename, &canvas);
@@ -200,6 +200,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(fi.fileName(),map.description);
         cfg.endGroup();
 
+//         demMap = new CMapDEM("/home/oeichler/data/Maps/Top10Bayern/dhmby25.tif",theMainWindow->getCanvas(),"","");
     }
 #endif
     else {
@@ -257,6 +258,7 @@ void CMapDB::openMap(const QString& key)
     else if(ext == "tdb") {
         //         vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+//         demMap = new CMapDEM("/home/oeichler/data/Maps/Top10Bayern/dhmby25.tif",theMainWindow->getCanvas(),"","");
     }
 #endif
     connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));

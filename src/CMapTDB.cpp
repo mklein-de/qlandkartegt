@@ -233,7 +233,7 @@ const QString CMapTDB::polyline_typestr[]=
 };
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
-: IMap(key,parent)
+: IMap(eVector, key, parent)
 , filename(filename)
 , north(-90.0)
 , east(-180.0)

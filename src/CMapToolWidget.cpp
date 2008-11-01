@@ -38,8 +38,8 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     contextMenuKnownMaps = new QMenu(this);
     contextMenuKnownMaps->addAction(QPixmap(),tr("<---->"));
     contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
-    connect(listKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
-    connect(listKnownMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotKnownMapClicked(QListWidgetItem*)));
+    connect(treeKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
+    connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
 
     contextMenuSelectedMaps = new QMenu(this);
     contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
@@ -61,22 +61,29 @@ CMapToolWidget::~CMapToolWidget()
 void CMapToolWidget::slotDBChanged()
 {
     QString key                 = CMapDB::self().getMap().getKey();
-    QListWidgetItem * selected  = 0;
+    QTreeWidgetItem * selected  = 0;
 
-    listKnownMaps->clear();
+    treeKnownMaps->clear();
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
     {
         QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
         while(map != knownMaps.end()) {
-            QListWidgetItem * item = new QListWidgetItem(listKnownMaps);
-            item->setText(map->description);
-            item->setData(Qt::UserRole, map.key());
+            QTreeWidgetItem * item = new QTreeWidgetItem(treeKnownMaps);
+            item->setText(eName, map->description);
+            item->setData(eName, Qt::UserRole, map.key());
+            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eVector ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
             if(map.key() == key) selected = item;
             ++map;
         }
     }
-    listKnownMaps->sortItems();
-    if(selected)listKnownMaps->setCurrentItem(selected);
+    treeKnownMaps->sortItems(eName, Qt::AscendingOrder);
+    if(selected)treeKnownMaps->setCurrentItem(selected);
+
+    // adjust column sizes to fit
+    treeKnownMaps->header()->setResizeMode(0,QHeaderView::Interactive);
+    for(int i=0; i < eMaxColumn - 1; ++i) {
+        treeKnownMaps->resizeColumnToContents(i);
+    }
 
     listSelectedMaps->clear();
     const QMap<QString,CMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
@@ -100,12 +107,14 @@ void CMapToolWidget::slotDBChanged()
         if(selected) listSelectedMaps->setCurrentItem(selected);
         updateEportButton();
     }
+
+
 }
 
 
-void CMapToolWidget::slotKnownMapClicked(QListWidgetItem* item)
+void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int)
 {
-    QString key = item->data(Qt::UserRole).toString();
+    QString key = item->data(eName, Qt::UserRole).toString();
     CMapDB::self().openMap(key);
 }
 
@@ -126,8 +135,8 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 
 void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
-    if(listKnownMaps->currentItem()) {
-        QPoint p = listKnownMaps->mapToGlobal(pos);
+    if(treeKnownMaps->currentItem()) {
+        QPoint p = treeKnownMaps->mapToGlobal(pos);
         contextMenuKnownMaps->exec(p);
     }
 }
@@ -145,10 +154,10 @@ void CMapToolWidget::slotContextMenuSelectedMaps(const QPoint& pos)
 void CMapToolWidget::slotDeleteKnownMap()
 {
     QStringList keys;
-    QListWidgetItem * item;
-    const QList<QListWidgetItem*>& items = listKnownMaps->selectedItems();
+    QTreeWidgetItem * item;
+    const QList<QTreeWidgetItem*>& items = treeKnownMaps->selectedItems();
     foreach(item,items) {
-        keys << item->data(Qt::UserRole).toString();
+        keys << item->data(eName, Qt::UserRole).toString();
         delete item;
     }
     CMapDB::self().delKnownMap(keys);

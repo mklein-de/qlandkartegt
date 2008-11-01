@@ -35,7 +35,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 
     private slots:
         void slotDBChanged();
-        void slotKnownMapClicked(QListWidgetItem* item);
+        void slotKnownMapClicked(QTreeWidgetItem* item, int);
         void slotSelectedMapClicked(QListWidgetItem* item);
         void slotSelectMap(QListWidgetItem* item);
         void slotContextMenuKnownMaps(const QPoint& pos);
@@ -45,6 +45,13 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotExportMap();
 
     private:
+        enum columns_e
+        {
+             eMode
+            ,eType
+            ,eName
+            ,eMaxColumn
+        };
         void updateEportButton();
         QMenu * contextMenuKnownMaps;
         QMenu * contextMenuSelectedMaps;

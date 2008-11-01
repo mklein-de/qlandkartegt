@@ -20,13 +20,14 @@
 #define CMAPDB_H
 
 #include "IDB.h"
+#include "IMap.h"
 #include "CMapNoMap.h"
 #include "CMapSelection.h"
 #include <QList>
 #include <QMap>
 #include <QPointer>
 
-class IMap;
+
 class QPainter;
 class CCanvas;
 class CMapNoMap;
@@ -98,14 +99,14 @@ class CMapDB : public IDB
         friend class CMapToolWidget;
         friend class CMapQMAPExport;
 
-        enum maptype_e {eRaster, eVector};
+//         enum maptype_e {eRaster, eVector};
 
         struct map_t
         {
             QString     filename;
             QString     description;
             QString     key;
-            maptype_e   type;
+            IMap::maptype_e   type;
         };
 
         CMapDB(QTabWidget * tb, QObject * parent);
