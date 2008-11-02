@@ -105,6 +105,8 @@ set(qlandkarte_SRCS
     CGarminStrTblUtf8.cpp
     CGarminPolygon.cpp
     CGarminPoint.cpp
+    CMapTDB.cpp
+    CGarminTile.cpp
 )
 
 IF(WIN32)
@@ -215,6 +217,9 @@ set(qlandkarte_HDRS
     CGarminStrTblUtf8.h
     CGarminPolygon.h
     CGarminPoint.h
+    CMapTDB.h
+    CGarminTile.h
+    Garmin.h
 )
 
 
@@ -261,13 +266,6 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
-
-SET (GARMIN ON CACHE BOOL "Garmin map support.")
-IF(GARMIN)
-    add_definitions(-DGARMIN)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapTDB.h CGarminTile.h Garmin.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapTDB.cpp CGarminTile.cpp)
-ENDIF(GARMIN)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})

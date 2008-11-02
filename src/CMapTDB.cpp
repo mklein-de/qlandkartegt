@@ -255,6 +255,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
 
+    setup();
+
     timerFastDraw = new QTimer(this);
     timerFastDraw->setSingleShot(true);
     connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
@@ -277,14 +279,77 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     topLeft.v = v * DEG_TO_RAD;
 
     zoom(zoomidx);
+    resize(parent->size());
 
+    info = new QTextDocument(this);
+    info->setTextWidth(TEXTWIDTH);
+    info->setHtml(infotext);
+
+    parent->installEventFilter(this);
+    qDebug() << "CMapTDB::CMapTDB()";
+}
+
+CMapTDB::CMapTDB(const QString& key, const QString& filename)
+: IMap(eVector, key, 0)
+, filename(filename)
+, north(-90.0)
+, east(-180.0)
+, south(90.0)
+, west(180.0)
+, encrypted(false)
+, baseimg(0)
+, isTransparent(false)
+, needRedraw(true)
+, zoomFactor(0)
+, polylineProperties(0x40)
+, polygonProperties(0x80)
+, doFastDraw(false)
+, fm(CResources::self().getMapFont())
+{
+    pjsrc = pj_init_plus(CMapDB::self().getMap().getProjection());
+
+    qDebug() << getProjection();
+
+    setup();
+
+    timerFastDraw = new QTimer(this);
+    timerFastDraw->setSingleShot(true);
+    connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
+
+    readTDB(filename);
+    processPrimaryMapData();
+
+    info          = 0;
+    isTransparent = true;
+    qDebug() << "CMapTDB::CMapTDB()";
+}
+
+
+CMapTDB::~CMapTDB()
+{
+    QString pos;
+    QSettings cfg;
+    cfg.beginGroup("garmin/maps");
+    cfg.beginGroup(name);
+    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
+    pos = pos.replace("\260","");
+    cfg.setValue("topleft",pos);
+    cfg.setValue("zoomidx",zoomidx);
+    cfg.endGroup();
+    cfg.endGroup();
+
+    qDebug() << "CMapTDB::~CMapTDB()";
+}
+
+void CMapTDB::setup()
+{
     polylineProperties[0x01] = polyline_property(0x01, "#c46442",   4, Qt::SolidLine);
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine);
     polylineProperties[0x03] = polyline_property(0x03, "#e68664",   2, Qt::SolidLine);
     polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine);
     polylineProperties[0x05] = polyline_property(0x05, "#ffff66",   2, Qt::SolidLine);
     polylineProperties[0x06] = polyline_property(0x06, "#FFFFFF",   2, Qt::SolidLine);
-    polylineProperties[0x07] = polyline_property(0x07, "#c46442",   2, Qt::SolidLine);
+    polylineProperties[0x07] = polyline_property(0x07, "#c46442",   1, Qt::SolidLine);
     polylineProperties[0x08] = polyline_property(0x08, "#e88866",   2, Qt::SolidLine);
     polylineProperties[0x09] = polyline_property(0x09, "#e88866",   2, Qt::SolidLine);
     polylineProperties[0x0A] = polyline_property(0x0A, "#808080",   2, Qt::SolidLine);
@@ -292,7 +357,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polylineProperties[0x0C] = polyline_property(0x0C, "#FFFFFF",   2, Qt::SolidLine);
     polylineProperties[0x14] = polyline_property(0x14, "#FFFFFF",   2, Qt::DotLine);
     polylineProperties[0x15] = polyline_property(0x15, "#000080",   2, Qt::SolidLine);
-    polylineProperties[0x16] = polyline_property(0x16, "#E0E0E0",   2, Qt::SolidLine);
+    polylineProperties[0x16] = polyline_property(0x16, "#E0E0E0",   1, Qt::SolidLine);
     polylineProperties[0x18] = polyline_property(0x18, "#0000ff",   2, Qt::SolidLine);
     polylineProperties[0x19] = polyline_property(0x19, "#00ff00",   2, Qt::SolidLine);
     polylineProperties[0x1A] = polyline_property(0x1A, "#000000",   2, Qt::SolidLine);
@@ -371,34 +436,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
-    resize(parent->size());
-
-    info = new QTextDocument(this);
-    info->setTextWidth(TEXTWIDTH);
-    info->setHtml(infotext);
-
-    parent->installEventFilter(this);
-
-    qDebug() << "CMapTDB::CMapTDB()";
 }
-
-
-CMapTDB::~CMapTDB()
-{
-    QString pos;
-    QSettings cfg;
-    cfg.beginGroup("garmin/maps");
-    cfg.beginGroup(name);
-    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
-    pos = pos.replace("\260","");
-    cfg.setValue("topleft",pos);
-    cfg.setValue("zoomidx",zoomidx);
-    cfg.endGroup();
-    cfg.endGroup();
-
-    qDebug() << "CMapTDB::~CMapTDB()";
-}
-
 
 void CMapTDB::registerDEM(CMapDEM& dem)
 {
@@ -936,13 +974,21 @@ void CMapTDB::draw(QPainter& p)
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
+    // render map if necessary
     if(needsRedraw) {
         draw();
-        needsRedraw = false;
     }
+    // copy internal buffer to paint device
     p.drawImage(0,0,buffer);
 
-    if(!infotext.isEmpty()) {
+    // render overlay
+    if(!ovlMap.isNull()){
+        ovlMap->draw(topLeft, bottomRight, size, p);
+    }
+
+    needsRedraw = false;
+
+    if(!infotext.isEmpty() && info) {
         QFont f = p.font();
         f.setBold(false);
         f.setItalic(false);
@@ -969,6 +1015,23 @@ void CMapTDB::draw(QPainter& p)
     if(doFastDraw) setFastDraw();
 }
 
+void CMapTDB::draw(const XY& p1, const XY& p2, const QSize& s, QPainter& p)
+{
+    int i;
+    resize(s);
+
+    float sx, sy;
+    getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
+
+    for(i=0; i < MAX_IDX_ZOOM; ++i){
+        if(scales[i].scale <= sx) break;
+    }
+
+    zoomidx     = i;
+    zoomFactor  = sx;
+    draw();
+    p.drawImage(0,0,buffer);
+}
 
 void CMapTDB::draw()
 {

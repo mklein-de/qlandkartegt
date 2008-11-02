@@ -20,9 +20,7 @@
 #include "CMapDB.h"
 #include "CMapToolWidget.h"
 #include "CMapQMAP.h"
-#ifdef GARMIN
 #include "CMapTDB.h"
-#endif
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapDEM.h"
@@ -166,8 +164,10 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
+
+//oe remove again!
+//         theMap->addOverlayMap("/home/oeichler/data/MapsGarmin/FAMILY_536/product.tdb");
     }
-#ifdef GARMIN
     else if(ext == "tdb") {
         CMapTDB * maptdb;
 
@@ -189,7 +189,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(fi.fileName(),map.description);
         cfg.endGroup();
     }
-#endif
     else {
         if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
@@ -234,12 +233,13 @@ void CMapDB::openMap(const QString& key)
             theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
         }
 
+//oe remove again!
+//         theMap->addOverlayMap("/home/oeichler/data/MapsGarmin/FAMILY_536/product.tdb");
+
     }
-#ifdef GARMIN
     else if(ext == "tdb") {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
-#endif
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 
     // store current map filename for next session
@@ -251,6 +251,27 @@ void CMapDB::openMap(const QString& key)
 
     emit sigChanged();
     QApplication::restoreOverrideCursor();
+}
+
+IMap * CMapDB::createMap(const QString& key)
+{
+    if(!knownMaps.contains(key)) return 0;
+    const map_t& mapdesc = knownMaps[key];
+    if(mapdesc.type != IMap::eVector){
+        QMessageBox::critical(0, tr("Error..."), tr("Only vector maps are valid overlays."), QMessageBox::Abort, QMessageBox::Abort);
+        return 0;
+    }
+
+    IMap * map = 0;
+    QString filename = mapdesc.filename;
+    QFileInfo fi(filename);
+    QString ext = fi.suffix().toLower();
+
+    if(ext == "tdb") {
+        map = new CMapTDB(key, filename);
+    }
+
+    return map;
 }
 
 void CMapDB::openDEM(const QString& filename)

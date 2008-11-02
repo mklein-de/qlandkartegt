@@ -176,3 +176,16 @@ void IMap::registerDEM(CMapDEM& dem)
         throw tr("DEM projection does not match the projection of the basemap.");
     }
 }
+
+void IMap::addOverlayMap(const QString& key)
+{
+
+    if(!ovlMap.isNull()){
+        ovlMap->addOverlayMap(key);
+        return;
+    }
+
+    ovlMap = CMapDB::self().createMap(key);
+
+}
+

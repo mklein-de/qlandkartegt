@@ -36,6 +36,7 @@ class CMapTDB : public IMap
     Q_OBJECT;
     public:
         CMapTDB(const QString& key, const QString& filename, CCanvas * parent);
+        CMapTDB(const QString& key, const QString& filename);
         virtual ~CMapTDB();
 
         void convertPt2M(double& u, double& v);
@@ -49,6 +50,7 @@ class CMapTDB : public IMap
         const QString& getName(){return name;}
         void draw(QPainter& p);
         void draw();
+        void draw(const XY& p1, const XY& p2, const QSize& size, QPainter& p);
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void registerDEM(CMapDEM& dem);
 
@@ -61,7 +63,7 @@ class CMapTDB : public IMap
         void slotResetFastDraw();
 
     private:
-
+        void setup();
         struct strlbl_t
         {
             QPoint  pt;

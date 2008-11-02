@@ -24,6 +24,7 @@
 #include <QRect>
 #include <QSize>
 #include <QImage>
+#include <QPointer>
 
 #include <projects.h>
 
@@ -47,6 +48,8 @@ class IMap : public QObject
         virtual void draw(QPainter& p);
         /// just draw map to internal buffer
         virtual void draw();
+        /// draw map as overlay
+        virtual void draw(const XY& p1, const XY& p2, const QSize& size, QPainter& p){}
         /// convert a point on the screen [px] to world coordinates [m]
         /**
             The conversion will be done in place.
@@ -169,9 +172,18 @@ class IMap : public QObject
         /// a DEM overlay has to register itself at the map it overlays
         /**
             The default implementation is too check if both map objects use the
-            same projection.
+            same projection. However vector maps might use this to adjust their
+            internal projection to the DEM's one.
         */
         virtual void registerDEM(CMapDEM& dem);
+
+        /// add a vector map as overlay map
+        /**
+            This call is passed on to any existing overlay map. Once
+            the last overlay is reached it will use the map key to
+            create an overlay map with the help of CMapDB.
+        */
+        virtual void addOverlayMap(const QString& key);
 
         const maptype_e maptype;
     signals:
@@ -214,5 +226,7 @@ class IMap : public QObject
         QString key;
         /// the internal pixmap buffer to draw a map on
         QImage buffer;
+
+        QPointer<IMap> ovlMap;
 };
 #endif                           //IMAP_H

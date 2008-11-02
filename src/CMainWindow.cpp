@@ -296,11 +296,7 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
-    #ifdef GARMIN
         ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb)"
-    #else
-        ,"Map Collection (*.qmap);;GeoTiff (*.tif)"
-    #endif
         , &filter
         );
     if(filename.isEmpty()) return;

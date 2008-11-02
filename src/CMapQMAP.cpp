@@ -119,16 +119,23 @@ void CMapQMAP::draw(QPainter& p)
         return;
     }
 
+    // update internal buffer
     if(needsRedraw) {
         draw();
         needsRedraw = !foundMap;
     }
 
+    // copy internal buffer if valid
     if(!foundMap) {
         IMap::draw(p);
     }
     else {
         p.drawImage(0,0,buffer);
+    }
+
+    // render overlay
+    if(!ovlMap.isNull()){
+        ovlMap->draw(topLeft, bottomRight, size, p);
     }
 
     QString str;

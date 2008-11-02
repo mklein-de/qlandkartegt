@@ -49,6 +49,8 @@ class CMapDB : public IDB
         void openMap(const QString& filename, bool asRaster ,CCanvas& canvas);
         /// open a known map by it's key
         void openMap(const QString& key);
+        /// create a map object by it's key for external use (like overlays)
+        IMap * createMap(const QString& key);
         /// close the current map
         void closeMap();
 
@@ -134,8 +136,6 @@ class CMapDB : public IDB
         QPointer<IMap> theMap;
 
         QPointer<IMap> demMap;
-
-        //         QPointer<IMap> vctMap;
 
         QPointer<CMapEditWidget> mapedit;
 #ifdef PLOT_3D
