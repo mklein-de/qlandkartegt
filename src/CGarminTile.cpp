@@ -506,6 +506,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, p
             loadSuvDiv(file, *subdiv, subfile->strtbl, rgndata, polylines, polygons, points, pois);
 
 #ifdef DEBUG_SHOW_SECTION_BORDERS
+            IMap& map = CMapDB::self().getMap();
             const QRectF& a = subdiv->area;
             double u[2] = {a.left(), a.right()};
             double v[2] = {a.top(), a.bottom()};

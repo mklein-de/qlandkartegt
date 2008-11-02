@@ -21,18 +21,19 @@
 #include "CWpt.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
+#include "CMapDEM.h"
 
 #include <QtGui>
 #include <math.h>
 
 IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 : QObject(parent)
+, maptype(type)
 , zoomidx(1)
 , pjsrc(0)
 , pjtar(0)
 , needsRedraw(true)
 , key(key)
-, maptype(type)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -120,17 +121,6 @@ void IMap::convertRad2Pt(double& u, double& v)
 }
 
 
-void IMap::convertRad2Pt(double* u, double* v, int n)
-{
-    if(pjsrc == 0) {
-        return;
-    }
-
-    pj_transform(pjtar,pjsrc,n,0,u,v,0);
-    convertM2Pt(u,v,n);
-}
-
-
 void IMap::convertRad2M(double& u, double& v)
 {
     if(pjsrc == 0) {
@@ -169,4 +159,20 @@ const char * IMap::getProjection()
         return "";
     }
     return pj_get_def(pjsrc,0);
+}
+
+void IMap::registerDEM(CMapDEM& dem)
+{
+    if(pjsrc == 0) {
+        dem.deleteLater();
+        throw tr("No basemap projection. That shouldn't happen.");
+    }
+
+    QString proj1 = pj_get_def(pjsrc,0);
+    QString proj2 = dem.getProjection();
+
+    if(proj1 != proj2){
+        dem.deleteLater();
+        throw tr("DEM projection does not match the projection of the basemap.");
+    }
 }

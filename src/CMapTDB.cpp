@@ -18,6 +18,7 @@
 **********************************************************************************************/
 #include "CMapTDB.h"
 #include "CMapDB.h"
+#include "CMapDEM.h"
 #include "Garmin.h"
 #include "CGarminTile.h"
 #include "GeoMath.h"
@@ -249,8 +250,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , doFastDraw(false)
 , fm(CResources::self().getMapFont())
 {
-    IMap& map   = CMapDB::self().getDEM();
-    pjsrc       = pj_init_plus(map.getProjection());
+    pjsrc       = pj_init_plus("+proj=merc +ellps=WGS84");
 
     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
@@ -400,6 +400,18 @@ CMapTDB::~CMapTDB()
 }
 
 
+void CMapTDB::registerDEM(CMapDEM& dem)
+{
+    if(pjsrc == 0) {
+        dem.deleteLater();
+        throw tr("No basemap projection. That shouldn't happen.");
+    }
+
+    qDebug() << "Reproject map to:" << dem.getProjection();
+    pj_free(pjsrc);
+    pjsrc = pj_init_plus(dem.getProjection());
+}
+
 void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
@@ -537,6 +549,8 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
+//                 qDebug() << tile.file;
+
                 tile.north  = GARMIN_RAD((gar_load(qint32,p->north) >> 8) & 0x00FFFFFF);
                 tile.east   = GARMIN_RAD((gar_load(qint32,p->east) >> 8)  & 0x00FFFFFF);
                 tile.south  = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
@@ -595,10 +609,10 @@ void CMapTDB::readTDB(const QString& filename)
                     cfg.endGroup();
                 }
 
-                //                 qDebug() << "tile:\t\t" << tile.file;
-                //                 qDebug() << "name:\t\t" << tile.name;
-                //                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
-                //                 qDebug() << "memsize:\t" << tile.memSize;
+//                                 qDebug() << "tile:\t\t" << tile.file;
+//                                 qDebug() << "name:\t\t" << tile.name;
+//                                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
+//                                 qDebug() << "memsize:\t" << tile.memSize;
             }
             break;
 
@@ -771,10 +785,21 @@ void CMapTDB::convertM2Pt(double* u, double* v, int n)
     }
 };
 
+void CMapTDB::convertRad2Pt(double* u, double* v, int n)
+{
+    if(pjsrc == 0) {
+        return;
+    }
+
+    pj_transform(pjtar,pjsrc,n,0,u,v,0);
+    convertM2Pt(u,v,n);
+}
+
+
 void CMapTDB::move(const QPoint& old, const QPoint& next)
 {
     XY p2 = topLeft;
-    convertRad2Pt(p2.u, p2.v);
+    IMap::convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference
     p2.u += old.x() - next.x();
@@ -805,10 +830,10 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     zoom(zoomidx);
 
     // convert geo. coordinates back to point
-    convertRad2Pt(p1.u, p1.v);
+    IMap::convertRad2Pt(p1.u, p1.v);
 
     XY p2 = topLeft;
-    convertRad2Pt(p2.u, p2.v);
+    IMap::convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference point befor and after zoom
     p2.u += p1.u - p0.x();
@@ -854,7 +879,7 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
             zoomidx     = i;
             double u = lon1 + (lon2 - lon1)/2;
             double v = lat1 + (lat2 - lat1)/2;
-            convertRad2Pt(u,v);
+            IMap::convertRad2Pt(u,v);
             move(QPoint(u,v), rect.center());
             return;
         }
@@ -1204,7 +1229,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
-        convertRad2Pt(pt->lon, pt->lat);
+        IMap::convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         if(!pt->labels.isEmpty() && zoomFactor < 2 ) {
 
@@ -1239,7 +1264,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
-        convertRad2Pt(pt->lon, pt->lat);
+        IMap::convertRad2Pt(pt->lon, pt->lat);
         p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         if(!pt->labels.isEmpty()) {
 

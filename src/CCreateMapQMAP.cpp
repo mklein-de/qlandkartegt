@@ -35,10 +35,6 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     setupUi(this);
     toolOpen->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
     toolNew->setIcon(QIcon(":/icons/iconNewMap16x16.png"));
-    toolAddDEM->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
-    toolDelDEM->setIcon(QIcon(":/icons/iconDelete16x16.png"));
-    toolAddGridFile->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
-    toolDelGridFile->setIcon(QIcon(":/icons/iconDelete16x16.png"));
 
     QSettings cfg;
     mapPath = cfg.value("path/maps",mapPath).toString();
@@ -52,10 +48,6 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
-    connect(toolAddDEM, SIGNAL(clicked()), this, SLOT(slotAddDEM()));
-    connect(toolDelDEM, SIGNAL(clicked()), this, SLOT(slotDelDEM()));
-    connect(toolAddGridFile, SIGNAL(clicked()), this, SLOT(slotAddGridFile()));
-    connect(toolDelGridFile, SIGNAL(clicked()), this, SLOT(slotDelGridFile()));
 
     labelStep1->setPixmap(QPixmap(":/pics/Step1"));
     labelStep2->setPixmap(QPixmap(":/pics/Step2"));
@@ -121,7 +113,6 @@ void CCreateMapQMAP::slotSaveMap()
 void CCreateMapQMAP::resetdlg()
 {
     labelCurrentMap->clear();
-    labelDEMData->clear();
     lineComment->clear();
     treeLevels->clear();
 
@@ -264,10 +255,6 @@ void CCreateMapQMAP::readqmap(const QString& filename)
         mapdef.endGroup();       // level%1
     }
 
-    labelDEMData->setText(mapdef.value("DEM/file","").toString());
-    labelGridFile->setText(mapdef.value("gridshift/file","").toString());
-    lineDatum->setText(mapdef.value("gridshift/datum","").toString());
-
     processLevelList();
 
     pushAdd->setEnabled(true);
@@ -292,14 +279,6 @@ void CCreateMapQMAP::writeqmap(const QString& filename)
     mapdef.setValue("center",topLeft);
     mapdef.setValue("zoom",1);
     mapdef.endGroup();           // home
-
-    QString dem = labelDEMData->text();
-    mapdef.setValue("DEM/file",labelDEMData->text());
-
-    QString gridfile = labelGridFile->text();
-    QString datum    = lineDatum->text();
-    mapdef.setValue("gridshift/datum",datum);
-    mapdef.setValue("gridshift/file",gridfile);
 
     mapdef.setValue("main/levels",treeLevels->topLevelItemCount());
 
@@ -412,33 +391,3 @@ void CCreateMapQMAP::slotDown()
 }
 
 
-void CCreateMapQMAP::slotAddDEM()
-{
-    QString filename = QFileDialog::getOpenFileName(0,tr("Select elevation data file..."), mapPath,"DEM Data (*.tif)");
-
-    if(filename.isEmpty()) return;
-    QDir dir(mapPath);
-    labelDEMData->setText(dir.relativeFilePath(filename));
-}
-
-
-void CCreateMapQMAP::slotDelDEM()
-{
-    labelDEMData->setText("");
-}
-
-
-void CCreateMapQMAP::slotAddGridFile()
-{
-    QString filename = QFileDialog::getOpenFileName(0,tr("Select grid data file..."), mapPath,"*.*");
-
-    if(filename.isEmpty()) return;
-    QDir dir(mapPath);
-    labelGridFile->setText(dir.relativeFilePath(filename));
-}
-
-
-void CCreateMapQMAP::slotDelGridFile()
-{
-    labelGridFile->setText("");
-}

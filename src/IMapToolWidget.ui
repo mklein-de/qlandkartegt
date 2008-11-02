@@ -23,7 +23,22 @@
    <item>
     <widget class="QTreeWidget" name="treeKnownMaps" >
      <property name="contextMenuPolicy" >
-      <enum>Qt::PreventContextMenu</enum>
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="indentation" >
+      <number>0</number>
+     </property>
+     <property name="rootIsDecorated" >
+      <bool>false</bool>
+     </property>
+     <property name="itemsExpandable" >
+      <bool>false</bool>
+     </property>
+     <property name="expandsOnDoubleClick" >
+      <bool>false</bool>
+     </property>
+     <property name="columnCount" >
+      <number>3</number>
      </property>
      <column>
       <property name="text" >
@@ -38,21 +53,6 @@
      <column>
       <property name="text" >
        <string>Map</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string/>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string/>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string/>
       </property>
      </column>
     </widget>

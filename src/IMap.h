@@ -29,6 +29,7 @@
 
 class QPainter;
 class CCanvas;
+class CMapDEM;
 
 /// base class to any map render object
 class IMap : public QObject
@@ -62,7 +63,6 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertM2Pt(double& u, double& v) = 0;
-        virtual void convertM2Pt(double* u, double* v, int n){};
         /// convert a point on the screen [px] to geo. coordinates [rad]
         /**
             The conversion will be done in place.
@@ -98,7 +98,6 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertRad2Pt(double& u, double& v);
-        virtual void convertRad2Pt(double* u, double* v, int n);
         /// move the map [px]
         /**
             @param old the (old) starting point
@@ -126,8 +125,10 @@ class IMap : public QObject
             level == 1 no zoom
             level >  1 zoom out
         */
-        virtual qint32 getZoomLevel() { return 1; }
         virtual void zoom(qint32& level) = 0;
+
+        ///
+        virtual qint32 getZoomLevel() { return 1; }
 
         /// get the top left and bottom right corner
         /**
@@ -162,10 +163,18 @@ class IMap : public QObject
         /// get read access to the internally used pixmap buffer
         const QImage& getBuffer(){return buffer;}
 
+        /// get proj4 compatible projection string
         const char * getProjection();
 
+        /// a DEM overlay has to register itself at the map it overlays
+        /**
+            The default implementation is too check if both map objects use the
+            same projection.
+        */
+        virtual void registerDEM(CMapDEM& dem);
+
         const maptype_e maptype;
-        signals:
+    signals:
         void sigChanged();
 
     public slots:
@@ -177,8 +186,8 @@ class IMap : public QObject
 
     protected:
         virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
-
         void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
 
         QString filename;
         /// canvas / viewport rectangle [px]

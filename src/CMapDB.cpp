@@ -130,7 +130,6 @@ void CMapDB::closeVisibleMaps()
 {
     if(!theMap.isNull() && theMap != defaultMap) delete theMap;
     if(!demMap.isNull()) delete demMap;
-    //     if(!vctMap.isNull()) delete vctMap;
 
     theMap = defaultMap;
 }
@@ -142,6 +141,8 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     closeVisibleMaps();
+
+    QSettings cfg;
 
     map_t map;
     QFileInfo fi(filename);
@@ -159,16 +160,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // create base map
         theMap = new CMapQMAP(map.key, filename,&canvas);
 
-        // create DEM map if any
-        QDir    path        = QFileInfo(filename).absolutePath();
-        QString fileDEM     = mapdef.value("DEM/file","").toString();
-        QString datum       = mapdef.value("gridshift/datum","").toString();
-        QString gridfile    = mapdef.value("gridshift/file","").toString();
-
-        if(!fileDEM.isEmpty()) {
-            demMap = new CMapDEM(path.filePath(fileDEM), &canvas, datum, path.filePath(gridfile));
-        }
-
         // add map to known maps
         knownMaps[map.key] = map;
 
@@ -184,7 +175,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.key         = filename;
         map.type        = IMap::eVector;
 
-        //         vctMap = maptdb = new CMapTDB(map.key, filename, &canvas);
         theMap = maptdb = new CMapTDB(map.key, filename, &canvas);
 
         map.description = maptdb->getName();
@@ -194,13 +184,10 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         knownMaps[map.key] = map;
 
         // store current map filename for next session
-        QSettings cfg;
         cfg.setValue("maps/visibleMaps",filename);
         cfg.beginGroup("garmin/maps/alias");
         cfg.setValue(fi.fileName(),map.description);
         cfg.endGroup();
-
-//         demMap = new CMapDEM("/home/oeichler/data/Maps/Top10Bayern/dhmby25.tif",theMainWindow->getCanvas(),"","");
     }
 #endif
     else {
@@ -215,7 +202,11 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         }
     }
 
-    connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
+    connect(theMap, SIGNAL(sigChanged()),  theMainWindow->getCanvas(), SLOT(update()));
+
+    QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
+    if(!fileDEM.isEmpty()) openDEM(fileDEM);
+
     emit sigChanged();
 
     QApplication::restoreOverrideCursor();
@@ -243,33 +234,48 @@ void CMapDB::openMap(const QString& key)
             theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
         }
 
-        // create DEM map if any
-        QSettings mapdef(filename,QSettings::IniFormat);
-        QDir    path        = QFileInfo(filename).absolutePath();
-        QString fileDEM     = mapdef.value("DEM/file","").toString();
-        QString datum       = mapdef.value("gridshift/datum","").toString();
-        QString gridfile    = mapdef.value("gridshift/file","").toString();
-
-        if(!fileDEM.isEmpty()) {
-            demMap = new CMapDEM(path.filePath(fileDEM), theMainWindow->getCanvas(), datum, path.filePath(gridfile));
-        }
     }
 #ifdef GARMIN
     else if(ext == "tdb") {
-        //         vctMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
-//         demMap = new CMapDEM("/home/oeichler/data/Maps/Top10Bayern/dhmby25.tif",theMainWindow->getCanvas(),"","");
     }
 #endif
-    connect(theMap, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
+    connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 
     // store current map filename for next session
     QSettings cfg;
     cfg.setValue("maps/visibleMaps",filename);
 
+    QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
+    if(!fileDEM.isEmpty()) openDEM(fileDEM);
+
+    emit sigChanged();
     QApplication::restoreOverrideCursor();
 }
 
+void CMapDB::openDEM(const QString& filename)
+{
+    QSettings cfg;
+
+    if(!demMap.isNull()){
+        delete demMap;
+    }
+
+    try{
+        CMapDEM * dem;
+        demMap = dem = new CMapDEM(filename, theMainWindow->getCanvas());
+        theMap->registerDEM(*dem);
+    }
+    catch(const QString& msg){
+        cfg.setValue(QString("map/dem/%1").arg(theMap->getKey()), "");
+        QMessageBox:: critical(0,tr("Error..."), msg, QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    cfg.setValue(QString("map/dem/%1").arg(theMap->getKey()), filename);
+
+    emit sigChanged();
+}
 
 void CMapDB::closeMap()
 {
@@ -351,10 +357,6 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
     if(!demMap.isNull()) {
         demMap->draw(p);
     }
-
-    //     if(!vctMap.isNull()) {
-    //         vctMap->draw(p);
-    //     }
 
     if(tabbar-> currentWidget() != toolview) {
         return;

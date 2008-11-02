@@ -50,9 +50,10 @@ class CMapTDB : public IMap
         void draw(QPainter& p);
         void draw();
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
-
+        void registerDEM(CMapDEM& dem);
 
     protected:
+        virtual void convertRad2Pt(double* u, double* v, int n);
         void resize(const QSize& s);
         bool eventFilter( QObject * watched, QEvent * event );
 

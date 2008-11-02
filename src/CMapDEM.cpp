@@ -33,9 +33,12 @@
 
 #include <QtGui>
 
-CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile)
+CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 : IMap(eDEM, "",parent)
 , weights(0)
+, old_my_xscale(0)
+, old_my_yscale(0)
+, old_overlay(IMap::eNone)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0) {
@@ -59,9 +62,6 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent, const QString& datum
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
     QString strProj = ptr;
-    if(!datum.isEmpty() && !gridfile.isEmpty()) {
-        strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
-    }
 
     qDebug() << strProj;
 
@@ -235,17 +235,41 @@ void CMapDEM::draw(QPainter& p)
 
 void CMapDEM::draw()
 {
-    buffer.fill(Qt::transparent);
-
-    if(pjsrc == 0) return;
 
     IMap::overlay_e overlay = status->getOverlayType();
-    if(overlay == IMap::eNone) return;
+    if(overlay == IMap::eNone){
+        old_overlay = overlay;
+        buffer.fill(Qt::transparent);
+        return;
+    }
+
+
+    // check if old area matches new request
+    // kind of a different way to calculate the needRedraw flag
 
     XY p1, p2;
     float my_xscale, my_yscale;
 
     getArea_n_Scaling_fromBase(p1, p2, my_xscale, my_yscale);
+
+    if(    overlay == old_overlay
+        && p1.u == old_p1.u && p1.v == old_p1.v
+        && p2.u == old_p2.u && p2.v == old_p2.v
+        && my_xscale == old_my_xscale && my_yscale == old_my_yscale
+      )
+    {
+        return;
+    }
+
+    old_p1          = p1;
+    old_p2          = p2;
+    old_my_xscale   = my_xscale;
+    old_my_yscale   = my_yscale;
+    old_overlay     = overlay;
+
+    buffer.fill(Qt::transparent);
+
+    if(pjsrc == 0) return;
 
     /*
         Calculate area of DEM data to be read.

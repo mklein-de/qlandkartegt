@@ -52,6 +52,9 @@ class CMapDB : public IDB
         /// close the current map
         void closeMap();
 
+        /// open DEM overlay
+        void openDEM(const QString& filename);
+
         /// get current main map
         IMap& getMap();
 
@@ -98,8 +101,6 @@ class CMapDB : public IDB
         friend class CMainWindow;
         friend class CMapToolWidget;
         friend class CMapQMAPExport;
-
-//         enum maptype_e {eRaster, eVector};
 
         struct map_t
         {

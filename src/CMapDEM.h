@@ -33,7 +33,7 @@ class CMapDEM : public IMap
 {
     Q_OBJECT;
     public:
-        CMapDEM(const QString& filename, CCanvas * parent, const QString& datum, const QString& gridfile);
+        CMapDEM(const QString& filename, CCanvas * parent);
         virtual ~CMapDEM();
 
         /// draw map
@@ -94,6 +94,13 @@ class CMapDEM : public IMap
         };
 
         weight_t * weights;
+
+        XY old_p1;
+        XY old_p2;
+        float old_my_xscale;
+        float old_my_yscale;
+
+        IMap::overlay_e old_overlay;
 
 };
 #endif                           //CMAPDEM_H

@@ -20,11 +20,13 @@
 #define CMAPTOOLWIDGET_H
 
 #include <QWidget>
+#include <QDir>
 #include "ui_IMapToolWidget.h"
 
 class QToolBox;
 class QPoint;
 class QListWidgetItem;
+class QAction;
 
 class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 {
@@ -43,6 +45,8 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotDeleteKnownMap();
         void slotDeleteSelectedMap();
         void slotExportMap();
+        void slotAddDEM();
+        void slotDelDEM();
 
     private:
         enum columns_e
@@ -52,9 +56,12 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
             ,eName
             ,eMaxColumn
         };
-        void updateEportButton();
+        void updateExportButton();
         QMenu * contextMenuKnownMaps;
         QMenu * contextMenuSelectedMaps;
+        QDir path;
+
+        QAction * actDelDEM;
 
 };
 #endif                           //CMAPTOOLWIDGET_H

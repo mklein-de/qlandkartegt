@@ -27,6 +27,7 @@
 
 CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 : QWidget(parent)
+, path("./")
 {
     setupUi(this);
     setObjectName("Maps");
@@ -36,10 +37,13 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     contextMenuKnownMaps = new QMenu(this);
-    contextMenuKnownMaps->addAction(QPixmap(),tr("<---->"));
+    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
+    actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
     contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
     connect(treeKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
+
+    actDelDEM->setEnabled(false);
 
     contextMenuSelectedMaps = new QMenu(this);
     contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
@@ -72,7 +76,15 @@ void CMapToolWidget::slotDBChanged()
             item->setText(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
             item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eVector ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
-            if(map.key() == key) selected = item;
+            item->setData(eType, Qt::UserRole, map->type);
+            if(map.key() == key){
+                selected = item;
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
+                item->setData(eMode, Qt::UserRole, true);
+            }
+            else{
+                item->setData(eMode, Qt::UserRole, false);
+            }
             ++map;
         }
     }
@@ -105,7 +117,7 @@ void CMapToolWidget::slotDBChanged()
         }
 
         if(selected) listSelectedMaps->setCurrentItem(selected);
-        updateEportButton();
+        updateExportButton();
     }
 
 
@@ -135,7 +147,17 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 
 void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
-    if(treeKnownMaps->currentItem()) {
+    QTreeWidgetItem * item = treeKnownMaps->currentItem();
+    if(item) {
+        IMap& dem = CMapDB::self().getDEM();
+
+        if(dem.maptype == IMap::eDEM && item->data(eMode, Qt::UserRole).toBool()){
+            actDelDEM->setEnabled(true);
+        }
+        else{
+            actDelDEM->setEnabled(false);
+        }
+
         QPoint p = treeKnownMaps->mapToGlobal(pos);
         contextMenuKnownMaps->exec(p);
     }
@@ -175,7 +197,7 @@ void CMapToolWidget::slotDeleteSelectedMap()
     }
     CMapDB::self().delSelectedMap(keys);
 
-    updateEportButton();
+    updateExportButton();
 }
 
 
@@ -187,11 +209,11 @@ void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
         CMapSelection::focusedMap = key;
         theMainWindow->getCanvas()->update();
     }
-    updateEportButton();
+    updateExportButton();
 }
 
 
-void CMapToolWidget::updateEportButton()
+void CMapToolWidget::updateExportButton()
 {
     pushExportMap->setEnabled(listSelectedMaps->currentItem() != 0);
 }
@@ -215,4 +237,27 @@ void CMapToolWidget::slotExportMap()
 
     CMapQMAPExport dlg(CMapDB::self().getSelectedMaps()[key],this);
     dlg.exec();
+}
+
+void CMapToolWidget::slotAddDEM()
+{
+    QSettings cfg;
+    path = QDir(cfg.value("path/DEM",path.path()).toString());
+
+    QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit GeoTiff (*.tif)"));
+    if(filename.isEmpty()) return;
+
+    QFileInfo fi(filename);
+    path = QDir(fi.absolutePath());
+    cfg.setValue("path/DEM",path.path());
+
+    CMapDB::self().openDEM(filename);
+}
+
+void CMapToolWidget::slotDelDEM()
+{
+    IMap& dem = CMapDB::self().getDEM();
+    if(dem.maptype == IMap::eDEM){
+        dem.deleteLater();
+    }
 }
