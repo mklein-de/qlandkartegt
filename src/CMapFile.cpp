@@ -38,6 +38,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
 , yref1(0.0)
 , ok(false)
 {
+
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0) return;
 
@@ -102,7 +103,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
 
     pBand->GetBlockSize(&tileWidth,&tileHeight);
 
-    PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
+    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon1 = xref1;
     lat1 = yref1;

@@ -60,6 +60,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
             QString file;
             foreach(file,files) {
                 maplevel->addMapFile(path.filePath(file), datum, path.filePath(gridfile));
+//                 maplevel->addMapFile(path.filePath(file), "potsdam", "./BETA2007.gsb");
             }
             maplevels << maplevel;
         }

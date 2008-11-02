@@ -523,7 +523,14 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     double x = e->x();
     double y = e->y();
 
+
+    double x_m = e->x();
+    double y_m = e->y();
+
     map.convertPt2Rad(x,y);
+    map.convertPt2M(x_m,y_m);
+
+//     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
     if((x == e->x()) && (y == e->y())) {
         map.convertPt2M(x,y);
@@ -537,6 +544,8 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
             IUnit::self().meter2elevation(ele, val, unit);
             info += QString(" (ele: %1 %2) ").arg(val).arg(unit);
         }
+
+        info += QString("[%1m, %2m] ").arg(x_m,0,'f',0).arg(y_m,0,'f',0);
 
         x *= RAD_TO_DEG;
         y *= RAD_TO_DEG;

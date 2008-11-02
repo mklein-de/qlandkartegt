@@ -133,10 +133,8 @@ void CMapToolWidget::slotKnownMapDoubleClicked(QTreeWidgetItem* item, int)
 
 void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int c)
 {
-    qDebug() << "xxxxxxxxxx" << c;
     if(c == eMode){
         QString key = item->data(eName, Qt::UserRole).toString();
-        qDebug() << key;
         CMapDB::self().getMap().addOverlayMap(key);
     }
 }

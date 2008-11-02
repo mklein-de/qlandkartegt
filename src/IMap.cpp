@@ -186,6 +186,6 @@ void IMap::addOverlayMap(const QString& key)
     }
 
     ovlMap = CMapDB::self().createMap(key);
-
+    emit sigChanged();
 }
 

@@ -21,6 +21,7 @@
 #include <QtGui>
 
 #include <gdal_priv.h>
+#include <projects.h>
 
 #include "CMainWindow.h"
 
@@ -28,7 +29,37 @@ int main(int argc, char ** argv)
 {
     GDALAllRegister();
 
+    {
+    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+
+//     double x = 12.09    * DEG_TO_RAD;
+//     double y = 49.0336  * DEG_TO_RAD;
+    double x = 0.211011;
+    double y = 0.855797;
+    pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
+
+    printf("------------ %f %f\n", x, y);
+    printf("------------ %s\n",pj_get_def(pjGK,0));
+    }
+
+
     QApplication theApp(argc,argv);
+
+    {
+    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+
+//     double x = 12.09    * DEG_TO_RAD;
+//     double y = 49.0336  * DEG_TO_RAD;
+    double x = 0.211011;
+    double y = 0.855797;
+    pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
+
+    printf("------------ %f %f\n", x, y);
+    printf("------------ %s\n",pj_get_def(pjGK,0));
+    }
+
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
 
@@ -38,6 +69,8 @@ int main(int argc, char ** argv)
     w.show();
     splash->finish(&w);
     delete splash;
+
+
 
     int res  = theApp.exec();
     return res;

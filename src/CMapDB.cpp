@@ -262,6 +262,8 @@ IMap * CMapDB::createMap(const QString& key)
         return 0;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     IMap * map = 0;
     QString filename = mapdesc.filename;
     QFileInfo fi(filename);
@@ -270,6 +272,7 @@ IMap * CMapDB::createMap(const QString& key)
     if(ext == "tdb") {
         map = new CMapTDB(key, filename);
     }
+    QApplication::restoreOverrideCursor();
 
     return map;
 }
