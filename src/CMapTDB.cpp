@@ -321,6 +321,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 
     info          = 0;
     isTransparent = true;
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -1036,12 +1037,22 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
     if(needsRedraw){
         draw();
     }
+
+    quint32 * ptr  = (quint32*)buffer.bits();
+    for(int i = 0; i < (buffer.numBytes()>>2); ++i){
+        if(*ptr & 0xFF000000){
+            *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
+        }
+        ++ptr;
+    }
+
+
     p.drawImage(0,0,buffer);
 }
 
 void CMapTDB::draw()
 {
-    buffer.fill(Qt::lightGray);
+    buffer.fill(Qt::transparent);
     QPainter p(&buffer);
 
     QFont f = CResources::self().getMapFont();
