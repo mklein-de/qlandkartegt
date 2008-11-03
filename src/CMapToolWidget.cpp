@@ -267,6 +267,8 @@ void CMapToolWidget::slotDelDEM()
 {
     IMap& dem = CMapDB::self().getDEM();
     if(dem.maptype == IMap::eDEM){
+        QSettings cfg;
+        cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
         dem.deleteLater();
     }
 }
