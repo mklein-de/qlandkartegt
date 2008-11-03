@@ -34,11 +34,11 @@
      <property name="itemsExpandable" >
       <bool>false</bool>
      </property>
-     <property name="expandsOnDoubleClick" >
-      <bool>false</bool>
-     </property>
      <property name="columnCount" >
       <number>3</number>
+     </property>
+     <property name="expandsOnDoubleClick" stdset="0" >
+      <bool>false</bool>
      </property>
      <column>
       <property name="text" >
@@ -91,7 +91,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" >
         <size>
          <width>40</width>
          <height>20</height>
