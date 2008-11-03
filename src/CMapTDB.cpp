@@ -243,11 +243,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , encrypted(false)
 , baseimg(0)
 , isTransparent(false)
-, needRedraw(true)
 , zoomFactor(0)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
-, doFastDraw(false)
 , fm(CResources::self().getMapFont())
 {
     pjsrc       = pj_init_plus("+proj=merc +ellps=WGS84");
@@ -257,9 +255,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     setup();
 
-    timerFastDraw = new QTimer(this);
-    timerFastDraw->setSingleShot(true);
-    connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
 
     readTDB(filename);
     processPrimaryMapData();
@@ -299,11 +294,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , encrypted(false)
 , baseimg(0)
 , isTransparent(false)
-, needRedraw(true)
 , zoomFactor(0)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
-, doFastDraw(false)
 , fm(CResources::self().getMapFont())
 {
     pjsrc = pj_init_plus(CMapDB::self().getMap().getProjection());
@@ -311,10 +304,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     qDebug() << getProjection();
 
     setup();
-
-    timerFastDraw = new QTimer(this);
-    timerFastDraw->setSingleShot(true);
-    connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
 
     readTDB(filename);
     processPrimaryMapData();
@@ -882,7 +871,7 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p2.u, p2.v);
     topLeft = p2;
 
-    emit sigChanged();
+//     emit sigChanged();
 
     //     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
@@ -1025,29 +1014,32 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         needsRedraw = true;
     }
 
-    float sx, sy;
-    getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
-
-    for(i=0; i < MAX_IDX_ZOOM; ++i){
-        if(scales[i].scale <= sx) break;
-    }
-
-    zoomidx     = i;
-    zoomFactor  = sx;
     if(needsRedraw){
-        draw();
-    }
+        float sx, sy;
+        getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
-    quint32 * ptr  = (quint32*)buffer.bits();
-    for(int i = 0; i < (buffer.numBytes()>>2); ++i){
-        if(*ptr & 0xFF000000){
-            *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
+        for(i=0; i < MAX_IDX_ZOOM; ++i){
+            if(scales[i].scale <= sx) break;
         }
-        ++ptr;
-    }
 
+        zoomidx     = i;
+        zoomFactor  = sx;
+
+        draw();
+
+        // make map semi transparent
+        quint32 * ptr  = (quint32*)buffer.bits();
+        for(int i = 0; i < (buffer.numBytes()>>2); ++i){
+            if(*ptr & 0xFF000000){
+                *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
+            }
+            ++ptr;
+        }
+    }
 
     p.drawImage(0,0,buffer);
+
+    if(ovlMap) ovlMap->draw(s, needsRedraw, p);
 }
 
 void CMapTDB::draw()
@@ -1384,19 +1376,6 @@ void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
 }
 
 
-void CMapTDB::setFastDraw()
-{
-    timerFastDraw->start(500);
-    doFastDraw = true;
-}
-
-
-void CMapTDB::slotResetFastDraw()
-{
-    needsRedraw = true;
-    doFastDraw  = false;
-    emit sigChanged();
-}
 
 
 void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)

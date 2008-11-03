@@ -34,6 +34,7 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 , pjtar(0)
 , needsRedraw(true)
 , key(key)
+, doFastDraw(false)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -45,6 +46,11 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
         connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
         parent->update();
     }
+
+    timerFastDraw = new QTimer(this);
+    timerFastDraw->setSingleShot(true);
+    connect(timerFastDraw, SIGNAL(timeout()), this, SLOT(slotResetFastDraw()));
+
 }
 
 
@@ -179,13 +185,25 @@ void IMap::registerDEM(CMapDEM& dem)
 
 void IMap::addOverlayMap(const QString& key)
 {
-
+    needsRedraw = true;
     if(!ovlMap.isNull()){
         ovlMap->addOverlayMap(key);
+        emit sigChanged();
         return;
     }
-
-    ovlMap = CMapDB::self().createMap(key);
+    ovlMap      = CMapDB::self().createMap(key);
     emit sigChanged();
 }
 
+void IMap::setFastDraw()
+{
+    timerFastDraw->start(500);
+    doFastDraw = true;
+}
+
+void IMap::slotResetFastDraw()
+{
+    needsRedraw = true;
+    doFastDraw  = false;
+    emit sigChanged();
+}

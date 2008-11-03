@@ -116,7 +116,6 @@ void CMapQMAP::draw(QPainter& p)
         return;
     }
 
-
     // update internal buffer
     if(needsRedraw) {
         draw();
@@ -131,7 +130,7 @@ void CMapQMAP::draw(QPainter& p)
     }
 
     // render overlay
-    if(!ovlMap.isNull()){
+    if(!ovlMap.isNull() && !doFastDraw){
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -242,6 +241,8 @@ void CMapQMAP::draw()
         }
         ++mapfile;
     }
+
+    if(doFastDraw) setFastDraw();
 }
 
 
@@ -288,6 +289,7 @@ void CMapQMAP::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
     needsRedraw = true;
+    setFastDraw();
     emit sigChanged();
 }
 
@@ -345,6 +347,7 @@ void CMapQMAP::zoom(qint32& level)
     // no level less than 1
     if(level < 1) {
         zoomFactor  = 1.0 / - (level - 2);
+        setFastDraw();
         emit sigChanged();
         qDebug() << "zoom:" << zoomFactor;
         return;
@@ -370,6 +373,7 @@ void CMapQMAP::zoom(qint32& level)
     pMaplevel   = *maplevel;
     pjsrc       = (*pMaplevel->begin())->pj;
     zoomFactor  = level - (*maplevel)->min + 1;
+    setFastDraw();
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }

@@ -59,8 +59,6 @@ class CMapTDB : public IMap
         void resize(const QSize& s);
         bool eventFilter( QObject * watched, QEvent * event );
 
-    private slots:
-        void slotResetFastDraw();
 
     private:
         void setup();
@@ -78,7 +76,6 @@ class CMapTDB : public IMap
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
         void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
-        void setFastDraw();
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
@@ -212,8 +209,6 @@ class CMapTDB : public IMap
         /// flag for transparent maps
         bool isTransparent;
 
-        bool needRedraw;
-
         /// different scale entries indexed by idxZoom,
         static scale_t scales[];
         /// the used scale
@@ -263,9 +258,6 @@ class CMapTDB : public IMap
         };
 
         QVector<polygon_property> polygonProperties;
-
-        bool doFastDraw;
-        QTimer * timerFastDraw;
 
         polytype_t polygons;
         polytype_t polylines;

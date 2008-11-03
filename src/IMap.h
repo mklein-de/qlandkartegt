@@ -196,10 +196,14 @@ class IMap : public QObject
         */
         virtual void resize(const QSize& size);
 
+    protected slots:
+        /// called by timerFastDraw to reset doFastDraw flag
+        virtual void slotResetFastDraw();
+
     protected:
         virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
-        void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
-
+        virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        virtual void setFastDraw();
 
         QString filename;
         /// canvas / viewport rectangle [px]
@@ -228,5 +232,9 @@ class IMap : public QObject
         QImage buffer;
 
         QPointer<IMap> ovlMap;
+
+        bool doFastDraw;
+        QTimer * timerFastDraw;
+
 };
 #endif                           //IMAP_H
