@@ -49,7 +49,7 @@ class IMap : public QObject
         /// just draw map to internal buffer
         virtual void draw();
         /// draw map as overlay
-        virtual void draw(const XY& p1, const XY& p2, const QSize& size, QPainter& p){}
+        virtual void draw(const QSize& s, bool needsRedraw, QPainter& p){}
         /// convert a point on the screen [px] to world coordinates [m]
         /**
             The conversion will be done in place.

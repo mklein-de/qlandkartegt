@@ -982,8 +982,8 @@ void CMapTDB::draw(QPainter& p)
     p.drawImage(0,0,buffer);
 
     // render overlay
-    if(!ovlMap.isNull()){
-        ovlMap->draw(topLeft, bottomRight, size, p);
+    if(!ovlMap.isNull() && !doFastDraw){
+        ovlMap->draw(size, needsRedraw, p);
     }
 
     needsRedraw = false;
@@ -1015,10 +1015,14 @@ void CMapTDB::draw(QPainter& p)
     if(doFastDraw) setFastDraw();
 }
 
-void CMapTDB::draw(const XY& p1, const XY& p2, const QSize& s, QPainter& p)
+void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 {
     int i;
-    resize(s);
+
+    if(s != size){
+        resize(s);
+        needsRedraw = true;
+    }
 
     float sx, sy;
     getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
@@ -1029,7 +1033,9 @@ void CMapTDB::draw(const XY& p1, const XY& p2, const QSize& s, QPainter& p)
 
     zoomidx     = i;
     zoomFactor  = sx;
-    draw();
+    if(needsRedraw){
+        draw();
+    }
     p.drawImage(0,0,buffer);
 }
 

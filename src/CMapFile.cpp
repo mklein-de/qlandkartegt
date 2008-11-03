@@ -25,7 +25,7 @@
 #include <QtCore>
 #include <QColor>
 
-CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& datum, const QString& gridfile)
+CMapFile::CMapFile(const QString& filename, QObject * parent)
 : QObject(parent)
 , filename(filename)
 , dataset(0)
@@ -49,9 +49,6 @@ CMapFile::CMapFile(const QString& filename, QObject * parent, const QString& dat
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
     strOrigProj = strProj = ptr;
-    if(!datum.isEmpty() && !gridfile.isEmpty()) {
-        strProj = strProj.replace(QString("+datum=%1").arg(datum), QString("+nadgrids=%1").arg(gridfile));
-    }
 
     qDebug() << strProj;
 

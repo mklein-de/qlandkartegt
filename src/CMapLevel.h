@@ -55,7 +55,7 @@ class CMapLevel : public QObject
         virtual ~CMapLevel();
 
         /// add a GeoTiff file by filename
-        void addMapFile(const QString& filename, const QString& datum = QString::Null(), const QString& gridfile = QString::Null());
+        void addMapFile(const QString& filename);
 
         /// get iterator to first GeoTiff file in list
         QVector<CMapFile*>::const_iterator begin(){return mapfiles.begin();}

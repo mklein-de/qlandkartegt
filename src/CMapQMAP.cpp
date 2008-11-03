@@ -43,9 +43,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QSettings mapdef(filename,QSettings::IniFormat);
     int nLevels = mapdef.value("main/levels",0).toInt();
 
-    QString datum = mapdef.value("gridshift/datum","").toString();
-    QString gridfile = mapdef.value("gridshift/file","").toString();
-
     // create map level list
     CMapLevel * maplevel = 0;
     for(int n=1; n <= nLevels; ++n) {
@@ -59,8 +56,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         if(files.count()) {
             QString file;
             foreach(file,files) {
-                maplevel->addMapFile(path.filePath(file), datum, path.filePath(gridfile));
-//                 maplevel->addMapFile(path.filePath(file), "potsdam", "./BETA2007.gsb");
+                maplevel->addMapFile(path.filePath(file));
             }
             maplevels << maplevel;
         }
@@ -120,10 +116,10 @@ void CMapQMAP::draw(QPainter& p)
         return;
     }
 
+
     // update internal buffer
     if(needsRedraw) {
         draw();
-        needsRedraw = !foundMap;
     }
 
     // copy internal buffer if valid
@@ -136,8 +132,10 @@ void CMapQMAP::draw(QPainter& p)
 
     // render overlay
     if(!ovlMap.isNull()){
-        ovlMap->draw(topLeft, bottomRight, size, p);
+        ovlMap->draw(size, needsRedraw, p);
     }
+
+    needsRedraw = !foundMap;
 
     QString str;
     if(zoomFactor < 1.0) {

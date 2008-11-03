@@ -50,7 +50,7 @@ class CMapTDB : public IMap
         const QString& getName(){return name;}
         void draw(QPainter& p);
         void draw();
-        void draw(const XY& p1, const XY& p2, const QSize& size, QPainter& p);
+        void draw(const QSize& s, bool needsRedraw, QPainter& p);
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void registerDEM(CMapDEM& dem);
 
