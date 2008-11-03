@@ -476,7 +476,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 }
 
 
-void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport)
+void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport)
 {
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)) {
@@ -503,7 +503,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, p
                 continue;
             }
 
-            loadSuvDiv(file, *subdiv, subfile->strtbl, rgndata, polylines, polygons, points, pois);
+            loadSuvDiv(file, *subdiv, subfile->strtbl, rgndata, fast, polylines, polygons, points, pois);
 
 #ifdef DEBUG_SHOW_SECTION_BORDERS
             IMap& map = CMapDB::self().getMap();
@@ -523,7 +523,7 @@ void CGarminTile::loadVisibleData(polytype_t& polygons, polytype_t& polylines, p
 }
 
 
-void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
+void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
 {
     if(subdiv.rgn_start == subdiv.rgn_end) return;
 
@@ -586,7 +586,7 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     const quint8 *  pEnd;
 
     // decode points
-    if(subdiv.hasPoints) {
+    if(subdiv.hasPoints && !fast) {
         pData = pRawData + opnt;
         pEnd  = pRawData + (oidx ? oidx : opline ? opline : opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd) {
@@ -601,7 +601,7 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 
     // decode indexed points
-    if(subdiv.hasIdxPoints) {
+    if(subdiv.hasIdxPoints && !fast) {
         pData = pRawData + oidx;
         pEnd  = pRawData + (opline ? opline : opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd) {
@@ -623,10 +623,10 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             polylines.push_back(CGarminPolygon());
             CGarminPolygon& p = polylines.last();
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
-            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+            if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
-            else if(strtbl && p.lbl_in_NET && p.lbl_info) {
+            else if(strtbl && p.lbl_in_NET && p.lbl_info && !fast) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
 
@@ -636,7 +636,7 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 
     // decode polygons
-    if(subdiv.hasPolygons) {
+    if(subdiv.hasPolygons && !fast) {
         pData = pRawData + opgon;
         pEnd  = pRawData + subdiv.rgn_end;
         while(pData < pEnd) {

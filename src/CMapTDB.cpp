@@ -1069,13 +1069,13 @@ void CMapTDB::draw()
     labels.clear();
 
     if(maplevel->useBaseMap) {
-        baseimg->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
+        baseimg->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
     }
     else {
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
         while(tile != tiles.end()) {
             if(tile->img && tile->area.intersects(viewport)) {
-                tile->img->loadVisibleData(polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
+                tile->img->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
             }
             ++tile;
         }
