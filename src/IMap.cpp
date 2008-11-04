@@ -183,16 +183,53 @@ void IMap::registerDEM(CMapDEM& dem)
     }
 }
 
-void IMap::addOverlayMap(const QString& key)
+void IMap::addOverlayMap(const QString& k)
 {
+    // prevent registering twice
+    if(key == k){
+        return;
+    }
+
     needsRedraw = true;
+
+    // pass request to next overlay map
     if(!ovlMap.isNull()){
-        ovlMap->addOverlayMap(key);
+        ovlMap->addOverlayMap(k);
         emit sigChanged();
         return;
     }
-    ovlMap      = CMapDB::self().createMap(key);
+
+    // add overlay to last overlay map
+    ovlMap = CMapDB::self().createMap(k);
     emit sigChanged();
+}
+
+void IMap::delOverlayMap(const QString& k)
+{
+    if(ovlMap.isNull()) return;
+
+    if(ovlMap->getKey() != k){
+        ovlMap->delOverlayMap(k);
+        emit sigChanged();
+        return;
+    }
+
+
+    ovlMap->deleteLater();
+    ovlMap = ovlMap->ovlMap;
+    emit sigChanged();
+}
+
+bool IMap::hasOverlayMap(const QString& k)
+{
+
+    if(ovlMap.isNull()) return (k == key);
+
+    if(key != k){
+        return ovlMap->hasOverlayMap(k);
+    }
+
+    return true;
 }
 
 void IMap::setFastDraw()

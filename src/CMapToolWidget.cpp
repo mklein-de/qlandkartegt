@@ -37,14 +37,16 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     contextMenuKnownMaps = new QMenu(this);
-    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
+    actAddDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
     contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
     connect(treeKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMaps,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
     connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapDoubleClicked(QTreeWidgetItem*, int)));
 
+    actAddDEM->setEnabled(false);
     actDelDEM->setEnabled(false);
+
 
     contextMenuSelectedMaps = new QMenu(this);
     contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
@@ -65,7 +67,8 @@ CMapToolWidget::~CMapToolWidget()
 
 void CMapToolWidget::slotDBChanged()
 {
-    QString key                 = CMapDB::self().getMap().getKey();
+    IMap& basemap               = CMapDB::self().getMap();
+    QString key                 = basemap.getKey();
     QTreeWidgetItem * selected  = 0;
 
     treeKnownMaps->clear();
@@ -81,10 +84,18 @@ void CMapToolWidget::slotDBChanged()
             if(map.key() == key){
                 selected = item;
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
-                item->setData(eMode, Qt::UserRole, true);
+                item->setData(eMode, Qt::UserRole, eSelected);
+            }
+            else if(basemap.hasOverlayMap(map.key())){
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16")));
+                item->setData(eMode, Qt::UserRole, eOverlayActive);
+            }
+            else if(map->type == IMap::eVector){
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16")));
+                item->setData(eMode, Qt::UserRole, eOverlay);
             }
             else{
-                item->setData(eMode, Qt::UserRole, false);
+                item->setData(eMode, Qt::UserRole, eNoMode);
             }
             ++map;
         }
@@ -135,7 +146,15 @@ void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int c)
 {
     if(c == eMode){
         QString key = item->data(eName, Qt::UserRole).toString();
-        CMapDB::self().getMap().addOverlayMap(key);
+
+        if(item->data(eMode, Qt::UserRole).toInt() == eOverlay){
+            CMapDB::self().getMap().addOverlayMap(key);
+        }
+        else if(item->data(eMode, Qt::UserRole).toInt() == eOverlayActive){
+            CMapDB::self().getMap().delOverlayMap(key);
+        }
+
+        slotDBChanged();
     }
 }
 
@@ -160,10 +179,12 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     if(item) {
         IMap& dem = CMapDB::self().getDEM();
 
-        if(dem.maptype == IMap::eDEM && item->data(eMode, Qt::UserRole).toBool()){
+        if(dem.maptype == IMap::eDEM && item->data(eMode, Qt::UserRole).toInt() == eSelected){
+            actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(true);
         }
         else{
+            actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
         }
 

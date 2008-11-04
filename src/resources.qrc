@@ -64,6 +64,9 @@
         <file>icons/iconOk16x16.png</file>
         <file>icons/iconDEM16x16.png</file>
         <file>icons/iconNoDEM16x16.png</file>
+        <file>icons/iconOvl16x16.png</file>
+        <file>icons/iconOvlOk16x16.png</file>
+
 
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>

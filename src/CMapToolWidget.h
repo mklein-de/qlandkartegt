@@ -57,11 +57,21 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
             ,eName = 2
             ,eMaxColumn = 3
         };
+
+        enum mode_e
+        {
+             eNoMode
+            ,eSelected
+            ,eOverlay
+            ,eOverlayActive
+        };
+
         void updateExportButton();
         QMenu * contextMenuKnownMaps;
         QMenu * contextMenuSelectedMaps;
         QDir path;
 
+        QAction * actAddDEM;
         QAction * actDelDEM;
 
 };

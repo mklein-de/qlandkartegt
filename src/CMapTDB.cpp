@@ -871,8 +871,6 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p2.u, p2.v);
     topLeft = p2;
 
-//     emit sigChanged();
-
     //     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
 
@@ -1015,7 +1013,6 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
         for(i=0; i < MAX_IDX_ZOOM; ++i){
-            qDebug() << scales[i].scale << sx;
             if(scales[i].scale <= sx) break;
         }
 
@@ -1262,33 +1259,6 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
             ++item;
         }
     }
-
-    //     polytype_t::iterator item = lines.begin();
-    //     while (item != lines.end()) {
-    //         quint16 type = item->type;
-    //
-    //         p.setPen(polygonProperties[type].pen);
-    //         p.setBrush(polygonProperties[type].brush);
-    //
-    //         double * u      = item->u.data();
-    //         double * v      = item->v.data();
-    //         const int size  = item->u.size();
-    //
-    //         convertRad2Pt(u,v,size);
-    //
-    //         QPolygonF line(size);
-    //
-    //         for(int i = 0; i < size; ++i){
-    //             line[i].setX(*u++);
-    //             line[i].setY(*v++);
-    //         }
-    //
-    //         p.drawPolygon(line);
-    //
-    //         if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
-    //
-    //         ++item;
-    //     }
 }
 
 

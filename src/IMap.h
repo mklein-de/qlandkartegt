@@ -185,6 +185,10 @@ class IMap : public QObject
         */
         virtual void addOverlayMap(const QString& key);
 
+        virtual void delOverlayMap(const QString& key);
+
+        virtual bool hasOverlayMap(const QString& key);
+
         const maptype_e maptype;
     signals:
         void sigChanged();
