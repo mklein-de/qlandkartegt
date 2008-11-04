@@ -1503,3 +1503,9 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
         ++line;
     }
 }
+
+
+void CMapTDB::select(CMapSelection& ms, const QRect& rect)
+{
+
+}

@@ -31,6 +31,7 @@
 class QPainter;
 class CCanvas;
 class CMapDEM;
+class CMapSelection;
 
 /// base class to any map render object
 class IMap : public QObject
@@ -185,9 +186,18 @@ class IMap : public QObject
         */
         virtual void addOverlayMap(const QString& key);
 
+        /// remove overlay map by key
+        /**
+            This call is passed to ovlMap until the key matches. The
+            overlay is removed from the overlay pointer chain.
+        */
         virtual void delOverlayMap(const QString& key);
 
+        /// test if map is used as overlay
         virtual bool hasOverlayMap(const QString& key);
+
+        /// select map area for export or further processing
+        virtual void select(CMapSelection& ms, const QRect& rect);
 
         const maptype_e maptype;
     signals:

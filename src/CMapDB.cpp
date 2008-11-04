@@ -460,16 +460,18 @@ void CMapDB::select(const QRect& rect)
     }
 
     ms.description = knownMaps[ms.mapkey].description;
+//
+//     ms.lon1 = rect.left();
+//     ms.lat1 = rect.top();
+//     theMap->convertPt2Rad(ms.lon1, ms.lat1);
+//
+//     ms.lon2 = rect.right();
+//     ms.lat2 = rect.bottom();
+//     theMap->convertPt2Rad(ms.lon2, ms.lat2);
+//
+//     ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
 
-    ms.lon1 = rect.left();
-    ms.lat1 = rect.top();
-    theMap->convertPt2Rad(ms.lon1, ms.lat1);
-
-    ms.lon2 = rect.right();
-    ms.lat2 = rect.bottom();
-    theMap->convertPt2Rad(ms.lon2, ms.lat2);
-
-    ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
+    theMap->select(ms, rect);
 
     selectedMaps[ms.key] = ms;
 

@@ -175,9 +175,9 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     if(item) {
         IMap& dem = CMapDB::self().getDEM();
 
-        if(dem.maptype == IMap::eDEM && item->data(eMode, Qt::UserRole).toInt() == eSelected){
+        if(item->data(eMode, Qt::UserRole).toInt() == eSelected){
             actAddDEM->setEnabled(true);
-            actDelDEM->setEnabled(true);
+            actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             actDelMap->setEnabled(false);
         }
         else{
