@@ -450,7 +450,7 @@ void CMapTDB::resize(const QSize& s)
 bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 {
 
-    if(parent() == watched && event->type() == QEvent::MouseMove) {
+    if(parent() == watched && event->type() == QEvent::MouseMove && !doFastDraw) {
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
@@ -949,12 +949,8 @@ void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p3.u = p1.u;
     p3.v = p2.v;
 
-    double d=0, a1=0, a2=0;
-
-    d = distance(p3, p2, a1, a2);
-    my_xscale =  d / size.width();
-    d = distance(p1, p3, a1, a2);
-    my_yscale = -d / size.height();
+    my_xscale =  zoomFactor;
+    my_yscale = -zoomFactor;
 
 }
 
@@ -1019,6 +1015,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
         for(i=0; i < MAX_IDX_ZOOM; ++i){
+            qDebug() << scales[i].scale << sx;
             if(scales[i].scale <= sx) break;
         }
 
@@ -1208,7 +1205,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
 static quint16 order[] =
 {
-        0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
+      0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
     , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
     , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
     , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
