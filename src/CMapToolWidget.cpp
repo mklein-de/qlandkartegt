@@ -39,14 +39,10 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     contextMenuKnownMaps = new QMenu(this);
     actAddDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
-    contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
+    actDelMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
     connect(treeKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMaps,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
     connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapDoubleClicked(QTreeWidgetItem*, int)));
-
-    actAddDEM->setEnabled(false);
-    actDelDEM->setEnabled(false);
-
 
     contextMenuSelectedMaps = new QMenu(this);
     contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
@@ -182,10 +178,12 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
         if(dem.maptype == IMap::eDEM && item->data(eMode, Qt::UserRole).toInt() == eSelected){
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(true);
+            actDelMap->setEnabled(false);
         }
         else{
             actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
+            actDelMap->setEnabled(true);
         }
 
         QPoint p = treeKnownMaps->mapToGlobal(pos);

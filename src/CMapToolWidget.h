@@ -73,6 +73,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 
         QAction * actAddDEM;
         QAction * actDelDEM;
+        QAction * actDelMap;
 
 };
 #endif                           //CMAPTOOLWIDGET_H
