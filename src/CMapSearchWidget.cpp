@@ -33,6 +33,7 @@
 
 CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 : QWidget(parent)
+, area(0)
 {
     setupUi(this);
     setObjectName("CMapSearchWidget");
@@ -150,13 +151,7 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
 {
     area = ms;
-    QString pos1, pos2;
-
-    GPS_Math_Deg_To_Str(ms.lon1 * RAD_TO_DEG, ms.lat1 * RAD_TO_DEG, pos1);
-    GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
-
-    labelArea->setText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2));
-
+    labelArea->setText(area.description);
     checkGui();
 }
 

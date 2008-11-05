@@ -320,7 +320,7 @@ void CMapDB::delSelectedMap(const QStringList& keys)
 {
     QString key;
     foreach(key, keys) {
-        selectedMaps.remove(key);
+        delete selectedMaps.take(key);
     }
 
     emit sigChanged();
@@ -331,7 +331,7 @@ void CMapDB::selSelectedMap(const QString& key)
 {
     if(!selectedMaps.contains(key)) return;
 
-    IMapSelection * ms = &selectedMaps[key];
+    IMapSelection * ms = selectedMaps[key];
     if(mapsearch && (ms->type == IMapSelection::eRaster)) mapsearch->setArea((CMapSelectionRaster&)*ms);
 }
 
@@ -382,37 +382,11 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
         return;
     }
 
-//oe TODO
-//     IMapSelection ms;
-//     foreach(ms, selectedMaps) {
-//
-//         QString pos1, pos2;
-//
-//         GPS_Math_Deg_To_Str(ms.lon1 * RAD_TO_DEG, ms.lat1 * RAD_TO_DEG, pos1);
-//         GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
-//
-//         theMap->convertRad2Pt(ms.lon1, ms.lat1);
-//         theMap->convertRad2Pt(ms.lon2, ms.lat2);
-//
-//         p.setBrush(QColor(150,150,255,100));
-//
-//         if(ms.focusedMap == ms.key) {
-//             p.setPen(QPen(Qt::red,2));
-//         }
-//         else if(ms.mapkey == theMap->getKey()) {
-//             p.setPen(QPen(Qt::darkBlue,2));
-//         }
-//         else {
-//             p.setPen(QPen(Qt::gray,2));
-//         }
-//
-//         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
-//         if(rect.intersects(r)) {
-//             p.drawRect(r);
-//         }
-//
-//         CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
-//     }
+    QMap<QString,IMapSelection*>::iterator ms = selectedMaps.begin();
+    while(ms != selectedMaps.end()) {
+        (*ms)->draw(p, rect);
+        ++ms;
+    }
 }
 
 
@@ -456,15 +430,15 @@ void CMapDB::select(const QRect& rect)
     }
 
     if(theMap->maptype == IMap::eRaster){
-        CMapSelectionRaster ms;
-        ms.mapkey       = mapkey;
-        ms.description  = knownMaps[ms.mapkey].description;
+        CMapSelectionRaster * ms = new CMapSelectionRaster(this);
+        ms->mapkey       = mapkey;
+        ms->description  = knownMaps[mapkey].description;
 
-        theMap->select(ms, rect);
+        theMap->select(*ms, rect);
 
-        selectedMaps[ms.key] = ms;
+        selectedMaps[ms->key] = ms;
 
-        if(mapsearch) mapsearch->setArea(ms);
+        if(mapsearch) mapsearch->setArea(*ms);
         emit sigChanged();
     }
 

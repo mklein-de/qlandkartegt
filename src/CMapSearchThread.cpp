@@ -26,8 +26,10 @@
 CMapSearchThread::CMapSearchThread(QObject * parent)
 : QThread(parent)
 , threshold(0)
+, area(0)
 , zoomlevel(1)
 , go(true)
+
 {
     mask = new CImage(this);
 }

@@ -24,8 +24,10 @@
 class CMapSelectionGarmin : public IMapSelection
 {
     public:
-        CMapSelectionGarmin();
+        CMapSelectionGarmin(QObject * parent);
         virtual ~CMapSelectionGarmin();
+
+        void draw(QPainter& p){};
 };
 
 #endif //CMAPSELECTIONGARMIN_H

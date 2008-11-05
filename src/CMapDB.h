@@ -117,7 +117,7 @@ class CMapDB : public IDB
         /// get access to known map dictionary, CMapToolWidget only
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get access to selected map list, CMapToolWidget only
-        const QMap<QString,IMapSelection>& getSelectedMaps(){return selectedMaps;}
+        const QMap<QString,IMapSelection*>& getSelectedMaps(){return selectedMaps;}
 
         void closeVisibleMaps();
 
@@ -143,6 +143,6 @@ class CMapDB : public IDB
 #endif
         QPointer<CMapSearchWidget> mapsearch;
 
-        QMap<QString,IMapSelection> selectedMaps;
+        QMap<QString,IMapSelection*> selectedMaps;
 };
 #endif                           //CMAPDB_H

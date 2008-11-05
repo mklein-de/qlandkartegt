@@ -18,7 +18,8 @@
 **********************************************************************************************/
 #include "CMapSelectionGarmin.h"
 
-CMapSelectionGarmin::CMapSelectionGarmin()
+CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
+: IMapSelection(eGarmin, parent)
 {
     type = eGarmin;
 

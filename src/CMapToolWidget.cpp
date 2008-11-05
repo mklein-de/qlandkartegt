@@ -107,21 +107,17 @@ void CMapToolWidget::slotDBChanged()
     }
 
     listSelectedMaps->clear();
-    const QMap<QString,IMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     {
         QListWidgetItem * selected = 0;
-        QMap<QString,IMapSelection>::const_iterator map = selectedMaps.begin();
+        QMap<QString,IMapSelection*>::const_iterator map = selectedMaps.begin();
         while(map != selectedMaps.end()) {
             QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
-            QString pos1, pos2;
 
-            GPS_Math_Deg_To_Str(map->lon1 * RAD_TO_DEG, map->lat1 * RAD_TO_DEG, pos1);
-            GPS_Math_Deg_To_Str(map->lon2 * RAD_TO_DEG, map->lat2 * RAD_TO_DEG, pos2);
+            item->setText((*map)->description);
+            item->setData(Qt::UserRole, (*map)->key);
 
-            item->setText(QString("%1\n%2\n%3").arg(map->description).arg(pos1).arg(pos2));
-            item->setData(Qt::UserRole, map.key());
-
-            if(IMapSelection::focusedMap == map.key()) selected = item;
+            if(IMapSelection::focusedMap == (*map)->key) selected = item;
             ++map;
         }
 
@@ -160,10 +156,11 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 {
     QString key = item->data(Qt::UserRole).toString();
 
-    const QMap<QString,IMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     if(selectedMaps.contains(key)) {
-        const IMapSelection& ms = selectedMaps[key];
-        CMapDB::self().getMap().zoom(ms.lon1, ms.lat1, ms.lon2, ms.lat2);
+        const IMapSelection * ms = selectedMaps[key];
+
+        CMapDB::self().getMap().zoom(ms->lon1, ms->lat1, ms->lon2, ms->lat2);
         CMapDB::self().selSelectedMap(key);
     }
 
@@ -232,7 +229,7 @@ void CMapToolWidget::slotDeleteSelectedMap()
 
 void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
 {
-    const QMap<QString,IMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     QString key = item->data(Qt::UserRole).toString();
     if(selectedMaps.contains(key)) {
         IMapSelection::focusedMap = key;
@@ -265,10 +262,10 @@ void CMapToolWidget::slotExportMap()
     if(!CMapDB::self().getSelectedMaps().contains(key)) return;
 
 
-    const QMap<QString,IMapSelection>& selectedMaps = CMapDB::self().getSelectedMaps();
-    const IMapSelection& ms = selectedMaps[key];
-    if(ms.type == IMapSelection::eRaster){
-        CMapQMAPExport dlg((CMapSelectionRaster&)ms,this);
+    const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
+    const IMapSelection * ms = selectedMaps[key];
+    if(ms->type == IMapSelection::eRaster){
+        CMapQMAPExport dlg((CMapSelectionRaster&)*ms,this);
         dlg.exec();
     }
 }
