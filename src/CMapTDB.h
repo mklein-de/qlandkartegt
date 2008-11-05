@@ -53,7 +53,7 @@ class CMapTDB : public IMap
         void draw(const QSize& s, bool needsRedraw, QPainter& p);
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void registerDEM(CMapDEM& dem);
-        void select(CMapSelection& ms, const QRect& rect);
+        void select(IMapSelection& ms, const QRect& rect);
 
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);
@@ -273,5 +273,15 @@ class CMapTDB : public IMap
         QPoint          topLeftInfo;
 
         QPoint          pointFocus;
+
+        struct definitionarea_t
+        {
+            QString         file;
+            QString         name;
+            QVector<double> u;
+            QVector<double> v;
+        };
+
+        QMap<QString, definitionarea_t> definitionAreas;
 };
 #endif                           //CMAPTDB_H

@@ -39,7 +39,7 @@ CMapSearchThread::~CMapSearchThread()
 }
 
 
-void CMapSearchThread::start(const int th, const QImage& m, const CMapSelection& ms)
+void CMapSearchThread::start(const int th, const QImage& m, const CMapSelectionRaster& ms)
 {
     if(isRunning()) return;
 

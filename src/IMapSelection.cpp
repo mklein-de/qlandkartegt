@@ -16,47 +16,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CMAPSEARCHTHREAD_H
-#define CMAPSEARCHTHREAD_H
 
-#include <QThread>
-#include <QPixmap>
-#include <QList>
-#include <QPoint>
-#include <QMutex>
-#include "CMapSelectionRaster.h"
+#include "IMapSelection.h"
 
-class CImage;
-
-class CMapSearchThread : public QThread
-{
-    Q_OBJECT;
-    public:
-        CMapSearchThread(QObject * parent);
-        virtual ~CMapSearchThread();
-
-        void start(const int threshold, const QImage& mask, const CMapSelectionRaster& mapsel);
-
-        const QList<QPoint>& getLastResult(){return symbols;}
-
-        void cancel();
-
-        signals:
-        void sigProgress(const QString& status, const int progress);
-
-    protected:
-        void run();
-
-    private:
-        QString mapfilename;
-
-        int threshold;
-        CMapSelectionRaster area;
-        CImage * mask;
-        qint32 zoomlevel;
-        QList<QPoint> symbols;
-        QMutex mutex;
-        bool go;
-
-};
-#endif                           //CMAPSEARCHTHREAD_H
+QString IMapSelection::focusedMap;

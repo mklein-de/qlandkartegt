@@ -637,6 +637,13 @@ void CMapTDB::readTDB(const QString& filename)
                     cfg.endGroup();
                 }
 
+                QString key2 = QString("%1").arg(p->id,8,10,QChar('0'));
+                definitionarea_t& defarea   = definitionAreas[key2];
+                defarea.file                = tile.file;
+                defarea.name                = tile.name;
+                defarea.u << tile.west << tile.east << tile.east << tile.west;
+                defarea.v << tile.north << tile.north << tile.south << tile.south;
+
 //                                 qDebug() << "tile:\t\t" << tile.file;
 //                                 qDebug() << "name:\t\t" << tile.name;
 //                                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
@@ -778,6 +785,23 @@ bool CMapTDB::processPrimaryMapData()
     }
 #endif
 
+    // read basemap for tile boundary polygons
+    polygons.clear();
+    polylines.clear();
+    pois.clear();
+    points.clear();
+    labels.clear();
+    baseimg->loadVisibleData(false, polygons, polylines, points, pois, maplevels[0].level, area);
+
+    polytype_t::iterator item = polygons.begin();
+    while (item != polygons.end()) {
+        if((item->type == 0x4a) && (item->labels.size() > 1) && definitionAreas.contains(item->labels[1])){
+            definitionarea_t& defarea = definitionAreas[item->labels[1]];
+            defarea.u = item->u;
+            defarea.v = item->v;
+        }
+        ++item;
+    }
     return true;
 }
 
@@ -1063,13 +1087,13 @@ void CMapTDB::draw()
     labels.clear();
 
     if(maplevel->useBaseMap) {
-        baseimg->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
+        baseimg->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, viewport);
     }
     else {
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
         while(tile != tiles.end()) {
             if(tile->img && tile->area.intersects(viewport)) {
-                tile->img->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, zoomFactor, viewport);
+                tile->img->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, viewport);
             }
             ++tile;
         }
@@ -1505,7 +1529,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 }
 
 
-void CMapTDB::select(CMapSelection& ms, const QRect& rect)
+void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 {
 
 }

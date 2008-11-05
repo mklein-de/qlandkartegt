@@ -23,13 +23,13 @@
 #include <QProcess>
 #include "ui_IMapQMAPExport.h"
 
-class CMapSelection;
+class CMapSelectionRaster;
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
     Q_OBJECT;
     public:
-        CMapQMAPExport(const CMapSelection& mapsel, QWidget * parent);
+        CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent);
         virtual ~CMapQMAPExport();
 
     private slots:
@@ -40,7 +40,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished( int exitCode, QProcess::ExitStatus status);
 
     private:
-        const CMapSelection& mapsel;
+        const CMapSelectionRaster& mapsel;
 
         QProcess cmd;
 

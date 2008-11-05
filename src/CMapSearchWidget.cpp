@@ -147,7 +147,7 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 }
 
 
-void CMapSearchWidget::setArea(const CMapSelection& ms)
+void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
 {
     area = ms;
     QString pos1, pos2;

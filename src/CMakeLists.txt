@@ -36,7 +36,9 @@ set(qlandkarte_SRCS
     CMapQMAPExport.cpp
     CMapRaster.cpp
     CMapGeoTiff.cpp
-    CMapSelection.cpp
+    IMapSelection.cpp
+    CMapSelectionRaster.cpp
+    CMapSelectionGarmin.cpp
     CMapSearchWidget.cpp
     CMapSearchCanvas.cpp
     CMapSearchThread.cpp
@@ -148,7 +150,9 @@ set(qlandkarte_HDRS
     CMapQMAPExport.h
     CMapRaster.h
     CMapGeoTiff.h
-    CMapSelection.h
+    IMapSelection.h
+    CMapSelectionRaster.h
+    CMapSelectionGarmin.h
     CMapSearchWidget.h
     CMapSearchCanvas.h
     CMapSearchThread.h

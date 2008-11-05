@@ -165,8 +165,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
 
-//oe remove again!
-//         theMap->addOverlayMap("/home/oeichler/data/MapsGarmin/FAMILY_536/product.tdb");
     }
     else if(ext == "tdb") {
         CMapTDB * maptdb;
@@ -233,8 +231,6 @@ void CMapDB::openMap(const QString& key)
             theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
         }
 
-//oe remove again!
-//         theMap->addOverlayMap("/home/oeichler/data/MapsGarmin/FAMILY_536/product.tdb");
 
     }
     else if(ext == "tdb") {
@@ -335,8 +331,8 @@ void CMapDB::selSelectedMap(const QString& key)
 {
     if(!selectedMaps.contains(key)) return;
 
-    const CMapSelection& ms = selectedMaps[key];
-    if(mapsearch) mapsearch->setArea(ms);
+    IMapSelection * ms = &selectedMaps[key];
+    if(mapsearch && (ms->type == IMapSelection::eRaster)) mapsearch->setArea((CMapSelectionRaster&)*ms);
 }
 
 
@@ -386,36 +382,37 @@ void CMapDB::draw(QPainter& p, const QRect& rect)
         return;
     }
 
-    CMapSelection ms;
-    foreach(ms, selectedMaps) {
-
-        QString pos1, pos2;
-
-        GPS_Math_Deg_To_Str(ms.lon1 * RAD_TO_DEG, ms.lat1 * RAD_TO_DEG, pos1);
-        GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
-
-        theMap->convertRad2Pt(ms.lon1, ms.lat1);
-        theMap->convertRad2Pt(ms.lon2, ms.lat2);
-
-        p.setBrush(QColor(150,150,255,100));
-
-        if(ms.focusedMap == ms.key) {
-            p.setPen(QPen(Qt::red,2));
-        }
-        else if(ms.mapkey == theMap->getKey()) {
-            p.setPen(QPen(Qt::darkBlue,2));
-        }
-        else {
-            p.setPen(QPen(Qt::gray,2));
-        }
-
-        QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
-        if(rect.intersects(r)) {
-            p.drawRect(r);
-        }
-
-        CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
-    }
+//oe TODO
+//     IMapSelection ms;
+//     foreach(ms, selectedMaps) {
+//
+//         QString pos1, pos2;
+//
+//         GPS_Math_Deg_To_Str(ms.lon1 * RAD_TO_DEG, ms.lat1 * RAD_TO_DEG, pos1);
+//         GPS_Math_Deg_To_Str(ms.lon2 * RAD_TO_DEG, ms.lat2 * RAD_TO_DEG, pos2);
+//
+//         theMap->convertRad2Pt(ms.lon1, ms.lat1);
+//         theMap->convertRad2Pt(ms.lon2, ms.lat2);
+//
+//         p.setBrush(QColor(150,150,255,100));
+//
+//         if(ms.focusedMap == ms.key) {
+//             p.setPen(QPen(Qt::red,2));
+//         }
+//         else if(ms.mapkey == theMap->getKey()) {
+//             p.setPen(QPen(Qt::darkBlue,2));
+//         }
+//         else {
+//             p.setPen(QPen(Qt::gray,2));
+//         }
+//
+//         QRect r(ms.lon1, ms.lat1, ms.lon2 - ms.lon1, ms.lat2 - ms.lat1);
+//         if(rect.intersects(r)) {
+//             p.drawRect(r);
+//         }
+//
+//         CCanvas::drawText(QString("%1\n%2\n%3").arg(ms.description).arg(pos1).arg(pos2),p,r);
+//     }
 }
 
 
@@ -452,30 +449,23 @@ void CMapDB::searchMap()
 
 void CMapDB::select(const QRect& rect)
 {
-    CMapSelection ms;
-    ms.mapkey = theMap->getKey();
-    if(ms.mapkey.isEmpty()) {
+    QString mapkey = theMap->getKey();
+    if(mapkey.isEmpty()) {
         QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
-    ms.description = knownMaps[ms.mapkey].description;
-//
-//     ms.lon1 = rect.left();
-//     ms.lat1 = rect.top();
-//     theMap->convertPt2Rad(ms.lon1, ms.lat1);
-//
-//     ms.lon2 = rect.right();
-//     ms.lat2 = rect.bottom();
-//     theMap->convertPt2Rad(ms.lon2, ms.lat2);
-//
-//     ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
+    if(theMap->maptype == IMap::eRaster){
+        CMapSelectionRaster ms;
+        ms.mapkey       = mapkey;
+        ms.description  = knownMaps[ms.mapkey].description;
 
-    theMap->select(ms, rect);
+        theMap->select(ms, rect);
 
-    selectedMaps[ms.key] = ms;
+        selectedMaps[ms.key] = ms;
 
-    if(mapsearch) mapsearch->setArea(ms);
+        if(mapsearch) mapsearch->setArea(ms);
+        emit sigChanged();
+    }
 
-    emit sigChanged();
 }

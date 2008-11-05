@@ -23,6 +23,7 @@
 #include "CMapDEM.h"
 #include "GeoMath.h"
 #include "CCanvas.h"
+#include "CMapSelectionRaster.h"
 
 #include <QtGui>
 
@@ -454,4 +455,21 @@ void CMapQMAP::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysc
     p2          = bottomRight;
     my_xscale   = map->xscale*zoomFactor;
     my_yscale   = map->yscale*zoomFactor;
+}
+
+void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
+{
+    if(ms.type != IMapSelection::eRaster) return;
+
+    CMapSelectionRaster& sel = (CMapSelectionRaster&)ms;
+
+    sel.lon1 = rect.left();
+    sel.lat1 = rect.top();
+    convertPt2Rad(sel.lon1, sel.lat1);
+
+    sel.lon2 = rect.right();
+    sel.lat2 = rect.bottom();
+    convertPt2Rad(sel.lon2, sel.lat2);
+
+    sel.key = QString("%1%2%3").arg(sel.mapkey).arg(sel.lon1).arg(sel.lat1);
 }

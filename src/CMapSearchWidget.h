@@ -19,7 +19,7 @@
 #ifndef CMAPSEARCHWIDGET_H
 #define CMAPSEARCHWIDGET_H
 
-#include "CMapSelection.h"
+#include "CMapSelectionRaster.h"
 #include <QWidget>
 #include <QPointer>
 #include "ui_IMapSearchWidget.h"
@@ -36,7 +36,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         CMapSearchWidget(QWidget * parent);
         virtual ~CMapSearchWidget();
 
-        void setArea(const CMapSelection& ms);
+        void setArea(const CMapSelectionRaster& ms);
 
     private slots:
         void slotSelectArea();
@@ -56,7 +56,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void loadMaskCollection();
         void checkGui();
 
-        CMapSelection area;
+        CMapSelectionRaster area;
         QPointer<CMapSearchCanvas> canvas;
         CImage * mask;
 

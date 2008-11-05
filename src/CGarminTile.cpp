@@ -476,7 +476,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 }
 
 
-void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, double scale, const QRectF& viewport)
+void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport)
 {
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)) {

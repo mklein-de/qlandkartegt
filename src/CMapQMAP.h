@@ -63,6 +63,7 @@ class CMapQMAP : public IMap
         qint32 getZoomLevel();
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+        void select(IMapSelection& ms, const QRect& rect);
 
     private:
         friend class CExportMapThread;

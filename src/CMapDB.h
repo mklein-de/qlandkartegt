@@ -22,7 +22,7 @@
 #include "IDB.h"
 #include "IMap.h"
 #include "CMapNoMap.h"
-#include "CMapSelection.h"
+#include "IMapSelection.h"
 #include <QList>
 #include <QMap>
 #include <QPointer>
@@ -117,7 +117,7 @@ class CMapDB : public IDB
         /// get access to known map dictionary, CMapToolWidget only
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
         /// get access to selected map list, CMapToolWidget only
-        const QMap<QString,CMapSelection>& getSelectedMaps(){return selectedMaps;}
+        const QMap<QString,IMapSelection>& getSelectedMaps(){return selectedMaps;}
 
         void closeVisibleMaps();
 
@@ -143,6 +143,6 @@ class CMapDB : public IDB
 #endif
         QPointer<CMapSearchWidget> mapsearch;
 
-        QMap<QString,CMapSelection> selectedMaps;
+        QMap<QString,IMapSelection> selectedMaps;
 };
 #endif                           //CMAPDB_H

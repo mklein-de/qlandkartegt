@@ -22,7 +22,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "CMapDEM.h"
-#include "CMapSelection.h"
+#include "IMapSelection.h"
 
 #include <QtGui>
 #include <math.h>
@@ -246,16 +246,4 @@ void IMap::slotResetFastDraw()
     emit sigChanged();
 }
 
-void IMap::select(CMapSelection& ms, const QRect& rect)
-{
-    ms.lon1 = rect.left();
-    ms.lat1 = rect.top();
-    convertPt2Rad(ms.lon1, ms.lat1);
-
-    ms.lon2 = rect.right();
-    ms.lat2 = rect.bottom();
-    convertPt2Rad(ms.lon2, ms.lat2);
-
-    ms.key = QString("%1%2%3").arg(ms.mapkey).arg(ms.lon1).arg(ms.lat1);
-}
 

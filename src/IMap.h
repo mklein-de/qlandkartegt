@@ -31,7 +31,7 @@
 class QPainter;
 class CCanvas;
 class CMapDEM;
-class CMapSelection;
+class IMapSelection;
 
 /// base class to any map render object
 class IMap : public QObject
@@ -197,7 +197,7 @@ class IMap : public QObject
         virtual bool hasOverlayMap(const QString& key);
 
         /// select map area for export or further processing
-        virtual void select(CMapSelection& ms, const QRect& rect);
+        virtual void select(IMapSelection& ms, const QRect& rect){};
 
         const maptype_e maptype;
     signals:

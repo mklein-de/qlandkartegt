@@ -16,17 +16,22 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
 **********************************************************************************************/
-#ifndef CMAPSELECTION_H
-#define CMAPSELECTION_H
+#ifndef IMAPSELECTION_H
+#define IMAPSELECTION_H
 
 #include <QString>
 
-class CMapSelection
+class IMapSelection
 {
     public:
-        CMapSelection() : lon1(0), lat1(0), lon2(0), lat2(0) {};
+        enum type_e {eNone, eRaster, eGarmin};
+
+        IMapSelection() : type(eNone), lon1(0), lat1(0), lon2(0), lat2(0) {};
+        virtual ~IMapSelection(){}
 
         static QString focusedMap;
+
+        type_e type;
         QString key;
         QString mapkey;
         QString description;
@@ -36,4 +41,6 @@ class CMapSelection
         double lat2;             ///< bottom right latitude [rad]
 
 };
-#endif                           //CMAPSELECTION_H
+
+#endif //IMAPSELECTION_H
+

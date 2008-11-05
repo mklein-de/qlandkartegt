@@ -18,14 +18,14 @@
 **********************************************************************************************/
 
 #include "CMapQMAPExport.h"
-#include "CMapSelection.h"
+#include "CMapSelectionRaster.h"
 #include "CMapDB.h"
 #include "CMapFile.h"
 #include "GeoMath.h"
 
 #include <QtGui>
 
-CMapQMAPExport::CMapQMAPExport(const CMapSelection& mapsel, QWidget * parent)
+CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
 , mapsel(mapsel)
 {
