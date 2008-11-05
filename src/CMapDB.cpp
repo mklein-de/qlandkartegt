@@ -33,6 +33,8 @@
 #   include "CMap3DWidget.h"
 #endif
 #include "CTabWidget.h"
+#include "CMapSelectionGarmin.h"
+#include "CMapSelectionRaster.h"
 
 #include <QtGui>
 
@@ -439,6 +441,15 @@ void CMapDB::select(const QRect& rect)
         selectedMaps[ms->key] = ms;
 
         if(mapsearch) mapsearch->setArea(*ms);
+        emit sigChanged();
+    }
+    else if(theMap->maptype == IMap::eVector){
+        CMapSelectionGarmin * ms = new CMapSelectionGarmin(this);
+        ms->mapkey       = mapkey;
+        ms->description  = "Garmin";
+        theMap->select(*ms, rect);
+
+        selectedMaps[ms->key] = ms;
         emit sigChanged();
     }
 
