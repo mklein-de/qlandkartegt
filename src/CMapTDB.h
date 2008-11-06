@@ -135,6 +135,7 @@ class CMapTDB : public IMap
 
         struct tile_t
         {
+            tile_t() : selected(false){}
             quint32 id;
             QString key;
             QString name;
@@ -148,6 +149,13 @@ class CMapTDB : public IMap
             //             QVector<XY> definitionArea;
             CGarminTile * img;
             quint32 memSize;
+
+            QPolygonF       defArea;
+            QVector<double> defAreaU;
+            QVector<double> defAreaV;
+
+
+            bool selected;
         };
 
         struct map_level_t
@@ -274,14 +282,5 @@ class CMapTDB : public IMap
 
         QPoint          pointFocus;
 
-        struct definitionarea_t
-        {
-            QString         file;
-            QString         name;
-            QVector<double> u;
-            QVector<double> v;
-        };
-
-        QMap<QString, definitionarea_t> definitionAreas;
 };
 #endif                           //CMAPTDB_H

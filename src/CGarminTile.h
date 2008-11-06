@@ -163,7 +163,7 @@ class CGarminTile : public QObject
             @param viewport the actual view port to draw in []
         */
         void loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport);
-
+        void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);

@@ -444,7 +444,14 @@ void CMapDB::select(const QRect& rect)
         emit sigChanged();
     }
     else if(theMap->maptype == IMap::eVector){
-        CMapSelectionGarmin * ms = new CMapSelectionGarmin(this);
+        IMapSelection * ms = 0;
+        if(selectedMaps.contains("gmapsupp")){
+            ms = selectedMaps["gmapsupp"];
+        }
+        else{
+            ms = new CMapSelectionGarmin(this);
+        }
+        ms->key          = "gmapsupp";
         ms->mapkey       = mapkey;
         ms->description  = "Garmin";
         theMap->select(*ms, rect);

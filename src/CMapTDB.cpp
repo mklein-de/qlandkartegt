@@ -27,6 +27,7 @@
 #include "CCanvas.h"
 #include "IUnit.h"
 #include "Platform.h"
+#include "CMapSelectionGarmin.h"
 
 #include <QtGui>
 #include <algorithm>
@@ -568,7 +569,8 @@ void CMapTDB::readTDB(const QString& filename)
                 QString tilename = QString::fromLatin1(p->name);
                 // produce a unique key form the tile name and it's ID. Some tiles
                 // might have the same name but never the same ID
-                QString key = QString("%1 (%2)").arg(tilename).arg(p->id,8,10,QChar('0'));
+                //QString key = QString("%1 %2").arg(tilename).arg(p->id,8,10,QChar('0'));
+                QString key = QString("%1").arg(p->id,8,10,QChar('0'));
 
                 tile_t& tile    = tiles[key];
                 tile.id         = p->id;
@@ -584,6 +586,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.south  = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
                 tile.west   = GARMIN_RAD((gar_load(qint32,p->west) >> 8)  & 0x00FFFFFF);
                 tile.area   = QRectF(QPointF(tile.west, tile.north), QPointF(tile.east, tile.south));
+
+                tile.defAreaU << tile.west << tile.east << tile.east << tile.west;
+                tile.defAreaV << tile.north << tile.north << tile.south << tile.south;
+                tile.defArea  << QPointF(tile.west, tile.north) << QPointF(tile.east, tile.north) << QPointF(tile.east, tile.south) << QPointF(tile.west, tile.south);
 
                 tile.memSize = 0;
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
@@ -636,18 +642,6 @@ void CMapTDB::readTDB(const QString& filename)
                     cfg.endGroup();
                     cfg.endGroup();
                 }
-
-                QString key2 = QString("%1").arg(p->id,8,10,QChar('0'));
-                definitionarea_t& defarea   = definitionAreas[key2];
-                defarea.file                = tile.file;
-                defarea.name                = tile.name;
-                defarea.u << tile.west << tile.east << tile.east << tile.west;
-                defarea.v << tile.north << tile.north << tile.south << tile.south;
-
-//                                 qDebug() << "tile:\t\t" << tile.file;
-//                                 qDebug() << "name:\t\t" << tile.name;
-//                                 qDebug() << "dimensions:\t" << "N" << tile.north << "E" << tile.east << "S" << tile.south << "W" << tile.west;
-//                                 qDebug() << "memsize:\t" << tile.memSize;
             }
             break;
 
@@ -786,22 +780,37 @@ bool CMapTDB::processPrimaryMapData()
 #endif
 
     // read basemap for tile boundary polygons
+    // Search all basemap levels for tile boundaries.
+    // More detailed polygons will overwrite least detailed ones
     polygons.clear();
-    polylines.clear();
-    pois.clear();
-    points.clear();
-    labels.clear();
-    baseimg->loadVisibleData(false, polygons, polylines, points, pois, maplevels[0].level, area);
+    for(int i=0; i < maplevels.count(); ++i) {
+        if(!maplevels[i].useBaseMap) break;
 
-    polytype_t::iterator item = polygons.begin();
-    while (item != polygons.end()) {
-        if((item->type == 0x4a) && (item->labels.size() > 1) && definitionAreas.contains(item->labels[1])){
-            definitionarea_t& defarea = definitionAreas[item->labels[1]];
-            defarea.u = item->u;
-            defarea.v = item->v;
+        baseimg->loadPolygonsOfType(polygons, 0x4a, maplevels[i].level);
+
+        polytype_t::iterator item = polygons.begin();
+        while (item != polygons.end()) {
+            if((item->labels.size() > 1) && tiles.contains(item->labels[1])){
+                tile_t& tile = tiles[item->labels[1]];
+
+                double * u = item->u.data();
+                double * v = item->v.data();
+                int N      = item->u.size();
+
+                tile.defArea.clear();
+
+                for(int n = 0; n < N; ++n, ++u, ++v){
+                    tile.defArea << QPointF(*u, *v);
+                }
+
+                tile.defAreaU = item->u;
+                tile.defAreaV = item->v;
+
+            }
+            ++item;
         }
-        ++item;
     }
+
     return true;
 }
 
@@ -1531,5 +1540,54 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 
 void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 {
+    CMapSelectionGarmin& sel = (CMapSelectionGarmin&)ms;
 
+    double lon1 = rect.left();
+    double lat1 = rect.top();
+    convertPt2Rad(lon1, lat1);
+
+    double lon2 = rect.right();
+    double lat2 = rect.bottom();
+    convertPt2Rad(lon2, lat2);
+
+    QPolygonF poly;
+    poly << QPointF(lon1, lat1) << QPointF(lon2, lat1) << QPointF(lon2, lat2) << QPointF(lon1, lat2);
+
+
+    if(!sel.maps.contains(key)){
+        sel.maps[key];
+    }
+    QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
+
+    QMap<QString,tile_t>::iterator tile = tiles.begin();
+    while(tile != tiles.end()){
+        QPolygonF res = poly.intersected(tile->defArea);
+
+        if(!res.isEmpty()){
+
+            if(map->tiles.contains(tile->key)){
+                qDebug() << "-" << tile->key;
+
+                map->tiles.remove(tile->key);
+            }
+            else{
+                qDebug() << "+" << tile->key;
+
+                CMapSelectionGarmin::tile_t t;
+                t.filename  = tile->file;
+                t.u         = tile->defAreaU;
+                t.v         = tile->defAreaV;
+                t.memSize   = tile->memSize;
+                map->tiles[tile->key] = t;
+            }
+        }
+
+        ++tile;
+    }
+
+    sel.maps[key] = *map;
+
+
+    quint32 memSize = 0;
+    sel.description += QString("\nSize: %1 MB").arg(memSize / (1024 * 1024));
 }

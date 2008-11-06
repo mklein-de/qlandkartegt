@@ -21,13 +21,32 @@
 
 #include "IMapSelection.h"
 
+#include <QVector>
+#include <QMap>
+
 class CMapSelectionGarmin : public IMapSelection
 {
     public:
         CMapSelectionGarmin(QObject * parent);
         virtual ~CMapSelectionGarmin();
 
-        void draw(QPainter& p){};
+        void draw(QPainter& p, const QRect& rect);
+
+        struct tile_t
+        {
+            QString filename;
+            QVector<double> u;
+            QVector<double> v;
+            quint32 memSize;
+        };
+
+        struct map_t
+        {
+            QMap<QString, tile_t> tiles;
+        };
+
+        QMap<QString, map_t> maps;
+
 };
 
 #endif //CMAPSELECTIONGARMIN_H

@@ -649,9 +649,114 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             else if(strtbl && p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
-            //             if(polygon.type == 0x4a && polygon.labels.size() > 1) {
-            //                 subfile.definitionAreas[polygon.labels[1]] = polygon;
-            //             }
+//             if(p.type == 0x4a) {
+//                 qDebug() << p.labels;
+//             }
         }
+    }
+}
+
+void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
+    while(subfile != subfiles.end()) {
+
+        QByteArray rgndata;
+        readFile(file, subfile->parts["RGN"].offset, subfile->parts["RGN"].size, rgndata);
+
+        const QVector<subdiv_desc_t>&  subdivs = subfile->subdivs;
+        // collect polylines
+        QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
+        while(subdiv != subdivs.end()) {
+
+            if(subdiv->level != level) {
+                ++subdiv;
+                continue;
+            }
+
+
+            if(subdiv->rgn_start == subdiv->rgn_end) return;
+
+            const quint8 * pRawData = (quint8*)rgndata.data();
+
+            quint32 opnt = 0, oidx = 0, opline = 0, opgon = 0;
+            quint32 objCnt = subdiv->hasIdxPoints + subdiv->hasPoints + subdiv->hasPolylines + subdiv->hasPolygons;
+
+            quint16 * pOffset = (quint16*)(pRawData + subdiv->rgn_start);
+
+            // test for points
+            if(subdiv->hasPoints) {
+                opnt = (objCnt - 1) * sizeof(quint16) + subdiv->rgn_start;
+            }
+            // test for indexed points
+            if(subdiv->hasIdxPoints) {
+                if(opnt) {
+                    oidx = gar_load(uint16_t, *pOffset);
+                    oidx += subdiv->rgn_start;
+                    ++pOffset;
+                }
+                else {
+                    oidx = (objCnt - 1) * sizeof(quint16) + subdiv->rgn_start;
+                }
+
+            }
+            // test for polylines
+            if(subdiv->hasPolylines) {
+                if(opnt || oidx) {
+                    opline = gar_load(uint16_t, *pOffset);
+                    opline += subdiv->rgn_start;
+                    ++pOffset;
+                }
+                else {
+                    opline = (objCnt - 1) * sizeof(quint16) + subdiv->rgn_start;
+                }
+            }
+            // test for polygons
+            if(subdiv->hasPolygons) {
+                if(opnt || oidx || opline) {
+                    opgon = gar_load(uint16_t, *pOffset);
+                    opgon += subdiv->rgn_start;
+                    ++pOffset;
+                }
+                else {
+                    opgon = (objCnt - 1) * sizeof(quint16) + subdiv->rgn_start;
+                }
+            }
+
+            const quint8 *  pData;
+            const quint8 *  pEnd;
+
+            // decode polygons
+            if(subdiv->hasPolygons) {
+                pData = pRawData + opgon;
+                pEnd  = pRawData + subdiv->rgn_end;
+                while(pData < pEnd) {
+                    polygons.push_back(CGarminPolygon());
+                    CGarminPolygon& p = polygons.last();
+                    pData += p.decode(subdiv->iCenterLng, subdiv->iCenterLat, subdiv->shift, false, pData);
+
+                    if(p.type != type){
+                        polygons.pop_back();
+                    }
+                    else {
+
+                        if(subfile->strtbl && !p.lbl_in_NET && p.lbl_info) {
+                            subfile->strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+                        }
+                        else if(subfile->strtbl && p.lbl_in_NET && p.lbl_info) {
+                            subfile->strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
+                        }
+                    }
+                }
+            }
+
+            ++subdiv;
+        }
+        ++subfile;
     }
 }

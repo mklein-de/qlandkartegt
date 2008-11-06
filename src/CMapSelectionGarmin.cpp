@@ -17,6 +17,10 @@
 
 **********************************************************************************************/
 #include "CMapSelectionGarmin.h"
+#include "CMapDB.h"
+#include "IMap.h"
+
+#include <QtGui>
 
 CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eGarmin, parent)
@@ -30,3 +34,49 @@ CMapSelectionGarmin::~CMapSelectionGarmin()
 
 }
 
+void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
+{
+    int n;
+    IMap& theMap = CMapDB::self().getMap();
+
+    p.setBrush(QColor(150,150,255,100));
+
+    QMap<QString,map_t>::const_iterator map = maps.begin();
+    while(map != maps.end()){
+
+
+        if(focusedMap == map.key()) {
+            p.setPen(QPen(Qt::red,2));
+        }
+        else if(map.key() == theMap.getKey()) {
+            p.setPen(QPen(Qt::darkBlue,2));
+        }
+        else {
+            p.setPen(QPen(Qt::gray,2));
+        }
+
+
+        QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
+        while(tile != map->tiles.end()){
+
+            const QVector<double>& u = tile->u;
+            const QVector<double>& v = tile->v;
+
+            QPolygonF line;
+            int N = u.size();
+            for(n = 0; n < N; ++n){
+                double x = u[n];
+                double y = v[n];
+                theMap.convertRad2Pt(x,y);
+                line << QPointF(x,y);
+            }
+
+            if(rect.intersects(line.boundingRect().toRect())){
+                p.drawPolygon(line);
+            }
+
+            ++tile;
+        }
+        ++map;
+    }
+}

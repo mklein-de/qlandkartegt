@@ -29,17 +29,7 @@ class CMapSelectionRaster : public IMapSelection
 
         void draw(QPainter& p, const QRect& rect);
 
-        void operator=(const CMapSelectionRaster& ms)
-        {
-            key         = ms.key;
-            mapkey      = ms.mapkey;
-            description = ms.description;
 
-            lon1        = ms.lon1;
-            lat1        = ms.lat1;
-            lon2        = ms.lon2;
-            lat2        = ms.lat2;
-        }
 
 };
 
