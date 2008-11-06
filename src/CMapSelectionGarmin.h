@@ -32,6 +32,8 @@ class CMapSelectionGarmin : public IMapSelection
 
         void draw(QPainter& p, const QRect& rect);
 
+        quint32 getMemSize();
+
         struct tile_t
         {
             QString filename;

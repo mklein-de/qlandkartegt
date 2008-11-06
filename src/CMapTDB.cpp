@@ -1587,7 +1587,6 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 
     sel.maps[key] = *map;
 
-
-    quint32 memSize = 0;
+    quint32 memSize = sel.getMemSize();
     sel.description += QString("\nSize: %1 MB").arg(memSize / (1024 * 1024));
 }

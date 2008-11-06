@@ -453,7 +453,7 @@ void CMapDB::select(const QRect& rect)
         }
         ms->key          = "gmapsupp";
         ms->mapkey       = mapkey;
-        ms->description  = "Garmin";
+        ms->description  = "Garmin - gmapsupp.img";
         theMap->select(*ms, rect);
 
         selectedMaps[ms->key] = ms;
