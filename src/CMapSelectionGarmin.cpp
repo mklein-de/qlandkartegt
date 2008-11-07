@@ -21,12 +21,12 @@
 #include "IMap.h"
 
 #include <QtGui>
+#include <projects.h>
 
 CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eGarmin, parent)
+, tilecnt(0)
 {
-    type = eGarmin;
-
 }
 
 CMapSelectionGarmin::~CMapSelectionGarmin()
@@ -44,13 +44,15 @@ void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
     QMap<QString,map_t>::const_iterator map = maps.begin();
     while(map != maps.end()){
 
-        if(map.key() == theMap.getKey()) {
+        if(focusedMap == "gmapsupp"){
             p.setPen(QPen(Qt::red,2));
+        }
+        else if(map.key() == theMap.getKey()) {
+            p.setPen(QPen(Qt::darkBlue,2));
         }
         else {
             p.setPen(QPen(Qt::gray,2));
         }
-
 
         QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
         while(tile != map->tiles.end()){
@@ -87,10 +89,35 @@ quint32 CMapSelectionGarmin::getMemSize()
         QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
         while(tile != map->tiles.end()){
             memSize += tile->memSize;
-            qDebug() << tile->filename;
             ++tile;
         }
         ++map;
     }
     return memSize;
+}
+
+void CMapSelectionGarmin::calcArea()
+{
+    tilecnt = 0;
+
+    lat1 =  -90.0 * DEG_TO_RAD;
+    lon2 = -180.0 * DEG_TO_RAD;
+    lat2 =   90.0 * DEG_TO_RAD;
+    lon1 =  180.0 * DEG_TO_RAD;
+
+    QMap<QString,map_t>::const_iterator map = maps.begin();
+    while(map != maps.end()){
+
+        QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
+        while(tile != map->tiles.end()){
+            const QRectF& r = tile->area;
+            if(lat1 < r.top())      lat1 = r.top();
+            if(lon2 < r.right())    lon2 = r.right();
+            if(lat2 > r.bottom())   lat2 = r.bottom();
+            if(lon1 > r.left())     lon1 = r.left();
+
+            ++tile; ++tilecnt;
+        }
+        ++map;
+    }
 }

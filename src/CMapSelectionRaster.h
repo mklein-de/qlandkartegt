@@ -28,9 +28,6 @@ class CMapSelectionRaster : public IMapSelection
         virtual ~CMapSelectionRaster();
 
         void draw(QPainter& p, const QRect& rect);
-
-
-
 };
 
 #endif //CMAPSELECTIONRASTER_H

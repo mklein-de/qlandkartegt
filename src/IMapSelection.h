@@ -47,6 +47,8 @@ class IMapSelection : public QObject
 
         virtual void draw(QPainter& p, const QRect& rect){};
 
+        virtual bool isEmpty(){return false;}
+
         static QString focusedMap;
 
         type_e type;

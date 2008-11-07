@@ -23,6 +23,7 @@
 
 #include <QVector>
 #include <QMap>
+#include <QRectF>
 
 class CMapSelectionGarmin : public IMapSelection
 {
@@ -32,7 +33,10 @@ class CMapSelectionGarmin : public IMapSelection
 
         void draw(QPainter& p, const QRect& rect);
 
+        bool isEmpty(){return tilecnt == 0;}
+
         quint32 getMemSize();
+        void calcArea();
 
         struct tile_t
         {
@@ -40,6 +44,7 @@ class CMapSelectionGarmin : public IMapSelection
             QVector<double> u;
             QVector<double> v;
             quint32 memSize;
+            QRectF area;
         };
 
         struct map_t
@@ -49,6 +54,7 @@ class CMapSelectionGarmin : public IMapSelection
 
         QMap<QString, map_t> maps;
 
+        quint32 tilecnt;
 };
 
 #endif //CMAPSELECTIONGARMIN_H

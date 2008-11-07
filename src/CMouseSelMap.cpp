@@ -65,7 +65,17 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
     if(e->button() == Qt::LeftButton) {
         selMap = false;
         resizeRect(e->pos());
-        CMapDB::self().select(rect.normalized());
+
+        rect = rect.normalized();
+
+        if(rect.width() < 2){
+            rect.setWidth(2);
+        }
+        if(rect.height() < 2){
+            rect.setHeight(2);
+        }
+
+        CMapDB::self().select(rect);
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }

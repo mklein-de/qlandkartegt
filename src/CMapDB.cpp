@@ -440,7 +440,13 @@ void CMapDB::select(const QRect& rect)
 
         selectedMaps[ms->key] = ms;
 
-        if(mapsearch) mapsearch->setArea(*ms);
+        if(ms->isEmpty()){
+            delete selectedMaps.take(ms->key);
+        }
+        else if(mapsearch){
+            mapsearch->setArea(*ms);
+        }
+
         emit sigChanged();
     }
     else if(theMap->maptype == IMap::eVector){
@@ -457,6 +463,11 @@ void CMapDB::select(const QRect& rect)
         theMap->select(*ms, rect);
 
         selectedMaps[ms->key] = ms;
+
+        if(ms->isEmpty()){
+            delete selectedMaps.take(ms->key);
+        }
+
         emit sigChanged();
     }
 
