@@ -235,7 +235,7 @@ const QString CMapTDB::polyline_typestr[]=
 };
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
-: IMap(eVector, key, parent)
+: IMap(eGarmin, key, parent)
 , filename(filename)
 , north(-90.0)
 , east(-180.0)
@@ -286,7 +286,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 }
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename)
-: IMap(eVector, key, 0)
+: IMap(eGarmin, key, 0)
 , filename(filename)
 , north(-90.0)
 , east(-180.0)

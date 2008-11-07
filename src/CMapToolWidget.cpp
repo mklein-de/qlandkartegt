@@ -46,7 +46,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapDoubleClicked(QTreeWidgetItem*, int)));
 
     contextMenuSelectedMaps = new QMenu(this);
-    contextMenuSelectedMaps->addAction(QPixmap(),tr("<---->"));
+    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconFileSave16x16.png"),tr("Export"),this,SLOT(slotExportMap()()));
     contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteSelectedMap()));
     connect(listSelectedMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuSelectedMaps(const QPoint&)));
     connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
@@ -76,7 +76,7 @@ void CMapToolWidget::slotDBChanged()
             QTreeWidgetItem * item = new QTreeWidgetItem(treeKnownMaps);
             item->setText(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
-            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eVector ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
+            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
             item->setData(eType, Qt::UserRole, map->type);
             if(map.key() == key){
                 selected = item;
@@ -87,7 +87,7 @@ void CMapToolWidget::slotDBChanged()
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlayActive);
             }
-            else if(map->type == IMap::eVector){
+            else if(map->type == IMap::eGarmin){
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlay);
             }
@@ -247,13 +247,6 @@ void CMapToolWidget::updateExportButton()
 
 void CMapToolWidget::slotExportMap()
 {
-    bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
-    bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
-    bool haveGDAL = haveGDALWarp && haveGDALTranslate;
-    if(!haveGDAL) {
-        QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);
-        return;
-    }
 
     QListWidgetItem * item  = listSelectedMaps->currentItem();
     if(item == 0) return;
@@ -261,12 +254,22 @@ void CMapToolWidget::slotExportMap()
     QString key             = item->data(Qt::UserRole).toString();
     if(!CMapDB::self().getSelectedMaps().contains(key)) return;
 
-
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     const IMapSelection * ms = selectedMaps[key];
     if(ms->type == IMapSelection::eRaster){
+        bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
+        bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
+        bool haveGDAL = haveGDALWarp && haveGDALTranslate;
+        if(!haveGDAL) {
+            QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);
+            return;
+        }
+
         CMapQMAPExport dlg((CMapSelectionRaster&)*ms,this);
         dlg.exec();
+    }
+    if(ms->type == IMapSelection::eGarmin){
+
     }
 }
 

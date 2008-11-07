@@ -109,6 +109,7 @@ set(qlandkarte_SRCS
     CGarminPoint.cpp
     CMapTDB.cpp
     CGarminTile.cpp
+    CGarminExport.cpp
 )
 
 IF(WIN32)
@@ -224,6 +225,7 @@ set(qlandkarte_HDRS
     CMapTDB.h
     CGarminTile.h
     Garmin.h
+    CGarminExport.h
 )
 
 

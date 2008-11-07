@@ -72,7 +72,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
         m.key           = map;
-        m.type          = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eVector : IMap::eRaster;
+        m.type          = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : IMap::eRaster;
         knownMaps[m.key] = m;
     }
 
@@ -173,7 +173,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
         map.filename    = filename;
         map.key         = filename;
-        map.type        = IMap::eVector;
+        map.type        = IMap::eGarmin;
 
         theMap = maptdb = new CMapTDB(map.key, filename, &canvas);
 
@@ -255,7 +255,7 @@ IMap * CMapDB::createMap(const QString& key)
 {
     if(!knownMaps.contains(key)) return 0;
     const map_t& mapdesc = knownMaps[key];
-    if(mapdesc.type != IMap::eVector){
+    if(mapdesc.type != IMap::eGarmin){
         QMessageBox::critical(0, tr("Error..."), tr("Only vector maps are valid overlays."), QMessageBox::Abort, QMessageBox::Abort);
         return 0;
     }
@@ -449,7 +449,7 @@ void CMapDB::select(const QRect& rect)
 
         emit sigChanged();
     }
-    else if(theMap->maptype == IMap::eVector){
+    else if(theMap->maptype == IMap::eGarmin){
         IMapSelection * ms = 0;
         if(selectedMaps.contains("gmapsupp")){
             ms = selectedMaps["gmapsupp"];
