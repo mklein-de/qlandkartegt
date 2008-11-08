@@ -169,6 +169,8 @@ class CGarminTile : public QObject
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
         void loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
 
+        // share the structures
+        friend class CGarminExport;
 #pragma pack(1)
         // Garmin IMG file header structure, to the start of the FAT blocks
         struct hdr_img_t

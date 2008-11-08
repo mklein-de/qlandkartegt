@@ -23,6 +23,8 @@
 #include "GeoMath.h"
 #include "CMapQMAPExport.h"
 #include "CMapSelectionRaster.h"
+#include "CGarminExport.h"
+#include "CMapSelectionGarmin.h"
 
 #include <QtGui>
 
@@ -46,7 +48,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(treeKnownMaps,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapDoubleClicked(QTreeWidgetItem*, int)));
 
     contextMenuSelectedMaps = new QMenu(this);
-    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconFileSave16x16.png"),tr("Export"),this,SLOT(slotExportMap()()));
+    contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconFileSave16x16.png"),tr("Export"),this,SLOT(slotExportMap()));
     contextMenuSelectedMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteSelectedMap()));
     connect(listSelectedMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuSelectedMaps(const QPoint&)));
     connect(listSelectedMaps,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotSelectedMapClicked(QListWidgetItem*)));
@@ -269,7 +271,8 @@ void CMapToolWidget::slotExportMap()
         dlg.exec();
     }
     if(ms->type == IMapSelection::eGarmin){
-
+        CGarminExport dlg(this);
+        dlg.exportToFile((CMapSelectionGarmin&)*ms);
     }
 }
 

@@ -30,7 +30,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 , mapsel(mapsel)
 {
     setupUi(this);
-
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16"));
 
     QSettings cfg;

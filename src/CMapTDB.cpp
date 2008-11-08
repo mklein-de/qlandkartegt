@@ -1555,7 +1555,9 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 
 
     if(!sel.maps.contains(key)){
-        sel.maps[key];
+        CMapSelectionGarmin::map_t& m = sel.maps[key];
+        m.unlockKey = mapkey;
+        m.name      = name;
     }
     QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
 
@@ -1570,6 +1572,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
             }
             else{
                 CMapSelectionGarmin::tile_t t;
+                t.name      = tile->name;
                 t.filename  = tile->file;
                 t.u         = tile->defAreaU;
                 t.v         = tile->defAreaV;
@@ -1586,6 +1589,6 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     sel.calcArea();
 
     quint32 memSize = sel.getMemSize();
-    sel.description += QString("\nSize: %1 MB").arg(memSize / (1024 * 1024));
+    sel.description += QString("\nSize: %1 MB").arg(double(memSize) / (1024 * 1024), 0,'f',2);
     sel.description += QString("\nTiles: #%1").arg(sel.tilecnt);
 }

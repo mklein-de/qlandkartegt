@@ -255,7 +255,7 @@ SET(qlandkarte_UIS
     IDiaryEditWidget.ui
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
-
+    IGarminExport.ui
 )
 
 SET(qlandkarte_RCS

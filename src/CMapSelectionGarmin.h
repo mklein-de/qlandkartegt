@@ -40,6 +40,7 @@ class CMapSelectionGarmin : public IMapSelection
 
         struct tile_t
         {
+            QString name;
             QString filename;
             QVector<double> u;
             QVector<double> v;
@@ -49,6 +50,8 @@ class CMapSelectionGarmin : public IMapSelection
 
         struct map_t
         {
+            QString unlockKey;
+            QString name;
             QMap<QString, tile_t> tiles;
         };
 

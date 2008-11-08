@@ -20,13 +20,120 @@
 #define CGARMINEXPORT_H
 
 #include <QDialog>
+#include <QVector>
+#include "ui_IGarminExport.h"
 
-class CGarminExport : public QDialog
+class CMapSelectionGarmin;
+class QFile;
+class QByteArray;
+
+class CGarminExport : public QDialog, private Ui::IGarminExport
 {
     Q_OBJECT;
     public:
         CGarminExport(QWidget * parent);
         virtual ~CGarminExport();
+
+        void exportToFile(CMapSelectionGarmin& ms);
+
+    private slots:
+        void slotOutputPath();
+        void slotStart();
+
+    private:
+#pragma pack(1)
+        struct gmapsupp_imghdr_t
+        {
+            quint8  xorByte;             ///< 0x00000000
+            quint8  byte0x00000001_0x00000009[9];
+            quint8  upMonth;             ///< 0x0000000A
+            quint8  upYear;              ///< 0x0000000B
+            quint8  byte0x0000000C_0x0000000F[4];
+            char    signature[7];        ///< 0x00000010 .. 0x00000016
+            quint8  byte0x00000017_0x00000040[42];
+            char    identifier[7];       ///< 0x00000041 .. 0x00000047
+            quint8  byte0x00000048;
+            char    desc1[20];           ///< 0x00000049 .. 0x0000005C
+            quint8  byte0x0000005D_0x00000060[4];
+            quint8  e1;                  ///< 0x00000061
+            quint8  e2;                  ///< 0x00000062
+            quint16 nBlocks1;            ///< 0x00000063 .. 0x00000064
+            char    desc2[31];           ///< 0x00000065 .. 0x00000083
+            quint8  byte0x00000084_0x000001C9[0x146];
+            quint16 nBlocks2;            ///< 0x000001CA .. 0x000001CB // NEVER SET???
+            quint8  byte0x0000001CC_0x000001FD[0x32];
+            quint16 terminator;          ///< 0x000001FE .. 0x000001FF
+            quint8  byte0x00000200_0x0000040B[0x20C];
+            quint32 dataoffset;          ///< 0x0000040C .. 0x0000040F
+            quint8  byte0x00000410_0x00000FFF[0xBF0];
+
+            quint32 blocksize(){return 1 << (e1 + e2);}
+        };
+#ifdef WIN32
+#pragma pack()
+#else
+#pragma pack(0)
+#endif
+
+        // description of the TRE, RGN, ... parts of GMAPSUPP.IMG subfiles
+        struct gmapsupp_subfile_part_t
+        {
+            gmapsupp_subfile_part_t() : offset(0), size(0){}
+            /// file offset of subfile part
+            quint32 offset;
+            /// size of the subfile part
+            quint32 size;
+            /// label
+            QString key;
+        };
+
+        // GMAPSUPP.IMG IMG subfiles (i.e. the selected tile IMG files)
+        struct gmapsupp_subfile_desc_t
+        {
+            /// internal filename
+            QString name;
+            /// location information of all parts
+            QMap<QString,gmapsupp_subfile_part_t> parts;
+        };
+
+
+        enum exce_e {eErrOpen, eErrAccess, errFormat, errLock};
+        struct exce_t
+        {
+            exce_t(exce_e err, const QString& msg) : err(err), msg(msg){}
+            exce_e err;
+            QString msg;
+        };
+
+        struct map_t
+        {
+            QString map;
+            QString key;
+        };
+
+        struct tile_t
+        {
+            QString name;
+            QString filename;
+            quint32 memsize;
+            QMap<QString, gmapsupp_subfile_desc_t> subfiles;
+        };
+
+        void stdout(const QString& msg);
+        void stderr(const QString& msg);
+
+        void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data, quint8 mask);
+        void readTileInfo(tile_t& t);
+        void initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr);
+
+        QVector<map_t>  maps;
+        QVector<tile_t> tiles;
+
+        quint8  e1;
+        quint8  e2;
+        quint32 blocksize;
+
+        QByteArray header;
 };
 
 #endif //CGARMINEXPORT_H
