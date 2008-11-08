@@ -85,6 +85,10 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
             quint32 size;
             /// label
             QString key;
+
+            quint32 nBlocks;
+
+            quint32 nFATBlocks;
         };
 
         // GMAPSUPP.IMG IMG subfiles (i.e. the selected tile IMG files)
@@ -97,7 +101,7 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         };
 
 
-        enum exce_e {eErrOpen, eErrAccess, errFormat, errLock};
+        enum exce_e {eErrOpen, eErrAccess, errFormat, errLock, errLogic};
         struct exce_t
         {
             exce_t(exce_e err, const QString& msg) : err(err), msg(msg){}
@@ -133,7 +137,6 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         quint8  e2;
         quint32 blocksize;
 
-        QByteArray header;
 };
 
 #endif //CGARMINEXPORT_H

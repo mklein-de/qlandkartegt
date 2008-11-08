@@ -28,7 +28,7 @@
 CGarminExport::CGarminExport(QWidget * parent)
 : QDialog(parent)
 , e1(9)
-, e2(6)
+, e2(5)
 , blocksize(pow(2, e1 + e2))
 {
     setupUi(this);
@@ -62,6 +62,8 @@ void CGarminExport::slotOutputPath()
 
 void CGarminExport::exportToFile(CMapSelectionGarmin& ms)
 {
+    maps.clear();
+    tiles.clear();
     stdout(tr("Creating image from maps:\n"));
 
     QMap<QString,CMapSelectionGarmin::map_t>::const_iterator map = ms.maps.begin();
@@ -303,16 +305,6 @@ void CGarminExport::readTileInfo(tile_t& t)
         throw exce_t(errFormat,tr("Failed to read file structure: ") + t.filename);
     }
 
-    // gmapsupp.img files do not have a data offset field
-    if(gar_load(uint32_t, pImgHdr->dataoffset) == 0) {
-        pImgHdr->dataoffset = gar_load(uint32_t, dataoffset);
-    }
-
-    // sometimes there are dummy blocks at the end of the FAT
-    if(gar_load(uint32_t, pImgHdr->dataoffset) != dataoffset) {
-        dataoffset = gar_load(uint32_t, pImgHdr->dataoffset);
-    }
-
 #ifdef DEBUG_SHOW_SECT_DESC
     {
         QMap<QString,gmapsupp_subfile_desc_t>::const_iterator subfile = subfiles.begin();
@@ -334,16 +326,80 @@ void CGarminExport::readTileInfo(tile_t& t)
 
 void CGarminExport::slotStart()
 {
+    pushExport->setEnabled(false);
+    pushClose->setEnabled(false);
 
-    // create image header
-    gmapsupp_imghdr_t gmapsupp_imghdr;
-    initGmapsuppImgHdr(gmapsupp_imghdr);
+    try{
+        // create image header
+        gmapsupp_imghdr_t gmapsupp_imghdr;
+        initGmapsuppImgHdr(gmapsupp_imghdr);
 
-    // first run. read file structure of all tiles
-    QVector<tile_t>::iterator tile = tiles.begin();
-    while(tile != tiles.end()){
-        readTileInfo(*tile);
+        quint32 totalBlocks = 0;
+        quint32 totalFATs   = 0;
+        quint32 filesize    = 0;
+        quint32 maxFATs     = (239 * blocksize) / sizeof(CGarminTile::FATblock_t);
+        quint32 maxFileSize = 0x7FFFFFFF;
 
-        ++tile;
+
+        // first run. read file structure of all tiles
+        QVector<tile_t>::iterator tile = tiles.begin();
+        while(tile != tiles.end()){
+            readTileInfo(*tile);
+
+            QMap<QString, gmapsupp_subfile_desc_t>& subfiles          = tile->subfiles;
+            QMap<QString,gmapsupp_subfile_desc_t>::iterator subfile   = subfiles.begin();
+            while(subfile != subfiles.end()){
+
+    //             qDebug() << "--- subfile" << subfile->name << "---";
+                QMap<QString, gmapsupp_subfile_part_t>& parts         = subfile->parts;
+                QMap<QString, gmapsupp_subfile_part_t>::iterator part = parts.begin();
+                while(part != parts.end()) {
+
+                    part->nBlocks       = ceil( double(part->size) / blocksize );
+                    part->nFATBlocks    = ceil( double(part->nBlocks) / 240 );
+    //                 qDebug() << part->key << hex << part->offset << part->size << part->nBlocks << part->nFATBlocks;
+
+                    totalBlocks += part->nBlocks;
+                    totalFATs   += part->nFATBlocks;
+
+                    ++part;
+                }
+
+                ++subfile;
+            }
+
+            ++tile;
+        }
+
+        // file header
+        filesize += sizeof(gmapsupp_imghdr);
+        // FAT section
+        filesize += ceil(double((totalFATs + 1) * sizeof(CGarminTile::FATblock_t)) / blocksize) * blocksize;
+        // map data
+        filesize += totalBlocks * blocksize;
+        // still missing MAPSOURC section
+
+        if(totalFATs > maxFATs){
+            stderr(tr("FAT entries: %1 (of %2) Failed!").arg(totalFATs).arg(maxFATs));
+            throw exce_t(errLogic, tr("Too many tiles."));
+        }
+        else {
+            stdout(tr("FAT entieres: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
+        }
+
+        if(filesize > maxFileSize){
+            stderr(tr("File size: %1 MB (of %2 MB) Failed!").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
+            throw exce_t(errLogic, tr("Too many tiles."));
+        }
+        else {
+            stdout(tr("File size: %1 MB (of %2 MB)").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
+        }
+
     }
+    catch(const exce_t e){
+        stderr(e.msg);
+        stdout(tr("Abort due to errors."));
+    }
+
+    pushClose->setEnabled(true);
 }
