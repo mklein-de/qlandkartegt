@@ -40,6 +40,7 @@ class CMapSelectionGarmin : public IMapSelection
 
         struct tile_t
         {
+            quint32 id;
             QString name;
             QString filename;
             QVector<double> u;

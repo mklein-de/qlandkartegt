@@ -117,6 +117,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
         struct tile_t
         {
+            quint32 id;
+            QString map;
             QString name;
             QString filename;
             quint32 memsize;
@@ -128,7 +130,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data, quint8 mask);
         void readTileInfo(tile_t& t);
-        void initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr);
+        void addTileToMPS(tile_t& t, QDataStream& mps);
+        void initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr, quint32 nBlocks, quint32 dataoffset);
 
         QVector<map_t>  maps;
         QVector<tile_t> tiles;

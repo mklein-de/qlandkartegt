@@ -1572,6 +1572,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
             }
             else{
                 CMapSelectionGarmin::tile_t t;
+                t.id        = tile->id;
                 t.name      = tile->name;
                 t.filename  = tile->file;
                 t.u         = tile->defAreaU;
