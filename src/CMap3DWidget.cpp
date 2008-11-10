@@ -24,6 +24,7 @@
 #include "IMap.h"
 #include "CMapDB.h"
 #include "CResources.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 #include <QtOpenGL>
@@ -94,6 +95,11 @@ void CMap3DWidget::createActions()
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
 }
 
+void CMap3DWidget::changeMode()
+{
+    map3DAct->setChecked(!map3DAct->isChecked());
+    slotChanged();
+}
 
 void CMap3DWidget::eleZoomOut()
 {
@@ -573,9 +579,11 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     z0 = gl_z0;
     convert3D2Pt(x0, y0, z0);
 
+
+    if(track.isNull()) return;
+
     selTrkPt = 0;
     int d1 = 20;
-
     XY p;
 
     QList<CTrack::pt_t>& pts          = track->getTrackPoints();
@@ -671,11 +679,17 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
         case Qt::Key_End:
             expandMap(false);
             break;
+        default:
+            event->ignore();
+            return;
     }
-    if (zoomMap)
+    if (zoomMap){
         map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
-    if (dx || dy)
+    }
+
+    if (dx || dy){
         map->move(QPoint(dx, dy), QPoint(0, 0));
+    }
     updateGL();
 }
 

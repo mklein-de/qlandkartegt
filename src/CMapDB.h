@@ -26,6 +26,9 @@
 #include <QList>
 #include <QMap>
 #include <QPointer>
+#ifdef PLOT_3D
+#include "CMap3DWidget.h"
+#endif
 
 
 class QPainter;
@@ -33,9 +36,6 @@ class CCanvas;
 class CMapNoMap;
 class CMapEditWidget;
 class CMapSearchWidget;
-#ifdef PLOT_3D
-class CMap3DWidget;
-#endif
 
 class CMapDB : public IDB
 {
@@ -62,6 +62,8 @@ class CMapDB : public IDB
 
         /// get current DEM map
         IMap& getDEM();
+
+        CMap3DWidget * getMap3D(){return map3DWidget.data();}
 
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);

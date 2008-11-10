@@ -84,6 +84,10 @@ class CMegaMenu : public QLabel
 
 #ifdef PLOT_3D
         void funcCloseMap3D();
+        void funcMap3DMode();
+        void funcMap3DZoomPlus();
+        void funcMap3DZoomMinus();
+
 #endif
 
         void funcNewWpt();

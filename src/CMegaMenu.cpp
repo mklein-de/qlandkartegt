@@ -32,6 +32,10 @@
 #include "CResources.h"
 #include "IDevice.h"
 
+#ifdef PLOT_3D
+#include "CMap3DWidget.h"
+#endif
+
 #include <QtGui>
 /// Enhanced QLabel used by CMegaMenu
 class CLabel : public QLabel
@@ -109,9 +113,9 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
 const CMegaMenu::func_key_state_t CMegaMenu::fsMap3D[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Close"),&CMegaMenu::funcCloseMap3D,tr("Close 3D view.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{0,QObject::tr("Track / Map Mode"),&CMegaMenu::funcMap3DMode,tr("Toggle between 3D track only and full map surface model.")}
+    ,{0,QObject::tr("Dec. Elevation"),&CMegaMenu::funcMap3DZoomMinus,tr("Make elevations on the map lower as they are.")}
+    ,{0,QObject::tr("Inc. Elevation"),&CMegaMenu::funcMap3DZoomPlus,tr("Make elevations on the map higher as they are.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -539,6 +543,30 @@ void CMegaMenu::funcCloseMap3D()
     switchState(fsMap);
     CMapDB::self().gainFocus();
     funcMoveArea();
+}
+
+void CMegaMenu::funcMap3DZoomPlus()
+{
+    CMap3DWidget * map = CMapDB::self().getMap3D();
+    if(map){
+        map->eleZoomIn();
+    }
+}
+
+void CMegaMenu::funcMap3DZoomMinus()
+{
+    CMap3DWidget * map = CMapDB::self().getMap3D();
+    if(map){
+        map->eleZoomOut();
+    }
+}
+
+void CMegaMenu::funcMap3DMode()
+{
+    CMap3DWidget * map = CMapDB::self().getMap3D();
+    if(map){
+        map->changeMode();
+    }
 }
 #endif
 

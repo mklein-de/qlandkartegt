@@ -336,7 +336,7 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
     mps.writeRawData(t.map.toAscii(),t.map.size() + 1);
 
     QString intname = t.subfiles.keys()[0];
-
+    // ??? wow. :-/ write the number in the internal name
     if(intname[0].isDigit()) {
         mps << (quint32)intname.toInt(0);
     }

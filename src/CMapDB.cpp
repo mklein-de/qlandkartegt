@@ -409,7 +409,7 @@ void CMapDB::show3DMap(bool show)
         theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Map 3D..."));
     }
     else if(!map3DWidget.isNull() && !show) {
-        delete map3DWidget;
+        map3DWidget->deleteLater();
     }
 }
 #endif
