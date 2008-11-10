@@ -37,7 +37,7 @@ CGarminExport::CGarminExport(QWidget * parent)
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());
 
-    linePrefix->setText("gmapsupp.img");
+    linePrefix->setText("gmapsupp");
 
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
@@ -350,6 +350,7 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
 
 void CGarminExport::slotStart()
 {
+    quint32 i;
     QByteArray mapsourc;
     QDataStream mps(&mapsourc,QIODevice::WriteOnly);
     mps.setByteOrder(QDataStream::LittleEndian);
@@ -448,12 +449,34 @@ void CGarminExport::slotStart()
         gmapsupp_imghdr_t gmapsupp_imghdr;
         initGmapsuppImgHdr(gmapsupp_imghdr, totalBlocks, dataoffset);
 
+        QDir path(labelPath->text());
+        QFile gmapsupp(path.filePath(linePrefix->text() + ".img"));
+        gmapsupp.open(QIODevice::WriteOnly);
+
+        stdout(tr("Create %1").arg(gmapsupp.fileName()));
+        QByteArray dummyblock(blocksize, 0xFF);
+        for(i = 0; i < totalBlocks; ++i){
+            gmapsupp.write(dummyblock);
+        }
+
+        stdout(tr("Write header..."));
+        gmapsupp.seek(0);
+        gmapsupp.write((char*)&gmapsupp_imghdr, sizeof(gmapsupp_imghdr));
+
+        qDebug() << hex << (totalBlocks - nBlockMps) * blocksize;
+
+
+        stdout(tr("Write map lookup table..."));
+        gmapsupp.seek((totalBlocks - nBlockMps) * blocksize);
+        gmapsupp.write(mapsourc);
 
     }
     catch(const exce_t e){
         stderr(e.msg);
         stdout(tr("Abort due to errors."));
     }
+
+    stdout("----------");
 
     pushClose->setEnabled(true);
 }
