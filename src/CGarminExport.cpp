@@ -28,7 +28,7 @@
 CGarminExport::CGarminExport(QWidget * parent)
 : QDialog(parent)
 , e1(9)
-, e2(1)
+, e2(5)
 , blocksize(pow(2, e1 + e2))
 {
     setupUi(this);
@@ -108,6 +108,8 @@ void CGarminExport::stdout(const QString& msg)
     textBrowser->setTextColor(Qt::blue);
     textBrowser->append(msg);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
+
+    qApp->processEvents();
 }
 
 void CGarminExport::stderr(const QString& msg)
@@ -115,6 +117,8 @@ void CGarminExport::stderr(const QString& msg)
     textBrowser->setTextColor(Qt::red);
     textBrowser->append(msg);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
+
+    qApp->processEvents();
 }
 
 void CGarminExport::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data, quint8 mask)
@@ -218,6 +222,7 @@ void CGarminExport::initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr, quint32 nBlocks, 
 
 void CGarminExport::initFATBlock(FATblock_t * pFAT)
 {
+    memset(pFAT, 0xFF, sizeof(FATblock_t));
     pFAT->flag = 0x01;
     memset(pFAT->name, 0x20, sizeof(pFAT->name));
     memset(pFAT->type, 0x20, sizeof(pFAT->type));
@@ -359,6 +364,7 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
 void CGarminExport::slotStart()
 {
     quint32 i;
+    quint16 blockcnt  = 0;
     QByteArray mapsourc;
     QDataStream mps(&mapsourc,QIODevice::WriteOnly);
     mps.setByteOrder(QDataStream::LittleEndian);
@@ -428,10 +434,11 @@ void CGarminExport::slotStart()
         totalBlocks       += nBlockMps;
         totalFATs         += nFATMps;
 
-        // calculate
+        // calculate blocks used for FAT
         quint32 nBlocksFat = ceil(double(sizeof(gmapsupp_imghdr_t) + totalFATs * sizeof(CGarminTile::FATblock_t)) / blocksize);
         totalBlocks       += nBlocksFat;
 
+        // a small sanity check
         quint32 filesize   = totalBlocks * blocksize;
         quint32 dataoffset = nBlocksFat * blocksize;
 
@@ -451,24 +458,26 @@ void CGarminExport::slotStart()
             stdout(tr("File size: %1 MB (of %2 MB)").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
         }
 
-
-        gmapsupp_imghdr_t gmapsupp_imghdr;
-        initGmapsuppImgHdr(gmapsupp_imghdr, totalBlocks, dataoffset);
-
+        // start to create the file
         QDir path(labelPath->text());
         QFile gmapsupp(path.filePath(linePrefix->text() + ".img"));
         gmapsupp.open(QIODevice::WriteOnly);
 
-        stdout(tr("Create %1").arg(gmapsupp.fileName()));
+        // initialize the complete file with 0xFF
+        stdout(tr("Initialize %1").arg(gmapsupp.fileName()));
         QByteArray dummyblock(blocksize, 0xFF);
         for(i = 0; i < totalBlocks; ++i){
             gmapsupp.write(dummyblock);
         }
 
         stdout(tr("Write header..."));
+        // write Garmin file header
+        gmapsupp_imghdr_t gmapsupp_imghdr;
+        initGmapsuppImgHdr(gmapsupp_imghdr, totalBlocks, dataoffset);
         gmapsupp.seek(0);
         gmapsupp.write((char*)&gmapsupp_imghdr, sizeof(gmapsupp_imghdr));
 
+        // write FAT entry that defines the FAT table
         QByteArray FATblock(sizeof(FATblock_t), 0xFF);
         FATblock_t * pFAT = (FATblock_t*)FATblock.data();
         initFATBlock(pFAT);
@@ -477,14 +486,111 @@ void CGarminExport::slotStart()
         pFAT->part = gar_endian(uint16_t, 3); //???
 
         for(i = 0; i < nBlocksFat; ++i){
-            pFAT->blocks[i] = gar_endian(uint16_t, i);
+            pFAT->blocks[i] = gar_endian(uint16_t, blockcnt++);
         }
         gmapsupp.write(FATblock);
+
+        // write all FAT entries for map data
+        quint32 newOffset = dataoffset;
+
+        tile = tiles.begin();
+        while(tile != tiles.end()){
+            QMap<QString, gmapsupp_subfile_desc_t>& subfiles          = tile->subfiles;
+            QMap<QString,gmapsupp_subfile_desc_t>::iterator subfile   = subfiles.begin();
+            while(subfile != subfiles.end()){
+                QMap<QString, gmapsupp_subfile_part_t>& parts         = subfile->parts;
+                QMap<QString, gmapsupp_subfile_part_t>::iterator part = parts.begin();
+                while(part != parts.end()) {
+                    quint16 partno   = 0;
+                    quint16 blockidx = 0;
+
+                    initFATBlock(pFAT);
+                    memcpy(pFAT->name, subfile.key().toAscii(), sizeof(pFAT->name));
+                    memcpy(pFAT->type, part.key().toAscii(), sizeof(pFAT->type));
+                    pFAT->size = gar_endian(uint32_t, part->size);
+                    pFAT->part = gar_endian(uint16_t, partno++ << 8);
+
+                    for(i = 0; i < part->nBlocks; ++i, ++blockidx){
+                        if(blockidx == 240){
+                            gmapsupp.write(FATblock);
+                            initFATBlock(pFAT);
+                            memcpy(pFAT->name, subfile.key().toAscii(), sizeof(pFAT->name));
+                            memcpy(pFAT->type, part.key().toAscii(), sizeof(pFAT->type));
+                            pFAT->size  = 0;
+                            pFAT->part  = gar_endian(uint16_t, partno++ << 8);
+                            blockidx    = 0;
+                        }
+                        pFAT->blocks[blockidx] = gar_endian(uint16_t, blockcnt++);
+                    }
+                    gmapsupp.write(FATblock);
+
+                    part->newOffset  = newOffset;
+                    newOffset       += part->nBlocks * blocksize;
+                    ++part;
+                }
+                ++subfile;
+            }
+            ++tile;
+        }
+        // write MAPSOURCMPS FAT entries
+        quint16 partno   = 0;
+        quint16 blockidx = 0;
+
+        initFATBlock(pFAT);
+        memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
+        memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
+        pFAT->size = gar_endian(uint32_t, mapsourc.size());
+        pFAT->part = gar_endian(uint16_t, partno++ << 8);
+
+        for(i = 0; i < nBlockMps; ++i, ++blockidx){
+            if(blockidx == 240){
+                gmapsupp.write(FATblock);
+                initFATBlock(pFAT);
+                memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
+                memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
+                pFAT->size  = 0;
+                pFAT->part  = gar_endian(uint16_t, partno++ << 8);
+                blockidx    = 0;
+            }
+            pFAT->blocks[blockidx] = gar_endian(uint16_t, blockcnt++);
+        }
+        gmapsupp.write(FATblock);
+
+        stdout(tr("Copy tile data..."));
+        tile = tiles.begin();
+        while(tile != tiles.end()){
+            quint8 mask;
+
+            stdout(tr("    Copy %1...").arg(tile->name));
+
+            QFile file(tile->filename);
+            file.open(QIODevice::ReadOnly);
+            file.read((char*)&mask,1);
+
+            QMap<QString, gmapsupp_subfile_desc_t>& subfiles          = tile->subfiles;
+            QMap<QString,gmapsupp_subfile_desc_t>::iterator subfile   = subfiles.begin();
+            while(subfile != subfiles.end()){
+                QMap<QString, gmapsupp_subfile_part_t>& parts         = subfile->parts;
+                QMap<QString, gmapsupp_subfile_part_t>::iterator part = parts.begin();
+                while(part != parts.end()) {
+                    QByteArray data;
+                    readFile(file, part->offset, part->size, data, mask);
+
+                    gmapsupp.seek(part->newOffset);
+                    gmapsupp.write(data);
+
+                    ++part;
+                }
+                ++subfile;
+            }
+            ++tile;
+        }
 
         stdout(tr("Write map lookup table..."));
         gmapsupp.seek((totalBlocks - nBlockMps) * blocksize);
         gmapsupp.write(mapsourc);
 
+        gmapsupp.close();
     }
     catch(const exce_t e){
         stderr(e.msg);

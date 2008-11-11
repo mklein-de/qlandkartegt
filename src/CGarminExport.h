@@ -97,10 +97,12 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
             quint32 size;
             /// label
             QString key;
-
+            /// number of blocks this part will use in gmapsupp
             quint32 nBlocks;
-
+            /// number of FAT blocks this part will use in gmapsupp
             quint32 nFATBlocks;
+            /// the new offset in gmapsupp
+            quint32 newOffset;
         };
 
         // GMAPSUPP.IMG IMG subfiles (i.e. the selected tile IMG files)
