@@ -69,6 +69,18 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
             quint32 blocksize(){return 1 << (e1 + e2);}
         };
+
+        // Garmin IMG file FAT block structure
+        struct FATblock_t
+        {
+            quint8  flag;                ///< 0x00000000
+            char    name[8];             ///< 0x00000001 .. 0x00000008
+            char    type[3];             ///< 0x00000009 .. 0x0000000B
+            quint32 size;                ///< 0x0000000C .. 0x0000000F
+            quint16 part;                ///< 0x00000010 .. 0x00000011
+            quint8  byte0x00000012_0x0000001F[14];
+            quint16 blocks[240];         ///< 0x00000020 .. 0x000001FF
+        };
 #ifdef WIN32
 #pragma pack()
 #else
@@ -132,6 +144,7 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         void readTileInfo(tile_t& t);
         void addTileToMPS(tile_t& t, QDataStream& mps);
         void initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr, quint32 nBlocks, quint32 dataoffset);
+        void initFATBlock(FATblock_t * pFAT);
 
         QVector<map_t>  maps;
         QVector<tile_t> tiles;

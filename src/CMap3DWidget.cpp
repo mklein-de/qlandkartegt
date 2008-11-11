@@ -59,6 +59,21 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     createActions();
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     setFocusPolicy(Qt::StrongFocus);
+
+    QSettings cfg;
+    map3DAct->setChecked(cfg.value("map/3D/3dmap", true).toBool());
+    mapEleAct->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
+}
+
+CMap3DWidget::~CMap3DWidget()
+{
+    makeCurrent();
+    deleteTexture(mapTexture);
+    glDeleteLists(object, 1);
+
+    QSettings cfg;
+    cfg.setValue("map/3D/3dmap", map3DAct->isChecked());
+    cfg.setValue("map/3D/trackonmap", mapEleAct->isChecked());
 }
 
 
@@ -72,26 +87,29 @@ void CMap3DWidget::loadMap()
 
 void CMap3DWidget::createActions()
 {
-    map3DAct = new QAction("3D map", this);
+    map3DAct = new QAction(tr("3D Map"), this);
     map3DAct->setCheckable(true);
     map3DAct->setChecked(true);
     connect(map3DAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
-    showTrackAct = new QAction("show track", this);
+    showTrackAct = new QAction(tr("Show Track"), this);
     showTrackAct->setCheckable(true);
     showTrackAct->setChecked(true);
     connect(showTrackAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
-    mapEleAct = new QAction("map elevation", this);
+    mapEleAct = new QAction(tr("Track on Map"), this);
     mapEleAct->setCheckable(true);
     mapEleAct->setChecked(false);
     connect(mapEleAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
     eleZoomInAct = new QAction(tr("zZoom In"), this);
+    eleZoomInAct->setIcon(QIcon(":/icons/iconInc16x16"));
     connect(eleZoomInAct, SIGNAL(triggered()), this, SLOT(eleZoomIn()));
     eleZoomOutAct = new QAction(tr("zZoom Out"), this);
+    eleZoomOutAct->setIcon(QIcon(":/icons/iconDec16x16"));
     connect(eleZoomOutAct, SIGNAL(triggered()), this, SLOT(eleZoomOut()));
-    eleZoomResetAct = new QAction(tr("reset zZoom"), this);
+    eleZoomResetAct = new QAction(tr("Reset zZoom"), this);
+    eleZoomResetAct->setIcon(QIcon(":/icons/iconClear16x16"));
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
 }
 
@@ -136,12 +154,6 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 }
 
 
-CMap3DWidget::~CMap3DWidget()
-{
-    makeCurrent();
-    deleteTexture(mapTexture);
-    glDeleteLists(object, 1);
-}
 
 
 void CMap3DWidget::setMapTexture()
