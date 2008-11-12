@@ -199,9 +199,6 @@ class IMap : public QObject
         /// select map area for export or further processing
         virtual void select(IMapSelection& ms, const QRect& rect){};
 
-        bool isZoomedOrMoved() {return needsRedraw;};
-        bool isFastRedraw() {return doFastDraw;};
-
         const maptype_e maptype;
     signals:
         void sigChanged();

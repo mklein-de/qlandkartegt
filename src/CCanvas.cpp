@@ -51,7 +51,6 @@
 #include "IUnit.h"
 
 #include <QtGui>
-#include <QImage>
 
 CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
@@ -74,7 +73,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddDistance= new CMouseAddDistance(this);
     mouseOverlay    = new CMouseOverlay(this);
     setMouseMode(eMouseMoveArea);
-    cachedImage = 0;
+
 }
 
 
@@ -279,31 +278,9 @@ void CCanvas::draw(QPainter& p)
 {
     p.setRenderHint(QPainter::Antialiasing,false);
     CMapDB::self().draw(p,rect());
-
-    IMap& map = CMapDB::self().getMap();
-
-    if(map.isFastRedraw())
-    {
-        if (cachedImage)
-        {
-          delete cachedImage;
-          cachedImage = 0;
-        }
-        cachedImage = new QImage(rect().size(), QImage::Format_ARGB32_Premultiplied);
-        cachedImage->fill(0);
-
-        QPainter pi(cachedImage);
-
-        pi.setTransform(p.transform());
-
-        CTrackDB::self().draw(pi, rect());
-        CLiveLogDB::self().draw(pi, rect());
-        CWptDB::self().draw(pi, rect());
-    }
-
-    if(cachedImage)
-       p.drawImage(rect(),*cachedImage);
-
+    CTrackDB::self().draw(p, rect());
+    CLiveLogDB::self().draw(p, rect());
+    CWptDB::self().draw(p, rect());
     CSearchDB::self().draw(p, rect());
 
     //     p.setRenderHint(QPainter::Antialiasing,true);
