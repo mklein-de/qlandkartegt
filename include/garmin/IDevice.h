@@ -23,18 +23,7 @@
 #ifndef IDEVICE_H
 #define IDEVICE_H
 
-#ifdef WIN32
-typedef unsigned __int32 uint32_t;
-typedef          __int32 int32_t;
-typedef unsigned __int16 uint16_t ;
-typedef			 __int16 int16_t ;
-typedef unsigned __int8  uint8_t;
-typedef		     __int8  int8_t;
-typedef unsigned __int64  uint64_t;
-typedef		     __int64  int64_t;
-#else
 #include <stdint.h>
-#endif
 #include <list>
 #include <string>
 #include <vector>
@@ -42,7 +31,7 @@ typedef		     __int64  int64_t;
 #include <stdlib.h>
 #include <string.h>
 
-#define INTERFACE_VERSION "01.14"
+#define INTERFACE_VERSION "01.15"
 
 namespace Garmin
 {
@@ -63,16 +52,15 @@ namespace Garmin
             , dspl_color(0)
             , dspl_attr(0)
             , smbl(8287)
-            , lat(1000.0f)
-            , lon(1000.0f)
-            , alt(1.0e25f)
-            , dpth(1.0e25f)
-            , dist(1.0e25f)
+            , lat(1000.0)
+            , lon(1000.0)
+            , alt(1.0e25)
+            , dpth(1.0e25)
+            , dist(1.0e25)
             , ete(0xFFFFFFFF)
-            , temp(1.0e25f)
+            , temp(1.0e25)
             , time(0xFFFFFFFF)
-            , wpt_cat(0) 
-		{
+        , wpt_cat(0) {
             strcpy(state,"  ");
             strcpy(cc,"  ");
 
@@ -450,106 +438,109 @@ namespace Garmin
 
             */
             void setGuiCallback(void (*func)(int /*progress*/, int * /*ok*/, int * /*cancel*/, const char * /*title*/, const char * /*msg*/, void * /*self*/), void * p) {
-                _self_        = p;
-                _callback_    = func;
-            }
+            _self_        = p;
+            _callback_    = func;
+    }
 
-            /// upload a single map file to device
-            /**
-                This will handle just a single file. Map tiles must be concatenated into
-                one big file (gmapsupp.img). If the file containes tiles with locked data
-                an array of 25 ASCII digits has to be passed as key. As map uploads naturally
-                take some time a callback function has to be given to signal the progress. The
-                function pointer must be of type:
+    /// upload a single map file to device
+    /**
+        This will handle just a single file. Map tiles must be concatenated into
+        one big file (gmapsupp.img). If the file containes tiles with locked data
+        an array of 25 ASCII digits has to be passed as key.
 
-                void callback(uint32_t bytesTransmitted, uint32_t bytesTotal, void * data);
+        @param mapdata pointer to the gmapsupp.img data array
+        @param size the size of the gmapsupp.img data array
+        @param key pointer to 25 digit key or 0 for no key
+    */
+    virtual void uploadMap(const uint8_t * mapdata, uint32_t size, const char * key) = 0;
 
-                In most cases data will be a pointer to the application's object conducting the
-                upload.
+    /// alternative map uppload API
+    /**
+        This will handle just a single file. Map tiles must be concatenated into
+        one big file (gmapsupp.img). If the file containes tiles with locked data
+        an array of 25 ASCII digits has to be passed as key.
 
-                @param mapdata pointer to the gmapsupp.img data array
-                @param size the size of the gmapsupp.img data array
-                @param key pointer to 25 digit key or 0 for no key
-                @param callback progress callback function
-                @param data pointer to multipurpose data. This will be passed to the progress callback.
-            */
-            virtual void uploadMap(const uint8_t * mapdata, uint32_t size, const char * key) = 0;
+        @param mapdata pointer to the gmapsupp.img data array
+        @param size the size of the gmapsupp.img data array
+        @param key pointer to 25 digit key or 0 for no key
+    */
+    virtual void uploadMap(const char * filename, uint32_t size, const char * key) = 0;
 
-            /// query loaded map list
-            /**
-                This is not a real download of maps as just the information about the
-                loaded maps is transfered.
-            */
-            virtual void queryMap(std::list<Map_t>& maps) = 0;
+    /// query loaded map list
+    /**
+        This is not a real download of maps as just the information about the
+        loaded maps is transfered.
+    */
+    virtual void queryMap(std::list<Map_t>& maps) = 0;
 
-            /// download waypoints from device
-            /**
-                @param waypoints list object to receive waypoints
-            */
-            virtual void downloadWaypoints(std::list<Garmin::Wpt_t>& waypoints) = 0;
+    /// download waypoints from device
+    /**
+        @param waypoints list object to receive waypoints
+    */
+    virtual void downloadWaypoints(std::list<Garmin::Wpt_t>& waypoints) = 0;
 
-            /// upload waypoints to device
-            /**
-                @param waypoints list of waypoints to send
-            */
-            virtual void uploadWaypoints(std::list<Garmin::Wpt_t>& waypoints) = 0;
+    /// upload waypoints to device
+    /**
+        @param waypoints list of waypoints to send
+    */
+    virtual void uploadWaypoints(std::list<Garmin::Wpt_t>& waypoints) = 0;
 
-            /// download track from device
-            /**
-                @param tracks list object to receive tracks
-            */
-            virtual void downloadTracks(std::list<Garmin::Track_t>& tracks) = 0;
+    /// download track from device
+    /**
+        @param tracks list object to receive tracks
+    */
+    virtual void downloadTracks(std::list<Garmin::Track_t>& tracks) = 0;
 
-            /// upload route to device
-            /**
-                @param routes list of routes
-            */
-            virtual void uploadRoutes(std::list<Garmin::Route_t>& routes) = 0;
+    /// upload route to device
+    /**
+        @param routes list of routes
+    */
+    virtual void uploadRoutes(std::list<Garmin::Route_t>& routes) = 0;
 
-            /// upload custom icons to device
-            /**
-                @param routes list of icons
-            */
-            virtual void uploadCustomIcons(std::list<Garmin::Icon_t>& icons) = 0;
+    /// upload custom icons to device
+    /**
+        @param routes list of icons
+    */
+    virtual void uploadCustomIcons(std::list<Garmin::Icon_t>& icons) = 0;
 
-            /// download a screenshot from the device
-            /**
-                @param clrtbl a pointer reference to be set to the downloaded color table of size 0x100
-                @param data a pointer reference to be set to the downloaded image data array of size width x height
-                @param width a integer reference to store the image width at
-                @param height a integer reference to store the image height at
-            */
-            virtual void screenshot(char *& clrtbl, char *& data, int& width, int& height) = 0;
+    /// download a screenshot from the device
+    /**
+        @param clrtbl a pointer reference to be set to the downloaded color table of size 0x100
+        @param data a pointer reference to be set to the downloaded image data array of size width x height
+        @param width a integer reference to store the image width at
+        @param height a integer reference to store the image height at
+    */
+    virtual void screenshot(char *& clrtbl, char *& data, int& width, int& height) = 0;
 
-            /// switch device into realtime position mode
-            virtual void setRealTimeMode(bool on) = 0;
+    /// switch device into realtime position mode
+    virtual void setRealTimeMode(bool on) = 0;
 
-            /// request real time position
-            virtual void getRealTimePos(Garmin::Pvt_t& pvt) = 0;
+    /// request real time position
+    virtual void getRealTimePos(Garmin::Pvt_t& pvt) = 0;
 
-            /// get the device's properties.
-            virtual void getDevProperties(Garmin::DevProperties_t& properties) = 0;
+    /// get the device's properties.
+    virtual void getDevProperties(Garmin::DevProperties_t& properties) = 0;
 
-            /// get the copyright notice of this driver
-            virtual const std::string& getCopyright() = 0;
+    /// get the copyright notice of this driver
+    virtual const std::string& getCopyright() = 0;
 
-            /// get reason string for last exception
-            virtual const std::string& getLastError() = 0;
+    /// get reason string for last exception
+    virtual const std::string& getLastError() = 0;
 
-            /// set port string used for communication
-            /**
-                This should be called prior to an operation. As an operation will
-                create a new ILink object, a changed port setting will apply imediately.
-                If the ILink object does not need any port settings this value is ignored.
-            */
-            virtual void setPort(const char * port) = 0;
+    /// set port string used for communication
+    /**
+        This should be called prior to an operation. As an operation will
+        create a new ILink object, a changed port setting will apply imediately.
+        If the ILink object does not need any port settings this value is ignored.
+    */
+    virtual void setPort(const char * port) = 0;
 
-        protected:
-            /// see setGuiCallback()
-            void (*_callback_)(int /*progress*/, int * /*ok*/, int * /*cancel*/, const char * /*title*/, const char * /*msg*/, void * /*self*/);
-            /// see setGuiCallback()
-            void * _self_;
-    };
+    protected:
+        /// see setGuiCallback()
+        void (*_callback_)(int /*progress*/, int * /*ok*/, int * /*cancel*/, const char * /*title*/, const char * /*msg*/, void * /*self*/);
+        /// see setGuiCallback()
+        void * _self_;
+};
 
 }
 #endif                           //IDEVICE_H

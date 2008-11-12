@@ -105,7 +105,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
 #else
     ,{0,QObject::tr("-"),0,tr("")}
 #endif
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadMap,tr("Upload map selection to device.")}
     ,{0,QObject::tr("-"),0,tr("")}
 };
 
@@ -525,6 +525,11 @@ void CMegaMenu::funcEditMap()
 void CMegaMenu::funcSearchMap()
 {
     CMapDB::self().searchMap();
+}
+
+void CMegaMenu::funcUploadMap()
+{
+    CMapDB::self().upload();
 }
 
 

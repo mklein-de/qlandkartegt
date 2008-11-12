@@ -30,6 +30,7 @@ CGarminExport::CGarminExport(QWidget * parent)
 , e1(9)
 , e2(5)
 , blocksize(pow(2, e1 + e2))
+, errors(false)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16"));
@@ -60,7 +61,7 @@ void CGarminExport::slotOutputPath()
 }
 
 
-void CGarminExport::exportToFile(CMapSelectionGarmin& ms)
+void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
 {
     maps.clear();
     tiles.clear();
@@ -100,7 +101,20 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms)
         ++map;
     }
 
-    exec();
+    qDebug() << fn;
+
+    if(fn.isEmpty()){
+        exec();
+    }
+    else {
+        filename = fn;
+        linePrefix->setEnabled(false);
+        labelPath->setEnabled(false);
+        pushClose->setEnabled(false);
+
+        show();
+        slotStart();
+    }
 }
 
 void CGarminExport::stdout(const QString& msg)
@@ -376,7 +390,7 @@ void CGarminExport::slotStart()
     try{
         quint32 totalBlocks = 0;
         quint32 totalFATs   = 1;    // one for the FAT itself
-        quint32 maxFATs     = (239 * blocksize) / sizeof(CGarminTile::FATblock_t);
+        quint32 maxFATs     = (240 * blocksize) / sizeof(CGarminTile::FATblock_t);
         quint32 maxFileSize = 0x7FFFFFFF;
 
         // first run. read file structure of all tiles
@@ -459,8 +473,11 @@ void CGarminExport::slotStart()
         }
 
         // start to create the file
-        QDir path(labelPath->text());
-        QFile gmapsupp(path.filePath(linePrefix->text() + ".img"));
+        if(filename.isEmpty()){
+            QDir path(labelPath->text());
+            filename = path.filePath(linePrefix->text() + ".img");
+        }
+        QFile gmapsupp(filename);
         gmapsupp.open(QIODevice::WriteOnly);
 
         // initialize the complete file with 0xFF
@@ -595,6 +612,7 @@ void CGarminExport::slotStart()
     catch(const exce_t e){
         stderr(e.msg);
         stdout(tr("Abort due to errors."));
+        errors = true;
     }
 
     stdout("----------");

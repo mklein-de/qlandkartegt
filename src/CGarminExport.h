@@ -34,7 +34,10 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         CGarminExport(QWidget * parent);
         virtual ~CGarminExport();
 
-        void exportToFile(CMapSelectionGarmin& ms);
+
+        void exportToFile(CMapSelectionGarmin& ms, const QString& filename = QString::Null());
+
+        bool hadErrors(){return errors;}
 
     private slots:
         void slotOutputPath();
@@ -154,6 +157,9 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         quint8  e1;
         quint8  e2;
         quint32 blocksize;
+
+        QString filename;
+        bool errors;
 
 };
 

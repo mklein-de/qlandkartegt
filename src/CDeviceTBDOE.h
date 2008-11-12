@@ -57,6 +57,8 @@ class CDeviceTBDOE : public IDevice
         void uploadTracks(const QList<CTrack*>& trks);
         void downloadTracks(QList<CTrack*>& trks);
 
+        void uploadMap(const QList<IMapSelection*>& mss);
+
         enum packet_e
         {
             eNone

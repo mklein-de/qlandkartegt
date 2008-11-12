@@ -35,6 +35,8 @@
 #include "CTabWidget.h"
 #include "CMapSelectionGarmin.h"
 #include "CMapSelectionRaster.h"
+#include "CResources.h"
+#include "IDevice.h"
 
 #include <QtGui>
 
@@ -360,6 +362,13 @@ void CMapDB::saveQLB(CQlb& qlb)
 
 void CMapDB::upload()
 {
+    if(selectedMaps.isEmpty()) return;
+
+    IDevice * dev = CResources::self().device();
+    if(dev) {
+        QList<IMapSelection*> tmpms = selectedMaps.values();
+        dev->uploadMap(tmpms);
+    }
 }
 
 

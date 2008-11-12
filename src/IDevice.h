@@ -28,6 +28,7 @@
 class CWpt;
 class CTrack;
 class QProgressDialog;
+class IMapSelection;
 
 class IDevice : public QObject
 {
@@ -43,6 +44,8 @@ class IDevice : public QObject
 
         virtual void uploadTracks(const QList<CTrack*>& trks) = 0;
         virtual void downloadTracks(QList<CTrack*>& trks) = 0;
+
+        virtual void uploadMap(const QList<IMapSelection*>& mss) = 0;
 
         virtual void downloadAll();
         virtual void uploadAll();

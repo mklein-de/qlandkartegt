@@ -23,6 +23,8 @@
 #include "CWpt.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CMapSelectionGarmin.h"
+#include "CGarminExport.h"
 
 #undef IDEVICE_H
 #include <garmin/IDevice.h>
@@ -658,40 +660,87 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         dev->downloadTracks(gartrks);
     }
     catch(int /*e*/) {
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
-std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
-while(gartrk != gartrks.end()) {
-
-    CTrack * trk = new CTrack(&CTrackDB::self());
-
-    trk->setName(gartrk->ident.c_str());
-    trk->setColor(gartrk->color);
-
-    std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
-    while(gartrkpt != gartrk->track.end()) {
-        QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
-        t = t.addYears(20).addDays(-1);
-
-        CTrack::pt_t trkpt;
-        trkpt.lon       = gartrkpt->lon;
-        trkpt.lat       = gartrkpt->lat;
-        trkpt.timestamp = t.toTime_t();
-        trkpt.ele       = gartrkpt->alt;
-
-        *trk << trkpt;
-        ++gartrkpt;
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
     }
 
-    if(trk->getTrackPoints().count() > 0) {
-        trks << trk;
+
+    std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
+    while(gartrk != gartrks.end()) {
+
+        CTrack * trk = new CTrack(&CTrackDB::self());
+
+        trk->setName(gartrk->ident.c_str());
+        trk->setColor(gartrk->color);
+
+        std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
+        while(gartrkpt != gartrk->track.end()) {
+            QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
+            t = t.addYears(20).addDays(-1);
+
+            CTrack::pt_t trkpt;
+            trkpt.lon       = gartrkpt->lon;
+            trkpt.lat       = gartrkpt->lat;
+            trkpt.timestamp = t.toTime_t();
+            trkpt.ele       = gartrkpt->alt;
+
+            *trk << trkpt;
+            ++gartrkpt;
+        }
+
+        if(trk->getTrackPoints().count() > 0) {
+            trks << trk;
+        }
+        ++gartrk;
     }
-    ++gartrk;
 }
 
+void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
+{
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    QList<IMapSelection*>::const_iterator ms = mss.begin();
+
+    while(ms != mss.end()){
+        if((*ms)->type == IMapSelection::eGarmin){
+            break;
+        }
+        ++ms;
+    }
+    if(ms == mss.end()) return;
+
+    CMapSelectionGarmin * gms = (CMapSelectionGarmin*)(*ms);
+    QTemporaryFile tmpfile;
+    tmpfile.open();
+
+    CGarminExport dlg(0);
+    dlg.exportToFile(*gms, tmpfile.fileName());
+    if(dlg.hadErrors()){
+        QMessageBox::warning(0,tr("Error..."), tr("Failed to create image file."),QMessageBox::Abort,QMessageBox::Abort);
+        return;
+    }
+
+    QStringList keys;
+    QMap<QString, CMapSelectionGarmin::map_t>::const_iterator map = gms->maps.begin();
+    while(map != gms->maps.end()){
+        if(!map->unlockKey.isEmpty()){
+            keys << map->unlockKey;
+        }
+        ++map;
+    }
+
+    QFileInfo fi(tmpfile.fileName());
+
+    qDebug() << fi.size();
+    try
+    {
+        dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
 
 }
 
@@ -732,3 +781,4 @@ bool CDeviceGarmin::liveLog()
 {
     return timer->isActive();
 }
+
