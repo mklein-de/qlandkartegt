@@ -43,7 +43,7 @@ class QPrinter;
 class QMenu;
 class CMouseCutTrack;
 class CMouseSelTrack;
-
+class QImage;
 /// the map canvas area
 class CCanvas : public QWidget
 {
@@ -146,7 +146,7 @@ class CCanvas : public QWidget
 
         /// current mouse mode
         mouse_mode_e mouseMode;
-
+        QImage *cachedImage;
         /// current mouse position
         QPoint posMouse;
 
