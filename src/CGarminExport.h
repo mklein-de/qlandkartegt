@@ -161,6 +161,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         QString filename;
         bool errors;
 
+        bool isDialog;
+
 };
 
 #endif //CGARMINEXPORT_H

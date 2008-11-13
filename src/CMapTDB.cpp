@@ -560,8 +560,6 @@ void CMapTDB::readTDB(const QString& filename)
 
             case 0x4C:           // map tiles
             {
-                if(encrypted) break;
-
                 tdb_map_t * p = (tdb_map_t*)pRecord;
                 p->id = gar_load(quint32,p->id);
                 if(p->id == basemapId) break;
@@ -606,20 +604,8 @@ void CMapTDB::readTDB(const QString& filename)
                 catch(CGarminTile::exce_t e) {
 
                     if(e.err == CGarminTile::errLock) {
-                        tiles.clear();
-                        encrypted = true;
-                    }
-                    else {
-                        if(!tainted) {
-                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
-                            tainted = true;
-                        }
-                        delete tile.img;
-                        tile.img = 0;
-                        return;
-                    }
+                        if(!mapkey.isEmpty()) break;
 
-                    if(mapkey.isEmpty()) {
                         QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
                         // help is on the way!!!
                         mapkey = QInputDialog::getText(0,tr("However ...")
@@ -634,13 +620,24 @@ void CMapTDB::readTDB(const QString& filename)
                             deleteLater();
                             return;
                         }
+
+                        QSettings cfg;
+                        cfg.beginGroup("garmin/maps");
+                        cfg.beginGroup(name);
+                        cfg.setValue("key",mapkey);
+                        cfg.endGroup();
+                        cfg.endGroup();
+
                     }
-                    QSettings cfg;
-                    cfg.beginGroup("garmin/maps");
-                    cfg.beginGroup(name);
-                    cfg.setValue("key",mapkey);
-                    cfg.endGroup();
-                    cfg.endGroup();
+                    else {
+                        if(!tainted) {
+                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
+                            tainted = true;
+                        }
+                        delete tile.img;
+                        tile.img = 0;
+                        return;
+                    }
                 }
             }
             break;

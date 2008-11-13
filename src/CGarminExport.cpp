@@ -31,6 +31,7 @@ CGarminExport::CGarminExport(QWidget * parent)
 , e2(5)
 , blocksize(pow(2, e1 + e2))
 , errors(false)
+, isDialog(true)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16"));
@@ -101,8 +102,6 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         ++map;
     }
 
-    qDebug() << fn;
-
     if(fn.isEmpty()){
         exec();
     }
@@ -111,6 +110,8 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         linePrefix->setEnabled(false);
         labelPath->setEnabled(false);
         pushClose->setEnabled(false);
+        toolPath->setEnabled(false);
+        isDialog = false;
 
         show();
         slotStart();
@@ -617,5 +618,7 @@ void CGarminExport::slotStart()
 
     stdout("----------");
 
-    pushClose->setEnabled(true);
+    if(isDialog){
+        pushClose->setEnabled(true);
+    }
 }
