@@ -54,6 +54,7 @@ class CDeviceGarmin : public IDevice
 
     private slots:
         void slotTimeout();
+        void slotCancel();
 
     private:
         Garmin::IDevice * getDevice();

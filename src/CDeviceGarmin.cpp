@@ -488,6 +488,10 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     return dev;
 }
 
+void CDeviceGarmin::slotCancel()
+{
+    dlgData.canceled = true;
+}
 
 void CDeviceGarmin::slotTimeout()
 {
