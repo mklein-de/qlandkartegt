@@ -29,7 +29,7 @@ CGarminExport::CGarminExport(QWidget * parent)
 : QDialog(parent)
 , e1(9)
 , e2(5)
-, blocksize(pow(2, e1 + e2))
+, blocksize(pow(2.0f, e1 + e2))
 , errors(false)
 , isDialog(true)
 {
@@ -66,7 +66,7 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
 {
     maps.clear();
     tiles.clear();
-    stdout(tr("Creating image from maps:\n"));
+    writeStdout(tr("Creating image from maps:\n"));
 
     QMap<QString,CMapSelectionGarmin::map_t>::const_iterator map = ms.maps.begin();
     while(map != ms.maps.end()){
@@ -77,13 +77,13 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
 
         maps << myMap;
         if(myMap.key.isEmpty()){
-            stdout(tr("Map: %1").arg(myMap.map));
+            writeStdout(tr("Map: %1").arg(myMap.map));
         }
         else{
-            stdout(tr("Map: %1 (Key: %2)").arg(myMap.map).arg(myMap.key));
+            writeStdout(tr("Map: %1 (Key: %2)").arg(myMap.map).arg(myMap.key));
         }
 
-        stdout("Tiles:");
+        writeStdout("Tiles:");
 
         QMap<QString, CMapSelectionGarmin::tile_t>::const_iterator tile = map->tiles.begin();
         while(tile != map->tiles.end()){
@@ -95,10 +95,10 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
             myTile.memsize  = tile->memSize;
             tiles << myTile;
 
-            stdout(tr("    %1 (%2 MB)").arg(myTile.name).arg(double(myTile.memsize) / (1024 * 1024), 0, 'f', 2));
+            writeStdout(tr("    %1 (%2 MB)").arg(myTile.name).arg(double(myTile.memsize) / (1024 * 1024), 0, 'f', 2));
             ++tile;
         }
-        stdout(" ");
+        writeStdout(" ");
         ++map;
     }
 
@@ -118,7 +118,7 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
     }
 }
 
-void CGarminExport::stdout(const QString& msg)
+void CGarminExport::writeStdout(const QString& msg)
 {
     textBrowser->setTextColor(Qt::blue);
     textBrowser->append(msg);
@@ -127,7 +127,7 @@ void CGarminExport::stdout(const QString& msg)
     qApp->processEvents();
 }
 
-void CGarminExport::stderr(const QString& msg)
+void CGarminExport::writeStderr(const QString& msg)
 {
     textBrowser->setTextColor(Qt::red);
     textBrowser->append(msg);
@@ -458,19 +458,19 @@ void CGarminExport::slotStart()
         quint32 dataoffset = nBlocksFat * blocksize;
 
         if(totalFATs > maxFATs){
-            stderr(tr("FAT entries: %1 (of %2) Failed!").arg(totalFATs).arg(maxFATs));
+            writeStderr(tr("FAT entries: %1 (of %2) Failed!").arg(totalFATs).arg(maxFATs));
             throw exce_t(errLogic, tr("Too many tiles."));
         }
         else {
-            stdout(tr("FAT entieres: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
+            writeStdout(tr("FAT entieres: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
         }
 
         if(filesize > maxFileSize){
-            stderr(tr("File size: %1 MB (of %2 MB) Failed!").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
+            writeStderr(tr("File size: %1 MB (of %2 MB) Failed!").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
             throw exce_t(errLogic, tr("Too many tiles."));
         }
         else {
-            stdout(tr("File size: %1 MB (of %2 MB)").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
+            writeStdout(tr("File size: %1 MB (of %2 MB)").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
         }
 
         // start to create the file
@@ -482,13 +482,13 @@ void CGarminExport::slotStart()
         gmapsupp.open(QIODevice::WriteOnly);
 
         // initialize the complete file with 0xFF
-        stdout(tr("Initialize %1").arg(gmapsupp.fileName()));
-        QByteArray dummyblock(blocksize, 0xFF);
+        writeStdout(tr("Initialize %1").arg(gmapsupp.fileName()));
+        QByteArray dummyblock(blocksize, (char)0x0FF);
         for(i = 0; i < totalBlocks; ++i){
             gmapsupp.write(dummyblock);
         }
 
-        stdout(tr("Write header..."));
+        writeStdout(tr("Write header..."));
         // write Garmin file header
         gmapsupp_imghdr_t gmapsupp_imghdr;
         initGmapsuppImgHdr(gmapsupp_imghdr, totalBlocks, dataoffset);
@@ -496,7 +496,7 @@ void CGarminExport::slotStart()
         gmapsupp.write((char*)&gmapsupp_imghdr, sizeof(gmapsupp_imghdr));
 
         // write FAT entry that defines the FAT table
-        QByteArray FATblock(sizeof(FATblock_t), 0xFF);
+        QByteArray FATblock(sizeof(FATblock_t), (char)0x0FF);
         FATblock_t * pFAT = (FATblock_t*)FATblock.data();
         initFATBlock(pFAT);
 
@@ -574,12 +574,12 @@ void CGarminExport::slotStart()
         }
         gmapsupp.write(FATblock);
 
-        stdout(tr("Copy tile data..."));
+        writeStdout(tr("Copy tile data..."));
         tile = tiles.begin();
         while(tile != tiles.end()){
             quint8 mask;
 
-            stdout(tr("    Copy %1...").arg(tile->name));
+            writeStdout(tr("    Copy %1...").arg(tile->name));
 
             QFile file(tile->filename);
             file.open(QIODevice::ReadOnly);
@@ -604,19 +604,19 @@ void CGarminExport::slotStart()
             ++tile;
         }
 
-        stdout(tr("Write map lookup table..."));
+        writeStdout(tr("Write map lookup table..."));
         gmapsupp.seek((totalBlocks - nBlockMps) * blocksize);
         gmapsupp.write(mapsourc);
 
         gmapsupp.close();
     }
     catch(const exce_t e){
-        stderr(e.msg);
-        stdout(tr("Abort due to errors."));
+        writeStderr(e.msg);
+        writeStdout(tr("Abort due to errors."));
         errors = true;
     }
 
-    stdout("----------");
+    writeStdout("----------");
 
     if(isDialog){
         pushClose->setEnabled(true);

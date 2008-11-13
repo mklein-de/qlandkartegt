@@ -142,8 +142,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
             QMap<QString, gmapsupp_subfile_desc_t> subfiles;
         };
 
-        void stdout(const QString& msg);
-        void stderr(const QString& msg);
+        void writeStdout(const QString& msg);
+        void writeStderr(const QString& msg);
 
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data, quint8 mask);
         void readTileInfo(tile_t& t);
