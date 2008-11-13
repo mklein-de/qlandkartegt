@@ -299,6 +299,11 @@ void CGarminExport::readTileInfo(tile_t& t)
         memcpy(tmpstr,pFATBlock->name,sizeof(pFATBlock->name) + sizeof(pFATBlock->type));
         tmpstr[sizeof(pFATBlock->name) + sizeof(pFATBlock->type)] = 0;
 
+        if((pFATBlock->part == 0) && subfileNames.contains(tmpstr)){
+            writeStderr(t.name + tr("contains a duplicate internal filename. Skipped!"));
+            return;
+        }
+
         if(gar_load(uint32_t, pFATBlock->size) != 0 && !subfileNames.contains(tmpstr) && tmpstr[0] != 0x20) {
             subfileNames << tmpstr;
 
@@ -462,7 +467,7 @@ void CGarminExport::slotStart()
             throw exce_t(errLogic, tr("Too many tiles."));
         }
         else {
-            writeStdout(tr("FAT entieres: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
+            writeStdout(tr("FAT entries: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
         }
 
         if(filesize > maxFileSize){
