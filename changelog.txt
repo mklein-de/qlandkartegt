@@ -1,3 +1,25 @@
+--- 2008.11.13 ---
+
+Request #27:
+Restructure DEM data handling
+
+Request #28:
+Change map tool view to apply DEM data to all maps
+
+Request #29:
+Stack vector maps as overlay
+
+Request #30:
+Export Garmin maps to gmapsupp.img
+
+Request #31:
+Upload maps to Garmin devices
+
+Request #32:
+Add lefthand menu and eye candy to 3D view
+
+
+
 --- 2008.10.29 ---
 
 Request #22:
@@ -283,6 +305,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
