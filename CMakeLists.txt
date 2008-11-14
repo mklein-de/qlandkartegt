@@ -66,5 +66,5 @@ add_subdirectory(./src)
 
 install(PROGRAMS ${PROJECT_BINARY_DIR}/./bin/qlandkartegt DESTINATION /usr/bin)
 install(FILES qlandkartegt.desktop DESTINATION /usr/share/applications)
-install(FILES qlandkartegt.png DESTINATION /usr/share/icons)
-install(FILES qlandkartegt.menu DESTINATION /usr/share/menu)
+install(FILES qlandkartegt.png DESTINATION /usr/share/pixmaps)
+

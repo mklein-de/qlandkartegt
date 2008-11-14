@@ -1,6 +1,0 @@
-?package(qlandkarte):\
-    needs="X11"\
-    section="Applications/Science/Geoscience"\
-    title="QLandkarte GT"\
-    icon16x16="/usr/share/icons/qlandkartegt.png"\
-    command="/usr/bin/qlandkartegt"
