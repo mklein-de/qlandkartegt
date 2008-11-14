@@ -268,12 +268,17 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     cfg.endGroup();
     cfg.endGroup();
 
-    float u = 0;
-    float v = 0;
-    GPS_Math_Str_To_Deg(pos, u, v);
-    topLeft.u = u * DEG_TO_RAD;
-    topLeft.v = v * DEG_TO_RAD;
-
+    if(pos.isEmpty()){
+        topLeft.u = west;
+        topLeft.v = north;
+    }
+    else{
+        float u = 0;
+        float v = 0;
+        GPS_Math_Str_To_Deg(pos, u, v);
+        topLeft.u = u * DEG_TO_RAD;
+        topLeft.v = v * DEG_TO_RAD;
+    }
     zoom(zoomidx);
     resize(parent->size());
 
