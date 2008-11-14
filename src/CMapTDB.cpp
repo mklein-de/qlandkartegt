@@ -248,15 +248,15 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 {
-    pjsrc       = pj_init_plus("+proj=merc +ellps=WGS84");
+    setup();
+    readTDB(filename);
+
+    QString str = QString("+proj=merc +lat_0=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
+    pjsrc       = pj_init_plus(str.toLatin1());
 
     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
 
-    setup();
-
-
-    readTDB(filename);
     processPrimaryMapData();
 
     QSettings cfg;
@@ -728,7 +728,6 @@ bool CMapTDB::processPrimaryMapData()
 
     if(!tiles.isEmpty()) {
         CGarminTile * img = 0;
-        qDebug() << tiles.keys();
         QMap<QString,tile_t>::iterator tile = tiles.begin();
         while(tile != tiles.end()) {
             img = tile->img;
