@@ -634,12 +634,11 @@ void CMapTDB::readTDB(const QString& filename)
                     }
                     else {
                         if(!tainted) {
-                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
+                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
                             tainted = true;
                         }
                         delete tile.img;
                         tile.img = 0;
-                        return;
                     }
                 }
             }
@@ -729,6 +728,7 @@ bool CMapTDB::processPrimaryMapData()
 
     if(!tiles.isEmpty()) {
         CGarminTile * img = 0;
+        qDebug() << tiles.keys();
         QMap<QString,tile_t>::iterator tile = tiles.begin();
         while(tile != tiles.end()) {
             img = tile->img;
@@ -744,6 +744,7 @@ bool CMapTDB::processPrimaryMapData()
              */
             while (subfile != subfiles.end()) {
                 QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+
                 /* Skip basemap. */
                 if (subfile == basemap_subfile) {
                     ++subfile;
@@ -762,7 +763,7 @@ bool CMapTDB::processPrimaryMapData()
                 ++subfile;
             }
 
-            isTransparent = img->isTransparent();
+//             isTransparent = img->isTransparent();
         }
         /* Sort all entries, note that stable sort should insure that basemap is preferred when available. */
         qStableSort(maplevels.begin(), maplevels.end(), map_level_t::GreaterThan);
@@ -991,13 +992,13 @@ void CMapTDB::draw(QPainter& p)
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
-//     if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)){
-//         bottomRight.u = M_PI + (M_PI + bottomRight.u );
-//     }
-//
-//     if((topLeft.u > 0) && (topLeft.u > bottomRight.u)){
-//         topLeft.u = -M_PI - (M_PI - topLeft.u);
-//     }
+    if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)){
+        bottomRight.u = M_PI + (M_PI + bottomRight.u );
+    }
+
+    if((topLeft.u > 0) && (topLeft.u > bottomRight.u)){
+        topLeft.u = -M_PI - (M_PI - topLeft.u);
+    }
 
     // render map if necessary
     if(needsRedraw) {
