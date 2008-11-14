@@ -205,8 +205,6 @@ class CMapTDB : public IMap
         double west;
         /// the area in [m] covered by the basemap
         QRectF area;
-        /// set true for encrypted maps
-        bool encrypted;
         /// the unlock key
         QString mapkey;
         /// the basemap tile;
