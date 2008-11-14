@@ -64,4 +64,7 @@ TEST_BIG_ENDIAN(CMAKE_HAVE_BIGENDIAN)
 
 add_subdirectory(./src)
 
-INSTALL(PROGRAMS ${PROJECT_BINARY_DIR}/./bin/qlandkartegt DESTINATION /usr/bin)
+install(PROGRAMS ${PROJECT_BINARY_DIR}/./bin/qlandkartegt DESTINATION /usr/bin)
+install(FILES qlandkartegt.desktop DESTINATION /usr/share/applications)
+install(FILES qlandkartegt.png DESTINATION /usr/share/icons)
+install(FILES qlandkartegt.menu DESTINATION /usr/share/menu)

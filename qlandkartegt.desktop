@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=QLandkarteGT
+Exec=qlandkartegt
+Icon=qlandkartegt
+Terminal=false
+Type=Application
+X-MultipleArgs=false
+Categories=Qt;Utility;Geography;
+GenericName=GPS device mapping utility
