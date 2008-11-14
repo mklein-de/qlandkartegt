@@ -991,6 +991,14 @@ void CMapTDB::draw(QPainter& p)
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
+//     if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)){
+//         bottomRight.u = M_PI + (M_PI + bottomRight.u );
+//     }
+//
+//     if((topLeft.u > 0) && (topLeft.u > bottomRight.u)){
+//         topLeft.u = -M_PI - (M_PI - topLeft.u);
+//     }
+
     // render map if necessary
     if(needsRedraw) {
         draw();
