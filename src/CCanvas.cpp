@@ -48,6 +48,8 @@
 #include "GeoMath.h"
 #include "WptIcons.h"
 
+#include "Platform.h"
+
 #include "IUnit.h"
 
 #include <QtGui>

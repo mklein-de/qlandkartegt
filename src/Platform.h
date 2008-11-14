@@ -101,6 +101,8 @@
 #elif HAVE_STDINT_H
 #  include <stdint.h>
 #elif WIN32
+#include <windows.h>
+
 typedef __int8  int8_t;
 typedef __int16 int16_t;
 typedef __int32 int32_t;
@@ -109,6 +111,8 @@ typedef unsigned __int8     uint8_t;
 typedef unsigned __int16    uint16_t;
 typedef unsigned __int32    uint32_t;
 typedef unsigned __int64    uint64_t;
+
+#define isnan(x) _isnan(x)
 
 #else
 #  error neither inttypes.h nor stdint.h are available
