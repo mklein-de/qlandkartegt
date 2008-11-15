@@ -70,7 +70,18 @@ class CMapTDB : public IMap
             QString str;
         };
 
+        struct typ_section_t {
+            typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){};
+            quint32  dataOffset;
+            quint32  dataLength;
+            quint32  arrayOffset;
+            quint16  arrayModulo;
+            quint32  arraySize;
+        } ;
+
+
         void readTDB(const QString& filename);
+        void readTYP();
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
@@ -82,6 +93,9 @@ class CMapTDB : public IMap
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
+
+        void readASCIIString(QDataStream& ds, QString& str);
+        void processDrawOrder(QDataStream& file, const typ_section_t& section);
 
 #pragma pack(1)
         struct tdb_hdr_t
@@ -266,6 +280,8 @@ class CMapTDB : public IMap
 
         QVector<polygon_property> polygonProperties;
 
+        QList<quint16> draworder;
+
         polytype_t polygons;
         polytype_t polylines;
         pointtype_t points;
@@ -279,6 +295,7 @@ class CMapTDB : public IMap
         QPoint          topLeftInfo;
 
         QPoint          pointFocus;
+
 
 };
 #endif                           //CMAPTDB_H
