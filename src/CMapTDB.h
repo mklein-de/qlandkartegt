@@ -94,8 +94,10 @@ class CMapTDB : public IMap
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
 
+        void decodeBitmap(QImage &img, QByteArray &bytes, int w, int h, int bpp);
         void readASCIIString(QDataStream& ds, QString& str);
-        void processDrawOrder(QDataStream& file, const typ_section_t& section);
+        void processTypDrawOrder(QDataStream& file, const typ_section_t& section);
+        void processTypPolygons(QDataStream& file, const typ_section_t& section);
 
 #pragma pack(1)
         struct tdb_hdr_t
