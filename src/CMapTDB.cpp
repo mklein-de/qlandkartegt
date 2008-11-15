@@ -251,7 +251,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     setup();
     readTDB(filename);
 
-    QString str = QString("+proj=merc +lat_0=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
+    QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
 
     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);

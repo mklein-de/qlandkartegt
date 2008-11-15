@@ -24,6 +24,7 @@
 #include <projects.h>
 
 #include "CMainWindow.h"
+// #include "CGarminTyp.h"
 
 int main(int argc, char ** argv)
 {
@@ -70,7 +71,7 @@ int main(int argc, char ** argv)
     splash->finish(&w);
     delete splash;
 
-
+//     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
 
     int res  = theApp.exec();
     return res;

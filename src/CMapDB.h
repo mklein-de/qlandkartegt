@@ -63,7 +63,9 @@ class CMapDB : public IDB
         /// get current DEM map
         IMap& getDEM();
 
+#ifdef PLOT_3D
         CMap3DWidget * getMap3D(){return map3DWidget;}
+#endif
 
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
