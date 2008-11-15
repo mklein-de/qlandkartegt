@@ -223,11 +223,12 @@ void CMap3DWidget::draw3DMap()
     double h = s.height();
 
     int i, iv, it, j, k, cur, end;
-    double step = 10;
+    double step = 5;
     double x, y, u, v;
     GLdouble *vertices;
     GLdouble *texCoords;
-    GLubyte idx[4];
+    GLuint idx[4];
+    int num = (w / step + 2);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);
@@ -237,7 +238,6 @@ void CMap3DWidget::draw3DMap()
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
-    int num = (w / step + 2);
     vertices = new GLdouble[num * 3 * 2];
     texCoords = new GLdouble[num * 2 * 2];
     it = 0;
@@ -247,6 +247,8 @@ void CMap3DWidget::draw3DMap()
     idx[3] = 0;
     glVertexPointer(3, GL_DOUBLE, 0, vertices);
     glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+    glColor3f(1.0, 0.0, 0.0);
+    glPointSize(2.0);
 
     for (y = 0; y < h - step; y += step) {
         it = it % (num * 4);
@@ -262,6 +264,8 @@ void CMap3DWidget::draw3DMap()
             // next step of optimization will be get elevation for the set of points
             // read line from DEM file is more effectively
             vertices[iv + 2] = dem.getElevation(u, v);
+            if  (vertices[iv + 2] > 5000 || vertices[iv + 2] < 0)
+                    qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
@@ -272,7 +276,7 @@ void CMap3DWidget::draw3DMap()
                 continue;
 
         for (k = 0; k < num - 1; k ++) {
-            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, idx);
+            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
             for (j = 0; j < 4; j++)
                 idx[j]++;
         }
