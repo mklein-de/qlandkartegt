@@ -222,58 +222,66 @@ void CMap3DWidget::draw3DMap()
     double w = s.width();
     double h = s.height();
 
-    int i, j;
-    double step = 5;
+    int i, iv, it, j, k, cur, end;
+    double step = 10;
     double x, y, u, v;
-    GLdouble vertices[4][3];
-    GLdouble texCoords[4][2];
-
+    GLdouble *vertices;
+    GLdouble *texCoords;
+    GLubyte idx[4];
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
 
     IMap& dem = CMapDB::self().getDEM();
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
+    int num = (w / step + 2);
+    vertices = new GLdouble[num * 3 * 2];
+    texCoords = new GLdouble[num * 2 * 2];
+    it = 0;
+    idx[0] = 0 + num;
+    idx[1] = 1 + num;
+    idx[2] = 1;
+    idx[3] = 0;
+    glVertexPointer(3, GL_DOUBLE, 0, vertices);
+    glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+
     for (y = 0; y < h - step; y += step) {
-        for (x = 0; x < w; x += step) {
-            /* copy points 3 -> 0, 2 -> 1 */
-            for (j = 0; j < 3; j++) {
-                vertices[0][j] = vertices[3][j];
-                vertices[1][j] = vertices[2][j];
-                if (j < 2) {
-                    texCoords[0][j] = texCoords[3][j];
-                    texCoords[1][j] = texCoords[2][j];
-                }
-            }
-            /* compute values for points 2,3 */
-            for (i =2; i < 4; i ++) {
-                vertices[i][0] = x;
-                vertices[i][1] = y;
-                if ((i % 4) == 2)
-                    vertices[i][1] += 10;
-                u = vertices[i][0];
-                v = vertices[i][1];
-                texCoords[i][0] = u / w;
-                texCoords[i][1] = 1 - v / h;
-                map->convertPt2Rad(u, v);
-                // FIXME can't use map instead of dem. need investigation.
-                vertices[i][2] = dem.getElevation(u,v);
-                convertPt23D(vertices[i][0], vertices[i][1], vertices[i][2]);
-            }
-            /* points 0, 1 are absent on the first iteration, so spip it*/
-            if (x > step/2)
-            for (i = 0; i < 4; i++) {
-                glTexCoord2d(texCoords[i][0], texCoords[i][1]);
-                glVertex3d(vertices[i][0], vertices[i][1], vertices[i][2]);
-            }
+        it = it % (num * 4);
+        end = it + num * 2;
+        for (x = 0, iv = (it / 2) * 3; it < end; x += step, iv += 3, it += 2) {
+            vertices[iv + 0] = x;
+            vertices[iv + 1] = y;
+            u = x;
+            v = y;
+            texCoords[it  + 0] = u / w;
+            texCoords[it + 1] = 1 - v / h;
+            map->convertPt2Rad(u, v);
+            // next step of optimization will be get elevation for the set of points
+            // read line from DEM file is more effectively
+            vertices[iv + 2] = dem.getElevation(u, v);
+            convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
+
+        for (j = 0; j < 4; j++)
+            idx[j] = idx[j] % (num * 2);
+
+        if (y < step)
+                continue;
+
+        for (k = 0; k < num - 1; k ++) {
+            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, idx);
+            for (j = 0; j < 4; j++)
+                idx[j]++;
+        }
+        for (j = 0; j < 4; j++)
+                idx[j]++;
     }
-
-    glEnd();
+    delete [] vertices;
+    delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
-
 }
 
 void CMap3DWidget::drawTrack()
