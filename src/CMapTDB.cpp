@@ -21,6 +21,7 @@
 #include "CMapDEM.h"
 #include "Garmin.h"
 #include "CGarminTile.h"
+#include "CGarminTyp.h"
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -287,6 +288,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     parent->installEventFilter(this);
     qDebug() << "CMapTDB::CMapTDB()";
+    //garminTyp = new CGarminTyp("/home/fcr/teddy.typ", parent);
 }
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename)
@@ -1276,7 +1278,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     int n;
     const int N = draworder.size();
 
-    for(n = 0; n < 49; ++n) {
+    for(n = 0; n < N; ++n) {
         quint16 type = draworder[n];
 
         p.setPen(polygonProperties[type].pen);
@@ -1738,6 +1740,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         quint16 otyp, ofs;
         quint8 ofsc, x;
         int wtyp, typ, subtyp;
+        bool hasLocalization;
 
         in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
 
@@ -1757,6 +1760,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         in.device()->seek(section.dataOffset + ofs);
 
         in >> x;
+
+        hasLocalization = x & 0x10;
         if ( x & 0x10) {
             //qDebug() << "Has localization";
         }
@@ -1847,15 +1852,18 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         quint8 lang,delka;
         in >> delka;
         in >> lang;
-        readASCIIString(in, label );
+        if(hasLocalization ){
+            readASCIIString(in, label );
+        }
 //         qDebug() << QString("type=0x%1 subtype=0x%2 rows=%3 colorType=0x%4 string=%5 lang=0x%6 orientation=%7 lineW=%8 borderW=%9").arg(typ,0,16).arg(subtyp,0,16).arg("none").arg(colorType,0,16).arg(polygonProperty.string).arg(lang,0,16).arg(polygonProperty.useOrientation).arg(polygonProperty.lineWidth).arg(polygonProperty.borderWidth);
 
 
-        qDebug() << label << hex << typ << subtyp;
+        qDebug() << label << dec << typ << hex << typ << subtyp << colorType;
 
         if(bBitmap){
             decodeBitmap(myXpm, xpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
+            myXpm.save(QString("%1.png").arg(typ));
         }
         polygonProperties[typ].known = true;
     }
