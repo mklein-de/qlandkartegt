@@ -74,6 +74,7 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         map_t myMap;
         myMap.map = map->name;
         myMap.key = map->unlockKey;
+        myMap.typ = map->typfile;
 
         maps << myMap;
         if(myMap.key.isEmpty()){
@@ -431,8 +432,25 @@ void CGarminExport::slotStart()
             ++tile;
         }
 
-        // add map strings and keys to mapsourc.mps
+        // test for typ files
+        quint32 nBlockTyp = 0;
+        quint32 nFATTyp   = 0;
         QVector<map_t>::iterator map = maps.begin();
+        while(map != maps.end()){
+            if(!map->typ.isEmpty()){
+                QFileInfo fi(map->typ);
+                nBlockTyp += ceil(double(fi.size()) / blocksize);
+                nFATTyp   += ceil( double(nBlockTyp) / 240 );
+            }
+            ++map;
+        }
+
+        totalBlocks += nBlockTyp;
+        totalFATs   += nFATTyp;
+
+
+        // add map strings and keys to mapsourc.mps
+        map = maps.begin();
         while(map != maps.end()){
             mps << (quint8)'F';
             mps << (quint16)(4 + map->map.size() + 1);
@@ -444,7 +462,6 @@ void CGarminExport::slotStart()
                 mps << (quint8)'U' << (quint16)26;
                 mps.writeRawData(map->key.toAscii(),26);
             }
-
             ++map;
         }
 
@@ -555,6 +572,44 @@ void CGarminExport::slotStart()
             }
             ++tile;
         }
+
+
+        // write typfile FAT blocks
+        map = maps.begin();
+        while(map != maps.end()){
+            if(!map->typ.isEmpty()){
+                QFileInfo fi(map->typ);
+                quint32 nBlock = ceil(double(fi.size()) / blocksize);
+
+                quint16 partno   = 0;
+                quint16 blockidx = 0;
+
+                initFATBlock(pFAT);
+                memcpy(pFAT->name, "XXXXXXXX", sizeof(pFAT->name));
+                memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
+                pFAT->size = gar_endian(uint32_t, fi.size());
+                pFAT->part = gar_endian(uint16_t, partno++ << 8);
+                for(i = 0; i < nBlock; ++i, ++blockidx){
+                    if(blockidx == 240){
+                        gmapsupp.write(FATblock);
+                        initFATBlock(pFAT);
+                        memcpy(pFAT->name, "XXXXXXXX", sizeof(pFAT->name));
+                        memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
+                        pFAT->size  = 0;
+                        pFAT->part  = gar_endian(uint16_t, partno++ << 8);
+                        blockidx    = 0;
+                    }
+                    pFAT->blocks[blockidx] = gar_endian(uint16_t, blockcnt++);
+                }
+                gmapsupp.write(FATblock);
+
+                map->newTypOffset = newOffset;
+                newOffset        += nBlock * blocksize;
+
+            }
+            ++map;
+        }
+
         // write MAPSOURCMPS FAT entries
         quint16 partno   = 0;
         quint16 blockidx = 0;
@@ -607,6 +662,21 @@ void CGarminExport::slotStart()
                 ++subfile;
             }
             ++tile;
+        }
+
+        writeStdout(tr("Copy typ files..."));
+        map = maps.begin();
+        while(map != maps.end()){
+            if(!map->typ.isEmpty()){
+                QFile file(map->typ);
+                file.open(QIODevice::ReadOnly);
+                QByteArray data = file.readAll();
+                file.close();
+
+                gmapsupp.seek(map->newTypOffset);
+                gmapsupp.write(data);
+            }
+            ++map;
         }
 
         writeStdout(tr("Write map lookup table..."));

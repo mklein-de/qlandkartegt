@@ -130,6 +130,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         {
             QString map;
             QString key;
+            QString typ;
+            quint32 newTypOffset;
         };
 
         struct tile_t

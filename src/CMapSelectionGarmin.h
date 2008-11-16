@@ -53,6 +53,7 @@ class CMapSelectionGarmin : public IMapSelection
         {
             QString unlockKey;
             QString name;
+            QString typfile;
             QMap<QString, tile_t> tiles;
         };
 

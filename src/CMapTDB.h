@@ -205,6 +205,8 @@ class CMapTDB : public IMap
 
         /// tdb filename
         QString filename;
+        /// typ filename
+        QString typfile;
         /// copyright string
         QString copyright;
         /// map collection name

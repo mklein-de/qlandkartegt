@@ -535,7 +535,7 @@ void CMapTDB::readTDB(const QString& filename)
     bool    tainted     = false;
 
     while((quint8*)pRecord < pRawData + data.size()) {
-        pRecord->size = gar_load(quint16,pRecord->size);
+        pRecord->size = gar_load(uint16_t,pRecord->size);
         switch(pRecord->type) {
             case 0x50:           // product name
             {
@@ -548,11 +548,11 @@ void CMapTDB::readTDB(const QString& filename)
             {
                 tdb_map_t * p   = (tdb_map_t*)pRecord;
 
-                basemapId       = gar_load(quint32,p->id);
-                double n        = GARMIN_RAD((gar_load(qint32,p->north) >> 8) & 0x00FFFFFF);
-                double e        = GARMIN_RAD((gar_load(qint32,p->east) >> 8)  & 0x00FFFFFF);
-                double s        = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
-                double w        = GARMIN_RAD((gar_load(qint32,p->west) >> 8)  & 0x00FFFFFF);
+                basemapId       = gar_load(uint32_t,p->id);
+                double n        = GARMIN_RAD((gar_load(int32_t,p->north) >> 8) & 0x00FFFFFF);
+                double e        = GARMIN_RAD((gar_load(int32_t,p->east) >> 8)  & 0x00FFFFFF);
+                double s        = GARMIN_RAD((gar_load(int32_t,p->south) >> 8) & 0x00FFFFFF);
+                double w        = GARMIN_RAD((gar_load(int32_t,p->west) >> 8)  & 0x00FFFFFF);
 
                 if(north < n) north = n;
                 if(east  < e) east  = e;
@@ -595,7 +595,7 @@ void CMapTDB::readTDB(const QString& filename)
             case 0x4C:           // map tiles
             {
                 tdb_map_t * p = (tdb_map_t*)pRecord;
-                p->id = gar_load(quint32,p->id);
+                p->id = gar_load(uint32_t,p->id);
                 if(p->id == basemapId) break;
 
                 QString tilename = QString::fromLatin1(p->name);
@@ -613,10 +613,10 @@ void CMapTDB::readTDB(const QString& filename)
 
 //                 qDebug() << tile.file;
 
-                tile.north  = GARMIN_RAD((gar_load(qint32,p->north) >> 8) & 0x00FFFFFF);
-                tile.east   = GARMIN_RAD((gar_load(qint32,p->east) >> 8)  & 0x00FFFFFF);
-                tile.south  = GARMIN_RAD((gar_load(qint32,p->south) >> 8) & 0x00FFFFFF);
-                tile.west   = GARMIN_RAD((gar_load(qint32,p->west) >> 8)  & 0x00FFFFFF);
+                tile.north  = GARMIN_RAD((gar_load(int32_t,p->north) >> 8) & 0x00FFFFFF);
+                tile.east   = GARMIN_RAD((gar_load(int32_t,p->east) >> 8)  & 0x00FFFFFF);
+                tile.south  = GARMIN_RAD((gar_load(int32_t,p->south) >> 8) & 0x00FFFFFF);
+                tile.west   = GARMIN_RAD((gar_load(int32_t,p->west) >> 8)  & 0x00FFFFFF);
                 tile.area   = QRectF(QPointF(tile.west, tile.north), QPointF(tile.east, tile.south));
 
                 tile.defAreaU << tile.west << tile.east << tile.east << tile.west;
@@ -627,7 +627,7 @@ void CMapTDB::readTDB(const QString& filename)
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
                 for(quint16 i=0; i < s->count; ++i) {
-                    tile.memSize += gar_load(quint32,s->sizes[i]);
+                    tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }
 
                 try
@@ -684,7 +684,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 tdb_copyrights_t * p = (tdb_copyrights_t*)pRecord;
                 tdb_copyright_t  * c = &p->entry;
-                while((void*)c < (void*)((quint8*)p + gar_load(quint16,p->size) + 3)) {
+                while((void*)c < (void*)((quint8*)p + gar_load(uint16_t,p->size) + 3)) {
 
                     if(c->type != 0x07) {
                         out << c->str << "<br/>" << endl;
@@ -1572,6 +1572,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
         CMapSelectionGarmin::map_t& m = sel.maps[key];
         m.unlockKey = mapkey;
         m.name      = name;
+        m.typfile   = typfile;
     }
     QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
 
@@ -1632,6 +1633,8 @@ void CMapTDB::readTYP()
 
     if(typfiles.isEmpty()) return;
 
+    typfile = path.absoluteFilePath(typfiles[0]);
+
     QFile file(path.absoluteFilePath(typfiles[0]));
     file.open(QIODevice::ReadOnly);
 
@@ -1682,6 +1685,7 @@ void CMapTDB::readTYP()
 
     quint16 PID, FID;
     in >> PID >> FID;
+    qDebug() << "PID" << hex << PID << "FID" << hex << FID;
 
     /* Read Array datas */
     in >> sectPoints.arrayOffset >> sectPoints.arrayModulo >> sectPoints.arraySize;
@@ -1752,7 +1756,11 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         subtyp  = wtyp >> 8;
         subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
 
-        if(subtyp != 0) continue;
+        if(subtyp != 0){
+//             qDebug() << "Skiped: " << typ << subtyp << typ << subtyp;
+//             continue;
+            typ = subtyp;
+        }
 
         in.device()->seek(section.dataOffset + ofs);
 
@@ -1782,20 +1790,18 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         else if ( colorType == 8 ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
-            myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;
             myXpm.setColor(0, qRgb(r,g,b) );
+            in >> b >> g >> r;
+            myXpm.setColor(1, qRgb(r,g,b) );
             bBitmap = true;
         }
 
         else if ( colorType == 0xf ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
-            qDebug() << hex << qRgb(r,g,b);
-            myXpm.setColor(1, qRgb(r,g,b) );
-//             in >> b >> g >> r;
-            qDebug() << hex << qRgb(r,g,b);
             myXpm.setColor(0, qRgb(r,g,b) );
+            in >> b >> g >> r;
+            myXpm.setColor(1, qRgb(r,g,b) );
             bBitmap = true;
         }
 
@@ -1859,6 +1865,9 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             decodeBitmap(myXpm, xpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
 //             myXpm.save(QString("%1.png").arg(typ));
+        }
+        else{
+            polygonProperties[typ].brush.setColor(myXpm.color(1));
         }
         polygonProperties[typ].known = true;
     }
