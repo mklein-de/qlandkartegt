@@ -1723,7 +1723,8 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
         else if(typ < 0x80){
 //             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
             int idx = draworder.indexOf(typ);
-            draworder.move(idx,0);
+//             draworder.move(idx,0);
+            draworder.move(idx,draworder.count()-1);
         }
     }
 }
