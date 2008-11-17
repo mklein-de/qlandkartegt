@@ -1362,12 +1362,9 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     int n;
     const int N = draworder.size();
 
-    qDebug() << "ddddddddddddddd" << hex << draworder.size();
-
     for(n = 0; n < N; ++n) {
         quint16 type = draworder[0x7F - n];
 
-        qDebug() << hex << type << (0x7F - n);
         p.setPen(polygonProperties[type].pen);
         p.setBrush(polygonProperties[type].brush);
 
@@ -1634,6 +1631,9 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
             if(c && !line->labels.isEmpty()) {
                 dict.insert(tr("Area"), line->labels.join(" ").simplified());
             }
+
+//             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
+
         }
         ++line;
     }
