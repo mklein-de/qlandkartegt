@@ -1878,7 +1878,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 void CMapTDB::decodeBitmap(QImage &img, QByteArray &bytes, int w, int h, int bpp)
 {
 //     int wBytes = (w * bpp) / 8;
-    int x,j = 0;
+    int x = 0,j = 0;
     quint8 color;
     for (int y=0; y < h; y++) {
         while ( x < w ) {
