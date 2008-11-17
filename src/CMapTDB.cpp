@@ -272,6 +272,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
+, useTyp(true)
+, mouseOverUseTyp(false)
 {
     setup();
     readTDB(filename);
@@ -328,6 +330,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
+, useTyp(true)
 {
     pjsrc = pj_init_plus(CMapDB::self().getMap().getProjection());
 
@@ -460,7 +463,9 @@ void CMapTDB::setup()
         draworder << order[i];
     }
 
-    readTYP();
+    if(useTyp){
+        readTYP();
+    }
 }
 
 void CMapTDB::registerDEM(CMapDEM& dem)
@@ -478,6 +483,7 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
+    rectUseTyp  = QRect(55,size.height() - 55, 100, 32);
     topLeftInfo = QPoint(size.width() - TEXTWIDTH - 10 , 10);
 }
 
@@ -489,6 +495,18 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
+
+        if(rectUseTyp.contains(pointFocus) && !mouseOverUseTyp){
+            mouseOverUseTyp = true;
+        }
+        else if(!rectUseTyp.contains(pointFocus) && mouseOverUseTyp){
+            mouseOverUseTyp = false;
+        }
+
+        if(rectUseTyp.contains(pointFocus) && e->button() == Qt::LeftButton){
+            useTyp = !useTyp;
+        }
+
         QMultiMap<QString, QString> dict;
         getInfoPoints(pointFocus, dict);
         getInfoPois(pointFocus, dict);
@@ -508,6 +526,16 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         }
 
         if(!doFastDraw) emit sigChanged();
+
+    }
+    else if(parent() == watched && event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent * e = (QMouseEvent*)event;
+        if(rectUseTyp.contains(e->pos()) && e->button() == Qt::LeftButton){
+            useTyp = !useTyp;
+            setup();
+            needsRedraw = true;
+            emit sigChanged();
+        }
     }
 
     return IMap::eventFilter(watched, event);
@@ -1067,6 +1095,45 @@ void CMapTDB::draw(QPainter& p)
     }
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
+
+    if(!typfile.isEmpty()){
+        QString str;
+
+
+        if(useTyp){
+            str = tr("use typ");
+            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconOk32x32.png"));
+        }
+        else{
+            str = tr("no typ");
+            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconCancel32x32.png"));
+        }
+
+        QFont font = p.font();
+
+        p.save();
+
+        font.setPixelSize(mouseOverUseTyp ? 30 : 20);
+
+        p.setPen(Qt::white);
+        p.setFont(font);
+
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1,-1 + 5), str);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0,-1 + 5), str);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1,-1 + 5), str);
+
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1, 0 + 5), str);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1, 0 + 5), str);
+
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1,+1 + 5), str);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0,+1 + 5), str);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1,+1 + 5), str);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0, 0 + 5),str);
+
+        p.restore();
+    }
 
     if(doFastDraw) setFastDraw();
 }

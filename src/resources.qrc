@@ -74,6 +74,9 @@
         <file>icons/iconPrint22x22.png</file>
         <file>icons/iconConfig22x22.png</file>
 
+        <file>icons/iconCancel32x32.png</file>
+        <file>icons/iconOk32x32.png</file>
+
         <file>icons/editundo.png</file>
         <file>icons/editredo.png</file>
         <file>icons/editcut.png</file>

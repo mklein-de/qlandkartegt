@@ -300,6 +300,8 @@ class CMapTDB : public IMap
 
         QPoint          pointFocus;
 
-
+        bool    useTyp;
+        bool    mouseOverUseTyp;
+        QRect   rectUseTyp;
 };
 #endif                           //CMAPTDB_H
