@@ -2016,19 +2016,27 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-        qDebug() << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+        qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
+        int maxcolor = pow(2.0f,bpp);
+        quint8 r,g,b;
 
         if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
             if (x3 == 0x10) {
-                myXpmDay.setNumColors(colors);
-                for (int i = 0; i < colors; i++) {
-                    quint8 r,g,b;
-                    in >> b >> g >> r;
-                    myXpmDay.setColor(i, qRgb(r,g,b));
+
+                myXpmDay.setNumColors(maxcolor);
+                for (int i = 0; i < maxcolor; i++) {
+                    if(i < colors){
+                        in >> b >> g >> r;
+                        myXpmDay.setColor(i, qRgb(r,g,b));
+                        qDebug() << colors << hex << qRgb(r,g,b);
+                    }
+                    else{
+                        myXpmDay.setColor(i, qRgba(0,0,0,0));
+                    }
                 }
                 decodeBitmap(in, myXpmDay, w, h, bpp);
-                myXpmDay.save(QString("poi%1.png").arg(typ));
+                myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
         }
 
