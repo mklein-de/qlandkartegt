@@ -98,6 +98,7 @@ class CMapTDB : public IMap
         void readASCIIString(QDataStream& ds, QString& str);
         void processTypDrawOrder(QDataStream& file, const typ_section_t& section);
         void processTypPolygons(QDataStream& file, const typ_section_t& section);
+        void processTypPois(QDataStream& in, const typ_section_t& section);
 
 #pragma pack(1)
         struct tdb_hdr_t

@@ -1783,6 +1783,7 @@ void CMapTDB::readTYP()
 
     processTypDrawOrder(in, sectOrder);
     processTypPolygons(in, sectPolygons);
+//     processTypPois(in, sectPoints);
 
     file.close();
 }
@@ -1933,6 +1934,159 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
 }
 
+void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
+{
+    if((section.arraySize % section.arrayModulo) != 0){
+        return;
+    }
+
+    int nbElements = section.arraySize / section.arrayModulo;
+    for (int element=0; element < nbElements; element++) {
+        /* seek to position of element polyline */
+        quint16 otyp, ofs;
+        quint8 ofsc;
+        int wtyp, typ, subtyp;
+
+
+        in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
+        if (section.arrayModulo == 4) {
+            in >> otyp >> ofs;
+        }
+        if (section.arrayModulo == 3) {
+            in >> otyp >> ofsc;
+            ofs = ofsc;
+        }
+        wtyp    = (otyp >> 5) | (( otyp & 0x1f) << 11);
+        typ     = wtyp & 0xff;
+        subtyp  = wtyp >> 8;
+        subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
+
+        /* Create element */
+        in.device()->seek( section.dataOffset + ofs );
+
+        quint8 a, w, h, colors, x3;
+        int wBytes, bpp;
+        in >> a >> w >> h >> colors >> x3;
+        QImage myXpmDay(w,h, QImage::Format_Indexed8 );
+        QImage myXpmNight(w,h, QImage::Format_Indexed8 );
+
+        if ( colors >= 16){
+            bpp = 8;
+        }
+        else{
+            if (colors >= 3 ) {
+                if ( (colors == 3) && (x3 == 0x20) ){
+                    bpp = 2;
+                }
+                else{
+                    bpp = 4;
+                }
+            }
+            else{
+                bpp = 2;
+            }
+        }
+        wBytes = (w * bpp) / 8;
+        qDebug() << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+
+
+        if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
+            if (x3 == 0x10) {
+                myXpmDay.setNumColors(colors);
+                for (int i = 0; i < colors; i++) {
+                    quint8 r,g,b;
+                    in >> b >> g >> r;
+                    myXpmDay.setColor(i, qRgb(r,g,b));
+                }
+                decodeBitmap(in, myXpmDay, w, h, bpp);
+                myXpmDay.save(QString("poi%1.png").arg(typ));
+            }
+        }
+
+//         if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
+//             if ( x3 == 0x20 ) {
+//                 int bytes = colors * 3.5;
+//
+//             } else if (x3 == 0x10) {
+//                 myXpm.setNumColors(colors);
+//                 //myXpm.setColor(0, qRgb(0,0,0) );
+//                 for ( int i=1; i <= colors; i++) {
+//                     quint8 r,g,b;
+//                     typStream >> b >> g >> r;
+//                     myXpm.setColor(i-1, qRgb(r,g,b) );
+//                 }
+//             } else if ( x3 == 0) {
+//                 myXpm.setNumColors(colors);
+//                 //myXpm.setColor(0, qRgb(0,0,0) );
+//                 for ( int i=1; i <= colors; i++) {
+//                     quint8 r,g,b;
+//                     typStream >> b >> g >> r;
+//                     myXpm.setColor(i-1, qRgb(r,g,b) );
+//                 }
+//                 if ( bpp == 4) {
+//                     bpp = bpp / 2;
+//                     wBytes = wBytes / 2;
+//                 }
+//             }
+//             /* Bitmap start here h * wBytes */
+//             quint8 byte;
+//             int i=0;
+//             while(i < ( h * wBytes) ) {
+//                     typStream >> byte;
+//                     xpm.append(byte);
+//                     i++;
+//             }
+//         } else if ( a== 7 ) {
+//             myXpm.setNumColors(colors);
+//             for ( int i=0; i < colors; i++) {
+//                 quint8 r,g,b;
+//                 typStream >> b >> g >> r;
+//                 myXpm.setColor(i, qRgb(r,g,b) );
+//             }
+//             /* Bitmap start here h * wBytes */
+//             quint8 byte;
+//             int i=0;
+//             while(i < ( h * wBytes) ) {
+//                     typStream >> byte;
+//                     xpm.append(byte);
+//                     i++;
+//             }
+//             /* Get again colors and x3 flag */
+//             typStream >> colors >> x3;
+//             if ( colors >=16) bpp = 8;
+//             else if (colors >=3 ) {
+//                 if ( (colors == 3) && (x3 == 0x20) ) bpp = 2;
+//                 else bpp = 4;
+//             } else bpp = 2;
+//             wBytes = (w * bpp) / 8;
+//
+//             myXpmNight.setNumColors(colors);
+//             for ( int i=0; i < colors; i++) {
+//                 quint8 r,g,b;
+//                 typStream >> b >> g >> r;
+//                 myXpmNight.setColor(i, qRgb(r,g,b) );
+//             }
+//             /* Bitmap start here h * wBytes */
+//             i=0;
+//             while(i < ( h * wBytes) ) {
+//                     typStream >> byte;
+//                     xpmNight.append(byte);
+//                     i++;
+//             }
+//         }
+//         quint8 lang,delka;
+//         typStream >> delka;
+//         typStream >> lang;
+//         readASCIIString(typStream, pointProperty.string );
+//         qDebug() << QString("type=0x%1 subtype=0x%2 rows=%3 colorType=%4 string=%5 lang=0x%6 orientation=%7 lineW=%8 borderW=%9").arg(typ,0,16).arg(subtyp,0,16).arg("none").arg("none").arg(pointProperty.string).arg(lang,0,16).arg(pointProperty.useOrientation).arg(pointProperty.lineWidth).arg(pointProperty.borderWidth);
+//         decodeBitmap(QString("points_day_%1_%2").arg(typ,0,16).arg(subtyp,0,16), myXpm, xpm, w, h, bpp);
+//         decodeBitmap(QString("points_night_%1_%2").arg(typ,0,16).arg(subtyp,0,16), myXpmNight, xpmNight, w, h, bpp);
+//         /* Create element list */
+//         pointsProperties.prepend( pointProperty);
+
+    }
+}
+
 void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 {
     QByteArray bytes;
@@ -1942,7 +2096,7 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 
     int x = 0,j = 0;
     quint8 color;
-    for (int y=0; y < h; y++) {
+    for (int y = 0; y < h; y++) {
         while ( x < w ) {
 
             if (j < bytes.size()){
@@ -1953,7 +2107,7 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
                 break;
             }
 
-            for ( int i =0; i < (8 / bpp) ; i++ ) {
+            for ( int i = 0; i < (8 / bpp) ; i++ ) {
                 int value;
                 if ( i > 0 ) {
                     value = (color >>= bpp);
@@ -1965,11 +2119,14 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
                 if ( bpp == 2) value = value & 0x3;
                 if ( bpp == 1) value = value & 0x1;
                 img.setPixel(x,y,value);
-                //qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
+//                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
                 x += 1;
             }
             j += 1;
         }
         x = 0;
     }
+    qDebug();
+    qDebug();
+
 }
