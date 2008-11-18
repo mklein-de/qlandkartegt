@@ -1898,13 +1898,42 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         }
 
         else if ( colorType == 9 ) {
-            myXpm.setNumColors(4);
+            myXpm.setNumColors(2);
             in >> b >> g >> r;                          // day background
             myXpm.setColor(1, qRgb(r,g,b) );
             in >> b >> g >> r;                          // day forground
             myXpm.setColor(0, qRgb(r,g,b) );
             in >> b >> g >> r;                          // night background
             in >> b >> g >> r;                          // night foreground
+
+            decodeBitmap(in, myXpm, 32, 32, 1);
+            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
+        }
+
+        else if ( colorType == 0xb ) {
+            myXpm.setNumColors(2);
+            in >> b >> g >> r;
+            myXpm.setColor(0, qRgb(r,g,b) );            // day forground
+            myXpm.setColor(1, qRgba(255,255,255,0) );
+
+            in >> b >> g >> r;                          // night forground
+//             myXpm.setColor(1, qRgb(r,g,b) );
+            in >> b >> g >> r;                          // night background
+//             myXpm.setColor(1, qRgb(r,g,b) );
+
+
+            decodeBitmap(in, myXpm, 32, 32, 1);
+            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
+        }
+        else if ( colorType == 0xe ) {
+            myXpm.setNumColors(2);
+            in >> b >> g >> r;
+            myXpm.setColor(0, qRgb(r,g,b) );
+            myXpm.setColor(1, qRgba(0,0,0,0) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
@@ -2089,11 +2118,6 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 
 void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 {
-    QByteArray bytes;
-    int n = w * h * bpp / 8 + 10;
-
-//     bytes = in.device()->read(n);
-
     int x = 0,j = 0;
     quint8 color;
     for (int y = 0; y < h; y++) {
@@ -2119,7 +2143,4 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
         }
         x = 0;
     }
-    qDebug();
-    qDebug();
-
 }
