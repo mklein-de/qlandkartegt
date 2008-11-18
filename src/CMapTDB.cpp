@@ -1632,7 +1632,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 dict.insert(tr("Area"), line->labels.join(" ").simplified());
             }
 
-//             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
+            if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
 
         }
         ++line;
@@ -1809,20 +1809,19 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
             count++;
         }
         else if(typ < 0x80){
-            qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
+//             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
             int idx = draworder.indexOf(typ);
-//             draworder.move(idx,draworder.count()-1);
             if(idx != -1){
                 draworder.move(idx,0);
             }
         }
     }
 
-    for(unsigned i = 0; i < 0x80; ++i){
-        if(i && i%16 == 0) printf(" \n");
-        printf("%02X ", draworder[i]);
-    }
-    printf(" \n");
+//     for(unsigned i = 0; i < 0x80; ++i){
+//         if(i && i%16 == 0) printf(" \n");
+//         printf("%02X ", draworder[i]);
+//     }
+//     printf(" \n");
 }
 
 void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
@@ -1854,9 +1853,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
 
         if(subtyp != 0){
-//             qDebug() << "Skiped: " << typ << subtyp << typ << subtyp;
+            qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
             continue;
-            typ = subtyp;
         }
 
         in.device()->seek(section.dataOffset + ofs);
@@ -1868,6 +1866,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         bool bBitmap    = false;
         int colorType   = x & 0x0f;
         quint8 r,g,b;
+
+        qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
         if ( colorType == 6 ) {
             myXpm.setNumColors(2);
@@ -1887,32 +1887,42 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         else if ( colorType == 8 ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
-            myXpm.setColor(0, qRgb(r,g,b) );
+            myXpm.setColor(1, qRgb(r,g,b) );            // forground (day + night)
             in >> b >> g >> r;
-            myXpm.setColor(1, qRgb(r,g,b) );
-            bBitmap = true;
+            myXpm.setColor(0, qRgb(r,g,b) );            // background (day + night)
+
+            decodeBitmap(in, myXpm, 32, 32, 1);
+            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
         }
 
         else if ( colorType == 0xf ) {
             myXpm.setNumColors(2);
-            in >> b >> g >> r;
-            myXpm.setColor(0, qRgb(r,g,b) );
-            in >> b >> g >> r;
+            in >> b >> g >> r;                          // day forground
             myXpm.setColor(1, qRgb(r,g,b) );
-            bBitmap = true;
+            in >> b >> g >> r;                          // night forground
+            myXpm.setColor(0, qRgba(255,255,255,0) );   // background is always transparent
+
+            decodeBitmap(in, myXpm, 32, 32, 1);
+            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
         }
 
         else if ( colorType == 9 ) {
             myXpm.setNumColors(4);
-            in >> b >> g >> r;
-            myXpm.setColor(3, qRgb(r,g,b) );
-            in >> b >> g >> r;
-            myXpm.setColor(2, qRgb(r,g,b) );
-            in >> b >> g >> r;
+            in >> b >> g >> r;                          // day background
             myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;
+            in >> b >> g >> r;                          // day forground
             myXpm.setColor(0, qRgb(r,g,b) );
-            bBitmap = true;
+            in >> b >> g >> r;                          // night background
+            in >> b >> g >> r;                          // night foreground
+
+            decodeBitmap(in, myXpm, 32, 32, 1);
+            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
         }
         else if ( colorType == 0xb ) {
             myXpm.setNumColors(4);
@@ -1933,55 +1943,32 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             bBitmap = true;
         }
 
-        QByteArray xpm;
-        if (bBitmap) {
-            /* Bitmap start here 32*rows */
-             quint8 byte;
-             int i=0;
-             while(i < (128) ) {
-                 in >> byte;
-                 byte = ~byte;
-                 xpm.append(byte);
-                 i++;
-             }
-        }
-
-        QString label;
-        quint8 lang,delka;
-        in >> delka;
-        in >> lang;
-        if(hasLocalization ){
-            readASCIIString(in, label );
-        }
+//         QString label;
+//         quint8 lang,delka;
+//         in >> delka;
+//         in >> lang;
+//         if(hasLocalization ){
+//             readASCIIString(in, label );
+//         }
 //         qDebug() << QString("type=0x%1 subtype=0x%2 rows=%3 colorType=0x%4 string=%5 lang=0x%6 orientation=%7 lineW=%8 borderW=%9").arg(typ,0,16).arg(subtyp,0,16).arg("none").arg(colorType,0,16).arg(polygonProperty.string).arg(lang,0,16).arg(polygonProperty.useOrientation).arg(polygonProperty.lineWidth).arg(polygonProperty.borderWidth);
 
-
-        qDebug() << label << dec << typ << hex << typ << subtyp << colorType;
-
-        if(bBitmap /*&& typ != 0x4B*/){
-            decodeBitmap(myXpm, xpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-            myXpm.save(QString("%1.png").arg(typ,2,16,QChar('0')));
-        }
-        else if(!bBitmap && typ != 0x4B){
-            polygonProperties[typ].brush.setColor(myXpm.color(1));
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
 
     }
 
 }
 
-void CMapTDB::decodeBitmap(QImage &img, QByteArray &bytes, int w, int h, int bpp)
+void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 {
-//     int wBytes = (w * bpp) / 8;
+    QByteArray bytes;
+    int n = w * h * bpp / 8;
+
+    bytes = in.device()->read(n);
+
     int x = 0,j = 0;
     quint8 color;
     for (int y=0; y < h; y++) {
         while ( x < w ) {
+
             if (j < bytes.size()){
                 color = bytes.at(j);
             }
@@ -1989,15 +1976,16 @@ void CMapTDB::decodeBitmap(QImage &img, QByteArray &bytes, int w, int h, int bpp
                 x = 0;
                 break;
             }
+
             for ( int i =0; i < (8 / bpp) ; i++ ) {
                 int value;
-                if ( i >0 ) {
+                if ( i > 0 ) {
                     value = (color >>= bpp);
                 }
                 else {
                     value = color;
                 }
-                if ( bpp == 4) value =  value & 0xf;
+                if ( bpp == 4) value = value & 0xf;
                 if ( bpp == 2) value = value & 0x3;
                 if ( bpp == 1) value = value & 0x1;
                 img.setPixel(x,y,value);
