@@ -1783,7 +1783,7 @@ void CMapTDB::readTYP()
 
     processTypDrawOrder(in, sectOrder);
     processTypPolygons(in, sectPolygons);
-//     processTypPois(in, sectPoints);
+    processTypPois(in, sectPoints);
 
     file.close();
 }
@@ -2090,24 +2090,17 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 {
     QByteArray bytes;
-    int n = w * h * bpp / 8;
+    int n = w * h * bpp / 8 + 10;
 
-    bytes = in.device()->read(n);
+//     bytes = in.device()->read(n);
 
     int x = 0,j = 0;
     quint8 color;
     for (int y = 0; y < h; y++) {
         while ( x < w ) {
+            in >> color;
 
-            if (j < bytes.size()){
-                color = bytes.at(j);
-            }
-            else {
-                x = 0;
-                break;
-            }
-
-            for ( int i = 0; i < (8 / bpp) ; i++ ) {
+            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
                 int value;
                 if ( i > 0 ) {
                     value = (color >>= bpp);
