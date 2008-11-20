@@ -1389,7 +1389,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
-    if(zoomFactor > 10.0) return;
+    if(zoomFactor > 5.0) return;
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
@@ -1864,7 +1864,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
 
         if(subtyp != 0){
-            qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
+//             qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
             continue;
         }
 
@@ -1877,7 +1877,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         int colorType   = x & 0x0f;
         quint8 r,g,b;
 
-        qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
+//         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
         if ( colorType == 8 ) {
             myXpm.setNumColors(2);
@@ -1990,21 +1990,28 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         quint8 data1, data2;
         in >> data1 >> data2;
 
-        bool hasPixmap = false;
-        quint8 r,g,b;
+        bool hasPixmap      = false;
         int colorFlag       = data1 & 0x07;
         int rows            = data1 >> 3;
         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
         QImage myXpm(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
-        qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
+
+        quint8 r,g,b;
+
+//         qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
 
         if ( colorFlag == 0) {
             myXpm.setNumColors(2);
-            in >> b >> g >> r;                  // line color
-            myXpm.setColor(0, qRgb(r,g,b) );
-            in >> b >> g >> r;                  // line border
-            myXpm.setColor(1, qRgb(r,g,b) );
+            for (int i = 0; i < 2; i++) {
+                if(i < 2){
+                    in >> b >> g >> r;
+                    myXpm.setColor(i, qRgb(r,g,b));
+                }
+                else{
+                    myXpm.setColor(i, qRgba(0,0,0,0));
+                }
+            }
 
             if(rows){
                 decodeBitmap(in, myXpm, 32, rows, 1);
@@ -2013,10 +2020,22 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         }
         else if ( colorFlag == 6) {
-            /* 1 colors */
-            myXpm.setNumColors(1);
-            in >> b >> g >> r;
-            myXpm.setColor(0, qRgb(r,g,b) );
+            myXpm.setNumColors(2);
+            for (int i = 0; i < 2; i++) {
+                if(i < 1){
+                    in >> b >> g >> r;
+                    myXpm.setColor(i, qRgb(r,g,b));
+                }
+                else{
+                    myXpm.setColor(i, qRgba(0,0,0,0));
+                }
+            }
+
+            if(rows){
+                decodeBitmap(in, myXpm, 32, rows, 1);
+                hasPixmap = true;
+            }
+
         }
         else{
             qDebug() << "Failed" <<  hex << typ <<  colorFlag << rows << useOrientation;
@@ -2046,31 +2065,41 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
 //             qDebug() << hex << myXpm.color(0) << myXpm.color(1);
 
+            QVector<qreal> dash;
+            quint32 cnt  =  0;
+            quint8 prev  = 0xFF;
+            quint8 * ptr = myXpm.bits() + (rows == 1 ? 0 : 32);
+
+            for(int i=0; i < 32; ++i, ++ptr){
+                printf("%02X ", *ptr);
+                if(prev != 0xFF && prev != *ptr){
+                    dash << (float(cnt) / rows);
+                    cnt  = 1;
+                }
+                else{
+                    cnt += 1;
+                }
+                prev = *ptr;
+            }
+            dash << (float(cnt) / rows);
+            printf("\n");
+
+
             if(myXpm.color(0) == myXpm.color(1) || rows < 3){
-                property.pen0.setColor(myXpm.color(0));
-                property.pen0.setStyle(Qt::SolidLine);
-                property.pen0.setWidth(rows);
-                property.pen1.setColor(Qt::NoPen);
+                if(dash.size() > 1){
+                    property.pen0.setColor(myXpm.color(0));
+                    property.pen0.setDashPattern(dash);
+                    property.pen0.setWidth(rows);
+                    property.pen1.setColor(Qt::NoPen);
+                }
+                else{
+                    property.pen0.setColor(myXpm.color(0));
+                    property.pen0.setStyle(Qt::SolidLine);
+                    property.pen0.setWidth(rows);
+                    property.pen1.setColor(Qt::NoPen);
+                }
             }
             else{
-                QVector<qreal> dash;
-                quint32 cnt  =  0;
-                quint8 prev  = 0xFF;
-                quint8 * ptr = myXpm.bits() + (rows == 1 ? 0 : 32);
-
-                for(int i=0; i < 32; ++i, ++ptr){
-                    printf("%02X ", *ptr);
-                    if(prev != 0xFF && prev != *ptr){
-                        dash << (float(cnt) / rows);
-                        cnt = 1;
-                    }
-                    else{
-                        cnt += 1;
-                    }
-                    prev = *ptr;
-                }
-                dash << (float(cnt) / rows);
-                printf("\n");
 
                 property.pen1.setDashPattern(dash);
                 property.pen1.setColor(myXpm.color(1));
@@ -2158,11 +2187,6 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                     else{
                         myXpmDay.setColor(i, qRgba(0,0,0,0));
                     }
-                }
-
-                if ( bpp == 4 && x3 == 0x00) {
-                    bpp     = bpp / 2;
-                    wBytes  = wBytes / 2;
                 }
 
                 decodeBitmap(in, myXpmDay, w, h, bpp);
