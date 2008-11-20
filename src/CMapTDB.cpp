@@ -1995,7 +1995,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         int colorFlag       = data1 & 0x07;
         int rows            = data1 >> 3;
         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
-        QImage myXpm(32,rows, QImage::Format_Indexed8 );
+        QImage myXpm(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
         qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
 
@@ -2030,8 +2030,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 property.pen1.setColor(Qt::NoPen);
             }
             else{
-                polylineProperties[typ].pen1.setColor(myXpm.color(0));
-                polylineProperties[typ].pen0.setColor(myXpm.color(1));
+                property.pen1.setColor(myXpm.color(0));
+                property.pen0.setColor(myXpm.color(1));
             }
         }
     }
