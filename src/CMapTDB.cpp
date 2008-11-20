@@ -2005,7 +2005,12 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             myXpm.setColor(0, qRgb(r,g,b) );
             in >> b >> g >> r;                  // line border
             myXpm.setColor(1, qRgb(r,g,b) );
-            hasPixmap = rows != 0;
+
+            if(rows){
+                decodeBitmap(in, myXpm, 32, rows, 1);
+                hasPixmap = true;
+            }
+
         }
         else if ( colorFlag == 6) {
             /* 1 colors */
@@ -2014,12 +2019,13 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             myXpm.setColor(0, qRgb(r,g,b) );
         }
         else{
-            hasPixmap = true;
+            qDebug() << "Failed" <<  hex << typ <<  colorFlag << rows << useOrientation;
+            continue;
         }
 
 
-
         polyline_property& property = polylineProperties[typ];
+
         if(!hasPixmap){
             if(property.pen1.color() == Qt::NoPen || rows){
                 property.pen0.setColor(myXpm.color(0));
@@ -2033,7 +2039,50 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 property.pen1.setColor(myXpm.color(0));
                 property.pen0.setColor(myXpm.color(1));
             }
+
         }
+        else{
+//             myXpm.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+
+//             qDebug() << hex << myXpm.color(0) << myXpm.color(1);
+
+            if(myXpm.color(0) == myXpm.color(1) || rows < 3){
+                property.pen0.setColor(myXpm.color(0));
+                property.pen0.setStyle(Qt::SolidLine);
+                property.pen0.setWidth(rows);
+                property.pen1.setColor(Qt::NoPen);
+            }
+            else{
+                QVector<qreal> dash;
+                quint32 cnt  =  0;
+                quint8 prev  = 0xFF;
+                quint8 * ptr = myXpm.bits() + (rows == 1 ? 0 : 32);
+
+                for(int i=0; i < 32; ++i, ++ptr){
+                    printf("%02X ", *ptr);
+                    if(prev != 0xFF && prev != *ptr){
+                        dash << (float(cnt) / rows);
+                        cnt = 1;
+                    }
+                    else{
+                        cnt += 1;
+                    }
+                    prev = *ptr;
+                }
+                dash << (float(cnt) / rows);
+                printf("\n");
+
+                property.pen1.setDashPattern(dash);
+                property.pen1.setColor(myXpm.color(1));
+                property.pen1.setWidth(rows);
+                property.pen1.setCapStyle(Qt::FlatCap);
+
+                property.pen0.setColor(myXpm.color(0));
+                property.pen0.setStyle(Qt::SolidLine);
+                property.pen0.setWidth(rows);
+            }
+        }
+        property.known = true;
     }
 }
 
