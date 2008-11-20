@@ -464,10 +464,12 @@ void CMapTDB::setup()
     polygonProperties[0x59] = polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
-    draworder.clear();
+    polygonDrawOrder.clear();
     for(int i = 0; i < 0x80; i++){
-        draworder << order[0x7F - i];
+        polygonDrawOrder << order[0x7F - i];
     }
+
+    pointProperties.clear();
 
     if(useTyp){
         readTYP();
@@ -1360,10 +1362,10 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
 
     int n;
-    const int N = draworder.size();
+    const int N = polygonDrawOrder.size();
 
     for(n = 0; n < N; ++n) {
-        quint16 type = draworder[0x7F - n];
+        quint16 type = polygonDrawOrder[0x7F - n];
 
         p.setPen(polygonProperties[type].pen);
         p.setBrush(polygonProperties[type].brush);
@@ -1396,12 +1398,19 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
-    if(zoomFactor > 3.0) return;
+    if(zoomFactor > 10.0) return;
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
         IMap::convertRad2Pt(pt->lon, pt->lat);
-        p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
+
+        if(pointProperties.contains(pt->type)){
+            p.drawImage(pt->lon - 4, pt->lat - 4, pointProperties[pt->type]);
+        }
+        else{
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
+        }
+
         if(!pt->labels.isEmpty() && zoomFactor < 2 ) {
 
             // calculate bounding rectangle with a border of 2 px
@@ -1436,7 +1445,14 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
         IMap::convertRad2Pt(pt->lon, pt->lat);
-        p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
+
+        if(pointProperties.contains(pt->type)){
+            p.drawImage(pt->lon - 4, pt->lat - 4, pointProperties[pt->type]);
+        }
+        else{
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
+        }
+
         if(!pt->labels.isEmpty()) {
 
             // calculate bounding rectangle with a border of 2 px
@@ -1632,7 +1648,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 dict.insert(tr("Area"), line->labels.join(" ").simplified());
             }
 
-            if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
+//             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
 
         }
         ++line;
@@ -1811,16 +1827,16 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
         }
         else if(typ < 0x80){
 //             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
-            int idx = draworder.indexOf(typ);
+            int idx = polygonDrawOrder.indexOf(typ);
             if(idx != -1){
-                draworder.move(idx,0);
+                polygonDrawOrder.move(idx,0);
             }
         }
     }
 
 //     for(unsigned i = 0; i < 0x80; ++i){
 //         if(i && i%16 == 0) printf(" \n");
-//         printf("%02X ", draworder[i]);
+//         printf("%02X ", polygonDrawOrder[i]);
 //     }
 //     printf(" \n");
 }
@@ -1942,7 +1958,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         }
         else{
             if(!tainted){
-                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown color encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                 tainted = true;
             }
             qDebug() << "Failed: " << typ << subtyp << hex << typ << subtyp << colorType;
@@ -1965,6 +1981,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
 void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 {
+    bool tainted = false;
+
     if((section.arraySize % section.arrayModulo) != 0){
         return;
     }
@@ -2016,28 +2034,50 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-        qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+//         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
         quint8 r,g,b;
 
         if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
-            if (x3 == 0x10) {
+            if (x3 == 0x10 || x3 == 0x00) {
 
                 myXpmDay.setNumColors(maxcolor);
                 for (int i = 0; i < maxcolor; i++) {
                     if(i < colors){
                         in >> b >> g >> r;
                         myXpmDay.setColor(i, qRgb(r,g,b));
-                        qDebug() << colors << hex << qRgb(r,g,b);
                     }
                     else{
                         myXpmDay.setColor(i, qRgba(0,0,0,0));
                     }
                 }
+
+                if ( bpp == 4 && x3 == 0x00) {
+                    bpp     = bpp / 2;
+                    wBytes  = wBytes / 2;
+                }
+
                 decodeBitmap(in, myXpmDay, w, h, bpp);
-                myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
+
+            else{
+                if(!tainted){
+                    QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                    tainted = true;
+                }
+                qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+            }
+        }
+        else{
+            if(!tainted){
+                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                tainted = true;
+            }
+            qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
         }
 
 //         if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {

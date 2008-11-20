@@ -284,8 +284,9 @@ class CMapTDB : public IMap
         };
 
         QVector<polygon_property> polygonProperties;
+        QList<quint16> polygonDrawOrder;
 
-        QList<quint16> draworder;
+        QMap<quint16, QImage> pointProperties;
 
         polytype_t polygons;
         polytype_t polylines;
