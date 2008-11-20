@@ -1262,7 +1262,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int m;
     const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
 
-
+    // 1st run. Draw all background polylines (polylines that have pen1)
+    //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
     for(m = 0; m < M; ++m) {
         quint16 type                = polylineDrawOrder[m];
         polyline_property& property = polylineProperties[type];
@@ -1313,6 +1314,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     if(doFastDraw) return;
 
+    // 2nd run. Draw foreground color of all polylines with pen1
     for(m = 0; m < M; ++m) {
         quint16 type                = polylineDrawOrder[m];
         polyline_property& property = polylineProperties[type];
@@ -1788,6 +1790,7 @@ void CMapTDB::readTYP()
 
     processTypDrawOrder(in, sectOrder);
     processTypPolygons(in, sectPolygons);
+    processTypPolyline(in, sectPolylines);
     processTypPois(in, sectPoints);
 
     file.close();
@@ -1952,20 +1955,86 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             }
             qDebug() << "Failed: " << typ << subtyp << hex << typ << subtyp << colorType;
         }
+    }
+}
 
+void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
+{
+    bool tainted = false;
 
-//         QString label;
-//         quint8 lang,delka;
-//         in >> delka;
-//         in >> lang;
-//         if(hasLocalization ){
-//             readASCIIString(in, label );
-//         }
-//         qDebug() << QString("type=0x%1 subtype=0x%2 rows=%3 colorType=0x%4 string=%5 lang=0x%6 orientation=%7 lineW=%8 borderW=%9").arg(typ,0,16).arg(subtyp,0,16).arg("none").arg(colorType,0,16).arg(polygonProperty.string).arg(lang,0,16).arg(polygonProperty.useOrientation).arg(polygonProperty.lineWidth).arg(polygonProperty.borderWidth);
-
-
+    if((section.arraySize % section.arrayModulo) != 0){
+        return;
     }
 
+    int nbElements = section.arraySize / section.arrayModulo;
+    for (int element=0; element < nbElements; element++) {
+        quint16 otyp, ofs;
+        quint8 ofsc;
+        int wtyp, typ, subtyp;
+
+        in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
+        if (section.arrayModulo == 4) {
+            in >> otyp >> ofs;
+        }
+        if (section.arrayModulo == 3) {
+            in >> otyp >> ofsc;
+            ofs = ofsc;
+        }
+        wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
+        typ = wtyp & 0xff;
+        subtyp = wtyp >> 8;
+        subtyp = (subtyp >>3) | (( subtyp & 0x07) << 5);
+
+        in.device()->seek( section.dataOffset + ofs );
+
+        quint8 data1, data2;
+        in >> data1 >> data2;
+
+        bool hasPixmap = false;
+        quint8 r,g,b;
+        int colorFlag       = data1 & 0x07;
+        int rows            = data1 >> 3;
+        bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
+        QImage myXpm(32,rows, QImage::Format_Indexed8 );
+
+        qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
+
+        if ( colorFlag == 0) {
+            myXpm.setNumColors(2);
+            in >> b >> g >> r;                  // line color
+            myXpm.setColor(0, qRgb(r,g,b) );
+            in >> b >> g >> r;                  // line border
+            myXpm.setColor(1, qRgb(r,g,b) );
+            hasPixmap = rows != 0;
+        }
+        else if ( colorFlag == 6) {
+            /* 1 colors */
+            myXpm.setNumColors(1);
+            in >> b >> g >> r;
+            myXpm.setColor(0, qRgb(r,g,b) );
+        }
+        else{
+            hasPixmap = true;
+        }
+
+
+
+        polyline_property& property = polylineProperties[typ];
+        if(!hasPixmap){
+            if(property.pen1.color() == Qt::NoPen || rows){
+                property.pen0.setColor(myXpm.color(0));
+                if(rows){
+                    property.pen0.setWidth(rows);
+                }
+                property.pen0.setStyle(Qt::SolidLine);
+                property.pen1.setColor(Qt::NoPen);
+            }
+            else{
+                polylineProperties[typ].pen1.setColor(myXpm.color(0));
+                polylineProperties[typ].pen0.setColor(myXpm.color(1));
+            }
+        }
+    }
 }
 
 void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
@@ -2109,88 +2178,6 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
             qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
         }
-
-//         if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
-//             if ( x3 == 0x20 ) {
-//                 int bytes = colors * 3.5;
-//
-//             } else if (x3 == 0x10) {
-//                 myXpm.setNumColors(colors);
-//                 //myXpm.setColor(0, qRgb(0,0,0) );
-//                 for ( int i=1; i <= colors; i++) {
-//                     quint8 r,g,b;
-//                     typStream >> b >> g >> r;
-//                     myXpm.setColor(i-1, qRgb(r,g,b) );
-//                 }
-//             } else if ( x3 == 0) {
-//                 myXpm.setNumColors(colors);
-//                 //myXpm.setColor(0, qRgb(0,0,0) );
-//                 for ( int i=1; i <= colors; i++) {
-//                     quint8 r,g,b;
-//                     typStream >> b >> g >> r;
-//                     myXpm.setColor(i-1, qRgb(r,g,b) );
-//                 }
-//                 if ( bpp == 4) {
-//                     bpp = bpp / 2;
-//                     wBytes = wBytes / 2;
-//                 }
-//             }
-//             /* Bitmap start here h * wBytes */
-//             quint8 byte;
-//             int i=0;
-//             while(i < ( h * wBytes) ) {
-//                     typStream >> byte;
-//                     xpm.append(byte);
-//                     i++;
-//             }
-//         } else if ( a== 7 ) {
-//             myXpm.setNumColors(colors);
-//             for ( int i=0; i < colors; i++) {
-//                 quint8 r,g,b;
-//                 typStream >> b >> g >> r;
-//                 myXpm.setColor(i, qRgb(r,g,b) );
-//             }
-//             /* Bitmap start here h * wBytes */
-//             quint8 byte;
-//             int i=0;
-//             while(i < ( h * wBytes) ) {
-//                     typStream >> byte;
-//                     xpm.append(byte);
-//                     i++;
-//             }
-//             /* Get again colors and x3 flag */
-//             typStream >> colors >> x3;
-//             if ( colors >=16) bpp = 8;
-//             else if (colors >=3 ) {
-//                 if ( (colors == 3) && (x3 == 0x20) ) bpp = 2;
-//                 else bpp = 4;
-//             } else bpp = 2;
-//             wBytes = (w * bpp) / 8;
-//
-//             myXpmNight.setNumColors(colors);
-//             for ( int i=0; i < colors; i++) {
-//                 quint8 r,g,b;
-//                 typStream >> b >> g >> r;
-//                 myXpmNight.setColor(i, qRgb(r,g,b) );
-//             }
-//             /* Bitmap start here h * wBytes */
-//             i=0;
-//             while(i < ( h * wBytes) ) {
-//                     typStream >> byte;
-//                     xpmNight.append(byte);
-//                     i++;
-//             }
-//         }
-//         quint8 lang,delka;
-//         typStream >> delka;
-//         typStream >> lang;
-//         readASCIIString(typStream, pointProperty.string );
-//         qDebug() << QString("type=0x%1 subtype=0x%2 rows=%3 colorType=%4 string=%5 lang=0x%6 orientation=%7 lineW=%8 borderW=%9").arg(typ,0,16).arg(subtyp,0,16).arg("none").arg("none").arg(pointProperty.string).arg(lang,0,16).arg(pointProperty.useOrientation).arg(pointProperty.lineWidth).arg(pointProperty.borderWidth);
-//         decodeBitmap(QString("points_day_%1_%2").arg(typ,0,16).arg(subtyp,0,16), myXpm, xpm, w, h, bpp);
-//         decodeBitmap(QString("points_night_%1_%2").arg(typ,0,16).arg(subtyp,0,16), myXpmNight, xpmNight, w, h, bpp);
-//         /* Create element list */
-//         pointsProperties.prepend( pointProperty);
-
     }
 }
 
