@@ -2039,7 +2039,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         int maxcolor = pow(2.0f,bpp);
         quint8 r,g,b;
 
-        if ( ( a==5 ) || ( a==1 ) || ( a==0xd ) || ( a== 0xb ) || ( a==0x9) ) {
+        if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9) ) {
             if (x3 == 0x10 || x3 == 0x00) {
 
                 myXpmDay.setNumColors(maxcolor);
@@ -2071,6 +2071,47 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 }
                 qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
             }
+        }
+        else if ((a == 7)  || (a == 3)) {
+            myXpmDay.setNumColors(maxcolor);
+            for (int i = 0; i < maxcolor; i++) {
+                if(i < colors){
+                    in >> b >> g >> r;
+                    myXpmDay.setColor(i, qRgb(r,g,b));
+                }
+                else{
+                    myXpmDay.setColor(i, qRgba(0,0,0,0));
+                }
+            }
+
+            decodeBitmap(in, myXpmDay, w, h, bpp);
+            pointProperties[(typ << 8) | subtyp] = myXpmDay;
+//             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+
+            /* Get again colors and x3 flag */
+            in >> colors >> x3;
+            if ( colors >=16) bpp = 8;
+            else if (colors >=3 ) {
+                if ( (colors == 3) && (x3 == 0x20) ) bpp = 2;
+                else bpp = 4;
+            } else bpp = 2;
+            wBytes = (w * bpp) / 8;
+
+            myXpmNight.setNumColors(maxcolor);
+            for (int i = 0; i < maxcolor; i++) {
+                if(i < colors){
+                    in >> b >> g >> r;
+                    myXpmNight.setColor(i, qRgb(r,g,b));
+                }
+                else{
+                    myXpmNight.setColor(i, qRgba(0,0,0,0));
+                }
+            }
+
+            decodeBitmap(in, myXpmNight, w, h, bpp);
+//             pointProperties[(typ << 8) | subtyp] = myXpmNight;
+//             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+
         }
         else{
             if(!tainted){
