@@ -249,18 +249,20 @@ class CMapTDB : public IMap
         static const QString polyline_typestr[];
         struct polyline_property
         {
-            polyline_property(): type(0), pen0(Qt::magenta), pen1(Qt::NoPen), known(false){};
-            polyline_property(quint16 type, const QColor& color0, const QColor& color1, qreal width, Qt::PenStyle style)
+            polyline_property(): type(0), pen0(Qt::magenta), pen1(Qt::NoPen), known(false), grow(false){};
+            polyline_property(quint16 type, const QColor& color0, const QColor& color1, qreal width, Qt::PenStyle style, bool grow)
                 : type(type)
                 , pen0(QBrush(color0), width, style, Qt::RoundCap, Qt::RoundJoin)
                 , pen1(QBrush(color1), width, style, Qt::RoundCap, Qt::RoundJoin)
                 , known(true)
+                , grow(grow)
                 {}
             quint16 type;
             QPen    pen0;
             QPen    pen1;
             QFont   font;
             bool    known;
+            bool    grow;
         };
 
         QVector<polyline_property> polylineProperties;
