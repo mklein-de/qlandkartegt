@@ -1287,7 +1287,15 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             p.setPen(pen);
         }
         else{
-            p.setPen(property.pen0);
+            QPen pen    = property.pen0;
+
+            if(property.grow){
+                int width   = pen.width();
+                width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
+                width      += zoomFactor < 5.0 ? 4 : 2;
+                pen.setWidth(width);
+            }
+            p.setPen(pen);
         }
 
         polytype_t::iterator item = lines.begin();
@@ -1532,6 +1540,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
     QPointF resPt = pt;
     QString key, value;
+    quint16 type;
 
     shortest = 50;
 
@@ -1566,8 +1575,8 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
             distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
 
             if(distance < shortest) {
-
-                key = polyline_typestr[line->type];
+                type = line->type;
+                key  = polyline_typestr[type];
 
                 if(!line->labels.isEmpty()) {
                     switch(line->type) {
@@ -1608,7 +1617,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     }
 
     if(!key.isEmpty()) {
-        dict.insert(key,value);
+        dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
 
     pt = resPt.toPoint();
@@ -2046,7 +2055,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 tainted = true;
             }
 
-            qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
+//             qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
             continue;
         }
 
@@ -2109,33 +2118,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 }
                 else{
                     property.pen1.setDashPattern(dash);
-                    property.pen1.setColor(myXpmDay.color(1));
-                    property.pen1.setWidth(rows);
-                    property.pen1.setCapStyle(Qt::FlatCap);
-
-                    if(myXpmDay.color(1) == qRgba(0,0,0,0)){
-                        property.pen0 = QPen(Qt::NoPen);
-                    }
-                    else{
-                        property.pen0.setStyle(Qt::SolidLine);
-                        property.pen0.setWidth(rows);
-                        property.pen0.setColor(myXpmDay.color(0));
-                    }
-                }
-            }
-            else{
-                property.grow = true;
-
-                if(dash.size() < 2){
-                    property.pen0.setStyle(Qt::SolidLine);
-                    property.pen0.setColor(myXpmDay.color(0));
-                    property.pen0.setWidth(rows);
-                    property.pen1.setColor(Qt::NoPen);
-                }
-                else{
-                    property.pen1.setDashPattern(dash);
                     property.pen1.setColor(myXpmDay.color(0));
-                    property.pen1.setWidth(rows-2);
+                    property.pen1.setWidth(rows);
                     property.pen1.setCapStyle(Qt::FlatCap);
 
                     if(myXpmDay.color(1) == qRgba(0,0,0,0)){
@@ -2147,9 +2131,38 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                         property.pen0.setColor(myXpmDay.color(1));
                     }
                 }
+            }
+            else{
+                property.grow = true;
 
-//                 qDebug() << hex << property.pen1.color() <<  property.pen0.color();
+                if(myXpmDay.color(1) == qRgba(0,0,0,0)){
+                    property.pen1 = QPen(Qt::NoPen);
 
+                    if(dash.size() < 2){
+                        property.pen0.setStyle(Qt::SolidLine);
+                    }
+                    else{
+                        property.pen0.setDashPattern(dash);
+                        property.pen0.setCapStyle(Qt::FlatCap);
+                    }
+                    property.pen0.setWidth(rows);
+                    property.pen0.setColor(myXpmDay.color(0));
+                }
+                else{
+                    property.pen0.setColor(myXpmDay.color(1));
+                    property.pen0.setWidth(rows);
+
+                    if(dash.size() < 2){
+                        property.pen1.setStyle(Qt::SolidLine);
+                    }
+                    else{
+                        property.pen1.setDashPattern(dash);
+                        property.pen1.setCapStyle(Qt::FlatCap);
+                    }
+
+                    property.pen1.setColor(myXpmDay.color(0));
+                    property.pen1.setWidth(rows - 2);
+                }
             }
         }
         property.known = true;
