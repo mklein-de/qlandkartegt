@@ -1715,6 +1715,21 @@ void CMapTDB::readASCIIString(QDataStream& ds, QString& str)
      }
 }
 
+void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
+{
+    quint8 r,g,b;
+
+    img.setNumColors(maxcolors);
+    for (int i = 0; i < maxcolors; i++) {
+        if(i < colors){
+            in >> b >> g >> r;
+            img.setColor(i, qRgb(r,g,b));
+        }
+        else{
+            img.setColor(i, qRgba(0,0,0,0));
+        }
+    }
+}
 
 void CMapTDB::readTYP()
 {
@@ -1994,52 +2009,34 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         int colorFlag       = data1 & 0x07;
         int rows            = data1 >> 3;
         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
-        QImage myXpm(32,rows ? rows : 1, QImage::Format_Indexed8 );
+        QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
+        QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
-
-        quint8 r,g,b;
-
-//         qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
+        qDebug() << hex << typ <<  colorFlag << rows << useOrientation;
 
         if ( colorFlag == 0) {
-            myXpm.setNumColors(2);
-            for (int i = 0; i < 2; i++) {
-                if(i < 2){
-                    in >> b >> g >> r;
-                    myXpm.setColor(i, qRgb(r,g,b));
-                }
-                else{
-                    myXpm.setColor(i, qRgba(0,0,0,0));
-                }
-            }
-
-            if(rows){
-                decodeBitmap(in, myXpm, 32, rows, 1);
-                hasPixmap = true;
-            }
-
+            readColorTable(in, myXpmDay, 2,2);
+        }
+        else if ( colorFlag == 1) {
+            readColorTable(in, myXpmDay, 2,2);     // day
+            readColorTable(in, myXpmNight, 2,2); // night
         }
         else if ( colorFlag == 6) {
-            myXpm.setNumColors(2);
-            for (int i = 0; i < 2; i++) {
-                if(i < 1){
-                    in >> b >> g >> r;
-                    myXpm.setColor(i, qRgb(r,g,b));
-                }
-                else{
-                    myXpm.setColor(i, qRgba(0,0,0,0));
-                }
-            }
-
-            if(rows){
-                decodeBitmap(in, myXpm, 32, rows, 1);
-                hasPixmap = true;
-            }
-
+            readColorTable(in, myXpmDay, 1,2);
+        }
+        else if ( colorFlag == 7) {
+            readColorTable(in, myXpmDay, 1,2);     // day
+            readColorTable(in, myXpmNight, 1,2); // night
         }
         else{
-            qDebug() << "Failed" <<  hex << typ <<  colorFlag << rows << useOrientation;
+            qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
             continue;
+        }
+
+        if(rows){
+            decodeBitmap(in, myXpmDay, 32, rows, 1);
+            myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+            hasPixmap = true;
         }
 
 
@@ -2047,7 +2044,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         if(!hasPixmap){
             if(property.pen1.color() == Qt::NoPen || rows){
-                property.pen0.setColor(myXpm.color(0));
+                property.pen0.setColor(myXpmDay.color(0));
                 if(rows){
                     property.pen0.setWidth(rows);
                 }
@@ -2055,20 +2052,22 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 property.pen1.setColor(Qt::NoPen);
             }
             else{
-                property.pen1.setColor(myXpm.color(0));
-                property.pen0.setColor(myXpm.color(1));
+                property.pen1.setColor(myXpmDay.color(0));
+                property.pen0.setColor(myXpmDay.color(1));
             }
 
         }
         else{
 //             myXpm.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
-
 //             qDebug() << hex << myXpm.color(0) << myXpm.color(1);
 
+
+            // hash-in a dash
+            // let's try to read a dash pattern from the  bitmap
             QVector<qreal> dash;
             quint32 cnt  =  0;
             quint8 prev  = 0xFF;
-            quint8 * ptr = myXpm.bits() + (rows == 1 ? 0 : 32);
+            quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
 
             for(int i=0; i < 32; ++i, ++ptr){
                 printf("%02X ", *ptr);
@@ -2081,32 +2080,38 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 }
                 prev = *ptr;
             }
-            dash << (float(cnt) / rows);
+            if(dash.size() & 0x01){
+                dash << (float(cnt) / rows);
+            }
             printf("\n");
 
+            // single color or bitmaps less than 3 rows must be dashed/solid lines without background color
+            if(myXpmDay.color(0) == myXpmDay.color(1) || rows < 3){
 
-            if(myXpm.color(0) == myXpm.color(1) || rows < 3){
                 if(dash.size() > 1){
-                    property.pen0.setColor(myXpm.color(0));
                     property.pen0.setDashPattern(dash);
-                    property.pen0.setWidth(rows);
-                    property.pen1.setColor(Qt::NoPen);
                 }
                 else{
-                    property.pen0.setColor(myXpm.color(0));
                     property.pen0.setStyle(Qt::SolidLine);
-                    property.pen0.setWidth(rows);
-                    property.pen1.setColor(Qt::NoPen);
                 }
+                property.pen0.setColor(myXpmDay.color(0));
+                property.pen0.setWidth(rows);
+                property.pen1.setColor(Qt::NoPen);
+
             }
             else{
 
-                property.pen1.setDashPattern(dash);
-                property.pen1.setColor(myXpm.color(1));
+                if(dash.size() > 1){
+                    property.pen1.setDashPattern(dash);
+                }
+                else {
+                    property.pen1.setStyle(Qt::SolidLine);
+                }
+                property.pen1.setColor(myXpmDay.color(1));
                 property.pen1.setWidth(rows);
                 property.pen1.setCapStyle(Qt::FlatCap);
 
-                property.pen0.setColor(myXpm.color(0));
+                property.pen0.setColor(myXpmDay.color(0));
                 property.pen0.setStyle(Qt::SolidLine);
                 property.pen0.setWidth(rows);
             }
@@ -2173,22 +2178,10 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
-        quint8 r,g,b;
 
         if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9) ) {
             if (x3 == 0x10 || x3 == 0x00) {
-
-                myXpmDay.setNumColors(maxcolor);
-                for (int i = 0; i < maxcolor; i++) {
-                    if(i < colors){
-                        in >> b >> g >> r;
-                        myXpmDay.setColor(i, qRgb(r,g,b));
-                    }
-                    else{
-                        myXpmDay.setColor(i, qRgba(0,0,0,0));
-                    }
-                }
-
+                readColorTable(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
@@ -2204,17 +2197,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         else if ((a == 7)  || (a == 3)) {
-            myXpmDay.setNumColors(maxcolor);
-            for (int i = 0; i < maxcolor; i++) {
-                if(i < colors){
-                    in >> b >> g >> r;
-                    myXpmDay.setColor(i, qRgb(r,g,b));
-                }
-                else{
-                    myXpmDay.setColor(i, qRgba(0,0,0,0));
-                }
-            }
-
+            readColorTable(in, myXpmDay, colors, maxcolor);
             decodeBitmap(in, myXpmDay, w, h, bpp);
             pointProperties[(typ << 8) | subtyp] = myXpmDay;
 //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
@@ -2228,17 +2211,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             } else bpp = 2;
             wBytes = (w * bpp) / 8;
 
-            myXpmNight.setNumColors(maxcolor);
-            for (int i = 0; i < maxcolor; i++) {
-                if(i < colors){
-                    in >> b >> g >> r;
-                    myXpmNight.setColor(i, qRgb(r,g,b));
-                }
-                else{
-                    myXpmNight.setColor(i, qRgba(0,0,0,0));
-                }
-            }
-
+            readColorTable(in, myXpmNight, colors, maxcolor);
             decodeBitmap(in, myXpmNight, w, h, bpp);
 //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
 //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
