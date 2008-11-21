@@ -1647,7 +1647,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 dict.insert(tr("Area"), line->labels.join(" ").simplified());
             }
 
-            if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
+//             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
 
         }
         ++line;
@@ -1900,7 +1900,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         int colorType   = x & 0x0f;
         quint8 r,g,b;
 
-        qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
+//         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
         if ( colorType == 8 ) {
             myXpm.setNumColors(2);
@@ -1976,7 +1976,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
                 QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                 tainted = true;
             }
-            qDebug() << "Failed: " << typ << subtyp << hex << typ << subtyp << colorType;
+            qDebug() << "Failed polygon:" << typ << subtyp << hex << typ << subtyp << colorType;
         }
     }
 }
@@ -2020,7 +2020,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
         QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
-        qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
+//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
 
         if ( colorFlag == 0) {
             readColorTable(in, myXpmDay, 2,2);
@@ -2037,6 +2037,11 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             readColorTable(in, myXpmNight, 1,2); // night
         }
         else{
+            if(!tainted){
+                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polyline encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                tainted = true;
+            }
+
             qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
             continue;
         }
@@ -2072,7 +2077,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
 
             for(int i=0; i < 32; ++i, ++ptr){
-                printf("%02X ", *ptr);
+//                 printf("%02X ", *ptr);
                 if(prev != 0xFF && prev != *ptr){
                     dash << (float(cnt) / rows);
                     cnt  = 1;
@@ -2085,8 +2090,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             if(dash.size() & 0x01){
                 dash << (float(cnt) / rows);
             }
-            printf("\n");
-            qDebug() << "dash:" << dash;
+//             printf("\n");
+//             qDebug() << "dash:" << dash;
 
             // there is no sense in growing a line < 3 pixel
             if(rows < 3){
@@ -2139,51 +2144,9 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                     }
                 }
 
-                qDebug() << hex << property.pen1.color() <<  property.pen0.color();
+//                 qDebug() << hex << property.pen1.color() <<  property.pen0.color();
 
             }
-
-
-
-//             // single color or bitmaps less than 3 rows must be dashed/solid lines without background color
-//             if(myXpmDay.color(0) == myXpmDay.color(1) || rows < 1){
-//                 qDebug() << "x1";
-//                 if(dash.size() > 1){
-//                     qDebug() << "x11";
-//                     property.pen0.setDashPattern(dash);
-//                 }
-//                 else{
-//                     qDebug() << "x12";
-//                     property.pen0.setStyle(Qt::SolidLine);
-//                 }
-//                 property.pen0.setColor(myXpmDay.color(0));
-//                 property.pen0.setWidth(rows);
-//                 property.pen1.setColor(Qt::NoPen);
-//
-//             }
-//             else{
-//                 qDebug() << "x2";
-//                 if(dash.size() > 1){
-//                     qDebug() << "x21" << dash;
-//                     property.pen1.setDashPattern(dash);
-//                 }
-//                 else {
-//                     qDebug() << "x22";
-//                     property.pen1.setStyle(Qt::SolidLine);
-//                 }
-//                 property.pen1.setColor(myXpmDay.color(0));
-//                 property.pen1.setWidth(rows);
-//                 property.pen1.setCapStyle(Qt::FlatCap);
-//
-//                 if(myXpmDay.color(1) == qRgba(0,0,0,0)){
-//                     property.pen0 = QPen(Qt::NoPen);
-//                 }
-//                 else{
-//                     property.pen0.setStyle(Qt::SolidLine);
-//                     property.pen0.setWidth(rows);
-//                     property.pen0.setColor(myXpmDay.color(1));
-//                 }
-//             }
         }
         property.known = true;
     }
