@@ -42,6 +42,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     zRot = 0;
     xRotSens = 0.3;
     zRotSens = 0.3;
+    step = 5;
 
     xShift = 0;
     yShift = 0;
@@ -215,6 +216,28 @@ void CMap3DWidget::drawFlatMap()
     glDisable(GL_TEXTURE_2D);
 }
 
+void CMap3DWidget::setEleRegion()
+{
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+
+    IMap& dem = CMapDB::self().getDEM();
+    XY p1, p2;
+    p1.u = 0;
+    p1.v = 0;
+    p2.u = w;
+    p2.v = h;
+    map->convertPt2Rad(p1.u, p1.v);
+    map->convertPt2Rad(p2.u, p2.v);
+    dem.setRegion(p1, p2, w/step + 1, h/step + 1);
+}
+
+void CMap3DWidget::deleteEleRegion()
+{
+    IMap& dem = CMapDB::self().getDEM();
+    dem.deleteRegion();
+}
 
 void CMap3DWidget::draw3DMap()
 {
@@ -222,13 +245,12 @@ void CMap3DWidget::draw3DMap()
     double w = s.width();
     double h = s.height();
 
-    int i, iv, it, j, k, cur, end;
-    double step = 5;
+    int iv, it, j, k, end;
     double x, y, u, v;
     GLdouble *vertices;
     GLdouble *texCoords;
     GLuint idx[4];
-    int num = (w / step + 2);
+    int num = (w / step + 1);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);
@@ -250,6 +272,7 @@ void CMap3DWidget::draw3DMap()
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
+    setEleRegion();
     for (y = 0; y < h - step; y += step) {
         it = it % (num * 4);
         end = it + num * 2;
@@ -260,12 +283,7 @@ void CMap3DWidget::draw3DMap()
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            map->convertPt2Rad(u, v);
-            // next step of optimization will be get elevation for the set of points
-            // read line from DEM file is more effectively
-            vertices[iv + 2] = dem.getElevation(u, v);
-            if  (vertices[iv + 2] > 5000 || vertices[iv + 2] < 0)
-                    qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
+            vertices[iv + 2] = dem.getRegionValue(x/step, y/step);
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
@@ -283,6 +301,7 @@ void CMap3DWidget::draw3DMap()
         for (j = 0; j < 4; j++)
                 idx[j]++;
     }
+    deleteEleRegion();
     delete [] vertices;
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
@@ -350,32 +369,25 @@ void CMap3DWidget::drawTrack()
 
 void CMap3DWidget::updateElevationLimits()
 {
-    double x, y, u, v, ele;
+    double x, y, ele;
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    double step = 5;
     IMap& dem = CMapDB::self().getDEM();
 
-    u = 0;
-    v = 0;
-    map->convertPt2Rad(u, v);
-    minElevation = maxElevation = dem.getElevation(u,v);
+    setEleRegion();
+    minElevation = maxElevation = dem.getRegionValue(0, 0);
 
     for (y = 0; y < h - step; y += step)
         for (x = 0; x < w; x += step) {
-            u = x;
-            v = y;
-            map->convertPt2Rad(u, v);
-            // FIXME can't use map instead of dem. need investigation.
-            ele = dem.getElevation(u,v);
+            ele = dem.getRegionValue(x / step, y /step);
             if (ele > maxElevation)
                     maxElevation = ele;
 
             if (ele < minElevation)
                     minElevation = ele;
         }
-
+    deleteEleRegion();
     if (! track.isNull() && (maxElevation - minElevation < 1)) {
         /*selected track exist and dem isn't present for this map*/
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -556,7 +568,7 @@ void CMap3DWidget::convertDsp2Z0(QPoint &a)
 {
     GLdouble projection[16];
     GLdouble modelview[16];
-    GLdouble k1, z1, x1, y1, x0, xk, y0, yk, z0, zk;
+    GLdouble k1, z1, x0, xk, y0, yk, z0, zk;
     GLint viewport[4];
     GLsizei vx, vy;
 

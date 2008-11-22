@@ -54,6 +54,8 @@ class CMap3DWidget: public QGLWidget
         void focusOutEvent ( QFocusEvent * event );
         void createActions();
         void updateElevationLimits();
+        void setEleRegion();
+        void deleteEleRegion();
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
@@ -64,6 +66,7 @@ class CMap3DWidget: public QGLWidget
         QSet<int> pressedKeys;
 
     private:
+        double step;
         QPointer<IMap> map;
         void loadMap();
         /// expand map relative to the center

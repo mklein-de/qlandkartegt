@@ -199,6 +199,10 @@ class IMap : public QObject
         /// select map area for export or further processing
         virtual void select(IMapSelection& ms, const QRect& rect){};
 
+        virtual void setRegion(XY p1, XY p2, int w, int h) {};
+        virtual float getRegionValue(int x, int y) {return 0.0;};
+        virtual void deleteRegion() {};
+
         const maptype_e maptype;
     signals:
         void sigChanged();

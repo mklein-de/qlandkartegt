@@ -49,8 +49,15 @@ class CMapDEM : public IMap
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(float lon, float lat);
+        void setRegion(XY p1, XY p2, int w, int h);
+        float getRegionValue(int x, int y);
+        void deleteRegion();
+
 
     private:
+        qint16 * region_data;
+        int region_width;
+        int region_height;
         void shading(QImage& img, qint16 * data);
         void contour(QImage& img, qint16 * data);
 
