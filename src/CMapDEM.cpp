@@ -189,8 +189,11 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
 }
 
-void CMapDEM::setRegion(XY p1, XY p2, int w, int h)
+void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h)
 {
+    qint16 * region_data;
+    int region_width;
+    int region_height;
 
     if(pjsrc == 0) return;
 
@@ -198,29 +201,26 @@ void CMapDEM::setRegion(XY p1, XY p2, int w, int h)
         Calculate area of DEM data to be read.
     */
 
-    XY _p1 = p1;
-    XY _p2 = p2;
-
     // 1. convert top left and bottom right point into the projection system used by the DEM data
-    pj_transform(pjtar, pjsrc, 1, 0, &_p1.u, &_p1.v, 0);
-    pj_transform(pjtar, pjsrc, 1, 0, &_p2.u, &_p2.v, 0);
+    pj_transform(pjtar, pjsrc, 1, 0, &topLeft.u, &topLeft.v, 0);
+    pj_transform(pjtar, pjsrc, 1, 0, &bottomRight.u, &bottomRight.v, 0);
 
     // 2. get floating point offset of topleft corner
-    double xoff1_f = (_p1.u - xref1) / xscale;
-    double yoff1_f = (_p1.v - yref1) / yscale;
+    double xoff1_f = (topLeft.u - xref1) / xscale;
+    double yoff1_f = (topLeft.v - yref1) / yscale;
 
     // 3. truncate floating point offset into integer offset
     int xoff1 = xoff1_f;         //qDebug() << "xoff1:" << xoff1 << xoff1_f;
     int yoff1 = yoff1_f;         //qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
     // 4. get floating point offset of bottom right corner
-    double xoff2_f = (_p2.u - xref1) / xscale;
-    double yoff2_f = (_p2.v - yref1) / yscale;
+    double xoff2_f = (bottomRight.u - xref1) / xscale;
+    double yoff2_f = (bottomRight.v - yref1) / yscale;
 
     // 5. round up (!) floating point offset into integer offset
     int xoff2 = ceil(xoff2_f);   //qDebug() << "xoff2:" << xoff2 << xoff2_f;
     int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
-    int w1 = xoff2 - xoff1; //while((w1 & 0x03) != 0) ++w1;
+    int w1 = xoff2 - xoff1;
     int h1 = yoff2 - yoff1;      //qDebug() << "w1:" << w1 << "h1:" << h1;
 
     // bail out if this is getting too big
@@ -238,20 +238,28 @@ void CMapDEM::setRegion(XY p1, XY p2, int w, int h)
     region_width = w2;
     region_height = h2;
 
+    if ((w2 != w) || (h2 != h))
+        // DEM data resolution less than required.
+        region_data = new qint16[w2 * h2];
+    else
+        region_data = buffer;
+
     // read 16bit elevation data from GeoTiff
-    region_data = new qint16[w2 * h2];
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
     CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, region_data, w2, h2, GDT_Int16, 0, 0);
     if(err == CE_Failure) {
         qDebug() << "faillure" << endl;
-        //delete [] region_data;
+        if ((w2 != w) || (h2 != h))
+            delete [] region_data;
         //FIXME add handle error
         return;
     }
+
+#define GET_VALUE(X, Y)    region_data[region_width * (int)(Y) + (int)(X)]
+
     if ((w2 != w) || (h2 != h)) {
            // do interpolation if DEM data resolution less than required.
-           qint16 *region_data_tmp = new qint16[w * h];
            int i, j;
            double x, y, c, r;
            w2--; h2--;
@@ -265,28 +273,14 @@ void CMapDEM::setRegion(XY p1, XY p2, int w, int h)
                            r = y - (int) y;
                            r = r * abs(yscale);
                            const weight_t& wt = weights[((int) r * (int)abs(xscale)) + (int) c];
-                           region_data_tmp[i + j * w] = wt.c1 * getRegionValue(x, y) + \
-                                       wt.c2 * getRegionValue(x + 1, y) + \
-                                       wt.c3 * getRegionValue(x, y + 1) + \
-                                       wt.c4 * getRegionValue(x + 1, y + 1);
+                           buffer[i + j * w] = wt.c1 * GET_VALUE(x, y) + \
+                                       wt.c2 * GET_VALUE(x + 1, y) + \
+                                       wt.c3 * GET_VALUE(x, y + 1) + \
+                                       wt.c4 * GET_VALUE(x + 1, y + 1);
                    }
            }
            delete [] region_data;
-           region_data = region_data_tmp;
-           region_width = w;
-           region_height = h;
     }
-}
-
-float CMapDEM::getRegionValue(int x, int y)
-{
-        float ele = region_data[region_width * y + x];
-        return ele;
-}
-
-void CMapDEM::deleteRegion()
-{
-        delete [] region_data;
 }
 
 float CMapDEM::getElevation(float lon, float lat)

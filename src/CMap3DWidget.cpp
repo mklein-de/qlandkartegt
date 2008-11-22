@@ -216,7 +216,15 @@ void CMap3DWidget::drawFlatMap()
     glDisable(GL_TEXTURE_2D);
 }
 
-void CMap3DWidget::setEleRegion()
+int CMap3DWidget::getEleRegionSize()
+{
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+    return (int)(w/step + 1) * (int)(h/step + 1);
+}
+
+void CMap3DWidget::getEleRegion(qint16 *buffer)
 {
     QSize s = map->getSize();
     double w = s.width();
@@ -230,13 +238,13 @@ void CMap3DWidget::setEleRegion()
     p2.v = h;
     map->convertPt2Rad(p1.u, p1.v);
     map->convertPt2Rad(p2.u, p2.v);
-    dem.setRegion(p1, p2, w/step + 1, h/step + 1);
+    dem.getRegion(buffer, p1, p2, w/step + 1, h/step + 1);
 }
 
-void CMap3DWidget::deleteEleRegion()
-{
-    IMap& dem = CMapDB::self().getDEM();
-    dem.deleteRegion();
+float CMap3DWidget::getRegionValue(qint16 *buffer, int x, int y) {
+    QSize s = map->getSize();
+    int w = s.width() / step + 1;
+    return buffer[x + y * w];
 }
 
 void CMap3DWidget::draw3DMap()
@@ -244,6 +252,7 @@ void CMap3DWidget::draw3DMap()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
+    qint16 eleData[getEleRegionSize()];
 
     int iv, it, j, k, end;
     double x, y, u, v;
@@ -256,7 +265,6 @@ void CMap3DWidget::draw3DMap()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
 
-    IMap& dem = CMapDB::self().getDEM();
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
@@ -272,7 +280,7 @@ void CMap3DWidget::draw3DMap()
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
-    setEleRegion();
+    getEleRegion(eleData);
     for (y = 0; y < h - step; y += step) {
         it = it % (num * 4);
         end = it + num * 2;
@@ -283,7 +291,7 @@ void CMap3DWidget::draw3DMap()
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            vertices[iv + 2] = dem.getRegionValue(x/step, y/step);
+            vertices[iv + 2] = getRegionValue(eleData, x/step, y/step);
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
@@ -301,7 +309,6 @@ void CMap3DWidget::draw3DMap()
         for (j = 0; j < 4; j++)
                 idx[j]++;
     }
-    deleteEleRegion();
     delete [] vertices;
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
@@ -373,21 +380,20 @@ void CMap3DWidget::updateElevationLimits()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    IMap& dem = CMapDB::self().getDEM();
+    qint16 eleData[getEleRegionSize()];
 
-    setEleRegion();
-    minElevation = maxElevation = dem.getRegionValue(0, 0);
+    getEleRegion(eleData);
+    minElevation = maxElevation = getRegionValue(eleData, 0, 0);
 
     for (y = 0; y < h - step; y += step)
         for (x = 0; x < w; x += step) {
-            ele = dem.getRegionValue(x / step, y /step);
+            ele = getRegionValue(eleData, x / step, y /step);
             if (ele > maxElevation)
                     maxElevation = ele;
 
             if (ele < minElevation)
                     minElevation = ele;
         }
-    deleteEleRegion();
     if (! track.isNull() && (maxElevation - minElevation < 1)) {
         /*selected track exist and dem isn't present for this map*/
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();

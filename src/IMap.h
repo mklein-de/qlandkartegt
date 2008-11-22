@@ -198,10 +198,15 @@ class IMap : public QObject
 
         /// select map area for export or further processing
         virtual void select(IMapSelection& ms, const QRect& rect){};
-
-        virtual void setRegion(XY p1, XY p2, int w, int h) {};
-        virtual float getRegionValue(int x, int y) {return 0.0;};
-        virtual void deleteRegion() {};
+        /**
+         * get values for the defined region.
+         * \param buffer - elevation matrix. It must has size w * h.
+         * \param topLeft - geo coordinates in [rad] of top left corner
+         * \param bottomRight - goe coordinates in [rad] of bottom right corner
+         * \param w - matrix width
+         * \param h - matrix height
+         */
+        virtual void getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int width, int height) {};
 
         const maptype_e maptype;
     signals:
