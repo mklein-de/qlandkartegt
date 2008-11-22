@@ -66,7 +66,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         m.filename      = map;
         if(ext == "tdb") {
             cfg.beginGroup("garmin/maps/alias");
-            m.description = cfg.value(fi.fileName(),"").toString();
+            m.description = cfg.value(map,"").toString();
             cfg.endGroup();
         }
         else {
@@ -188,7 +188,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         cfg.setValue("maps/visibleMaps",filename);
         cfg.beginGroup("garmin/maps/alias");
-        cfg.setValue(fi.fileName(),map.description);
+        cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
     else {
