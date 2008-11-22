@@ -219,7 +219,12 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
 
     // 5. round up (!) floating point offset into integer offset
     int xoff2 = ceil(xoff2_f);   //qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    if (xoff2 == (int) xoff2_f)
+            xoff2 ++;
     int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
+    if (yoff2 == (int) yoff2_f)
+            yoff2 ++;
+
     int w1 = xoff2 - xoff1;
     int h1 = yoff2 - yoff1;      //qDebug() << "w1:" << w1 << "h1:" << h1;
 
@@ -228,12 +233,10 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
 
     int w2 = w, h2 = h;
 
-    if (w > w1) {
-            w1++; w2= w1;
-    }
-    if (h > h1) {
-            h1++; h2 = h1;
-    }
+    if (w > w1)
+            w2= w1;
+    if (h > h1)
+            h2 = h1;
 
     region_width = w2;
     region_height = h2;
@@ -262,14 +265,16 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
            // do interpolation if DEM data resolution less than required.
            int i, j;
            double x, y, c, r;
-           w2--; h2--;
+           double xscale_my = (xoff2_f - xoff1_f) / (double)w;
+           double yscale_my = (yoff2_f - yoff1_f) / (double)h;
+
            for (i = 0; i < w; i++) {
-                   x = (i / (float) w ) * w2;
+                   x = xoff1_f + xscale_my * i - xoff1;
                    c = x - (int) x;
                    c = c * abs(xscale);
 
                    for (j = 0; j < h; j++) {
-                           y = (j / (float) h ) * h2;
+                           y = yoff1_f + yscale_my * j - yoff1;
                            r = y - (int) y;
                            r = r * abs(yscale);
                            const weight_t& wt = weights[((int) r * (int)abs(xscale)) + (int) c];
