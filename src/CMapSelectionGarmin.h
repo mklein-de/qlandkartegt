@@ -47,6 +47,9 @@ class CMapSelectionGarmin : public IMapSelection
             QVector<double> v;
             quint32 memSize;
             QRectF area;
+
+            quint16 fid;
+            quint16 pid;
         };
 
         struct map_t
@@ -55,6 +58,9 @@ class CMapSelectionGarmin : public IMapSelection
             QString name;
             QString typfile;
             QMap<QString, tile_t> tiles;
+
+            quint16 fid;
+            quint16 pid;
         };
 
         QMap<QString, map_t> maps;

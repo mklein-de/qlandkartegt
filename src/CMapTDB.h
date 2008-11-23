@@ -311,5 +311,8 @@ class CMapTDB : public IMap
         bool    useTyp;
         bool    mouseOverUseTyp;
         QRect   rectUseTyp;
+
+        quint16 fid;
+        quint16 pid;
 };
 #endif                           //CMAPTDB_H

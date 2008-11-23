@@ -75,6 +75,8 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         myMap.map = map->name;
         myMap.key = map->unlockKey;
         myMap.typ = map->typfile;
+        myMap.fid = map->fid;
+        myMap.pid = map->pid;
 
         maps << myMap;
         if(myMap.key.isEmpty()){
@@ -94,6 +96,8 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
             myTile.name     = tile->name;
             myTile.filename = tile->filename;
             myTile.memsize  = tile->memSize;
+            myTile.fid      = tile->fid;
+            myTile.pid      = tile->pid;
             tiles << myTile;
 
             writeStdout(tr("    %1 (%2 MB)").arg(myTile.name).arg(double(myTile.memsize) / (1024 * 1024), 0, 'f', 2));
@@ -242,7 +246,7 @@ void CGarminExport::initFATBlock(FATblock_t * pFAT)
     pFAT->flag = 0x01;
     memset(pFAT->name, 0x20, sizeof(pFAT->name));
     memset(pFAT->type, 0x20, sizeof(pFAT->type));
-    memset(pFAT->byte0x00000012_0x0000001F, 0x00, sizeof(pFAT->byte0x00000012_0x0000001F));
+//     memset(pFAT->byte0x00000012_0x0000001F, 0x00, sizeof(pFAT->byte0x00000012_0x0000001F));
 }
 
 void CGarminExport::readTileInfo(tile_t& t)
@@ -362,7 +366,7 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
     // size of the next data
     mps << quint16(16 + ((t.map.size() + 1)<<1) + t.name.size() + 1);
     // 2 byte product code as in the registry and country/character set?
-    mps << (quint32)0x02180001;
+    mps << t.fid << t.pid;
     // file ID, map name, tile name
     mps << t.id;
     mps.writeRawData(t.map.toAscii(),t.map.size() + 1);
@@ -400,7 +404,9 @@ void CGarminExport::slotStart()
         quint32 maxFATs     = (240 * blocksize) / sizeof(CGarminTile::FATblock_t);
         quint32 maxFileSize = 0x7FFFFFFF;
 
+        /////////////////////////////////////////////////////////////
         // first run. read file structure of all tiles
+        /////////////////////////////////////////////////////////////
         QVector<tile_t>::iterator tile = tiles.begin();
         while(tile != tiles.end()){
             // read img file
@@ -432,7 +438,9 @@ void CGarminExport::slotStart()
             ++tile;
         }
 
+        /////////////////////////////////////////////////////////////
         // test for typ files
+        /////////////////////////////////////////////////////////////
         quint32 nBlockTyp = 0;
         quint32 nFATTyp   = 0;
         QVector<map_t>::iterator map = maps.begin();
@@ -448,15 +456,17 @@ void CGarminExport::slotStart()
         totalBlocks += nBlockTyp;
         totalFATs   += nFATTyp;
 
-
+        /////////////////////////////////////////////////////////////
         // add map strings and keys to mapsourc.mps
+        /////////////////////////////////////////////////////////////
         map = maps.begin();
         while(map != maps.end()){
             mps << (quint8)'F';
-            mps << (quint16)(4 + map->map.size() + 1);
+            mps << (quint16)(4 /*+ map->map.size()*/ + 1);
             // I suspect this should really be the basic file name of the .img set:
-            mps << (quint32)0x02180001;// ???
-            mps.writeRawData(map->map.toAscii(),map->map.size() + 1);
+            mps << map->fid << map->pid;
+//             mps.writeRawData(map->map.toAscii(),map->map.size() + 1);
+            mps.writeRawData("\0",1);
 
             if(!map->key.isEmpty()){
                 mps << (quint8)'U' << (quint16)26;
@@ -505,13 +515,15 @@ void CGarminExport::slotStart()
 
         // initialize the complete file with 0xFF
         writeStdout(tr("Initialize %1").arg(gmapsupp.fileName()));
-        QByteArray dummyblock(blocksize, (char)0x0FF);
+        QByteArray dummyblock(blocksize, (char)0xFF);
         for(i = 0; i < totalBlocks; ++i){
             gmapsupp.write(dummyblock);
         }
 
-        writeStdout(tr("Write header..."));
+        /////////////////////////////////////////////////////////////
         // write Garmin file header
+        /////////////////////////////////////////////////////////////
+        writeStdout(tr("Write header..."));
         gmapsupp_imghdr_t gmapsupp_imghdr;
         initGmapsuppImgHdr(gmapsupp_imghdr, totalBlocks, dataoffset);
         gmapsupp.seek(0);
@@ -530,7 +542,9 @@ void CGarminExport::slotStart()
         }
         gmapsupp.write(FATblock);
 
+        /////////////////////////////////////////////////////////////
         // write all FAT entries for map data
+        /////////////////////////////////////////////////////////////
         quint32 newOffset = dataoffset;
 
         tile = tiles.begin();
@@ -574,7 +588,37 @@ void CGarminExport::slotStart()
         }
 
 
+        /////////////////////////////////////////////////////////////
+        // write MAPSOURCMPS FAT entries
+        /////////////////////////////////////////////////////////////
+        quint16 partno          = 0;
+        quint16 blockidx        = 0;
+        quint32 newMpsOffset    = newOffset;
+
+        initFATBlock(pFAT);
+        memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
+        memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
+        pFAT->size = gar_endian(uint32_t, mapsourc.size());
+        pFAT->part = gar_endian(uint16_t, partno++ << 8);
+
+        for(i = 0; i < nBlockMps; ++i, ++blockidx){
+            if(blockidx == 240){
+                gmapsupp.write(FATblock);
+                initFATBlock(pFAT);
+                memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
+                memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
+                pFAT->size  = 0;
+                pFAT->part  = gar_endian(uint16_t, partno++ << 8);
+                blockidx    = 0;
+            }
+            pFAT->blocks[blockidx] = gar_endian(uint16_t, blockcnt++);
+        }
+        gmapsupp.write(FATblock);
+        newOffset += nBlockMps * blocksize;
+
+        /////////////////////////////////////////////////////////////
         // write typfile FAT blocks
+        /////////////////////////////////////////////////////////////
         map = maps.begin();
         while(map != maps.end()){
             if(!map->typ.isEmpty()){
@@ -610,30 +654,10 @@ void CGarminExport::slotStart()
             ++map;
         }
 
-        // write MAPSOURCMPS FAT entries
-        quint16 partno   = 0;
-        quint16 blockidx = 0;
 
-        initFATBlock(pFAT);
-        memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
-        memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
-        pFAT->size = gar_endian(uint32_t, mapsourc.size());
-        pFAT->part = gar_endian(uint16_t, partno++ << 8);
-
-        for(i = 0; i < nBlockMps; ++i, ++blockidx){
-            if(blockidx == 240){
-                gmapsupp.write(FATblock);
-                initFATBlock(pFAT);
-                memcpy(pFAT->name, "MAPSOURC", sizeof(pFAT->name));
-                memcpy(pFAT->type, "MPS", sizeof(pFAT->type));
-                pFAT->size  = 0;
-                pFAT->part  = gar_endian(uint16_t, partno++ << 8);
-                blockidx    = 0;
-            }
-            pFAT->blocks[blockidx] = gar_endian(uint16_t, blockcnt++);
-        }
-        gmapsupp.write(FATblock);
-
+        /////////////////////////////////////////////////////////////
+        // write map data
+        /////////////////////////////////////////////////////////////
         writeStdout(tr("Copy tile data..."));
         tile = tiles.begin();
         while(tile != tiles.end()){
@@ -673,6 +697,11 @@ void CGarminExport::slotStart()
                 QByteArray data = file.readAll();
                 file.close();
 
+//                 data[0x2F] = 0x20;
+//                 data[0x30] = 0x03;
+//                 data[0x31] = 0x01;
+//                 data[0x32] = 0x00;
+
                 gmapsupp.seek(map->newTypOffset);
                 gmapsupp.write(data);
             }
@@ -680,10 +709,13 @@ void CGarminExport::slotStart()
         }
 
         writeStdout(tr("Write map lookup table..."));
-        gmapsupp.seek((totalBlocks - nBlockMps) * blocksize);
+        gmapsupp.seek(newMpsOffset);
         gmapsupp.write(mapsourc);
 
         gmapsupp.close();
+
+        QFile::remove("gmapsupp_cpy.img");
+        gmapsupp.copy("gmapsupp_cpy.img");
     }
     catch(const exce_t e){
         writeStderr(e.msg);

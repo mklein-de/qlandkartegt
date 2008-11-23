@@ -128,20 +128,28 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
         struct map_t
         {
+            map_t() : pid(0x0320), fid(0x0001) {}
             QString map;
             QString key;
             QString typ;
             quint32 newTypOffset;
+
+            quint16 pid;
+            quint16 fid;
         };
 
         struct tile_t
         {
+            tile_t() : pid(0x0320), fid(0x0001) {}
             quint32 id;
             QString map;
             QString name;
             QString filename;
             quint32 memsize;
             QMap<QString, gmapsupp_subfile_desc_t> subfiles;
+
+            quint16 pid;
+            quint16 fid;
         };
 
         void writeStdout(const QString& msg);

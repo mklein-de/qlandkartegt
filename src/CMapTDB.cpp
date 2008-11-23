@@ -331,6 +331,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , useTyp(true)
+, fid(0x0001)
+, pid(0x0320)
 {
     pjsrc = pj_init_plus(CMapDB::self().getMap().getProjection());
 
@@ -1540,7 +1542,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
     QPointF resPt = pt;
     QString key, value;
-    quint16 type;
+    quint16 type = 0;
 
     shortest = 50;
 
@@ -1685,6 +1687,8 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
         m.unlockKey = mapkey;
         m.name      = name;
         m.typfile   = typfile;
+        m.pid       = pid;
+        m.fid       = fid;
     }
     QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
 
@@ -1706,6 +1710,8 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
                 t.v         = tile->defAreaV;
                 t.memSize   = tile->memSize;
                 t.area      = tile->area;
+                t.pid       = pid;
+                t.fid       = fid;
                 map->tiles[tile->key] = t;
             }
         }
@@ -1810,9 +1816,9 @@ void CMapTDB::readTYP()
     in >> sectPolylines.dataOffset >> sectPolylines.dataLength;
     in >> sectPolygons.dataOffset >> sectPolygons.dataLength;
 
-    quint16 PID, FID;
-    in >> PID >> FID;
-    qDebug() << "PID" << hex << PID << "FID" << hex << FID;
+
+    in >> pid >> fid;
+    qDebug() << "PID" << hex << pid << "FID" << hex << fid;
 
     /* Read Array datas */
     in >> sectPoints.arrayOffset >> sectPoints.arrayModulo >> sectPoints.arraySize;
@@ -2025,7 +2031,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         bool hasPixmap      = false;
         int colorFlag       = data1 & 0x07;
         int rows            = data1 >> 3;
-        bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
+//         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
         QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
         QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
