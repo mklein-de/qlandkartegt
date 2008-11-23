@@ -239,15 +239,21 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
     if (h > h1)
             h2 = h1;
 
-    region_width = w2;
-    region_height = h2;
+     if ((w2 != w) || (h2 != h)) {
+            // we should increment values w2, because
+            // want use widths 0 to w2 inclusive
+            region_width = w2 + 1;
+            w1++;
+            region_height = h2 + 1;
+            h1++;
+     }
 
-    region_data = new qint16[w2 * h2];
+    region_data = new qint16[region_width * region_height];
 
     // read 16bit elevation data from GeoTiff
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, region_data, w2, h2, GDT_Int16, 0, 0);
+    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, region_data, region_width, region_height, GDT_Int16, 0, 0);
     if(err == CE_Failure) {
         qDebug() << "faillure" << endl;
         delete [] region_data;
