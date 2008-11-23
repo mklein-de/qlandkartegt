@@ -2067,7 +2067,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         if(rows){
             decodeBitmap(in, myXpmDay, 32, rows, 1);
-            myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+//             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
             hasPixmap = true;
         }
 

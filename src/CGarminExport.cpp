@@ -365,7 +365,7 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
     mps << quint8('L');
     // size of the next data
     mps << quint16(16 + ((t.map.size() + 1)<<1) + t.name.size() + 1);
-    // 2 byte product code as in the registry and country/character set?
+    // file and product id
     mps << t.fid << t.pid;
     // file ID, map name, tile name
     mps << t.id;
@@ -461,11 +461,10 @@ void CGarminExport::slotStart()
         /////////////////////////////////////////////////////////////
         map = maps.begin();
         while(map != maps.end()){
-            mps << (quint8)'F';
-            mps << (quint16)(4 /*+ map->map.size()*/ + 1);
+            mps << quint8('F');
+            mps << quint16(5);
             // I suspect this should really be the basic file name of the .img set:
             mps << map->fid << map->pid;
-//             mps.writeRawData(map->map.toAscii(),map->map.size() + 1);
             mps.writeRawData("\0",1);
 
             if(!map->key.isEmpty()){
@@ -485,7 +484,9 @@ void CGarminExport::slotStart()
         quint32 nBlocksFat = ceil(double(sizeof(gmapsupp_imghdr_t) + totalFATs * sizeof(CGarminTile::FATblock_t)) / blocksize);
         totalBlocks       += nBlocksFat;
 
+        /////////////////////////////////////////////////////////////
         // a small sanity check
+        /////////////////////////////////////////////////////////////
         quint32 filesize   = totalBlocks * blocksize;
         quint32 dataoffset = nBlocksFat * blocksize;
 
@@ -505,7 +506,9 @@ void CGarminExport::slotStart()
             writeStdout(tr("File size: %1 MB (of %2 MB)").arg(double(filesize) / (1024 * 1024), 0, 'f', 2).arg(double(maxFileSize) / (1024 * 1024), 0, 'f', 2));
         }
 
+        /////////////////////////////////////////////////////////////
         // start to create the file
+        /////////////////////////////////////////////////////////////
         if(filename.isEmpty()){
             QDir path(labelPath->text());
             filename = path.filePath(linePrefix->text() + ".img");
@@ -688,6 +691,9 @@ void CGarminExport::slotStart()
             ++tile;
         }
 
+        /////////////////////////////////////////////////////////////
+        // Copy typ file data
+        /////////////////////////////////////////////////////////////
         writeStdout(tr("Copy typ files..."));
         map = maps.begin();
         while(map != maps.end()){
@@ -697,25 +703,22 @@ void CGarminExport::slotStart()
                 QByteArray data = file.readAll();
                 file.close();
 
-//                 data[0x2F] = 0x20;
-//                 data[0x30] = 0x03;
-//                 data[0x31] = 0x01;
-//                 data[0x32] = 0x00;
-
                 gmapsupp.seek(map->newTypOffset);
                 gmapsupp.write(data);
             }
             ++map;
         }
 
+        /////////////////////////////////////////////////////////////
+        // Write MAPSORCMPS
+        /////////////////////////////////////////////////////////////
         writeStdout(tr("Write map lookup table..."));
         gmapsupp.seek(newMpsOffset);
         gmapsupp.write(mapsourc);
 
         gmapsupp.close();
-
-        QFile::remove("gmapsupp_cpy.img");
-        gmapsupp.copy("gmapsupp_cpy.img");
+//         QFile::remove("gmapsupp_cpy.img");
+//         gmapsupp.copy("gmapsupp_cpy.img");
     }
     catch(const exce_t e){
         writeStderr(e.msg);
