@@ -254,12 +254,20 @@ void CMap3DWidget::draw3DMap()
     double h = s.height();
     float eleData[getEleRegionSize()];
 
-    int iv, it, j, k, end;
+    int ix, iy, iv, it, j, k, end;
     double x, y, u, v;
     GLdouble *vertices;
     GLdouble *texCoords;
     GLuint idx[4];
-    int num = (w / step + 1);
+
+    // increment xcount, because the number of points are on one more
+    // than number of lengths |--|--|--|--|
+    int xcount = (w / step + 1);
+    int ycount = (h / step + 1);
+
+    double current_step_x = w / (double) (xcount - 1);
+    double current_step_y = h / (double) (ycount - 1);
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);
@@ -268,11 +276,11 @@ void CMap3DWidget::draw3DMap()
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
-    vertices = new GLdouble[num * 3 * 2];
-    texCoords = new GLdouble[num * 2 * 2];
-    it = 0;
-    idx[0] = 0 + num;
-    idx[1] = 1 + num;
+    vertices = new GLdouble[xcount * 3 * 2];
+    texCoords = new GLdouble[xcount * 2 * 2];
+    ix = 0;
+    idx[0] = 0 + xcount;
+    idx[1] = 1 + xcount;
     idx[2] = 1;
     idx[3] = 0;
     glVertexPointer(3, GL_DOUBLE, 0, vertices);
@@ -281,27 +289,27 @@ void CMap3DWidget::draw3DMap()
     glPointSize(2.0);
 
     getEleRegion(eleData);
-    for (y = 0; y < h - step; y += step) {
-        it = it % (num * 4);
-        end = it + num * 2;
-        for (x = 0, iv = (it / 2) * 3; it < end; x += step, iv += 3, it += 2) {
+    for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++) {
+        ix = ix % (xcount * 2);
+        end = ix + xcount;
+        for (x = 0, iv = ix * 3, it = ix * 2; ix < end; x += current_step_x, iv += 3, it += 2, ix++) {
             vertices[iv + 0] = x;
             vertices[iv + 1] = y;
             u = x;
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            vertices[iv + 2] = getRegionValue(eleData, x/step, y/step);
+            vertices[iv + 2] = getRegionValue(eleData, ix, iy);
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
         for (j = 0; j < 4; j++)
-            idx[j] = idx[j] % (num * 2);
+            idx[j] = idx[j] % (xcount * 2);
 
-        if (y < step)
+        if (iy == 0)
                 continue;
 
-        for (k = 0; k < num - 1; k ++) {
+        for (k = 0; k < xcount - 1; k ++) {
             glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
             for (j = 0; j < 4; j++)
                 idx[j]++;

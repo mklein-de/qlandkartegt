@@ -266,8 +266,10 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
     if ((w2 != w) || (h2 != h)) {
            // do interpolation if DEM data resolution less than required.
            double x, y, c, r;
-           double xscale_my = (xoff2_f - xoff1_f) / (double)w;
-           double yscale_my = (yoff2_f - yoff1_f) / (double)h;
+           // decriment w, because the number of points more on one
+           // than number of lengths.
+           double xscale_my = (xoff2_f - xoff1_f) / (double)(w - 1);
+           double yscale_my = (yoff2_f - yoff1_f) / (double)(h - 1);
 
            for (i = 0; i < w; i++) {
                    x = xoff1_f + xscale_my * i - xoff1;
