@@ -224,7 +224,7 @@ int CMap3DWidget::getEleRegionSize()
     return (int)(w/step + 1) * (int)(h/step + 1);
 }
 
-void CMap3DWidget::getEleRegion(qint16 *buffer)
+void CMap3DWidget::getEleRegion(float *buffer)
 {
     QSize s = map->getSize();
     double w = s.width();
@@ -241,7 +241,7 @@ void CMap3DWidget::getEleRegion(qint16 *buffer)
     dem.getRegion(buffer, p1, p2, w/step + 1, h/step + 1);
 }
 
-float CMap3DWidget::getRegionValue(qint16 *buffer, int x, int y) {
+float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
     QSize s = map->getSize();
     int w = s.width() / step + 1;
     return buffer[x + y * w];
@@ -252,7 +252,7 @@ void CMap3DWidget::draw3DMap()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    qint16 eleData[getEleRegionSize()];
+    float eleData[getEleRegionSize()];
 
     int iv, it, j, k, end;
     double x, y, u, v;
@@ -380,7 +380,7 @@ void CMap3DWidget::updateElevationLimits()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    qint16 eleData[getEleRegionSize()];
+    float eleData[getEleRegionSize()];
 
     getEleRegion(eleData);
     minElevation = maxElevation = getRegionValue(eleData, 0, 0);

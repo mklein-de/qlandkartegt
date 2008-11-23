@@ -189,9 +189,10 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
 }
 
-void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h)
+void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
 {
-    qint16 * region_data;
+    int i, j;
+    qint16 *region_data;
     int region_width;
     int region_height;
 
@@ -200,7 +201,7 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
     /*
         Calculate area of DEM data to be read.
     */
-
+//    XY p1 = topLeft, p2 = bottomRight;
     // 1. convert top left and bottom right point into the projection system used by the DEM data
     pj_transform(pjtar, pjsrc, 1, 0, &topLeft.u, &topLeft.v, 0);
     pj_transform(pjtar, pjsrc, 1, 0, &bottomRight.u, &bottomRight.v, 0);
@@ -241,11 +242,7 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
     region_width = w2;
     region_height = h2;
 
-    if ((w2 != w) || (h2 != h))
-        // DEM data resolution less than required.
-        region_data = new qint16[w2 * h2];
-    else
-        region_data = buffer;
+    region_data = new qint16[w2 * h2];
 
     // read 16bit elevation data from GeoTiff
     GDALRasterBand * pBand;
@@ -253,8 +250,7 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
     CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, region_data, w2, h2, GDT_Int16, 0, 0);
     if(err == CE_Failure) {
         qDebug() << "faillure" << endl;
-        if ((w2 != w) || (h2 != h))
-            delete [] region_data;
+        delete [] region_data;
         //FIXME add handle error
         return;
     }
@@ -263,7 +259,6 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
 
     if ((w2 != w) || (h2 != h)) {
            // do interpolation if DEM data resolution less than required.
-           int i, j;
            double x, y, c, r;
            double xscale_my = (xoff2_f - xoff1_f) / (double)w;
            double yscale_my = (yoff2_f - yoff1_f) / (double)h;
@@ -277,15 +272,29 @@ void CMapDEM::getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int w, int h
                            y = yoff1_f + yscale_my * j - yoff1;
                            r = y - (int) y;
                            r = r * abs(yscale);
+/*                         qDebug() << "wxh" << w << "x" << h << " " << w2 << "x" <<h2;
+                           qDebug() << "scale " << xscale << " " << yscale;
+                           qDebug() << "ij " << i << " " << j;
+                           qDebug() << "xy" << x + xoff1 << " " << y + yoff1;
+                           qDebug() << "cr" << c << " " << r;
+*/
                            const weight_t& wt = weights[((int) r * (int)abs(xscale)) + (int) c];
                            buffer[i + j * w] = wt.c1 * GET_VALUE(x, y) + \
                                        wt.c2 * GET_VALUE(x + 1, y) + \
                                        wt.c3 * GET_VALUE(x, y + 1) + \
                                        wt.c4 * GET_VALUE(x + 1, y + 1);
+/*                         qDebug() << buffer[i + j * w];
+                           qDebug() << getElevation(p1.u + (p2.u - p1.u) / (double) w * i,
+                                           p2.v + (p2.v - p1.v) / (double) h * j) <<  endl;
+*/
                    }
            }
-           delete [] region_data;
+    } else {
+            for (i = 0; i < w; i++)
+                    for (j = 0; j < h; j++)
+                            buffer[i + j * w] = region_data[i + j * w];
     }
+    delete [] region_data;
 }
 
 float CMapDEM::getElevation(float lon, float lat)

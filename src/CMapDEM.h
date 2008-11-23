@@ -49,7 +49,7 @@ class CMapDEM : public IMap
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(float lon, float lat);
-        void getRegion(qint16 *buffer, XY p1, XY p2, int w, int h);
+        void getRegion(float *buffer, XY p1, XY p2, int w, int h);
 
     private:
         void shading(QImage& img, qint16 * data);

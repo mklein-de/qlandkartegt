@@ -206,7 +206,7 @@ class IMap : public QObject
          * \param w - matrix width
          * \param h - matrix height
          */
-        virtual void getRegion(qint16 *buffer, XY topLeft, XY bottomRight, int width, int height) {};
+        virtual void getRegion(float *buffer, XY topLeft, XY bottomRight, int width, int height) {};
 
         const maptype_e maptype;
     signals:

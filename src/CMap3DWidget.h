@@ -54,9 +54,9 @@ class CMap3DWidget: public QGLWidget
         void focusOutEvent ( QFocusEvent * event );
         void createActions();
         void updateElevationLimits();
-        void getEleRegion(qint16 *buffer);
+        void getEleRegion(float *buffer);
         int getEleRegionSize();
-        float getRegionValue(qint16 *buffer, int x, int y);
+        float getRegionValue(float *buffer, int x, int y);
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
