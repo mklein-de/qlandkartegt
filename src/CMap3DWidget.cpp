@@ -34,6 +34,7 @@
 
 #include <math.h>
 
+
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
 {
@@ -247,7 +248,7 @@ float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
     return buffer[x + y * w];
 }
 
-#if 1
+#if 1   // set to 1 for old elevation processing
 void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();
@@ -319,9 +320,62 @@ void CMap3DWidget::draw3DMap()
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
 }
-#endif
 
-#if 0
+void CMap3DWidget::updateElevationLimits()
+{
+    double x, y, u, v, ele;
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+    double step = 5;
+    IMap& dem = CMapDB::self().getDEM();
+
+    u = 0;
+    v = 0;
+    map->convertPt2Rad(u, v);
+    minElevation = maxElevation = dem.getElevation(u,v);
+
+    for (y = 0; y < h - step; y += step)
+        for (x = 0; x < w; x += step) {
+            u = x;
+            v = y;
+            map->convertPt2Rad(u, v);
+            // FIXME can't use map instead of dem. need investigation.
+            ele = dem.getElevation(u,v);
+            if (ele > maxElevation)
+                    maxElevation = ele;
+
+            if (ele < minElevation)
+                    minElevation = ele;
+        }
+
+    if (! track.isNull() && (maxElevation - minElevation < 1)) {
+        /*selected track exist and dem isn't present for this map*/
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        maxElevation = trkpt->ele;
+        minElevation = trkpt->ele;
+        while(trkpt != trkpts.end()) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+                ++trkpt; continue;
+            }
+            if (trkpt->ele > maxElevation)
+                maxElevation = trkpt->ele;
+            if (trkpt->ele < minElevation)
+                minElevation = trkpt->ele;
+            ++trkpt;
+        }
+    }
+
+    if (maxElevation - minElevation < 1) {
+            /*selected track and deb are absent*/
+            maxElevation = 1;
+            minElevation = 0;
+    }
+
+}
+#else
+
 void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();
@@ -396,6 +450,53 @@ void CMap3DWidget::draw3DMap()
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
 }
+
+void CMap3DWidget::updateElevationLimits()
+{
+    double x, y, ele;
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+    float eleData[getEleRegionSize()];
+
+    getEleRegion(eleData);
+    minElevation = maxElevation = getRegionValue(eleData, 0, 0);
+
+    for (y = 0; y < h - step; y += step)
+        for (x = 0; x < w; x += step) {
+            ele = getRegionValue(eleData, x / step, y /step);
+            if (ele > maxElevation)
+                    maxElevation = ele;
+
+            if (ele < minElevation)
+                    minElevation = ele;
+        }
+    if (! track.isNull() && (maxElevation - minElevation < 1)) {
+        /*selected track exist and dem isn't present for this map*/
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        maxElevation = trkpt->ele;
+        minElevation = trkpt->ele;
+        while(trkpt != trkpts.end()) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+                ++trkpt; continue;
+            }
+            if (trkpt->ele > maxElevation)
+                maxElevation = trkpt->ele;
+            if (trkpt->ele < minElevation)
+                minElevation = trkpt->ele;
+            ++trkpt;
+        }
+    }
+
+    if (maxElevation - minElevation < 1) {
+            /*selected track and deb are absent*/
+            maxElevation = 1;
+            minElevation = 0;
+    }
+
+}
+
 #endif
 
 void CMap3DWidget::drawTrack()
@@ -458,51 +559,6 @@ void CMap3DWidget::drawTrack()
 
 }
 
-void CMap3DWidget::updateElevationLimits()
-{
-    double x, y, ele;
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
-    float eleData[getEleRegionSize()];
-
-    getEleRegion(eleData);
-    minElevation = maxElevation = getRegionValue(eleData, 0, 0);
-
-    for (y = 0; y < h - step; y += step)
-        for (x = 0; x < w; x += step) {
-            ele = getRegionValue(eleData, x / step, y /step);
-            if (ele > maxElevation)
-                    maxElevation = ele;
-
-            if (ele < minElevation)
-                    minElevation = ele;
-        }
-    if (! track.isNull() && (maxElevation - minElevation < 1)) {
-        /*selected track exist and dem isn't present for this map*/
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-        maxElevation = trkpt->ele;
-        minElevation = trkpt->ele;
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                ++trkpt; continue;
-            }
-            if (trkpt->ele > maxElevation)
-                maxElevation = trkpt->ele;
-            if (trkpt->ele < minElevation)
-                minElevation = trkpt->ele;
-            ++trkpt;
-        }
-    }
-
-    if (maxElevation - minElevation < 1) {
-            /*selected track and deb are absent*/
-            maxElevation = 1;
-            minElevation = 0;
-    }
-
-}
 
 GLuint CMap3DWidget::makeObject()
 {
