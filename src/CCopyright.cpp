@@ -36,6 +36,7 @@ CCopyright::CCopyright()
         "<p>Thanks for contributing to the project:</p>"
         "<p>"
         "Andrew Vagin<br/>"
+        "Fabrice Crohas<br/>"
         "</p>"
         "<p>"
         "Icons and eye candy are from the <b>KDE</b> icon set, the <b>Nuvola</b> icon set and "
