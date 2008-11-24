@@ -247,6 +247,81 @@ float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
     return buffer[x + y * w];
 }
 
+#if 1
+void CMap3DWidget::draw3DMap()
+{
+    QSize s = map->getSize();
+    double w = s.width();
+    double h = s.height();
+
+    int i, iv, it, j, k, cur, end;
+    double step = 5;
+    double x, y, u, v;
+    GLdouble *vertices;
+    GLdouble *texCoords;
+    GLuint idx[4];
+    int num = (w / step + 2);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, mapTexture);
+
+    IMap& dem = CMapDB::self().getDEM();
+    /*
+     * next code can be more optimal if used array of coordinates or VBO
+     */
+    vertices = new GLdouble[num * 3 * 2];
+    texCoords = new GLdouble[num * 2 * 2];
+    it = 0;
+    idx[0] = 0 + num;
+    idx[1] = 1 + num;
+    idx[2] = 1;
+    idx[3] = 0;
+    glVertexPointer(3, GL_DOUBLE, 0, vertices);
+    glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+    glColor3f(1.0, 0.0, 0.0);
+    glPointSize(2.0);
+
+    for (y = 0; y < h - step; y += step) {
+        it = it % (num * 4);
+        end = it + num * 2;
+        for (x = 0, iv = (it / 2) * 3; it < end; x += step, iv += 3, it += 2) {
+            vertices[iv + 0] = x;
+            vertices[iv + 1] = y;
+            u = x;
+            v = y;
+            texCoords[it  + 0] = u / w;
+            texCoords[it + 1] = 1 - v / h;
+            map->convertPt2Rad(u, v);
+            // next step of optimization will be get elevation for the set of points
+            // read line from DEM file is more effectively
+            vertices[iv + 2] = dem.getElevation(u, v);
+            if  (vertices[iv + 2] > 5000 || vertices[iv + 2] < 0)
+                    qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
+            convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
+        }
+
+        for (j = 0; j < 4; j++)
+            idx[j] = idx[j] % (num * 2);
+
+        if (y < step)
+                continue;
+
+        for (k = 0; k < num - 1; k ++) {
+            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
+            for (j = 0; j < 4; j++)
+                idx[j]++;
+        }
+        for (j = 0; j < 4; j++)
+                idx[j]++;
+    }
+    delete [] vertices;
+    delete [] texCoords;
+    glDisable(GL_TEXTURE_2D);
+}
+#endif
+
+#if 0
 void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();
@@ -321,6 +396,7 @@ void CMap3DWidget::draw3DMap()
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
 }
+#endif
 
 void CMap3DWidget::drawTrack()
 {
