@@ -632,7 +632,7 @@ void CGarminExport::slotStart()
                 quint16 blockidx = 0;
 
                 initFATBlock(pFAT);
-                memcpy(pFAT->name, "XXXXXXXX", sizeof(pFAT->name));
+                memcpy(pFAT->name, fi.baseName().toAscii(), sizeof(pFAT->name));
                 memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
                 pFAT->size = gar_endian(uint32_t, fi.size());
                 pFAT->part = gar_endian(uint16_t, partno++ << 8);
@@ -640,7 +640,7 @@ void CGarminExport::slotStart()
                     if(blockidx == 240){
                         gmapsupp.write(FATblock);
                         initFATBlock(pFAT);
-                        memcpy(pFAT->name, "XXXXXXXX", sizeof(pFAT->name));
+                        memcpy(pFAT->name, fi.baseName().toAscii(), sizeof(pFAT->name));
                         memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
                         pFAT->size  = 0;
                         pFAT->part  = gar_endian(uint16_t, partno++ << 8);

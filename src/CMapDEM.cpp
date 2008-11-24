@@ -263,7 +263,7 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
                                 wt.c3 * GET_VALUE(xi,     yi + 1) +
                                 wt.c4 * GET_VALUE(xi + 1, yi + 1);
 
-            printf("(% 3i % 3i)(% 3i % 3i) % 3.1f ", xi, yi, c, r, buffer[j * w + i]);
+            printf("(%03i %03i)(%03i %03i) % 4.1f ", xi, yi, c, r, buffer[j * w + i]);
 
             xf += xstep;
         }

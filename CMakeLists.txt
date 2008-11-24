@@ -7,8 +7,8 @@ find_package(Qt4 REQUIRED)
 find_package(OpenGL)
 
 set(VER_MAJOR     0)
-set(VER_MINOR     8)
-set(VER_STEP      1)
+set(VER_MINOR     9)
+set(VER_STEP      0)
 
 add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${VER_STEP})
 
