@@ -1,3 +1,19 @@
+--- 2008.11.24 ---
+
+Request #33:
+Garmin typ file support
+
+Request #34:
+Change render engine for Garmin maps to allow skinnig
+
+Request #35:
+Add typ file support to Garmin map upload
+
+Bug     #36:
+Fixed: Garmin maps with same tdb name get same alias in map tool view
+
+
+
 --- 2008.11.13 ---
 
 Request #27:
@@ -305,6 +321,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
