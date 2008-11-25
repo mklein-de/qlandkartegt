@@ -162,9 +162,51 @@ void CMapQMAP::draw(QPainter& p)
 
 }
 
+#include "CMapDB.h"
+void CMapQMAP::__test()
+{
+    IMap& dem = CMapDB::self().getDEM();
+
+    int c = 500, r = 500;
+
+    QVector<float> ele1(c * r);
+    float * ptr = ele1.data();
+    int x, y = 0;
+    for(y = 0; y < r; ++y){
+        for(x = 0; x < c; ++x){
+            double u = x;
+            double v = y;
+            convertPt2Rad(u,v);
+            *ptr++ = dem.getElevation(u,v);
+        }
+    }
+    printf("+++\n");
+
+    XY p1, p2;
+    p1.u = 0;
+    p1.v = 0;
+    p2.u = c - 1;
+    p2.v = r - 1;
+    convertPt2Rad(p1.u, p1.v);
+    convertPt2Rad(p2.u, p2.v);
+
+    QVector<float> ele2(c * r);
+    dem.getRegion(ele2.data(), p1, p2, c, r);
+
+    printf("---------------------\n");
+
+    for(y = 0 ; y < (c * r); y++){
+        if(ele1[y] != ele2[y]){
+            qDebug() << "missmatch at " << y;
+            break;
+        }
+    }
+}
 
 void CMapQMAP::draw()
 {
+//     __test();
+
     buffer.fill(Qt::white);
     QPainter _p_(&buffer);
 

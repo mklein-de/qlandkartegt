@@ -151,7 +151,7 @@ class IMap : public QObject
 
             @return The elevation at the point or WPT_NOFLOAT if no elevation data is loaded.
         */
-        virtual float getElevation(float lon, float lat);
+        virtual float getElevation(double lon, double lat);
 
         /// get the map's filename
         virtual const QString& getFilename(){return filename;}

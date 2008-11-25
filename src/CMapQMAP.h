@@ -68,6 +68,7 @@ class CMapQMAP : public IMap
     private:
         friend class CExportMapThread;
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        void __test();
 
         QString exportPath;
 

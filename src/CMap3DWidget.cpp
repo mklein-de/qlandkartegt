@@ -248,7 +248,7 @@ float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
     return buffer[x + y * w];
 }
 
-#if 1   // set to 1 for old elevation processing
+#if 0   // set to 1 for old elevation processing
 void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();

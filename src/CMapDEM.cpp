@@ -192,7 +192,7 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 #if 1
 void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
 {
-    qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
+//     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
     memset(buffer, 0, sizeof(float) * h * w);
 
     if(pjsrc == 0) return;
@@ -206,20 +206,20 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
     double yoff1_f = (topLeft.v - yref1) / yscale;
 
     // 3. truncate floating point offset into integer offset
-    int xoff1 = floor(xoff1_f);        qDebug() << "xoff1:" << xoff1 << xoff1_f;
-    int yoff1 = floor(yoff1_f);        qDebug() << "yoff1:" << yoff1 << yoff1_f;
+    int xoff1 = floor(xoff1_f);        //qDebug() << "xoff1:" << xoff1 << xoff1_f;
+    int yoff1 = floor(yoff1_f);        //qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
     // 4. get floating point offset of bottom right corner
     double xoff2_f = (bottomRight.u - xref1) / xscale;
     double yoff2_f = (bottomRight.v - yref1) / yscale;
 
     // 5. truncate floating point offset into integer offset.
-    int xoff2 = ceil(xoff2_f);     qDebug() << "xoff2:" << xoff2 << xoff2_f;
-    int yoff2 = ceil(yoff2_f);     qDebug() << "yoff2:" << yoff2 << yoff2_f;
+    int xoff2 = ceil(xoff2_f);     //qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    int yoff2 = ceil(yoff2_f);     //qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
     // 6. get width and height to read from file
     quint32 w1 = xoff2 - xoff1 + 1;
-    quint32 h1 = yoff2 - yoff1 + 1;     qDebug() << "w1:" << w1 << "h1:" << h1;
+    quint32 h1 = yoff2 - yoff1 + 1;     //qDebug() << "w1:" << w1 << "h1:" << h1;
 
 
     // 7. read DEM data from file
@@ -233,21 +233,22 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
         return;
     }
 
-    double xstep = (xoff2_f  - xoff1_f) / w;
-    double ystep = (yoff2_f  - yoff1_f) / h;
+    double xstep = (xoff2_f  - xoff1_f) / (w - 1);
+    double ystep = (yoff2_f  - yoff1_f) / (h - 1);
 
     double xf;
-    double yf = yoff1_f - yoff1;
+    double yf;
 
     qint32 xi, c;
     qint32 yi, r;
 
     for(int j = 0; j < h; ++j){
+        yf = yoff1_f + j * ystep - yoff1;
         yi = floor(yf);
         r  = (yi - yf) * yscale;
 
-        xf = xoff1_f - xoff1;
         for(int i = 0; i < w; ++i){
+            xf = xoff1_f + i * xstep - xoff1;
             xi = floor(xf);
             c  = (xf - xi) * xscale;
 
@@ -263,13 +264,8 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
                                 wt.c3 * GET_VALUE(xi,     yi + 1) +
                                 wt.c4 * GET_VALUE(xi + 1, yi + 1);
 
-            printf("(%03i %03i)(%03i %03i) % 4.1f ", xi, yi, c, r, buffer[j * w + i]);
-
-            xf += xstep;
+//             printf("%f %f %i %i %f\n", (xoff1 + xf), (yoff1 + yf), c, r, buffer[j * w + i]);
         }
-        printf("\n");
-
-        yf += ystep;
     }
 }
 
@@ -394,7 +390,7 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
 
 #endif
 
-float CMapDEM::getElevation(float lon, float lat)
+float CMapDEM::getElevation(double lon, double lat)
 {
     if(pjsrc == 0) return WPT_NOFLOAT;
 
@@ -402,15 +398,16 @@ float CMapDEM::getElevation(float lon, float lat)
     double u = lon;
     double v = lat;
 
+//     printf("%f %f\n", u, v);
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
     double xoff = (u - xref1) / xscale;
     double yoff = (v - yref1) / yscale;
 
-    int c = (xoff - (int)xoff) * abs(xscale);
-    int r = (yoff - (int)yoff) * abs(yscale);
+//     printf("%f %f %f %f %f %f %f %f\n", u, v, xoff, yoff, xref1, yref1, xscale, yscale);
 
-    //     qDebug() << xoff << yoff << c << r;
+    int c = (xoff - floor(xoff)) * abs(xscale);
+    int r = (yoff - floor(yoff)) * abs(yscale);
 
     CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
@@ -423,6 +420,8 @@ float CMapDEM::getElevation(float lon, float lat)
 
     //     qDebug() << c << r << "\t" << w.c1 << e[0] << w.c2 << e[1];
     //     qDebug() << "\t"           << w.c3 << e[2] << w.c4 << e[3];
+
+//     printf("%f %f %i %i %f\n", xoff, yoff, c, r, ele);
 
     return ele;
 }

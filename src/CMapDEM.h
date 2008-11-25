@@ -48,7 +48,7 @@ class CMapDEM : public IMap
         void zoom(qint32& level);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-        float getElevation(float lon, float lat);
+        float getElevation(double lon, double lat);
         void getRegion(float *buffer, XY p1, XY p2, int w, int h);
 
     private:

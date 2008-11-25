@@ -148,7 +148,7 @@ void IMap::convertM2Rad(double& u, double& v)
 }
 
 
-float IMap::getElevation(float lon, float lat)
+float IMap::getElevation(double lon, double lat)
 {
     return WPT_NOFLOAT;
 }
