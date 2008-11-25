@@ -381,7 +381,8 @@ void CMap3DWidget::draw3DMap()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    float eleData[getEleRegionSize()];
+    QVector<float> _eleData_(getEleRegionSize());
+    float * eleData = _eleData_.data();
 
     int ix, iy, iv, it, j, k, end;
     double x, y, u, v;
@@ -457,7 +458,9 @@ void CMap3DWidget::updateElevationLimits()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    float eleData[getEleRegionSize()];
+
+    QVector<float> _eleData_(getEleRegionSize());
+    float * eleData = _eleData_.data();
 
     getEleRegion(eleData);
     minElevation = maxElevation = getRegionValue(eleData, 0, 0);
