@@ -420,6 +420,11 @@ void CMap3DWidget::draw3DMap()
 
     getEleRegion(eleData);
     for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++) {
+        /* array vertices contain two lines ( previouse and current)
+         * they change position that avoid memcopy
+         * one time current line is at the begin of array vertices,
+         * than at the end and etc
+         */
         ix = ix % (xcount * 2);
         end = ix + xcount;
         for (x = 0, iv = ix * 3, it = ix * 2; ix < end; x += current_step_x, iv += 3, it += 2, ix++) {
@@ -429,7 +434,7 @@ void CMap3DWidget::draw3DMap()
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            vertices[iv + 2] = getRegionValue(eleData, ix, iy);
+            vertices[iv + 2] = getRegionValue(eleData, ix % xcount, iy);
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
