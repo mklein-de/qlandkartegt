@@ -245,12 +245,12 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
     for(int j = 0; j < h; ++j){
         yf = yoff1_f + j * ystep - yoff1;
         yi = floor(yf);
-        r  = (yi - yf) * yscale;
+        r  = (yf - yi) * abs(yscale);
 
         for(int i = 0; i < w; ++i){
             xf = xoff1_f + i * xstep - xoff1;
             xi = floor(xf);
-            c  = (xf - xi) * xscale;
+            c  = (xf - xi) * abs(xscale);
 
             assert(c < abs(xscale));
             assert(r < abs(yscale));
@@ -264,7 +264,8 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
                                 wt.c3 * GET_VALUE(xi,     yi + 1) +
                                 wt.c4 * GET_VALUE(xi + 1, yi + 1);
 
-//             printf("%f %f %i %i %f\n", (xoff1 + xf), (yoff1 + yf), c, r, buffer[j * w + i]);
+//             printf("%f %f %i %i %f %i %i\n", (xoff1 + xf), (yoff1 + yf), c, r, buffer[j * w + i], i, j);
+
         }
     }
 }
