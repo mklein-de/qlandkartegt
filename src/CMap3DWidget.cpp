@@ -408,7 +408,8 @@ void CMap3DWidget::draw3DMap()
      */
     vertices = new GLdouble[xcount * 3 * 2];
     texCoords = new GLdouble[xcount * 2 * 2];
-    ix = 0;
+    it = 0;
+    iv = 0;
     idx[0] = 0 + xcount;
     idx[1] = 1 + xcount;
     idx[2] = 1;
@@ -425,16 +426,17 @@ void CMap3DWidget::draw3DMap()
          * one time current line is at the begin of array vertices,
          * than at the end and etc
          */
-        ix = ix % (xcount * 2);
+        iv = iv % (xcount * 3 * 2);
+        it = it % (xcount * 2 * 2);
         end = ix + xcount;
-        for (x = 0, iv = ix * 3, it = ix * 2; ix < end; x += current_step_x, iv += 3, it += 2, ix++) {
+        for (x = 0, ix = 0; ix < xcount; x += current_step_x, iv += 3, it += 2, ix++) {
             vertices[iv + 0] = x;
             vertices[iv + 1] = y;
             u = x;
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            vertices[iv + 2] = getRegionValue(eleData, ix % xcount, iy);
+            vertices[iv + 2] = getRegionValue(eleData, ix, iy);
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
