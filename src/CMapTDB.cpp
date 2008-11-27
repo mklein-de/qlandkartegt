@@ -1393,7 +1393,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 				x0 = line[i].x();
 				y0 = line[i].y();
 			}
-			
+
 			// if we found a segment sized for text then it is ok
 			// Get line size to know if text can be in it with a margin
 			if ( ( i != 0) && (!bSegment) ) {
@@ -1429,7 +1429,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 		}
 
 		p.drawPolyline(line);
-		
+
 		// calcul direction again for segment only
 		if (bSegment) {
 			for ( int i=0; i < 4 ; i++) {
@@ -1448,20 +1448,20 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 		if (zoomFactor > 1.5) {
 			++item;
 			continue;
-		}		
+		}
 
 		// Skip text already drawn on the street
-		if (textList.contains(str) ) {
-			++item;
-			continue;	
-		}	
+// 		if (textList.contains(str) ) {
+// 			++item;
+// 			continue;
+// 		}
 
 		//polyline size from bird fly should be enough
 		int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
 		//qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
 		if (1.5*metrics.width(str) > abs(roadSize) ) {
 			++item;
-			continue;	
+			continue;
 		}
 
 		textList.append(str);
@@ -1481,37 +1481,40 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 		if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) ) {
 			myPath = myPath.toReversed();
 		}
-		
+
 		polyline_text_t polylineText;
 		polylineText.path = myPath;
 		polylineText.penWidth = pen.width();
 		polylineText.text = str;
 		polylineText.textStart = centerText;
-		
+
 		polylinesText.append( polylineText );
-		
+
             }
             ++item;
         }
     }
 }
 
- 
+
 void CMapTDB::drawText(QPainter &p)
 {
 	p.setRenderHint( QPainter::TextAntialiasing, true );
-	for ( int item=0; item < polylinesText.count(); item++) 
+	for ( int item=0; item < polylinesText.count(); item++)
 	{
 		qreal centerText = polylinesText[item].textStart;
 		// Font metrics
 		qreal penWidth = polylinesText[item].penWidth;
-		QFont font("Helvetica", penWidth*2/3);
+// 		QFont font("Helvetica", penWidth*2/3);
+        QFont font = CResources::self().getMapFont();
+        font.setPixelSize(penWidth*2/3);
+        font.setBold(false);
 		p.setFont( font );
 		QString str( polylinesText[item].text);
 		QPainterPath myPath( polylinesText[item].path);
 		p.setFont( font );
 		QFontMetricsF metrics( font );
-	
+
 		// Draw text on the street
 		p.setPen(QPen(Qt::black));
 		// Init sequence
@@ -1539,28 +1542,28 @@ void CMapTDB::drawText(QPainter &p)
 					angle = 90 - angle; // ok
 					p.rotate(angle);
 				}
-				
+
 				if ( ( angle > 90) && (angle <270) ) {
-					angle = 90 - angle; 
+					angle = 90 - angle;
 					p.rotate(angle);
 				}
-		
+
 				if ( ( angle > 270) && (angle <360) ) {
 					angle = 270 - angle; // ok
 					p.rotate(angle);
 				}
 
 				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), str);
-				
+
 				p.restore();
 
 		} else{
 			for (int i = 0; i < str.length(); ++i) {
-				QString txt;	
+				QString txt;
 				// Detect character width
 				txt.append(str[i]);
 				qreal increment = metrics.width(txt); // + metrics.width(txt)/3 ;
-	
+
 				// set point on the with at percent
 				t = myPath.percentAtLength(curLen + centerText);
 				pt = myPath.pointAtPercent(t);
@@ -1583,21 +1586,21 @@ void CMapTDB::drawText(QPainter &p)
 					angle = 180 - angle; // ok
 					p.rotate(angle);
 				}
-				
+
 				if ( ( angle > 90) && (angle <270) ) {
-					angle = 270 - angle; 
+					angle = 270 - angle;
 					p.rotate(angle);
 				}
-		
+
 				if ( ( angle > 270) && (angle <360) ) {
 					angle = 270 - angle; // ok
 					p.rotate(angle);
 				}
-	
+
 				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
-				
+
 				p.restore();
-		
+
 				curLen += increment;
 			}
 		}
