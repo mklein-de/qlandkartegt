@@ -473,16 +473,17 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
         QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end()) {
 
-		if ( map.getNeedsRedraw() )
-			trkpt->px_valid = FALSE;
-            if ( !trkpt->px_valid ) {
+//         if(1){
+// 		if ( map.getNeedsRedraw() )
+// 			trkpt->px_valid = FALSE;
+//             if ( !trkpt->px_valid ) {
             	double u = trkpt->lon * DEG_TO_RAD;
             	double v = trkpt->lat * DEG_TO_RAD;
 
             	map.convertRad2Pt(u,v);
             	trkpt->px = QPoint(u,v);
-            	trkpt->px_valid = TRUE;
-            }
+//             	trkpt->px_valid = TRUE;
+//             }
 
             if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
                 selected << trkpt->px;
