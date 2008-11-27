@@ -1504,7 +1504,8 @@ void CMapTDB::drawText(QPainter &p)
 	{
 		qreal centerText = polylinesText[item].textStart;
 		// Font metrics
-		QFont font("Helvetica", polylinesText[item].penWidth*2/3);
+		qreal penWidth = polylinesText[item].penWidth;
+		QFont font("Helvetica", penWidth*2/3);
 		p.setFont( font );
 		QString str( polylinesText[item].text);
 		QPainterPath myPath( polylinesText[item].path);
@@ -1513,57 +1514,92 @@ void CMapTDB::drawText(QPainter &p)
 	
 		// Draw text on the street
 		p.setPen(QPen(Qt::black));
-		qreal curLen = 0;
+		// Init sequence
+		QPointF ptOrig;
+		QPointF pt;
+		qreal t=0, angle=0, curLen=0;
+		int nbSegment = myPath.elementCount();
+		if (nbSegment <3) {
+				// set point on the with at percent
+				t = myPath.percentAtLength(curLen + centerText);
+				pt = myPath.pointAtPercent(t);
+				ptOrig = myPath.pointAtPercent(1); // end of path
+				// Calcul angle between two points
+				QPointF diff = ptOrig - pt;
+				angle = atan2( diff.x(), diff.y() ) ;
+				if (angle < 0) {
+					angle += 2.0 * PI ;
+				}
+				angle =  180.0 * angle / PI ;
+
+				p.save();
+				p.translate(pt);
+				// Rotate text to be readable from left to right
+				if ( ( angle > 0) && ( angle < 90) ) {
+					angle = 90 - angle; // ok
+					p.rotate(angle);
+				}
+				
+				if ( ( angle > 90) && (angle <270) ) {
+					angle = 90 - angle; 
+					p.rotate(angle);
+				}
+		
+				if ( ( angle > 270) && (angle <360) ) {
+					angle = 270 - angle; // ok
+					p.rotate(angle);
+				}
+
+				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), str);
+				
+				p.restore();
+
+		} else{
+			for (int i = 0; i < str.length(); ++i) {
+				QString txt;	
+				// Detect character width
+				txt.append(str[i]);
+				qreal increment = metrics.width(txt); // + metrics.width(txt)/3 ;
 	
-		for (int i = 0; i < str.length(); ++i) {
-			// Init sequence
-			QString txt;
-			QPointF ptOrig;
-			QPointF pt;
-			qreal t=0, angle=0;
+				// set point on the with at percent
+				t = myPath.percentAtLength(curLen + centerText);
+				pt = myPath.pointAtPercent(t);
+				// set previous point on the with at percent
+				// for first position point is before as we never start at 0
+				t = myPath.percentAtLength(curLen + centerText - increment);
+				ptOrig = myPath.pointAtPercent(t);
+				// Calcul angle between two points
+				QPointF diff = ptOrig - pt;
+				angle = atan2( diff.x(), diff.y() ) ;
+				if (angle < 0) {
+					angle += 2.0 * PI ;
+				}
+				angle =  180.0 * angle / PI ;
 
-			// Detect character width
-			txt.append(str[i]);
-			qreal increment = metrics.width(txt) + metrics.width(txt)/3 ;
-
-			// set point on the with at percent
-			t = myPath.percentAtLength(curLen + centerText);
-			pt = myPath.pointAtPercent(t);
-			// set previous point on the with at percent
-			// for first position point is before as we never start at 0
-			t = myPath.percentAtLength(curLen + centerText - increment);
-			ptOrig = myPath.pointAtPercent(t);
-			// Calcul angle between two points
-			QPointF diff = ptOrig - pt;
-			angle = atan2( diff.x(), diff.y() ) ;
-			if (angle < 0) {
-				angle += 2.0 * PI ;
-			}
-			angle =  180.0 * angle / PI ;
-
-			p.save();
-			p.translate(pt);
-			// Rotate text to be readable from left to right
-			if ( ( angle > 0) && ( angle < 90) ) {
-				angle = 90 - angle; // ok
-				p.rotate(angle);
-			}
-			
-			if ( ( angle > 90) && (angle <270) ) {
-				angle = 270 - angle; 
-				p.rotate(angle);
-			}
+				p.save();
+				p.translate(pt);
+				// Rotate text to be readable from left to right
+				if ( ( angle > 0) && ( angle < 90) ) {
+					angle = 180 - angle; // ok
+					p.rotate(angle);
+				}
+				
+				if ( ( angle > 90) && (angle <270) ) {
+					angle = 270 - angle; 
+					p.rotate(angle);
+				}
+		
+				if ( ( angle > 270) && (angle <360) ) {
+					angle = 270 - angle; // ok
+					p.rotate(angle);
+				}
 	
-			if ( ( angle > 270) && (angle <360) ) {
-				angle = 270 - angle; // ok
-				p.rotate(angle);
+				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
+				
+				p.restore();
+		
+				curLen += increment;
 			}
-
-			p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
-			
-			p.restore();
-	
-			curLen += increment;
 		}
 	}
 }
