@@ -217,15 +217,7 @@ void CMap3DWidget::drawFlatMap()
     glDisable(GL_TEXTURE_2D);
 }
 
-int CMap3DWidget::getEleRegionSize()
-{
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
-    return (int)(w/step + 1) * (int)(h/step + 1);
-}
-
-void CMap3DWidget::getEleRegion(float *buffer)
+void CMap3DWidget::getEleRegion(float *buffer, int xcount, int ycount)
 {
     QSize s = map->getSize();
     double w = s.width();
@@ -239,7 +231,7 @@ void CMap3DWidget::getEleRegion(float *buffer)
     p2.v = h;
     map->convertPt2Rad(p1.u, p1.v);
     map->convertPt2Rad(p2.u, p2.v);
-    dem.getRegion(buffer, p1, p2, w/step + 1, h/step + 1);
+    dem.getRegion(buffer, p1, p2, xcount, ycount);
 }
 
 float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
@@ -381,14 +373,6 @@ void CMap3DWidget::draw3DMap()
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
-    QVector<float> _eleData_(getEleRegionSize());
-    float * eleData = _eleData_.data();
-
-    int ix, iy, iv, it, j, k, end;
-    double x, y, u, v;
-    GLdouble *vertices;
-    GLdouble *texCoords;
-    GLuint idx[4];
 
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -397,6 +381,16 @@ void CMap3DWidget::draw3DMap()
 
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
+
+    QVector<float> _eleData_(xcount * ycount);
+    float * eleData = _eleData_.data();
+
+    int ix, iy, iv, it, j, k, end;
+    double x, y, u, v;
+    GLdouble *vertices;
+    GLdouble *texCoords;
+    GLuint idx[4];
+
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -419,7 +413,7 @@ void CMap3DWidget::draw3DMap()
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
-    getEleRegion(eleData);
+    getEleRegion(eleData, xcount, ycount);
     for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++) {
         /* array vertices contain two lines ( previouse and current)
          * they change position that avoid memcopy
@@ -461,20 +455,26 @@ void CMap3DWidget::draw3DMap()
 
 void CMap3DWidget::updateElevationLimits()
 {
-    double x, y, ele;
+    double ele;
+    int i, j;
     QSize s = map->getSize();
     double w = s.width();
     double h = s.height();
 
-    QVector<float> _eleData_(getEleRegionSize());
+    // increment xcount, because the number of points are on one more
+    // than number of lengths |--|--|--|--|
+    int xcount = (w / step + 1);
+    int ycount = (h / step + 1);
+
+    QVector<float> _eleData_(xcount * ycount);
     float * eleData = _eleData_.data();
 
-    getEleRegion(eleData);
+    getEleRegion(eleData, xcount, ycount);
     minElevation = maxElevation = getRegionValue(eleData, 0, 0);
 
-    for (y = 0; y < h - step; y += step)
-        for (x = 0; x < w; x += step) {
-            ele = getRegionValue(eleData, x / step, y /step);
+    for (i = 0; i < xcount; i++)
+        for (j = 0; j < ycount; j++) {
+            ele = getRegionValue(eleData, i, j);
             if (ele > maxElevation)
                     maxElevation = ele;
 
