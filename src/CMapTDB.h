@@ -88,6 +88,7 @@ class CMapTDB : public IMap
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
         void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
+	void drawText(QPainter& p);
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
@@ -314,5 +315,17 @@ class CMapTDB : public IMap
 
         quint16 fid;
         quint16 pid;
+
+        struct polyline_text_t
+        {
+            polyline_text_t(): path(), text(""), textStart(0), penWidth(0) {};
+            QPainterPath path;
+	    QString text;
+	    qreal textStart;
+	    qreal penWidth;
+        };
+
+        QVector<polyline_text_t> polylinesText;
+
 };
 #endif                           //CMAPTDB_H
