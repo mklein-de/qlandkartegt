@@ -163,6 +163,7 @@ class IMap : public QObject
             @return A string for registered maps. Empty string for all others
         */
         const QString& getKey(){return key;}
+        const bool getNeedsRedraw(){return needsRedraw;}
 
         /// get read access to the internally used pixmap buffer
         const QImage& getBuffer(){return buffer;}

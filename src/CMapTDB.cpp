@@ -1281,7 +1281,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow){
                 int width   = pen.width();
                 width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
-                width      += zoomFactor < 5.0 ? 4 : 2;
+                width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
 
@@ -1295,7 +1295,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow){
                 int width   = pen.width();
                 width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
-                width      += zoomFactor < 5.0 ? 4 : 2;
+                width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
             p.setPen(pen);

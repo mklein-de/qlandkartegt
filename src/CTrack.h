@@ -50,9 +50,12 @@ class CTrack : public QObject
 
             };
 
-            pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0),
+            pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0), timestamp_msec(0),
                 speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT),
-                ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), flags(0), dem(WPT_NOFLOAT){}
+                ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0),
+                fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
+                vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
+                flags(0), px_valid(FALSE), dem(WPT_NOFLOAT){}
 
             bool operator==(const pt_t& pt){return pt.idx == idx;}
 
@@ -66,6 +69,7 @@ class CTrack : public QObject
             float   ele;
             /// timestamp for track creation
             quint32 timestamp;
+            quint32 timestamp_msec;
 
             /// secondary data: the speed between this and the previous point
             float speed;
@@ -89,6 +93,8 @@ class CTrack : public QObject
             float slope;
 
             // extended data 1
+            QString fix;
+            qint32  sat;
             float   altitude;    ///< [m] Altitude, Meters, above mean sea level
             float   height;      ///< [m] Height of geoid (mean sea level) above WGS84 ellipsoid
             float   velocity;    ///< [m/s] Ground speed, meters per hour
@@ -108,6 +114,7 @@ class CTrack : public QObject
             quint32 flags;
             /// the current location in pixel
             QPoint px;
+            bool px_valid;
 
             float  dem;
         };

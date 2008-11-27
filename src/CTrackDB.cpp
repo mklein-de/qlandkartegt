@@ -141,9 +141,42 @@ void CTrackDB::loadGPX(CGpx& gpx)
             }
 
             if(trkpt.namedItem("time").isElement()) {
-                QDateTime time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
+		QDateTime time;
+		if ( trkpt.namedItem("time").toElement().text().indexOf(".") != -1 )
+			time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+		else
+			time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
                 time.setTimeSpec(Qt::UTC);
                 pt.timestamp = time.toTime_t();
+		pt.timestamp_msec = time.time().msec();
+            }
+
+            if(trkpt.namedItem("hdop").isElement()) {
+                pt.hdop = trkpt.namedItem("hdop").toElement().text().toDouble();
+            }
+
+            if(trkpt.namedItem("vdop").isElement()) {
+                pt.vdop = trkpt.namedItem("vdop").toElement().text().toDouble();
+            }
+
+            if(trkpt.namedItem("pdop").isElement()) {
+                pt.pdop = trkpt.namedItem("pdop").toElement().text().toDouble();
+            }
+
+            if(trkpt.namedItem("heading").isElement()) {
+                pt.heading = trkpt.namedItem("heading").toElement().text().toDouble();
+            }
+
+            if(trkpt.namedItem("velocity").isElement()) {
+                pt.velocity = trkpt.namedItem("velocity").toElement().text().toDouble();
+            }
+
+            if(trkpt.namedItem("fix").isElement()) {
+                pt.fix = trkpt.namedItem("fix").toElement().text();
+            }
+
+            if(trkpt.namedItem("sat").isElement()) {
+                pt.sat = trkpt.namedItem("sat").toElement().text().toUInt();
             }
 
             if(trkpt.namedItem("extension").isElement()) {
@@ -212,12 +245,61 @@ void CTrackDB::saveGPX(CGpx& gpx)
                 QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele));
                 ele.appendChild(_ele_);
             }
+
             if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF) {
                 QDateTime t = QDateTime::fromTime_t(pt->timestamp).toUTC();
+		t = t.addMSecs(pt->timestamp_msec);
                 QDomElement time = gpx.createElement("time");
                 trkpt.appendChild(time);
-                QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
+                QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss.zzz'Z'"));
                 time.appendChild(_time_);
+            }
+
+            if(pt->hdop != WPT_NOFLOAT) {
+                QDomElement hdop = gpx.createElement("hdop");
+                trkpt.appendChild(hdop);
+                QDomText _hdop_ = gpx.createTextNode(QString::number(pt->hdop));
+                hdop.appendChild(_hdop_);
+            }
+            if(pt->vdop != WPT_NOFLOAT) {
+                QDomElement vdop = gpx.createElement("vdop");
+                trkpt.appendChild(vdop);
+                QDomText _vdop_ = gpx.createTextNode(QString::number(pt->vdop));
+                vdop.appendChild(_vdop_);
+            }
+            if(pt->pdop != WPT_NOFLOAT) {
+                QDomElement pdop = gpx.createElement("pdop");
+                trkpt.appendChild(pdop);
+                QDomText _pdop_ = gpx.createTextNode(QString::number(pt->pdop));
+                pdop.appendChild(_pdop_);
+            }
+
+            if(pt->heading != WPT_NOFLOAT) {
+                QDomElement heading = gpx.createElement("heading");
+                trkpt.appendChild(heading);
+                QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
+                heading.appendChild(_heading_);
+            }
+
+            if(pt->velocity != WPT_NOFLOAT) {
+                QDomElement velocity = gpx.createElement("velocity");
+                trkpt.appendChild(velocity);
+                QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
+                velocity.appendChild(_velocity_);
+            }
+
+            if(pt->fix != "") {
+                QDomElement fix = gpx.createElement("fix");
+                trkpt.appendChild(fix);
+                QDomText _fix_ = gpx.createTextNode(pt->fix);
+                fix.appendChild(_fix_);
+            }
+
+            if(pt->sat != 0) {
+                QDomElement sat = gpx.createElement("sat");
+                trkpt.appendChild(sat);
+                QDomText _sat_ = gpx.createTextNode(QString::number(pt->sat));
+                sat.appendChild(_sat_);
             }
 
             QDomElement extension = gpx.createElement("extension");
@@ -390,11 +472,17 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
         QList<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end()) {
-            double u = trkpt->lon * DEG_TO_RAD;
-            double v = trkpt->lat * DEG_TO_RAD;
 
-            map.convertRad2Pt(u,v);
-            trkpt->px = QPoint(u,v);
+		if ( map.getNeedsRedraw() )
+			trkpt->px_valid = FALSE;
+            if ( !trkpt->px_valid ) {
+            	double u = trkpt->lon * DEG_TO_RAD;
+            	double v = trkpt->lat * DEG_TO_RAD;
+
+            	map.convertRad2Pt(u,v);
+            	trkpt->px = QPoint(u,v);
+            	trkpt->px_valid = TRUE;
+            }
 
             if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
                 selected << trkpt->px;
