@@ -1251,8 +1251,9 @@ void CMapTDB::draw()
     if(!doFastDraw) {
         drawPoints(p, points);
         drawPois(p, pois);
-        drawLabels(p, labels);
         drawText(p);
+        drawLabels(p, labels);
+
     }
 
 }
@@ -1274,7 +1275,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     // 1st run. Draw all background polylines (polylines that have pen1)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
     for(m = 0; m < M; ++m) {
-        quint16 type                = polylineDrawOrder[m];
+        quint16 type                = polylineDrawOrder[M - m - 1];
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
 
@@ -1340,7 +1341,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     polylinesText.clear();
     // 2nd run. Draw foreground color of all polylines with pen1
     for(m = 0; m < M; ++m) {
-        quint16 type                = polylineDrawOrder[m];
+        quint16 type                = polylineDrawOrder[M - m - 1];
         polyline_property& property = polylineProperties[type];
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
@@ -1523,7 +1524,7 @@ void CMapTDB::drawText(QPainter &p)
         qreal penWidth = polylinesText[item].penWidth;
         // 		QFont font("Helvetica", penWidth*2/3);
         QFont font = CResources::self().getMapFont();
-        font.setPixelSize(penWidth*2.0/3.0);
+        font.setPixelSize(penWidth*2/3);
         font.setBold(false);
         p.setFont( font );
         QString str( polylinesText[item].text);
