@@ -202,13 +202,13 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     qint32 xi;
     qint32 yi;
 
-    for(int j = 0; j < h; ++j){
-        yf = yoff1_f + j * ystep - yoff1;
+    yf = yoff1_f - yoff1;
+    for(int j = 0; j < h; ++j, yf += ystep){
         yi = floor(yf);
         y  = yf - yi;
 
-        for(int i = 0; i < w; ++i){
-            xf = xoff1_f + i * xstep - xoff1;
+        xf = xoff1_f - xoff1;
+        for(int i = 0; i < w; ++i, xf += xstep){
             xi = floor(xf);
             x  = xf - xi;
 
