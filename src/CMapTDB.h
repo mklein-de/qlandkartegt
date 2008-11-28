@@ -316,11 +316,12 @@ class CMapTDB : public IMap
 
         struct polyline_text_t
         {
-            polyline_text_t(): path(), text(""), textStart(0), penWidth(0) {};
+            polyline_text_t(): path(), text(""), textStart(0), penWidth(0), forceRotate(999) {};
             QPainterPath path;
             QString text;
             qreal textStart;
             qreal penWidth;
+            int forceRotate;
         };
 
         QVector<polyline_text_t> polylinesText;

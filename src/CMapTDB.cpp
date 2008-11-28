@@ -1382,17 +1382,17 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 int direction = 0;
                                  // start line point
                 qreal xi = 0, yi = 0;
-                int dWeight[4];
+                int dWeight[8];
                 bool bSegment = false;
                 qreal segmentSize = 0;
 
                 QString str;
                 if (item->labels.count()>0) {
-//                     str.append(item->labels[0]);
+                    //                     str.append(item->labels[0]);
                     str = item->labels.join(" ");
                 }
 
-                for ( int i=0; i < 4 ; i++) {
+                for ( int i=0; i < 8 ; i++) {
                     dWeight[i] = 0;
                 }
 
@@ -1403,7 +1403,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         x0 = line[i].x();
                         y0 = line[i].y();
                     }
-
                     // if we found a segment sized for text then it is ok
                     // Get line size to know if text can be in it with a margin
                     if ( ( i != 0) && (!bSegment) ) {
@@ -1428,11 +1427,16 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                                  // ON
                         if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
                                  // OS
-                        if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1;
+                        if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
                                  // NE
                         if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
                                  // ES
                         if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+                        // strong directions
+                        // 			if ( (x0 == x1) && (y0 > y1 ) ) direction = 4; // N->S
+                        // 			if ( (x0 == x1) && (y0 < y1 ) ) direction = 5; // S->N
+                        // 			if ( (x0 > x1) && (y0 == y1 ) ) direction = 6; // O->E
+                        // 			if ( (x0 < x1) && (y0 == y1 ) ) direction = 7; // E->O
                         // direction table weight
                         dWeight[direction] = dWeight[direction] + 1 ;
                         x1 = x0;
@@ -1454,11 +1458,20 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                                  // ON
                     if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
                                  // OS
-                    if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1;
+                    if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
                                  // NE
                     if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
                                  // ES
                     if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+                    // strong directions
+                                 // N->S
+                    if ( (x0 == x1) && (y0 > y1 ) ) direction = 4;
+                                 // S->N
+                    if ( (x0 == x1) && (y0 < y1 ) ) direction = 5;
+                                 // O->E
+                    if ( (x0 > x1) && (y0 == y1 ) ) direction = 6;
+                                 // E->O
+                    if ( (x0 < x1) && (y0 == y1 ) ) direction = 7;
                     dWeight[direction] =  1 ;
                 }
 
@@ -1497,7 +1510,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 // Reverse path in case
-                if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) ) {
+                if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) || (dWeight[5]!=0) || (dWeight[7]!=0) ) {
                     myPath = myPath.toReversed();
                 }
 
@@ -1506,6 +1519,12 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 polylineText.penWidth = pen.width();
                 polylineText.text = str;
                 polylineText.textStart = centerText;
+                if ( ( dWeight[6]!=0 ) || ( dWeight[7]!=0) ) {
+                    polylineText.forceRotate = 0;
+                }
+                if ( ( dWeight[4]!=0 ) || ( dWeight[5]!=0) ) {
+                    polylineText.forceRotate = 90;
+                }
 
                 polylinesText.append( polylineText );
 
@@ -1523,6 +1542,8 @@ void CMapTDB::drawText(QPainter &p)
         qreal centerText = polylinesText[item].textStart;
         // Font metrics
         qreal penWidth = polylinesText[item].penWidth;
+        // Rotation forced ?
+        int forceRotate = polylinesText[item].forceRotate;
         // 		QFont font("Helvetica", penWidth*2/3);
         QFont font = CResources::self().getMapFont();
         font.setPixelSize(penWidth*2/3);
@@ -1538,43 +1559,49 @@ void CMapTDB::drawText(QPainter &p)
         // Init sequence
         QPointF ptOrig;
         QPointF pt;
-        qreal t=0, angle=0, curLen=0;
+        qreal t=0, angle=0, curLen=0, prevangle=0;
         int nbSegment = myPath.elementCount();
         if (nbSegment <3) {
             // set point on the with at percent
             t = myPath.percentAtLength(curLen + centerText);
             pt = myPath.pointAtPercent(t);
-                                 // end of path
+            // end of path
             ptOrig = myPath.pointAtPercent(1);
             // Calcul angle between two points
             QPointF diff = ptOrig - pt;
-            angle = atan2( diff.x(), diff.y() ) ;
-            if (angle < 0) {
-                angle += 2.0 * PI ;
-            }
-            angle =  180.0 * angle / PI ;
-
             p.save();
             p.translate(pt);
-            // Rotate text to be readable from left to right
-            if ( ( angle > 0) && ( angle < 90) ) {
-                                 // ok
-                angle = 90 - angle;
+            if ( forceRotate == 999) {
+                angle = atan2( diff.x(), diff.y() ) ;
+                if (angle < 0) {
+                    angle += 2.0 * PI ;
+                }
+                angle =  180.0 * angle / PI ;
+                // Rotate text to be readable from left to right
+                if ( ( angle > 0) && ( angle < 90) ) {
+                    // ok
+                    angle = 90 - angle;
+                    p.rotate(angle);
+                }
+
+                if ( ( angle > 90) && (angle <270) ) {
+                    angle = 90 - angle;
+                    p.rotate(angle);
+                }
+
+                if ( ( angle > 270) && (angle <360) ) {
+                    // ok
+                    angle = 270 - angle;
+                    p.rotate(angle);
+                }
+
+            }
+            else {
+                angle = forceRotate;
                 p.rotate(angle);
             }
 
-            if ( ( angle > 90) && (angle <270) ) {
-                angle = 90 - angle;
-                p.rotate(angle);
-            }
-
-            if ( ( angle > 270) && (angle <360) ) {
-                                 // ok
-                angle = 270 - angle;
-                p.rotate(angle);
-            }
-
-            p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), str);
+            p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos() + metrics.descent(), str);
 
             p.restore();
 
@@ -1601,28 +1628,32 @@ void CMapTDB::drawText(QPainter &p)
                     angle += 2.0 * PI ;
                 }
                 angle =  180.0 * angle / PI ;
-
                 p.save();
                 p.translate(pt);
                 // Rotate text to be readable from left to right
                 if ( ( angle > 0) && ( angle < 90) ) {
                                  // ok
                     angle = 180 - angle;
-                    p.rotate(angle);
                 }
 
                 if ( ( angle > 90) && (angle <270) ) {
                     angle = 270 - angle;
-                    p.rotate(angle);
                 }
 
                 if ( ( angle > 270) && (angle <360) ) {
                                  // ok
                     angle = 270 - angle;
-                    p.rotate(angle);
                 }
 
-                p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
+                if ( (i!=0) && (ceil(abs(angle-prevangle)) > 85 ) ) {
+                    p.rotate(prevangle);
+                }
+                else {
+                    p.rotate(angle);
+                    prevangle = angle;
+                }
+
+                p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos() + metrics.descent(), txt);
 
                 p.restore();
 
