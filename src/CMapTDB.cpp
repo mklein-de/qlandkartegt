@@ -1388,7 +1388,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QString str;
                 if (item->labels.count()>0) {
-                    str.append(item->labels[0]);
+//                     str.append(item->labels[0]);
+                    str = item->labels.join(" ");
                 }
 
                 for ( int i=0; i < 4 ; i++) {
@@ -1407,7 +1408,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     // Get line size to know if text can be in it with a margin
                     if ( ( i != 0) && (!bSegment) ) {
                         segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
-                        if (1.5*metrics.width(str) < abs(segmentSize) ) {
+                        if (1.2 * metrics.width(str) < abs(segmentSize) ) {
                             mySegment.moveTo( x1, y1 );
                             mySegment.lineTo( x0, y0 );
                             bSegment = true;
@@ -1476,7 +1477,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 //polyline size from bird fly should be enough
                 int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
                 //qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
-                if (1.5*metrics.width(str) > abs(roadSize) ) {
+                if (1.2 * metrics.width(str) > abs(roadSize) ) {
                     ++item;
                     continue;
                 }
