@@ -36,7 +36,6 @@
 
 CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 : IMap(eDEM, "",parent)
-, weights(0)
 , old_my_xscale(0)
 , old_my_yscale(0)
 , old_overlay(IMap::eNone)
@@ -101,43 +100,6 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     status = new CStatusDEM(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
 
-    const int R = abs(yscale);
-    const int C = abs(xscale);
-
-    weights = new weight_t[R * C];
-
-    for(int r=0; r < R; ++r) {
-        for(int c=0; c < C; ++c) {
-            weight_t& w = weights[(r * C) + c];
-
-            //    p1            p2
-            float _c = c; float c_ = C - c;
-
-            //    p3            p4
-            float _r = r; float r_ = R - r;
-
-            //    p1                              p2
-            float d1 = sqrt(_c*_c + _r*_r); float d2 = sqrt(c_*c_ + _r*_r);
-
-            //    p3                              p4
-            float d3 = sqrt(_c*_c + r_*r_); float d4 = sqrt(c_*c_ + r_*r_);
-
-            w.c1 = pow(d1,-2);
-            w.c2 = pow(d2,-2);
-            w.c3 = pow(d3,-2);
-            w.c4 = pow(d4,-2);
-
-            float f = w.c1 + w.c2 + w.c3 + w.c4;
-
-            w.c1 = w.c1 / f; if(isnan(w.c1)) w.c1 = 1.0;
-            w.c2 = w.c2 / f; if(isnan(w.c2)) w.c2 = 1.0;
-            w.c3 = w.c3 / f; if(isnan(w.c3)) w.c3 = 1.0;
-            w.c4 = w.c4 / f; if(isnan(w.c4)) w.c4 = 1.0;
-
-            //             qDebug() << r << c << "\t" << w.c1 << w.c2;
-            //             qDebug() << "\t" << w.c3 << w.c4;
-        }
-    }
 }
 
 
@@ -145,7 +107,6 @@ CMapDEM::~CMapDEM()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
-    if(weights) delete [] weights;
     delete status;
 }
 
@@ -189,11 +150,10 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
 }
 
-#if 1
-void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
+void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
 {
 //     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
-    memset(buffer, 0, sizeof(float) * h * w);
+    memset(data, 0, sizeof(float) * h * w);
 
     if(pjsrc == 0) return;
 
@@ -236,160 +196,40 @@ void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
     double xstep = (xoff2_f  - xoff1_f) / (w - 1);
     double ystep = (yoff2_f  - yoff1_f) / (h - 1);
 
-    double xf;
-    double yf;
+    double xf, x;
+    double yf, y;
 
-    qint32 xi, c;
-    qint32 yi, r;
+    qint32 xi;
+    qint32 yi;
 
     for(int j = 0; j < h; ++j){
         yf = yoff1_f + j * ystep - yoff1;
         yi = floor(yf);
-        r  = (yf - yi) * abs(yscale);
+        y  = yf - yi;
 
         for(int i = 0; i < w; ++i){
             xf = xoff1_f + i * xstep - xoff1;
             xi = floor(xf);
-            c  = (xf - xi) * abs(xscale);
-
-            assert(c < abs(xscale));
-            assert(r < abs(yscale));
-
-            const weight_t& wt = weights[r * (int)abs(xscale) + c];
+            x  = xf - xi;
 
 #define GET_VALUE(X, Y)    pData[(X) + (Y) * w1]
 
-            buffer[j * w + i] = wt.c1 * GET_VALUE(xi,     yi) +
-                                wt.c2 * GET_VALUE(xi + 1, yi) +
-                                wt.c3 * GET_VALUE(xi,     yi + 1) +
-                                wt.c4 * GET_VALUE(xi + 1, yi + 1);
+            double f1 = GET_VALUE(xi,     yi);
+            double f2 = GET_VALUE(xi + 1, yi);
+            double f3 = GET_VALUE(xi,     yi + 1);
+            double f4 = GET_VALUE(xi + 1, yi + 1);
 
-//             printf("%f %f %i %i %f %i %i\n", (xoff1 + xf), (yoff1 + yf), c, r, buffer[j * w + i], i, j);
+            double b1 = f1;
+            double b2 = f2 - f1;
+            double b3 = f3 - f1;
+            double b4 = f1 - f2 - f3 + f4;
+
+            data[j * w + i] = b1 + b2 * x + b3 * y + b4 * x * y;
 
         }
     }
 }
 
-#endif
-
-# if 0
-void CMapDEM::getRegion(float *buffer, XY topLeft, XY bottomRight, int w, int h)
-{
-    int i, j;
-    qint16 *region_data;
-    int region_width;
-    int region_height;
-
-    if(pjsrc == 0) return;
-
-    /*
-        Calculate area of DEM data to be read.
-    */
-//    XY p1 = topLeft, p2 = bottomRight;
-    // 1. convert top left and bottom right point into the projection system used by the DEM data
-    pj_transform(pjtar, pjsrc, 1, 0, &topLeft.u, &topLeft.v, 0);
-    pj_transform(pjtar, pjsrc, 1, 0, &bottomRight.u, &bottomRight.v, 0);
-
-    // 2. get floating point offset of topleft corner
-    double xoff1_f = (topLeft.u - xref1) / xscale;
-    double yoff1_f = (topLeft.v - yref1) / yscale;
-
-    // 3. truncate floating point offset into integer offset
-    int xoff1 = xoff1_f;         //qDebug() << "xoff1:" << xoff1 << xoff1_f;
-    int yoff1 = yoff1_f;         //qDebug() << "yoff1:" << yoff1 << yoff1_f;
-
-    // 4. get floating point offset of bottom right corner
-    double xoff2_f = (bottomRight.u - xref1) / xscale;
-    double yoff2_f = (bottomRight.v - yref1) / yscale;
-
-    // 5. round up (!) floating point offset into integer offset
-    int xoff2 = ceil(xoff2_f);   //qDebug() << "xoff2:" << xoff2 << xoff2_f;
-    if (xoff2 == (int) xoff2_f)
-            xoff2 ++;
-    int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
-    if (yoff2 == (int) yoff2_f)
-            yoff2 ++;
-
-    int w1 = xoff2 - xoff1;
-    int h1 = yoff2 - yoff1;      //qDebug() << "w1:" << w1 << "h1:" << h1;
-
-    // bail out if this is getting too big
-    if(w1 > 10000 || h1 > 10000) return;
-
-    int w2 = w, h2 = h;
-
-    if (w > w1)
-            w2= w1;
-    if (h > h1)
-            h2 = h1;
-
-     if ((w2 != w) || (h2 != h)) {
-            // we should increment values w2, because
-            // want use widths 0 to w2 inclusive
-            region_width = w2 + 1;
-            w1++;
-            region_height = h2 + 1;
-            h1++;
-     }
-
-    region_data = new qint16[region_width * region_height];
-
-    // read 16bit elevation data from GeoTiff
-    GDALRasterBand * pBand;
-    pBand = dataset->GetRasterBand(1);
-    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, region_data, region_width, region_height, GDT_Int16, 0, 0);
-    if(err == CE_Failure) {
-        qDebug() << "faillure" << endl;
-        delete [] region_data;
-        //FIXME add handle error
-        return;
-    }
-
-#define GET_VALUE(X, Y)    region_data[region_width * (int)(Y) + (int)(X)]
-
-    if ((w2 != w) || (h2 != h)) {
-           // do interpolation if DEM data resolution less than required.
-           double x, y, c, r;
-           // decriment w, because the number of points more on one
-           // than number of lengths.
-           double xscale_my = (xoff2_f - xoff1_f) / (double)(w - 1);
-           double yscale_my = (yoff2_f - yoff1_f) / (double)(h - 1);
-
-           for (i = 0; i < w; i++) {
-                   x = xoff1_f + xscale_my * i - xoff1;
-                   c = x - (int) x;
-                   c = c * abs(xscale);
-
-                   for (j = 0; j < h; j++) {
-                           y = yoff1_f + yscale_my * j - yoff1;
-                           r = y - (int) y;
-                           r = r * abs(yscale);
-/*                         qDebug() << "wxh" << w << "x" << h << " " << w2 << "x" <<h2;
-                           qDebug() << "scale " << xscale << " " << yscale;
-                           qDebug() << "ij " << i << " " << j;
-                           qDebug() << "xy" << x + xoff1 << " " << y + yoff1;
-                           qDebug() << "cr" << c << " " << r;
-*/
-                           const weight_t& wt = weights[((int) r * (int)abs(xscale)) + (int) c];
-                           buffer[i + j * w] = wt.c1 * GET_VALUE(x, y) + \
-                                       wt.c2 * GET_VALUE(x + 1, y) + \
-                                       wt.c3 * GET_VALUE(x, y + 1) + \
-                                       wt.c4 * GET_VALUE(x + 1, y + 1);
-/*                         qDebug() << buffer[i + j * w];
-                           qDebug() << getElevation(p1.u + (p2.u - p1.u) / (double) w * i,
-                                           p2.v + (p2.v - p1.v) / (double) h * j) <<  endl;
-*/
-                   }
-           }
-    } else {
-            for (i = 0; i < w; i++)
-                    for (j = 0; j < h; j++)
-                            buffer[i + j * w] = region_data[i + j * w];
-    }
-    delete [] region_data;
-}
-
-#endif
 
 float CMapDEM::getElevation(double lon, double lat)
 {
@@ -399,30 +239,25 @@ float CMapDEM::getElevation(double lon, double lat)
     double u = lon;
     double v = lat;
 
-//     printf("%f %f\n", u, v);
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
     double xoff = (u - xref1) / xscale;
     double yoff = (v - yref1) / yscale;
 
-//     printf("%f %f %f %f %f %f %f %f\n", u, v, xoff, yoff, xref1, yref1, xscale, yscale);
+    double x    = xoff - floor(xoff);
+    double y    = yoff - floor(yoff);
 
-    int c = (xoff - floor(xoff)) * abs(xscale);
-    int r = (yoff - floor(yoff)) * abs(yscale);
-
-    CPLErr err = dataset->RasterIO(GF_Read, xoff, yoff, 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
+    CPLErr err = dataset->RasterIO(GF_Read, floor(xoff), floor(yoff), 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
         return WPT_NOFLOAT;
     }
 
-    const weight_t& w = weights[(r * (int)abs(xscale)) + c];
+    double b1 = e[0];
+    double b2 = e[1] - e[0];
+    double b3 = e[2] - e[0];
+    double b4 = e[0] - e[1] - e[2] + e[3];
 
-    float ele = w.c1 * e[0] + w.c2 * e[1] + w.c3 * e[2] + w.c4 * e[3];
-
-    //     qDebug() << c << r << "\t" << w.c1 << e[0] << w.c2 << e[1];
-    //     qDebug() << "\t"           << w.c3 << e[2] << w.c4 << e[3];
-
-//     printf("%f %f %i %i %f\n", xoff, yoff, c, r, ele);
+    float ele = b1 + b2 * x + b3 * y + b4 * x * y;
 
     return ele;
 }
@@ -437,6 +272,68 @@ void CMapDEM::draw(QPainter& p)
     //     qDebug() << "--------------------------";
 }
 
+#if 0
+void CMapDEM::draw()
+{
+
+    IMap::overlay_e overlay = status->getOverlayType();
+    if(overlay == IMap::eNone){
+        old_overlay = overlay;
+        buffer.fill(Qt::transparent);
+        return;
+    }
+
+    // check if old area matches new request
+    // kind of a different way to calculate the needRedraw flag
+
+    XY p1, p2;
+    float my_xscale, my_yscale;
+
+    getArea_n_Scaling_fromBase(p1, p2, my_xscale, my_yscale);
+
+    if(    overlay == old_overlay
+        && p1.u == old_p1.u && p1.v == old_p1.v
+        && p2.u == old_p2.u && p2.v == old_p2.v
+        && my_xscale == old_my_xscale && my_yscale == old_my_yscale
+      )
+    {
+        return;
+    }
+
+    old_p1          = p1;
+    old_p2          = p2;
+    old_my_xscale   = my_xscale;
+    old_my_yscale   = my_yscale;
+    old_overlay     = overlay;
+
+    buffer.fill(Qt::transparent);
+
+    if(pjsrc == 0) return;
+
+    int w = (buffer.width()>>2)<<2;
+    int h =  buffer.height();
+
+    QImage img(w,h,QImage::Format_Indexed8);
+
+    QVector<float> dem(w * h);
+    getRegion(dem.data(), p1, p2, w, h);
+
+    if(overlay == IMap::eShading) {
+        shading(img, dem.data());
+    }
+    else if(overlay == IMap::eContour) {
+        contour(img, dem.data());
+    }
+    else {
+        qWarning() << "Unknown shading type";
+        return;
+    }
+
+    QPainter p(&buffer);
+    p.drawImage(0, 0, img);
+}
+
+#else
 
 void CMapDEM::draw()
 {
@@ -565,6 +462,7 @@ void CMapDEM::draw()
     QPainter p(&buffer);
     p.drawImage(-pxx, -pxy, img);
 }
+#endif
 
 
 void CMapDEM::shading(QImage& img, qint16 * data)
@@ -573,9 +471,9 @@ void CMapDEM::shading(QImage& img, qint16 * data)
     int w1 = img.width();
     int h1 = img.height();
     // find minimum and maximum elevation within area
-    int min = 32768;
-    int max = -32768;
-    int ele;
+    float min = 32768;
+    float max = -32768;
+    float ele;
 
     for(i = 0; i < (w1 * h1); i++) {
         ele = data[i];
@@ -606,10 +504,10 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     int h1 = img.height();
 
     int r,c,i;
-    int diff = 0;
+    float diff = 0;
     int idx  = 0;
-    int min  =  32768;
-    int max  = -32768;
+    float min  =  32768;
+    float max  = -32768;
     for(r = 0; r < (h1 - 1); ++r) {
         for(c = 0; c < (w1 - 1); ++c) {
             diff  = data[idx +  1    ] - data[idx];
@@ -625,7 +523,7 @@ void CMapDEM::contour(QImage& img, qint16 * data)
         data[idx++] = 0;
     }
 
-    int f = abs(min) < abs(max) ? abs(max) : abs(min);
+    float f = abs(min) < abs(max) ? abs(max) : abs(min);
     f = f ? f : 1;
 
     img.setColorTable(graytable1);
