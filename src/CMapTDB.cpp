@@ -236,19 +236,19 @@ const QString CMapTDB::polyline_typestr[]=
 
 static quint16 order[] =
 {
-//       0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
-//     , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
-//     , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
-//     , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
-//     , 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
-//     , 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
-//     , 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x00
-//     , 0x50, 0x51, 0x52, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C
-//     , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
-//     , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
-//     , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
+    //       0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
+    //     , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
+    //     , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
+    //     , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
+    //     , 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
+    //     , 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
+    //     , 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x00
+    //     , 0x50, 0x51, 0x52, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C
+    //     , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
+    //     , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
+    //     , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
 
-      0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
     , 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
     , 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
     , 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
@@ -257,7 +257,6 @@ static quint16 order[] =
     , 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
     , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
-
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
@@ -294,11 +293,11 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     cfg.endGroup();
     cfg.endGroup();
 
-    if(pos.isEmpty()){
+    if(pos.isEmpty()) {
         topLeft.u = west;
         topLeft.v = north;
     }
-    else{
+    else {
         float u = 0;
         float v = 0;
         GPS_Math_Str_To_Deg(pos, u, v);
@@ -316,6 +315,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     qDebug() << "CMapTDB::CMapTDB()";
     //garminTyp = new CGarminTyp("/home/fcr/teddy.typ", parent);
 }
+
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename)
 : IMap(eGarmin, key, 0)
@@ -365,6 +365,7 @@ CMapTDB::~CMapTDB()
 
     qDebug() << "CMapTDB::~CMapTDB()";
 }
+
 
 void CMapTDB::setup()
 {
@@ -467,16 +468,17 @@ void CMapTDB::setup()
     polygonProperties[0x69] = polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
     polygonDrawOrder.clear();
-    for(int i = 0; i < 0x80; i++){
+    for(int i = 0; i < 0x80; i++) {
         polygonDrawOrder << order[0x7F - i];
     }
 
     pointProperties.clear();
 
-    if(useTyp){
+    if(useTyp) {
         readTYP();
     }
 }
+
 
 void CMapTDB::registerDEM(CMapDEM& dem)
 {
@@ -489,6 +491,7 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     pj_free(pjsrc);
     pjsrc = pj_init_plus(dem.getProjection());
 }
+
 
 void CMapTDB::resize(const QSize& s)
 {
@@ -506,16 +509,16 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
         pointFocus = e->pos();
 
-        if(rectUseTyp.contains(pointFocus) && !mouseOverUseTyp){
+        if(rectUseTyp.contains(pointFocus) && !mouseOverUseTyp) {
             mouseOverUseTyp = true;
-//             qApp->changeOverrideCursor(Qt::PointingHandCursor);
+            //             qApp->changeOverrideCursor(Qt::PointingHandCursor);
         }
-        else if(!rectUseTyp.contains(pointFocus) && mouseOverUseTyp){
+        else if(!rectUseTyp.contains(pointFocus) && mouseOverUseTyp) {
             mouseOverUseTyp = false;
-//             qApp->restoreOverrideCursor();
+            //             qApp->restoreOverrideCursor();
         }
 
-        if(rectUseTyp.contains(pointFocus) && e->button() == Qt::LeftButton){
+        if(rectUseTyp.contains(pointFocus) && e->button() == Qt::LeftButton) {
             useTyp = !useTyp;
         }
 
@@ -542,7 +545,7 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
     }
     else if(parent() == watched && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent * e = (QMouseEvent*)event;
-        if(rectUseTyp.contains(e->pos()) && e->button() == Qt::LeftButton){
+        if(rectUseTyp.contains(e->pos()) && e->button() == Qt::LeftButton) {
             useTyp      = !useTyp;
             needsRedraw = true;
 
@@ -653,7 +656,7 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
-//                 qDebug() << tile.file;
+                //                 qDebug() << tile.file;
 
                 tile.north  = GARMIN_RAD((gar_load(int32_t,p->north) >> 8) & 0x00FFFFFF);
                 tile.east   = GARMIN_RAD((gar_load(int32_t,p->east) >> 8)  & 0x00FFFFFF);
@@ -835,7 +838,7 @@ bool CMapTDB::processPrimaryMapData()
                 ++subfile;
             }
 
-//             isTransparent = img->isTransparent();
+            //             isTransparent = img->isTransparent();
         }
         /* Sort all entries, note that stable sort should insure that basemap is preferred when available. */
         qStableSort(maplevels.begin(), maplevels.end(), map_level_t::GreaterThan);
@@ -863,7 +866,7 @@ bool CMapTDB::processPrimaryMapData()
 
         polytype_t::iterator item = polygons.begin();
         while (item != polygons.end()) {
-            if((item->labels.size() > 1) && tiles.contains(item->labels[1])){
+            if((item->labels.size() > 1) && tiles.contains(item->labels[1])) {
                 tile_t& tile = tiles[item->labels[1]];
 
                 double * u = item->u.data();
@@ -872,7 +875,7 @@ bool CMapTDB::processPrimaryMapData()
 
                 tile.defArea.clear();
 
-                for(int n = 0; n < N; ++n, ++u, ++v){
+                for(int n = 0; n < N; ++n, ++u, ++v) {
                     tile.defArea << QPointF(*u, *v);
                 }
 
@@ -1044,6 +1047,7 @@ void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lat2 = south;
 }
 
+
 void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
     p1 = topLeft;
@@ -1058,17 +1062,18 @@ void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
 
 }
 
+
 void CMapTDB::draw(QPainter& p)
 {
     bottomRight.u = size.width();
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
-    if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)){
+    if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)) {
         bottomRight.u = 180 * DEG_TO_RAD + (180 * DEG_TO_RAD + bottomRight.u );
     }
 
-    if((topLeft.u > 0) && (topLeft.u > bottomRight.u)){
+    if((topLeft.u > 0) && (topLeft.u > bottomRight.u)) {
         topLeft.u = -180 * DEG_TO_RAD - (180 * DEG_TO_RAD - topLeft.u);
     }
 
@@ -1080,7 +1085,7 @@ void CMapTDB::draw(QPainter& p)
     p.drawImage(0,0,buffer);
 
     // render overlay
-    if(!ovlMap.isNull() && !doFastDraw){
+    if(!ovlMap.isNull() && !doFastDraw) {
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -1110,23 +1115,22 @@ void CMapTDB::draw(QPainter& p)
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
-    if(!typfile.isEmpty()){
+    if(!typfile.isEmpty()) {
         QString str;
 
-
-        if(useTyp && mouseOverUseTyp){
+        if(useTyp && mouseOverUseTyp) {
             str = tr("no typ");
             p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconOk32x32.png"));
         }
-        else if(useTyp && !mouseOverUseTyp){
+        else if(useTyp && !mouseOverUseTyp) {
             str = tr("use typ");
             p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconOk32x32.png"));
         }
-        else if(!useTyp && mouseOverUseTyp){
+        else if(!useTyp && mouseOverUseTyp) {
             str = tr("use typ");
             p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconCancel32x32.png"));
         }
-        else if(!useTyp && !mouseOverUseTyp){
+        else if(!useTyp && !mouseOverUseTyp) {
             str = tr("no typ");
             p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconCancel32x32.png"));
         }
@@ -1160,20 +1164,21 @@ void CMapTDB::draw(QPainter& p)
     if(doFastDraw) setFastDraw();
 }
 
+
 void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 {
     int i;
 
-    if(s != size){
+    if(s != size) {
         resize(s);
         needsRedraw = true;
     }
 
-    if(needsRedraw){
+    if(needsRedraw) {
         float sx, sy;
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
-        for(i=0; i < MAX_IDX_ZOOM; ++i){
+        for(i=0; i < MAX_IDX_ZOOM; ++i) {
             if(scales[i].scale <= sx) break;
         }
 
@@ -1184,8 +1189,8 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         // make map semi transparent
         quint32 * ptr  = (quint32*)buffer.bits();
-        for(int i = 0; i < (buffer.numBytes()>>2); ++i){
-            if(*ptr & 0xFF000000){
+        for(int i = 0; i < (buffer.numBytes()>>2); ++i) {
+            if(*ptr & 0xFF000000) {
                 *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
             }
             ++ptr;
@@ -1196,6 +1201,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
     if(ovlMap) ovlMap->draw(s, needsRedraw, p);
 }
+
 
 void CMapTDB::draw()
 {
@@ -1246,18 +1252,18 @@ void CMapTDB::draw()
         drawPoints(p, points);
         drawPois(p, pois);
         drawLabels(p, labels);
-	drawText(p);
+        drawText(p);
     }
 
 }
 
 
-
-static quint16 polylineDrawOrder[]  = {
- 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-,0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
-,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
-,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+static quint16 polylineDrawOrder[]  =
+{
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+    ,0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+    ,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
+    ,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
 };
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
@@ -1272,13 +1278,12 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
 
-//         qDebug() << hex << type << property.pen0.color() << (property.pen0 == Qt::NoPen);
+        //         qDebug() << hex << type << property.pen0.color() << (property.pen0 == Qt::NoPen);
 
-
-        if(hasPen1){
+        if(hasPen1) {
             QPen pen    = property.pen0;
 
-            if(property.grow){
+            if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
                 width      += zoomFactor < 3.0 ? 4 : 2;
@@ -1289,10 +1294,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
             p.setPen(pen);
         }
-        else{
+        else {
             QPen pen    = property.pen0;
 
-            if(property.grow){
+            if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
                 width      += zoomFactor < 3.0 ? 4 : 2;
@@ -1318,7 +1323,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
 
-                if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen)){
+                if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen)) {
                     ++item;
                     continue;
                 }
@@ -1338,11 +1343,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         quint16 type                = polylineDrawOrder[m];
         polyline_property& property = polylineProperties[type];
 
-//         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
+        //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
         if(property.pen1.color() == Qt::NoPen) continue;
 
         QPen pen    = property.pen1;
-        if(property.grow){
+        if(property.grow) {
             int width   = pen.width();
             width       = zoomFactor > 7.0  ? width : quint32(width + 7.0/zoomFactor);
             pen.setWidth(width);
@@ -1350,14 +1355,19 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         p.setPen(pen);
 
+        QFont font = CResources::self().getMapFont();
+        font.setPixelSize(pen.width() * 2/3);
+        font.setBold(false);
+
+        QFontMetricsF metrics(font);
 
         polytype_t::iterator item = lines.begin();
 
-	QStringList textList;
+        QStringList textList;
 
         while(item != lines.end()) {
-        	qreal x0 = 0 ,y0 = 0;
-        	qreal x1 = 0 ,y1 = 0;
+            qreal x0 = 0 ,y0 = 0;
+            qreal x1 = 0 ,y1 = 0;
             if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
@@ -1365,130 +1375,137 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
                 QPainterPath myStreet;
-		QPainterPath mySegment;
+                QPainterPath mySegment;
 
-		// direction flags
+                // direction flags
                 int direction = 0;
-		qreal xi = 0, yi = 0; // start line point
-		int dWeight[4];
-		// Font metrics
-		QFont font("Helvetica", pen.width()*2/3);
-		QFontMetricsF metrics( font );
-		bool bSegment = false;
-		qreal segmentSize = 0;
+                                 // start line point
+                qreal xi = 0, yi = 0;
+                int dWeight[4];
+                bool bSegment = false;
+                qreal segmentSize = 0;
 
-		QString str;
-		if (item->labels.count()>0) {
-			str.append(item->labels[0]);
-		}
+                QString str;
+                if (item->labels.count()>0) {
+                    str.append(item->labels[0]);
+                }
 
-		for ( int i=0; i < 4 ; i++) {
-			dWeight[i] = 0;
-		}
+                for ( int i=0; i < 4 ; i++) {
+                    dWeight[i] = 0;
+                }
 
-		for(int i = 0; i < size; ++i) {
-			line[i].setX(*u++);
-			line[i].setY(*v++);
-			if (!bSegment) {
-				x0 = line[i].x();
-				y0 = line[i].y();
-			}
+                for(int i = 0; i < size; ++i) {
+                    line[i].setX(*u++);
+                    line[i].setY(*v++);
+                    if (!bSegment) {
+                        x0 = line[i].x();
+                        y0 = line[i].y();
+                    }
 
-			// if we found a segment sized for text then it is ok
-			// Get line size to know if text can be in it with a margin
-			if ( ( i != 0) && (!bSegment) ) {
-				segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
-				if (1.5*metrics.width(str) < abs(segmentSize) ) {
-					mySegment.moveTo( x1, y1 );
-					mySegment.lineTo( x0, y0 );
-					bSegment = true;
-				}
-			}
-			// Else write the text on the whole polyline
-			if ( i == 0) {
-				xi = x0;
-				yi = y0;
-				myStreet.moveTo( x0, y0 );
-			} else {
-				myStreet.lineTo( x0, y0 );
-			}
-			if(!bSegment) {
-				// try to detect direction
-				if ( (x0 < x1) && (y0 < y1 ) ) direction = 0; // ON
-				if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1; // OS
-				if ( (x0 > x1) && (y0 < y1 ) ) direction = 2; // NE
-				if ( (x0 > x1) && (y0 > y1 ) ) direction = 3; // ES
-				// direction table weight
-				dWeight[direction] = dWeight[direction] + 1 ;
-				x1 = x0;
-				y1 = y0;
+                    // if we found a segment sized for text then it is ok
+                    // Get line size to know if text can be in it with a margin
+                    if ( ( i != 0) && (!bSegment) ) {
+                        segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
+                        if (1.5*metrics.width(str) < abs(segmentSize) ) {
+                            mySegment.moveTo( x1, y1 );
+                            mySegment.lineTo( x0, y0 );
+                            bSegment = true;
+                        }
+                    }
+                    // Else write the text on the whole polyline
+                    if ( i == 0) {
+                        xi = x0;
+                        yi = y0;
+                        myStreet.moveTo( x0, y0 );
+                    }
+                    else {
+                        myStreet.lineTo( x0, y0 );
+                    }
+                    if(!bSegment) {
+                        // try to detect direction
+                                 // ON
+                        if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
+                                 // OS
+                        if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1;
+                                 // NE
+                        if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
+                                 // ES
+                        if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+                        // direction table weight
+                        dWeight[direction] = dWeight[direction] + 1 ;
+                        x1 = x0;
+                        y1 = y0;
 
-			}
+                    }
 
+                }
 
-		}
+                p.drawPolyline(line);
 
-		p.drawPolyline(line);
+                // calcul direction again for segment only
+                if (bSegment) {
+                    for ( int i=0; i < 4 ; i++) {
+                        dWeight[i] = 0;
+                    }
+                    // try to detect direction for two points
+                    // try to detect direction
+                                 // ON
+                    if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
+                                 // OS
+                    if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1;
+                                 // NE
+                    if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
+                                 // ES
+                    if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+                    dWeight[direction] =  1 ;
+                }
 
-		// calcul direction again for segment only
-		if (bSegment) {
-			for ( int i=0; i < 4 ; i++) {
-				dWeight[i] = 0;
-			}
-			// try to detect direction for two points
-			// try to detect direction
-			if ( (x0 < x1) && (y0 < y1 ) ) direction = 0; // ON
-			if ( (x0 < x1) && (y0 >= y1 ) ) direction = 1; // OS
-			if ( (x0 > x1) && (y0 < y1 ) ) direction = 2; // NE
-			if ( (x0 > x1) && (y0 > y1 ) ) direction = 3; // ES
-			dWeight[direction] =  1 ;
-		}
+                // no street needed for uppers zoom factor
+                if (zoomFactor > 1.5) {
+                    ++item;
+                    continue;
+                }
 
-		// no street needed for uppers zoom factor
-		if (zoomFactor > 1.5) {
-			++item;
-			continue;
-		}
+                // Skip text already drawn on the street
+                // 		if (textList.contains(str) ) {
+                // 			++item;
+                // 			continue;
+                // 		}
 
-		// Skip text already drawn on the street
-// 		if (textList.contains(str) ) {
-// 			++item;
-// 			continue;
-// 		}
+                //polyline size from bird fly should be enough
+                int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
+                //qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
+                if (1.5*metrics.width(str) > abs(roadSize) ) {
+                    ++item;
+                    continue;
+                }
 
-		//polyline size from bird fly should be enough
-		int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
-		//qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
-		if (1.5*metrics.width(str) > abs(roadSize) ) {
-			++item;
-			continue;
-		}
+                textList.append(str);
 
-		textList.append(str);
+                // Center text on polyline
+                int centerText = 0;
+                QPainterPath myPath;
+                if (bSegment) {
+                    centerText = (segmentSize - metrics.width(str)) / 2;
+                    myPath = mySegment;
+                }
+                else {
+                    centerText = (roadSize - metrics.width(str)) / 2;
+                    myPath = myStreet;
+                }
 
-		// Center text on polyline
-		int centerText = 0;
-		QPainterPath myPath;
-		if (bSegment) {
-			centerText = (segmentSize - metrics.width(str)) / 2;
-			myPath = mySegment;
-		} else {
-			centerText = (roadSize - metrics.width(str)) / 2;
-			myPath = myStreet;
-		}
+                // Reverse path in case
+                if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) ) {
+                    myPath = myPath.toReversed();
+                }
 
-		// Reverse path in case
-		if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) ) {
-			myPath = myPath.toReversed();
-		}
+                polyline_text_t polylineText;
+                polylineText.path = myPath;
+                polylineText.penWidth = pen.width();
+                polylineText.text = str;
+                polylineText.textStart = centerText;
 
-		polyline_text_t polylineText;
-		polylineText.path = myPath;
-		polylineText.penWidth = pen.width();
-		polylineText.text = str;
-		polylineText.textStart = centerText;
-
-		polylinesText.append( polylineText );
+                polylinesText.append( polylineText );
 
             }
             ++item;
@@ -1499,120 +1516,126 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
 void CMapTDB::drawText(QPainter &p)
 {
-	p.setRenderHint( QPainter::TextAntialiasing, true );
-	for ( int item=0; item < polylinesText.count(); item++)
-	{
-		qreal centerText = polylinesText[item].textStart;
-		// Font metrics
-		qreal penWidth = polylinesText[item].penWidth;
-// 		QFont font("Helvetica", penWidth*2/3);
+    p.setRenderHint( QPainter::TextAntialiasing, true );
+    for ( int item=0; item < polylinesText.count(); item++) {
+        qreal centerText = polylinesText[item].textStart;
+        // Font metrics
+        qreal penWidth = polylinesText[item].penWidth;
+        // 		QFont font("Helvetica", penWidth*2/3);
         QFont font = CResources::self().getMapFont();
-        font.setPixelSize(penWidth*2/3);
+        font.setPixelSize(penWidth*2.0/3.0);
         font.setBold(false);
-		p.setFont( font );
-		QString str( polylinesText[item].text);
-		QPainterPath myPath( polylinesText[item].path);
-		p.setFont( font );
-		QFontMetricsF metrics( font );
+        p.setFont( font );
+        QString str( polylinesText[item].text);
+        QPainterPath myPath( polylinesText[item].path);
+        p.setFont( font );
+        QFontMetricsF metrics( font );
 
-		// Draw text on the street
-		p.setPen(QPen(Qt::black));
-		// Init sequence
-		QPointF ptOrig;
-		QPointF pt;
-		qreal t=0, angle=0, curLen=0;
-		int nbSegment = myPath.elementCount();
-		if (nbSegment <3) {
-				// set point on the with at percent
-				t = myPath.percentAtLength(curLen + centerText);
-				pt = myPath.pointAtPercent(t);
-				ptOrig = myPath.pointAtPercent(1); // end of path
-				// Calcul angle between two points
-				QPointF diff = ptOrig - pt;
-				angle = atan2( diff.x(), diff.y() ) ;
-				if (angle < 0) {
-					angle += 2.0 * PI ;
-				}
-				angle =  180.0 * angle / PI ;
+        // Draw text on the street
+        p.setPen(QPen(Qt::black));
+        // Init sequence
+        QPointF ptOrig;
+        QPointF pt;
+        qreal t=0, angle=0, curLen=0;
+        int nbSegment = myPath.elementCount();
+        if (nbSegment <3) {
+            // set point on the with at percent
+            t = myPath.percentAtLength(curLen + centerText);
+            pt = myPath.pointAtPercent(t);
+                                 // end of path
+            ptOrig = myPath.pointAtPercent(1);
+            // Calcul angle between two points
+            QPointF diff = ptOrig - pt;
+            angle = atan2( diff.x(), diff.y() ) ;
+            if (angle < 0) {
+                angle += 2.0 * PI ;
+            }
+            angle =  180.0 * angle / PI ;
 
-				p.save();
-				p.translate(pt);
-				// Rotate text to be readable from left to right
-				if ( ( angle > 0) && ( angle < 90) ) {
-					angle = 90 - angle; // ok
-					p.rotate(angle);
-				}
+            p.save();
+            p.translate(pt);
+            // Rotate text to be readable from left to right
+            if ( ( angle > 0) && ( angle < 90) ) {
+                                 // ok
+                angle = 90 - angle;
+                p.rotate(angle);
+            }
 
-				if ( ( angle > 90) && (angle <270) ) {
-					angle = 90 - angle;
-					p.rotate(angle);
-				}
+            if ( ( angle > 90) && (angle <270) ) {
+                angle = 90 - angle;
+                p.rotate(angle);
+            }
 
-				if ( ( angle > 270) && (angle <360) ) {
-					angle = 270 - angle; // ok
-					p.rotate(angle);
-				}
+            if ( ( angle > 270) && (angle <360) ) {
+                                 // ok
+                angle = 270 - angle;
+                p.rotate(angle);
+            }
 
-				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), str);
+            p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), str);
 
-				p.restore();
+            p.restore();
 
-		} else{
-			for (int i = 0; i < str.length(); ++i) {
-				QString txt;
-				// Detect character width
-				txt.append(str[i]);
-				qreal increment = metrics.width(txt); // + metrics.width(txt)/3 ;
+        }
+        else {
+            for (int i = 0; i < str.length(); ++i) {
+                QString txt;
+                // Detect character width
+                txt.append(str[i]);
+                                 // + metrics.width(txt)/3 ;
+                qreal increment = metrics.width(txt);
 
-				// set point on the with at percent
-				t = myPath.percentAtLength(curLen + centerText);
-				pt = myPath.pointAtPercent(t);
-				// set previous point on the with at percent
-				// for first position point is before as we never start at 0
-				t = myPath.percentAtLength(curLen + centerText - increment);
-				ptOrig = myPath.pointAtPercent(t);
-				// Calcul angle between two points
-				QPointF diff = ptOrig - pt;
-				angle = atan2( diff.x(), diff.y() ) ;
-				if (angle < 0) {
-					angle += 2.0 * PI ;
-				}
-				angle =  180.0 * angle / PI ;
+                // set point on the with at percent
+                t = myPath.percentAtLength(curLen + centerText);
+                pt = myPath.pointAtPercent(t);
+                // set previous point on the with at percent
+                // for first position point is before as we never start at 0
+                t = myPath.percentAtLength(curLen + centerText - increment);
+                ptOrig = myPath.pointAtPercent(t);
+                // Calcul angle between two points
+                QPointF diff = ptOrig - pt;
+                angle = atan2( diff.x(), diff.y() ) ;
+                if (angle < 0) {
+                    angle += 2.0 * PI ;
+                }
+                angle =  180.0 * angle / PI ;
 
-				p.save();
-				p.translate(pt);
-				// Rotate text to be readable from left to right
-				if ( ( angle > 0) && ( angle < 90) ) {
-					angle = 180 - angle; // ok
-					p.rotate(angle);
-				}
+                p.save();
+                p.translate(pt);
+                // Rotate text to be readable from left to right
+                if ( ( angle > 0) && ( angle < 90) ) {
+                                 // ok
+                    angle = 180 - angle;
+                    p.rotate(angle);
+                }
 
-				if ( ( angle > 90) && (angle <270) ) {
-					angle = 270 - angle;
-					p.rotate(angle);
-				}
+                if ( ( angle > 90) && (angle <270) ) {
+                    angle = 270 - angle;
+                    p.rotate(angle);
+                }
 
-				if ( ( angle > 270) && (angle <360) ) {
-					angle = 270 - angle; // ok
-					p.rotate(angle);
-				}
+                if ( ( angle > 270) && (angle <360) ) {
+                                 // ok
+                    angle = 270 - angle;
+                    p.rotate(angle);
+                }
 
-				p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
+                p.drawText(0 - metrics.strikeOutPos(), metrics.underlinePos(), txt);
 
-				p.restore();
+                p.restore();
 
-				curLen += increment;
-			}
-		}
-	}
+                curLen += increment;
+            }
+        }
+    }
 }
+
 
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
 
     int n;
     const int N = polygonDrawOrder.size();
-
 
     for(n = 0; n < N; ++n) {
         quint16 type = polygonDrawOrder[0x7F - n];
@@ -1654,10 +1677,10 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
     while(pt != pts.end()) {
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
-        if(pointProperties.contains(pt->type)){
+        if(pointProperties.contains(pt->type)) {
             p.drawImage(pt->lon - 4, pt->lat - 4, pointProperties[pt->type]);
         }
-        else{
+        else {
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
@@ -1696,10 +1719,10 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
     while(pt != pts.end()) {
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
-        if(pointProperties.contains(pt->type)){
+        if(pointProperties.contains(pt->type)) {
             p.drawImage(pt->lon - 4, pt->lat - 4, pointProperties[pt->type]);
         }
-        else{
+        else {
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
@@ -1739,8 +1762,6 @@ void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
         ++lbl;
     }
 }
-
-
 
 
 void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
@@ -1899,7 +1920,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 dict.insert(tr("Area"), line->labels.join(" ").simplified());
             }
 
-//             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
+            //             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
 
         }
         ++line;
@@ -1922,8 +1943,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     QPolygonF poly;
     poly << QPointF(lon1, lat1) << QPointF(lon2, lat1) << QPointF(lon2, lat2) << QPointF(lon1, lat2);
 
-
-    if(!sel.maps.contains(key)){
+    if(!sel.maps.contains(key)) {
         CMapSelectionGarmin::map_t& m = sel.maps[key];
         m.unlockKey = mapkey;
         m.name      = name;
@@ -1934,15 +1954,15 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
 
     QMap<QString,tile_t>::iterator tile = tiles.begin();
-    while(tile != tiles.end()){
+    while(tile != tiles.end()) {
         QPolygonF res = poly.intersected(tile->defArea);
 
-        if(!res.isEmpty()){
+        if(!res.isEmpty()) {
 
-            if(map->tiles.contains(tile->key)){
+            if(map->tiles.contains(tile->key)) {
                 map->tiles.remove(tile->key);
             }
-            else{
+            else {
                 CMapSelectionGarmin::tile_t t;
                 t.id        = tile->id;
                 t.name      = tile->name;
@@ -1968,16 +1988,18 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     sel.description += QString("\nTiles: #%1").arg(sel.tilecnt);
 }
 
+
 void CMapTDB::readASCIIString(QDataStream& ds, QString& str)
 {
-     str.clear();
-     quint8 byte;
-     ds >> byte;
-     while(byte != 0) {
-         str.append(byte);
-         ds >> byte;
-     }
+    str.clear();
+    quint8 byte;
+    ds >> byte;
+    while(byte != 0) {
+        str.append(byte);
+        ds >> byte;
+    }
 }
+
 
 void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
 {
@@ -1985,15 +2007,16 @@ void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxco
 
     img.setNumColors(maxcolors);
     for (int i = 0; i < maxcolors; i++) {
-        if(i < colors){
+        if(i < colors) {
             in >> b >> g >> r;
             img.setColor(i, qRgb(r,g,b));
         }
-        else{
+        else {
             img.setColor(i, qRgba(0,0,0,0));
         }
     }
 }
+
 
 void CMapTDB::readTYP()
 {
@@ -2018,7 +2041,7 @@ void CMapTDB::readTYP()
     /* Read typ file descriptor */
     quint16 descriptor;
     in >> descriptor;
-    if ( (descriptor != 0x5b) && (descriptor != 0x6e) ){
+    if ( (descriptor != 0x5b) && (descriptor != 0x6e) ) {
         qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
         return;
     }
@@ -2032,11 +2055,10 @@ void CMapTDB::readTYP()
         garmintyp.append(byte);
     }
     garmintyp.append(0);
-    if(garmintyp != "GARMIN TYP"){
+    if(garmintyp != "GARMIN TYP") {
         qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
         return;
     }
-
 
     /* reading typ creation date string */
     quint16 startDate, endDate, year;
@@ -2044,7 +2066,7 @@ void CMapTDB::readTYP()
 
     in.device()->seek(0x0c);
     in >> startDate >> year >> month >> day >> hour >> minutes >> seconds >> endDate;
-    month -= 1; /* Month are like Microsoft starting 0 ? */
+    month -= 1;                  /* Month are like Microsoft starting 0 ? */
     year += 1900;
 
     typ_section_t sectPoints;
@@ -2056,7 +2078,6 @@ void CMapTDB::readTYP()
     in >> sectPoints.dataOffset >> sectPoints.dataLength;
     in >> sectPolylines.dataOffset >> sectPolylines.dataLength;
     in >> sectPolygons.dataOffset >> sectPolygons.dataLength;
-
 
     in >> pid >> fid;
     qDebug() << "PID" << hex << pid << "FID" << hex << fid;
@@ -2075,13 +2096,14 @@ void CMapTDB::readTYP()
     file.close();
 }
 
+
 void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
 {
-    if(section.arrayModulo != 5){
+    if(section.arrayModulo != 5) {
         return;
     }
 
-    if((section.arraySize % 5) != 0){
+    if((section.arraySize % 5) != 0) {
         return;
     }
 
@@ -2096,27 +2118,28 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
         if (typ == 0) {
             count++;
         }
-        else if(typ < 0x80){
-//             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
+        else if(typ < 0x80) {
+            //             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
             int idx = polygonDrawOrder.indexOf(typ);
-            if(idx != -1){
+            if(idx != -1) {
                 polygonDrawOrder.move(idx,0);
             }
         }
     }
 
-//     for(unsigned i = 0; i < 0x80; ++i){
-//         if(i && i%16 == 0) printf(" \n");
-//         printf("%02X ", polygonDrawOrder[i]);
-//     }
-//     printf(" \n");
+    //     for(unsigned i = 0; i < 0x80; ++i){
+    //         if(i && i%16 == 0) printf(" \n");
+    //         printf("%02X ", polygonDrawOrder[i]);
+    //     }
+    //     printf(" \n");
 }
+
 
 void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0){
+    if((section.arraySize % section.arrayModulo) != 0) {
         return;
     }
 
@@ -2142,8 +2165,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         subtyp  = wtyp >> 7;
         subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
 
-        if(subtyp != 0){
-//             qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
+        if(subtyp != 0) {
+            //             qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
             continue;
         }
 
@@ -2156,14 +2179,16 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         int colorType   = x & 0x0f;
         quint8 r,g,b;
 
-//         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
+        //         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
         if ( colorType == 8 ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
-            myXpm.setColor(1, qRgb(r,g,b) );            // forground (day + night)
+                                 // forground (day + night)
+            myXpm.setColor(1, qRgb(r,g,b) );
             in >> b >> g >> r;
-            myXpm.setColor(0, qRgb(r,g,b) );            // background (day + night)
+                                 // background (day + night)
+            myXpm.setColor(0, qRgb(r,g,b) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
@@ -2173,10 +2198,11 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
         else if ( colorType == 0xf ) {
             myXpm.setNumColors(2);
-            in >> b >> g >> r;                          // day forground
+            in >> b >> g >> r;   // day forground
             myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;                          // night forground
-            myXpm.setColor(0, qRgba(255,255,255,0) );   // background is always transparent
+            in >> b >> g >> r;   // night forground
+                                 // background is always transparent
+            myXpm.setColor(0, qRgba(255,255,255,0) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
@@ -2186,12 +2212,12 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
         else if ( colorType == 9 ) {
             myXpm.setNumColors(2);
-            in >> b >> g >> r;                          // day background
+            in >> b >> g >> r;   // day background
             myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;                          // day forground
+            in >> b >> g >> r;   // day forground
             myXpm.setColor(0, qRgb(r,g,b) );
-            in >> b >> g >> r;                          // night background
-            in >> b >> g >> r;                          // night foreground
+            in >> b >> g >> r;   // night background
+            in >> b >> g >> r;   // night foreground
 
             decodeBitmap(in, myXpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
@@ -2202,14 +2228,14 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         else if ( colorType == 0xb ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
-            myXpm.setColor(1, qRgb(r,g,b) );            // day forground
+                                 // day forground
+            myXpm.setColor(1, qRgb(r,g,b) );
             myXpm.setColor(0, qRgba(255,255,255,0) );
 
-            in >> b >> g >> r;                          // night forground
-//             myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;                          // night background
-//             myXpm.setColor(1, qRgb(r,g,b) );
-
+            in >> b >> g >> r;   // night forground
+            //             myXpm.setColor(1, qRgb(r,g,b) );
+            in >> b >> g >> r;   // night background
+            //             myXpm.setColor(1, qRgb(r,g,b) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
             polygonProperties[typ].brush.setTextureImage(myXpm);
@@ -2227,8 +2253,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
-        else{
-            if(!tainted){
+        else {
+            if(!tainted) {
                 QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                 tainted = true;
             }
@@ -2237,11 +2263,12 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
     }
 }
 
+
 void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0){
+    if((section.arraySize % section.arrayModulo) != 0) {
         return;
     }
 
@@ -2272,62 +2299,67 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         bool hasPixmap      = false;
         int colorFlag       = data1 & 0x07;
         int rows            = data1 >> 3;
-//         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
+        //         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
         QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
         QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
-//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
+        //         qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
 
         if ( colorFlag == 0) {
             readColorTable(in, myXpmDay, 2,2);
         }
         else if ( colorFlag == 1) {
-            readColorTable(in, myXpmDay, 2,2);     // day
-            readColorTable(in, myXpmNight, 2,2); // night
+                                 // day
+            readColorTable(in, myXpmDay, 2,2);
+                                 // night
+            readColorTable(in, myXpmNight, 2,2);
         }
         else if ( colorFlag == 3) {
-            readColorTable(in, myXpmDay, 2,2);     // day
-            readColorTable(in, myXpmNight, 1,2); // night
+                                 // day
+            readColorTable(in, myXpmDay, 2,2);
+                                 // night
+            readColorTable(in, myXpmNight, 1,2);
         }
         else if ( colorFlag == 6) {
             readColorTable(in, myXpmDay, 1,2);
         }
         else if ( colorFlag == 7) {
-            readColorTable(in, myXpmDay, 1,2);     // day
-            readColorTable(in, myXpmNight, 1,2); // night
+                                 // day
+            readColorTable(in, myXpmDay, 1,2);
+                                 // night
+            readColorTable(in, myXpmNight, 1,2);
         }
-        else{
-            if(!tainted){
+        else {
+            if(!tainted) {
                 QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polyline encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                 tainted = true;
             }
 
-//             qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
+            //             qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
             continue;
         }
 
-        if(rows){
+        if(rows) {
             decodeBitmap(in, myXpmDay, 32, rows, 1);
-//             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+            //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
             hasPixmap = true;
         }
 
-
         polyline_property& property = polylineProperties[typ];
 
-        if(rows == 0){
-            if(property.pen1.color() == Qt::NoPen){
+        if(rows == 0) {
+            if(property.pen1.color() == Qt::NoPen) {
                 property.pen0.setColor(myXpmDay.color(0));
                 property.pen0.setStyle(Qt::SolidLine);
                 property.pen1.setColor(Qt::NoPen);
             }
-            else{
+            else {
                 property.pen1.setColor(myXpmDay.color(0));
                 property.pen0.setColor(myXpmDay.color(1));
             }
 
         }
-        else{
+        else {
 
             // hash-in a dash
             // let's try to read a dash pattern from the  bitmap
@@ -2336,73 +2368,73 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             quint8 prev  = 0xFF;
             quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
 
-            for(int i=0; i < 32; ++i, ++ptr){
-//                 printf("%02X ", *ptr);
-                if(prev != 0xFF && prev != *ptr){
+            for(int i=0; i < 32; ++i, ++ptr) {
+                //                 printf("%02X ", *ptr);
+                if(prev != 0xFF && prev != *ptr) {
                     dash << (float(cnt) / rows);
                     cnt  = 1;
                 }
-                else{
+                else {
                     cnt += 1;
                 }
                 prev = *ptr;
             }
-            if(dash.size() & 0x01){
+            if(dash.size() & 0x01) {
                 dash << (float(cnt) / rows);
             }
-//             printf("\n");
-//             qDebug() << "dash:" << dash;
+            //             printf("\n");
+            //             qDebug() << "dash:" << dash;
 
             // there is no sense in growing a line < 3 pixel
-            if(rows < 3){
+            if(rows < 3) {
                 property.grow = false;
 
-                if(dash.size() < 2){
+                if(dash.size() < 2) {
                     property.pen0.setStyle(Qt::SolidLine);
                     property.pen0.setColor(myXpmDay.color(0));
                     property.pen0.setWidth(rows);
                     property.pen1.setColor(Qt::NoPen);
                 }
-                else{
+                else {
                     property.pen1.setDashPattern(dash);
                     property.pen1.setColor(myXpmDay.color(0));
                     property.pen1.setWidth(rows);
                     property.pen1.setCapStyle(Qt::FlatCap);
 
-                    if(myXpmDay.color(1) == qRgba(0,0,0,0)){
+                    if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
                         property.pen0 = QPen(Qt::NoPen);
                     }
-                    else{
+                    else {
                         property.pen0.setStyle(Qt::SolidLine);
                         property.pen0.setWidth(rows);
                         property.pen0.setColor(myXpmDay.color(1));
                     }
                 }
             }
-            else{
+            else {
                 property.grow = true;
 
-                if(myXpmDay.color(1) == qRgba(0,0,0,0)){
+                if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
                     property.pen1 = QPen(Qt::NoPen);
 
-                    if(dash.size() < 2){
+                    if(dash.size() < 2) {
                         property.pen0.setStyle(Qt::SolidLine);
                     }
-                    else{
+                    else {
                         property.pen0.setDashPattern(dash);
                         property.pen0.setCapStyle(Qt::FlatCap);
                     }
                     property.pen0.setWidth(rows);
                     property.pen0.setColor(myXpmDay.color(0));
                 }
-                else{
+                else {
                     property.pen0.setColor(myXpmDay.color(1));
                     property.pen0.setWidth(rows);
 
-                    if(dash.size() < 2){
+                    if(dash.size() < 2) {
                         property.pen1.setStyle(Qt::SolidLine);
                     }
-                    else{
+                    else {
                         property.pen1.setDashPattern(dash);
                         property.pen1.setCapStyle(Qt::FlatCap);
                     }
@@ -2416,11 +2448,12 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
     }
 }
 
+
 void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0){
+    if((section.arraySize % section.arrayModulo) != 0) {
         return;
     }
 
@@ -2430,7 +2463,6 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         quint16 otyp, ofs;
         quint8 ofsc;
         int wtyp, typ, subtyp;
-
 
         in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
         if (section.arrayModulo == 4) {
@@ -2454,24 +2486,24 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(w,h, QImage::Format_Indexed8 );
         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
 
-        if ( colors >= 16){
+        if ( colors >= 16) {
             bpp = 8;
         }
-        else{
+        else {
             if (colors >= 3 ) {
-                if ( (colors == 3) && (x3 == 0x20) ){
+                if ( (colors == 3) && (x3 == 0x20) ) {
                     bpp = 2;
                 }
-                else{
+                else {
                     bpp = 4;
                 }
             }
-            else{
+            else {
                 bpp = 2;
             }
         }
         wBytes = (w * bpp) / 8;
-//         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+        //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
 
@@ -2480,12 +2512,12 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 readColorTable(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
-//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
 
-            else{
-                if(!tainted){
+            else {
+                if(!tainted) {
                     QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                     tainted = true;
                 }
@@ -2496,7 +2528,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             readColorTable(in, myXpmDay, colors, maxcolor);
             decodeBitmap(in, myXpmDay, w, h, bpp);
             pointProperties[(typ << 8) | subtyp] = myXpmDay;
-//             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+            //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 
             /* Get again colors and x3 flag */
             in >> colors >> x3;
@@ -2509,12 +2541,12 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 
             readColorTable(in, myXpmNight, colors, maxcolor);
             decodeBitmap(in, myXpmNight, w, h, bpp);
-//             pointProperties[(typ << 8) | subtyp] = myXpmNight;
-//             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+            //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
+            //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 
         }
-        else{
-            if(!tainted){
+        else {
+            if(!tainted) {
                 QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                 tainted = true;
             }
@@ -2522,6 +2554,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         }
     }
 }
+
 
 void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
 {
@@ -2543,7 +2576,7 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
                 if ( bpp == 2) value = value & 0x3;
                 if ( bpp == 1) value = value & 0x1;
                 img.setPixel(x,y,value);
-//                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
+                //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
                 x += 1;
             }
             j += 1;

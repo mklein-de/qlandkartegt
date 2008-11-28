@@ -60,7 +60,6 @@ class CMapTDB : public IMap
         void resize(const QSize& s);
         bool eventFilter( QObject * watched, QEvent * event );
 
-
     private:
         void setup();
         struct strlbl_t
@@ -70,7 +69,8 @@ class CMapTDB : public IMap
             QString str;
         };
 
-        struct typ_section_t {
+        struct typ_section_t
+        {
             typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){};
             quint32  dataOffset;
             quint32  dataLength;
@@ -78,7 +78,6 @@ class CMapTDB : public IMap
             quint16  arrayModulo;
             quint32  arraySize;
         } ;
-
 
         void readTDB(const QString& filename);
         void readTYP();
@@ -88,7 +87,7 @@ class CMapTDB : public IMap
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
         void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
-	void drawText(QPainter& p);
+        void drawText(QPainter& p);
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
@@ -173,7 +172,6 @@ class CMapTDB : public IMap
             QPolygonF       defArea;
             QVector<double> defAreaU;
             QVector<double> defAreaV;
-
 
             bool selected;
         };
@@ -320,9 +318,9 @@ class CMapTDB : public IMap
         {
             polyline_text_t(): path(), text(""), textStart(0), penWidth(0) {};
             QPainterPath path;
-	    QString text;
-	    qreal textStart;
-	    qreal penWidth;
+            QString text;
+            qreal textStart;
+            qreal penWidth;
         };
 
         QVector<polyline_text_t> polylinesText;
