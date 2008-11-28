@@ -172,7 +172,7 @@ CSearch * CSearchDB::getResultByKey(const QString& key)
 }
 
 
-void CSearchDB::draw(QPainter& p, const QRect& rect)
+void CSearchDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     IMap& map = CMapDB::self().getMap();
 

@@ -36,7 +36,7 @@ class CWptDB : public IDB
 
         static CWptDB& self(){return *m_self;}
 
-        void draw(QPainter& p, const QRect& rect);
+        void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator begin(){return wpts.begin();}

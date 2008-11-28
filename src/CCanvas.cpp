@@ -278,21 +278,18 @@ void CCanvas::print(QPrinter& printer)
 
 void CCanvas::draw(QPainter& p)
 {
-    p.setRenderHint(QPainter::Antialiasing,false);
-    CMapDB::self().draw(p,rect());
-    CTrackDB::self().draw(p, rect());
-    CLiveLogDB::self().draw(p, rect());
-    CWptDB::self().draw(p, rect());
-    CSearchDB::self().draw(p, rect());
-
-    //     p.setRenderHint(QPainter::Antialiasing,true);
-    COverlayDB::self().draw(p, rect());
+    bool needsRedraw = false;
+    CMapDB::self().draw(p,rect(), needsRedraw);
+    CTrackDB::self().draw(p, rect(), needsRedraw);
+    CLiveLogDB::self().draw(p, rect(), needsRedraw);
+    CWptDB::self().draw(p, rect(), needsRedraw);
+    CSearchDB::self().draw(p, rect(), needsRedraw);
+    COverlayDB::self().draw(p, rect(), needsRedraw);
 
     drawRefPoints(p);
     drawScale(p);
 
     mouse->draw(p);
-    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 

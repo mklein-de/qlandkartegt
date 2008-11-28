@@ -60,7 +60,7 @@ class IDB : public QObject
 
         virtual int count(){return -1;}
 
-        virtual void draw(QPainter& p, const QRect& rect){};
+        virtual void draw(QPainter& p, const QRect& rect, bool& needsRedraw){};
 
         signals:
         void sigChanged();

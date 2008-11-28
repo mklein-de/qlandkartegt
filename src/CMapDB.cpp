@@ -377,12 +377,13 @@ void CMapDB::download()
 }
 
 
-void CMapDB::draw(QPainter& p, const QRect& rect)
+void CMapDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     if(theMap.isNull()) {
         defaultMap->draw(p);
         return;
     }
+    needsRedraw = theMap->getNeedsRedraw();
     theMap->draw(p);
 
     if(!demMap.isNull()) {

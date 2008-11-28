@@ -42,7 +42,7 @@ class CSearchDB : public IDB
 
         static CSearchDB& self(){return *m_self;}
 
-        void draw(QPainter& p, const QRect& rect);
+        void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         /// start a query with given string
         void search(const QString& str);

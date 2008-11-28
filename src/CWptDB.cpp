@@ -350,7 +350,7 @@ void CWptDB::selWptByKey(const QString& key)
 }
 
 
-void CWptDB::draw(QPainter& p, const QRect& rect)
+void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     IMap& map = CMapDB::self().getMap();
 

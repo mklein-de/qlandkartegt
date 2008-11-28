@@ -218,6 +218,8 @@ class CTrack : public QObject
         bool traineeData;
         bool ext1Data;
 
+        bool firstTime;
+
 };
 
 QDataStream& operator >>(QDataStream& s, CTrack& track);

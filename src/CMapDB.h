@@ -75,7 +75,7 @@ class CMapDB : public IDB
         void selSelectedMap(const QString& key);
 
         /// draw visible maps
-        void draw(QPainter& p, const QRect& rect);
+        void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);

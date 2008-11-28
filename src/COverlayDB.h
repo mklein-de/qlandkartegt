@@ -44,7 +44,7 @@ class COverlayDB : public IDB
 
         static COverlayDB& self(){return *m_self;}
 
-        void draw(QPainter& p, const QRect& r);
+        void draw(QPainter& p, const QRect& r, bool& needsRedraw);
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);

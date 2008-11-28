@@ -72,7 +72,7 @@ class CTrackDB : public IDB
         QRectF getBoundingRectF(const QString key);
         QRectF getBoundingRectF();
 
-        void draw(QPainter& p, const QRect& rect);
+        void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         void select(const QRect& rect);
 

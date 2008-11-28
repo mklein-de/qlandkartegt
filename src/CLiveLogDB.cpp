@@ -241,7 +241,7 @@ void CLiveLogDB::slotMapChanged()
 }
 
 
-void CLiveLogDB::draw(QPainter& p, const QRect& rect)
+void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     if(!rect.intersects(polyline.boundingRect())) return;
 

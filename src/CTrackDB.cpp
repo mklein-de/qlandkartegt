@@ -141,14 +141,14 @@ void CTrackDB::loadGPX(CGpx& gpx)
             }
 
             if(trkpt.namedItem("time").isElement()) {
-		QDateTime time;
-		if ( trkpt.namedItem("time").toElement().text().indexOf(".") != -1 )
-			time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
-		else
-			time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
+                QDateTime time;
+                if ( trkpt.namedItem("time").toElement().text().indexOf(".") != -1 )
+                    time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+                else
+                    time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
                 time.setTimeSpec(Qt::UTC);
                 pt.timestamp = time.toTime_t();
-		pt.timestamp_msec = time.time().msec();
+                pt.timestamp_msec = time.time().msec();
             }
 
             if(trkpt.namedItem("hdop").isElement()) {
@@ -248,7 +248,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
 
             if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF) {
                 QDateTime t = QDateTime::fromTime_t(pt->timestamp).toUTC();
-		t = t.addMSecs(pt->timestamp_msec);
+                t = t.addMSecs(pt->timestamp_msec);
                 QDomElement time = gpx.createElement("time");
                 trkpt.appendChild(time);
                 QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss.zzz'Z'"));
@@ -456,7 +456,7 @@ void CTrackDB::splitTrack(int idx)
 }
 
 
-void CTrackDB::draw(QPainter& p, const QRect& rect)
+void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPoint focus(-1,-1);
     QVector<QPoint> selected;
@@ -469,21 +469,20 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
         QPolygon& line = (*track)->getPolyline();
         line.clear();
 
+        bool firstTime = (*track)->firstTime;
+
         QList<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end()) {
 
-//         if(1){
-// 		if ( map.getNeedsRedraw() )
-// 			trkpt->px_valid = FALSE;
-//             if ( !trkpt->px_valid ) {
-            	double u = trkpt->lon * DEG_TO_RAD;
-            	double v = trkpt->lat * DEG_TO_RAD;
+            if ( needsRedraw || firstTime) {
+                double u = trkpt->lon * DEG_TO_RAD;
+                double v = trkpt->lat * DEG_TO_RAD;
 
-            	map.convertRad2Pt(u,v);
-            	trkpt->px = QPoint(u,v);
-//             	trkpt->px_valid = TRUE;
-//             }
+                map.convertRad2Pt(u,v);
+                trkpt->px = QPoint(u,v);
+
+            }
 
             if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
                 selected << trkpt->px;
@@ -523,6 +522,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect)
             p.drawPolyline(line);
         }
 
+        (*track)->firstTime = false;
         ++track;
     }
 

@@ -368,6 +368,7 @@ CTrack::CTrack(QObject * parent)
 , highlight(false)
 , traineeData(false)
 , ext1Data(false)
+, firstTime(true)
 {
 
 }

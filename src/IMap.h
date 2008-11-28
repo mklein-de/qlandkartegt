@@ -163,7 +163,6 @@ class IMap : public QObject
             @return A string for registered maps. Empty string for all others
         */
         const QString& getKey(){return key;}
-        const bool getNeedsRedraw(){return needsRedraw;}
 
         /// get read access to the internally used pixmap buffer
         const QImage& getBuffer(){return buffer;}
@@ -208,6 +207,8 @@ class IMap : public QObject
          * \param h - matrix height
          */
         virtual void getRegion(float *buffer, XY topLeft, XY bottomRight, int width, int height) {};
+
+        bool getNeedsRedraw(){return needsRedraw;}
 
         const maptype_e maptype;
     signals:
