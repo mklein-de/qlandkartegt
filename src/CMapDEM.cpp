@@ -430,31 +430,27 @@ void CMapDEM::draw()
     int pxy = (yoff1_f - yoff1) * yscale / my_yscale;
 
     // read 16bit elevation data from GeoTiff
-    qint16 * data = new qint16[w1 * h1];
+    QVector<qint16> data(w1*h1);
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data, w1, h1, GDT_Int16, 0, 0);
+    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data.data(), w1, h1, GDT_Int16, 0, 0);
     if(err == CE_Failure) {
-        delete [] data;
         return;
     }
 
     QImage img(w1,h1,QImage::Format_Indexed8);
 
     if(overlay == IMap::eShading) {
-        shading(img,data);
+        shading(img,data.data());
     }
     else if(overlay == IMap::eContour) {
-        contour(img,data);
+        contour(img,data.data());
     }
     else {
         qWarning() << "Unknown shading type";
-        delete [] data;
         return;
     }
-
-    delete [] data;
 
     // Finally scale the image to viewport size. QT will do the smoothing
     img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
