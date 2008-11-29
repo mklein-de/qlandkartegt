@@ -614,10 +614,14 @@ void CMapTDB::readTDB(const QString& filename)
 
                 QFileInfo basemapFileInfo(basemap);
                 if(!basemapFileInfo.isFile()) {
+
+                    qApp->changeOverrideCursor(Qt::ArrowCursor);
                     QString filename = QFileDialog::getOpenFileName( 0, tr("Select Base Map for ") + name
                         ,finfo.dir().path()
                         ,"Map File (*.img)"
                         );
+                    qApp->restoreOverrideCursor();
+
                     if(filename.isEmpty()) {
                         deleteLater();
                         return;
