@@ -163,12 +163,13 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 pt.pdop = trkpt.namedItem("pdop").toElement().text().toDouble();
             }
 
-            if(trkpt.namedItem("heading").isElement()) {
-                pt.heading = trkpt.namedItem("heading").toElement().text().toDouble();
+            // import from GPX 1.0
+            if(trkpt.namedItem("course").isElement()) {
+                pt.heading = trkpt.namedItem("course").toElement().text().toDouble();
             }
-
-            if(trkpt.namedItem("velocity").isElement()) {
-                pt.velocity = trkpt.namedItem("velocity").toElement().text().toDouble();
+            // import from GPX 1.0
+            if(trkpt.namedItem("speed").isElement()) {
+                pt.velocity = trkpt.namedItem("speed").toElement().text().toDouble();
             }
 
             if(trkpt.namedItem("fix").isElement()) {
@@ -186,6 +187,12 @@ void CTrackDB::loadGPX(CGpx& gpx)
                     pt.flags &= ~CTrack::pt_t::eFocus;
                     pt.flags &= ~CTrack::pt_t::eSelected;
                     pt.flags &= ~CTrack::pt_t::eCursor;
+                }
+                if(trkpt.namedItem("rmc:course").isElement()) {
+                    pt.heading = trkpt.namedItem("rmc:course").toElement().text().toDouble();
+                }
+                if(trkpt.namedItem("rmc:speed").isElement()) {
+                    pt.velocity = trkpt.namedItem("rmc:speed").toElement().text().toDouble();
                 }
             }
 
@@ -274,20 +281,6 @@ void CTrackDB::saveGPX(CGpx& gpx)
                 pdop.appendChild(_pdop_);
             }
 
-            if(pt->heading != WPT_NOFLOAT) {
-                QDomElement heading = gpx.createElement("heading");
-                trkpt.appendChild(heading);
-                QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
-                heading.appendChild(_heading_);
-            }
-
-            if(pt->velocity != WPT_NOFLOAT) {
-                QDomElement velocity = gpx.createElement("velocity");
-                trkpt.appendChild(velocity);
-                QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
-                velocity.appendChild(_velocity_);
-            }
-
             if(pt->fix != "") {
                 QDomElement fix = gpx.createElement("fix");
                 trkpt.appendChild(fix);
@@ -302,6 +295,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
                 sat.appendChild(_sat_);
             }
 
+            // gpx extensions
             QDomElement extension = gpx.createElement("extension");
             trkpt.appendChild(extension);
 
@@ -309,6 +303,20 @@ void CTrackDB::saveGPX(CGpx& gpx)
             extension.appendChild(flags);
             QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags));
             flags.appendChild(_flags_);
+
+            if(pt->heading != WPT_NOFLOAT) {
+                QDomElement heading = gpx.createElement("rmc:course");
+                extension.appendChild(heading);
+                QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
+                heading.appendChild(_heading_);
+            }
+
+            if(pt->velocity != WPT_NOFLOAT) {
+                QDomElement velocity = gpx.createElement("rmc:speed");
+                extension.appendChild(velocity);
+                QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
+                velocity.appendChild(_velocity_);
+            }
 
             ++pt;
         }

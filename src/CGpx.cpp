@@ -43,6 +43,7 @@ void CGpx::writeMetadata()
     root.setAttribute("creator","QLandkarteGT");
     root.setAttribute("xmlns","http://www.topografix.com/GPX/1/1");
     root.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+    root.setAttribute("xmlns:rmc","http://www.qlandkarte.org/");
     root.setAttribute("xsi:schemaLocation","http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
 
     QDomElement metadata = createElement("metadata");
