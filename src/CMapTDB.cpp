@@ -479,7 +479,6 @@ void CMapTDB::setup()
     }
 }
 
-
 void CMapTDB::registerDEM(CMapDEM& dem)
 {
     if(pjsrc == 0) {
@@ -498,6 +497,8 @@ void CMapTDB::resize(const QSize& s)
     IMap::resize(s);
     rectUseTyp  = QRect(55,size.height() - 55, 100, 32);
     topLeftInfo = QPoint(size.width() - TEXTWIDTH - 10 , 10);
+
+    setFastDraw();
 }
 
 
