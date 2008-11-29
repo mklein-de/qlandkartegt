@@ -2,6 +2,7 @@ project(QLandkarteGT)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/./bin)
 
 cmake_minimum_required(VERSION 2.4)
+cmake_policy(SET CMP0005 NEW)
 
 find_package(Qt4 REQUIRED)
 find_package(OpenGL)
@@ -35,6 +36,15 @@ IF(UNIX)
     ENDIF(NOT GDAL_INCLUDE )
     MESSAGE("Using " ${GDAL_INCLUDE} " for GDAL")
 
+    # find gdal lib
+    FIND_LIBRARY(GDAL_LIBRARY NAMES gdal gdal1.5.0
+                 PATHS /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib
+                       /sw/lib /opt/local/lib
+                 DOC "The GDAL library")
+    IF(NOT GDAL_LIBRARY)
+        MESSAGE(FATAL_ERROR "\n\nCan't find GDAL library. Is GDAL installed correctly?\n")
+    ENDIF(NOT GDAL_LIBRARY)
+
     # find Proj4 headers
     FIND_PATH(PROJ_INCLUDE projects.h /usr/include /usr/include/proj4)
 
@@ -46,6 +56,16 @@ IF(UNIX)
         MESSAGE(FATAL_ERROR "\n\nCan't find Proj4 headers. Is Proj4 installed correctly?\n")
     ENDIF(NOT PROJ_INCLUDE )
     MESSAGE("Using " ${PROJ_INCLUDE} " for Proj4")
+
+    # find proj lib
+    FIND_LIBRARY(PROJ_LIBRARY NAMES proj
+                 PATHS /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib
+                       /sw/lib /opt/local/lib
+                 DOC "The PROJ library")
+    IF(NOT PROJ_LIBRARY)
+        MESSAGE(FATAL_ERROR "\n\nCan't find PROJ library. Is PROJ installed correctly?\n")
+    ENDIF(NOT PROJ_LIBRARY)
+
 
     SET(QL_LIBDIR "/usr/lib/qlandkarte")
     MESSAGE("Searching " ${QL_LIBDIR} " for Garmin plugins")

@@ -304,7 +304,7 @@ add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_
 
 IF(UNIX)
   add_definitions(-Wall -O2 -DQL_LIBDIR=${QL_LIBDIR} -DSOEXT=${SOEXT})
-  target_link_libraries(qlandkartegt gdal proj ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QL_OPENGL_LIBRARIES})
+  target_link_libraries(qlandkartegt ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QL_OPENGL_LIBRARIES})
 ENDIF(UNIX)
 
 IF(WIN32)
