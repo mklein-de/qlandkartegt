@@ -1392,9 +1392,33 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 qreal segmentSize = 0;
 
                 QString str;
-                if (item->labels.count()>0) {
-                    //                     str.append(item->labels[0]);
-                    str = item->labels.join(" ");
+                if (!item->labels.isEmpty()) {
+
+                    qDebug() << hex << item->type;
+                    switch(item->type) {
+                                 // "Minor depht contour"
+                        case 0x23:
+                                 // "Minor land contour"
+                        case 0x20:
+                                 // "Intermediate depth contour",
+                        case 0x24:
+                                 // "Intermediate land contour",
+                        case 0x21:
+                                 // "Major depth contour",
+                        case 0x25:
+                                 // "Major land contour",
+                        case 0x22:
+                        {
+                            QString unit;
+                            QString val = item->labels[0];
+                            IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                            str = QString("%1 %2").arg(val).arg(unit);
+                        }
+                        break;
+
+                        default:
+                            str = item->labels.join(" ").simplified();
+                    }
                 }
 
                 for ( int i=0; i < 8 ; i++) {
