@@ -96,6 +96,10 @@ CMainWindow::CMainWindow()
     tabbar = new QTabWidget(canvas);
     leftSplitter->addWidget(tabbar);
 
+    leftSplitter->setCollapsible(0, false);
+    leftSplitter->setCollapsible(1, true);
+    leftSplitter->setCollapsible(2, false);
+
     statusCoord = new QLabel(this);
     statusBar()->insertPermanentWidget(1,statusCoord);
 
