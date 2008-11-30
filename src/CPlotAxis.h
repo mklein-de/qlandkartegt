@@ -67,6 +67,8 @@ class CPlotAxis : public QObject
         virtual int getScaleWidth(const QFontMetrics& m);
         ///get a new ticmark object
         virtual const TTic* ticmark(const TTic * t = NULL);
+        /// get the total limits and the used ones
+        virtual void getLimits(double& limMin, double& limMax, double& useMin, double& useMax);
 
         inline int val2pt( double val ) {
             if ( scale == 0 ) {

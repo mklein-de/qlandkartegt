@@ -228,6 +228,13 @@ int CPlotAxis::getScaleWidth( const QFontMetrics& m )
     return width;
 }
 
+void CPlotAxis::getLimits(double& limMin, double& limMax, double& useMin, double& useMax)
+{
+    limMin = limit_min;
+    limMax = limit_max;
+    useMin = used_min;
+    useMax = used_max;
+}
 
 const CPlotAxis::TTic* CPlotAxis::ticmark( const TTic * t )
 {

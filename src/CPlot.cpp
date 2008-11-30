@@ -327,6 +327,22 @@ void CPlot::drawXScale( QPainter &p )
         }
         t = m_pData->x().ticmark( t );
     }
+
+    double limMin, limMax, useMin, useMax;
+    m_pData->x().getLimits(limMin, limMax, useMin, useMax);
+
+    if((limMax - limMin) <= (useMax - useMin)) return;
+
+    double scale = (right - left) / (limMax - limMin);
+    double val   = m_pData->x().pt2val(0);
+
+    int x = left + (useMin - limMin) * scale;
+    int y = bottom + 5;
+    int w = (useMax - useMin) * scale;
+
+    p.setPen(QPen(Qt::red,3));
+    p.drawLine(x,y, x + w, y);
+
 }
 
 
@@ -352,6 +368,22 @@ void CPlot::drawYScale( QPainter &p )
         p.drawText( recText, Qt::AlignRight, t->lbl );
         t = m_pData->y().ticmark( t );
     }
+
+    double limMin, limMax, useMin, useMax;
+    m_pData->y().getLimits(limMin, limMax, useMin, useMax);
+
+    if((limMax - limMin) <= (useMax - useMin)) return;
+
+    double scale = (top - bottom) / (limMax - limMin);
+    double val   = m_pData->y().pt2val(0);
+
+    int x = left - 5;
+    int y = bottom + (useMin - limMin) * scale;
+    int h = (useMax - useMin) * scale;
+
+    p.setPen(QPen(Qt::red,3));
+    p.drawLine(x,y, x, y + h);
+
 }
 
 
@@ -562,10 +594,12 @@ void CPlot::drawTags(QPainter& p)
 
             p.setPen(QPen(Qt::white, 3));
             if (fontHeight + 16 < pty) {
+                if (pty > bottom){
+                    pty = bottom;
+                }
+
                 p.drawLine(ptx, fontHeight + 16, ptx, pty);
                 p.setPen(QPen(Qt::black, 1));
-                if (pty > bottom)
-                    pty = bottom;
                 p.drawLine(ptx, fontHeight + 16, ptx, pty);
             }
         }
