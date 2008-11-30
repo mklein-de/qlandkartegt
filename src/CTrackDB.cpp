@@ -556,14 +556,14 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         QPixmap bullet = (*track)->getBullet();
         foreach(pt,line) {
-            if(abs((pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
             pt1 = pt;
         }
 
         pt1 = QPoint();
         foreach(pt,selected) {
-            if(abs((pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 5 ,pt.y() - 5, bullet_red);
             pt1 = pt;
         }
