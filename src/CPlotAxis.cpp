@@ -330,7 +330,10 @@ void CPlotAxis::zoom(bool in, int point)
     p = pt2val(point);
     min = (p - used_min) * (1 - factor) + used_min;
     d = min - used_min * factor;
+
+
     setMinMax(min, used_max * factor + d);
+    move(0);
 }
 
 
