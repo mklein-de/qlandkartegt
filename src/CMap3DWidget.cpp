@@ -386,7 +386,6 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     // First apply scale matrix
     glScalef(xs, ys, zs);
 
-    float cz = 0.0f,cx = 1.0f;
     float r = 1.005f; // If you have border issues change this to 1.005f
     glBindTexture(GL_TEXTURE_2D,skyBox[0]);
     glBegin(GL_QUADS);
