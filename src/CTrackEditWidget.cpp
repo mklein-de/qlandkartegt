@@ -50,7 +50,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i) {
-        icon.fill(CTrack::colors[i]);
+        icon.fill(CTrack::lineColors[i]);
         comboColor->addItem(icon,"",QVariant(i));
     }
 

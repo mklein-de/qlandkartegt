@@ -473,6 +473,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
     QMap<QString,CTrack*>::iterator highlighted = tracks.end();
 
+    QPixmap bullet_red(":/icons/bullet_red.png");
+
     while(track != tracks.end()) {
         QPolygon& line = (*track)->getPolyline();
         line.clear();
@@ -550,18 +552,20 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         p.drawPolyline(line);
 
         // draw bubbles
-        QPoint pt;
-        p.setPen((*track)->getColor());
-        p.setBrush(Qt::white);
+        QPoint pt, pt1;
+
+        QPixmap bullet = (*track)->getBullet();
         foreach(pt,line) {
-            p.drawEllipse(pt.x() - 2 ,pt.y() - 2,5,5);
-
+            if(abs((pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+            p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
+            pt1 = pt;
         }
-        p.setPen(Qt::black);
-        p.setBrush(Qt::red);
-        foreach(pt,selected) {
-            p.drawEllipse(pt.x() - 3 ,pt.y() - 3,7,7);
 
+        pt1 = QPoint();
+        foreach(pt,selected) {
+            if(abs((pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+            p.drawPixmap(pt.x() - 5 ,pt.y() - 5, bullet_red);
+            pt1 = pt;
         }
 
         if(focus != QPoint(-1,-1)) {

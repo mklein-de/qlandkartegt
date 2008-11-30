@@ -88,9 +88,25 @@
 
         <file>icons/bullet_blue.png</file>
         <file>icons/bullet_red.png</file>
+
+        <file>icons/small_bullet_black.png</file>
         <file>icons/small_bullet_blue.png</file>
+        <file>icons/small_bullet_cyan.png</file>
+        <file>icons/small_bullet_darkblue.png</file>
+        <file>icons/small_bullet_darkcyan.png</file>
+        <file>icons/small_bullet_darkgray.png</file>
+        <file>icons/small_bullet_darkgreen.png</file>
+        <file>icons/small_bullet_darkmagenta.png</file>
+        <file>icons/small_bullet_darkred.png</file>
+        <file>icons/small_bullet_darkyellow.png</file>
+        <file>icons/small_bullet_gray.png</file>
+        <file>icons/small_bullet_green.png</file>
+        <file>icons/small_bullet_magenta.png</file>
         <file>icons/small_bullet_red.png</file>
         <file>icons/small_bullet_yellow.png</file>
+        <file>icons/small_bullet_white.png</file>
+
+
 
         <file>icons/iconRefPoint31x31.png</file>
         <file>icons/iconRefPointHL31x31.png</file>

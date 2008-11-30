@@ -333,7 +333,7 @@ void operator <<(QFile& f, CTrack& track)
 }
 
 
-const QColor CTrack::colors[] =
+const QColor CTrack::lineColors[] =
 {
     Qt::black                    // 0
     ,Qt::darkRed                 // 1
@@ -352,6 +352,28 @@ const QColor CTrack::colors[] =
     ,Qt::cyan                    // 14
     ,Qt::white                   // 15
     ,Qt::transparent             // 16
+};
+
+const QString CTrack::bulletColors[] =
+{
+
+    QString(":/icons/small_bullet_black.png")               // 0
+    ,QString(":/icons/small_bullet_darkred.png")            // 1
+    ,QString(":/icons/small_bullet_darkgreen.png")          // 2
+    ,QString(":/icons/small_bullet_darkyellow.png")         // 3
+    ,QString(":/icons/small_bullet_darkblue.png")           // 4
+    ,QString(":/icons/small_bullet_darkmagenta.png")        // 5
+    ,QString(":/icons/small_bullet_darkcyan.png")           // 6
+    ,QString(":/icons/small_bullet_gray.png")               // 7
+    ,QString(":/icons/small_bullet_darkgray.png")           // 8
+    ,QString(":/icons/small_bullet_red.png")                // 9
+    ,QString(":/icons/small_bullet_green.png")              // 10
+    ,QString(":/icons/small_bullet_yellow.png")             // 11
+    ,QString(":/icons/small_bullet_blue.png")               // 12
+    ,QString(":/icons/small_bullet_magenta.png")            // 13
+    ,QString(":/icons/small_bullet_cyan.png")               // 14
+    ,QString(":/icons/small_bullet_white.png")              // 15
+    ,QString("")                                          // 16
 };
 
 bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
@@ -409,7 +431,8 @@ void CTrack::setColor(unsigned i)
 {
     if(i>16) i = 4;
     colorIdx    = i;
-    color       = colors[i];
+    color       = lineColors[i];
+    bullet      = QPixmap(bulletColors[i]);
 }
 
 

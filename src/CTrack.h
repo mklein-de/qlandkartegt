@@ -123,7 +123,8 @@ class CTrack : public QObject
         void setColor(unsigned i);
         /// get QT color
         const QColor& getColor(){return color;}
-        const unsigned getColorIdx(){return colorIdx;}
+        const QPixmap& getBullet(){return bullet;}
+        unsigned getColorIdx(){return colorIdx;}
         /// set track name
         void setName(const QString& n){name = n;}
         /// get track name
@@ -162,7 +163,8 @@ class CTrack : public QObject
         void sortByTimestamp();
         CTrack& operator+=(const CTrack& trk);
 
-        static const QColor colors[];
+        static const QColor lineColors[];
+        static const QString bulletColors[];
 
         /// track name
         QString name;
@@ -191,6 +193,8 @@ class CTrack : public QObject
         QString comment;
         /// the track line color
         QColor  color;
+
+        QPixmap bullet;
         /// the track line color by index
         unsigned colorIdx;
         /// the track points
