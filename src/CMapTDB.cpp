@@ -1394,7 +1394,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 QString str;
                 if (!item->labels.isEmpty()) {
 
-                    qDebug() << hex << item->type;
                     switch(item->type) {
                                  // "Minor depht contour"
                         case 0x23:
