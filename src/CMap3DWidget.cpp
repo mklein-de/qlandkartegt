@@ -368,6 +368,78 @@ void CMap3DWidget::updateElevationLimits()
 }
 #else
 
+void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys, double zs)
+{
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+
+    glEnable(GL_TEXTURE_2D);
+
+    glColor4f(1.0, 1.0, 0.0,1.0f);
+
+    // Save Current Matrix
+    glPushMatrix();
+
+    // Second Move the render space to the correct position (Translate)
+    glTranslatef(x, y, z);
+
+    // First apply scale matrix
+    glScalef(xs, ys, zs);
+
+    float cz = 0.0f,cx = 1.0f;
+    float r = 1.005f; // If you have border issues change this to 1.005f
+    glBindTexture(GL_TEXTURE_2D,skyBox[0]);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 1); glVertex3f( r, 1.0f,r);
+        glTexCoord2f(1, 1); glVertex3f(-r, 1.0f,r);
+        glTexCoord2f(1, 0); glVertex3f(-r, 1.0f,-r);
+        glTexCoord2f(0, 0); glVertex3f( r, 1.0f,-r);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,skyBox[1]);
+    glBegin(GL_QUADS);
+       glTexCoord2f(0, 1); glVertex3f(-1.0f,  r, r);
+       glTexCoord2f(1, 1); glVertex3f(-1.0f, -r, r);
+       glTexCoord2f(1, 0); glVertex3f(-1.0f, -r,-r);
+       glTexCoord2f(0, 0); glVertex3f(-1.0f,  r,-r);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,skyBox[2]);
+    glBegin(GL_QUADS);
+       glTexCoord2f(0, 1); glVertex3f(-r, -1.0f,  r);
+       glTexCoord2f(1, 1); glVertex3f( r, -1.0f,  r);
+       glTexCoord2f(1, 0); glVertex3f( r, -1.0f, -r);
+       glTexCoord2f(0, 0); glVertex3f(-r, -1.0f, -r);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,skyBox[3]);
+    glBegin(GL_QUADS);
+       glTexCoord2f(0, 1); glVertex3f(1.0f, -r, r);
+       glTexCoord2f(1, 1); glVertex3f(1.0f,  r, r);
+       glTexCoord2f(1, 0); glVertex3f(1.0f,  r,-r);
+       glTexCoord2f(0, 0); glVertex3f(1.0f, -r,-r);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,skyBox[4]);
+    glBegin(GL_QUADS);
+       glTexCoord2f(1, 1); glVertex3f( r, r, 1.0f);
+       glTexCoord2f(1, 0); glVertex3f( r,-r, 1.0f);
+       glTexCoord2f(0, 0); glVertex3f(-r,-r, 1.0f);
+       glTexCoord2f(0, 1); glVertex3f(-r, r, 1.0f);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,skyBox[5]);
+    glBegin(GL_QUADS);
+       glTexCoord2f(1, 0); glVertex3f( r, r, -1.0f);
+       glTexCoord2f(0, 0); glVertex3f(-r, r, -1.0f);
+       glTexCoord2f(0, 1); glVertex3f(-r,-r, -1.0f);
+       glTexCoord2f(1, 1); glVertex3f( r,-r, -1.0f);
+    glEnd();
+
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+}
+
 void CMap3DWidget::draw3DMap()
 {
     QSize s = map->getSize();
@@ -623,6 +695,14 @@ void CMap3DWidget::initializeGL()
     QSize s = map->getSize();
     glClearColor(1.0, 1.0, 1.0, 0.0);
     setMapTexture();
+    int i;
+    for (i = 0; i < 6; i++)
+    {
+        QImage img(tr(":/skybox/%1.bmp").arg(i));
+        skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
+    }
+
+
     object = makeObject();
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
@@ -650,6 +730,8 @@ void CMap3DWidget::paintGL()
     glTranslated(xShift * 2, 2 * yShift, 0.0);
 
     glRotated(zRot, 0.0, 0.0, 1.0);
+
+    drawSkybox(0,0,0, 10000, 10000, 10000);
 
     /* subtract the offset and set the Z axis scale */
     glScalef(1.0, 1.0, eleZoomFactor * (s.width() / 10.0) / (maxElevation - minElevation));
@@ -714,7 +796,7 @@ void CMap3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     /* 20 is equal to value of a maximum zoom factor. */
-    glFrustum(-width/200, width/200, -height/200, height/200, side/100, 20 * side);
+    glFrustum(-width/100, width/100, -height/100, height/100, side/100, 200 * side);
     //glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
 }

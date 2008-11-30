@@ -66,6 +66,7 @@ class CMap3DWidget: public QGLWidget
         QSet<int> pressedKeys;
 
     private:
+        unsigned int skyBox[6];
         double step;
         QPointer<IMap> map;
         void loadMap();
@@ -79,6 +80,7 @@ class CMap3DWidget: public QGLWidget
         /// using DEM data file to display terrain in 3D
         void draw3DMap();
         void drawTrack();
+        void drawSkybox(double x, double y, double z, double xs, double ys, double zs);
 
         GLuint object;
         double xRot;

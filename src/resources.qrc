@@ -417,6 +417,12 @@
         <file>icons/wpt/wreck15x15.png</file>
         <file>icons/wpt/zoo15x15.png</file>
 
+	<file>skybox/0.bmp</file>
+	<file>skybox/1.bmp</file>
+	<file>skybox/2.bmp</file>
+	<file>skybox/3.bmp</file>
+	<file>skybox/4.bmp</file>
+	<file>skybox/5.bmp</file>
     </qresource>
   </RCC>
 
