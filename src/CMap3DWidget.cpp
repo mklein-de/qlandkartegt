@@ -903,11 +903,14 @@ void CMap3DWidget::expandMap(bool zoomIn)
     pv.v = s.height() / 2;
     map->convertPt2Rad(pv.u, pv.v);
 
+    /*slotChanged will be executed by the operation move*/
+    disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     map->resize(QSize(s.width() * zoomFactor, s.height() * zoomFactor));
 
     /*restore coord of the center map*/
     map->convertRad2Pt(pv.u, pv.v);
     s = map->getSize();
+    connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
 }
 
