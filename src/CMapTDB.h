@@ -93,6 +93,7 @@ class CMapTDB : public IMap
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
+        void collectText(CGarminPolygon& item, QPolygonF& line, QFont& font, QFontMetricsF metrics);
 
         void decodeBitmap(QDataStream &in, QImage &bytes, int w, int h, int bpp);
         void readASCIIString(QDataStream& ds, QString& str);
@@ -316,12 +317,12 @@ class CMapTDB : public IMap
 
         struct polyline_text_t
         {
-            polyline_text_t(): path(), text(""), textStart(0), penWidth(0), forceRotate(999) {};
-            QPainterPath path;
-            QString text;
-            qreal textStart;
-            qreal penWidth;
-            int forceRotate;
+            polyline_text_t(): path(), textStart(0), forceRotate(999) {};
+            QPainterPath    path;
+            QString         text;
+            QFont           font;
+            qreal           textStart;
+            int             forceRotate;
         };
 
         QVector<polyline_text_t> polylinesText;

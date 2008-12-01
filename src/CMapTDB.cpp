@@ -1277,6 +1277,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int m;
     const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
 
+    // clear text list
+    polylinesText.clear();
+
     // 1st run. Draw all background polylines (polylines that have pen1)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
     for(m = 0; m < M; ++m) {
@@ -1286,8 +1289,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         //         qDebug() << hex << type << property.pen0.color() << (property.pen0 == Qt::NoPen);
 
+        QPen pen;
         if(hasPen1) {
-            QPen pen    = property.pen0;
+            pen    = property.pen0;
 
             if(property.grow) {
                 int width   = pen.width();
@@ -1297,11 +1301,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             }
 
             pen.setStyle(Qt::SolidLine);
-
             p.setPen(pen);
         }
         else {
-            QPen pen    = property.pen0;
+            pen    = property.pen0;
 
             if(property.grow) {
                 int width   = pen.width();
@@ -1311,6 +1314,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             }
             p.setPen(pen);
         }
+
+        QFont font = CResources::self().getMapFont();
+        font.setPixelSize(pen.width() * 2/3);
+        font.setBold(false);
+        QFontMetricsF metrics(font);
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
@@ -1335,6 +1343,12 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
+
+                // no street needed for uppers zoom factor
+                if (zoomFactor < 2.0) {
+                    collectText((*item), line, font, metrics);
+                }
+
             }
             ++item;
         }
@@ -1342,8 +1356,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     if(doFastDraw) return;
 
-    // clear text list
-    polylinesText.clear();
     // 2nd run. Draw foreground color of all polylines with pen1
     for(m = 0; m < M; ++m) {
         quint16 type                = polylineDrawOrder[M - m - 1];
@@ -1352,7 +1364,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
         if(property.pen1.color() == Qt::NoPen) continue;
 
-        QPen pen    = property.pen1;
+        QPen pen = property.pen1;
         if(property.grow) {
             int width   = pen.width();
             width       = zoomFactor > 7.0  ? width : quint32(width + 7.0/zoomFactor);
@@ -1361,205 +1373,182 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         p.setPen(pen);
 
-        QFont font = CResources::self().getMapFont();
-        font.setPixelSize(pen.width() * 2/3);
-        font.setBold(false);
-
-        QFontMetricsF metrics(font);
-
         polytype_t::iterator item = lines.begin();
-
-        QStringList textList;
-
         while(item != lines.end()) {
-            qreal x0 = 0 ,y0 = 0;
-            qreal x1 = 0 ,y1 = 0;
+
             if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
 
                 QPolygonF line(size);
-                QPainterPath myStreet;
-                QPainterPath mySegment;
-
-                // direction flags
-                int direction = 0;
-                                 // start line point
-                qreal xi = 0, yi = 0;
-                int dWeight[8];
-                bool bSegment = false;
-                qreal segmentSize = 0;
-
-                QString str;
-                if (!item->labels.isEmpty()) {
-
-                    switch(item->type) {
-                                 // "Minor depht contour"
-                        case 0x23:
-                                 // "Minor land contour"
-                        case 0x20:
-                                 // "Intermediate depth contour",
-                        case 0x24:
-                                 // "Intermediate land contour",
-                        case 0x21:
-                                 // "Major depth contour",
-                        case 0x25:
-                                 // "Major land contour",
-                        case 0x22:
-                        {
-                            QString unit;
-                            QString val = item->labels[0];
-                            IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
-                            str = QString("%1 %2").arg(val).arg(unit);
-                        }
-                        break;
-
-                        default:
-                            str = item->labels.join(" ").simplified();
-                    }
-                }
-
-                for ( int i=0; i < 8 ; i++) {
-                    dWeight[i] = 0;
-                }
 
                 for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
-                    if (!bSegment) {
-                        x0 = line[i].x();
-                        y0 = line[i].y();
-                    }
-                    // if we found a segment sized for text then it is ok
-                    // Get line size to know if text can be in it with a margin
-                    if ( ( i != 0) && (!bSegment) ) {
-                        segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
-                        if (1.2 * metrics.width(str) < abs(segmentSize) ) {
-                            mySegment.moveTo( x1, y1 );
-                            mySegment.lineTo( x0, y0 );
-                            bSegment = true;
-                        }
-                    }
-                    // Else write the text on the whole polyline
-                    if ( i == 0) {
-                        xi = x0;
-                        yi = y0;
-                        myStreet.moveTo( x0, y0 );
-                    }
-                    else {
-                        myStreet.lineTo( x0, y0 );
-                    }
-                    if(!bSegment) {
-                        // try to detect direction
-                                 // ON
-                        if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
-                                 // OS
-                        if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
-                                 // NE
-                        if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
-                                 // ES
-                        if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
-                        // strong directions
-                        // 			if ( (x0 == x1) && (y0 > y1 ) ) direction = 4; // N->S
-                        // 			if ( (x0 == x1) && (y0 < y1 ) ) direction = 5; // S->N
-                        // 			if ( (x0 > x1) && (y0 == y1 ) ) direction = 6; // O->E
-                        // 			if ( (x0 < x1) && (y0 == y1 ) ) direction = 7; // E->O
-                        // direction table weight
-                        dWeight[direction] = dWeight[direction] + 1 ;
-                        x1 = x0;
-                        y1 = y0;
-
-                    }
-
                 }
-
                 p.drawPolyline(line);
-
-                // calcul direction again for segment only
-                if (bSegment) {
-                    for ( int i=0; i < 4 ; i++) {
-                        dWeight[i] = 0;
-                    }
-                    // try to detect direction for two points
-                    // try to detect direction
-                                 // ON
-                    if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
-                                 // OS
-                    if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
-                                 // NE
-                    if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
-                                 // ES
-                    if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
-                    // strong directions
-                                 // N->S
-                    if ( (x0 == x1) && (y0 > y1 ) ) direction = 4;
-                                 // S->N
-                    if ( (x0 == x1) && (y0 < y1 ) ) direction = 5;
-                                 // O->E
-                    if ( (x0 > x1) && (y0 == y1 ) ) direction = 6;
-                                 // E->O
-                    if ( (x0 < x1) && (y0 == y1 ) ) direction = 7;
-                    dWeight[direction] =  1 ;
-                }
-
-                // no street needed for uppers zoom factor
-                if (zoomFactor > 1.5) {
-                    ++item;
-                    continue;
-                }
-
-                // Skip text already drawn on the street
-                // 		if (textList.contains(str) ) {
-                // 			++item;
-                // 			continue;
-                // 		}
-
-                //polyline size from bird fly should be enough
-                int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
-                //qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
-                if (1.2 * metrics.width(str) > abs(roadSize) ) {
-                    ++item;
-                    continue;
-                }
-
-                textList.append(str);
-
-                // Center text on polyline
-                int centerText = 0;
-                QPainterPath myPath;
-                if (bSegment) {
-                    centerText = (segmentSize - metrics.width(str)) / 2;
-                    myPath = mySegment;
-                }
-                else {
-                    centerText = (roadSize - metrics.width(str)) / 2;
-                    myPath = myStreet;
-                }
-
-                // Reverse path in case
-                if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) || (dWeight[5]!=0) || (dWeight[7]!=0) ) {
-                    myPath = myPath.toReversed();
-                }
-
-                polyline_text_t polylineText;
-                polylineText.path = myPath;
-                polylineText.penWidth = pen.width();
-                polylineText.text = str;
-                polylineText.textStart = centerText;
-                if ( ( dWeight[6]!=0 ) || ( dWeight[7]!=0) ) {
-                    polylineText.forceRotate = 0;
-                }
-                if ( ( dWeight[4]!=0 ) || ( dWeight[5]!=0) ) {
-                    polylineText.forceRotate = 90;
-                }
-
-                polylinesText.append( polylineText );
-
             }
+
             ++item;
         }
     }
+}
+
+void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics)
+{
+    qreal x0 = 0 ,y0 = 0;
+    qreal x1 = 0 ,y1 = 0;
+
+    QPainterPath myStreet;
+    QPainterPath mySegment;
+
+    int dWeight[8];
+    qreal xi = 0, yi = 0;
+    int direction       = 0;
+    bool bSegment       = false;
+    qreal segmentSize   = 0;
+
+    QString str;
+    if (!item.labels.isEmpty()) {
+
+        switch(item.type) {
+            case 0x23:
+            case 0x20:
+            case 0x24:
+            case 0x21:
+            case 0x25:
+            case 0x22:
+            {
+                QString unit;
+                QString val = item.labels[0];
+                IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                str = QString("%1 %2").arg(val).arg(unit);
+            }
+            break;
+
+            default:
+                str = item.labels.join(" ").simplified();
+        }
+    }
+
+    memset(dWeight,0,sizeof(dWeight));
+
+    const int size = item.u.size();
+    for(int i = 0; i < size; ++i) {
+        if (!bSegment) {
+            x0 = line[i].x();
+            y0 = line[i].y();
+        }
+        // if we found a segment sized for text then it is ok
+        // Get line size to know if text can be in it with a margin
+        if ( ( i != 0) && (!bSegment) ) {
+            segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
+            if (1.2 * metrics.width(str) < abs(segmentSize) ) {
+                mySegment.moveTo( x1, y1 );
+                mySegment.lineTo( x0, y0 );
+                bSegment = true;
+            }
+        }
+        // Else write the text on the whole polyline
+        if ( i == 0) {
+            xi = x0;
+            yi = y0;
+            myStreet.moveTo( x0, y0 );
+        }
+        else {
+            myStreet.lineTo( x0, y0 );
+        }
+        if(!bSegment) {
+            // try to detect direction
+                        // ON
+            if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
+                        // OS
+            if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
+                        // NE
+            if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
+                        // ES
+            if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+            // strong directions
+            //          if ( (x0 == x1) && (y0 > y1 ) ) direction = 4; // N->S
+            //          if ( (x0 == x1) && (y0 < y1 ) ) direction = 5; // S->N
+            //          if ( (x0 > x1) && (y0 == y1 ) ) direction = 6; // O->E
+            //          if ( (x0 < x1) && (y0 == y1 ) ) direction = 7; // E->O
+            // direction table weight
+            dWeight[direction] = dWeight[direction] + 1 ;
+            x1 = x0;
+            y1 = y0;
+
+        }
+    }
+
+    // calcul direction again for segment only
+    if (bSegment) {
+        for ( int i=0; i < 4 ; i++) {
+            dWeight[i] = 0;
+        }
+        // try to detect direction for two points
+        // try to detect direction
+                        // ON
+        if ( (x0 < x1) && (y0 < y1 ) ) direction = 0;
+                        // OS
+        if ( (x0 < x1) && (y0 > y1 ) ) direction = 1;
+                        // NE
+        if ( (x0 > x1) && (y0 < y1 ) ) direction = 2;
+                        // ES
+        if ( (x0 > x1) && (y0 > y1 ) ) direction = 3;
+        // strong directions
+                        // N->S
+        if ( (x0 == x1) && (y0 > y1 ) ) direction = 4;
+                        // S->N
+        if ( (x0 == x1) && (y0 < y1 ) ) direction = 5;
+                        // O->E
+        if ( (x0 > x1) && (y0 == y1 ) ) direction = 6;
+                        // E->O
+        if ( (x0 < x1) && (y0 == y1 ) ) direction = 7;
+        dWeight[direction] =  1 ;
+    }
+
+
+    //polyline size from bird fly should be enough
+    int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
+    //qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
+    if (1.2 * metrics.width(str) > abs(roadSize) ) {
+        return;
+    }
+
+
+    // Center text on polyline
+    int centerText = 0;
+    QPainterPath myPath;
+    if (bSegment) {
+        centerText = (segmentSize - metrics.width(str)) / 2;
+        myPath = mySegment;
+    }
+    else {
+        centerText = (roadSize - metrics.width(str)) / 2;
+        myPath = myStreet;
+    }
+
+    // Reverse path in case
+    if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) || (dWeight[5]!=0) || (dWeight[7]!=0) ) {
+        myPath = myPath.toReversed();
+    }
+
+    polyline_text_t polylineText;
+    polylineText.path       = myPath;
+    polylineText.font       = font;
+    polylineText.text       = str;
+    polylineText.textStart  = centerText;
+    if ( ( dWeight[6]!=0 ) || ( dWeight[7]!=0) ) {
+        polylineText.forceRotate = 0;
+    }
+    if ( ( dWeight[4]!=0 ) || ( dWeight[5]!=0) ) {
+        polylineText.forceRotate = 90;
+    }
+
+    polylinesText.append( polylineText );
+
 }
 
 
@@ -1567,19 +1556,16 @@ void CMapTDB::drawText(QPainter &p)
 {
     p.setRenderHint( QPainter::TextAntialiasing, true );
     for ( int item=0; item < polylinesText.count(); item++) {
-        qreal centerText = polylinesText[item].textStart;
-        // Font metrics
-        qreal penWidth = polylinesText[item].penWidth;
-        // Rotation forced ?
-        int forceRotate = polylinesText[item].forceRotate;
-        // 		QFont font("Helvetica", penWidth*2/3);
-        QFont font = CResources::self().getMapFont();
-        font.setPixelSize(penWidth*2/3);
-        font.setBold(false);
+        const polyline_text_t& polylineText = polylinesText[item];
+
+        qreal centerText    = polylineText.textStart;
+        int forceRotate     = polylineText.forceRotate;
+        QFont font          = polylineText.font;
+
         p.setFont( font );
-        QString str( polylinesText[item].text);
-        QPainterPath myPath( polylinesText[item].path);
-        p.setFont( font );
+        QString str( polylineText.text);
+        QPainterPath myPath( polylineText.path);
+
         QFontMetricsF metrics( font );
 
         // Draw text on the street
