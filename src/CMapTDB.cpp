@@ -1339,6 +1339,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     line[i].setY(*v++);
                 }
 
+                // no street needed for uppers zoom factor
+                if (zoomFactor < 2.0) {
+                    collectText((*item), line, font, metrics);
+                }
+
                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
 
                 if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen)) {
@@ -1347,11 +1352,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 p.drawPolyline(line);
-
-                // no street needed for uppers zoom factor
-                if (zoomFactor < 2.0) {
-                    collectText((*item), line, font, metrics);
-                }
 
             }
             ++item;
