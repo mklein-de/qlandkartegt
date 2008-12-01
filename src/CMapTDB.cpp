@@ -1316,7 +1316,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
 
         QFont font = CResources::self().getMapFont();
-        font.setPixelSize(pen.width() * 2/3);
+
+        int fontsize = pen.width() * 2/3;
+        if(fontsize < 6) fontsize = 6 + 3.0/zoomFactor;
+
+        font.setPixelSize(fontsize);
         font.setBold(false);
         QFontMetricsF metrics(font);
 
