@@ -99,7 +99,6 @@ set(qlandkarte_SRCS
     CUnitMetric.cpp
     CUnitImperial.cpp
     CUnitNautic.cpp
-    CPicProcess.cpp
     CImage.cpp
     IGarminStrTbl.cpp
     CGarminStrTbl6.cpp
@@ -110,7 +109,6 @@ set(qlandkarte_SRCS
     CMapTDB.cpp
     CGarminTile.cpp
     CGarminExport.cpp
-#     CGarminTyp.cpp
 )
 
 IF(WIN32)
@@ -215,7 +213,6 @@ set(qlandkarte_HDRS
     CUnitMetric.h
     CUnitImperial.h
     CUnitNautic.h
-    CPicProcess.h
     CImage.h
     IGarminStrTbl.h
     CGarminStrTbl6.h
@@ -227,7 +224,6 @@ set(qlandkarte_HDRS
     CGarminTile.h
     Garmin.h
     CGarminExport.h
-#     CGarminTyp.h
 )
 
 
