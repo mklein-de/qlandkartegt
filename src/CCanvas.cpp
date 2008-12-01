@@ -35,6 +35,7 @@
 #include "CMouseAddTextBox.h"
 #include "CMouseAddDistance.h"
 #include "CMouseOverlay.h"
+#include "CMouseColorPicker.h"
 
 #include "CWpt.h"
 #include "CTrack.h"
@@ -74,6 +75,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddTextBox = new CMouseAddTextBox(this);
     mouseAddDistance= new CMouseAddDistance(this);
     mouseOverlay    = new CMouseOverlay(this);
+    mouseColorPicker = new CMouseColorPicker(this);
     setMouseMode(eMouseMoveArea);
 
 }
@@ -83,6 +85,10 @@ CCanvas::~CCanvas()
 {
 }
 
+QColor CCanvas::getSelectedColor()
+{
+    return mouseColorPicker->getSelectedColor();
+}
 
 void CCanvas::slotCopyPosition()
 {
@@ -163,6 +169,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 
         case eMouseOverlay:
             mouse = mouseOverlay;
+            break;
+
+        case eMouseColorPicker:
+            mouse = mouseColorPicker;
             break;
 
         default:;

@@ -68,6 +68,7 @@
         <file>icons/iconOvlOk16x16.png</file>
         <file>icons/iconInc16x16.png</file>
         <file>icons/iconDec16x16.png</file>
+        <file>icons/iconColorChooser16x16.png</file>
 
 
         <file>icons/iconExit22x22.png</file>
@@ -141,6 +142,7 @@
         <file>cursors/cursorCutTrack.png</file>
         <file>cursors/cursor1.png</file>
         <file>cursors/cursor2.png</file>
+        <file>cursors/cursorColorChooser.png</file>
 
         <file>icons/wpt/custom1.png</file>
         <file>icons/wpt/custom2.png</file>

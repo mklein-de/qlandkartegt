@@ -23,7 +23,6 @@
 #include "GeoMath.h"
 #include "CMapDB.h"
 #include "CSearchDB.h"
-#include "CPicProcess.h"
 #include "CMapSearchCanvas.h"
 #include "CTabWidget.h"
 #include "CImage.h"

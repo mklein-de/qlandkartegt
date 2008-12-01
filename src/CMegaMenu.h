@@ -113,6 +113,7 @@ class CMegaMenu : public QLabel
         void funcDistance();
 
         void funcDiary();
+        void funcColorPicker();
 
         static CMegaMenu * m_self;
 

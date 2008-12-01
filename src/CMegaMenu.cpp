@@ -195,7 +195,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconColorChooser16x16",QObject::tr("Pick Color"),&CMegaMenu::funcColorPicker ,tr("test only")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
@@ -466,6 +466,11 @@ void CMegaMenu::funcSwitchToMainMore()
 void CMegaMenu::funcDiary()
 {
     CDiaryDB::self().openEditWidget();
+}
+
+void CMegaMenu::funcColorPicker()
+{
+    canvas->setMouseMode(CCanvas::eMouseColorPicker);
 }
 
 

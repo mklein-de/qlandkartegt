@@ -36,6 +36,7 @@ class CMouseAddText;
 class CMouseAddTextBox;
 class CMouseAddDistance;
 class CMouseOverlay;
+class CMouseColorPicker;
 class CWpt;
 class QLabel;
 class QSize;
@@ -74,6 +75,7 @@ class CCanvas : public QWidget
             , eMouseAddTextBox   ///< use mouse to define a new text field with anchor on the map
             , eMouseAddDistance  ///< use mouse to define a new distance polygon
             , eMouseOverlay      ///< use mouse to change overlays
+            , eMouseColorPicker  ///< use mouse to pick a color from map
         };
 
         /// zoom in/out with a given point as static
@@ -101,6 +103,9 @@ class CCanvas : public QWidget
         static void drawText(const QString& str, QPainter& p, const QRect& r, const QColor& color = Qt::darkBlue);
 
         void raiseContextMenu(const QPoint& pos);
+
+        /// get selected color from color picker cursor
+        QColor getSelectedColor();
 
         signals:
         void sigResize(const QSize& size);
@@ -143,6 +148,7 @@ class CCanvas : public QWidget
         CMouseAddTextBox * mouseAddTextBox;
         CMouseAddDistance * mouseAddDistance;
         CMouseOverlay * mouseOverlay;
+        CMouseColorPicker * mouseColorPicker;
 
         /// current mouse mode
         mouse_mode_e mouseMode;
