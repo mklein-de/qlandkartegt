@@ -4,6 +4,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/./bin)
 cmake_minimum_required(VERSION 2.4)
 if(cmake_policy)
     cmake_policy(SET CMP0005 NEW)
+    cmake_policy(SET CMP0003 NEW)
 endif(cmake_policy)
 
 find_package(Qt4 REQUIRED)
