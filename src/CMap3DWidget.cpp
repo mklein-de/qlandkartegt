@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
 #include "CMap3DWidget.h"
@@ -386,53 +386,54 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     // First apply scale matrix
     glScalef(xs, ys, zs);
 
+    float f = 8;
     float r = 1.005f; // If you have border issues change this to 1.005f
     glBindTexture(GL_TEXTURE_2D,skyBox[0]);
     glBegin(GL_QUADS);
-        glTexCoord2f(0, 1); glVertex3f( r, 1.0f,r);
-        glTexCoord2f(1, 1); glVertex3f(-r, 1.0f,r);
-        glTexCoord2f(1, 0); glVertex3f(-r, 1.0f,-r);
-        glTexCoord2f(0, 0); glVertex3f( r, 1.0f,-r);
+        glTexCoord2f(0, 1); glVertex3f( r/f, 1.0f/f, r/f);
+        glTexCoord2f(1, 1); glVertex3f(-r/f, 1.0f/f, r/f);
+        glTexCoord2f(1, 0); glVertex3f(-r/f, 1.0f/f,-r/f);
+        glTexCoord2f(0, 0); glVertex3f( r/f, 1.0f/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[1]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(-1.0f,  r, r);
-       glTexCoord2f(1, 1); glVertex3f(-1.0f, -r, r);
-       glTexCoord2f(1, 0); glVertex3f(-1.0f, -r,-r);
-       glTexCoord2f(0, 0); glVertex3f(-1.0f,  r,-r);
+       glTexCoord2f(0, 1); glVertex3f(-1.0f/f,  r/f, r/f);
+       glTexCoord2f(1, 1); glVertex3f(-1.0f/f, -r/f, r/f);
+       glTexCoord2f(1, 0); glVertex3f(-1.0f/f, -r/f,-r/f);
+       glTexCoord2f(0, 0); glVertex3f(-1.0f/f,  r/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[2]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(-r, -1.0f,  r);
-       glTexCoord2f(1, 1); glVertex3f( r, -1.0f,  r);
-       glTexCoord2f(1, 0); glVertex3f( r, -1.0f, -r);
-       glTexCoord2f(0, 0); glVertex3f(-r, -1.0f, -r);
+       glTexCoord2f(0, 1); glVertex3f(-r/f, -1.0f/f,  r/f);
+       glTexCoord2f(1, 1); glVertex3f( r/f, -1.0f/f,  r/f);
+       glTexCoord2f(1, 0); glVertex3f( r/f, -1.0f/f, -r/f);
+       glTexCoord2f(0, 0); glVertex3f(-r/f, -1.0f/f, -r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[3]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(1.0f, -r, r);
-       glTexCoord2f(1, 1); glVertex3f(1.0f,  r, r);
-       glTexCoord2f(1, 0); glVertex3f(1.0f,  r,-r);
-       glTexCoord2f(0, 0); glVertex3f(1.0f, -r,-r);
+       glTexCoord2f(0, 1); glVertex3f(1.0f/f, -r/f, r/f);
+       glTexCoord2f(1, 1); glVertex3f(1.0f/f,  r/f, r/f);
+       glTexCoord2f(1, 0); glVertex3f(1.0f/f,  r/f,-r/f);
+       glTexCoord2f(0, 0); glVertex3f(1.0f/f, -r/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[4]);
     glBegin(GL_QUADS);
-       glTexCoord2f(1, 1); glVertex3f( r, r, 1.0f);
-       glTexCoord2f(1, 0); glVertex3f( r,-r, 1.0f);
-       glTexCoord2f(0, 0); glVertex3f(-r,-r, 1.0f);
-       glTexCoord2f(0, 1); glVertex3f(-r, r, 1.0f);
+       glTexCoord2f(1, 1); glVertex3f( r/f, r/f, 1.0f/f);
+       glTexCoord2f(1, 0); glVertex3f( r/f,-r/f, 1.0f/f);
+       glTexCoord2f(0, 0); glVertex3f(-r/f,-r/f, 1.0f/f);
+       glTexCoord2f(0, 1); glVertex3f(-r/f, r/f, 1.0f/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[5]);
     glBegin(GL_QUADS);
-       glTexCoord2f(1, 0); glVertex3f( r, r, -1.0f);
-       glTexCoord2f(0, 0); glVertex3f(-r, r, -1.0f);
-       glTexCoord2f(0, 1); glVertex3f(-r,-r, -1.0f);
-       glTexCoord2f(1, 1); glVertex3f( r,-r, -1.0f);
+       glTexCoord2f(1, 0); glVertex3f( r/f, r/f, -1.0f/f);
+       glTexCoord2f(0, 0); glVertex3f(-r/f, r/f, -1.0f/f);
+       glTexCoord2f(0, 1); glVertex3f(-r/f,-r/f, -1.0f/f);
+       glTexCoord2f(1, 1); glVertex3f( r/f,-r/f, -1.0f/f);
     glEnd();
 
     glPopMatrix();
