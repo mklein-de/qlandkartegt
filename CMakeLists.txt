@@ -2,10 +2,10 @@ project(QLandkarteGT)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/./bin)
 
 cmake_minimum_required(VERSION 2.4)
-if(cmake_policy)
+if(COMMAND cmake_policy)
     cmake_policy(SET CMP0005 NEW)
     cmake_policy(SET CMP0003 NEW)
-endif(cmake_policy)
+endif(COMMAND cmake_policy)
 
 find_package(Qt4 REQUIRED)
 find_package(OpenGL)
@@ -17,8 +17,8 @@ set(VER_STEP      0)
 add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${VER_STEP})
 
 IF(WIN32)
-  LINK_DIRECTORIES( C:/Programme/FWTools2.1.0/lib )
-  INCLUDE_DIRECTORIES( C:/Programme/FWTools2.1.0/include )
+  LINK_DIRECTORIES( C:/Programme/FWTools2.2.8/lib )
+  INCLUDE_DIRECTORIES( C:/Programme/FWTools2.2.8/include )
 
   SET(QL_LIBDIR "./")
   MESSAGE("Searching " ${QL_LIBDIR} " for Garmin plugins")
