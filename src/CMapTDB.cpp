@@ -1479,7 +1479,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
             //          if ( (x0 > x1) && (y0 == y1 ) ) direction = 6; // O->E
             //          if ( (x0 < x1) && (y0 == y1 ) ) direction = 7; // E->O
             // direction table weight
-            dWeight[direction] = dWeight[direction] + 1 ;
+            dWeight[direction] = dWeight[direction] + segmentSize ;
             x1 = x0;
             y1 = y0;
 
@@ -1535,7 +1535,15 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     }
 
     // Reverse path in case
-    if ( ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ) || ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) ) || (dWeight[5]!=0) || (dWeight[7]!=0) ) {
+    bool bSN = false;
+    bool bEW = false;
+    bool bNW = false;
+    bool bSW = false;
+    bSN = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[5]>0); // only S -> N direction
+    bEW = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[7]>0); // only E -> W direction
+    bNW = ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ); 
+    bSW = ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) );
+    if ( bNW || bSW || bSN || bEW ) {
         myPath = myPath.toReversed();
     }
 
@@ -1641,11 +1649,19 @@ void CMapTDB::drawText(QPainter &p)
                 ptOrig = myPath.pointAtPercent(t);
                 // Calcul angle between two points
                 QPointF diff = ptOrig - pt;
-                angle = atan2( diff.x(), diff.y() ) ;
-                if (angle < 0) {
-                    angle += 2.0 * PI ;
+                if (str.contains("FOURNARIER") )
+                    qDebug() << " String=" << str << " x diff = " << ceil(diff.x() ) << ", y diff = " << ceil(diff.y());
+
+                if ( ( i==0 ) && ((ceil(diff.x())==0) || (ceil(diff.y())==0) ) ) { // first char on straight line
+                    if (ceil(diff.x())==0) angle = -90;
+                    if (ceil(diff.y())==0) angle = 0;
+                } else {
+                    angle = atan2( diff.x(), diff.y() ) ;
+                    if (angle < 0) {
+                        angle += 2.0 * PI ;
+                    }
+                    angle =  180.0 * angle / PI ;
                 }
-                angle =  180.0 * angle / PI ;
                 p.save();
                 p.translate(pt);
                 // Rotate text to be readable from left to right
