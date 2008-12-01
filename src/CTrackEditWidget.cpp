@@ -127,6 +127,7 @@ void CTrackEditWidget::slotUpdate()
     lineName->setText(track->getName());
     comboColor->setCurrentIndex(track->getColorIdx());
 
+    treePoints->setUpdatesEnabled(false);
     treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
     treePoints->clear();
 
@@ -236,6 +237,7 @@ void CTrackEditWidget::slotUpdate()
     }
 
     treePoints->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    treePoints->setUpdatesEnabled(true);
 }
 
 

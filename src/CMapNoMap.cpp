@@ -59,6 +59,7 @@ void CMapNoMap::move(const QPoint& old, const QPoint& next)
     convertPt2M(xx,yy);
     x = xx;
     y = yy;
+    needsRedraw = true;
     emit sigChanged();
 }
 
@@ -90,6 +91,7 @@ void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
     x = xx;
     y = yy;
 
+    needsRedraw = true;
     emit sigChanged();
 }
 
@@ -103,6 +105,8 @@ void CMapNoMap::zoom(qint32& level)
         return;
     }
     zoomFactor = level;
+
+    needsRedraw = true;
     emit sigChanged();
 
 }
@@ -135,6 +139,7 @@ void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
     convertRad2Pt(u_,v_);
     move(QPoint(u_,v_), rect.center());
 
+    needsRedraw = true;
     emit sigChanged();
 
     qDebug() << "zoom:" << zoomFactor;

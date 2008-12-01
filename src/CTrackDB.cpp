@@ -188,11 +188,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
                     pt.flags &= ~CTrack::pt_t::eSelected;
                     pt.flags &= ~CTrack::pt_t::eCursor;
                 }
-                if(trkpt.namedItem("rmc:course").isElement()) {
-                    pt.heading = trkpt.namedItem("rmc:course").toElement().text().toDouble();
+                if(ext.namedItem("rmc:course").isElement()) {
+                    pt.heading = ext.namedItem("rmc:course").toElement().text().toDouble();
                 }
-                if(trkpt.namedItem("rmc:speed").isElement()) {
-                    pt.velocity = trkpt.namedItem("rmc:speed").toElement().text().toDouble();
+                if(ext.namedItem("rmc:speed").isElement()) {
+                    pt.velocity = ext.namedItem("rmc:speed").toElement().text().toDouble();
                 }
             }
 

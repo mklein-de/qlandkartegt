@@ -288,7 +288,11 @@ void CCanvas::print(QPrinter& printer)
 
 void CCanvas::draw(QPainter& p)
 {
-    bool needsRedraw = false;
+    IMap& map = CMapDB::self().getMap();
+    bool needsRedraw = map.getNeedsRedraw();
+
+// printf("draw canvas %d\n",needsRedraw);
+
     CMapDB::self().draw(p,rect(), needsRedraw);
     CTrackDB::self().draw(p, rect(), needsRedraw);
     CLiveLogDB::self().draw(p, rect(), needsRedraw);

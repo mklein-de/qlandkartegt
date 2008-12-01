@@ -79,6 +79,7 @@ void IMap::draw(QPainter& p)
 {
     p.fillRect(rect,QColor("#ffffcc"));
     p.drawText(rect,Qt::AlignCenter,"no map");
+    needsRedraw = false;
 }
 
 
@@ -87,6 +88,7 @@ void IMap::draw()
     QPainter p(&buffer);
     p.fillRect(rect,QColor("#ffffcc"));
     p.drawText(rect,Qt::AlignCenter,"no map");
+    needsRedraw = false;
 }
 
 
