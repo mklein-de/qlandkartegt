@@ -1793,10 +1793,12 @@ void CMapTDB::drawText2(QPainter& p)
         QFontMetricsF fm(font);
         QPainterPath& path  = textpath->path;
 
+        // get path length and string length
         qreal length        = fabs(path.length());
         qreal width         = fm.width(textpath->text);
 
-        while(width > (length * 0.5)){
+        // adjust font size until string fits into polyline
+        while(width > (length * 0.7)){
             font.setPixelSize(font.pixelSize() - 1);
             fm      = QFontMetricsF(font);
             width   = fm.width(textpath->text);
@@ -1804,11 +1806,13 @@ void CMapTDB::drawText2(QPainter& p)
             if((font.pixelSize() < 8)) break;
         }
 
+        // no way to draw a readable string - skip
         if((font.pixelSize() < 8)){
             ++textpath;
             continue;
         }
 
+        // adjust exact offset to first half of segment
         const QVector<qreal>& lengths = textpath->lengths;
         const qreal ref = (length - width) / 2;
         qreal offset    = 0;
@@ -1827,6 +1831,7 @@ void CMapTDB::drawText2(QPainter& p)
             offset += d;
         }
 
+        // get starting angle of first two letters
         QString& text   = textpath->text;
         qreal percent1  =  offset / length;
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
@@ -1836,13 +1841,15 @@ void CMapTDB::drawText2(QPainter& p)
 
         qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
-
+        // flip path if string start is E->W direction
+        // this helps, sometimes, in 50 % of the cases :)
         if(point2.x() - point1.x() < 0){
             path    = path.toReversed();
         }
 
         p.setFont(textpath->font);
 
+        // draw string letter by letter and adjust angle
         const int size = text.size();
         for(int i = 0; i < size; ++i){
 
