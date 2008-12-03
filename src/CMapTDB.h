@@ -334,6 +334,7 @@ class CMapTDB : public IMap
             QPainterPath    path;
             QString         text;
             QFont           font;
+            QVector<qreal>  lengths;
         };
 
         QVector<textpath_t> textpaths;

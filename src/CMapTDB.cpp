@@ -1442,6 +1442,16 @@ void CMapTDB::collectText2(CGarminPolygon& item, QPolygonF& line,  QFont& font, 
     tp.font = font;
     tp.text = str;
 
+    QPointF p1 = line[0];
+    const int size = line.size();
+    for(int i = 1; i < size; ++i){
+        QPointF p2  = line[i];
+        qreal dx    = p2.x() - p1.x();
+        qreal dy    = p2.y() - p1.y();
+        tp.lengths << sqrt(dx * dx + dy * dy);
+        p1 = p2;
+    }
+
     textpaths << tp;
 }
 
@@ -1786,7 +1796,7 @@ void CMapTDB::drawText2(QPainter& p)
         qreal length        = fabs(path.length());
         qreal width         = fm.width(textpath->text);
 
-        while(width > (length * 0.6)){
+        while(width > (length * 0.5)){
             font.setPixelSize(font.pixelSize() - 1);
             fm      = QFontMetricsF(font);
             width   = fm.width(textpath->text);
@@ -1799,16 +1809,32 @@ void CMapTDB::drawText2(QPainter& p)
             continue;
         }
 
+        const QVector<qreal>& lengths = textpath->lengths;
+        const qreal ref = (length - width) / 2;
+        qreal offset    = 0;
+
+        for(int i = 0; i < lengths.size(); ++i){
+            const qreal d = lengths[i];
+
+            if((offset + d/2) >= ref){
+                offset = ref;
+                break;
+            }
+            if((offset + d) >= ref){
+                offset += d/2;
+                break;
+            }
+            offset += d;
+        }
 
         QString& text   = textpath->text;
-        qreal offset    = (length - width) / 2;
         qreal percent1  =  offset / length;
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
 
         QPointF point1  = path.pointAtPercent(percent1);
         QPointF point2  = path.pointAtPercent(percent2);
 
-        qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
+        qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
 
         if(point2.x() - point1.x() < 0){
@@ -1826,7 +1852,7 @@ void CMapTDB::drawText2(QPainter& p)
             point1  = path.pointAtPercent(percent1);
             point2  = path.pointAtPercent(percent2);
 
-            angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
+            angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
             if(point2.x() - point1.x() < 0){
                 angle += 180;
