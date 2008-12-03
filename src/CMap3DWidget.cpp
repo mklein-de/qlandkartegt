@@ -386,7 +386,7 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     // First apply scale matrix
     glScalef(xs, ys, zs);
 
-    float f = 8;
+    float f = 1;
     float r = 1.005f; // If you have border issues change this to 1.005f
     glBindTexture(GL_TEXTURE_2D,skyBox[0]);
     glBegin(GL_QUADS);
@@ -724,14 +724,14 @@ void CMap3DWidget::paintGL()
     glLoadIdentity();
 
     glTranslated(0.0, -0.25 * side, 0.0);
-    glTranslated(0.0, 0.0, - 3 * side);
+    glTranslated(0.0, 0.0, -side);
     glRotated(-xRot, 1.0, 0.0, 0.0);
     glScalef(zoomFactor, zoomFactor, zoomFactor);
     glTranslated(xShift * 2, 2 * yShift, 0.0);
 
     glRotated(zRot, 0.0, 0.0, 1.0);
 
-    drawSkybox(0,0,0, 10000, 10000, 10000);
+    drawSkybox(0,0,0, side, side, side);
 
     /* subtract the offset and set the Z axis scale */
     glScalef(1.0, 1.0, eleZoomFactor * (s.width() / 10.0) / (maxElevation - minElevation));
