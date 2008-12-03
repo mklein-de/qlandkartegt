@@ -88,12 +88,14 @@ class CMapTDB : public IMap
         void drawPois(QPainter& p, pointtype_t& points);
         void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
         void drawText(QPainter& p);
+        void drawText2(QPainter& p);
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
         void collectText(CGarminPolygon& item, QPolygonF& line, QFont& font, QFontMetricsF metrics);
+        void collectText2(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics);
 
         void decodeBitmap(QDataStream &in, QImage &bytes, int w, int h, int bpp);
         void readASCIIString(QDataStream& ds, QString& str);
@@ -326,6 +328,15 @@ class CMapTDB : public IMap
         };
 
         QVector<polyline_text_t> polylinesText;
+
+        struct textpath_t
+        {
+            QPainterPath    path;
+            QString         text;
+            QFont           font;
+        };
+
+        QVector<textpath_t> textpaths;
 
 };
 #endif                           //CMAPTDB_H

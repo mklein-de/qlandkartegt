@@ -1259,7 +1259,7 @@ void CMapTDB::draw()
     if(!doFastDraw) {
         drawPoints(p, points);
         drawPois(p, pois);
-        drawText(p);
+        drawText2(p);
         drawLabels(p, labels);
 
     }
@@ -1282,6 +1282,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     // clear text list
     polylinesText.clear();
+    textpaths.clear();
 
     // 1st run. Draw all background polylines (polylines that have pen1)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
@@ -1349,7 +1350,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 // no street needed for uppers zoom factor
                 if (zoomFactor < 2.0) {
-                    collectText((*item), line, font, metrics);
+//                     collectText((*item), line, font, metrics);
+                    collectText2((*item), line, font, metrics);
                 }
 
                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
@@ -1405,6 +1407,42 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             ++item;
         }
     }
+}
+
+void CMapTDB::collectText2(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics)
+{
+
+    QString str;
+    if (!item.labels.isEmpty()) {
+
+        switch(item.type) {
+            case 0x23:
+            case 0x20:
+            case 0x24:
+            case 0x21:
+            case 0x25:
+            case 0x22:
+            {
+                QString unit;
+                QString val = item.labels[0];
+                IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                str = QString("%1 %2").arg(val).arg(unit);
+            }
+            break;
+
+            default:
+                str = item.labels.join(" ").simplified();
+        }
+    }
+
+    if(str.isEmpty()) return;
+
+    textpath_t tp;
+    tp.path.addPolygon(line);
+    tp.font = font;
+    tp.text = str;
+
+    textpaths << tp;
 }
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics)
@@ -1732,6 +1770,81 @@ void CMapTDB::drawText(QPainter &p)
             }
         }
     }
+}
+
+
+void CMapTDB::drawText2(QPainter& p)
+{
+    p.setPen(Qt::black);
+
+    QVector<textpath_t>::iterator textpath = textpaths.begin();
+    while(textpath != textpaths.end()){
+        QFont& font         = textpath->font;
+        QFontMetricsF fm(font);
+        QPainterPath& path  = textpath->path;
+
+        qreal length        = fabs(path.length());
+        qreal width         = fm.width(textpath->text);
+
+        while(width > (length * 0.6)){
+            font.setPixelSize(font.pixelSize() - 1);
+            fm      = QFontMetricsF(font);
+            width   = fm.width(textpath->text);
+
+            if((font.pixelSize() < 8)) break;
+        }
+
+        if((font.pixelSize() < 8)){
+            ++textpath;
+            continue;
+        }
+
+
+        QString& text   = textpath->text;
+        qreal offset    = (length - width) / 2;
+        qreal percent1  =  offset / length;
+        qreal percent2  = (offset + fm.width(text.left(2))) / length;
+
+        QPointF point1  = path.pointAtPercent(percent1);
+        QPointF point2  = path.pointAtPercent(percent2);
+
+        qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
+
+
+        if(point2.x() - point1.x() < 0){
+            path    = path.toReversed();
+        }
+
+        p.setFont(textpath->font);
+
+        const int size = text.size();
+        for(int i = 0; i < size; ++i){
+
+            percent1  =  offset / length;
+            percent2  = (offset + fm.width(text[i])) / length;
+
+            point1  = path.pointAtPercent(percent1);
+            point2  = path.pointAtPercent(percent2);
+
+            angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
+
+            if(point2.x() - point1.x() < 0){
+                angle += 180;
+            }
+
+            p.save();
+            p.translate(point1);
+            p.rotate(angle);
+            p.translate(0, fm.descent());
+            p.drawText(0,0,text.mid(i,1));
+            p.restore();
+
+            offset += fm.width(text[i]);
+        }
+
+        ++textpath;
+    }
+
 }
 
 
