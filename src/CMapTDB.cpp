@@ -1412,7 +1412,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     int direction       = 0;
     bool bSegment       = false;
     qreal segmentSize   = 0;
-
+	int originalPixelSize = font.pixelSize();
     QString str;
     if (!item.labels.isEmpty()) {
 
@@ -1437,7 +1437,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     }
 
     memset(dWeight,0,sizeof(dWeight));
-
+    int roadSize = 0;
     const int size = item.u.size();
     for(int i = 0; i < size; ++i) {
         if (!bSegment) {
@@ -1448,11 +1448,19 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
         // Get line size to know if text can be in it with a margin
         if ( ( i != 0) && (!bSegment) ) {
             segmentSize = sqrt( pow(x0-x1,2 ) + pow(y0 - y1,2) );
+			while ((1.2 * metrics.width(str) > abs(segmentSize) ) && (font.pixelSize() > 10) ) {
+				font.setPixelSize(font.pixelSize() - 1); //decrement font size by 1 it is int
+				metrics = QFontMetricsF(font);
+				//qDebug() << "auto sizing for " << str << " set to " << font.pixelSize() << " new metrics is " << (1.2 * metrics.width(str) );
+			}
             if (1.2 * metrics.width(str) < abs(segmentSize) ) {
                 mySegment.moveTo( x1, y1 );
                 mySegment.lineTo( x0, y0 );
                 bSegment = true;
-            }
+			} else {
+				font.setPixelSize( originalPixelSize);
+				metrics = QFontMetricsF(font);
+			}
         }
         // Else write the text on the whole polyline
         if ( i == 0) {
@@ -1515,7 +1523,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
 
 
     //polyline size from bird fly should be enough
-    int roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
+    roadSize = sqrt( pow(x0-xi,2 ) + pow(y0 - yi,2) );
     //qDebug() << " roadSize vs text width = " << roadSize << " vs " << metrics.width(str);
     if (1.2 * metrics.width(str) > abs(roadSize) ) {
         return;
@@ -1541,7 +1549,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     bool bSW = false;
     bSN = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[5]>0); // only S -> N direction
     bEW = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[7]>0); // only E -> W direction
-    bNW = ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) );
+    bNW = ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ); 
     bSW = ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) );
     if ( bNW || bSW || bSN || bEW ) {
         myPath = myPath.toReversed();
@@ -1558,8 +1566,11 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     if ( ( dWeight[4]!=0 ) || ( dWeight[5]!=0) ) {
         polylineText.forceRotate = 90;
     }
-
     polylinesText.append( polylineText );
+	// Restore original pixelSize
+	font.setPixelSize(originalPixelSize);
+	metrics = QFontMetricsF(font);
+
 
 }
 
@@ -1595,14 +1606,22 @@ void CMapTDB::drawText(QPainter &p)
             ptOrig = myPath.pointAtPercent(1);
             // Calcul angle between two points
             QPointF diff = ptOrig - pt;
+                if (str.contains("ROCHELLE") )
+                    qDebug() << " String=" << str << " x diff = " << ceil(diff.x() ) << ", y diff = " << ceil(diff.y());
+
             p.save();
             p.translate(pt);
             if ( forceRotate == 999) {
-                angle = atan2( diff.x(), diff.y() ) ;
-                if (angle < 0) {
-                    angle += 2.0 * PI ;
+                if ( ((ceil(diff.x())==0) || (ceil(diff.y())==0) ) ) { // first char on straight line
+                    if (ceil(diff.x())==0) angle = -90;
+                    if (ceil(diff.y())==0) angle = 0;
+                } else {
+                    angle = atan2( diff.x(), diff.y() ) ;
+                    if (angle < 0) {
+                        angle += 2.0 * PI ;
+                    }
+                    angle =  180.0 * angle / PI ;
                 }
-                angle =  180.0 * angle / PI ;
                 // Rotate text to be readable from left to right
                 if ( ( angle > 0) && ( angle < 90) ) {
                     // ok
@@ -1649,12 +1668,12 @@ void CMapTDB::drawText(QPainter &p)
                 ptOrig = myPath.pointAtPercent(t);
                 // Calcul angle between two points
                 QPointF diff = ptOrig - pt;
-                if (str.contains("FOURNARIER") )
+                if (str.contains("ROCHELLE") )
                     qDebug() << " String=" << str << " x diff = " << ceil(diff.x() ) << ", y diff = " << ceil(diff.y());
 
-                if ( ( i==0 ) && ((ceil(diff.x())==0) || (ceil(diff.y())==0) ) ) { // first char on straight line
-                    if (ceil(diff.x())==0) angle = -90;
-                    if (ceil(diff.y())==0) angle = 0;
+                if ( ( i==0 ) && ((abs(ceil(diff.x()))<1) || (abs(ceil(diff.y()))<1) ) ) { // first char on straight line
+                    if (abs(ceil(diff.x()))<2) angle = -90;
+                    if (abs(ceil(diff.y()))<2) angle = 0;
                 } else {
                     angle = atan2( diff.x(), diff.y() ) ;
                     if (angle < 0) {
@@ -1662,6 +1681,8 @@ void CMapTDB::drawText(QPainter &p)
                     }
                     angle =  180.0 * angle / PI ;
                 }
+                if (str.contains("ROCHELLE") )
+                    qDebug() << " for " << str << " angle is " << angle;
                 p.save();
                 p.translate(pt);
                 // Rotate text to be readable from left to right
@@ -1670,14 +1691,22 @@ void CMapTDB::drawText(QPainter &p)
                     angle = 180 - angle;
                 }
 
-                if ( ( angle > 90) && (angle <270) ) {
+                if ( ( angle > 90) && (angle <180) ) {
                     angle = 270 - angle;
                 }
+
+                if ( ( angle > 180) && (angle <270) ) {
+                    angle = 270 - angle;
+                }
+
 
                 if ( ( angle > 270) && (angle <360) ) {
                                  // ok
                     angle = 270 - angle;
                 }
+                if (str.contains("ROCHELLE") )
+                    qDebug() << " for " << str << " angle after is " << angle;
+
 
                 if ( (i!=0) && (ceil(abs(angle-prevangle)) > 85 ) ) {
                     p.rotate(prevangle);
@@ -2248,14 +2277,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
         //         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
-        if ( colorType == 6 ) {
-            myXpm.setNumColors(0);
-            in >> b >> g >> r;
-            polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-        else if ( colorType == 8 ) {
+        if ( colorType == 8 ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
                                  // forground (day + night)
