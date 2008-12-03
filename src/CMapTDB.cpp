@@ -1287,6 +1287,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
     for(m = 0; m < M; ++m) {
         quint16 type                = polylineDrawOrder[M - m - 1];
+
+        if(zoomFactor > 3.0 && (type == 0x20 || type == 0x23)){
+            continue;
+        }
+
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
 
