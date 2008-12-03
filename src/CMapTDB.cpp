@@ -795,6 +795,7 @@ bool CMapTDB::processPrimaryMapData()
     }
 
     /* Add all basemap levels to the list. */
+    quint8 largestBitsBasemap = 0;
     QVector<CGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
     while(maplevel != basemap_subfile->maplevels.end()) {
         if (!maplevel->inherited) {
@@ -803,6 +804,8 @@ bool CMapTDB::processPrimaryMapData()
             ml.level = maplevel->level;
             ml.useBaseMap = true;
             maplevels << ml;
+
+            if(ml.bits > largestBitsBasemap) largestBitsBasemap = ml.bits;
         }
         ++maplevel;
     }
@@ -831,7 +834,7 @@ bool CMapTDB::processPrimaryMapData()
                     continue;
                 }
                 while (maplevel != subfile->maplevels.end()) {
-                    if (!maplevel->inherited) {
+                    if (!maplevel->inherited && (maplevel->bits > largestBitsBasemap)) {
                         map_level_t ml;
                         ml.bits  = maplevel->bits;
                         ml.level = maplevel->level;
@@ -1549,7 +1552,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     bool bSW = false;
     bSN = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[5]>0); // only S -> N direction
     bEW = (dWeight[0]==0) && (dWeight[1]==0) && (dWeight[2]==0) && (dWeight[3]==0) && (dWeight[7]>0); // only E -> W direction
-    bNW = ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) ); 
+    bNW = ( (dWeight[0] > dWeight[2]) && (dWeight[0] > dWeight[3]) );
     bSW = ( (dWeight[1] > dWeight[3]) && (dWeight[1] > dWeight[2]) );
     if ( bNW || bSW || bSN || bEW ) {
         myPath = myPath.toReversed();
@@ -2277,7 +2280,13 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
         //         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
 
-        if ( colorType == 8 ) {
+        if ( colorType == 6 ) {
+            in >> b >> g >> r;
+            polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
+        }
+        else if ( colorType == 8 ) {
             myXpm.setNumColors(2);
             in >> b >> g >> r;
                                  // forground (day + night)
