@@ -1180,6 +1180,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
     if(s != size) {
         resize(s);
         needsRedraw = true;
+        doFastDraw  = false;
     }
 
     if(needsRedraw) {
