@@ -276,6 +276,8 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p1.u, p1.v);
 
     zoomidx += zoomIn ? -1 : 1;
+    // sigChanged will be sent at the end of this function
+    blockSignals(true);
     zoom(zoomidx);
 
     // convert geo. coordinates back to point
@@ -292,7 +294,7 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     convertPt2M(xx, yy);
     x = xx;
     y = yy;
-
+    blockSignals(false);
     emit sigChanged();
 }
 

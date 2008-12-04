@@ -972,6 +972,8 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p1.u, p1.v);
 
     zoomidx += zoomIn ? +1 : -1;
+    // sigChanged will be sent at the end of this function
+    blockSignals(true);
     zoom(zoomidx);
 
     // convert geo. coordinates back to point
@@ -987,6 +989,9 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     // convert back to new top left geo coordinate
     convertPt2Rad(p2.u, p2.v);
     topLeft = p2;
+
+    blockSignals(false);
+    emit sigChanged();
 
     //     qDebug() << "maplevel" /*<< mapLevelMap << "(" << mapLevelOvl << ")"*/ << "bits" << scales[zoomidx].bits;
 }
