@@ -78,12 +78,18 @@ CMap3DWidget::~CMap3DWidget()
     cfg.setValue("map/3D/trackonmap", mapEleAct->isChecked());
 }
 
+void CMap3DWidget::mapResize(const QSize& size)
+{
+        mapSize = size;
+}
 
 void CMap3DWidget::loadMap()
 {
     map = &CMapDB::self().getMap();
+    mapSize = map->getSize();
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
 }
 
 
@@ -160,8 +166,7 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void CMap3DWidget::setMapTexture()
 {
-    QSize s = map->getSize();
-    QPixmap pm(s.width(), s.height());
+    QPixmap pm(mapSize.width(), mapSize.height());
     QPainter p(&pm);
     p.eraseRect(pm.rect());
     map->draw(p);
@@ -182,25 +187,22 @@ void CMap3DWidget::slotChanged()
 
 void CMap3DWidget::convertPt23D(double& u, double& v, double &ele)
 {
-    QSize s = map->getSize();
-    u = u - s.width()/2;
-    v = s.height()/2 - v;
+    u = u - mapSize.width()/2;
+    v = mapSize.height()/2 - v;
 }
 
 
 void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
 {
-    QSize s = map->getSize();
-    u = u + s.width()/2;
-    v = s.height()/2 - v;
+    u = u + mapSize.width()/2;
+    v = mapSize.height()/2 - v;
 }
 
 
 void CMap3DWidget::drawFlatMap()
 {
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
 
     glEnable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
@@ -219,9 +221,8 @@ void CMap3DWidget::drawFlatMap()
 
 void CMap3DWidget::getEleRegion(float *buffer, int xcount, int ycount)
 {
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
 
     IMap& dem = CMapDB::self().getDEM();
     XY p1, p2;
@@ -235,17 +236,15 @@ void CMap3DWidget::getEleRegion(float *buffer, int xcount, int ycount)
 }
 
 float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
-    QSize s = map->getSize();
-    int w = s.width() / step + 1;
+    int w = mapSize.width() / step + 1;
     return buffer[x + y * w];
 }
 
 #if 0   // set to 1 for old elevation processing
 void CMap3DWidget::draw3DMap()
 {
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
 
     int i, iv, it, j, k, cur, end;
     double step = 5;
@@ -316,9 +315,8 @@ void CMap3DWidget::draw3DMap()
 void CMap3DWidget::updateElevationLimits()
 {
     double x, y, u, v, ele;
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
     double step = 5;
     IMap& dem = CMapDB::self().getDEM();
 
@@ -442,9 +440,8 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
 
 void CMap3DWidget::draw3DMap()
 {
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
 
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -529,9 +526,8 @@ void CMap3DWidget::updateElevationLimits()
 {
     double ele;
     int i, j;
-    QSize s = map->getSize();
-    double w = s.width();
-    double h = s.height();
+    double w = mapSize.width();
+    double h = mapSize.height();
 
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -692,7 +688,6 @@ void CMap3DWidget::setZRotation(double angle)
 void CMap3DWidget::initializeGL()
 {
     loadMap();
-    QSize s = map->getSize();
     glClearColor(1.0, 1.0, 1.0, 0.0);
     setMapTexture();
     int i;
@@ -718,8 +713,7 @@ void CMap3DWidget::initializeGL()
 
 void CMap3DWidget::paintGL()
 {
-    QSize s = map->getSize();
-    int side = qMax(s.width(), s.height());
+    int side = qMax(mapSize.width(), mapSize.height());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -734,7 +728,7 @@ void CMap3DWidget::paintGL()
     drawSkybox(0,0,0, side, side, side);
 
     /* subtract the offset and set the Z axis scale */
-    glScalef(1.0, 1.0, eleZoomFactor * (s.width() / 10.0) / (maxElevation - minElevation));
+    glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
     glTranslated(0.0, 0.0, -minElevation);
 
     glCallList(object);
@@ -895,23 +889,21 @@ void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 
 void CMap3DWidget::expandMap(bool zoomIn)
 {
-    QSize s = map->getSize();
     double zoomFactor = zoomIn ? 1.1 : 1/1.1;
     XY pv;
     /*save coord of the center map*/
-    pv.u = s.width() / 2;
-    pv.v = s.height() / 2;
+    pv.u = mapSize.width() / 2;
+    pv.v = mapSize.height() / 2;
     map->convertPt2Rad(pv.u, pv.v);
 
     /*slotChanged will be executed by the operation move*/
     disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-    map->resize(QSize(s.width() * zoomFactor, s.height() * zoomFactor));
+    map->resize(QSize(mapSize.width() * zoomFactor, mapSize.height() * zoomFactor));
 
     /*restore coord of the center map*/
     map->convertRad2Pt(pv.u, pv.v);
-    s = map->getSize();
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-    map->move(QPoint(pv.u, pv.v), QPoint(s.width()/2, s.height()/2));
+    map->move(QPoint(pv.u, pv.v), QPoint(mapSize.width()/2, mapSize.height()/2));
 }
 
 
@@ -927,7 +919,6 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
 
     qint32 dx = 0, dy = 0;
     qint32 zoomMap = 0;
-    QSize s = map->getSize();
     switch (event->key()) {
         case Qt::Key_Up:
             dy -= 100;
@@ -961,7 +952,7 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
             return;
     }
     if (zoomMap){
-        map->zoom(zoomMap > 0 ? true : false, QPoint(s.width() / 2, s.height() / 2));
+        map->zoom(zoomMap > 0 ? true : false, QPoint(mapSize.width() / 2, mapSize.height() / 2));
     }
 
     if (dx || dy){
@@ -1050,8 +1041,7 @@ void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
     if (pressedKeys.contains(Qt::Key_M)) {
-        QSize s = map->getSize();
-        map->zoom(in, QPoint(s.width() / 2, s.height() / 2));
+        map->zoom(in, QPoint(mapSize.width() / 2, mapSize.height() / 2));
     }
     else {
         if (in) {

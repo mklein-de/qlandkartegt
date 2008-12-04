@@ -69,6 +69,7 @@ class CMap3DWidget: public QGLWidget
         unsigned int skyBox[6];
         double step;
         QPointer<IMap> map;
+        QSize mapSize;
         void loadMap();
         /// expand map relative to the center
         void expandMap(bool zoomIn);
@@ -101,6 +102,7 @@ class CMap3DWidget: public QGLWidget
 
     private slots:
         void slotChanged();
+        void mapResize(const QSize& size);
 
     public slots:
         void setXRotation(double angle);

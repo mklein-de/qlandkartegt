@@ -213,6 +213,7 @@ class IMap : public QObject
         const maptype_e maptype;
     signals:
         void sigChanged();
+        void sigResize(const QSize& size);
 
     public slots:
         /// change visible size of map
