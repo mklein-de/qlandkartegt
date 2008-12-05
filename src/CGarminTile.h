@@ -129,8 +129,6 @@ class CGarminTile : public QObject
 
             /// area in [] covered by this subfile
             QRectF area;
-            /// pointer collection to definition areas
-            //             QMap<QString,CGarminPolygon> definitionAreas;
 
             /// list of subdivisions
             QVector<subdiv_desc_t> subdivs;

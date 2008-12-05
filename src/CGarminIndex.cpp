@@ -56,17 +56,32 @@ void CGarminIndex::run()
 {
     QMutexLocker lock(&mutex);
 
+    const QRectF viewport(QPointF(-180 * DEG_TO_RAD, 90 * DEG_TO_RAD), QPointF(180 * DEG_TO_RAD, -90 * DEG_TO_RAD));
     const int size  = imgFiles.size();
     int cnt         = 0;
     QString filename;
     foreach(filename, imgFiles){
         CGarminTile tile(0);
         tile.readBasics(filename);
-        emit sigProgress(tr("Process %1").arg(filename), cnt * 100 / size);
+        emit sigProgress(tr("Create index... %1").arg(filename), cnt * 100 / size);
 
+        QFile file(filename);
+        file.open(QIODevice::ReadOnly);
+
+        const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = tile.getSubFiles();
+        const quint8 maplevel =  subfiles.begin()->maplevels.last().level;
+
+        polytype_t  polygons;
+        polytype_t  polylines;
+        pointtype_t points;
+        pointtype_t pois;
+
+        tile.loadVisibleData(false, polygons, polylines, points, pois, maplevel, viewport);
+
+        file.close();
         ++cnt;
     }
 
-    emit sigProgress(tr("Done").arg(filename), 0);
+    emit sigProgress(tr("Done"), 0);
     disconnect(this, 0, 0, 0);
 }
