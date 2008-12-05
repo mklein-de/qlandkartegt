@@ -53,7 +53,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotCancel();
         void slotMapChanged();
 
-        void slotSearchText();
+        void slotCreateIndex();
 
     private:
         void binarizeViewport(int t);

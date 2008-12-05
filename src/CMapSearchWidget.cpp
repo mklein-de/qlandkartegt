@@ -63,7 +63,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
     slotMapChanged();
 
-    connect(pushSearchText, SIGNAL(clicked()), this, SLOT(slotSearchText()));
+    connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
 }
 
 
@@ -324,7 +324,7 @@ void CMapSearchWidget::slotMapChanged()
     tabWidget->widget(1)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
 }
 
-void CMapSearchWidget::slotSearchText()
+void CMapSearchWidget::slotCreateIndex()
 {
     QString text    = lineTextToFind->text();
     IMap * map      = &CMapDB::self().getMap();
