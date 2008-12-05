@@ -277,7 +277,7 @@ qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTOPENGL_INCLUDE_DIR} ${QL_OPENGL_INCLUDE_DIR} ../include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTSQL_INCLUDE_DIR} ${QT_QTOPENGL_INCLUDE_DIR} ${QL_OPENGL_INCLUDE_DIR} ../include)
 
 if(CMAKE_HAVE_STDINT_H)
     add_definitions(-DHAVE_STDINT_H)
@@ -302,13 +302,13 @@ add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_
 
 IF(UNIX)
   add_definitions(-Wall -O2 -DQL_LIBDIR=${QL_LIBDIR} -DSOEXT=${SOEXT})
-  target_link_libraries(qlandkartegt ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QL_OPENGL_LIBRARIES})
+  target_link_libraries(qlandkartegt ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES})
 ENDIF(UNIX)
 
 IF(WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-  target_link_libraries(qlandkartegt gdal_i proj_i qtmain.lib ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
+  target_link_libraries(qlandkartegt gdal_i proj_i qtmain.lib ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(WIN32)
 
 

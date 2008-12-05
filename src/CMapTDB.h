@@ -55,6 +55,8 @@ class CMapTDB : public IMap
         void registerDEM(CMapDEM& dem);
         void select(IMapSelection& ms, const QRect& rect);
 
+        void createSearchIndex();
+
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);
         void resize(const QSize& s);

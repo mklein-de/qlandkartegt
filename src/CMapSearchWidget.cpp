@@ -22,6 +22,7 @@
 #include "CCanvas.h"
 #include "GeoMath.h"
 #include "CMapDB.h"
+#include "CMapTDB.h"
 #include "CSearchDB.h"
 #include "CMapSearchCanvas.h"
 #include "CTabWidget.h"
@@ -61,6 +62,8 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
     slotMapChanged();
+
+    connect(pushSearchText, SIGNAL(clicked()), this, SLOT(slotSearchText()));
 }
 
 
@@ -308,14 +311,25 @@ void CMapSearchWidget::checkGui()
 
 void CMapSearchWidget::slotMapChanged()
 {
-    qDebug() << "void CMapSearchWidget::slotMapChanged()";
-
-    IMap& map = CMapDB::self().getMap();
-
-    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster);
-
+    IMap& map  = CMapDB::self().getMap();
     IMap * ovl = map.getOverlay();
 
+    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster);
     tabWidget->widget(1)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
 }
 
+void CMapSearchWidget::slotSearchText()
+{
+    QString text    = lineTextToFind->text();
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    tdb->createSearchIndex();
+
+//     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+//     db.setDatabaseName("test.db");
+//
+//     db.close();
+}
