@@ -27,6 +27,7 @@
 #include "CTabWidget.h"
 #include "CImage.h"
 #include "CMapSearchThread.h"
+#include "IMap.h"
 
 #include <QtGui>
 
@@ -37,13 +38,11 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     setupUi(this);
     setObjectName("CMapSearchWidget");
     setAttribute(Qt::WA_DeleteOnClose,true);
-    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     toolNewMask->setIcon(QIcon(":/icons/iconWizzard16x16.png"));
     toolSaveMask->setIcon(QIcon(":/icons/iconFileSave16x16.png"));
     toolDeleteMask->setIcon(QIcon(":/icons/iconDelete16x16.png"));
     toolSelectArea->setIcon(QIcon(":/icons/iconSelect16x16.png"));
 
-    connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
     connect(toolSelectArea, SIGNAL(clicked()), this, SLOT(slotSelectArea()));
     connect(pushSearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
     connect(pushCancel, SIGNAL(clicked()), this, SLOT(slotCancel()));
@@ -59,6 +58,9 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
     mask = new CImage(this);
     loadMaskCollection();
+
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
+    slotMapChanged();
 }
 
 
@@ -303,3 +305,17 @@ void CMapSearchWidget::checkGui()
     pushCancel->setEnabled(thread->isRunning());
     toolSelectArea->setEnabled(!thread->isRunning());
 }
+
+void CMapSearchWidget::slotMapChanged()
+{
+    qDebug() << "void CMapSearchWidget::slotMapChanged()";
+
+    IMap& map = CMapDB::self().getMap();
+
+    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster);
+
+    IMap * ovl = map.getOverlay();
+
+    tabWidget->widget(1)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
+}
+

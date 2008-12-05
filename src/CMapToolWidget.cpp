@@ -149,7 +149,7 @@ void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int c)
             CMapDB::self().getMap().delOverlayMap(key);
         }
 
-        slotDBChanged();
+        emit sigChanged();
     }
 }
 

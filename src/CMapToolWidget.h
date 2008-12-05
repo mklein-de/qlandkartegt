@@ -35,6 +35,9 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         CMapToolWidget(QTabWidget * parent);
         virtual ~CMapToolWidget();
 
+    signals:
+        void sigChanged();
+
     private slots:
         void slotDBChanged();
         void slotKnownMapDoubleClicked(QTreeWidgetItem* item, int);

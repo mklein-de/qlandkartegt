@@ -46,7 +46,10 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
     m_self      = this;
-    toolview    = new CMapToolWidget(tb);
+    CMapToolWidget * tw = new CMapToolWidget(tb);
+    toolview    = tw;
+
+    connect(tw, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
 
     defaultMap = new CMapNoMap(theMainWindow->getCanvas());
     map_t m;
@@ -440,6 +443,9 @@ void CMapDB::searchMap()
     if(mapsearch.isNull()) {
         mapsearch = new CMapSearchWidget(theMainWindow->getCanvas());
         theMainWindow->setTempWidget(mapsearch);
+    }
+    else{
+        mapsearch->deleteLater();
     }
 }
 

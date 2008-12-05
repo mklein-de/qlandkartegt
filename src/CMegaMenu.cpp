@@ -99,9 +99,9 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
-    ,{":/icons/iconFind16x16",QObject::tr("Find Symbols"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
+    ,{":/icons/iconFind16x16",QObject::tr("Search Map"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
 #ifdef PLOT_3D
-    ,{":/icons/icon3D16x16.png",QObject::tr("Map 3D..."), &CMegaMenu::funcSwitchToMap3D, tr("Show 3D map")}
+    ,{":/icons/icon3D16x16.png",QObject::tr("3D Map..."), &CMegaMenu::funcSwitchToMap3D, tr("Show 3D map")}
 #else
     ,{0,QObject::tr("-"),0,tr("")}
 #endif

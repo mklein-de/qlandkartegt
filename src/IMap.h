@@ -196,6 +196,9 @@ class IMap : public QObject
         /// test if map is used as overlay
         virtual bool hasOverlayMap(const QString& key);
 
+        /// get pointer to overlay map
+        virtual IMap * getOverlay(){return ovlMap;}
+
         /// select map area for export or further processing
         virtual void select(IMapSelection& ms, const QRect& rect){};
         /**
