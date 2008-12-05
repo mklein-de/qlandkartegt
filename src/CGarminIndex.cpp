@@ -65,6 +65,7 @@ void CGarminIndex::run()
         tile.readBasics(filename);
         emit sigProgress(tr("Create index... %1").arg(filename), cnt * 100 / size);
 
+        // read data from tile
         QFile file(filename);
         file.open(QIODevice::ReadOnly);
 
@@ -79,6 +80,10 @@ void CGarminIndex::run()
         tile.loadVisibleData(false, polygons, polylines, points, pois, maplevel, viewport);
 
         file.close();
+
+        // store data to database
+
+
         ++cnt;
     }
 

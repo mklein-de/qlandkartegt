@@ -485,7 +485,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
 
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()) {
-        qDebug() << "subfile:" << subfile->area << viewport << subfile->area.intersects(viewport);
+//         qDebug() << "subfile:" << subfile->area << viewport << subfile->area.intersects(viewport);
         if(!subfile->area.intersects(viewport)) {
             ++subfile;
             continue;
