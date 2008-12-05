@@ -30,6 +30,7 @@
 class CGarminTile;
 class QTimer;
 class QTextDocument;
+class CGarminIndex;
 
 class CMapTDB : public IMap
 {
@@ -55,7 +56,7 @@ class CMapTDB : public IMap
         void registerDEM(CMapDEM& dem);
         void select(IMapSelection& ms, const QRect& rect);
 
-        void createSearchIndex();
+        void createSearchIndex(QObject * reveiver, const char * slot);
 
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);
@@ -317,18 +318,6 @@ class CMapTDB : public IMap
         quint16 fid;
         quint16 pid;
 
-//         struct polyline_text_t
-//         {
-//             polyline_text_t(): path(), textStart(0), forceRotate(999) {};
-//             QPainterPath    path;
-//             QString         text;
-//             QFont           font;
-//             qreal           textStart;
-//             int             forceRotate;
-//         };
-//
-//         QVector<polyline_text_t> polylinesText;
-
         struct textpath_t
         {
             QPainterPath    path;
@@ -339,5 +328,7 @@ class CMapTDB : public IMap
 
         QVector<textpath_t> textpaths;
 
+
+        CGarminIndex * index;
 };
 #endif                           //CMAPTDB_H

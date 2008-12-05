@@ -21,6 +21,7 @@
 #include "CMapDEM.h"
 #include "Garmin.h"
 #include "CGarminTile.h"
+#include "CGarminIndex.h"
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -313,8 +314,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     info->setHtml(infotext);
 
     parent->installEventFilter(this);
+
+    index = new CGarminIndex(this);
+    index->open(name);
     qDebug() << "CMapTDB::CMapTDB()";
-    //garminTyp = new CGarminTyp("/home/fcr/teddy.typ", parent);
 }
 
 
@@ -347,6 +350,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     info          = 0;
     isTransparent = true;
 
+    index = new CGarminIndex(this);
+    index->open(name);
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -2519,12 +2524,14 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
     }
 }
 
-void CMapTDB::createSearchIndex()
+void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 {
-    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(path.filePath(name + ".db"));
-
-    db.close();
+    QStringList files;
+    QMap<QString,tile_t>::const_iterator tile = tiles.begin();
+    while(tile != tiles.end()){
+        files << tile->file;
+        ++tile;
+    }
+    connect(index, SIGNAL(sigProgress(const QString&, const int)), receiver, slot);
+    index->create(files);
 }

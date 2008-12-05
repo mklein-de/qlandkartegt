@@ -107,9 +107,10 @@ set(qlandkarte_SRCS
     CGarminStrTblUtf8.cpp
     CGarminPolygon.cpp
     CGarminPoint.cpp
-    CMapTDB.cpp
+    CGarminIndex.cpp
     CGarminTile.cpp
     CGarminExport.cpp
+    CMapTDB.cpp
 )
 
 IF(WIN32)
@@ -222,10 +223,11 @@ set(qlandkarte_HDRS
     CGarminStrTblUtf8.h
     CGarminPolygon.h
     CGarminPoint.h
-    CMapTDB.h
+    CGarminIndex.h
     CGarminTile.h
     Garmin.h
     CGarminExport.h
+    CMapTDB.h
 )
 
 

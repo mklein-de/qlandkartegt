@@ -110,6 +110,12 @@ void CMapSearchWidget::slotProgress(const QString& status, const int progress)
     progressBar->setValue(progress);
 }
 
+void CMapSearchWidget::slotProgress2(const QString& status, const int progress)
+{
+    labelProgress2->setText(status);
+    progressBar2->setValue(progress);
+}
+
 void CMapSearchWidget::slotCancel()
 {
     thread->cancel();
@@ -326,7 +332,7 @@ void CMapSearchWidget::slotSearchText()
     if(map == 0) return;
 
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    tdb->createSearchIndex();
+    tdb->createSearchIndex(this, SLOT(slotProgress2(const QString&, const int)));
 
 //     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 //     db.setDatabaseName("test.db");
