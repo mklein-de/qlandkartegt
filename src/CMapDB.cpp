@@ -313,6 +313,17 @@ void CMapDB::delKnownMap(const QStringList& keys)
 {
     QString key;
     foreach(key, keys) {
+        map_t& map = knownMaps[key];
+        if(map.type == IMap::eGarmin){
+            QSettings cfg;
+            cfg.beginGroup("garmin/maps");
+            cfg.beginGroup("alias");
+            QString name = cfg.value(key,key).toString();
+            cfg.endGroup();
+            cfg.remove(name);
+            cfg.endGroup();
+            cfg.sync();
+        }
         knownMaps.remove(key);
     }
 
