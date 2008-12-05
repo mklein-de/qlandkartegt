@@ -1,3 +1,28 @@
+--- 2008.12.05 ---
+
+Request #37:
+Garmin maps: Add text to polylines
+
+Request #38:
+Optimze DEM interpolation for faster 3D view.
+
+Request #39:
+Add positon bars to profile graph et al
+
+Request #40:
+Optimize track render
+
+Bug     #41:
+Garmin maps: some intermediate maplevels are missing
+
+Request #42:
+Add sky to 3D view
+
+Request #43:
+Remove side information from QLandkarteGT.conf when deleting Garmin maps.
+
+
+
 --- 2008.11.24 ---
 
 Request #33:
@@ -321,6 +346,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
