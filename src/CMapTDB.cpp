@@ -2036,7 +2036,7 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
         return;
     }
 
-    if((section.arraySize % 5) != 0) {
+    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
 
@@ -2072,7 +2072,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0) {
+    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
 
@@ -2119,6 +2119,13 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
+        }
+        else if ( colorType == 7 ) {
+            in >> b >> g >> r;
+            polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
+            polygonProperties[typ].pen      = Qt::NoPen;
+            polygonProperties[typ].known    = true;
+            in >> b >> g >> r;
         }
         else if ( colorType == 8 ) {
             myXpm.setNumColors(2);
@@ -2207,7 +2214,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0) {
+
+    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
 
@@ -2392,7 +2400,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-    if((section.arraySize % section.arrayModulo) != 0) {
+    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
 
