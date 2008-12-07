@@ -25,6 +25,7 @@
 #include "CMapDB.h"
 
 #include <QtGui>
+#include <QSqlDatabase>
 
 #undef DEBUG_SHOW_SECT_DESC
 #undef DEBUG_SHOW_TRE_DATA
@@ -623,7 +624,9 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
         pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd) {
             polylines.push_back(CGarminPolygon());
-            CGarminPolygon& p = polylines.last();
+
+            CGarminPolygon& p   = polylines.last();
+
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
             if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
@@ -643,7 +646,9 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
         pEnd  = pRawData + subdiv.rgn_end;
         while(pData < pEnd) {
             polygons.push_back(CGarminPolygon());
-            CGarminPolygon& p = polygons.last();
+
+            CGarminPolygon& p   = polygons.last();
+
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData);
             if(strtbl && !p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
@@ -651,9 +656,6 @@ void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             else if(strtbl && p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
-//             if(p.type == 0x4a) {
-//                 qDebug() << p.labels;
-//             }
         }
     }
 }
@@ -761,4 +763,9 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
         }
         ++subfile;
     }
+}
+
+void CGarminTile::createIndex(QSqlDatabase& db)
+{
+
 }

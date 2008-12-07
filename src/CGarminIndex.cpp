@@ -21,11 +21,14 @@
 #include "CGarminTile.h"
 
 #include <QtGui>
+#include <QSqlQuery>
+#include <QSqlError>
+
 
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
-
+    db = QSqlDatabase::addDatabase("QSQLITE");
 }
 
 CGarminIndex::~CGarminIndex()
@@ -37,8 +40,6 @@ void CGarminIndex::open(const QString& name)
 {
     QMutexLocker lock(&mutex);
 
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
     dbName = path.filePath(name + ".db");
 
@@ -48,6 +49,7 @@ void CGarminIndex::create(const QStringList& files)
 {
     if(isRunning()) return;
     imgFiles = files;
+    QFile::remove(dbName);
 
     start();
 }
@@ -60,33 +62,53 @@ void CGarminIndex::run()
     const int size  = imgFiles.size();
     int cnt         = 0;
     QString filename;
+
+    db.setDatabaseName(dbName);
+    db.open();
+    QSqlQuery query(db);
+    if(!query.exec( "CREATE TABLE subfiles ("
+                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+                "filename       TEXT NOT NULL,"
+                "rgn_offset     INT UNSIGNED NOT NULL"
+                ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
+    if(!query.exec( "CREATE TABLE subdiv ("
+                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+                "subfile        INT UNSIGNED NOT NULL,"
+                "center_lon     INT NOT NULL,"
+                "center_lat     INT NOT NULL,"
+                "shift          INT NOT NULL"
+                ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
+    if(!query.exec( "CREATE TABLE polylines ("
+                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+                "type           INT UNSIGNED NOT NULL,"
+                "subdiv         INT UNSIGNED NOT NULL,"
+                "offset         INT UNSIGNED NOT NULL,"
+                "label          TEXT"
+                ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
     foreach(filename, imgFiles){
         CGarminTile tile(0);
         tile.readBasics(filename);
         emit sigProgress(tr("Create index... %1").arg(filename), cnt * 100 / size);
 
-        // read data from tile
-        QFile file(filename);
-        file.open(QIODevice::ReadOnly);
-
-        const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = tile.getSubFiles();
-        const quint8 maplevel =  subfiles.begin()->maplevels.last().level;
-
-        polytype_t  polygons;
-        polytype_t  polylines;
-        pointtype_t points;
-        pointtype_t pois;
-
-        tile.loadVisibleData(false, polygons, polylines, points, pois, maplevel, viewport);
-
-        file.close();
-
-        // store data to database
-
-
+        tile.createIndex(db);
         ++cnt;
     }
 
     emit sigProgress(tr("Done"), 0);
     disconnect(this, 0, 0, 0);
+
+    db.close();
 }
+
