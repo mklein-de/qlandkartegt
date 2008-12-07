@@ -442,11 +442,18 @@ void CMap3DWidget::draw3DMap()
 {
     double w = mapSize.width();
     double h = mapSize.height();
-
+    int xcount, ycount;
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
-    int xcount = (w / step + 1);
-    int ycount = (h / step + 1);
+    if (map->getFastDrawFlag()) {
+        qDebug() << "Map3D: doFastDraw";
+        xcount = (w / (step * 10.0) + 1);
+        ycount = (h / (step * 10.0) + 1);
+
+    } else {
+        xcount = (w / step + 1);
+        ycount = (h / step + 1);
+    }
 
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
@@ -499,7 +506,7 @@ void CMap3DWidget::draw3DMap()
             v = y;
             texCoords[it  + 0] = u / w;
             texCoords[it + 1] = 1 - v / h;
-            vertices[iv + 2] = getRegionValue(eleData, ix, iy);
+            vertices[iv + 2] = eleData[ix + iy * xcount];
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
@@ -538,11 +545,11 @@ void CMap3DWidget::updateElevationLimits()
     float * eleData = _eleData_.data();
 
     getEleRegion(eleData, xcount, ycount);
-    minElevation = maxElevation = getRegionValue(eleData, 0, 0);
+    minElevation = maxElevation = eleData[0];
 
     for (i = 0; i < xcount; i++)
         for (j = 0; j < ycount; j++) {
-            ele = getRegionValue(eleData, i, j);
+            ele = eleData[i + j * xcount];
             if (ele > maxElevation)
                     maxElevation = ele;
 

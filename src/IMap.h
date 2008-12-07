@@ -214,6 +214,8 @@ class IMap : public QObject
         bool getNeedsRedraw(){return needsRedraw;}
 
         const maptype_e maptype;
+
+        virtual bool getFastDrawFlag() { return doFastDraw; };
     signals:
         void sigChanged();
         void sigResize(const QSize& size);
