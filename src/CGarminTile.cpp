@@ -508,7 +508,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
                 continue;
             }
 
-            loadSuvDiv(file, *subdiv, subfile->strtbl, rgndata, fast, polylines, polygons, points, pois);
+            loadSubDiv(file, *subdiv, subfile->strtbl, rgndata, fast, polylines, polygons, points, pois);
 
 #ifdef DEBUG_SHOW_SECTION_BORDERS
             IMap& map = CMapDB::self().getMap();
@@ -530,7 +530,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
 }
 
 
-void CGarminTile::loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
+void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
 {
     if(subdiv.rgn_start == subdiv.rgn_end) return;
 
@@ -802,13 +802,108 @@ void CGarminTile::createIndex(QSqlDatabase& db)
                 continue;
             }
 
+
+
             if(!query.exec(QString("INSERT INTO subdivs (subfile, center_lon, center_lat, shift) VALUES (%1, %2, %3, %4)").arg(idSubfile).arg(subdiv->iCenterLng).arg(subdiv->iCenterLat).arg(subdiv->shift))){
                 qDebug() << query.lastError();
             }
+
+            createIndexSubDiv(file, idSubdiv, *subdiv, subfile->strtbl, rgndata, db);
 
             ++subdiv; ++idSubdiv;
         }
 
         ++subfile; ++idSubfile;
+    }
+}
+
+void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db)
+{
+    if(subdiv.rgn_start == subdiv.rgn_end) return;
+
+    const quint8 * pRawData = (quint8*)rgndata.data();
+
+    quint32 opnt = 0, oidx = 0, opline = 0, opgon = 0;
+    quint32 objCnt = subdiv.hasIdxPoints + subdiv.hasPoints + subdiv.hasPolylines + subdiv.hasPolygons;
+
+    quint16 * pOffset = (quint16*)(pRawData + subdiv.rgn_start);
+
+    // test for points
+    if(subdiv.hasPoints) {
+        opnt = (objCnt - 1) * sizeof(quint16) + subdiv.rgn_start;
+    }
+    // test for indexed points
+    if(subdiv.hasIdxPoints) {
+        if(opnt) {
+            oidx = gar_load(uint16_t, *pOffset);
+            oidx += subdiv.rgn_start;
+            ++pOffset;
+        }
+        else {
+            oidx = (objCnt - 1) * sizeof(quint16) + subdiv.rgn_start;
+        }
+
+    }
+    // test for polylines
+    if(subdiv.hasPolylines) {
+        if(opnt || oidx) {
+            opline = gar_load(uint16_t, *pOffset);
+            opline += subdiv.rgn_start;
+            ++pOffset;
+        }
+        else {
+            opline = (objCnt - 1) * sizeof(quint16) + subdiv.rgn_start;
+        }
+    }
+    // test for polygons
+    if(subdiv.hasPolygons) {
+        if(opnt || oidx || opline) {
+            opgon = gar_load(uint16_t, *pOffset);
+            opgon += subdiv.rgn_start;
+            ++pOffset;
+        }
+        else {
+            opgon = (objCnt - 1) * sizeof(quint16) + subdiv.rgn_start;
+        }
+    }
+
+#ifdef DEBUG_SHOW_POLY_DATA
+    qDebug() << "--- Subdivision" << subdiv.n << "---";
+    qDebug() << "adress:" << hex << subdiv.rgn_start << "- " << subdiv.rgn_end;
+    qDebug() << "points:            " << hex << opnt;
+    qDebug() << "indexed points:    " << hex << oidx;
+    qDebug() << "polylines:         " << hex << opline;
+    qDebug() << "polygons:          " << hex << opgon;
+#endif                       // DEBUG_SHOW_POLY_DATA
+
+    const quint8 *  pData;
+    const quint8 *  pEnd;
+
+
+
+    // decode polylines
+    if(subdiv.hasPolylines) {
+        pData = pRawData + opline;
+        pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            CGarminPolygon p;
+            quint32 offset = pData - pRawData;
+
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
+            else if(strtbl && p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
+            }
+
+            if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
+
+                QSqlQuery query(db);
+                if(!query.exec(QString("INSERT INTO polylines (type, subdiv, offset, label) VALUES (%1, %2, %3, \"%4\")").arg(p.type).arg(idSubdiv).arg(offset).arg(p.labels.join(" ").simplified()))){
+                    qDebug() << query.lastError();
+                }
+            }
+        }
     }
 }

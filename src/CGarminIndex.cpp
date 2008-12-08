@@ -68,6 +68,17 @@ void CGarminIndex::run()
     db.setDatabaseName(dbName);
     db.open();
     QSqlQuery query(db);
+    if(!query.exec("PRAGMA temp_store = MEMORY"))
+    {
+        qDebug() << query.lastError();
+    }
+
+
+    if(!query.exec("PRAGMA synchronous = OFF"))
+    {
+        qDebug() << query.lastError();
+    }
+
     if(!query.exec( "CREATE TABLE subfiles ("
                 "id             INTEGER PRIMARY KEY,"
                 "name           TEXT NOT NULL,"

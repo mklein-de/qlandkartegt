@@ -108,6 +108,7 @@ class CGarminTile : public QObject
             /// map level this subdivision is shown
             quint32 level;
             /// pointer to string table (LBL section) object
+
         };
 
         struct subfile_desc_t
@@ -165,10 +166,12 @@ class CGarminTile : public QObject
         void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
         void createIndex(QSqlDatabase& db);
 
+
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void loadSuvDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
+        void loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
+        void createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db);
 
         // share the structures
         friend class CGarminExport;
