@@ -301,7 +301,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
 
             QDomElement flags = gpx.createElement("flags");
             extension.appendChild(flags);
-            QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags));
+            QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
             flags.appendChild(_flags_);
 
             if(pt->heading != WPT_NOFLOAT) {

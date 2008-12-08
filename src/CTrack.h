@@ -29,6 +29,28 @@
 
 #define MAX_TRACK_SIZE 10000
 
+class CFlags
+{
+	public:
+		CFlags(quint32 f=0) { flags = f; changed = true; };
+		virtual ~CFlags() {};
+		const quint32 flag() const { return flags; };
+		void setFlags( quint32 f ) { if ( flags != f ) changed = true; flags = f; };
+		quint32 operator  & (quint32 f) const { return flags&f; };
+		quint32 operator |= (quint32 f) { if ( flags != (flags|f) ) changed = true; flags|=f; return flags; };
+		quint32 operator &= (quint32 f) { if ( flags != (flags&f) ) changed = true; flags&=f; return flags; };
+		quint32 operator >> (quint32 & f) { if ( flags != f ) changed = true; flags = f; return flags; };
+		const bool isChanged() const { return changed; };
+		void setChanged(bool b) { changed = b; };
+	protected:
+		/// display flags
+		quint32 flags;
+		bool changed;
+};
+
+QDataStream& operator >>(QDataStream& s, CFlags& flag);
+QDataStream& operator <<(QDataStream& s, CFlags& flag);
+
 class CTrack : public QObject
 {
     Q_OBJECT;
@@ -40,14 +62,12 @@ class CTrack : public QObject
 
         struct pt_t
         {
-
             enum flag_e
             {
                 eSelected  = 1   ///< selected by track info view
-                ,eCursor    = 2  ///< selected by cursor
-                ,eDeleted   = 4  ///< mark point as deleted
-                ,eFocus     = 8  ///< mark current point of user focus
-
+               ,eCursor    = 2  ///< selected by cursor
+               ,eDeleted   = 4  ///< mark point as deleted
+               ,eFocus     = 8  ///< mark current point of user focus
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0), timestamp_msec(0),
@@ -55,7 +75,7 @@ class CTrack : public QObject
                 ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0),
                 fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
                 vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
-                flags(0), px_valid(FALSE), dem(WPT_NOFLOAT){}
+                flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL) {}
 
             bool operator==(const pt_t& pt){return pt.idx == idx;}
 
@@ -111,12 +131,15 @@ class CTrack : public QObject
             float   vz;          ///< [m/s] velocity
 
             /// display flags
-            quint32 flags;
+            CFlags flags;
             /// the current location in pixel
             QPoint px;
             bool px_valid;
 
             float  dem;
+
+            /// QTreeWidgetItem
+            QObject * editItem;
         };
 
         /// set color by id

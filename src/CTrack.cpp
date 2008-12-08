@@ -504,14 +504,14 @@ void CTrack::rebuild(bool reindex)
     }
 
     // skip leading deleted points
-    while((pt1->flags & pt_t::eDeleted) && (pt1 != track.end())) {
-        pt1->azimuth    = 0;
-        pt1->delta      = 0;
-        pt1->speed      = -1;
-        pt1->distance   = 0;
-        pt1->ascend     = totalAscend;
-        pt1->descend    = totalDescend;
-        ++pt1; ++pt2;
+    while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted)) {
+            pt1->azimuth    = 0;
+            pt1->delta      = 0;
+            pt1->speed      = -1;
+            pt1->distance   = 0;
+            pt1->ascend     = totalAscend;
+            pt1->descend    = totalDescend;
+            ++pt1; ++pt2;
     }
 
     // no points at all?
@@ -593,6 +593,7 @@ void CTrack::rebuild(bool reindex)
     totalTime = t2 - t1;
 
     emit sigChanged();
+
 }
 
 
@@ -610,4 +611,21 @@ void CTrack::setPointOfFocus(int idx)
         trkpts[idx].flags |= CTrack::pt_t::eSelected;
     }
     emit sigChanged();
+}
+
+
+QDataStream& operator >>(QDataStream& s, CFlags& flag)
+{
+	quint32 f;
+	s >> f;
+	flag.setFlags(f);
+	flag.setChanged(true);
+	return s;
+}
+
+
+QDataStream& operator <<(QDataStream& s, CFlags& flag)
+{
+	s << flag.flag();
+	return s;
 }

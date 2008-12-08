@@ -96,6 +96,15 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     if(track) {
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
+
+        // clean view
+        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+        while(trkpt != trkpts.end()) {
+		trkpt->editItem = 0;
+		++trkpt;
+        }
+        treePoints->clear();  // this also delete the items
     }
 
     track = t;
@@ -104,10 +113,21 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         return;
     }
 
+    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end()) {
+	trkpt->editItem = 0;
+	++trkpt;
+    }
+
     connect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
     connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
 
     slotUpdate();
+
+    for(int i=0; i < eMaxColumn - 1; ++i) {
+        treePoints->resizeColumnToContents(i);
+    }
 }
 
 
@@ -129,20 +149,41 @@ void CTrackEditWidget::slotUpdate()
 
     treePoints->setUpdatesEnabled(false);
     treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
-    treePoints->clear();
 
     QString str, val, unit;
     QTreeWidgetItem * focus                 = 0;
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
-        QTreeWidgetItem * item = new QTreeWidgetItem(treePoints);
+        QTreeWidgetItem * item;
+        if ( !trkpt->editItem ) {
+		trkpt->editItem = (QObject*)new QTreeWidgetItem(treePoints);
+		item = (QTreeWidgetItem *)trkpt->editItem;
+		item->setTextAlignment(eNum,Qt::AlignLeft);
+		item->setTextAlignment(eAltitude,Qt::AlignRight);
+		item->setTextAlignment(eDelta,Qt::AlignRight);
+		item->setTextAlignment(eAzimuth,Qt::AlignRight);
+		item->setTextAlignment(eDistance,Qt::AlignRight);
+		item->setTextAlignment(eAscend,Qt::AlignRight);
+		item->setTextAlignment(eDescend,Qt::AlignRight);
+		item->setTextAlignment(eSpeed,Qt::AlignRight);
+		trkpt->flags.setChanged(true);
+	}
+
+	if ( !trkpt->flags.isChanged() ) {
+		++trkpt;
+		continue;
+	}
+
+        item = (QTreeWidgetItem *)trkpt->editItem;
         item->setData(0, Qt::UserRole, trkpt->idx);
 
         // gray shade deleted items
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
-        }
+        } else {
+            item->setFlags(item->flags() | Qt::ItemIsEnabled);
+	}
 
         // temp. store item of user focus
         if(trkpt->flags & CTrack::pt_t::eFocus) {
@@ -150,8 +191,12 @@ void CTrackEditWidget::slotUpdate()
         }
 
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            item->setSelected(true);
-        }
+		if ( !item->isSelected() )
+			item->setSelected(true);
+        } else {
+		if ( item->isSelected() )
+			item->setSelected(false);
+	}
 
         // point number
         item->setText(eNum,QString::number(trkpt->idx));
@@ -212,30 +257,19 @@ void CTrackEditWidget::slotUpdate()
         GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
         item->setText(ePosition,str);
 
-        item->setTextAlignment(eNum,Qt::AlignLeft);
-        item->setTextAlignment(eAltitude,Qt::AlignRight);
-        item->setTextAlignment(eDelta,Qt::AlignRight);
-        item->setTextAlignment(eAzimuth,Qt::AlignRight);
-        item->setTextAlignment(eDistance,Qt::AlignRight);
-        item->setTextAlignment(eAscend,Qt::AlignRight);
-        item->setTextAlignment(eDescend,Qt::AlignRight);
-        item->setTextAlignment(eSpeed,Qt::AlignRight);
+	trkpt->flags.setChanged(false);
 
         ++trkpt;
     }
 
     // adjust column sizes to fit
     treePoints->header()->setResizeMode(0,QHeaderView::Interactive);
-    for(int i=0; i < eMaxColumn - 1; ++i) {
-        treePoints->resizeColumnToContents(i);
-    }
 
     // scroll to item of user focus
     if(focus) {
         //         treePoints->setCurrentItem(focus);
         treePoints->scrollToItem(focus);
     }
-
     treePoints->setSelectionMode(QAbstractItemView::ExtendedSelection);
     treePoints->setUpdatesEnabled(true);
 }
@@ -283,6 +317,13 @@ void CTrackEditWidget::slotApply()
         while(trkpt != trkpts.end()) {
 
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
+		if ( trkpt->editItem ) {
+			int idx = treePoints->indexOfTopLevelItem((QTreeWidgetItem *)trkpt->editItem);
+			if ( idx != -1 )
+				treePoints->takeTopLevelItem(idx);
+			delete (QTreeWidgetItem *)trkpt->editItem;
+			trkpt->editItem = 0;
+		}
                 trkpt = trkpts.erase(trkpt);
             }
             else {
@@ -346,6 +387,7 @@ void CTrackEditWidget::slotPurge()
     QList<CTrack::pt_t>& trkpts                   = track->getTrackPoints();
     QList<QTreeWidgetItem*> items                   = treePoints->selectedItems();
     QList<QTreeWidgetItem*>::const_iterator item    = items.begin();
+
     while(item != items.end()) {
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
         if(trkpts[idxTrkPt].flags & CTrack::pt_t::eDeleted) {
