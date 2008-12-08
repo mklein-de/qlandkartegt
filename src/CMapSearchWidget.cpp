@@ -66,6 +66,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
     connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
     connect(lineTextToFind, SIGNAL( textChanged (const QString &)), SLOT(slotLineSearchChanged( const QString& )));
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotIndexChanged()));
     slotIndexChanged();
 
     triggerLineSearch = new QTimer(this);
@@ -358,6 +359,9 @@ void CMapSearchWidget::slotIndexChanged()
     else{
         lineTextToFind->setEnabled(false);
     }
+
+    listResultLines->clear();
+    lineTextToFind->clear();
 }
 
 void CMapSearchWidget::slotLineSearchChanged(const QString& text)
@@ -365,31 +369,34 @@ void CMapSearchWidget::slotLineSearchChanged(const QString& text)
     listResultLines->clear();
     if(text.isEmpty()) return;
 
-    triggerLineSearch->start(300);
+    triggerLineSearch->start(500);
 }
 
 void CMapSearchWidget::slotLineSearchChanged()
 {
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    lineTextToFind->setEnabled(false);
-
+    QString text = lineTextToFind->text();
+    if(text.isEmpty()) return;
 
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    lineTextToFind->setEnabled(false);
+
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     CGarminIndex * index = tdb->getSearchIndex();
 
     QSet<QString> results;
-    index->searchPolyline(lineTextToFind->text(), results);
+    index->searchPolyline(text, results);
 
     QString result;
     foreach(result, results){
         listResultLines->addItem(result);
     }
     listResultLines->sortItems();
+
+    labelProgress2->setText(tr("Found %1 items").arg(results.count()));
 
     lineTextToFind->setEnabled(true);
     lineTextToFind->setFocus();

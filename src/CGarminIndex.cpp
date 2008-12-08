@@ -151,13 +151,12 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
 
     query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\"").arg(text));
 
-
     while (query.next()) {
         result <<  query.value(0).toString();
 
-        if(result.size() > 20){
-            result << "...";
-            break;
-        }
+//         if(result.size() > 20){
+//             result << "...";
+//             break;
+//         }
     }
 }

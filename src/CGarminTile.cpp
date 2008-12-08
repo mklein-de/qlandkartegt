@@ -900,8 +900,11 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_
             if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
 
                 QSqlQuery query(db);
-                if(!query.exec(QString("INSERT INTO polylines (type, subdiv, offset, label) VALUES (%1, %2, %3, \"%4\")").arg(p.type).arg(idSubdiv).arg(offset).arg(p.labels.join(" ").simplified()))){
+                query.prepare(QString("INSERT INTO polylines (type, subdiv, offset, label) VALUES (%1, %2, %3, :label)").arg(p.type).arg(idSubdiv).arg(offset));
+                query.bindValue(":label", p.labels.join(" ").simplified());
+                if(!query.exec()){
                     qDebug() << query.lastError();
+                    qDebug() << query.lastQuery();
                 }
             }
         }
