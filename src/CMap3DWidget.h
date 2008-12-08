@@ -72,7 +72,8 @@ class CMap3DWidget: public QGLWidget
         QSize mapSize;
         /// expand map relative to the center
         void expandMap(bool zoomIn);
-        GLuint makeObject();
+        void makeMapObject();
+        void makeTrackObject();
         void setMapTexture();
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
         void normalizeAngle(double *angle);
@@ -82,7 +83,8 @@ class CMap3DWidget: public QGLWidget
         void drawTrack();
         void drawSkybox(double x, double y, double z, double xs, double ys, double zs);
 
-        GLuint object;
+        GLuint objectMap;
+        GLuint objectTrack;
         double xRot;
         double zRot;
         double xRotSens;
@@ -96,11 +98,9 @@ class CMap3DWidget: public QGLWidget
         QColor wallCollor;
         QColor highBorderColor;
 
-        /// current selected trackpoint
-        CTrack::pt_t * selTrkPt;
-
     private slots:
         void slotChanged();
+        void slotTrackChanged(bool updateGLFlag = true);
         void loadTrack();
         void loadMap();
         void mapResize(const QSize& size);
@@ -117,5 +117,6 @@ class CMap3DWidget: public QGLWidget
         void xRotationChanged(double angle);
         void zRotationChanged(double angle);
         void sigChanged();
+        void sigTrackChanged();
 };
 #endif                           //CTRACK3DWIDGET_H

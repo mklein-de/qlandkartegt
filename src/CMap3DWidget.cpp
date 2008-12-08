@@ -32,13 +32,13 @@
 #include <QPainter>
 #include <QGLPixelBuffer>
 
+#include <assert.h>
 #include <math.h>
 
 
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
 {
-    object = 0;
     xRot = 45;
     zRot = 0;
     xRotSens = 0.3;
@@ -56,10 +56,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
 
-    selTrkPt = 0;
-
     createActions();
-    connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     setFocusPolicy(Qt::StrongFocus);
 
     QSettings cfg;
@@ -71,7 +68,8 @@ CMap3DWidget::~CMap3DWidget()
 {
     makeCurrent();
     deleteTexture(mapTexture);
-    glDeleteLists(object, 1);
+    glDeleteLists(objectMap, 1);
+    glDeleteLists(objectTrack, 1);
 
     QSettings cfg;
     cfg.setValue("map/3D/3dmap", map3DAct->isChecked());
@@ -85,7 +83,13 @@ void CMap3DWidget::mapResize(const QSize& size)
 
 void CMap3DWidget::loadMap()
 {
+    if (! map.isNull()) {
+    connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
+    }
     map = &CMapDB::self().getMap();
+    assert(!map.isNull());
     mapSize = map->getSize();
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
@@ -96,9 +100,12 @@ void CMap3DWidget::loadMap()
 void CMap3DWidget::loadTrack()
 {
     qDebug() << "loadTrack";
+    if (!track.isNull())
+        disconnect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
     track = CTrackDB::self().highlightedTrack();
-    connect(track, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
-    emit sigChanged();
+    if (!track.isNull())
+        connect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
+    emit sigTrackChanged();
 }
 
 void CMap3DWidget::createActions()
@@ -111,12 +118,12 @@ void CMap3DWidget::createActions()
     showTrackAct = new QAction(tr("Show Track"), this);
     showTrackAct->setCheckable(true);
     showTrackAct->setChecked(true);
-    connect(showTrackAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
+    connect(showTrackAct, SIGNAL(triggered()), this, SLOT(slotTrackChanged()));
 
     mapEleAct = new QAction(tr("Track on Map"), this);
     mapEleAct->setCheckable(true);
     mapEleAct->setChecked(false);
-    connect(mapEleAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
+    connect(mapEleAct, SIGNAL(triggered()), this, SLOT(slotTrackChanged()));
 
     eleZoomInAct = new QAction(tr("zZoom In"), this);
     eleZoomInAct->setIcon(QIcon(":/icons/iconInc16x16"));
@@ -181,12 +188,21 @@ void CMap3DWidget::setMapTexture()
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
 }
 
+void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
+{
+    qDebug() << "slotTrackChanged";
+    makeTrackObject();
+    if (updateGLFlag)
+        updateGL();
+}
+
 void CMap3DWidget::slotChanged()
 {
+    qDebug() << "slotChanged";
     deleteTexture(mapTexture);
     setMapTexture();
-    glDeleteLists(object, 1);
-    object = makeObject();
+    makeMapObject();
+    slotTrackChanged(false);
     updateGL();
 }
 
@@ -594,6 +610,7 @@ void CMap3DWidget::updateElevationLimits()
 void CMap3DWidget::drawTrack()
 {
     glLineWidth(2.0);
+    glPointSize(5.0);
     double ele1, ele2;
     IMap& dem = CMapDB::self().getDEM();
 
@@ -626,6 +643,19 @@ void CMap3DWidget::drawTrack()
             convertPt23D(pt2.u, pt2.v, ele2);
 
             quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);
+
+            //draw selected points
+            if (trkpt->flags & CTrack::pt_t::eSelected) {
+                glBegin(GL_LINES);
+                glColor3f(1.0, 0.0, 0.0);
+                glVertex3d(pt1.u, pt1.v, ele1);
+                glVertex3d(pt1.u, pt1.v, minElevation);
+                glEnd();
+                glBegin(GL_POINTS);
+                glVertex3d(pt1.u, pt1.v, ele1);
+                glEnd();
+            }
+
             ele1 = ele2;
             pt1 = pt2;
             ++trkpt;
@@ -638,15 +668,9 @@ void CMap3DWidget::drawTrack()
 }
 
 
-GLuint CMap3DWidget::makeObject()
+void CMap3DWidget::makeMapObject()
 {
-    GLuint list = glGenLists(1);
-
-
-    glNewList(list, GL_COMPILE);
-
-    if (showTrackAct->isChecked())
-        drawTrack();
+    glNewList(objectMap, GL_COMPILE);
 
     //draw map
     if (!map3DAct->isChecked())
@@ -657,10 +681,17 @@ GLuint CMap3DWidget::makeObject()
         draw3DMap();
 
     glEndList();
-
-    return list;
 }
 
+void CMap3DWidget::makeTrackObject()
+{
+    glNewList(objectTrack, GL_COMPILE);
+
+    if (showTrackAct->isChecked())
+        drawTrack();
+
+    glEndList();
+}
 
 void CMap3DWidget::setXRotation(double angle)
 {
@@ -671,8 +702,6 @@ void CMap3DWidget::setXRotation(double angle)
         updateGL();
     }
 }
-
-
 void CMap3DWidget::setZRotation(double angle)
 {
     normalizeAngle(&angle);
@@ -686,11 +715,15 @@ void CMap3DWidget::setZRotation(double angle)
 
 void CMap3DWidget::initializeGL()
 {
+    objectMap = glGenLists(1);
+    objectTrack = glGenLists(1);
+
     loadMap();
     loadTrack();
     updateElevationLimits();
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
     connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    connect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
     emit sigChanged();
 
     glClearColor(1.0, 1.0, 1.0, 0.0);
@@ -701,7 +734,8 @@ void CMap3DWidget::initializeGL()
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
 
-    object = makeObject();
+    makeMapObject();
+    makeTrackObject();
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
 
@@ -734,7 +768,8 @@ void CMap3DWidget::paintGL()
     glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
     glTranslated(0.0, 0.0, -minElevation);
 
-    glCallList(object);
+    glCallList(objectMap);
+    glCallList(objectTrack);
 
     /*draw axis*/
 /*    glBegin(GL_LINES);
@@ -767,21 +802,6 @@ void CMap3DWidget::paintGL()
     }
     glEnd();
 
-    // draw a selected track point
-    if (selTrkPt) {
-        XY pt;
-        double ele;
-        glColor3f(1.0, 0.0, 0.0);
-        glPointSize(3.0);
-        glBegin(GL_POINTS);
-        pt.u = selTrkPt->lon * DEG_TO_RAD;
-        pt.v = selTrkPt->lat * DEG_TO_RAD;
-        map->convertRad2Pt(pt.u, pt.v);
-        convertPt23D(pt.u, pt.v, ele);
-
-        glVertex3d(pt.u, pt.v, ele);
-        glEnd();
-    }
 }
 
 
@@ -830,6 +850,8 @@ void CMap3DWidget::convertDsp2Z0(QPoint &a)
 
 void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
+    CTrack::pt_t * selTrkPt;
+
     GLdouble projection[16];
     GLdouble modelview[16];
     GLdouble gl_x0, gl_y0, gl_z0;
