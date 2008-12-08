@@ -70,7 +70,6 @@ class CMap3DWidget: public QGLWidget
         double step;
         QPointer<IMap> map;
         QSize mapSize;
-        void loadMap();
         /// expand map relative to the center
         void expandMap(bool zoomIn);
         GLuint makeObject();
@@ -102,6 +101,8 @@ class CMap3DWidget: public QGLWidget
 
     private slots:
         void slotChanged();
+        void loadTrack();
+        void loadMap();
         void mapResize(const QSize& size);
 
     public slots:
@@ -115,5 +116,6 @@ class CMap3DWidget: public QGLWidget
         signals:
         void xRotationChanged(double angle);
         void zRotationChanged(double angle);
+        void sigChanged();
 };
 #endif                           //CTRACK3DWIDGET_H

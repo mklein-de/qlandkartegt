@@ -90,8 +90,16 @@ void CMap3DWidget::loadMap()
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
+    emit sigChanged();
 }
 
+void CMap3DWidget::loadTrack()
+{
+    qDebug() << "loadTrack";
+    track = CTrackDB::self().highlightedTrack();
+    connect(track, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    emit sigChanged();
+}
 
 void CMap3DWidget::createActions()
 {
@@ -171,9 +179,7 @@ void CMap3DWidget::setMapTexture()
     p.eraseRect(pm.rect());
     map->draw(p);
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
-    track = CTrackDB::self().highlightedTrack();
 }
-
 
 void CMap3DWidget::slotChanged()
 {
@@ -531,6 +537,7 @@ void CMap3DWidget::draw3DMap()
 
 void CMap3DWidget::updateElevationLimits()
 {
+    qDebug() << "updateElevationLimits";
     double ele;
     int i, j;
     double w = mapSize.width();
@@ -595,20 +602,6 @@ void CMap3DWidget::drawTrack()
 
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-        maxElevation = trkpt->ele;
-        minElevation = trkpt->ele;
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                ++trkpt; continue;
-            }
-            if (trkpt->ele > maxElevation)
-                maxElevation = trkpt->ele;
-            if (trkpt->ele < minElevation)
-                minElevation = trkpt->ele;
-            ++trkpt;
-        }
-
-        trkpt = trkpts.begin();
 
         pt1.u = trkpt->lon * DEG_TO_RAD;
         pt1.v = trkpt->lat * DEG_TO_RAD;
@@ -649,7 +642,6 @@ GLuint CMap3DWidget::makeObject()
 {
     GLuint list = glGenLists(1);
 
-    updateElevationLimits();
 
     glNewList(list, GL_COMPILE);
 
@@ -695,15 +687,19 @@ void CMap3DWidget::setZRotation(double angle)
 void CMap3DWidget::initializeGL()
 {
     loadMap();
+    loadTrack();
+    updateElevationLimits();
+    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
+    connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    emit sigChanged();
+
     glClearColor(1.0, 1.0, 1.0, 0.0);
-    setMapTexture();
     int i;
     for (i = 0; i < 6; i++)
     {
         QImage img(tr(":/skybox/%1.bmp").arg(i));
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
-
 
     object = makeObject();
     glShadeModel(GL_SMOOTH);
