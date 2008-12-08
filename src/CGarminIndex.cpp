@@ -28,7 +28,7 @@
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
-//     db = QSqlDatabase::addDatabase("QSQLITE");
+
 }
 
 CGarminIndex::~CGarminIndex()
@@ -36,7 +36,13 @@ CGarminIndex::~CGarminIndex()
 
 }
 
-void CGarminIndex::open(const QString& name)
+bool CGarminIndex::indexCreated()
+{
+
+    return QFile::exists(dbName) && !isRunning();
+}
+
+void CGarminIndex::setDBName(const QString& name)
 {
     QMutexLocker lock(&mutex);
 
@@ -125,12 +131,32 @@ void CGarminIndex::run()
     emit sigProgress(tr("Done"), 0);
     disconnect(this, 0, 0, 0);
 
-    query.exec("SELECT * FROM subfiles");
+//     query.exec("SELECT * FROM subfiles");
+//     while (query.next()) {
+//         qDebug() <<  query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
+//
+//     }
+
+    db.close();
+}
+
+void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
+{
+    qDebug() << "void CGarminIndex::searchPolyline(const QString& text)";
+    QSqlDatabase db;
+
+    QMutexLocker lock(&mutex);
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbName);
+    db.open();
+
+    QSqlQuery query(db);
+    query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\"").arg(text));
+
     while (query.next()) {
-        qDebug() <<  query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
+        result <<  query.value(0).toString();
 
     }
 
     db.close();
 }
-

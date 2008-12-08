@@ -24,6 +24,7 @@
 #include <QStringList>
 #include <QSqlDatabase>
 #include <QMutex>
+#include <QSet>
 
 class CGarminIndex : public QThread
 {
@@ -31,8 +32,11 @@ class CGarminIndex : public QThread
     public:
         CGarminIndex(QObject * parent);
         virtual ~CGarminIndex();
-        void open(const QString& name);
+        void setDBName(const QString& name);
         void create(const QStringList& files);
+        bool indexCreated();
+
+        void searchPolyline(const QString& text, QSet<QString>& result);
 
     signals:
         void sigProgress(const QString& status, const int progress);
@@ -44,7 +48,7 @@ class CGarminIndex : public QThread
         QMutex          mutex;
         QString         dbName;
         QStringList     imgFiles;
-//         QSqlDatabase    db;
+
 };
 
 #endif //CGARMININDEX_H

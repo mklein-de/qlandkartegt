@@ -316,7 +316,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     parent->installEventFilter(this);
 
     index = new CGarminIndex(this);
-    index->open(name);
+    index->setDBName(name);
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -351,7 +351,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     isTransparent = true;
 
     index = new CGarminIndex(this);
-    index->open(name);
+    index->setDBName(name);
     qDebug() << "CMapTDB::CMapTDB()";
 }
 

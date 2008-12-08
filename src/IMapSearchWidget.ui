@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1297</width>
     <height>250</height>
    </rect>
   </property>
@@ -283,23 +283,13 @@
       <attribute name="title" >
        <string>Lines</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+      <layout class="QHBoxLayout" name="horizontalLayout_2" >
        <item>
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Find Label</string>
          </property>
          <layout class="QGridLayout" name="gridLayout" >
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="lineTextToFind" />
-          </item>
-          <item row="0" column="2" >
-           <widget class="QPushButton" name="pushSearchText" >
-            <property name="text" >
-             <string>Search</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0" >
            <widget class="QLabel" name="label_3" >
             <property name="text" >
@@ -307,14 +297,24 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
-           <widget class="QPushButton" name="pushToTrack" >
-            <property name="text" >
-             <string>To Track</string>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="lineTextToFind" >
+            <property name="enabled" >
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" >
+          <item rowspan="4" row="0" column="2" >
+           <widget class="QListWidget" name="listResultLines" />
+          </item>
+          <item row="1" column="1" >
+           <widget class="QProgressBar" name="progressBar2" >
+            <property name="value" >
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
            <widget class="QLabel" name="labelProgress2" >
             <property name="text" >
              <string/>
@@ -324,19 +324,42 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="QProgressBar" name="progressBar2" >
-            <property name="value" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2" >
-           <widget class="QPushButton" name="pushCreateIndex" >
-            <property name="text" >
-             <string>Create Index</string>
-            </property>
-           </widget>
+          <item row="3" column="1" >
+           <layout class="QHBoxLayout" name="horizontalLayout" >
+            <item>
+             <widget class="QPushButton" name="pushCreateIndex" >
+              <property name="enabled" >
+               <bool>true</bool>
+              </property>
+              <property name="text" >
+               <string>Create Index</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushToTrack" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>To Track</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

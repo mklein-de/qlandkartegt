@@ -57,6 +57,7 @@ class CMapTDB : public IMap
         void select(IMapSelection& ms, const QRect& rect);
 
         void createSearchIndex(QObject * reveiver, const char * slot);
+        CGarminIndex * getSearchIndex(){return index;}
 
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);

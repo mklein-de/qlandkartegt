@@ -29,6 +29,7 @@
 #include "CImage.h"
 #include "CMapSearchThread.h"
 #include "IMap.h"
+#include "CGarminIndex.h"
 
 #include <QtGui>
 
@@ -55,7 +56,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
     thread = new CMapSearchThread(this);
     connect(thread, SIGNAL(finished()), this, SLOT(slotSearchFinished()));
-    connect(thread, SIGNAL(sigProgress(const QString&, const int)), this, SLOT(slotProgress(const QString&, const int)));
+    connect(thread, SIGNAL(sigProgress(const QString&, const int)), this, SLOT(slotProgressSymbol(const QString&, const int)));
 
     mask = new CImage(this);
     loadMaskCollection();
@@ -64,6 +65,8 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     slotMapChanged();
 
     connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
+    connect(lineTextToFind, SIGNAL( textChanged (const QString &)), SLOT(slotSearchLineChanged( const QString& )));
+    slotIndexChanged();
 }
 
 
@@ -104,17 +107,12 @@ void CMapSearchWidget::slotSearch()
 }
 
 
-void CMapSearchWidget::slotProgress(const QString& status, const int progress)
+void CMapSearchWidget::slotProgressSymbol(const QString& status, const int progress)
 {
     labelProgress->setText(status);
     progressBar->setValue(progress);
 }
 
-void CMapSearchWidget::slotProgress2(const QString& status, const int progress)
-{
-    labelProgress2->setText(status);
-    progressBar2->setValue(progress);
-}
 
 void CMapSearchWidget::slotCancel()
 {
@@ -324,18 +322,56 @@ void CMapSearchWidget::slotMapChanged()
     tabWidget->widget(1)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
 }
 
+void CMapSearchWidget::slotProgressIndex(const QString& status, const int progress)
+{
+    labelProgress2->setText(status);
+    progressBar2->setValue(progress);
+    slotIndexChanged();
+}
+
 void CMapSearchWidget::slotCreateIndex()
 {
-    QString text    = lineTextToFind->text();
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
 
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    tdb->createSearchIndex(this, SLOT(slotProgress2(const QString&, const int)));
+    tdb->createSearchIndex(this, SLOT(slotProgressIndex(const QString&, const int)));
+}
 
-//     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-//     db.setDatabaseName("test.db");
-//
-//     db.close();
+void CMapSearchWidget::slotIndexChanged()
+{
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    CGarminIndex * index = tdb->getSearchIndex();
+
+    if(index->indexCreated()){
+        lineTextToFind->setEnabled(true);
+    }
+    else{
+        lineTextToFind->setEnabled(false);
+    }
+}
+
+void CMapSearchWidget::slotSearchLineChanged(const QString& text)
+{
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    CGarminIndex * index = tdb->getSearchIndex();
+
+    QSet<QString> results;
+    index->searchPolyline(text, results);
+
+    listResultLines->clear();
+
+    QString result;
+    foreach(result, results){
+        listResultLines->addItem(result);
+    }
 }
