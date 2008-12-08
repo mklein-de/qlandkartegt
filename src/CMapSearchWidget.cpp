@@ -65,8 +65,12 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     slotMapChanged();
 
     connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
-    connect(lineTextToFind, SIGNAL( textChanged (const QString &)), SLOT(slotSearchLineChanged( const QString& )));
+    connect(lineTextToFind, SIGNAL( textChanged (const QString &)), SLOT(slotLineSearchChanged( const QString& )));
     slotIndexChanged();
+
+    triggerLineSearch = new QTimer(this);
+    triggerLineSearch->setSingleShot(true);
+    connect(triggerLineSearch, SIGNAL(timeout()), this, SLOT(slotLineSearchChanged()));
 }
 
 
@@ -356,10 +360,20 @@ void CMapSearchWidget::slotIndexChanged()
     }
 }
 
-void CMapSearchWidget::slotSearchLineChanged(const QString& text)
+void CMapSearchWidget::slotLineSearchChanged(const QString& text)
 {
     listResultLines->clear();
     if(text.isEmpty()) return;
+
+    triggerLineSearch->start(300);
+}
+
+void CMapSearchWidget::slotLineSearchChanged()
+{
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    lineTextToFind->setEnabled(false);
+
 
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
@@ -369,11 +383,15 @@ void CMapSearchWidget::slotSearchLineChanged(const QString& text)
     CGarminIndex * index = tdb->getSearchIndex();
 
     QSet<QString> results;
-    index->searchPolyline(text, results);
+    index->searchPolyline(lineTextToFind->text(), results);
 
     QString result;
     foreach(result, results){
         listResultLines->addItem(result);
     }
     listResultLines->sortItems();
+
+    lineTextToFind->setEnabled(true);
+    lineTextToFind->setFocus();
+    QApplication::restoreOverrideCursor();
 }

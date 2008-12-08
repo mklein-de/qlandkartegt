@@ -28,6 +28,7 @@ class CMapSearchCanvas;
 class QPixmap;
 class CImage;
 class CMapSearchThread;
+class QTimer;
 
 class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 {
@@ -55,7 +56,9 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 
         void slotCreateIndex();
         void slotIndexChanged();
-        void slotSearchLineChanged(const QString& text);
+        void slotLineSearchChanged();
+        void slotLineSearchChanged(const QString&);
+
 
     private:
         void binarizeViewport(int t);
@@ -67,5 +70,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         CImage * mask;
 
         CMapSearchThread * thread;
+
+        QTimer * triggerLineSearch;
 };
 #endif                           //CMAPSEARCHWIDGET_H
