@@ -151,12 +151,16 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
     db.open();
 
     QSqlQuery query(db);
-    query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\"").arg(text));
+    query.exec( "PRAGMA synchronous         = OFF;" );
+    query.exec( "PRAGMA default_cache_size  = 20000;" );
+    query.exec( "PRAGMA cache_size          = 20000;" );
+    query.exec( "PRAGMA temp_store          = MEMORY;" );
+    query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\" LIMIT 0,101").arg(text));
 
-    while (query.next()) {
-        result <<  query.value(0).toString();
-
+    if(query.size() < 100){
+        while (query.next()) {
+            result <<  query.value(0).toString();
+        }
     }
-
     db.close();
 }

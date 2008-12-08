@@ -358,6 +358,9 @@ void CMapSearchWidget::slotIndexChanged()
 
 void CMapSearchWidget::slotSearchLineChanged(const QString& text)
 {
+    listResultLines->clear();
+    if(text.isEmpty()) return;
+
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
@@ -367,8 +370,6 @@ void CMapSearchWidget::slotSearchLineChanged(const QString& text)
 
     QSet<QString> results;
     index->searchPolyline(text, results);
-
-    listResultLines->clear();
 
     QString result;
     foreach(result, results){
