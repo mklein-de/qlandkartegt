@@ -498,6 +498,7 @@ void CTrack::rebuild(bool reindex)
         quint32 idx = 0;
         while(pt1 != track.end()) {
             pt1->idx = idx++;
+            pt1->flags.setChanged(true);
             ++pt1;
         }
         pt1 = track.begin();

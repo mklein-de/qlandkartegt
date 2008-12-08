@@ -113,6 +113,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         return;
     }
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
@@ -125,15 +127,18 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     slotUpdate();
 
+    treePoints->setUpdatesEnabled(false);
     for(int i=0; i < eMaxColumn - 1; ++i) {
         treePoints->resizeColumnToContents(i);
     }
+    treePoints->setUpdatesEnabled(true);
+
+    QApplication::restoreOverrideCursor();
 }
 
 
 void CTrackEditWidget::slotUpdate()
 {
-
     if (track->hasTraineeData())
         traineeGraph->setEnabled(true);
     else {
