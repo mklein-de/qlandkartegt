@@ -99,7 +99,6 @@ void CMap3DWidget::loadMap()
 
 void CMap3DWidget::loadTrack()
 {
-    qDebug() << "loadTrack";
     if (!track.isNull())
         disconnect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
     track = CTrackDB::self().highlightedTrack();
@@ -190,7 +189,6 @@ void CMap3DWidget::setMapTexture()
 
 void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
 {
-    qDebug() << "slotTrackChanged";
     makeTrackObject();
     if (updateGLFlag)
         updateGL();
@@ -198,7 +196,6 @@ void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
 
 void CMap3DWidget::slotChanged()
 {
-    qDebug() << "slotChanged";
     deleteTexture(mapTexture);
     setMapTexture();
     makeMapObject();
@@ -468,7 +465,6 @@ void CMap3DWidget::draw3DMap()
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
     if (map->getFastDrawFlag()) {
-        qDebug() << "Map3D: doFastDraw";
         xcount = (w / (step * 10.0) + 1);
         ycount = (h / (step * 10.0) + 1);
 
@@ -553,7 +549,6 @@ void CMap3DWidget::draw3DMap()
 
 void CMap3DWidget::updateElevationLimits()
 {
-    qDebug() << "updateElevationLimits";
     double ele;
     int i, j;
     double w = mapSize.width();
