@@ -375,4 +375,5 @@ void CMapSearchWidget::slotSearchLineChanged(const QString& text)
     foreach(result, results){
         listResultLines->addItem(result);
     }
+    listResultLines->sortItems();
 }

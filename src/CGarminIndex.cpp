@@ -48,13 +48,21 @@ void CGarminIndex::setDBName(const QString& name)
 
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
     dbName = path.filePath(name + ".db");
-
+    qDebug() << "add" << dbName;
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbName);
+    db.open();
 }
 
 void CGarminIndex::create(const QStringList& files)
 {
     if(isRunning()) return;
     imgFiles = files;
+
+    QSqlDatabase db = QSqlDatabase::database(dbName);
+    db.close();
+    db.removeDatabase(dbName);
+
     QFile::remove(dbName);
 
     start();
@@ -73,6 +81,7 @@ void CGarminIndex::run()
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbName);
     db.open();
+
     QSqlQuery query(db);
     if(!query.exec("PRAGMA temp_store = MEMORY"))
     {
@@ -130,37 +139,25 @@ void CGarminIndex::run()
 
     emit sigProgress(tr("Done"), 0);
     disconnect(this, 0, 0, 0);
-
-//     query.exec("SELECT * FROM subfiles");
-//     while (query.next()) {
-//         qDebug() <<  query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
-//
-//     }
-
-    db.close();
 }
 
 void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
 {
     qDebug() << "void CGarminIndex::searchPolyline(const QString& text)";
-    QSqlDatabase db;
-
     QMutexLocker lock(&mutex);
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
-    db.open();
 
+    QSqlDatabase db = QSqlDatabase::database(dbName);
     QSqlQuery query(db);
-    query.exec( "PRAGMA synchronous         = OFF;" );
-    query.exec( "PRAGMA default_cache_size  = 20000;" );
-    query.exec( "PRAGMA cache_size          = 20000;" );
-    query.exec( "PRAGMA temp_store          = MEMORY;" );
-    query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\" LIMIT 0,101").arg(text));
 
-    if(query.size() < 100){
-        while (query.next()) {
-            result <<  query.value(0).toString();
+    query.exec(QString("SELECT label FROM polylines WHERE label LIKE \"%1%\"").arg(text));
+
+
+    while (query.next()) {
+        result <<  query.value(0).toString();
+
+        if(result.size() > 20){
+            result << "...";
+            break;
         }
     }
-    db.close();
 }
