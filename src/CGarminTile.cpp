@@ -26,6 +26,8 @@
 
 #include <QtGui>
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 #undef DEBUG_SHOW_SECT_DESC
 #undef DEBUG_SHOW_TRE_DATA
@@ -523,6 +525,8 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
         }
         ++subfile;
     }
+
+    file.close();
 }
 
 
@@ -767,5 +771,44 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
 
 void CGarminTile::createIndex(QSqlDatabase& db)
 {
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
 
+    QSqlQuery query(db);
+    int idSubfile   = 0;
+    int idSubdiv    = 0;
+
+    QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
+    while(subfile != subfiles.end()) {
+
+        quint8 level = subfile->maplevels.last().level;
+
+        if(!query.exec(QString("INSERT INTO subfiles (name, filename, rgn_offset, rgn_size, level) VALUES (\"%1\", \"%2\", %3, %4, %5)").arg(subfile->name).arg(filename).arg(subfile->parts["RGN"].offset).arg(subfile->parts["RGN"].size).arg(level))){
+            qDebug() << query.lastError();
+        }
+
+        QByteArray rgndata;
+        readFile(file, subfile->parts["RGN"].offset, subfile->parts["RGN"].size, rgndata);
+
+        const QVector<subdiv_desc_t>&  subdivs = subfile->subdivs;
+        // collect polylines
+        QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
+        while(subdiv != subdivs.end()) {
+
+            if(subdiv->level != level) {
+                ++subdiv;
+                continue;
+            }
+
+            if(!query.exec(QString("INSERT INTO subdivs (subfile, center_lon, center_lat, shift) VALUES (%1, %2, %3, %4)").arg(idSubfile).arg(subdiv->iCenterLng).arg(subdiv->iCenterLat).arg(subdiv->shift))){
+                qDebug() << query.lastError();
+            }
+
+            ++subdiv; ++idSubdiv;
+        }
+
+        ++subfile; ++idSubfile;
+    }
 }

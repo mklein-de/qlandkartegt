@@ -44,7 +44,7 @@ class CGarminIndex : public QThread
         QMutex          mutex;
         QString         dbName;
         QStringList     imgFiles;
-        QSqlDatabase    db;
+//         QSqlDatabase    db;
 };
 
 #endif //CGARMININDEX_H

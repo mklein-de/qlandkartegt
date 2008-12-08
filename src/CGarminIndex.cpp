@@ -28,7 +28,7 @@
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
+//     db = QSqlDatabase::addDatabase("QSQLITE");
 }
 
 CGarminIndex::~CGarminIndex()
@@ -62,21 +62,26 @@ void CGarminIndex::run()
     const int size  = imgFiles.size();
     int cnt         = 0;
     QString filename;
+    QSqlDatabase db;
 
+    db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbName);
     db.open();
     QSqlQuery query(db);
     if(!query.exec( "CREATE TABLE subfiles ("
-                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+                "id             INTEGER PRIMARY KEY,"
+                "name           TEXT NOT NULL,"
                 "filename       TEXT NOT NULL,"
-                "rgn_offset     INT UNSIGNED NOT NULL"
+                "rgn_offset     INT UNSIGNED NOT NULL,"
+                "rgn_size       INT UNSIGNED NOT NULL,"
+                "level          INT UNSIGNED NOT NULL"
                 ")"))
     {
         qDebug() << query.lastError();
     }
 
-    if(!query.exec( "CREATE TABLE subdiv ("
-                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+    if(!query.exec( "CREATE TABLE subdivs ("
+                "id             INTEGER PRIMARY KEY,"
                 "subfile        INT UNSIGNED NOT NULL,"
                 "center_lon     INT NOT NULL,"
                 "center_lat     INT NOT NULL,"
@@ -87,7 +92,7 @@ void CGarminIndex::run()
     }
 
     if(!query.exec( "CREATE TABLE polylines ("
-                "id             INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,"
+                "id             INTEGER PRIMARY KEY,"
                 "type           INT UNSIGNED NOT NULL,"
                 "subdiv         INT UNSIGNED NOT NULL,"
                 "offset         INT UNSIGNED NOT NULL,"
@@ -108,6 +113,12 @@ void CGarminIndex::run()
 
     emit sigProgress(tr("Done"), 0);
     disconnect(this, 0, 0, 0);
+
+    query.exec("SELECT * FROM subfiles");
+    while (query.next()) {
+        qDebug() <<  query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
+
+    }
 
     db.close();
 }
