@@ -59,7 +59,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotIndexChanged();
         void slotLineSearchChanged();
         void slotLineSearchChanged(const QString&);
-        void slotLineSelected(QListWidgetItem * item);
+        void slotLineSelected();
 
 
     private:

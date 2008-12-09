@@ -28,7 +28,7 @@
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
-
+    connect(this, SIGNAL(finished()), SLOT(slotFinished()));
 }
 
 CGarminIndex::~CGarminIndex()
@@ -38,8 +38,7 @@ CGarminIndex::~CGarminIndex()
 
 bool CGarminIndex::created()
 {
-
-    return QFile::exists(dbName) && !isRunning();
+    return (QFile::exists(dbName) && QFileInfo(dbName).size() && !isRunning());
 }
 
 void CGarminIndex::setDBName(const QString& name)
@@ -123,8 +122,6 @@ void CGarminIndex::run()
         ++cnt;
     }
 
-    emit sigProgress(tr("Done"), 0);
-    disconnect(this, 0, 0, 0);
 }
 
 void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
@@ -135,7 +132,7 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
     QSqlQuery query(db);
 
     query.prepare("SELECT label FROM polylines WHERE label LIKE :label");
-    query.bindValue(":label", text + "%");
+    query.bindValue(":label", "%" + text + "%");
     if(!query.exec()){
         qDebug() << query.lastError();
     }
@@ -177,4 +174,10 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
         tile.readBasics(filename);
         tile.readPolyline(name, subdiv, offset, result);
     }
+}
+
+void CGarminIndex::slotFinished()
+{
+    emit sigProgress(tr("Done"), 0);
+    disconnect(this, 0, 0, 0);
 }

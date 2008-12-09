@@ -305,7 +305,11 @@
            </widget>
           </item>
           <item rowspan="4" row="0" column="2" >
-           <widget class="QListWidget" name="listResultLines" />
+           <widget class="QListWidget" name="listResultLines" >
+            <property name="selectionMode" >
+             <enum>QAbstractItemView::ExtendedSelection</enum>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1" >
            <widget class="QProgressBar" name="progressBar2" >

@@ -44,6 +44,9 @@ class CGarminIndex : public QThread
     signals:
         void sigProgress(const QString& status, const int progress);
 
+    private slots:
+        void slotFinished();
+
     protected:
         void run();
 

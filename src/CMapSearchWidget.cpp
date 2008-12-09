@@ -73,7 +73,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     triggerLineSearch->setSingleShot(true);
     connect(triggerLineSearch, SIGNAL(timeout()), this, SLOT(slotLineSearchChanged()));
 
-    connect(listResultLines, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotLineSelected(QListWidgetItem*)));
+    connect(listResultLines, SIGNAL(itemSelectionChanged ()), this, SLOT(slotLineSelected()));
 }
 
 
@@ -405,18 +405,28 @@ void CMapSearchWidget::slotLineSearchChanged()
     QApplication::restoreOverrideCursor();
 }
 
-void CMapSearchWidget::slotLineSelected(QListWidgetItem * item)
+void CMapSearchWidget::slotLineSelected()
 {
+
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
 
-    QString text = item->text();
-    QVector<CGarminPolygon> result;
-
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     CGarminIndex * index = tdb->getSearchIndex();
 
-    index->searchPolyline(text, result);
+    QListWidgetItem * item;
+    QList<QListWidgetItem *> items = listResultLines->selectedItems();
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    QVector<CGarminPolygon> result;
+
+    foreach(item, items){
+        QString text = item->text();
+        index->searchPolyline(text, result);
+    }
+
     tdb->xxx(result);
+
+    QApplication::restoreOverrideCursor();
 }
