@@ -224,8 +224,8 @@ void CMap3DWidget::drawFlatMap()
     double h = mapSize.height();
 
     glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
+    glBegin(GL_QUADS);
     glTexCoord2d(0.0, 0.0);
     glVertex3d(-w/2, -h/2, minElevation);
     glTexCoord2d(1.0, 0.0);
