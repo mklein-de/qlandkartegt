@@ -20,6 +20,8 @@
 #ifndef CGARMININDEX_H
 #define CGARMININDEX_H
 
+#include "CGarminPolygon.h"
+
 #include <QThread>
 #include <QStringList>
 #include <QSqlDatabase>
@@ -34,9 +36,10 @@ class CGarminIndex : public QThread
         virtual ~CGarminIndex();
         void setDBName(const QString& name);
         void create(const QStringList& files);
-        bool indexCreated();
+        bool created();
 
         void searchPolyline(const QString& text, QSet<QString>& result);
+        void searchPolyline(const QString& text, QVector<CGarminPolygon>& result);
 
     signals:
         void sigProgress(const QString& status, const int progress);

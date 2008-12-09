@@ -29,6 +29,7 @@ class QPixmap;
 class CImage;
 class CMapSearchThread;
 class QTimer;
+class QListWidgetItem;
 
 class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 {
@@ -58,6 +59,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotIndexChanged();
         void slotLineSearchChanged();
         void slotLineSearchChanged(const QString&);
+        void slotLineSelected(QListWidgetItem * item);
 
 
     private:

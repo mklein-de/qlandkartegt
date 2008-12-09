@@ -157,21 +157,42 @@ class CGarminTile : public QObject
 
         bool isTransparent(){return transparent;}
 
-        /// draw file content
+        /// read file content
         /**
-            @param p the painter
-            @param viewport the actual view port to draw in []
+            @param fast         set true to get fast access to polylines only
+            @param polygons     reference to vector to store polygons
+            @param polylines    reference to vector to store polylines
+            @param points       reference to vector to store points
+            @param pois         reference to vector to store pois
+            @param level        detail level to use
+            @param viewport the actual view port to draw in [rad]
+
         */
         void loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport);
+        /// read all polygons of a certain type in a file
+        /**
+            @param polygons     reference to vector to store polygons
+            @param type         the 16bit type
+            @param level        detail level to use
+        */
         void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
-        void createIndex(QSqlDatabase& db);
 
+        /// create database index for later element lookup
+        void createIndex(QSqlDatabase& db);
+        /// read a single polyline
+        /**
+            @param subfile      the subfile by identifier the polyline is stored in
+            @param subdiv       the subdiv by index the  the polyline is stored in
+            @param offset       the offset into RGN part
+            @param polylines    vector to place result
+        */
+        void readPolyline(const QString& subfile, quint32 subdiv, quint32 offset, polytype_t& polylines);
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
         void loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
-        void createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db);
+        void createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db);
 
         // share the structures
         friend class CGarminExport;

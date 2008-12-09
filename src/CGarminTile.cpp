@@ -777,17 +777,27 @@ void CGarminTile::createIndex(QSqlDatabase& db)
     }
 
     QSqlQuery query(db);
-    int idSubfile   = 0;
-    int idSubdiv    = 0;
+
 
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()) {
-
         quint8 level = subfile->maplevels.last().level;
 
-        if(!query.exec(QString("INSERT INTO subfiles (name, filename, rgn_offset, rgn_size, level) VALUES (\"%1\", \"%2\", %3, %4, %5)").arg(subfile->name).arg(filename).arg(subfile->parts["RGN"].offset).arg(subfile->parts["RGN"].size).arg(level))){
+        query.prepare("INSERT INTO subfiles (name, filename) VALUES (:name, :filename)");
+        query.bindValue(":name", subfile.key());
+        query.bindValue(":filename", filename);
+        if(!query.exec()){
             qDebug() << query.lastError();
         }
+
+        query.prepare("Select id FROM subfiles WHERE filename = :filename");
+        query.bindValue(":filename", filename);
+        if(!query.exec()){
+            qDebug() << query.lastError();
+        }
+        query.next();
+        quint32 idSubfile = query.value(0).toUInt();
+
 
         QByteArray rgndata;
         readFile(file, subfile->parts["RGN"].offset, subfile->parts["RGN"].size, rgndata);
@@ -802,22 +812,16 @@ void CGarminTile::createIndex(QSqlDatabase& db)
                 continue;
             }
 
+            createIndexSubDiv(file, idSubfile, *subdiv, subfile->strtbl, rgndata, db);
 
-
-            if(!query.exec(QString("INSERT INTO subdivs (subfile, center_lon, center_lat, shift) VALUES (%1, %2, %3, %4)").arg(idSubfile).arg(subdiv->iCenterLng).arg(subdiv->iCenterLat).arg(subdiv->shift))){
-                qDebug() << query.lastError();
-            }
-
-            createIndexSubDiv(file, idSubdiv, *subdiv, subfile->strtbl, rgndata, db);
-
-            ++subdiv; ++idSubdiv;
+            ++subdiv;
         }
 
-        ++subfile; ++idSubfile;
+        ++subfile;
     }
 }
 
-void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db)
+void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db)
 {
     if(subdiv.rgn_start == subdiv.rgn_end) return;
 
@@ -879,8 +883,6 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_
     const quint8 *  pData;
     const quint8 *  pEnd;
 
-
-
     // decode polylines
     if(subdiv.hasPolylines) {
         pData = pRawData + opline;
@@ -900,7 +902,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_
             if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
 
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO polylines (type, subdiv, offset, label) VALUES (%1, %2, %3, :label)").arg(p.type).arg(idSubdiv).arg(offset));
+                query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
                 query.bindValue(":label", p.labels.join(" ").simplified());
                 if(!query.exec()){
                     qDebug() << query.lastError();
@@ -909,4 +911,24 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubdiv, const subdiv_
             }
         }
     }
+}
+
+void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset, polytype_t& polylines)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    QByteArray rgndata;
+    readFile(file, subfiles[subfile].parts["RGN"].offset, subfiles[subfile].parts["RGN"].size, rgndata);
+    subdiv_desc_t& subdiv = subfiles[subfile].subdivs[n];
+
+    const quint8 *  pData = (quint8*)rgndata.data() + offset;
+
+    polylines.push_back(CGarminPolygon());
+    CGarminPolygon& p = polylines.last();
+    pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+
+    file.close();
 }

@@ -72,6 +72,8 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     triggerLineSearch = new QTimer(this);
     triggerLineSearch->setSingleShot(true);
     connect(triggerLineSearch, SIGNAL(timeout()), this, SLOT(slotLineSearchChanged()));
+
+    connect(listResultLines, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotLineSelected(QListWidgetItem*)));
 }
 
 
@@ -353,7 +355,7 @@ void CMapSearchWidget::slotIndexChanged()
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     CGarminIndex * index = tdb->getSearchIndex();
 
-    if(index->indexCreated()){
+    if(index->created()){
         lineTextToFind->setEnabled(true);
     }
     else{
@@ -401,4 +403,20 @@ void CMapSearchWidget::slotLineSearchChanged()
     lineTextToFind->setEnabled(true);
     lineTextToFind->setFocus();
     QApplication::restoreOverrideCursor();
+}
+
+void CMapSearchWidget::slotLineSelected(QListWidgetItem * item)
+{
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    QString text = item->text();
+    QVector<CGarminPolygon> result;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    CGarminIndex * index = tdb->getSearchIndex();
+
+    index->searchPolyline(text, result);
+
 }
