@@ -418,5 +418,5 @@ void CMapSearchWidget::slotLineSelected(QListWidgetItem * item)
     CGarminIndex * index = tdb->getSearchIndex();
 
     index->searchPolyline(text, result);
-
+    tdb->xxx(result);
 }

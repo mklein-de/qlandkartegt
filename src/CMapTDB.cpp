@@ -1267,6 +1267,32 @@ void CMapTDB::draw()
     if(!doFastDraw && !isTransparent) {
         drawPolygons(p, polygons);
     }
+
+    QPen pen(Qt::red, 30);
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    p.setPen(pen);
+    polytype_t::iterator item = query.begin();
+    while(item != query.end()) {
+        QVector<double> lon = item->u;
+        QVector<double> lat = item->v;
+        double * u      = lon.data();
+        double * v      = lat.data();
+        const int size  = lon.size();
+
+        convertRad2Pt(u,v,size);
+        QPolygonF line(size);
+
+        for(int i = 0; i < size; ++i) {
+            line[i].setX(*u++);
+            line[i].setY(*v++);
+        }
+
+        p.drawPolyline(line);
+
+        ++item;
+    }
+
     drawPolylines(p, polylines);
     if(!doFastDraw) {
         drawPoints(p, points);
@@ -1293,7 +1319,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
 
     // clear text list
-//     polylinesText.clear();
     textpaths.clear();
 
     // 1st run. Draw all background polylines (polylines that have pen1)
@@ -2542,4 +2567,12 @@ void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
     }
     connect(index, SIGNAL(sigProgress(const QString&, const int)), receiver, slot);
     index->create(files);
+}
+
+
+void CMapTDB::xxx(QVector<CGarminPolygon>& res)
+{
+    query = res;
+    needsRedraw = true;
+    emit sigChanged();
 }

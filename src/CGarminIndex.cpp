@@ -83,8 +83,7 @@ void CGarminIndex::run()
     db.open();
 
     QSqlQuery query(db);
-    if(!query.exec("PRAGMA temp_store = MEMORY"))
-    {
+    if(!query.exec("PRAGMA temp_store = MEMORY")){
         qDebug() << query.lastError();
     }
 
@@ -137,7 +136,9 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
 
     query.prepare("SELECT label FROM polylines WHERE label LIKE :label");
     query.bindValue(":label", text + "%");
-    query.exec();
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
 
     while (query.next()) {
         result <<  query.value(0).toString();
@@ -153,7 +154,10 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
 
     query.prepare("SELECT label, subfile, subdiv, offset FROM polylines WHERE label = :label ");
     query.bindValue(":label", text);
-    query.exec();
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
+
 
     while (query.next()) {
         quint32 subfile     = query.value(1).toUInt();
@@ -161,7 +165,9 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
         qint32  offset      = query.value(3).toInt();
 
         QSqlQuery query2(db);
-        query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile));
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+            qDebug() << query.lastError();
+        }
         query2.next();
 
         QString name        = query2.value(0).toString();
