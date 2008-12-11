@@ -42,9 +42,6 @@ class CGarminIndex : public QThread
         void searchPolyline(const QString& text, QSet<QString>& result);
         void searchPolyline(const QString& text, QVector<CGarminPolygon>& result);
 
-        void searchPoi(const QString& text, QSet<QString>& result);
-        void searchPoi(const QString& text, QVector<CGarminPoint>& result);
-
         void searchPoint(const QString& text, QSet<QString>& result);
         void searchPoint(const QString& text, QVector<CGarminPoint>& result);
 

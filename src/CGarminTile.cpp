@@ -956,7 +956,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
 
             if(!p.labels.isEmpty()){
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO pois (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
                 query.bindValue(":label", p.labels.join(" ").simplified());
                 if(!query.exec()){
                     qDebug() << query.lastError();

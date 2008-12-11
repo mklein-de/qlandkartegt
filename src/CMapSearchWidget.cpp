@@ -466,7 +466,7 @@ void CMapSearchWidget::slotPointSearchChanged()
     CGarminIndex * index = tdb->getSearchIndex();
 
     QSet<QString> results;
-    index->searchPoi(text, results);
+    index->searchPoint(text, results);
 
     QString result;
     foreach(result, results){
