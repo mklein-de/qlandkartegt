@@ -141,6 +141,8 @@ Var StartMenuFolder
   	File Files\QtSvg4.dll
   	File Files\QtXml4.dll
 	File Files\QtOpenGL4.dll
+	File Files\QtSql4.dll
+	File Files\qsqlite4.dll
   	SetOutPath $INSTDIR
   SectionEnd
   LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."

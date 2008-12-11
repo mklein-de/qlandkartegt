@@ -35,6 +35,9 @@
 #include <assert.h>
 #include <math.h>
 
+#ifndef GL_CLAMP_TO_EDGE 
+#define GL_CLAMP_TO_EDGE 0x812F 
+#endif
 
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)

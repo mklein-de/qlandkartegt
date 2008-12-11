@@ -44,6 +44,11 @@ int main(int argc, char ** argv)
     printf("------------ %s\n",pj_get_def(pjGK,0));
     }
 
+	QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+	if(!path.exists()){
+		path.mkpath("./");
+	}
+
 
     QApplication theApp(argc,argv);
 
