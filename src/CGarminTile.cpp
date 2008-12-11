@@ -911,6 +911,85 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
             }
         }
     }
+
+    // decode pois
+    if(subdiv.hasIdxPoints) {
+        pData = pRawData + opline;
+        pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            CGarminPolygon p;
+            quint32 offset = pData - pRawData;
+
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
+            else if(strtbl && p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
+            }
+
+            if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
+
+                QSqlQuery query(db);
+                query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.bindValue(":label", p.labels.join(" ").simplified());
+                if(!query.exec()){
+                    qDebug() << query.lastError();
+                    qDebug() << query.lastQuery();
+                }
+            }
+        }
+    }
+
+    // decode indexed points
+    if(subdiv.hasIdxPoints) {
+        pData = pRawData + oidx;
+        pEnd  = pRawData + (opline ? opline : opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            CGarminPoint p;
+            quint32 offset = pData - pRawData;
+
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+            if(strtbl) {
+                p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels) : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+            }
+
+            if(!p.labels.isEmpty()){
+                QSqlQuery query(db);
+                query.prepare(QString("INSERT INTO pois (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.bindValue(":label", p.labels.join(" ").simplified());
+                if(!query.exec()){
+                    qDebug() << query.lastError();
+                    qDebug() << query.lastQuery();
+                }
+            }
+        }
+    }
+
+    // decode points
+    if(subdiv.hasPoints) {
+        pData = pRawData + opnt;
+        pEnd  = pRawData + (oidx ? oidx : opline ? opline : opgon ? opgon : subdiv.rgn_end);
+        while(pData < pEnd) {
+            CGarminPoint p;
+            quint32 offset = pData - pRawData;
+
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+            if(strtbl) {
+                p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels) : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+            }
+            if(!p.labels.isEmpty()){
+                QSqlQuery query(db);
+                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.bindValue(":label", p.labels.join(" ").simplified());
+                if(!query.exec()){
+                    qDebug() << query.lastError();
+                    qDebug() << query.lastQuery();
+                }
+            }
+        }
+    }
+
 }
 
 void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset, polytype_t& polylines)
@@ -932,3 +1011,26 @@ void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset
 
     file.close();
 }
+
+void CGarminTile::readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    QByteArray rgndata;
+    readFile(file, subfiles[subfile].parts["RGN"].offset, subfiles[subfile].parts["RGN"].size, rgndata);
+    subdiv_desc_t& subdiv = subfiles[subfile].subdivs[n];
+
+    const quint8 *  pData = (quint8*)rgndata.data() + offset;
+
+    point.push_back(CGarminPoint());
+    CGarminPoint& p = point.last();
+    pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+
+    file.close();
+}
+
+
+

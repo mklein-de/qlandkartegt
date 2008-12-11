@@ -205,6 +205,13 @@ void IMap::addOverlayMap(const QString& k)
 
     // add overlay to last overlay map
     ovlMap = CMapDB::self().createMap(k);
+    connect(ovlMap, SIGNAL(sigChanged()), this, SLOT(slotOvlChanged()));
+    emit sigChanged();
+}
+
+void IMap::slotOvlChanged()
+{
+    needsRedraw = true;
     emit sigChanged();
 }
 

@@ -1,26 +1,21 @@
 /**********************************************************************************************
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Oliver Eichler
-  Email:       oliver.eichler@dspsolutions.de
-  Phone:       +49-941-83055-1
-  Fax:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CMouseColorPicker.cpp
-
-  Module:
-
-  Description:
-
-  Created:     12/01/2008
-
-  (C) 2008 DSP Solutions. All rights reserved.
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-
 #include "CMouseColorPicker.h"
 #include "CMapDB.h"
 #include "IMap.h"

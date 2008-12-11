@@ -188,6 +188,8 @@ class CGarminTile : public QObject
         */
         void readPolyline(const QString& subfile, quint32 subdiv, quint32 offset, polytype_t& polylines);
 
+        void readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point);
+
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFile& file);

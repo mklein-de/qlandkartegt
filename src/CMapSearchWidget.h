@@ -61,6 +61,10 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotLineSearchChanged(const QString&);
         void slotLineSelected();
 
+        void slotPointSearchChanged();
+        void slotPointSearchChanged(const QString&);
+        void slotPointSelected();
+
 
     private:
         void binarizeViewport(int t);
@@ -74,5 +78,6 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         CMapSearchThread * thread;
 
         QTimer * triggerLineSearch;
+        QTimer * triggerPointSearch;
 };
 #endif                           //CMAPSEARCHWIDGET_H

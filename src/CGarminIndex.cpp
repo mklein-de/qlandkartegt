@@ -113,6 +113,30 @@ void CGarminIndex::run()
         qDebug() << query.lastError();
     }
 
+    if(!query.exec( "CREATE TABLE pois ("
+                "id             INTEGER PRIMARY KEY,"
+                "type           INT UNSIGNED NOT NULL,"
+                "subfile        INTEGER NOT NULL,"
+                "subdiv         INT UNSIGNED NOT NULL,"
+                "offset         INT UNSIGNED NOT NULL,"
+                "label          TEXT"
+                ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
+    if(!query.exec( "CREATE TABLE points ("
+                "id             INTEGER PRIMARY KEY,"
+                "type           INT UNSIGNED NOT NULL,"
+                "subfile        INTEGER NOT NULL,"
+                "subdiv         INT UNSIGNED NOT NULL,"
+                "offset         INT UNSIGNED NOT NULL,"
+                "label          TEXT"
+                ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
     foreach(filename, imgFiles){
         CGarminTile tile(0);
         tile.readBasics(filename);
@@ -173,6 +197,110 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
         CGarminTile tile(0);
         tile.readBasics(filename);
         tile.readPolyline(name, subdiv, offset, result);
+    }
+}
+
+void CGarminIndex::searchPoi(const QString& text, QSet<QString>& result)
+{
+    QMutexLocker lock(&mutex);
+
+    QSqlDatabase db = QSqlDatabase::database(dbName);
+    QSqlQuery query(db);
+
+    query.prepare("SELECT label FROM pois WHERE label LIKE :label");
+    query.bindValue(":label", "%" + text + "%");
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
+
+    while (query.next()) {
+        result <<  query.value(0).toString();
+    }
+}
+
+void CGarminIndex::searchPoi(const QString& text, QVector<CGarminPoint>& result)
+{
+    QMutexLocker lock(&mutex);
+
+    QSqlDatabase db = QSqlDatabase::database(dbName);
+    QSqlQuery query(db);
+
+    query.prepare("SELECT label, subfile, subdiv, offset FROM pois WHERE label = :label ");
+    query.bindValue(":label", text);
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
+
+
+    while (query.next()) {
+        quint32 subfile     = query.value(1).toUInt();
+        quint32 subdiv      = query.value(2).toUInt();
+        qint32  offset      = query.value(3).toInt();
+
+        QSqlQuery query2(db);
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+            qDebug() << query.lastError();
+        }
+        query2.next();
+
+        QString name        = query2.value(0).toString();
+        QString filename    = query2.value(1).toString();
+
+        CGarminTile tile(0);
+        tile.readBasics(filename);
+        tile.readPoint(name, subdiv, offset, result);
+    }
+}
+
+void CGarminIndex::searchPoint(const QString& text, QSet<QString>& result)
+{
+    QMutexLocker lock(&mutex);
+
+    QSqlDatabase db = QSqlDatabase::database(dbName);
+    QSqlQuery query(db);
+
+    query.prepare("SELECT label FROM points WHERE label LIKE :label");
+    query.bindValue(":label", "%" + text + "%");
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
+
+    while (query.next()) {
+        result <<  query.value(0).toString();
+    }
+}
+
+void CGarminIndex::searchPoint(const QString& text, QVector<CGarminPoint>& result)
+{
+    QMutexLocker lock(&mutex);
+
+    QSqlDatabase db = QSqlDatabase::database(dbName);
+    QSqlQuery query(db);
+
+    query.prepare("SELECT label, subfile, subdiv, offset FROM points WHERE label = :label ");
+    query.bindValue(":label", text);
+    if(!query.exec()){
+        qDebug() << query.lastError();
+    }
+
+
+    while (query.next()) {
+        quint32 subfile     = query.value(1).toUInt();
+        quint32 subdiv      = query.value(2).toUInt();
+        qint32  offset      = query.value(3).toInt();
+
+        QSqlQuery query2(db);
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+            qDebug() << query.lastError();
+        }
+        query2.next();
+
+        QString name        = query2.value(0).toString();
+        QString filename    = query2.value(1).toString();
+
+        CGarminTile tile(0);
+        tile.readBasics(filename);
+        tile.readPoint(name, subdiv, offset, result);
     }
 }
 

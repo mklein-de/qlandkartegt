@@ -231,6 +231,8 @@ class IMap : public QObject
         /// called by timerFastDraw to reset doFastDraw flag
         virtual void slotResetFastDraw();
 
+        virtual void slotOvlChanged();
+
     protected:
         virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
         virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
