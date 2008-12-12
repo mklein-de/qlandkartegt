@@ -181,6 +181,8 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     quint32 w1 = xoff2 - xoff1 + 1;
     quint32 h1 = yoff2 - yoff1 + 1;     //qDebug() << "w1:" << w1 << "h1:" << h1;
 
+    // memory sanity check
+    if(double(w1) * double(h1) > pow(2,31)) return;
 
     // 7. read DEM data from file
     QVector<qint16> _tmp_(w1*h1);
