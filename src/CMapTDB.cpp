@@ -1268,12 +1268,13 @@ void CMapTDB::draw()
         drawPolygons(p, polygons);
     }
 
+    // needs to be removed
     QPen pen(Qt::red, 30);
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     p.setPen(pen);
-    polytype_t::iterator item = query.begin();
-    while(item != query.end()) {
+    polytype_t::iterator item = query1.begin();
+    while(item != query1.end()) {
         QVector<double> lon = item->u;
         QVector<double> lat = item->v;
         double * u      = lon.data();
@@ -1292,9 +1293,23 @@ void CMapTDB::draw()
 
         ++item;
     }
+    ////////////////////////
 
     drawPolylines(p, polylines);
     if(!doFastDraw) {
+        // needs to be removed
+        p.setPen(QColor("#FFB000"));
+        p.setBrush(QColor("#FFB000"));
+        pointtype_t::iterator item = query2.begin();
+        while(item != query2.end()) {
+            double u = item->lon;
+            double v = item->lat;
+            IMap::convertRad2Pt(u,v);
+            p.drawEllipse(u - 16, v - 16, 30, 30);
+            ++item;
+        }
+        ////////////////////////
+
         drawPoints(p, points);
         drawPois(p, pois);
         drawText(p);
@@ -2572,7 +2587,14 @@ void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 
 void CMapTDB::xxx(QVector<CGarminPolygon>& res)
 {
-    query = res;
+    query1 = res;
+    needsRedraw = true;
+    emit sigChanged();
+}
+
+void CMapTDB::xxx(QVector<CGarminPoint>& res)
+{
+    query2 = res;
     needsRedraw = true;
     emit sigChanged();
 }

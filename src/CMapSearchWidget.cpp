@@ -483,5 +483,28 @@ void CMapSearchWidget::slotPointSearchChanged()
 
 void CMapSearchWidget::slotPointSelected()
 {
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    CGarminIndex * index = tdb->getSearchIndex();
+
+    QListWidgetItem * item;
+    QList<QListWidgetItem *> items = listResultPoints->selectedItems();
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    QVector<CGarminPoint> result;
+
+    foreach(item, items){
+        QString text = item->text();
+        index->searchPoint(text, result);
+    }
+
+    qDebug() << "void CMapSearchWidget::slotPointSelected()" << result.size();
+
+    tdb->xxx(result);
+
+    QApplication::restoreOverrideCursor();
 }
 
