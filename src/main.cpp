@@ -49,6 +49,8 @@ int main(int argc, char ** argv)
 		path.mkpath("./");
 	}
 
+	
+
 
     QApplication theApp(argc,argv);
 
@@ -68,6 +70,12 @@ int main(int argc, char ** argv)
 
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
+
+#ifdef WIN32
+	QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
+	qDebug() << QCoreApplication::applicationDirPath();
+	qDebug() << QCoreApplication::libraryPaths();
+#endif
 
     QSplashScreen *splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
     splash->show();
