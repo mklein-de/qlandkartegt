@@ -83,7 +83,14 @@ Var StartMenuFolder
   SectionEnd
   LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
 
-
+  Section "MSVC 8.0" MSVC
+   	File Files\msvcm80.dll
+  	File Files\msvcp80.dll
+  	File Files\msvcr80.dll
+  	SetOutPath $INSTDIR
+  SectionEnd
+  LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."
+  
   Section "QLandkarteGT" QLandkarteGT
   	SetOutPath $INSTDIR
   	File Files\qlandkartegt.exe
@@ -131,10 +138,7 @@ Var StartMenuFolder
   LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"
     
   Section "QT 4.3" QT
-  	File Files\qgif4.dll
-  	File Files\qjpeg4.dll
-  	File Files\qmng4.dll
-  	File Files\qsvg4.dll
+	SetOutPath $INSTDIR
   	File Files\QtCore4.dll
   	File Files\QtGui4.dll
   	File Files\QtNetwork4.dll
@@ -142,19 +146,20 @@ Var StartMenuFolder
   	File Files\QtXml4.dll
 	File Files\QtOpenGL4.dll
 	File Files\QtSql4.dll
-	File Files\qsqlite4.dll
-  	SetOutPath $INSTDIR
+
+	SetOutPath "$INSTDIR\imageformats\"
+  	File Files\imageformats\qgif4.dll
+  	File Files\imageformats\qjpeg4.dll
+  	File Files\imageformats\qmng4.dll
+  	File Files\imageformats\qsvg4.dll	
+
+	SetOutPath "$INSTDIR\sqldrivers\"
+	File Files\sqldrivers\qsqlite4.dll
+  	
   SectionEnd
   LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."
 
-  Section "MSVC 8.0" MSVC
-   	File Files\msvcm80.dll
-  	File Files\msvcp80.dll
-  	File Files\msvcr80.dll
-  	SetOutPath $INSTDIR
-  SectionEnd
-  LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."
-
+  
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${QLandkarteGT} $(DESC_QLandkarteGT)
    !insertmacro MUI_DESCRIPTION_TEXT ${FWTools} $(DESC_FWTools)
