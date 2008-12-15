@@ -28,7 +28,7 @@
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
-    connect(this, SIGNAL(finished()), SLOT(slotFinished()));
+
 }
 
 CGarminIndex::~CGarminIndex()
@@ -61,9 +61,9 @@ void CGarminIndex::create(const QStringList& files)
     QSqlDatabase db = QSqlDatabase::database(dbName);
     db.close();
     db.removeDatabase(dbName);
-
     QFile::remove(dbName);
 
+    connect(this, SIGNAL(finished()), SLOT(slotFinished()));
     start();
 }
 

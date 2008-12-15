@@ -901,9 +901,9 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
 
             if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
                 double lon1 = p.u[0];
-                double lat1 = p.u[0];
-                double lon2 = lat1;
-                double lat2 = lon1;
+                double lat1 = p.v[0];
+                double lon2 = lon1;
+                double lat2 = lat1;
                 const int size = p.u.size();
                 for(int i = 0; i < size; ++i){
                     const double u = p.u[i];

@@ -95,6 +95,16 @@ CMapSearchWidget::~CMapSearchWidget()
 
     QSettings cfg;
     cfg.setValue("search/viewportlimit", checkSearchViewport->isChecked());
+
+    IMap * map      = &CMapDB::self().getMap();
+    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
+    if(map == 0) return;
+
+    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
+    QVector<CGarminPoint>   res1;
+    QVector<CGarminPolygon> res2;
+    tdb->xxx(res1);
+    tdb->xxx(res2);
 }
 
 
