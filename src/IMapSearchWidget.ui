@@ -105,6 +105,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="checkSearchViewport" >
+            <property name="text" >
+             <string>Limit search to viewport</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="labelProgress2" >
             <property name="text" >
              <string/>

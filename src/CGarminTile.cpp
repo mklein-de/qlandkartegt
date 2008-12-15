@@ -900,9 +900,22 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
             }
 
             if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
+                double lon1 = p.u[0];
+                double lat1 = p.u[0];
+                double lon2 = lat1;
+                double lat2 = lon1;
+                const int size = p.u.size();
+                for(int i = 0; i < size; ++i){
+                    const double u = p.u[i];
+                    const double v = p.v[i];
+                    if(u < lon1) lon1 = u;
+                    if(u > lon2) lon2 = u;
+                    if(v > lat1) lat1 = v;
+                    if(v < lat2) lat2 = v;
+                }
 
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, lon1, lat1, lon2, lat2, label) VALUES (%1, %2, %3, %4, %5, %6, %7, %8, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(lon1).arg(lat1).arg(lon2).arg(lat2));
                 query.bindValue(":label", p.labels.join(" ").simplified());
                 if(!query.exec()){
                     qDebug() << query.lastError();
@@ -912,34 +925,6 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
         }
     }
 
-    // decode pois
-    if(subdiv.hasIdxPoints) {
-        pData = pRawData + opline;
-        pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
-        while(pData < pEnd) {
-            CGarminPolygon p;
-            quint32 offset = pData - pRawData;
-
-            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
-            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
-            }
-            else if(strtbl && p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
-            }
-
-            if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
-
-                QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
-                query.bindValue(":label", p.labels.join(" ").simplified());
-                if(!query.exec()){
-                    qDebug() << query.lastError();
-                    qDebug() << query.lastQuery();
-                }
-            }
-        }
-    }
 
     // decode indexed points
     if(subdiv.hasIdxPoints) {
@@ -956,7 +941,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
 
             if(!p.labels.isEmpty()){
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, lon1, lat1, label) VALUES (%1, %2, %3, %4, %5, %6, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(p.lon).arg(p.lat));
                 query.bindValue(":label", p.labels.join(" ").simplified());
                 if(!query.exec()){
                     qDebug() << query.lastError();
@@ -980,7 +965,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
             }
             if(!p.labels.isEmpty()){
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, label) VALUES (%1, %2, %3, %4, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset));
+                query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, lon1, lat1, label) VALUES (%1, %2, %3, %4, %5, %6, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(p.lon).arg(p.lat));
                 query.bindValue(":label", p.labels.join(" ").simplified());
                 if(!query.exec()){
                     qDebug() << query.lastError();

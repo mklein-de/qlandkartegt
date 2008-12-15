@@ -28,6 +28,7 @@
 #include <QSqlDatabase>
 #include <QMutex>
 #include <QSet>
+#include <QRectF>
 
 class CGarminIndex : public QThread
 {
@@ -44,6 +45,12 @@ class CGarminIndex : public QThread
 
         void searchPoint(const QString& text, QSet<QString>& result);
         void searchPoint(const QString& text, QVector<CGarminPoint>& result);
+
+        void searchPolyline(const QString& text, const QRectF& viewport, QSet<QString>& result);
+        void searchPolyline(const QString& text, const QRectF& viewport, QVector<CGarminPolygon>& result);
+
+        void searchPoint(const QString& text, const QRectF& viewport, QSet<QString>& result);
+        void searchPoint(const QString& text, const QRectF& viewport, QVector<CGarminPoint>& result);
 
     signals:
         void sigProgress(const QString& status, const int progress);
