@@ -112,7 +112,7 @@ void CMap3DWidget::loadTrack()
 
 void CMap3DWidget::createActions()
 {
-    map3DAct = new QAction(tr("3D Map"), this);
+    map3DAct = new QAction(tr("Flat / 3D Mode"), this);
     map3DAct->setCheckable(true);
     map3DAct->setChecked(true);
     connect(map3DAct, SIGNAL(triggered()), this, SLOT(slotChanged()));
