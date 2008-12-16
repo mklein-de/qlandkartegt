@@ -162,11 +162,11 @@ void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& m
     CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }
 
-
-const char * IMap::getProjection()
+static char nullstr[1] = "";
+char * IMap::getProjection()
 {
     if(pjsrc == 0) {
-        return "";
+        return nullstr;
     }
     return pj_get_def(pjsrc,0);
 }
@@ -178,8 +178,11 @@ void IMap::registerDEM(CMapDEM& dem)
         throw tr("No basemap projection. That shouldn't happen.");
     }
 
-    QString proj1 = pj_get_def(pjsrc,0);
-    QString proj2 = dem.getProjection();
+    char * ptr1 = 0, *ptr2 = 0;
+    QString proj1 = ptr1 = pj_get_def(pjsrc,0);
+    QString proj2 = ptr2 = dem.getProjection();
+    if(ptr1) free(ptr1);
+    if(ptr2) free(ptr2);
 
     if(proj1 != proj2){
         dem.deleteLater();

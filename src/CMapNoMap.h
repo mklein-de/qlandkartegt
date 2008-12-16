@@ -32,7 +32,7 @@ class CMapNoMap : public IMap
     Q_OBJECT;
     public:
         CMapNoMap(CCanvas * parent);
-        virtual ~CMapNoMap(){};
+        virtual ~CMapNoMap(){ if(pjsrc) pj_free(pjsrc);}
 
         void convertPt2M(double&, double&);
         void convertM2Pt(double&, double&);

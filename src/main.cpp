@@ -41,16 +41,18 @@ int main(int argc, char ** argv)
     pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
     printf("------------ %f %f\n", x, y);
-    printf("------------ %s\n",pj_get_def(pjGK,0));
+    char * ptr = pj_get_def(pjGK,0);
+    printf("------------ %s\n",ptr);
+    free(ptr);
+
+    pj_free(pjWGS84);
+    pj_free(pjGK);
     }
 
-	QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
-	if(!path.exists()){
-		path.mkpath("./");
-	}
-
-	
-
+    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+    if(!path.exists()){
+        path.mkpath("./");
+    }
 
     QApplication theApp(argc,argv);
 
@@ -65,7 +67,12 @@ int main(int argc, char ** argv)
     pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
     printf("------------ %f %f\n", x, y);
-    printf("------------ %s\n",pj_get_def(pjGK,0));
+    char * ptr = pj_get_def(pjGK,0);
+    printf("------------ %s\n",ptr);
+    free(ptr);
+
+    pj_free(pjWGS84);
+    pj_free(pjGK);
     }
 
     QCoreApplication::setApplicationName("QLandkarteGT");
@@ -87,5 +94,7 @@ int main(int argc, char ** argv)
 //     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
 
     int res  = theApp.exec();
+
+    GDALDestroyDriverManager();
     return res;
 }

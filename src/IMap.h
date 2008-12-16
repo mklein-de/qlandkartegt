@@ -168,7 +168,7 @@ class IMap : public QObject
         const QImage& getBuffer(){return buffer;}
 
         /// get proj4 compatible projection string
-        const char * getProjection();
+        char * getProjection();
 
         /// a DEM overlay has to register itself at the map it overlays
         /**

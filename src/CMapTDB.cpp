@@ -282,8 +282,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
 
-    qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
-    qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
+//     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
+//     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
 
     processPrimaryMapData();
 
@@ -338,9 +338,11 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , fid(0x0001)
 , pid(0x0320)
 {
-    pjsrc = pj_init_plus(CMapDB::self().getMap().getProjection());
+    char * ptr = CMapDB::self().getMap().getProjection();
+    pjsrc = pj_init_plus(ptr);
 
-    qDebug() << getProjection();
+    qDebug() << ptr;
+    if(ptr) free(ptr);
 
     setup();
 
@@ -495,9 +497,12 @@ void CMapTDB::registerDEM(CMapDEM& dem)
         throw tr("No basemap projection. That shouldn't happen.");
     }
 
-    qDebug() << "Reproject map to:" << dem.getProjection();
+    char * ptr = dem.getProjection();
+    qDebug() << "Reproject map to:" << ptr;
+
     pj_free(pjsrc);
-    pjsrc = pj_init_plus(dem.getProjection());
+    pjsrc = pj_init_plus(ptr);
+    if(ptr) free(ptr);
 }
 
 
