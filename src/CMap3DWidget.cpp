@@ -35,8 +35,8 @@
 #include <assert.h>
 #include <math.h>
 
-#ifndef GL_CLAMP_TO_EDGE 
-#define GL_CLAMP_TO_EDGE 0x812F 
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
 CMap3DWidget::CMap3DWidget(QWidget * parent)
@@ -127,13 +127,13 @@ void CMap3DWidget::createActions()
     mapEleAct->setChecked(false);
     connect(mapEleAct, SIGNAL(triggered()), this, SLOT(slotTrackChanged()));
 
-    eleZoomInAct = new QAction(tr("zZoom In"), this);
+    eleZoomInAct = new QAction(tr("Inc. Elevation"), this);
     eleZoomInAct->setIcon(QIcon(":/icons/iconInc16x16"));
     connect(eleZoomInAct, SIGNAL(triggered()), this, SLOT(eleZoomIn()));
-    eleZoomOutAct = new QAction(tr("zZoom Out"), this);
+    eleZoomOutAct = new QAction(tr("Dec. Elevation"), this);
     eleZoomOutAct->setIcon(QIcon(":/icons/iconDec16x16"));
     connect(eleZoomOutAct, SIGNAL(triggered()), this, SLOT(eleZoomOut()));
-    eleZoomResetAct = new QAction(tr("Reset zZoom"), this);
+    eleZoomResetAct = new QAction(tr("Reset Elevation"), this);
     eleZoomResetAct->setIcon(QIcon(":/icons/iconClear16x16"));
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
 }
@@ -174,6 +174,15 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(map3DAct);
     menu.addAction(showTrackAct);
     menu.addAction(mapEleAct);
+
+    if(track.isNull()){
+        showTrackAct->setEnabled(false);
+        mapEleAct->setEnabled(false);
+    }
+    else{
+        showTrackAct->setEnabled(true);
+        mapEleAct->setEnabled(true);
+    }
 
     menu.exec(event->globalPos());
 }
