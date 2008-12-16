@@ -369,6 +369,9 @@ CMapTDB::~CMapTDB()
     cfg.endGroup();
     cfg.endGroup();
 
+
+    if(pjsrc) pj_free(pjsrc);
+
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
