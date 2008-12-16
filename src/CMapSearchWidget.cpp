@@ -110,6 +110,7 @@ CMapSearchWidget::~CMapSearchWidget()
 
 void CMapSearchWidget::slotSelectArea()
 {
+    if(canvas) canvas->deleteLater();
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseSelectArea);
 }
 
@@ -187,6 +188,8 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 
 void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
 {
+    if(canvas) canvas->deleteLater();
+
     area = ms;
     labelArea->setText(area.description);
     checkGui();

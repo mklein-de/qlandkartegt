@@ -80,5 +80,7 @@ void CMapSearchCanvas::mouseReleaseEvent(QMouseEvent * e)
         emit sigSelection(buffer.copy(rectSelect));
 
         update();
+
+        rectSelect = QRect();
     }
 }
