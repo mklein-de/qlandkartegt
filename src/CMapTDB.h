@@ -59,8 +59,8 @@ class CMapTDB : public IMap
         void createSearchIndex(QObject * reveiver, const char * slot);
         CGarminIndex * getSearchIndex(){return index;}
 
-        void xxx(QVector<CGarminPolygon>& res);
-        void xxx(QVector<CGarminPoint>& res);
+        void highlight(QVector<CGarminPolygon>& res);
+        void highlight(QVector<CGarminPoint>& res);
 
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);

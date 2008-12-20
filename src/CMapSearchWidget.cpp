@@ -103,8 +103,8 @@ CMapSearchWidget::~CMapSearchWidget()
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     QVector<CGarminPoint>   res1;
     QVector<CGarminPolygon> res2;
-    tdb->xxx(res1);
-    tdb->xxx(res2);
+    tdb->highlight(res1);
+    tdb->highlight(res2);
 }
 
 
@@ -486,7 +486,7 @@ void CMapSearchWidget::slotLineSelected()
         }
     }
 
-    tdb->xxx(result);
+    tdb->highlight(result);
 
     QApplication::restoreOverrideCursor();
 }
@@ -580,7 +580,7 @@ void CMapSearchWidget::slotPointSelected()
         }
     }
 
-    tdb->xxx(result);
+    tdb->highlight(result);
 
     QApplication::restoreOverrideCursor();
 }

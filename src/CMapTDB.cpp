@@ -2593,14 +2593,14 @@ void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 }
 
 
-void CMapTDB::xxx(QVector<CGarminPolygon>& res)
+void CMapTDB::highlight(QVector<CGarminPolygon>& res)
 {
     query1 = res;
     needsRedraw = true;
     emit sigChanged();
 }
 
-void CMapTDB::xxx(QVector<CGarminPoint>& res)
+void CMapTDB::highlight(QVector<CGarminPoint>& res)
 {
     query2 = res;
     needsRedraw = true;
