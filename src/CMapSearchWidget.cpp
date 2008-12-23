@@ -33,7 +33,7 @@
 
 #include <QtGui>
 
-#define SEARCHDELAY 1000
+#define SEARCHDELAY 1500
 
 CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 : QWidget(parent)
@@ -73,13 +73,15 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     triggerLineSearch = new QTimer(this);
     triggerLineSearch->setSingleShot(true);
     connect(triggerLineSearch, SIGNAL(timeout()), this, SLOT(slotLineSearchChanged()));
-    connect(lineTextToFindLines, SIGNAL( textChanged (const QString &)), SLOT(slotLineSearchChanged( const QString& )));
+    connect(lineTextToFindLines, SIGNAL( textChanged(const QString &)), SLOT(slotLineSearchChanged( const QString& )));
+    connect(lineTextToFindLines, SIGNAL( returnPressed()), SLOT(slotLineSearchChanged()));
     connect(listResultLines, SIGNAL(itemSelectionChanged ()), this, SLOT(slotLineSelected()));
 
     triggerPointSearch = new QTimer(this);
     triggerPointSearch->setSingleShot(true);
     connect(triggerPointSearch, SIGNAL(timeout()), this, SLOT(slotPointSearchChanged()));
-    connect(lineTextToFindPoints, SIGNAL( textChanged (const QString &)), SLOT(slotPointSearchChanged( const QString& )));
+    connect(lineTextToFindPoints, SIGNAL( textChanged(const QString &)), SLOT(slotPointSearchChanged( const QString& )));
+    connect(lineTextToFindPoints, SIGNAL( returnPressed()), SLOT(slotPointSearchChanged()));
     connect(listResultPoints, SIGNAL(itemSelectionChanged ()), this, SLOT(slotPointSelected()));
 
     QSettings cfg;
@@ -400,7 +402,7 @@ void CMapSearchWidget::slotLineSearchChanged(const QString& text)
     listResultLines->clear();
     if(text.isEmpty()) return;
 
-    triggerLineSearch->start(SEARCHDELAY);
+//     triggerLineSearch->start(SEARCHDELAY);
 }
 
 void CMapSearchWidget::slotLineSearchChanged()
@@ -496,7 +498,7 @@ void CMapSearchWidget::slotPointSearchChanged(const QString& text)
     listResultPoints->clear();
     if(text.isEmpty()) return;
 
-    triggerPointSearch->start(SEARCHDELAY);
+//     triggerPointSearch->start(SEARCHDELAY);
 }
 
 void CMapSearchWidget::slotPointSearchChanged()
