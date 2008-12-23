@@ -1,3 +1,28 @@
+--- 2008.12.23 ---
+
+Request #44:
+Garmin: add typ file polygon type 7
+
+Bug     #45:
+Garmin: Crash with typ files that have empty sections
+
+Request #46:
+Garmin: Collect points/pois and polylines in SQLite database.
+
+Request #47:
+Garmin: search polylines and points by name
+
+Bug     #48:
+Search and fix memory leaks.
+
+Request #49:
+Add clouds to 3D view.
+
+Request #50:
+Optimize 3D view creation for speed.
+
+
+
 --- 2008.12.05 ---
 
 Request #37:
@@ -346,6 +371,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
