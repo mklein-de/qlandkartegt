@@ -311,7 +311,7 @@ IF(WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:console")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-  target_link_libraries(qlandkartegt gdal_i proj_i qtmain.lib ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
+  target_link_libraries(qlandkartegt gdal_i proj_i ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
 ENDIF(WIN32)
 
 
