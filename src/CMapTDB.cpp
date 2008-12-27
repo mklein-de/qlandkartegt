@@ -1652,10 +1652,15 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
-    if(zoomFactor > 5.0) return;
 
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
+
+        if((pt->type > 0x1600) && (zoomFactor > 5.0)){
+            ++pt;
+            continue;
+        };
+
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
         if(pointProperties.contains(pt->type)) {
@@ -1665,7 +1670,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
-        if(!pt->labels.isEmpty() && zoomFactor < 2 ) {
+        if(!pt->labels.isEmpty() && ((zoomFactor < 2) ||  (pt->type < 0x1600))) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
