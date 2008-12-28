@@ -536,11 +536,23 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
         if(rectUseTyp.contains(pointFocus) && !mouseOverUseTyp) {
             mouseOverUseTyp = true;
-            //             qApp->changeOverrideCursor(Qt::PointingHandCursor);
         }
         else if(!rectUseTyp.contains(pointFocus) && mouseOverUseTyp) {
             mouseOverUseTyp = false;
-            //             qApp->restoreOverrideCursor();
+        }
+
+        if(rectDecDetail.contains(pointFocus) && !mouseOverDecDetail) {
+            mouseOverDecDetail = true;
+        }
+        else if(!rectDecDetail.contains(pointFocus) && mouseOverDecDetail) {
+            mouseOverDecDetail = false;
+        }
+
+        if(rectIncDetail.contains(pointFocus) && !mouseOverIncDetail) {
+            mouseOverIncDetail = true;
+        }
+        else if(!rectIncDetail.contains(pointFocus) && mouseOverIncDetail) {
+            mouseOverIncDetail = false;
         }
 
         if(rectUseTyp.contains(pointFocus) && e->button() == Qt::LeftButton) {
@@ -1213,9 +1225,21 @@ void CMapTDB::draw(QPainter& p)
     }
 
     // draw detail scaling
-    p.drawPixmap(rectDecDetail, QPixmap(":/icons/iconMinus32x32.png"));
-    p.drawPixmap(rectIncDetail, QPixmap(":/icons/iconAdd32x32.png"));
+    p.setPen(Qt::darkBlue);
+    p.setBrush(QColor(255,255,255,100));
+    if(mouseOverDecDetail){
+        p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png").scaled(40,40));
+    }
+    else{
+        p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png"));
+    }
 
+    if(mouseOverIncDetail){
+        p.drawPixmap(rectIncDetail.topLeft(), QPixmap(":/icons/iconAdd32x32.png").scaled(40,40));
+    }
+    else{
+        p.drawPixmap(rectIncDetail, QPixmap(":/icons/iconAdd32x32.png"));
+    }
 
     QString str;
     if(detailsFineTune < 0){
