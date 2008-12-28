@@ -293,8 +293,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     QSettings cfg;
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
-    QString pos = cfg.value("topleft","").toString();
-    zoomidx     = cfg.value("zoomidx",11).toInt();
+    QString pos     = cfg.value("topleft","").toString();
+    zoomidx         = cfg.value("zoomidx",11).toInt();
+    detailsFineTune = cfg.value("details",0).toInt();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -374,6 +375,7 @@ CMapTDB::~CMapTDB()
     pos = pos.replace("\260","");
     cfg.setValue("topleft",pos);
     cfg.setValue("zoomidx",zoomidx);
+    cfg.setValue("details", detailsFineTune);
     cfg.endGroup();
     cfg.endGroup();
 
