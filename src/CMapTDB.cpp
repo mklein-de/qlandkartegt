@@ -275,6 +275,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , fm(CResources::self().getMapFont())
 , useTyp(true)
 , mouseOverUseTyp(false)
+, detailsFineTune(0)
+, mouseOverDecDetail(false)
+, mouseOverIncDetail(false)
 {
     setup();
     readTDB(filename);
@@ -335,6 +338,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , useTyp(true)
+, detailsFineTune(0)
+, mouseOverDecDetail(false)
+, mouseOverIncDetail(false)
 , fid(0x0001)
 , pid(0x0320)
 {
@@ -509,8 +515,12 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
-    rectUseTyp  = QRect(55,size.height() - 55, 100, 32);
-    topLeftInfo = QPoint(size.width() - TEXTWIDTH - 10 , 10);
+    rectUseTyp      = QRect(55,size.height() - 55, 100, 32);
+    topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
+
+    rectDecDetail   = QRect(170, size.height() - 55, 32, 32);
+    rectIncDetail   = QRect(330, size.height() - 55, 32, 32);
+    rectDetail      = QRect(202, size.height() - 55, 128, 32);
 
     setFastDraw();
 }
@@ -567,6 +577,20 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
             setup();
 
             emit sigChanged();
+        }
+        else if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton){
+            detailsFineTune -= 1;
+            if(detailsFineTune < -5) detailsFineTune = -5;
+            needsRedraw = true;
+            emit sigChanged();
+            qDebug() << "detailsFineTune" << detailsFineTune;
+        }
+        else if(rectIncDetail.contains(e->pos()) && e->button() == Qt::LeftButton){
+            detailsFineTune += 1;
+            if(detailsFineTune >  5) detailsFineTune =  5;
+            needsRedraw = true;
+            emit sigChanged();
+            qDebug() << "detailsFineTune" << detailsFineTune;
         }
     }
 
@@ -1188,6 +1212,46 @@ void CMapTDB::draw(QPainter& p)
         p.restore();
     }
 
+    // draw detail scaling
+    p.drawPixmap(rectDecDetail, QPixmap(":/icons/iconMinus32x32.png"));
+    p.drawPixmap(rectIncDetail, QPixmap(":/icons/iconAdd32x32.png"));
+
+
+    QString str;
+    if(detailsFineTune < 0){
+        str = tr("details %1").arg(detailsFineTune);
+    }
+    else if(detailsFineTune > 0){
+        str = tr("details +%1").arg(detailsFineTune);
+    }
+    else{
+        str = tr("details %1").arg(detailsFineTune);
+    }
+    QFont font = p.font();
+
+    p.save();
+
+    font.setPixelSize(20);
+
+    p.setPen(Qt::white);
+    p.setFont(font);
+
+    p.drawText(rectDetail.translated(-1,-1 + 5), Qt::AlignCenter, str);
+    p.drawText(rectDetail.translated( 0,-1 + 5), Qt::AlignCenter, str);
+    p.drawText(rectDetail.translated(+1,-1 + 5), Qt::AlignCenter, str);
+
+    p.drawText(rectDetail.translated(-1, 0 + 5), Qt::AlignCenter, str);
+    p.drawText(rectDetail.translated(+1, 0 + 5), Qt::AlignCenter, str);
+
+    p.drawText(rectDetail.translated(-1,+1 + 5), Qt::AlignCenter, str);
+    p.drawText(rectDetail.translated( 0,+1 + 5), Qt::AlignCenter, str);
+    p.drawText(rectDetail.translated(+1,+1 + 5), Qt::AlignCenter, str);
+
+    p.setPen(Qt::darkBlue);
+    p.drawText(rectDetail.translated( 0, 0 + 5), Qt::AlignCenter, str);
+
+    p.restore();
+
     if(doFastDraw) setFastDraw();
 }
 
@@ -1243,7 +1307,7 @@ void CMapTDB::draw()
     p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
 
-    quint8 bits = scales[zoomidx].bits;
+    quint8 bits = scales[zoomidx].bits + detailsFineTune;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
     do {
         --maplevel;

@@ -77,6 +77,8 @@
 
         <file>icons/iconCancel32x32.png</file>
         <file>icons/iconOk32x32.png</file>
+        <file>icons/iconAdd32x32.png</file>
+        <file>icons/iconMinus32x32.png</file>
 
         <file>icons/editundo.png</file>
         <file>icons/editredo.png</file>

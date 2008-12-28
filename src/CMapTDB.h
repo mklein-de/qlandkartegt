@@ -319,6 +319,13 @@ class CMapTDB : public IMap
         bool    mouseOverUseTyp;
         QRect   rectUseTyp;
 
+        int detailsFineTune;
+        QRect   rectDecDetail;
+        QRect   rectIncDetail;
+        QRect   rectDetail;
+        bool    mouseOverDecDetail;
+        bool    mouseOverIncDetail;
+
         quint16 fid;
         quint16 pid;
 
