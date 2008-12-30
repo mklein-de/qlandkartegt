@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1459</width>
+    <width>1024</width>
     <height>250</height>
    </rect>
   </property>
@@ -263,18 +263,6 @@
               </property>
              </spacer>
             </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QFrame" name="frame" >
-           <property name="frameShape" >
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow" >
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QVBoxLayout" >
             <item>
              <layout class="QHBoxLayout" >
               <item>
@@ -313,6 +301,10 @@
              </widget>
             </item>
            </layout>
+           <zorder>label_2</zorder>
+           <zorder>sliderThreshold</zorder>
+           <zorder>labelArea</zorder>
+           <zorder></zorder>
           </widget>
          </item>
          <item>
