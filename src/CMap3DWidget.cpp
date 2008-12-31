@@ -196,6 +196,8 @@ void CMap3DWidget::setMapTexture()
     QPainter p(&pm);
     p.eraseRect(pm.rect());
     map->draw(p);
+    IMap& dem = CMapDB::self().getDEM();
+    dem.draw(p);
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
 }
 
