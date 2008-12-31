@@ -90,11 +90,11 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     }
 
     for(i = 0; i < 128; ++i) {
-        graytable1 << qRgba(0,0,0,(128 - i) << 1);
+        graytable1 << qRgba(0,0,0,(128 - i)/* << 1*/);
     }
 
     for(i = 128; i < 255; ++i) {
-        graytable1 << qRgba(255,255,255,(i - 128) << 1);
+        graytable1 << qRgba(255,255,255,(i - 128)/* << 1*/);
     }
 
     status = new CStatusDEM(theMainWindow->getCanvas());
@@ -504,29 +504,37 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     int r,c,i;
     float diff = 0;
     int idx  = 0;
-    float min  =  32768;
-    float max  = -32768;
+//     float min  =  32768;
+//     float max  = -32768;
     for(r = 0; r < (h1 - 1); ++r) {
         for(c = 0; c < (w1 - 1); ++c) {
             diff  = data[idx +  1    ] - data[idx];
             diff += data[idx + w1    ] - data[idx];
             diff += data[idx + w1 + 1] - data[idx];
             data[idx++] = diff;
-            if(diff < min) min = diff;
-            if(diff > max) max = diff;
+//             if(diff < min) min = diff;
+//             if(diff > max) max = diff;
         }
         data[idx++] = 0;
     }
+
+//     qDebug() << min << max;
+
     for(c = 0; c < w1; ++c) {
         data[idx++] = 0;
     }
 
-    float f = abs(min) < abs(max) ? abs(max) : abs(min);
-    f = f ? f : 1;
+    float f = 20; //= abs(min) < abs(max) ? abs(max) : abs(min);
+//     f = f ? f : 1;
+
 
     img.setColorTable(graytable1);
     uchar * pixel = img.bits();
+    int val;
     for(i = 0; i < (w1 * h1); ++i) {
-        *pixel++ = 128 + data[i] * 100 / f;
+        val = 128 + data[i] * 100 / f;
+        if(val > 254) val = 254;
+        if(val < 1  ) val = 1;
+        *pixel++ = val;
     }
 }
