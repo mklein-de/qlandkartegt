@@ -1,3 +1,16 @@
+--- 2009.01.01 ---
+
+Request #51:
+Garmin: Show labels of urban points on all zoom levels
+
+Request #52:
+Garmin: fine tune detail level 
+
+Request #53:
+Add false lightning to 3D via 2D map shading
+
+
+
 --- 2008.12.23 ---
 
 Request #44:
@@ -371,6 +384,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
