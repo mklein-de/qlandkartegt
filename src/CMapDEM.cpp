@@ -525,8 +525,8 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
     for(c = 0; c < w1; ++c) {
         data[idx++] = 0;
     }
-    float f = 20;
-    if(xscl < 2){
+    float f = 30;
+    if(xscl < 4){
         f  = abs(min) < abs(max) ? abs(max) : abs(min);
         f /= 2;
     }
