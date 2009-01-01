@@ -443,8 +443,6 @@ void CMapDEM::draw()
 
     QImage img(w1,h1,QImage::Format_Indexed8);
 
-    qDebug() << xscale << my_xscale << (xscale / my_xscale);
-
     if(overlay == IMap::eShading) {
         shading(img,data.data(), my_xscale, my_yscale);
     }
