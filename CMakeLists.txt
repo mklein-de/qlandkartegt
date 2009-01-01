@@ -12,7 +12,7 @@ find_package(OpenGL)
 
 set(VER_MAJOR     0)
 set(VER_MINOR     9)
-set(VER_STEP      2)
+set(VER_STEP      3)
 
 add_definitions(-DVER_MAJOR=${VER_MAJOR} -DVER_MINOR=${VER_MINOR} -DVER_STEP=${VER_STEP})
 
