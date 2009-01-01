@@ -52,8 +52,8 @@ class CMapDEM : public IMap
         void getRegion(float *buffer, XY p1, XY p2, int w, int h);
 
     private:
-        void shading(QImage& img, qint16 * data);
-        void contour(QImage& img, qint16 * data);
+        void shading(QImage& img, qint16 * data, float xscale, float yscale);
+        void contour(QImage& img, qint16 * data, float xscale, float yscale);
 
         /// instance of GDAL dataset
         GDALDataset * dataset;

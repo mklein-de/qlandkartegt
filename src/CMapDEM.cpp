@@ -443,11 +443,13 @@ void CMapDEM::draw()
 
     QImage img(w1,h1,QImage::Format_Indexed8);
 
+    qDebug() << xscale << my_xscale << (xscale / my_xscale);
+
     if(overlay == IMap::eShading) {
-        shading(img,data.data());
+        shading(img,data.data(), my_xscale, my_yscale);
     }
     else if(overlay == IMap::eContour) {
-        contour(img,data.data());
+        contour(img,data.data(), my_xscale, my_yscale);
     }
     else {
         qWarning() << "Unknown shading type";
@@ -463,7 +465,7 @@ void CMapDEM::draw()
 #endif
 
 
-void CMapDEM::shading(QImage& img, qint16 * data)
+void CMapDEM::shading(QImage& img, qint16 * data, float /*xscale*/, float /*yscale*/)
 {
     int i;
     int w1 = img.width();
@@ -496,7 +498,7 @@ void CMapDEM::shading(QImage& img, qint16 * data)
 }
 
 
-void CMapDEM::contour(QImage& img, qint16 * data)
+void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
 {
     int w1 = img.width();
     int h1 = img.height();
@@ -504,16 +506,16 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     int r,c,i;
     float diff = 0;
     int idx  = 0;
-//     float min  =  32768;
-//     float max  = -32768;
+    float min  =  32768;
+    float max  = -32768;
     for(r = 0; r < (h1 - 1); ++r) {
         for(c = 0; c < (w1 - 1); ++c) {
             diff  = data[idx +  1    ] - data[idx];
             diff += data[idx + w1    ] - data[idx];
             diff += data[idx + w1 + 1] - data[idx];
             data[idx++] = diff;
-//             if(diff < min) min = diff;
-//             if(diff > max) max = diff;
+            if(diff < min) min = diff;
+            if(diff > max) max = diff;
         }
         data[idx++] = 0;
     }
@@ -523,9 +525,12 @@ void CMapDEM::contour(QImage& img, qint16 * data)
     for(c = 0; c < w1; ++c) {
         data[idx++] = 0;
     }
-
-    float f = 20; //= abs(min) < abs(max) ? abs(max) : abs(min);
-//     f = f ? f : 1;
+    float f = 20;
+    if(xscl < 2){
+        f  = abs(min) < abs(max) ? abs(max) : abs(min);
+        f /= 2;
+    }
+    f = f ? f : 1;
 
 
     img.setColorTable(graytable1);
