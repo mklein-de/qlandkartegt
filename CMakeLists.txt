@@ -75,6 +75,20 @@ IF(UNIX)
 
     SET(SOEXT ".so")
 
+    # find Xerces
+    FIND_PATH(XERCESC_INCLUDE_DIR xercesc)
+    IF(NOT XERCESC_INCLUDE_DIR )
+        MESSAGE(FATAL_ERROR "\n\nCan't find Xerces-C headers. Is Xerces-C installed correctly?\n")
+    ENDIF(NOT XERCESC_INCLUDE_DIR )
+    MESSAGE("Using " ${XERCESC_INCLUDE_DIR} " for Xerces-C")
+    SET(XERCESC_NAMES xerces-c xerces-c_2)
+    FIND_LIBRARY(XERCESC_LIBRARY NAMES ${XERCESC_NAMES} )
+    IF(NOT XERCESC_LIBRARY)
+        MESSAGE(FATAL_ERROR "\n\nCan't find Xerces-C library. Is Xerces-C installed correctly?\n")
+    ENDIF(NOT XERCESC_LIBRARY)
+    SET(XERCESC_FOUND TRUE)
+
+
 ENDIF(UNIX)
 
 INCLUDE(CheckIncludeFile)

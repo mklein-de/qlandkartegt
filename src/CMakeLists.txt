@@ -275,6 +275,13 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
+SET (WMS_CLIENT ON CACHE BOOL "WMS Maps service")
+IF(WMS_CLIENT AND XERCESC_FOUND)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWMS_CLIENT")
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CWMSResponse.h xlinks.hxx)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CWMSResponse.cpp xlinks.cxx)
+ENDIF(WMS_CLIENT AND XERCESC_FOUND)
+
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
@@ -304,7 +311,7 @@ add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_
 
 IF(UNIX)
   add_definitions(-Wall -O2 -DQL_LIBDIR=${QL_LIBDIR} -DSOEXT=${SOEXT})
-  target_link_libraries(qlandkartegt ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES})
+  target_link_libraries(qlandkartegt xerces-c ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES})
 ENDIF(UNIX)
 
 IF(WIN32)

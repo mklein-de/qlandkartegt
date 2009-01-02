@@ -1,0 +1,250 @@
+/**********************************************************************************************
+    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+
+**********************************************************************************************/
+
+#include "CMapWMS.h"
+#include "CWMSResponse.h"
+#include <gdal_priv.h>
+#include <ogr_spatialref.h>
+
+#include <QtGui>
+
+CMapWMS::CMapWMS(const QString& hostName, const QString& baseURL, CCanvas * parent)
+: IMap(eWMS, "",parent)
+, x(0)
+, y(0)
+, zoomlevel(1)
+, zoomfactor(1.0)
+{
+    filename = fn;
+
+    http = new QHttp(this);
+    connect(http, SIGNAL(done(bool)),
+            this, SLOT(parseWMSResponse(bool)));
+    
+    QUrl url;
+    url.setPath(baseURL);
+    url.setQueryDelimiters('=', ';');
+    url.addQueryItem("D", "3");
+    url.addQueryItem("tex", QUrl::toPercentEncoding(
+                        equationEditor->toPlainText()));
+
+    http->setHost(hostName);
+    http->get(url.toString());
+
+
+/*
+    dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+    if(dataset == 0) {
+        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        return;
+    }
+
+    GDALWMSBand * pBand;
+    pBand = dataset->GetWMSBand(1);
+    if(pBand == 0) {
+        delete dataset; dataset = 0;
+        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        return;
+    }
+
+    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
+        delete dataset; dataset = 0;
+        QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
+        return;
+    }
+
+    maparea.setWidth(dataset->GetWMSXSize());
+    maparea.setHeight(dataset->GetWMSYSize());
+
+    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
+        GDALColorTable * pct = pBand->GetColorTable();
+        for(int i=0; i < pct->GetColorEntryCount(); ++i) {
+            const GDALColorEntry& e = *pct->GetColorEntry(i);
+            colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+        }
+    }
+    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
+        for(int i=0; i < 256; ++i) {
+            colortable << qRgba(i, i, i, 255);
+        }
+    }
+
+    int success = 0;
+    double idx = pBand->GetNoDataValue(&success);
+
+    if(success) {
+        QColor tmp(colortable[idx]);
+        tmp.setAlpha(0);
+        colortable[idx] = tmp.rgba();
+    }
+*/
+}
+
+
+CMapWMS::~CMapWMS()
+{
+    if(dataset) delete dataset;
+}
+
+void CMapWMS::parseWMSResponse()
+{
+    QString xml = http->readAll();
+    auto_ptr<WMS_Capabilities> WMSCap(xml);
+    WMSCap.
+
+}
+
+void CMapWMS::convertPt2M(double& u, double& v)
+{
+    u = x + u * zoomfactor;
+    v = y + v * zoomfactor;
+}
+
+
+void CMapWMS::convertM2Pt(double& u, double& v)
+{
+    u = (u - x) / zoomfactor;
+    v = (v - y) / zoomfactor;
+}
+
+
+void CMapWMS::move(const QPoint& old, const QPoint& next)
+{
+    // move top left point by difference
+    x += (old.x() - next.x()) * zoomfactor;
+    y += (old.y() - next.y()) * zoomfactor;
+
+}
+
+
+void CMapWMS::zoom(bool zoomIn, const QPoint& p)
+{
+    double x1 = p.x();
+    double y1 = p.y();
+
+    convertPt2M(x1,y1);
+
+    zoomlevel += zoomIn ? -1 : +1;
+    if(zoomlevel < 1) {
+        zoomfactor  = 1.0 / - (zoomlevel - 2);
+    }
+    else {
+        zoomfactor = zoomlevel;
+    }
+
+    convertM2Pt(x1,y1);
+    move(QPoint(x1,y1),p);
+}
+
+
+void CMapWMS::zoom(qint32& level)
+{
+
+}
+
+
+void CMapWMS::zoom(double lon1, double lat1, double lon2, double lat2)
+{
+}
+
+
+void CMapWMS::select(const QRect& rect)
+{
+}
+
+
+void CMapWMS::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+    lon1 = 0;
+    lat1 = 0;
+    lon2 = maparea.width();
+    lat2 = maparea.height();
+}
+
+
+void CMapWMS::draw(QPainter& p)
+{
+    if(!dataset) return;
+
+    draw();
+
+    p.drawImage(0,0,buffer);
+
+    QString str;
+    if(zoomfactor < 1.0) {
+        str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
+    }
+    else {
+        str = tr("Zoom level x%1").arg(zoomlevel);
+    }
+
+    p.setPen(Qt::white);
+    p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+    p.drawText(9 ,23, str);
+    p.drawText(11,23, str);
+    p.drawText(9 ,25, str);
+    p.drawText(11,25, str);
+
+    p.setPen(Qt::darkBlue);
+    p.drawText(10,24,str);
+
+}
+
+
+void CMapWMS::draw()
+{
+    if(!dataset) return;
+
+    buffer.fill(Qt::white);
+    QPainter _p_(&buffer);
+
+    QRectF viewport(x, y, size.width() * zoomfactor,  size.height() *  zoomfactor);
+    QRectF intersect = viewport.intersected(maparea);
+
+    // x/y offset [pixel] into file matrix
+    qint32 xoff = intersect.left();
+    qint32 yoff = intersect.top();
+
+    // number of x/y pixel to read
+    qint32 pxx  = intersect.width();
+    qint32 pxy  = intersect.height();
+
+    // the final image width and height in pixel
+    qint32 w    = (qint32)(pxx / zoomfactor) & 0xFFFFFFFC;
+    qint32 h    = (qint32)(pxy / zoomfactor);
+
+    GDALWMSBand * pBand;
+    pBand = dataset->GetWMSBand(1);
+
+    QImage img(QSize(w,h),QImage::Format_Indexed8);
+    img.setColorTable(colortable);
+
+    CPLErr err = pBand->WMSIO(GF_Read
+        ,(int)xoff,(int)yoff
+        ,pxx,pxy
+        ,img.bits()
+        ,w,h
+        ,GDT_Byte,0,0);
+
+    if(!err) {
+        double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
+        _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+    }
+}
