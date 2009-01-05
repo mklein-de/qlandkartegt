@@ -372,8 +372,6 @@ void CMapWMS::draw()
                 double xx = intersect.left(), yy = intersect.bottom();
                 convertM2Pt(xx,yy);
                 _p_.drawImage(xx,yy,img);
-
-                img.save("xxx.png");
             }
             else{
                 IMap::draw();
