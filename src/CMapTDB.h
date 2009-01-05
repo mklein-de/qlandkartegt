@@ -105,6 +105,7 @@ class CMapTDB : public IMap
         void decodeBitmap(QDataStream &in, QImage &bytes, int w, int h, int bpp);
         void readASCIIString(QDataStream& ds, QString& str);
         void readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors);
+        void readColorTableAlpha(QDataStream &in, QImage &img, int colors, int maxcolors);
         void processTypDrawOrder(QDataStream& file, const typ_section_t& section);
         void processTypPolygons(QDataStream& file, const typ_section_t& section);
         void processTypPolyline(QDataStream& file, const typ_section_t& section);

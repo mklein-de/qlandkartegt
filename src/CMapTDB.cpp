@@ -2077,6 +2077,35 @@ void CMapTDB::readASCIIString(QDataStream& ds, QString& str)
 }
 
 
+void CMapTDB::readColorTableAlpha(QDataStream &in, QImage &img, int colors, int maxcolors)
+{
+    quint8  byte;
+    quint32 bits = 0;
+    quint32 reg  = 0;
+    quint32 mask = 0x000000FF;
+
+    img.setNumColors(maxcolors);
+    for (int i = 0; i < maxcolors; i++) {
+        if(i < colors) {
+            while(bits < 28){
+                in >> byte;
+                mask = 0x000000FF << bits;
+                reg  = reg  & (~mask);
+                reg  = reg  | (byte << bits);
+                bits += 8;
+            }
+
+            img.setColor(i, qRgba((reg >> 16) & 0x0FF, (reg >> 8) & 0x0FF, reg & 0x0FF, ~((reg >> 24) & 0x0F) << 4));
+
+            reg   = reg >> 28;
+            bits -= 28;
+        }
+        else {
+            img.setColor(i, qRgba(0,0,0,0));
+        }
+    }
+}
+
 void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
 {
     quint8 r,g,b;
@@ -2598,14 +2627,28 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         int maxcolor = pow(2.0f,bpp);
 
         if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9) ) {
-            if (x3 == 0x10 || x3 == 0x00) {
+            if (x3 == 0x00) {
+                readColorTable(in, myXpmDay, colors, maxcolor);
+                if(bpp == 4) bpp /= 2;
+                decodeBitmap(in, myXpmDay, w, h, bpp);
+                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+            }
+            else if (x3 == 0x10) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
-                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
-
+            else if (x3 == 0x20) {
+                readColorTableAlpha(in, myXpmDay, colors, maxcolor);
+                decodeBitmap(in, myXpmDay, w, h, bpp);
+                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+            }
             else {
                 if(!tainted) {
                     QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
