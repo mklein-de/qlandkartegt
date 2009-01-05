@@ -30,13 +30,16 @@
 #include "GeoMath.h"
 #include "CCanvas.h"
 #ifdef PLOT_3D
-#   include "CMap3DWidget.h"
+#include "CMap3DWidget.h"
 #endif
 #include "CTabWidget.h"
 #include "CMapSelectionGarmin.h"
 #include "CMapSelectionRaster.h"
 #include "CResources.h"
 #include "IDevice.h"
+#ifdef WMS_CLIENT
+#include "CMapWMS.h"
+#endif
 
 #include <QtGui>
 
@@ -194,6 +197,22 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
+    else if(ext == "xml" ){
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eGarmin;
+
+        theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
+
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+
+        // store current map filename for next session
+        QSettings cfg;
+        cfg.setValue("maps/visibleMaps",theMap->getFilename());
+    }
     else {
         if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
@@ -242,6 +261,9 @@ void CMapDB::openMap(const QString& key)
     }
     else if(ext == "tdb") {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
+    }
+    else if(ext == "xml" ){
+        theMap = new CMapWMS(key,filename,theMainWindow->getCanvas());
     }
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 

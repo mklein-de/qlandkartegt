@@ -29,7 +29,7 @@ class CMapWMS  : public IMap
 {
     Q_OBJECT;
     public:
-        CMapWMS(const QString& filename, const QString& baseURL, CCanvas * parent);
+        CMapWMS(const QString& key, const QString& fn, CCanvas * parent);
         virtual ~CMapWMS();
 
         void draw(QPainter& p);
@@ -42,22 +42,44 @@ class CMapWMS  : public IMap
         void zoom(qint32& level);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-        void parseWMSResponse();
 
     private:
         /// instance of GDAL dataset
         GDALDataset * dataset;
-        /// QT representation of the GeoTiff's color table
-        QVector<QRgb> colortable;
 
-        QRect maparea;
+        double x;
+        double y;
 
-        int x;
-        int y;
+        double zoomFactor;
 
-        int   zoomlevel;
-        float zoomfactor;
+        /// width in number of px
+        quint32 xsize_px;
+        /// height in number of px
+        quint32 ysize_px;
 
-        QHttp *http;
+        /// scale [px/m]
+        double xscale;
+        /// scale [px/m]
+        double yscale;
+
+        /// reference point [m] (left hand side of map)
+        double xref1;
+        /// reference point [m] (top of map)
+        double yref1;
+        /// reference point [m] (right hand side of map)
+        double xref2;
+        /// reference point [m] (bottom of map)
+        double yref2;
+
+        /// the longitude of the top left reference point [rad]
+        double lon1;
+        /// the latitude of the top left reference point [rad]
+        double lat1;
+        /// the longitude of the bottom right reference point [rad]
+        double lon2;
+        /// the latitude of the bottom right reference point [rad]
+        double lat2;
+
+
 };
 #endif                           //CMAPRASTER_H

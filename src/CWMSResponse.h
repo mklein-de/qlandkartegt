@@ -276,7 +276,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::sequence< Format_type > Format_sequence;
     typedef Format_sequence::iterator Format_iterator;
@@ -293,7 +293,7 @@ namespace wms
     Format (const Format_sequence& s);
 
     // DCPType
-    // 
+    //
     typedef ::wms::DCPType DCPType_type;
     typedef ::xsd::cxx::tree::sequence< DCPType_type > DCPType_sequence;
     typedef DCPType_sequence::iterator DCPType_iterator;
@@ -325,7 +325,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~OperationType ();
 
     // Implementation.
@@ -368,7 +368,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~longitudeType ();
   };
 
@@ -400,7 +400,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~latitudeType ();
   };
 
@@ -408,7 +408,7 @@ namespace wms
   {
     public:
     // Service
-    // 
+    //
     typedef ::wms::Service Service_type;
     typedef ::xsd::cxx::tree::traits< Service_type, char > Service_traits;
 
@@ -425,7 +425,7 @@ namespace wms
     Service (::std::auto_ptr< Service_type > p);
 
     // Capability
-    // 
+    //
     typedef ::wms::Capability Capability_type;
     typedef ::xsd::cxx::tree::traits< Capability_type, char > Capability_traits;
 
@@ -442,7 +442,7 @@ namespace wms
     Capability (::std::auto_ptr< Capability_type > p);
 
     // version
-    // 
+    //
     typedef ::xml_schema::string version_type;
     typedef ::xsd::cxx::tree::traits< version_type, char > version_traits;
 
@@ -453,7 +453,7 @@ namespace wms
     version_default_value ();
 
     // updateSequence
-    // 
+    //
     typedef ::xml_schema::string updateSequence_type;
     typedef ::xsd::cxx::tree::optional< updateSequence_type > updateSequence_optional;
     typedef ::xsd::cxx::tree::traits< updateSequence_type, char > updateSequence_traits;
@@ -493,7 +493,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~WMS_Capabilities ();
 
     // Implementation.
@@ -515,7 +515,7 @@ namespace wms
   {
     public:
     // Keyword
-    // 
+    //
     typedef ::wms::Keyword Keyword_type;
     typedef ::xsd::cxx::tree::sequence< Keyword_type > Keyword_sequence;
     typedef Keyword_sequence::iterator Keyword_iterator;
@@ -547,7 +547,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~KeywordList ();
 
     // Implementation.
@@ -565,7 +565,7 @@ namespace wms
   {
     public:
     // vocabulary
-    // 
+    //
     typedef ::xml_schema::string vocabulary_type;
     typedef ::xsd::cxx::tree::optional< vocabulary_type > vocabulary_optional;
     typedef ::xsd::cxx::tree::traits< vocabulary_type, char > vocabulary_traits;
@@ -607,7 +607,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Keyword ();
 
     // Implementation.
@@ -625,7 +625,7 @@ namespace wms
   {
     public:
     // type
-    // 
+    //
     typedef ::xml_schema::string type_type;
     typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
 
@@ -636,7 +636,7 @@ namespace wms
     type_default_value ();
 
     // href
-    // 
+    //
     typedef ::xml_schema::uri href_type;
     typedef ::xsd::cxx::tree::optional< href_type > href_optional;
     typedef ::xsd::cxx::tree::traits< href_type, char > href_traits;
@@ -657,7 +657,7 @@ namespace wms
     href (::std::auto_ptr< href_type > p);
 
     // role
-    // 
+    //
     typedef ::xml_schema::uri role_type;
     typedef ::xsd::cxx::tree::optional< role_type > role_optional;
     typedef ::xsd::cxx::tree::traits< role_type, char > role_traits;
@@ -678,7 +678,7 @@ namespace wms
     role (::std::auto_ptr< role_type > p);
 
     // arcrole
-    // 
+    //
     typedef ::xml_schema::uri arcrole_type;
     typedef ::xsd::cxx::tree::optional< arcrole_type > arcrole_optional;
     typedef ::xsd::cxx::tree::traits< arcrole_type, char > arcrole_traits;
@@ -699,7 +699,7 @@ namespace wms
     arcrole (::std::auto_ptr< arcrole_type > p);
 
     // title
-    // 
+    //
     typedef ::xml_schema::string title_type;
     typedef ::xsd::cxx::tree::optional< title_type > title_optional;
     typedef ::xsd::cxx::tree::traits< title_type, char > title_traits;
@@ -720,7 +720,7 @@ namespace wms
     title (::std::auto_ptr< title_type > p);
 
     // show
-    // 
+    //
     typedef ::xlink::show show_type;
     typedef ::xsd::cxx::tree::optional< show_type > show_optional;
     typedef ::xsd::cxx::tree::traits< show_type, char > show_traits;
@@ -741,7 +741,7 @@ namespace wms
     show (::std::auto_ptr< show_type > p);
 
     // actuate
-    // 
+    //
     typedef ::xlink::actuate actuate_type;
     typedef ::xsd::cxx::tree::optional< actuate_type > actuate_optional;
     typedef ::xsd::cxx::tree::traits< actuate_type, char > actuate_traits;
@@ -777,7 +777,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~OnlineResource ();
 
     // Implementation.
@@ -802,7 +802,7 @@ namespace wms
   {
     public:
     // Name
-    // 
+    //
     typedef ::wms::Name Name_type;
     typedef ::xsd::cxx::tree::traits< Name_type, char > Name_traits;
 
@@ -819,7 +819,7 @@ namespace wms
     Name (::std::auto_ptr< Name_type > p);
 
     // Title
-    // 
+    //
     typedef ::xml_schema::string Title_type;
     typedef ::xsd::cxx::tree::traits< Title_type, char > Title_traits;
 
@@ -836,7 +836,7 @@ namespace wms
     Title (::std::auto_ptr< Title_type > p);
 
     // Abstract
-    // 
+    //
     typedef ::xml_schema::string Abstract_type;
     typedef ::xsd::cxx::tree::optional< Abstract_type > Abstract_optional;
     typedef ::xsd::cxx::tree::traits< Abstract_type, char > Abstract_traits;
@@ -857,7 +857,7 @@ namespace wms
     Abstract (::std::auto_ptr< Abstract_type > p);
 
     // KeywordList
-    // 
+    //
     typedef ::wms::KeywordList KeywordList_type;
     typedef ::xsd::cxx::tree::optional< KeywordList_type > KeywordList_optional;
     typedef ::xsd::cxx::tree::traits< KeywordList_type, char > KeywordList_traits;
@@ -878,7 +878,7 @@ namespace wms
     KeywordList (::std::auto_ptr< KeywordList_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -895,7 +895,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // ContactInformation
-    // 
+    //
     typedef ::wms::ContactInformation ContactInformation_type;
     typedef ::xsd::cxx::tree::optional< ContactInformation_type > ContactInformation_optional;
     typedef ::xsd::cxx::tree::traits< ContactInformation_type, char > ContactInformation_traits;
@@ -916,7 +916,7 @@ namespace wms
     ContactInformation (::std::auto_ptr< ContactInformation_type > p);
 
     // Fees
-    // 
+    //
     typedef ::xml_schema::string Fees_type;
     typedef ::xsd::cxx::tree::optional< Fees_type > Fees_optional;
     typedef ::xsd::cxx::tree::traits< Fees_type, char > Fees_traits;
@@ -937,7 +937,7 @@ namespace wms
     Fees (::std::auto_ptr< Fees_type > p);
 
     // AccessConstraints
-    // 
+    //
     typedef ::xml_schema::string AccessConstraints_type;
     typedef ::xsd::cxx::tree::optional< AccessConstraints_type > AccessConstraints_optional;
     typedef ::xsd::cxx::tree::traits< AccessConstraints_type, char > AccessConstraints_traits;
@@ -958,7 +958,7 @@ namespace wms
     AccessConstraints (::std::auto_ptr< AccessConstraints_type > p);
 
     // LayerLimit
-    // 
+    //
     typedef ::xml_schema::positive_integer LayerLimit_type;
     typedef ::xsd::cxx::tree::optional< LayerLimit_type > LayerLimit_optional;
     typedef ::xsd::cxx::tree::traits< LayerLimit_type, char > LayerLimit_traits;
@@ -976,7 +976,7 @@ namespace wms
     LayerLimit (const LayerLimit_optional& x);
 
     // MaxWidth
-    // 
+    //
     typedef ::xml_schema::positive_integer MaxWidth_type;
     typedef ::xsd::cxx::tree::optional< MaxWidth_type > MaxWidth_optional;
     typedef ::xsd::cxx::tree::traits< MaxWidth_type, char > MaxWidth_traits;
@@ -994,7 +994,7 @@ namespace wms
     MaxWidth (const MaxWidth_optional& x);
 
     // MaxHeight
-    // 
+    //
     typedef ::xml_schema::positive_integer MaxHeight_type;
     typedef ::xsd::cxx::tree::optional< MaxHeight_type > MaxHeight_optional;
     typedef ::xsd::cxx::tree::traits< MaxHeight_type, char > MaxHeight_traits;
@@ -1033,7 +1033,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Service ();
 
     // Implementation.
@@ -1061,7 +1061,7 @@ namespace wms
   {
     public:
     // ContactPersonPrimary
-    // 
+    //
     typedef ::wms::ContactPersonPrimary ContactPersonPrimary_type;
     typedef ::xsd::cxx::tree::optional< ContactPersonPrimary_type > ContactPersonPrimary_optional;
     typedef ::xsd::cxx::tree::traits< ContactPersonPrimary_type, char > ContactPersonPrimary_traits;
@@ -1082,7 +1082,7 @@ namespace wms
     ContactPersonPrimary (::std::auto_ptr< ContactPersonPrimary_type > p);
 
     // ContactPosition
-    // 
+    //
     typedef ::xml_schema::string ContactPosition_type;
     typedef ::xsd::cxx::tree::optional< ContactPosition_type > ContactPosition_optional;
     typedef ::xsd::cxx::tree::traits< ContactPosition_type, char > ContactPosition_traits;
@@ -1103,7 +1103,7 @@ namespace wms
     ContactPosition (::std::auto_ptr< ContactPosition_type > p);
 
     // ContactAddress
-    // 
+    //
     typedef ::wms::ContactAddress ContactAddress_type;
     typedef ::xsd::cxx::tree::optional< ContactAddress_type > ContactAddress_optional;
     typedef ::xsd::cxx::tree::traits< ContactAddress_type, char > ContactAddress_traits;
@@ -1124,7 +1124,7 @@ namespace wms
     ContactAddress (::std::auto_ptr< ContactAddress_type > p);
 
     // ContactVoiceTelephone
-    // 
+    //
     typedef ::xml_schema::string ContactVoiceTelephone_type;
     typedef ::xsd::cxx::tree::optional< ContactVoiceTelephone_type > ContactVoiceTelephone_optional;
     typedef ::xsd::cxx::tree::traits< ContactVoiceTelephone_type, char > ContactVoiceTelephone_traits;
@@ -1145,7 +1145,7 @@ namespace wms
     ContactVoiceTelephone (::std::auto_ptr< ContactVoiceTelephone_type > p);
 
     // ContactFacsimileTelephone
-    // 
+    //
     typedef ::xml_schema::string ContactFacsimileTelephone_type;
     typedef ::xsd::cxx::tree::optional< ContactFacsimileTelephone_type > ContactFacsimileTelephone_optional;
     typedef ::xsd::cxx::tree::traits< ContactFacsimileTelephone_type, char > ContactFacsimileTelephone_traits;
@@ -1166,7 +1166,7 @@ namespace wms
     ContactFacsimileTelephone (::std::auto_ptr< ContactFacsimileTelephone_type > p);
 
     // ContactElectronicMailAddress
-    // 
+    //
     typedef ::xml_schema::string ContactElectronicMailAddress_type;
     typedef ::xsd::cxx::tree::optional< ContactElectronicMailAddress_type > ContactElectronicMailAddress_optional;
     typedef ::xsd::cxx::tree::traits< ContactElectronicMailAddress_type, char > ContactElectronicMailAddress_traits;
@@ -1202,7 +1202,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~ContactInformation ();
 
     // Implementation.
@@ -1225,7 +1225,7 @@ namespace wms
   {
     public:
     // ContactPerson
-    // 
+    //
     typedef ::xml_schema::string ContactPerson_type;
     typedef ::xsd::cxx::tree::traits< ContactPerson_type, char > ContactPerson_traits;
 
@@ -1242,7 +1242,7 @@ namespace wms
     ContactPerson (::std::auto_ptr< ContactPerson_type > p);
 
     // ContactOrganization
-    // 
+    //
     typedef ::xml_schema::string ContactOrganization_type;
     typedef ::xsd::cxx::tree::traits< ContactOrganization_type, char > ContactOrganization_traits;
 
@@ -1275,7 +1275,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~ContactPersonPrimary ();
 
     // Implementation.
@@ -1294,7 +1294,7 @@ namespace wms
   {
     public:
     // AddressType
-    // 
+    //
     typedef ::xml_schema::string AddressType_type;
     typedef ::xsd::cxx::tree::traits< AddressType_type, char > AddressType_traits;
 
@@ -1311,7 +1311,7 @@ namespace wms
     AddressType (::std::auto_ptr< AddressType_type > p);
 
     // Address
-    // 
+    //
     typedef ::xml_schema::string Address_type;
     typedef ::xsd::cxx::tree::traits< Address_type, char > Address_traits;
 
@@ -1328,7 +1328,7 @@ namespace wms
     Address (::std::auto_ptr< Address_type > p);
 
     // City
-    // 
+    //
     typedef ::xml_schema::string City_type;
     typedef ::xsd::cxx::tree::traits< City_type, char > City_traits;
 
@@ -1345,7 +1345,7 @@ namespace wms
     City (::std::auto_ptr< City_type > p);
 
     // StateOrProvince
-    // 
+    //
     typedef ::xml_schema::string StateOrProvince_type;
     typedef ::xsd::cxx::tree::traits< StateOrProvince_type, char > StateOrProvince_traits;
 
@@ -1362,7 +1362,7 @@ namespace wms
     StateOrProvince (::std::auto_ptr< StateOrProvince_type > p);
 
     // PostCode
-    // 
+    //
     typedef ::xml_schema::string PostCode_type;
     typedef ::xsd::cxx::tree::traits< PostCode_type, char > PostCode_traits;
 
@@ -1379,7 +1379,7 @@ namespace wms
     PostCode (::std::auto_ptr< PostCode_type > p);
 
     // Country
-    // 
+    //
     typedef ::xml_schema::string Country_type;
     typedef ::xsd::cxx::tree::traits< Country_type, char > Country_traits;
 
@@ -1416,7 +1416,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~ContactAddress ();
 
     // Implementation.
@@ -1439,7 +1439,7 @@ namespace wms
   {
     public:
     // Request
-    // 
+    //
     typedef ::wms::Request Request_type;
     typedef ::xsd::cxx::tree::traits< Request_type, char > Request_traits;
 
@@ -1456,7 +1456,7 @@ namespace wms
     Request (::std::auto_ptr< Request_type > p);
 
     // Exception
-    // 
+    //
     typedef ::wms::Exception Exception_type;
     typedef ::xsd::cxx::tree::traits< Exception_type, char > Exception_traits;
 
@@ -1473,7 +1473,7 @@ namespace wms
     Exception (::std::auto_ptr< Exception_type > p);
 
     // _ExtendedCapabilities
-    // 
+    //
     typedef ::xml_schema::type _ExtendedCapabilities_type;
     typedef ::xsd::cxx::tree::sequence< _ExtendedCapabilities_type > _ExtendedCapabilities_sequence;
     typedef _ExtendedCapabilities_sequence::iterator _ExtendedCapabilities_iterator;
@@ -1490,7 +1490,7 @@ namespace wms
     _ExtendedCapabilities (const _ExtendedCapabilities_sequence& s);
 
     // Layer
-    // 
+    //
     typedef ::wms::Layer Layer_type;
     typedef ::xsd::cxx::tree::optional< Layer_type > Layer_optional;
     typedef ::xsd::cxx::tree::traits< Layer_type, char > Layer_traits;
@@ -1530,7 +1530,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Capability ();
 
     // Implementation.
@@ -1551,7 +1551,7 @@ namespace wms
   {
     public:
     // GetCapabilities
-    // 
+    //
     typedef ::wms::OperationType GetCapabilities_type;
     typedef ::xsd::cxx::tree::traits< GetCapabilities_type, char > GetCapabilities_traits;
 
@@ -1568,7 +1568,7 @@ namespace wms
     GetCapabilities (::std::auto_ptr< GetCapabilities_type > p);
 
     // GetMap
-    // 
+    //
     typedef ::wms::OperationType GetMap_type;
     typedef ::xsd::cxx::tree::traits< GetMap_type, char > GetMap_traits;
 
@@ -1585,7 +1585,7 @@ namespace wms
     GetMap (::std::auto_ptr< GetMap_type > p);
 
     // GetFeatureInfo
-    // 
+    //
     typedef ::wms::OperationType GetFeatureInfo_type;
     typedef ::xsd::cxx::tree::optional< GetFeatureInfo_type > GetFeatureInfo_optional;
     typedef ::xsd::cxx::tree::traits< GetFeatureInfo_type, char > GetFeatureInfo_traits;
@@ -1606,7 +1606,7 @@ namespace wms
     GetFeatureInfo (::std::auto_ptr< GetFeatureInfo_type > p);
 
     // _ExtendedOperation
-    // 
+    //
     typedef ::wms::OperationType _ExtendedOperation_type;
     typedef ::xsd::cxx::tree::sequence< _ExtendedOperation_type > _ExtendedOperation_sequence;
     typedef _ExtendedOperation_sequence::iterator _ExtendedOperation_iterator;
@@ -1642,7 +1642,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Request ();
 
     // Implementation.
@@ -1663,7 +1663,7 @@ namespace wms
   {
     public:
     // HTTP
-    // 
+    //
     typedef ::wms::HTTP HTTP_type;
     typedef ::xsd::cxx::tree::traits< HTTP_type, char > HTTP_traits;
 
@@ -1697,7 +1697,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~DCPType ();
 
     // Implementation.
@@ -1715,7 +1715,7 @@ namespace wms
   {
     public:
     // Get
-    // 
+    //
     typedef ::wms::Get Get_type;
     typedef ::xsd::cxx::tree::traits< Get_type, char > Get_traits;
 
@@ -1732,7 +1732,7 @@ namespace wms
     Get (::std::auto_ptr< Get_type > p);
 
     // Post
-    // 
+    //
     typedef ::wms::Post Post_type;
     typedef ::xsd::cxx::tree::optional< Post_type > Post_optional;
     typedef ::xsd::cxx::tree::traits< Post_type, char > Post_traits;
@@ -1770,7 +1770,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~HTTP ();
 
     // Implementation.
@@ -1789,7 +1789,7 @@ namespace wms
   {
     public:
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -1823,7 +1823,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Get ();
 
     // Implementation.
@@ -1841,7 +1841,7 @@ namespace wms
   {
     public:
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -1875,7 +1875,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Post ();
 
     // Implementation.
@@ -1893,7 +1893,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::sequence< Format_type > Format_sequence;
     typedef Format_sequence::iterator Format_iterator;
@@ -1925,7 +1925,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Exception ();
 
     // Implementation.
@@ -1943,7 +1943,7 @@ namespace wms
   {
     public:
     // Name
-    // 
+    //
     typedef ::xml_schema::string Name_type;
     typedef ::xsd::cxx::tree::optional< Name_type > Name_optional;
     typedef ::xsd::cxx::tree::traits< Name_type, char > Name_traits;
@@ -1964,7 +1964,7 @@ namespace wms
     Name (::std::auto_ptr< Name_type > p);
 
     // Title
-    // 
+    //
     typedef ::xml_schema::string Title_type;
     typedef ::xsd::cxx::tree::traits< Title_type, char > Title_traits;
 
@@ -1981,7 +1981,7 @@ namespace wms
     Title (::std::auto_ptr< Title_type > p);
 
     // Abstract
-    // 
+    //
     typedef ::xml_schema::string Abstract_type;
     typedef ::xsd::cxx::tree::optional< Abstract_type > Abstract_optional;
     typedef ::xsd::cxx::tree::traits< Abstract_type, char > Abstract_traits;
@@ -2002,7 +2002,7 @@ namespace wms
     Abstract (::std::auto_ptr< Abstract_type > p);
 
     // KeywordList
-    // 
+    //
     typedef ::wms::KeywordList KeywordList_type;
     typedef ::xsd::cxx::tree::optional< KeywordList_type > KeywordList_optional;
     typedef ::xsd::cxx::tree::traits< KeywordList_type, char > KeywordList_traits;
@@ -2023,7 +2023,7 @@ namespace wms
     KeywordList (::std::auto_ptr< KeywordList_type > p);
 
     // CRS
-    // 
+    //
     typedef ::xml_schema::string CRS_type;
     typedef ::xsd::cxx::tree::sequence< CRS_type > CRS_sequence;
     typedef CRS_sequence::iterator CRS_iterator;
@@ -2040,7 +2040,7 @@ namespace wms
     CRS (const CRS_sequence& s);
 
     // EX_GeographicBoundingBox
-    // 
+    //
     typedef ::wms::EX_GeographicBoundingBox EX_GeographicBoundingBox_type;
     typedef ::xsd::cxx::tree::optional< EX_GeographicBoundingBox_type > EX_GeographicBoundingBox_optional;
     typedef ::xsd::cxx::tree::traits< EX_GeographicBoundingBox_type, char > EX_GeographicBoundingBox_traits;
@@ -2061,7 +2061,7 @@ namespace wms
     EX_GeographicBoundingBox (::std::auto_ptr< EX_GeographicBoundingBox_type > p);
 
     // BoundingBox
-    // 
+    //
     typedef ::wms::BoundingBox BoundingBox_type;
     typedef ::xsd::cxx::tree::sequence< BoundingBox_type > BoundingBox_sequence;
     typedef BoundingBox_sequence::iterator BoundingBox_iterator;
@@ -2078,7 +2078,7 @@ namespace wms
     BoundingBox (const BoundingBox_sequence& s);
 
     // Dimension
-    // 
+    //
     typedef ::wms::Dimension Dimension_type;
     typedef ::xsd::cxx::tree::sequence< Dimension_type > Dimension_sequence;
     typedef Dimension_sequence::iterator Dimension_iterator;
@@ -2095,7 +2095,7 @@ namespace wms
     Dimension (const Dimension_sequence& s);
 
     // Attribution
-    // 
+    //
     typedef ::wms::Attribution Attribution_type;
     typedef ::xsd::cxx::tree::optional< Attribution_type > Attribution_optional;
     typedef ::xsd::cxx::tree::traits< Attribution_type, char > Attribution_traits;
@@ -2116,7 +2116,7 @@ namespace wms
     Attribution (::std::auto_ptr< Attribution_type > p);
 
     // AuthorityURL
-    // 
+    //
     typedef ::wms::AuthorityURL AuthorityURL_type;
     typedef ::xsd::cxx::tree::sequence< AuthorityURL_type > AuthorityURL_sequence;
     typedef AuthorityURL_sequence::iterator AuthorityURL_iterator;
@@ -2133,7 +2133,7 @@ namespace wms
     AuthorityURL (const AuthorityURL_sequence& s);
 
     // Identifier
-    // 
+    //
     typedef ::wms::Identifier Identifier_type;
     typedef ::xsd::cxx::tree::sequence< Identifier_type > Identifier_sequence;
     typedef Identifier_sequence::iterator Identifier_iterator;
@@ -2150,7 +2150,7 @@ namespace wms
     Identifier (const Identifier_sequence& s);
 
     // MetadataURL
-    // 
+    //
     typedef ::wms::MetadataURL MetadataURL_type;
     typedef ::xsd::cxx::tree::sequence< MetadataURL_type > MetadataURL_sequence;
     typedef MetadataURL_sequence::iterator MetadataURL_iterator;
@@ -2167,7 +2167,7 @@ namespace wms
     MetadataURL (const MetadataURL_sequence& s);
 
     // DataURL
-    // 
+    //
     typedef ::wms::DataURL DataURL_type;
     typedef ::xsd::cxx::tree::sequence< DataURL_type > DataURL_sequence;
     typedef DataURL_sequence::iterator DataURL_iterator;
@@ -2184,7 +2184,7 @@ namespace wms
     DataURL (const DataURL_sequence& s);
 
     // FeatureListURL
-    // 
+    //
     typedef ::wms::FeatureListURL FeatureListURL_type;
     typedef ::xsd::cxx::tree::sequence< FeatureListURL_type > FeatureListURL_sequence;
     typedef FeatureListURL_sequence::iterator FeatureListURL_iterator;
@@ -2201,7 +2201,7 @@ namespace wms
     FeatureListURL (const FeatureListURL_sequence& s);
 
     // Style
-    // 
+    //
     typedef ::wms::Style Style_type;
     typedef ::xsd::cxx::tree::sequence< Style_type > Style_sequence;
     typedef Style_sequence::iterator Style_iterator;
@@ -2218,7 +2218,7 @@ namespace wms
     Style (const Style_sequence& s);
 
     // MinScaleDenominator
-    // 
+    //
     typedef ::xml_schema::double_ MinScaleDenominator_type;
     typedef ::xsd::cxx::tree::optional< MinScaleDenominator_type > MinScaleDenominator_optional;
     typedef ::xsd::cxx::tree::traits< MinScaleDenominator_type, char, ::xsd::cxx::tree::schema_type::double_ > MinScaleDenominator_traits;
@@ -2236,7 +2236,7 @@ namespace wms
     MinScaleDenominator (const MinScaleDenominator_optional& x);
 
     // MaxScaleDenominator
-    // 
+    //
     typedef ::xml_schema::double_ MaxScaleDenominator_type;
     typedef ::xsd::cxx::tree::optional< MaxScaleDenominator_type > MaxScaleDenominator_optional;
     typedef ::xsd::cxx::tree::traits< MaxScaleDenominator_type, char, ::xsd::cxx::tree::schema_type::double_ > MaxScaleDenominator_traits;
@@ -2254,7 +2254,7 @@ namespace wms
     MaxScaleDenominator (const MaxScaleDenominator_optional& x);
 
     // Layer
-    // 
+    //
     typedef ::wms::Layer Layer1_type;
     typedef ::xsd::cxx::tree::sequence< Layer1_type > Layer1_sequence;
     typedef Layer1_sequence::iterator Layer1_iterator;
@@ -2271,7 +2271,7 @@ namespace wms
     Layer1 (const Layer1_sequence& s);
 
     // queryable
-    // 
+    //
     typedef ::xml_schema::boolean queryable_type;
     typedef ::xsd::cxx::tree::traits< queryable_type, char > queryable_traits;
 
@@ -2288,7 +2288,7 @@ namespace wms
     queryable_default_value ();
 
     // cascaded
-    // 
+    //
     typedef ::xml_schema::non_negative_integer cascaded_type;
     typedef ::xsd::cxx::tree::optional< cascaded_type > cascaded_optional;
     typedef ::xsd::cxx::tree::traits< cascaded_type, char > cascaded_traits;
@@ -2306,7 +2306,7 @@ namespace wms
     cascaded (const cascaded_optional& x);
 
     // opaque
-    // 
+    //
     typedef ::xml_schema::boolean opaque_type;
     typedef ::xsd::cxx::tree::traits< opaque_type, char > opaque_traits;
 
@@ -2323,7 +2323,7 @@ namespace wms
     opaque_default_value ();
 
     // noSubsets
-    // 
+    //
     typedef ::xml_schema::boolean noSubsets_type;
     typedef ::xsd::cxx::tree::traits< noSubsets_type, char > noSubsets_traits;
 
@@ -2340,7 +2340,7 @@ namespace wms
     noSubsets_default_value ();
 
     // fixedWidth
-    // 
+    //
     typedef ::xml_schema::non_negative_integer fixedWidth_type;
     typedef ::xsd::cxx::tree::optional< fixedWidth_type > fixedWidth_optional;
     typedef ::xsd::cxx::tree::traits< fixedWidth_type, char > fixedWidth_traits;
@@ -2358,7 +2358,7 @@ namespace wms
     fixedWidth (const fixedWidth_optional& x);
 
     // fixedHeight
-    // 
+    //
     typedef ::xml_schema::non_negative_integer fixedHeight_type;
     typedef ::xsd::cxx::tree::optional< fixedHeight_type > fixedHeight_optional;
     typedef ::xsd::cxx::tree::traits< fixedHeight_type, char > fixedHeight_traits;
@@ -2391,7 +2391,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Layer ();
 
     // Implementation.
@@ -2435,7 +2435,7 @@ namespace wms
   {
     public:
     // westBoundLongitude
-    // 
+    //
     typedef ::wms::longitudeType westBoundLongitude_type;
     typedef ::xsd::cxx::tree::traits< westBoundLongitude_type, char > westBoundLongitude_traits;
 
@@ -2452,7 +2452,7 @@ namespace wms
     westBoundLongitude (::std::auto_ptr< westBoundLongitude_type > p);
 
     // eastBoundLongitude
-    // 
+    //
     typedef ::wms::longitudeType eastBoundLongitude_type;
     typedef ::xsd::cxx::tree::traits< eastBoundLongitude_type, char > eastBoundLongitude_traits;
 
@@ -2469,7 +2469,7 @@ namespace wms
     eastBoundLongitude (::std::auto_ptr< eastBoundLongitude_type > p);
 
     // southBoundLatitude
-    // 
+    //
     typedef ::wms::latitudeType southBoundLatitude_type;
     typedef ::xsd::cxx::tree::traits< southBoundLatitude_type, char > southBoundLatitude_traits;
 
@@ -2486,7 +2486,7 @@ namespace wms
     southBoundLatitude (::std::auto_ptr< southBoundLatitude_type > p);
 
     // northBoundLatitude
-    // 
+    //
     typedef ::wms::latitudeType northBoundLatitude_type;
     typedef ::xsd::cxx::tree::traits< northBoundLatitude_type, char > northBoundLatitude_traits;
 
@@ -2521,7 +2521,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~EX_GeographicBoundingBox ();
 
     // Implementation.
@@ -2542,7 +2542,7 @@ namespace wms
   {
     public:
     // CRS
-    // 
+    //
     typedef ::xml_schema::string CRS_type;
     typedef ::xsd::cxx::tree::traits< CRS_type, char > CRS_traits;
 
@@ -2559,7 +2559,7 @@ namespace wms
     CRS (::std::auto_ptr< CRS_type > p);
 
     // minx
-    // 
+    //
     typedef ::xml_schema::double_ minx_type;
     typedef ::xsd::cxx::tree::traits< minx_type, char, ::xsd::cxx::tree::schema_type::double_ > minx_traits;
 
@@ -2573,7 +2573,7 @@ namespace wms
     minx (const minx_type& x);
 
     // miny
-    // 
+    //
     typedef ::xml_schema::double_ miny_type;
     typedef ::xsd::cxx::tree::traits< miny_type, char, ::xsd::cxx::tree::schema_type::double_ > miny_traits;
 
@@ -2587,7 +2587,7 @@ namespace wms
     miny (const miny_type& x);
 
     // maxx
-    // 
+    //
     typedef ::xml_schema::double_ maxx_type;
     typedef ::xsd::cxx::tree::traits< maxx_type, char, ::xsd::cxx::tree::schema_type::double_ > maxx_traits;
 
@@ -2601,7 +2601,7 @@ namespace wms
     maxx (const maxx_type& x);
 
     // maxy
-    // 
+    //
     typedef ::xml_schema::double_ maxy_type;
     typedef ::xsd::cxx::tree::traits< maxy_type, char, ::xsd::cxx::tree::schema_type::double_ > maxy_traits;
 
@@ -2615,7 +2615,7 @@ namespace wms
     maxy (const maxy_type& x);
 
     // resx
-    // 
+    //
     typedef ::xml_schema::double_ resx_type;
     typedef ::xsd::cxx::tree::optional< resx_type > resx_optional;
     typedef ::xsd::cxx::tree::traits< resx_type, char, ::xsd::cxx::tree::schema_type::double_ > resx_traits;
@@ -2633,7 +2633,7 @@ namespace wms
     resx (const resx_optional& x);
 
     // resy
-    // 
+    //
     typedef ::xml_schema::double_ resy_type;
     typedef ::xsd::cxx::tree::optional< resy_type > resy_optional;
     typedef ::xsd::cxx::tree::traits< resy_type, char, ::xsd::cxx::tree::schema_type::double_ > resy_traits;
@@ -2670,7 +2670,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~BoundingBox ();
 
     // Implementation.
@@ -2694,7 +2694,7 @@ namespace wms
   {
     public:
     // name
-    // 
+    //
     typedef ::xml_schema::string name_type;
     typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
 
@@ -2711,7 +2711,7 @@ namespace wms
     name (::std::auto_ptr< name_type > p);
 
     // units
-    // 
+    //
     typedef ::xml_schema::string units_type;
     typedef ::xsd::cxx::tree::traits< units_type, char > units_traits;
 
@@ -2728,7 +2728,7 @@ namespace wms
     units (::std::auto_ptr< units_type > p);
 
     // unitSymbol
-    // 
+    //
     typedef ::xml_schema::string unitSymbol_type;
     typedef ::xsd::cxx::tree::optional< unitSymbol_type > unitSymbol_optional;
     typedef ::xsd::cxx::tree::traits< unitSymbol_type, char > unitSymbol_traits;
@@ -2749,7 +2749,7 @@ namespace wms
     unitSymbol (::std::auto_ptr< unitSymbol_type > p);
 
     // default
-    // 
+    //
     typedef ::xml_schema::string default_type;
     typedef ::xsd::cxx::tree::optional< default_type > default_optional;
     typedef ::xsd::cxx::tree::traits< default_type, char > default_traits;
@@ -2770,7 +2770,7 @@ namespace wms
     default_ (::std::auto_ptr< default_type > p);
 
     // multipleValues
-    // 
+    //
     typedef ::xml_schema::boolean multipleValues_type;
     typedef ::xsd::cxx::tree::optional< multipleValues_type > multipleValues_optional;
     typedef ::xsd::cxx::tree::traits< multipleValues_type, char > multipleValues_traits;
@@ -2788,7 +2788,7 @@ namespace wms
     multipleValues (const multipleValues_optional& x);
 
     // nearestValue
-    // 
+    //
     typedef ::xml_schema::boolean nearestValue_type;
     typedef ::xsd::cxx::tree::optional< nearestValue_type > nearestValue_optional;
     typedef ::xsd::cxx::tree::traits< nearestValue_type, char > nearestValue_traits;
@@ -2806,7 +2806,7 @@ namespace wms
     nearestValue (const nearestValue_optional& x);
 
     // current
-    // 
+    //
     typedef ::xml_schema::boolean current_type;
     typedef ::xsd::cxx::tree::optional< current_type > current_optional;
     typedef ::xsd::cxx::tree::traits< current_type, char > current_traits;
@@ -2852,7 +2852,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Dimension ();
 
     // Implementation.
@@ -2876,7 +2876,7 @@ namespace wms
   {
     public:
     // Title
-    // 
+    //
     typedef ::xml_schema::string Title_type;
     typedef ::xsd::cxx::tree::optional< Title_type > Title_optional;
     typedef ::xsd::cxx::tree::traits< Title_type, char > Title_traits;
@@ -2897,7 +2897,7 @@ namespace wms
     Title (::std::auto_ptr< Title_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::optional< OnlineResource_type > OnlineResource_optional;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
@@ -2918,7 +2918,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // LogoURL
-    // 
+    //
     typedef ::wms::LogoURL LogoURL_type;
     typedef ::xsd::cxx::tree::optional< LogoURL_type > LogoURL_optional;
     typedef ::xsd::cxx::tree::traits< LogoURL_type, char > LogoURL_traits;
@@ -2954,7 +2954,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Attribution ();
 
     // Implementation.
@@ -2974,7 +2974,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -2991,7 +2991,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3008,7 +3008,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // width
-    // 
+    //
     typedef ::xml_schema::positive_integer width_type;
     typedef ::xsd::cxx::tree::optional< width_type > width_optional;
     typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
@@ -3026,7 +3026,7 @@ namespace wms
     width (const width_optional& x);
 
     // height
-    // 
+    //
     typedef ::xml_schema::positive_integer height_type;
     typedef ::xsd::cxx::tree::optional< height_type > height_optional;
     typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
@@ -3063,7 +3063,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~LogoURL ();
 
     // Implementation.
@@ -3084,7 +3084,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3101,7 +3101,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3118,7 +3118,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // type
-    // 
+    //
     typedef ::xml_schema::nmtoken type_type;
     typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
 
@@ -3156,7 +3156,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~MetadataURL ();
 
     // Implementation.
@@ -3176,7 +3176,7 @@ namespace wms
   {
     public:
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3193,7 +3193,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // name
-    // 
+    //
     typedef ::xml_schema::nmtoken name_type;
     typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
 
@@ -3229,7 +3229,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~AuthorityURL ();
 
     // Implementation.
@@ -3248,7 +3248,7 @@ namespace wms
   {
     public:
     // authority
-    // 
+    //
     typedef ::xml_schema::string authority_type;
     typedef ::xsd::cxx::tree::traits< authority_type, char > authority_traits;
 
@@ -3289,7 +3289,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Identifier ();
 
     // Implementation.
@@ -3307,7 +3307,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3324,7 +3324,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3360,7 +3360,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~DataURL ();
 
     // Implementation.
@@ -3379,7 +3379,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3396,7 +3396,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3432,7 +3432,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~FeatureListURL ();
 
     // Implementation.
@@ -3451,7 +3451,7 @@ namespace wms
   {
     public:
     // Name
-    // 
+    //
     typedef ::xml_schema::string Name_type;
     typedef ::xsd::cxx::tree::traits< Name_type, char > Name_traits;
 
@@ -3468,7 +3468,7 @@ namespace wms
     Name (::std::auto_ptr< Name_type > p);
 
     // Title
-    // 
+    //
     typedef ::xml_schema::string Title_type;
     typedef ::xsd::cxx::tree::traits< Title_type, char > Title_traits;
 
@@ -3485,7 +3485,7 @@ namespace wms
     Title (::std::auto_ptr< Title_type > p);
 
     // Abstract
-    // 
+    //
     typedef ::xml_schema::string Abstract_type;
     typedef ::xsd::cxx::tree::optional< Abstract_type > Abstract_optional;
     typedef ::xsd::cxx::tree::traits< Abstract_type, char > Abstract_traits;
@@ -3506,7 +3506,7 @@ namespace wms
     Abstract (::std::auto_ptr< Abstract_type > p);
 
     // LegendURL
-    // 
+    //
     typedef ::wms::LegendURL LegendURL_type;
     typedef ::xsd::cxx::tree::sequence< LegendURL_type > LegendURL_sequence;
     typedef LegendURL_sequence::iterator LegendURL_iterator;
@@ -3523,7 +3523,7 @@ namespace wms
     LegendURL (const LegendURL_sequence& s);
 
     // StyleSheetURL
-    // 
+    //
     typedef ::wms::StyleSheetURL StyleSheetURL_type;
     typedef ::xsd::cxx::tree::optional< StyleSheetURL_type > StyleSheetURL_optional;
     typedef ::xsd::cxx::tree::traits< StyleSheetURL_type, char > StyleSheetURL_traits;
@@ -3544,7 +3544,7 @@ namespace wms
     StyleSheetURL (::std::auto_ptr< StyleSheetURL_type > p);
 
     // StyleURL
-    // 
+    //
     typedef ::wms::StyleURL StyleURL_type;
     typedef ::xsd::cxx::tree::optional< StyleURL_type > StyleURL_optional;
     typedef ::xsd::cxx::tree::traits< StyleURL_type, char > StyleURL_traits;
@@ -3581,7 +3581,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~Style ();
 
     // Implementation.
@@ -3604,7 +3604,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3621,7 +3621,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3638,7 +3638,7 @@ namespace wms
     OnlineResource (::std::auto_ptr< OnlineResource_type > p);
 
     // width
-    // 
+    //
     typedef ::xml_schema::positive_integer width_type;
     typedef ::xsd::cxx::tree::optional< width_type > width_optional;
     typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
@@ -3656,7 +3656,7 @@ namespace wms
     width (const width_optional& x);
 
     // height
-    // 
+    //
     typedef ::xml_schema::positive_integer height_type;
     typedef ::xsd::cxx::tree::optional< height_type > height_optional;
     typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
@@ -3693,7 +3693,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~LegendURL ();
 
     // Implementation.
@@ -3714,7 +3714,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3731,7 +3731,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3767,7 +3767,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~StyleSheetURL ();
 
     // Implementation.
@@ -3786,7 +3786,7 @@ namespace wms
   {
     public:
     // Format
-    // 
+    //
     typedef ::xml_schema::string Format_type;
     typedef ::xsd::cxx::tree::traits< Format_type, char > Format_traits;
 
@@ -3803,7 +3803,7 @@ namespace wms
     Format (::std::auto_ptr< Format_type > p);
 
     // OnlineResource
-    // 
+    //
     typedef ::wms::OnlineResource OnlineResource_type;
     typedef ::xsd::cxx::tree::traits< OnlineResource_type, char > OnlineResource_traits;
 
@@ -3839,7 +3839,7 @@ namespace wms
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
-    virtual 
+    virtual
     ~StyleURL ();
 
     // Implementation.

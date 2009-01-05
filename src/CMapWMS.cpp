@@ -19,81 +19,79 @@
 
 #include "CMapWMS.h"
 #include "CWMSResponse.h"
+
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
-
 #include <QtGui>
 
-CMapWMS::CMapWMS(const QString& hostName, const QString& baseURL, CCanvas * parent)
-: IMap(eWMS, "",parent)
+CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
+: IMap(eRaster, key, parent)
 , x(0)
 , y(0)
-, zoomlevel(1)
-, zoomfactor(1.0)
+, zoomFactor(.1)
 {
     filename = fn;
 
-    http = new QHttp(this);
-    connect(http, SIGNAL(done(bool)),
-            this, SLOT(parseWMSResponse(bool)));
-    
-    QUrl url;
-    url.setPath(baseURL);
-    url.setQueryDelimiters('=', ';');
-    url.addQueryItem("D", "3");
-    url.addQueryItem("tex", QUrl::toPercentEncoding(
-                        equationEditor->toPlainText()));
-
-    http->setHost(hostName);
-    http->get(url.toString());
-
-
-/*
-    dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+    dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
-    GDALWMSBand * pBand;
-    pBand = dataset->GetWMSBand(1);
+    GDALRasterBand * pBand;
+    pBand = dataset->GetRasterBand(1);
     if(pBand == 0) {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
-    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
+    char str[1024];
+    strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    char * ptr = str;
+    OGRSpatialReference oSRS;
+    oSRS.importFromWkt(&ptr);
+    oSRS.exportToProj4(&ptr);
+
+    qDebug() << ptr;
+
+    pjsrc = pj_init_plus(ptr);
+    if(pjsrc == 0) {
         delete dataset; dataset = 0;
-        QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
+        QMessageBox::warning(0, tr("Error..."), tr("No georeference information found."));
         return;
     }
 
-    maparea.setWidth(dataset->GetWMSXSize());
-    maparea.setHeight(dataset->GetWMSYSize());
+    xsize_px = dataset->GetRasterXSize();
+    ysize_px = dataset->GetRasterYSize();
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
-        GDALColorTable * pct = pBand->GetColorTable();
-        for(int i=0; i < pct->GetColorEntryCount(); ++i) {
-            const GDALColorEntry& e = *pct->GetColorEntry(i);
-            colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
-        }
-    }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
-        for(int i=0; i < 256; ++i) {
-            colortable << qRgba(i, i, i, 255);
-        }
-    }
+    double adfGeoTransform[6];
+    dataset->GetGeoTransform( adfGeoTransform );
 
-    int success = 0;
-    double idx = pBand->GetNoDataValue(&success);
+    xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+    yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
-    if(success) {
-        QColor tmp(colortable[idx]);
-        tmp.setAlpha(0);
-        colortable[idx] = tmp.rgba();
-    }
-*/
+    xref1   = adfGeoTransform[0] * DEG_TO_RAD;
+    yref1   = adfGeoTransform[3] * DEG_TO_RAD;
+
+    xref2   = xref1 + xsize_px * xscale;
+    yref2   = yref1 + ysize_px * yscale;
+
+    lon1 = xref1;
+    lat1 = yref1;
+    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
+
+    lon2 = xref2;
+    lat2 = yref2;
+    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
+
+    x = xref1;
+    y = yref1;
+
+    zoomidx = 1;
+
+    qDebug() << lon1 << lat1 << lon2 << lat2;
+
 }
 
 
@@ -102,65 +100,122 @@ CMapWMS::~CMapWMS()
     if(dataset) delete dataset;
 }
 
-void CMapWMS::parseWMSResponse()
-{
-    QString xml = http->readAll();
-    auto_ptr<WMS_Capabilities> WMSCap(xml);
-    WMSCap.
-
-}
 
 void CMapWMS::convertPt2M(double& u, double& v)
 {
-    u = x + u * zoomfactor;
-    v = y + v * zoomfactor;
+    u = x + u * xscale * zoomFactor;
+    v = y + v * yscale * zoomFactor;
 }
 
 
 void CMapWMS::convertM2Pt(double& u, double& v)
 {
-    u = (u - x) / zoomfactor;
-    v = (v - y) / zoomfactor;
+    u = (u - x) / (xscale * zoomFactor);
+    v = (v - y) / (yscale * zoomFactor);
 }
 
 
 void CMapWMS::move(const QPoint& old, const QPoint& next)
 {
-    // move top left point by difference
-    x += (old.x() - next.x()) * zoomfactor;
-    y += (old.y() - next.y()) * zoomfactor;
+    needsRedraw = true;
 
+    double xx = x, yy = y;
+    convertM2Pt(xx, yy);
+
+    // move top left point by difference
+    xx += old.x() - next.x();
+    yy += old.y() - next.y();
+
+    convertPt2M(xx,yy);
+    x = xx;
+    y = yy;
+    emit sigChanged();
 }
 
 
-void CMapWMS::zoom(bool zoomIn, const QPoint& p)
+void CMapWMS::zoom(bool zoomIn, const QPoint& p0)
 {
-    double x1 = p.x();
-    double y1 = p.y();
+    XY p1;
 
-    convertPt2M(x1,y1);
+    needsRedraw = true;
 
-    zoomlevel += zoomIn ? -1 : +1;
-    if(zoomlevel < 1) {
-        zoomfactor  = 1.0 / - (zoomlevel - 2);
-    }
-    else {
-        zoomfactor = zoomlevel;
-    }
+    // convert point to geo. coordinates
+    p1.u = p0.x();
+    p1.v = p0.y();
+    convertPt2Rad(p1.u, p1.v);
 
-    convertM2Pt(x1,y1);
-    move(QPoint(x1,y1),p);
+    zoomidx += zoomIn ? -1 : 1;
+    // sigChanged will be sent at the end of this function
+    blockSignals(true);
+    zoom(zoomidx);
+
+    // convert geo. coordinates back to point
+    convertRad2Pt(p1.u, p1.v);
+
+    double xx = x, yy = y;
+    convertM2Pt(xx, yy);
+
+    // move top left point by difference point befor and after zoom
+    xx += p1.u - p0.x();
+    yy += p1.v - p0.y();
+
+    // convert back to new top left geo coordinate
+    convertPt2M(xx, yy);
+    x = xx;
+    y = yy;
+    blockSignals(false);
+    emit sigChanged();
 }
 
 
 void CMapWMS::zoom(qint32& level)
 {
+    needsRedraw = true;
 
+    // no level less than 1
+    if(level < 1) {
+        zoomFactor  = 1.0 / - (level - 2);
+        qDebug() << "zoom:" << zoomFactor;
+        return;
+    }
+    zoomFactor = level;
+    emit sigChanged();
+    qDebug() << "zoom:" << zoomFactor;
 }
 
 
 void CMapWMS::zoom(double lon1, double lat1, double lon2, double lat2)
 {
+    double u[3];
+    double v[3];
+    double dU, dV;
+
+    needsRedraw = true;
+
+    u[0] = lon1;
+    v[0] = lat1;
+    u[1] = lon2;
+    v[1] = lat1;
+    u[2] = lon1;
+    v[2] = lat2;
+
+    pj_transform(pjtar, pjsrc,3,0,u,v,0);
+    dU = (u[1] - u[0]) / xscale;
+    dV = (v[0] - v[2]) / yscale;
+
+    int z1 = dU / size.width();
+    int z2 = dV / size.height();
+
+    zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+
+    double u_ = lon1 + (lon2 - lon1)/2;
+    double v_ = lat1 + (lat2 - lat1)/2;
+    convertRad2Pt(u_,v_);
+    move(QPoint(u_,v_), rect.center());
+
+    emit sigChanged();
+
+    qDebug() << "zoom:" << zoomFactor;
 }
 
 
@@ -171,80 +226,124 @@ void CMapWMS::select(const QRect& rect)
 
 void CMapWMS::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
-    lon1 = 0;
-    lat1 = 0;
-    lon2 = maparea.width();
-    lat2 = maparea.height();
+    lon1 = this->lon1;
+    lat1 = this->lat1;
+    lon2 = this->lon2;
+    lat2 = this->lat2;
 }
 
 
 void CMapWMS::draw(QPainter& p)
 {
-    if(!dataset) return;
+    if(pjsrc == 0) return IMap::draw(p);
 
-    draw();
-
-    p.drawImage(0,0,buffer);
+    if(needsRedraw){
+        draw();
+    }
 
     QString str;
-    if(zoomfactor < 1.0) {
-        str = tr("Overzoom x%1").arg(1/zoomfactor,0,'f',0);
+    if(zoomFactor < 1.0) {
+        str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
     else {
-        str = tr("Zoom level x%1").arg(zoomlevel);
+        str = tr("Zoom level x%1").arg(zoomidx);
     }
+
+    p.drawImage(0,0,buffer);
 
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
 
-    p.drawText(9 ,23, str);
-    p.drawText(11,23, str);
-    p.drawText(9 ,25, str);
-    p.drawText(11,25, str);
+    p.drawText(9  ,23, str);
+    p.drawText(10 ,23, str);
+    p.drawText(11 ,23, str);
+    p.drawText(9  ,24, str);
+    p.drawText(11 ,24, str);
+    p.drawText(9  ,25, str);
+    p.drawText(10 ,25, str);
+    p.drawText(11 ,25, str);
 
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
-
 }
 
 
 void CMapWMS::draw()
 {
-    if(!dataset) return;
+    if(pjsrc == 0) return IMap::draw();
+
+    QVector<QRgb> graytable2;
+    int i;
+    for(i = 0; i < 256; ++i) {
+        graytable2 << qRgb(i,i,i);
+    }
+
 
     buffer.fill(Qt::white);
     QPainter _p_(&buffer);
 
-    QRectF viewport(x, y, size.width() * zoomfactor,  size.height() *  zoomfactor);
+    QRectF viewport  = QRectF(x, y, size.width() * xscale * zoomFactor,  size.height() * yscale * zoomFactor);
+    QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));
     QRectF intersect = viewport.intersected(maparea);
 
-    // x/y offset [pixel] into file matrix
-    qint32 xoff = intersect.left();
-    qint32 yoff = intersect.top();
+    qDebug() << maparea << viewport << intersect;
 
-    // number of x/y pixel to read
-    qint32 pxx  = intersect.width();
-    qint32 pxy  = intersect.height();
+    if(intersect.isValid()) {
 
-    // the final image width and height in pixel
-    qint32 w    = (qint32)(pxx / zoomfactor) & 0xFFFFFFFC;
-    qint32 h    = (qint32)(pxy / zoomfactor);
+        // x/y offset [pixel] into file matrix
+        qint32 xoff = (intersect.left()   - xref1) / xscale;
+        qint32 yoff = (intersect.bottom() - yref1) / yscale;
 
-    GDALWMSBand * pBand;
-    pBand = dataset->GetWMSBand(1);
+        // number of x/y pixel to read
+        qint32 pxx  =   (qint32)(intersect.width()  / xscale);
+        qint32 pxy  =  -(qint32)(intersect.height() / yscale);
 
-    QImage img(QSize(w,h),QImage::Format_Indexed8);
-    img.setColorTable(colortable);
+        // the final image width and height in pixel
+        qint32 w    =   (qint32)(pxx / zoomFactor) & 0xFFFFFFFC;
+        qint32 h    =   (qint32)(pxy / zoomFactor);
 
-    CPLErr err = pBand->WMSIO(GF_Read
-        ,(int)xoff,(int)yoff
-        ,pxx,pxy
-        ,img.bits()
-        ,w,h
-        ,GDT_Byte,0,0);
+        // correct pxx by truncation
+        pxx         =   (qint32)(w * zoomFactor);
 
-    if(!err) {
-        double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
-        _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+        qDebug() << xoff << yoff << pxx << pxy << w << h;
+
+        if(w != 0 && h != 0) {
+
+            QImage img(QSize(w,h),QImage::Format_RGB32);
+//             QImage img(QSize(w,h*12),QImage::Format_Indexed8);
+//             img.setColorTable(graytable2);
+            img.fill(0);
+
+            QByteArray data(w*h*3,128);
+
+
+            CPLErr err = dataset->RasterIO(GF_Read
+                ,(int)xoff,(int)yoff
+                ,pxx,pxy
+                ,data.data()
+                ,w,h
+                ,GDT_Byte,3,NULL,0,0,0);
+
+            quint8 * pR     = (quint8 *)data.data();
+            quint8 * pG     = (quint8 *)data.data() + w* h;
+            quint8 * pB     = (quint8 *)data.data() + w* h + w * h;
+            quint32 * pImg  = (quint32 *)img.bits();
+
+            for(i = 0; i < w*h; i++){
+                *pImg++ = qRgb(*pR++,*pG++,*pB++);
+            }
+
+            qDebug() << err;
+            if(!err) {
+                double xx = intersect.left(), yy = intersect.bottom();
+                convertM2Pt(xx,yy);
+                _p_.drawImage(xx,yy,img);
+
+                img.save("xxx.png");
+            }
+            else{
+                IMap::draw();
+            }
+        }
     }
 }
