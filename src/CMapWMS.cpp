@@ -1,4 +1,4 @@
-/**********************************************************************************************
+/*********************************************************************************************
     Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 
 #include "CMapWMS.h"
 #include "CWMSResponse.h"
+#include "GeoMath.h"
 
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
@@ -28,7 +29,7 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster, key, parent)
 , x(0)
 , y(0)
-, zoomFactor(.1)
+, zoomFactor(1.0)
 {
     filename = fn;
 
@@ -90,13 +91,46 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
 
     zoomidx = 1;
 
-    qDebug() << lon1 << lat1 << lon2 << lat2;
+    QSettings cfg;
+    cfg.beginGroup("wms/maps");
+    cfg.beginGroup(filename);
+    QString pos     = cfg.value("topleft","").toString();
+    zoomidx         = cfg.value("zoomidx",1).toInt();
+    cfg.endGroup();
+    cfg.endGroup();
+
+    if(pos.isEmpty()) {
+        x = 0;
+        y = 0;
+    }
+    else {
+        float u = 0;
+        float v = 0;
+        GPS_Math_Str_To_Deg(pos, u, v);
+        x = u * DEG_TO_RAD;
+        y = v * DEG_TO_RAD;
+    }
+    zoom(zoomidx);
 
 }
 
 
 CMapWMS::~CMapWMS()
 {
+    QString pos;
+    QSettings cfg;
+    cfg.beginGroup("wms/maps");
+    cfg.beginGroup(filename);
+    GPS_Math_Deg_To_Str(x * RAD_TO_DEG, y * RAD_TO_DEG, pos);
+    pos = pos.replace("\260","");
+    cfg.setValue("topleft",pos);
+    cfg.setValue("zoomidx",zoomidx);
+    cfg.endGroup();
+    cfg.endGroup();
+
+
+    if(pjsrc) pj_free(pjsrc);
+
     if(dataset) delete dataset;
 }
 
@@ -346,4 +380,6 @@ void CMapWMS::draw()
             }
         }
     }
+
+    needsRedraw = false;
 }
