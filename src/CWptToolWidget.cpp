@@ -24,6 +24,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CDlgEditWpt.h"
+#include "CDlgDelWpt.h"
 #include "GeoMath.h"
 
 #include <QtGui>
@@ -43,6 +44,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -131,6 +133,11 @@ void CWptToolWidget::slotDelete()
     CWptDB::self().delWpt(keys, false);
 }
 
+void CWptToolWidget::slotDeleteBy()
+{
+    CDlgDelWpt dlg(this);
+    dlg.exec();
+}
 
 void CWptToolWidget::slotCopyPosition()
 {
