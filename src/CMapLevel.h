@@ -21,6 +21,9 @@
 #define CMAPLEVEL_H
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 #include <QObject>
 #include <QVector>
 

@@ -24,6 +24,9 @@
 
 #include <QMap>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 class QPoint;
 class QRect;

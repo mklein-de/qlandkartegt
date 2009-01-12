@@ -20,6 +20,9 @@
 #define GEOMATH_H
 //#include <stdint.h>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 #include <QVector>
 
 // extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);

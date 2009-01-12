@@ -22,6 +22,9 @@
 
 #include <QtGui>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eGarmin, parent)

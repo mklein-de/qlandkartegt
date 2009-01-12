@@ -24,7 +24,9 @@
 #if WIN32
 #include <math.h>
 #include <float.h>
+#ifndef __MINGW32__
 typedef __int32 int32_t;
+#endif
 #define isnan _isnan
 #define FP_NAN NAN
 #endif

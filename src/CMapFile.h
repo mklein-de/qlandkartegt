@@ -24,6 +24,9 @@
 #include <QRgb>
 #include <QVector>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 class CMapLevel;
 class GDALDataset;

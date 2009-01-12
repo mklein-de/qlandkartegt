@@ -306,6 +306,8 @@ void CMapWMS::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
     QVector<QRgb> graytable2;
     int i;
     for(i = 0; i < 256; ++i) {
@@ -380,4 +382,6 @@ void CMapWMS::draw()
     }
 
     needsRedraw = false;
+
+    QApplication::restoreOverrideCursor();
 }

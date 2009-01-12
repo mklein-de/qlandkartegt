@@ -27,6 +27,9 @@
 #define CGARMINPOLYGON_H
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 #include <QtCore>
 
 struct subdiv_desc_t;

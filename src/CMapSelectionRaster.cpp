@@ -20,6 +20,9 @@
 
 #include <QtGui>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 #include "GeoMath.h"
 #include "CMapDB.h"
 #include "IMap.h"

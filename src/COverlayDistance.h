@@ -23,6 +23,9 @@
 #include "IOverlay.h"
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 class COverlayDistance : public IOverlay
 {

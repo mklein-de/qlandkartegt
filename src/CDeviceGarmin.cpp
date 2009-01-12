@@ -35,6 +35,9 @@
 #include <math.h>
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 #define XSTR(x) STR(x)
 #define STR(x) #x

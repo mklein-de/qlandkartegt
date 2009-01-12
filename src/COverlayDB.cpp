@@ -27,6 +27,9 @@
 
 #include <QtGui>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 COverlayDB * COverlayDB::m_self = 0;
 

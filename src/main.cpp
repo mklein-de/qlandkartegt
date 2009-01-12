@@ -22,6 +22,9 @@
 
 #include <gdal_priv.h>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 #include "CMainWindow.h"
 // #include "CGarminTyp.h"

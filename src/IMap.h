@@ -27,6 +27,9 @@
 #include <QPointer>
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 class QPainter;
 class CCanvas;

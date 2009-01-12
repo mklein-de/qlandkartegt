@@ -30,6 +30,9 @@
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 
 CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster, key,parent)

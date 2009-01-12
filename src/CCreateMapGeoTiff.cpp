@@ -25,6 +25,9 @@
 #include "GeoMath.h"
 
 #include <projects.h>
+#ifdef __MINGW32__
+#undef LP
+#endif
 #include <ogr_spatialref.h>
 #include <gdal_priv.h>
 
