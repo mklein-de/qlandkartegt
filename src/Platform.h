@@ -93,7 +93,7 @@
 #define __PLATFORM_H__
 
 // include platform setup (WORDS_BIGENDIAN, CAN_UNALIGNED)
-// #include <config.h>
+#include "config.h"
 
 // need integer type definitions with fixed width
 #ifdef HAVE_INTTYPES_H

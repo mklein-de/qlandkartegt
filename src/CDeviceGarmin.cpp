@@ -17,6 +17,8 @@
 
 **********************************************************************************************/
 
+#include "config.h"
+
 #include "CDeviceGarmin.h"
 #include "CMainWindow.h"
 #include "CWptDB.h"
@@ -467,7 +469,7 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     Garmin::IDevice * (*func)(const char*) = 0;
     Garmin::IDevice * dev = 0;
 
-    QString libname     = QString("%1/lib%2" XSTR(SOEXT)).arg(XSTR(QL_LIBDIR)).arg(devkey);
+    QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT)).arg(XSTR(PLUGINDIR)).arg(devkey);
     QString funcname    = QString("init%1").arg(devkey);
 
     func = (Garmin::IDevice * (*)(const char*))QLibrary::resolve(libname,funcname.toAscii());

@@ -1,6 +1,20 @@
-include( ${QT_USE_FILE})
+project(qlandkarteqt-binary)
 
-#set(CMAKE_VERBOSE_MAKEFILE off)
+find_package(Qt4 REQUIRED)
+find_package(OpenGL)
+
+if (WIN32)
+  link_directories(C:/Programme/FWTools2.1.0/lib)
+  include_directories(C:/Programme/FWTools2.1.0/include)
+endif (WIN32)
+
+if (UNIX AND NOT WIN32)
+  find_package(GDAL REQUIRED)
+  find_package(PROJ REQUIRED)
+  find_package(XercesC REQUIRED)
+endif (UNIX AND NOT WIN32)
+
+include(${QT_USE_FILE})
 
 set(qlandkarte_SRCS
     main.cpp
@@ -114,9 +128,9 @@ set(qlandkarte_SRCS
     CMapTDB.cpp
 )
 
-IF(WIN32)
+if (WIN32)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} qlandkarte.rc)
-ENDIF(WIN32)
+endif (WIN32)
 
 set(qlandkarte_HDRS
     Platform.h
@@ -232,7 +246,6 @@ set(qlandkarte_HDRS
     CMapTDB.h
 )
 
-
 SET(qlandkarte_UIS
     ICopyright.ui
     IWptToolWidget.ui
@@ -270,6 +283,7 @@ SET(qlandkarte_RCS
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
+
 IF(PLOT_3D AND OPENGL_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D")
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3DWidget.h)
@@ -287,42 +301,54 @@ ENDIF(WMS_CLIENT AND XERCESC_FOUND)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
-qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS} )
+qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTSQL_INCLUDE_DIR} ${QT_QTOPENGL_INCLUDE_DIR} ${QL_OPENGL_INCLUDE_DIR} ../include)
+include_directories(
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${GDAL_INCLUDE_DIRS}
+  ${PROJ_INCLUDE_DIRS}
+  ${QT_QTXML_INCLUDE_DIR}
+  ${QT_QTSQL_INCLUDE_DIR}
+  ${QT_QTOPENGL_INCLUDE_DIR}
+  ${QL_OPENGL_INCLUDE_DIR}
+  ${CMAKE_SOURCE_DIR}/include
+)
 
-if(CMAKE_HAVE_STDINT_H)
-    add_definitions(-DHAVE_STDINT_H)
-endif(CMAKE_HAVE_STDINT_H)
+add_executable(qlandkartegt
+  ${qlandkarte_SRCS}
+  ${qlandkarte_HDRS}
+  ${qlandkarte_UI_HDRS}
+  ${qlandkarte_RC_SRCS}
+  ${qlandkarte_MOC_SRCS}
+)
 
-if(CMAKE_HAVE_INTTYPES_H)
-    add_definitions(-DHAVE_INTTYPES_H)
-endif(CMAKE_HAVE_INTTYPES_H)
+if (UNIX AND NOT WIN32)
+  target_link_libraries(
+    qlandkartegt
+      ${XERCESC_LIBRARY}
+      ${GDAL_LIBRARIES}
+      ${PROJ_LIBRARIES}
+      ${QT_LIBRARIES}
+      ${QT_QTNETWORK_LIBRARIES}
+      ${QT_QTXML_LIBRARIES}
+      ${QT_QTSQL_LIBRARIES}
+      ${QL_OPENGL_LIBRARIES}
+  )
 
-if(CMAKE_HAVE_BYTESWAP_H)
-    add_definitions(-DHAVE_BYTESWAP_H)
-endif(CMAKE_HAVE_BYTESWAP_H)
+  install(
+    TARGETS
+      qlandkartegt
+    DESTINATION
+      ${BIN_INSTALL_DIR}
+)
 
-if(CMAKE_HAVE_BIGENDIAN)
-    add_definitions(-DHAVE_BIGENDIAN)
-endif(CMAKE_HAVE_BIGENDIAN)
+endif (UNIX AND NOT WIN32)
 
-#TODO test for alignment
-add_definitions(-DCAN_UNALIGNED)
-
-add_executable( qlandkartegt ${qlandkarte_SRCS} ${qlandkarte_HDRS} ${qlandkarte_UI_HDRS} ${qlandkarte_RC_SRCS} ${qlandkarte_MOC_SRCS})
-
-IF(UNIX)
-  add_definitions(-Wall -O2 -DQL_LIBDIR=${QL_LIBDIR} -DSOEXT=${SOEXT})
-  target_link_libraries(qlandkartegt xerces-c ${GDAL_LIBRARY} ${PROJ_LIBRARY} ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES})
-ENDIF(UNIX)
-
-IF(WIN32)
+if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:console")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
   target_link_libraries(qlandkartegt gdal_i proj_i ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
-ENDIF(WIN32)
-
-
+endif (WIN32)
 

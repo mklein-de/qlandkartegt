@@ -23,6 +23,8 @@
 #ifndef IDEVICE_H
 #define IDEVICE_H
 
+#include "config.h"
+
 // need integer type definitions with fixed width
 #ifdef HAVE_INTTYPES_H
 #  include <inttypes.h>

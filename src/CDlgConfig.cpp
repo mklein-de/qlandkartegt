@@ -180,11 +180,11 @@ void CDlgConfig::fillTypeCombo()
     comboDevType->clear();
 
     CResources& resources = CResources::self();
-    QRegExp regex("lib(.*)\\" XSTR(SOEXT));
+    QRegExp regex("lib(.*)\\" XSTR(SHARED_LIB_EXT));
     QString file;
     QStringList files;
-    QDir inst_dir(XSTR(QL_LIBDIR));
-    files = inst_dir.entryList(QString("*" XSTR(SOEXT)).split(','));
+    QDir inst_dir(XSTR(PLUGINDIR));
+    files = inst_dir.entryList(QString("*" XSTR(SHARED_LIB_EXT)).split(','));
 
     foreach(file,files) {
         if(regex.exactMatch(file)) {
@@ -194,7 +194,7 @@ void CDlgConfig::fillTypeCombo()
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
 
     if(files.isEmpty()) {
-        labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(QL_LIBDIR)));
+        labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(PLUGINDIR)));
     }
     else {
         labelMessage->setText("");
