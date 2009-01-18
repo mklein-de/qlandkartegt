@@ -82,6 +82,7 @@ class CMap3DWidget: public QGLWidget
         void draw3DMap();
         void drawTrack();
         void drawSkybox(double x, double y, double z, double xs, double ys, double zs);
+        void getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData);
 
         GLuint objectMap;
         GLuint objectTrack;
@@ -89,6 +90,11 @@ class CMap3DWidget: public QGLWidget
         double zRot;
         double xRotSens;
         double zRotSens;
+        float xLight;
+        float yLight;
+        float zLight;
+        int light;
+
         GLuint mapTexture;
         double xShift, yShift, zoomFactor, eleZoomFactor;
 
@@ -112,6 +118,7 @@ class CMap3DWidget: public QGLWidget
         void eleZoomIn();
         void eleZoomReset();
         void changeMode();
+        void lightTurn();
 
         signals:
         void xRotationChanged(double angle);

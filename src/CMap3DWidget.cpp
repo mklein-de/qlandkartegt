@@ -42,6 +42,11 @@
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
 {
+    xLight = 0;
+    yLight = 0;
+    zLight = 0;
+    light = 0;
+
     xRot = 45;
     zRot = 0;
     xRotSens = 0.3;
@@ -471,6 +476,35 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     glDisable(GL_TEXTURE_2D);
 }
 
+inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
+{
+        GLdouble v1[3], v2[3];
+        int i;
+        for (i = 0; i < 3; i++) {
+                v1[i] = c[i] - a[i];
+                v2[i] = c[i] - b[i];
+        }
+        for (i =0; i < 3; i++) {
+                r[i] = v1[(i + 1) % 3] * v2[(i + 2) % 3] - v1[(i + 2) % 3] * v2[(i + 1) % 3];
+        }
+}
+
+void CMap3DWidget::getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData)
+{
+    if (xi < 0)
+            xi = 0;
+    if (yi <0)
+            yi = 0;
+    if (xi >= xcount)
+            xi = xcount - 1;
+    if (yi >= ycount)
+            yi = ycount - 1;
+    v[0] = xi * current_step_x;
+    v[1] = yi * current_step_y;
+    v[2] = eleData[xi + yi * xcount];
+    convertPt23D(v[0], v[1], v[2]);
+}
+
 void CMap3DWidget::draw3DMap()
 {
     double w = mapSize.width();
@@ -497,11 +531,14 @@ void CMap3DWidget::draw3DMap()
     double x, y, u, v;
     GLdouble *vertices;
     GLdouble *texCoords;
+    GLdouble *normals;
     GLuint idx[4];
 
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnable(GL_NORMALIZE);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
 
@@ -509,6 +546,7 @@ void CMap3DWidget::draw3DMap()
      * next code can be more optimal if used array of coordinates or VBO
      */
     vertices = new GLdouble[xcount * 3 * 2];
+    normals = new GLdouble[xcount * 3 * 2];
     texCoords = new GLdouble[xcount * 2 * 2];
     it = 0;
     iv = 0;
@@ -518,6 +556,7 @@ void CMap3DWidget::draw3DMap()
     idx[3] = 0;
     glVertexPointer(3, GL_DOUBLE, 0, vertices);
     glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+    glNormalPointer(GL_DOUBLE, 0, normals);
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
@@ -540,6 +579,18 @@ void CMap3DWidget::draw3DMap()
             texCoords[it + 1] = 1 - v / h;
             vertices[iv + 2] = eleData[ix + iy * xcount];
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
+            GLdouble a[3],b[3],c[3];
+            int s = 3;
+            a[0] = ix - s;
+            a[1] = iy - s;
+            b[0] = ix + s;
+            b[1] = iy + s;
+            c[0] = ix - s;
+            c[1] = iy + s;
+            getPopint(a, ix + s, iy + s , ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
+            getPopint(b, ix - s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
+            getPopint(c, ix + s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
+            getNormal(a, b, c, &normals[iv]);
         }
 
         for (j = 0; j < 4; j++)
@@ -558,6 +609,7 @@ void CMap3DWidget::draw3DMap()
     }
     delete [] vertices;
     delete [] texCoords;
+    delete [] normals;
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -681,6 +733,13 @@ void CMap3DWidget::makeMapObject()
 {
     glNewList(objectMap, GL_COMPILE);
 
+    GLfloat ambient[] ={0.0, 0.0, 0.0, 0.0};
+    GLfloat diffuse[] ={1.0, 1.0, 1.0, 1.0};
+    GLfloat specular[] ={0.0, 0.0, 0.0, 1.0};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+
     //draw map
     if (!map3DAct->isChecked())
         /*draw flat map*/
@@ -750,13 +809,25 @@ void CMap3DWidget::initializeGL()
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-
     glEnable(GL_DEPTH_TEST);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glEnable(GL_CULL_FACE);
 }
 
-
+void CMap3DWidget::lightTurn()
+{
+    light++; light &= 1;
+    if (light) {
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+    } else {
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glDisable(GL_LIGHT0);
+        glDisable(GL_LIGHTING);
+    }
+    updateGL();
+}
 void CMap3DWidget::paintGL()
 {
     int side = qMax(mapSize.width(), mapSize.height());
@@ -771,11 +842,30 @@ void CMap3DWidget::paintGL()
 
     glRotated(zRot, 0.0, 0.0, 1.0);
 
-    drawSkybox(0,0,0, side, side, side);
+    //FIXME make light and skybox simultaneously
+    if (!light)
+        drawSkybox(0,0,0, side, side, side);
 
     /* subtract the offset and set the Z axis scale */
     glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
     glTranslated(0.0, 0.0, -minElevation);
+
+    if (light) {
+            GLfloat light0_pos[] = {xLight, yLight, - (zLight + maxElevation), 0.0};
+            /*
+            GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
+            GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
+            GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
+            glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
+            glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
+            */
+
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+            glShadeModel(GL_SMOOTH);
+
+            glMaterialf (GL_FRONT,GL_SHININESS, 10);
+    }
 
     glCallList(objectMap);
     glCallList(objectTrack);
@@ -879,6 +969,7 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
     x0 = gl_x0;
     y0 = gl_y0;
     z0 = gl_z0;
+
     convert3D2Pt(x0, y0, z0);
 
 
@@ -1007,7 +1098,15 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-    if (pressedKeys.contains(Qt::Key_M)) {
+    if (pressedKeys.contains(Qt::Key_H)) {
+            xLight += dx;
+            zLight += dy;
+            qDebug() << xLight << yLight << zLight;
+    } else if (pressedKeys.contains(Qt::Key_L)) {
+            xLight += dx;
+            yLight -= dy;
+            qDebug() << xLight << yLight << zLight;
+    } else if (pressedKeys.contains(Qt::Key_M)) {
         QPoint p1 = event->pos(), p2 = lastPos;
         convertDsp2Z0(p1);
         convertDsp2Z0(p2);

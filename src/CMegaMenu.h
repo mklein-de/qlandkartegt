@@ -88,7 +88,7 @@ class CMegaMenu : public QLabel
         void funcMap3DMode();
         void funcMap3DZoomPlus();
         void funcMap3DZoomMinus();
-
+        void funcMap3DLighting();
 #endif
 
         void funcNewWpt();
