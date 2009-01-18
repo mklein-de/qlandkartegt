@@ -197,6 +197,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
+#ifdef WMS_CLIENT
     else if(ext == "xml" ){
         map.filename    = filename;
         map.key         = filename;
@@ -213,6 +214,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
+#endif
     else {
         if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
@@ -262,9 +264,11 @@ void CMapDB::openMap(const QString& key)
     else if(ext == "tdb") {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
+#ifdef WMS_CLIENT
     else if(ext == "xml" ){
         theMap = new CMapWMS(key,filename,theMainWindow->getCanvas());
     }
+#endif
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 
     // store current map filename for next session
