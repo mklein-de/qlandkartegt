@@ -27,27 +27,32 @@ else (XERCESC_LIBRARIES AND XERCESC_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
+      C:/progra~1/xerces-c_2_8_0/include
   )
   mark_as_advanced(XERCESC_INCLUDE_DIR)
 
   find_library(XERCES-C_LIBRARY
     NAMES
       xerces-c
+      xerces-c_2
     PATHS
       /usr/lib
       /usr/local/lib
       /opt/local/lib
       /sw/lib
+      C:/progra~1/xerces-c_2_8_0/lib
   )
   mark_as_advanced(XERCES-C_LIBRARY)
   find_library(XERCES-DEPDOM_LIBRARY
     NAMES
       xerces-depdom
+      xerces-depdom_2
     PATHS
       /usr/lib
       /usr/local/lib
       /opt/local/lib
       /sw/lib
+      C:/progra~1/xerces-c_2_8_0/lib      
   )
   mark_as_advanced(XERCES-DEPDOM_LIBRARY)
 

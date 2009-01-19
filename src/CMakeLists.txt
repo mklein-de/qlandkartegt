@@ -3,16 +3,9 @@ project(qlandkarteqt-binary)
 find_package(Qt4 REQUIRED)
 find_package(OpenGL)
 
-if (WIN32)
-  link_directories(C:/Programme/FWTools2.1.0/lib)
-  include_directories(C:/Programme/FWTools2.1.0/include)
-endif (WIN32)
-
-if (UNIX AND NOT WIN32)
-  find_package(GDAL REQUIRED)
-  find_package(PROJ REQUIRED)
-  find_package(XercesC REQUIRED)
-endif (UNIX AND NOT WIN32)
+find_package(GDAL REQUIRED)
+find_package(PROJ REQUIRED)
+find_package(XercesC REQUIRED)
 
 include(${QT_USE_FILE})
 
@@ -313,6 +306,7 @@ include_directories(
   ${QT_QTOPENGL_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
+  ${XERCESC_INCLUDE_DIRS}  
 )
 
 add_executable(qlandkartegt
@@ -323,10 +317,9 @@ add_executable(qlandkartegt
   ${qlandkarte_MOC_SRCS}
 )
 
-if (UNIX AND NOT WIN32)
-  target_link_libraries(
+target_link_libraries(
     qlandkartegt
-      ${XERCESC_LIBRARY}
+      ${XERCESC_LIBRARIES}
       ${GDAL_LIBRARIES}
       ${PROJ_LIBRARIES}
       ${QT_LIBRARIES}
@@ -343,12 +336,10 @@ if (UNIX AND NOT WIN32)
       ${BIN_INSTALL_DIR}
 )
 
-endif (UNIX AND NOT WIN32)
-
 if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:console")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-  target_link_libraries(qlandkartegt gdal_i proj_i ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
+  target_link_libraries(qlandkartegt ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
 endif (WIN32)
 

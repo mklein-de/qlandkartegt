@@ -23,23 +23,31 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
     NAMES
       projects.h
     PATHS
-      /usr/include
-      /usr/local/include
-      /opt/local/include
-      /sw/include
+        /usr/include
+        /usr/local/include
+        /opt/local/include
+        /sw/include
+        C:/Progra~1/FWTools2.2.8/include
+        C:/Progra~1/FWTools2.1.0/include
     PATH_SUFFIXES
-      proj4
+        proj4
+
   )
   mark_as_advanced(PROJ_INCLUDE_DIR)
 
   find_library(LIBPROJ_LIBRARY
     NAMES
-      proj
+        proj
+        proj
+        proj_i
     PATHS
-      /usr/lib
-      /usr/local/lib
-      /opt/local/lib
-      /sw/lib
+        /usr/lib
+        /usr/local/lib
+        /opt/local/lib
+        /sw/lib
+        C:/Progra~1/FWTools2.2.8/lib
+        C:/Progra~1/FWTools2.1.0/lib
+     
   )
   mark_as_advanced(LIBPROJ_LIBRARY)
 

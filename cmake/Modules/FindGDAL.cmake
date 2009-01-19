@@ -22,29 +22,35 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
     NAMES
       gdal.h
     PATHS
-      /usr/include
-      /usr/local/include
-      /opt/local/include
-      /sw/include
-      /usr/include/gdal
-      /usr/local/include/gdal
-      /opt/local/include/gdal
-      /sw/include/gdal
+        /usr/include
+        /usr/local/include
+        /opt/local/include
+        /sw/include
+        /usr/include/gdal
+        /usr/local/include/gdal
+        /opt/local/include/gdal
+        /sw/include/gdal
+        C:/Progra~1/FWTools2.2.8/include
+        C:/Progra~1/FWTools2.1.0/include      
   )
 
   # debian uses version suffixes
   # add suffix evey new release
   find_library(GDAL_LIBRARY
     NAMES
-      gdal
-      gdal1.3.2
-      gdal1.4.0
-      gdal1.5.0
+        gdal
+        gdal1.3.2
+        gdal1.4.0
+        gdal1.5.0
+        gdal
+        gdal_i   
     PATHS
       /usr/lib
       /usr/local/lib
       /opt/local/lib
       /sw/lib
+      C:/Progra~1/FWTools2.2.8/lib
+      C:/Progra~1/FWTools2.1.0/lib
   )
 
   set(GDAL_INCLUDE_DIRS
