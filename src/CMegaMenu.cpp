@@ -116,7 +116,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap3D[] =
     ,{0,QObject::tr("Flat / 3D Mode"),&CMegaMenu::funcMap3DMode,tr("Toggle between 3D track only and full map surface model.")}
     ,{":/icons/iconInc16x16",QObject::tr("Inc. Elevation"),&CMegaMenu::funcMap3DZoomPlus,tr("Make elevations on the map higher as they are.")}
     ,{":/icons/iconDec16x16",QObject::tr("Dec. Elevation"),&CMegaMenu::funcMap3DZoomMinus,tr("Make elevations on the map lower as they are.")}
-    ,{0,QObject::tr("Lighting On/Off"), &CMegaMenu::funcMap3DLighting,tr("Turn on/off lighting.")}
+    ,{":/icons/iconLight16x16",QObject::tr("Lighting On/Off"), &CMegaMenu::funcMap3DLighting,tr("Turn on/off lighting.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{0,QObject::tr("-"),0,tr("")}
