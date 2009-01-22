@@ -16,7 +16,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-
+#include "config.h"
 #include "CDlgConfig.h"
 #include "CResources.h"
 #include "IDevice.h"
