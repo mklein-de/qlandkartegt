@@ -301,7 +301,7 @@ void CCanvas::draw(QPainter& p)
     COverlayDB::self().draw(p, rect(), needsRedraw);
 
     drawRefPoints(p);
-    drawScale(p);
+//     drawScale(p);
 
     mouse->draw(p);
 }

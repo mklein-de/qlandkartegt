@@ -260,6 +260,7 @@ static quint16 order[] =
     , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
 
+
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
 , filename(filename)
@@ -278,15 +279,23 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
 , mouseOverIncDetail(false)
+, lon_factor(+1.0)
+, lat_factor(-1.0)
 {
     setup();
     readTDB(filename);
 
+//     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
 
-//     qDebug() << "pjsrc:\t" << pj_get_def(pjsrc,0);
-//     qDebug() << "pjtar:\t" << pj_get_def(pjtar,0);
+    char * ptr;
+    ptr = pj_get_def(pjsrc,0);
+    qDebug() << "pjsrc:\t" << ptr;
+    free(ptr);
+    ptr = pj_get_def(pjtar,0);
+    qDebug() << "pjtar:\t" << ptr;
+    free(ptr);
 
     processPrimaryMapData();
 
@@ -344,8 +353,17 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , mouseOverIncDetail(false)
 , fid(0x0001)
 , pid(0x0320)
+, lon_factor(+1.0)
+, lat_factor(-1.0)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
+
+    if(QString(ptr).contains("longlat")){
+        lon_factor =   PI / pow(2.0, 23);
+        lat_factor = - PI / pow(2.0, 23);
+        qDebug() << "set correction factor to" << lon_factor << lat_factor;
+    }
+
     pjsrc = pj_init_plus(ptr);
 
     qDebug() << ptr;
@@ -507,6 +525,12 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 
     char * ptr = dem.getProjection();
     qDebug() << "Reproject map to:" << ptr;
+
+    if(QString(ptr).contains("longlat")){
+        lon_factor =   PI / pow(2.0, 23);
+        lat_factor = - PI / pow(2.0, 23);
+        qDebug() << "set correction factor to" << lon_factor << lat_factor;
+    }
 
     pj_free(pjsrc);
     pjsrc = pj_init_plus(ptr);
@@ -956,8 +980,8 @@ void CMapTDB::convertPt2M(double& u, double& v)
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
-    u = pt.u + u * +1.0 * zoomFactor;
-    v = pt.v + v * -1.0 * zoomFactor;
+    u = pt.u + u * zoomFactor * lon_factor;
+    v = pt.v + v * zoomFactor * lat_factor;
 }
 
 
@@ -966,8 +990,8 @@ void CMapTDB::convertM2Pt(double& u, double& v)
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
-    u = (u - pt.u) / (+1.0 * zoomFactor);
-    v = (v - pt.v) / (-1.0 * zoomFactor);
+    u = (u - pt.u) / (zoomFactor * lon_factor);
+    v = (v - pt.v) / (zoomFactor * lat_factor);
 }
 
 
@@ -977,8 +1001,8 @@ void CMapTDB::convertM2Pt(double* u, double* v, int n)
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     for(int i = 0; i < n; ++i, ++u, ++v) {
-        *u = (*u - pt.u) / (+1.0 * zoomFactor);
-        *v = (*v - pt.v) / (-1.0 * zoomFactor);
+        *u = (*u - pt.u) / (zoomFactor * lon_factor);
+        *v = (*v - pt.v) / (zoomFactor * lat_factor);
     }
 };
 
@@ -1122,8 +1146,8 @@ void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p3.u = p1.u;
     p3.v = p2.v;
 
-    my_xscale =  zoomFactor;
-    my_yscale = -zoomFactor;
+    my_xscale = zoomFactor * lon_factor;
+    my_yscale = zoomFactor * lat_factor;
 
 }
 
@@ -1302,6 +1326,8 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         zoomidx     = i;
         zoomFactor  = sx;
+
+        qDebug() << "cccccccccc" << zoomFactor;
 
         draw();
 

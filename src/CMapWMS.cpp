@@ -285,6 +285,11 @@ void CMapWMS::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
+        // render overlay
+    if(!ovlMap.isNull()/* && !doFastDraw*/){
+        ovlMap->draw(size, needsRedraw, p);
+    }
+
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
 
@@ -299,6 +304,8 @@ void CMapWMS::draw(QPainter& p)
 
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
+
+
 }
 
 
@@ -384,4 +391,16 @@ void CMapWMS::draw()
     needsRedraw = false;
 
     QApplication::restoreOverrideCursor();
+}
+
+
+void CMapWMS::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+{
+    p1.u        = lon1;
+    p1.v        = lat1;
+    p2.u        = lon2;
+    p2.v        = lat2;
+
+    my_xscale   = zoomFactor;
+    my_yscale   = zoomFactor;
 }
