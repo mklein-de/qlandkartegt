@@ -817,17 +817,9 @@ void CMap3DWidget::initializeGL()
 void CMap3DWidget::lightTurn()
 {
     light++; light &= 1;
-    if (light) {
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-    } else {
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-        glDisable(GL_LIGHT0);
-        glDisable(GL_LIGHTING);
-    }
     updateGL();
 }
+
 void CMap3DWidget::paintGL()
 {
     int side = qMax(mapSize.width(), mapSize.height());
@@ -842,15 +834,17 @@ void CMap3DWidget::paintGL()
 
     glRotated(zRot, 0.0, 0.0, 1.0);
 
-    //FIXME make light and skybox simultaneously
-    if (!light)
-        drawSkybox(0,0,0, side, side, side);
+    drawSkybox(0,0,0, side, side, side);
 
     /* subtract the offset and set the Z axis scale */
     glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
     glTranslated(0.0, 0.0, -minElevation);
 
     if (light) {
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT0);
+
             GLfloat light0_pos[] = {xLight, yLight, - (zLight + maxElevation), 0.0};
             /*
             GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
@@ -868,6 +862,11 @@ void CMap3DWidget::paintGL()
     }
 
     glCallList(objectMap);
+    if (light) {
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glDisable(GL_LIGHT0);
+            glDisable(GL_LIGHTING);
+    }
     glCallList(objectTrack);
 
     /*draw axis*/
