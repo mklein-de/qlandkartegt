@@ -394,13 +394,12 @@
         <widget class="QLabel" name="label_2" >
          <property name="text" >
           <string>&lt;b>Mouseless control&lt;/b>
-&lt;table cellspacing='5px'>
-&lt;tr>&lt;td>alt + right&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to east&lt;/td>
-&lt;tr>&lt;td>alt + left&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to west&lt;/td>
-&lt;tr>&lt;td>alt + up&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to north&lt;/td>
-&lt;tr>&lt;td>alt + down&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to south&lt;/td>
-&lt;tr>&lt;td>+&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom in&lt;/td>
-&lt;tr>&lt;td>-&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom out&lt;/td>
+&lt;table>&lt;tr>&lt;td>alt + right&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to east&lt;/td>&lt;tr>&lt;td>alt + left&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to west&lt;/td>&lt;tr>&lt;td>alt + up&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to north&lt;/td>&lt;tr>&lt;td>alt + down&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to south&lt;/td>&lt;tr>&lt;td>+&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom in&lt;/td>&lt;tr>&lt;td>-&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom out&lt;/td>&lt;/table>
+&lt;b>3D View&lt;/b>
+&lt;table>
+&lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map&lt;/td>
+&lt;tr>&lt;td>l + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move light source horizontaly&lt;/td>
+&lt;tr>&lt;td>h + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>light source brightness&lt;/td>
 &lt;/table></string>
          </property>
          <property name="alignment" >
