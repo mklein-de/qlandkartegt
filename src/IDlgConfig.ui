@@ -19,14 +19,6 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>485</width>
-        <height>434</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Environment</string>
       </attribute>
@@ -119,14 +111,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>485</width>
-        <height>434</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Network</string>
       </attribute>
@@ -226,14 +210,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="Seite" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>485</width>
-        <height>434</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Device &amp;&amp; Xfer</string>
       </attribute>
@@ -405,6 +381,31 @@
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Seite_2" >
+      <attribute name="title" >
+       <string>Keys</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout" >
+       <item>
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>&lt;b>Mouseless control&lt;/b>
+&lt;table cellspacing='5px'>
+&lt;tr>&lt;td>alt + right&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to east&lt;/td>
+&lt;tr>&lt;td>alt + left&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to west&lt;/td>
+&lt;tr>&lt;td>alt + up&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to north&lt;/td>
+&lt;tr>&lt;td>alt + down&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map view to south&lt;/td>
+&lt;tr>&lt;td>+&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom in&lt;/td>
+&lt;tr>&lt;td>-&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom out&lt;/td>
+&lt;/table></string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignJustify|Qt::AlignTop</set>
+         </property>
         </widget>
        </item>
       </layout>
