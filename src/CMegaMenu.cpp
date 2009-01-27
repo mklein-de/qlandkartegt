@@ -86,7 +86,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
     ,{":/icons/iconGlobe+16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
-    ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data to device.")}
+    ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data from device.")}
 
 };
 
