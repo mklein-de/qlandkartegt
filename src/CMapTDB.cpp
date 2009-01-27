@@ -1320,14 +1320,14 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         float sx, sy;
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
+        sx = sx/lon_factor;
+
         for(i=0; i < MAX_IDX_ZOOM; ++i) {
             if(scales[i].scale <= sx) break;
         }
 
         zoomidx     = i;
         zoomFactor  = sx;
-
-        qDebug() << "cccccccccc" << zoomFactor;
 
         draw();
 

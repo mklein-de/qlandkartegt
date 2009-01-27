@@ -163,6 +163,7 @@ void CMapWMS::move(const QPoint& old, const QPoint& next)
     convertPt2M(xx,yy);
     x = xx;
     y = yy;
+    setFastDraw();
     emit sigChanged();
 }
 
@@ -213,6 +214,7 @@ void CMapWMS::zoom(qint32& level)
         return;
     }
     zoomFactor = level;
+    setFastDraw();
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
@@ -286,9 +288,11 @@ void CMapWMS::draw(QPainter& p)
     p.drawImage(0,0,buffer);
 
         // render overlay
-    if(!ovlMap.isNull()/* && !doFastDraw*/){
+    if(!ovlMap.isNull() && !doFastDraw){
         ovlMap->draw(size, needsRedraw, p);
     }
+
+    needsRedraw = false;
 
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
@@ -305,6 +309,8 @@ void CMapWMS::draw(QPainter& p)
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
 
+
+    if(doFastDraw) setFastDraw();
 
 }
 
@@ -388,19 +394,18 @@ void CMapWMS::draw()
         }
     }
 
-    needsRedraw = false;
-
     QApplication::restoreOverrideCursor();
 }
 
 
 void CMapWMS::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
-    p1.u        = lon1;
-    p1.v        = lat1;
-    p2.u        = lon2;
-    p2.v        = lat2;
+    QRectF r(x, y, size.width() * xscale * zoomFactor,  size.height() * yscale * zoomFactor);
+    p1.u        = r.left();
+    p1.v        = r.top();
+    p2.u        = r.right();
+    p2.v        = r.bottom();
 
-    my_xscale   = zoomFactor;
-    my_yscale   = zoomFactor;
+    my_xscale   = xscale * zoomFactor;
+    my_yscale   = yscale * zoomFactor;
 }
