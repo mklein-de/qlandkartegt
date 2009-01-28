@@ -54,7 +54,7 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
 
-    qDebug() << ptr;
+    qDebug() << "WMS:" << ptr;
 
     pjsrc = pj_init_plus(ptr);
     if(pjsrc == 0) {
@@ -335,7 +335,7 @@ void CMapWMS::draw()
     QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));
     QRectF intersect = viewport.intersected(maparea);
 
-    qDebug() << maparea << viewport << intersect;
+//     qDebug() << maparea << viewport << intersect;
 
     if(intersect.isValid()) {
 
@@ -354,7 +354,7 @@ void CMapWMS::draw()
         // correct pxx by truncation
         pxx         =   (qint32)(w * zoomFactor);
 
-        qDebug() << xoff << yoff << pxx << pxy << w << h;
+//         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
         if(w != 0 && h != 0) {
 

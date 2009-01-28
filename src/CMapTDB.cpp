@@ -359,14 +359,14 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     char * ptr = CMapDB::self().getMap().getProjection();
 
     if(QString(ptr).contains("longlat")){
-        lon_factor =   PI / pow(2.0, 23);
-        lat_factor = - PI / pow(2.0, 23);
+        lon_factor =   PI / pow(2.0, 24);
+        lat_factor = - PI / pow(2.0, 24);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
     pjsrc = pj_init_plus(ptr);
 
-    qDebug() << ptr;
+    qDebug() << "TDB:" << ptr;
     if(ptr) free(ptr);
 
     setup();
@@ -1320,14 +1320,15 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         float sx, sy;
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
-        sx = sx/lon_factor;
+        zoomFactor = sx/lon_factor;
+        lat_factor = sy/sx * lon_factor;
+
 
         for(i=0; i < MAX_IDX_ZOOM; ++i) {
             if(scales[i].scale <= sx) break;
         }
 
         zoomidx     = i;
-        zoomFactor  = sx;
 
         draw();
 

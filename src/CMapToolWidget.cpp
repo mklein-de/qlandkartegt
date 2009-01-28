@@ -76,6 +76,7 @@ void CMapToolWidget::slotDBChanged()
         QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
         while(map != knownMaps.end()) {
             QTreeWidgetItem * item = new QTreeWidgetItem(treeKnownMaps);
+
             item->setText(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
             item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));

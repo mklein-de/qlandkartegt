@@ -201,7 +201,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     else if(ext == "xml" ){
         map.filename    = filename;
         map.key         = filename;
-        map.type        = IMap::eGarmin;
+        map.type        = IMap::eRaster;
 
         theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
 

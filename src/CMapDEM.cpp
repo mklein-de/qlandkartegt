@@ -63,7 +63,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     oSRS.exportToProj4(&ptr);
     QString strProj = ptr;
 
-    qDebug() << strProj;
+    qDebug() << "DEM:" << strProj;
 
     pjsrc = pj_init_plus(strProj.toLatin1());
 
@@ -73,16 +73,26 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    xscale  = adfGeoTransform[1];
-    yscale  = adfGeoTransform[5];
 
-    xref1   = adfGeoTransform[0];
-    yref1   = adfGeoTransform[3];
+    if (strProj.contains("longlat")){
+        xref1   = adfGeoTransform[0] * DEG_TO_RAD;
+        yref1   = adfGeoTransform[3] * DEG_TO_RAD;
 
+        xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+        yscale  = adfGeoTransform[5] * DEG_TO_RAD;
+
+    }
+    else{
+        xref1   = adfGeoTransform[0];
+        yref1   = adfGeoTransform[3];
+
+        xscale  = adfGeoTransform[1];
+        yscale  = adfGeoTransform[5];
+    }
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-    //     qDebug() << xref1 << yref1 << xref2 << yref2;
+//     qDebug() << xref1 << yref1 << xref2 << yref2 << xscale << yscale;
 
     int i;
     for(i = 0; i < 256; ++i) {
@@ -243,11 +253,15 @@ float CMapDEM::getElevation(double lon, double lat)
 
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
+//     qDebug() << u << xref1 << xscale;
+
     double xoff = (u - xref1) / xscale;
     double yoff = (v - yref1) / yscale;
 
     double x    = xoff - floor(xoff);
     double y    = yoff - floor(yoff);
+
+//     qDebug() << xoff << yoff << x << y;
 
     CPLErr err = dataset->RasterIO(GF_Read, floor(xoff), floor(yoff), 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
