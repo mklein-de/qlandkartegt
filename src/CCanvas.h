@@ -27,6 +27,7 @@
 
 class IMouse;
 class CMouseMoveMap;
+class CMouseZoomMap;
 class CMouseSelMap;
 class CMouseAddWpt;
 class CMouseMoveWpt;
@@ -137,6 +138,7 @@ class CCanvas : public QWidget
 
         QPointer<IMouse>  mouse;
         CMouseMoveMap * mouseMoveMap;
+        CMouseZoomMap * mouseZoomMap;
         CMouseSelMap * mouseSelMap;
         CMouseAddWpt * mouseAddWpt;
         CMouseMoveWpt * mouseMoveWpt;

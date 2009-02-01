@@ -23,6 +23,7 @@ set(qlandkarte_SRCS
     CStatusDEM.cpp
     IMouse.cpp
     CMouseMoveMap.cpp
+    CMouseZoomMap.cpp
     CMouseSelMap.cpp
     CMouseAddWpt.cpp
     CMouseMoveWpt.cpp
@@ -140,6 +141,7 @@ set(qlandkarte_HDRS
     CStatusDEM.h
     IMouse.h
     CMouseMoveMap.h
+    CMouseZoomMap.h
     CMouseSelMap.h
     CMouseAddWpt.h
     CMouseMoveWpt.h
@@ -311,7 +313,7 @@ include_directories(
   ${QT_QTOPENGL_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
-  ${XERCESC_INCLUDE_DIR}  
+  ${XERCESC_INCLUDE_DIR}
 )
 
 add_executable(qlandkartegt

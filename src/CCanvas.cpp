@@ -24,6 +24,7 @@
 #include "CCreateMapGeoTiff.h"
 
 #include "CMouseMoveMap.h"
+#include "CMouseZoomMap.h"
 #include "CMouseSelMap.h"
 #include "CMouseAddWpt.h"
 #include "CMouseMoveWpt.h"
@@ -64,6 +65,7 @@ CCanvas::CCanvas(QWidget * parent)
     setFocusPolicy(Qt::StrongFocus);
 
     mouseMoveMap    = new CMouseMoveMap(this);
+    mouseZoomMap    = new CMouseZoomMap(this);
     mouseSelMap     = new CMouseSelMap(this);
     mouseAddWpt     = new CMouseAddWpt(this);
     mouseMoveWpt    = new CMouseMoveWpt(this);
@@ -120,13 +122,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
             mouse = mouseMoveMap;
             break;
 
-            //         case eMouseZoomArea:
-            //             cursor = QCursor(cursorZoom,0,0);
-            //             pfMousePressEvent   = &CCanvas::mousePressZoomArea;
-            //             pfMouseMoveEvent    = &CCanvas::mouseMoveZoomArea;
-            //             pfMouseReleaseEvent = &CCanvas::mouseReleaseZoomArea;
-            //             break;
-            //
+        case eMouseZoomArea:
+            mouse = mouseZoomMap;
+            break;
+
         case eMouseAddWpt:
             mouse = mouseAddWpt;
             break;

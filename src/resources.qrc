@@ -70,6 +70,7 @@
         <file>icons/iconDec16x16.png</file>
         <file>icons/iconColorChooser16x16.png</file>
         <file>icons/iconLight16x16.png</file>
+        <file>icons/iconZoomArea16x16.png</file>
 
 
         <file>icons/iconExit22x22.png</file>
@@ -132,6 +133,7 @@
         <file>icons/backOverlay128x128.png</file>
 
         <file>cursors/cursorMoveMap.png</file>
+        <file>cursors/cursorZoom.png</file>
         <file>cursors/cursorSelMap.png</file>
         <file>cursors/cursorArrow.png</file>
         <file>cursors/cursorMove.png</file>

@@ -94,7 +94,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
@@ -130,7 +130,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint. The default position will be the current cursor position.")}
@@ -145,7 +145,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconAdd16x16",QObject::tr("Combine Tracks"),&CMegaMenu::funcCombineTrack,tr("Combine multiple selected tracks to one.")}
@@ -160,7 +160,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
@@ -175,7 +175,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconText16x16",QObject::tr("Add Static Text Box"),&CMegaMenu::funcText,tr("Add text on the map.")}
@@ -191,7 +191,7 @@ const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
 {
     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{0,QObject::tr("-"),0,tr("")}
+    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
     ,{0,QObject::tr("-"),0,tr("")}
     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
@@ -503,6 +503,10 @@ void CMegaMenu::funcMoveArea()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
 }
 
+void CMegaMenu::funcZoomArea()
+{
+    canvas->setMouseMode(CCanvas::eMouseZoomArea);
+}
 
 void CMegaMenu::funcCenterMap()
 {
