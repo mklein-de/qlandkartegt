@@ -213,11 +213,13 @@ void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
 
 void CMap3DWidget::slotChanged()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     deleteTexture(mapTexture);
     setMapTexture();
     makeMapObject();
     slotTrackChanged(false);
     updateGL();
+    QApplication::restoreOverrideCursor();
 }
 
 
@@ -1008,6 +1010,7 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
+    QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
 }
 
 
@@ -1034,6 +1037,7 @@ void CMap3DWidget::expandMap(bool zoomIn)
 void CMap3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
     pressedKeys.remove(event->key());
+    QApplication::restoreOverrideCursor();
 }
 
 
