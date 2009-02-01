@@ -5,7 +5,7 @@ find_package(OpenGL)
 
 find_package(GDAL REQUIRED)
 find_package(PROJ REQUIRED)
-find_package(XercesC COMPONENTS)
+# find_package(XercesC COMPONENTS)
 
 include(${QT_USE_FILE})
 
@@ -287,17 +287,21 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
-SET (WMS_CLIENT ${XERCESC_FOUND} CACHE BOOL "WMS Maps service")
-SET (XERCESC_INCLUDE_DIR "")
-SET (XERCESC_LIBRARIE "")
-
-IF(WMS_CLIENT AND XERCESC_FOUND)
+SET (WMS_CLIENT ON CACHE BOOL "WMS Maps service")
+# SET (XERCESC_INCLUDE_DIR "")
+# SET (XERCESC_LIBRARIE "")
+#
+# IF(WMS_CLIENT AND XERCESC_FOUND)
+IF(WMS_CLIENT)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWMS_CLIENT")
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CWMSResponse.h xlinks.hxx CMapWMS.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CWMSResponse.cpp xlinks.cxx CMapWMS.cpp)
-    SET(XERCESC_INCLUDE_DIR ${XERCESC_INCLUDE_DIRS})
-    SET(XERCESC_LIBRARIE ${XERCESC_LIBRARIES})
-ENDIF(WMS_CLIENT AND XERCESC_FOUND)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp)
+#     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CWMSResponse.h xlinks.hxx CMapWMS.h)
+#     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CWMSResponse.cpp xlinks.cxx CMapWMS.cpp)
+#     SET(XERCESC_INCLUDE_DIR ${XERCESC_INCLUDE_DIRS})
+#     SET(XERCESC_LIBRARIE ${XERCESC_LIBRARIES})
+# ENDIF(WMS_CLIENT AND XERCESC_FOUND)
+ENDIF(WMS_CLIENT)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
@@ -313,7 +317,7 @@ include_directories(
   ${QT_QTOPENGL_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
-  ${XERCESC_INCLUDE_DIR}
+#   ${XERCESC_INCLUDE_DIR}
 )
 
 add_executable(qlandkartegt
@@ -326,7 +330,7 @@ add_executable(qlandkartegt
 
 target_link_libraries(
     qlandkartegt
-      ${XERCESC_LIBRARIE}
+#       ${XERCESC_LIBRARIE}
       ${GDAL_LIBRARIES}
       ${PROJ_LIBRARIES}
       ${QT_LIBRARIES}

@@ -18,7 +18,7 @@
 **********************************************************************************************/
 
 #include "CMapWMS.h"
-#include "CWMSResponse.h"
+// #include "CWMSResponse.h"
 #include "GeoMath.h"
 
 #include <gdal_priv.h>
