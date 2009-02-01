@@ -236,6 +236,26 @@ void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
     v = mapSize.height()/2 - v;
 }
 
+void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
+{
+    GLdouble projection[16];
+    GLdouble modelview[16];
+    GLdouble gl_x0, gl_y0, gl_z0;
+    GLsizei vx, vy;
+    GLfloat depth;
+    GLint viewport[4];
+    vx = u;
+    vy = height() - v;
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+    glReadPixels(vx, vy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    gluUnProject(vx, vy, depth, modelview, projection, viewport, &gl_x0, &gl_y0, &gl_z0);
+    u = gl_x0;
+    v = gl_y0;
+    ele = gl_z0;
+}
 
 void CMap3DWidget::drawFlatMap()
 {
@@ -947,32 +967,16 @@ void CMap3DWidget::convertDsp2Z0(QPoint &a)
     a.ry() = y0 + yk * k1;
 }
 
-
 void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     CTrack::pt_t * selTrkPt;
-
-    GLdouble projection[16];
-    GLdouble modelview[16];
-    GLdouble gl_x0, gl_y0, gl_z0;
     double x0, y0, z0;
-    GLsizei vx, vy;
-    GLfloat depth;
-    GLint viewport[4];
-    vx = event->pos().x();
-    vy = height() - event->pos().y();
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glGetDoublev(GL_PROJECTION_MATRIX, projection);
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 
-    glReadPixels(vx, vy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-    gluUnProject(vx, vy, depth, modelview, projection, viewport, &gl_x0, &gl_y0, &gl_z0);
-    x0 = gl_x0;
-    y0 = gl_y0;
-    z0 = gl_z0;
+    x0 = event->pos().x();
+    y0 = event->pos().y();
+    convertMouse23D(x0, y0, z0);
 
     convert3D2Pt(x0, y0, z0);
-
 
     if(track.isNull()) return;
 
@@ -1106,8 +1110,16 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
             zLight += dy;
             qDebug() << xLight << yLight << zLight;
     } else if (pressedKeys.contains(Qt::Key_L)) {
-            xLight += dx;
-            yLight -= dy;
+            double x0, y0, z0;
+            x0 = event->x();
+            y0 = event->y();
+            convertMouse23D(x0, y0, z0);
+
+            double z = zLight + maxElevation;
+            xLight = x0 / (z -z0) * z;
+            yLight = y0 / (z -z0) * z;
+            qDebug() << xLight << yLight << zLight;
+            updateGL();
             qDebug() << xLight << yLight << zLight;
     } else if (pressedKeys.contains(Qt::Key_M)) {
         QPoint p1 = event->pos(), p2 = lastPos;
