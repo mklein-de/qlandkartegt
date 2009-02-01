@@ -129,6 +129,34 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
         double d = (pt.x() - pt1.u) * (pt.x() - pt1.u) + (pt.y() - pt1.v) * (pt.y() - pt1.v);
         if(d < dist) {
             thePoint = &(*p);
+
+            if(p != points.begin()){
+                XY p1 = *p;
+                XY p2 = *(p - 1);
+
+
+                map.convertRad2M(p1.u, p1.v);
+                map.convertRad2M(p2.u, p2.v);
+
+                anglePrev = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
+            }
+            else{
+                anglePrev = 1000;
+            }
+            if((p + 1) != points.end()){
+                XY p1 = *p;
+                XY p2 = *(p + 1);
+
+                map.convertRad2M(p1.u, p1.v);
+                map.convertRad2M(p2.u, p2.v);
+
+                angleNext = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
+
+            }
+            else{
+                angleNext = 1000;
+            }
+
             dist = d;
         }
         ++p;
@@ -324,8 +352,23 @@ void COverlayDistance::draw(QPainter& p)
             p.translate(pt2.u - 24, pt2.v - 24);
             p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
             p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
-            p.drawPixmap(rectAdd1, QPixmap(":/icons/iconAdd16x16.png"));
-            p.drawPixmap(rectAdd2, QPixmap(":/icons/iconAdd16x16.png"));
+            if(anglePrev < 360){
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd1.center());
+                p.rotate(-anglePrev);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
+
+            if(angleNext < 360){
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd2.center());
+                p.rotate(-angleNext);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
 
             p.restore();
         }
