@@ -46,6 +46,7 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
 , distance(0)
 , doSpecialCursor(false)
 , doMove(false)
+, doFuncWheel(false)
 {
 
     rectDel  = QRect(0,0,16,16);
@@ -113,9 +114,14 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
     IMap& map = CMapDB::self().getMap();
     QList<XY>::iterator p = points.begin();
 
+    if(doFuncWheel){
+        return true;
+    }
+
     thePoint = 0;
 
-    double dist = 1225.0;
+    double ref  = doFuncWheel ? (35.0 * 35.0) : (8.0 * 8.0);
+    double dist = ref;
     while(p != points.end()) {
         XY pt1 = *p;
         map.convertRad2Pt(pt1.u, pt1.v);
@@ -128,7 +134,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
         ++p;
     }
 
-    return (dist != 1225.0);
+    return (dist != ref);
 }
 
 
@@ -143,9 +149,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
         XY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
         pos1 -= QPoint(pt.u - 24, pt.v - 24);
-    }
 
-    if(thePoint) {
         if(doMove) {
             XY pt;
             pt.u = pos.x();
@@ -174,6 +178,11 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 {
     if(thePoint == 0) return;
 
+    if(!doFuncWheel){
+        doFuncWheel = true;
+        return;
+    }
+
     QPoint pos1 = e->pos();
     IMap& map   = CMapDB::self().getMap();
 
@@ -192,9 +201,13 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             QStringList keys(key);
             COverlayDB::self().delOverlays(keys);
         }
+
+        doFuncWheel = false;
+        thePoint    = 0;
     }
     else if(rectMove.contains(pos1)) {
-        doMove = true;
+        doMove      = true;
+        doFuncWheel = false;
     }
     else if(rectAdd1.contains(pos1)) {
         int idx = points.indexOf(*thePoint);
@@ -207,8 +220,9 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         map.convertPt2Rad(pt.u, pt.v);
         points.insert(idx,pt);
 
-        thePoint = &points[idx];
-        doMove   = true;
+        thePoint    = &points[idx];
+        doMove      = true;
+        doFuncWheel = false;
 
         theMainWindow->getCanvas()->update();
     }
@@ -225,13 +239,17 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         map.convertPt2Rad(pt.u, pt.v);
         points.insert(idx,pt);
 
-        thePoint = &points[idx];
-        doMove   = true;
+        thePoint    = &points[idx];
+        doMove      = true;
+        doFuncWheel = false;
 
         theMainWindow->getCanvas()->update();
 
     }
-
+    else{
+        doFuncWheel = false;
+        thePoint    = 0;
+    }
 }
 
 
@@ -252,7 +270,7 @@ void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 
     }
 
-    doMove = false;
+    doMove      = false;
     emit sigChanged();
 }
 
@@ -294,20 +312,28 @@ void COverlayDistance::draw(QPainter& p)
         pt2 = *thePoint;
         map.convertRad2Pt(pt2.u, pt2.v);
 
-        p.setPen(QColor(100,100,255,200));
-        p.setBrush(QColor(255,255,255,200));
-        p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
+        if(doFuncWheel){
 
-        p.drawPixmap(pt2.u - 5, pt2.v - 5, QPixmap(":/icons/bullet_red.png"));
+            p.setPen(QColor(100,100,255,200));
+            p.setBrush(QColor(255,255,255,200));
+            p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
 
-        p.save();
-        p.translate(pt2.u - 24, pt2.v - 24);
-        p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
-        p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
-        p.drawPixmap(rectAdd1, QPixmap(":/icons/iconAdd16x16.png"));
-        p.drawPixmap(rectAdd2, QPixmap(":/icons/iconAdd16x16.png"));
+            p.drawPixmap(pt2.u - 5, pt2.v - 5, QPixmap(":/icons/bullet_red.png"));
 
-        p.restore();
+            p.save();
+            p.translate(pt2.u - 24, pt2.v - 24);
+            p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
+            p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
+            p.drawPixmap(rectAdd1, QPixmap(":/icons/iconAdd16x16.png"));
+            p.drawPixmap(rectAdd2, QPixmap(":/icons/iconAdd16x16.png"));
+
+            p.restore();
+        }
+        else{
+            p.setPen(QColor(100,100,255,200));
+            p.setBrush(QColor(255,255,255,200));
+            p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
+        }
     }
 }
 

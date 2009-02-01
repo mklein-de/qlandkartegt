@@ -49,10 +49,12 @@ COverlayDB::~COverlayDB()
 
 void COverlayDB::draw(QPainter& p, const QRect& r, bool& needsRedraw)
 {
+    p.setRenderHint(QPainter::Antialiasing,true);
     IOverlay * overlay;
     foreach(overlay, overlays) {
         overlay->draw(p);
     }
+    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 

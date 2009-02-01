@@ -1442,6 +1442,7 @@ void CMapTDB::draw()
 
     }
 
+    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 

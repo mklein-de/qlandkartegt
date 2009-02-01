@@ -469,6 +469,9 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QPoint focus(-1,-1);
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
+
+    p.setRenderHint(QPainter::Antialiasing,false);
+
     //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
     QMap<QString,CTrack*>::iterator highlighted = tracks.end();
