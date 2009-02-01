@@ -45,7 +45,6 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     xLight = 0;
     yLight = 0;
     zLight = 0;
-    light = 0;
 
     xRot = 45;
     zRot = 0;
@@ -70,6 +69,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     QSettings cfg;
     map3DAct->setChecked(cfg.value("map/3D/3dmap", true).toBool());
     mapEleAct->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
+    light = cfg.value("map/3D/light", false).toBool();
 }
 
 CMap3DWidget::~CMap3DWidget()
@@ -814,7 +814,9 @@ void CMap3DWidget::initializeGL()
 
 void CMap3DWidget::lightTurn()
 {
-    light++; light &= 1;
+    QSettings cfg;
+    light = ! light;
+    cfg.setValue("map/3D/light", light);
     updateGL();
 }
 
