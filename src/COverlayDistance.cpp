@@ -291,7 +291,8 @@ void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
         pt.u = pos.x();
         pt.v = pos.y();
         map.convertPt2Rad(pt.u, pt.v);
-        *thePoint = pt;
+        *thePoint  = pt;
+        thePoint   = 0;
 
         calcDistance();
         theMainWindow->getCanvas()->update();
