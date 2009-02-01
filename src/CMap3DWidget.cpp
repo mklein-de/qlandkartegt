@@ -42,9 +42,10 @@
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
 {
-    xLight = 0;
-    yLight = 0;
-    zLight = 0;
+    QSettings cfg;
+    xLight = cfg.value("map/3D/xLight", 0.0).toDouble();
+    yLight = cfg.value("map/3D/yLight", 0.0).toDouble();
+    zLight = cfg.value("map/3D/zLight", 5000.0).toDouble();
 
     xRot = 45;
     zRot = 0;
@@ -56,7 +57,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     yShift = 0;
     zoomFactor = 1;
 
-    eleZoomFactor = 1;
+    eleZoomFactor = cfg.value("map/3D/eleZoomFactor", 1).toDouble();
     maxElevation = 0;
     minElevation = 0;
 
@@ -66,7 +67,6 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     createActions();
     setFocusPolicy(Qt::StrongFocus);
 
-    QSettings cfg;
     map3DAct->setChecked(cfg.value("map/3D/3dmap", true).toBool());
     mapEleAct->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
     light = cfg.value("map/3D/light", false).toBool();
@@ -153,6 +153,8 @@ void CMap3DWidget::eleZoomOut()
 {
     eleZoomFactor = eleZoomFactor / 1.2;
     updateGL();
+    QSettings cfg;
+    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -160,6 +162,8 @@ void CMap3DWidget::eleZoomIn()
 {
     eleZoomFactor = eleZoomFactor * 1.2;
     updateGL();
+    QSettings cfg;
+    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -167,6 +171,8 @@ void CMap3DWidget::eleZoomReset()
 {
     eleZoomFactor = 1;
     updateGL();
+    QSettings cfg;
+    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -867,7 +873,7 @@ void CMap3DWidget::paintGL()
             glEnable(GL_LIGHTING);
             glEnable(GL_LIGHT0);
 
-            GLfloat light0_pos[] = {xLight, yLight, - (zLight + maxElevation), 0.0};
+            GLfloat light0_pos[] = {xLight, yLight, - (zLight + minElevation), 0.0};
             /*
             GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
             GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
@@ -1042,6 +1048,15 @@ void CMap3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
     pressedKeys.remove(event->key());
     QApplication::restoreOverrideCursor();
+    switch (event->key()) {
+            case Qt::Key_H:
+            case Qt::Key_L:
+                    QSettings cfg;
+                    cfg.setValue("map/3D/xLight", xLight);
+                    cfg.setValue("map/3D/yLight", yLight);
+                    cfg.setValue("map/3D/zLight", zLight);
+                    break;
+    }
 }
 
 
@@ -1106,18 +1121,21 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (pressedKeys.contains(Qt::Key_H)) {
-            xLight += dx;
             zLight += dy;
             qDebug() << xLight << yLight << zLight;
     } else if (pressedKeys.contains(Qt::Key_L)) {
             double x0, y0, z0;
+            double x1, y1, z1;
             x0 = event->x();
             y0 = event->y();
             convertMouse23D(x0, y0, z0);
+            x1 = lastPos.x();
+            y1 = lastPos.y();
+            convertMouse23D(x1, y1, z1);
 
-            double z = zLight + maxElevation;
-            xLight = x0 / (z -z0) * z;
-            yLight = y0 / (z -z0) * z;
+            double z = zLight + minElevation;
+            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
+            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
             qDebug() << xLight << yLight << zLight;
             updateGL();
             qDebug() << xLight << yLight << zLight;
