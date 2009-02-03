@@ -22,7 +22,7 @@ if (UNIX)
     FORCE
   )
   SET(DATA_INSTALL_PREFIX
-    "${SHARE_INSTALL_PREFIX}/${_APPLICATION_NAME}"
+    "${SHARE_INSTALL_PREFIX}/"
     CACHE PATH "The parent directory where applications can install their data" FORCE)
 
   # The following are directories where stuff will be installed to
