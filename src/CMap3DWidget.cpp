@@ -70,6 +70,8 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     map3DAct->setChecked(cfg.value("map/3D/3dmap", true).toBool());
     mapEleAct->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
     light = cfg.value("map/3D/light", false).toBool();
+    cursorFocus = false;
+    cursorPress = false;
 }
 
 CMap3DWidget::~CMap3DWidget()
@@ -1019,10 +1021,22 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
 void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << "CMap3DWidget::mousePressEvent";
     lastPos = event->pos();
-    QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
+    if (!cursorPress) {
+        QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
+        cursorPress = true;
+    }
 }
 
+void CMap3DWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    qDebug() << "CMap3DWidget::mouseReleaseEvent";
+    if (cursorPress) {
+        QApplication::restoreOverrideCursor();
+        cursorPress = false;
+    }
+}
 
 void CMap3DWidget::expandMap(bool zoomIn)
 {
@@ -1220,4 +1234,27 @@ void CMap3DWidget::wheelEvent ( QWheelEvent * e )
         }
     }
     updateGL();
+}
+
+void CMap3DWidget::enterEvent(QEvent * )
+{
+    if (!cursorFocus) {
+        QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveMap")));
+        cursorFocus = true;
+    }
+
+}
+
+
+void CMap3DWidget::leaveEvent(QEvent * )
+{
+    if (cursorPress) {
+        QApplication::restoreOverrideCursor();
+        cursorPress = false;
+    }
+
+    if (cursorFocus) {
+        QApplication::restoreOverrideCursor();
+        cursorFocus = false;
+    }
 }

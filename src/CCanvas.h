@@ -151,6 +151,7 @@ class CCanvas : public QWidget
         CMouseAddDistance * mouseAddDistance;
         CMouseOverlay * mouseOverlay;
         CMouseColorPicker * mouseColorPicker;
+        bool cursorFocus;
 
         /// current mouse mode
         mouse_mode_e mouseMode;

@@ -79,7 +79,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseOverlay    = new CMouseOverlay(this);
     mouseColorPicker = new CMouseColorPicker(this);
     setMouseMode(eMouseMoveArea);
-
+    cursorFocus = false;
 }
 
 
@@ -231,13 +231,19 @@ void CCanvas::mouseReleaseEvent(QMouseEvent * e)
 
 void CCanvas::enterEvent(QEvent * )
 {
-    QApplication::setOverrideCursor(*mouse);
+    if (!cursorFocus) {
+        QApplication::setOverrideCursor(*mouse);
+        cursorFocus = true;
+    }
 }
 
 
 void CCanvas::leaveEvent(QEvent * )
 {
-    QApplication::restoreOverrideCursor();
+    if (cursorFocus) {
+        QApplication::restoreOverrideCursor();
+        cursorFocus = false;
+    }
 }
 
 

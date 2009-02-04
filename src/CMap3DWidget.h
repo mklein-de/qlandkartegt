@@ -56,6 +56,9 @@ class CMap3DWidget: public QGLWidget
         void updateElevationLimits();
         void getEleRegion(float *buffer, int xcount, int ycount);
         float getRegionValue(float *buffer, int x, int y);
+        void enterEvent(QEvent * );
+        void leaveEvent(QEvent * );
+        void mouseReleaseEvent(QMouseEvent *event);
 
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
@@ -94,7 +97,9 @@ class CMap3DWidget: public QGLWidget
         float xLight;
         float yLight;
         float zLight;
-        int light;
+        bool light;
+        bool cursorFocus;
+        bool cursorPress;
 
         GLuint mapTexture;
         double xShift, yShift, zoomFactor, eleZoomFactor;
