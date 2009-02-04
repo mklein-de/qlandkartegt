@@ -84,6 +84,11 @@ CMap3DWidget::~CMap3DWidget()
     QSettings cfg;
     cfg.setValue("map/3D/3dmap", map3DAct->isChecked());
     cfg.setValue("map/3D/trackonmap", mapEleAct->isChecked());
+    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
+    cfg.setValue("map/3D/light", light);
+    cfg.setValue("map/3D/xLight", xLight);
+    cfg.setValue("map/3D/yLight", yLight);
+    cfg.setValue("map/3D/zLight", zLight);
 }
 
 void CMap3DWidget::mapResize(const QSize& size)
@@ -155,8 +160,6 @@ void CMap3DWidget::eleZoomOut()
 {
     eleZoomFactor = eleZoomFactor / 1.2;
     updateGL();
-    QSettings cfg;
-    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -164,8 +167,6 @@ void CMap3DWidget::eleZoomIn()
 {
     eleZoomFactor = eleZoomFactor * 1.2;
     updateGL();
-    QSettings cfg;
-    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -173,8 +174,6 @@ void CMap3DWidget::eleZoomReset()
 {
     eleZoomFactor = 1;
     updateGL();
-    QSettings cfg;
-    cfg.setValue("map/3D/eleZoomFactor", eleZoomFactor);
 }
 
 
@@ -844,9 +843,7 @@ void CMap3DWidget::initializeGL()
 
 void CMap3DWidget::lightTurn()
 {
-    QSettings cfg;
     light = ! light;
-    cfg.setValue("map/3D/light", light);
     updateGL();
 }
 
@@ -1061,16 +1058,6 @@ void CMap3DWidget::expandMap(bool zoomIn)
 void CMap3DWidget::keyReleaseEvent ( QKeyEvent * event )
 {
     pressedKeys.remove(event->key());
-    QApplication::restoreOverrideCursor();
-    switch (event->key()) {
-            case Qt::Key_H:
-            case Qt::Key_L:
-                    QSettings cfg;
-                    cfg.setValue("map/3D/xLight", xLight);
-                    cfg.setValue("map/3D/yLight", yLight);
-                    cfg.setValue("map/3D/zLight", zLight);
-                    break;
-    }
 }
 
 
