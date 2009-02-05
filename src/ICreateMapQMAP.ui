@@ -196,12 +196,6 @@ p, li { white-space: pre-wrap; }
        <property name="enabled" >
         <bool>false</bool>
        </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text" >
         <string>add</string>
        </property>
@@ -212,12 +206,6 @@ p, li { white-space: pre-wrap; }
        <property name="enabled" >
         <bool>false</bool>
        </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text" >
         <string>edit</string>
        </property>
@@ -227,12 +215,6 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="pushDel" >
        <property name="enabled" >
         <bool>false</bool>
-       </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
        </property>
        <property name="text" >
         <string>del</string>
@@ -256,12 +238,6 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="pushUp" >
        <property name="enabled" >
         <bool>false</bool>
-       </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
        </property>
        <property name="text" >
         <string>up</string>
