@@ -63,6 +63,7 @@ class CMap3DWidget: public QGLWidget
         QAction *eleZoomInAct;
         QAction *eleZoomOutAct;
         QAction *eleZoomResetAct;
+        QAction *lightResetAct;
         QAction *map3DAct;
         QAction *showTrackAct;
         QAction *mapEleAct;
@@ -123,6 +124,7 @@ class CMap3DWidget: public QGLWidget
         void eleZoomOut();
         void eleZoomIn();
         void eleZoomReset();
+        void lightReset();
         void changeMode();
         void lightTurn();
 

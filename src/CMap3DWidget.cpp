@@ -148,6 +148,10 @@ void CMap3DWidget::createActions()
     eleZoomResetAct = new QAction(tr("Reset Elevation"), this);
     eleZoomResetAct->setIcon(QIcon(":/icons/iconClear16x16"));
     connect(eleZoomResetAct, SIGNAL(triggered()), this, SLOT(eleZoomReset()));
+    lightResetAct = new QAction(tr("Reset light source"), this);
+    lightResetAct->setIcon(QIcon(":/icons/iconClear16x16"));
+    connect(lightResetAct, SIGNAL(triggered()), this, SLOT(lightReset()));
+
 }
 
 void CMap3DWidget::changeMode()
@@ -176,6 +180,13 @@ void CMap3DWidget::eleZoomReset()
     updateGL();
 }
 
+void CMap3DWidget::lightReset()
+{
+    xLight = 0;
+    yLight = 0;
+    zLight = 5000;
+    updateGL();
+}
 
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -183,6 +194,7 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(eleZoomInAct);
     menu.addAction(eleZoomOutAct);
     menu.addAction(eleZoomResetAct);
+    menu.addAction(lightResetAct);
     menu.addAction(map3DAct);
     menu.addAction(showTrackAct);
     menu.addAction(mapEleAct);
