@@ -77,6 +77,7 @@ set(qlandkarte_SRCS
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
+    CCreateMapWMS.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
     CMapEditWidget.cpp
@@ -195,6 +196,7 @@ set(qlandkarte_HDRS
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
     CCreateMapGridTool.h
+    CCreateMapWMS.h
     CMapDB.h
     CMapToolWidget.h
     CMapEditWidget.h
@@ -263,6 +265,7 @@ SET(qlandkarte_UIS
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
+    ICreateMapWMS.ui
     IStatusDEM.ui
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui

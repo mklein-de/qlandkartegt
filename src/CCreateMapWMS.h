@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2009 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,31 +16,20 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-#ifndef CMAPEDITWIDGET_H
-#define CMAPEDITWIDGET_H
+
+#ifndef CCREATEMAPWMS_H
+#define CCREATEMAPWMS_H
 
 #include <QWidget>
+#include "ui_ICreateMapWMS.h"
 
-#include "ui_IMapEditWidget.h"
-
-class CCreateMapOSM;
-class CCreateMapQMAP;
-class CCreateMapGeoTiff;
-class CCreateMapWMS;
-
-class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
+class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
 {
     Q_OBJECT;
     public:
-        CMapEditWidget(QWidget * parent);
-        virtual ~CMapEditWidget();
-
-    private:
-        enum widget_e {eNone, eOSM, eQMAP, eGTIFF, eWMS};
-
-        CCreateMapOSM  * widgetOSM;
-        CCreateMapQMAP * widgetQMAP;
-        CCreateMapGeoTiff * widgetGeoTiff;
-        CCreateMapWMS * widgetWMS;
+        CCreateMapWMS(QWidget * parent);
+        virtual ~CCreateMapWMS();
 };
-#endif                           //CMAPEDITWIDGET_H
+
+#endif //CCREATEMAPWMS_H
+

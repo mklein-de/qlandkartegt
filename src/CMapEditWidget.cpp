@@ -21,6 +21,7 @@
 #include "CCreateMapOSM.h"
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
+#include "CCreateMapWMS.h"
 
 #include <QtGui>
 
@@ -58,6 +59,11 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
         label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));
         stackedWidget->insertWidget(eGTIFF, label);
     }
+
+    comboSource->insertItem(eWMS,QIcon(":/icons/iconWMS16x16.png"),tr("Create a GDAL WMS definition file."));
+    widgetWMS       = new CCreateMapWMS(stackedWidget);
+    stackedWidget->insertWidget(eWMS, widgetWMS);
+
 
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
 }
