@@ -103,9 +103,9 @@ void CMap3DWidget::mapResize(const QSize& size)
 void CMap3DWidget::loadMap()
 {
     if (! map.isNull()) {
-    connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-    connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-    connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
+        disconnect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+        disconnect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+        disconnect(map, SIGNAL(sigResize(const QSize&)), this, SLOT(mapResize(const QSize&)));
     }
     map = &CMapDB::self().getMap();
     assert(!map.isNull());
