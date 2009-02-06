@@ -845,8 +845,6 @@ void CMap3DWidget::initializeGL()
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
 
-    makeMapObject();
-    makeTrackObject();
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
 
