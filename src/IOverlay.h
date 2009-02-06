@@ -71,7 +71,7 @@ class IOverlay : public QObject
         virtual void load(QDataStream& s){};
 
         /// set the static selected pointer
-        void select(IOverlay * s){selected = s;}
+        static void select(IOverlay * s){selected = s;}
 
         /// move map to make overlay visible
         virtual void makeVisible(){};

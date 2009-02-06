@@ -470,7 +470,7 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
             selOverlay = *overlay;
         }
         else {
-            (*overlay)->select(0);
+            IOverlay::select(0);
             selOverlay = 0;
         }
 
