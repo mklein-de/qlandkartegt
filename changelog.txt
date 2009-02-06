@@ -1,3 +1,25 @@
+--- 2009.02.06 ---
+
+Request #54:
+Garmin: Decode point icons of encoding type 0x20
+
+Request #55:
+Delete waypoints by group
+
+Request #56:
+Optimize function wheel for distance points
+
+Request #57:
+Add zoom by area
+
+Request #58:
+Add real lightning to 3D view with variable light source
+
+Request #59:
+Add simple support for WMS maps via GDAL_WMS XML file (see http://www.gdal.org/frmt_wms.html)
+
+
+
 --- 2009.01.01 ---
 
 Request #51:
@@ -384,6 +406,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
