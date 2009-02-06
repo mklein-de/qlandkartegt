@@ -76,8 +76,12 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
 
 CMap3DWidget::~CMap3DWidget()
 {
+    int i;
     makeCurrent();
     deleteTexture(mapTexture);
+    for (i = 0; i < 6; i++)
+        deleteTexture(skyBox[i]);
+
     glDeleteLists(objectMap, 1);
     glDeleteLists(objectTrack, 1);
 
