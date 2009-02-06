@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
+    <width>553</width>
     <height>524</height>
    </rect>
   </property>
@@ -399,7 +399,7 @@
 &lt;table>
 &lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move map&lt;/td>
 &lt;tr>&lt;td>m + scroll mouse or page Up/Down&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>zoom map&lt;/td>
-&lt;tr>&lt;td>m + home/end key&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>increase/decrease map area&lt;/td>
+&lt;tr>&lt;td>home/end key&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>increase/decrease map area&lt;/td>
 &lt;tr>&lt;td>l + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move light source horizontaly&lt;/td>
 &lt;tr>&lt;td>h + left mouse&lt;/td>&lt;td>&amp;nbsp;&amp;nbsp;&lt;/td>&lt;td>move light source vertical&lt;/td>
 &lt;/table></string>
