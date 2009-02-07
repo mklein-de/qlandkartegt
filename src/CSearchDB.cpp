@@ -105,6 +105,7 @@ void CSearchDB::slotRequestStarted(int )
 
 void CSearchDB::slotRequestFinished(int , bool error)
 {
+    QApplication::restoreOverrideCursor();
 
     if(error) {
         emit sigStatus(google->errorString());

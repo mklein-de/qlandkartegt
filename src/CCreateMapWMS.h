@@ -23,12 +23,23 @@
 #include <QWidget>
 #include "ui_ICreateMapWMS.h"
 
+class QHttp;
+
 class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
 {
     Q_OBJECT;
     public:
         CCreateMapWMS(QWidget * parent);
         virtual ~CCreateMapWMS();
+
+    private slots:
+        void slotLoadCapabilities();
+        void slotSetupLink();
+        void slotRequestStarted(int );
+        void slotRequestFinished(int , bool error);
+
+    private:
+        QHttp * server;
 };
 
 #endif //CCREATEMAPWMS_H
