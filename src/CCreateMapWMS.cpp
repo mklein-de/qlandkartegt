@@ -73,7 +73,9 @@ void CCreateMapWMS::slotLoadCapabilities()
     server->setHost(url.host());
     server->get(url.toEncoded( ));
 
-
+    comboFormat->clear();
+    listLayers->clear();
+    comboProjection->clear();
 }
 
 void CCreateMapWMS::slotRequestStarted(int )
@@ -133,6 +135,15 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     while(!srs.isNull()){
         comboProjection->addItem(srs.text());
         srs = srs.nextSiblingElement("SRS");
+    }
+
+    QDomNode layer      = Layers.firstChildElement("Layer");
+    while(!layer.isNull()){
+        QString title = layer.namedItem("Name").toElement().text();
+        QListWidgetItem *item = new QListWidgetItem(listLayers);
+        item->setText(title);
+
+        layer = layer.nextSiblingElement("Layer");
     }
 
 
