@@ -154,6 +154,7 @@ void CCreateMapGridTool::slotCheck()
 
 void CCreateMapGridTool::slotOk()
 {
+    bool isLongLat = false;
     int res;
     double adfGeoTransform1[6], adfGeoTransform2[6];
     double northing = lineLatitude->text().toDouble();
@@ -288,10 +289,14 @@ void CCreateMapGridTool::slotOk()
             return;
         }
         pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+
+        isLongLat = lineProjection->text().contains("longlat");
     }
+
 
     double u1 = ((int)((adfGeoTransform1[0] + stepx) / stepx)) * stepx;
     double v1 = ((int)(adfGeoTransform1[3] / stepy)) * stepy;
+
 
     QRect rect(0,0,geotifftool->sizeOfInputFile.width(),geotifftool->sizeOfInputFile.height());
 
@@ -305,7 +310,12 @@ void CCreateMapGridTool::slotOk()
             // add ref point
             double _u = u;
             double _v = v;
+
             if(pjSrc) {
+                if(isLongLat){
+                    _u *= DEG_TO_RAD;
+                    _v *= DEG_TO_RAD;
+                }
                 pj_transform(pjSrc,pjWGS84,1,0,&_u,&_v,0);
                 _u = _u * RAD_TO_DEG;
                 _v = _v * RAD_TO_DEG;
