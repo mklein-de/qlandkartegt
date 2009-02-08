@@ -3,8 +3,8 @@
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+    the Free Software Foundation; either Version 2 of the License, or
+    (at your option) any later Version.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,18 +22,21 @@
 #include <QtGui>
 #include <QtNetwork/QHttp>
 #include <QtXml/QDomDocument>
+#include <projects.h>
 
 CCreateMapWMS::CCreateMapWMS(QWidget * parent)
 : QWidget(parent)
 , server(0)
 {
     setupUi(this);
-    lineServer->setText("http://oberpfalz.geofabrik.de/wms");
+//     lineServer->setText("http://oberpfalz.geofabrik.de/wms");
+    lineServer->setText("http://geodaten.bayern.de/ogc/ogc_atkis_test.cgi");
+
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
-
     connect(pushLoadCapabilities, SIGNAL(clicked()), this, SLOT(slotLoadCapabilities()));
+    connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSave()));
 }
 
 CCreateMapWMS::~CCreateMapWMS()
@@ -76,6 +79,7 @@ void CCreateMapWMS::slotLoadCapabilities()
     comboFormat->clear();
     listLayers->clear();
     comboProjection->clear();
+    labelTitle->clear();
 }
 
 void CCreateMapWMS::slotRequestStarted(int )
@@ -115,10 +119,10 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     qDebug() << dom.toString();
 
     QDomNode WMT_MS_Capabilities = dom.namedItem("WMT_MS_Capabilities");
-    if(WMT_MS_Capabilities.toElement().attribute("version") != "1.1.1"){
-        QMessageBox::critical(0,tr("Error..."), tr("Failed to parse check version.\n\n%1\n\n%2").arg(WMT_MS_Capabilities.toElement().attribute("version")), QMessageBox::Abort, QMessageBox::Abort);
-        return;
-    }
+//     if(WMT_MS_Capabilities.toElement().attribute("version") != "1.1.1"){
+//         QMessageBox::critical(0,tr("Error..."), tr("Failed to check Version.\n\n%1").arg(WMT_MS_Capabilities.toElement().attribute("Version")), QMessageBox::Abort, QMessageBox::Abort);
+//         return;
+//     }
 
     QDomNode GetMap     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Request").namedItem("GetMap");
     QDomElement format  = GetMap.firstChildElement("Format");
@@ -128,16 +132,23 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         format = format.nextSiblingElement("Format");
     }
 
+    QDomNode OnlineResource = GetMap.firstChildElement("DCPType").firstChildElement("HTTP").firstChildElement("Get").firstChildElement("OnlineResource");
+    urlOnlineResource = OnlineResource.toElement().attribute("xlink:href","");
 
-    QDomNode Layers     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Layer");
-    QDomElement srs     = Layers.firstChildElement("SRS");
+    QDomNode layers     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Layer");
+    QDomElement srs     = layers.firstChildElement("SRS");
 
     while(!srs.isNull()){
-        comboProjection->addItem(srs.text());
+        QString strSRS      = srs.text();
+        QStringList listSRS = strSRS.split(" ", QString::SkipEmptyParts);
+        foreach(strSRS, listSRS){
+            comboProjection->addItem(strSRS);
+        }
         srs = srs.nextSiblingElement("SRS");
     }
 
-    QDomNode layer      = Layers.firstChildElement("Layer");
+    QDomNode layer      = layers.firstChildElement("Layer");
+
     while(!layer.isNull()){
         QString title = layer.namedItem("Name").toElement().text();
         QListWidgetItem *item = new QListWidgetItem(listLayers);
@@ -146,7 +157,131 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         layer = layer.nextSiblingElement("Layer");
     }
 
+    labelTitle->setText(layers.namedItem("Title").toElement().text());
+    if(labelFile->text().isEmpty()){
+        labelFile->setText(labelTitle->text() + ".xml");
+    }
+
+    QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
+    double maxx = LatLonBoundingBox.attribute("maxx","0.0").toDouble();
+    double maxy = LatLonBoundingBox.attribute("maxy","0.0").toDouble();
+    double minx = LatLonBoundingBox.attribute("minx","0.0").toDouble();
+    double miny = LatLonBoundingBox.attribute("miny","0.0").toDouble();
+
+    rectLatLonBoundingBox.setTop(maxy);
+    rectLatLonBoundingBox.setLeft(minx);
+    rectLatLonBoundingBox.setBottom(miny);
+    rectLatLonBoundingBox.setRight(maxx);
 
     frame->setEnabled(true);
+}
 
+void CCreateMapWMS::slotSave()
+{
+    QDomDocument dom;
+    QDomElement  GDAL_WMS = dom.createElement("GDAL_WMS");
+    QDomElement  Service  = dom.createElement("Service");
+    Service.setAttribute("name", "WMS");
+
+    QDomElement  Version  = dom.createElement("Version");
+    Version.appendChild(dom.createTextNode("1.1.1"));
+    Service.appendChild(Version);
+
+    QDomElement ServerUrl = dom.createElement("ServerUrl");
+    ServerUrl.appendChild(dom.createTextNode(urlOnlineResource));
+    Service.appendChild(ServerUrl);
+
+    QDomElement SRS       = dom.createElement("SRS");
+    SRS.appendChild(dom.createTextNode(comboProjection->currentText()));
+    Service.appendChild(SRS);
+
+    QDomElement ImageFormat = dom.createElement("ImageFormat");
+    ImageFormat.appendChild(dom.createTextNode(comboFormat->currentText()));
+    Service.appendChild(ImageFormat);
+
+    QStringList layerlist;
+    QList<QListWidgetItem *> items                  = listLayers->selectedItems();
+    QList<QListWidgetItem *>::const_iterator item   = items.begin();
+    while(item != items.end()){
+        layerlist << (*item)->text();
+        ++item;
+    }
+    if(layerlist.isEmpty()){
+        QMessageBox::critical(0,tr("Error..."), tr("You need to select at least one layer."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+    QDomElement Layers = dom.createElement("Layers");
+    Layers.appendChild(dom.createTextNode(layerlist.join(",")));
+    Service.appendChild(Layers);
+    GDAL_WMS.appendChild(Service);
+
+    QDomElement DataWindow = dom.createElement("DataWindow");
+
+    double u1 = rectLatLonBoundingBox.left()    * DEG_TO_RAD;
+    double v1 = rectLatLonBoundingBox.top()     * DEG_TO_RAD;
+    double u2 = rectLatLonBoundingBox.right()   * DEG_TO_RAD;
+    double v2 = rectLatLonBoundingBox.bottom()  * DEG_TO_RAD;
+
+    PJ * pjWGS84 = 0, * pjTar = 0;
+    pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+
+    qDebug() << QString("+init=%1").arg(comboProjection->currentText()).toLatin1();
+    pjTar   = pj_init_plus(QString("+init=%1").arg(comboProjection->currentText()).toLower().toLatin1());
+
+    pj_transform(pjWGS84, pjTar,1,0,&u1,&v1,0);
+    pj_transform(pjWGS84, pjTar,1,0,&u2,&v2,0);
+
+    if(pj_is_latlong(pjTar)){
+        u1 *= RAD_TO_DEG;
+        v1 *= RAD_TO_DEG;
+        u2 *= RAD_TO_DEG;
+        v2 *= RAD_TO_DEG;
+    }
+
+    pj_free(pjWGS84);
+    pj_free(pjTar);
+
+    QDomElement UpperLeftX = dom.createElement("UpperLeftX");
+    UpperLeftX.appendChild(dom.createTextNode(QString("%1").arg(u1)));
+    DataWindow.appendChild(UpperLeftX);
+
+    QDomElement UpperLeftY = dom.createElement("UpperLeftY");
+    UpperLeftY.appendChild(dom.createTextNode(QString("%1").arg(v1)));
+    DataWindow.appendChild(UpperLeftY);
+
+    QDomElement LowerRightX = dom.createElement("LowerRightX");
+    LowerRightX.appendChild(dom.createTextNode(QString("%1").arg(u2)));
+    DataWindow.appendChild(LowerRightX);
+
+    QDomElement LowerRightY = dom.createElement("LowerRightY");
+    LowerRightY.appendChild(dom.createTextNode(QString("%1").arg(v2)));
+    DataWindow.appendChild(LowerRightY);
+
+    QDomElement SizeX = dom.createElement("SizeX");
+    SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1)));
+    DataWindow.appendChild(SizeX);
+
+    QDomElement SizeY = dom.createElement("SizeY");
+    SizeY.appendChild(dom.createTextNode(QString("%1").arg(v2 - v1)));
+    DataWindow.appendChild(SizeY);
+
+    GDAL_WMS.appendChild(DataWindow);
+
+    QDomElement Projection = dom.createElement("Projection");
+    Projection.appendChild(dom.createTextNode(comboProjection->currentText()));
+    GDAL_WMS.appendChild(Projection);
+
+    QDomElement BandsCount = dom.createElement("BandsCount");
+    BandsCount.appendChild(dom.createTextNode("3"));
+    GDAL_WMS.appendChild(BandsCount);
+
+
+    dom.appendChild(GDAL_WMS);
+
+    QFile file("test.xml");
+    file.open(QIODevice::WriteOnly);
+    file.write(dom.toString().toLocal8Bit());
+    file.close();
+
+    qDebug() << dom.toString();
 }

@@ -37,9 +37,13 @@ class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
         void slotSetupLink();
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
+        void slotSave();
 
     private:
         QHttp * server;
+        QString urlOnlineResource;
+        QRectF  rectLatLonBoundingBox;
+
 };
 
 #endif //CCREATEMAPWMS_H
