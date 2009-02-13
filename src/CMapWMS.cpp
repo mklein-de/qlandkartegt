@@ -327,6 +327,7 @@ void CMapWMS::draw()
         graytable2 << qRgb(i,i,i);
     }
 
+    int nBands = dataset->GetRasterCount();
 
     buffer.fill(Qt::white);
     QPainter _p_(&buffer);
@@ -359,29 +360,33 @@ void CMapWMS::draw()
         if(w != 0 && h != 0) {
 
             QImage img(QSize(w,h),QImage::Format_RGB32);
-//             QImage img(QSize(w,h*12),QImage::Format_Indexed8);
-//             img.setColorTable(graytable2);
             img.fill(0);
 
-            QByteArray data(w*h*3,128);
-
+            QByteArray data(w*h*nBands,128);
 
             CPLErr err = dataset->RasterIO(GF_Read
                 ,(int)xoff,(int)yoff
                 ,pxx,pxy
                 ,data.data()
                 ,w,h
-                ,GDT_Byte,3,NULL,0,0,0);
+                ,GDT_Byte,nBands,NULL,0,0,0);
 
             quint8 * pR     = (quint8 *)data.data();
             quint8 * pG     = (quint8 *)data.data() + w* h;
             quint8 * pB     = (quint8 *)data.data() + w* h + w * h;
+            quint8 * pA     = (quint8 *)data.data() + w* h + w * h + w * h;
             quint32 * pImg  = (quint32 *)img.bits();
 
-            for(i = 0; i < w*h; i++){
-                *pImg++ = qRgb(*pR++,*pG++,*pB++);
+            if(nBands == 3){
+                for(i = 0; i < w*h; i++){
+                    *pImg++ = qRgb(*pR++,*pG++,*pB++);
+                }
             }
-
+            else if(nBands == 4){
+                for(i = 0; i < w*h; i++){
+                    *pImg++ = qRgba(*pR++,*pG++,*pB++,*pA++);
+                }
+            }
             qDebug() << err;
             if(!err) {
                 double xx = intersect.left(), yy = intersect.bottom();

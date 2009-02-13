@@ -19,6 +19,8 @@
 
 #include "CCreateMapWMS.h"
 #include "CResources.h"
+#include "GeoMath.h"
+
 #include <QtGui>
 #include <QtNetwork/QHttp>
 #include <QtXml/QDomDocument>
@@ -29,8 +31,9 @@ CCreateMapWMS::CCreateMapWMS(QWidget * parent)
 , server(0)
 {
     setupUi(this);
-//     lineServer->setText("http://oberpfalz.geofabrik.de/wms");
-    lineServer->setText("http://geodaten.bayern.de/ogc/ogc_atkis_test.cgi");
+
+    QSettings cfg;
+    lineServer->setText(cfg.value("wms/last_server","").toString());
 
 
     slotSetupLink();
@@ -41,7 +44,8 @@ CCreateMapWMS::CCreateMapWMS(QWidget * parent)
 
 CCreateMapWMS::~CCreateMapWMS()
 {
-
+    QSettings cfg;
+    cfg.setValue("wms/last_server",lineServer->text());
 }
 
 void CCreateMapWMS::slotSetupLink()
@@ -238,8 +242,6 @@ void CCreateMapWMS::slotSave()
         v2 *= RAD_TO_DEG;
     }
 
-    pj_free(pjWGS84);
-    pj_free(pjTar);
 
     QDomElement UpperLeftX = dom.createElement("UpperLeftX");
     UpperLeftX.appendChild(dom.createTextNode(QString("%1").arg(u1)));
@@ -257,13 +259,41 @@ void CCreateMapWMS::slotSave()
     LowerRightY.appendChild(dom.createTextNode(QString("%1").arg(v2)));
     DataWindow.appendChild(LowerRightY);
 
-    QDomElement SizeX = dom.createElement("SizeX");
-    SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1)));
-    DataWindow.appendChild(SizeX);
+    if(pj_is_latlong(pjTar)){
+        double  a1 = 0, a2 = 0;
+        double sizex, sizey;
 
-    QDomElement SizeY = dom.createElement("SizeY");
-    SizeY.appendChild(dom.createTextNode(QString("%1").arg(v2 - v1)));
-    DataWindow.appendChild(SizeY);
+        XY p1, p2, p3;
+
+        p1.u = u1 * DEG_TO_RAD;
+        p1.v = v1 * DEG_TO_RAD;
+        p2.u = u2 * DEG_TO_RAD;
+        p2.v = v1 * DEG_TO_RAD;
+        p3.u = u1 * DEG_TO_RAD;
+        p3.v = v2 * DEG_TO_RAD;
+
+        sizex = distance(p1, p2, a1, a2);
+        sizey = distance(p1, p3, a1, a2);
+
+        QDomElement SizeX = dom.createElement("SizeX");
+        SizeX.appendChild(dom.createTextNode(QString("%1").arg(sizex)));
+        DataWindow.appendChild(SizeX);
+
+        QDomElement SizeY = dom.createElement("SizeY");
+        SizeY.appendChild(dom.createTextNode(QString("%1").arg(sizey)));
+        DataWindow.appendChild(SizeY);
+    }
+    else{
+        QDomElement SizeX = dom.createElement("SizeX");
+        SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1)));
+        DataWindow.appendChild(SizeX);
+
+        QDomElement SizeY = dom.createElement("SizeY");
+        SizeY.appendChild(dom.createTextNode(QString("%1").arg(v1 - v2)));
+        DataWindow.appendChild(SizeY);
+    }
+    pj_free(pjWGS84);
+    pj_free(pjTar);
 
     GDAL_WMS.appendChild(DataWindow);
 
@@ -272,8 +302,18 @@ void CCreateMapWMS::slotSave()
     GDAL_WMS.appendChild(Projection);
 
     QDomElement BandsCount = dom.createElement("BandsCount");
-    BandsCount.appendChild(dom.createTextNode("3"));
+    if(comboFormat->currentText().contains("png")){
+        BandsCount.appendChild(dom.createTextNode("4"));
+    }
+    else{
+        BandsCount.appendChild(dom.createTextNode("3"));
+    }
     GDAL_WMS.appendChild(BandsCount);
+
+    QDomElement Timeout = dom.createElement("Timeout");
+    Timeout.appendChild(dom.createTextNode("20"));
+    GDAL_WMS.appendChild(Timeout);
+
 
 
     dom.appendChild(GDAL_WMS);
