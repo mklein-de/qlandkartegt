@@ -361,12 +361,28 @@ void COverlayDistance::draw(QPainter& p)
                 p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
                 p.restore();
             }
+            else{
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd1.center());
+                p.rotate(-angleNext + 180);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
 
             if(angleNext < 360){
                 p.save();
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd2.center());
                 p.rotate(-angleNext);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
+            else{
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd2.center());
+                p.rotate(-anglePrev + 180);
                 p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
                 p.restore();
             }
@@ -498,4 +514,14 @@ void COverlayDistance::makeVisible()
         if(pt.v > north) north = pt.v;
     }
     CMapDB::self().getMap().zoom(west, north, east, south);
+}
+
+void COverlayDistance::looseFocus()
+{
+    if(doSpecialCursor) {
+        QApplication::restoreOverrideCursor();
+        doSpecialCursor = false;
+    }
+    doMove          = false;
+    doFuncWheel     = false;
 }

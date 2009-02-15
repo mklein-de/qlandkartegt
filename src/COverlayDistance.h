@@ -62,6 +62,8 @@ class COverlayDistance : public IOverlay
         /// iterate over all waypoints to get zoom area
         void makeVisible();
 
+        void looseFocus();
+
     private slots:
         void slotToTrack();
         void slotEdit();

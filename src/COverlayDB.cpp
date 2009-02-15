@@ -251,7 +251,10 @@ void COverlayDB::delOverlays(const QStringList& keys)
 
 COverlayText * COverlayDB::addText(const QString& text, const QRect& rect)
 {
-    IOverlay * overlay = new COverlayText(text, rect, this);
+    IOverlay * overlay;
+    foreach(overlay, overlays) overlay->looseFocus();
+
+    overlay = new COverlayText(text, rect, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
@@ -266,8 +269,10 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect)
 
 COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
 {
+    IOverlay * overlay;
+    foreach(overlay, overlays) overlay->looseFocus();
 
-    IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
+    overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
@@ -282,7 +287,10 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 
 COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, const QList<XY>& pts)
 {
-    IOverlay * overlay = new COverlayDistance(name, comment, pts, this);
+    IOverlay * overlay;
+    foreach(overlay, overlays) overlay->looseFocus();
+
+    overlay = new COverlayDistance(name, comment, pts, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));

@@ -71,12 +71,14 @@ class IOverlay : public QObject
         virtual void load(QDataStream& s){};
 
         /// set the static selected pointer
-        static void select(IOverlay * s){selected = s;}
+        static void select(IOverlay * s);
 
         /// move map to make overlay visible
         virtual void makeVisible(){};
 
         virtual void customMenu(QMenu& menu){}
+
+        virtual void looseFocus(){};
 
         /// the overlay type as string
         const QString type;
