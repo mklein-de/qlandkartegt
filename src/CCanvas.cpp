@@ -78,7 +78,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddDistance= new CMouseAddDistance(this);
     mouseOverlay    = new CMouseOverlay(this);
     mouseColorPicker = new CMouseColorPicker(this);
-    setMouseMode(eMouseMoveArea);
+
     cursorFocus = false;
 }
 
@@ -115,6 +115,7 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
     QApplication::restoreOverrideCursor();
 
     if(mouse) mouse->looseFocus();
+    COverlayDB::self().looseFocus();
 
     switch(mode) {
 

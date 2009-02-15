@@ -260,7 +260,6 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
         layout->addWidget(names[i],i,2);
     }
 
-    funcSwitchToMain();
 }
 
 
@@ -293,7 +292,10 @@ void CMegaMenu::switchByKeyWord(const QString& key)
 {
     if(!isEnabled()) return;
 
-    if(key == "Waypoints" && current != fsWpt) {
+    if(key == "Main") {
+        funcSwitchToMain();
+    }
+    else if(key == "Waypoints" && current != fsWpt) {
         funcSwitchToWpt();
         funcMoveArea();
     }

@@ -164,6 +164,8 @@ CMainWindow::CMainWindow()
 
     connect(summary, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
 
+    canvas->setMouseMode(CCanvas::eMouseMoveArea);
+    megaMenu->switchByKeyWord("Main");
 }
 
 

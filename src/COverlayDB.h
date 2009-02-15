@@ -72,6 +72,8 @@ class COverlayDB : public IDB
 
         void customMenu(const QString& key, QMenu& menu);
 
+        void looseFocus();
+
     private:
         friend class CMainWindow;
         friend class COverlayToolWidget;
