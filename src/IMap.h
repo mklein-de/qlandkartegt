@@ -205,6 +205,19 @@ class IMap : public QObject
         /// select map area for export or further processing
         virtual void select(IMapSelection& ms, const QRect& rect){};
         /**
+         * get values for the defined region. If DEM data has resolution not
+         * less than required, width and height will not changed,
+         * otherwise they will set acording to DEM data.
+         * This method doesn't use interpolation and can change all arguments.
+         * Area may be increased to nearest points in DEM data.
+         * \param topLeft - geo coordinates in [rad] of top left corner
+         * \param bottomRight - goe coordinates in [rad] of bottom right corner
+         * \param w - matrix width
+         * \param h - matrix height
+         * @return - return new buffer with size w * h
+         */
+        virtual qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& width, int& height) {};
+        /**
          * get values for the defined region.
          * \param buffer - elevation matrix. It must has size w * h.
          * \param topLeft - geo coordinates in [rad] of top left corner

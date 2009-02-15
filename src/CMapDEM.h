@@ -50,6 +50,7 @@ class CMapDEM : public IMap
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(double lon, double lat);
         void getRegion(float *buffer, XY p1, XY p2, int w, int h);
+        qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h);
 
     private:
         void shading(QImage& img, qint16 * data, float xscale, float yscale);

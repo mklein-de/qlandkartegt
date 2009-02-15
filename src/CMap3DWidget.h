@@ -54,7 +54,7 @@ class CMap3DWidget: public QGLWidget
         void focusOutEvent ( QFocusEvent * event );
         void createActions();
         void updateElevationLimits();
-        void getEleRegion(float *buffer, int xcount, int ycount);
+        qint16 *getEleRegion(int& xcount, int& ycount);
         float getRegionValue(float *buffer, int x, int y);
         void enterEvent(QEvent * );
         void leaveEvent(QEvent * );
@@ -86,7 +86,7 @@ class CMap3DWidget: public QGLWidget
         void draw3DMap();
         void drawTrack();
         void drawSkybox(double x, double y, double z, double xs, double ys, double zs);
-        void getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData);
+        void getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
         void convertMouse23D(double &u, double& v, double &ele);
 
         GLuint objectMap;

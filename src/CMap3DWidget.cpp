@@ -300,7 +300,7 @@ void CMap3DWidget::drawFlatMap()
     glDisable(GL_TEXTURE_2D);
 }
 
-void CMap3DWidget::getEleRegion(float *buffer, int xcount, int ycount)
+qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
 {
     double w = mapSize.width();
     double h = mapSize.height();
@@ -313,7 +313,10 @@ void CMap3DWidget::getEleRegion(float *buffer, int xcount, int ycount)
     p2.v = h;
     map->convertPt2Rad(p1.u, p1.v);
     map->convertPt2Rad(p2.u, p2.v);
-    dem.getRegion(buffer, p1, p2, xcount, ycount);
+    qint16 * eleData;
+    eleData = dem.getOrigRegion(p1, p2, xcount, ycount);
+    //FIXME we must move and resize map accordin to new p1 and p2
+    return eleData;
 }
 
 float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
@@ -532,7 +535,7 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
         }
 }
 
-void CMap3DWidget::getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData)
+void CMap3DWidget::getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData)
 {
     if (xi < 0)
             xi = 0;
@@ -564,11 +567,18 @@ void CMap3DWidget::draw3DMap()
         ycount = (h / step + 1);
     }
 
+    qint16 *eleData;
+    qDebug() << xcount << ycount;
+    eleData = getEleRegion(xcount, ycount);
+    if (eleData == NULL) {
+            qDebug() << "can't get elevation data";
+            qDebug() << "draw flat map";
+            drawFlatMap();
+    }
+    qDebug() << xcount << ycount;
+
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
-
-    QVector<float> _eleData_(xcount * ycount);
-    float * eleData = _eleData_.data();
 
     int ix, iy, iv, it, j, k, end;
     double x, y, u, v;
@@ -603,7 +613,6 @@ void CMap3DWidget::draw3DMap()
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
-    getEleRegion(eleData, xcount, ycount);
     for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++) {
         /* array vertices contain two lines ( previouse and current)
          * they change position that avoid memcopy
@@ -653,6 +662,7 @@ void CMap3DWidget::draw3DMap()
     delete [] vertices;
     delete [] texCoords;
     delete [] normals;
+    delete [] eleData;
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -668,21 +678,24 @@ void CMap3DWidget::updateElevationLimits()
     int xcount = (w / step + 1);
     int ycount = (h / step + 1);
 
-    QVector<float> _eleData_(xcount * ycount);
-    float * eleData = _eleData_.data();
+    qint16 * eleData;
 
-    getEleRegion(eleData, xcount, ycount);
-    minElevation = maxElevation = eleData[0];
+    eleData = getEleRegion(xcount, ycount);
+    minElevation = maxElevation = 0;
+    if (eleData != NULL) {
+            minElevation = maxElevation = eleData[0];
 
-    for (i = 0; i < xcount; i++)
-        for (j = 0; j < ycount; j++) {
-            ele = eleData[i + j * xcount];
-            if (ele > maxElevation)
-                    maxElevation = ele;
+            for (i = 0; i < xcount; i++)
+                for (j = 0; j < ycount; j++) {
+                    ele = eleData[i + j * xcount];
+                    if (ele > maxElevation)
+                            maxElevation = ele;
 
-            if (ele < minElevation)
-                    minElevation = ele;
-        }
+                    if (ele < minElevation)
+                            minElevation = ele;
+                }
+    }
+
     if (! track.isNull() && (maxElevation - minElevation < 1)) {
         /*selected track exist and dem isn't present for this map*/
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -706,7 +719,7 @@ void CMap3DWidget::updateElevationLimits()
             maxElevation = 1;
             minElevation = 0;
     }
-
+    delete [] eleData;
 }
 
 #endif
@@ -1137,7 +1150,6 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (pressedKeys.contains(Qt::Key_H)) {
             zLight += dy;
-            qDebug() << xLight << yLight << zLight;
     } else if (pressedKeys.contains(Qt::Key_L)) {
             double x0, y0, z0;
             double x1, y1, z1;
@@ -1151,9 +1163,7 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
             double z = zLight + minElevation;
             xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
             yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
-            qDebug() << xLight << yLight << zLight;
             updateGL();
-            qDebug() << xLight << yLight << zLight;
     } else if (pressedKeys.contains(Qt::Key_M)) {
         QPoint p1 = event->pos(), p2 = lastPos;
         convertDsp2Z0(p1);
