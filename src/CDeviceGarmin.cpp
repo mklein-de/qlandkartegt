@@ -509,56 +509,56 @@ void CDeviceGarmin::slotTimeout()
         dev->getRealTimePos(pvt);
     }
     catch(int /*e*/) {
-    timer->stop();
-    log.fix = CLiveLog::eOff;
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
+
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+
+    log.fix = pvt.fix == 3 || pvt.fix == 5 ? CLiveLog::e3DFix : pvt.fix == 2 || pvt.fix == 4 ? CLiveLog::e2DFix : CLiveLog::eNoFix;
+    if(log.fix != CLiveLog::eNoFix) {
+        log.lon = pvt.lon;
+        log.lat = pvt.lat;
+        log.ele = pvt.alt + pvt.msl_hght;
+
+        QDateTime t(QDate(1989,12,31), QTime(0,0), Qt::UTC);
+        t = t.addDays(pvt.wn_days).addSecs((int)(pvt.tow + 0.5)).addSecs(-pvt.leap_scnds);
+        log.timestamp = t.toLocalTime().toTime_t();
+
+        // multiply by 100 to avoid leaving the float range.
+        float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
+        heading = atanf(heading) / (TWOPI) * 360.0;
+        if( (pvt.north > 0.0) & (pvt.east > 0.0) ) {
+            // 1st quadrant
+            heading = heading;
+        }
+        else if( (pvt.north > 0.0) & (pvt.east < 0.0) ) {
+            // 2nd quadrant
+            heading = 360.0 - heading;
+        }
+        else if( (pvt.north < 0.0) & (pvt.east < 0.0) ) {
+            // 3rd quadrant
+            heading = 180.0 + heading;
+        }
+        else if( (pvt.north < 0.0) & (pvt.east > 0.0) ) {
+            // 4th quadrant
+            heading = 180.0 - heading;
+        }
+        else {
+            heading = std::numeric_limits<float>::quiet_NaN();
+        }
+
+        log.heading     = heading;
+        log.velocity    = sqrtf( pvt.north * pvt.north + pvt.east * pvt.east );
+        log.error_horz  = pvt.eph;
+        log.error_vert  = pvt.epv;
+    }
+
+
     emit sigLiveLog(log);
-
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
-log.fix = pvt.fix == 3 || pvt.fix == 5 ? CLiveLog::e3DFix : pvt.fix == 2 || pvt.fix == 4 ? CLiveLog::e2DFix : CLiveLog::eNoFix;
-if(log.fix != CLiveLog::eNoFix) {
-    log.lon = pvt.lon;
-    log.lat = pvt.lat;
-    log.ele = pvt.alt + pvt.msl_hght;
-
-    QDateTime t(QDate(1989,12,31), QTime(0,0), Qt::UTC);
-    t = t.addDays(pvt.wn_days).addSecs((int)(pvt.tow + 0.5)).addSecs(-pvt.leap_scnds);
-    log.timestamp = t.toLocalTime().toTime_t();
-
-    // multiply by 100 to avoid leaving the float range.
-    float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
-    heading = atanf(heading) / (TWOPI) * 360.0;
-    if( (pvt.north > 0.0) & (pvt.east > 0.0) ) {
-        // 1st quadrant
-        heading = heading;
-    }
-    else if( (pvt.north > 0.0) & (pvt.east < 0.0) ) {
-        // 2nd quadrant
-        heading = 360.0 - heading;
-    }
-    else if( (pvt.north < 0.0) & (pvt.east < 0.0) ) {
-        // 3rd quadrant
-        heading = 180.0 + heading;
-    }
-    else if( (pvt.north < 0.0) & (pvt.east > 0.0) ) {
-        // 4th quadrant
-        heading = 180.0 - heading;
-    }
-    else {
-        heading = std::numeric_limits<float>::quiet_NaN();
-    }
-
-    log.heading     = heading;
-    log.velocity    = sqrtf( pvt.north * pvt.north + pvt.east * pvt.east );
-    log.error_horz  = pvt.eph;
-    log.error_vert  = pvt.epv;
-}
-
-
-emit sigLiveLog(log);
 }
 
 
@@ -595,16 +595,13 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         ++wpt;
     }
 
-    try
-    {
+    try {
         dev->uploadWaypoints(garwpts);
     }
     catch(int /*e*/) {
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
 }
 
 void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
@@ -614,41 +611,38 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     if(dev == 0) return;
 
     std::list<Garmin::Wpt_t> garwpts;
-    try
-    {
+    try {
         dev->downloadWaypoints(garwpts);
     }
     catch(int /*e*/) {
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
-std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
-while(garwpt != garwpts.end()) {
-    CWpt * wpt = new CWpt(&CWptDB::self());
-
-    wpt->name       = garwpt->ident.c_str();
-    wpt->comment    = garwpt->comment.c_str();
-    wpt->lon        = garwpt->lon;
-    wpt->lat        = garwpt->lat;
-    wpt->ele        = garwpt->alt;
-    wpt->prx        = garwpt->dist;
-
-    garmin_icon_t * icon = GarminIcons;
-    while(icon->name != 0) {
-        if(garwpt->smbl == icon->id) {
-            wpt->icon = icon->name;
-            break;
-        }
-        ++icon;
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
     }
 
-    wpts << wpt;
-    ++garwpt;
-}
 
+    std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
+    while(garwpt != garwpts.end()) {
+        CWpt * wpt = new CWpt(&CWptDB::self());
 
+        wpt->name       = garwpt->ident.c_str();
+        wpt->comment    = garwpt->comment.c_str();
+        wpt->lon        = garwpt->lon;
+        wpt->lat        = garwpt->lat;
+        wpt->ele        = garwpt->alt;
+        wpt->prx        = garwpt->dist;
+
+        garmin_icon_t * icon = GarminIcons;
+        while(icon->name != 0) {
+            if(garwpt->smbl == icon->id) {
+                wpt->icon = icon->name;
+                break;
+            }
+            ++icon;
+        }
+
+        wpts << wpt;
+        ++garwpt;
+    }
 }
 
 void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
@@ -664,8 +658,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
     if(dev == 0) return;
 
     std::list<Garmin::Track_t> gartrks;
-    try
-    {
+    try {
         dev->downloadTracks(gartrks);
     }
     catch(int /*e*/) {
@@ -742,8 +735,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
     QFileInfo fi(tmpfile.fileName());
 
     qDebug() << fi.size();
-    try
-    {
+    try {
         dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
     }
     catch(int /*e*/) {
@@ -758,32 +750,26 @@ void CDeviceGarmin::setLiveLog(bool on)
     Garmin::IDevice * dev = getDevice();
     if(dev == 0) return;
 
-    try
-    {
+    try{
         dev->setRealTimeMode(on);
     }
     catch(int /*e*/) {
-    timer->stop();
-    log.fix = CLiveLog::eOff;
-    emit sigLiveLog(log);
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
 
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
 
-
-if(on && !timer->isActive()) {
-    timer->start(1000);
-}
-
-
-else {
-    timer->stop();
-    log.fix = CLiveLog::eOff;
-    emit sigLiveLog(log);
-}
-
-
+    if(on && !timer->isActive()) {
+        timer->start(1000);
+    }
+    else {
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
+    }
 }
 
 bool CDeviceGarmin::liveLog()
