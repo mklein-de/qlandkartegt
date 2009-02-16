@@ -42,6 +42,7 @@
 #endif
 
 #include <QtGui>
+#include <QtXml/QDomDocument>
 
 CMapDB * CMapDB::m_self = 0;
 
@@ -74,6 +75,15 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             cfg.beginGroup("garmin/maps/alias");
             m.description = cfg.value(map,"").toString();
             cfg.endGroup();
+        }
+        else if(ext == "xml") {
+            QFile file(map);
+            file.open(QIODevice::ReadOnly);
+            QDomDocument dom;
+            dom.setContent(&file, false);
+            m.description = dom.firstChildElement("GDAL_WMS").firstChildElement("Service").firstChildElement("Title").text();
+            file.close();
+            if(m.description.isEmpty()) m.description = fi.fileName();
         }
         else {
             m.description = mapdef.value("description/comment","").toString();
@@ -203,9 +213,17 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         map.key         = filename;
         map.type        = IMap::eRaster;
 
-        theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
+        QFile file(filename);
+        file.open(QIODevice::ReadOnly);
+        QDomDocument dom;
+        dom.setContent(&file, false);
+        map.description = dom.firstChildElement("GDAL_WMS").firstChildElement("Service").firstChildElement("Title").text();
+        file.close();
 
         if(map.description.isEmpty()) map.description = fi.fileName();
+        theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
+
+
 
         // add map to known maps
         knownMaps[map.key] = map;

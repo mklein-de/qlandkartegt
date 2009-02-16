@@ -18,7 +18,6 @@
 **********************************************************************************************/
 
 #include "CMapWMS.h"
-// #include "CWMSResponse.h"
 #include "GeoMath.h"
 
 #include <gdal_priv.h>
@@ -69,11 +68,20 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    xscale  = adfGeoTransform[1] * DEG_TO_RAD;
-    yscale  = adfGeoTransform[5] * DEG_TO_RAD;
+    if (pj_is_latlong(pjsrc)){
+        xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+        yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
-    xref1   = adfGeoTransform[0] * DEG_TO_RAD;
-    yref1   = adfGeoTransform[3] * DEG_TO_RAD;
+        xref1   = adfGeoTransform[0] * DEG_TO_RAD;
+        yref1   = adfGeoTransform[3] * DEG_TO_RAD;
+    }
+    else{
+        xscale  = adfGeoTransform[1];
+        yscale  = adfGeoTransform[5];
+
+        xref1   = adfGeoTransform[0];
+        yref1   = adfGeoTransform[3];
+    }
 
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
@@ -214,6 +222,7 @@ void CMapWMS::zoom(qint32& level)
         return;
     }
     zoomFactor = level;
+    zoomidx    = level;
     setFastDraw();
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
@@ -243,6 +252,7 @@ void CMapWMS::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+    zoomidx    = zoomFactor;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
@@ -371,24 +381,25 @@ void CMapWMS::draw()
                 ,w,h
                 ,GDT_Byte,nBands,NULL,0,0,0);
 
-            quint8 * pR     = (quint8 *)data.data();
-            quint8 * pG     = (quint8 *)data.data() + w* h;
-            quint8 * pB     = (quint8 *)data.data() + w* h + w * h;
-            quint8 * pA     = (quint8 *)data.data() + w* h + w * h + w * h;
-            quint32 * pImg  = (quint32 *)img.bits();
-
-            if(nBands == 3){
-                for(i = 0; i < w*h; i++){
-                    *pImg++ = qRgb(*pR++,*pG++,*pB++);
-                }
-            }
-            else if(nBands == 4){
-                for(i = 0; i < w*h; i++){
-                    *pImg++ = qRgba(*pR++,*pG++,*pB++,*pA++);
-                }
-            }
             qDebug() << err;
             if(!err) {
+                quint8 * pR     = (quint8 *)data.data();
+                quint8 * pG     = (quint8 *)data.data() + w* h;
+                quint8 * pB     = (quint8 *)data.data() + w* h + w * h;
+                quint8 * pA     = (quint8 *)data.data() + w* h + w * h + w * h;
+                quint32 * pImg  = (quint32 *)img.bits();
+
+                if(nBands == 3){
+                    for(i = 0; i < w*h; i++){
+                        *pImg++ = qRgb(*pR++,*pG++,*pB++);
+                    }
+                }
+                else if(nBands == 4){
+                    for(i = 0; i < w*h; i++){
+                        *pImg++ = qRgba(*pR++,*pG++,*pB++,*pA++);
+                    }
+                }
+
                 double xx = intersect.left(), yy = intersect.bottom();
                 convertM2Pt(xx,yy);
                 _p_.drawImage(xx,yy,img);
@@ -410,6 +421,11 @@ void CMapWMS::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p1.v        = r.top();
     p2.u        = r.right();
     p2.v        = r.bottom();
+
+    if(!pj_is_latlong(pjsrc)){
+        pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
+        pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
+    }
 
     my_xscale   = xscale * zoomFactor;
     my_yscale   = yscale * zoomFactor;

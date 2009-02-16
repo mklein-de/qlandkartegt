@@ -83,7 +83,7 @@ void CCreateMapWMS::slotLoadCapabilities()
     comboFormat->clear();
     listLayers->clear();
     comboProjection->clear();
-    labelTitle->clear();
+    lineTitle->clear();
 }
 
 void CCreateMapWMS::slotRequestStarted(int )
@@ -161,9 +161,9 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         layer = layer.nextSiblingElement("Layer");
     }
 
-    labelTitle->setText(layers.namedItem("Title").toElement().text());
+    lineTitle->setText(layers.namedItem("Title").toElement().text());
     if(labelFile->text().isEmpty()){
-        labelFile->setText(labelTitle->text() + ".xml");
+        labelFile->setText(lineTitle->text() + ".xml");
     }
 
     QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
@@ -314,6 +314,14 @@ void CCreateMapWMS::slotSave()
     Timeout.appendChild(dom.createTextNode("20"));
     GDAL_WMS.appendChild(Timeout);
 
+
+    QDomElement BlockSizeX = dom.createElement("BlockSizeX");
+    BlockSizeX.appendChild(dom.createTextNode("512"));
+    GDAL_WMS.appendChild(BlockSizeX);
+
+    QDomElement BlockSizeY = dom.createElement("BlockSizeY");
+    BlockSizeY.appendChild(dom.createTextNode("512"));
+    GDAL_WMS.appendChild(BlockSizeY);
 
 
     dom.appendChild(GDAL_WMS);
