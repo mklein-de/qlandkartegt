@@ -38,11 +38,13 @@ class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
         void slotSave();
+        void slotSelectFile();
 
     private:
         QHttp * server;
         QString urlOnlineResource;
         QRectF  rectLatLonBoundingBox;
+        QString mapPath;
 
 };
 

@@ -20,6 +20,8 @@
 #include "CCreateMapWMS.h"
 #include "CResources.h"
 #include "GeoMath.h"
+#include "CMapDB.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -29,23 +31,28 @@
 CCreateMapWMS::CCreateMapWMS(QWidget * parent)
 : QWidget(parent)
 , server(0)
+, mapPath("./")
 {
     setupUi(this);
 
     QSettings cfg;
     lineServer->setText(cfg.value("wms/last_server","").toString());
+    mapPath = cfg.value("path/maps",mapPath).toString();
 
+    toolFile->setIcon(QIcon(":/icons/iconOpenMap16x16.png"));
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
     connect(pushLoadCapabilities, SIGNAL(clicked()), this, SLOT(slotLoadCapabilities()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSave()));
+    connect(toolFile, SIGNAL(clicked()), this, SLOT(slotSelectFile()));
 }
 
 CCreateMapWMS::~CCreateMapWMS()
 {
     QSettings cfg;
     cfg.setValue("wms/last_server",lineServer->text());
+    cfg.setValue("path/maps",mapPath);
 }
 
 void CCreateMapWMS::slotSetupLink()
@@ -163,7 +170,8 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     lineTitle->setText(layers.namedItem("Title").toElement().text());
     if(labelFile->text().isEmpty()){
-        labelFile->setText(lineTitle->text() + ".xml");
+        QDir path(mapPath);
+        labelFile->setText(path.filePath(lineTitle->text() + ".xml"));
     }
 
     QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
@@ -186,6 +194,10 @@ void CCreateMapWMS::slotSave()
     QDomElement  GDAL_WMS = dom.createElement("GDAL_WMS");
     QDomElement  Service  = dom.createElement("Service");
     Service.setAttribute("name", "WMS");
+
+    QDomElement  Title  = dom.createElement("Title");
+    Title.appendChild(dom.createTextNode(lineTitle->text()));
+    Service.appendChild(Title);
 
     QDomElement  Version  = dom.createElement("Version");
     Version.appendChild(dom.createTextNode("1.1.1"));
@@ -326,10 +338,32 @@ void CCreateMapWMS::slotSave()
 
     dom.appendChild(GDAL_WMS);
 
-    QFile file("test.xml");
+
+    QString filename = labelFile->text();
+
+    QFile file(filename);
     file.open(QIODevice::WriteOnly);
     file.write(dom.toString().toLocal8Bit());
     file.close();
 
     qDebug() << dom.toString();
+
+    CMapDB::self().openMap(filename, false, *theMainWindow->getCanvas());
+}
+
+void CCreateMapWMS::slotSelectFile()
+{
+    QString filename;
+
+    filename = QFileDialog::getSaveFileName(0,tr("Define GDAL WMS definition file..."), mapPath,"GDAL WMS definition (*.xml)");
+    if(filename.isEmpty()) return;
+    mapPath = QFileInfo(filename).path();
+
+    QFileInfo fi(filename);
+    if(fi.suffix() != "xml") {
+        filename += ".xml";
+    }
+
+    mapPath = fi.path();
+    labelFile->setText(filename);
 }
