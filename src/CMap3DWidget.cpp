@@ -876,7 +876,7 @@ void CMap3DWidget::lightTurn()
 
 void CMap3DWidget::paintGL()
 {
-    int side = qMax(mapSize.width(), mapSize.height());
+    int side = qMax(mapSize.width(), mapSize.height()) / 2;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
