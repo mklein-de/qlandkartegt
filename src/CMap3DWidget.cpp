@@ -285,17 +285,22 @@ void CMap3DWidget::drawFlatMap()
     double w = mapSize.width();
     double h = mapSize.height();
 
+    glEnable(GL_NORMALIZE);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mapTexture);
     glBegin(GL_QUADS);
     glTexCoord2d(0.0, 0.0);
     glVertex3d(-w/2, -h/2, minElevation);
+    glNormal3d(0.0, 0.0, -1.0);
     glTexCoord2d(1.0, 0.0);
     glVertex3d( w/2, -h/2, minElevation);
+    glNormal3d(0.0, 0.0, -1.0);
     glTexCoord2d(1.0, 1.0);
     glVertex3d( w/2,  h/2, minElevation);
+    glNormal3d(0.0, 0.0, -1.0);
     glTexCoord2d(0.0, 1.0);
     glVertex3d(-w/2,  h/2, minElevation);
+    glNormal3d(0.0, 0.0, -1.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
