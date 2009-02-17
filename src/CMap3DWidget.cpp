@@ -574,6 +574,7 @@ void CMap3DWidget::draw3DMap()
             qDebug() << "can't get elevation data";
             qDebug() << "draw flat map";
             drawFlatMap();
+            return;
     }
     qDebug() << xcount << ycount;
 

@@ -216,7 +216,7 @@ class IMap : public QObject
          * \param h - matrix height
          * @return - return new buffer with size w * h
          */
-        virtual qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& width, int& height) {return 0;};
+        virtual qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& width, int& height) { return NULL; };
         /**
          * get values for the defined region.
          * \param buffer - elevation matrix. It must has size w * h.
