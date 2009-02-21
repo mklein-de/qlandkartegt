@@ -32,6 +32,34 @@
 
 #include <QtGui>
 
+bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
+{
+    const QString speed("/h");
+    const QRegExp distance("(ft|ml|m|km)");
+    double d1 = 0, d2 = 0;
+
+    int sortCol = treeWidget()->sortColumn();
+    QString str1 = text(sortCol);
+    QString str2 = other.text(sortCol);
+
+    if (str1.contains(speed) && str2.contains(speed)) {
+        d1 = IUnit::self().str2speed(str1);
+        d2 = IUnit::self().str2speed(str2);
+    }
+    else if (str1.contains(distance) && str2.contains(distance)) {
+        d1 = IUnit::self().str2distance(str1);
+        d2 = IUnit::self().str2distance(str2);
+    }
+    else {
+        /* let's assume it's a double without any unit ... */
+        d1 = str1.toDouble();
+        d2 = str2.toDouble();
+    }
+
+    return d1 < d2;
+}
+
+
 CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 : QWidget(parent)
 , originator(false)
@@ -58,7 +86,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkResetDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckReset(bool)));
     connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
-    connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
+    connect(treePoints,SIGNAL(itemClicked(CTrackTreeWidgetItem*,int)),this,SLOT(slotPointSelection(CTrackTreeWidgetItem*)));
+
+    treePoints->sortByColumn(eNum, Qt::AscendingOrder);
 }
 
 
@@ -156,14 +186,14 @@ void CTrackEditWidget::slotUpdate()
     treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
 
     QString str, val, unit;
-    QTreeWidgetItem * focus                 = 0;
+    CTrackTreeWidgetItem * focus                 = 0;
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
-        QTreeWidgetItem * item;
+        CTrackTreeWidgetItem * item;
         if ( !trkpt->editItem ) {
-		trkpt->editItem = (QObject*)new QTreeWidgetItem(treePoints);
-		item = (QTreeWidgetItem *)trkpt->editItem;
+		trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
+		item = (CTrackTreeWidgetItem *)trkpt->editItem;
 		item->setTextAlignment(eNum,Qt::AlignLeft);
 		item->setTextAlignment(eAltitude,Qt::AlignRight);
 		item->setTextAlignment(eDelta,Qt::AlignRight);
@@ -180,7 +210,7 @@ void CTrackEditWidget::slotUpdate()
 		continue;
 	}
 
-        item = (QTreeWidgetItem *)trkpt->editItem;
+        item = (CTrackTreeWidgetItem *)trkpt->editItem;
         item->setData(0, Qt::UserRole, trkpt->idx);
 
         // gray shade deleted items
@@ -323,10 +353,10 @@ void CTrackEditWidget::slotApply()
 
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
 		if ( trkpt->editItem ) {
-			int idx = treePoints->indexOfTopLevelItem((QTreeWidgetItem *)trkpt->editItem);
+			int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
 			if ( idx != -1 )
 				treePoints->takeTopLevelItem(idx);
-			delete (QTreeWidgetItem *)trkpt->editItem;
+			delete (CTrackTreeWidgetItem *)trkpt->editItem;
 			trkpt->editItem = 0;
 		}
                 trkpt = trkpts.erase(trkpt);
@@ -377,7 +407,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 }
 
 
-void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
+void CTrackEditWidget::slotPointSelection(CTrackTreeWidgetItem * item)
 {
     if(track.isNull()) return;
 

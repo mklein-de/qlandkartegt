@@ -36,6 +36,9 @@ class IUnit : public QObject
 
         virtual float elevation2meter(const QString& val) = 0;
 
+        virtual float str2speed(QString& str) = 0;
+        virtual float str2distance(QString& str) = 0;
+
         const QString type;
         const QString baseunit;
         const float   basefactor;

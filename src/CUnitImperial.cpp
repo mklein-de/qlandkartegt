@@ -69,3 +69,20 @@ float CUnitImperial::elevation2meter(const QString& val)
 {
     return val.toDouble() / 3.28084;
 }
+
+
+float CUnitImperial::str2speed(QString& str)
+{
+    return (str.remove(" ml/h").toDouble() / 0.6213699);
+}
+
+float CUnitImperial::str2distance(QString& str)
+{
+    if(str.contains(" ml")) {
+        return (str.remove(" ml").toDouble() / 0.6213699E-3);
+    }
+    else if (str.contains(" ft")) {
+        return (str.remove(" ft").toDouble() * 0.305);
+    }
+    return 0;
+}

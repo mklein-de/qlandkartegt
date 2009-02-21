@@ -27,9 +27,20 @@ class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
-#ifdef PLOT_3D
-class CMap3DWidget;
-#endif
+
+class CTrackTreeWidgetItem : public QTreeWidgetItem
+{
+
+    public:
+        CTrackTreeWidgetItem(QTreeWidget *tree) : QTreeWidgetItem(tree) {
+        }
+
+        CTrackTreeWidgetItem ( QTreeWidget * parent, const QStringList & strings) : QTreeWidgetItem (parent,strings) {
+        }
+
+        bool operator< ( const QTreeWidgetItem & other ) const;
+};
+
 
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
@@ -44,7 +55,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotCheckRemove(bool checked);
         void slotApply();
         void slotPointSelectionChanged();
-        void slotPointSelection(QTreeWidgetItem * item);
+        void slotPointSelection(CTrackTreeWidgetItem * item);
         void slotPurge();
         void slotUpdate();
         void slotToggleStat();
@@ -76,9 +87,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatProfileWidget> trackStatProfile;
         QPointer<CTrackStatSpeedWidget> trackStatSpeed;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
-#ifdef PLOT_3D
-        QPointer<CMap3DWidget> track3D;
-#endif
 
 };
 #endif                           //CTRACKEDITWIDGET_H

@@ -79,3 +79,19 @@ float CUnitMetric::elevation2meter(const QString& val)
 {
     return val.toDouble();
 }
+
+float CUnitMetric::str2speed(QString& str)
+{
+    return str.remove(" km/h").toDouble();
+}
+
+float CUnitMetric::str2distance(QString& str)
+{
+    if(str.contains(" km")) {
+        return (1000 * str.remove(" km").toDouble());
+    }
+    else if (str.contains(" m")) {
+        return str.remove(" m").toDouble();
+    }
+    return 0;
+}
