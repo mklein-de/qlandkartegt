@@ -74,134 +74,134 @@ class CLabel : public QLabel
         }
 };
 
-const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
-{
-    {0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps.")}
-    ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
-    ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
-    ,{":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
-    ,{":/icons/iconGlobe+16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
-    ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
-    ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
-    ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data from device.")}
+// const CMegaMenu::func_key_state_t CMegaMenu::fsMain[] =
+// {
+//     {0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps.")}
+//     ,{":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints.")}
+//     ,{":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording.")}
+//     ,{":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes")}
+//     ,{":/icons/iconGlobe+16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions.")}
+//     ,{":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ...")}
+//     ,{":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device.")}
+//     ,{":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data from device.")}
+//
+// };
 
-};
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
-    ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
-    ,{":/icons/iconFind16x16",QObject::tr("Search Map"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
-#ifdef PLOT_3D
-    ,{":/icons/icon3D16x16.png",QObject::tr("3D Map..."), &CMegaMenu::funcSwitchToMap3D, tr("Show 3D map")}
-#else
-    ,{0,QObject::tr("-"),0,tr("")}
-#endif
-    ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadMap,tr("Upload map selection to device.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-};
-
-#ifdef PLOT_3D
-const CMegaMenu::func_key_state_t CMegaMenu::fsMap3D[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Close"),&CMegaMenu::funcCloseMap3D,tr("Close 3D view.")}
-    ,{0,QObject::tr("Flat / 3D Mode"),&CMegaMenu::funcMap3DMode,tr("Toggle between 3D track only and full map surface model.")}
-    ,{":/icons/iconInc16x16",QObject::tr("Inc. Elevation"),&CMegaMenu::funcMap3DZoomPlus,tr("Make elevations on the map higher as they are.")}
-    ,{":/icons/iconDec16x16",QObject::tr("Dec. Elevation"),&CMegaMenu::funcMap3DZoomMinus,tr("Make elevations on the map lower as they are.")}
-    ,{":/icons/iconLight16x16",QObject::tr("Lighting On/Off"), &CMegaMenu::funcMap3DLighting,tr("Turn on/off lighting.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-};
-#endif
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint. The default position will be the current cursor position.")}
-    ,{":/icons/iconEdit16x16",QObject::tr("Edit Waypoint"),&CMegaMenu::funcEditWpt,tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint.")}
-    ,{":/icons/iconWptMove16x16",QObject::tr("Move Waypoint"),&CMegaMenu::funcMoveWpt,tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device.")}
-    ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device.")}
-};
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconAdd16x16",QObject::tr("Combine Tracks"),&CMegaMenu::funcCombineTrack,tr("Combine multiple selected tracks to one.")}
-    ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
-    ,{":/icons/iconEditCut16x16",QObject::tr("Cut Tracks"),&CMegaMenu::funcCutTrack,tr("Cut a track into pieces.")}
-    ,{":/icons/iconSelect16x16",QObject::tr("Select Points"),&CMegaMenu::funcSelTrack,tr("Select track points by rectangle.")}
-    ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadTrack,tr("Upload tracks to device.")}
-    ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadTrack,tr("Download tracks from device.")}
-};
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
-    ,{":/icons/iconLock16x16",QObject::tr("Move Map to Pos."),&CMegaMenu::funcLockMap,tr("Move the map to keep the positon cursor centered.")}
-    ,{":/icons/iconAdd16x16",QObject::tr("Add Waypoint"),&CMegaMenu::funcAddWpt,tr("Add a waypoint at current position.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-};
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconText16x16",QObject::tr("Add Static Text Box"),&CMegaMenu::funcText,tr("Add text on the map.")}
-    ,{":/icons/iconTextBox16x16",QObject::tr("Add Geo-Ref. Text Box"),&CMegaMenu::funcTextBox,tr("Add a textbox on the map.")}
-    ,{":/icons/iconDistance16x16",QObject::tr("Add Distance Polyline"),&CMegaMenu::funcDistance,tr("Add a polyline to measure distances.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-};
-
-const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
-{
-    {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
-    ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
-    ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
-    ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
-    ,{":/icons/iconColorChooser16x16",QObject::tr("Pick Color"),&CMegaMenu::funcColorPicker ,tr("test only")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-    ,{0,QObject::tr("-"),0,tr("")}
-};
+// const CMegaMenu::func_key_state_t CMegaMenu::fsMap[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconSelect16x16",QObject::tr("Select Sub Map"),&CMegaMenu::funcSelectArea,tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconEdit16x16",QObject::tr("Edit / Create Map"),&CMegaMenu::funcEditMap,tr("")}
+//     ,{":/icons/iconFind16x16",QObject::tr("Search Map"),&CMegaMenu::funcSearchMap,tr("Find symbols on a map via image recognition.")}
+// #ifdef PLOT_3D
+//     ,{":/icons/icon3D16x16.png",QObject::tr("3D Map..."), &CMegaMenu::funcSwitchToMap3D, tr("Show 3D map")}
+// #else
+//     ,{0,QObject::tr("-"),0,tr("")}
+// #endif
+//     ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadMap,tr("Upload map selection to device.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+// };
+//
+// #ifdef PLOT_3D
+// const CMegaMenu::func_key_state_t CMegaMenu::fsMap3D[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Close"),&CMegaMenu::funcCloseMap3D,tr("Close 3D view.")}
+//     ,{0,QObject::tr("Flat / 3D Mode"),&CMegaMenu::funcMap3DMode,tr("Toggle between 3D track only and full map surface model.")}
+//     ,{":/icons/iconInc16x16",QObject::tr("Inc. Elevation"),&CMegaMenu::funcMap3DZoomPlus,tr("Make elevations on the map higher as they are.")}
+//     ,{":/icons/iconDec16x16",QObject::tr("Dec. Elevation"),&CMegaMenu::funcMap3DZoomMinus,tr("Make elevations on the map lower as they are.")}
+//     ,{":/icons/iconLight16x16",QObject::tr("Lighting On/Off"), &CMegaMenu::funcMap3DLighting,tr("Turn on/off lighting.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+// };
+// #endif
+//
+// const CMegaMenu::func_key_state_t CMegaMenu::fsWpt[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconAdd16x16",QObject::tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint. The default position will be the current cursor position.")}
+//     ,{":/icons/iconEdit16x16",QObject::tr("Edit Waypoint"),&CMegaMenu::funcEditWpt,tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint.")}
+//     ,{":/icons/iconWptMove16x16",QObject::tr("Move Waypoint"),&CMegaMenu::funcMoveWpt,tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device.")}
+//     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device.")}
+// };
+//
+// const CMegaMenu::func_key_state_t CMegaMenu::fsTrack[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconAdd16x16",QObject::tr("Combine Tracks"),&CMegaMenu::funcCombineTrack,tr("Combine multiple selected tracks to one.")}
+//     ,{":/icons/iconEdit16x16",QObject::tr("Edit Track"),&CMegaMenu::funcEditTrack,tr("Toggle track edit dialog.")}
+//     ,{":/icons/iconEditCut16x16",QObject::tr("Cut Tracks"),&CMegaMenu::funcCutTrack,tr("Cut a track into pieces.")}
+//     ,{":/icons/iconSelect16x16",QObject::tr("Select Points"),&CMegaMenu::funcSelTrack,tr("Select track points by rectangle.")}
+//     ,{":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadTrack,tr("Upload tracks to device.")}
+//     ,{":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadTrack,tr("Download tracks from device.")}
+// };
+//
+// const CMegaMenu::func_key_state_t CMegaMenu::fsLiveLog[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconPlayPause16x16",QObject::tr("Start / Stop"),&CMegaMenu::funcLiveLog,tr("Start / stop live log recording.")}
+//     ,{":/icons/iconLock16x16",QObject::tr("Move Map to Pos."),&CMegaMenu::funcLockMap,tr("Move the map to keep the positon cursor centered.")}
+//     ,{":/icons/iconAdd16x16",QObject::tr("Add Waypoint"),&CMegaMenu::funcAddWpt,tr("Add a waypoint at current position.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+// };
+//
+// const CMegaMenu::func_key_state_t CMegaMenu::fsOverlay[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconText16x16",QObject::tr("Add Static Text Box"),&CMegaMenu::funcText,tr("Add text on the map.")}
+//     ,{":/icons/iconTextBox16x16",QObject::tr("Add Geo-Ref. Text Box"),&CMegaMenu::funcTextBox,tr("Add a textbox on the map.")}
+//     ,{":/icons/iconDistance16x16",QObject::tr("Add Distance Polyline"),&CMegaMenu::funcDistance,tr("Add a polyline to measure distances.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+// };
+//
+// const CMegaMenu::func_key_state_t CMegaMenu::fsMainMore[] =
+// {
+//     {":/icons/iconBack16x16",QObject::tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu.")}
+//     ,{":/icons/iconMoveMap16x16",QObject::tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse.")}
+//     ,{":/icons/iconZoomArea16x16",QObject::tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom.")}
+//     ,{":/icons/iconCenter16x16",QObject::tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center.")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{":/icons/iconDiary16x16",QObject::tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data")}
+//     ,{":/icons/iconColorChooser16x16",QObject::tr("Pick Color"),&CMegaMenu::funcColorPicker ,tr("test only")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+//     ,{0,QObject::tr("-"),0,tr("")}
+// };
 
 CMegaMenu * CMegaMenu::m_self = 0;
 
@@ -209,7 +209,39 @@ CMegaMenu * CMegaMenu::m_self = 0;
 CMegaMenu::CMegaMenu(CCanvas * canvas)
 : QLabel(canvas)
 , canvas(canvas)
+, current(fsMain)
+, fsMain(11, func_key_state_t())
+, fsMap(11, func_key_state_t())
+, fsMap3D(11, func_key_state_t())
+, fsWpt(11, func_key_state_t())
+, fsTrack(11, func_key_state_t())
+, fsLiveLog(11, func_key_state_t())
+, fsOverlay(11, func_key_state_t())
+, fsMainMore(11, func_key_state_t())
 {
+
+//         QVector<func_key_state_t> fsMain;
+//         QVector<func_key_state_t> fsMap;
+//         QVector<func_key_state_t> fsMap3D;
+//         QVector<func_key_state_t> fsWpt;
+//         QVector<func_key_state_t> fsTrack;
+//         QVector<func_key_state_t> fsLiveLog;
+//         QVector<func_key_state_t> fsOverlay;
+//         QVector<func_key_state_t> fsMainMore;
+
+    fsMain[0] = func_key_state_t(0,QObject::tr("-"),0,tr(""));
+    fsMain[1] = func_key_state_t(":/icons/iconMap16x16",QObject::tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps."));
+    fsMain[2] = func_key_state_t(":/icons/iconWaypoint16x16",QObject::tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints."));
+    fsMain[3] = func_key_state_t(":/icons/iconTrack16x16",QObject::tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks."));
+    fsMain[4] = func_key_state_t(0,QObject::tr("-"),0,tr(""));
+    fsMain[5] = func_key_state_t(":/icons/iconLiveLog16x16",QObject::tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording."));
+    fsMain[6] = func_key_state_t(":/icons/iconOverlay16x16",QObject::tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes"));
+    fsMain[7] = func_key_state_t(":/icons/iconGlobe+16x16",QObject::tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions."));
+    fsMain[8] = func_key_state_t(":/icons/iconClear16x16",QObject::tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ..."));
+    fsMain[9] = func_key_state_t(":/icons/iconUpload16x16",QObject::tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device."));
+    fsMain[10] = func_key_state_t(":/icons/iconDownload16x16",QObject::tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data from device."));
+
+
     m_self = this;
     setScaledContents(true);
 
@@ -269,7 +301,7 @@ CMegaMenu::~CMegaMenu()
 }
 
 
-void CMegaMenu::switchState(const func_key_state_t statedef[11])
+void CMegaMenu::switchState(const QVector<func_key_state_t>& statedef)
 {
     unsigned i;
 
@@ -295,27 +327,27 @@ void CMegaMenu::switchByKeyWord(const QString& key)
     if(key == "Main") {
         funcSwitchToMain();
     }
-    else if(key == "Waypoints" && current != fsWpt) {
+    else if(key == "Waypoints" && &current != &fsWpt) {
         funcSwitchToWpt();
         funcMoveArea();
     }
-    else if(key == "Search" && current != fsMain) {
+    else if(key == "Search" && &current != &fsMain) {
         funcSwitchToMain();
         funcMoveArea();
     }
-    else if(key == "Maps" && current != fsMap) {
+    else if(key == "Maps" && &current != &fsMap) {
         funcSwitchToMap();
         funcMoveArea();
     }
-    else if(key == "Tracks" && current != fsTrack) {
+    else if(key == "Tracks" && &current != &fsTrack) {
         funcSwitchToTrack();
         funcMoveArea();
     }
-    else if(key == "LiveLog" && current != fsLiveLog) {
+    else if(key == "LiveLog" && &current != &fsLiveLog) {
         funcSwitchToLiveLog();
         funcMoveArea();
     }
-    else if(key == "Overlay" && current != fsOverlay) {
+    else if(key == "Overlay" && &current != &fsOverlay) {
         funcSwitchToOverlay();
         funcMoveArea();
     }

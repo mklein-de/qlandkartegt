@@ -22,6 +22,7 @@
 
 #include <QLabel>
 #include <QPointer>
+#include <QVector>
 
 class CCanvas;
 class QLabel;
@@ -52,13 +53,29 @@ class CMegaMenu : public QLabel
 
         struct func_key_state_t
         {
+            func_key_state_t()
+            {
+                icon = 0;
+                name = tr("-");
+                func = 0;
+                tooltip = tr("-");
+            }
+/*            func_key_state_t(const func_key_state_t& f)
+            {
+                icon = f.icon;
+                name = f.name;
+                func = f.func;
+                tooltip = f.tooltip;
+            }*/
+            func_key_state_t(const char * icon,const QString& name, void (CMegaMenu::*func)(), const QString& tooltip)
+                : icon(icon), name(name), func(func), tooltip(tooltip){}
             const char * icon;
             QString name;
             void (CMegaMenu::*func)();
             QString tooltip;
         };
 
-        void switchState(const func_key_state_t statedef[11]);
+        void switchState(const QVector<func_key_state_t>& statedef);
 
         void funcSwitchToMain();
         void funcSwitchToMap();
@@ -139,15 +156,24 @@ class CMegaMenu : public QLabel
 
         QLabel * names[11];
 
-        const func_key_state_t * current;
+        QVector<func_key_state_t>& current;
 
-        static const func_key_state_t fsMain[];
-        static const func_key_state_t fsMap[];
-        static const func_key_state_t fsMap3D[];
-        static const func_key_state_t fsWpt[];
-        static const func_key_state_t fsTrack[];
-        static const func_key_state_t fsLiveLog[];
-        static const func_key_state_t fsOverlay[];
-        static const func_key_state_t fsMainMore[];
+        QVector<func_key_state_t> fsMain;
+        QVector<func_key_state_t> fsMap;
+        QVector<func_key_state_t> fsMap3D;
+        QVector<func_key_state_t> fsWpt;
+        QVector<func_key_state_t> fsTrack;
+        QVector<func_key_state_t> fsLiveLog;
+        QVector<func_key_state_t> fsOverlay;
+        QVector<func_key_state_t> fsMainMore;
+
+//         static const func_key_state_t fsMain[];
+//         static const func_key_state_t fsMap[];
+//         static const func_key_state_t fsMap3D[];
+//         static const func_key_state_t fsWpt[];
+//         static const func_key_state_t fsTrack[];
+//         static const func_key_state_t fsLiveLog[];
+//         static const func_key_state_t fsOverlay[];
+//         static const func_key_state_t fsMainMore[];
 };
 #endif                           //CMEGAMENU_H
