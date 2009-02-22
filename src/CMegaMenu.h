@@ -60,13 +60,7 @@ class CMegaMenu : public QLabel
                 func = 0;
                 tooltip = tr("-");
             }
-/*            func_key_state_t(const func_key_state_t& f)
-            {
-                icon = f.icon;
-                name = f.name;
-                func = f.func;
-                tooltip = f.tooltip;
-            }*/
+
             func_key_state_t(const char * icon,const QString& name, void (CMegaMenu::*func)(), const QString& tooltip)
                 : icon(icon), name(name), func(func), tooltip(tooltip){}
             const char * icon;
@@ -75,7 +69,7 @@ class CMegaMenu : public QLabel
             QString tooltip;
         };
 
-        void switchState(const QVector<func_key_state_t>& statedef);
+        void switchState(QVector<func_key_state_t>* statedef);
 
         void funcSwitchToMain();
         void funcSwitchToMap();
@@ -156,7 +150,7 @@ class CMegaMenu : public QLabel
 
         QLabel * names[11];
 
-        QVector<func_key_state_t>& current;
+        QVector<func_key_state_t>* current;
 
         QVector<func_key_state_t> fsMain;
         QVector<func_key_state_t> fsMap;
@@ -167,13 +161,5 @@ class CMegaMenu : public QLabel
         QVector<func_key_state_t> fsOverlay;
         QVector<func_key_state_t> fsMainMore;
 
-//         static const func_key_state_t fsMain[];
-//         static const func_key_state_t fsMap[];
-//         static const func_key_state_t fsMap3D[];
-//         static const func_key_state_t fsWpt[];
-//         static const func_key_state_t fsTrack[];
-//         static const func_key_state_t fsLiveLog[];
-//         static const func_key_state_t fsOverlay[];
-//         static const func_key_state_t fsMainMore[];
 };
 #endif                           //CMEGAMENU_H
