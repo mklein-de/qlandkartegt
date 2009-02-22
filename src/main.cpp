@@ -59,6 +59,21 @@ int main(int argc, char ** argv)
 
     QApplication theApp(argc,argv);
 
+#ifdef ENABLE_TRANSLATION
+      QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+      QTranslator qtTranslator(0);
+      if (qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
+        theApp.installTranslator(&qtTranslator);
+
+      resourceDir = ".";
+      QTranslator qlandkarteTranslator(0);
+      qDebug() << QLocale::system().name();
+      if (qlandkarteTranslator.load(QLatin1String("qlandkarte_") + QLocale::system().name(),resourceDir))
+              theApp.installTranslator(&qlandkarteTranslator);
+      else
+        qDebug() << QString("qlandkarte_") + QLocale::system().name() << "not found.";
+#endif
+
     {
     PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
     PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");

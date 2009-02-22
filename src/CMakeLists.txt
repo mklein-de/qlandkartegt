@@ -310,6 +310,18 @@ qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
 
+SET (ENABLE_TRANSLATION OFF CACHE BOOL "enable translations")
+#-D ENABLE_TRANSLATION:bool=ON
+IF(ENABLE_TRANSLATION)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
+    qt4_create_translation(qlandkarte_QM_FILES  
+                           ${qlandkarte_SRCS}
+                           ${qlandkarte_HDRS}
+                           ${qlandkarte_UIS}
+                           qlandkarte_de_DE.ts
+                          )
+ENDIF(ENABLE_TRANSLATION)
+
 include_directories(
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -329,6 +341,7 @@ add_executable(qlandkartegt
   ${qlandkarte_UI_HDRS}
   ${qlandkarte_RC_SRCS}
   ${qlandkarte_MOC_SRCS}
+  ${qlandkarte_QM_FILES}
 )
 
 target_link_libraries(
