@@ -247,12 +247,12 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
-    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("Config"),this,SLOT(slotConfig()));
+    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
-    menu->setTitle(tr("&About"));
-    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("Copyright"),this,SLOT(slotCopyright()));
+    menu->setTitle(tr("&Help"));
+    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
 }
 

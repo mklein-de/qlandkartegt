@@ -318,8 +318,15 @@ IF(ENABLE_TRANSLATION)
                            ${qlandkarte_SRCS}
                            ${qlandkarte_HDRS}
                            ${qlandkarte_UIS}
-                           qlandkarte_de_DE.ts
+                           qlandkartegt_de_DE.ts
                           )
+    if (UNIX AND NOT WIN32)
+ 	 install(
+         	 FILES
+                   ${qlandkarte_QM_FILES}
+    	     DESTINATION
+                   ${DATA_INSTALL_PREFIX}/qlandkartegt/translations)
+    endif (UNIX AND NOT WIN32)
 ENDIF(ENABLE_TRANSLATION)
 
 include_directories(
@@ -340,7 +347,7 @@ add_executable(qlandkartegt
   ${qlandkarte_HDRS}
   ${qlandkarte_UI_HDRS}
   ${qlandkarte_RC_SRCS}
-  ${qlandkarte_MOC_SRCS}
+  ${qlandkarte_MOC_SRCS} 
   ${qlandkarte_QM_FILES}
 )
 
@@ -356,7 +363,7 @@ target_link_libraries(
       ${QL_OPENGL_LIBRARIES}
   )
 
-  install(
+install(
     TARGETS
       qlandkartegt
     DESTINATION

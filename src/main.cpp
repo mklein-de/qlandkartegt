@@ -19,7 +19,7 @@
 
 #include <QtCore>
 #include <QtGui>
-
+#include <QRegExp>
 #include <gdal_priv.h>
 #include <projects.h>
 #ifdef __MINGW32__
@@ -60,18 +60,33 @@ int main(int argc, char ** argv)
     QApplication theApp(argc,argv);
 
 #ifdef ENABLE_TRANSLATION
+    {
       QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-      QTranslator qtTranslator(0);
-      if (qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
-        theApp.installTranslator(&qtTranslator);
+      QTranslator *qtTranslator = new QTranslator(0);
+      if (qtTranslator->load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
+        theApp.installTranslator(qtTranslator);
 
-      resourceDir = ".";
-      QTranslator qlandkarteTranslator(0);
-      qDebug() << QLocale::system().name();
-      if (qlandkarteTranslator.load(QLatin1String("qlandkarte_") + QLocale::system().name(),resourceDir))
-              theApp.installTranslator(&qlandkarteTranslator);
-      else
-        qDebug() << QString("qlandkarte_") + QLocale::system().name() << "not found.";
+      QStringList dirList;
+      dirList << ".";
+#ifdef Q_OS_LINUX
+      dirList << "src";
+      dirList << QCoreApplication::applicationDirPath().replace(QRegExp("bin$"), "share/qlandkartegt/translations");
+#endif
+      QTranslator *qlandkartegtTranslator = new QTranslator(0);
+      bool found = false;
+      qDebug() << dirList;
+      foreach(QString dir, dirList)
+      {
+        QString transName = QLatin1String("qlandkartegt_") + QLocale::system().name();
+        if (qlandkartegtTranslator->load( transName, dir))
+        {
+          found = true;
+          theApp.installTranslator(qlandkartegtTranslator);
+          qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
+          break;
+        }
+      }
+    }
 #endif
 
     {
