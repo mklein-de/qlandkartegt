@@ -24,6 +24,7 @@
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapDEM.h"
+#include "CMapOSM.h"
 #include "CMainWindow.h"
 #include "CMapEditWidget.h"
 #include "CMapSearchWidget.h"
@@ -59,6 +60,11 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     map_t m;
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
+    m.type              = IMap::eRaster;
+    knownMaps[m.key]    = m;
+
+    m.description       = tr("OSM Tile Server");
+    m.key               = "OSMTileServer";
     m.type              = IMap::eRaster;
     knownMaps[m.key]    = m;
 
@@ -287,6 +293,10 @@ void CMapDB::openMap(const QString& key)
         theMap = new CMapWMS(key,filename,theMainWindow->getCanvas());
     }
 #endif
+    else if(key == "OSMTileServer"){
+        theMap = new CMapOSM(theMainWindow->getCanvas());
+    }
+
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 
     // store current map filename for next session

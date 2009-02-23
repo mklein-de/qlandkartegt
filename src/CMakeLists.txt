@@ -38,6 +38,7 @@ set(qlandkarte_SRCS
     CMouseColorPicker.cpp
     IMap.cpp
     CMapNoMap.cpp
+    CMapOSM.cpp
     CMapDEM.cpp
     CMapFile.cpp
     CMapLevel.cpp
@@ -157,6 +158,7 @@ set(qlandkarte_HDRS
     CMouseColorPicker.h
     IMap.h
     CMapNoMap.h
+    CMapOSM.h
     CMapDEM.h
     CMapFile.h
     CMapLevel.h
@@ -314,7 +316,7 @@ SET (ENABLE_TRANSLATION OFF CACHE BOOL "enable translations")
 #-D ENABLE_TRANSLATION:bool=ON
 IF(ENABLE_TRANSLATION)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
-    qt4_create_translation(qlandkarte_QM_FILES  
+    qt4_create_translation(qlandkarte_QM_FILES
                            ${qlandkarte_SRCS}
                            ${qlandkarte_HDRS}
                            ${qlandkarte_UIS}
@@ -347,7 +349,7 @@ add_executable(qlandkartegt
   ${qlandkarte_HDRS}
   ${qlandkarte_UI_HDRS}
   ${qlandkarte_RC_SRCS}
-  ${qlandkarte_MOC_SRCS} 
+  ${qlandkarte_MOC_SRCS}
   ${qlandkarte_QM_FILES}
 )
 

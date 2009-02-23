@@ -86,7 +86,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkResetDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckReset(bool)));
     connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
-    connect(treePoints,SIGNAL(itemClicked(CTrackTreeWidgetItem*,int)),this,SLOT(slotPointSelection(CTrackTreeWidgetItem*)));
+    connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
 
     treePoints->sortByColumn(eNum, Qt::AscendingOrder);
 }
@@ -407,7 +407,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 }
 
 
-void CTrackEditWidget::slotPointSelection(CTrackTreeWidgetItem * item)
+void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 {
     if(track.isNull()) return;
 
