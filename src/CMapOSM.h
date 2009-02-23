@@ -45,12 +45,36 @@ class CMapOSM : public IMap
     private:
         void draw();
 
-        XY topLeft;
-        double xscale;
-        double yscale;
-        double x;
-        double y;
         double zoomFactor;
+
+        ///actual x offset in [m]
+        double x;
+        ///actual y offset in [m]
+        double y;
+
+        /// scale [px/m]
+        double xscale;
+        /// scale [px/m]
+        double yscale;
+
+        /// reference point [m] (left hand side of map)
+        double xref1;
+        /// reference point [m] (top of map)
+        double yref1;
+        /// reference point [m] (right hand side of map)
+        double xref2;
+        /// reference point [m] (bottom of map)
+        double yref2;
+
+        /// the longitude of the top left reference point [rad]
+        double lon1;
+        /// the latitude of the top left reference point [rad]
+        double lat1;
+        /// the longitude of the bottom right reference point [rad]
+        double lon2;
+        /// the latitude of the bottom right reference point [rad]
+        double lat2;
+
 };
 
 #endif //CMAPOSM_H

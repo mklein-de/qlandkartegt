@@ -37,19 +37,37 @@ CMapOSM::CMapOSM(CCanvas * parent)
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();
 
+    xscale  = 1.0;
+    yscale  = 1.0;
+
+//     lon1 = xref1   = -20037508.34;
+//     lat1 = yref1   =  20037508.34;
+//     lon2 = xref2   =  20037508.34;
+//     lat2 = yref2   = -20037508.34;
+
+    lon1 = xref1   = -180.0 * DEG_TO_RAD;
+    lat1 = yref1   =  89.5 * DEG_TO_RAD;
+    lon2 = xref2   =  180.0 * DEG_TO_RAD;
+    lat2 = yref2   = -89.5 * DEG_TO_RAD;
+
+    pj_transform(pjtar,pjsrc,1,0,&xref1,&yref1,0);
+    pj_transform(pjtar,pjsrc,1,0,&xref2,&yref2,0);
+
     if(pos.isEmpty()) {
-        topLeft.u = 0;
-        topLeft.v = 0;
+        x = 0;
+        y = 0;
     }
     else {
         float u = 0;
         float v = 0;
         GPS_Math_Str_To_Deg(pos, u, v);
-        topLeft.u = u * DEG_TO_RAD;
-        topLeft.u = v * DEG_TO_RAD;
+        x = u * DEG_TO_RAD;
+        y = v * DEG_TO_RAD;
+        pj_transform(pjtar,pjsrc,1,0,&x,&y,0);
     }
 
     zoom(zoomidx);
+
     resize(parent->size());
 }
 
@@ -58,14 +76,17 @@ CMapOSM::~CMapOSM()
     QString pos;
     QSettings cfg;
 
-    if(pjsrc) pj_free(pjsrc);
+    double u = x;
+    double v = y;
+    pj_transform(pjsrc,pjtar,1,0,&u,&v,0);
 
-    GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
+    GPS_Math_Deg_To_Str(u * RAD_TO_DEG, v * RAD_TO_DEG, pos);
     pos = pos.replace("\260","");
 
     cfg.setValue("osm/topleft",pos);
     cfg.setValue("osm/zoomidx",zoomidx);
 
+    if(pjsrc) pj_free(pjsrc);
 }
 
 void CMapOSM::convertPt2M(double& u, double& v)
@@ -187,7 +208,12 @@ void CMapOSM::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
 
-    draw();
+    // render map if necessary
+    if(needsRedraw) {
+        draw();
+    }
+
+    p.drawImage(0,0,buffer);
 
     QString str;
     if(zoomFactor < 1.0) {
@@ -196,8 +222,6 @@ void CMapOSM::draw(QPainter& p)
     else {
         str = tr("Zoom level x%1").arg(zoomidx);
     }
-
-    p.drawImage(0,0,buffer);
 
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
@@ -222,11 +246,8 @@ void CMapOSM::draw()
 
     qDebug() << "CMapOSM::draw()";
 
-
-
     QPainter p(&buffer);
     p.drawRect(QRect(100,100,100,100));
 
-
-
 }
+
