@@ -229,8 +229,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         if(map.description.isEmpty()) map.description = fi.fileName();
         theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
 
-
-
         // add map to known maps
         knownMaps[map.key] = map;
 
@@ -239,6 +237,14 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
 #endif
+    else if(filename == "OSMTileServer"){
+        theMap = new CMapOSM(theMainWindow->getCanvas());
+
+        // store current map filename for next session
+        QSettings cfg;
+        cfg.setValue("maps/visibleMaps",filename);
+
+    }
     else {
         if(asRaster) {
             theMap = new CMapRaster(filename,&canvas);
@@ -295,6 +301,7 @@ void CMapDB::openMap(const QString& key)
 #endif
     else if(key == "OSMTileServer"){
         theMap = new CMapOSM(theMainWindow->getCanvas());
+        filename = key;
     }
 
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
