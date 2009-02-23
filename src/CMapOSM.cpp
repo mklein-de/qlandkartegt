@@ -37,9 +37,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();
 
-    xscale  = 1.0;
-    yscale  = 1.0;
-
 //     lon1 = xref1   = -20037508.34;
 //     lat1 = yref1   =  20037508.34;
 //     lon2 = xref2   =  20037508.34;
@@ -159,11 +156,12 @@ void CMapOSM::zoom(qint32& level)
 {
     // no level less than 1
     if(level < 1) {
-        zoomFactor  = 1.0 / - (level - 2);
+        level       = 1;
+        zoomFactor  = 1.0;
         qDebug() << "zoom:" << zoomFactor;
         return;
     }
-    zoomFactor = level;
+    zoomFactor = (1<<(level-1));
 
     needsRedraw = true;
     emit sigChanged();
@@ -220,7 +218,7 @@ void CMapOSM::draw(QPainter& p)
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
     else {
-        str = tr("Zoom level x%1").arg(zoomidx);
+        str = tr("Zoom level x%1").arg(zoomFactor);
     }
 
     p.setPen(Qt::white);
