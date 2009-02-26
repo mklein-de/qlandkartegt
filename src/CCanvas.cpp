@@ -386,7 +386,9 @@ void CCanvas::drawScale(QPainter& p)
     pt2 = GPS_Math_Wpt_Projection(pt1, d, -90 * DEG_TO_RAD);
     map.convertRad2Pt(pt2.u, pt2.v);
 
-    if(isnan(pt2.u) || isnan(pt2.v) || abs(pt2.u) > 500) return;
+
+
+    if(isnan(pt2.u) || isnan(pt2.v) || abs(pt2.u) > 5000) return;
 
     // step IV: draw the scale
     QPoint px2(px1 - QPoint(px1.x() - pt2.u,0));
