@@ -42,8 +42,8 @@ private:
   QRect window;
   QHash<int, QPoint> startPointHash;
   QHash<int, QString> osmUrlPartHash;
-  double long2tile(double lon, int zoom);
-  double lat2tile(double lat, int zoom);
+  int long2tile(double lon, int zoom);
+  int lat2tile(double lat, int zoom);
   double tile2long(int x, int zoom);
   double tile2lat(int y, int zoom);
   void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);

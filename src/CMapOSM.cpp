@@ -163,7 +163,7 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
 
 void CMapOSM::zoom(qint32& level)
 {
-    if(level > 16) level = 16;
+    if(level > 17) level = 17;
     // no level less than 1
     if(level < 1) {
         level       = 1;
@@ -199,7 +199,7 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     int z1 = dU / size.width();
     int z2 = dV / size.height();
 
-    zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+    zoomFactor = (z1 > z2 ? z1 : z2) + 1;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
@@ -253,29 +253,13 @@ QPoint CMapOSM::offSetInPixel(double osm_lon, double osm_lat)
 {
   double osm_x = osm_lon* DEG_TO_RAD;
   double osm_y = osm_lat* DEG_TO_RAD;
-  convertRad2M(osm_x, osm_y);
-  int osm_zoom = 18 - zoomidx;
-  qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-  qDebug() << osm_x << osm_y << x << y << osm_lon << osm_lat ;
-  qDebug() << x-osm_x << y-osm_y;
-  double xo=(osm_x-x) / (xscale * pow(2,osm_zoom)), yo=(osm_y-y) / (yscale * pow(2,osm_zoom));
-
- // convertM2Pt(osm_x, osm_y);
-
-  qDebug() << xo << yo << osm_x << osm_y << x << y << osm_lon << osm_lat;
-  qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-
-  return QPoint(xo*256, yo*256);
+  convertRad2Pt(osm_x, osm_y);
+  return QPoint(osm_x, osm_y);
 }
 
 void CMapOSM::draw()
 {
     if(pjsrc == 0) return IMap::draw();
-
-//    qDebug() << "CMapOSM::draw()";
-
-   // QPainter p(&buffer);
-
 
     QPointF topLeft(x, y);
     double u = rect.width();

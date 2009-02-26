@@ -61,28 +61,17 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int x, int y, int o
 
  // qDebug() << "zoom" << osm_zoom;
 
-  double osm_x_d = long2tile(lon, osm_zoom);
-  double osm_y_d = lat2tile(lat, osm_zoom);
-
-  double osm_x = floor(osm_x_d);
-  double osm_y = floor(osm_y_d);
+  int osm_x = long2tile(lon, osm_zoom);
+  int osm_y = lat2tile(lat, osm_zoom);
 
   double osm_lon = tile2long((int)osm_x, osm_zoom);
   double osm_lat = tile2lat((int)osm_y, osm_zoom);
-
-
-  qDebug() << ((osm_lon - lon)) << ((osm_lat - lat));
-
-  double osm_x_delta = osm_x_d - osm_x;
-  double osm_y_delta = osm_y_d - osm_y;
-
-
-  qDebug() <<  "osm : " << osm_x << osm_y << osm_lon << osm_lat << osm_x_delta << osm_y_delta << pow(2,osm_zoom) << osm_zoom ;
 
   int xCount = qMin(floor((window.width() / 256)) + 1, pow(2,osm_zoom));
   int yCount = qMin(floor((window.height() / 256)) + 1, pow(2,osm_zoom));
   //QPoint point((-osm_x_delta*256),(-osm_y_delta*256));
   QPoint point= cmapOSM->offSetInPixel(osm_lon, osm_lat);
+  qDebug() << point << osm_lon << osm_lat << osm_x << osm_y << osm_lon << osm_lat;
  // qDebug() << "count: "<< xCount << yCount;
 //  image.fill(0);
 //  image = QImage(QSize(xCount),QSize(yCount));
@@ -198,16 +187,16 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
   return;
 }
 
-double COsmTilesHash::long2tile(double lon, int z)
+int COsmTilesHash::long2tile(double lon, int z)
 {
-//  return (int)(floor((lon + 180.0) / 360.0 * pow(2.0, z)));
-  return (lon + 180.0) / 360.0 * pow(2.0, z);
+  return (int)(floor((lon + 180.0) / 360.0 * pow(2.0, z)));
+//  return (lon + 180.0) / 360.0 * pow(2.0, z);
 }
 
-double COsmTilesHash::lat2tile(double lat, int z)
+int COsmTilesHash::lat2tile(double lat, int z)
 {
-//  return (int)(floor((1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
-  return (1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z);
+  return (int)(floor((1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
+//  return (1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z);
 }
 
 double COsmTilesHash::tile2long(int x, int z)
