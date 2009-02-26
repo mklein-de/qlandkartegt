@@ -70,6 +70,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int x, int y, int o
   int xCount = qMin(floor((window.width() / 256)) + 1, pow(2,osm_zoom));
   int yCount = qMin(floor((window.height() / 256)) + 1, pow(2,osm_zoom));
   //QPoint point((-osm_x_delta*256),(-osm_y_delta*256));
+
   QPoint point= cmapOSM->offSetInPixel(osm_lon, osm_lat);
   qDebug() << point << osm_lon << osm_lat << osm_x << osm_y << osm_lon << osm_lat;
  // qDebug() << "count: "<< xCount << yCount;
@@ -85,7 +86,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int x, int y, int o
       t = t.translate(x*256,y*256);
      // qDebug() << window << point << t.map(point) << -osm_x_delta*256 << -osm_y_delta*256;
      // qDebug() << QString("punkt:%1  t: %2").arg(point).arg(t.map(point));
-      getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
+   //   getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
     }
   }
   emit newImageReady(image);
