@@ -40,6 +40,8 @@ CCopyright::CCopyright()
         "<p>"
         "Andrew Vagin<br/>"
         "Fabrice Crohas<br/>"
+        "Sarah Neumann  (german translation)<br/>"
+        "Marc Feld<br/>"
         "</p>"
         "<p>"
         "Icons and eye candy are from the <b>KDE</b> icon set, the <b>Nuvola</b> icon set and "

@@ -22,6 +22,8 @@
 #include "CCanvas.h"
 
 #include <QtGui>
+#include "COsmTilesHash.h"
+#include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
 : IMap(eRaster, "", parent)
@@ -31,24 +33,29 @@ CMapOSM::CMapOSM(CCanvas * parent)
 , y(0)
 , zoomFactor(1.0)
 {
+    osmTiles = new COsmTilesHash(this);
+    connect(osmTiles,SIGNAL(newImageReady(QImage)),this,SLOT(newImageReady(QImage)));
     pjsrc = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
+    //pjsrc = pj_init_plus("+proj=merc +lat_ts=0 +lon_0=0 +k=1.000000 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs");
 
     QSettings cfg;
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();
 
-//     lon1 = xref1   = -20037508.34;
-//     lat1 = yref1   =  20037508.34;
-//     lon2 = xref2   =  20037508.34;
-//     lat2 = yref2   = -20037508.34;
+    lon1 = xref1   = -40075016/2;
+    lat1 = yref1   =  40075016/2;
+    lon2 = xref2   =  40075016/2;
+    lat2 = yref2   = -40075016/2;
+     //     lon1 = xref1   = -180.0 * DEG_TO_RAD;
+     //     lat1 = yref1   =  85.0511 * DEG_TO_RAD;
+     //     lon2 = xref2   =  180.0 * DEG_TO_RAD;
+     //     lat2 = yref2   = -85.0511* DEG_TO_RAD;
+    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
+    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
+    printf("dx: %i dy: %i\n",(int)(xref2 - xref1), (int)(yref1 - yref2));
+    qDebug() << lon1 * RAD_TO_DEG << lat1 * RAD_TO_DEG << lon2 * RAD_TO_DEG << lat2 * RAD_TO_DEG;
 
-    lon1 = xref1   = -180.0 * DEG_TO_RAD;
-    lat1 = yref1   =  89.5 * DEG_TO_RAD;
-    lon2 = xref2   =  180.0 * DEG_TO_RAD;
-    lat2 = yref2   = -89.5 * DEG_TO_RAD;
 
-    pj_transform(pjtar,pjsrc,1,0,&xref1,&yref1,0);
-    pj_transform(pjtar,pjsrc,1,0,&xref2,&yref2,0);
 
     if(pos.isEmpty()) {
         x = 0;
@@ -84,6 +91,7 @@ CMapOSM::~CMapOSM()
     cfg.setValue("osm/zoomidx",zoomidx);
 
     if(pjsrc) pj_free(pjsrc);
+    if (osmTiles) delete osmTiles;
 }
 
 void CMapOSM::convertPt2M(double& u, double& v)
@@ -127,7 +135,8 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
     convertPt2Rad(p1.u, p1.v);
 
     zoomidx += zoomIn ? -1 : 1;
-    // sigChanged will be sent at the end of this function
+
+     // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
 
@@ -154,6 +163,7 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
 
 void CMapOSM::zoom(qint32& level)
 {
+    if(level > 16) level = 16;
     // no level less than 1
     if(level < 1) {
         level       = 1;
@@ -162,7 +172,7 @@ void CMapOSM::zoom(qint32& level)
         return;
     }
     zoomFactor = (1<<(level-1));
-
+    //xscale = yscale = 2^(17-level);
     needsRedraw = true;
     emit sigChanged();
 
@@ -236,16 +246,60 @@ void CMapOSM::draw(QPainter& p)
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
 
+
+}
+
+QPoint CMapOSM::offSetInPixel(double osm_lon, double osm_lat)
+{
+  double osm_x = osm_lon* DEG_TO_RAD;
+  double osm_y = osm_lat* DEG_TO_RAD;
+  convertRad2M(osm_x, osm_y);
+  int osm_zoom = 18 - zoomidx;
+  qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+  qDebug() << osm_x << osm_y << x << y << osm_lon << osm_lat ;
+  qDebug() << x-osm_x << y-osm_y;
+  double xo=(osm_x-x) / (xscale * pow(2,osm_zoom)), yo=(osm_y-y) / (yscale * pow(2,osm_zoom));
+
+ // convertM2Pt(osm_x, osm_y);
+
+  qDebug() << xo << yo << osm_x << osm_y << x << y << osm_lon << osm_lat;
+  qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+
+  return QPoint(xo*256, yo*256);
 }
 
 void CMapOSM::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    qDebug() << "CMapOSM::draw()";
+//    qDebug() << "CMapOSM::draw()";
 
-    QPainter p(&buffer);
-    p.drawRect(QRect(100,100,100,100));
+   // QPainter p(&buffer);
+
+
+    QPointF topLeft(x, y);
+    double u = rect.width();
+    double v = rect.height();
+    convertPt2M( u,  v);
+    QPointF bottomRight(x+u,y-v);
+
+    int osm_zoom = 18 - zoomidx;
+    // calculate tile indices
+
+    double lon = x;
+    double lat = y;
+
+    convertM2Rad(lon,lat);
+
+    osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  x,  y, osm_zoom, rect);
 
 }
 
+void CMapOSM::newImageReady(QImage image)
+{
+  this->buffer = image;
+  needsRedraw = false;
+//  doFastDraw = true;
+ // qDebug() << "new image" << image.size() ;
+  emit sigChanged();
+}

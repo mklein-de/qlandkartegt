@@ -101,6 +101,7 @@ set(qlandkarte_SRCS
     CLiveLog.cpp
     CLiveLogDB.cpp
     CLiveLogToolWidget.cpp
+    COsmTilesHash.cpp
     IOverlay.cpp
     COverlayDB.cpp
     COverlayToolWidget.cpp
@@ -222,6 +223,7 @@ set(qlandkarte_HDRS
     CLiveLogDB.h
     CLiveLogToolWidget.h
     IOverlay.h
+    COsmTilesHash.h
     COverlayDB.h
     COverlayToolWidget.h
     COverlayText.h
@@ -316,12 +318,22 @@ SET (ENABLE_TRANSLATION OFF CACHE BOOL "enable translations")
 #-D ENABLE_TRANSLATION:bool=ON
 IF(ENABLE_TRANSLATION)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
-    qt4_create_translation(qlandkarte_QM_FILES
-                           ${qlandkarte_SRCS}
-                           ${qlandkarte_HDRS}
-                           ${qlandkarte_UIS}
-                           qlandkartegt_de_DE.ts
+    
+    file (GLOB TRANSLATIONS_FILES *.ts)
+
+    option (UPDATE_TRANSLATIONS "Update source translation translations/*.ts
+    files (WARNING: make clean will delete the source .ts files! Danger!)")
+    if (UPDATE_TRANSLATIONS)
+       qt4_create_translation(qlandkarte_QM_FILES
+                              ${qlandkarte_SRCS}
+                              ${qlandkarte_HDRS}
+                              ${qlandkarte_UIS}
+                              ${TRANSLATIONS_FILES}
                           )
+    else (UPDATE_TRANSLATIONS)
+       qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+    endif (UPDATE_TRANSLATIONS) 
+    
     if (UNIX AND NOT WIN32)
  	 install(
          	 FILES

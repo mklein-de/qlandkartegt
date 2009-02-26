@@ -29,7 +29,7 @@ CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
 , needResetZoom(true)
 {
     plot->setXLabel(tr("distance [m]"));
-    plot->setYLabel(tr("heardrate [bpm]"));
+    plot->setYLabel(tr("heartrate [bpm]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));

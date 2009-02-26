@@ -608,7 +608,6 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 
     if(tiles.count()) tiles.pop_front();
     getNextTile();
-
 }
 
 

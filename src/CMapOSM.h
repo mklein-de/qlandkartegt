@@ -21,8 +21,7 @@
 #define CMAPOSM_H
 
 #include <IMap.h>
-
-
+class COsmTilesHash;
 class CCanvas;
 
 class CMapOSM : public IMap
@@ -42,9 +41,15 @@ class CMapOSM : public IMap
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
 
         void draw(QPainter& p);
-    private:
-        void draw();
 
+        QPoint offSetInPixel(double osm_lon, double osm_lat);
+
+    public slots:
+        void newImageReady(QImage image);
+    private:
+        QImage image;
+        void draw();
+        COsmTilesHash *osmTiles;
         double zoomFactor;
 
         ///actual x offset in [m]

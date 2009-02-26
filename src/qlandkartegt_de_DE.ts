@@ -116,11 +116,6 @@
 </source>
         <translation>--- Beendet ---</translation>
     </message>
-    <message>
-        <location filename="CCreateMapGeoTiff.cpp" line="286"/>
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CCreateMapGridTool</name>
@@ -153,11 +148,6 @@
         <location filename="CCreateMapGridTool.cpp" line="288"/>
         <source>Failed to setup projection. Bad syntax?</source>
         <translation>Beim erzeugen der Projektion gescheitert. Ungünstige Syntax?</translation>
-    </message>
-    <message>
-        <location filename="CCreateMapGridTool.cpp" line="113"/>
-        <source></source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -218,7 +208,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CCreateMapOSM.cpp" line="617"/>
+        <location filename="CCreateMapOSM.cpp" line="616"/>
         <source>Select output path ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,11 +579,6 @@
         <location filename="CDlgConfig.cpp" line="197"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>Keine Plugins gefunden. Ich nehme an sie sind in: %1</translation>
-    </message>
-    <message>
-        <location filename="CDlgConfig.cpp" line="71"/>
-        <source></source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1100,11 +1085,6 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>&amp;General</source>
         <translation>&amp;Allgemeine Einstellungen</translation>
     </message>
-    <message>
-        <location filename="CMainWindow.cpp" line="755"/>
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CMap3DWidget</name>
@@ -1222,11 +1202,6 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>Create a GDAL WMS definition file.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="CMapEditWidget.cpp" line="41"/>
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CMapGeoTiff</name>
@@ -1264,12 +1239,12 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="CMapOSM.cpp" line="221"/>
+        <location filename="CMapOSM.cpp" line="228"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CMapOSM.cpp" line="224"/>
+        <location filename="CMapOSM.cpp" line="231"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1665,11 +1640,6 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="2711"/>
         <source>This is a typ file with unknown point encoding. Please report!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CMapTDB.cpp" line="216"/>
-        <source></source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2196,11 +2166,6 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>test only</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="CMegaMenu.cpp" line="194"/>
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CMouseMoveMap</name>
@@ -2246,6 +2211,19 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="CMouseRefPoint.cpp" line="155"/>
         <source>%1</source>
         <translation>%1</translation>
+    </message>
+</context>
+<context>
+    <name>COsmTilesHash</name>
+    <message>
+        <location filename="COsmTilesHash.cpp" line="149"/>
+        <source>Image is loading: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="COsmTilesHash.cpp" line="150"/>
+        <source>%1 of %2 stored.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
