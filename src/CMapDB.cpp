@@ -63,7 +63,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     m.type              = IMap::eRaster;
     knownMaps[m.key]    = m;
 
-    m.description       = tr("OSM Tile Server");
+    m.description       = tr("--- OSM ---");
     m.key               = "OSMTileServer";
     m.type              = IMap::eRaster;
     knownMaps[m.key]    = m;
