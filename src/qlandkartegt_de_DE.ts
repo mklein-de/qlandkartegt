@@ -6,7 +6,7 @@
     <message>
         <location filename="CCanvas.cpp" line="588"/>
         <source>Copy Position</source>
-        <translation>Kopieren der Position</translation>
+        <translation>Position kopieren</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="158"/>
         <source>Open map file...</source>
-        <translation>Öffne Kartendatei...</translation>
+        <translation>Kartendatei öffnen ...</translation>
     </message>
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="158"/>
@@ -57,7 +57,7 @@
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="201"/>
         <source>Save result as...</source>
-        <translation>Speichere Ergenis als...</translation>
+        <translation>Ergenis speichern als...</translation>
     </message>
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="201"/>
@@ -77,17 +77,17 @@
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="334"/>
         <source>Load reference points...</source>
-        <translation>Lade Referenzpunkte...</translation>
+        <translation>Referenzpunkte laden ...</translation>
     </message>
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="497"/>
         <source>Save reference points...</source>
-        <translation>Speichere Referenzpunkte...</translation>
+        <translation>Referenzpunkte speichern ...</translation>
     </message>
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="559"/>
         <source>Sorry...</source>
-        <translation>Es tut mir leid...</translation>
+        <translation>Es tut mir leid ...</translation>
     </message>
     <message>
         <location filename="CCreateMapGeoTiff.cpp" line="559"/>
@@ -108,7 +108,7 @@
         <location filename="CCreateMapGeoTiff.cpp" line="723"/>
         <source>Failed!
 </source>
-        <translation>Fehlgeschlagen!
+        <translation>Gescheitert!
 </translation>
     </message>
     <message>
@@ -143,12 +143,12 @@
     <message>
         <location filename="CCreateMapGridTool.cpp" line="278"/>
         <source>Failed to calculate transformation for ref. points. Are all 4 points placed propperly?</source>
-        <translation>Bei der Berechnung der Transformation für die Referenzpunkte gescheitert. Sind alle vier Punkte korrekt gesetzt?</translation>
+        <translation>Die Berechnung der Transformation für die Referenzpunkte ist gescheitert. Sind alle vier Punkte korrekt gesetzt?</translation>
     </message>
     <message>
         <location filename="CCreateMapGridTool.cpp" line="288"/>
         <source>Failed to setup projection. Bad syntax?</source>
-        <translation>Beim erzeugen der Projektion gescheitert. Ungünstige Syntax?</translation>
+        <translation>Erzeugen der Projektion ist gescheitert. Ungünstige Syntax?</translation>
     </message>
 </context>
 <context>
@@ -181,7 +181,7 @@
     <message>
         <location filename="CCreateMapOSM.cpp" line="400"/>
         <source>Download files ...</source>
-        <translation>Lade Dateien herunter ...</translation>
+        <translation>Dateien herunterladen ...</translation>
     </message>
     <message>
         <location filename="CCreateMapOSM.cpp" line="400"/>
@@ -191,12 +191,12 @@
     <message>
         <location filename="CCreateMapOSM.cpp" line="404"/>
         <source>Calculating tiles ...</source>
-        <translation>Berechen Kacheln ...</translation>
+        <translation>Kacheln berechnen ...</translation>
     </message>
     <message>
         <location filename="CCreateMapOSM.cpp" line="560"/>
         <source>download: </source>
-        <translation>Lade herunter:</translation>
+        <translation>herunterladen:</translation>
     </message>
     <message>
         <location filename="CCreateMapOSM.cpp" line="561"/>
@@ -211,7 +211,7 @@
     <message>
         <location filename="CCreateMapOSM.cpp" line="616"/>
         <source>Select output path ...</source>
-        <translation>Wähle Outputpfad ...</translation>
+        <translation>Outputpfad wählen ...</translation>
     </message>
 </context>
 <context>
@@ -219,12 +219,12 @@
     <message>
         <location filename="CCreateMapQMAP.cpp" line="67"/>
         <source>Select map definition file...</source>
-        <translation>Wähle eine Kartendefinitionsdatei ...</translation>
+        <translation>Kartendefinitionsdatei wählen ...</translation>
     </message>
     <message>
         <location filename="CCreateMapQMAP.cpp" line="103"/>
         <source>Define a map collection file...</source>
-        <translation>Definiere eine Kartendefinitionsdatei ...</translation>
+        <translation>Kartendefinitionsdatei definieren ...</translation>
     </message>
     <message>
         <location filename="CCreateMapQMAP.cpp" line="147"/>
@@ -275,7 +275,11 @@
 %1
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Abfrage der Fähigkeiten gescheitert.
+
+%1
+
+</translation>
     </message>
     <message>
         <location filename="CCreateMapWMS.cpp" line="126"/>
@@ -284,17 +288,21 @@
 %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Parsen der Fähigkeiten gescheitert.
+
+%1
+
+%2</translation>
     </message>
     <message>
         <location filename="CCreateMapWMS.cpp" line="226"/>
         <source>You need to select at least one layer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mindestens eine Ebene muss ausgewählt werden.</translation>
     </message>
     <message>
         <location filename="CCreateMapWMS.cpp" line="358"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Definitionsdatei GDAL WMS definieren ...</translation>
     </message>
 </context>
 <context>
@@ -317,12 +325,12 @@
     <message>
         <location filename="CDeviceGarmin.cpp" line="761"/>
         <source>Device Link Error</source>
-        <translation>Fehler bei Verbindung zum Gerät</translation>
+        <translation>Fehlerhafte Verbindung zum Gerät</translation>
     </message>
     <message>
         <location filename="CDeviceGarmin.cpp" line="650"/>
         <source>Uploading tracks is not implemented for your device</source>
-        <translation>Das Programm unterstützt das Hochladen von Tracks auf dein Gerät nicht</translation>
+        <translation>Das Programm unterstützt das Hochladen von Tracks auf das Gerät nicht</translation>
     </message>
     <message>
         <location filename="CDeviceGarmin.cpp" line="722"/>
@@ -355,7 +363,7 @@
     <message>
         <location filename="CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation>Ladet Wegpunkte hoch ...</translation>
+        <translation>Wegpunkte hochladen ...</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="218"/>
@@ -372,22 +380,22 @@
     <message>
         <location filename="CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation>Lade Wegpunkte runter ...</translation>
+        <translation>Wegpunkte runterladen ...</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation>Frage Wegpunkteliste beim Gerät an</translation>
+        <translation>Wegpunkteliste beim Gerät abfragen</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation>QLandkarteM: Anfrage der Wegpunkte gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Wegpunkte gescheitert.</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation>Lade Tracks hoch ...</translation>
+        <translation>Tracks hochladen ...</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="276"/>
@@ -397,17 +405,17 @@
     <message>
         <location filename="CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation>Lade Trancks runter ...</translation>
+        <translation>Trancks runterladen ...</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation>Frage Trackliste beim Gerät an</translation>
+        <translation>Trackliste beim Gerät abfragen</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation>QLandkarteM: Anfrage der Tracks gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Tracks ist gescheitert.</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="300"/>
@@ -463,7 +471,7 @@
     <message>
         <location filename="CDiaryEditWidget.cpp" line="124"/>
         <source>&amp;Color...</source>
-        <translation>&amp;Farbe</translation>
+        <translation>&amp;Farbe ...</translation>
     </message>
     <message>
         <location filename="CDiaryEditWidget.cpp" line="160"/>
@@ -498,12 +506,12 @@
     <message>
         <location filename="CDiaryEditWidget.cpp" line="422"/>
         <source>The wizzard will replace the current text by it&apos;s own. Do you want to proceed?</source>
-        <translation>Der Zauberer ersetzt den momentanen Text durch einen aus den Daten erzeugten Text. Fortfahren?</translation>
+        <translation>Der Zauberer ersetzt den aktuellen Text durch einen aus den Daten erzeugten Text. Fortfahren?</translation>
     </message>
     <message>
         <location filename="CDiaryEditWidget.cpp" line="430"/>
         <source>&lt;h1&gt;Default Title&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Leerer Titel&lt;/h1&gt;</translation>
+        <translation>&lt;h1&gt;Standardtitel&lt;/h1&gt;</translation>
     </message>
     <message>
         <location filename="CDiaryEditWidget.cpp" line="434"/>
@@ -617,12 +625,12 @@
     <message>
         <location filename="CDlgEditWpt.cpp" line="168"/>
         <source>Select image file</source>
-        <translation>Wahle eine Bilddatei</translation>
+        <translation>Bilddatei wählen</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="173"/>
         <source>Add comment ...</source>
-        <translation>Füge ein Kommentar hinzu ...</translation>
+        <translation>Kommentar hinzufügen ...</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="173"/>
@@ -637,7 +645,7 @@
     <message>
         <location filename="CDlgEditWpt.cpp" line="238"/>
         <source>Edit link ...</source>
-        <translation>Bearbeite Link ...</translation>
+        <translation>Link bearbeiten ...</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="238"/>
@@ -655,7 +663,7 @@
     <message>
         <location filename="CGarminExport.cpp" line="56"/>
         <source>Select ouput path...</source>
-        <translation>Wähle Outputpfad ...</translation>
+        <translation>Outputpfad wählen ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="69"/>
@@ -737,12 +745,12 @@
     <message>
         <location filename="CGarminExport.cpp" line="529"/>
         <source>Write header...</source>
-        <translation>Schreibe Dateikopf ...</translation>
+        <translation>Dateikopf schreiben ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="664"/>
         <source>Copy tile data...</source>
-        <translation>Kopiere Daten der Kacheln ...</translation>
+        <translation>Daten der Kacheln kopieren ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="669"/>
@@ -752,12 +760,12 @@
     <message>
         <location filename="CGarminExport.cpp" line="697"/>
         <source>Copy typ files...</source>
-        <translation>Kopienre Typdateien ...</translation>
+        <translation>Typdateien kopieren ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="715"/>
         <source>Write map lookup table...</source>
-        <translation>Schreibe Kartenachschlagstabelle ...</translation>
+        <translation>Kartennachschlagstabelle schreiben ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="725"/>
@@ -821,7 +829,7 @@
     <message>
         <location filename="CGpx.cpp" line="97"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
-        <translation>Diese Datei existiert und wurde nicht mit QLandkarte GT erzeugt. Wenn Du &apos;ja/yes&apos; drückst werden alle Daten in dieser Datei gelöscht. Wenn diese Datei GPX-Daten enthält, kann es seinm dass QLandkarte GT nich alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen einen andere Datei zu verwenden. &lt;b&gt;Möchtest Du die Datei wirklich überschreiben?&lt;/b&gt;</translation>
+        <translation>Diese Datei existiert und wurde nicht mit QLandkarte GT erzeugt. Wenn Du &apos;ja/yes&apos; drückst werden alle Daten in dieser Datei gelöscht. Wenn diese Datei GPX-Daten enthält, kann es sein, dass QLandkarte GT nich alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen einen andere Datei zu verwenden. &lt;b&gt;Möchtest Du die Datei wirklich überschreiben?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CGpx.cpp" line="119"/>
@@ -836,7 +844,7 @@
     <message>
         <location filename="CGpx.cpp" line="129"/>
         <source>Not a GPX file: </source>
-        <translation>Keine GPX-Datein: </translation>
+        <translation>Keine GPX-Dateien: </translation>
     </message>
 </context>
 <context>
@@ -900,7 +908,7 @@
     <message>
         <location filename="CMainWindow.cpp" line="196"/>
         <source>Clear all...</source>
-        <translation>Lösche alles ...</translation>
+        <translation>Alles löschen ...</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="196"/>
@@ -915,32 +923,32 @@
     <message>
         <location filename="CMainWindow.cpp" line="236"/>
         <source>Load Map</source>
-        <translation>Lade Karte</translation>
+        <translation>Karte laden</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="238"/>
         <source>Load Geo Data</source>
-        <translation>Lade Geodaten</translation>
+        <translation>Geodaten laden</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="239"/>
         <source>Save Geo Data</source>
-        <translation>Speicher Geodaten</translation>
+        <translation>Geodaten speichern</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="240"/>
         <source>Add Geo Data</source>
-        <translation>Füge Geodaten hinzu</translation>
+        <translation>Geodaten hinzufügen</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="242"/>
         <source>Print Map ...</source>
-        <translation>Drucke Karte ...</translation>
+        <translation>Karte drucken ...</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="243"/>
         <source>Print Diary ...</source>
-        <translation>Drucke Tagebuch ...</translation>
+        <translation>Tagebuch drucken ...</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="245"/>
@@ -970,12 +978,12 @@
     <message>
         <location filename="CMainWindow.cpp" line="304"/>
         <source>Select map...</source>
-        <translation>Wähle Karte ...</translation>
+        <translation>Karte wählen ...</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="398"/>
         <source>Select input file</source>
-        <translation>Wähle zu ladende Datei</translation>
+        <translation>Zu ladende Datei wählen</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="502"/>
@@ -1002,12 +1010,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="573"/>
         <source>Select output file</source>
-        <translation>Wähle zu speichernde Datei</translation>
+        <translation>Zu speichernde Datei wählen</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="643"/>
         <source>Print Map</source>
-        <translation>Drucke Karte</translation>
+        <translation>Karte drucken</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="673"/>
@@ -1017,7 +1025,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="679"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
-        <translation>Momentan ist %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
+        <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="682"/>
@@ -1095,12 +1103,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMap3DWidget.cpp" line="131"/>
         <source>Flat / 3D Mode</source>
-        <translation>2D/3D Kartendarstellung </translation>
+        <translation>2D/3D-Kartendarstellung </translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="136"/>
         <source>Show Track</source>
-        <translation>Zeige Track</translation>
+        <translation>Track zeigen</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="141"/>
@@ -1204,7 +1212,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapEditWidget.cpp" line="63"/>
         <source>Create a GDAL WMS definition file.</source>
-        <translation type="unfinished"></translation>
+        <translation>GDAL WMS Definitionsdatei erzeugen.</translation>
     </message>
 </context>
 <context>
@@ -1212,12 +1220,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapGeoTiff.cpp" line="102"/>
         <source>Error...</source>
-        <translation type="unfinished">Fehler ...</translation>
+        <translation>Fehler ...</translation>
     </message>
     <message>
         <location filename="CMapGeoTiff.cpp" line="58"/>
         <source>Failed to load file: %1</source>
-        <translation type="unfinished">Laden der Datei gescheitert: %1</translation>
+        <translation>Laden der Datei gescheitert: %1</translation>
     </message>
     <message>
         <location filename="CMapGeoTiff.cpp" line="64"/>
@@ -1271,23 +1279,24 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapQMAPExport.cpp" line="60"/>
         <source>Select ouput path...</source>
-        <translation type="unfinished"></translation>
+        <translation>Outputpfad wählen ...</translation>
     </message>
     <message>
         <location filename="CMapQMAPExport.cpp" line="140"/>
         <source>Error ...</source>
-        <translation type="unfinished">Fehler ...</translation>
+        <translation>Fehler ...</translation>
     </message>
     <message>
         <location filename="CMapQMAPExport.cpp" line="140"/>
         <source>Failed to read %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lesen gescheitert %1</translation>
     </message>
     <message>
         <location filename="CMapQMAPExport.cpp" line="195"/>
         <source>--- finished ---
 </source>
-        <translation type="unfinished">--- Beendet ---</translation>
+        <translation type="unfinished">--- Beendet ---
+</translation>
     </message>
 </context>
 <context>
@@ -2468,7 +2477,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CTrackStatTraineeWidget.cpp" line="32"/>
         <source>heartrate [bpm]</source>
-        <translation type="unfinished"></translation>
+        <translation>Herzfrequenz [bpm]</translation>
     </message>
 </context>
 <context>
@@ -3264,52 +3273,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="13"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="23"/>
         <source>Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Umgebung</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="29"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Schriftart</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="35"/>
         <source>ABCDEFGHabcdefgh123456789</source>
-        <translation type="unfinished"></translation>
+        <translation>ABCDEFGHabcdefgh123456789</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="312"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="55"/>
         <source>Units</source>
-        <translation type="unfinished"></translation>
+        <translation>Einheiten</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="61"/>
         <source>Metric</source>
-        <translation type="unfinished"></translation>
+        <translation>Metrisch</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="68"/>
         <source>Nautic</source>
-        <translation type="unfinished"></translation>
+        <translation>Nautisch</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="75"/>
         <source>Imperial</source>
-        <translation type="unfinished"></translation>
+        <translation>kaiserlich</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="85"/>
         <source>Mouse Wheel</source>
-        <translation type="unfinished"></translation>
+        <translation>Mausrad</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="91"/>
@@ -3469,7 +3478,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgEditDistance.ui" line="13"/>
         <source>Edit distance overlay ...</source>
-        <translation>Bearbeite Entfernungsoverlay ...</translation>
+        <translation>Entfernungsoverlay bearbeiten ...</translation>
     </message>
     <message>
         <location filename="IDlgEditDistance.ui" line="28"/>
@@ -3487,17 +3496,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgEditMapLevel.ui" line="13"/>
         <source>Edit map level ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartenebene bearbeiten ...</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="21"/>
         <source>zoom levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoomebene</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="55"/>
         <source>files</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateien</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="72"/>
@@ -3505,12 +3514,15 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select files&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select files&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="139"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="85"/>
@@ -3518,7 +3530,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add files to list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add files to list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="101"/>
@@ -3526,7 +3541,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Delete file from list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Delete file from list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="117"/>
@@ -3534,7 +3552,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file up in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file up in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="133"/>
@@ -3542,7 +3563,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file down in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file down in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3550,102 +3574,102 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgEditWpt.ui" line="13"/>
         <source>Edit Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt bearbeiten ...</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="28"/>
         <source>Symbol &amp; Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbol &amp; Name</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="166"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="47"/>
         <source>sticky</source>
-        <translation type="unfinished"></translation>
+        <translation>dauerhaft</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="56"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Position</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="75"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="92"/>
         <source>m,</source>
-        <translation type="unfinished"></translation>
+        <translation>m,</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="IDlgEditWpt.ui" line="111"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="118"/>
         <source>Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Höhe</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="145"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="135"/>
         <source>Proximity Dist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abstandswarnung.</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="152"/>
         <source>Webpage</source>
-        <translation type="unfinished"></translation>
+        <translation>Webseite</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="159"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Gar nichts</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="173"/>
         <source>Comment</source>
-        <translation type="unfinished">Kommentar</translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="196"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="210"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="220"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="230"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="240"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="264"/>
         <source>no image</source>
-        <translation type="unfinished"></translation>
+        <translation>kein Bild</translation>
     </message>
 </context>
 <context>
@@ -3653,7 +3677,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="13"/>
         <source>Proj4 Wizzard</source>
-        <translation type="unfinished"></translation>
+        <translation>Proj4 Zauberer</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="28"/>
@@ -3668,7 +3692,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="44"/>
         <source>UTM</source>
-        <translation type="unfinished"></translation>
+        <translation>UTM</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="51"/>
@@ -3683,7 +3707,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="97"/>
         <source>Datum</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="120"/>
@@ -3701,7 +3725,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgWptIcon.ui" line="13"/>
         <source>Select icon ...</source>
-        <translation>Wähle Icon ...</translation>
+        <translation>Icon wählen ...</translation>
     </message>
 </context>
 <context>
@@ -3709,32 +3733,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IGarminExport.ui" line="13"/>
         <source>Create gmapsupp.img</source>
-        <translation type="unfinished"></translation>
+        <translation>gmapsupp.img erzeugen</translation>
     </message>
     <message>
         <location filename="IGarminExport.ui" line="21"/>
         <source>Output Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Outputpfad:</translation>
     </message>
     <message>
         <location filename="IGarminExport.ui" line="37"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IGarminExport.ui" line="46"/>
         <source>File Prefix</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateienprefix</translation>
     </message>
     <message>
         <location filename="IGarminExport.ui" line="56"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportieren</translation>
     </message>
     <message>
         <location filename="IGarminExport.ui" line="63"/>
         <source>Close</source>
-        <translation type="unfinished">Schliessen</translation>
+        <translation>Schliessen</translation>
     </message>
 </context>
 <context>
@@ -3742,47 +3766,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ILiveLogToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="141"/>
         <source>-</source>
-        <translation type="unfinished">-</translation>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="44"/>
         <source>Error horiz.:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler horizontal:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="51"/>
         <source>GPS Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS Zeit:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="58"/>
         <source>Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Position:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="72"/>
         <source>Error vert.:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler vertikal:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="79"/>
         <source>Altitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Höhe:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="100"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschwindigkeit:</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="107"/>
         <source>Heading:</source>
-        <translation type="unfinished"></translation>
+        <translation>Überschrift:</translation>
     </message>
 </context>
 <context>
@@ -3826,12 +3850,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapQMAPExport.ui" line="13"/>
         <source>Export map ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Karte exportieren ...</translation>
     </message>
     <message>
         <location filename="IMapQMAPExport.ui" line="21"/>
         <source>Output path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Outputpfad:</translation>
     </message>
     <message>
         <location filename="IMapQMAPExport.ui" line="37"/>
@@ -3929,7 +3953,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapSearchWidget.ui" line="318"/>
         <source>Search...</source>
-        <translation>Suche ...</translation>
+        <translation>Suchen ...</translation>
     </message>
     <message>
         <location filename="IMapSearchWidget.ui" line="328"/>
@@ -3967,12 +3991,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapToolWidget.ui" line="63"/>
         <source>Selected Maps:</source>
-        <translation>Ausgewählt Karten:</translation>
+        <translation>Ausgewählte Karten:</translation>
     </message>
     <message>
         <location filename="IMapToolWidget.ui" line="85"/>
         <source>Export Map</source>
-        <translation>Exportiere Karte</translation>
+        <translation>Karte exportieren</translation>
     </message>
 </context>
 <context>
@@ -4045,7 +4069,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="21"/>
         <source>Toggle track statistics view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwischen Ansichten der Trackstatistiken umschalten.</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="60"/>
@@ -4055,7 +4079,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="34"/>
         <source>Toggle statistics view for trainings data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwischen den Ansichten der Trainingsdaten hin und her schalten.</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="57"/>
@@ -4065,12 +4089,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="63"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="97"/>
         <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation>#</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="102"/>
@@ -4192,7 +4216,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="printpreview.cpp" line="321"/>
         <source>Print Diary</source>
-        <translation>Drucke Tagebuch</translation>
+        <translation>Tagebuch drucken</translation>
     </message>
 </context>
 <context>
@@ -4205,7 +4229,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="tcxreader.cpp" line="68"/>
         <source>The file is not an http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei ist keine http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 Datei.</translation>
     </message>
     <message>
         <location filename="GeoMath.cpp" line="63"/>
