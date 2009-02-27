@@ -26,7 +26,7 @@
 #include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
-: IMap(eRaster, "", parent)
+: IMap(eRaster, "OSMTileServer", parent)
 , xscale( 1.19432854652)
 , yscale(-1.19432854652)
 , x(0)
@@ -36,7 +36,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     osmTiles = new COsmTilesHash(this);
     connect(osmTiles,SIGNAL(newImageReady(QImage)),this,SLOT(newImageReady(QImage)));
     pjsrc = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
-    //pjsrc = pj_init_plus("+proj=merc +lat_ts=0 +lon_0=0 +k=1.000000 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs");
 
     QSettings cfg;
     QString pos     = cfg.value("osm/topleft","").toString();
@@ -46,16 +45,8 @@ CMapOSM::CMapOSM(CCanvas * parent)
     lat1 = yref1   =  40075016/2;
     lon2 = xref2   =  40075016/2;
     lat2 = yref2   = -40075016/2;
-     //     lon1 = xref1   = -180.0 * DEG_TO_RAD;
-     //     lat1 = yref1   =  85.0511 * DEG_TO_RAD;
-     //     lon2 = xref2   =  180.0 * DEG_TO_RAD;
-     //     lat2 = yref2   = -85.0511* DEG_TO_RAD;
     pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
-    printf("dx: %i dy: %i\n",(int)(xref2 - xref1), (int)(yref1 - yref2));
-    qDebug() << lon1 * RAD_TO_DEG << lat1 * RAD_TO_DEG << lon2 * RAD_TO_DEG << lat2 * RAD_TO_DEG;
-
-
 
     if(pos.isEmpty()) {
         x = 0;
@@ -184,6 +175,7 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     double u[3];
     double v[3];
     double dU, dV;
+    int i;
 
     u[0] = lon1;
     v[0] = lat1;
@@ -199,7 +191,12 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     int z1 = dU / size.width();
     int z2 = dV / size.height();
 
-    zoomFactor = (z1 > z2 ? z1 : z2) + 1;
+    for(i=0; i < 18; ++i){
+        zoomFactor  = (1<<i);
+        zoomidx     = i + 1;
+        if(zoomFactor > z1 && zoomFactor > z2) break;
+    }
+//    zoomFactor = (z1 > z2 ? z1 : z2) + 1;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;

@@ -22,7 +22,7 @@
 #include <QtGui>
 
 CMapNoMap::CMapNoMap(CCanvas * parent)
-: IMap(eRaster, "", parent)
+: IMap(eRaster, "NoMap", parent)
 , xscale( 1.0)
 , yscale(-1.0)
 , x(0)

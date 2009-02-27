@@ -81,6 +81,7 @@ void CMapToolWidget::slotDBChanged()
             item->setData(eName, Qt::UserRole, map.key());
             item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
             item->setData(eType, Qt::UserRole, map->type);
+
             if(map.key() == key){
                 selected = item;
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
