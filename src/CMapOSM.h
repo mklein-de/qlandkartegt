@@ -43,9 +43,10 @@ class CMapOSM : public IMap
         void draw(QPainter& p);
 
     public slots:
-        void newImageReady(QImage image);
+        void newImageReady(QImage image, bool lastTileLoaded);
     private:
         QImage image;
+        bool lastTileLoaded;
         void draw();
         COsmTilesHash *osmTiles;
         double zoomFactor;

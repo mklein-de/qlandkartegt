@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Delete waipoint by ...</string>
+   <string>Delete waypoint by ...</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" >
    <item>

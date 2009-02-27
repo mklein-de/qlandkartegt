@@ -34,7 +34,7 @@ public:
   virtual ~COsmTilesHash();
   void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
 signals:
-  void newImageReady(QImage image);
+  void newImageReady(QImage image, bool lastTileLoaded);
 private:
   int osm_zoom;
   QRect window;

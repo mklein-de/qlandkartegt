@@ -80,7 +80,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
       getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
     }
   }
-  emit newImageReady(image);
+  emit newImageReady(image,!osmRunningHash.count());
 }
 
 void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
@@ -186,7 +186,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     osmUrlPartHash.remove(id);
     startPointHash.remove(id);
     osmRunningHash.remove(osmUrlPart);
-    emit newImageReady(image);
+    emit newImageReady(image,!osmRunningHash.count());
   }
   return;
 }
