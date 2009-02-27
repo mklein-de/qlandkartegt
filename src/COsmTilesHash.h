@@ -42,6 +42,7 @@ private:
   QRect window;
   QHash<int, QPoint> startPointHash;
   QHash<int, QString> osmUrlPartHash;
+  QHash<QString,int> osmRunningHash;
   int long2tile(double lon, int zoom);
   int lat2tile(double lat, int zoom);
   double tile2long(int x, int zoom);

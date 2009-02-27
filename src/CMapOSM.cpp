@@ -27,8 +27,8 @@
 
 CMapOSM::CMapOSM(CCanvas * parent)
 : IMap(eRaster, "", parent)
-, xscale( 1.0)
-, yscale(-1.0)
+, xscale( 1.19)
+, yscale(-1.19)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
@@ -274,7 +274,7 @@ void CMapOSM::draw()
     double lat = y;
 
     convertM2Rad(lon,lat);
-
+    //qDebug() << x << y;
     osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  x,  y, osm_zoom, rect);
 
 }
