@@ -23,6 +23,11 @@
 #include "COsmTilesHash.h"
 #include <IMap.h>
 #include "CMapOSM.h"
+
+#ifndef M_PI
+# define M_PI   3.14159265358979323846  /* pi */
+#endif
+
 COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM) : cmapOSM(cmapOSM) {
   osmTileBaseUrl = "http://tile.openstreetmap.org/";
   getid = -1;

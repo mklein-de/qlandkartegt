@@ -27,8 +27,8 @@
 
 CMapOSM::CMapOSM(CCanvas * parent)
 : IMap(eRaster, "", parent)
-, xscale( 1.19)
-, yscale(-1.19)
+, xscale( 1.19432854652)
+, yscale(-1.19432854652)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
