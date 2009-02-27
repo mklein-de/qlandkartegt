@@ -163,7 +163,6 @@ void CMapOSM::zoom(qint32& level)
         return;
     }
     zoomFactor = (1<<(level-1));
-    //xscale = yscale = 2^(17-level);
     needsRedraw = true;
     emit sigChanged();
 
@@ -196,7 +195,6 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
         zoomidx     = i + 1;
         if(zoomFactor > z1 && zoomFactor > z2) break;
     }
-//    zoomFactor = (z1 > z2 ? z1 : z2) + 1;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
@@ -219,6 +217,13 @@ void CMapOSM::draw(QPainter& p)
     }
 
     p.drawImage(0,0,buffer);
+
+        // render overlay
+    if(!ovlMap.isNull() && lastTileLoaded){
+        ovlMap->draw(size, needsRedraw, p);
+    }
+
+    needsRedraw = false;
 
     QString str;
     if(zoomFactor < 1.0) {
@@ -264,12 +269,36 @@ void CMapOSM::draw()
 
 }
 
-void CMapOSM::newImageReady(QImage image, bool lastTileLoaded)
+void CMapOSM::newImageReady(QImage image, bool done)
 {
-  this->buffer = image;
-  this->lastTileLoaded = true;
-  needsRedraw = false;
-//  doFastDraw = true;
- // qDebug() << "new image" << image.size() ;
+  buffer            = image;
+  lastTileLoaded    = done;
+  needsRedraw       = true;
   emit sigChanged();
 }
+
+void CMapOSM::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+{
+    QRectF r(x, y, size.width() * xscale * zoomFactor,  size.height() * yscale * zoomFactor);
+    p1.u        = r.left();
+    p1.v        = r.top();
+    p2.u        = r.right();
+    p2.v        = r.bottom();
+
+    if(!pj_is_latlong(pjsrc)){
+        pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
+        pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
+    }
+
+    my_xscale   = xscale * zoomFactor;
+    my_yscale   = yscale * zoomFactor;
+}
+
+void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+    lon1 = this->lon1;
+    lat1 = this->lat1;
+    lon2 = this->lon2;
+    lat2 = this->lat2;
+}
+
