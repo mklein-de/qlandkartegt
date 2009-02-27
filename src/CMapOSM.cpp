@@ -98,7 +98,6 @@ void CMapOSM::convertM2Pt(double& u, double& v)
     v = (v - y) / (yscale * zoomFactor);
 }
 
-
 void CMapOSM::move(const QPoint& old, const QPoint& next)
 {
     double xx = x, yy = y;
@@ -112,6 +111,7 @@ void CMapOSM::move(const QPoint& old, const QPoint& next)
     x = xx;
     y = yy;
     needsRedraw = true;
+    setFastDraw();
     emit sigChanged();
 }
 
@@ -164,6 +164,7 @@ void CMapOSM::zoom(qint32& level)
     }
     zoomFactor = (1<<(level-1));
     needsRedraw = true;
+    setFastDraw();
     emit sigChanged();
 
 }
@@ -219,7 +220,7 @@ void CMapOSM::draw(QPainter& p)
     p.drawImage(0,0,buffer);
 
         // render overlay
-    if(!ovlMap.isNull() && lastTileLoaded){
+    if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw){
         ovlMap->draw(size, needsRedraw, p);
     }
 
