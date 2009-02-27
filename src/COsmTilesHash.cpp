@@ -44,23 +44,12 @@ COsmTilesHash::~COsmTilesHash() {
 
 }
 
-void COsmTilesHash::startNewDrawing( double lon, double lat, int x, int y, int osm_zoom, const QRect& window)
+void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window)
 {
-  if (x == this->x && y == this->y && osm_zoom == this ->osm_zoom && window == this->window)
-  {
-    return;
-  }
-
-  this->x = x;
-  this->y = y;
   this->osm_zoom=osm_zoom;
   this->window = window;
   tilesConnection->clearPendingRequests();
   osmRunningHash.clear();
-  //startPointHash.clear();
-  //osmUrlPartHash.clear();
-
- // qDebug() << "zoom" << osm_zoom;
 
   int osm_x_256 = long2tile(lon, osm_zoom);
   int osm_y_256 = lat2tile(lat, osm_zoom);
@@ -73,30 +62,16 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int x, int y, int o
 
   QPoint point(-dx,-dy);
 
-
-  double osm_lon = tile2long(osm_x, osm_zoom);
-  double osm_lat = tile2lat(osm_y, osm_zoom);
-
   int xCount = qMin(floor((window.width() / 256)) + 1, pow(2,osm_zoom)+1);
   int yCount = qMin(floor((window.height() / 256)) + 1, pow(2,osm_zoom)+1);
-  //QPoint point((-osm_x_delta*256),(-osm_y_delta*256));
 
- //QPoint point= cmapOSM->offSetInPixel(osm_lon, osm_lat);
-
- // qDebug() << point << osm_lon << osm_lat << osm_x << osm_y << osm_lon << osm_lat << osm_x_256 << osm_y_256;
- // qDebug() << "count: "<< xCount << yCount;
-//  image.fill(0);
-//  image = QImage(QSize(xCount),QSize(yCount));
   image = QImage(window.size(),QImage::Format_ARGB32_Premultiplied);
   for(int x=0; x<=xCount; x++)
   {
     for (int y=0; y<=yCount; y++)
     {
-     // qDebug() << x << y << osm_x+x << osm_y+y;
       QTransform t;
       t = t.translate(x*256,y*256);
-     // qDebug() << window << point << t.map(point) << -osm_x_delta*256 << -osm_y_delta*256;
-     // qDebug() << QString("punkt:%1  t: %2").arg(point).arg(t.map(point));
       getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
     }
   }
@@ -111,15 +86,15 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
   QString osmUrlPart = QString("/%1/%2/%3.png").arg(osm_zoom).arg(osm_x).arg(osm_y);
   QString osmFilePath = QDir::tempPath() + "/qlandkarteqt/cache/" + osmUrlPart;
 
- // qDebug() << osmUrlPart;
   bool needHttpAction = true;
   if (tiles.contains(osmUrlPart))
   {
-    //qDebug() << "cached";
     QPainter p(&image);
     p.drawImage(point,tiles.value(osmUrlPart));
+#ifdef COSMTILESHASHDEBUG
     p.drawRect(QRect(point,QSize(255,255)));
     p.drawText(point + QPoint(10,10), "cached " + osmUrlPart);
+#endif
     needHttpAction = false;
   }
   else if (QFileInfo(osmFilePath).exists())
@@ -135,14 +110,16 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
         QPainter p(&image);
         p.drawImage(point,img1);
         tiles.insert(osmUrlPart,img1);
-        if (QFileInfo(osmFilePath).lastModified().daysTo(QDateTime::currentDateTime()) < 8)
+        int days = QFileInfo(osmFilePath).lastModified().daysTo(QDateTime::currentDateTime());
+        if ( days < 8)
         {
           needHttpAction = false;
         }
+        else
+          p.drawText(point + QPoint(10,256-10), tr("Tile was loaded from %2 days old File. Reloading ...").arg(osmUrlPart).arg(days));
       }
     }
   }
-  //needHttpAction = true;
   if (needHttpAction && !osmRunningHash.contains(osmUrlPart))
   {
     QPainter p(&image);
@@ -159,6 +136,12 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
 
 void COsmTilesHash::slotRequestFinished(int id, bool error)
 {
+  if (error)
+    return;
+
+  if (!startPointHash.contains(id))
+    return;
+
   qDebug() << osmUrlPartHash.value(id) << id << error ;
   QImage img1;
   img1.loadFromData(tilesConnection->readAll());
@@ -187,13 +170,14 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
   }
 
   tiles.insert(osmUrlPart,img1);
-  if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom)) && startPointHash.contains(id))
+  if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom)))
   {
     QPainter p(&image);
-    //qDebug() << "startPointHash.value(id)" << startPointHash.value(id);
     p.drawImage(startPointHash.value(id),img1);
+#ifdef COSMTILESHASHDEBUG
     p.drawRect(QRect(startPointHash.value(id),QSize(255,255)));
     p.drawText(startPointHash.value(id) + QPoint(10,10), QString::number(id) + osmUrlPartHash.value(id));
+#endif
     osmUrlPartHash.remove(id);
     startPointHash.remove(id);
     osmRunningHash.remove(osmUrlPart);
@@ -205,24 +189,9 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
 int COsmTilesHash::long2tile(double lon, int z)
 {
   return (int)(qRound(256*(lon + 180.0) / 360.0 * pow(2.0, z)));
-//  return (lon + 180.0) / 360.0 * pow(2.0, z);
 }
 
 int COsmTilesHash::lat2tile(double lat, int z)
 {
   return (int)(qRound(256*(1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
-//  return (1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z);
 }
-
-double COsmTilesHash::tile2long(int x, int z)
-{
-  return x / pow(2.0, z) * 360.0 - 180.;
-}
-
-double COsmTilesHash::tile2lat(int y, int z)
-{
-  double n = M_PI - 2.0 * M_PI * y / pow(2.0, z);
-  return 180.0 / M_PI * atan(0.5 * (exp(n) - exp(-n)));
-}
-
-

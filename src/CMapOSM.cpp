@@ -249,33 +249,17 @@ void CMapOSM::draw(QPainter& p)
 
 }
 
-QPoint CMapOSM::offSetInPixel(double osm_lon, double osm_lat)
-{
-  double osm_x = osm_lon* DEG_TO_RAD;
-  double osm_y = osm_lat* DEG_TO_RAD;
-  convertRad2Pt(osm_x, osm_y);
-  return QPoint(osm_x, osm_y);
-}
-
 void CMapOSM::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    QPointF topLeft(x, y);
-    double u = rect.width();
-    double v = rect.height();
-    convertPt2M( u,  v);
-    QPointF bottomRight(x+u,y-v);
-
     int osm_zoom = 18 - zoomidx;
-    // calculate tile indices
 
     double lon = x;
     double lat = y;
-
     convertM2Rad(lon,lat);
-    //qDebug() << x << y;
-    osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  x,  y, osm_zoom, rect);
+
+    osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
 
 }
 

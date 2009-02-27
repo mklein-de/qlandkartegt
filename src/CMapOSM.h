@@ -42,8 +42,6 @@ class CMapOSM : public IMap
 
         void draw(QPainter& p);
 
-        QPoint offSetInPixel(double osm_lon, double osm_lat);
-
     public slots:
         void newImageReady(QImage image);
     private:
