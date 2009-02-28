@@ -67,13 +67,15 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
 
   QPoint point(-dx,-dy);
 
-  int xCount = qMin(floor((window.width() / 256)) + 1, pow(2,osm_zoom)+1);
-  int yCount = qMin(floor((window.height() / 256)) + 1, pow(2,osm_zoom)+1);
+  int xCount = qMin((floorf((window.width() + dx) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.);
+  int yCount = qMin((floorf((window.height() + dy ) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.) ;
+
+  qDebug() << xCount << yCount << window;
 
   image = QImage(window.size(),QImage::Format_ARGB32_Premultiplied);
-  for(int x=0; x<=xCount; x++)
+  for(int x=0; x<xCount; x++)
   {
-    for (int y=0; y<=yCount; y++)
+    for (int y=0; y<yCount; y++)
     {
       QTransform t;
       t = t.translate(x*256,y*256);

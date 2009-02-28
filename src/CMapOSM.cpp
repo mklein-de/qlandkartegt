@@ -158,7 +158,7 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
 
 void CMapOSM::zoom(qint32& level)
 {
-    if(level > 17) level = 17;
+    if(level > 18) level = 18;
     // no level less than 1
     if(level < 1) {
         level       = 1;
