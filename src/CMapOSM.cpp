@@ -278,7 +278,7 @@ void CMapOSM::newImageReady(QImage image, bool done)
 {
   buffer            = image;
   lastTileLoaded    = done;
-  needsRedraw       = true;
+  needsRedraw       = false;
   emit sigChanged();
 }
 
