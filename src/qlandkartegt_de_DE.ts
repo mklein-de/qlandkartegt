@@ -4,7 +4,7 @@
 <context>
     <name>CCanvas</name>
     <message>
-        <location filename="CCanvas.cpp" line="588"/>
+        <location filename="CCanvas.cpp" line="589"/>
         <source>Copy Position</source>
         <translation>Position kopieren</translation>
     </message>
@@ -117,6 +117,11 @@
 </source>
         <translation>--- Beendet ---</translation>
     </message>
+    <message>
+        <location filename="CCreateMapGeoTiff.cpp" line="286"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CCreateMapGridTool</name>
@@ -149,6 +154,11 @@
         <location filename="CCreateMapGridTool.cpp" line="288"/>
         <source>Failed to setup projection. Bad syntax?</source>
         <translation>Erzeugen der Projektion ist gescheitert. Ungünstige Syntax?</translation>
+    </message>
+    <message>
+        <location filename="CCreateMapGridTool.cpp" line="113"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -591,6 +601,11 @@
         <source>No plugins found. I expect them in: %1</source>
         <translation>Keine Plugins gefunden. Ich nehme an sie sind in: %1</translation>
     </message>
+    <message>
+        <location filename="CDlgConfig.cpp" line="71"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CDlgEditMapLevel</name>
@@ -610,12 +625,12 @@
     <message>
         <location filename="CDlgEditWpt.cpp" line="106"/>
         <source>You must provide a waypoint indentifier.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du mußt einen Namen für den Wegpunkt eingeben.</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="110"/>
         <source>You must provide a waypoint position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du mußt die Koordinaten für den Wegpunkt angeben.</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="146"/>
@@ -1097,6 +1112,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>&amp;General</source>
         <translation>&amp;Allgemeine Einstellungen</translation>
     </message>
+    <message>
+        <location filename="CMainWindow.cpp" line="755"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CMap3DWidget</name>
@@ -1118,22 +1138,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMap3DWidget.cpp" line="146"/>
         <source>Inc. Elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Überhöhung verkleinern</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="149"/>
         <source>Dec. Elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Überhöhung vergrößern</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="152"/>
         <source>Reset Elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Überhöhung zurücksetzen</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="155"/>
         <source>Reset light source</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtquelle zurücksetzen</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="863"/>
@@ -1156,7 +1176,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapDB.cpp" line="325"/>
         <source>Only vector maps are valid overlays.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Verktorkarten sind gültige Overlays.</translation>
     </message>
     <message>
         <location filename="CMapDB.cpp" line="494"/>
@@ -1171,12 +1191,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapDB.cpp" line="518"/>
         <source>You can&apos;t select subareas from single file maps.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst keine Untergebiete aus einer einzelnen Kartendatei wählen.</translation>
     </message>
     <message>
         <location filename="CMapDB.cpp" line="66"/>
-        <source>OSM Tile Server</source>
-        <translation type="unfinished"></translation>
+        <source>--- OSM ---</source>
+        <translation>--- OSM ---</translation>
     </message>
 </context>
 <context>
@@ -1213,6 +1233,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="CMapEditWidget.cpp" line="63"/>
         <source>Create a GDAL WMS definition file.</source>
         <translation>GDAL WMS Definitionsdatei erzeugen.</translation>
+    </message>
+    <message>
+        <location filename="CMapEditWidget.cpp" line="41"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1258,6 +1283,11 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapOSM.cpp" line="231"/>
         <source>Zoom level x%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CMapOSM.cpp" line="250"/>
+        <source>Created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1360,42 +1390,42 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapSearchWidget.cpp" line="280"/>
         <source>No mask selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Maske ausgewählt.</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="127"/>
         <source>Symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbole</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="169"/>
         <source>%2 %1</source>
-        <translation type="unfinished">%2 %1</translation>
+        <translation>%2 %1</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="217"/>
         <source>Missing name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Name fehlt ...</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="217"/>
         <source>Please provide a symbol name to save the symbol.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte gebe einen Symbolnamen ein, damit das Symbol gespeichert werden kann.</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="292"/>
         <source>no mask</source>
-        <translation type="unfinished"></translation>
+        <translation>keine Maske</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="339"/>
         <source>No area selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Gebiet ausgewählt.</translation>
     </message>
     <message>
         <location filename="CMapSearchWidget.cpp" line="543"/>
         <source>Found %1 items</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Objekte wurden gefunden</translation>
     </message>
 </context>
 <context>
@@ -1593,12 +1623,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="842"/>
         <source>Error</source>
-        <translation type="unfinished">Fehler</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="772"/>
         <source>However ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Egal ...</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="777"/>
@@ -1655,13 +1685,18 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>This is a typ file with unknown point encoding. Please report!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="CMapTDB.cpp" line="216"/>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CMapToolWidget</name>
     <message>
         <location filename="CMapToolWidget.cpp" line="38"/>
         <source>Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Karten</translation>
     </message>
     <message>
         <location filename="CMapToolWidget.cpp" line="43"/>
@@ -1676,7 +1711,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapToolWidget.cpp" line="52"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="CMapToolWidget.cpp" line="51"/>
@@ -1709,12 +1744,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapWMS.cpp" line="61"/>
         <source>Error...</source>
-        <translation type="unfinished">Fehler ...</translation>
+        <translation>Fehler ...</translation>
     </message>
     <message>
         <location filename="CMapWMS.cpp" line="45"/>
         <source>Failed to load file: %1</source>
-        <translation type="unfinished">Laden der Datei gescheitert: %1</translation>
+        <translation>Laden der Datei gescheitert: %1</translation>
     </message>
     <message>
         <location filename="CMapWMS.cpp" line="61"/>
@@ -1752,17 +1787,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="100"/>
         <source>Toggle live log recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gehe zur Echtzeit-Aufzeichnung.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="101"/>
         <source>Manage overlays, such as textboxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Gehe zum Overlaymenü</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="102"/>
         <source>Extended functions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweiterte Funktionen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="103"/>
@@ -1772,22 +1807,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="104"/>
         <source>Upload all data to device.</source>
-        <translation>Lade alle Daten vom Gerät.</translation>
+        <translation>Alle Daten vom Gerät laden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="105"/>
         <source>Download all data from device.</source>
-        <translation>Lade alle Daten auf das Gerät.</translation>
+        <translation>Alle Daten auf das Gerät laden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="184"/>
         <source>Go back to main menu.</source>
-        <translation>Gehe zurück zum Hauptmenü.</translation>
+        <translation>Zurück zum Hauptmenü.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="185"/>
         <source>Move the map. Press down the left mouse button and move the mouse.</source>
-        <translation>Bewege die Karte. Drück die linke Maustaste und bewege die Maus.</translation>
+        <translation>Die Karte bewegen. Drücke die linke Maustaste und bewege die Maus.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="186"/>
@@ -1797,67 +1832,67 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="187"/>
         <source>Find your map by jumping to it&apos;s center.</source>
-        <translation>Finde deine Karte, indem du zu ihrer Mitte gehst.</translation>
+        <translation>Finde die Karte, indem Du zu ihrer Mitte gehst.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="117"/>
         <source>Show 3D map</source>
-        <translation>Zeige 3D-Karte</translation>
+        <translation>3D-Karte zeigen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="119"/>
         <source>Upload map selection to device.</source>
-        <translation>Lade die Kartenauswahl auf das Gerät.</translation>
+        <translation>Kartenauswahl auf das Gerät laden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="123"/>
         <source>Close 3D view.</source>
-        <translation>Schließe 3D-Ansicht.</translation>
+        <translation>3D-Ansicht schliessen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="145"/>
         <source>Upload waypoints to device.</source>
-        <translation>Lade Wegpunkte auf das Gerät.</translation>
+        <translation>Wegpunkte auf das Gerät laden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="146"/>
         <source>Download waypoints from device.</source>
-        <translation>Lade Wegpunkte vom Gerät runter.</translation>
+        <translation>Wegpunkte vom Gerät runterladen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="153"/>
         <source>Combine multiple selected tracks to one.</source>
-        <translation>Vereine mehrere ausgewählte Tracks zu einem Track.</translation>
+        <translation>Mehrere ausgewählte Tracks zu einem Track verbinden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="155"/>
         <source>Cut a track into pieces.</source>
-        <translation>Teile den Track in Stücke.</translation>
+        <translation>Track zerteilen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="157"/>
         <source>Upload tracks to device.</source>
-        <translation>Lade die Tracks auf das Gerät.</translation>
+        <translation>Tracks auf das Gerät laden.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="158"/>
         <source>Download tracks from device.</source>
-        <translation>Lade die Tracks vom Gerät runter.</translation>
+        <translation>Tracks vom Gerät runterladen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="167"/>
         <source>Add a waypoint at current position.</source>
-        <translation>Setze einen Wegpunkt bei der aktuellen Position.</translation>
+        <translation>Wegpunkt bei der aktuellen Position setzen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="177"/>
         <source>Add text on the map.</source>
-        <translation>Füge Text in die Karte ein.</translation>
+        <translation>Text in die Karte einfügen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="178"/>
         <source>Add a textbox on the map.</source>
-        <translation>Füge Textbox in die Karte ein.</translation>
+        <translation>Textbox in die Karte einfügen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="377"/>
@@ -1937,17 +1972,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="103"/>
         <source>Clear all</source>
-        <translation>Lösche alles</translation>
+        <translation>Alles löschen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="104"/>
         <source>Upload all</source>
-        <translation>Lade alles hoch</translation>
+        <translation>Alles hochladen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="105"/>
         <source>Download all</source>
-        <translation>Lade alles herunter</translation>
+        <translation>Alles herunterladen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="184"/>
@@ -1957,22 +1992,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="185"/>
         <source>Move Map</source>
-        <translation>Bewege Karte</translation>
+        <translation>Karte bewegen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="186"/>
         <source>Zoom Map</source>
-        <translation>Vergrößere Kartenausschnitt</translation>
+        <translation>Kartenausschnitt vergrößern</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="187"/>
         <source>Center Map</source>
-        <translation>Zentriere Karte</translation>
+        <translation>Karte zentrieren</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
         <source>Select Sub Map</source>
-        <translation>Wähle unterliegende Karte</translation>
+        <translation>Unterliegende Karte wählen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
@@ -1982,12 +2017,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="114"/>
         <source>Edit / Create Map</source>
-        <translation>Bearbeite/Erzeuge Karte</translation>
+        <translation>Karte bearbeiten/erzeugen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="115"/>
         <source>Search Map</source>
-        <translation>Suche Karte</translation>
+        <translation>Karte suchen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="115"/>
@@ -1997,7 +2032,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="117"/>
         <source>3D Map...</source>
-        <translation>3D Karte ...</translation>
+        <translation>3D-Karte ...</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="157"/>
@@ -2012,7 +2047,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="124"/>
         <source>Flat / 3D Mode</source>
-        <translation>2D/3D Kartendarstellung </translation>
+        <translation>2D/3D-Kartendarstellung </translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="124"/>
@@ -2062,7 +2097,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="142"/>
         <source>Edit Waypoint</source>
-        <translation>Bearbeite Wegpunkt</translation>
+        <translation>Wegpunkt bearbeiten</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="142"/>
@@ -2072,7 +2107,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
         <source>Move Waypoint</source>
-        <translation>Bewege Wegpunkt</translation>
+        <translation>Wegpunkt bewegen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
@@ -2087,27 +2122,27 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="153"/>
         <source>Combine Tracks</source>
-        <translation>Verbinde Tracks miteinander</translation>
+        <translation>Tracks zusammenfügen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="154"/>
         <source>Edit Track</source>
-        <translation>Bearbeite Track</translation>
+        <translation>Track bearbeiten</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="154"/>
         <source>Toggle track edit dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwischen Trackbearbeitung hin und her schalten.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="155"/>
         <source>Cut Tracks</source>
-        <translation>Zerteile Tracks</translation>
+        <translation>Tracks zerteilen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="156"/>
         <source>Select Points</source>
-        <translation>Wähle Punkte</translation>
+        <translation>Punkte wählen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="156"/>
@@ -2137,27 +2172,27 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="167"/>
         <source>Add Waypoint</source>
-        <translation>Setzte Wegpunkt</translation>
+        <translation>Wegpunkt setzen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="177"/>
         <source>Add Static Text Box</source>
-        <translation>Füge statische Textbox hinzu</translation>
+        <translation>Statische Textbox hinzufügen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="178"/>
         <source>Add Geo-Ref. Text Box</source>
-        <translation>Füge Geo-Ref. Textbox hinzu</translation>
+        <translation>Geo-Ref. Textbox hinzufügen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="179"/>
         <source>Add Distance Polyline</source>
-        <translation>Füge einen Entfernungs-Linienzug hinzu</translation>
+        <translation>Entfernungsmesser hinzufügen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="179"/>
         <source>Add a polyline to measure distances.</source>
-        <translation>Füge einen Linienzug hinzu um Entfernungn zu messen.</translation>
+        <translation>Füge einen Linienzug zum Messen von Entfernungen hinzu.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="189"/>
@@ -2167,17 +2202,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="189"/>
         <source>Add / edit diary data</source>
-        <translation>Füge Tagebuch hinzu/Bearbeite Tagebuch</translation>
+        <translation>Tagebuch hinzufügen/bearbeiten</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="190"/>
         <source>Pick Color</source>
-        <translation>Wähle Farbe</translation>
+        <translation>Farbe wählen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="190"/>
         <source>test only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur ein Test</translation>
+    </message>
+    <message>
+        <location filename="CMegaMenu.cpp" line="194"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2190,22 +2230,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMouseMoveMap.cpp" line="117"/>
         <source>Edit Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt bearbeiten ...</translation>
     </message>
     <message>
         <location filename="CMouseMoveMap.cpp" line="119"/>
         <source>Move Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt bewegen</translation>
     </message>
     <message>
         <location filename="CMouseMoveMap.cpp" line="120"/>
         <source>Delete Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt löschen</translation>
     </message>
     <message>
         <location filename="CMouseMoveMap.cpp" line="125"/>
         <source>Add Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt hinzufügen ...</translation>
     </message>
     <message>
         <location filename="CMouseMoveMap.cpp" line="130"/>
@@ -2215,7 +2255,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMouseMoveMap.cpp" line="131"/>
         <source>Edit Track ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Track bearbeiten ...</translation>
     </message>
 </context>
 <context>
@@ -2229,13 +2269,18 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>COsmTilesHash</name>
     <message>
-        <location filename="COsmTilesHash.cpp" line="149"/>
+        <location filename="COsmTilesHash.cpp" line="133"/>
         <source>Image is loading: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild wird geladen: %1</translation>
     </message>
     <message>
-        <location filename="COsmTilesHash.cpp" line="150"/>
+        <location filename="COsmTilesHash.cpp" line="134"/>
         <source>%1 of %2 stored.</source>
+        <translation>%1 von %2 gespeichert.</translation>
+    </message>
+    <message>
+        <location filename="COsmTilesHash.cpp" line="124"/>
+        <source>Tile was loaded from %2 days old File. Reloading ...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2249,12 +2294,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="COverlayDistance.cpp" line="430"/>
         <source>Make Track</source>
-        <translation>Erzeuge Track</translation>
+        <translation>Track erzeugen</translation>
     </message>
     <message>
         <location filename="COverlayDistance.cpp" line="431"/>
         <source>Edit...</source>
-        <translation>Bearbeite ...</translation>
+        <translation>Bearbeiten ...</translation>
     </message>
 </context>
 <context>
@@ -2270,17 +2315,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="COverlayToolWidget.cpp" line="32"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeichnen</translation>
     </message>
     <message>
         <location filename="COverlayToolWidget.cpp" line="84"/>
         <source>&lt;----&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;----&gt;</translation>
     </message>
     <message>
         <location filename="COverlayToolWidget.cpp" line="86"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -2288,12 +2333,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CPlot.cpp" line="628"/>
         <source>vertical zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertikaler Zoom</translation>
     </message>
     <message>
         <location filename="CPlot.cpp" line="632"/>
         <source>reset zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom zurückstellen</translation>
     </message>
 </context>
 <context>
@@ -2301,7 +2346,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CResources.cpp" line="167"/>
         <source>No device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Gerät.</translation>
     </message>
     <message>
         <location filename="CResources.cpp" line="167"/>
@@ -2319,12 +2364,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CSearchDB.cpp" line="142"/>
         <source>Success.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfolg.</translation>
     </message>
     <message>
         <location filename="CSearchDB.cpp" line="145"/>
         <source>Failed. Reason unknown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gescheitert. Ursache unbekannt.</translation>
     </message>
     <message>
         <location filename="CSearchDB.cpp" line="148"/>
@@ -2344,7 +2389,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CSearchDB.cpp" line="157"/>
         <source>Failed. Bad API key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gescheitert. Schlechter API-Schlüssel.</translation>
     </message>
 </context>
 <context>
@@ -2352,22 +2397,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CSearchToolWidget.cpp" line="45"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location filename="CSearchToolWidget.cpp" line="48"/>
         <source>Copy Position</source>
-        <translation type="unfinished">Kopieren der Position</translation>
+        <translation>Position kopieren</translation>
     </message>
     <message>
         <location filename="CSearchToolWidget.cpp" line="49"/>
         <source>Add Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkt hinzufügen ...</translation>
     </message>
     <message>
         <location filename="CSearchToolWidget.cpp" line="50"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -2388,7 +2433,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CTrackEditWidget.cpp" line="348"/>
         <source>Remove track points ...</source>
-        <translation>Entferne Trackpunkte ...</translation>
+        <translation>Trackpunkte entfernen ...</translation>
     </message>
     <message>
         <location filename="CTrackEditWidget.cpp" line="349"/>
@@ -2485,32 +2530,32 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CTrackStatWidget.cpp" line="44"/>
         <source>distance [m]</source>
-        <translation type="unfinished">Entfernung [m]</translation>
+        <translation>Entfernung [m]</translation>
     </message>
     <message>
         <location filename="CTrackStatWidget.cpp" line="40"/>
         <source>alt. [m]</source>
-        <translation type="unfinished">Höhe [m]</translation>
+        <translation>Höhe [m]</translation>
     </message>
     <message>
         <location filename="CTrackStatWidget.cpp" line="45"/>
         <source>speed [km/h]</source>
-        <translation type="unfinished">Geschwindigkeit [km/h]</translation>
+        <translation>Geschwindigkeit [km/h]</translation>
     </message>
     <message>
         <location filename="CTrackStatWidget.cpp" line="72"/>
         <source>distance [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernung [%1]</translation>
     </message>
     <message>
         <location filename="CTrackStatWidget.cpp" line="70"/>
         <source>alt. [%1]</source>
-        <translation type="unfinished">Höhe [%1]</translation>
+        <translation>Höhe [%1]</translation>
     </message>
     <message>
         <location filename="CTrackStatWidget.cpp" line="73"/>
         <source>speed [%1]</source>
-        <translation type="unfinished">Geschwindigkeit[%1]</translation>
+        <translation>Geschwindigkeit[%1]</translation>
     </message>
 </context>
 <context>
@@ -2518,78 +2563,79 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CTrackToolWidget.cpp" line="39"/>
         <source>Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Tracks</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="47"/>
         <source>Edit...</source>
-        <translation type="unfinished">Bearbeite ...</translation>
+        <translation>Bearbeiten ...</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="48"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="85"/>
         <source>
 length: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Länge: %1 %2</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="86"/>
         <source>, points: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>, Punkte: %1</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="94"/>
         <source>
 time: %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit: %1:</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="97"/>
         <source>
 time: </source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit: </translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="101"/>
         <source>, speed: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>, Geschwindigkeit: %1 %2</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="103"/>
         <source>
 start: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Beginn: %1</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="104"/>
         <source>-</source>
-        <translation type="unfinished">-</translation>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="104"/>
         <source>
 end: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ende: %1</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="109"/>
         <source>
 %1%2 %3, %4%5 %6</source>
-        <translation type="unfinished"></translation>
+        <translation>%1%2 %3, %4%5 %6</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="172"/>
         <source>Edit track ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Track bearbeiten ...</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="172"/>
         <source>You have to select a track first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuerst muss ein Track ausgewählt werden. </translation>
     </message>
 </context>
 <context>
@@ -2597,12 +2643,12 @@ end: %1</source>
     <message>
         <location filename="CWptDB.cpp" line="117"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest Du den permanenten Wegpunkt &apos;%1&apos; wirklich löschen</translation>
     </message>
     <message>
         <location filename="CWptDB.cpp" line="118"/>
         <source>Delete sticky waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Permanenten Wegpunkt löschen ...</translation>
     </message>
 </context>
 <context>
@@ -2610,22 +2656,22 @@ end: %1</source>
     <message>
         <location filename="CWptToolWidget.cpp" line="38"/>
         <source>Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkte</translation>
     </message>
     <message>
         <location filename="CWptToolWidget.cpp" line="44"/>
         <source>Copy Position</source>
-        <translation type="unfinished">Kopieren der Position</translation>
+        <translation>Position kopieren</translation>
     </message>
     <message>
         <location filename="CWptToolWidget.cpp" line="45"/>
         <source>Edit...</source>
-        <translation type="unfinished">Bearbeite ...</translation>
+        <translation>Bearbeiten ...</translation>
     </message>
     <message>
         <location filename="CWptToolWidget.cpp" line="46"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="CWptToolWidget.cpp" line="47"/>
@@ -2635,7 +2681,7 @@ end: %1</source>
     <message>
         <location filename="CWptToolWidget.cpp" line="83"/>
         <source> (sticky)</source>
-        <translation type="unfinished"></translation>
+        <translation> (dauerhaft)</translation>
     </message>
 </context>
 <context>
@@ -2643,17 +2689,17 @@ end: %1</source>
     <message>
         <location filename="ICopyright.ui" line="13"/>
         <source>Copyright...</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright ...</translation>
     </message>
     <message>
         <location filename="ICopyright.ui" line="26"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version</translation>
     </message>
     <message>
         <location filename="ICopyright.ui" line="34"/>
         <source>QLandkarte GT</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarte GT</translation>
     </message>
     <message>
         <location filename="ICopyright.ui" line="83"/>
@@ -2678,7 +2724,7 @@ end: %1</source>
     <message>
         <location filename="ICopyright.ui" line="126"/>
         <source>GPL</source>
-        <translation type="unfinished"></translation>
+        <translation>GPL</translation>
     </message>
     <message>
         <location filename="ICopyright.ui" line="132"/>
@@ -2743,7 +2789,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="409"/>
@@ -2766,7 +2812,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="125"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="79"/>
@@ -2784,7 +2830,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="134"/>
@@ -2794,7 +2840,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="163"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="200"/>
@@ -2811,32 +2857,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="252"/>
         <source>Coord.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koordinaten</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="257"/>
         <source>x</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">x</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="262"/>
         <source>y</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">y</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="275"/>
         <source>Add Ref.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ref. hinzufügen</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="285"/>
         <source>Delete Ref.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösche Ref.</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="308"/>
         <source>Go on!</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter machen!</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="331"/>
@@ -2868,7 +2914,7 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="499"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles löschen</translation>
     </message>
 </context>
 <context>
@@ -2876,7 +2922,7 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
     <message>
         <location filename="ICreateMapGridTool.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="248"/>
@@ -2893,7 +2939,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="ICreateMapGridTool.ui" line="104"/>
         <source>Projection</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektion</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="116"/>
@@ -2901,7 +2947,7 @@ Altenatively you might have chosen to use already existing reference points. In 
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="122"/>
@@ -2936,12 +2982,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGridTool.ui" line="270"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="280"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="298"/>
@@ -2954,7 +3000,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapOSM.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="25"/>
@@ -2965,7 +3011,7 @@ top/left</source>
     <message encoding="UTF-8">
         <location filename="ICreateMapOSM.ui" line="45"/>
         <source>e.g.  N59° 59.251 E010° 17.157 </source>
-        <translation type="unfinished"></translation>
+        <translation>z.B.  N59° 59.251 E010° 17.157 </translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="76"/>
@@ -2981,52 +3027,52 @@ bottom/right</source>
     <message encoding="UTF-8">
         <location filename="ICreateMapOSM.ui" line="139"/>
         <source>e.g.  N59° 43.553 E010° 57.366 </source>
-        <translation type="unfinished"></translation>
+        <translation>z.B.  N59° 43.553 E010° 57.366 </translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="152"/>
         <source>map output path</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartenoutputpfad</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="161"/>
         <source>This is the path you normally load maps from.</source>
-        <translation type="unfinished"></translation>
+        <translation>Von diesem Pfad läd man normalerweise Karten.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="164"/>
         <source>&lt;path&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;path&gt;</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="171"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="180"/>
         <source>map name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartenname</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="187"/>
         <source>A map will have several files. All files of a map will begin with this name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine karte wird aus mehreren Dateien bestehen. Alle Dateien einer Karte werden mit dem selben Namen anfangen.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="194"/>
         <source>create</source>
-        <translation type="unfinished"></translation>
+        <translation>erzeuge</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="201"/>
         <source>Provide a short and descriptive comment. The map will be listed by that comment in QLandkarte M.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche einen kurzen und beschreibenden Kommentar. Die Karte wird mittels dieses Kommentar in QLandkarteM aufgeführt.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="208"/>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar</translation>
     </message>
 </context>
 <context>
@@ -3034,7 +3080,7 @@ bottom/right</source>
     <message>
         <location filename="ICreateMapQMAP.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="155"/>
@@ -3044,27 +3090,27 @@ bottom/right</source>
     <message>
         <location filename="ICreateMapQMAP.ui" line="37"/>
         <source>map definition</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartendefinition</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="51"/>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="83"/>
         <source>Open existing *.qmap definition</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="96"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="93"/>
         <source>Create new *.qmap definition.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue *.qmap definition erzeugen.</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="129"/>
@@ -3078,7 +3124,10 @@ Once you created a map set you can attach DEM data to it via the context menu in
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="172"/>
@@ -3088,42 +3137,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapQMAP.ui" line="177"/>
         <source>min. zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>min. Zoom</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="182"/>
         <source>max. zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>max. Zoom</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="187"/>
         <source>files</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateien</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="200"/>
         <source>add</source>
-        <translation type="unfinished"></translation>
+        <translation>hinzufügen</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="210"/>
         <source>edit</source>
-        <translation type="unfinished"></translation>
+        <translation>bearbeiten</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="220"/>
         <source>del</source>
-        <translation type="unfinished"></translation>
+        <translation>löschen</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="243"/>
         <source>up</source>
-        <translation type="unfinished"></translation>
+        <translation>hoch</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="259"/>
         <source>down</source>
-        <translation type="unfinished"></translation>
+        <translation>runter</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="293"/>
@@ -3133,12 +3182,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapQMAP.ui" line="323"/>
         <source>Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusammenfassung</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="351"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
 </context>
 <context>
@@ -3146,12 +3195,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Server: </translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="31"/>
@@ -3161,12 +3210,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel:</translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Format:</translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="69"/>
@@ -3181,17 +3230,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
 </context>
 <context>
@@ -3235,12 +3284,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgCombineTracks.ui" line="13"/>
         <source>Combine Tracks ...</source>
-        <translation>Verbinde Tracks ...</translation>
+        <translation>Tracks zusammenfügen ...</translation>
     </message>
     <message>
         <location filename="IDlgCombineTracks.ui" line="37"/>
         <source>Sort by timestamp</source>
-        <translation>Sortiere nach Zeitstempel</translation>
+        <translation>Nach Zeitstempel ordnen</translation>
     </message>
     <message>
         <location filename="IDlgCombineTracks.ui" line="53"/>
@@ -3260,7 +3309,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgCombineTracks.ui" line="133"/>
         <source>New Track Name</source>
-        <translation>Neuer TRackname</translation>
+        <translation>Neuer Trackname</translation>
     </message>
     <message>
         <location filename="IDlgCombineTracks.ui" line="140"/>
@@ -3328,7 +3377,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="115"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="121"/>
@@ -3343,7 +3392,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="136"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="254"/>
@@ -3353,62 +3402,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="153"/>
         <source>00000; </source>
-        <translation type="unfinished"></translation>
+        <translation>00000; </translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="156"/>
         <source>8080</source>
-        <translation type="unfinished"></translation>
+        <translation>8080</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="168"/>
         <source>Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Browser</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="175"/>
         <source>Firefox</source>
-        <translation type="unfinished"></translation>
+        <translation>Firefox</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="180"/>
         <source>Konqueror</source>
-        <translation type="unfinished"></translation>
+        <translation>Konqueror</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="185"/>
         <source>other (needs command line)</source>
-        <translation type="unfinished"></translation>
+        <translation>andere (erfordert Kommandozeile)</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="196"/>
         <source>my command %s</source>
-        <translation type="unfinished"></translation>
+        <translation>mein Kommando %s</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="203"/>
         <source>%s will be replaced by URL</source>
-        <translation type="unfinished"></translation>
+        <translation>%s werden durch URL ersetzt</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="214"/>
         <source>Device &amp;&amp; Xfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerät &amp;&amp; Xfer</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="226"/>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerät</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="235"/>
         <source>IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IP-Adresse</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="264"/>
         <source>4242</source>
-        <translation type="unfinished"></translation>
+        <translation>4242</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="276"/>
@@ -3418,27 +3467,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="293"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="340"/>
         <source>Upload All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles hochladen</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="372"/>
         <source>Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunkte</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="379"/>
         <source>Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Tracks</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="366"/>
         <source>Download All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles herunterladen</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="390"/>
@@ -3464,13 +3513,13 @@ p, li { white-space: pre-wrap; }
     <name>IDlgDelWpt</name>
     <message>
         <location filename="IDlgDelWpt.ui" line="13"/>
-        <source>Delete waipoint by ...</source>
-        <translation type="unfinished"></translation>
+        <source>Delete waypoint by ...</source>
+        <translation>Wegpunkt nach Typ/Symbol löschen ...</translation>
     </message>
     <message>
         <location filename="IDlgDelWpt.ui" line="28"/>
         <source>type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
 </context>
 <context>
@@ -3682,7 +3731,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="28"/>
         <source>Projection</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="35"/>
