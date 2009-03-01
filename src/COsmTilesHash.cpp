@@ -70,7 +70,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
   int xCount = qMin((floorf((window.width() + dx) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.);
   int yCount = qMin((floorf((window.height() + dy ) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.) ;
 
-  qDebug() << xCount << yCount << window;
+  //qDebug() << xCount << yCount << window;
 
   image = QImage(window.size(),QImage::Format_ARGB32_Premultiplied);
   for(int x=0; x<xCount; x++)
@@ -94,6 +94,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
   QString osmFilePath = QDir::tempPath() + "/qlandkarteqt/cache/" + osmUrlPart;
 
   bool needHttpAction = true;
+  bool outOfDate = false;
   if (tiles.contains(osmUrlPart))
   {
     QPainter p(&image);
@@ -106,6 +107,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
   }
   else if (QFileInfo(osmFilePath).exists())
   {
+    // qDebug() << "exist on disk";
     QFile f(osmFilePath);
     if (f.open(QIODevice::ReadOnly))
     {
@@ -120,6 +122,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
         int days = QFileInfo(osmFilePath).lastModified().daysTo(QDateTime::currentDateTime());
         if ( days < 8)
         {
+          outOfDate = true;
           needHttpAction = false;
         }
         else
@@ -129,11 +132,14 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
   }
   if (needHttpAction && !osmRunningHash.contains(osmUrlPart))
   {
-    QPainter p(&image);
     getid = tilesConnection->get(osmUrlPart);
     osmRunningHash.insert(osmUrlPart,getid);
-    p.drawText(point + QPoint(20,128), tr("Image is loading: %1").arg(osmUrlPart));
-    p.drawText(point + QPoint(20,148), tr("%1 of %2 stored.").arg(tiles.count()).arg(getid));
+    if (!outOfDate)
+    {
+      QPainter p(&image);
+      p.drawText(point + QPoint(20,128), tr("Image is loading: %1").arg(osmUrlPart));
+      p.drawText(point + QPoint(20,148), tr("%1 of %2 stored.").arg(tiles.count()).arg(getid));
+    }
     startPointHash.insert(getid, point);
     osmUrlPartHash.insert(getid, osmUrlPart);
 

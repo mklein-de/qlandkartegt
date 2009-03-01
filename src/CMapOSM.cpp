@@ -254,7 +254,7 @@ void CMapOSM::draw(QPainter& p)
     p.drawText(10,24,str);
 
     p.setFont(QFont("Sans Serif",8,QFont::Black));
-    CCanvas::drawText(tr("Created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license"), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    CCanvas::drawText(tr("Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license"), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
 
 
 
