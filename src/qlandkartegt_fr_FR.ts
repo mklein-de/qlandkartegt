@@ -922,7 +922,7 @@
     <message>
         <location filename="CMainWindow.cpp" line="196"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Toutes les données du projet comme les points de passage et les tracés seront éffacées.</translation>
+        <translation>Toutes les données du projet comme les points géographique et les tracés seront éffacées.</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="235"/>
@@ -1044,7 +1044,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="686"/>
         <source>There are no waypoints, </source>
-        <translation>Il n&apos;y a aucun point géographique,</translation>
+        <translation>Il n&apos;y a aucun point géographique, </translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="692"/>
@@ -1059,7 +1059,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="699"/>
         <source>no tracks and </source>
-        <translation>aucun tracés et</translation>
+        <translation>aucun tracés et </translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="705"/>
@@ -1074,7 +1074,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="712"/>
         <source>no overlays. </source>
-        <translation>aucunes surimpressions.</translation>
+        <translation>aucune surimpression. </translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="717"/>
@@ -1084,7 +1084,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="720"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
-        <translation>Le journal (&lt;a href=&apos;Diary&apos;&gt;nouveau&lt;/a&gt;) est videy.</translation>
+        <translation>Le journal (&lt;a href=&apos;Diary&apos;&gt;nouveau&lt;/a&gt;) est vide.</translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="755"/>
@@ -1201,12 +1201,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing GeoTiff.</source>
-        <translation>Créer une carte a partir de fichier GeoTiff.</translation>
+        <translation>Créer une carte à partir de fichiers GeoTiff.</translation>
     </message>
     <message>
         <location filename="CMapEditWidget.cpp" line="51"/>
         <source>Convert a TIFF into GeoTiff by geo referencing it.</source>
-        <translation>Convertir a fichier Tiff au format GeoTiff par georéférencement.</translation>
+        <translation>Convertir un fichier Tiff au format GeoTiff par georéférencement.</translation>
     </message>
     <message>
         <location filename="CMapEditWidget.cpp" line="59"/>
@@ -1487,7 +1487,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="215"/>
         <source>Trail</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="217"/>
@@ -1497,7 +1497,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="218"/>
         <source>Time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Fuseau horaire</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="220"/>
@@ -1587,7 +1587,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="523"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune projection sur la carte principale. Celà ne devrai pas arriver.</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="642"/>
@@ -1602,22 +1602,22 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="696"/>
         <source>Select Base Map for </source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner la carte principale pour</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="842"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erruer</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="772"/>
         <source>However ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cependant ...</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="777"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;b&gt;Cependant ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;comme je peux lire la carte principale et les informations des fichiers *.tdb,&lt;br/&gt;Je suis capable de vous laisser sélectionner les cartes à envoyer. Pour celà, j&apos;ai&lt;br/&gt;besoin de la clé de dévérouillage (25 numéros) pour la carte, comme elle va etre&lt;br/&gt;envoyé sur l&apos;appareil en meme temps que les cartes.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="1223"/>
@@ -1642,32 +1642,32 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="1890"/>
         <source>Point of Interest</source>
-        <translation type="unfinished"></translation>
+        <translation>Centre d&apos;interet</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="2024"/>
         <source>Area</source>
-        <translation type="unfinished"></translation>
+        <translation>Zone</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="2711"/>
         <source>Warning...</source>
-        <translation type="unfinished"></translation>
+        <translation>Danger...</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="2404"/>
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ceci est un fichier TYP avec des polygones inconnus. S&apos;il vous plait, prévenez nous!</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="2481"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ceci est un fichier TYP avec des lignes inconnus. S&apos;il vous plait, prévenez nous!</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="2711"/>
         <source>This is a typ file with unknown point encoding. Please report!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ceci est un fichier TYP avec des POIs inconnus. S&apos;il vous plait, prévenez nous!</translation>
     </message>
 </context>
 <context>
@@ -1705,7 +1705,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapToolWidget.cpp" line="268"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
-        <translation>Vous avez besoin d&apos;avoir la suite d&apos;outil GDAL dans votre PATH.</translation>
+        <translation>Vous avez besoin d&apos;avoir la suite d&apos;outils GDAL dans votre PATH.</translation>
     </message>
     <message>
         <location filename="CMapToolWidget.cpp" line="286"/>
@@ -2011,192 +2011,192 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
         <source>Switch cursor to &apos;Move Waypoint&apos; mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave &apos;Move Waypoint&apos; mode and to resume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer le curseur en mode &apos;Déplacer un point géographique&apos;. Cliquer et maintenair pour déplacer un point géographique. Utiliser le bouton droit de la souris pour annuler. Il est aussi possible  de quitter le mode &apos;Déplacer un point géographique&apos; et d&apos;y revenir.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="145"/>
         <source>Upload waypoints to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer les points géographique sur l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="158"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="146"/>
         <source>Download waypoints from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger les points géographique depuis l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="153"/>
         <source>Combine Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Fusionner les tracés</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="153"/>
         <source>Combine multiple selected tracks to one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fusionner les tracés sélectionnés en un seul.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="154"/>
         <source>Edit Track</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer un tracé</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="154"/>
         <source>Toggle track edit dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer en mode édition des tracés.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="155"/>
         <source>Cut Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper des tracés</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="155"/>
         <source>Cut a track into pieces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper un tracé en morceau.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="156"/>
         <source>Select Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner les points</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="156"/>
         <source>Select track points by rectangle.</source>
-        <translation type="unfinished"></translation>
+        <translation>Séléctionner les points du tracés avec un rectangle.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="157"/>
         <source>Upload tracks to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer des tracés sur l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="158"/>
         <source>Download tracks from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger des tracés depuis l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="165"/>
         <source>Start / Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer / Arreter</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="165"/>
         <source>Start / stop live log recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer / Arreter l&apos;enregistrement des log en temps réel.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="166"/>
         <source>Move Map to Pos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer la carte à la position.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="166"/>
         <source>Move the map to keep the positon cursor centered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer la carte pour garder le curseur au centre.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="167"/>
         <source>Add Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un point géographique</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="167"/>
         <source>Add a waypoint at current position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un point géographique à la position courante.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="177"/>
         <source>Add Static Text Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une boite texte</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="177"/>
         <source>Add text on the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter du texte sur la carte.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="178"/>
         <source>Add Geo-Ref. Text Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un texte georéférencé</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="178"/>
         <source>Add a textbox on the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une boite texte sur la carte.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="179"/>
         <source>Add Distance Polyline</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une mesure de distance</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="179"/>
         <source>Add a polyline to measure distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une ligne pour mesurer les distances.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="189"/>
         <source>Diary</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="189"/>
         <source>Add / edit diary data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter / éditer le journal</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="190"/>
         <source>Pick Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir une couleur</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="190"/>
         <source>test only</source>
-        <translation type="unfinished"></translation>
+        <translation>test seulement</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="377"/>
         <source>&lt;b&gt;Main ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Principal ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="543"/>
         <source>&lt;b&gt;Maps ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cartes ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="397"/>
         <source>&lt;b&gt;Maps 3D ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cartes 3D ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="407"/>
         <source>&lt;b&gt;Waypoints ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Points géographique ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="417"/>
         <source>&lt;b&gt;Tracks ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Tracés ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="427"/>
         <source>&lt;b&gt;Live Log ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Log temps réel ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="437"/>
         <source>&lt;b&gt;Overlay ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Surimpression ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="447"/>
         <source>&lt;b&gt;Main (More) ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Principal (Plus) ...&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2330,7 +2330,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CResources.cpp" line="167"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
-        <translation>Vous devez sélectionner un appareil en allant dans Préférence-&gt;Configuration-&gt;Appareil &amp; Transfert</translation>
+        <translation>Vous devez sélectionner un appareil en allant dans Préférence-&gt;Général-&gt;Appareil &amp; Transfert</translation>
     </message>
 </context>
 <context>
@@ -2794,7 +2794,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="125"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="79"/>
@@ -2829,7 +2829,9 @@ p, li { white-space: pre-wrap; }
         <source>This dialog allows you to georeference map files in TIF format with a 8 bit color palette. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.
 
 </source>
-        <translation><byte value="x9"/>Cette boîte de dialogue vous permet de géoréférencer les fichiers de la carte format TIF avec une palette de couleurs de 8 bits. Comme pré-requis, vous avez besoin d&apos;un ensemble de points de référence et la projection de ces points. Vous obtiendrez de meilleurs résultats si la projection des points est aussi la projection de la carte. Dans la plupart des cas, il s&apos;agit de mercator. Il est recommandé de déplacer le point de référence de plan de référence WGS84, dès le début.</translation>
+        <translation>Cette boîte de dialogue vous permet de géoréférencer des fichiers cartes au format TIF avec une palette de couleurs de 8 bits. Comme pré-requis, vous avez besoin d&apos;un ensemble de points de référence et la projection de ces points. Vous obtiendrez de meilleurs résultats si la projection des points est aussi la projection de la carte. Dans la plupart des cas, il s&apos;agit de mercator. Il est recommandé de placer le point de référence par rapport au datage WGS84, dès le début.
+
+</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="247"/>
@@ -2839,7 +2841,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="252"/>
         <source>Coord.</source>
-        <translation></translation>
+        <translation>Coord.</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="257"/>
@@ -2886,7 +2888,9 @@ p, li { white-space: pre-wrap; }
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
 
 coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.575377&quot;, &quot;285000 5162000&quot;</source>
-        <translation>La prochaine étape est d&apos;ajouter des points de référence connus. Il vous suffit d&apos;ajouter des points de référence à la carte et entrer dans leur latitude / longitude (WGS84) ou de la Easting et Northing [m] dans le tableau. Ensuite, vous déplacez le point au bon endroit sur la carte.Format des coordonnées: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.575377&quot;, &quot;285000 5162000&quot;</translation>
+        <translation>La prochaine étape est d&apos;ajouter des points de référence connus. Il vous suffit d&apos;ajouter des points de référence à la carte et entrer leur latitude / longitude (WGS84) ou alors l&apos;Est et Nord [m] dans le tableau. Ensuite, vous déplacez le point au bon endroit sur la carte.
+
+Format des coordonnées: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.575377&quot;, &quot;285000 5162000&quot;</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="461"/>
@@ -2916,7 +2920,9 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation><byte value="x9"/>La grille outil place de points de référence calculés à la longitude et la latitude de la ligne de passage d&apos;une carte réseau linéaire. Pour ce faire, vous devez placer les 4 premiers points de référence à la grille comme le montre l&apos;exemple.Altenatively vous avez choisi d&apos;utiliser des points de référence déjà existant. Dans ce cas, il vous suffit de définir la taille du pas de grille.</translation>
+        <translation>L&apos;outil grille place des points de référence calculés à la longitude et la latitude sur chaques intersection de la grille. Pour ce faire, vous devez placer les 4 premiers points de référence sur la grille comme le montre l&apos;exemple.
+
+Alternativement vous pouvez choisir d&apos;utiliser des points de référence déjà existant. Dans ce cas, il vous suffit de définir la taille du pas de la grille.</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="104"/>
@@ -2934,7 +2940,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGridTool.ui" line="122"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="133"/>
@@ -2959,7 +2965,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGridTool.ui" line="223"/>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
-        <translation><byte value="x9"/>Ensuite, vous voudrez peut-être ajouter une source de projection d&apos;une grille pour faire passer à WGS84. Et vous devez définir la longitude et la latitude du point de référence en haut à gauche. Et l&apos;espacement entre les points 1 et 2, et 1 et 4.</translation>
+        <translation>Ensuite, vous voudrez peut-être ajouter une source de projection pour transformer la grille en WGS84. Et vous devez définir la longitude et la latitude du point de référence en haut à gauche. Et l&apos;espacement entre les points 1 et 2, et 1 et 4.</translation>
     </message>
     <message>
         <location filename="ICreateMapGridTool.ui" line="270"/>
@@ -2974,7 +2980,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGridTool.ui" line="298"/>
         <source>On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results.</source>
-        <translation><byte value="x9"/>Voilà, l&apos;outil grille a ajouter à égale distance des points de référence sur votre carte. Gardez à l&apos;esprit qu&apos;il faut ajuster manuellement la position de chaques points afin d&apos;obtenir de bons résultats.</translation>
+        <translation>Voilà, l&apos;outil grille a ajouter à égale distance des points de référence sur votre carte. Gardez à l&apos;esprit qu&apos;il faut ajuster manuellement la position de chaques points afin d&apos;obtenir de bons résultats.</translation>
     </message>
 </context>
 <context>
@@ -3100,7 +3106,8 @@ inférieur/droit</translation>
         <location filename="ICreateMapQMAP.ui" line="129"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. 
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation>Vous pouvez modifier ou créer QLandkarte GT fichiers de définition de la carte (*. qmap). Une carte de définition définit ce que les fichiers de montrer à un zoom level.The commentaire sera utilisé pour afficher la carte en tant que collection connue carte dans la carte outil vue.Une fois que vous avez créé une carte que vous pouvez joindre DEM données via le menu contextuel de gauche dans l&apos;outil de carte vue.</translation>
+        <translation>Vous pouvez modifier ou créer des fichiers de définition QLandkarte GT de la carte (*. qmap). Un fichier de définition définit les fichiers à montrer aux différents niveaux de zoom.Le commentaire sera utilisé pour afficher la carte dans l&apos;outil de vue des cartes disponibles.
+Une fois que vous avez créé une carte que vous pouvez joindre un fichier d&apos;élévation DEM via le menu contextuel de gauche dans l&apos;outil de vue des cartes.</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="165"/>
@@ -3113,7 +3120,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapQMAP.ui" line="172"/>
         <source>Detail Layer</source>
-        <translation>Couches de détail</translation>
+        <translation>Couche de détail</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="177"/>
@@ -3158,7 +3165,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapQMAP.ui" line="293"/>
         <source>You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file.</source>
-        <translation>Vous pouvez empiler des cartes des différentes couches de détails. Pour chaque couche de détail, vous pouvez définir le nombre de niveaux de zoom. Plusieurs fichiers peuvent être regroupés en une couche de détail. Tous les fichiers dans une couche doit avoir la même projection et l&apos;échelle. Vous avez besoin d&apos;au moins une couche avec un fichier.</translation>
+        <translation>Vous pouvez empiler des cartes de différente couche de détails. Pour chaque couche de détail, vous pouvez définir le nombre de niveaux de zoom. Plusieurs fichiers peuvent être regroupés en une couche de détail. Tous les fichiers dans une couche doivent avoir la même projection et échelle. Vous avez besoin d&apos;au moins une couche avec un fichier.</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="323"/>
@@ -3448,7 +3455,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="293"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="340"/>
@@ -3496,7 +3503,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgDelWpt.ui" line="13"/>
         <source>Delete waypoint by ...</source>
-        <translation>Effacer les points GPS de passage par ...</translation>
+        <translation>Effacer les points géographique par ...</translation>
     </message>
     <message>
         <location filename="IDlgDelWpt.ui" line="28"/>
@@ -3600,7 +3607,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgEditWpt.ui" line="166"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="47"/>
@@ -3625,17 +3632,17 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="IDlgEditWpt.ui" line="111"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="118"/>
         <source>Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Altitude</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="145"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="135"/>
@@ -3650,7 +3657,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgEditWpt.ui" line="159"/>
         <source>None</source>
-        <translation>Rien</translation>
+        <translation>Aucune</translation>
     </message>
     <message>
         <location filename="IDlgEditWpt.ui" line="173"/>
@@ -3698,22 +3705,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="28"/>
         <source>Projection</source>
-        <translation type="unfinished">Projection</translation>
+        <translation>Projection</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="35"/>
         <source>Mercator</source>
-        <translation type="unfinished"></translation>
+        <translation>Mercator</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="44"/>
         <source>UTM</source>
-        <translation type="unfinished"></translation>
+        <translation>UTM</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="51"/>
         <source>zone</source>
-        <translation type="unfinished"></translation>
+        <translation>zone</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="85"/>
@@ -3723,7 +3730,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="97"/>
         <source>Datum</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="120"/>
@@ -3733,7 +3740,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="134"/>
         <source>World Mercator (OSM)</source>
-        <translation type="unfinished"></translation>
+        <translation>World Mercator (OSM)</translation>
     </message>
 </context>
 <context>
@@ -3782,12 +3789,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ILiveLogToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="141"/>
         <source>-</source>
-        <translation type="unfinished"></translation>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="ILiveLogToolWidget.ui" line="44"/>
@@ -3822,7 +3829,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ILiveLogToolWidget.ui" line="107"/>
         <source>Heading:</source>
-        <translation type="unfinished"></translation>
+        <translation>Intitulé:</translation>
     </message>
 </context>
 <context>
@@ -3843,17 +3850,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapEditWidget.ui" line="19"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="IMapEditWidget.ui" line="33"/>
         <source>Source:</source>
-        <translation type="unfinished"></translation>
+        <translation>Source:</translation>
     </message>
     <message>
         <location filename="IMapEditWidget.ui" line="43"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="IMapEditWidget.ui" line="65"/>
@@ -3904,7 +3911,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapSearchWidget.ui" line="25"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="IMapSearchWidget.ui" line="97"/>
@@ -3992,12 +3999,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapToolWidget.ui" line="45"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>M</translation>
     </message>
     <message>
         <location filename="IMapToolWidget.ui" line="50"/>
         <source>T</source>
-        <translation type="unfinished"></translation>
+        <translation>T</translation>
     </message>
     <message>
         <location filename="IMapToolWidget.ui" line="55"/>
@@ -4036,7 +4043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IOverlayToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
@@ -4090,7 +4097,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="60"/>
         <source>...</source>
-        <translation></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="34"/>
@@ -4120,22 +4127,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="107"/>
         <source>altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>altitude</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="112"/>
         <source>delta</source>
-        <translation type="unfinished"></translation>
+        <translation>delta</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="117"/>
         <source>azimuth</source>
-        <translation type="unfinished"></translation>
+        <translation>azimuth</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="122"/>
         <source>distance</source>
-        <translation type="unfinished"></translation>
+        <translation>distance</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="127"/>
@@ -4240,7 +4247,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="CDeviceGarmin.cpp" line="387"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="CDeviceGarmin.cpp" line="402"/>
@@ -4269,7 +4276,7 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="GeoMath.cpp" line="63"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="GeoMath.cpp" line="63"/>
@@ -4279,7 +4286,7 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="GeoMath.cpp" line="280"/>
         <source>Error ...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erreur ...</translation>
     </message>
     <message>
         <location filename="GeoMath.cpp" line="265"/>
@@ -4296,12 +4303,12 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="tcxreader.cpp" line="45"/>
         <source>Error open file &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ouvrir le fichier&apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="tcxreader.cpp" line="68"/>
         <source>The file is not an http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier n&apos;est pas au format http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 .</translation>
     </message>
 </context>
 </TS>
