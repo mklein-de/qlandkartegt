@@ -188,54 +188,6 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
 };
 
-const QString CMapTDB::polyline_typestr[]=
-{
-    /*0x00,*/   tr(""),
-    /*0x01,*/   tr("Major highway"),
-    /*0x02,*/   tr("Principal highway"),
-    /*0x03,*/   tr("Other highway"),
-    /*0x04,*/   tr("Arterial road"),
-    /*0x05,*/   tr("Collector road"),
-    /*0x06,*/   tr("Residential street"),
-    /*0x07,*/   tr("Alley/Private road"),
-    /*0x08,*/   tr("Highway ramp, low speed"),
-    /*0x09,*/   tr("Highway ramp, high speed"),
-    /*0x0a,*/   tr("Unpaved road"),
-    /*0x0b,*/   tr("Major highway connector"),
-    /*0x0c,*/   tr("Roundabout"),
-    /*0x0d,*/   tr(""),
-    /*0x0e,*/   tr(""),
-    /*0x0f,*/   tr(""),
-    /*0x10,*/   tr(""),
-    /*0x11,*/   tr(""),
-    /*0x12,*/   tr(""),
-    /*0x13,*/   tr(""),
-    /*0x14,*/   tr("Railroad"),
-    /*0x15,*/   tr("Shoreline"),
-    /*0x16,*/   tr("Trail"),
-    /*0x17,*/   tr(""),
-    /*0x18,*/   tr("Stream"),
-    /*0x19,*/   tr("Time zone"),
-    /*0x1a,*/   tr("Ferry"),
-    /*0x1b,*/   tr("Ferry"),
-    /*0x1c,*/   tr("State/province border"),
-    /*0x1d,*/   tr("County/parish border"),
-    /*0x1e,*/   tr("International border"),
-    /*0x1f,*/   tr("River"),
-    /*0x20,*/   tr("Minor land contour"),
-    /*0x21,*/   tr("Intermediate land contour"),
-    /*0x22,*/   tr("Major land contour"),
-    /*0x23,*/   tr("Minor deph contour"),
-    /*0x24,*/   tr("Intermediate depth contour"),
-    /*0x25,*/   tr("Major depth contour"),
-    /*0x26,*/   tr("Intermittent stream"),
-    /*0x27,*/   tr("Airport runway"),
-    /*0x28,*/   tr("Pipeline"),
-    /*0x29,*/   tr("Powerline"),
-    /*0x2a,*/   tr("Marine boundary"),
-    /*0x2b,*/   tr("Hazard boundary")
-};
-
 static quint16 order[] =
 {
     //       0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
@@ -406,6 +358,51 @@ CMapTDB::~CMapTDB()
 
 void CMapTDB::setup()
 {
+    polyline_typestr.clear();
+    polyline_typestr << /*0x00,*/   tr("");
+    polyline_typestr << /*0x01,*/   tr("Major highway");
+    polyline_typestr << /*0x02,*/   tr("Principal highway");
+    polyline_typestr << /*0x03,*/   tr("Other highway");
+    polyline_typestr << /*0x04,*/   tr("Arterial road");
+    polyline_typestr << /*0x05,*/   tr("Collector road");
+    polyline_typestr << /*0x06,*/   tr("Residential street");
+    polyline_typestr << /*0x07,*/   tr("Alley/Private road");
+    polyline_typestr << /*0x08,*/   tr("Highway ramp, low speed");
+    polyline_typestr << /*0x09,*/   tr("Highway ramp, high speed");
+    polyline_typestr << /*0x0a,*/   tr("Unpaved road");
+    polyline_typestr << /*0x0b,*/   tr("Major highway connector");
+    polyline_typestr << /*0x0c,*/   tr("Roundabout");
+    polyline_typestr << /*0x0d,*/   tr("");
+    polyline_typestr << /*0x0e,*/   tr("");
+    polyline_typestr << /*0x0f,*/   tr("");
+    polyline_typestr << /*0x10,*/   tr("");
+    polyline_typestr << /*0x11,*/   tr("");
+    polyline_typestr << /*0x12,*/   tr("");
+    polyline_typestr << /*0x13,*/   tr("");
+    polyline_typestr << /*0x14,*/   tr("Railroad");
+    polyline_typestr << /*0x15,*/   tr("Shoreline");
+    polyline_typestr << /*0x16,*/   tr("Trail");
+    polyline_typestr << /*0x17,*/   tr("");
+    polyline_typestr << /*0x18,*/   tr("Stream");
+    polyline_typestr << /*0x19,*/   tr("Time zone");
+    polyline_typestr << /*0x1a,*/   tr("Ferry");
+    polyline_typestr << /*0x1b,*/   tr("Ferry");
+    polyline_typestr << /*0x1c,*/   tr("State/province border");
+    polyline_typestr << /*0x1d,*/   tr("County/parish border");
+    polyline_typestr << /*0x1e,*/   tr("International border");
+    polyline_typestr << /*0x1f,*/   tr("River");
+    polyline_typestr << /*0x20,*/   tr("Minor land contour");
+    polyline_typestr << /*0x21,*/   tr("Intermediate land contour");
+    polyline_typestr << /*0x22,*/   tr("Major land contour");
+    polyline_typestr << /*0x23,*/   tr("Minor deph contour");
+    polyline_typestr << /*0x24,*/   tr("Intermediate depth contour");
+    polyline_typestr << /*0x25,*/   tr("Major depth contour");
+    polyline_typestr << /*0x26,*/   tr("Intermittent stream");
+    polyline_typestr << /*0x27,*/   tr("Airport runway");
+    polyline_typestr << /*0x28,*/   tr("Pipeline");
+    polyline_typestr << /*0x29,*/   tr("Powerline");
+    polyline_typestr << /*0x2a,*/   tr("Marine boundary");
+    polyline_typestr << /*0x2b,*/   tr("Hazard boundary");
 
     polylineProperties.clear();
     polylineProperties.resize(0x40);

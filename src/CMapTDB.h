@@ -254,7 +254,7 @@ class CMapTDB : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-        static const QString polyline_typestr[];
+        QVector<QString> polyline_typestr;
         struct polyline_property
         {
             polyline_property(): type(0), pen0(Qt::magenta), pen1(Qt::NoPen), known(false), grow(false){};
