@@ -256,19 +256,19 @@ void CCreateMapWMS::slotSave()
 
 
     QDomElement UpperLeftX = dom.createElement("UpperLeftX");
-    UpperLeftX.appendChild(dom.createTextNode(QString("%1").arg(u1)));
+    UpperLeftX.appendChild(dom.createTextNode(QString("%1").arg(u1,0,'f')));
     DataWindow.appendChild(UpperLeftX);
 
     QDomElement UpperLeftY = dom.createElement("UpperLeftY");
-    UpperLeftY.appendChild(dom.createTextNode(QString("%1").arg(v1)));
+    UpperLeftY.appendChild(dom.createTextNode(QString("%1").arg(v1,0,'f')));
     DataWindow.appendChild(UpperLeftY);
 
     QDomElement LowerRightX = dom.createElement("LowerRightX");
-    LowerRightX.appendChild(dom.createTextNode(QString("%1").arg(u2)));
+    LowerRightX.appendChild(dom.createTextNode(QString("%1").arg(u2,0,'f')));
     DataWindow.appendChild(LowerRightX);
 
     QDomElement LowerRightY = dom.createElement("LowerRightY");
-    LowerRightY.appendChild(dom.createTextNode(QString("%1").arg(v2)));
+    LowerRightY.appendChild(dom.createTextNode(QString("%1").arg(v2,0,'f')));
     DataWindow.appendChild(LowerRightY);
 
     if(pj_is_latlong(pjTar)){
@@ -288,20 +288,20 @@ void CCreateMapWMS::slotSave()
         sizey = distance(p1, p3, a1, a2);
 
         QDomElement SizeX = dom.createElement("SizeX");
-        SizeX.appendChild(dom.createTextNode(QString("%1").arg(sizex)));
+        SizeX.appendChild(dom.createTextNode(QString("%1").arg(sizex,0,'f')));
         DataWindow.appendChild(SizeX);
 
         QDomElement SizeY = dom.createElement("SizeY");
-        SizeY.appendChild(dom.createTextNode(QString("%1").arg(sizey)));
+        SizeY.appendChild(dom.createTextNode(QString("%1").arg(sizey,0,'f')));
         DataWindow.appendChild(SizeY);
     }
     else{
         QDomElement SizeX = dom.createElement("SizeX");
-        SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1)));
+        SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1,0,'f')));
         DataWindow.appendChild(SizeX);
 
         QDomElement SizeY = dom.createElement("SizeY");
-        SizeY.appendChild(dom.createTextNode(QString("%1").arg(v1 - v2)));
+        SizeY.appendChild(dom.createTextNode(QString("%1").arg(v1 - v2,0,'f')));
         DataWindow.appendChild(SizeY);
     }
     pj_free(pjWGS84);
