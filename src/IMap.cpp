@@ -260,3 +260,10 @@ void IMap::slotResetFastDraw()
 }
 
 
+bool IMap::isLonLat()
+{
+    if(pjsrc){
+        return pj_is_latlong(pjsrc);
+    }
+    return true;
+}

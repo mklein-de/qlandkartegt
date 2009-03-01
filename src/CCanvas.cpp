@@ -343,6 +343,8 @@ void CCanvas::drawScale(QPainter& p)
     IMap& map = CMapDB::self().getMap();
     QPoint px1(rect().bottomRight() - QPoint(100,50));
 
+    if(map.isLonLat()) return;
+
     // step I: get the approximate distance for 200px in the bottom right corner
     double u1 = px1.x();
     double v1 = px1.y();

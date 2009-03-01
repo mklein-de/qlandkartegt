@@ -120,6 +120,7 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     }
     zoom(zoomidx);
 
+    qDebug() << xref1 << yref1 << lon1 << lat1 << xscale << yscale << x << y;
 }
 
 
@@ -381,7 +382,6 @@ void CMapWMS::draw()
                 ,w,h
                 ,GDT_Byte,nBands,NULL,0,0,0);
 
-            qDebug() << err;
             if(!err) {
                 quint8 * pR     = (quint8 *)data.data();
                 quint8 * pG     = (quint8 *)data.data() + w* h;
