@@ -107,7 +107,6 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
   }
   else if (QFileInfo(osmFilePath).exists())
   {
-    // qDebug() << "exist on disk";
     QFile f(osmFilePath);
     if (f.open(QIODevice::ReadOnly))
     {
@@ -122,11 +121,14 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
         int days = QFileInfo(osmFilePath).lastModified().daysTo(QDateTime::currentDateTime());
         if ( days < 8)
         {
-          outOfDate = true;
           needHttpAction = false;
         }
         else
-          p.drawText(point + QPoint(10,256-10), tr("Tile was loaded from %2 days old File. Reloading ...").arg(osmUrlPart).arg(days));
+        {
+          outOfDate = true;
+          needHttpAction = true;
+          p.drawText(point + QPoint(10,256-10), tr("Tile %1 was loaded from %2 days old File. Reloading ...").arg(osmUrlPart).arg(days));
+        }
       }
     }
   }
@@ -142,7 +144,6 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     }
     startPointHash.insert(getid, point);
     osmUrlPartHash.insert(getid, osmUrlPart);
-
   }
 }
 
@@ -155,7 +156,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
   if (!startPointHash.contains(id))
     return;
 
-  qDebug() << osmUrlPartHash.value(id) << id << error ;
+ // qDebug() << osmUrlPartHash.value(id) << id << error ;
   QImage img1;
   img1.loadFromData(tilesConnection->readAll());
 
