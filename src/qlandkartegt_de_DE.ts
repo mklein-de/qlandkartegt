@@ -1833,7 +1833,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="187"/>
         <source>Find your map by jumping to it&apos;s center.</source>
-        <translation>Finde die Karte, indem Du zu ihrer Mitte gehst.</translation>
+        <translation>Orientiere Dich auf der Karte, indem Du zu ihrer Mitte gehst.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="117"/>
@@ -2013,7 +2013,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
         <source>Select area of map to export. Select area by pressing down the left mouse button and move the mouse.</source>
-        <translation>Kartenbereich zum exportieren auswählen. Wähle einen Bereich aus in dem du die linke Maustaste gedrückt hälst und die Maus bewegst.</translation>
+        <translation>Kartenbereich zum exportieren auswählen. Wähle einen Bereich aus in dem Du die linke Maustaste gedrückt hältst und die Maus bewegst.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="114"/>
@@ -2103,7 +2103,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="142"/>
         <source>Switch cursor to &apos;Edit Waypoint&apos; mode. Point-n-click to edit a waypoint.</source>
-        <translation>Mauspfeil in den &apos;Wegpunkte bearbeiten-Modus&apos; umschalten. Point-n-click um den Wegpunkt zu bearbeiten.</translation>
+        <translation>Mauspfeil in den &apos;Wegpunkte bearbeiten&apos;-Modus umschalten. Point-n-click um den Wegpunkt zu bearbeiten.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
@@ -2138,7 +2138,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="155"/>
         <source>Cut Tracks</source>
-        <translation>Tracks zerteilen</translation>
+        <translation>Track zerteilen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="156"/>
@@ -2168,7 +2168,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="166"/>
         <source>Move the map to keep the positon cursor centered.</source>
-        <translation>Bewege die Karte damit der Kurse in der Mitte positioniert bleibt.</translation>
+        <translation>Um die Position des Mauspfeils mittig zu halten, wird die Karte bewegt.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="167"/>
@@ -4040,7 +4040,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapToolWidget.ui" line="19"/>
         <source>Known Maps:</source>
-        <translation>Bekannte Karten:</translation>
+        <translation>Verfügbare Karten:</translation>
     </message>
     <message>
         <location filename="IMapToolWidget.ui" line="45"/>
