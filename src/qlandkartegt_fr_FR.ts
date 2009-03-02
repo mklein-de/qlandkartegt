@@ -1059,7 +1059,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMainWindow.cpp" line="699"/>
         <source>no tracks and </source>
-        <translation>aucun tracés et </translation>
+        <translation>aucun tracé et </translation>
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="705"/>
@@ -1417,82 +1417,82 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="194"/>
         <source>Major highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoroute</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="195"/>
         <source>Principal highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoroute Principale</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="196"/>
         <source>Other highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Route nationale</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="197"/>
         <source>Arterial road</source>
-        <translation type="unfinished"></translation>
+        <translation>Route départementales</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="198"/>
         <source>Collector road</source>
-        <translation type="unfinished"></translation>
+        <translation>Route communale</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="199"/>
         <source>Residential street</source>
-        <translation type="unfinished"></translation>
+        <translation>Rue résidentielle</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="200"/>
         <source>Alley/Private road</source>
-        <translation type="unfinished"></translation>
+        <translation>Allée / Route privée</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="201"/>
         <source>Highway ramp, low speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie autoroute</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="202"/>
         <source>Highway ramp, high speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Accés autoroute</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="203"/>
         <source>Unpaved road</source>
-        <translation type="unfinished"></translation>
+        <translation>Route non pavé</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="204"/>
         <source>Major highway connector</source>
-        <translation type="unfinished"></translation>
+        <translation>Echangeur</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="205"/>
         <source>Roundabout</source>
-        <translation type="unfinished"></translation>
+        <translation>Rond-point</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="213"/>
         <source>Railroad</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin de fer</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="214"/>
         <source>Shoreline</source>
-        <translation type="unfinished"></translation>
+        <translation>Littoral</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="215"/>
         <source>Trail</source>
-        <translation>Chemin</translation>
+        <translation>Sentier</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="217"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Fleuve</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="218"/>
@@ -1502,27 +1502,27 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="220"/>
         <source>Ferry</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferry</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="221"/>
         <source>State/province border</source>
-        <translation type="unfinished"></translation>
+        <translation>Fontiére Etat / Province</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="222"/>
         <source>County/parish border</source>
-        <translation type="unfinished"></translation>
+        <translation>Frontiére Comté / Paroisse</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="223"/>
         <source>International border</source>
-        <translation type="unfinished"></translation>
+        <translation>Frontiére internationale</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="224"/>
         <source>River</source>
-        <translation type="unfinished"></translation>
+        <translation>Rivière</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="225"/>
@@ -1557,22 +1557,22 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMapTDB.cpp" line="231"/>
         <source>Intermittent stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruisseau</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="232"/>
         <source>Airport runway</source>
-        <translation type="unfinished"></translation>
+        <translation>Piste de l&apos;aéroport</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="233"/>
         <source>Pipeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Oléoduc</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="234"/>
         <source>Powerline</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligne éléctrique</translation>
     </message>
     <message>
         <location filename="CMapTDB.cpp" line="235"/>
@@ -2161,7 +2161,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="377"/>
         <source>&lt;b&gt;Main ...&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Principal ...&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Menu principal ...&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="543"/>
@@ -2196,7 +2196,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="447"/>
         <source>&lt;b&gt;Main (More) ...&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Principal (Plus) ...&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Menu principal (Plus) ...&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2427,7 +2427,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="CTrackEditWidget.cpp" line="454"/>
         <source>Profile</source>
-        <translation>Profile</translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="CTrackEditWidget.cpp" line="466"/>
@@ -2571,14 +2571,14 @@ distance: %1 %2</translation>
         <source>
 time: %1:</source>
         <translation>
-heure: %1:</translation>
+durée: %1:</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="97"/>
         <source>
 time: </source>
         <translation>
-heure:</translation>
+durée:</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="101"/>
@@ -2589,7 +2589,8 @@ heure:</translation>
         <location filename="CTrackToolWidget.cpp" line="103"/>
         <source>
 start: %1</source>
-        <translation>démarrer: %1</translation>
+        <translation>
+début: %1</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="104"/>
@@ -2600,7 +2601,8 @@ start: %1</source>
         <location filename="CTrackToolWidget.cpp" line="104"/>
         <source>
 end: %1</source>
-        <translation>fin: %1</translation>
+        <translation>
+fin: %1</translation>
     </message>
     <message>
         <location filename="CTrackToolWidget.cpp" line="109"/>
@@ -3106,8 +3108,8 @@ inférieur/droit</translation>
         <location filename="ICreateMapQMAP.ui" line="129"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. 
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation>Vous pouvez modifier ou créer des fichiers de définition QLandkarte GT de la carte (*. qmap). Un fichier de définition définit les fichiers à montrer aux différents niveaux de zoom.Le commentaire sera utilisé pour afficher la carte dans l&apos;outil de vue des cartes disponibles.
-Une fois que vous avez créé une carte que vous pouvez joindre un fichier d&apos;élévation DEM via le menu contextuel de gauche dans l&apos;outil de vue des cartes.</translation>
+        <translation>Vous pouvez modifier ou créer des fichiers de définition de la carte (*. qmap). Un fichier de définition définit les fichiers à montrer aux différents niveaux de zoom.Le commentaire sera utilisé pour afficher la carte dans l&apos;outil de vue des cartes disponibles.
+Une fois que vous avez créé une carte, vous pouvez joindre un fichier d&apos;élévation DEM via le menu contextuel de gauche dans la liste de vue des cartes connues.</translation>
     </message>
     <message>
         <location filename="ICreateMapQMAP.ui" line="165"/>
@@ -3445,7 +3447,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="264"/>
         <source>4242</source>
-        <translation type="unfinished"></translation>
+        <translation>4242</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="276"/>
@@ -3700,7 +3702,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="13"/>
         <source>Proj4 Wizzard</source>
-        <translation type="unfinished"></translation>
+        <translation>Wizard Proj4</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="28"/>
@@ -4014,7 +4016,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapToolWidget.ui" line="63"/>
         <source>Selected Maps:</source>
-        <translation>Cartes sélectionné:</translation>
+        <translation>Cartes sélectionnés:</translation>
     </message>
     <message>
         <location filename="IMapToolWidget.ui" line="85"/>
@@ -4112,12 +4114,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ITrackEditWidget.ui" line="63"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="97"/>
         <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation>#</translation>
     </message>
     <message>
         <location filename="ITrackEditWidget.ui" line="102"/>
@@ -4286,7 +4288,7 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="GeoMath.cpp" line="280"/>
         <source>Error ...</source>
-        <translation type="unfinished">Erreur ...</translation>
+        <translation>Erreur ...</translation>
     </message>
     <message>
         <location filename="GeoMath.cpp" line="265"/>
