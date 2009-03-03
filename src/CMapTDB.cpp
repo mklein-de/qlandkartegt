@@ -403,6 +403,26 @@ void CMapTDB::setup()
     polyline_typestr << /*0x29,*/   tr("Powerline");
     polyline_typestr << /*0x2a,*/   tr("Marine boundary");
     polyline_typestr << /*0x2b,*/   tr("Hazard boundary");
+    polyline_typestr << /*0x2c,*/   tr("");
+    polyline_typestr << /*0x2d,*/   tr("");
+    polyline_typestr << /*0x2e,*/   tr("");
+    polyline_typestr << /*0x2f,*/   tr("");
+    polyline_typestr << /*0x30,*/   tr("");
+    polyline_typestr << /*0x31,*/   tr("");
+    polyline_typestr << /*0x32,*/   tr("");
+    polyline_typestr << /*0x33,*/   tr("");
+    polyline_typestr << /*0x34,*/   tr("");
+    polyline_typestr << /*0x35,*/   tr("");
+    polyline_typestr << /*0x36,*/   tr("");
+    polyline_typestr << /*0x37,*/   tr("");
+    polyline_typestr << /*0x38,*/   tr("");
+    polyline_typestr << /*0x39,*/   tr("");
+    polyline_typestr << /*0x3a,*/   tr("");
+    polyline_typestr << /*0x3b,*/   tr("");
+    polyline_typestr << /*0x3c,*/   tr("");
+    polyline_typestr << /*0x3d,*/   tr("");
+    polyline_typestr << /*0x3e,*/   tr("");
+    polyline_typestr << /*0x3f,*/   tr("");
 
     polylineProperties.clear();
     polylineProperties.resize(0x40);
@@ -1941,6 +1961,9 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
             if(distance < shortest) {
                 type = line->type;
+
+                qDebug() << hex << type;
+
                 key  = polyline_typestr[type];
 
                 if(!line->labels.isEmpty()) {
