@@ -32,6 +32,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
+, needsRedrawOvl(true)
 {
     osmTiles = new COsmTilesHash(this);
     connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
@@ -114,7 +115,8 @@ void CMapOSM::move(const QPoint& old, const QPoint& next)
     convertPt2M(xx,yy);
     x = xx;
     y = yy;
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl  = true;
     setFastDraw();
     emit sigChanged();
 }
@@ -150,7 +152,8 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
     x = xx;
     y = yy;
 
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl   = true;
     blockSignals(false);
     emit sigChanged();
 }
@@ -167,7 +170,8 @@ void CMapOSM::zoom(qint32& level)
         return;
     }
     zoomFactor = (1<<(level-1));
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl   = true;
     setFastDraw();
     emit sigChanged();
 
@@ -206,7 +210,8 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     convertRad2Pt(u_,v_);
     move(QPoint(u_,v_), rect.center());
 
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl   = true;
     emit sigChanged();
 
     qDebug() << "zoom:" << zoomFactor;
@@ -225,7 +230,8 @@ void CMapOSM::draw(QPainter& p)
 
         // render overlay
     if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw){
-        ovlMap->draw(size, needsRedraw, p);
+        ovlMap->draw(size, needsRedrawOvl, p);
+        needsRedrawOvl = false;
     }
 
     needsRedraw = false;

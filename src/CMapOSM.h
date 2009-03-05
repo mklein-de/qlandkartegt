@@ -79,6 +79,8 @@ class CMapOSM : public IMap
         /// the latitude of the bottom right reference point [rad]
         double lat2;
 
+        bool needsRedrawOvl;
+
 };
 
 #endif //CMAPOSM_H
