@@ -1471,6 +1471,10 @@ static quint16 polylineDrawOrder[]  =
     ,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
 };
 
+#define DYN_WIDTH_THRESHOLD 15.0
+#define STREETNAME_THRESHOLD 5.0
+#define MAX_STREET_WIDTH 20
+
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
     int m;
@@ -1482,7 +1486,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     // 1st run. Draw all background polylines (polylines that have pen1)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
     for(m = 0; m < M; ++m) {
-        quint16 type                = polylineDrawOrder[M - m - 1];
+        quint16 type = polylineDrawOrder[M - m - 1];
 
         if(zoomFactor > 3.0 && (type == 0x20 || type == 0x23)){
             continue;
@@ -1499,7 +1503,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
             if(property.grow) {
                 int width   = pen.width();
-                width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
+                width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1512,7 +1517,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
             if(property.grow) {
                 int width   = pen.width();
-                width       = zoomFactor > 7.0 ? width : quint32(width + 7.0/zoomFactor);
+                width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1544,7 +1550,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
 
                 // no street needed for uppers zoom factor
-                if (zoomFactor < 2.0) {
+                if (zoomFactor < STREETNAME_THRESHOLD) {
                     collectText((*item), line, font, metrics);
                 }
 
@@ -1575,7 +1581,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         QPen pen = property.pen1;
         if(property.grow) {
             int width   = pen.width();
-            width       = zoomFactor > 7.0  ? width : quint32(width + 7.0/zoomFactor);
+            width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
             pen.setWidth(width);
         }
 
