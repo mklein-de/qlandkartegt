@@ -73,6 +73,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
   //qDebug() << xCount << yCount << window;
 
   image = QImage(window.size(),QImage::Format_ARGB32_Premultiplied);
+  image.fill(Qt::white);
   for(int x=0; x<xCount; x++)
   {
     for (int y=0; y<yCount; y++)
