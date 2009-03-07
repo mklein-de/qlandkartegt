@@ -139,8 +139,8 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     if (!outOfDate)
     {
       QPainter p(&image);
-      p.drawText(point + QPoint(20,128), tr("Image is loading: %1").arg(osmUrlPart));
-      p.drawText(point + QPoint(20,148), tr("%1 of %2 stored.").arg(tiles.count()).arg(getid));
+//       p.drawText(point + QPoint(20,128), tr("Image is loading: %1").arg(osmUrlPart));
+//       p.drawText(point + QPoint(20,148), tr("%1 of %2 stored.").arg(tiles.count()).arg(getid));
     }
     startPointHash.insert(getid, point);
     osmUrlPartHash.insert(getid, osmUrlPart);

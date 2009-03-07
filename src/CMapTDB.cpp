@@ -549,6 +549,9 @@ void CMapTDB::registerDEM(CMapDEM& dem)
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
+    if(strlen(ptr) == 0){
+        return;
+    }
     pj_free(pjsrc);
     pjsrc = pj_init_plus(ptr);
     if(ptr) free(ptr);
@@ -1201,6 +1204,9 @@ void CMapTDB::draw(QPainter& p)
         QFont f = p.font();
         f.setBold(false);
         f.setItalic(false);
+        if(f.pointSize() < 8){
+            f.setPointSize(8);
+        }
         info->setDefaultFont(f);
         info->setHtml(infotext);
 
@@ -1969,7 +1975,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
             if(distance < shortest) {
                 type = line->type;
 
-                qDebug() << hex << type;
+//                 qDebug() << hex << type;
 
                 key  = polyline_typestr[type];
 
