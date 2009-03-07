@@ -270,8 +270,6 @@ void CMapOSM::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    buffer.fill(Qt::white);
-
     int osm_zoom = 18 - zoomidx;
 
     double lon = x;

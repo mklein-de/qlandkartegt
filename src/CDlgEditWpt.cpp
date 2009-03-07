@@ -103,7 +103,7 @@ int CDlgEditWpt::exec()
 void CDlgEditWpt::accept()
 {
     if(lineName->text().isEmpty()) {
-        QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint indentifier."),QMessageBox::Ok,QMessageBox::NoButton);
+        QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint identifier."),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
     if(linePosition->text().isEmpty()) {

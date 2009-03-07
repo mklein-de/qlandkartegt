@@ -419,7 +419,7 @@ void CDiaryEditWidget::clipboardDataChanged()
 void CDiaryEditWidget::slotDocWizard()
 {
     if(!textEdit->toPlainText().isEmpty()) {
-        QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizzard"), tr("The wizzard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+        QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizard"), tr("The wizard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
         if(res == QMessageBox::Cancel) return;
     }
 
