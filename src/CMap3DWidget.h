@@ -44,6 +44,8 @@ class CMap3DWidget: public QGLWidget
         void initializeGL();
         void paintGL();
         void resizeGL(int width, int height);
+        void showEvent ( QShowEvent * event );
+        void hideEvent ( QHideEvent * event );
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mouseDoubleClickEvent ( QMouseEvent * event );
@@ -101,6 +103,7 @@ class CMap3DWidget: public QGLWidget
         bool light;
         bool cursorFocus;
         bool cursorPress;
+        bool reDraw;
 
         GLuint mapTexture;
         double xShift, yShift, zoomFactor, eleZoomFactor;

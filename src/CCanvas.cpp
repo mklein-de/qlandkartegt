@@ -594,3 +594,9 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     QPoint p = mapToGlobal(pos);
     menu.exec(p);
 }
+
+void CCanvas::showEvent ( QShowEvent * event )
+{
+    IMap& map = CMapDB::self().getMap();
+    map.resize(size());
+}

@@ -39,6 +39,15 @@
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
+void glError() {
+    GLenum err = glGetError();
+    while (err != GL_NO_ERROR) {
+        qDebug("glError: %s caught at %s:%u\n",
+                        (char *)gluErrorString(err), __FILE__, __LINE__);
+        err = glGetError();
+    }
+}
+
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
 {
@@ -72,6 +81,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     light = cfg.value("map/3D/light", false).toBool();
     cursorFocus = false;
     cursorPress = false;
+    reDraw = false;
 }
 
 CMap3DWidget::~CMap3DWidget()
@@ -97,7 +107,7 @@ CMap3DWidget::~CMap3DWidget()
 
 void CMap3DWidget::mapResize(const QSize& size)
 {
-        mapSize = size;
+    mapSize = size;
 }
 
 void CMap3DWidget::loadMap()
@@ -109,7 +119,13 @@ void CMap3DWidget::loadMap()
     }
     map = &CMapDB::self().getMap();
     assert(!map.isNull());
+    // map should be square
     mapSize = map->getSize();
+    if (mapSize.width() != mapSize.height()) {
+            int side = qMax(mapSize.width(), mapSize.height());
+            map->resize(QSize(side, side));
+            mapSize = map->getSize();
+    }
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
@@ -192,6 +208,28 @@ void CMap3DWidget::lightReset()
     updateGL();
 }
 
+void CMap3DWidget::showEvent ( QShowEvent * event )
+{
+        //restore size
+        map->resize(mapSize);
+
+        qDebug() << "show event";
+        connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+        connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
+        connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+        connect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
+        reDraw = true;
+}
+
+void CMap3DWidget::hideEvent ( QHideEvent * event )
+{
+        qDebug() << "hide event";
+        disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+        disconnect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
+        disconnect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+        disconnect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
+}
+
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
@@ -236,13 +274,8 @@ void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
 
 void CMap3DWidget::slotChanged()
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    deleteTexture(mapTexture);
-    setMapTexture();
-    makeMapObject();
-    slotTrackChanged(false);
+    reDraw = true;
     updateGL();
-    QApplication::restoreOverrideCursor();
 }
 
 
@@ -303,6 +336,7 @@ void CMap3DWidget::drawFlatMap()
     glNormal3d(0.0, 0.0, -1.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
+    glError();
 }
 
 qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
@@ -525,6 +559,7 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
 
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
+    glError();
 }
 
 inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
@@ -670,6 +705,7 @@ void CMap3DWidget::draw3DMap()
     delete [] normals;
     delete [] eleData;
     glDisable(GL_TEXTURE_2D);
+    glError();
 }
 
 void CMap3DWidget::updateElevationLimits()
@@ -882,6 +918,15 @@ void CMap3DWidget::lightTurn()
 
 void CMap3DWidget::paintGL()
 {
+    if (reDraw) {
+            reDraw = false;
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            deleteTexture(mapTexture);
+            setMapTexture();
+            makeMapObject();
+            slotTrackChanged(false);
+            QApplication::restoreOverrideCursor();
+    }
     int side = qMax(mapSize.width(), mapSize.height()) / 2;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -959,7 +1004,7 @@ void CMap3DWidget::paintGL()
         glVertex3f(i * d, d * n, minElevation);
     }
     glEnd();
-
+    glError();
 }
 
 
