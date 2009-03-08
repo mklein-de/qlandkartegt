@@ -130,7 +130,18 @@ CMainWindow::CMainWindow()
 
     searchdb->gainFocus();
 
-    showMaximized();
+    // restore last session position and size of mainWidget
+    {
+       if ( cfg.contains("mainWidget/geometry"))
+       {
+         QRect r = cfg.value("mainWidget/geometry").toRect();
+         qDebug() << r << QDesktopWidget().screenGeometry();
+         if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
+           setGeometry(r);
+         else
+           showMaximized();
+       }
+    }
 
     // restore last session settings
     QList<int> sizes = mainSplitter->sizes();
@@ -175,6 +186,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/data",pathData);
+    cfg.setValue("mainWidget/geometry", geometry());
 
     canvas = 0;
 }
