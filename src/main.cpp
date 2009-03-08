@@ -68,19 +68,19 @@ int main(int argc, char ** argv)
 
       QStringList dirList;
       dirList << ".";
-#ifdef Q_OS_LINUX
       dirList << "src";
+#ifndef Q_OS_WIN32
       dirList << QCoreApplication::applicationDirPath().replace(QRegExp("bin$"), "share/qlandkartegt/translations");
+#else
+      dirList << QCoreApplication::applicationDirPath();
 #endif
       QTranslator *qlandkartegtTranslator = new QTranslator(0);
-      bool found = false;
       qDebug() << dirList;
       foreach(QString dir, dirList)
       {
         QString transName = QLatin1String("qlandkartegt_") + QLocale::system().name();
         if (qlandkartegtTranslator->load( transName, dir))
         {
-          found = true;
           theApp.installTranslator(qlandkartegtTranslator);
           qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
           break;
