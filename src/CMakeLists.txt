@@ -314,8 +314,8 @@ qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
 
-SET (ENABLE_TRANSLATION OFF CACHE BOOL "enable translations")
-#-D ENABLE_TRANSLATION:bool=ON
+SET (ENABLE_TRANSLATION ON CACHE BOOL "enable translations")
+#-D ENABLE_TRANSLATION:bool=OFF
 IF(ENABLE_TRANSLATION)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
     
