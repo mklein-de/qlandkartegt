@@ -61,7 +61,7 @@ void CTrackStatTraineeWidget::slotChanged()
     }
 
     plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
-    plot->setYLabel(tr("heardrate [bpm]"));
+    plot->setYLabel(tr("heartrate [bpm]"));
 
     QPolygonF heartRate;
     QPolygonF slopeRate;

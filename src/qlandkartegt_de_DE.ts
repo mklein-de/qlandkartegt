@@ -123,6 +123,11 @@
         <translation>--- Beendet ---
 </translation>
     </message>
+    <message>
+        <location filename="CCreateMapGeoTiff.cpp" line="286"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CCreateMapGridTool</name>
@@ -154,7 +159,12 @@
     <message>
         <location filename="CCreateMapGridTool.cpp" line="288"/>
         <source>Failed to setup projection. Bad syntax?</source>
-        <translation>Erzeugen der Projektion ist gescheitert. Ungünstige Syntax?</translation>
+        <translation>Erzeugen der Projektion ist gescheitert. Ungültige Syntax?</translation>
+    </message>
+    <message>
+        <location filename="CCreateMapGridTool.cpp" line="113"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -212,7 +222,7 @@
     <message>
         <location filename="CCreateMapOSM.cpp" line="583"/>
         <source>Failed to download tile!</source>
-        <translation>Herunterladen der Kachel gescheitert!</translation>
+        <translation>Kachel konnte nicht heruntergeladen werden!</translation>
     </message>
     <message>
         <location filename="CCreateMapOSM.cpp" line="616"/>
@@ -321,7 +331,7 @@
     <message>
         <location filename="CDeviceGarmin.cpp" line="478"/>
         <source>Failed to load driver.</source>
-        <translation>Laden des Treibers gescheitert.</translation>
+        <translation>Treiber konnte nicht geladen werden.</translation>
     </message>
     <message>
         <location filename="CDeviceGarmin.cpp" line="484"/>
@@ -331,7 +341,7 @@
     <message>
         <location filename="CDeviceGarmin.cpp" line="761"/>
         <source>Device Link Error</source>
-        <translation>Fehlerhafte Verbindung zum Gerät</translation>
+        <translation>Keine Verbindung zum Gerät</translation>
     </message>
     <message>
         <location filename="CDeviceGarmin.cpp" line="650"/>
@@ -354,7 +364,7 @@
     <message>
         <location filename="CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation>Verbindet zum Gerät.</translation>
+        <translation>Verbindung zum Gerät wird hergestellt.</translation>
     </message>
     <message>
         <location filename="CDeviceTBDOE.cpp" line="300"/>
@@ -477,7 +487,7 @@
     <message>
         <location filename="CDiaryEditWidget.cpp" line="124"/>
         <source>&amp;Color...</source>
-        <translation>&amp;Farbe ...</translation>
+        <translation>S&amp;chriftFarbe ...</translation>
     </message>
     <message>
         <location filename="CDiaryEditWidget.cpp" line="160"/>
@@ -602,13 +612,18 @@
         <source>No plugins found. I expect them in: %1</source>
         <translation>Keine Plugins gefunden. Ich nehme an sie sind in: %1</translation>
     </message>
+    <message>
+        <location filename="CDlgConfig.cpp" line="71"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CDlgEditMapLevel</name>
     <message>
         <location filename="CDlgEditMapLevel.cpp" line="110"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
-        <translation>Wähle &lt;b&gt;alle&lt;/b&gt; Datein für dieses Level.</translation>
+        <translation>Wähle &lt;b&gt;alle&lt;/b&gt; Dateien für dieses Level.</translation>
     </message>
 </context>
 <context>
@@ -621,7 +636,7 @@
     <message>
         <location filename="CDlgEditWpt.cpp" line="106"/>
         <source>You must provide a waypoint identifier.</source>
-        <translation>Du mußt einen Namen für den Wegpunkt eingeben.</translation>
+        <translation>Bitte einen Namen für den Wegpunkt eingeben.</translation>
     </message>
     <message>
         <location filename="CDlgEditWpt.cpp" line="110"/>
@@ -686,12 +701,12 @@
     <message>
         <location filename="CGarminExport.cpp" line="83"/>
         <source>Map: %1</source>
-        <translation>Karte:%1</translation>
+        <translation>Karte: %1</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="86"/>
         <source>Map: %1 (Key: %2)</source>
-        <translation>Karte:%1 (Schlüssel:%2)</translation>
+        <translation>Karte: %1 (Schlüssel:%2)</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="103"/>
@@ -711,7 +726,7 @@
     <message>
         <location filename="CGarminExport.cpp" line="276"/>
         <source>Bad file format: </source>
-        <translation>Schlechtes Dateiformat: </translation>
+        <translation>Unbekanntes Dateiformat: </translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="308"/>
@@ -776,7 +791,7 @@
     <message>
         <location filename="CGarminExport.cpp" line="715"/>
         <source>Write map lookup table...</source>
-        <translation>Kartennachschlagstabelle schreiben ...</translation>
+        <translation>Kartenindexdatei schreiben ...</translation>
     </message>
     <message>
         <location filename="CGarminExport.cpp" line="725"/>
@@ -812,7 +827,7 @@
     <message>
         <location filename="CGarminTile.cpp" line="91"/>
         <source>Bad file format: </source>
-        <translation>Schlechtes Dateiformat: </translation>
+        <translation>Unbekanntes Dateiformat: </translation>
     </message>
     <message>
         <location filename="CGarminTile.cpp" line="175"/>
@@ -840,7 +855,7 @@
     <message>
         <location filename="CGpx.cpp" line="97"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
-        <translation>Diese Datei existiert und wurde nicht mit QLandkarte GT erzeugt. Wenn Du &apos;ja/yes&apos; drückst werden alle Daten in dieser Datei gelöscht. Wenn diese Datei GPX-Daten enthält, kann es sein, dass QLandkarte GT nich alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen einen andere Datei zu verwenden. &lt;b&gt;Möchtest Du die Datei wirklich überschreiben?&lt;/b&gt;</translation>
+        <translation>Diese Datei existiert und wurde nicht mit QLandkarte GT erzeugt. Wenn Du &apos;ja/yes&apos; drückst werden alle Daten in dieser Datei gelöscht. Wenn diese Datei GPX-Daten enthält, kann es sein, dass QLandkarte GT nich alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen eine andere Datei zu verwenden. &lt;b&gt;Möchtest Du die Datei wirklich überschreiben?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="CGpx.cpp" line="119"/>
@@ -917,57 +932,57 @@
         <translation>&lt;b&gt;GPS Gerät:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="196"/>
+        <location filename="CMainWindow.cpp" line="208"/>
         <source>Clear all...</source>
         <translation>Alles löschen ...</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="196"/>
+        <location filename="CMainWindow.cpp" line="208"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Nach Ausführung dieser Aktion werden alle Daten wie Wegpunkte und Tracks gelöscht.</translation>
+        <translation>Diese Aktion löscht alle Daten, wie Wegpunkte und Tracks.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="235"/>
+        <location filename="CMainWindow.cpp" line="247"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="236"/>
+        <location filename="CMainWindow.cpp" line="248"/>
         <source>Load Map</source>
         <translation>Karte laden</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="238"/>
+        <location filename="CMainWindow.cpp" line="250"/>
         <source>Load Geo Data</source>
         <translation>Geodaten laden</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="239"/>
+        <location filename="CMainWindow.cpp" line="251"/>
         <source>Save Geo Data</source>
         <translation>Geodaten speichern</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="240"/>
+        <location filename="CMainWindow.cpp" line="252"/>
         <source>Add Geo Data</source>
         <translation>Geodaten hinzufügen</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="242"/>
+        <location filename="CMainWindow.cpp" line="254"/>
         <source>Print Map ...</source>
         <translation>Karte drucken ...</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="243"/>
+        <location filename="CMainWindow.cpp" line="255"/>
         <source>Print Diary ...</source>
         <translation>Tagebuch drucken ...</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="245"/>
+        <location filename="CMainWindow.cpp" line="257"/>
         <source>Exit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="249"/>
+        <location filename="CMainWindow.cpp" line="261"/>
         <source>&amp;Setup</source>
         <translation>&amp;Einstellungen</translation>
     </message>
@@ -987,126 +1002,131 @@
         <translation type="obsolete">Copyright</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="304"/>
+        <location filename="CMainWindow.cpp" line="316"/>
         <source>Select map...</source>
         <translation>Karte wählen ...</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="398"/>
+        <location filename="CMainWindow.cpp" line="410"/>
         <source>Select input file</source>
         <translation>Zu ladende Datei wählen</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="502"/>
+        <location filename="CMainWindow.cpp" line="514"/>
         <source>Convert error</source>
         <translation>Konvertierungsfehler</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="631"/>
+        <location filename="CMainWindow.cpp" line="643"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="544"/>
+        <location filename="CMainWindow.cpp" line="556"/>
         <source>Save geo data?</source>
         <translation>Sollen die Daten gespeichert werden?</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="546"/>
+        <location filename="CMainWindow.cpp" line="558"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Die Daten wurden verändert.
 Sollen die Änderungen gespeichert werden?</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="573"/>
+        <location filename="CMainWindow.cpp" line="585"/>
         <source>Select output file</source>
         <translation>Zu speichernde Datei wählen</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="643"/>
+        <location filename="CMainWindow.cpp" line="655"/>
         <source>Print Map</source>
         <translation>Karte drucken</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="673"/>
+        <location filename="CMainWindow.cpp" line="685"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Projektzusammenfassung (&lt;a href=&apos;Clear&apos;&gt;lösche Projekt&lt;/a&gt;):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="679"/>
+        <location filename="CMainWindow.cpp" line="691"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="682"/>
+        <location filename="CMainWindow.cpp" line="694"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkte&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="686"/>
+        <location filename="CMainWindow.cpp" line="698"/>
         <source>There are no waypoints, </source>
         <translation>Keine Wegpunkte,</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="692"/>
+        <location filename="CMainWindow.cpp" line="704"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Track&lt;/a&gt; und </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="695"/>
+        <location filename="CMainWindow.cpp" line="707"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Tracks&lt;/a&gt; und </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="699"/>
+        <location filename="CMainWindow.cpp" line="711"/>
         <source>no tracks and </source>
         <translation> keine Tracks und</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="705"/>
+        <location filename="CMainWindow.cpp" line="717"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;Overlay&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="708"/>
+        <location filename="CMainWindow.cpp" line="720"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;Overlays&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="712"/>
+        <location filename="CMainWindow.cpp" line="724"/>
         <source>no overlays. </source>
         <translation> keine Overlays vorhanden.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="717"/>
+        <location filename="CMainWindow.cpp" line="729"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
         <translation> Ein &lt;a href=&apos;Diary&apos;&gt;Tagebuch&lt;/a&gt; wurde geladen.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="720"/>
+        <location filename="CMainWindow.cpp" line="732"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
         <translation> Das Tagebuch (&lt;a href=&apos;Diary&apos;&gt;neu&lt;/a&gt;) ist leer.</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="756"/>
+        <location filename="CMainWindow.cpp" line="768"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="254"/>
+        <location filename="CMainWindow.cpp" line="266"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="255"/>
+        <location filename="CMainWindow.cpp" line="267"/>
         <source>About &amp;QLandkarte GT</source>
         <translation>&amp;Über QLandkarteGT</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="250"/>
+        <location filename="CMainWindow.cpp" line="262"/>
         <source>&amp;General</source>
         <translation>&amp;Allgemeine Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="CMainWindow.cpp" line="767"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1129,17 +1149,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMap3DWidget.cpp" line="162"/>
         <source>Inc. Elevation</source>
-        <translation>Überhöhung vergrößern</translation>
+        <translation>Erhebung vergrößern</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="165"/>
         <source>Dec. Elevation</source>
-        <translation>Überhöhung verkleinern</translation>
+        <translation>Erhebung verkleinern</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="168"/>
         <source>Reset Elevation</source>
-        <translation>Überhöhung zurücksetzen</translation>
+        <translation>Erhebung zurücksetzen</translation>
     </message>
     <message>
         <location filename="CMap3DWidget.cpp" line="171"/>
@@ -1225,6 +1245,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>Create a GDAL WMS definition file.</source>
         <translation>GDAL WMS Definitionsdatei erzeugen.</translation>
     </message>
+    <message>
+        <location filename="CMapEditWidget.cpp" line="41"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CMapGeoTiff</name>
@@ -1246,7 +1271,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapGeoTiff.cpp" line="102"/>
         <source>No georeference information found.</source>
-        <translation>Keine Georefezenrinformationen gefunden.</translation>
+        <translation>Keine Georeferenzrinformationen gefunden.</translation>
     </message>
     <message>
         <location filename="CMapGeoTiff.cpp" line="153"/>
@@ -1358,7 +1383,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapSearchThread.cpp" line="87"/>
         <source>Error. This only works on a *.qmap map collection.</source>
-        <translation>Fehler. Das funktioniert nur bei einer *.qmap Kartenauswahl.</translation>
+        <translation>Fehler. Das funktioniert nur bei einer *.qmap Kartensammlung.</translation>
     </message>
     <message>
         <location filename="CMapSearchThread.cpp" line="118"/>
@@ -1676,6 +1701,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>This is a typ file with unknown point encoding. Please report!</source>
         <translation>Das ist eine Typdatei mit unbekannter Art der Punkte. Bitte Bericht erstatten!</translation>
     </message>
+    <message>
+        <location filename="CMapTDB.cpp" line="425"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CMapToolWidget</name>
@@ -1740,7 +1770,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapWMS.cpp" line="61"/>
         <source>No georeference information found.</source>
-        <translation>Keine Georefezenrinformationen gefunden.</translation>
+        <translation>Keine Georefezeninformationen gefunden.</translation>
     </message>
     <message>
         <location filename="CMapWMS.cpp" line="293"/>
@@ -1993,7 +2023,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
         <source>Select Sub Map</source>
-        <translation>Unterliegende Karte wählen</translation>
+        <translation>unterliegende karte auswählen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
@@ -2043,7 +2073,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="125"/>
         <source>Inc. Elevation</source>
-        <translation>Überhöhung vergrößern</translation>
+        <translation>Erhebung vergrößern</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="125"/>
@@ -2053,7 +2083,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="126"/>
         <source>Dec. Elevation</source>
-        <translation>Überhöhung verkleinern</translation>
+        <translation>Erhebung verkleinern</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="126"/>
@@ -2093,7 +2123,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
         <source>Move Waypoint</source>
-        <translation>Wegpunkt bewegen</translation>
+        <translation>Wegpunkt verschieben</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="143"/>
@@ -2200,6 +2230,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>test only</source>
         <translation>Nur ein Test</translation>
     </message>
+    <message>
+        <location filename="CMegaMenu.cpp" line="194"/>
+        <source></source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CMouseMoveMap</name>
@@ -2265,7 +2300,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Kachel wurde vin einer %2 Tage alten Datei geladen. Nochmal laden ...</translation>
     </message>
     <message>
-        <location filename="COsmTilesHash.cpp" line="174"/>
+        <location filename="COsmTilesHash.cpp" line="182"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
         <translation>Kachel %1 wurde von einer %2 Tage alten Datei geladen. Lade neu ...</translation>
     </message>
@@ -2337,7 +2372,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CResources.cpp" line="167"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
-        <translation>Du mußt unter &apos;Einstellungen -&gt; allgemeine Einstellungen -&gt; Gerät &amp; Xfer&apos; eine Gerät auswählen</translation>
+        <translation>Du mußt unter &apos;Einstellungen -&gt; allgemeine Einstellungen -&gt; Gerät &amp;  Datentransfer&apos; eine Gerät auswählen</translation>
     </message>
 </context>
 <context>
@@ -2497,18 +2532,13 @@ Sollen die Änderungen gespeichert werden?</translation>
     </message>
     <message>
         <location filename="CTrackStatTraineeWidget.cpp" line="64"/>
-        <source>heardrate [bpm]</source>
+        <source>heartrate [bpm]</source>
         <translation>Herzfrequenz [bpm]</translation>
     </message>
     <message>
         <location filename="CTrackStatTraineeWidget.cpp" line="63"/>
         <source>distance [%1]</source>
         <translation>Entfernung[%1]</translation>
-    </message>
-    <message>
-        <location filename="CTrackStatTraineeWidget.cpp" line="32"/>
-        <source>heartrate [bpm]</source>
-        <translation>Herzfrequenz [bpm]</translation>
     </message>
 </context>
 <context>
@@ -2790,7 +2820,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="36"/>
         <source>Input file:</source>
-        <translation>Zulandende Datei:</translation>
+        <translation>Zu landende Datei:</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="58"/>
@@ -2824,7 +2854,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projektionassistent&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="ICreateMapGeoTiff.ui" line="134"/>
@@ -2932,7 +2962,7 @@ Koordinatenformat: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.5
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation>Das Gitterwerkzeug wird Referenzpunkte, berechnet aus Breiten- und Längengrad, auf den Linienkreuzen einer linearen Karte platzieren. Dazu mußt die 4 initiale Referenzpunkte auf dem Gitter platzieren so wie es im Beispiel gezeigt wird.
+        <translation>Das Gitterwerkzeug wird Referenzpunkte, berechnet aus Breiten- und Längengrad, auf den Linienkreuzen einer linearen Karte platzieren. Dazu mußt die 4 initialen Referenzpunkte auf dem Gitter platzieren so wie es im Beispiel gezeigt wird.
 
 Oder aber, Du hast Dich bereits dafür entschieden, existierende Referenzpunkte zu nutzen. Dann mußt Du nur noch das Gitterschrittmaß angeben.</translation>
     </message>
@@ -3039,7 +3069,7 @@ unten/rechts</translation>
     <message>
         <location filename="ICreateMapOSM.ui" line="161"/>
         <source>This is the path you normally load maps from.</source>
-        <translation>Von diesem Pfad läd man normalerweise Karten.</translation>
+        <translation>Von diesem Pfad lädt man normalerweise Karten.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="164"/>
@@ -3059,7 +3089,7 @@ unten/rechts</translation>
     <message>
         <location filename="ICreateMapOSM.ui" line="187"/>
         <source>A map will have several files. All files of a map will begin with this name.</source>
-        <translation>Eine karte wird aus mehreren Dateien bestehen. Alle Dateien einer Karte werden mit dem selben Namen anfangen.</translation>
+        <translation>Eine Karte wird aus mehreren Dateien bestehen. Alle Dateien einer Karte werden mit dem selben Namen anfangen.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="194"/>
@@ -3069,7 +3099,7 @@ unten/rechts</translation>
     <message>
         <location filename="ICreateMapOSM.ui" line="201"/>
         <source>Provide a short and descriptive comment. The map will be listed by that comment in QLandkarte M.</source>
-        <translation>Suche einen kurzen und beschreibenden Kommentar. Die Karte wird mittels dieses Kommentar in QLandkarteM aufgeführt.</translation>
+        <translation>Gebe einen kurzen und beschreibenden Kommentar. Die Karte wird mittels dieses Kommentar in QLandkarteM aufgeführt.</translation>
     </message>
     <message>
         <location filename="ICreateMapOSM.ui" line="208"/>
@@ -3365,7 +3395,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="75"/>
         <source>Imperial</source>
-        <translation>Kaiserlich</translation>
+        <translation>Angloamerikanisches</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="85"/>
@@ -3390,7 +3420,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="127"/>
         <source>enable</source>
-        <translation>verwenden</translation>
+        <translation>Manuelle Proxy-Konfiguration verwenden</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="136"/>
@@ -3445,7 +3475,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgConfig.ui" line="214"/>
         <source>Device &amp;&amp; Xfer</source>
-        <translation>Gerät &amp;&amp; Xfer</translation>
+        <translation>Gerät &amp;&amp;  Datentransfer</translation>
     </message>
     <message>
         <location filename="IDlgConfig.ui" line="226"/>
@@ -3591,10 +3621,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add files to list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add files to list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Füge Dateien zur Liste&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="101"/>
@@ -3605,7 +3635,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Delete file from list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lösche Datei aus der Liste&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="117"/>
@@ -3616,7 +3646,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file up in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bege Datei in der Liste aufwärts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="IDlgEditMapLevel.ui" line="133"/>
@@ -3627,7 +3657,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file down in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bewege Datei in der Liste abwärts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3763,7 +3793,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IDlgProjWizzard.ui" line="85"/>
         <source>user defined</source>
-        <translation>Benutzer definiert</translation>
+        <translation type="unfinished">Benutzerdefiniert</translation>
     </message>
     <message>
         <location filename="IDlgProjWizzard.ui" line="97"/>
@@ -3999,7 +4029,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="IMapSearchWidget.ui" line="227"/>
         <source>Gray Threshold</source>
-        <translation>Grenzwert für grau</translation>
+        <translation type="unfinished">Schwellwert für grau</translation>
     </message>
     <message>
         <location filename="IMapSearchWidget.ui" line="271"/>
