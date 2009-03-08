@@ -135,7 +135,7 @@ CMainWindow::CMainWindow()
        if ( cfg.contains("mainWidget/geometry"))
        {
          QRect r = cfg.value("mainWidget/geometry").toRect();
-         qDebug() << r << QDesktopWidget().screenGeometry();
+         //qDebug() << r << QDesktopWidget().screenGeometry();
          if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
            setGeometry(r);
          else
