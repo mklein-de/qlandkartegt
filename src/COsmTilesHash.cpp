@@ -17,18 +17,69 @@
 #include <QtNetwork/QHttp>
 #include <QDir>
 #include <QDebug>
+#include <QSettings>
 #include <QDateTime>
 #include <QtGui/QTransform>
+#include <QThread>
+#include <QDirIterator>
 #include <math.h>
 #include "COsmTilesHash.h"
 #include <IMap.h>
 #include "CMapOSM.h"
-
 #ifndef M_PI
 # define M_PI   3.14159265358979323846  /* pi */
 #endif
 
+class COsmTilesHashCacheCleanup: public QThread
+{
+   public:
+     COsmTilesHashCacheCleanup(QObject *p) : QThread(p)
+     {
+       QSettings cfg;
+
+       if (!cfg.contains("osm/maxcachevalueMB"))
+         cfg.setValue("osm/maxcachevalueMB",100);
+       maxSizeInMB = cfg.value("osm/maxcachevalueMB").toInt();
+       start();
+     };
+
+     void run()
+     {
+       QString tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
+
+       qint32 totalSize = 0;
+       QFileInfoList fileList;
+       QDirIterator it(tempDir, QStringList("*.png"), QDir::Files | QDir::Writable, QDirIterator::Subdirectories);
+       while (it.hasNext()) {
+           it.next();
+           totalSize += it.fileInfo().size();
+           fileList << it.fileInfo();
+       }
+       qSort(fileList.begin(), fileList.end(), COsmTilesHashCacheCleanup::olderThan);
+
+       qint32 currentSize = totalSize;
+       foreach(QFileInfo fi, fileList)
+       {
+         if (currentSize < maxSizeInMB * 1024*1024)
+           break;
+         QFile::remove ( fi.absoluteFilePath () );
+         currentSize -= fi.size();
+        // qDebug() << fi.lastRead() << fi.absoluteFilePath ();
+       }
+       qDebug() << QString("cache size before (%1) and after (%2) cleanup. maxcachevalueMB: %3").arg(totalSize).arg(currentSize).arg(maxSizeInMB);
+     };
+
+     static bool olderThan(const QFileInfo &fi1, const QFileInfo &fi2)
+     {
+         return fi1.lastRead() < fi2.lastRead();
+     };
+   private:
+     qint32 maxSizeInMB;
+};
+
 COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM) : cmapOSM(cmapOSM) {
+
+  COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);
   osmTileBaseUrl = "http://tile.openstreetmap.org/";
   getid = -1;
   bool enableProxy = false;
