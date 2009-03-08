@@ -40,7 +40,7 @@ class COsmTilesHashCacheCleanup: public QThread
        if (!cfg.contains("osm/maxcachevalueMB"))
          cfg.setValue("osm/maxcachevalueMB",100);
        maxSizeInMB = cfg.value("osm/maxcachevalueMB").toInt();
-       start();
+       start(QThread::IdlePriority);
      };
 
      void run()
