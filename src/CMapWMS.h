@@ -81,6 +81,5 @@ class CMapWMS  : public IMap
         /// the latitude of the bottom right reference point [rad]
         double lat2;
 
-
 };
 #endif                           //CMAPRASTER_H

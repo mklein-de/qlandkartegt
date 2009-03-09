@@ -53,8 +53,7 @@ class CMegaMenu : public QLabel
 
         struct func_key_state_t
         {
-            func_key_state_t()
-            {
+            func_key_state_t() {
                 icon = 0;
                 name = tr("-");
                 func = 0;

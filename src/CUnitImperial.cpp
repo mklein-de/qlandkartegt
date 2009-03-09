@@ -76,6 +76,7 @@ float CUnitImperial::str2speed(QString& str)
     return (str.remove(" ml/h").toDouble() / 0.6213699);
 }
 
+
 float CUnitImperial::str2distance(QString& str)
 {
     if(str.contains(" ml")) {

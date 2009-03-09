@@ -228,6 +228,7 @@ int CPlotAxis::getScaleWidth( const QFontMetrics& m )
     return width;
 }
 
+
 void CPlotAxis::getLimits(double& limMin, double& limMax, double& useMin, double& useMax)
 {
     limMin = limit_min;
@@ -235,6 +236,7 @@ void CPlotAxis::getLimits(double& limMin, double& limMax, double& useMin, double
     useMin = used_min;
     useMax = used_max;
 }
+
 
 const CPlotAxis::TTic* CPlotAxis::ticmark( const TTic * t )
 {
@@ -330,7 +332,6 @@ void CPlotAxis::zoom(bool in, int point)
     p = pt2val(point);
     min = (p - used_min) * (1 - factor) + used_min;
     d = min - used_min * factor;
-
 
     setMinMax(min, used_max * factor + d);
     move(0);

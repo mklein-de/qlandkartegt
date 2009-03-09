@@ -39,14 +39,16 @@
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
-void glError() {
+void glError()
+{
     GLenum err = glGetError();
     while (err != GL_NO_ERROR) {
         qDebug("glError: %s caught at %s:%u\n",
-                        (char *)gluErrorString(err), __FILE__, __LINE__);
+            (char *)gluErrorString(err), __FILE__, __LINE__);
         err = glGetError();
     }
 }
+
 
 CMap3DWidget::CMap3DWidget(QWidget * parent)
 : QGLWidget(parent)
@@ -84,6 +86,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     reDraw = false;
 }
 
+
 CMap3DWidget::~CMap3DWidget()
 {
     int i;
@@ -105,10 +108,12 @@ CMap3DWidget::~CMap3DWidget()
     cfg.setValue("map/3D/zLight", zLight);
 }
 
+
 void CMap3DWidget::mapResize(const QSize& size)
 {
     mapSize = size;
 }
+
 
 void CMap3DWidget::loadMap()
 {
@@ -122,15 +127,16 @@ void CMap3DWidget::loadMap()
     // map should be square
     mapSize = map->getSize();
     if (mapSize.width() != mapSize.height()) {
-            int side = qMax(mapSize.width(), mapSize.height());
-            map->resize(QSize(side, side));
-            mapSize = map->getSize();
+        int side = qMax(mapSize.width(), mapSize.height());
+        map->resize(QSize(side, side));
+        mapSize = map->getSize();
     }
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(map, SIGNAL(sigResize(const QSize&)),this,SLOT(mapResize(const QSize&)));
     emit sigChanged();
 }
+
 
 void CMap3DWidget::loadTrack()
 {
@@ -141,6 +147,7 @@ void CMap3DWidget::loadTrack()
         connect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
     emit sigTrackChanged();
 }
+
 
 void CMap3DWidget::createActions()
 {
@@ -174,11 +181,13 @@ void CMap3DWidget::createActions()
 
 }
 
+
 void CMap3DWidget::changeMode()
 {
     map3DAct->setChecked(!map3DAct->isChecked());
     slotChanged();
 }
+
 
 void CMap3DWidget::eleZoomOut()
 {
@@ -200,6 +209,7 @@ void CMap3DWidget::eleZoomReset()
     updateGL();
 }
 
+
 void CMap3DWidget::lightReset()
 {
     xLight = 0;
@@ -208,27 +218,30 @@ void CMap3DWidget::lightReset()
     updateGL();
 }
 
+
 void CMap3DWidget::showEvent ( QShowEvent * event )
 {
-        //restore size
-        map->resize(mapSize);
+    //restore size
+    map->resize(mapSize);
 
-        qDebug() << "show event";
-        connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-        connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
-        connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
-        connect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
-        reDraw = true;
+    qDebug() << "show event";
+    connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
+    connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    connect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
+    reDraw = true;
 }
+
 
 void CMap3DWidget::hideEvent ( QHideEvent * event )
 {
-        qDebug() << "hide event";
-        disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
-        disconnect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
-        disconnect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
-        disconnect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
+    qDebug() << "hide event";
+    disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    disconnect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
+    disconnect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    disconnect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
 }
+
 
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -241,19 +254,17 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(showTrackAct);
     menu.addAction(mapEleAct);
 
-    if(track.isNull()){
+    if(track.isNull()) {
         showTrackAct->setEnabled(false);
         mapEleAct->setEnabled(false);
     }
-    else{
+    else {
         showTrackAct->setEnabled(true);
         mapEleAct->setEnabled(true);
     }
 
     menu.exec(event->globalPos());
 }
-
-
 
 
 void CMap3DWidget::setMapTexture()
@@ -265,12 +276,14 @@ void CMap3DWidget::setMapTexture()
     mapTexture = bindTexture(pm, GL_TEXTURE_2D);
 }
 
+
 void CMap3DWidget::slotTrackChanged(bool updateGLFlag)
 {
     makeTrackObject();
     if (updateGLFlag)
         updateGL();
 }
+
 
 void CMap3DWidget::slotChanged()
 {
@@ -292,6 +305,7 @@ void CMap3DWidget::convert3D2Pt(double& u, double& v, double &ele)
     v = mapSize.height()/2 - v;
 }
 
+
 void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
 {
     GLdouble projection[16];
@@ -312,6 +326,7 @@ void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
     v = gl_y0;
     ele = gl_z0;
 }
+
 
 void CMap3DWidget::drawFlatMap()
 {
@@ -339,6 +354,7 @@ void CMap3DWidget::drawFlatMap()
     glError();
 }
 
+
 qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
 {
     double w = mapSize.width();
@@ -358,12 +374,15 @@ qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
     return eleData;
 }
 
-float CMap3DWidget::getRegionValue(float *buffer, int x, int y) {
+
+float CMap3DWidget::getRegionValue(float *buffer, int x, int y)
+{
     int w = mapSize.width() / step + 1;
     return buffer[x + y * w];
 }
 
-#if 0   // set to 1 for old elevation processing
+
+#if 0                            // set to 1 for old elevation processing
 void CMap3DWidget::draw3DMap()
 {
     double w = mapSize.width();
@@ -412,7 +431,7 @@ void CMap3DWidget::draw3DMap()
             // read line from DEM file is more effectively
             vertices[iv + 2] = dem.getElevation(u, v);
             if  (vertices[iv + 2] > 5000 || vertices[iv + 2] < 0)
-                    qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
+                qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
             convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
         }
 
@@ -420,7 +439,7 @@ void CMap3DWidget::draw3DMap()
             idx[j] = idx[j] % (num * 2);
 
         if (y < step)
-                continue;
+            continue;
 
         for (k = 0; k < num - 1; k ++) {
             glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
@@ -428,12 +447,13 @@ void CMap3DWidget::draw3DMap()
                 idx[j]++;
         }
         for (j = 0; j < 4; j++)
-                idx[j]++;
+            idx[j]++;
     }
     delete [] vertices;
     delete [] texCoords;
     glDisable(GL_TEXTURE_2D);
 }
+
 
 void CMap3DWidget::updateElevationLimits()
 {
@@ -449,18 +469,18 @@ void CMap3DWidget::updateElevationLimits()
     minElevation = maxElevation = dem.getElevation(u,v);
 
     for (y = 0; y < h - step; y += step)
-        for (x = 0; x < w; x += step) {
-            u = x;
-            v = y;
-            map->convertPt2Rad(u, v);
-            // FIXME can't use map instead of dem. need investigation.
-            ele = dem.getElevation(u,v);
-            if (ele > maxElevation)
-                    maxElevation = ele;
+    for (x = 0; x < w; x += step) {
+        u = x;
+        v = y;
+        map->convertPt2Rad(u, v);
+        // FIXME can't use map instead of dem. need investigation.
+        ele = dem.getElevation(u,v);
+        if (ele > maxElevation)
+            maxElevation = ele;
 
-            if (ele < minElevation)
-                    minElevation = ele;
-        }
+        if (ele < minElevation)
+            minElevation = ele;
+    }
 
     if (! track.isNull() && (maxElevation - minElevation < 1)) {
         /*selected track exist and dem isn't present for this map*/
@@ -481,12 +501,14 @@ void CMap3DWidget::updateElevationLimits()
     }
 
     if (maxElevation - minElevation < 1) {
-            /*selected track and deb are absent*/
-            maxElevation = 1;
-            minElevation = 0;
+        /*selected track and deb are absent*/
+        maxElevation = 1;
+        minElevation = 0;
     }
 
 }
+
+
 #else
 
 void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys, double zs)
@@ -508,53 +530,53 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     glScalef(xs, ys, zs);
 
     float f = 1;
-    float r = 1.005f; // If you have border issues change this to 1.005f
+    float r = 1.005f;            // If you have border issues change this to 1.005f
     glBindTexture(GL_TEXTURE_2D,skyBox[0]);
     glBegin(GL_QUADS);
-        glTexCoord2f(0, 1); glVertex3f( r/f, 1.0f/f, r/f);
-        glTexCoord2f(1, 1); glVertex3f(-r/f, 1.0f/f, r/f);
-        glTexCoord2f(1, 0); glVertex3f(-r/f, 1.0f/f,-r/f);
-        glTexCoord2f(0, 0); glVertex3f( r/f, 1.0f/f,-r/f);
+    glTexCoord2f(0, 1); glVertex3f( r/f, 1.0f/f, r/f);
+    glTexCoord2f(1, 1); glVertex3f(-r/f, 1.0f/f, r/f);
+    glTexCoord2f(1, 0); glVertex3f(-r/f, 1.0f/f,-r/f);
+    glTexCoord2f(0, 0); glVertex3f( r/f, 1.0f/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[1]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(-1.0f/f,  r/f, r/f);
-       glTexCoord2f(1, 1); glVertex3f(-1.0f/f, -r/f, r/f);
-       glTexCoord2f(1, 0); glVertex3f(-1.0f/f, -r/f,-r/f);
-       glTexCoord2f(0, 0); glVertex3f(-1.0f/f,  r/f,-r/f);
+    glTexCoord2f(0, 1); glVertex3f(-1.0f/f,  r/f, r/f);
+    glTexCoord2f(1, 1); glVertex3f(-1.0f/f, -r/f, r/f);
+    glTexCoord2f(1, 0); glVertex3f(-1.0f/f, -r/f,-r/f);
+    glTexCoord2f(0, 0); glVertex3f(-1.0f/f,  r/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[2]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(-r/f, -1.0f/f,  r/f);
-       glTexCoord2f(1, 1); glVertex3f( r/f, -1.0f/f,  r/f);
-       glTexCoord2f(1, 0); glVertex3f( r/f, -1.0f/f, -r/f);
-       glTexCoord2f(0, 0); glVertex3f(-r/f, -1.0f/f, -r/f);
+    glTexCoord2f(0, 1); glVertex3f(-r/f, -1.0f/f,  r/f);
+    glTexCoord2f(1, 1); glVertex3f( r/f, -1.0f/f,  r/f);
+    glTexCoord2f(1, 0); glVertex3f( r/f, -1.0f/f, -r/f);
+    glTexCoord2f(0, 0); glVertex3f(-r/f, -1.0f/f, -r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[3]);
     glBegin(GL_QUADS);
-       glTexCoord2f(0, 1); glVertex3f(1.0f/f, -r/f, r/f);
-       glTexCoord2f(1, 1); glVertex3f(1.0f/f,  r/f, r/f);
-       glTexCoord2f(1, 0); glVertex3f(1.0f/f,  r/f,-r/f);
-       glTexCoord2f(0, 0); glVertex3f(1.0f/f, -r/f,-r/f);
+    glTexCoord2f(0, 1); glVertex3f(1.0f/f, -r/f, r/f);
+    glTexCoord2f(1, 1); glVertex3f(1.0f/f,  r/f, r/f);
+    glTexCoord2f(1, 0); glVertex3f(1.0f/f,  r/f,-r/f);
+    glTexCoord2f(0, 0); glVertex3f(1.0f/f, -r/f,-r/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[4]);
     glBegin(GL_QUADS);
-       glTexCoord2f(1, 1); glVertex3f( r/f, r/f, 1.0f/f);
-       glTexCoord2f(1, 0); glVertex3f( r/f,-r/f, 1.0f/f);
-       glTexCoord2f(0, 0); glVertex3f(-r/f,-r/f, 1.0f/f);
-       glTexCoord2f(0, 1); glVertex3f(-r/f, r/f, 1.0f/f);
+    glTexCoord2f(1, 1); glVertex3f( r/f, r/f, 1.0f/f);
+    glTexCoord2f(1, 0); glVertex3f( r/f,-r/f, 1.0f/f);
+    glTexCoord2f(0, 0); glVertex3f(-r/f,-r/f, 1.0f/f);
+    glTexCoord2f(0, 1); glVertex3f(-r/f, r/f, 1.0f/f);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,skyBox[5]);
     glBegin(GL_QUADS);
-       glTexCoord2f(1, 0); glVertex3f( r/f, r/f, -1.0f/f);
-       glTexCoord2f(0, 0); glVertex3f(-r/f, r/f, -1.0f/f);
-       glTexCoord2f(0, 1); glVertex3f(-r/f,-r/f, -1.0f/f);
-       glTexCoord2f(1, 1); glVertex3f( r/f,-r/f, -1.0f/f);
+    glTexCoord2f(1, 0); glVertex3f( r/f, r/f, -1.0f/f);
+    glTexCoord2f(0, 0); glVertex3f(-r/f, r/f, -1.0f/f);
+    glTexCoord2f(0, 1); glVertex3f(-r/f,-r/f, -1.0f/f);
+    glTexCoord2f(1, 1); glVertex3f( r/f,-r/f, -1.0f/f);
     glEnd();
 
     glPopMatrix();
@@ -562,34 +584,37 @@ void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys
     glError();
 }
 
+
 inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 {
-        GLdouble v1[3], v2[3];
-        int i;
-        for (i = 0; i < 3; i++) {
-                v1[i] = c[i] - a[i];
-                v2[i] = c[i] - b[i];
-        }
-        for (i =0; i < 3; i++) {
-                r[i] = v1[(i + 1) % 3] * v2[(i + 2) % 3] - v1[(i + 2) % 3] * v2[(i + 1) % 3];
-        }
+    GLdouble v1[3], v2[3];
+    int i;
+    for (i = 0; i < 3; i++) {
+        v1[i] = c[i] - a[i];
+        v2[i] = c[i] - b[i];
+    }
+    for (i =0; i < 3; i++) {
+        r[i] = v1[(i + 1) % 3] * v2[(i + 2) % 3] - v1[(i + 2) % 3] * v2[(i + 1) % 3];
+    }
 }
+
 
 void CMap3DWidget::getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData)
 {
     if (xi < 0)
-            xi = 0;
+        xi = 0;
     if (yi <0)
-            yi = 0;
+        yi = 0;
     if (xi >= xcount)
-            xi = xcount - 1;
+        xi = xcount - 1;
     if (yi >= ycount)
-            yi = ycount - 1;
+        yi = ycount - 1;
     v[0] = xi * current_step_x;
     v[1] = yi * current_step_y;
     v[2] = eleData[xi + yi * xcount];
     convertPt23D(v[0], v[1], v[2]);
 }
+
 
 void CMap3DWidget::draw3DMap()
 {
@@ -602,7 +627,8 @@ void CMap3DWidget::draw3DMap()
         xcount = (w / (step * 10.0) + 1);
         ycount = (h / (step * 10.0) + 1);
 
-    } else {
+    }
+    else {
         xcount = (w / step + 1);
         ycount = (h / step + 1);
     }
@@ -611,10 +637,10 @@ void CMap3DWidget::draw3DMap()
     qDebug() << xcount << ycount;
     eleData = getEleRegion(xcount, ycount);
     if (eleData == NULL) {
-            qDebug() << "can't get elevation data";
-            qDebug() << "draw flat map";
-            drawFlatMap();
-            return;
+        qDebug() << "can't get elevation data";
+        qDebug() << "draw flat map";
+        drawFlatMap();
+        return;
     }
     qDebug() << xcount << ycount;
 
@@ -627,7 +653,6 @@ void CMap3DWidget::draw3DMap()
     GLdouble *texCoords;
     GLdouble *normals;
     GLuint idx[4];
-
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -690,7 +715,7 @@ void CMap3DWidget::draw3DMap()
             idx[j] = idx[j] % (xcount * 2);
 
         if (iy == 0)
-                continue;
+            continue;
 
         for (k = 0; k < xcount - 1; k ++) {
             glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
@@ -698,7 +723,7 @@ void CMap3DWidget::draw3DMap()
                 idx[j]++;
         }
         for (j = 0; j < 4; j++)
-                idx[j]++;
+            idx[j]++;
     }
     delete [] vertices;
     delete [] texCoords;
@@ -707,6 +732,7 @@ void CMap3DWidget::draw3DMap()
     glDisable(GL_TEXTURE_2D);
     glError();
 }
+
 
 void CMap3DWidget::updateElevationLimits()
 {
@@ -725,17 +751,17 @@ void CMap3DWidget::updateElevationLimits()
     eleData = getEleRegion(xcount, ycount);
     minElevation = maxElevation = 0;
     if (eleData != NULL) {
-            minElevation = maxElevation = eleData[0];
+        minElevation = maxElevation = eleData[0];
 
-            for (i = 0; i < xcount; i++)
-                for (j = 0; j < ycount; j++) {
-                    ele = eleData[i + j * xcount];
-                    if (ele > maxElevation)
-                            maxElevation = ele;
+        for (i = 0; i < xcount; i++)
+        for (j = 0; j < ycount; j++) {
+            ele = eleData[i + j * xcount];
+            if (ele > maxElevation)
+                maxElevation = ele;
 
-                    if (ele < minElevation)
-                            minElevation = ele;
-                }
+            if (ele < minElevation)
+                minElevation = ele;
+        }
     }
 
     if (! track.isNull() && (maxElevation - minElevation < 1)) {
@@ -757,13 +783,12 @@ void CMap3DWidget::updateElevationLimits()
     }
 
     if (maxElevation - minElevation < 1) {
-            /*selected track and deb are absent*/
-            maxElevation = 1;
-            minElevation = 0;
+        /*selected track and deb are absent*/
+        maxElevation = 1;
+        minElevation = 0;
     }
     delete [] eleData;
 }
-
 #endif
 
 void CMap3DWidget::drawTrack()
@@ -849,6 +874,7 @@ void CMap3DWidget::makeMapObject()
     glEndList();
 }
 
+
 void CMap3DWidget::makeTrackObject()
 {
     glNewList(objectTrack, GL_COMPILE);
@@ -859,6 +885,7 @@ void CMap3DWidget::makeTrackObject()
     glEndList();
 }
 
+
 void CMap3DWidget::setXRotation(double angle)
 {
     normalizeAngle(&angle);
@@ -868,6 +895,8 @@ void CMap3DWidget::setXRotation(double angle)
         updateGL();
     }
 }
+
+
 void CMap3DWidget::setZRotation(double angle)
 {
     normalizeAngle(&angle);
@@ -894,8 +923,7 @@ void CMap3DWidget::initializeGL()
 
     glClearColor(1.0, 1.0, 1.0, 0.0);
     int i;
-    for (i = 0; i < 6; i++)
-    {
+    for (i = 0; i < 6; i++) {
         QImage img(tr(":/skybox/%1.bmp").arg(i));
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
@@ -910,22 +938,24 @@ void CMap3DWidget::initializeGL()
     glEnable(GL_CULL_FACE);
 }
 
+
 void CMap3DWidget::lightTurn()
 {
     light = ! light;
     updateGL();
 }
 
+
 void CMap3DWidget::paintGL()
 {
     if (reDraw) {
-            reDraw = false;
-            QApplication::setOverrideCursor(Qt::WaitCursor);
-            deleteTexture(mapTexture);
-            setMapTexture();
-            makeMapObject();
-            slotTrackChanged(false);
-            QApplication::restoreOverrideCursor();
+        reDraw = false;
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        deleteTexture(mapTexture);
+        setMapTexture();
+        makeMapObject();
+        slotTrackChanged(false);
+        QApplication::restoreOverrideCursor();
     }
     int side = qMax(mapSize.width(), mapSize.height()) / 2;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -946,50 +976,50 @@ void CMap3DWidget::paintGL()
     glTranslated(0.0, 0.0, -minElevation);
 
     if (light) {
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glEnable(GL_LIGHTING);
-            glEnable(GL_LIGHT0);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
 
-            GLfloat light0_pos[] = {xLight, yLight, - (zLight + minElevation), 0.0};
-            /*
-            GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
-            GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
-            GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
-            glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
-            glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
-            glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
-            */
+        GLfloat light0_pos[] = {xLight, yLight, - (zLight + minElevation), 0.0};
+        /*
+        GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
+        GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
+        GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
+        glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
+        */
 
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-            glShadeModel(GL_SMOOTH);
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+        glShadeModel(GL_SMOOTH);
 
-            glMaterialf (GL_FRONT,GL_SHININESS, 10);
+        glMaterialf (GL_FRONT,GL_SHININESS, 10);
     }
 
     glCallList(objectMap);
     if (light) {
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glDisable(GL_LIGHT0);
-            glDisable(GL_LIGHTING);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glDisable(GL_LIGHT0);
+        glDisable(GL_LIGHTING);
     }
     glCallList(objectTrack);
 
     /*draw axis*/
-/*    glBegin(GL_LINES);
+    /*    glBegin(GL_LINES);
 
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(100.0, 0.0, 0.0);
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(100.0, 0.0, 0.0);
 
-    glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 100.0, 0.0);
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(0.0, 100.0, 0.0);
 
-    glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 100.0);
+        glColor3f(0.0, 0.0, 1.0);
+        glVertex3f(0.0, 0.0, 0.0);
+        glVertex3f(0.0, 0.0, 100.0);
 
-    glEnd();*/
+        glEnd();*/
 
     /*draw the grid*/
     int i, d = 100, n = 10;
@@ -1050,6 +1080,7 @@ void CMap3DWidget::convertDsp2Z0(QPoint &a)
     a.ry() = y0 + yk * k1;
 }
 
+
 void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 {
     CTrack::pt_t * selTrkPt;
@@ -1104,6 +1135,7 @@ void CMap3DWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
+
 void CMap3DWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     qDebug() << "CMap3DWidget::mouseReleaseEvent";
@@ -1112,6 +1144,7 @@ void CMap3DWidget::mouseReleaseEvent(QMouseEvent *event)
         cursorPress = false;
     }
 }
+
 
 void CMap3DWidget::expandMap(bool zoomIn)
 {
@@ -1177,11 +1210,11 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
             event->ignore();
             return;
     }
-    if (zoomMap){
+    if (zoomMap) {
         map->zoom(zoomMap > 0 ? true : false, QPoint(mapSize.width() / 2, mapSize.height() / 2));
     }
 
-    if (dx || dy){
+    if (dx || dy) {
         map->move(QPoint(dx, dy), QPoint(0, 0));
     }
     updateGL();
@@ -1200,22 +1233,24 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (pressedKeys.contains(Qt::Key_H)) {
-            zLight += dy;
-    } else if (pressedKeys.contains(Qt::Key_L)) {
-            double x0, y0, z0;
-            double x1, y1, z1;
-            x0 = event->x();
-            y0 = event->y();
-            convertMouse23D(x0, y0, z0);
-            x1 = lastPos.x();
-            y1 = lastPos.y();
-            convertMouse23D(x1, y1, z1);
+        zLight += dy;
+    }
+    else if (pressedKeys.contains(Qt::Key_L)) {
+        double x0, y0, z0;
+        double x1, y1, z1;
+        x0 = event->x();
+        y0 = event->y();
+        convertMouse23D(x0, y0, z0);
+        x1 = lastPos.x();
+        y1 = lastPos.y();
+        convertMouse23D(x1, y1, z1);
 
-            double z = zLight + minElevation;
-            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
-            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
-            updateGL();
-    } else if (pressedKeys.contains(Qt::Key_M)) {
+        double z = zLight + minElevation;
+        xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
+        yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
+        updateGL();
+    }
+    else if (pressedKeys.contains(Qt::Key_M)) {
         QPoint p1 = event->pos(), p2 = lastPos;
         convertDsp2Z0(p1);
         convertDsp2Z0(p2);
@@ -1297,6 +1332,7 @@ void CMap3DWidget::wheelEvent ( QWheelEvent * e )
     }
     updateGL();
 }
+
 
 void CMap3DWidget::enterEvent(QEvent * )
 {

@@ -488,7 +488,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
 
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()) {
-//         qDebug() << "subfile:" << subfile->area << viewport << subfile->area.intersects(viewport);
+        //         qDebug() << "subfile:" << subfile->area << viewport << subfile->area.intersects(viewport);
         if(!subfile->area.intersects(viewport)) {
             ++subfile;
             continue;
@@ -502,7 +502,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
         QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
         while(subdiv != subdivs.end()) {
 
-//             if(subdiv->level == level) qDebug() << "subdiv:" << subdiv->level << level <<  subdiv->area << viewport << subdiv->area.intersects(viewport);
+            //             if(subdiv->level == level) qDebug() << "subdiv:" << subdiv->level << level <<  subdiv->area << viewport << subdiv->area.intersects(viewport);
             if(subdiv->level != level || !subdiv->area.intersects(viewport)) {
                 ++subdiv;
                 continue;
@@ -664,6 +664,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 }
 
+
 void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level)
 {
     QFile file(filename);
@@ -686,7 +687,6 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
                 ++subdiv;
                 continue;
             }
-
 
             if(subdiv->rgn_start == subdiv->rgn_end) return;
 
@@ -748,7 +748,7 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
                     CGarminPolygon& p = polygons.last();
                     pData += p.decode(subdiv->iCenterLng, subdiv->iCenterLat, subdiv->shift, false, pData);
 
-                    if(p.type != type){
+                    if(p.type != type) {
                         polygons.pop_back();
                     }
                     else {
@@ -769,6 +769,7 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
     }
 }
 
+
 void CGarminTile::createIndex(QSqlDatabase& db)
 {
     QFile file(filename);
@@ -778,7 +779,6 @@ void CGarminTile::createIndex(QSqlDatabase& db)
 
     QSqlQuery query(db);
 
-
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()) {
         quint8 level = subfile->maplevels.last().level;
@@ -786,18 +786,17 @@ void CGarminTile::createIndex(QSqlDatabase& db)
         query.prepare("INSERT INTO subfiles (name, filename) VALUES (:name, :filename)");
         query.bindValue(":name", subfile.key());
         query.bindValue(":filename", filename);
-        if(!query.exec()){
+        if(!query.exec()) {
             qDebug() << query.lastError();
         }
 
         query.prepare("Select id FROM subfiles WHERE filename = :filename");
         query.bindValue(":filename", filename);
-        if(!query.exec()){
+        if(!query.exec()) {
             qDebug() << query.lastError();
         }
         query.next();
         quint32 idSubfile = query.value(0).toUInt();
-
 
         QByteArray rgndata;
         readFile(file, subfile->parts["RGN"].offset, subfile->parts["RGN"].size, rgndata);
@@ -820,6 +819,7 @@ void CGarminTile::createIndex(QSqlDatabase& db)
         ++subfile;
     }
 }
+
 
 void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db)
 {
@@ -899,13 +899,13 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
 
-            if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)){
+            if(!p.labels.isEmpty() && !(0x20 <= p.type && p.type <= 0x25)) {
                 double lon1 = p.u[0];
                 double lat1 = p.v[0];
                 double lon2 = lon1;
                 double lat2 = lat1;
                 const int size = p.u.size();
-                for(int i = 0; i < size; ++i){
+                for(int i = 0; i < size; ++i) {
                     const double u = p.u[i];
                     const double v = p.v[i];
                     if(u < lon1) lon1 = u;
@@ -917,14 +917,13 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
                 QSqlQuery query(db);
                 query.prepare(QString("INSERT INTO polylines (type, subfile, subdiv, offset, lon1, lat1, lon2, lat2, label) VALUES (%1, %2, %3, %4, %5, %6, %7, %8, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(lon1).arg(lat1).arg(lon2).arg(lat2));
                 query.bindValue(":label", p.labels.join(" ").simplified());
-                if(!query.exec()){
+                if(!query.exec()) {
                     qDebug() << query.lastError();
                     qDebug() << query.lastQuery();
                 }
             }
         }
     }
-
 
     // decode indexed points
     if(subdiv.hasIdxPoints) {
@@ -939,11 +938,11 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels) : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
 
-            if(!p.labels.isEmpty()){
+            if(!p.labels.isEmpty()) {
                 QSqlQuery query(db);
                 query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, lon1, lat1, label) VALUES (%1, %2, %3, %4, %5, %6, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(p.lon).arg(p.lat));
                 query.bindValue(":label", p.labels.join(" ").simplified());
-                if(!query.exec()){
+                if(!query.exec()) {
                     qDebug() << query.lastError();
                     qDebug() << query.lastQuery();
                 }
@@ -963,11 +962,11 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
             if(strtbl) {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels) : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
-            if(!p.labels.isEmpty()){
+            if(!p.labels.isEmpty()) {
                 QSqlQuery query(db);
                 query.prepare(QString("INSERT INTO points (type, subfile, subdiv, offset, lon1, lat1, label) VALUES (%1, %2, %3, %4, %5, %6, :label)").arg(p.type).arg(idSubfile).arg(subdiv.n).arg(offset).arg(p.lon).arg(p.lat));
                 query.bindValue(":label", p.labels.join(" ").simplified());
-                if(!query.exec()){
+                if(!query.exec()) {
                     qDebug() << query.lastError();
                     qDebug() << query.lastQuery();
                 }
@@ -976,6 +975,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
     }
 
 }
+
 
 void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset, polytype_t& polylines)
 {
@@ -997,6 +997,7 @@ void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset
     file.close();
 }
 
+
 void CGarminTile::readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point)
 {
     QFile file(filename);
@@ -1016,6 +1017,3 @@ void CGarminTile::readPoint(const QString& subfile, quint32 n, quint32 offset, p
 
     file.close();
 }
-
-
-

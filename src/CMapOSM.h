@@ -82,6 +82,4 @@ class CMapOSM : public IMap
         bool needsRedrawOvl;
 
 };
-
-#endif //CMAPOSM_H
-
+#endif                           //CMAPOSM_H

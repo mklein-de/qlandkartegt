@@ -73,8 +73,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-
-    if (strProj.contains("longlat")){
+    if (strProj.contains("longlat")) {
         xref1   = adfGeoTransform[0] * DEG_TO_RAD;
         yref1   = adfGeoTransform[3] * DEG_TO_RAD;
 
@@ -82,7 +81,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
     }
-    else{
+    else {
         xref1   = adfGeoTransform[0];
         yref1   = adfGeoTransform[3];
 
@@ -92,7 +91,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-//     qDebug() << xref1 << yref1 << xref2 << yref2 << xscale << yscale;
+    //     qDebug() << xref1 << yref1 << xref2 << yref2 << xscale << yscale;
 
     int i;
     for(i = 0; i < 256; ++i) {
@@ -160,6 +159,7 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
 }
 
+
 qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
 {
     if(pjsrc == 0) return NULL;
@@ -173,20 +173,21 @@ qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
     double yoff1_f = (topLeft.v - yref1) / yscale;
 
     // 3. truncate floating point offset into integer offset
-    int xoff1 = floor(xoff1_f);        //qDebug() << "xoff1:" << xoff1 << xoff1_f;
-    int yoff1 = floor(yoff1_f);        //qDebug() << "yoff1:" << yoff1 << yoff1_f;
+    int xoff1 = floor(xoff1_f);  //qDebug() << "xoff1:" << xoff1 << xoff1_f;
+    int yoff1 = floor(yoff1_f);  //qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
     // 4. get floating point offset of bottom right corner
     double xoff2_f = (bottomRight.u - xref1) / xscale;
     double yoff2_f = (bottomRight.v - yref1) / yscale;
 
     // 5. truncate floating point offset into integer offset.
-    int xoff2 = ceil(xoff2_f);     //qDebug() << "xoff2:" << xoff2 << xoff2_f;
-    int yoff2 = ceil(yoff2_f);     //qDebug() << "yoff2:" << yoff2 << yoff2_f;
+    int xoff2 = ceil(xoff2_f);   //qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
     // 6. get width and height to read from file
     quint32 w1 = xoff2 - xoff1 + 1;
-    quint32 h1 = yoff2 - yoff1 + 1;     //qDebug() << "w1:" << w1 << "h1:" << h1;
+                                 //qDebug() << "w1:" << w1 << "h1:" << h1;
+    quint32 h1 = yoff2 - yoff1 + 1;
 
     topLeft.u = xoff1 * xscale + xref1;
     topLeft.v = yoff1 * yscale + yref1;
@@ -198,9 +199,9 @@ qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
     // memory sanity check
     if(double(w1) * double(h1) > pow(2.0f,31)) return NULL;
     if (w1 < w)
-            w = w1;
+        w = w1;
     if (h1 < h)
-            h = h1;
+        h = h1;
 
     // 7. read DEM data from file
     qDebug() << w << h;
@@ -216,9 +217,10 @@ qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
     return pData;
 }
 
+
 void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
 {
-//     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
+    //     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
     memset(data, 0, sizeof(float) * h * w);
 
     if(pjsrc == 0) return;
@@ -232,20 +234,21 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     double yoff1_f = (topLeft.v - yref1) / yscale;
 
     // 3. truncate floating point offset into integer offset
-    int xoff1 = floor(xoff1_f);        //qDebug() << "xoff1:" << xoff1 << xoff1_f;
-    int yoff1 = floor(yoff1_f);        //qDebug() << "yoff1:" << yoff1 << yoff1_f;
+    int xoff1 = floor(xoff1_f);  //qDebug() << "xoff1:" << xoff1 << xoff1_f;
+    int yoff1 = floor(yoff1_f);  //qDebug() << "yoff1:" << yoff1 << yoff1_f;
 
     // 4. get floating point offset of bottom right corner
     double xoff2_f = (bottomRight.u - xref1) / xscale;
     double yoff2_f = (bottomRight.v - yref1) / yscale;
 
     // 5. truncate floating point offset into integer offset.
-    int xoff2 = ceil(xoff2_f);     //qDebug() << "xoff2:" << xoff2 << xoff2_f;
-    int yoff2 = ceil(yoff2_f);     //qDebug() << "yoff2:" << yoff2 << yoff2_f;
+    int xoff2 = ceil(xoff2_f);   //qDebug() << "xoff2:" << xoff2 << xoff2_f;
+    int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
     // 6. get width and height to read from file
     quint32 w1 = xoff2 - xoff1 + 1;
-    quint32 h1 = yoff2 - yoff1 + 1;     //qDebug() << "w1:" << w1 << "h1:" << h1;
+                                 //qDebug() << "w1:" << w1 << "h1:" << h1;
+    quint32 h1 = yoff2 - yoff1 + 1;
 
     // memory sanity check
     if(double(w1) * double(h1) > pow(2.0f,31)) return;
@@ -271,12 +274,12 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     qint32 yi;
 
     yf = yoff1_f - yoff1;
-    for(int j = 0; j < h; ++j, yf += ystep){
+    for(int j = 0; j < h; ++j, yf += ystep) {
         yi = floor(yf);
         y  = yf - yi;
 
         xf = xoff1_f - xoff1;
-        for(int i = 0; i < w; ++i, xf += xstep){
+        for(int i = 0; i < w; ++i, xf += xstep) {
             xi = floor(xf);
             x  = xf - xi;
 
@@ -309,7 +312,7 @@ float CMapDEM::getElevation(double lon, double lat)
 
     pj_transform(pjtar, pjsrc, 1, 0, &u, &v, 0);
 
-//     qDebug() << u << xref1 << xscale;
+    //     qDebug() << u << xref1 << xscale;
 
     double xoff = (u - xref1) / xscale;
     double yoff = (v - yref1) / yscale;
@@ -317,7 +320,7 @@ float CMapDEM::getElevation(double lon, double lat)
     double x    = xoff - floor(xoff);
     double y    = yoff - floor(yoff);
 
-//     qDebug() << xoff << yoff << x << y;
+    //     qDebug() << xoff << yoff << x << y;
 
     CPLErr err = dataset->RasterIO(GF_Read, floor(xoff), floor(yoff), 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
     if(err == CE_Failure) {
@@ -344,12 +347,13 @@ void CMapDEM::draw(QPainter& p)
     //     qDebug() << "--------------------------";
 }
 
+
 #if 0
 void CMapDEM::draw()
 {
 
     IMap::overlay_e overlay = status->getOverlayType();
-    if(overlay == IMap::eNone){
+    if(overlay == IMap::eNone) {
         old_overlay = overlay;
         buffer.fill(Qt::transparent);
         return;
@@ -367,8 +371,7 @@ void CMapDEM::draw()
         && p1.u == old_p1.u && p1.v == old_p1.v
         && p2.u == old_p2.u && p2.v == old_p2.v
         && my_xscale == old_my_xscale && my_yscale == old_my_yscale
-      )
-    {
+    ) {
         return;
     }
 
@@ -405,18 +408,18 @@ void CMapDEM::draw()
     p.drawImage(0, 0, img);
 }
 
+
 #else
 
 void CMapDEM::draw()
 {
 
     IMap::overlay_e overlay = status->getOverlayType();
-    if(overlay == IMap::eNone){
+    if(overlay == IMap::eNone) {
         old_overlay = overlay;
         buffer.fill(Qt::transparent);
         return;
     }
-
 
     // check if old area matches new request
     // kind of a different way to calculate the needRedraw flag
@@ -430,8 +433,7 @@ void CMapDEM::draw()
         && p1.u == old_p1.u && p1.v == old_p1.v
         && p2.u == old_p2.u && p2.v == old_p2.v
         && my_xscale == old_my_xscale && my_yscale == old_my_yscale
-      )
-    {
+    ) {
         return;
     }
 
@@ -532,7 +534,6 @@ void CMapDEM::draw()
 }
 #endif
 
-
 void CMapDEM::shading(QImage& img, qint16 * data, float /*xscale*/, float /*yscale*/)
 {
     int i;
@@ -588,18 +589,17 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
         data[idx++] = 0;
     }
 
-//     qDebug() << min << max;
+    //     qDebug() << min << max;
 
     for(c = 0; c < w1; ++c) {
         data[idx++] = 0;
     }
     float f = 30;
-    if(xscl < 4){
+    if(xscl < 4) {
         f  = abs(min) < abs(max) ? abs(max) : abs(min);
         f /= 2;
     }
     f = f ? f : 1;
-
 
     img.setColorTable(graytable1);
     uchar * pixel = img.bits();

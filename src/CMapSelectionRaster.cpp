@@ -33,10 +33,12 @@ CMapSelectionRaster::CMapSelectionRaster(QObject * parent)
     type = eRaster;
 }
 
+
 CMapSelectionRaster::~CMapSelectionRaster()
 {
 
 }
+
 
 void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 {
@@ -68,4 +70,3 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
         CCanvas::drawText(description,p,r);
     }
 }
-

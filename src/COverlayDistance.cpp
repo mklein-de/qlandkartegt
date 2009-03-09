@@ -114,7 +114,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
     IMap& map = CMapDB::self().getMap();
     QList<XY>::iterator p = points.begin();
 
-    if(doFuncWheel){
+    if(doFuncWheel) {
         return true;
     }
 
@@ -130,20 +130,19 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
         if(d < dist) {
             thePoint = &(*p);
 
-            if(p != points.begin()){
+            if(p != points.begin()) {
                 XY p1 = *p;
                 XY p2 = *(p - 1);
-
 
                 map.convertRad2M(p1.u, p1.v);
                 map.convertRad2M(p2.u, p2.v);
 
                 anglePrev = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
             }
-            else{
+            else {
                 anglePrev = 1000;
             }
-            if((p + 1) != points.end()){
+            if((p + 1) != points.end()) {
                 XY p1 = *p;
                 XY p2 = *(p + 1);
 
@@ -153,7 +152,7 @@ bool COverlayDistance::isCloseEnought(const QPoint& pt)
                 angleNext = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
 
             }
-            else{
+            else {
                 angleNext = 1000;
             }
 
@@ -206,7 +205,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 {
     if(thePoint == 0) return;
 
-    if(!doFuncWheel){
+    if(!doFuncWheel) {
         doFuncWheel = true;
         return;
     }
@@ -274,7 +273,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         theMainWindow->getCanvas()->update();
 
     }
-    else{
+    else {
         doFuncWheel = false;
         thePoint    = 0;
     }
@@ -341,7 +340,7 @@ void COverlayDistance::draw(QPainter& p)
         pt2 = *thePoint;
         map.convertRad2Pt(pt2.u, pt2.v);
 
-        if(doFuncWheel){
+        if(doFuncWheel) {
 
             p.setPen(QColor(100,100,255,200));
             p.setBrush(QColor(255,255,255,200));
@@ -353,7 +352,7 @@ void COverlayDistance::draw(QPainter& p)
             p.translate(pt2.u - 24, pt2.v - 24);
             p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
             p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
-            if(anglePrev < 360){
+            if(anglePrev < 360) {
                 p.save();
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd1.center());
@@ -361,7 +360,7 @@ void COverlayDistance::draw(QPainter& p)
                 p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
                 p.restore();
             }
-            else{
+            else {
                 p.save();
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd1.center());
@@ -370,7 +369,7 @@ void COverlayDistance::draw(QPainter& p)
                 p.restore();
             }
 
-            if(angleNext < 360){
+            if(angleNext < 360) {
                 p.save();
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd2.center());
@@ -378,7 +377,7 @@ void COverlayDistance::draw(QPainter& p)
                 p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
                 p.restore();
             }
-            else{
+            else {
                 p.save();
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd2.center());
@@ -389,7 +388,7 @@ void COverlayDistance::draw(QPainter& p)
 
             p.restore();
         }
-        else{
+        else {
             p.setPen(QColor(100,100,255,200));
             p.setBrush(QColor(255,255,255,200));
             p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
@@ -515,6 +514,7 @@ void COverlayDistance::makeVisible()
     }
     CMapDB::self().getMap().zoom(west, north, east, south);
 }
+
 
 void COverlayDistance::looseFocus()
 {

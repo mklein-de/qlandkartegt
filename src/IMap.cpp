@@ -162,6 +162,7 @@ void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& m
     CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }
 
+
 static char nullstr[1] = "";
 char * IMap::getProjection()
 {
@@ -170,6 +171,7 @@ char * IMap::getProjection()
     }
     return pj_get_def(pjsrc,0);
 }
+
 
 void IMap::registerDEM(CMapDEM& dem)
 {
@@ -184,23 +186,24 @@ void IMap::registerDEM(CMapDEM& dem)
     if(ptr1) free(ptr1);
     if(ptr2) free(ptr2);
 
-    if(proj1 != proj2){
+    if(proj1 != proj2) {
         dem.deleteLater();
         throw tr("DEM projection does not match the projection of the basemap.");
     }
 }
 
+
 void IMap::addOverlayMap(const QString& k)
 {
     // prevent registering twice
-    if(key == k){
+    if(key == k) {
         return;
     }
 
     needsRedraw = true;
 
     // pass request to next overlay map
-    if(!ovlMap.isNull()){
+    if(!ovlMap.isNull()) {
         ovlMap->addOverlayMap(k);
         emit sigChanged();
         return;
@@ -212,45 +215,49 @@ void IMap::addOverlayMap(const QString& k)
     emit sigChanged();
 }
 
+
 void IMap::slotOvlChanged()
 {
     needsRedraw = true;
     emit sigChanged();
 }
 
+
 void IMap::delOverlayMap(const QString& k)
 {
     if(ovlMap.isNull()) return;
 
-    if(ovlMap->getKey() != k){
+    if(ovlMap->getKey() != k) {
         ovlMap->delOverlayMap(k);
         emit sigChanged();
         return;
     }
-
 
     ovlMap->deleteLater();
     ovlMap = ovlMap->ovlMap;
     emit sigChanged();
 }
 
+
 bool IMap::hasOverlayMap(const QString& k)
 {
 
     if(ovlMap.isNull()) return (k == key);
 
-    if(key != k){
+    if(key != k) {
         return ovlMap->hasOverlayMap(k);
     }
 
     return true;
 }
 
+
 void IMap::setFastDraw()
 {
     timerFastDraw->start(500);
     doFastDraw = true;
 }
+
 
 void IMap::slotResetFastDraw()
 {
@@ -262,7 +269,7 @@ void IMap::slotResetFastDraw()
 
 bool IMap::isLonLat()
 {
-    if(pjsrc){
+    if(pjsrc) {
         return pj_is_latlong(pjsrc);
     }
     return true;

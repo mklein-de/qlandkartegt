@@ -212,7 +212,6 @@ static quint16 order[] =
     , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
 
-
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
 , filename(filename)
@@ -237,7 +236,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     setup();
     readTDB(filename);
 
-//     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
+    //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
 
@@ -310,7 +309,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
-    if(QString(ptr).contains("longlat")){
+    if(QString(ptr).contains("longlat")) {
         lon_factor =   PI / pow(2.0, 24);
         lat_factor = - PI / pow(2.0, 24);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
@@ -348,7 +347,6 @@ CMapTDB::~CMapTDB()
     cfg.setValue("details", detailsFineTune);
     cfg.endGroup();
     cfg.endGroup();
-
 
     if(pjsrc) pj_free(pjsrc);
 
@@ -533,6 +531,7 @@ void CMapTDB::setup()
     }
 }
 
+
 void CMapTDB::registerDEM(CMapDEM& dem)
 {
     if(pjsrc == 0) {
@@ -543,13 +542,13 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     char * ptr = dem.getProjection();
     qDebug() << "Reproject map to:" << ptr;
 
-    if(QString(ptr).contains("longlat")){
+    if(QString(ptr).contains("longlat")) {
         lon_factor =   PI / pow(2.0, 23);
         lat_factor = - PI / pow(2.0, 23);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
-    if(strlen(ptr) == 0){
+    if(strlen(ptr) == 0) {
         return;
     }
     pj_free(pjsrc);
@@ -636,14 +635,14 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
             emit sigChanged();
         }
-        else if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton){
+        else if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
             detailsFineTune -= 1;
             if(detailsFineTune < -5) detailsFineTune = -5;
             needsRedraw = true;
             emit sigChanged();
             qDebug() << "detailsFineTune" << detailsFineTune;
         }
-        else if(rectIncDetail.contains(e->pos()) && e->button() == Qt::LeftButton){
+        else if(rectIncDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
             detailsFineTune += 1;
             if(detailsFineTune >  5) detailsFineTune =  5;
             needsRedraw = true;
@@ -1204,7 +1203,7 @@ void CMapTDB::draw(QPainter& p)
         QFont f = p.font();
         f.setBold(false);
         f.setItalic(false);
-        if(f.pointSize() < 8){
+        if(f.pointSize() < 8) {
             f.setPointSize(8);
         }
         info->setDefaultFont(f);
@@ -1276,28 +1275,28 @@ void CMapTDB::draw(QPainter& p)
     // draw detail scaling
     p.setPen(Qt::darkBlue);
     p.setBrush(QColor(255,255,255,100));
-    if(mouseOverDecDetail){
+    if(mouseOverDecDetail) {
         p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png").scaled(40,40));
     }
-    else{
+    else {
         p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png"));
     }
 
-    if(mouseOverIncDetail){
+    if(mouseOverIncDetail) {
         p.drawPixmap(rectIncDetail.topLeft(), QPixmap(":/icons/iconAdd32x32.png").scaled(40,40));
     }
-    else{
+    else {
         p.drawPixmap(rectIncDetail, QPixmap(":/icons/iconAdd32x32.png"));
     }
 
     QString str;
-    if(detailsFineTune < 0){
+    if(detailsFineTune < 0) {
         str = tr("details %1").arg(detailsFineTune);
     }
-    else if(detailsFineTune > 0){
+    else if(detailsFineTune > 0) {
         str = tr("details +%1").arg(detailsFineTune);
     }
-    else{
+    else {
         str = tr("details %1").arg(detailsFineTune);
     }
     QFont font = p.font();
@@ -1345,7 +1344,6 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         zoomFactor = sx/lon_factor;
         lat_factor = sy/sx * lon_factor;
-
 
         for(i=0; i < MAX_IDX_ZOOM; ++i) {
             if(scales[i].scale <= sx) break;
@@ -1494,7 +1492,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     for(m = 0; m < M; ++m) {
         quint16 type = polylineDrawOrder[M - m - 1];
 
-        if(zoomFactor > 3.0 && (type == 0x20 || type == 0x23)){
+        if(zoomFactor > 3.0 && (type == 0x20 || type == 0x23)) {
             continue;
         }
 
@@ -1510,7 +1508,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
+                //                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1524,7 +1522,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
+                //                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1588,7 +1586,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         if(property.grow) {
             int width   = pen.width();
             width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
+            //             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
             pen.setWidth(width);
         }
 
@@ -1615,6 +1613,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
     }
 }
+
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics)
 {
@@ -1651,7 +1650,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
 
     QPointF p1 = line[0];
     const int size = line.size();
-    for(int i = 1; i < size; ++i){
+    for(int i = 1; i < size; ++i) {
         QPointF p2  = line[i];
         qreal dx    = p2.x() - p1.x();
         qreal dy    = p2.y() - p1.y();
@@ -1662,12 +1661,13 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     textpaths << tp;
 }
 
+
 void CMapTDB::drawText(QPainter& p)
 {
     p.setPen(Qt::black);
 
     QVector<textpath_t>::iterator textpath = textpaths.begin();
-    while(textpath != textpaths.end()){
+    while(textpath != textpaths.end()) {
         QFont& font         = textpath->font;
         QFontMetricsF fm(font);
         QPainterPath& path  = textpath->path;
@@ -1677,7 +1677,7 @@ void CMapTDB::drawText(QPainter& p)
         qreal width         = fm.width(textpath->text);
 
         // adjust font size until string fits into polyline
-        while(width > (length * 0.7)){
+        while(width > (length * 0.7)) {
             font.setPixelSize(font.pixelSize() - 1);
             fm      = QFontMetricsF(font);
             width   = fm.width(textpath->text);
@@ -1686,7 +1686,7 @@ void CMapTDB::drawText(QPainter& p)
         }
 
         // no way to draw a readable string - skip
-        if((font.pixelSize() < 8)){
+        if((font.pixelSize() < 8)) {
             ++textpath;
             continue;
         }
@@ -1696,14 +1696,14 @@ void CMapTDB::drawText(QPainter& p)
         const qreal ref = (length - width) / 2;
         qreal offset    = 0;
 
-        for(int i = 0; i < lengths.size(); ++i){
+        for(int i = 0; i < lengths.size(); ++i) {
             const qreal d = lengths[i];
 
-            if((offset + d/2) >= ref){
+            if((offset + d/2) >= ref) {
                 offset = ref;
                 break;
             }
-            if((offset + d) >= ref){
+            if((offset + d) >= ref) {
                 offset += d/2;
                 break;
             }
@@ -1722,7 +1722,7 @@ void CMapTDB::drawText(QPainter& p)
 
         // flip path if string start is E->W direction
         // this helps, sometimes, in 50 % of the cases :)
-        if(point2.x() - point1.x() < 0){
+        if(point2.x() - point1.x() < 0) {
             path    = path.toReversed();
         }
 
@@ -1730,7 +1730,7 @@ void CMapTDB::drawText(QPainter& p)
 
         // draw string letter by letter and adjust angle
         const int size = text.size();
-        for(int i = 0; i < size; ++i){
+        for(int i = 0; i < size; ++i) {
 
             percent1  =  offset / length;
             percent2  = (offset + fm.width(text[i])) / length;
@@ -1740,7 +1740,7 @@ void CMapTDB::drawText(QPainter& p)
 
             angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
-            if(point2.x() - point1.x() < 0){
+            if(point2.x() - point1.x() < 0) {
                 angle += 180;
             }
 
@@ -1804,7 +1804,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
 
-        if((pt->type > 0x1600) && (zoomFactor > 5.0)){
+        if((pt->type > 0x1600) && (zoomFactor > 5.0)) {
             ++pt;
             continue;
         };
@@ -1975,7 +1975,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
             if(distance < shortest) {
                 type = line->type;
 
-//                 qDebug() << hex << type;
+                //                 qDebug() << hex << type;
 
                 key  = polyline_typestr[type];
 
@@ -2148,7 +2148,7 @@ void CMapTDB::readColorTableAlpha(QDataStream &in, QImage &img, int colors, int 
     img.setNumColors(maxcolors);
     for (int i = 0; i < maxcolors; i++) {
         if(i < colors) {
-            while(bits < 28){
+            while(bits < 28) {
                 in >> byte;
                 mask = 0x000000FF << bits;
                 reg  = reg  & (~mask);
@@ -2166,6 +2166,7 @@ void CMapTDB::readColorTableAlpha(QDataStream &in, QImage &img, int colors, int 
         }
     }
 }
+
 
 void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
 {
@@ -2447,7 +2448,6 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
-
     if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
@@ -2693,22 +2693,22 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 if(bpp == 4) bpp /= 2;
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
-//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x10) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
-//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x20) {
                 readColorTableAlpha(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
-//                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else {
                 if(!tainted) {
@@ -2779,11 +2779,12 @@ void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
     }
 }
 
+
 void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 {
     QStringList files;
     QMap<QString,tile_t>::const_iterator tile = tiles.begin();
-    while(tile != tiles.end()){
+    while(tile != tiles.end()) {
         files << tile->file;
         ++tile;
     }
@@ -2798,6 +2799,7 @@ void CMapTDB::highlight(QVector<CGarminPolygon>& res)
     needsRedraw = true;
     emit sigChanged();
 }
+
 
 void CMapTDB::highlight(QVector<CGarminPoint>& res)
 {

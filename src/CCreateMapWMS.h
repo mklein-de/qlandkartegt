@@ -47,6 +47,4 @@ class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
         QString mapPath;
 
 };
-
-#endif //CCREATEMAPWMS_H
-
+#endif                           //CCREATEMAPWMS_H

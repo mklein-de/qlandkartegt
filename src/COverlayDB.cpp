@@ -46,11 +46,13 @@ COverlayDB::~COverlayDB()
 
 }
 
+
 void COverlayDB::looseFocus()
 {
     IOverlay * overlay;
     foreach(overlay, overlays) overlay->looseFocus();
 }
+
 
 void COverlayDB::draw(QPainter& p, const QRect& r, bool& needsRedraw)
 {

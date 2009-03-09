@@ -67,6 +67,4 @@ class CMapSelectionGarmin : public IMapSelection
 
         quint32 tilecnt;
 };
-
-#endif //CMAPSELECTIONGARMIN_H
-
+#endif                           //CMAPSELECTIONGARMIN_H

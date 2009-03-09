@@ -80,10 +80,12 @@ float CUnitMetric::elevation2meter(const QString& val)
     return val.toDouble();
 }
 
+
 float CUnitMetric::str2speed(QString& str)
 {
     return str.remove(" km/h").toDouble();
 }
+
 
 float CUnitMetric::str2distance(QString& str)
 {

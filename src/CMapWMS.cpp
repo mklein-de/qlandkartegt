@@ -68,14 +68,14 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    if (pj_is_latlong(pjsrc)){
+    if (pj_is_latlong(pjsrc)) {
         xscale  = adfGeoTransform[1] * DEG_TO_RAD;
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
         xref1   = adfGeoTransform[0] * DEG_TO_RAD;
         yref1   = adfGeoTransform[3] * DEG_TO_RAD;
     }
-    else{
+    else {
         xscale  = adfGeoTransform[1];
         yscale  = adfGeoTransform[5];
 
@@ -136,7 +136,6 @@ CMapWMS::~CMapWMS()
     cfg.setValue("zoomidx",zoomidx);
     cfg.endGroup();
     cfg.endGroup();
-
 
     if(pjsrc) pj_free(pjsrc);
 
@@ -284,7 +283,7 @@ void CMapWMS::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
 
-    if(needsRedraw){
+    if(needsRedraw) {
         draw();
     }
 
@@ -298,8 +297,8 @@ void CMapWMS::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
-        // render overlay
-    if(!ovlMap.isNull() && !doFastDraw){
+    // render overlay
+    if(!ovlMap.isNull() && !doFastDraw) {
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -319,7 +318,6 @@ void CMapWMS::draw(QPainter& p)
 
     p.setPen(Qt::darkBlue);
     p.drawText(10,24,str);
-
 
     if(doFastDraw) setFastDraw();
 
@@ -347,7 +345,7 @@ void CMapWMS::draw()
     QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));
     QRectF intersect = viewport.intersected(maparea);
 
-//     qDebug() << maparea << viewport << intersect;
+    //     qDebug() << maparea << viewport << intersect;
 
     if(intersect.isValid()) {
 
@@ -366,7 +364,7 @@ void CMapWMS::draw()
         // correct pxx by truncation
         pxx         =   (qint32)(w * zoomFactor);
 
-//         qDebug() << xoff << yoff << pxx << pxy << w << h;
+        //         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
         if(w != 0 && h != 0) {
 
@@ -389,13 +387,13 @@ void CMapWMS::draw()
                 quint8 * pA     = (quint8 *)data.data() + w* h + w * h + w * h;
                 quint32 * pImg  = (quint32 *)img.bits();
 
-                if(nBands == 3){
-                    for(i = 0; i < w*h; i++){
+                if(nBands == 3) {
+                    for(i = 0; i < w*h; i++) {
                         *pImg++ = qRgb(*pR++,*pG++,*pB++);
                     }
                 }
-                else if(nBands == 4){
-                    for(i = 0; i < w*h; i++){
+                else if(nBands == 4) {
+                    for(i = 0; i < w*h; i++) {
                         *pImg++ = qRgba(*pR++,*pG++,*pB++,*pA++);
                     }
                 }
@@ -404,7 +402,7 @@ void CMapWMS::draw()
                 convertM2Pt(xx,yy);
                 _p_.drawImage(xx,yy,img);
             }
-            else{
+            else {
                 IMap::draw();
             }
         }
@@ -422,7 +420,7 @@ void CMapWMS::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p2.u        = r.right();
     p2.v        = r.bottom();
 
-    if(!pj_is_latlong(pjsrc)){
+    if(!pj_is_latlong(pjsrc)) {
         pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
         pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
     }

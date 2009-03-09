@@ -214,7 +214,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.endGroup();
     }
 #ifdef WMS_CLIENT
-    else if(ext == "xml" ){
+    else if(ext == "xml" ) {
         map.filename    = filename;
         map.key         = filename;
         map.type        = IMap::eRaster;
@@ -237,7 +237,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
     }
 #endif
-    else if(filename == "OSMTileServer"){
+    else if(filename == "OSMTileServer") {
         theMap = new CMapOSM(theMainWindow->getCanvas());
 
         // store current map filename for next session
@@ -289,17 +289,16 @@ void CMapDB::openMap(const QString& key)
             theMap = new CMapQMAP(key,filename,theMainWindow->getCanvas());
         }
 
-
     }
     else if(ext == "tdb") {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
 #ifdef WMS_CLIENT
-    else if(ext == "xml" ){
+    else if(ext == "xml" ) {
         theMap = new CMapWMS(key,filename,theMainWindow->getCanvas());
     }
 #endif
-    else if(key == "OSMTileServer"){
+    else if(key == "OSMTileServer") {
         theMap = new CMapOSM(theMainWindow->getCanvas());
         filename = key;
     }
@@ -317,11 +316,12 @@ void CMapDB::openMap(const QString& key)
     QApplication::restoreOverrideCursor();
 }
 
+
 IMap * CMapDB::createMap(const QString& key)
 {
     if(!knownMaps.contains(key)) return 0;
     const map_t& mapdesc = knownMaps[key];
-    if(mapdesc.type != IMap::eGarmin){
+    if(mapdesc.type != IMap::eGarmin) {
         QMessageBox::critical(0, tr("Error..."), tr("Only vector maps are valid overlays."), QMessageBox::Abort, QMessageBox::Abort);
         return 0;
     }
@@ -341,20 +341,22 @@ IMap * CMapDB::createMap(const QString& key)
     return map;
 }
 
+
 void CMapDB::openDEM(const QString& filename)
 {
     QSettings cfg;
 
-    if(!demMap.isNull()){
+    if(!demMap.isNull()) {
         delete demMap;
     }
 
-    try{
+    try
+    {
         CMapDEM * dem;
         demMap = dem = new CMapDEM(filename, theMainWindow->getCanvas());
         theMap->registerDEM(*dem);
     }
-    catch(const QString& msg){
+    catch(const QString& msg) {
         cfg.setValue(QString("map/dem/%1").arg(theMap->getKey()), "");
         QMessageBox:: critical(0,tr("Error..."), msg, QMessageBox::Abort, QMessageBox::Abort);
         return;
@@ -364,6 +366,7 @@ void CMapDB::openDEM(const QString& filename)
 
     emit sigChanged();
 }
+
 
 void CMapDB::closeMap()
 {
@@ -378,7 +381,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
     QString key;
     foreach(key, keys) {
         map_t& map = knownMaps[key];
-        if(map.type == IMap::eGarmin){
+        if(map.type == IMap::eGarmin) {
             QSettings cfg;
             cfg.beginGroup("garmin/maps");
             cfg.beginGroup("alias");
@@ -505,7 +508,7 @@ void CMapDB::searchMap()
         mapsearch = new CMapSearchWidget(theMainWindow->getCanvas());
         theMainWindow->setTempWidget(mapsearch);
     }
-    else{
+    else {
         mapsearch->deleteLater();
     }
 }
@@ -519,7 +522,7 @@ void CMapDB::select(const QRect& rect)
         return;
     }
 
-    if(theMap->maptype == IMap::eRaster){
+    if(theMap->maptype == IMap::eRaster) {
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;
         ms->description  = knownMaps[mapkey].description;
@@ -528,21 +531,21 @@ void CMapDB::select(const QRect& rect)
 
         selectedMaps[ms->key] = ms;
 
-        if(ms->isEmpty()){
+        if(ms->isEmpty()) {
             delete selectedMaps.take(ms->key);
         }
-        else if(mapsearch){
+        else if(mapsearch) {
             mapsearch->setArea(*ms);
         }
 
         emit sigChanged();
     }
-    else if(theMap->maptype == IMap::eGarmin){
+    else if(theMap->maptype == IMap::eGarmin) {
         IMapSelection * ms = 0;
-        if(selectedMaps.contains("gmapsupp")){
+        if(selectedMaps.contains("gmapsupp")) {
             ms = selectedMaps["gmapsupp"];
         }
-        else{
+        else {
             ms = new CMapSelectionGarmin(this);
         }
         ms->key          = "gmapsupp";
@@ -552,7 +555,7 @@ void CMapDB::select(const QRect& rect)
 
         selectedMaps[ms->key] = ms;
 
-        if(ms->isEmpty()){
+        if(ms->isEmpty()) {
             delete selectedMaps.take(ms->key);
         }
 

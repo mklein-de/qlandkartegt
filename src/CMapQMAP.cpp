@@ -134,7 +134,7 @@ void CMapQMAP::draw(QPainter& p)
     }
 
     // render overlay
-    if(!ovlMap.isNull() && !doFastDraw){
+    if(!ovlMap.isNull() && !doFastDraw) {
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -165,6 +165,7 @@ void CMapQMAP::draw(QPainter& p)
 
 }
 
+
 #include "CMapDB.h"
 void CMapQMAP::__test()
 {
@@ -175,8 +176,8 @@ void CMapQMAP::__test()
     QVector<float> ele1(c * r);
     float * ptr = ele1.data();
     int x, y = 0;
-    for(y = 0; y < r; ++y){
-        for(x = 0; x < c; ++x){
+    for(y = 0; y < r; ++y) {
+        for(x = 0; x < c; ++x) {
             double u = x;
             double v = y;
             convertPt2Rad(u,v);
@@ -198,17 +199,18 @@ void CMapQMAP::__test()
 
     printf("---------------------\n");
 
-    for(y = 0 ; y < (c * r); y++){
-        if(ele1[y] != ele2[y]){
+    for(y = 0 ; y < (c * r); y++) {
+        if(ele1[y] != ele2[y]) {
             qDebug() << "missmatch at " << y;
             break;
         }
     }
 }
 
+
 void CMapQMAP::draw()
 {
-//     __test();
+    //     __test();
 
     buffer.fill(Qt::white);
     QPainter _p_(&buffer);
@@ -503,6 +505,7 @@ void CMapQMAP::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysc
     my_xscale   = map->xscale*zoomFactor;
     my_yscale   = map->yscale*zoomFactor;
 }
+
 
 void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
 {

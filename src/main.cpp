@@ -34,26 +34,26 @@ int main(int argc, char ** argv)
     GDALAllRegister();
 
     {
-    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-    PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+        PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+        PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
 
-//     double x = 12.09    * DEG_TO_RAD;
-//     double y = 49.0336  * DEG_TO_RAD;
-    double x = 0.211011;
-    double y = 0.855797;
-    pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
+        //     double x = 12.09    * DEG_TO_RAD;
+        //     double y = 49.0336  * DEG_TO_RAD;
+        double x = 0.211011;
+        double y = 0.855797;
+        pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-    printf("------------ %f %f\n", x, y);
-    char * ptr = pj_get_def(pjGK,0);
-    printf("------------ %s\n",ptr);
-    free(ptr);
+        printf("------------ %f %f\n", x, y);
+        char * ptr = pj_get_def(pjGK,0);
+        printf("------------ %s\n",ptr);
+        free(ptr);
 
-    pj_free(pjWGS84);
-    pj_free(pjGK);
+        pj_free(pjWGS84);
+        pj_free(pjGK);
     }
 
     QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
-    if(!path.exists()){
+    if(!path.exists()) {
         path.mkpath("./");
     }
 
@@ -61,60 +61,58 @@ int main(int argc, char ** argv)
 
 #ifdef ENABLE_TRANSLATION
     {
-      QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-      QTranslator *qtTranslator = new QTranslator(0);
-      if (qtTranslator->load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
-        theApp.installTranslator(qtTranslator);
+        QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+        QTranslator *qtTranslator = new QTranslator(0);
+        if (qtTranslator->load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
+            theApp.installTranslator(qtTranslator);
 
-      QStringList dirList;
-      dirList << ".";
-      dirList << "src";
+        QStringList dirList;
+        dirList << ".";
+        dirList << "src";
 #ifndef Q_OS_WIN32
-      dirList << QCoreApplication::applicationDirPath().replace(QRegExp("bin$"), "share/qlandkartegt/translations");
+        dirList << QCoreApplication::applicationDirPath().replace(QRegExp("bin$"), "share/qlandkartegt/translations");
 #else
-      dirList << QCoreApplication::applicationDirPath();
+        dirList << QCoreApplication::applicationDirPath();
 #endif
-      QTranslator *qlandkartegtTranslator = new QTranslator(0);
-      qDebug() << dirList;
-      foreach(QString dir, dirList)
-      {
-        QString transName = QLatin1String("qlandkartegt_") + QLocale::system().name();
-        if (qlandkartegtTranslator->load( transName, dir))
-        {
-          theApp.installTranslator(qlandkartegtTranslator);
-          qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
-          break;
+        QTranslator *qlandkartegtTranslator = new QTranslator(0);
+        qDebug() << dirList;
+        foreach(QString dir, dirList) {
+            QString transName = QLatin1String("qlandkartegt_") + QLocale::system().name();
+            if (qlandkartegtTranslator->load( transName, dir)) {
+                theApp.installTranslator(qlandkartegtTranslator);
+                qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
+                break;
+            }
         }
-      }
     }
 #endif
 
     {
-    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-    PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+        PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+        PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
 
-//     double x = 12.09    * DEG_TO_RAD;
-//     double y = 49.0336  * DEG_TO_RAD;
-    double x = 0.211011;
-    double y = 0.855797;
-    pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
+        //     double x = 12.09    * DEG_TO_RAD;
+        //     double y = 49.0336  * DEG_TO_RAD;
+        double x = 0.211011;
+        double y = 0.855797;
+        pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-    printf("------------ %f %f\n", x, y);
-    char * ptr = pj_get_def(pjGK,0);
-    printf("------------ %s\n",ptr);
-    free(ptr);
+        printf("------------ %f %f\n", x, y);
+        char * ptr = pj_get_def(pjGK,0);
+        printf("------------ %s\n",ptr);
+        free(ptr);
 
-    pj_free(pjWGS84);
-    pj_free(pjGK);
+        pj_free(pjWGS84);
+        pj_free(pjGK);
     }
 
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
 
 #ifdef WIN32
-	QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
-	qDebug() << QCoreApplication::applicationDirPath();
-	qDebug() << QCoreApplication::libraryPaths();
+    QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
+    qDebug() << QCoreApplication::applicationDirPath();
+    qDebug() << QCoreApplication::libraryPaths();
 #endif
 
     QSplashScreen *splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
@@ -124,7 +122,7 @@ int main(int argc, char ** argv)
     splash->finish(&w);
     delete splash;
 
-//     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
+    //     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
 
     int res  = theApp.exec();
 

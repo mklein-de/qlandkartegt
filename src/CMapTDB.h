@@ -340,12 +340,10 @@ class CMapTDB : public IMap
 
         QVector<textpath_t> textpaths;
 
-
         CGarminIndex * index;
 
         QVector<CGarminPolygon> query1;
         QVector<CGarminPoint> query2;
-
 
         double lon_factor;
         double lat_factor;

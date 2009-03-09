@@ -31,21 +31,21 @@
 
 class CFlags
 {
-	public:
-		CFlags(quint32 f=0) { flags = f; changed = true; };
-		virtual ~CFlags() {};
-		const quint32 flag() const { return flags; };
-		void setFlags( quint32 f ) { if ( flags != f ) changed = true; flags = f; };
-		quint32 operator  & (quint32 f) const { return flags&f; };
-		quint32 operator |= (quint32 f) { if ( flags != (flags|f) ) changed = true; flags|=f; return flags; };
-		quint32 operator &= (quint32 f) { if ( flags != (flags&f) ) changed = true; flags&=f; return flags; };
-		quint32 operator >> (quint32 & f) { if ( flags != f ) changed = true; flags = f; return flags; };
-		const bool isChanged() const { return changed; };
-		void setChanged(bool b) { changed = b; };
-	protected:
-		/// display flags
-		quint32 flags;
-		bool changed;
+    public:
+        CFlags(quint32 f=0) { flags = f; changed = true; };
+        virtual ~CFlags() {};
+        const quint32 flag() const { return flags; };
+        void setFlags( quint32 f ) { if ( flags != f ) changed = true; flags = f; };
+        quint32 operator  & (quint32 f) const { return flags&f; };
+        quint32 operator |= (quint32 f) { if ( flags != (flags|f) ) changed = true; flags|=f; return flags; };
+        quint32 operator &= (quint32 f) { if ( flags != (flags&f) ) changed = true; flags&=f; return flags; };
+        quint32 operator >> (quint32 & f) { if ( flags != f ) changed = true; flags = f; return flags; };
+        const bool isChanged() const { return changed; };
+        void setChanged(bool b) { changed = b; };
+    protected:
+        /// display flags
+        quint32 flags;
+        bool changed;
 };
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag);
@@ -65,9 +65,9 @@ class CTrack : public QObject
             enum flag_e
             {
                 eSelected  = 1   ///< selected by track info view
-               ,eCursor    = 2  ///< selected by cursor
-               ,eDeleted   = 4  ///< mark point as deleted
-               ,eFocus     = 8  ///< mark current point of user focus
+                ,eCursor    = 2  ///< selected by cursor
+                ,eDeleted   = 4  ///< mark point as deleted
+                ,eFocus     = 8  ///< mark current point of user focus
             };
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0), timestamp_msec(0),

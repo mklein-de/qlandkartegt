@@ -41,6 +41,4 @@ class CMouseColorPicker : public IMouse
         QColor color;
         QColor selected;
 };
-
-#endif //CMOUSECOLORPICKER_H
-
+#endif                           //CMOUSECOLORPICKER_H

@@ -30,7 +30,6 @@
 #include "CMap3DWidget.h"
 #endif
 
-
 class QPainter;
 class CCanvas;
 class CMapNoMap;

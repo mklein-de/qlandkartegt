@@ -295,6 +295,7 @@ void CDeviceTBDOE::downloadTracks(QList<CTrack*>& trks)
     return release();
 }
 
+
 void CDeviceTBDOE::uploadMap(const QList<IMapSelection*>& mss)
 {
     QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Upload map is not implemented."),QMessageBox::Abort,QMessageBox::Abort);

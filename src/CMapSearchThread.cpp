@@ -55,6 +55,7 @@ void CMapSearchThread::start(const int th, const QImage& m, const CMapSelectionR
     QThread::start();
 }
 
+
 void CMapSearchThread::cancel()
 {
     QMutexLocker lock(&mutex);
@@ -83,7 +84,7 @@ void CMapSearchThread::run()
     double v2 = area.lat2;
 
     QFileInfo fi(area.mapkey);
-    if(fi.completeSuffix() != "qmap"){
+    if(fi.completeSuffix() != "qmap") {
         emit sigProgress(tr("Error. This only works on a *.qmap map collection."), 0);
         return;
     }
@@ -111,10 +112,10 @@ void CMapSearchThread::run()
 
     for(n = 0; n < maxN; ++n) {
 
-        for(m = 0; m < maxM; ++m) {
-            { // tmp. mutex lock context
+        for(m = 0; m < maxM; ++m) { {
+                                 // tmp. mutex lock context
                 QMutexLocker lock(&mutex);
-                if(!go){
+                if(!go) {
                     emit sigProgress(tr("Canceled!"), 0);
                     return;
                 }

@@ -31,10 +31,12 @@ CMouseZoomMap::CMouseZoomMap(CCanvas * parent)
     cursor = QCursor(QPixmap(":/cursors/cursorZoom"),0,0);
 }
 
+
 CMouseZoomMap::~CMouseZoomMap()
 {
 
 }
+
 
 void CMouseZoomMap::mouseMoveEvent(QMouseEvent * e)
 {
@@ -42,6 +44,7 @@ void CMouseZoomMap::mouseMoveEvent(QMouseEvent * e)
     resizeRect(e->pos());
 
 }
+
 
 void CMouseZoomMap::mousePressEvent(QMouseEvent * e)
 {
@@ -51,6 +54,7 @@ void CMouseZoomMap::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseZoomMap::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton) {
@@ -59,10 +63,10 @@ void CMouseZoomMap::mouseReleaseEvent(QMouseEvent * e)
 
         rect = rect.normalized();
 
-        if(rect.width() < 10){
+        if(rect.width() < 10) {
             rect.setWidth(10);
         }
-        if(rect.height() < 10){
+        if(rect.height() < 10) {
             rect.setHeight(10);
         }
 
@@ -80,9 +84,9 @@ void CMouseZoomMap::mouseReleaseEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseZoomMap::draw(QPainter& p)
 {
     if(!zoomMap) return;
     drawRect(p);
 }
-

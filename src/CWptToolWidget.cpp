@@ -133,11 +133,13 @@ void CWptToolWidget::slotDelete()
     CWptDB::self().delWpt(keys, false);
 }
 
+
 void CWptToolWidget::slotDeleteBy()
 {
     CDlgDelWpt dlg(this);
     dlg.exec();
 }
+
 
 void CWptToolWidget::slotCopyPosition()
 {

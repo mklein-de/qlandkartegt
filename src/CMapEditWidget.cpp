@@ -64,7 +64,6 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     widgetWMS       = new CCreateMapWMS(stackedWidget);
     stackedWidget->insertWidget(eWMS, widgetWMS);
 
-
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
 }
 

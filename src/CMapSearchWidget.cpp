@@ -151,6 +151,7 @@ void CMapSearchWidget::slotCancel()
     thread->cancel();
 }
 
+
 void CMapSearchWidget::slotSearchFinished()
 {
     QPoint symbol;
@@ -347,6 +348,7 @@ void CMapSearchWidget::checkGui()
     toolSelectArea->setEnabled(!thread->isRunning());
 }
 
+
 void CMapSearchWidget::slotMapChanged()
 {
     IMap& map  = CMapDB::self().getMap();
@@ -356,12 +358,14 @@ void CMapSearchWidget::slotMapChanged()
     tabWidget->widget(0)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
 }
 
+
 void CMapSearchWidget::slotProgressIndex(const QString& status, const int progress)
 {
     labelProgress2->setText(status);
     progressBar2->setValue(progress);
     slotIndexChanged();
 }
+
 
 void CMapSearchWidget::slotCreateIndex()
 {
@@ -373,6 +377,7 @@ void CMapSearchWidget::slotCreateIndex()
     tdb->createSearchIndex(this, SLOT(slotProgressIndex(const QString&, const int)));
 }
 
+
 void CMapSearchWidget::slotIndexChanged()
 {
     IMap * map      = &CMapDB::self().getMap();
@@ -382,11 +387,11 @@ void CMapSearchWidget::slotIndexChanged()
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     CGarminIndex * index = tdb->getSearchIndex();
 
-    if(index->created()){
+    if(index->created()) {
         groupLines->setEnabled(true);
         groupPoints->setEnabled(true);
     }
-    else{
+    else {
         groupLines->setEnabled(false);
         groupPoints->setEnabled(false);
     }
@@ -397,13 +402,15 @@ void CMapSearchWidget::slotIndexChanged()
     lineTextToFindPoints->clear();
 }
 
+
 void CMapSearchWidget::slotLineSearchChanged(const QString& text)
 {
     listResultLines->clear();
     if(text.isEmpty()) return;
 
-//     triggerLineSearch->start(SEARCHDELAY);
+    //     triggerLineSearch->start(SEARCHDELAY);
 }
+
 
 void CMapSearchWidget::slotLineSearchChanged()
 {
@@ -422,7 +429,7 @@ void CMapSearchWidget::slotLineSearchChanged()
 
     QSet<QString> results;
 
-    if(checkSearchViewport->isChecked()){
+    if(checkSearchViewport->isChecked()) {
         double u = 0;
         double v = 0;
         map->convertPt2Rad(u,v);
@@ -435,12 +442,12 @@ void CMapSearchWidget::slotLineSearchChanged()
 
         index->searchPolyline(text, QRectF(p1, p2), results);
     }
-    else{
+    else {
         index->searchPolyline(text, results);
     }
 
     QString result;
-    foreach(result, results){
+    foreach(result, results) {
         listResultLines->addItem(result);
     }
     listResultLines->sortItems();
@@ -451,6 +458,7 @@ void CMapSearchWidget::slotLineSearchChanged()
     lineTextToFindLines->setFocus();
     QApplication::restoreOverrideCursor();
 }
+
 
 void CMapSearchWidget::slotLineSelected()
 {
@@ -468,9 +476,9 @@ void CMapSearchWidget::slotLineSelected()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QVector<CGarminPolygon> result;
 
-    foreach(item, items){
+    foreach(item, items) {
         QString text = item->text();
-        if(checkSearchViewport->isChecked()){
+        if(checkSearchViewport->isChecked()) {
             double u = 0;
             double v = 0;
             map->convertPt2Rad(u,v);
@@ -483,7 +491,7 @@ void CMapSearchWidget::slotLineSelected()
 
             index->searchPolyline(text, QRectF(p1, p2), result);
         }
-        else{
+        else {
             index->searchPolyline(text, result);
         }
     }
@@ -493,13 +501,15 @@ void CMapSearchWidget::slotLineSelected()
     QApplication::restoreOverrideCursor();
 }
 
+
 void CMapSearchWidget::slotPointSearchChanged(const QString& text)
 {
     listResultPoints->clear();
     if(text.isEmpty()) return;
 
-//     triggerPointSearch->start(SEARCHDELAY);
+    //     triggerPointSearch->start(SEARCHDELAY);
 }
+
 
 void CMapSearchWidget::slotPointSearchChanged()
 {
@@ -517,7 +527,7 @@ void CMapSearchWidget::slotPointSearchChanged()
     CGarminIndex * index = tdb->getSearchIndex();
 
     QSet<QString> results;
-    if(checkSearchViewport->isChecked()){
+    if(checkSearchViewport->isChecked()) {
         double u = 0;
         double v = 0;
         map->convertPt2Rad(u,v);
@@ -530,12 +540,12 @@ void CMapSearchWidget::slotPointSearchChanged()
 
         index->searchPoint(text, QRectF(p1, p2), results);
     }
-    else{
+    else {
         index->searchPoint(text, results);
     }
 
     QString result;
-    foreach(result, results){
+    foreach(result, results) {
         listResultPoints->addItem(result);
     }
     listResultPoints->sortItems();
@@ -546,6 +556,7 @@ void CMapSearchWidget::slotPointSearchChanged()
     lineTextToFindPoints->setFocus();
     QApplication::restoreOverrideCursor();
 }
+
 
 void CMapSearchWidget::slotPointSelected()
 {
@@ -562,9 +573,9 @@ void CMapSearchWidget::slotPointSelected()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QVector<CGarminPoint> result;
 
-    foreach(item, items){
+    foreach(item, items) {
         QString text = item->text();
-        if(checkSearchViewport->isChecked()){
+        if(checkSearchViewport->isChecked()) {
             double u = 0;
             double v = 0;
             map->convertPt2Rad(u,v);
@@ -577,7 +588,7 @@ void CMapSearchWidget::slotPointSelected()
 
             index->searchPoint(text, QRectF(p1, p2), result);
         }
-        else{
+        else {
             index->searchPoint(text, result);
         }
     }
@@ -586,4 +597,3 @@ void CMapSearchWidget::slotPointSelected()
 
     QApplication::restoreOverrideCursor();
 }
-

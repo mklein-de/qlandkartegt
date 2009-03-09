@@ -293,10 +293,8 @@ void CCreateMapGridTool::slotOk()
         isLongLat = lineProjection->text().contains("longlat");
     }
 
-
     double u1 = ((int)((adfGeoTransform1[0] + stepx) / stepx)) * stepx;
     double v1 = ((int)(adfGeoTransform1[3] / stepy)) * stepy;
-
 
     QRect rect(0,0,geotifftool->sizeOfInputFile.width(),geotifftool->sizeOfInputFile.height());
 
@@ -312,7 +310,7 @@ void CCreateMapGridTool::slotOk()
             double _v = v;
 
             if(pjSrc) {
-                if(isLongLat){
+                if(isLongLat) {
                     _u *= DEG_TO_RAD;
                     _v *= DEG_TO_RAD;
                 }

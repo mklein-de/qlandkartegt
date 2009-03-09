@@ -34,7 +34,6 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         CGarminExport(QWidget * parent);
         virtual ~CGarminExport();
 
-
         void exportToFile(CMapSelectionGarmin& ms, const QString& filename = QString::Null());
 
         bool hadErrors(){return errors;}
@@ -47,27 +46,28 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 #pragma pack(1)
         struct gmapsupp_imghdr_t
         {
-            quint8  xorByte;             ///< 0x00000000
+            quint8  xorByte;     ///< 0x00000000
             quint8  byte0x00000001_0x00000009[9];
-            quint8  upMonth;             ///< 0x0000000A
-            quint8  upYear;              ///< 0x0000000B
+            quint8  upMonth;     ///< 0x0000000A
+            quint8  upYear;      ///< 0x0000000B
             quint8  byte0x0000000C_0x0000000F[4];
-            char    signature[7];        ///< 0x00000010 .. 0x00000016
+            char    signature[7];///< 0x00000010 .. 0x00000016
             quint8  byte0x00000017_0x00000040[42];
-            char    identifier[7];       ///< 0x00000041 .. 0x00000047
+                                 ///< 0x00000041 .. 0x00000047
+            char    identifier[7];
             quint8  byte0x00000048;
-            char    desc1[20];           ///< 0x00000049 .. 0x0000005C
+            char    desc1[20];   ///< 0x00000049 .. 0x0000005C
             quint8  byte0x0000005D_0x00000060[4];
-            quint8  e1;                  ///< 0x00000061
-            quint8  e2;                  ///< 0x00000062
-            quint16 nBlocks1;            ///< 0x00000063 .. 0x00000064
-            char    desc2[31];           ///< 0x00000065 .. 0x00000083
+            quint8  e1;          ///< 0x00000061
+            quint8  e2;          ///< 0x00000062
+            quint16 nBlocks1;    ///< 0x00000063 .. 0x00000064
+            char    desc2[31];   ///< 0x00000065 .. 0x00000083
             quint8  byte0x00000084_0x000001C9[0x146];
-            quint16 nBlocks2;            ///< 0x000001CA .. 0x000001CB // NEVER SET???
+            quint16 nBlocks2;    ///< 0x000001CA .. 0x000001CB // NEVER SET???
             quint8  byte0x0000001CC_0x000001FD[0x32];
-            quint16 terminator;          ///< 0x000001FE .. 0x000001FF
+            quint16 terminator;  ///< 0x000001FE .. 0x000001FF
             quint8  byte0x00000200_0x0000040B[0x20C];
-            quint32 dataoffset;          ///< 0x0000040C .. 0x0000040F
+            quint32 dataoffset;  ///< 0x0000040C .. 0x0000040F
             quint8  byte0x00000410_0x00000FFF[0xBF0];
 
             quint32 blocksize(){return 1 << (e1 + e2);}
@@ -76,13 +76,13 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         // Garmin IMG file FAT block structure
         struct FATblock_t
         {
-            quint8  flag;                ///< 0x00000000
-            char    name[8];             ///< 0x00000001 .. 0x00000008
-            char    type[3];             ///< 0x00000009 .. 0x0000000B
-            quint32 size;                ///< 0x0000000C .. 0x0000000F
-            quint16 part;                ///< 0x00000010 .. 0x00000011
+            quint8  flag;        ///< 0x00000000
+            char    name[8];     ///< 0x00000001 .. 0x00000008
+            char    type[3];     ///< 0x00000009 .. 0x0000000B
+            quint32 size;        ///< 0x0000000C .. 0x0000000F
+            quint16 part;        ///< 0x00000010 .. 0x00000011
             quint8  byte0x00000012_0x0000001F[14];
-            quint16 blocks[240];         ///< 0x00000020 .. 0x000001FF
+            quint16 blocks[240]; ///< 0x00000020 .. 0x000001FF
         };
 #ifdef WIN32
 #pragma pack()
@@ -116,7 +116,6 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
             /// location information of all parts
             QMap<QString,gmapsupp_subfile_part_t> parts;
         };
-
 
         enum exce_e {eErrOpen, eErrAccess, errFormat, errLock, errLogic};
         struct exce_t
@@ -174,6 +173,4 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         bool isDialog;
 
 };
-
-#endif //CGARMINEXPORT_H
-
+#endif                           //CGARMINEXPORT_H

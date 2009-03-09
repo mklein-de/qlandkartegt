@@ -48,12 +48,14 @@ CCreateMapWMS::CCreateMapWMS(QWidget * parent)
     connect(toolFile, SIGNAL(clicked()), this, SLOT(slotSelectFile()));
 }
 
+
 CCreateMapWMS::~CCreateMapWMS()
 {
     QSettings cfg;
     cfg.setValue("wms/last_server",lineServer->text());
     cfg.setValue("path/maps",mapPath);
 }
+
 
 void CCreateMapWMS::slotSetupLink()
 {
@@ -74,7 +76,6 @@ void CCreateMapWMS::slotSetupLink()
 }
 
 
-
 void CCreateMapWMS::slotLoadCapabilities()
 {
     QUrl url(lineServer->text());
@@ -92,6 +93,7 @@ void CCreateMapWMS::slotLoadCapabilities()
     comboProjection->clear();
     lineTitle->clear();
 }
+
 
 void CCreateMapWMS::slotRequestStarted(int )
 {
@@ -122,7 +124,7 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     QString         errorMsg;
     int             errorLine;
     int             errorColumn;
-    if(!dom.setContent(asw, &errorMsg, &errorLine, &errorColumn)){
+    if(!dom.setContent(asw, &errorMsg, &errorLine, &errorColumn)) {
         QMessageBox::critical(0,tr("Error..."), tr("Failed to parse capabilities.\n\n%1\n\n%2").arg(errorMsg).arg(asw), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -130,15 +132,15 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     qDebug() << dom.toString();
 
     QDomNode WMT_MS_Capabilities = dom.namedItem("WMT_MS_Capabilities");
-//     if(WMT_MS_Capabilities.toElement().attribute("version") != "1.1.1"){
-//         QMessageBox::critical(0,tr("Error..."), tr("Failed to check Version.\n\n%1").arg(WMT_MS_Capabilities.toElement().attribute("Version")), QMessageBox::Abort, QMessageBox::Abort);
-//         return;
-//     }
+    //     if(WMT_MS_Capabilities.toElement().attribute("version") != "1.1.1"){
+    //         QMessageBox::critical(0,tr("Error..."), tr("Failed to check Version.\n\n%1").arg(WMT_MS_Capabilities.toElement().attribute("Version")), QMessageBox::Abort, QMessageBox::Abort);
+    //         return;
+    //     }
 
     QDomNode GetMap     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Request").namedItem("GetMap");
     QDomElement format  = GetMap.firstChildElement("Format");
 
-    while(!format.isNull()){
+    while(!format.isNull()) {
         comboFormat->addItem(format.text());
         format = format.nextSiblingElement("Format");
     }
@@ -149,10 +151,10 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     QDomNode layers     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Layer");
     QDomElement srs     = layers.firstChildElement("SRS");
 
-    while(!srs.isNull()){
+    while(!srs.isNull()) {
         QString strSRS      = srs.text();
         QStringList listSRS = strSRS.split(" ", QString::SkipEmptyParts);
-        foreach(strSRS, listSRS){
+        foreach(strSRS, listSRS) {
             comboProjection->addItem(strSRS);
         }
         srs = srs.nextSiblingElement("SRS");
@@ -160,7 +162,7 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     QDomNode layer      = layers.firstChildElement("Layer");
 
-    while(!layer.isNull()){
+    while(!layer.isNull()) {
         QString title = layer.namedItem("Name").toElement().text();
         QListWidgetItem *item = new QListWidgetItem(listLayers);
         item->setText(title);
@@ -169,7 +171,7 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     }
 
     lineTitle->setText(layers.namedItem("Title").toElement().text());
-    if(labelFile->text().isEmpty()){
+    if(labelFile->text().isEmpty()) {
         QDir path(mapPath);
         labelFile->setText(path.filePath(lineTitle->text() + ".xml"));
     }
@@ -187,6 +189,7 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     frame->setEnabled(true);
 }
+
 
 void CCreateMapWMS::slotSave()
 {
@@ -218,11 +221,11 @@ void CCreateMapWMS::slotSave()
     QStringList layerlist;
     QList<QListWidgetItem *> items                  = listLayers->selectedItems();
     QList<QListWidgetItem *>::const_iterator item   = items.begin();
-    while(item != items.end()){
+    while(item != items.end()) {
         layerlist << (*item)->text();
         ++item;
     }
-    if(layerlist.isEmpty()){
+    if(layerlist.isEmpty()) {
         QMessageBox::critical(0,tr("Error..."), tr("You need to select at least one layer."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -247,13 +250,12 @@ void CCreateMapWMS::slotSave()
     pj_transform(pjWGS84, pjTar,1,0,&u1,&v1,0);
     pj_transform(pjWGS84, pjTar,1,0,&u2,&v2,0);
 
-    if(pj_is_latlong(pjTar)){
+    if(pj_is_latlong(pjTar)) {
         u1 *= RAD_TO_DEG;
         v1 *= RAD_TO_DEG;
         u2 *= RAD_TO_DEG;
         v2 *= RAD_TO_DEG;
     }
-
 
     QDomElement UpperLeftX = dom.createElement("UpperLeftX");
     UpperLeftX.appendChild(dom.createTextNode(QString("%1").arg(u1,0,'f')));
@@ -271,7 +273,7 @@ void CCreateMapWMS::slotSave()
     LowerRightY.appendChild(dom.createTextNode(QString("%1").arg(v2,0,'f')));
     DataWindow.appendChild(LowerRightY);
 
-    if(pj_is_latlong(pjTar)){
+    if(pj_is_latlong(pjTar)) {
         double  a1 = 0, a2 = 0;
         double sizex, sizey;
 
@@ -295,7 +297,7 @@ void CCreateMapWMS::slotSave()
         SizeY.appendChild(dom.createTextNode(QString("%1").arg(sizey,0,'f')));
         DataWindow.appendChild(SizeY);
     }
-    else{
+    else {
         QDomElement SizeX = dom.createElement("SizeX");
         SizeX.appendChild(dom.createTextNode(QString("%1").arg(u2 - u1,0,'f')));
         DataWindow.appendChild(SizeX);
@@ -314,10 +316,10 @@ void CCreateMapWMS::slotSave()
     GDAL_WMS.appendChild(Projection);
 
     QDomElement BandsCount = dom.createElement("BandsCount");
-    if(comboFormat->currentText().contains("png")){
+    if(comboFormat->currentText().contains("png")) {
         BandsCount.appendChild(dom.createTextNode("4"));
     }
-    else{
+    else {
         BandsCount.appendChild(dom.createTextNode("3"));
     }
     GDAL_WMS.appendChild(BandsCount);
@@ -325,7 +327,6 @@ void CCreateMapWMS::slotSave()
     QDomElement Timeout = dom.createElement("Timeout");
     Timeout.appendChild(dom.createTextNode("20"));
     GDAL_WMS.appendChild(Timeout);
-
 
     QDomElement BlockSizeX = dom.createElement("BlockSizeX");
     BlockSizeX.appendChild(dom.createTextNode("512"));
@@ -335,9 +336,7 @@ void CCreateMapWMS::slotSave()
     BlockSizeY.appendChild(dom.createTextNode("512"));
     GDAL_WMS.appendChild(BlockSizeY);
 
-
     dom.appendChild(GDAL_WMS);
-
 
     QString filename = labelFile->text();
 
@@ -350,6 +349,7 @@ void CCreateMapWMS::slotSave()
 
     CMapDB::self().openMap(filename, false, *theMainWindow->getCanvas());
 }
+
 
 void CCreateMapWMS::slotSelectFile()
 {

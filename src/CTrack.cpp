@@ -357,23 +357,39 @@ const QColor CTrack::lineColors[] =
 const QString CTrack::bulletColors[] =
 {
 
-    QString(":/icons/small_bullet_black.png")               // 0
-    ,QString(":/icons/small_bullet_darkred.png")            // 1
-    ,QString(":/icons/small_bullet_darkgreen.png")          // 2
-    ,QString(":/icons/small_bullet_darkyellow.png")         // 3
-    ,QString(":/icons/small_bullet_darkblue.png")           // 4
-    ,QString(":/icons/small_bullet_darkmagenta.png")        // 5
-    ,QString(":/icons/small_bullet_darkcyan.png")           // 6
-    ,QString(":/icons/small_bullet_gray.png")               // 7
-    ,QString(":/icons/small_bullet_darkgray.png")           // 8
-    ,QString(":/icons/small_bullet_red.png")                // 9
-    ,QString(":/icons/small_bullet_green.png")              // 10
-    ,QString(":/icons/small_bullet_yellow.png")             // 11
-    ,QString(":/icons/small_bullet_blue.png")               // 12
-    ,QString(":/icons/small_bullet_magenta.png")            // 13
-    ,QString(":/icons/small_bullet_cyan.png")               // 14
-    ,QString(":/icons/small_bullet_white.png")              // 15
-    ,QString("")                                          // 16
+                                 // 0
+    QString(":/icons/small_bullet_black.png")
+                                 // 1
+    ,QString(":/icons/small_bullet_darkred.png")
+                                 // 2
+    ,QString(":/icons/small_bullet_darkgreen.png")
+                                 // 3
+    ,QString(":/icons/small_bullet_darkyellow.png")
+                                 // 4
+    ,QString(":/icons/small_bullet_darkblue.png")
+                                 // 5
+    ,QString(":/icons/small_bullet_darkmagenta.png")
+                                 // 6
+    ,QString(":/icons/small_bullet_darkcyan.png")
+                                 // 7
+    ,QString(":/icons/small_bullet_gray.png")
+                                 // 8
+    ,QString(":/icons/small_bullet_darkgray.png")
+                                 // 9
+    ,QString(":/icons/small_bullet_red.png")
+                                 // 10
+    ,QString(":/icons/small_bullet_green.png")
+                                 // 11
+    ,QString(":/icons/small_bullet_yellow.png")
+                                 // 12
+    ,QString(":/icons/small_bullet_blue.png")
+                                 // 13
+    ,QString(":/icons/small_bullet_magenta.png")
+                                 // 14
+    ,QString(":/icons/small_bullet_cyan.png")
+                                 // 15
+    ,QString(":/icons/small_bullet_white.png")
+    ,QString("")                 // 16
 };
 
 bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
@@ -507,13 +523,13 @@ void CTrack::rebuild(bool reindex)
 
     // skip leading deleted points
     while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted)) {
-            pt1->azimuth    = 0;
-            pt1->delta      = 0;
-            pt1->speed      = -1;
-            pt1->distance   = 0;
-            pt1->ascend     = totalAscend;
-            pt1->descend    = totalDescend;
-            ++pt1; ++pt2;
+        pt1->azimuth    = 0;
+        pt1->delta      = 0;
+        pt1->speed      = -1;
+        pt1->distance   = 0;
+        pt1->ascend     = totalAscend;
+        pt1->descend    = totalDescend;
+        ++pt1; ++pt2;
     }
 
     // no points at all?
@@ -618,16 +634,16 @@ void CTrack::setPointOfFocus(int idx)
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)
 {
-	quint32 f;
-	s >> f;
-	flag.setFlags(f);
-	flag.setChanged(true);
-	return s;
+    quint32 f;
+    s >> f;
+    flag.setFlags(f);
+    flag.setChanged(true);
+    return s;
 }
 
 
 QDataStream& operator <<(QDataStream& s, CFlags& flag)
 {
-	s << flag.flag();
-	return s;
+    s << flag.flag();
+    return s;
 }

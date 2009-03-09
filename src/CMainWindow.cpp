@@ -132,15 +132,14 @@ CMainWindow::CMainWindow()
 
     // restore last session position and size of mainWidget
     {
-       if ( cfg.contains("mainWidget/geometry"))
-       {
-         QRect r = cfg.value("mainWidget/geometry").toRect();
-         //qDebug() << r << QDesktopWidget().screenGeometry();
-         if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
-           setGeometry(r);
-         else
-           showMaximized();
-       }
+        if ( cfg.contains("mainWidget/geometry")) {
+            QRect r = cfg.value("mainWidget/geometry").toRect();
+            //qDebug() << r << QDesktopWidget().screenGeometry();
+            if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
+                setGeometry(r);
+            else
+                showMaximized();
+        }
     }
 
     // restore last session settings
@@ -314,11 +313,11 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
-#ifdef WMS_CLIENT
+    #ifdef WMS_CLIENT
         ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb);; WMS (*.xml)"
-#else
+    #else
         ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb)"
-#endif
+    #endif
         , &filter
         );
     if(filename.isEmpty()) return;

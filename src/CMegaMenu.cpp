@@ -74,7 +74,6 @@ class CLabel : public QLabel
         }
 };
 
-
 CMegaMenu * CMegaMenu::m_self = 0;
 
 /// Left hand side multi-function menu
@@ -103,7 +102,6 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     fsMain[8] = func_key_state_t(":/icons/iconClear16x16",tr("Clear all"),&CMegaMenu::funcClearAll,tr("Remove all waypoints, tracks, ..."));
     fsMain[9] = func_key_state_t(":/icons/iconUpload16x16",tr("Upload all"),&CMegaMenu::funcUploadAll,tr("Upload all data to device."));
     fsMain[10] = func_key_state_t(":/icons/iconDownload16x16",tr("Download all"),&CMegaMenu::funcDownloadAll,tr("Download all data from device."));
-
 
     fsMap[0] = func_key_state_t(":/icons/iconBack16x16",tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu."));
     fsMap[1] = func_key_state_t(":/icons/iconMoveMap16x16",tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse."));
@@ -256,8 +254,6 @@ void CMegaMenu::switchState(QVector<func_key_state_t>* statedef)
 {
     unsigned i;
 
-
-
     for(i=0; i<11; ++i) {
         if((*statedef)[i].icon) {
             icons[i]->setPixmap(QPixmap((*statedef)[i].icon));
@@ -276,7 +272,6 @@ void CMegaMenu::switchState(QVector<func_key_state_t>* statedef)
 void CMegaMenu::switchByKeyWord(const QString& key)
 {
     if(!isEnabled()) return;
-
 
     if(key == "Main") {
         funcSwitchToMain();
@@ -456,6 +451,7 @@ void CMegaMenu::funcDiary()
     CDiaryDB::self().openEditWidget();
 }
 
+
 void CMegaMenu::funcColorPicker()
 {
     canvas->setMouseMode(CCanvas::eMouseColorPicker);
@@ -491,10 +487,12 @@ void CMegaMenu::funcMoveArea()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
 }
 
+
 void CMegaMenu::funcZoomArea()
 {
     canvas->setMouseMode(CCanvas::eMouseZoomArea);
 }
+
 
 void CMegaMenu::funcCenterMap()
 {
@@ -524,6 +522,7 @@ void CMegaMenu::funcSearchMap()
     CMapDB::self().searchMap();
 }
 
+
 void CMegaMenu::funcUploadMap()
 {
     CMapDB::self().upload();
@@ -547,21 +546,24 @@ void CMegaMenu::funcCloseMap3D()
     funcMoveArea();
 }
 
+
 void CMegaMenu::funcMap3DZoomPlus()
 {
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map){
+    if(map) {
         map->eleZoomIn();
     }
 }
 
+
 void CMegaMenu::funcMap3DZoomMinus()
 {
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map){
+    if(map) {
         map->eleZoomOut();
     }
 }
+
 
 void CMegaMenu::funcMap3DLighting()
 {
@@ -569,10 +571,11 @@ void CMegaMenu::funcMap3DLighting()
     map->lightTurn();
 }
 
+
 void CMegaMenu::funcMap3DMode()
 {
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map){
+    if(map) {
         map->changeMode();
     }
 }

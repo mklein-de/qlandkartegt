@@ -190,10 +190,12 @@ IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 
 }
 
+
 IOverlay::~IOverlay()
 {
 
 }
+
 
 void IOverlay::select(IOverlay * s)
 {

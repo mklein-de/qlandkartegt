@@ -14,7 +14,6 @@
 //C- GNU General Public License for more details.
 //C-  ------------------------------------------------------------------
 
-
 #ifndef COSMTILESHASH_H_
 #define COSMTILESHASH_H_
 #include <QObject>
@@ -28,35 +27,34 @@ class QHttp;
 class CMapOSM;
 class COsmTilesHash: public QObject
 {
-  Q_OBJECT
-public:
-  COsmTilesHash(CMapOSM *cmapOSM);
-  virtual ~COsmTilesHash();
-  void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
-signals:
-  void newImageReady(QImage image, bool lastTileLoaded);
-private:
-  int osm_zoom;
-  QRect window;
-  QHash<int, QPoint> startPointHash;
-  QHash<int, QString> osmUrlPartHash;
-  QHash<QString,int> osmRunningHash;
-  int long2tile(double lon, int zoom);
-  int lat2tile(double lat, int zoom);
-  double tile2long(int x, int zoom);
-  double tile2lat(int y, int zoom);
-  void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
-  QImage image;
-  QHttp *tilesConnection;
-  CMapOSM *cmapOSM;
-  QString osmTileBaseUrl;
-  bool requestInProgress;
-  QHash<QString,QImage> tiles;
-  int getid;
-private slots:
-   // void slotCreate();
-    void slotRequestFinished(int , bool error);
-   // void slotSelectPath();
+    Q_OBJECT
+        public:
+        COsmTilesHash(CMapOSM *cmapOSM);
+        virtual ~COsmTilesHash();
+        void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
+        signals:
+        void newImageReady(QImage image, bool lastTileLoaded);
+    private:
+        int osm_zoom;
+        QRect window;
+        QHash<int, QPoint> startPointHash;
+        QHash<int, QString> osmUrlPartHash;
+        QHash<QString,int> osmRunningHash;
+        int long2tile(double lon, int zoom);
+        int lat2tile(double lat, int zoom);
+        double tile2long(int x, int zoom);
+        double tile2lat(int y, int zoom);
+        void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
+        QImage image;
+        QHttp *tilesConnection;
+        CMapOSM *cmapOSM;
+        QString osmTileBaseUrl;
+        bool requestInProgress;
+        QHash<QString,QImage> tiles;
+        int getid;
+    private slots:
+        // void slotCreate();
+        void slotRequestFinished(int , bool error);
+        // void slotSelectPath();
 };
-
-#endif /* COSMTILESHASH_H_ */
+#endif                           /* COSMTILESHASH_H_ */

@@ -35,7 +35,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         CMapToolWidget(QTabWidget * parent);
         virtual ~CMapToolWidget();
 
-    signals:
+        signals:
         void sigChanged();
 
     private slots:
@@ -55,7 +55,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
     private:
         enum columns_e
         {
-             eMode = 0
+            eMode = 0
             ,eType = 1
             ,eName = 2
             ,eMaxColumn = 3
@@ -63,7 +63,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
 
         enum mode_e
         {
-             eNoMode
+            eNoMode
             ,eSelected
             ,eOverlay
             ,eOverlayActive

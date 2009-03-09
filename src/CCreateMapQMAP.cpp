@@ -389,5 +389,3 @@ void CCreateMapQMAP::slotDown()
     treeLevels->setCurrentItem(item);
     processLevelList();
 }
-
-

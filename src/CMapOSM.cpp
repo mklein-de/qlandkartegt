@@ -71,6 +71,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     resize(parent->size());
 }
 
+
 CMapOSM::~CMapOSM()
 {
     QString pos;
@@ -90,6 +91,7 @@ CMapOSM::~CMapOSM()
     if (osmTiles) delete osmTiles;
 }
 
+
 void CMapOSM::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
@@ -102,6 +104,7 @@ void CMapOSM::convertM2Pt(double& u, double& v)
     u = (u - x) / (xscale * zoomFactor);
     v = (v - y) / (yscale * zoomFactor);
 }
+
 
 void CMapOSM::move(const QPoint& old, const QPoint& next)
 {
@@ -133,7 +136,7 @@ void CMapOSM::zoom(bool zoomIn, const QPoint& p0)
 
     zoomidx += zoomIn ? -1 : 1;
 
-     // sigChanged will be sent at the end of this function
+    // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
 
@@ -199,7 +202,7 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     int z1 = dU / size.width();
     int z2 = dV / size.height();
 
-    for(i=0; i < 18; ++i){
+    for(i=0; i < 18; ++i) {
         zoomFactor  = (1<<i);
         zoomidx     = i + 1;
         if(zoomFactor > z1 && zoomFactor > z2) break;
@@ -217,6 +220,7 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapOSM::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
@@ -228,8 +232,8 @@ void CMapOSM::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
-        // render overlay
-    if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw){
+    // render overlay
+    if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw) {
         ovlMap->draw(size, needsRedrawOvl, p);
         needsRedrawOvl = false;
     }
@@ -262,9 +266,8 @@ void CMapOSM::draw(QPainter& p)
     p.setFont(QFont("Sans Serif",8,QFont::Black));
     CCanvas::drawText(tr("Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license"), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
 
-
-
 }
+
 
 void CMapOSM::draw()
 {
@@ -280,13 +283,15 @@ void CMapOSM::draw()
 
 }
 
+
 void CMapOSM::newImageReady(QImage image, bool done)
 {
-  buffer            = image;
-  lastTileLoaded    = done;
-  needsRedraw       = false;
-  emit sigChanged();
+    buffer            = image;
+    lastTileLoaded    = done;
+    needsRedraw       = false;
+    emit sigChanged();
 }
+
 
 void CMapOSM::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
@@ -296,7 +301,7 @@ void CMapOSM::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p2.u        = r.right();
     p2.v        = r.bottom();
 
-    if(!pj_is_latlong(pjsrc)){
+    if(!pj_is_latlong(pjsrc)) {
         pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
         pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
     }
@@ -305,6 +310,7 @@ void CMapOSM::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     my_yscale   = yscale * zoomFactor;
 }
 
+
 void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     lon1 = this->lon1;
@@ -312,4 +318,3 @@ void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lon2 = this->lon2;
     lat2 = this->lat2;
 }
-

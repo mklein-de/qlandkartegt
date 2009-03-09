@@ -32,6 +32,4 @@ class CDlgDelWpt : public QDialog, private Ui::IDlgDelWpt
     public slots:
         void accept();
 };
-
-#endif //CDLGDELWPT_H
-
+#endif                           //CDLGDELWPT_H

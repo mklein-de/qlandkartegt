@@ -131,10 +131,10 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
         while(trkpt != trkpts.end()) {
-		trkpt->editItem = 0;
-		++trkpt;
+            trkpt->editItem = 0;
+            ++trkpt;
         }
-        treePoints->clear();  // this also delete the items
+        treePoints->clear();     // this also delete the items
     }
 
     track = t;
@@ -148,8 +148,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
-	trkpt->editItem = 0;
-	++trkpt;
+        trkpt->editItem = 0;
+        ++trkpt;
     }
 
     connect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
@@ -192,23 +192,23 @@ void CTrackEditWidget::slotUpdate()
     while(trkpt != trkpts.end()) {
         CTrackTreeWidgetItem * item;
         if ( !trkpt->editItem ) {
-		trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
-		item = (CTrackTreeWidgetItem *)trkpt->editItem;
-		item->setTextAlignment(eNum,Qt::AlignLeft);
-		item->setTextAlignment(eAltitude,Qt::AlignRight);
-		item->setTextAlignment(eDelta,Qt::AlignRight);
-		item->setTextAlignment(eAzimuth,Qt::AlignRight);
-		item->setTextAlignment(eDistance,Qt::AlignRight);
-		item->setTextAlignment(eAscend,Qt::AlignRight);
-		item->setTextAlignment(eDescend,Qt::AlignRight);
-		item->setTextAlignment(eSpeed,Qt::AlignRight);
-		trkpt->flags.setChanged(true);
-	}
+            trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
+            item = (CTrackTreeWidgetItem *)trkpt->editItem;
+            item->setTextAlignment(eNum,Qt::AlignLeft);
+            item->setTextAlignment(eAltitude,Qt::AlignRight);
+            item->setTextAlignment(eDelta,Qt::AlignRight);
+            item->setTextAlignment(eAzimuth,Qt::AlignRight);
+            item->setTextAlignment(eDistance,Qt::AlignRight);
+            item->setTextAlignment(eAscend,Qt::AlignRight);
+            item->setTextAlignment(eDescend,Qt::AlignRight);
+            item->setTextAlignment(eSpeed,Qt::AlignRight);
+            trkpt->flags.setChanged(true);
+        }
 
-	if ( !trkpt->flags.isChanged() ) {
-		++trkpt;
-		continue;
-	}
+        if ( !trkpt->flags.isChanged() ) {
+            ++trkpt;
+            continue;
+        }
 
         item = (CTrackTreeWidgetItem *)trkpt->editItem;
         item->setData(0, Qt::UserRole, trkpt->idx);
@@ -216,9 +216,10 @@ void CTrackEditWidget::slotUpdate()
         // gray shade deleted items
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
-        } else {
+        }
+        else {
             item->setFlags(item->flags() | Qt::ItemIsEnabled);
-	}
+        }
 
         // temp. store item of user focus
         if(trkpt->flags & CTrack::pt_t::eFocus) {
@@ -226,12 +227,13 @@ void CTrackEditWidget::slotUpdate()
         }
 
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-		if ( !item->isSelected() )
-			item->setSelected(true);
-        } else {
-		if ( item->isSelected() )
-			item->setSelected(false);
-	}
+            if ( !item->isSelected() )
+                item->setSelected(true);
+        }
+        else {
+            if ( item->isSelected() )
+                item->setSelected(false);
+        }
 
         // point number
         item->setText(eNum,QString::number(trkpt->idx));
@@ -292,7 +294,7 @@ void CTrackEditWidget::slotUpdate()
         GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
         item->setText(ePosition,str);
 
-	trkpt->flags.setChanged(false);
+        trkpt->flags.setChanged(false);
 
         ++trkpt;
     }
@@ -352,13 +354,13 @@ void CTrackEditWidget::slotApply()
         while(trkpt != trkpts.end()) {
 
             if(trkpt->flags & CTrack::pt_t::eDeleted) {
-		if ( trkpt->editItem ) {
-			int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
-			if ( idx != -1 )
-				treePoints->takeTopLevelItem(idx);
-			delete (CTrackTreeWidgetItem *)trkpt->editItem;
-			trkpt->editItem = 0;
-		}
+                if ( trkpt->editItem ) {
+                    int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
+                    if ( idx != -1 )
+                        treePoints->takeTopLevelItem(idx);
+                    delete (CTrackTreeWidgetItem *)trkpt->editItem;
+                    trkpt->editItem = 0;
+                }
                 trkpt = trkpts.erase(trkpt);
             }
             else {

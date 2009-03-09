@@ -65,7 +65,6 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotPointSearchChanged(const QString&);
         void slotPointSelected();
 
-
     private:
         void binarizeViewport(int t);
         void loadMaskCollection();

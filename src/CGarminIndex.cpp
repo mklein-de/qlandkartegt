@@ -24,22 +24,24 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-
 CGarminIndex::CGarminIndex(QObject * parent)
 : QThread(parent)
 {
 
 }
 
+
 CGarminIndex::~CGarminIndex()
 {
 
 }
 
+
 bool CGarminIndex::created()
 {
     return (QFile::exists(dbName) && QFileInfo(dbName).size() && !isRunning());
 }
+
 
 void CGarminIndex::setDBName(const QString& name)
 {
@@ -52,6 +54,7 @@ void CGarminIndex::setDBName(const QString& name)
     db.setDatabaseName(dbName);
     db.open();
 }
+
 
 void CGarminIndex::create(const QStringList& files)
 {
@@ -66,6 +69,7 @@ void CGarminIndex::create(const QStringList& files)
     connect(this, SIGNAL(finished()), SLOT(slotFinished()));
     start();
 }
+
 
 void CGarminIndex::run()
 {
@@ -82,56 +86,51 @@ void CGarminIndex::run()
     db.open();
 
     QSqlQuery query(db);
-    if(!query.exec("PRAGMA temp_store = MEMORY")){
+    if(!query.exec("PRAGMA temp_store = MEMORY")) {
         qDebug() << query.lastError();
     }
 
-
-    if(!query.exec("PRAGMA synchronous = OFF"))
-    {
+    if(!query.exec("PRAGMA synchronous = OFF")) {
         qDebug() << query.lastError();
     }
 
     if(!query.exec( "CREATE TABLE subfiles ("
-                "id             INTEGER PRIMARY KEY,"
-                "name           TEXT NOT NULL,"
-                "filename       TEXT NOT NULL"
-                ")"))
-    {
+        "id             INTEGER PRIMARY KEY,"
+        "name           TEXT NOT NULL,"
+        "filename       TEXT NOT NULL"
+    ")")) {
         qDebug() << query.lastError();
     }
 
     if(!query.exec( "CREATE TABLE polylines ("
-                "id             INTEGER PRIMARY KEY,"
-                "type           INT UNSIGNED NOT NULL,"
-                "subfile        INTEGER NOT NULL,"
-                "subdiv         INT UNSIGNED NOT NULL,"
-                "offset         INT UNSIGNED NOT NULL,"
-                "lon1           REAL NOT NULL,"
-                "lat1           REAL NOT NULL,"
-                "lon2           REAL NOT NULL,"
-                "lat2           REAL NOT NULL,"
-                "label          TEXT"
-                ")"))
-    {
+        "id             INTEGER PRIMARY KEY,"
+        "type           INT UNSIGNED NOT NULL,"
+        "subfile        INTEGER NOT NULL,"
+        "subdiv         INT UNSIGNED NOT NULL,"
+        "offset         INT UNSIGNED NOT NULL,"
+        "lon1           REAL NOT NULL,"
+        "lat1           REAL NOT NULL,"
+        "lon2           REAL NOT NULL,"
+        "lat2           REAL NOT NULL,"
+        "label          TEXT"
+    ")")) {
         qDebug() << query.lastError();
     }
 
     if(!query.exec( "CREATE TABLE points ("
-                "id             INTEGER PRIMARY KEY,"
-                "type           INT UNSIGNED NOT NULL,"
-                "subfile        INTEGER NOT NULL,"
-                "subdiv         INT UNSIGNED NOT NULL,"
-                "offset         INT UNSIGNED NOT NULL,"
-                "lon1           REAL NOT NULL,"
-                "lat1           REAL NOT NULL,"
-                "label          TEXT"
-                ")"))
-    {
+        "id             INTEGER PRIMARY KEY,"
+        "type           INT UNSIGNED NOT NULL,"
+        "subfile        INTEGER NOT NULL,"
+        "subdiv         INT UNSIGNED NOT NULL,"
+        "offset         INT UNSIGNED NOT NULL,"
+        "lon1           REAL NOT NULL,"
+        "lat1           REAL NOT NULL,"
+        "label          TEXT"
+    ")")) {
         qDebug() << query.lastError();
     }
 
-    foreach(filename, imgFiles){
+    foreach(filename, imgFiles) {
         CGarminTile tile(0);
         tile.readBasics(filename);
         emit sigProgress(tr("Create index... %1").arg(filename), cnt * 100 / size);
@@ -142,6 +141,7 @@ void CGarminIndex::run()
 
 }
 
+
 void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
 {
     QMutexLocker lock(&mutex);
@@ -151,7 +151,7 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
 
     query.prepare("SELECT label FROM polylines WHERE label LIKE :label");
     query.bindValue(":label", "%" + text + "%");
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
 
@@ -159,6 +159,7 @@ void CGarminIndex::searchPolyline(const QString& text, QSet<QString>& result)
         result <<  query.value(0).toString();
     }
 }
+
 
 void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& result)
 {
@@ -169,10 +170,9 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
 
     query.prepare("SELECT label, subfile, subdiv, offset FROM polylines WHERE label = :label ");
     query.bindValue(":label", text);
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
-
 
     while (query.next()) {
         quint32 subfile     = query.value(1).toUInt();
@@ -180,7 +180,7 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
         qint32  offset      = query.value(3).toInt();
 
         QSqlQuery query2(db);
-        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))) {
             qDebug() << query.lastError();
         }
         query2.next();
@@ -194,6 +194,7 @@ void CGarminIndex::searchPolyline(const QString& text, QVector<CGarminPolygon>& 
     }
 }
 
+
 void CGarminIndex::searchPoint(const QString& text, QSet<QString>& result)
 {
     QMutexLocker lock(&mutex);
@@ -203,7 +204,7 @@ void CGarminIndex::searchPoint(const QString& text, QSet<QString>& result)
 
     query.prepare("SELECT label FROM points WHERE label LIKE :label");
     query.bindValue(":label", "%" + text + "%");
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
 
@@ -211,6 +212,7 @@ void CGarminIndex::searchPoint(const QString& text, QSet<QString>& result)
         result <<  query.value(0).toString();
     }
 }
+
 
 void CGarminIndex::searchPoint(const QString& text, QVector<CGarminPoint>& result)
 {
@@ -221,10 +223,9 @@ void CGarminIndex::searchPoint(const QString& text, QVector<CGarminPoint>& resul
 
     query.prepare("SELECT label, subfile, subdiv, offset FROM points WHERE label = :label ");
     query.bindValue(":label", text);
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
-
 
     while (query.next()) {
         quint32 subfile     = query.value(1).toUInt();
@@ -232,7 +233,7 @@ void CGarminIndex::searchPoint(const QString& text, QVector<CGarminPoint>& resul
         qint32  offset      = query.value(3).toInt();
 
         QSqlQuery query2(db);
-        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))) {
             qDebug() << query.lastError();
         }
         query2.next();
@@ -246,6 +247,7 @@ void CGarminIndex::searchPoint(const QString& text, QVector<CGarminPoint>& resul
     }
 }
 
+
 void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, QSet<QString>& result)
 {
     QMutexLocker lock(&mutex);
@@ -255,7 +257,7 @@ void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, Q
 
     query.prepare("SELECT label, lon1, lat1, lon2, lat2 FROM polylines WHERE label LIKE :label");
     query.bindValue(":label", "%" + text + "%");
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
 
@@ -263,11 +265,12 @@ void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, Q
         QPointF p1(query.value(1).toDouble(), query.value(2).toDouble());
         QPointF p2(query.value(3).toDouble(), query.value(4).toDouble());
 
-        if(viewport.intersects(QRectF(p1,p2))){
+        if(viewport.intersects(QRectF(p1,p2))) {
             result <<  query.value(0).toString();
         }
     }
 }
+
 
 void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, QVector<CGarminPolygon>& result)
 {
@@ -278,10 +281,9 @@ void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, Q
 
     query.prepare("SELECT label, subfile, subdiv, offset, lon1, lat1, lon2, lat2 FROM polylines WHERE label = :label ");
     query.bindValue(":label", text);
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
-
 
     while (query.next()) {
         QPointF p1(query.value(4).toDouble(), query.value(5).toDouble());
@@ -293,7 +295,7 @@ void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, Q
         qint32  offset      = query.value(3).toInt();
 
         QSqlQuery query2(db);
-        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))) {
             qDebug() << query.lastError();
         }
         query2.next();
@@ -307,6 +309,7 @@ void CGarminIndex::searchPolyline(const QString& text, const QRectF& viewport, Q
     }
 }
 
+
 void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QSet<QString>& result)
 {
     QMutexLocker lock(&mutex);
@@ -316,17 +319,18 @@ void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QSet
 
     query.prepare("SELECT label, lon1, lat1 FROM points WHERE label LIKE :label");
     query.bindValue(":label", "%" + text + "%");
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
 
     while (query.next()) {
         QPointF p1(query.value(1).toDouble(), query.value(2).toDouble());
-        if(viewport.contains(p1)){
+        if(viewport.contains(p1)) {
             result <<  query.value(0).toString();
         }
     }
 }
+
 
 void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QVector<CGarminPoint>& result)
 {
@@ -337,10 +341,9 @@ void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QVec
 
     query.prepare("SELECT label, subfile, subdiv, offset, lon1, lat1 FROM points WHERE label = :label ");
     query.bindValue(":label", text);
-    if(!query.exec()){
+    if(!query.exec()) {
         qDebug() << query.lastError();
     }
-
 
     while (query.next()) {
         QPointF p1(query.value(4).toDouble(), query.value(5).toDouble());
@@ -351,7 +354,7 @@ void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QVec
         qint32  offset      = query.value(3).toInt();
 
         QSqlQuery query2(db);
-        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))){
+        if(!query2.exec(QString("SELECT name, filename FROM subfiles WHERE id = %1").arg(subfile))) {
             qDebug() << query.lastError();
         }
         query2.next();
@@ -364,6 +367,7 @@ void CGarminIndex::searchPoint(const QString& text, const QRectF& viewport, QVec
         tile.readPoint(name, subdiv, offset, result);
     }
 }
+
 
 void CGarminIndex::slotFinished()
 {

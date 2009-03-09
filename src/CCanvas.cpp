@@ -87,10 +87,12 @@ CCanvas::~CCanvas()
 {
 }
 
+
 QColor CCanvas::getSelectedColor()
 {
     return mouseColorPicker->getSelectedColor();
 }
+
 
 void CCanvas::slotCopyPosition()
 {
@@ -297,7 +299,7 @@ void CCanvas::draw(QPainter& p)
     IMap& map = CMapDB::self().getMap();
     bool needsRedraw = map.getNeedsRedraw();
 
-// printf("draw canvas %d\n",needsRedraw);
+    // printf("draw canvas %d\n",needsRedraw);
 
     CMapDB::self().draw(p,rect(), needsRedraw);
     CTrackDB::self().draw(p, rect(), needsRedraw);
@@ -387,8 +389,6 @@ void CCanvas::drawScale(QPainter& p)
 
     pt2 = GPS_Math_Wpt_Projection(pt1, d, -90 * DEG_TO_RAD);
     map.convertRad2Pt(pt2.u, pt2.v);
-
-
 
     if(isnan(pt2.u) || isnan(pt2.v) || abs(pt2.u) > 5000) return;
 
@@ -548,14 +548,13 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     double x = e->x();
     double y = e->y();
 
-
     double x_m = e->x();
     double y_m = e->y();
 
     map.convertPt2Rad(x,y);
     map.convertPt2M(x_m,y_m);
 
-//     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
+    //     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
     if((x == e->x()) && (y == e->y())) {
         map.convertPt2M(x,y);
@@ -594,6 +593,7 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     QPoint p = mapToGlobal(pos);
     menu.exec(p);
 }
+
 
 void CCanvas::showEvent ( QShowEvent * event )
 {

@@ -82,20 +82,20 @@ void CMapToolWidget::slotDBChanged()
             item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
             item->setData(eType, Qt::UserRole, map->type);
 
-            if(map.key() == key){
+            if(map.key() == key) {
                 selected = item;
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
                 item->setData(eMode, Qt::UserRole, eSelected);
             }
-            else if(basemap.hasOverlayMap(map.key())){
+            else if(basemap.hasOverlayMap(map.key())) {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlayActive);
             }
-            else if(map->type == IMap::eGarmin){
+            else if(map->type == IMap::eGarmin) {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlay);
             }
-            else{
+            else {
                 item->setData(eMode, Qt::UserRole, eNoMode);
             }
             ++map;
@@ -129,7 +129,6 @@ void CMapToolWidget::slotDBChanged()
         updateExportButton();
     }
 
-
 }
 
 
@@ -139,15 +138,16 @@ void CMapToolWidget::slotKnownMapDoubleClicked(QTreeWidgetItem* item, int)
     CMapDB::self().openMap(key);
 }
 
+
 void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int c)
 {
-    if(c == eMode){
+    if(c == eMode) {
         QString key = item->data(eName, Qt::UserRole).toString();
 
-        if(item->data(eMode, Qt::UserRole).toInt() == eOverlay){
+        if(item->data(eMode, Qt::UserRole).toInt() == eOverlay) {
             CMapDB::self().getMap().addOverlayMap(key);
         }
-        else if(item->data(eMode, Qt::UserRole).toInt() == eOverlayActive){
+        else if(item->data(eMode, Qt::UserRole).toInt() == eOverlayActive) {
             CMapDB::self().getMap().delOverlayMap(key);
         }
 
@@ -177,12 +177,12 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     if(item) {
         IMap& dem = CMapDB::self().getDEM();
 
-        if(item->data(eMode, Qt::UserRole).toInt() == eSelected){
+        if(item->data(eMode, Qt::UserRole).toInt() == eSelected) {
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             actDelMap->setEnabled(false);
         }
-        else{
+        else {
             actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
             actDelMap->setEnabled(true);
@@ -260,7 +260,7 @@ void CMapToolWidget::slotExportMap()
 
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     const IMapSelection * ms = selectedMaps[key];
-    if(ms->type == IMapSelection::eRaster){
+    if(ms->type == IMapSelection::eRaster) {
         bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
         bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
         bool haveGDAL = haveGDALWarp && haveGDALTranslate;
@@ -272,11 +272,12 @@ void CMapToolWidget::slotExportMap()
         CMapQMAPExport dlg((CMapSelectionRaster&)*ms,this);
         dlg.exec();
     }
-    if(ms->type == IMapSelection::eGarmin){
+    if(ms->type == IMapSelection::eGarmin) {
         CGarminExport dlg(this);
         dlg.exportToFile((CMapSelectionGarmin&)*ms);
     }
 }
+
 
 void CMapToolWidget::slotAddDEM()
 {
@@ -293,10 +294,11 @@ void CMapToolWidget::slotAddDEM()
     CMapDB::self().openDEM(filename);
 }
 
+
 void CMapToolWidget::slotDelDEM()
 {
     IMap& dem = CMapDB::self().getDEM();
-    if(dem.maptype == IMap::eDEM){
+    if(dem.maptype == IMap::eDEM) {
         QSettings cfg;
         cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
         dem.deleteLater();

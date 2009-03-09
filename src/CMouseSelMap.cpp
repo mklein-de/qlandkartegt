@@ -68,10 +68,10 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 
         rect = rect.normalized();
 
-        if(rect.width() < 2){
+        if(rect.width() < 2) {
             rect.setWidth(2);
         }
-        if(rect.height() < 2){
+        if(rect.height() < 2) {
             rect.setHeight(2);
         }
 

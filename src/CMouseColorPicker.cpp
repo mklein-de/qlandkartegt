@@ -31,27 +31,29 @@ CMouseColorPicker::CMouseColorPicker(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorColorChooser"),3,30);
 }
 
+
 CMouseColorPicker::~CMouseColorPicker()
 {
 
 }
 
+
 void CMouseColorPicker::draw(QPainter& p)
 {
     p.setPen(Qt::black);
 
-
-    if(selected == Qt::NoPen){
+    if(selected == Qt::NoPen) {
         p.setBrush(color);
         p.drawRect(50,50,100,100);
     }
-    else{
+    else {
         p.setBrush(color);
         p.drawRect(50,50,50,100);
         p.setBrush(selected);
         p.drawRect(100,50,50,100);
     }
 }
+
 
 void CMouseColorPicker::mouseMoveEvent(QMouseEvent * e)
 {
@@ -60,11 +62,12 @@ void CMouseColorPicker::mouseMoveEvent(QMouseEvent * e)
 
     QColor c = img.pixel(e->pos());
 
-    if(c != color){
+    if(c != color) {
         color = c;
         theMainWindow->getCanvas()->update();
     }
 }
+
 
 void CMouseColorPicker::mousePressEvent(QMouseEvent * e)
 {
@@ -72,9 +75,8 @@ void CMouseColorPicker::mousePressEvent(QMouseEvent * e)
     theMainWindow->getCanvas()->update();
 }
 
+
 void CMouseColorPicker::mouseReleaseEvent(QMouseEvent * e)
 {
 
 }
-
-

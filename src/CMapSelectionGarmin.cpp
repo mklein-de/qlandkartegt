@@ -32,10 +32,12 @@ CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 {
 }
 
+
 CMapSelectionGarmin::~CMapSelectionGarmin()
 {
 
 }
+
 
 void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
 {
@@ -45,9 +47,9 @@ void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
     p.setBrush(QColor(150,150,255,100));
 
     QMap<QString,map_t>::const_iterator map = maps.begin();
-    while(map != maps.end()){
+    while(map != maps.end()) {
 
-        if(focusedMap == "gmapsupp"){
+        if(focusedMap == "gmapsupp") {
             p.setPen(QPen(Qt::red,2));
         }
         else if(map.key() == theMap.getKey()) {
@@ -58,21 +60,21 @@ void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
         }
 
         QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
-        while(tile != map->tiles.end()){
+        while(tile != map->tiles.end()) {
 
             const QVector<double>& u = tile->u;
             const QVector<double>& v = tile->v;
 
             QPolygonF line;
             int N = u.size();
-            for(n = 0; n < N; ++n){
+            for(n = 0; n < N; ++n) {
                 double x = u[n];
                 double y = v[n];
                 theMap.convertRad2Pt(x,y);
                 line << QPointF(x,y);
             }
 
-            if(rect.intersects(line.boundingRect().toRect())){
+            if(rect.intersects(line.boundingRect().toRect())) {
                 p.drawPolygon(line);
             }
 
@@ -82,15 +84,16 @@ void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
     }
 }
 
+
 quint32 CMapSelectionGarmin::getMemSize()
 {
     quint32 memSize = 0;
 
     QMap<QString,map_t>::const_iterator map = maps.begin();
-    while(map != maps.end()){
+    while(map != maps.end()) {
 
         QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
-        while(tile != map->tiles.end()){
+        while(tile != map->tiles.end()) {
             memSize += tile->memSize;
             ++tile;
         }
@@ -98,6 +101,7 @@ quint32 CMapSelectionGarmin::getMemSize()
     }
     return memSize;
 }
+
 
 void CMapSelectionGarmin::calcArea()
 {
@@ -109,10 +113,10 @@ void CMapSelectionGarmin::calcArea()
     lon1 =  180.0 * DEG_TO_RAD;
 
     QMap<QString,map_t>::const_iterator map = maps.begin();
-    while(map != maps.end()){
+    while(map != maps.end()) {
 
         QMap<QString, tile_t>::const_iterator tile = map->tiles.begin();
-        while(tile != map->tiles.end()){
+        while(tile != map->tiles.end()) {
             const QRectF& r = tile->area;
             if(lat1 < r.top())      lat1 = r.top();
             if(lon2 < r.right())    lon2 = r.right();

@@ -38,6 +38,4 @@ class CMouseZoomMap : public IMouse
         bool zoomMap;
 
 };
-
-#endif //CMOUSEZOOMMAP_H
-
+#endif                           //CMOUSEZOOMMAP_H

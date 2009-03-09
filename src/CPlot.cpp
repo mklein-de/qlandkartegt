@@ -334,7 +334,7 @@ void CPlot::drawXScale( QPainter &p )
     if((limMax - limMin) <= (useMax - useMin)) return;
 
     double scale = (right - left) / (limMax - limMin);
-//     double val   = m_pData->x().pt2val(0);
+    //     double val   = m_pData->x().pt2val(0);
 
     int x = left + (useMin - limMin) * scale;
     int y = bottom + 5;
@@ -375,7 +375,7 @@ void CPlot::drawYScale( QPainter &p )
     if((limMax - limMin) <= (useMax - useMin)) return;
 
     double scale = (top - bottom) / (limMax - limMin);
-//     double val   = m_pData->y().pt2val(0);
+    //     double val   = m_pData->y().pt2val(0);
 
     int x = left - 5;
     int y = bottom + (useMin - limMin) * scale;
@@ -594,7 +594,7 @@ void CPlot::drawTags(QPainter& p)
 
             p.setPen(QPen(Qt::white, 3));
             if (fontHeight + 16 < pty) {
-                if (pty > bottom){
+                if (pty > bottom) {
                     pty = bottom;
                 }
 

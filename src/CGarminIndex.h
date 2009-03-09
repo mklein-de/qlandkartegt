@@ -52,7 +52,7 @@ class CGarminIndex : public QThread
         void searchPoint(const QString& text, const QRectF& viewport, QSet<QString>& result);
         void searchPoint(const QString& text, const QRectF& viewport, QVector<CGarminPoint>& result);
 
-    signals:
+        signals:
         void sigProgress(const QString& status, const int progress);
 
     private slots:
@@ -67,6 +67,4 @@ class CGarminIndex : public QThread
         QStringList     imgFiles;
 
 };
-
-#endif //CGARMININDEX_H
-
+#endif                           //CGARMININDEX_H

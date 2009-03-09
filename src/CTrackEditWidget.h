@@ -41,7 +41,6 @@ class CTrackTreeWidgetItem : public QTreeWidgetItem
         bool operator< ( const QTreeWidgetItem & other ) const;
 };
 
-
 class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 {
     Q_OBJECT;

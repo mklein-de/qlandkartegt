@@ -58,13 +58,14 @@ float CUnitNautic::elevation2meter(const QString& val)
     return val.toDouble();
 }
 
+
 float CUnitNautic::str2speed(QString& str)
 {
     return (str.remove(" nm/h").toDouble() / 0.53989f);
 }
 
+
 float CUnitNautic::str2distance(QString& str)
 {
     return (str.remove(" nm").toDouble() / 0.00053989f);
 }
-
