@@ -13,21 +13,16 @@
 //C- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //C- GNU General Public License for more details.
 //C-  ------------------------------------------------------------------
-#include <QApplication>
-#include <QtNetwork/QHttp>
-#include <QDir>
-#include <QDebug>
-#include <QSettings>
-#include <QDateTime>
-#include <QtGui/QTransform>
-#include <QThread>
-#include <QDirIterator>
-#include <math.h>
-#include "COsmTilesHash.h"
-#include <IMap.h>
+
+#include "IMap.h"
 #include "CMapOSM.h"
+#include "COsmTilesHash.h"
+#include "CResources.h"
+
+#include <QtGui>
+#include <QtNetwork/QHttp>
+
 #ifndef M_PI
-                                 /* pi */
 # define M_PI   3.14159265358979323846
 #endif
 
@@ -80,24 +75,45 @@ COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM) : cmapOSM(cmapOSM)
     COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);
     osmTileBaseUrl = "http://tile.openstreetmap.org/";
     getid = -1;
-    bool enableProxy = false;
     requestInProgress =false;
-    // enableProxy = CResources::self().getHttpProxy(osmTileBaseUrl,port);
+
+    QString url;
+    quint16 port;
+    bool enableProxy;
+
+    enableProxy = CResources::self().getHttpProxy(url,port);
 
     tilesConnection = new QHttp(this);
     tilesConnection->setHost("tile.openstreetmap.org");
-    //  if(enableProxy) {
-    //    tilesConnection->setProxy(url,port);
-    //  }
+    if(enableProxy) {
+        tilesConnection->setProxy(url,port);
+    }
 
     connect(tilesConnection,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
-
+    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 }
 
 
 COsmTilesHash::~COsmTilesHash()
 {
 
+}
+
+void COsmTilesHash::slotSetupLink()
+{
+    QString url;
+    quint16 port;
+    bool enableProxy;
+
+    enableProxy = CResources::self().getHttpProxy(url,port);
+
+    if(tilesConnection) delete tilesConnection;
+    tilesConnection = new QHttp(this);
+    if(enableProxy) {
+        tilesConnection->setProxy(url,port);
+    }
+    tilesConnection->setHost("tile.openstreetmap.org");
+    connect(tilesConnection,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 

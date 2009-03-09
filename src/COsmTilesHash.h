@@ -55,6 +55,7 @@ class COsmTilesHash: public QObject
     private slots:
         // void slotCreate();
         void slotRequestFinished(int , bool error);
+        void slotSetupLink();
         // void slotSelectPath();
 };
 #endif                           /* COSMTILESHASH_H_ */
