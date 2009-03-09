@@ -1,0 +1,6 @@
+To beautify all source code do:
+
+cd src
+find ./ -name "*.h" -exec bcpp -fnc ../bcpp.config -fi {} \;
+find ./ -name "*.cpp" -exec bcpp -fnc ../bcpp.config -fi {} \;
+rm *.orig
