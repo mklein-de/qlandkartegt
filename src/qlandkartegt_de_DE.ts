@@ -2023,7 +2023,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
         <source>Select Sub Map</source>
-        <translation>unterliegende karte auswählen</translation>
+        <translation>Kartenausschnitt wählen</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="113"/>
@@ -2038,7 +2038,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="115"/>
         <source>Search Map</source>
-        <translation>Karte suchen</translation>
+        <translation>In der Karte finden</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="115"/>
@@ -2178,7 +2178,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMegaMenu.cpp" line="166"/>
         <source>Move Map to Pos.</source>
-        <translation>Karte zur Position bewegen.</translation>
+        <translation>Karte mit Position bewegen.</translation>
     </message>
     <message>
         <location filename="CMegaMenu.cpp" line="166"/>
@@ -3897,7 +3897,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="ILiveLogToolWidget.ui" line="107"/>
         <source>Heading:</source>
-        <translation>Überschrift:</translation>
+        <translation>Richtung:</translation>
     </message>
 </context>
 <context>
