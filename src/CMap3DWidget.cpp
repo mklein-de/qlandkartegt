@@ -226,6 +226,7 @@ void CMap3DWidget::showEvent ( QShowEvent * event )
 
     qDebug() << "show event";
     connect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(map, SIGNAL(sigResize(const QSize&)), this, SLOT(mapResize(const QSize&)));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
     connect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
     connect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
@@ -237,6 +238,7 @@ void CMap3DWidget::hideEvent ( QHideEvent * event )
 {
     qDebug() << "hide event";
     disconnect(map, SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    disconnect(map, SIGNAL(sigResize(const QSize&)), this, SLOT(mapResize(const QSize&)));
     disconnect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), this, SLOT(loadTrack()));
     disconnect(this, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
     disconnect(this, SIGNAL(sigTrackChanged()), this, SLOT(slotTrackChanged()));
