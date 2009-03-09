@@ -1,3 +1,34 @@
+--- 2009.03.09 ---
+
+Bug     #60:
+Distance line function wheel: remove lock when wheel is on and new line is added.
+
+Request #61:
+Distance line function wheel: add icons to add point at start/end of line
+
+Request #62:
+Add GUI to create GDAL WMS definition files
+
+Request #63:
+Make trackedit sortable
+
+Request #64:
+Add German translation
+
+Request #65:
+Add French translation
+
+Request #66:
+Add support for OSM tile server
+
+Bug     #67:
+Map crashes on maps with polyline types > 0x2B
+
+Request #68:
+3D view: fill complete skybox area with map
+
+
+
 --- 2009.02.06 ---
 
 Request #54:
@@ -406,6 +437,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
