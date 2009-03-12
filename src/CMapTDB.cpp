@@ -559,13 +559,15 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 
 void CMapTDB::resize(const QSize& s)
 {
+    int yshift = 0;
+    if (QApplication::desktop()->height() < 650) yshift = 60 ;
     IMap::resize(s);
-    rectUseTyp      = QRect(55,size.height() - 55, 100, 32);
+    rectUseTyp      = QRect(55,size.height() - 55 - yshift, 100, 32);
     topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
 
-    rectDecDetail   = QRect(170, size.height() - 55, 32, 32);
-    rectIncDetail   = QRect(330, size.height() - 55, 32, 32);
-    rectDetail      = QRect(202, size.height() - 55, 128, 32);
+    rectDecDetail   = QRect(220, size.height() - 55 - yshift, 32, 32);
+    rectIncDetail   = QRect(380, size.height() - 55 - yshift, 32, 32);
+    rectDetail      = QRect(252, size.height() - 55 - yshift, 128, 32);
 
     setFastDraw();
 }
@@ -1229,21 +1231,23 @@ void CMapTDB::draw(QPainter& p)
     if(!typfile.isEmpty()) {
         QString str;
 
+        int yshift = 0 ;
+        if (QApplication::desktop()->height() < 650) yshift = 60 ;
         if(useTyp && mouseOverUseTyp) {
             str = tr("no typ");
-            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconOk32x32.png"));
+            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconOk32x32.png"));
         }
         else if(useTyp && !mouseOverUseTyp) {
             str = tr("use typ");
-            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconOk32x32.png"));
+            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconOk32x32.png"));
         }
         else if(!useTyp && mouseOverUseTyp) {
             str = tr("use typ");
-            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconCancel32x32.png"));
+            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconCancel32x32.png"));
         }
         else if(!useTyp && !mouseOverUseTyp) {
             str = tr("no typ");
-            p.drawPixmap(20, size.height() - 55, QPixmap(":/icons/iconCancel32x32.png"));
+            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconCancel32x32.png"));
         }
 
         QFont font = p.font();

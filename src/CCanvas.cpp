@@ -341,9 +341,11 @@ void CCanvas::drawRefPoints(QPainter& p)
 
 void CCanvas::drawScale(QPainter& p)
 {
-
     IMap& map = CMapDB::self().getMap();
-    QPoint px1(rect().bottomRight() - QPoint(100,50));
+
+    int yshift = 0;
+    if (QApplication::desktop()->height() < 650) yshift = 60 ;
+    QPoint px1(rect().bottomRight() - QPoint(100,50 + yshift));
 
     if(map.isLonLat()) return;
 
