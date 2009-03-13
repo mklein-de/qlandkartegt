@@ -45,6 +45,7 @@ CCopyright::CCopyright()
         "<p>Translation:<br/>"
         "Sarah Neumann (German)<br/>"
         "Fabrice Crohas (French)<br/>"
+        "Alessandro Briosi (Italian)<br/>"
         "</p>"
         "<p>"
         "Icons and eye candy are from the <b>KDE</b> icon set, the <b>Nuvola</b> icon set and "

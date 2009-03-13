@@ -29,7 +29,7 @@ CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
 , needResetZoom(true)
 {
     plot->setXLabel(tr("distance [m]"));
-    plot->setYLabel(tr("heartrate [bpm]"));
+    plot->setYLabel(tr("heart rate [bpm]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
@@ -61,7 +61,7 @@ void CTrackStatTraineeWidget::slotChanged()
     }
 
     plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
-    plot->setYLabel(tr("heartrate [bpm]"));
+    plot->setYLabel(tr("heart rate [bpm]"));
 
     QPolygonF heartRate;
     QPolygonF slopeRate;

@@ -295,19 +295,10 @@ IF(PLOT_3D AND OPENGL_FOUND)
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
 SET (WMS_CLIENT ON CACHE BOOL "WMS Maps service")
-# SET (XERCESC_INCLUDE_DIR "")
-# SET (XERCESC_LIBRARIE "")
-#
-# IF(WMS_CLIENT AND XERCESC_FOUND)
 IF(WMS_CLIENT)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWMS_CLIENT")
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp)
-#     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CWMSResponse.h xlinks.hxx CMapWMS.h)
-#     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CWMSResponse.cpp xlinks.cxx CMapWMS.cpp)
-#     SET(XERCESC_INCLUDE_DIR ${XERCESC_INCLUDE_DIRS})
-#     SET(XERCESC_LIBRARIE ${XERCESC_LIBRARIES})
-# ENDIF(WMS_CLIENT AND XERCESC_FOUND)
 ENDIF(WMS_CLIENT)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
@@ -318,7 +309,7 @@ SET (ENABLE_TRANSLATION ON CACHE BOOL "enable translations")
 #-D ENABLE_TRANSLATION:bool=OFF
 IF(ENABLE_TRANSLATION)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
-    
+
     file (GLOB TRANSLATIONS_FILES *.ts)
 
     option (UPDATE_TRANSLATIONS "Update source translation translations/*.ts
@@ -332,8 +323,8 @@ IF(ENABLE_TRANSLATION)
                           )
     else (UPDATE_TRANSLATIONS)
        qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
-    endif (UPDATE_TRANSLATIONS) 
-    
+    endif (UPDATE_TRANSLATIONS)
+
     if (UNIX AND NOT WIN32)
  	 install(
          	 FILES
@@ -367,7 +358,6 @@ add_executable(qlandkartegt
 
 target_link_libraries(
     qlandkartegt
-#       ${XERCESC_LIBRARIE}
       ${GDAL_LIBRARIES}
       ${PROJ_LIBRARIES}
       ${QT_LIBRARIES}
@@ -386,7 +376,6 @@ install(
 
 if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
-  #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:console")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
   target_link_libraries(qlandkartegt ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
 endif (WIN32)
