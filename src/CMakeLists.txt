@@ -310,7 +310,7 @@ SET (ENABLE_TRANSLATION ON CACHE BOOL "enable translations")
 IF(ENABLE_TRANSLATION)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_TRANSLATION")
 
-    file (GLOB TRANSLATIONS_FILES *.ts)
+    file (GLOB TRANSLATIONS_FILES locale/*.ts)
 
     option (UPDATE_TRANSLATIONS "Update source translation translations/*.ts
     files (WARNING: make clean will delete the source .ts files! Danger!)")
