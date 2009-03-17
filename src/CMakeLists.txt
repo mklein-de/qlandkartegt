@@ -87,7 +87,6 @@ set(qlandkarte_SRCS
     CTrackToolWidget.cpp
     CTrackEditWidget.cpp
     ITrackStat.cpp
-    CTrackStatWidget.cpp
     CTrackStatProfileWidget.cpp
     CTrackStatSpeedWidget.cpp
     CTrackStatTraineeWidget.cpp
@@ -208,7 +207,6 @@ set(qlandkarte_HDRS
     CTrackToolWidget.h
     CTrackEditWidget.h
     ITrackStat.h
-    CTrackStatWidget.h
     CTrackStatProfileWidget.h
     CTrackStatSpeedWidget.h
     CTrackStatTraineeWidget.h

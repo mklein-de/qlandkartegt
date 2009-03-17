@@ -18,7 +18,6 @@
 **********************************************************************************************/
 
 #include "CTrackEditWidget.h"
-#include "CTrackStatWidget.h"
 #include "CTrackStatProfileWidget.h"
 #include "CTrackStatSpeedWidget.h"
 #include "CTrackStatTraineeWidget.h"
