@@ -203,7 +203,7 @@ class IMap : public QObject
         virtual IMap * getOverlay(){return ovlMap;}
 
         /// select map area for export or further processing
-        virtual void select(IMapSelection& ms, const QRect& rect){};
+        virtual void select(IMapSelection& ms, const QRect& rect);
         /**
          * get values for the defined region. If DEM data has resolution not
          * less than required, width and height will not changed,

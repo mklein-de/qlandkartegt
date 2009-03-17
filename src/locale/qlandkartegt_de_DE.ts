@@ -1202,7 +1202,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="CMapDB.cpp" line="518"/>
         <source>You can&apos;t select subareas from single file maps.</source>
-        <translation>Du kannst keine Untergebiete aus einer einzelnen Kartendatei wählen.</translation>
+        <translation>Du kannst keine Ausschnitte aus einer einzelnen Kartendatei wählen.</translation>
     </message>
     <message>
         <location filename="CMapDB.cpp" line="66"/>

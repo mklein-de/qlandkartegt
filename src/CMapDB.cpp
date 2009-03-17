@@ -527,18 +527,25 @@ void CMapDB::select(const QRect& rect)
         ms->mapkey       = mapkey;
         ms->description  = knownMaps[mapkey].description;
 
-        theMap->select(*ms, rect);
+        try{
+            theMap->select(*ms, rect);
 
-        selectedMaps[ms->key] = ms;
+            selectedMaps[ms->key] = ms;
 
-        if(ms->isEmpty()) {
-            delete selectedMaps.take(ms->key);
+            if(ms->isEmpty()) {
+                delete selectedMaps.take(ms->key);
+            }
+            else if(mapsearch) {
+                mapsearch->setArea(*ms);
+            }
+
+            emit sigChanged();
         }
-        else if(mapsearch) {
-            mapsearch->setArea(*ms);
+        catch(const QString& msg){
+            delete ms;
+            QMessageBox::critical(0,tr("Error..."), msg, QMessageBox::Abort,QMessageBox::Abort);
         }
 
-        emit sigChanged();
     }
     else if(theMap->maptype == IMap::eGarmin) {
         IMapSelection * ms = 0;
@@ -561,5 +568,4 @@ void CMapDB::select(const QRect& rect)
 
         emit sigChanged();
     }
-
 }
