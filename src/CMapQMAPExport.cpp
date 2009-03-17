@@ -28,6 +28,8 @@
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
 , mapsel(mapsel)
+, file1(0)
+, file2(0)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16"));
@@ -42,9 +44,17 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
 
-    connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
+    connect(&cmd1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished2(int,QProcess::ExitStatus)));
+
+    connect(&cmd2, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished3(int,QProcess::ExitStatus)));
+
+    connect(&cmd3, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd3, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd3, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
 
 }
 
@@ -69,14 +79,31 @@ void CMapQMAPExport::slotOutputPath()
 void CMapQMAPExport::slotStderr()
 {
     textBrowser->setTextColor(Qt::red);
-    textBrowser->append(cmd.readAllStandardError());
+    if(sender() == &cmd1){
+        textBrowser->append(cmd1.readAllStandardError());
+    }
+    else if(sender() == &cmd2){
+        textBrowser->append(cmd2.readAllStandardError());
+    }
+    else if(sender() == &cmd3){
+        textBrowser->append(cmd3.readAllStandardError());
+    }
 }
 
 
 void CMapQMAPExport::slotStdout()
 {
     textBrowser->setTextColor(Qt::blue);
-    QString str = cmd.readAllStandardOutput();
+    QString str;
+    if(sender() == &cmd1){
+        str = cmd1.readAllStandardOutput();
+    }
+    else if(sender() == &cmd2){
+        str = cmd2.readAllStandardOutput();
+    }
+    else if(sender() == &cmd3){
+        str = cmd3.readAllStandardOutput();
+    }
 
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
@@ -182,35 +209,71 @@ void CMapQMAPExport::slotStart()
         }
     }
 
-    slotFinished(0,QProcess::NormalExit);
+    slotFinished1(0,QProcess::NormalExit);
 }
 
 
-void CMapQMAPExport::slotFinished( int exitCode, QProcess::ExitStatus status)
+void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 {
     //     qDebug() << exitCode << status;
+
+    if(file1) delete file1;
+    file1 = new QTemporaryFile();
+    file1->open();
+
+    if(file2) delete file2;
+    file2 = new QTemporaryFile();
+    file2->open();
 
     if(jobs.isEmpty()) {
         textBrowser->setTextColor(Qt::black);
         textBrowser->append(tr("--- finished ---\n"));
         return;
     }
-    job_t job = jobs.takeFirst();
+    job_t job = jobs.first();
     QStringList args;
     args << "-srcwin";
     args << QString::number(job.xoff) << QString::number(job.yoff);
     args << QString::number(job.width) << QString::number(job.height);
+    args << job.srcFilename;
+    args << file1->fileName();
+
+    textBrowser->setTextColor(Qt::black);
+    textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
+
+    cmd1.start("gdal_translate", args);
+
+}
+
+void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
+{
+    job_t job = jobs.first();
+    QStringList args;
+    args << "-t_srs" << "EPSG:4326";
+    args << "-ts"    << QString::number(job.width) << QString::number(job.height);
+    args << file1->fileName();
+    args << file2->fileName();
+
+    textBrowser->setTextColor(Qt::black);
+    textBrowser->append("gdalwarp " +  args.join(" ") + "\n");
+
+    cmd2.start("gdalwarp", args);
+}
+
+void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
+{
+    job_t job = jobs.takeFirst();
+    QStringList args;
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
     args << "-co" << "blockysize=256";
     args << "-co" << "compress=deflate";
     args << "-co" << "predictor=1";
-    args << job.srcFilename;
+    args << file2->fileName();
     args << job.tarFilename;
 
     textBrowser->setTextColor(Qt::black);
     textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
 
-    cmd.start("gdal_translate", args);
-
+    cmd3.start("gdal_translate", args);
 }

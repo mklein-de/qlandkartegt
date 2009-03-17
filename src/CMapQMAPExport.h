@@ -24,6 +24,7 @@
 #include "ui_IMapQMAPExport.h"
 
 class CMapSelectionRaster;
+class QTemporaryFile;
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
@@ -37,12 +38,19 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotOutputPath();
         void slotStderr();
         void slotStdout();
-        void slotFinished( int exitCode, QProcess::ExitStatus status);
+        void slotFinished1( int exitCode, QProcess::ExitStatus status);
+        void slotFinished2( int exitCode, QProcess::ExitStatus status);
+        void slotFinished3( int exitCode, QProcess::ExitStatus status);
 
     private:
         const CMapSelectionRaster& mapsel;
 
-        QProcess cmd;
+        QProcess cmd1;
+        QProcess cmd2;
+        QProcess cmd3;
+
+        QTemporaryFile * file1;
+        QTemporaryFile * file2;
 
         struct job_t
         {
