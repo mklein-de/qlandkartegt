@@ -18,8 +18,9 @@
 **********************************************************************************************/
 
 #include "CResources.h"
-#include "CDeviceTBDOE.h"
+//#include "CDeviceTBDOE.h"
 #include "CDeviceGarmin.h"
+#include "CDeviceQLandkarteM.h"
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
 #include "CUnitNautic.h"
@@ -151,7 +152,8 @@ IDevice * CResources::device()
     // allocate new device
     if(!m_device) {
         if(m_devKey == "QLandkarteM" && !m_devIPAddress.isEmpty() && m_devIPPort) {
-            m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
+            //m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
+            m_device = new CDeviceQLandkarteM(m_devIPAddress,m_devIPPort,this);
         }
         else if(m_devKey == "Garmin" && !m_devType.isEmpty()) {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);

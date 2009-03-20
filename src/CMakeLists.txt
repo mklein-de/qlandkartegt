@@ -72,7 +72,7 @@ set(qlandkarte_SRCS
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
-    CDeviceTBDOE.cpp
+    CDeviceQLandkarteM.cpp
     CDeviceGarmin.cpp
     CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
@@ -192,7 +192,7 @@ set(qlandkarte_HDRS
     CQlb.h
     CGpx.h
     IDevice.h
-    CDeviceTBDOE.h
+    CDeviceQLandkarteM.h
     CDeviceGarmin.h
     CCreateMapOSM.h
     CCreateMapQMAP.h
