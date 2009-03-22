@@ -26,6 +26,7 @@
 #include "CDlgEditWpt.h"
 #include "CDlgDelWpt.h"
 #include "GeoMath.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -43,6 +44,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
@@ -164,5 +166,24 @@ void CWptToolWidget::selWptByKey(const QString& key)
         if(item && item->data(Qt::UserRole) == key) {
             listWpts->setCurrentItem(item);
         }
+    }
+}
+
+void CWptToolWidget::slotProximity()
+{
+    bool ok         = false;
+    QString str    = tr("Distance [%1]").arg(IUnit::self().baseunit);
+    double dist     = QInputDialog::getDouble(0,tr("Proximity distance ..."), str, 0, 0, 2147483647, 0,&ok);
+    if(ok) {
+        str = QString("%1 %2").arg(dist).arg(IUnit::self().baseunit);
+        dist = IUnit::self().str2distance(str);
+
+        QStringList keys;
+        QListWidgetItem * item;
+        const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+        foreach(item,items) {
+            keys << item->data(Qt::UserRole).toString();
+        }
+        CWptDB::self().setProxyDistance(keys,(dist == 0 ? WPT_NOFLOAT : dist));
     }
 }

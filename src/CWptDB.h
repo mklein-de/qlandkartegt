@@ -63,6 +63,8 @@ class CWptDB : public IDB
         /// delete a waipoint by it's key
         void delWpt(const QString& key, bool silent = false, bool saveSticky = true);
 
+        void setProxyDistance(const QStringList& keys, double dist);
+
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb);

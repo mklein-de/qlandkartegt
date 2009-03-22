@@ -147,6 +147,15 @@ void CWptDB::addWpt(CWpt * wpt)
     emit sigModified();
 }
 
+void CWptDB::setProxyDistance(const QStringList& keys, double dist)
+{
+    QString key;
+    foreach(key,keys) {
+        wpts[key]->prx = dist;
+    }
+
+    emit sigModified();
+}
 
 void CWptDB::loadGPX(CGpx& gpx)
 {
