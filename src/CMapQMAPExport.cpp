@@ -267,8 +267,7 @@ void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
     args << "-co" << "blockysize=256";
-    args << "-co" << "compress=deflate";
-    args << "-co" << "predictor=1";
+    args << "-co" << "compress=LZW";
     args << file2->fileName();
     args << job.tarFilename;
 
