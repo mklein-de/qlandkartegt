@@ -144,6 +144,7 @@ void CWptDB::addWpt(CWpt * wpt)
     }
     wpts[wpt->key()] = wpt;
 
+    emit sigChanged();
     emit sigModified();
 }
 
@@ -153,7 +154,7 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
     foreach(key,keys) {
         wpts[key]->prx = dist;
     }
-
+    emit sigChanged();
     emit sigModified();
 }
 

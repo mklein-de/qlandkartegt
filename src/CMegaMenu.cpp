@@ -31,6 +31,7 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "IDevice.h"
+#include "CDlgCreateWorldBasemap.h"
 
 #ifdef PLOT_3D
 #include "CMap3DWidget.h"
@@ -186,7 +187,7 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMainMore[5] = func_key_state_t(":/icons/iconDiary16x16",tr("Diary"),&CMegaMenu::funcDiary,tr("Add / edit diary data"));
     fsMainMore[6] = func_key_state_t(":/icons/iconColorChooser16x16",tr("Pick Color"),&CMegaMenu::funcColorPicker ,tr("test only"));
-    fsMainMore[7] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsMainMore[7] = func_key_state_t(0,tr("Create World Basemap"),&CMegaMenu::funcWorldBasemap,tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
     fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));
@@ -675,4 +676,10 @@ void CMegaMenu::funcTextBox()
 void CMegaMenu::funcDistance()
 {
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
+}
+
+void CMegaMenu::funcWorldBasemap()
+{
+    CDlgCreateWorldBasemap dlg;
+    dlg.exec();
 }

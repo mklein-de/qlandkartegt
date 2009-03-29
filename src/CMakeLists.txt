@@ -68,6 +68,7 @@ set(qlandkarte_SRCS
     CDlgProjWizzard.cpp
     CDlgEditText.cpp
     CDlgEditDistance.cpp
+    CDlgCreateWorldBasemap.cpp
     CDlgDelWpt.cpp
     CQlb.cpp
     CGpx.cpp
@@ -189,6 +190,7 @@ set(qlandkarte_HDRS
     CDlgEditText.h
     CDlgEditDistance.h
     CDlgDelWpt.h
+    CDlgCreateWorldBasemap.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -263,6 +265,7 @@ SET(qlandkarte_UIS
     IDlgCombineTracks.ui
     IDlgEditDistance.ui
     IDlgDelWpt.ui
+    IDlgCreateWorldBasemap.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
@@ -274,6 +277,7 @@ SET(qlandkarte_UIS
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IGarminExport.ui
+
 )
 
 SET(qlandkarte_RCS

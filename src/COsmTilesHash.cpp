@@ -69,7 +69,7 @@ class COsmTilesHashCacheCleanup: public QThread
         qint32 maxSizeInMB;
 };
 
-COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM) : cmapOSM(cmapOSM)
+COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM)/* : cmapOSM(cmapOSM)*/
 {
 
     COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);

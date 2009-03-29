@@ -125,6 +125,7 @@ class CMegaMenu : public QLabel
 
         void funcDiary();
         void funcColorPicker();
+        void funcWorldBasemap();
 
         static CMegaMenu * m_self;
 
