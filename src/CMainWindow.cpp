@@ -176,6 +176,14 @@ CMainWindow::CMainWindow()
 
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     megaMenu->switchByKeyWord("Main");
+
+    QStringList args = QCoreApplication::arguments();
+    args.removeFirst();
+    foreach(QString arg, args)
+    {
+      loadData(arg, QString());
+    }
+
 }
 
 
@@ -391,7 +399,6 @@ void CMainWindow::slotLoadData()
     cfg.setValue("geodata/filter",filter);
 }
 
-
 void CMainWindow::slotAddData()
 {
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
@@ -428,34 +435,35 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
 {
     QTemporaryFile tmpfile;
     bool loadGPXData = false;
-    QString ext      = filename.right(4);
+    QFileInfo fileInfo(filename);
+    QString ext = fileInfo.suffix().toUpper();
 
     if(filter == "QLandkarte (*.qlb)") {
-        if(ext != ".qlb") filename += ".qlb";
+        if( ext != "QLB" ) filename += ".qlb";
         ext = "QLB";
     }
     else if(filter == "GPS Exchange (*.gpx)") {
-        if(ext != ".gpx") filename += ".gpx";
+        if( ext != "GPX" ) filename += ".gpx";
         ext = "GPX";
     }
     else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
-        if(ext != ".tcx") filename += ".tcx";
+        if( ext != "TCX") filename += ".tcx";
         ext = "TCX";
     }
     else if(filter == "Geocaching.com/EasyGPS (*.loc)") {
-        if(ext != ".loc") filename += ".loc";
+        if(ext != "LOC") filename += ".loc";
         ext = "LOC";
     }
     else if(filter == "Mapsource (*.gdb)") {
-        if(ext != ".gdb") filename += ".gdb";
+        if(ext != "GDB") filename += ".gdb";
         ext = "GDB";
     }
-    else {
+    else if ( !QString("QLBGPXTCXGDB").contains(ext) ) {
         filename += ".qlb";
         ext = "QLB";
     }
 
-    pathData = QFileInfo(filename).absolutePath();
+    pathData = fileInfo.absolutePath();
 
     try
     {
