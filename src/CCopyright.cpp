@@ -46,6 +46,7 @@ CCopyright::CCopyright()
         "Sarah Neumann (German)<br/>"
         "Fabrice Crohas (French)<br/>"
         "Alessandro Briosi (Italian)<br/>"
+        "Mike Markov (Russian)"
         "</p>"
         "<p>"
         "Icons and eye candy are from the <b>KDE</b> icon set, the <b>Nuvola</b> icon set and "
