@@ -71,11 +71,6 @@
         <translation>&lt;Ввод координат&gt;</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="286"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="334"/>
         <source>Load reference points...</source>
         <translation>Загрузить опорные точки...</translation>
@@ -138,11 +133,6 @@
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGridTool.cpp" line="113"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CCreateMapGridTool.cpp" line="288"/>
         <source>Error ...</source>
         <translation>Ошибка...</translation>
@@ -198,7 +188,7 @@
     <message>
         <location filename="../CCreateMapOSM.cpp" line="404"/>
         <source>Calculating tiles ...</source>
-        <translation>Расчет элементов...</translation>
+        <translation>Расчет тайлов...</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="560"/>
@@ -208,12 +198,12 @@
     <message>
         <location filename="../CCreateMapOSM.cpp" line="561"/>
         <source>tile %1 of %2</source>
-        <translation>лист %1 из %2</translation>
+        <translation>тайл %1 из %2</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="583"/>
         <source>Failed to download tile!</source>
-        <translation>Не удалось загрузить элемент!</translation>
+        <translation>Не удалось загрузить тайл!</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="616"/>
@@ -617,11 +607,6 @@
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../CDlgConfig.cpp" line="71"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CDlgConfig.cpp" line="72"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
@@ -765,7 +750,7 @@
     <message>
         <location filename="../CGarminExport.cpp" line="513"/>
         <source>Too many tiles.</source>
-        <translation>Слишком много элементов.</translation>
+        <translation>Слишком много тайлов.</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="508"/>
@@ -795,7 +780,7 @@
     <message>
         <location filename="../CGarminExport.cpp" line="673"/>
         <source>Copy tile data...</source>
-        <translation>Копирование элементов данных...</translation>
+        <translation>Копирование данных тайлов...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="678"/>
@@ -1123,11 +1108,6 @@ Do you want to save your changes?</source>
         <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="774"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CMainWindow.cpp" line="775"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
@@ -1229,11 +1209,6 @@ Do you want to save your changes?</source>
 </context>
 <context>
     <name>CMapEditWidget</name>
-    <message>
-        <location filename="../CMapEditWidget.cpp" line="41"/>
-        <source></source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing GeoTiff.</source>
@@ -1446,11 +1421,6 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapTDB</name>
     <message>
-        <location filename="../CMapTDB.cpp" line="423"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CMapTDB.cpp" line="361"/>
         <source>Major highway</source>
         <translation>Основное шоссе</translation>
@@ -1653,7 +1623,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="798"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать элементы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карте, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать тайлы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карте, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1249"/>
@@ -1788,11 +1758,6 @@ Do you want to save your changes?</source>
         <location filename="../CMegaMenu.cpp" line="193"/>
         <source>-</source>
         <translation>-</translation>
-    </message>
-    <message>
-        <location filename="../CMegaMenu.cpp" line="193"/>
-        <source></source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="96"/>
@@ -2202,7 +2167,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="190"/>
         <source>Create a world basemap from OSM tiles to be used by QLandkarte M</source>
-        <translation>Создать базовую карту мира из данных OSM для использования в QLandkarte M</translation>
+        <translation>Создать базовую карту мира из тайлов OSM для использования в QLandkarte M</translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="373"/>
@@ -2296,7 +2261,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../COsmTilesHash.cpp" line="192"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
-        <translation>Элемент изображения %1 был загружен %2 дней назад. Перезагрузка...</translation>
+        <translation>Тайл %1 был загружен %2 дней назад. Перезагрузка...</translation>
     </message>
 </context>
 <context>
