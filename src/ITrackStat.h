@@ -32,7 +32,9 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
 {
     Q_OBJECT;
     public:
-        ITrackStat(QWidget * parent);
+        enum type_e {eOverDistance, eOverTime};
+
+        ITrackStat(type_e type, QWidget * paren);
         virtual ~ITrackStat();
 
     protected:
@@ -48,6 +50,7 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
 
         void addWptTags(QVector<wpt_t>& wpts);
 
+        type_e type;
         CPlot * plot;
         QPointer<CTrack> track;
     protected slots:

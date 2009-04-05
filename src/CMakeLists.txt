@@ -97,6 +97,7 @@ set(qlandkarte_SRCS
     CDiaryEditWidget.cpp
     CPlot.cpp
     CPlotAxis.cpp
+    CPlotAxisTime.cpp
     CPlotData.cpp
     CLiveLog.cpp
     CLiveLogDB.cpp
@@ -218,6 +219,7 @@ set(qlandkarte_HDRS
     CDiaryEditWidget.h
     CPlot.h
     CPlotAxis.h
+    CPlotAxisTime.h
     CPlotData.h
     CLiveLog.h
     CLiveLogDB.h

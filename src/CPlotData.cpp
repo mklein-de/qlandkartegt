@@ -19,12 +19,18 @@
 
 #include "CPlotData.h"
 #include "CPlotAxis.h"
+#include "CPlotAxisTime.h"
 
-CPlotData::CPlotData(QObject * parent)
+CPlotData::CPlotData(axis_type_e type, QObject * parent)
 : QObject(parent)
 , grid(true)
 {
-    xaxis = new CPlotAxis(this);
+    if(type == eLinear){
+        xaxis = new CPlotAxis(this);
+    }
+    else{
+        xaxis = new CPlotAxisTime(this);
+    }
     xaxis->setAutoscale(false);
     yaxis = new CPlotAxis(this);
 }

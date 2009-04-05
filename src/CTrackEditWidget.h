@@ -57,7 +57,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotPointSelection(QTreeWidgetItem * item);
         void slotPurge();
         void slotUpdate();
-        void slotToggleStat();
+        void slotToggleStatDistance();
+        void slotToggleStatTime();
         void slotToggleTrainee();
 
     protected:

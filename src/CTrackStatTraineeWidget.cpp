@@ -24,8 +24,8 @@
 
 #include <QtGui>
 
-CTrackStatTraineeWidget::CTrackStatTraineeWidget(QWidget * parent)
-: ITrackStat(parent)
+CTrackStatTraineeWidget::CTrackStatTraineeWidget(type_e type, QWidget * parent)
+: ITrackStat(type, parent)
 , needResetZoom(true)
 {
     plot->setXLabel(tr("distance [m]"));

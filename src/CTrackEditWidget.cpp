@@ -69,8 +69,11 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
-    toolGraph->setIcon(QIcon(":/icons/iconGraph16x16.png"));
-    connect(toolGraph, SIGNAL(clicked()), this, SLOT(slotToggleStat()));
+    toolGraphDistance->setIcon(QIcon(":/icons/iconGraph16x16.png"));
+    connect(toolGraphDistance, SIGNAL(clicked()), this, SLOT(slotToggleStatDistance()));
+
+    toolGraphTime->setIcon(QIcon(":/icons/iconTime16x16.png"));
+    connect(toolGraphTime, SIGNAL(clicked()), this, SLOT(slotToggleStatTime()));
 
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
@@ -440,10 +443,10 @@ void CTrackEditWidget::slotPurge()
 }
 
 
-void CTrackEditWidget::slotToggleStat()
+void CTrackEditWidget::slotToggleStatDistance()
 {
     if(trackStatSpeed.isNull()) {
-        trackStatSpeed = new CTrackStatSpeedWidget(this);
+        trackStatSpeed = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
     }
     else {
@@ -451,7 +454,26 @@ void CTrackEditWidget::slotToggleStat()
     }
 
     if(trackStatProfile.isNull()) {
-        trackStatProfile = new CTrackStatProfileWidget(this);
+        trackStatProfile = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
+    }
+    else {
+        delete trackStatProfile;
+    }
+}
+
+void CTrackEditWidget::slotToggleStatTime()
+{
+    if(trackStatSpeed.isNull()) {
+        trackStatSpeed = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
+    }
+    else {
+        delete trackStatSpeed;
+    }
+
+    if(trackStatProfile.isNull()) {
+        trackStatProfile = new CTrackStatProfileWidget(ITrackStat::eOverTime, this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
     }
     else {
@@ -463,7 +485,7 @@ void CTrackEditWidget::slotToggleStat()
 void CTrackEditWidget::slotToggleTrainee()
 {
     if(trackStatTrainee.isNull()) {
-        trackStatTrainee = new CTrackStatTraineeWidget(this);
+        trackStatTrainee = new CTrackStatTraineeWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
     }
     else {

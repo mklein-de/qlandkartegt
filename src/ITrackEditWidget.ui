@@ -16,9 +16,19 @@
    <item row="0" column="0" >
     <layout class="QHBoxLayout" >
      <item>
-      <widget class="QToolButton" name="toolGraph" >
+      <widget class="QToolButton" name="toolGraphDistance" >
        <property name="toolTip" >
-        <string>Toggle track statistics view.</string>
+        <string>Toggle track statistics view over distance.</string>
+       </property>
+       <property name="text" >
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolGraphTime" >
+       <property name="toolTip" >
+        <string>Toggle track statistics view over time.</string>
        </property>
        <property name="text" >
         <string>...</string>

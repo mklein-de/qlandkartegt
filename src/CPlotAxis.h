@@ -94,7 +94,7 @@ class CPlotAxis : public QObject
         }
 
     protected:
-        void calc();
+        virtual void calc();
 
         ///true if axis has been initialized
         bool initialized;

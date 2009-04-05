@@ -25,7 +25,7 @@ class CTrackStatTraineeWidget : public ITrackStat
 {
     Q_OBJECT;
     public:
-        CTrackStatTraineeWidget(QWidget * parent);
+        CTrackStatTraineeWidget(type_e type, QWidget * parent);
         virtual ~CTrackStatTraineeWidget();
 
     private slots:

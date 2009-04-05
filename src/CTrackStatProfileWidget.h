@@ -26,7 +26,7 @@ class CTrackStatProfileWidget : public ITrackStat
 {
     Q_OBJECT;
     public:
-        CTrackStatProfileWidget(QWidget * parent);
+        CTrackStatProfileWidget(type_e type, QWidget * paren);
         virtual ~CTrackStatProfileWidget();
     private:
         bool needResetZoom;

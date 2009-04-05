@@ -24,11 +24,16 @@
 
 #include <QtGui>
 
-CTrackStatSpeedWidget::CTrackStatSpeedWidget(QWidget * parent)
-: ITrackStat(parent)
+CTrackStatSpeedWidget::CTrackStatSpeedWidget(type_e type, QWidget * parent)
+: ITrackStat(type, parent)
 , needResetZoom(true)
 {
-    plot->setXLabel(tr("distance [m]"));
+    if(type == eOverDistance){
+        plot->setXLabel(tr("distance [m]"));
+    }
+    else{
+        plot->setXLabel(tr("time [h]"));
+    }
     plot->setYLabel(tr("speed [km/h]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
@@ -60,7 +65,13 @@ void CTrackStatSpeedWidget::slotChanged()
         return;
     }
 
-    plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
+    if(type == eOverDistance){
+        plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
+    }
+    else{
+        plot->setXLabel(tr("time [h]"));
+    }
+
     plot->setYLabel(tr("speed [%1]").arg(IUnit::self().speedunit));
 
     QPolygonF lineSpeed;
@@ -77,15 +88,15 @@ void CTrackStatSpeedWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        lineSpeed       << QPointF(trkpt->distance, trkpt->speed * speedfactor);
-        lineAvgSpeed    << QPointF(trkpt->distance, trkpt->avgspeed * speedfactor);
+        lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
+        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->avgspeed * speedfactor);
         //         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
+            marksSpeed << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focusSpeed = QPointF(trkpt->distance, trkpt->speed * speedfactor);
+            focusSpeed = QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
         ++trkpt;

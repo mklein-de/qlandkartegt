@@ -23,7 +23,7 @@
 
 #include <QtGui>
 
-CPlot::CPlot(QWidget * parent)
+CPlot::CPlot(CPlotData::axis_type_e type, QWidget * parent)
 : QWidget(parent)
 , fontWidth(0)
 , fontHeight(0)
@@ -36,7 +36,7 @@ CPlot::CPlot(QWidget * parent)
 , fm(QFont())
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-    m_pData = new CPlotData(this);
+    m_pData = new CPlotData(type, this);
     createActions();
 }
 

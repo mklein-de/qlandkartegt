@@ -30,7 +30,9 @@ class CPlotAxis;
 class CPlotData : public QObject
 {
     public:
-        CPlotData(QObject * parent);
+        enum axis_type_e {eLinear, eTime};
+
+        CPlotData(axis_type_e type, QObject * parent);
         virtual ~CPlotData();
 
         ///get a reference to the x axis

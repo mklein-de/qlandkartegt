@@ -25,7 +25,7 @@ class CTrackStatSpeedWidget : public ITrackStat
 {
     Q_OBJECT;
     public:
-        CTrackStatSpeedWidget(QWidget * parent);
+        CTrackStatSpeedWidget(type_e type, QWidget * parent);
         virtual ~CTrackStatSpeedWidget();
 
     private slots:

@@ -28,7 +28,7 @@ class CPlot : public QWidget
 {
     Q_OBJECT
         public:
-        CPlot(QWidget * parent);
+        CPlot(CPlotData::axis_type_e type, QWidget * parent);
         virtual ~CPlot();
 
         void setYLabel(const QString& str);

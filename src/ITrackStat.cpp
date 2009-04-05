@@ -29,18 +29,23 @@
 
 #include <QtGui>
 
-ITrackStat::ITrackStat(QWidget * parent)
+ITrackStat::ITrackStat(type_e type, QWidget * parent)
 : QWidget(parent)
+, type(type)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
 
     layout()->setSpacing(SPACING);
 
-    plot = new CPlot(this);
+    if(type == eOverDistance){
+        plot = new CPlot(CPlotData::eLinear,this);
+    }
+    else{
+        plot = new CPlot(CPlotData::eTime,this);
+    }
     layout()->addWidget(plot);
-    QObject::connect(plot, SIGNAL(activePointSignal(double)),
-        this, SLOT(activePointEvent(double)));
+    QObject::connect(plot, SIGNAL(activePointSignal(double)), this, SLOT(activePointEvent(double)));
 
 }
 
