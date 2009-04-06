@@ -88,15 +88,15 @@ void CTrackStatSpeedWidget::slotChanged()
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             ++trkpt; continue;
         }
-        lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
-        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->avgspeed * speedfactor);
+        lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
+        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->avgspeed * speedfactor);
         //         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marksSpeed << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
+            marksSpeed << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focusSpeed = QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->speed * speedfactor);
+            focusSpeed = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
         ++trkpt;

@@ -499,7 +499,6 @@ void CPlot::drawData(QPainter& p)
 
         p.setPen(pens[penIdx++]);
         while(point != polyline.end()) {
-
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
 

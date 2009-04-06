@@ -94,15 +94,16 @@ void CTrackStatProfileWidget::slotChanged()
             ++trkpt; continue;
         }
         if(trkpt->dem != WPT_NOFLOAT) {
-            lineDEM << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->dem * basefactor);
+            lineDEM << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->dem * basefactor);
         }
-        lineElev    << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->ele * basefactor);
+
+        lineElev    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         if(trkpt->flags & CTrack::pt_t::eSelected) {
-            marksElev  << QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->ele * basefactor);
+            marksElev  << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         }
 
         if(trkpt->flags & CTrack::pt_t::eFocus) {
-            focusElev  = QPointF(type == eOverDistance ? trkpt->distance : trkpt->timestamp, trkpt->ele * basefactor);
+            focusElev  = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         }
 
         ++trkpt;
@@ -117,7 +118,7 @@ void CTrackStatProfileWidget::slotChanged()
     while(wpt != wpts.end()) {
         if(wpt->d < 400) {
             CPlotData::point_t tag;
-            tag.point = QPointF(type == eOverDistance ? wpt->trkpt.distance :  wpt->trkpt.timestamp, wpt->trkpt.ele);
+            tag.point = QPointF(type == eOverDistance ? wpt->trkpt.distance :  (double)wpt->trkpt.timestamp, wpt->trkpt.ele);
             tag.icon  = getWptIconByName(wpt->wpt->icon);
             tag.label = wpt->wpt->name;
             plot->addTag(tag);

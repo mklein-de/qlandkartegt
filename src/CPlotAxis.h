@@ -81,7 +81,7 @@ class CPlotAxis : public QObject
             if ( scale == 0 ) {
                 return 0;
             }
-            return ( double ) ( ( pt -0.5 ) / scale + used_min );
+            return ( double ) ( ( (double)pt - 0.5 ) / scale + used_min );
         }
 
         void setAutoscale(bool on){autoscale = on;}
