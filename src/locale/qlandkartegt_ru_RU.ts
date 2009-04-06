@@ -38,7 +38,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="79"/>
         <source>thin plate (4 Ref. Pts.)</source>
-        <translation>тонкие срезы (4 опорн.точки)</translation>
+        <translation>thin-plate  (4 опорн.точки)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="158"/>
