@@ -228,9 +228,11 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             QStringList keys(key);
             COverlayDB::self().delOverlays(keys);
         }
-
+        calcDistance();
         doFuncWheel = false;
         thePoint    = 0;
+
+        emit sigChanged();
     }
     else if(rectMove.contains(pos1)) {
         doMove      = true;
