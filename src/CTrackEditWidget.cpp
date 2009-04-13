@@ -96,11 +96,17 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 CTrackEditWidget::~CTrackEditWidget()
 {
-    if(!trackStatProfile.isNull()) {
-        delete trackStatProfile;
+    if(!trackStatProfileDist.isNull()) {
+        delete trackStatProfileDist;
     }
-    if(!trackStatSpeed.isNull()) {
-        delete trackStatSpeed;
+    if(!trackStatSpeedDist.isNull()) {
+        delete trackStatSpeedDist;
+    }
+    if(!trackStatProfileTime.isNull()) {
+        delete trackStatProfileTime;
+    }
+    if(!trackStatSpeedTime.isNull()) {
+        delete trackStatSpeedTime;
     }
     if(!trackStatTrainee.isNull()) {
         delete trackStatTrainee;
@@ -445,39 +451,39 @@ void CTrackEditWidget::slotPurge()
 
 void CTrackEditWidget::slotToggleStatDistance()
 {
-    if(trackStatSpeed.isNull()) {
-        trackStatSpeed = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
-        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
+    if(trackStatSpeedDist.isNull()) {
+        trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
     }
     else {
-        delete trackStatSpeed;
+        delete trackStatSpeedDist;
     }
 
-    if(trackStatProfile.isNull()) {
-        trackStatProfile = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
-        theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
+    if(trackStatProfileDist.isNull()) {
+        trackStatProfileDist = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatProfileDist, tr("Profile/Dist."));
     }
     else {
-        delete trackStatProfile;
+        delete trackStatProfileDist;
     }
 }
 
 void CTrackEditWidget::slotToggleStatTime()
 {
-    if(trackStatSpeed.isNull()) {
-        trackStatSpeed = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
-        theMainWindow->getCanvasTab()->addTab(trackStatSpeed, tr("Speed"));
+    if(trackStatSpeedTime.isNull()) {
+        trackStatSpeedTime = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeedTime, tr("Speed/Time"));
     }
     else {
-        delete trackStatSpeed;
+        delete trackStatSpeedTime;
     }
 
-    if(trackStatProfile.isNull()) {
-        trackStatProfile = new CTrackStatProfileWidget(ITrackStat::eOverTime, this);
-        theMainWindow->getCanvasTab()->addTab(trackStatProfile, tr("Profile"));
+    if(trackStatProfileTime.isNull()) {
+        trackStatProfileTime = new CTrackStatProfileWidget(ITrackStat::eOverTime, this);
+        theMainWindow->getCanvasTab()->addTab(trackStatProfileTime, tr("Profile/Time"));
     }
     else {
-        delete trackStatProfile;
+        delete trackStatProfileTime;
     }
 }
 

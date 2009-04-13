@@ -84,8 +84,10 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         bool originator;
 
-        QPointer<CTrackStatProfileWidget> trackStatProfile;
-        QPointer<CTrackStatSpeedWidget> trackStatSpeed;
+        QPointer<CTrackStatProfileWidget> trackStatProfileDist;
+        QPointer<CTrackStatSpeedWidget> trackStatSpeedDist;
+        QPointer<CTrackStatProfileWidget> trackStatProfileTime;
+        QPointer<CTrackStatSpeedWidget> trackStatSpeedTime;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
 
 };
