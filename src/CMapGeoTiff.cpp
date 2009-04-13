@@ -109,11 +109,21 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    xscale  = adfGeoTransform[1];
-    yscale  = adfGeoTransform[5];
 
-    xref1   = adfGeoTransform[0];
-    yref1   = adfGeoTransform[3];
+    if (pj_is_latlong(pjsrc)) {
+        xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+        yscale  = adfGeoTransform[5] * DEG_TO_RAD;
+
+        xref1   = adfGeoTransform[0] * DEG_TO_RAD;
+        yref1   = adfGeoTransform[3] * DEG_TO_RAD;
+    }
+    else {
+        xscale  = adfGeoTransform[1];
+        yscale  = adfGeoTransform[5];
+
+        xref1   = adfGeoTransform[0];
+        yref1   = adfGeoTransform[3];
+    }
 
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
