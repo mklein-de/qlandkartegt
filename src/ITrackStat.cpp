@@ -69,7 +69,11 @@ void ITrackStat::activePointEvent(double dist)
             ++trkpt; continue;
         }
 
-        if(dist < trkpt->distance) {
+        if(type == eOverDistance && dist < trkpt->distance) {
+            track->setPointOfFocus(idx);
+            break;
+        }
+        if(type == eOverTime && dist < trkpt->timestamp) {
             track->setPointOfFocus(idx);
             break;
         }
