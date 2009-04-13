@@ -31,7 +31,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         /opt/local/include/gdal
         /sw/include/gdal
         C:/Progra~1/FWTools2.2.8/include
-        C:/Progra~1/FWTools2.1.0/include      
+        C:/Progra~1/FWTools2.1.0/include
   )
 
   # debian uses version suffixes
@@ -42,8 +42,9 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         gdal1.3.2
         gdal1.4.0
         gdal1.5.0
+        gdal1.6.0
         gdal
-        gdal_i   
+        gdal_i
     PATHS
       /usr/lib
       /usr/local/lib
