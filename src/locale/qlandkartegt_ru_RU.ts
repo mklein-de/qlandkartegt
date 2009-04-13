@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="ru">
-<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -70,11 +69,6 @@
         <translation>&lt;Ввод координат&gt;</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="286"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="334"/>
         <source>Load reference points...</source>
         <translation>Загрузить опорные точки...</translation>
@@ -135,11 +129,6 @@
         <location filename="../CCreateMapGridTool.cpp" line="112"/>
         <source>%1</source>
         <translation>%1</translation>
-    </message>
-    <message>
-        <location filename="../CCreateMapGridTool.cpp" line="113"/>
-        <source></source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="288"/>
@@ -387,79 +376,79 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation>Соединение с устройством</translation>
+        <translation type="obsolete">Соединение с устройством</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>Error...</source>
-        <translation>Ошибка...</translation>
+        <translation type="obsolete">Ошибка...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation>QLandkarteM: Невозможно соединиться с устройством.</translation>
+        <translation type="obsolete">QLandkarteM: Невозможно соединиться с устройством.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation>Передача путевых точек ...</translation>
+        <translation type="obsolete">Передача путевых точек ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="218"/>
         <source>%1
 %2 of %3</source>
-        <translation>%1
+        <translation type="obsolete">%1
 %2 из %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation>QLandkarteM: Невозможно передать путевые точки.</translation>
+        <translation type="obsolete">QLandkarteM: Невозможно передать путевые точки.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation>Загрузить путевые точки...</translation>
+        <translation type="obsolete">Загрузить путевые точки...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation>Запросить список путевых точек из устройства</translation>
+        <translation type="obsolete">Запросить список путевых точек из устройства</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation>QLandkarteM: Невозможно запросить путевые точки из устройства.</translation>
+        <translation type="obsolete">QLandkarteM: Невозможно запросить путевые точки из устройства.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation>Передать треки...</translation>
+        <translation type="obsolete">Передать треки...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="276"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation>QLandkarteM: Невозможно передать треки.</translation>
+        <translation type="obsolete">QLandkarteM: Невозможно передать треки.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation>Загрузить треки...</translation>
+        <translation type="obsolete">Загрузить треки...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation>Запросить список треков с устройства</translation>
+        <translation type="obsolete">Запросить список треков с устройства</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation>QLandkarteM: Невозможно запросить треки с устройства.</translation>
+        <translation type="obsolete">QLandkarteM: Невозможно запросить треки с устройства.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation>QLandkarteM: Функции передачи карт не поддерживаются.</translation>
+        <translation type="obsolete">QLandkarteM: Функции передачи карт не поддерживаются.</translation>
     </message>
 </context>
 <context>
@@ -615,11 +604,6 @@
 </context>
 <context>
     <name>CDlgConfig</name>
-    <message>
-        <location filename="../CDlgConfig.cpp" line="71"/>
-        <source></source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="72"/>
         <source>QLandkarte M</source>
@@ -1122,11 +1106,6 @@ Do you want to save your changes?</source>
         <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="774"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../CMainWindow.cpp" line="775"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
@@ -1228,11 +1207,6 @@ Do you want to save your changes?</source>
 </context>
 <context>
     <name>CMapEditWidget</name>
-    <message>
-        <location filename="../CMapEditWidget.cpp" line="41"/>
-        <source></source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing GeoTiff.</source>
@@ -1444,11 +1418,6 @@ Do you want to save your changes?</source>
 </context>
 <context>
     <name>CMapTDB</name>
-    <message>
-        <location filename="../CMapTDB.cpp" line="423"/>
-        <source></source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../CMapTDB.cpp" line="361"/>
         <source>Major highway</source>
@@ -1784,14 +1753,9 @@ Do you want to save your changes?</source>
 <context>
     <name>CMegaMenu</name>
     <message>
-        <location filename="../CMegaMenu.cpp" line="193"/>
+        <location filename="../CMegaMenu.h" line="60"/>
         <source>-</source>
         <translation>-</translation>
-    </message>
-    <message>
-        <location filename="../CMegaMenu.cpp" line="193"/>
-        <source></source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="96"/>
@@ -2306,12 +2270,12 @@ Do you want to save your changes?</source>
         <translation>Длина: %1 %2</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="429"/>
+        <location filename="../COverlayDistance.cpp" line="431"/>
         <source>Make Track</source>
         <translation>Создать трек</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="430"/>
+        <location filename="../COverlayDistance.cpp" line="432"/>
         <source>Edit...</source>
         <translation>Изменить...</translation>
     </message>
@@ -4118,6 +4082,14 @@ p, li { white-space: pre-wrap; }￼
         <location filename="../IMouse.cpp" line="204"/>
         <source>elevation: %1 %2</source>
         <translation>подъем: %1 %2</translation>
+    </message>
+</context>
+<context>
+    <name>IOverlay</name>
+    <message>
+        <location filename="../IOverlay.h" line="50"/>
+        <source>No info set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
