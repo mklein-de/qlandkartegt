@@ -118,9 +118,13 @@ void CGpx::load(const QString& filename)
     if(!file.open(QIODevice::ReadOnly)) {
         throw tr("Failed to open: ") + filename;
     }
-    if(!setContent(&file)) {
+
+    QString msg;
+    int line;
+    int column;
+    if(!setContent(&file, &msg, &line, &column)) {
         file.close();
-        throw tr("Failed to read: ") + filename;
+        throw tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg);
     }
     file.close();
 
