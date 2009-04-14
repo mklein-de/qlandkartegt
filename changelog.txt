@@ -1,3 +1,28 @@
+--- 2009.04.14 ---
+
+Request #69:
+Italian translation
+
+Request #71:
+Add track graphs over distance and time
+
+Request #72:
+Group edit proximity distance
+
+Request #73:
+Load geo data (gpx, loc ...) from command line
+
+Request #74:
+Russian translation
+
+Bug     #75:
+Length does not change while deleting points in distance polyline
+
+Bug     #76:
+Loading single raster map file with long/lat projection gives bad coord. in status bar
+
+
+
 --- 2009.03.09 ---
 
 Bug     #60:
@@ -437,6 +462,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
