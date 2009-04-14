@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="fr">
+<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -341,32 +342,32 @@
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="58"/>
         <source>Error...</source>
-        <translation type="unfinished">Erreur ...</translation>
+        <translation>Erreur ...</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="38"/>
         <source>QLandkarteM: Upload waypoints is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: L&apos;envoi des points géographique n&apos;est pas implémenté.</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="43"/>
         <source>QLandkarteM: Download waypoints is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: La récupération des points géographique n&apos;est pas implémenté.</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="48"/>
         <source>QLandkarteM: Upload tracks is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: L&apos;envoi des traces n&apos;est pas implémenté.</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="53"/>
         <source>QLandkarteM: Download tracks is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: La récupération des traces n&apos;est pas implémenté.</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="58"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="unfinished">QLandkarteM: L&apos;envoi des cartes n&apos;est pas implémenté.</translation>
+        <translation>QLandkarteM: L&apos;envoi des cartes n&apos;est pas implémenté.</translation>
     </message>
 </context>
 <context>
@@ -602,12 +603,12 @@
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="422"/>
         <source>Diary Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistant de création du journal</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="422"/>
         <source>The wizard will replace the current text by it&apos;s own. Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;assistant remplacera le texte courant. Voulez vous continuer ?</translation>
     </message>
 </context>
 <context>
@@ -696,7 +697,7 @@
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="106"/>
         <source>You must provide a waypoint identifier.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez fournir un identifiant pour le point géographique.</translation>
     </message>
 </context>
 <context>
@@ -892,7 +893,9 @@
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lire:%1
+ligne %2, colonne %3:
+%4</translation>
     </message>
 </context>
 <context>
@@ -1301,7 +1304,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapOSM.cpp" line="267"/>
         <source>Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license</source>
-        <translation type="unfinished"></translation>
+        <translation>La carte a été créee par OpenStreetMap sous licence Creative Commons Attribution-ShareAlike 2.0</translation>
     </message>
 </context>
 <context>
@@ -1556,32 +1559,32 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="392"/>
         <source>Minor land contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe d&apos;altitude mineur</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="393"/>
         <source>Intermediate land contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe d&apos;altitude intérmédiaire</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="394"/>
         <source>Major land contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe d&apos;altitude principal</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="395"/>
         <source>Minor deph contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe de profondeur mineur</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="396"/>
         <source>Intermediate depth contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe de profondeur intermédiaire</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="397"/>
         <source>Major depth contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Courbe de profondeur principale</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMapTDB.cpp" line="398"/>
@@ -2225,12 +2228,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="190"/>
         <source>Create World Basemap</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une carte mondiale</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="190"/>
         <source>Create a world basemap from OSM tiles to be used by QLandkarte M</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une carte mondiale a partir de OSM pour être utiliser avec QLandkarte M</translation>
     </message>
 </context>
 <context>
@@ -2299,7 +2302,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/COsmTilesHash.cpp" line="192"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier image %1 a été téléchargé il y a %2 jours. Rechargement ...</translation>
     </message>
 </context>
 <context>
@@ -2476,22 +2479,22 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="456"/>
         <source>Speed/Dist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vitesse/Distance</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="464"/>
         <source>Profile/Dist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Profile/Distance</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="475"/>
         <source>Speed/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Vitesse/Temps</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="483"/>
         <source>Profile/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Profile/Temps</translation>
     </message>
 </context>
 <context>
@@ -2519,7 +2522,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="78"/>
         <source>time [h]</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure[h]</translation>
     </message>
 </context>
 <context>
@@ -2547,7 +2550,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="72"/>
         <source>time [h]</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure[h]</translation>
     </message>
 </context>
 <context>
@@ -2575,7 +2578,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CTrackStatTraineeWidget.cpp" line="64"/>
         <source>heart rate [bpm]</source>
-        <translation type="unfinished"></translation>
+        <translation>heart rate [bpm]</translation>
     </message>
 </context>
 <context>
@@ -2744,17 +2747,17 @@ fin: %1</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="47"/>
         <source>Proximity ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Proximité ...</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="175"/>
         <source>Distance [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Distance [%1]</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="176"/>
         <source>Proximity distance ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Distance de proximité ...</translation>
     </message>
 </context>
 <context>
@@ -3406,7 +3409,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="23"/>
         <source>Environment</source>
-        <translation>Environement</translation>
+        <translation>Environnement</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="29"/>
@@ -3426,7 +3429,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="55"/>
         <source>Units</source>
-        <translation></translation>
+        <translation>Unités de mesure</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="61"/>
@@ -3481,12 +3484,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="153"/>
         <source>00000; </source>
-        <translation type="unfinished"></translation>
+        <translation>00000;</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="156"/>
         <source>8080</source>
-        <translation type="unfinished">8080</translation>
+        <translation>8080</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="168"/>
@@ -3496,12 +3499,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="175"/>
         <source>Firefox</source>
-        <translation type="unfinished"></translation>
+        <translation>Firefox</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="180"/>
         <source>Konqueror</source>
-        <translation type="unfinished"></translation>
+        <translation>Konqueror</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgConfig.ui" line="185"/>
@@ -3586,7 +3589,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move light source vertical&lt;/td&gt;
 &lt;/table&gt;</source>
         <translation>&lt;b&gt;Controle sans la souris&lt;/b&gt;￼
-&lt;table&gt;&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to east&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to west&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to north&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to south&lt;/td&gt;&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/table&gt;￼&lt;b&gt;3D View&lt;/b&gt;￼&lt;table&gt;￼&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;m + scroll mouse or page Up/Down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;zoom map&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;home/end key&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;increase/decrease map area&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move light source horizontaly&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move light source vertical&lt;/td&gt;￼&lt;/table&gt;</translation>
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la carte vers l&apos;est&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la carte vers l&apos;ouest&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la carte vers le nord&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la carte vers le sud&lt;/td&gt;&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Zoomer plus&lt;/td&gt;&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Zoomer moins&lt;/td&gt;&lt;/table&gt;￼&lt;b&gt;Vue 3D&lt;/b&gt;￼&lt;table&gt;￼&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la carte&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;m + scroll mouse or page Up/Down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Zoomer la carte&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;home/end key&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Agrandir/réduire la taille de la carte&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la source de lumiére horizontalement&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;Déplacer la source de lumiére verticalement&lt;/td&gt;￼&lt;/table&gt;</translation>
     </message>
 </context>
 <context>
@@ -3594,32 +3597,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="13"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialogue</translation>
+        <translation>Dialogue</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="21"/>
         <source>./basemap.tif</source>
-        <translation type="unfinished"></translation>
+        <translation>./basemap.tif</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="28"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="90"/>
         <source>TextLabel</source>
-        <translation type="unfinished">TextLabel</translation>
+        <translation>TextLabel</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="52"/>
         <source>level</source>
-        <translation type="unfinished"></translation>
+        <translation>niveau</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="69"/>
         <source>0px x 0px</source>
-        <translation type="unfinished"></translation>
+        <translation>0px x 0px</translation>
     </message>
 </context>
 <context>
@@ -3971,7 +3974,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IMap.cpp" line="280"/>
         <source>This map does not support this feature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette carte ne supporte pas cette fonctionnalité.</translation>
     </message>
 </context>
 <context>
@@ -4306,12 +4309,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="21"/>
         <source>Toggle track statistics view over distance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer vers la vue statistiques par rapport à la distance.</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="31"/>
         <source>Toggle track statistics view over time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer vers la vue statistiques par rapport à l&apos;heure.</translation>
     </message>
 </context>
 <context>
@@ -4420,7 +4423,7 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/GeoMath.cpp" line="63"/>
         <source>Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de format. La position doit etre au format: [N|S] ddd mm.sss [W|E] ddd mm.sss</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/GeoMath.cpp" line="280"/>
@@ -4431,13 +4434,15 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/GeoMath.cpp" line="265"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de configurer cette projection. Mauvaise syntaxe ?
+%1</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/GeoMath.cpp" line="280"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lire les coordonnées de référence.Mauvaise syntaxe?
+%1</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/tcxreader.cpp" line="45"/>
