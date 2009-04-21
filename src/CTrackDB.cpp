@@ -142,10 +142,23 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
             if(trkpt.namedItem("time").isElement()) {
                 QDateTime time;
-                if ( trkpt.namedItem("time").toElement().text().indexOf(".") != -1 )
-                    time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
-                else
-                    time = QDateTime::fromString(trkpt.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
+                QString strTime = trkpt.namedItem("time").toElement().text();
+                if(strTime.indexOf("Z") != -1){
+                    if ( strTime.indexOf(".") != -1 ){
+                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+                    }
+                    else{
+                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss'Z'");
+                    }
+                }
+                else{ // bugfix for badly coded gpx files
+                    if ( strTime.indexOf(".") != -1 ){
+                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz");
+                    }
+                    else{
+                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss");
+                    }
+                }
                 time.setTimeSpec(Qt::UTC);
                 pt.timestamp = time.toTime_t();
                 pt.timestamp_msec = time.time().msec();
