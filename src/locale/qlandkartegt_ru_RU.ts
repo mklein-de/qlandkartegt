@@ -1070,7 +1070,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="705"/>
         <source>There are no waypoints, </source>
-        <translation>Нет путевых точек,</translation>
+        <translation>Нет путевых точек, </translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="711"/>
@@ -1080,12 +1080,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="714"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt; and </source>
-        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треки&lt;/a&gt; и</translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треков&lt;/a&gt; и </translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="718"/>
         <source>no tracks and </source>
-        <translation>нет треков и</translation>
+        <translation>нет треков и </translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="724"/>
@@ -1100,7 +1100,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="731"/>
         <source>no overlays. </source>
-        <translation>нет наложений.</translation>
+        <translation>нет наложений. </translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/CMainWindow.cpp" line="736"/>
@@ -4108,7 +4108,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/IMouse.cpp" line="204"/>
         <source>elevation: %1 %2</source>
-        <translation>подъем: %1 %2</translation>
+        <translation>высота: %1 %2</translation>
     </message>
 </context>
 <context>
@@ -4208,7 +4208,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="112"/>
         <source>time</source>
-        <translation>time</translation>
+        <translation>время</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="117"/>
@@ -4218,7 +4218,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="122"/>
         <source>delta</source>
-        <translation>Разница высот</translation>
+        <translation>смещение</translation>
     </message>
     <message>
         <location filename="../../../../../local/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="127"/>
