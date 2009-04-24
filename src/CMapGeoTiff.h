@@ -86,5 +86,7 @@ class CMapGeoTiff : public IMap
 
         double zoomFactor;
 
+        int rasterBandCount;
+
 };
 #endif                           //CMAPGEOTIFF_H

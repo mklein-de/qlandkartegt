@@ -322,9 +322,9 @@ void CMainWindow::slotLoadMapSet()
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
     #ifdef WMS_CLIENT
-        ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb);; WMS (*.xml)"
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;WMS (*.xml)"
     #else
-        ,"Map Collection (*.qmap);;GeoTiff (*.tif);; Garmin (*.tdb)"
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb)"
     #endif
         , &filter
         );
