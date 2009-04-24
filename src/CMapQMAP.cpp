@@ -266,24 +266,62 @@ void CMapQMAP::draw()
 
             if(w != 0 && h != 0) {
 
-                GDALRasterBand * pBand;
-                pBand = map->dataset->GetRasterBand(1);
+                CPLErr err = CE_Failure;
 
-                QImage img(QSize(w,h),QImage::Format_Indexed8);
-                img.setColorTable(map->colortable);
+                if(map->rasterBandCount == 1){
 
-                CPLErr err = pBand->RasterIO(GF_Read
-                    ,(int)xoff,(int)yoff
-                    ,pxx,pxy
-                    ,img.bits()
-                    ,w,h
-                    ,GDT_Byte,0,0);
+                    GDALRasterBand * pBand;
+                    pBand = map->dataset->GetRasterBand(1);
 
-                if(!err) {
-                    double xx = intersect.left(), yy = intersect.bottom();
-                    convertM2Pt(xx,yy);
-                    _p_.drawImage(xx,yy,img);
-                    foundMap = true;
+                    QImage img(QSize(w,h),QImage::Format_Indexed8);
+                    img.setColorTable(map->colortable);
+
+                    CPLErr err = pBand->RasterIO(GF_Read
+                        ,(int)xoff,(int)yoff
+                        ,pxx,pxy
+                        ,img.bits()
+                        ,w,h
+                        ,GDT_Byte,0,0);
+
+                    if(!err) {
+                        double xx = intersect.left(), yy = intersect.bottom();
+                        convertM2Pt(xx,yy);
+                        _p_.drawImage(xx,yy,img);
+                        foundMap = true;
+                    }
+                }
+                else{
+                    QImage img(w,h, QImage::Format_ARGB32);
+                    QVector<quint8> buffer(w*h);
+
+                    img.fill(qRgba(255,255,255,255));
+
+                    for(int b = 1; b <= map->rasterBandCount; ++b){
+
+                        GDALRasterBand * pBand;
+                        pBand = map->dataset->GetRasterBand(b);
+
+                        err = pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, pxx, pxy, buffer.data(), w, h, GDT_Byte, 0, 0);
+
+                        if(!err){
+                            quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
+                            quint8 * pSrc   = buffer.data();
+                            const int size  = buffer.size();
+
+                            for(int i = 0; i < size; ++i){
+                                *pTar = *pSrc;
+                                pTar += 4;
+                                pSrc += 1;
+                            }
+                        }
+                    }
+
+                    if(!err) {
+                        double xx = intersect.left(), yy = intersect.bottom();
+                        convertM2Pt(xx,yy);
+                        _p_.drawImage(xx,yy,img);
+                        foundMap = true;
+                    }
                 }
             }
         }

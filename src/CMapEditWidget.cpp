@@ -44,7 +44,7 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     //     widgetOSM       = new CCreateMapOSM(stackedWidget);
     //     stackedWidget->insertWidget(eOSM, widgetOSM);
 
-    comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing GeoTiff."));
+    comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing geo-referenced files."));
     widgetQMAP      = new CCreateMapQMAP(stackedWidget);
     stackedWidget->insertWidget(eQMAP, widgetQMAP);
 

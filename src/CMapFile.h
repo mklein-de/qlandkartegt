@@ -93,5 +93,7 @@ class CMapFile : public QObject
 
         bool ok;
 
+        int rasterBandCount;
+
 };
 #endif                           //CMAPFILE_H

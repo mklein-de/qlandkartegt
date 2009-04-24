@@ -37,6 +37,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 , xref1(0.0)
 , yref1(0.0)
 , ok(false)
+, rasterBandCount(0)
 {
 
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
@@ -86,29 +87,38 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     pBand = dataset->GetRasterBand(1);
     if(pBand == 0) return;
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
-        GDALColorTable * pct = pBand->GetColorTable();
-        for(int i=0; i < pct->GetColorEntryCount(); ++i) {
-            const GDALColorEntry& e = *pct->GetColorEntry(i);
-            colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+    rasterBandCount = dataset->GetRasterCount();
+
+    if(rasterBandCount == 1){
+
+
+        if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
+            GDALColorTable * pct = pBand->GetColorTable();
+            for(int i=0; i < pct->GetColorEntryCount(); ++i) {
+                const GDALColorEntry& e = *pct->GetColorEntry(i);
+                colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+            }
         }
-    }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
-        for(int i=0; i < 256; ++i) {
-            colortable << qRgba(i, i, i, 255);
+        else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
+            for(int i=0; i < 256; ++i) {
+                colortable << qRgba(i, i, i, 255);
+            }
         }
+        else{
+            return;
+        }
+
+        int success = 0;
+        double idx = pBand->GetNoDataValue(&success);
+
+        if(success) {
+            QColor tmp(colortable[idx]);
+            tmp.setAlpha(0);
+            colortable[idx] = tmp.rgba();
+        }
+
+        pBand->GetBlockSize(&tileWidth,&tileHeight);
     }
-
-    int success = 0;
-    double idx = pBand->GetNoDataValue(&success);
-
-    if(success) {
-        QColor tmp(colortable[idx]);
-        tmp.setAlpha(0);
-        colortable[idx] = tmp.rgba();
-    }
-
-    pBand->GetBlockSize(&tileWidth,&tileHeight);
 
     PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
