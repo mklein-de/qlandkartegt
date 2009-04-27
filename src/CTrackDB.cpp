@@ -125,92 +125,96 @@ void CTrackDB::loadGPX(CGpx& gpx)
             }
         }
 
-        const QDomNode& trkseg = trk.namedItem("trkseg");
-        QDomElement trkpt = trkseg.firstChildElement("trkpt");
+        QDomNode trkseg     = trk.firstChildElement("trkseg");
+        while(!trkseg.isNull()){
 
-        while (!trkpt.isNull()) {
-            CTrack::pt_t pt;
+            QDomElement trkpt   = trkseg.firstChildElement("trkpt");
+            while (!trkpt.isNull()) {
 
-            QDomNamedNodeMap attr = trkpt.attributes();
+                CTrack::pt_t pt;
 
-            pt.lon = attr.namedItem("lon").nodeValue().toDouble();
-            pt.lat = attr.namedItem("lat").nodeValue().toDouble();
+                QDomNamedNodeMap attr = trkpt.attributes();
 
-            if(trkpt.namedItem("ele").isElement()) {
-                pt.ele = trkpt.namedItem("ele").toElement().text().toDouble();
-            }
+                pt.lon = attr.namedItem("lon").nodeValue().toDouble();
+                pt.lat = attr.namedItem("lat").nodeValue().toDouble();
 
-            if(trkpt.namedItem("time").isElement()) {
-                QDateTime time;
-                QString strTime = trkpt.namedItem("time").toElement().text();
-                if(strTime.indexOf("Z") != -1){
-                    if ( strTime.indexOf(".") != -1 ){
-                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+                if(trkpt.namedItem("ele").isElement()) {
+                    pt.ele = trkpt.namedItem("ele").toElement().text().toDouble();
+                }
+
+                if(trkpt.namedItem("time").isElement()) {
+                    QDateTime time;
+                    QString strTime = trkpt.namedItem("time").toElement().text();
+                    if(strTime.indexOf("Z") != -1){
+                        if ( strTime.indexOf(".") != -1 ){
+                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+                        }
+                        else{
+                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss'Z'");
+                        }
                     }
-                    else{
-                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss'Z'");
+                    else{ // bugfix for badly coded gpx files
+                        if ( strTime.indexOf(".") != -1 ){
+                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz");
+                        }
+                        else{
+                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss");
+                        }
+                    }
+                    time.setTimeSpec(Qt::UTC);
+                    pt.timestamp = time.toTime_t();
+                    pt.timestamp_msec = time.time().msec();
+                }
+
+                if(trkpt.namedItem("hdop").isElement()) {
+                    pt.hdop = trkpt.namedItem("hdop").toElement().text().toDouble();
+                }
+
+                if(trkpt.namedItem("vdop").isElement()) {
+                    pt.vdop = trkpt.namedItem("vdop").toElement().text().toDouble();
+                }
+
+                if(trkpt.namedItem("pdop").isElement()) {
+                    pt.pdop = trkpt.namedItem("pdop").toElement().text().toDouble();
+                }
+
+                // import from GPX 1.0
+                if(trkpt.namedItem("course").isElement()) {
+                    pt.heading = trkpt.namedItem("course").toElement().text().toDouble();
+                }
+                // import from GPX 1.0
+                if(trkpt.namedItem("speed").isElement()) {
+                    pt.velocity = trkpt.namedItem("speed").toElement().text().toDouble();
+                }
+
+                if(trkpt.namedItem("fix").isElement()) {
+                    pt.fix = trkpt.namedItem("fix").toElement().text();
+                }
+
+                if(trkpt.namedItem("sat").isElement()) {
+                    pt.sat = trkpt.namedItem("sat").toElement().text().toUInt();
+                }
+
+                if(trkpt.namedItem("extension").isElement()) {
+                    const QDomNode& ext = trkpt.namedItem("extension");
+                    if(ext.namedItem("flags").isElement()) {
+                        pt.flags = ext.namedItem("flags").toElement().text().toUInt();
+                        pt.flags &= ~CTrack::pt_t::eFocus;
+                        pt.flags &= ~CTrack::pt_t::eSelected;
+                        pt.flags &= ~CTrack::pt_t::eCursor;
+                    }
+                    if(ext.namedItem("rmc:course").isElement()) {
+                        pt.heading = ext.namedItem("rmc:course").toElement().text().toDouble();
+                    }
+                    if(ext.namedItem("rmc:speed").isElement()) {
+                        pt.velocity = ext.namedItem("rmc:speed").toElement().text().toDouble();
                     }
                 }
-                else{ // bugfix for badly coded gpx files
-                    if ( strTime.indexOf(".") != -1 ){
-                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz");
-                    }
-                    else{
-                        time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss");
-                    }
-                }
-                time.setTimeSpec(Qt::UTC);
-                pt.timestamp = time.toTime_t();
-                pt.timestamp_msec = time.time().msec();
-            }
 
-            if(trkpt.namedItem("hdop").isElement()) {
-                pt.hdop = trkpt.namedItem("hdop").toElement().text().toDouble();
+                *track << pt;
+                trkpt = trkpt.nextSiblingElement("trkpt");
             }
-
-            if(trkpt.namedItem("vdop").isElement()) {
-                pt.vdop = trkpt.namedItem("vdop").toElement().text().toDouble();
-            }
-
-            if(trkpt.namedItem("pdop").isElement()) {
-                pt.pdop = trkpt.namedItem("pdop").toElement().text().toDouble();
-            }
-
-            // import from GPX 1.0
-            if(trkpt.namedItem("course").isElement()) {
-                pt.heading = trkpt.namedItem("course").toElement().text().toDouble();
-            }
-            // import from GPX 1.0
-            if(trkpt.namedItem("speed").isElement()) {
-                pt.velocity = trkpt.namedItem("speed").toElement().text().toDouble();
-            }
-
-            if(trkpt.namedItem("fix").isElement()) {
-                pt.fix = trkpt.namedItem("fix").toElement().text();
-            }
-
-            if(trkpt.namedItem("sat").isElement()) {
-                pt.sat = trkpt.namedItem("sat").toElement().text().toUInt();
-            }
-
-            if(trkpt.namedItem("extension").isElement()) {
-                const QDomNode& ext = trkpt.namedItem("extension");
-                if(ext.namedItem("flags").isElement()) {
-                    pt.flags = ext.namedItem("flags").toElement().text().toUInt();
-                    pt.flags &= ~CTrack::pt_t::eFocus;
-                    pt.flags &= ~CTrack::pt_t::eSelected;
-                    pt.flags &= ~CTrack::pt_t::eCursor;
-                }
-                if(ext.namedItem("rmc:course").isElement()) {
-                    pt.heading = ext.namedItem("rmc:course").toElement().text().toDouble();
-                }
-                if(ext.namedItem("rmc:speed").isElement()) {
-                    pt.velocity = ext.namedItem("rmc:speed").toElement().text().toDouble();
-                }
-            }
-
-            *track << pt;
-            trkpt = trkpt.nextSiblingElement("trkpt");
+            trkseg = trkseg.nextSiblingElement("trkseg");
         }
 
         if(track->getTrackPoints().count() > 0) {
