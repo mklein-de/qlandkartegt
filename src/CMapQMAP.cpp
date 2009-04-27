@@ -30,6 +30,7 @@
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
 #include <projects.h>
+#include <math.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -39,6 +40,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 , pMaplevel(0)
 , zoomFactor(1)
 , foundMap(false)
+, quadraticZoom(false)
 {
     filename = fn;
 
@@ -82,6 +84,8 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     topLeft.u = u * DEG_TO_RAD;
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
+
+    quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
 
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
@@ -391,7 +395,20 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    zoomidx += zoomIn ? -1 : 1;
+    if(quadraticZoom){
+
+        if(zoomidx > 1){
+            zoomidx = pow(2.0, quint32(log(zoomidx)/log(2)));
+            zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
+        }
+        else{
+            zoomidx += zoomIn ? -1 : 1;
+        }
+    }
+    else{
+        zoomidx += zoomIn ? -1 : 1;
+    }
+
     // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
@@ -504,8 +521,14 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
             if((pxU < size.width()) && (pxV < size.height())) {
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
+
+                zoomidx = pMaplevel->min + z - 1;
+                if(quadraticZoom){
+                    zoomidx = pow(2.0, ceil(log(zoomidx)/log(2)));
+                    z = zoomidx - pMaplevel->min + 1;
+                }
+
                 zoomFactor  = z;
-                zoomidx     = pMaplevel->min + z - 1;
                 double u = lon1 + (lon2 - lon1)/2;
                 double v = lat1 + (lat2 - lat1)/2;
                 convertRad2Pt(u,v);

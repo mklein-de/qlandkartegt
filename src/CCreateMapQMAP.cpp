@@ -254,8 +254,9 @@ void CCreateMapQMAP::readqmap(const QString& filename)
 
         mapdef.endGroup();       // level%1
     }
-
     processLevelList();
+
+    checkQuadraticZoom->setChecked(mapdef.value("main/quadraticZoom",false).toBool());
 
     pushAdd->setEnabled(true);
     pushSave->setEnabled(treeLevels->topLevelItemCount());
@@ -292,7 +293,7 @@ void CCreateMapQMAP::writeqmap(const QString& filename)
 
         mapdef.endGroup();       // level%i
     }
-
+    mapdef.setValue("main/quadraticZoom",checkQuadraticZoom->isChecked());
 }
 
 

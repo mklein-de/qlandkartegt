@@ -418,7 +418,7 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
     if(quadraticZoom->isChecked()){
-        zoomFactor = zoomidx = pow(2.0, quint32(log(zoomFactor)/log(2)));
+        zoomFactor = zoomidx = pow(2.0, ceil(log(zoomFactor)/log(2)));
     }
     else{
         zoomidx = zoomFactor;
