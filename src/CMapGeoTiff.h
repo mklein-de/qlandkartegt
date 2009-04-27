@@ -26,6 +26,7 @@
 #include <QVector>
 
 class GDALDataset;
+class QCheckBox;
 
 class CMapGeoTiff : public IMap
 {
@@ -87,6 +88,8 @@ class CMapGeoTiff : public IMap
         double zoomFactor;
 
         int rasterBandCount;
+
+        QCheckBox * quadraticZoom;
 
 };
 #endif                           //CMAPGEOTIFF_H

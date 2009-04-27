@@ -18,9 +18,12 @@
 **********************************************************************************************/
 
 #include "CMapGeoTiff.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
+#include <math.h>
 
 #include <QtGui>
 
@@ -43,6 +46,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 , y(0)
 , zoomFactor(1.0)
 , rasterBandCount(0)
+, quadraticZoom(0)
 {
     filename = fn;
 
@@ -152,6 +156,13 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     zoomidx = 1;
+
+    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
+    quadraticZoom->setText(tr("quadratic zoom"));
+    theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
+
+    QSettings cfg;
+    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
 }
 
 
@@ -159,6 +170,12 @@ CMapGeoTiff::~CMapGeoTiff()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
+
+    if(quadraticZoom){
+        QSettings cfg;
+        cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
+        delete quadraticZoom;
+    }
 }
 
 
@@ -329,7 +346,19 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    zoomidx += zoomIn ? -1 : 1;
+    if(quadraticZoom->isChecked()){
+
+        if(zoomidx > 1){
+            zoomidx = pow(2.0, quint32(log(zoomidx)/log(2)));
+            zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
+        }
+        else{
+            zoomidx += zoomIn ? -1 : 1;
+        }
+    }
+    else{
+        zoomidx += zoomIn ? -1 : 1;
+    }
     // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
@@ -388,7 +417,12 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
-    zoomidx    = zoomFactor;
+    if(quadraticZoom->isChecked()){
+        zoomFactor = zoomidx = pow(2.0, quint32(log(zoomFactor)/log(2)));
+    }
+    else{
+        zoomidx = zoomFactor;
+    }
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
