@@ -28,6 +28,7 @@
 #include "CTrack.h"
 #include "CDlgEditDistance.h"
 #include "CMegaMenu.h"
+#include "CDlgConvertToTrack.h"
 
 #include <QtGui>
 
@@ -446,45 +447,64 @@ void COverlayDistance::slotToTrack()
     XY pt1, pt2, ptx;
     CTrack::pt_t pt;
 
-    if((distance / delta) > (MAX_TRACK_SIZE - points.count())) {
-        delta = distance / (MAX_TRACK_SIZE - points.count());
+    CDlgConvertToTrack dlg(0);
+    if(dlg.exec() == QDialog::Rejected){
+        return;
     }
 
-    // 1st point
-    pt1 = points.first();
-    pt.lon = pt1.u * RAD_TO_DEG;
-    pt.lat = pt1.v * RAD_TO_DEG;
-    pt.ele = map.getElevation(pt1.u, pt1.v);
-    *track << pt;
+    delta = dlg.getDelta();
 
-    // all other points
-    for(int i = 1; i < points.count(); ++i) {
-        pt2 = points[i];
 
-        // all points from pt1 -> pt2, with 10m steps
-        dist = ::distance(pt1, pt2, a1, a2);
-        a1 *= DEG_TO_RAD;
+    if(delta == -1){
 
-        d = delta;
-        while(d < dist) {
-            ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
-            pt.lon = ptx.u * RAD_TO_DEG;
-            pt.lat = ptx.v * RAD_TO_DEG;
-            pt.ele = map.getElevation(ptx.u, ptx.v);
+        for(int i = 0; i < points.count(); ++i) {
+            pt2 = points[i];
+            pt.lon = pt2.u * RAD_TO_DEG;
+            pt.lat = pt2.v * RAD_TO_DEG;
+            pt.ele = map.getElevation(pt2.u, pt2.v);
             *track << pt;
-
-            d += delta;
+        }
+    }
+    else{
+        if((distance / delta) > (MAX_TRACK_SIZE - points.count())) {
+            delta = distance / (MAX_TRACK_SIZE - points.count());
         }
 
-        // and finally the next point
-        pt.lon = pt2.u * RAD_TO_DEG;
-        pt.lat = pt2.v * RAD_TO_DEG;
-        pt.ele = map.getElevation(pt2.u, pt2.v);
+        // 1st point
+        pt1 = points.first();
+        pt.lon = pt1.u * RAD_TO_DEG;
+        pt.lat = pt1.v * RAD_TO_DEG;
+        pt.ele = map.getElevation(pt1.u, pt1.v);
         *track << pt;
 
-        pt1 = pt2;
-    }
+        // all other points
+        for(int i = 1; i < points.count(); ++i) {
+            pt2 = points[i];
 
+            // all points from pt1 -> pt2, with 10m steps
+            dist = ::distance(pt1, pt2, a1, a2);
+            a1 *= DEG_TO_RAD;
+
+            d = delta;
+            while(d < dist) {
+                ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
+                pt.lon = ptx.u * RAD_TO_DEG;
+                pt.lat = ptx.v * RAD_TO_DEG;
+                pt.ele = map.getElevation(ptx.u, ptx.v);
+                *track << pt;
+
+                d += delta;
+            }
+
+            // and finally the next point
+            pt.lon = pt2.u * RAD_TO_DEG;
+            pt.lat = pt2.v * RAD_TO_DEG;
+            pt.ele = map.getElevation(pt2.u, pt2.v);
+            *track << pt;
+
+            pt1 = pt2;
+        }
+    }
     CTrackDB::self().addTrack(track, false);
 
     CMegaMenu::self().switchByKeyWord("Tracks");

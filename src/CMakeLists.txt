@@ -70,6 +70,7 @@ set(qlandkarte_SRCS
     CDlgEditDistance.cpp
     CDlgCreateWorldBasemap.cpp
     CDlgDelWpt.cpp
+    CDlgConvertToTrack.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -192,6 +193,7 @@ set(qlandkarte_HDRS
     CDlgEditDistance.h
     CDlgDelWpt.h
     CDlgCreateWorldBasemap.h
+    CDlgConvertToTrack.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -268,6 +270,7 @@ SET(qlandkarte_UIS
     IDlgEditDistance.ui
     IDlgDelWpt.ui
     IDlgCreateWorldBasemap.ui
+    IDlgConvertToTrack.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
