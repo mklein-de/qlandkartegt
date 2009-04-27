@@ -386,6 +386,7 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+    zoomidx    = zoomFactor;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
