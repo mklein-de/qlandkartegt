@@ -136,7 +136,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-    //     qDebug() << xref1 << yref1 << xref2 << yref2;
+
 
     lon1 = xref1;
     lat1 = yref1;
@@ -146,8 +146,10 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     lat2 = yref2;
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
-    x = xref1;
-    y = yref1;
+    x = xref1 + (xref2 - xref1) / 2;
+    y = yref1 - (yref1 - yref2) / 2;
+
+    qDebug() << xref1 << yref1 << xref2 << yref2;
 
     zoomidx = 1;
 }
