@@ -66,7 +66,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="259"/>
         <source>&lt;enter coord&gt;</source>
-        <translation>&lt;Ввод координат&gt;</translation>
+        <translation>&lt;ввод координат&gt;</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="334"/>
@@ -102,14 +102,14 @@
         <location filename="../CCreateMapGeoTiff.cpp" line="723"/>
         <source>Failed!
 </source>
-        <translation>Неудачно!
+        <translation>Неудачно!￼
 </translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="778"/>
         <source>--- finished ---
 </source>
-        <translation>--- закончено ---
+        <translation>--- закончено ---￼￼
 </translation>
     </message>
 </context>
@@ -229,7 +229,7 @@
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="141"/>
         <source>Failed to load file %1.</source>
-        <translation>Невозможно прочитать файл %1.</translation>
+        <translation>Невозможно загрузить файл %1.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="147"/>
@@ -253,7 +253,7 @@
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="229"/>
         <source>Width x Height [m] x [m]:<byte value="x9"/> %1 x %2</source>
-        <translation>Ширина х Высота [м] х [м]:<byte value="x9"/>%1 х %2</translation>
+        <translation>Ширина х Высота [м] х [м]:<byte value="x9"/>% х %2</translation>
     </message>
 </context>
 <context>
@@ -272,7 +272,7 @@
 </source>
         <translation>Невозможно запросить возможности.
 
-%1
+%
 
 </translation>
     </message>
@@ -303,7 +303,7 @@
 <context>
     <name>CDeviceGarmin</name>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="658"/>
+        <location filename="../CDeviceGarmin.cpp" line="484"/>
         <source>Error ...</source>
         <translation>Ошибка...</translation>
     </message>
@@ -318,22 +318,17 @@
         <translation>Версия драйвера устарела.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="775"/>
+        <location filename="../CDeviceGarmin.cpp" line="816"/>
         <source>Device Link Error</source>
         <translation>Ошибка соединения с устройством</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="658"/>
-        <source>Uploading tracks is not implemented for your device</source>
-        <translation>Возможность загрузки маршрутов не поддерживается Вашим устройством</translation>
-    </message>
-    <message>
-        <location filename="../CDeviceGarmin.cpp" line="733"/>
+        <location filename="../CDeviceGarmin.cpp" line="774"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="733"/>
+        <location filename="../CDeviceGarmin.cpp" line="774"/>
         <source>Failed to create image file.</source>
         <translation>Невозможно создать файл изображения.</translation>
     </message>
@@ -398,7 +393,7 @@
         <source>%1
 %2 of %3</source>
         <translation type="obsolete">%1
-%2 из %3</translation>
+2% из %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
@@ -448,7 +443,7 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="obsolete">QLandkarteM: Функции передачи карт не поддерживаются.</translation>
+        <translation type="obsolete">QLandkarteM: передача карт не реализована.</translation>
     </message>
 </context>
 <context>
@@ -569,7 +564,7 @@
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="451"/>
         <source>&lt;th align=&apos;left&apos;&gt;Elevation&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Высота&lt;/th</translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Высота&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="492"/>
@@ -618,6 +613,59 @@
         <location filename="../CDlgConfig.cpp" line="197"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>Нужные плагины не найдены. Возможно они находятся в: %1</translation>
+    </message>
+</context>
+<context>
+    <name>CDlgConvertToTrack</name>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="28"/>
+        <source>none</source>
+        <translation>Ничего</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="29"/>
+        <source>10 m</source>
+        <translation>10 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="30"/>
+        <source>20 m</source>
+        <translation>20 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="31"/>
+        <source>30 m</source>
+        <translation>30 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="32"/>
+        <source>50 m</source>
+        <translation>50 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="33"/>
+        <source>100 m</source>
+        <translation>100 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="34"/>
+        <source>200 m</source>
+        <translation>200 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="35"/>
+        <source>300 m</source>
+        <translation>300 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="36"/>
+        <source>500 m</source>
+        <translation>500 м</translation>
+    </message>
+    <message>
+        <location filename="../CDlgConvertToTrack.cpp" line="37"/>
+        <source>1 km</source>
+        <translation>1 км</translation>
     </message>
 </context>
 <context>
@@ -865,21 +913,18 @@
         <translation>Невозможно открыть:</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="123"/>
-        <source>Failed to read: </source>
-        <translation type="obsolete">Невозможно прочитать:</translation>
+        <location filename="../CGpx.cpp" line="127"/>
+        <source>Failed to read: %1
+line %2, column %3:
+ %4</source>
+        <translation>Невозможно прочитать: %1
+строка %2, колонка %3:
+%4</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="133"/>
         <source>Not a GPX file: </source>
         <translation>Это не GPX файл:</translation>
-    </message>
-    <message>
-        <location filename="../CGpx.cpp" line="127"/>
-        <source>Failed to read: %1
-line %2, column %3:
- %4</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -902,7 +947,7 @@ line %2, column %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="171"/>
         <source>-</source>
-        <translation>-</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="174"/>
@@ -925,7 +970,7 @@ line %2, column %3:
     <message>
         <location filename="../CLiveLogToolWidget.cpp" line="32"/>
         <source>Live Log</source>
-        <translation>Данные GPS</translation>
+        <translation>Данные GPS </translation>
     </message>
 </context>
 <context>
@@ -1216,8 +1261,8 @@ Do you want to save your changes?</source>
     <name>CMapEditWidget</name>
     <message>
         <location filename="../CMapEditWidget.cpp" line="47"/>
-        <source>Create map collection from existing GeoTiff.</source>
-        <translation>Создать коллекцию карт из имеющихся файлов Geo Tiff.</translation>
+        <source>Create map collection from existing geo-referenced files.</source>
+        <translation>Созание коллекции карт из существующих файлов с GEO данными.</translation>
     </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="51"/>
@@ -1238,32 +1283,37 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapGeoTiff</name>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="102"/>
+        <location filename="../CMapGeoTiff.cpp" line="114"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="58"/>
+        <location filename="../CMapGeoTiff.cpp" line="67"/>
         <source>Failed to load file: %1</source>
         <translation>Невозможно загрузить файл: %1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="64"/>
+        <location filename="../CMapGeoTiff.cpp" line="88"/>
         <source>File must be 8 bit palette or gray indexed.</source>
         <translation>Файл с серой и 8ми битной палитрами индексированы.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="102"/>
+        <location filename="../CMapGeoTiff.cpp" line="114"/>
         <source>No georeference information found.</source>
         <translation>Географическая информация отсутствует.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="163"/>
+        <location filename="../CMapGeoTiff.cpp" line="161"/>
+        <source>quadratic zoom</source>
+        <translation>квадратичный зум</translation>
+    </message>
+    <message>
+        <location filename="../CMapGeoTiff.cpp" line="190"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="166"/>
+        <location filename="../CMapGeoTiff.cpp" line="193"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
@@ -1289,12 +1339,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapQMAP</name>
     <message>
-        <location filename="../CMapQMAP.cpp" line="145"/>
+        <location filename="../CMapQMAP.cpp" line="149"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="148"/>
+        <location filename="../CMapQMAP.cpp" line="152"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
@@ -1563,7 +1613,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="397"/>
         <source>Major depth contour</source>
-        <translation>Оснвная толщина контура</translation>
+        <translation>Основная толщина контура</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="398"/>
@@ -1613,7 +1663,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="717"/>
         <source>Select Base Map for </source>
-        <translation>Выберите базовую карту</translation>
+        <translation>Выберите базовую карту для</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="863"/>
@@ -1628,7 +1678,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="798"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать тайлы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карте, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать тайлы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карту, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1249"/>
@@ -1797,7 +1847,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="100"/>
         <source>Live Log ...</source>
-        <translation>Данные GPS</translation>
+        <translation>Данные GPS </translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="100"/>
@@ -1837,7 +1887,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="104"/>
         <source>Upload all</source>
-        <translation>Загрузить карту</translation>
+        <translation>Передавать все</translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="104"/>
@@ -2017,7 +2067,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="142"/>
         <source>Switch cursor to &apos;Move Waypoint&apos; mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave &apos;Move Waypoint&apos; mode and to resume.</source>
-        <translation>Перевести указатель мыши в режим &quot;Перемещения путевой точки&quot;.</translation>
+        <translation>Перевести указатель мыши в режим &quot;Перемещения путевой точки&quot;. Используйте правую кнопку мышки для прерывания операции. </translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="144"/>
@@ -2057,7 +2107,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="154"/>
         <source>Cut Tracks</source>
-        <translation>Вырезать трек</translation>
+        <translation>Вырезать треки</translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="154"/>
@@ -2082,7 +2132,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="157"/>
         <source>Download tracks from device.</source>
-        <translation>Загрузить треки с устройства.</translation>
+        <translation>Загрузить треки из устройства.</translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="164"/>
@@ -2142,7 +2192,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMegaMenu.cpp" line="178"/>
         <source>Add a polyline to measure distances.</source>
-        <translation>Добавить кривые для измерения дистанции</translation>
+        <translation>Добавить кривые для измерения дистанции.</translation>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="188"/>
@@ -2272,17 +2322,17 @@ Do you want to save your changes?</source>
 <context>
     <name>COverlayDistance</name>
     <message>
-        <location filename="../COverlayDistance.cpp" line="107"/>
+        <location filename="../COverlayDistance.cpp" line="108"/>
         <source>Length: %1 %2</source>
         <translation>Длина: %1 %2</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="431"/>
+        <location filename="../COverlayDistance.cpp" line="432"/>
         <source>Make Track</source>
         <translation>Создать трек</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="432"/>
+        <location filename="../COverlayDistance.cpp" line="433"/>
         <source>Edit...</source>
         <translation>Изменить...</translation>
     </message>
@@ -2318,12 +2368,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CPlot.cpp" line="627"/>
         <source>vertical zoom</source>
-        <translation>Вертикальное масштабирование</translation>
+        <translation>вертикальное масштабирование</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="631"/>
         <source>reset zoom</source>
-        <translation>Сбросить масштабирование</translation>
+        <translation>сбросить масштабирование</translation>
     </message>
 </context>
 <context>
@@ -2403,7 +2453,7 @@ Do you want to save your changes?</source>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="346"/>
+        <location filename="../CTrackDB.cpp" line="350"/>
         <source>Track%1</source>
         <translation>Трек %1</translation>
     </message>
@@ -2426,39 +2476,29 @@ Do you want to save your changes?</source>
         <translation>Вы собираетесь удалить точки трека навсегда. Если нажимете &quot;Да&quot;, вся информация будет потеряна.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="469"/>
-        <source>Speed</source>
-        <translation type="obsolete">Скорость</translation>
+        <location filename="../CTrackEditWidget.cpp" line="456"/>
+        <source>Speed/Dist.</source>
+        <translation>Скор./Дист.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="477"/>
-        <source>Profile</source>
-        <translation type="obsolete">Профиль</translation>
+        <location filename="../CTrackEditWidget.cpp" line="464"/>
+        <source>Profile/Dist.</source>
+        <translation>Профиль/Дист.</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="475"/>
+        <source>Speed/Time</source>
+        <translation>Скор./Время</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="483"/>
+        <source>Profile/Time</source>
+        <translation>Профиль/Время</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="495"/>
         <source>Trainee</source>
         <translation>Тренинг</translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="456"/>
-        <source>Speed/Dist.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="464"/>
-        <source>Profile/Dist.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="475"/>
-        <source>Speed/Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="483"/>
-        <source>Profile/Time</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2504,7 +2544,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="37"/>
         <source>speed [km/h]</source>
-        <translation>скорость [км/ч]</translation>
+        <translation>Скор./Дист.</translation>
     </message>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="69"/>
@@ -2557,7 +2597,7 @@ Do you want to save your changes?</source>
         <source>
 length: %1 %2</source>
         <translation>
-Длина: %1 %2</translation>
+длина: %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="86"/>
@@ -2569,7 +2609,7 @@ length: %1 %2</source>
         <source>
 time: %1:</source>
         <translation>
-время: %1:</translation>
+￼время: %1:</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="97"/>
@@ -2638,7 +2678,7 @@ end: %1</source>
     <message>
         <location filename="../CWptToolWidget.cpp" line="39"/>
         <source>Waypoints</source>
-        <translation>Путевая точка...</translation>
+        <translation>Путевые точки</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="45"/>
@@ -2678,7 +2718,7 @@ end: %1</source>
     <message>
         <location filename="../CWptToolWidget.cpp" line="176"/>
         <source>Proximity distance ...</source>
-        <translation>Приблизительное расстояние...</translation>
+        <translation>Приблиз. расст...</translation>
     </message>
 </context>
 <context>
@@ -2721,7 +2761,7 @@ end: %1</source>
     <message>
         <location filename="../ICopyright.ui" line="126"/>
         <source>GPL</source>
-        <translation>GPL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ICopyright.ui" line="132"/>
@@ -2796,7 +2836,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="36"/>
         <source>Input file:</source>
-        <translation>Выберите файл для загрузки</translation>
+        <translation>Выберите файл для загрузки:</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="58"/>
@@ -2804,9 +2844,9 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Reload file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼
-p, li { white-space: pre-wrap; }￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Перезагрузить файл&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -2817,7 +2857,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="79"/>
         <source>Output file:</source>
-        <translation>Выбрать файл для сохранения</translation>
+        <translation>Файл для сохранения:</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="107"/>
@@ -2830,9 +2870,9 @@ p, li { white-space: pre-wrap; }￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼
-p, li { white-space: pre-wrap; }￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Мастер Проекции&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -2850,9 +2890,9 @@ p, li { white-space: pre-wrap; }￼
         <source>This dialog allows you to georeference map files in TIF format with a 8 bit color palette. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.
 
 </source>
-        <translation>Этот Мастер поможет Вам создать карты с географическими привязками в формате TIF c 8 битной цветовой палитрой. Предварительным условием является установка координат и проекций опорных точек. Наилучшие результаты получатся в случае единой проекции точек и карты. В большинстве случаев, тип проекции Меркатора. Изначально рекомендуется перенести опорные точки в данные вида WGS84.￼
+        <translation>Этот Мастер поможет Вам создать карты с географическими привязками в формате TIF c 8 битной цветовой палитрой. Предварительным условием является установка координат и проекций опорных точек. Наилучшие результаты получатся в случае единой проекции точек и карты. В большинстве случаев, тип проекции Меркатора. Изначально рекомендуется перенести опорные точки в данные вида WGS84.￼￼￼
 
-￼</translation>
+</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="247"/>
@@ -2909,7 +2949,7 @@ p, li { white-space: pre-wrap; }￼
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
 
 coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.575377&quot;, &quot;285000 5162000&quot;</source>
-        <translation>Следующий этап заключается в добавлении точек отсчета с известными координатами. Просто добавьте точку на карте и введите их координаты, широта/долгота в формате (WGS84). Либо восток/запад [метры]. Точки можно ставить произвольно, с последующим их перемещением на место.￼￼
+        <translation>Следующий этап заключается в добавлении точек отсчета с известными координатами. Просто добавьте точку на карте и введите их координаты, широта/долгота в формате (WGS84). Либо восток/запад [метры]. Точки можно ставить произвольно, с последующим их перемещением на место.￼￼￼￼
 ￼Пример форматов координат точек: &quot;N49 ° 10,234 E12 ° 01,456&quot;, &quot;12,193172 46,575377&quot;, &quot;285000 5162000&quot;</translation>
     </message>
     <message>
@@ -2920,7 +2960,7 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="499"/>
         <source>Clear All</source>
-        <translation>Очистить все...</translation>
+        <translation>Очистить все</translation>
     </message>
 </context>
 <context>
@@ -2940,7 +2980,7 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation>Инструментальная сетка предназначена для размещения опорных точек с расчетом долготы и широты на карте в местах пересечения линий сетки. Для начала Вам необходимо разместить 4 опорные точки на сетке, так как показано на примере.￼￼
+        <translation>Инструментальная сетка предназначена для размещения опорных точек с расчетом долготы и широты на карте в местах пересечения линий сетки. Для начала Вам необходимо разместить 4 опорные точки на сетке, так как показано на примере.￼￼￼￼
 Если у Вас уже существуют готовые точки, то в таком случае надо просто определить шаг сетки.</translation>
     </message>
     <message>
@@ -2954,9 +2994,9 @@ Altenatively you might have chosen to use already existing reference points. In 
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
 p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼
+￼￼&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Мастер проекций&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3054,7 +3094,7 @@ bottom/right</source>
     <message>
         <location filename="../ICreateMapOSM.ui" line="164"/>
         <source>&lt;path&gt;</source>
-        <translation>&lt;path&gt;</translation>
+        <translation>&lt;путь&gt;</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="171"/>
@@ -3095,7 +3135,7 @@ bottom/right</source>
         <translation>Создание и редактирование QMAP сборников карт</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="155"/>
+        <location filename="../ICreateMapQMAP.ui" line="169"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -3110,95 +3150,100 @@ bottom/right</source>
         <translation>комментарий</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="83"/>
+        <location filename="../ICreateMapQMAP.ui" line="74"/>
+        <source>quadratic zoom</source>
+        <translation>квадратичный зум</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapQMAP.ui" line="97"/>
         <source>Open existing *.qmap definition</source>
         <translation>Открыть существующий *.qmap файл</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="96"/>
+        <location filename="../ICreateMapQMAP.ui" line="110"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="93"/>
+        <location filename="../ICreateMapQMAP.ui" line="107"/>
         <source>Create new *.qmap definition.</source>
         <translation>Создать новый *.qmap файл.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="129"/>
-        <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. 
+        <location filename="../ICreateMapQMAP.ui" line="143"/>
+        <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zomm level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation>Вы можете создавать и редактировать файлы описания карт (*.qmap) для QLandkarte GT. Описания карт используются для привязки масштабирования карты на определенном уровне. Комментарии используются выводе списка доступных карт. ￼￼
-После создания набора карт, Вы можете присоеденить к нему DEM данные через левое, контекстное меню инструментов обзора карт.</translation>
+        <translation>Вы можете создавать и редактировать файлы определения карт (*.qmap). Это необходимо для определения какой файл показывается на определенном уровне масштабирования. Комментарии используются в списке карт для выбора нужной карты. Вы можете выбрать между ленейным и квадратичным уровнем приращения во время масшатбирования. 
+После создания карты, Вы можете прикрепить DEM данные используя левое контекстное меню.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="165"/>
+        <location filename="../ICreateMapQMAP.ui" line="179"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
-p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;￼￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;￼￼￼￼
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="172"/>
+        <location filename="../ICreateMapQMAP.ui" line="186"/>
         <source>Detail Layer</source>
         <translation>Уровень детализации</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="177"/>
+        <location filename="../ICreateMapQMAP.ui" line="191"/>
         <source>min. zoom</source>
         <translation>мин. масштаб</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="182"/>
+        <location filename="../ICreateMapQMAP.ui" line="196"/>
         <source>max. zoom</source>
         <translation>макс. масштаб</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="187"/>
+        <location filename="../ICreateMapQMAP.ui" line="201"/>
         <source>files</source>
         <translation>файлы</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="200"/>
+        <location filename="../ICreateMapQMAP.ui" line="214"/>
         <source>add</source>
         <translation>добавить</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="210"/>
+        <location filename="../ICreateMapQMAP.ui" line="224"/>
         <source>edit</source>
         <translation>изменить</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="220"/>
+        <location filename="../ICreateMapQMAP.ui" line="234"/>
         <source>del</source>
         <translation>удалить</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="243"/>
+        <location filename="../ICreateMapQMAP.ui" line="257"/>
         <source>up</source>
         <translation>вверх</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="259"/>
+        <location filename="../ICreateMapQMAP.ui" line="273"/>
         <source>down</source>
         <translation>вниз</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="293"/>
+        <location filename="../ICreateMapQMAP.ui" line="307"/>
         <source>You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file.</source>
         <translation>Вы можете сложить карты с различным уровнем детализации в один слой. Для каждого слоя детализации Вы можете определить несколько уровней масштабирования.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="323"/>
+        <location filename="../ICreateMapQMAP.ui" line="337"/>
         <source>Summary</source>
         <translation>Сводка</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="351"/>
+        <location filename="../ICreateMapQMAP.ui" line="365"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -3279,17 +3324,17 @@ p, li { white-space: pre-wrap; }￼￼
     <message>
         <location filename="../IDiaryEditWidget.ui" line="13"/>
         <source>Form</source>
-        <translation>Редактирование дневника</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDiaryEditWidget.ui" line="230"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDiaryEditWidget.ui" line="96"/>
         <source>Create diary skeleton from current data.</source>
-        <translation>Создать &quot;каркас&quot; дневника из текущих данных.</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3519,11 +3564,24 @@ p, li { white-space: pre-wrap; }￼￼
 &lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move light source horizontaly&lt;/td&gt;
 &lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move light source vertical&lt;/td&gt;
 &lt;/table&gt;</source>
-        <translation>&lt;b&gt;Управление клавиатурой&lt;/b&gt;￼￼
-&lt;table&gt;&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на восток&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на запад&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на север&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на юг&lt;/td&gt;&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;приблизить&lt;/td&gt;&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;отдалить&lt;/td&gt;&lt;/table&gt;￼￼
-&lt;b&gt;3D просмотр&lt;/b&gt;￼￼
-&lt;table&gt;
+        <translation>&lt;b&gt;Управление клавиатурой&lt;/b&gt;￼￼￼￼
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на восток&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на запад&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на север&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение карты на юг&lt;/td&gt;&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;приблизить&lt;/td&gt;&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;отдалить&lt;/td&gt;&lt;/table&gt;￼￼￼￼
+&lt;b&gt;3D просмотр&lt;/b&gt;￼￼￼￼
+&lt;table&gt;￼￼
 &lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;переместить карту&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;m + scroll mouse or page Up/Down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;масштабировать карту&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;home/end key&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;увеличить/уменьшить район на карте&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение источника света по горизонтали&lt;/td&gt;￼&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;перемещение источника света по горизонтали&lt;/td&gt;￼&lt;/table&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>IDlgConvertToTrack</name>
+    <message>
+        <location filename="../IDlgConvertToTrack.ui" line="13"/>
+        <source>Intermediate track points...</source>
+        <translation>промежуточные точки трека...</translation>
+    </message>
+    <message>
+        <location filename="../IDlgConvertToTrack.ui" line="28"/>
+        <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
+        <translation>Выбирите интервал для добавления дополнительных точек на треке. &quot;Ничего&quot; использовать имеющиеся точки.</translation>
     </message>
 </context>
 <context>
@@ -3569,7 +3627,7 @@ p, li { white-space: pre-wrap; }￼￼
     <message>
         <location filename="../IDlgDelWpt.ui" line="28"/>
         <source>type</source>
-        <translation>Тип</translation>
+        <translation>тип</translation>
     </message>
 </context>
 <context>
@@ -3613,9 +3671,9 @@ p, li { white-space: pre-wrap; }￼￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select files&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
-p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Выберите файлы&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3629,9 +3687,9 @@ p, li { white-space: pre-wrap; }￼￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add files to list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
-p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Добавить файлы в список&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3640,9 +3698,9 @@ p, li { white-space: pre-wrap; }￼￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Delete file from list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
-p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Удалить файлы из списка&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3651,9 +3709,9 @@ p, li { white-space: pre-wrap; }￼￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file up in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼
-p, li { white-space: pre-wrap; }￼￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Передвинуть файл выше по списку&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3662,9 +3720,9 @@ p, li { white-space: pre-wrap; }￼￼
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Move file down in list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼
-p, li { white-space: pre-wrap; }￼
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;￼￼￼
+p, li { white-space: pre-wrap; }￼￼￼
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;￼￼￼
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Передвинуть файл ниже по списку&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
@@ -3678,7 +3736,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IDlgEditWpt.ui" line="28"/>
         <source>Symbol &amp; Name</source>
-        <translation>Символ</translation>
+        <translation>Символ и Имя</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="166"/>
@@ -3688,12 +3746,12 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IDlgEditWpt.ui" line="47"/>
         <source>sticky</source>
-        <translation>(приклеено)</translation>
+        <translation>приклеено</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="56"/>
         <source>Position</source>
-        <translation>Копировать координаты</translation>
+        <translation>Местоположение:</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="75"/>
@@ -3723,7 +3781,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IDlgEditWpt.ui" line="135"/>
         <source>Proximity Dist.</source>
-        <translation>Приблиз. дист.</translation>
+        <translation>Приблиз. расст.</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="152"/>
@@ -3786,7 +3844,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IDlgProjWizzard.ui" line="35"/>
         <source>Mercator</source>
-        <translation>Ошибка...</translation>
+        <translation>Меркатора</translation>
     </message>
     <message>
         <location filename="../IDlgProjWizzard.ui" line="44"/>
@@ -3816,7 +3874,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IDlgProjWizzard.ui" line="134"/>
         <source>World Mercator (OSM)</source>
-        <translation>Всемирный Меркатор (OSM)</translation>
+        <translation>Всемирная Меркатора (OSM)</translation>
     </message>
 </context>
 <context>
@@ -3895,7 +3953,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="79"/>
         <source>Altitude:</source>
-        <translation>Высота:</translation>
+        <translation>Высота</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="100"/>
@@ -4027,7 +4085,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IMapSearchWidget.ui" line="141"/>
         <source>Symbols</source>
-        <translation>Символы</translation>
+        <translation>Символ</translation>
     </message>
     <message>
         <location filename="../IMapSearchWidget.ui" line="278"/>
@@ -4124,7 +4182,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IOverlayToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4132,7 +4190,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../ISearchToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ISearchToolWidget.ui" line="21"/>
@@ -4145,7 +4203,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IStatusDEM.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IStatusDEM.ui" line="31"/>
@@ -4160,7 +4218,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IStatusDEM.ui" line="48"/>
         <source>contour</source>
-        <translation>Контур</translation>
+        <translation>контур</translation>
     </message>
 </context>
 <context>
@@ -4266,7 +4324,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../ITrackStatWidget.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4274,7 +4332,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../ITrackToolWidget.ui" line="5"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4282,7 +4340,7 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../IWptToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4320,12 +4378,12 @@ p, li { white-space: pre-wrap; }￼
     <message>
         <location filename="../printpreview.cpp" line="275"/>
         <source>&amp;Close</source>
-        <translation>Закрыть</translation>
+        <translation>Сбросить пустые точки трека</translation>
     </message>
     <message>
         <location filename="../printpreview.cpp" line="321"/>
         <source>Print Diary</source>
-        <translation>Печать Дневника</translation>
+        <translation>Печать Дневника...</translation>
     </message>
 </context>
 <context>
