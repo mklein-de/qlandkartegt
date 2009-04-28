@@ -398,7 +398,7 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     if(quadraticZoom){
 
         if(zoomidx > 1){
-            zoomidx = pow(2.0, quint32(log(zoomidx)/log(2)));
+            zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
             zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
         }
         else{
@@ -524,7 +524,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 
                 zoomidx = pMaplevel->min + z - 1;
                 if(quadraticZoom){
-                    zoomidx = pow(2.0, ceil(log(zoomidx)/log(2)));
+                    zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
                     z = zoomidx - pMaplevel->min + 1;
                 }
 
