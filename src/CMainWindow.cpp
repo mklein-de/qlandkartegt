@@ -438,30 +438,30 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     QFileInfo fileInfo(filename);
     QString ext = fileInfo.suffix().toUpper();
 
-    if(filter == "QLandkarte (*.qlb)") {
-        if( ext != "QLB" ) filename += ".qlb";
-        ext = "QLB";
-    }
-    else if(filter == "GPS Exchange (*.gpx)") {
-        if( ext != "GPX" ) filename += ".gpx";
-        ext = "GPX";
-    }
-    else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
-        if( ext != "TCX") filename += ".tcx";
-        ext = "TCX";
-    }
-    else if(filter == "Geocaching.com/EasyGPS (*.loc)") {
-        if(ext != "LOC") filename += ".loc";
-        ext = "LOC";
-    }
-    else if(filter == "Mapsource (*.gdb)") {
-        if(ext != "GDB") filename += ".gdb";
-        ext = "GDB";
-    }
-    else if ( !QString("QLBGPXTCXGDB").contains(ext) ) {
-        filename += ".qlb";
-        ext = "QLB";
-    }
+//     if(filter == "QLandkarte (*.qlb)") {
+//         if( ext != "QLB" ) filename += ".qlb";
+//         ext = "QLB";
+//     }
+//     else if(filter == "GPS Exchange (*.gpx)") {
+//         if( ext != "GPX" ) filename += ".gpx";
+//         ext = "GPX";
+//     }
+//     else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
+//         if( ext != "TCX") filename += ".tcx";
+//         ext = "TCX";
+//     }
+//     else if(filter == "Geocaching.com/EasyGPS (*.loc)") {
+//         if(ext != "LOC") filename += ".loc";
+//         ext = "LOC";
+//     }
+//     else if(filter == "Mapsource (*.gdb)") {
+//         if(ext != "GDB") filename += ".gdb";
+//         ext = "GDB";
+//     }
+//     else if ( !QString("QLBGPXTCXGDB").contains(ext) ) {
+//         filename += ".qlb";
+//         ext = "QLB";
+//     }
 
     pathData = fileInfo.absolutePath();
 
