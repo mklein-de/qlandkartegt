@@ -27,6 +27,7 @@
 #include "CTrackDB.h"
 #include "CSearchDB.h"
 #include "CDiaryDB.h"
+#include "CRouteDB.h"
 #include "CDlgConfig.h"
 #include "CQlb.h"
 #include "CGpx.h"
@@ -113,6 +114,7 @@ CMainWindow::CMainWindow()
     searchdb    = new CSearchDB(tabbar, this);
     livelogdb   = new CLiveLogDB(tabbar, this);
     overlaydb   = new COverlayDB(tabbar, this);
+    routedb     = new CRouteDB(tabbar, this);
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -120,13 +122,16 @@ CMainWindow::CMainWindow()
     connect(livelogdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(overlaydb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
+    connect(routedb, SIGNAL(sigChanged()), this, SLOT(update()));
     connect(mapdb, SIGNAL(sigChanged()), this, SLOT(update()));
+
 
     connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(overlaydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
 
     searchdb->gainFocus();
 
@@ -169,6 +174,7 @@ CMainWindow::CMainWindow()
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&CDiaryDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
+    connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
 
     slotDataChanged();
 

@@ -32,6 +32,7 @@ class CWptDB;
 class CTrackDB;
 class CSearchDB;
 class CDiaryDB;
+class CRouteDB;
 class CResources;
 class CTabWidget;
 class CLiveLogDB;
@@ -125,6 +126,8 @@ class CMainWindow : public QMainWindow
         CLiveLogDB * livelogdb;
 
         COverlayDB * overlaydb;
+
+        CRouteDB * routedb;
 
         /// the current loaded geo data (workspace) file
         QString wksFile;
