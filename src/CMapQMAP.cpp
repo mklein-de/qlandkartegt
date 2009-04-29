@@ -221,6 +221,10 @@ void CMapQMAP::draw()
 
     foundMap = false;
 
+    if(pjsrc == 0){
+        return;
+    }
+
     const CMapFile * map = *pMaplevel->begin();
 
     // top left
@@ -443,7 +447,7 @@ qint32 CMapQMAP::getZoomLevel()
 void CMapQMAP::zoom(qint32& level)
 {
     needsRedraw = true;
-    if(maplevels.isEmpty()) {
+    if(maplevels.isEmpty() || (pjsrc == 0)) {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;
@@ -487,7 +491,7 @@ void CMapQMAP::zoom(qint32& level)
 void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 {
     needsRedraw = true;
-    if(maplevels.isEmpty()) {
+    if(maplevels.isEmpty() || (pjsrc == 0)) {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;

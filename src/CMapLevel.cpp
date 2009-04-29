@@ -51,6 +51,7 @@ void CMapLevel::addMapFile(const QString& filename)
 {
     CMapFile * mapfile = new CMapFile(filename,this);
     if(mapfile && !mapfile->ok) {
+        qDebug() << "skip" << filename;
         delete mapfile;
         return;
     }
