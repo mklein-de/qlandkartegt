@@ -83,14 +83,14 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
-    GDALRasterBand * pBand;
-    pBand = dataset->GetRasterBand(1);
-    if(pBand == 0) return;
 
     rasterBandCount = dataset->GetRasterCount();
+    if(rasterBandCount < 1) return;
 
     if(rasterBandCount == 1){
-
+        GDALRasterBand * pBand;
+        pBand = dataset->GetRasterBand(1);
+        if(pBand == 0) return;
 
         if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
             GDALColorTable * pct = pBand->GetColorTable();

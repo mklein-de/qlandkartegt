@@ -23,6 +23,8 @@
 #include "CMapQMAP.h"
 #include "CWpt.h"
 
+#include <QtGui>
+
 CMapLevel::CMapLevel(quint32 min, quint32 max, CMapQMAP * parent)
 : QObject(parent)
 , min(min)
