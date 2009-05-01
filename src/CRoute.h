@@ -23,7 +23,11 @@
 #include <QPixmap>
 #include <QList>
 #include <QPolygon>
+#include <QDataStream>
+#include <QFile>
 #include <projects.h>
+
+
 
 class CRoute : public QObject
 {
@@ -31,6 +35,8 @@ class CRoute : public QObject
     public:
         CRoute(QObject * parent);
         virtual ~CRoute();
+
+        enum type_e {eEnd, eBase, eRtePts};
 
         /// set route name
         void setName(const QString& n){name = n;}
@@ -42,6 +48,10 @@ class CRoute : public QObject
         double getDistance(){return dist;}
 
         const QPixmap& getIcon(){return icon;}
+
+        const QString& getIconName(){return iconname;}
+
+        void setIcon(const QString& symname);
 
         /// set the highlight flag
         void setHighlight(bool yes){highlight = yes;}
@@ -65,6 +75,9 @@ class CRoute : public QObject
 
     private:
         friend class CRouteDB;
+        friend QDataStream& operator >>(QDataStream& s, CRoute& route);
+        friend QDataStream& operator <<(QDataStream& s, CRoute& route);
+
         void genKey();
         void calcDistance();
 
@@ -93,6 +106,13 @@ class CRoute : public QObject
         bool firstTime;
 
 };
+
+QDataStream& operator >>(QDataStream& s, CRoute& route);
+QDataStream& operator <<(QDataStream& s, CRoute& route);
+
+void operator >>(QFile& f, CRoute& route);
+void operator <<(QFile& f, CRoute& route);
+
 
 #endif //CROUTE_H
 

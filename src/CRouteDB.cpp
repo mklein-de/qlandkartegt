@@ -22,6 +22,8 @@
 #include "CRouteToolWidget.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "CQlb.h"
+#include "CGpx.h"
 
 #include <QtGui>
 
@@ -118,25 +120,138 @@ QRectF CRouteDB::getBoundingRectF(const QString key)
 /// load database data from gpx
 void CRouteDB::loadGPX(CGpx& gpx)
 {
+    const QDomNodeList& rtes = gpx.elementsByTagName("rte");
+    uint N = rtes.count();
+    for(uint n = 0; n < N; ++n) {
+        const QDomNode& rte = rtes.item(n);
 
+        CRoute * r = 0;
+        /* name is not a required element. */
+        if(rte.namedItem("name").isElement()) {
+            r = new CRoute(this);
+            r->setName(rte.namedItem("name").toElement().text());
+        }
+        else {
+            /* Use desc if name is unavailable, else give it no name. */
+            if (rte.namedItem("desc").isElement()){
+                r = new CRoute(this);
+                r->setName(rte.namedItem("desc").toElement().text());
+            }
+            else{
+                r = new CRoute(this);
+                r->setName(tr("Unnamed"));
+            }
+        }
+
+        QDomElement rtept = rte.firstChildElement("rtept");
+
+        while (!rtept.isNull()) {
+            XY pt;
+            QDomNamedNodeMap attr = rtept.attributes();
+
+            pt.u = attr.namedItem("lon").nodeValue().toDouble();
+            pt.v = attr.namedItem("lat").nodeValue().toDouble();
+
+            r->addPosition(pt.u,pt.v);
+
+            if(rtept.namedItem("sym").isElement()) {
+                QString symname = rtept.namedItem("sym").toElement().text();
+                r->setIcon(symname);
+            }
+
+            rtept = rtept.nextSiblingElement("rtept");
+        }
+
+        if(routes.contains("gpx|" + r->getName())) {
+            delete routes.take("gpx|" + r->getName());
+        }
+
+        r->calcDistance();
+        routes["gpx|" + r->getName()] = r;
+
+        connect(r,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+
+    }
+
+    emit sigChanged();
 }
 
 /// save database data to gpx
 void CRouteDB::saveGPX(CGpx& gpx)
 {
+    QDomElement root = gpx.documentElement();
+    QMap<QString,CRoute*>::iterator route = routes.begin();
+    while(route != routes.end()) {
+        QDomElement gpxRoute = gpx.createElement("rte");
+        root.appendChild(gpxRoute);
 
+        QDomElement name = gpx.createElement("name");
+        gpxRoute.appendChild(name);
+        QDomText _name_ = gpx.createTextNode((*route)->getName());
+        name.appendChild(_name_);
+
+        unsigned cnt = 0;
+        QList<XY>& rtepts = (*route)->getRoutePoints();
+        QList<XY>::const_iterator rtept = rtepts.begin();
+        while(rtept != rtepts.end()) {
+            QDomElement gpxRtept = gpx.createElement("rtept");
+            gpxRoute.appendChild(gpxRtept);
+
+            gpxRtept.setAttribute("lat",QString::number(rtept->v,'f',6));
+            gpxRtept.setAttribute("lon",QString::number(rtept->u,'f',6));
+
+            QString str = QString("%1").arg(++cnt,3,10,QChar('0'));
+
+            QDomElement name = gpx.createElement("name");
+            gpxRtept.appendChild(name);
+            QDomText _name_ = gpx.createTextNode(str);
+            name.appendChild(_name_);
+
+            QDomElement cmt = gpx.createElement("cmt");
+            gpxRtept.appendChild(cmt);
+            QDomText _cmt_ = gpx.createTextNode(str);
+            cmt.appendChild(_cmt_);
+
+            QDomElement desc = gpx.createElement("desc");
+            gpxRtept.appendChild(desc);
+            QDomText _desc_ = gpx.createTextNode(str);
+            desc.appendChild(_desc_);
+
+            QDomElement sym = gpx.createElement("sym");
+            gpxRtept.appendChild(sym);
+            QDomText _sym_ = gpx.createTextNode((*route)->getIconName());
+            sym.appendChild(_sym_);
+
+            ++rtept;
+        }
+
+        ++route;
+    }
 }
 
 /// load database data from QLandkarte binary
 void CRouteDB::loadQLB(CQlb& qlb)
 {
+    QDataStream stream(&qlb.routes(),QIODevice::ReadOnly);
 
+    while(!stream.atEnd()) {
+        CRoute * route = new CRoute(this);
+        stream >> *route;
+        route->calcDistance();
+        addRoute(route, true);
+    }
+
+    emit sigChanged();
 }
 
 /// save database data to QLandkarte binary
 void CRouteDB::saveQLB(CQlb& qlb)
 {
-
+    QMap<QString, CRoute*>::const_iterator route = routes.begin();
+    while(route != routes.end()) {
+        qlb << *(*route);
+        ++route;
+    }
 }
 
 void CRouteDB::upload()

@@ -396,9 +396,9 @@ void CMainWindow::slotLoadData()
     CMapDB::self().clear();
     CWptDB::self().clear();
     CTrackDB::self().clear();
+    CRouteDB::self().clear();
     CDiaryDB::self().clear();
     COverlayDB::self().clear();
-    CRouteDB::self().clear();
 
     loadData(filename, filter);
 
@@ -447,31 +447,6 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
     QFileInfo fileInfo(filename);
     QString ext = fileInfo.suffix().toUpper();
 
-//     if(filter == "QLandkarte (*.qlb)") {
-//         if( ext != "QLB" ) filename += ".qlb";
-//         ext = "QLB";
-//     }
-//     else if(filter == "GPS Exchange (*.gpx)") {
-//         if( ext != "GPX" ) filename += ".gpx";
-//         ext = "GPX";
-//     }
-//     else if(filter == "TCX TrainingsCenterExchange (*.tcx)") {
-//         if( ext != "TCX") filename += ".tcx";
-//         ext = "TCX";
-//     }
-//     else if(filter == "Geocaching.com/EasyGPS (*.loc)") {
-//         if(ext != "LOC") filename += ".loc";
-//         ext = "LOC";
-//     }
-//     else if(filter == "Mapsource (*.gdb)") {
-//         if(ext != "GDB") filename += ".gdb";
-//         ext = "GDB";
-//     }
-//     else if ( !QString("QLBGPXTCXGDB").contains(ext) ) {
-//         filename += ".qlb";
-//         ext = "QLB";
-//     }
-
     pathData = fileInfo.absolutePath();
 
     try
@@ -482,6 +457,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CMapDB::self().loadQLB(qlb);
             CWptDB::self().loadQLB(qlb);
             CTrackDB::self().loadQLB(qlb);
+            CRouteDB::self().loadQLB(qlb);
             CDiaryDB::self().loadQLB(qlb);
             COverlayDB::self().loadQLB(qlb);
         }
@@ -491,6 +467,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CMapDB::self().loadGPX(gpx);
             CWptDB::self().loadGPX(gpx);
             CTrackDB::self().loadGPX(gpx);
+            CRouteDB::self().loadGPX(gpx);
             CDiaryDB::self().loadGPX(gpx);
             COverlayDB::self().loadGPX(gpx);
         }
@@ -519,6 +496,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
                 CMapDB::self().loadGPX(gpx);
                 CWptDB::self().loadGPX(gpx);
                 CTrackDB::self().loadGPX(gpx);
+                CRouteDB::self().loadGPX(gpx);
                 CDiaryDB::self().loadGPX(gpx);
                 COverlayDB::self().loadGPX(gpx);
             }
@@ -535,6 +513,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
                 CMapDB::self().loadGPX(gpx);
                 CWptDB::self().loadGPX(gpx);
                 CTrackDB::self().loadGPX(gpx);
+                CRouteDB::self().loadGPX(gpx);
                 CDiaryDB::self().loadGPX(gpx);
                 COverlayDB::self().loadGPX(gpx);
             }
@@ -637,6 +616,7 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
             CMapDB::self().saveQLB(qlb);
             CWptDB::self().saveQLB(qlb);
             CTrackDB::self().saveQLB(qlb);
+            CRouteDB::self().saveQLB(qlb);
             CDiaryDB::self().saveQLB(qlb);
             COverlayDB::self().saveQLB(qlb);
             qlb.save(filename);
@@ -646,6 +626,7 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
             CMapDB::self().saveGPX(gpx);
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);
+            CRouteDB::self().saveGPX(gpx);
             CDiaryDB::self().saveGPX(gpx);
             COverlayDB::self().saveGPX(gpx);
             gpx.save(filename);

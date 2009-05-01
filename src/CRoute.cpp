@@ -23,6 +23,183 @@
 
 #include <QtGui>
 
+struct rte_head_entry_t
+{
+    rte_head_entry_t() : type(CRoute::eEnd), offset(0) {}
+    qint32      type;
+    quint32     offset;
+    QByteArray  data;
+};
+
+
+QDataStream& operator >>(QDataStream& s, CRoute& route)
+{
+    quint32 nRtePts = 0;
+    QIODevice * dev = s.device();
+    qint64      pos = dev->pos();
+
+    char magic[9];
+    s.readRawData(magic,9);
+
+    if(strncmp(magic,"QLRte   ",9)) {
+        dev->seek(pos);
+        return s;
+    }
+
+    QList<rte_head_entry_t> entries;
+
+    while(1) {
+        rte_head_entry_t entry;
+        s >> entry.type >> entry.offset;
+        entries << entry;
+        if(entry.type == CRoute::eEnd) break;
+    }
+
+    QList<rte_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()) {
+        qint64 o = pos + entry->offset;
+        dev->seek(o);
+        s >> entry->data;
+
+        switch(entry->type) {
+            case CRoute::eBase:
+            {
+
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+
+                s1 >> route._key_;
+                s1 >> route.timestamp;
+                s1 >> route.name;
+                s1 >> route.iconname;
+                break;
+            }
+
+            case CRoute::eRtePts:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                quint32 n;
+
+                route.routeDegree.clear();
+                s1 >> nRtePts;
+
+                for(n = 0; n < nRtePts; ++n) {
+                    XY rtept;
+                    float u, v;
+
+                    s1 >> u;
+                    s1 >> v;
+
+                    rtept.u = u;
+                    rtept.v = v;
+                    route.routeDegree << rtept;
+                }
+                break;
+            }
+            default:;
+        }
+
+        ++entry;
+    }
+
+    return s;
+}
+
+QDataStream& operator <<(QDataStream& s, CRoute& route)
+{
+    QList<rte_head_entry_t> entries;
+
+    //---------------------------------------
+    // prepare base data
+    //---------------------------------------
+    rte_head_entry_t entryBase;
+    entryBase.type = CRoute::eBase;
+    QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+
+    s1 << route.key();
+    s1 << route.timestamp;
+    s1 << route.name;
+    s1 << route.iconname;
+
+    entries << entryBase;
+
+    //---------------------------------------
+    // prepare routepoint data
+    //---------------------------------------
+    rte_head_entry_t entryRtePts;
+    entryRtePts.type = CRoute::eRtePts;
+    QDataStream s2(&entryRtePts.data, QIODevice::WriteOnly);
+
+    QList<XY>& rtepts           = route.getRoutePoints();
+    QList<XY>::iterator rtept   = rtepts.begin();
+
+    s2 << (quint32)rtepts.size();
+    while(rtept != rtepts.end()) {
+        s2 << (float)rtept->u;
+        s2 << (float)rtept->v;
+        ++rtept;
+    }
+
+    entries << entryRtePts;
+
+    //---------------------------------------
+    // prepare terminator
+    //---------------------------------------
+    rte_head_entry_t entryEnd;
+    entryEnd.type = CRoute::eEnd;
+    entries << entryEnd;
+
+    //---------------------------------------
+    //---------------------------------------
+    // now start to actually write data;
+    //---------------------------------------
+    //---------------------------------------
+    // write magic key
+    s.writeRawData("QLRte   ",9);
+
+    // calculate offset table
+    quint32 offset = entries.count() * 8 + 9;
+
+    QList<rte_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end()) {
+        entry->offset = offset;
+        offset += entry->data.size() + sizeof(quint32);
+        ++entry;
+    }
+
+    // write offset table
+    entry = entries.begin();
+    while(entry != entries.end()) {
+        s << entry->type << entry->offset;
+        ++entry;
+    }
+
+    // write entry data
+    entry = entries.begin();
+    while(entry != entries.end()) {
+        s << entry->data;
+        ++entry;
+    }
+
+    return s;
+}
+
+void operator >>(QFile& f, CRoute& route)
+{
+    f.open(QIODevice::ReadOnly);
+    QDataStream s(&f);
+    s >> route;
+    f.close();
+}
+
+void operator <<(QFile& f, CRoute& route)
+{
+    f.open(QIODevice::WriteOnly);
+    QDataStream s(&f);
+    s << route;
+    f.close();
+}
+
+
 CRoute::CRoute(QObject * parent)
 : QObject(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
@@ -94,7 +271,7 @@ QRectF CRoute::getBoundingRectF()
     double west  = +180.0;
     double east  = -180.0;
 
-    //CTrack * track = tracks[key];
+    //CRoute * route = routes[key];
     QList<XY>& rtepts = getRoutePoints();
     QList<XY>::const_iterator rtept = rtepts.begin();
     while(rtept != rtepts.end()) {
@@ -108,4 +285,10 @@ QRectF CRoute::getBoundingRectF()
     }
 
     return QRectF(QPointF(west,north),QPointF(east,south));
+}
+
+void CRoute::setIcon(const QString& symname)
+{
+    iconname = symname;
+    icon     = getWptIconByName(iconname);
 }

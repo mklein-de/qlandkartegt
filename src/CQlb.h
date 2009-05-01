@@ -24,6 +24,7 @@
 
 class CWpt;
 class CTrack;
+class CRoute;
 class CDiary;
 class IOverlay;
 
@@ -45,7 +46,7 @@ class CQlb : public QObject
         CQlb(QObject * parent);
         virtual ~CQlb();
 
-        enum type_e {eEnd, eWpt, eTrack, eDiary, eOverlay};
+        enum type_e {eEnd, eWpt, eTrack, eDiary, eOverlay, eRoute};
 
         /// collect wapoint data
         /**
@@ -59,6 +60,8 @@ class CQlb : public QObject
 
         CQlb& operator <<(IOverlay& ovl);
 
+        CQlb& operator <<(CRoute& ovl);
+
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
         /// get access to stored track data
@@ -67,6 +70,8 @@ class CQlb : public QObject
         QByteArray& diary(){return drys;}
         /// get access to stored overlay data
         QByteArray& overlays(){return ovls;}
+        /// get access to stored route data
+        QByteArray& routes(){return rtes;}
         /// write collected data to file
         void save(const QString& filename);
         /// read file and store elements in their designated byte arrays
@@ -77,6 +82,8 @@ class CQlb : public QObject
         QByteArray wpts;
         /// byte array to hold all tracks
         QByteArray trks;
+        /// byte array to hold all routes
+        QByteArray rtes;
         /// byte array to hold diary
         QByteArray drys;
         /// byte array to hold overlays

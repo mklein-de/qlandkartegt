@@ -20,6 +20,7 @@
 #include "CQlb.h"
 #include "CWpt.h"
 #include "CTrack.h"
+#include "CRoute.h"
 #include "CDiary.h"
 #include "IOverlay.h"
 
@@ -51,6 +52,14 @@ CQlb& CQlb::operator <<(CTrack& trk)
 {
     QDataStream stream(&trks, QIODevice::Append);
     stream << trk;
+
+    return *this;
+}
+
+CQlb& CQlb::operator <<(CRoute& rte)
+{
+    QDataStream stream(&rtes, QIODevice::Append);
+    stream << rte;
 
     return *this;
 }
@@ -103,6 +112,10 @@ void CQlb::load(const QString& filename)
                 stream >> ovls;
                 break;
 
+            case eRoute:
+                stream >> rtes;
+                break;
+
             default:
                 file.close();
                 return;
@@ -123,6 +136,7 @@ void CQlb::save(const QString& filename)
 
     stream << (qint32)eWpt << wpts;
     stream << (qint32)eTrack << trks;
+    stream << (qint32)eRoute << rtes;
     stream << (qint32)eDiary << drys;
     stream << (qint32)eOverlay << ovls;
     stream << (qint32)eEnd;
