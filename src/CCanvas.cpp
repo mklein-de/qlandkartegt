@@ -44,6 +44,7 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CRouteDB.h"
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
 
@@ -303,6 +304,7 @@ void CCanvas::draw(QPainter& p)
 
     CMapDB::self().draw(p,rect(), needsRedraw);
     CTrackDB::self().draw(p, rect(), needsRedraw);
+    CRouteDB::self().draw(p, rect(), needsRedraw);
     CLiveLogDB::self().draw(p, rect(), needsRedraw);
     CWptDB::self().draw(p, rect(), needsRedraw);
     CSearchDB::self().draw(p, rect(), needsRedraw);

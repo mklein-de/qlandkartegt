@@ -23,6 +23,7 @@
 #include "IDB.h"
 
 #include <QMap>
+#include <QRectF>
 
 class CRoute;
 
@@ -61,6 +62,8 @@ class CRouteDB : public IDB
 
         void highlightRoute(const QString& key);
         CRoute* highlightedRoute();
+
+        QRectF getBoundingRectF(const QString key);
 
     signals:
         void sigHighlightRoute(CRoute * route);

@@ -20,6 +20,7 @@
 #include "CRoute.h"
 #include "CRouteDB.h"
 #include "IUnit.h"
+#include "CMapDB.h"
 
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -31,6 +32,10 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Routes"));
 
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
+
+    connect(listRoutes,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listRoutes,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+
 }
 
 CRouteToolWidget::~CRouteToolWidget()
@@ -50,7 +55,6 @@ void CRouteToolWidget::slotDBChanged()
     QMap<QString,CRoute*>::const_iterator route = routes.begin();
     while(route != routes.end()) {
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
-//         icon.fill((*route)->getColor());
 
         QString val1, unit1, val2, unit2;
 
@@ -73,6 +77,23 @@ void CRouteToolWidget::slotDBChanged()
 
     if(highlighted) {
         listRoutes->setCurrentItem(highlighted);
+    }
+}
+
+void CRouteToolWidget::slotItemClicked(QListWidgetItem * item)
+{
+    originator = true;
+    CRouteDB::self().highlightRoute(item->data(Qt::UserRole).toString());
+    originator = false;
+}
+
+void CRouteToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
+{
+    QString key = item->data(Qt::UserRole).toString();
+
+    QRectF r = CRouteDB::self().getBoundingRectF(key);
+    if (!r.isNull ()){
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
 }
 

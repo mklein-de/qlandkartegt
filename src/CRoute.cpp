@@ -31,6 +31,7 @@ CRoute::CRoute(QObject * parent)
 , iconname("Small City")
 , icon(getWptIconByName(iconname))
 , highlight(false)
+, firstTime(true)
 {
 
 
@@ -83,4 +84,28 @@ void CRoute::calcDistance()
         ++p2; ++p1;
     }
 
+}
+
+QRectF CRoute::getBoundingRectF()
+{
+
+    double north =  -90.0;
+    double south =  +90.0;
+    double west  = +180.0;
+    double east  = -180.0;
+
+    //CTrack * track = tracks[key];
+    QList<XY>& rtepts = getRoutePoints();
+    QList<XY>::const_iterator rtept = rtepts.begin();
+    while(rtept != rtepts.end()) {
+
+        if(rtept->u < west)  west  = rtept->u;
+        if(rtept->u > east)  east  = rtept->u;
+        if(rtept->v < south) south = rtept->v;
+        if(rtept->v > north) north = rtept->v;
+
+        ++rtept;
+    }
+
+    return QRectF(QPointF(west,north),QPointF(east,south));
 }

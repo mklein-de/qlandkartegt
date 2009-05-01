@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QPixmap>
 #include <QList>
+#include <QPolygon>
 #include <projects.h>
 
 class CRoute : public QObject
@@ -53,10 +54,17 @@ class CRoute : public QObject
         */
         void addPosition(const double lon, const double lat);
 
+        QPolygon& getPolyline(){return polyline;}
+
+        QList<XY>& getRoutePoints(){return routeDegree;}
+
+        QRectF getBoundingRectF();
+
     signals:
         void sigChanged();
 
     private:
+        friend class CRouteDB;
         void genKey();
         void calcDistance();
 
@@ -78,6 +86,11 @@ class CRoute : public QObject
         QPixmap icon;
 
         bool highlight;
+
+        /// the Qt polyline for faster processing
+        QPolygon polyline;
+
+        bool firstTime;
 
 };
 

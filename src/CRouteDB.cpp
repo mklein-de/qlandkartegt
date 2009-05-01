@@ -20,6 +20,8 @@
 #include "CRoute.h"
 #include "CRouteDB.h"
 #include "CRouteToolWidget.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include <QtGui>
 
@@ -104,6 +106,14 @@ CRoute* CRouteDB::highlightedRoute()
 
 }
 
+QRectF CRouteDB::getBoundingRectF(const QString key)
+{
+    if(!routes.contains(key)) {
+        return QRectF();
+    }
+    return routes.value(key)->getBoundingRectF();
+}
+
 
 /// load database data from gpx
 void CRouteDB::loadGPX(CGpx& gpx)
@@ -149,5 +159,85 @@ void CRouteDB::clear()
 
 void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
+    IMap& map = CMapDB::self().getMap();
 
+    p.setRenderHint(QPainter::Antialiasing,false);
+
+    QMap<QString,CRoute*>::iterator route       = routes.begin();
+    QMap<QString,CRoute*>::iterator highlighted = routes.end();
+
+    while(route != routes.end()) {
+        QPolygon& line = (*route)->getPolyline();
+
+        bool firstTime = (*route)->firstTime;
+
+        QList<XY>& rtepts         = (*route)->getRoutePoints();
+        QList<XY>::iterator rtept = rtepts.begin();
+
+        if ( needsRedraw || firstTime) {
+            line.clear();
+            while(rtept != rtepts.end()) {
+                double u = rtept->u * DEG_TO_RAD;
+                double v = rtept->v * DEG_TO_RAD;
+
+                map.convertRad2Pt(u,v);
+                line << QPoint(u,v);;
+                ++rtept;
+            }
+        }
+
+        if(!rect.intersects(line.boundingRect())) {
+            ++route; continue;
+        }
+
+        if((*route)->isHighlighted()) {
+            // store highlighted route to draw it later
+            // it must be drawn above all other routes
+            highlighted = route;
+        }
+        else {
+            // draw normal route
+            QPen pen(Qt::darkMagenta,7);
+            pen.setCapStyle(Qt::RoundCap);
+            pen.setJoinStyle(Qt::RoundJoin);
+            p.setPen(pen);
+            p.drawPolyline(line);
+            p.setPen(Qt::white);
+            p.drawPolyline(line);
+
+            // draw bubbles
+            QPoint pt;
+            QPixmap bullet = (*route)->getIcon();
+            foreach(pt,line) {
+                p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
+            }
+        }
+
+        (*route)->firstTime = false;
+        ++route;
+    }
+
+    // if there is a highlighted route, draw it
+    if(highlighted != routes.end()) {
+        route = highlighted;
+
+        QPolygon& line = (*route)->getPolyline();
+
+        // draw skunk line
+        QPen pen(Qt::magenta,7);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        p.setPen(pen);
+        p.drawPolyline(line);
+        p.setPen(Qt::white);
+        p.drawPolyline(line);
+
+        // draw bubbles
+        QPoint pt;
+        QPixmap bullet = (*route)->getIcon();
+        foreach(pt,line) {
+            p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
+        }
+    }
 }
+

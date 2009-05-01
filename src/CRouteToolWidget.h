@@ -32,6 +32,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
     private slots:
         void slotDBChanged();
+        void slotItemClicked(QListWidgetItem * item);
+        void slotItemDoubleClicked(QListWidgetItem * item);
 
     private:
         bool originator;
