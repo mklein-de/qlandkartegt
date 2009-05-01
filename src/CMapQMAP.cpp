@@ -70,6 +70,8 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         mapdef.endGroup();
     }
 
+    quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
+
     // If no configuration is stored read values from the map definition's "home" section
     // zoom() has to be called in either case to setup / initialize all other internal parameters
     mapdef.beginGroup(QString("home"));
@@ -84,8 +86,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     topLeft.u = u * DEG_TO_RAD;
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
-
-    quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
 
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
@@ -447,7 +447,7 @@ qint32 CMapQMAP::getZoomLevel()
 void CMapQMAP::zoom(qint32& level)
 {
     needsRedraw = true;
-    if(maplevels.isEmpty() || (pjsrc == 0)) {
+    if(maplevels.isEmpty()) {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;

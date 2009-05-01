@@ -94,6 +94,7 @@ set(qlandkarte_SRCS
     CTrackStatTraineeWidget.cpp
     CRoute.cpp
     CRouteDB.cpp
+    CRouteToolWidget.cpp
     CTabWidget.cpp
     CDiary.cpp
     CDiaryDB.cpp
@@ -219,6 +220,7 @@ set(qlandkarte_HDRS
     CTrackStatTraineeWidget.h
     CRoute.h
     CRouteDB.h
+    CRouteToolWidget.h
     CTabWidget.h
     CDiary.h
     CDiaryDB.h
@@ -280,6 +282,7 @@ SET(qlandkarte_UIS
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
     ICreateMapWMS.ui
+    IRouteToolWidget.ui
     IStatusDEM.ui
     IDlgProjWizzard.ui
     IDiaryEditWidget.ui

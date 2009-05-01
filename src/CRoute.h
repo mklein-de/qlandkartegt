@@ -20,13 +20,65 @@
 #define CROUTE_H
 
 #include <QObject>
+#include <QPixmap>
+#include <QList>
+#include <projects.h>
 
 class CRoute : public QObject
 {
     Q_OBJECT;
     public:
-        CRoute();
+        CRoute(QObject * parent);
         virtual ~CRoute();
+
+        /// set route name
+        void setName(const QString& n){name = n;}
+        /// get route name
+        const QString& getName(){return name;}
+        /// get unique track key
+        const QString& key();
+
+        double getDistance(){return dist;}
+
+        const QPixmap& getIcon(){return icon;}
+
+        /// set the highlight flag
+        void setHighlight(bool yes){highlight = yes;}
+        /// get the value of the highlight flag
+        bool isHighlighted(){return highlight;}
+        /// add a new position point
+        /**
+            @param lon the longitude in degree
+            @param lat the latitude in degree
+        */
+        void addPosition(const double lon, const double lat);
+
+    signals:
+        void sigChanged();
+
+    private:
+        void genKey();
+        void calcDistance();
+
+        /// unique key to address tarck
+        QString _key_;
+        /// creation timestamp
+        quint32 timestamp;
+
+        /// route name (used as lookup key, too)
+        QString name;
+        /// the route as position points
+        QList<XY> routeDegree;
+        /// the actual route distance
+        double dist;
+
+        QString iconname;
+
+        /// the icon used to draw a route
+        QPixmap icon;
+
+        bool highlight;
+
 };
 
 #endif //CROUTE_H

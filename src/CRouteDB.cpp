@@ -17,20 +17,93 @@
 
 **********************************************************************************************/
 
+#include "CRoute.h"
 #include "CRouteDB.h"
+#include "CRouteToolWidget.h"
+
+#include <QtGui>
 
 CRouteDB * CRouteDB::m_self = 0;
 
 CRouteDB::CRouteDB(QTabWidget * tb, QObject * parent)
 : IDB(tb, parent)
+, cnt(0)
 {
-    m_self = this;
+    m_self      = this;
+    toolview    = new CRouteToolWidget(tb);
 }
 
 CRouteDB::~CRouteDB()
 {
 
 }
+
+void CRouteDB::addRoute(CRoute * route, bool silent)
+{
+    if(route->getName().isEmpty()) {
+        route->setName(tr("Route%1").arg(cnt++));
+    }
+
+    delRoute(route->key(), silent);
+    routes[route->key()] = route;
+
+    connect(route,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    if(!silent) {
+        emit sigChanged();
+        emit sigModified();
+    }
+
+}
+
+void CRouteDB::delRoute(const QString& key, bool silent)
+{
+    if(!routes.contains(key)) return;
+    delete routes.take(key);
+    if(!silent) {
+        emit sigChanged();
+        emit sigModified();
+    }
+}
+
+void CRouteDB::delRoutes(const QStringList& keys)
+{
+    QString key;
+    foreach(key,keys) {
+        if(!routes.contains(key)) continue;
+        delete routes.take(key);
+    }
+    emit sigChanged();
+    emit sigModified();
+}
+
+void CRouteDB::highlightRoute(const QString& key)
+{
+    QMap<QString,CRoute*>::iterator route = routes.begin();
+    while(route != routes.end()) {
+        (*route)->setHighlight(false);
+        ++route;
+    }
+
+    routes[key]->setHighlight(true);
+
+    emit sigHighlightRoute(routes[key]);
+    emit sigChanged();
+
+}
+
+
+CRoute* CRouteDB::highlightedRoute()
+{
+
+    QMap<QString,CRoute*>::iterator route = routes.begin();
+    while(route != routes.end()) {
+        if((*route)->isHighlighted()) return *route;
+        ++route;
+    }
+    return 0;
+
+}
+
 
 /// load database data from gpx
 void CRouteDB::loadGPX(CGpx& gpx)
@@ -68,6 +141,13 @@ void CRouteDB::download()
 
 void CRouteDB::clear()
 {
+    cnt = 0;
+    delRoutes(routes.keys());
+    emit sigChanged();
 
 }
 
+void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
+{
+
+}

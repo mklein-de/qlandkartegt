@@ -74,6 +74,7 @@
         <file>icons/iconAddPoint16x16.png</file>
         <file>icons/iconWMS16x16.png</file>
         <file>icons/iconTime16x16.png</file>
+        <file>icons/iconRoute16x16.png</file>
 
 
         <file>icons/iconExit22x22.png</file>
@@ -134,6 +135,7 @@
         <file>icons/backTrack128x128.png</file>
         <file>icons/backLiveLog128x128.png</file>
         <file>icons/backOverlay128x128.png</file>
+        <file>icons/backRoute128x128.png</file>
 
         <file>cursors/cursorMoveMap.png</file>
         <file>cursors/cursorZoom.png</file>

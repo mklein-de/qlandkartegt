@@ -16,29 +16,26 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-#ifndef CPLOTAXISTIME_H
-#define CPLOTAXISTIME_H
+#ifndef CROUTETOOLWIDGET_H
+#define CROUTETOOLWIDGET_H
 
-#include "CPlotAxis.h"
+#include <QWidget>
+#include "ui_IRouteToolWidget.h"
 
-class CPlotAxisTime : public CPlotAxis
+
+class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
     Q_OBJECT;
     public:
-        CPlotAxisTime(QObject * parent);
-        virtual ~CPlotAxisTime();
+        CRouteToolWidget(QTabWidget * parent);
+        virtual ~CRouteToolWidget();
 
-        ///calculate format for the given value
-        const QString fmtsgl(double /*val*/){return strFormat;}
-        ///calculate format for the given value
-        const QString fmtdbl(double /*val*/){return strFormat;}
+    private slots:
+        void slotDBChanged();
 
-        const TTic* ticmark( const TTic * t );
-    protected:
-        void calc();
-
-        QString strFormat;
+    private:
+        bool originator;
 };
 
-#endif //CPLOTAXISTIME_H
+#endif //CROUTETOOLWIDGET_H
 

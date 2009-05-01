@@ -66,6 +66,7 @@ class COverlayDistance : public IOverlay
 
     private slots:
         void slotToTrack();
+        void slotToRoute();
         void slotEdit();
 
     private:

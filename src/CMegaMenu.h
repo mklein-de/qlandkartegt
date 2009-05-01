@@ -77,6 +77,7 @@ class CMegaMenu : public QLabel
 #endif
         void funcSwitchToWpt();
         void funcSwitchToTrack();
+        void funcSwitchToRoute();
 
         void funcSwitchToLiveLog();
         void funcSwitchToOverlay();
@@ -160,6 +161,7 @@ class CMegaMenu : public QLabel
         QVector<func_key_state_t> fsLiveLog;
         QVector<func_key_state_t> fsOverlay;
         QVector<func_key_state_t> fsMainMore;
+        QVector<func_key_state_t> fsRoute;
 
 };
 #endif                           //CMEGAMENU_H

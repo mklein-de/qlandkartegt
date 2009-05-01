@@ -110,11 +110,12 @@ CMainWindow::CMainWindow()
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
+    routedb     = new CRouteDB(tabbar, this);
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
     livelogdb   = new CLiveLogDB(tabbar, this);
     overlaydb   = new COverlayDB(tabbar, this);
-    routedb     = new CRouteDB(tabbar, this);
+
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -227,6 +228,7 @@ void CMainWindow::clearAll()
         CTrackDB::self().clear();
         CDiaryDB::self().clear();
         COverlayDB::self().clear();
+        CRouteDB::self().clear();
         clear();
     }
 }
@@ -396,6 +398,7 @@ void CMainWindow::slotLoadData()
     CTrackDB::self().clear();
     CDiaryDB::self().clear();
     COverlayDB::self().clear();
+    CRouteDB::self().clear();
 
     loadData(filename, filter);
 
@@ -714,14 +717,27 @@ void CMainWindow::slotDataChanged()
     c = CTrackDB::self().count();
     if(c > 0) {
         if(c == 1) {
-            str += tr(" %1 <a href='Tracks'>track</a> and ").arg(c);
+            str += tr(" %1 <a href='Tracks'>track</a>, ").arg(c);
         }
         else {
-            str += tr(" %1 <a href='Tracks'>tracks</a> and ").arg(c);
+            str += tr(" %1 <a href='Tracks'>tracks</a>, ").arg(c);
         }
     }
     else {
-        str += tr("no tracks and ");
+        str += tr("no tracks, ");
+    }
+
+    c = CRouteDB::self().count();
+    if(c > 0) {
+        if(c == 1) {
+            str += tr(" %1 <a href='Routes'>route</a> and ").arg(c);
+        }
+        else {
+            str += tr(" %1 <a href='Routes'>routes</a> and ").arg(c);
+        }
+    }
+    else {
+        str += tr("no routes and ");
     }
 
     c = COverlayDB::self().count();

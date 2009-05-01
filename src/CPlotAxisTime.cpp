@@ -1,26 +1,21 @@
 /**********************************************************************************************
+    Copyright (C) 2009 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Not defined
-  Email:       Not defined
-  Phone:       Not defined
-  Fax:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CPlotAxisTime.cpp
-
-  Module:
-
-  Description:
-
-  Created:     04/05/2009
-
-  (C) 2009 DSP Solutions. All rights reserved.
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-
 #include "CPlotAxisTime.h"
 
 #include <math.h>

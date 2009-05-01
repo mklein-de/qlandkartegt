@@ -26,6 +26,7 @@
 #include "CDiaryDB.h"
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
+#include "CRouteDB.h"
 #include "CTrackToolWidget.h"
 #include "CCreateMapGeoTiff.h"
 #include "CMainWindow.h"
@@ -90,13 +91,14 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
 , fsLiveLog(11, func_key_state_t())
 , fsOverlay(11, func_key_state_t())
 , fsMainMore(11, func_key_state_t())
+, fsRoute(11, func_key_state_t())
 {
 
     fsMain[0] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMain[1] = func_key_state_t(":/icons/iconMap16x16",tr("Map ..."),&CMegaMenu::funcSwitchToMap,tr("Manage maps."));
     fsMain[2] = func_key_state_t(":/icons/iconWaypoint16x16",tr("Waypoint ..."),&CMegaMenu::funcSwitchToWpt,tr("Manage waypoints."));
     fsMain[3] = func_key_state_t(":/icons/iconTrack16x16",tr("Track ..."),&CMegaMenu::funcSwitchToTrack,tr("Manage tracks."));
-    fsMain[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsMain[4] = func_key_state_t(":/icons/iconRoute16x16",tr("Route ..."),&CMegaMenu::funcSwitchToRoute,tr(""));
     fsMain[5] = func_key_state_t(":/icons/iconLiveLog16x16",tr("Live Log ..."),&CMegaMenu::funcSwitchToLiveLog,tr("Toggle live log recording."));
     fsMain[6] = func_key_state_t(":/icons/iconOverlay16x16",tr("Overlay ..."),&CMegaMenu::funcSwitchToOverlay,tr("Manage overlays, such as textboxes"));
     fsMain[7] = func_key_state_t(":/icons/iconGlobe+16x16",tr("More ..."),&CMegaMenu::funcSwitchToMainMore,tr("Extended functions."));
@@ -191,6 +193,19 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
     fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
+    fsRoute[0] = func_key_state_t(":/icons/iconBack16x16",tr("Back"),&CMegaMenu::funcSwitchToMain,tr("Go back to main menu."));
+    fsRoute[1] = func_key_state_t(":/icons/iconMoveMap16x16",tr("Move Map"),&CMegaMenu::funcMoveArea,tr("Move the map. Press down the left mouse button and move the mouse."));
+    fsRoute[2] = func_key_state_t(":/icons/iconZoomArea16x16",tr("Zoom Map"),&CMegaMenu::funcZoomArea,tr("Select area for zoom."));
+    fsRoute[3] = func_key_state_t(":/icons/iconCenter16x16",tr("Center Map"),&CMegaMenu::funcCenterMap,tr("Find your map by jumping to it's center."));
+    fsRoute[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[5] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[6] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[7] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[8] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[9] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
 
     m_self = this;
     setScaledContents(true);
@@ -299,6 +314,10 @@ void CMegaMenu::switchByKeyWord(const QString& key)
     }
     else if(key == "Overlay" && current != &fsOverlay) {
         funcSwitchToOverlay();
+        funcMoveArea();
+    }
+    else if(key == "Routes" && current != &fsRoute) {
+        funcSwitchToRoute();
         funcMoveArea();
     }
 
@@ -414,6 +433,15 @@ void CMegaMenu::funcSwitchToTrack()
     setPixmap(QPixmap(":/icons/backTrack128x128"));
     switchState(&fsTrack);
     CTrackDB::self().gainFocus();
+    funcMoveArea();
+}
+
+void CMegaMenu::funcSwitchToRoute()
+{
+    menuTitle->setText(tr("<b>Routes ...</b>"));
+    setPixmap(QPixmap(":/icons/backRoute128x128"));
+    switchState(&fsRoute);
+    CRouteDB::self().gainFocus();
     funcMoveArea();
 }
 

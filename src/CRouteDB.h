@@ -22,6 +22,10 @@
 
 #include "IDB.h"
 
+#include <QMap>
+
+class CRoute;
+
 class CRouteDB : public IDB
 {
     Q_OBJECT;
@@ -30,6 +34,11 @@ class CRouteDB : public IDB
 
         static CRouteDB& self(){return *m_self;}
 
+        void addRoute(CRoute * route, bool silent);
+
+        void delRoute(const QString& key, bool silent);
+
+        void delRoutes(const QStringList& keys);
         /// load database data from gpx
         void loadGPX(CGpx& gpx);
         /// save database data to gpx
@@ -44,14 +53,27 @@ class CRouteDB : public IDB
         void download();
         void clear();
 
+        int count(){return routes.count();}
+
+        const QMap<QString,CRoute*>& getRoutes(){return routes;}
+
+        void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
+
+        void highlightRoute(const QString& key);
+        CRoute* highlightedRoute();
+
+    signals:
+        void sigHighlightRoute(CRoute * route);
 
     private:
         friend class CMainWindow;
 
         CRouteDB(QTabWidget * tb, QObject * parent);
 
+        quint32 cnt;
         static CRouteDB * m_self;
 
+        QMap<QString,CRoute*> routes;
 };
 
 #endif //CROUTEDB_H

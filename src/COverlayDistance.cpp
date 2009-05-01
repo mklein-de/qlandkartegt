@@ -26,6 +26,8 @@
 #include "COverlayDB.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CRouteDB.h"
+#include "CRoute.h"
 #include "CDlgEditDistance.h"
 #include "CMegaMenu.h"
 #include "CDlgConvertToTrack.h"
@@ -430,6 +432,7 @@ void COverlayDistance::calcDistance()
 void COverlayDistance::customMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
+    menu.addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route"),this,SLOT(slotToRoute()));
     menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
 }
 
@@ -510,6 +513,28 @@ void COverlayDistance::slotToTrack()
     CMegaMenu::self().switchByKeyWord("Tracks");
 }
 
+void COverlayDistance::slotToRoute()
+{
+    if(points.isEmpty()) return;
+
+    IMap& map       = CMapDB::self().getDEM();
+    CRoute * route  = new CRoute(&CRouteDB::self());
+
+    route->setName(name);
+
+    XY pt;
+
+    for(int i = 0; i < points.count(); ++i) {
+        pt = points[i];
+        pt.u = pt.u * RAD_TO_DEG;
+        pt.v = pt.v * RAD_TO_DEG;
+        route->addPosition(pt.u, pt.v);
+    }
+
+    CRouteDB::self().addRoute(route, false);
+
+    CMegaMenu::self().switchByKeyWord("Routes");
+}
 
 void COverlayDistance::slotEdit()
 {

@@ -18,9 +18,21 @@
 **********************************************************************************************/
 
 #include "CRoute.h"
+#include "WptIcons.h"
+#include "GeoMath.h"
 
-CRoute::CRoute()
+#include <QtGui>
+
+CRoute::CRoute(QObject * parent)
+: QObject(parent)
+, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+, name(tr("Route"))
+, dist(0.0)
+, iconname("Small City")
+, icon(getWptIconByName(iconname))
+, highlight(false)
 {
+
 
 }
 
@@ -29,3 +41,46 @@ CRoute::~CRoute()
 
 }
 
+void CRoute::genKey()
+{
+    _key_ = QString("%1%2").arg(timestamp).arg(name);
+}
+
+
+const QString& CRoute::key()
+{
+    if(_key_.isEmpty()) genKey();
+    return _key_;
+}
+
+void CRoute::addPosition(const double lon, const double lat)
+{
+    XY pt;
+    pt.u = lon;
+    pt.v = lat;
+    routeDegree << pt;
+
+    calcDistance();
+
+    emit sigChanged();
+}
+
+
+void CRoute::calcDistance()
+{
+    dist = 0.0;
+    if(routeDegree.size() < 2) return;
+
+    XY pt1,pt2;
+    double a1,a2;
+
+    QList<XY>::const_iterator p1 = routeDegree.begin();
+    QList<XY>::const_iterator p2 = routeDegree.begin() + 1;
+    while(p2 != routeDegree.end()) {
+        pt1.u = p1->u * DEG_TO_RAD; pt1.v = p1->v * DEG_TO_RAD;
+        pt2.u = p2->u * DEG_TO_RAD; pt2.v = p2->v * DEG_TO_RAD;
+        dist += distance(pt1,pt2,a1,a2);
+        ++p2; ++p1;
+    }
+
+}
