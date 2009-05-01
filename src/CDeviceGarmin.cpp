@@ -811,49 +811,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
 
 void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
 {
-    qDebug() << "CDeviceGarmin::downloadRoutes()";
-    Garmin::IDevice * dev = getDevice();
-    if(dev == 0) return;
-
-    std::list<Garmin::Route_t> garrtes;
-    try
-    {
-        dev->downloadRoutes(garrtes);
-    }
-    catch(int /*e*/) {
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        return;
-    }
-
-
-//     std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
-//     while(gartrk != gartrks.end()) {
-//
-//         CTrack * trk = new CTrack(&CTrackDB::self());
-//
-//         trk->setName(gartrk->ident.c_str());
-//         trk->setColor(gartrk->color);
-//
-//         std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
-//         while(gartrkpt != gartrk->track.end()) {
-//             QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
-//             t = t.addYears(20).addDays(-1);
-//
-//             CTrack::pt_t trkpt;
-//             trkpt.lon       = gartrkpt->lon;
-//             trkpt.lat       = gartrkpt->lat;
-//             trkpt.timestamp = t.toTime_t();
-//             trkpt.ele       = gartrkpt->alt;
-//
-//             *trk << trkpt;
-//             ++gartrkpt;
-//         }
-//
-//         if(trk->getTrackPoints().count() > 0) {
-//             trks << trk;
-//         }
-//         ++gartrk;
-//     }
+    QMessageBox::information(0,tr("Error..."), tr("Garmin: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
 
