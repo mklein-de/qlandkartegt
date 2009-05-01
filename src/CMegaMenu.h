@@ -116,6 +116,9 @@ class CMegaMenu : public QLabel
         void funcUploadTrack();
         void funcDownloadTrack();
 
+        void funcUploadRoute();
+        void funcDownloadRoute();
+
         void funcLiveLog();
         void funcLockMap();
         void funcAddWpt();

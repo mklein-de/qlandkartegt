@@ -27,6 +27,7 @@
 
 class CWpt;
 class CTrack;
+class CRoute;
 class QProgressDialog;
 class IMapSelection;
 
@@ -45,6 +46,9 @@ class IDevice : public QObject
         virtual void uploadTracks(const QList<CTrack*>& trks) = 0;
         virtual void downloadTracks(QList<CTrack*>& trks) = 0;
 
+        virtual void uploadRoutes(const QList<CRoute*>& rtes) = 0;
+        virtual void downloadRoutes(QList<CRoute*>& rtes) = 0;
+
         virtual void uploadMap(const QList<IMapSelection*>& mss) = 0;
 
         virtual void downloadAll();
@@ -57,6 +61,8 @@ class IDevice : public QObject
         static bool m_DownloadAllWpt;
         static bool m_UploadAllTrk;
         static bool m_DownloadAllTrk;
+        static bool m_UploadAllRte;
+        static bool m_DownloadAllRte;
 
         signals:
         void sigLiveLog(const CLiveLog& log);

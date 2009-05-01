@@ -57,3 +57,14 @@ void CDeviceQLandkarteM::uploadMap(const QList<IMapSelection*>& mss)
 {
     QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Upload map is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
+void CDeviceQLandkarteM::uploadRoutes(const QList<CRoute*>& rtes)
+{
+    QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+}
+
+void CDeviceQLandkarteM::downloadRoutes(QList<CRoute*>& rtes)
+{
+    QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+}
+

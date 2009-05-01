@@ -24,6 +24,8 @@
 #include "IMap.h"
 #include "CQlb.h"
 #include "CGpx.h"
+#include "CResources.h"
+#include "IDevice.h"
 
 #include <QtGui>
 
@@ -256,12 +258,32 @@ void CRouteDB::saveQLB(CQlb& qlb)
 
 void CRouteDB::upload()
 {
+    if(routes.isEmpty()) return;
 
+    IDevice * dev = CResources::self().device();
+    if(dev) {
+        QList<CRoute*> tmprtes = routes.values();
+        dev->uploadRoutes(tmprtes);
+    }
 }
 
 void CRouteDB::download()
 {
+    IDevice * dev = CResources::self().device();
+    if(dev) {
+        QList<CRoute*> tmprtes;
+        dev->downloadRoutes(tmprtes);
 
+        if(tmprtes.isEmpty()) return;
+
+        CRoute * rte;
+        foreach(rte,tmprtes) {
+            addRoute(rte, true);
+        }
+    }
+
+    emit sigChanged();
+    emit sigModified();
 }
 
 void CRouteDB::clear()

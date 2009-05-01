@@ -203,8 +203,8 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     fsRoute[6] = func_key_state_t(0,tr("-"),0,tr(""));
     fsRoute[7] = func_key_state_t(0,tr("-"),0,tr(""));
     fsRoute[8] = func_key_state_t(0,tr("-"),0,tr(""));
-    fsRoute[9] = func_key_state_t(0,tr("-"),0,tr(""));
-    fsRoute[10] = func_key_state_t(0,tr("-"),0,tr(""));
+    fsRoute[9] = func_key_state_t(":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadRoute,tr("Upload routes to device."));
+    fsRoute[10] = func_key_state_t(":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadRoute,tr("Download routes from device."));
 
 
     m_self = this;
@@ -668,6 +668,17 @@ void CMegaMenu::funcUploadTrack()
 void CMegaMenu::funcDownloadTrack()
 {
     CTrackDB::self().download();
+}
+
+void CMegaMenu::funcUploadRoute()
+{
+    CRouteDB::self().upload();
+}
+
+
+void CMegaMenu::funcDownloadRoute()
+{
+    CRouteDB::self().download();
 }
 
 

@@ -25,6 +25,8 @@
 #include "CWpt.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CRouteDB.h"
+#include "CRoute.h"
 #include "CMapSelectionGarmin.h"
 #include "CGarminExport.h"
 
@@ -749,6 +751,113 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
 
 }
 
+void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
+{
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    std::list<Garmin::Route_t> garrtes;
+    int id = 0;
+
+    QList<CRoute*>::const_iterator rte = rtes.begin();
+    while(rte != rtes.end()){
+        Garmin::Route_t garrte;
+
+        uint16_t smbl = 8198;
+        garmin_icon_t * icon = GarminIcons;
+        while(icon->name != 0) {
+            if((*rte)->getIconName() == icon->name) {
+                smbl = icon->id;
+                break;
+            }
+            ++icon;
+        }
+
+        QString name = (*rte)->getName();
+        garrte.ident = name.toLocal8Bit().data();
+
+
+        unsigned cnt = 0;
+        const QList<XY>& rtepts         = (*rte)->getRoutePoints();
+        QList<XY>::const_iterator rtept =  rtepts.begin();
+        while(rtept != rtepts.end()){
+            Garmin::RtePt_t garrtept;
+
+            garrtept.lon            = rtept->u;
+            garrtept.lat            = rtept->v;
+            garrtept.Wpt_t::ident   = QString("%1.%2").arg(id).arg(++cnt,3,10,QChar('0')).toAscii().data();
+            garrtept.Wpt_t::comment = name.toAscii().data();
+            garrtept.Wpt_t::smbl    = smbl;
+
+
+            garrte.route.push_back(garrtept);
+            ++rtept;
+        }
+
+        garrtes.push_back(garrte);
+        ++rte; ++id;
+    }
+
+    try
+    {
+        dev->uploadRoutes(garrtes);
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+}
+
+void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
+{
+    qDebug() << "CDeviceGarmin::downloadRoutes()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    std::list<Garmin::Route_t> garrtes;
+    try
+    {
+        dev->downloadRoutes(garrtes);
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+
+//     std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
+//     while(gartrk != gartrks.end()) {
+//
+//         CTrack * trk = new CTrack(&CTrackDB::self());
+//
+//         trk->setName(gartrk->ident.c_str());
+//         trk->setColor(gartrk->color);
+//
+//         std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
+//         while(gartrkpt != gartrk->track.end()) {
+//             QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
+//             t = t.addYears(20).addDays(-1);
+//
+//             CTrack::pt_t trkpt;
+//             trkpt.lon       = gartrkpt->lon;
+//             trkpt.lat       = gartrkpt->lat;
+//             trkpt.timestamp = t.toTime_t();
+//             trkpt.ele       = gartrkpt->alt;
+//
+//             *trk << trkpt;
+//             ++gartrkpt;
+//         }
+//
+//         if(trk->getTrackPoints().count() > 0) {
+//             trks << trk;
+//         }
+//         ++gartrk;
+//     }
+}
+
+
+
 void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
 {
     Garmin::IDevice * dev = getDevice();
@@ -792,7 +901,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
         dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
     }
     catch(int /*e*/) {
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
     return;
 }
 

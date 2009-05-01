@@ -354,6 +354,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkUploadRte" >
+            <property name="text" >
+             <string>Routes</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -377,6 +384,13 @@
            <widget class="QCheckBox" name="checkDownloadTrk" >
             <property name="text" >
              <string>Tracks</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkDownloadRte" >
+            <property name="text" >
+             <string>Routes</string>
             </property>
            </widget>
           </item>

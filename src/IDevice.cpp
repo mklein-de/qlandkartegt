@@ -20,12 +20,15 @@
 #include "IDevice.h"
 #include "CWptDB.h"
 #include "CTrackDB.h"
+#include "CRouteDB.h"
 #include <QtGui>
 
 bool IDevice::m_UploadAllWpt    = true;
 bool IDevice::m_DownloadAllWpt  = true;
 bool IDevice::m_UploadAllTrk    = true;
 bool IDevice::m_DownloadAllTrk  = true;
+bool IDevice::m_UploadAllRte    = true;
+bool IDevice::m_DownloadAllRte  = true;
 
 IDevice::IDevice(const QString& devkey, QObject * parent)
 : QObject(parent)
@@ -57,6 +60,7 @@ void IDevice::downloadAll()
 {
     if(m_DownloadAllWpt) CWptDB::self().download();
     if(m_DownloadAllTrk) CTrackDB::self().download();
+    if(m_DownloadAllRte) CRouteDB::self().download();
 }
 
 
@@ -64,6 +68,7 @@ void IDevice::uploadAll()
 {
     if(m_UploadAllWpt) CWptDB::self().upload();
     if(m_UploadAllTrk) CTrackDB::self().upload();
+    if(m_UploadAllRte) CRouteDB::self().upload();
 }
 
 

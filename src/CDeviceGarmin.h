@@ -47,6 +47,9 @@ class CDeviceGarmin : public IDevice
         void uploadTracks(const QList<CTrack*>& trks);
         void downloadTracks(QList<CTrack*>& trks);
 
+        void uploadRoutes(const QList<CRoute*>& rtes);
+        void downloadRoutes(QList<CRoute*>& rtes);
+
         void uploadMap(const QList<IMapSelection*>& mss);
 
         void setLiveLog(bool on);
