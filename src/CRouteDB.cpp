@@ -82,6 +82,16 @@ void CRouteDB::delRoutes(const QStringList& keys)
     emit sigModified();
 }
 
+CRoute * CRouteDB::getRoute(const QString& key)
+{
+    if(routes.contains(key)){
+        return routes[key];
+    }
+    else{
+        return 0;
+    }
+}
+
 void CRouteDB::highlightRoute(const QString& key)
 {
     QMap<QString,CRoute*>::iterator route = routes.begin();
@@ -90,7 +100,9 @@ void CRouteDB::highlightRoute(const QString& key)
         ++route;
     }
 
-    routes[key]->setHighlight(true);
+    if(routes.contains(key)){
+        routes[key]->setHighlight(true);
+    }
 
     emit sigHighlightRoute(routes[key]);
     emit sigChanged();
@@ -164,12 +176,12 @@ void CRouteDB::loadGPX(CGpx& gpx)
             rtept = rtept.nextSiblingElement("rtept");
         }
 
-        if(routes.contains("gpx|" + r->getName())) {
-            delete routes.take("gpx|" + r->getName());
+        if(routes.contains(r->key())) {
+            delete routes.take(r->key());
         }
 
         r->calcDistance();
-        routes["gpx|" + r->getName()] = r;
+        routes[r->key()] = r;
 
         connect(r,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
 

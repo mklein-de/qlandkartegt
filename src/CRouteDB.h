@@ -39,6 +39,8 @@ class CRouteDB : public IDB
 
         void delRoute(const QString& key, bool silent);
 
+        CRoute * getRoute(const QString& key);
+
         void delRoutes(const QStringList& keys);
         /// load database data from gpx
         void loadGPX(CGpx& gpx);

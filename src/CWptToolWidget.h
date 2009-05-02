@@ -47,6 +47,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotDeleteBy();
         void slotCopyPosition();
         void slotProximity();
+        void slotMakeRoute();
 
     private:
         QMenu * contextMenu;

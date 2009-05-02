@@ -39,7 +39,7 @@ class CRoute : public QObject
         enum type_e {eEnd, eBase, eRtePts};
 
         /// set route name
-        void setName(const QString& n){name = n;}
+        void setName(const QString& n){name = n; emit sigChanged();}
         /// get route name
         const QString& getName(){return name;}
         /// get unique track key

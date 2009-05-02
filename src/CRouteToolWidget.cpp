@@ -21,6 +21,9 @@
 #include "CRouteDB.h"
 #include "IUnit.h"
 #include "CMapDB.h"
+#include "CDlgEditRoute.h"
+
+#include <QtGui>
 
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -36,6 +39,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     connect(listRoutes,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
     connect(listRoutes,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 
+    connect(listRoutes,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
 CRouteToolWidget::~CRouteToolWidget()
@@ -95,5 +99,58 @@ void CRouteToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     if (!r.isNull ()){
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
+}
+
+void CRouteToolWidget::keyPressEvent(QKeyEvent * e)
+{
+    if(e->key() == Qt::Key_Delete) {
+        slotDelete();
+        e->accept();
+    }
+    else {
+        QWidget::keyPressEvent(e);
+    }
+}
+
+
+void CRouteToolWidget::slotContextMenu(const QPoint& pos)
+{
+    QListWidgetItem * item = listRoutes->currentItem();
+    if(item) {
+        QPoint p = listRoutes->mapToGlobal(pos);
+
+        QMenu contextMenu;
+        contextMenu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEdit()));
+        contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+        contextMenu.exec(p);
+    }
+}
+
+
+void CRouteToolWidget::slotEdit()
+{
+    QListWidgetItem * item = listRoutes->currentItem();
+    if(item == 0) return;
+
+    QString key     = item->data(Qt::UserRole).toString();
+    CRoute* route   = CRouteDB::self().getRoute(key);
+    if(route == 0) return;
+
+    CDlgEditRoute dlg(*route, this);
+    dlg.exec();
+}
+
+void CRouteToolWidget::slotDelete()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listRoutes->selectedItems();
+    foreach(item,items) {
+        keys << item->data(Qt::UserRole).toString();
+        delete item;
+    }
+    originator = true;
+    CRouteDB::self().delRoutes(keys);
+    originator = false;
 }
 

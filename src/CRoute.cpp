@@ -71,6 +71,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 s1 >> route.timestamp;
                 s1 >> route.name;
                 s1 >> route.iconname;
+                route.icon = getWptIconByName(route.iconname);
                 break;
             }
 
@@ -291,4 +292,6 @@ void CRoute::setIcon(const QString& symname)
 {
     iconname = symname;
     icon     = getWptIconByName(iconname);
+
+    emit sigChanged();
 }

@@ -21,6 +21,8 @@
 #include "WptIcons.h"
 #include "CWpt.h"
 #include "CWptDB.h"
+#include "CRoute.h"
+#include "CRouteDB.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CDlgEditWpt.h"
@@ -44,7 +46,8 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
+    contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
+    contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
@@ -186,4 +189,22 @@ void CWptToolWidget::slotProximity()
         }
         CWptDB::self().setProxyDistance(keys,(dist == 0 ? WPT_NOFLOAT : dist));
     }
+}
+
+void CWptToolWidget::slotMakeRoute()
+{
+    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+    if(items.count() < 2) return;
+
+    CRoute * route = new CRoute(&CRouteDB::self());
+
+    QListWidgetItem * item;
+    foreach(item,items) {
+        CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
+        if(wpt){
+            route->addPosition(wpt->lon, wpt->lat);
+        }
+    }
+
+    CRouteDB::self().addRoute(route, false);
 }
