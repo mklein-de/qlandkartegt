@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="fr">
+<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -131,7 +132,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="112"/>
         <source>%1</source>
-        <translation></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="288"/>
@@ -348,7 +349,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="814"/>
         <source>Garmin: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Garmin : Le téléchargement de route n&apos;est pas implémenté.</translation>
     </message>
 </context>
 <context>
@@ -386,7 +387,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: Le téléchargement des routes n&apos;est pas implémenté</translation>
     </message>
 </context>
 <context>
@@ -650,7 +651,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="71"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -658,52 +659,52 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="28"/>
         <source>none</source>
-        <translation type="unfinished">aucun</translation>
+        <translation>aucun</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="29"/>
         <source>10 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="30"/>
         <source>20 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="31"/>
         <source>30 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="32"/>
         <source>50 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="33"/>
         <source>100 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="34"/>
         <source>200 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="35"/>
         <source>300 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="36"/>
         <source>500 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="37"/>
         <source>1 km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1213,37 +1214,37 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="701"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation>%1 &lt;a href=&apos;Tracks&apos;&gt;tracé&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="704"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;tracés&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="708"/>
         <source>no tracks, </source>
-        <translation type="unfinished"></translation>
+        <translation>aucun tracés,</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="714"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation>%1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; et </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="717"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation>%1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; et</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="721"/>
         <source>no routes and </source>
-        <translation type="unfinished"></translation>
+        <translation>aunes routes et </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1365,12 +1366,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="41"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une carte à partir de fichiers existant géoréférencé.</translation>
     </message>
 </context>
 <context>
@@ -1408,7 +1409,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="161"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom quadratic</translation>
     </message>
 </context>
 <context>
@@ -2482,7 +2483,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="435"/>
         <source>Make Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une route</translation>
     </message>
 </context>
 <context>
@@ -2542,7 +2543,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRoute.cpp" line="207"/>
         <source>Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Route</translation>
     </message>
 </context>
 <context>
@@ -2550,12 +2551,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="50"/>
         <source>Route%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Route%1</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="156"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun nom</translation>
     </message>
 </context>
 <context>
@@ -2563,24 +2564,24 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="35"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Routes</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="69"/>
         <source>
 length: %1 %2</source>
-        <translation type="unfinished">
+        <translation>
 distance: %1 %2</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="123"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="124"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer</translation>
     </message>
 </context>
 <context>
@@ -2970,7 +2971,7 @@ fin: %1</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="50"/>
         <source>Make Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une route ...</translation>
     </message>
 </context>
 <context>
@@ -3487,13 +3488,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="74"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom quadratic</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="143"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez modifier ou créer des fichiers de définition de la carte (*. qmap). Un fichier de définition définit les fichiers à montrer aux différents niveaux de zoom.Le commentaire sera utilisé pour afficher la carte dans l&apos;outil de vue des cartes disponibles. Vous pouvez choisir entre un niveau de zoom linéaire et quadratic
+Une fois que vous avez créé une carte, vous pouvez joindre un fichier d&apos;élévation DEM via le menu contextuel de gauche dans la liste de vue des cartes connues.</translation>
     </message>
 </context>
 <context>
@@ -3818,7 +3820,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="393"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Routes</translation>
     </message>
 </context>
 <context>
@@ -3966,12 +3968,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="13"/>
         <source>Edit Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer la route ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="28"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
