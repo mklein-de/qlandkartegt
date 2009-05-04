@@ -14,7 +14,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCopyright.cpp" line="64"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -114,7 +114,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="113"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1832,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="423"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2371,27 +2371,27 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="205"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="101"/>
         <source>Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Route ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="206"/>
         <source>Upload routes to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer les routes sur l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="207"/>
         <source>Download routes from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger les routes depuis l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="441"/>
         <source>&lt;b&gt;Routes ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Routes ...&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -3423,7 +3423,10 @@ Une fois que vous avez créé une carte, vous pouvez joindre un fichier d&apos;�
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="186"/>
@@ -3828,12 +3831,12 @@ Une fois que vous avez créé une carte, vous pouvez joindre un fichier d&apos;�
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="13"/>
         <source>Intermediate track points...</source>
-        <translation type="unfinished"></translation>
+        <translation>Points indermédiaire du tracé...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="28"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner un interval pour placer des points additionnels sur le tracé. Le choix &quot;Aucun&quot; utilisera uniquement les points disponible.</translation>
     </message>
 </context>
 <context>
@@ -4440,7 +4443,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IRouteToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
@@ -4673,12 +4676,12 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrack.cpp" line="113"/>
         <source>Number of trackpoints is not equal the number of training data trackpoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nombre de points du tracés n&apos;est pas égal au nombre de données apprises.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrack.cpp" line="134"/>
         <source>Number of trackpoints is not equal the number of extended data trackpoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nomber de points du tracés n&apos;est pas égal au nombre de données étendu du tracé.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="63"/>
