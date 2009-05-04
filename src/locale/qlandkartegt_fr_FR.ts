@@ -387,7 +387,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
-        <translation>QLandkarteM: Le téléchargement des routes n&apos;est pas implémenté</translation>
+        <translation>QLandkarteM: Le téléchargement des routes n&apos;est pas implémenté.</translation>
     </message>
 </context>
 <context>
@@ -1224,7 +1224,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="708"/>
         <source>no tracks, </source>
-        <translation>aucun tracés,</translation>
+        <translation>aucun tracé, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="714"/>
@@ -1234,12 +1234,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="717"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
-        <translation>%1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; et</translation>
+        <translation>%1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; et </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="721"/>
         <source>no routes and </source>
-        <translation>aunes routes et </translation>
+        <translation>aucune route et </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>
