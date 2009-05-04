@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="it">
+<!DOCTYPE TS>
+<TS version="2.0" language="it">
 <context>
     <name>CCanvas</name>
     <message>
@@ -120,7 +121,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -158,7 +159,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="113"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -253,22 +254,22 @@
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="213"/>
-        <source>Top/left corner:<byte value="x9"/>%1
+        <source>Top/left corner:	%1
 </source>
-        <translation>Angolo alto/sinistra:<byte value="x9"/>%1
+        <translation>Angolo alto/sinistra:	%1
 </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="215"/>
-        <source>Bottom/right corner:<byte value="x9"/>%1
+        <source>Bottom/right corner:	%1
 </source>
-        <translation>Angolo basso/destra:<byte value="x9"/>%1
+        <translation>Angolo basso/destra:	%1
 </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="229"/>
-        <source>Width x Height [m] x [m]:<byte value="x9"/> %1 x %2</source>
-        <translation>Larghezza x Altezza [m] x [m]:<byte value="x9"/>%1 x %2</translation>
+        <source>Width x Height [m] x [m]:	 %1 x %2</source>
+        <translation>Larghezza x Altezza [m] x [m]:	%1 x %2</translation>
     </message>
 </context>
 <context>
@@ -355,7 +356,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="814"/>
         <source>Garmin: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Garmin: Scaricamento rotte non implementato.</translation>
     </message>
 </context>
 <context>
@@ -393,7 +394,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarteM: Scaricamento rotte non implementato.</translation>
     </message>
 </context>
 <context>
@@ -657,7 +658,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="71"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -665,52 +666,52 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="28"/>
         <source>none</source>
-        <translation type="unfinished">nessuno</translation>
+        <translation>nessuno</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="29"/>
         <source>10 m</source>
-        <translation type="unfinished"></translation>
+        <translation>10 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="30"/>
         <source>20 m</source>
-        <translation type="unfinished"></translation>
+        <translation>20 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="31"/>
         <source>30 m</source>
-        <translation type="unfinished"></translation>
+        <translation>30 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="32"/>
         <source>50 m</source>
-        <translation type="unfinished"></translation>
+        <translation>50 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="33"/>
         <source>100 m</source>
-        <translation type="unfinished"></translation>
+        <translation>100 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="34"/>
         <source>200 m</source>
-        <translation type="unfinished"></translation>
+        <translation>200 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="35"/>
         <source>300 m</source>
-        <translation type="unfinished"></translation>
+        <translation>300 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="36"/>
         <source>500 m</source>
-        <translation type="unfinished"></translation>
+        <translation>500 m</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="37"/>
         <source>1 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1 km</translation>
     </message>
 </context>
 <context>
@@ -996,7 +997,7 @@ riga: %2, colonna %3:
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="167"/>
-        <source>&#xb1;%1 m</source>
+        <source>±%1 m</source>
         <translation>±%1 m</translation>
     </message>
     <message>
@@ -1006,7 +1007,7 @@ riga: %2, colonna %3:
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="174"/>
-        <source>%1&#xb0; T</source>
+        <source>%1° T</source>
         <translation>%1° T</translation>
     </message>
     <message>
@@ -1220,37 +1221,37 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="701"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;traccia&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="704"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;tracce&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="708"/>
         <source>no tracks, </source>
-        <translation type="unfinished"></translation>
+        <translation>nessuna traccia,&apos;</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="714"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;rotta&lt;/a&gt; e </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="717"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;rotte&lt;/a&gt; e </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="721"/>
         <source>no routes and </source>
-        <translation type="unfinished"></translation>
+        <translation>nessuna rotta e</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1344,7 +1345,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDEM.cpp" line="53"/>
         <source>Failed to load file: %1</source>
-        <translation>Caricamento del file %1 fallito.</translation>
+        <translation>Caricamento del file fallito: %1</translation>
     </message>
 </context>
 <context>
@@ -1372,12 +1373,12 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="41"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea mappa di collezione dai file geo-referenziati esistenti.</translation>
     </message>
 </context>
 <context>
@@ -1415,7 +1416,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="161"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>zoom quadratico</translation>
     </message>
 </context>
 <context>
@@ -1833,7 +1834,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="423"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2372,27 +2373,27 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="205"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="101"/>
         <source>Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotta ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="206"/>
         <source>Upload routes to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica rotte sul dispositivo.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="207"/>
         <source>Download routes from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scarica rotte dal dispositivo.</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="441"/>
         <source>&lt;b&gt;Routes ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Rotte ...&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2479,7 +2480,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="435"/>
         <source>Make Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea Rotta</translation>
     </message>
 </context>
 <context>
@@ -2539,7 +2540,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRoute.cpp" line="207"/>
         <source>Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotta</translation>
     </message>
 </context>
 <context>
@@ -2547,12 +2548,12 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="50"/>
         <source>Route%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotta %1</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="156"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Senza nome</translation>
     </message>
 </context>
 <context>
@@ -2560,24 +2561,24 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="35"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotte</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="69"/>
         <source>
 length: %1 %2</source>
-        <translation type="unfinished">
+        <translation>
 lunghezza: %1 %2</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="123"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="124"/>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation>EliminaElimina</translation>
     </message>
 </context>
 <context>
@@ -2967,7 +2968,7 @@ fine: %1</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="50"/>
         <source>Make Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea Rotta ...</translation>
     </message>
 </context>
 <context>
@@ -3023,7 +3024,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;&lt;span style=&quot; font-size:x-large;&quot;&gt;Version 2, June 1991&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;<byte value="x9"/><byte value="x9"/>&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Preamble&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The licenses for most software are designed to take away yourfreedom to share and change it.  By contrast, the GNU General PublicLicense is intended to guarantee your freedom to share and change freesoftware--to make sure the software is free for all its users.  ThisGeneral Public License applies to most of the Free SoftwareFoundation&apos;s software and to any other program whose authors commit tousing it.  (Some other Free Software Foundation software is covered bythe GNU Library General Public License instead.)  You can apply it toyour programs, too.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;When we speak of free software, we are referring to freedom, notprice.  Our General Public Licenses are designed to make sure that youhave the freedom to distribute copies of free software (and charge forthis service if you wish), that you receive source code or can get itif you want it, that you can change the software or use pieces of itin new free programs; and that you know you can do these things.&lt;/p&gt;
@@ -3033,7 +3034,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Also, for each author&apos;s protection and ours, we want to make certainthat everyone understands that there is no warranty for this freesoftware.  If the software is modified by someone else and passed on, wewant its recipients to know that what they have is not the original, sothat any problems introduced by others will not reflect on the originalauthors&apos; reputations.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Finally, any free program is threatened constantly by softwarepatents.  We wish to avoid the danger that redistributors of a freeprogram will individually obtain patent licenses, in effect making theprogram proprietary.  To prevent this, we have made it clear that anypatent must be licensed for everyone&apos;s free use or not licensed at all.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The precise terms and conditions for copying, distribution andmodification follow.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;<byte value="x9"/><byte value="x9"/>    &lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		    &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;. This License applies to any program or other work which containsa notice placed by the copyright holder saying it may be distributedunder the terms of this General Public License.  The &quot;Program&quot;, below,refers to any such program or work, and a &quot;work based on the Program&quot;means either the Program or any derivative work under copyright law:that is to say, a work containing the Program or a portion of it,either verbatim or with modifications and/or translated into anotherlanguage.  (Hereinafter, translation is included without limitation inthe term &quot;modification&quot;.)  Each licensee is addressed as &quot;you&quot;.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Activities other than copying, distribution and modification are notcovered by this License; they are outside its scope.  The act ofrunning the Program is not restricted, and the output from the Programis covered only if its contents constitute a work based on theProgram (independent of having been made by running the Program).Whether that is true depends on what the Program does.&lt;/p&gt;
@@ -3193,7 +3194,7 @@ p, li { white-space: pre-wrap; }
         <source>Grid Tool</source>
         <translation>Strumento Griglia</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="382"/>
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
 
@@ -3310,7 +3311,7 @@ top/left</source>
         <translation>lon/lat
 in alto/a sinistra</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="45"/>
         <source>e.g.  N59° 59.251 E010° 17.157 </source>
         <translation>es.  N59° 59.251 E010° 17.157 </translation>
@@ -3327,7 +3328,7 @@ bottom/right</source>
         <translation>lon/lat
 in basso/a destra</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="139"/>
         <source>e.g.  N59° 43.553 E010° 57.366 </source>
         <translation>es.  N59° 43.553 E010° 57.366 </translation>
@@ -3496,13 +3497,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="74"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>zoom quadratico</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="143"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi modificare o creare file di QLandkarte GT di definizione della mappa (*.qmap). Una definizione della mappa racchiude i file da visualizzare ad un certo zoom. Il commento sarà utilizzato nella lista delle collezioni nella scheda delle mappe. Puoi selezionare un incremento di zoom lineare o quadratico.
+Una volta creata una collezione puoi collegargli dei dati DEM attraverso il menù sulla sinistra dello strumento per la mappa.</translation>
     </message>
 </context>
 <context>
@@ -3835,7 +3837,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="393"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotte</translation>
     </message>
 </context>
 <context>
@@ -3843,12 +3845,12 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="13"/>
         <source>Intermediate track points...</source>
-        <translation type="unfinished"></translation>
+        <translation>Punti intermedi della traccia...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="28"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona intervallo per inserire ulteriori trackpoints. &quot;nessuno&quot; utilizzerà quelli disponibili.</translation>
     </message>
 </context>
 <context>
@@ -3998,12 +4000,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="13"/>
         <source>Edit Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica Rotta ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="28"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>.....</translation>
     </message>
 </context>
 <context>
@@ -4043,7 +4045,7 @@ p, li { white-space: pre-wrap; }
         <source>m,</source>
         <translation>m,</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="111"/>
         <source>°</source>
         <translation>°</translation>
@@ -4470,7 +4472,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IRouteToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Da</translation>
     </message>
 </context>
 <context>
