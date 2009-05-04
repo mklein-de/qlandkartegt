@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="de">
+<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -28,7 +29,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCopyright.cpp" line="64"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -130,7 +131,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -168,7 +169,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="113"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -365,7 +366,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="814"/>
         <source>Garmin: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Garmin: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -403,7 +404,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarte M: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -662,7 +663,7 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="71"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -670,52 +671,52 @@
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="28"/>
         <source>none</source>
-        <translation type="unfinished">Keine</translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="29"/>
         <source>10 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="30"/>
         <source>20 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="31"/>
         <source>30 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="32"/>
         <source>50 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="33"/>
         <source>100 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="34"/>
         <source>200 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="35"/>
         <source>300 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="36"/>
         <source>500 m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="37"/>
         <source>1 km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1235,37 +1236,37 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="701"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Track&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="704"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Tracks&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="708"/>
         <source>no tracks, </source>
-        <translation type="unfinished"></translation>
+        <translation>keine Tracks,</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="714"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Route&lt;/a&gt; and </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="717"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
-        <translation type="unfinished"></translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Routen&lt;/a&gt; and </translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="721"/>
         <source>no routes and </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> keine Routen und</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1387,12 +1388,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="41"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erzeuge Kartensammlung aus vorliegenden GeoTiff-Dateienn.</translation>
     </message>
 </context>
 <context>
@@ -1430,7 +1431,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="161"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Quadratisches Zoom</translation>
     </message>
 </context>
 <context>
@@ -1853,7 +1854,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="423"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2392,27 +2393,27 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="205"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="101"/>
         <source>Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Route ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="206"/>
         <source>Upload routes to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Routen hochladen ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="207"/>
         <source>Download routes from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Routen herunterladen ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="441"/>
         <source>&lt;b&gt;Routes ...&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Routen ...&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2504,7 +2505,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="435"/>
         <source>Make Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Route erzeugen</translation>
     </message>
 </context>
 <context>
@@ -2564,7 +2565,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRoute.cpp" line="207"/>
         <source>Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Route</translation>
     </message>
 </context>
 <context>
@@ -2572,12 +2573,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="50"/>
         <source>Route%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Route%1</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="156"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>KeinName</translation>
     </message>
 </context>
 <context>
@@ -2585,24 +2586,24 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="35"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Routen</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="69"/>
         <source>
 length: %1 %2</source>
-        <translation type="unfinished">
+        <translation>
 Länge: %1 %2</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="123"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editieren</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="124"/>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -2987,7 +2988,7 @@ Ende: %1</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="50"/>
         <source>Make Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Route erzeugen</translation>
     </message>
 </context>
 <context>
@@ -3510,13 +3511,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="74"/>
         <source>quadratic zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Quadratisches Zoom</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="143"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du kannst QLandkarte GT-Kartendefinitionsdateien (*.qmap) erzeugen oder bearbeiten. Eine Kartendefinition definiert, welche Datei bei welcher Zoomstufe gezeigt wird. Der Kommentar wird dazu verwendet, die Kartensammlung in der Liste der verfügbaren Karten zu zeigen. ￼Du kannst auch zwischen einem linearen oder quadratischen Zoomverhalten auswählen.Sobald Du ein Kartenset erzeugt hast, kannst Du im Kontext-Menü der Liste der verfügbaren Karten mittels der rechten Maustaste DEM-Daten hinzufügen. </translation>
     </message>
 </context>
 <context>
@@ -3849,7 +3850,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="393"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Routen</translation>
     </message>
 </context>
 <context>
@@ -3857,12 +3858,12 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="13"/>
         <source>Intermediate track points...</source>
-        <translation type="unfinished"></translation>
+        <translation>Weitere Trackpunkte ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="28"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle das Intervall für weitere Trackpunkte aus. Bei &quot;Keine&quot; werden nur die aktuellen Punkte benutzt.</translation>
     </message>
 </context>
 <context>
@@ -4012,12 +4013,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="13"/>
         <source>Edit Route ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Route editieren ...</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="28"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -4484,7 +4485,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IRouteToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
