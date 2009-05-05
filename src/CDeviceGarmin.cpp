@@ -659,6 +659,8 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
 
 void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
 {
+    qDebug() << "CDeviceGarmin::uploadTracks()";
+
     Garmin::IDevice * dev = getDevice();
     if(dev == 0) return;
 
