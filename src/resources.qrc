@@ -442,6 +442,8 @@
         <file>skybox/3.png</file>
         <file>skybox/4.png</file>
         <file>skybox/5.png</file>
+
+        <file>sounds/xfer-done.wav</file>
     </qresource>
   </RCC>
 

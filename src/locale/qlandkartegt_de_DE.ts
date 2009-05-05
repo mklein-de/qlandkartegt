@@ -1261,7 +1261,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="721"/>
         <source>no routes and </source>
-        <translation type="unfinished"> keine Routen und</translation>
+        <translation> keine Routen und</translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>

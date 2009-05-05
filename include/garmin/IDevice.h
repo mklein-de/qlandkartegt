@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111 USA
 
   Garmin and MapSource are registered trademarks or trademarks of Garmin Ltd.
   or one of its subsidiaries.
@@ -23,14 +23,13 @@
 #ifndef IDEVICE_H
 #define IDEVICE_H
 
-#include "config.h"
-
 // need integer type definitions with fixed width
 #ifdef HAVE_INTTYPES_H
 #  include <inttypes.h>
 #elif HAVE_STDINT_H
 #  include <stdint.h>
 #elif WIN32
+
 typedef __int8  int8_t;
 typedef __int16 int16_t;
 typedef __int32 int32_t;
@@ -39,6 +38,7 @@ typedef unsigned __int8     uint8_t;
 typedef unsigned __int16    uint16_t;
 typedef unsigned __int32    uint32_t;
 typedef unsigned __int64    uint64_t;
+
 #else
 #  error neither inttypes.h nor stdint.h are available
 #endif
@@ -50,7 +50,12 @@ typedef unsigned __int64    uint64_t;
 #include <stdlib.h>
 #include <string.h>
 
-#define INTERFACE_VERSION "01.15"
+#ifndef _MKSTR_1
+#define _MKSTR_1(x)    #x
+#define _MKSTR(x)      _MKSTR_1(x)
+#endif
+
+#define INTERFACE_VERSION "01.16"
 
 namespace Garmin
 {
@@ -80,8 +85,8 @@ namespace Garmin
             , temp(1.0e25f)
             , time(0xFFFFFFFF)
         , wpt_cat(0) {
-            strcpy(state,"  ");
-            strcpy(cc,"  ");
+            strncpy(state,"  ", 3);
+            strncpy(cc,"  ",3);
 
         }
         /// same as Garmin spec.
@@ -509,6 +514,12 @@ namespace Garmin
         @param tracks list object to receive tracks
     */
     virtual void downloadTracks(std::list<Garmin::Track_t>& tracks) = 0;
+
+    /// upload track to device
+    /**
+        @param tracks list of tracks to send
+    */
+    virtual void uploadTracks(std::list<Garmin::Track_t>& tracks) = 0;
 
     /// upload route to device
     /**

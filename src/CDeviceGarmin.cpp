@@ -602,6 +602,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     try
     {
         dev->uploadWaypoints(garwpts);
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
@@ -621,6 +622,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     try
     {
         dev->downloadWaypoints(garwpts);
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
@@ -692,7 +694,8 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
 
     try
     {
-//         dev->uploadTracks(gartrks);
+        dev->uploadTracks(gartrks);
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
@@ -712,6 +715,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
     try
     {
         dev->downloadTracks(gartrks);
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
@@ -801,6 +805,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
     try
     {
         dev->uploadRoutes(garrtes);
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
@@ -857,6 +862,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
     try
     {
         dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
+        QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
