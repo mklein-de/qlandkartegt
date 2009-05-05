@@ -1,3 +1,34 @@
+--- 2009.05.05 ---
+
+Request #70:
+Waypoint tool view: convert multiple waypoints to route
+
+Request #77:
+Add support for 32bit RGB(A) raster maps.
+
+Request #78:
+move opened raster maps to center instead of top left corner
+
+Bug     #79:
+Zoom snaps back to previous zoom level when zooming via F2 followed by mouse wheel
+
+Request #80:
+Add quadratic zoom as option to raster maps (single file and *qmap)
+
+Request #81:
+Convert distance polyline to track: make interval of track points selectable
+
+Request #82:
+Convert distance polyline to route
+
+Request #83:
+Upload tracks to Garmin device
+
+Request #84:
+Add route upload for Garmin devices
+
+
+
 --- 2009.04.14 ---
 
 Request #69:
@@ -462,6 +493,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
