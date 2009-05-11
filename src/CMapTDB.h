@@ -271,6 +271,7 @@ class CMapTDB : public IMap
             QFont   font;
             bool    known;
             bool    grow;
+            QImage  pixmap;
         };
 
         QVector<polyline_property> polylineProperties;

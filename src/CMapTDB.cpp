@@ -1564,7 +1564,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
 
-                if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen)) {
+                if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen) || !property.pixmap.isNull()) {
                     ++item;
                     continue;
                 }
@@ -1596,6 +1596,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         p.setPen(pen);
 
+        QImage& pixmap = property.pixmap;
+        bool usePixmap = !pixmap.isNull();
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
 
@@ -1606,11 +1608,75 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
 
-                for(int i = 0; i < size; ++i) {
-                    line[i].setX(*u++);
-                    line[i].setY(*v++);
+                if(!usePixmap){
+                    for(int i = 0; i < size; ++i) {
+                        line[i].setX(*u++);
+                        line[i].setY(*v++);
+                    }
+                    p.drawPolyline(line);
                 }
-                p.drawPolyline(line);
+                else{
+                    QVector<double> lengths;
+                    double u1, u2, v1, v2;
+                    QPainterPath path;
+                    double segLength, totalLength = 0;
+                    const double w = pixmap.width();
+                    const double h = pixmap.height();
+                    int i;
+
+                    u1 = u[0];
+                    v1 = v[0];
+                    line[0].setX(u1);
+                    line[0].setY(v1);
+
+                    for(i = 1; i < size; ++i) {
+                        u2 = u[i];
+                        v2 = v[i];
+
+                        line[i].setX(u2);
+                        line[i].setY(v2);
+
+                        segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
+                        totalLength += segLength;
+                        lengths << segLength;
+
+                        u1 = u2;
+                        v1 = v2;
+                    }
+
+                    path.addPolygon(line);
+                    const int nLength = lengths.count();
+
+                    double curLength = 0;
+                    for(int i = 0; i < nLength; ++i){
+                        segLength = lengths[i];
+
+//                         qDebug() << curLength << totalLength << curLength / totalLength;
+
+                        QPointF p1      = path.pointAtPercent(curLength / totalLength);
+                        QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
+                        double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
+
+                        double l = 0;
+                        QRectF r = pixmap.rect();
+
+                        p.save();
+                        p.translate(p1);
+                        p.rotate(angle);
+
+                        while(l < segLength){
+                            if((segLength - l) < w){
+                                r.setRight(segLength - l);
+                                p.setClipRect(r);
+                            }
+                            p.drawImage(0,0,pixmap);
+                            p.translate(w,0);
+                            l += w;
+                        }
+                        p.restore();
+                        curLength += segLength;
+                    }
+                }
             }
 
             ++item;
@@ -2551,6 +2617,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             quint32 cnt  =  0;
             quint8 prev  = 0xFF;
             quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
+
+            property.pixmap = myXpmDay;
 
             for(int i=0; i < 32; ++i, ++ptr) {
                 //                 printf("%02X ", *ptr);
