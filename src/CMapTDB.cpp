@@ -2252,6 +2252,22 @@ void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxco
     }
 }
 
+void CMapTDB::readColorTableInv(QDataStream &in, QImage &img, int colors, int maxcolors)
+{
+    quint8 r,g,b;
+
+    img.setNumColors(maxcolors);
+    for (int i = 0; i < maxcolors; i++) {
+        if(i < colors) {
+            in >> b >> g >> r;
+            img.setColor(maxcolors - i - 1, qRgb(r,g,b));
+        }
+        else {
+            img.setColor(maxcolors - i - 1, qRgba(0,0,0,0));
+        }
+    }
+}
+
 
 void CMapTDB::readTYP()
 {
@@ -2554,28 +2570,28 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         //         qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
 
         if ( colorFlag == 0) {
-            readColorTable(in, myXpmDay, 2,2);
+            readColorTableInv(in, myXpmDay, 2,2);
         }
         else if ( colorFlag == 1) {
                                  // day
-            readColorTable(in, myXpmDay, 2,2);
+            readColorTableInv(in, myXpmDay, 2,2);
                                  // night
-            readColorTable(in, myXpmNight, 2,2);
+            readColorTableInv(in, myXpmNight, 2,2);
         }
         else if ( colorFlag == 3) {
                                  // day
-            readColorTable(in, myXpmDay, 2,2);
+            readColorTableInv(in, myXpmDay, 2,2);
                                  // night
-            readColorTable(in, myXpmNight, 1,2);
+            readColorTableInv(in, myXpmNight, 1,2);
         }
         else if ( colorFlag == 6) {
-            readColorTable(in, myXpmDay, 1,2);
+            readColorTableInv(in, myXpmDay, 1,2);
         }
         else if ( colorFlag == 7) {
                                  // day
-            readColorTable(in, myXpmDay, 1,2);
+            readColorTableInv(in, myXpmDay, 1,2);
                                  // night
-            readColorTable(in, myXpmNight, 1,2);
+            readColorTableInv(in, myXpmNight, 1,2);
         }
         else {
             if(!tainted) {
@@ -2602,13 +2618,13 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         if(rows == 0) {
             if(property.pen1.color() == Qt::NoPen) {
-                property.pen0.setColor(myXpmDay.color(0));
+                property.pen0.setColor(myXpmDay.color(1));
                 property.pen0.setStyle(Qt::SolidLine);
                 property.pen1.setColor(Qt::NoPen);
             }
             else {
-                property.pen1.setColor(myXpmDay.color(0));
-                property.pen0.setColor(myXpmDay.color(1));
+                property.pen1.setColor(myXpmDay.color(1));
+                property.pen0.setColor(myXpmDay.color(0));
             }
 
         }
