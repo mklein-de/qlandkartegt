@@ -1499,8 +1499,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
 
-        //         qDebug() << hex << type << property.pen0.color() << (property.pen0 == Qt::NoPen);
-
         QPen pen;
         if(hasPen1) {
             pen    = property.pen0;
@@ -1508,7 +1506,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-                //                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1522,7 +1519,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             if(property.grow) {
                 int width   = pen.width();
                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-                //                 width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
                 width      += zoomFactor < 3.0 ? 4 : 2;
                 pen.setWidth(width);
             }
@@ -1532,7 +1528,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         QFont font = CResources::self().getMapFont();
 
         int fontsize = pen.width() * 2/3;
-        if(fontsize < 6) fontsize = 6 + 3.0/zoomFactor;
+        if((fontsize < 6) || !property.pixmap.isNull()) fontsize = 6 + 3.0/zoomFactor;
 
         font.setPixelSize(fontsize);
         font.setBold(false);
@@ -1593,7 +1589,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         p.setPen(pen);
 
         QImage& pixmap = property.pixmap;
-        bool usePixmap = !pixmap.isNull();
+        const bool usePixmap    = !pixmap.isNull();
+        const double w          = pixmap.width();
+        const double h          = pixmap.height();
+
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
 
@@ -1616,8 +1615,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     double u1, u2, v1, v2;
                     QPainterPath path;
                     double segLength, totalLength = 0;
-                    const double w = pixmap.width();
-                    const double h = pixmap.height();
                     int i;
 
                     u1 = u[0];
@@ -1659,7 +1656,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         if(p2.x() - p1.x() < 0) {
                             angle += 180;
                         }
-
 
                         p.save();
                         p.translate(p1);
@@ -2596,10 +2592,10 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         if(rows) {
             decodeBitmap(in, myXpmDay, 32, rows, 1);
-            //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
             hasPixmap = true;
 
             property.pixmap = myXpmDay;
+            property.grow   = false;
             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
         }
 
@@ -2618,88 +2614,88 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         }
         else {
 
-            // hash-in a dash
-            // let's try to read a dash pattern from the  bitmap
-            QVector<qreal> dash;
-            quint32 cnt  =  0;
-            quint8 prev  = 0xFF;
-            quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
-
-            for(int i=0; i < 32; ++i, ++ptr) {
-                //                 printf("%02X ", *ptr);
-                if(prev != 0xFF && prev != *ptr) {
-                    dash << (float(cnt) / rows);
-                    cnt  = 1;
-                }
-                else {
-                    cnt += 1;
-                }
-                prev = *ptr;
-            }
-            if(dash.size() & 0x01) {
-                dash << (float(cnt) / rows);
-            }
-            //             printf("\n");
-            //             qDebug() << "dash:" << dash;
-
-            // there is no sense in growing a line < 3 pixel
-            if(rows < 3) {
-                property.grow = false;
-
-                if(dash.size() < 2) {
-                    property.pen0.setStyle(Qt::SolidLine);
-                    property.pen0.setColor(myXpmDay.color(0));
-                    property.pen0.setWidth(rows);
-                    property.pen1.setColor(Qt::NoPen);
-                }
-                else {
-                    property.pen1.setDashPattern(dash);
-                    property.pen1.setColor(myXpmDay.color(0));
-                    property.pen1.setWidth(rows);
-                    property.pen1.setCapStyle(Qt::FlatCap);
-
-                    if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
-                        property.pen0 = QPen(Qt::NoPen);
-                    }
-                    else {
-                        property.pen0.setStyle(Qt::SolidLine);
-                        property.pen0.setWidth(rows);
-                        property.pen0.setColor(myXpmDay.color(1));
-                    }
-                }
-            }
-            else {
-                property.grow = true;
-
-                if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
-                    property.pen1 = QPen(Qt::NoPen);
-
-                    if(dash.size() < 2) {
-                        property.pen0.setStyle(Qt::SolidLine);
-                    }
-                    else {
-                        property.pen0.setDashPattern(dash);
-                        property.pen0.setCapStyle(Qt::FlatCap);
-                    }
-                    property.pen0.setWidth(rows);
-                    property.pen0.setColor(myXpmDay.color(0));
-                }
-                else {
-                    property.pen0.setColor(myXpmDay.color(1));
-                    property.pen0.setWidth(rows);
-
-                    if(dash.size() < 2) {
-                        property.pen1.setStyle(Qt::SolidLine);
-                    }
-                    else {
-                        property.pen1.setDashPattern(dash);
-                        property.pen1.setCapStyle(Qt::FlatCap);
-                    }
-
-                    property.pen1.setColor(myXpmDay.color(0));
-                    property.pen1.setWidth(rows - 2);
-                }
-            }
+//             // hash-in a dash
+//             // let's try to read a dash pattern from the  bitmap
+//             QVector<qreal> dash;
+//             quint32 cnt  =  0;
+//             quint8 prev  = 0xFF;
+//             quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
+//
+//             for(int i=0; i < 32; ++i, ++ptr) {
+//                 //                 printf("%02X ", *ptr);
+//                 if(prev != 0xFF && prev != *ptr) {
+//                     dash << (float(cnt) / rows);
+//                     cnt  = 1;
+//                 }
+//                 else {
+//                     cnt += 1;
+//                 }
+//                 prev = *ptr;
+//             }
+//             if(dash.size() & 0x01) {
+//                 dash << (float(cnt) / rows);
+//             }
+//             //             printf("\n");
+//             //             qDebug() << "dash:" << dash;
+//
+//             // there is no sense in growing a line < 3 pixel
+//             if(rows < 3) {
+//                 property.grow = false;
+//
+//                 if(dash.size() < 2) {
+//                     property.pen0.setStyle(Qt::SolidLine);
+//                     property.pen0.setColor(myXpmDay.color(0));
+//                     property.pen0.setWidth(rows);
+//                     property.pen1.setColor(Qt::NoPen);
+//                 }
+//                 else {
+//                     property.pen1.setDashPattern(dash);
+//                     property.pen1.setColor(myXpmDay.color(0));
+//                     property.pen1.setWidth(rows);
+//                     property.pen1.setCapStyle(Qt::FlatCap);
+//
+//                     if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
+//                         property.pen0 = QPen(Qt::NoPen);
+//                     }
+//                     else {
+//                         property.pen0.setStyle(Qt::SolidLine);
+//                         property.pen0.setWidth(rows);
+//                         property.pen0.setColor(myXpmDay.color(1));
+//                     }
+//                 }
+//             }
+//             else {
+//                 property.grow = true;
+//
+//                 if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
+//                     property.pen1 = QPen(Qt::NoPen);
+//
+//                     if(dash.size() < 2) {
+//                         property.pen0.setStyle(Qt::SolidLine);
+//                     }
+//                     else {
+//                         property.pen0.setDashPattern(dash);
+//                         property.pen0.setCapStyle(Qt::FlatCap);
+//                     }
+//                     property.pen0.setWidth(rows);
+//                     property.pen0.setColor(myXpmDay.color(0));
+//                 }
+//                 else {
+//                     property.pen0.setColor(myXpmDay.color(1));
+//                     property.pen0.setWidth(rows);
+//
+//                     if(dash.size() < 2) {
+//                         property.pen1.setStyle(Qt::SolidLine);
+//                     }
+//                     else {
+//                         property.pen1.setDashPattern(dash);
+//                         property.pen1.setCapStyle(Qt::FlatCap);
+//                     }
+//
+//                     property.pen1.setColor(myXpmDay.color(0));
+//                     property.pen1.setWidth(rows - 2);
+//                 }
+//             }
         }
         property.known = true;
     }
