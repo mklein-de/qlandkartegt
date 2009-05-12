@@ -62,6 +62,10 @@ class CMapTDB : public IMap
         void highlight(QVector<CGarminPolygon>& res);
         void highlight(QVector<CGarminPoint>& res);
 
+        static bool growLines;
+
+        static bool useBitmapLines;
+
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);
         void resize(const QSize& s);

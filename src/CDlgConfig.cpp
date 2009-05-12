@@ -23,6 +23,7 @@
 #include "CUnitImperial.h"
 #include "CUnitNautic.h"
 #include "CUnitMetric.h"
+#include "CMapTDB.h"
 
 #include <QtGui>
 
@@ -86,6 +87,9 @@ void CDlgConfig::exec()
     checkUploadWpt->setChecked(IDevice::m_UploadAllWpt);
     checkUploadRte->setChecked(IDevice::m_UploadAllRte);
 
+    checkGrowLine->setChecked(CMapTDB::growLines);
+    checkBitmapLine->setChecked(CMapTDB::useBitmapLines);
+
     QDialog::exec();
 }
 
@@ -136,6 +140,9 @@ void CDlgConfig::accept()
     IDevice::m_UploadAllWpt     = checkUploadWpt->isChecked();
     IDevice::m_UploadAllTrk     = checkUploadTrk->isChecked();
     IDevice::m_UploadAllRte     = checkUploadRte->isChecked();
+
+    CMapTDB::growLines          = checkGrowLine->isChecked();
+    CMapTDB::useBitmapLines     = checkBitmapLine->isChecked();
 
     QDialog::accept();
 }
