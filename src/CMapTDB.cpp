@@ -1496,10 +1496,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     for(m = 0; m < M; ++m) {
         quint16 type = polylineDrawOrder[M - m - 1];
 
-        if(zoomFactor > 3.0 && (type == 0x20 || type == 0x23)) {
-            continue;
-        }
-
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
 
@@ -1584,7 +1580,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         polyline_property& property = polylineProperties[type];
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
-        if(property.pen1.color() == Qt::NoPen) continue;
+        if(property.pen1.color() == Qt::NoPen && property.pixmap.isNull()) continue;
 
         QPen pen = property.pen1;
         if(property.grow) {
@@ -1660,9 +1656,15 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         double l = 0;
                         QRectF r = pixmap.rect();
 
+                        if(p2.x() - p1.x() < 0) {
+                            angle += 180;
+                        }
+
+
                         p.save();
                         p.translate(p1);
                         p.rotate(angle);
+                        p.translate(0,-h/2);
 
                         while(l < segLength){
                             if((segLength - l) < w){
@@ -2589,13 +2591,18 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             continue;
         }
 
+
+        polyline_property& property = polylineProperties[typ];
+
         if(rows) {
             decodeBitmap(in, myXpmDay, 32, rows, 1);
             //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
             hasPixmap = true;
+
+            property.pixmap = myXpmDay;
+            myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
         }
 
-        polyline_property& property = polylineProperties[typ];
 
         if(rows == 0) {
             if(property.pen1.color() == Qt::NoPen) {
@@ -2617,8 +2624,6 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             quint32 cnt  =  0;
             quint8 prev  = 0xFF;
             quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
-
-            property.pixmap = myXpmDay;
 
             for(int i=0; i < 32; ++i, ++ptr) {
                 //                 printf("%02X ", *ptr);
