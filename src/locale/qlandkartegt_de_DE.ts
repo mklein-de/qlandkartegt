@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="de">
+<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -115,7 +116,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -153,7 +154,7 @@
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="113"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -391,79 +392,79 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation type="unfinished">Verbindung zum Gerät wird hergestellt.</translation>
+        <translation>Verbindung zum Gerät wird hergestellt.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>Error...</source>
-        <translation type="unfinished">Fehler ...</translation>
+        <translation>Fehler ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation type="unfinished">QLandkarteM: Verbindungsaufbau zum Gerät ist gescheitert.</translation>
+        <translation>QLandkarteM: Verbindungsaufbau zum Gerät ist gescheitert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation type="unfinished">Wegpunkte hochladen ...</translation>
+        <translation>Wegpunkte hochladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="218"/>
         <source>%1
 %2 of %3</source>
-        <translation type="unfinished">%1
+        <translation>%1
 %2 von %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation type="unfinished">QLandkarteM: Übertragung der Wegpunkte ist gescheitert.</translation>
+        <translation>QLandkarteM: Übertragung der Wegpunkte ist gescheitert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation type="unfinished">Wegpunkte runterladen ...</translation>
+        <translation>Wegpunkte runterladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation type="unfinished">Wegpunkteliste beim Gerät abfragen</translation>
+        <translation>Wegpunkteliste beim Gerät abfragen</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation type="unfinished">QLandkarteM: Abfrage der Wegpunkte gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Wegpunkte gescheitert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation type="unfinished">Tracks hochladen ...</translation>
+        <translation>Tracks hochladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="276"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation type="unfinished">QLandkarteM: Übertragung der Tracks ist gescheitert.</translation>
+        <translation>QLandkarteM: Übertragung der Tracks ist gescheitert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation type="unfinished">Trancks runterladen ...</translation>
+        <translation>Trancks runterladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation type="unfinished">Trackliste beim Gerät abfragen</translation>
+        <translation>Trackliste beim Gerät abfragen</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation type="unfinished">QLandkarteM: Abfrage der Tracks ist gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Tracks ist gescheitert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="unfinished">QLandkarteM: Die Funktion eine Karte hochzuladen ist nicht implementiert.</translation>
+        <translation>QLandkarteM: Die Funktion eine Karte hochzuladen ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -637,7 +638,7 @@
     <message>
         <location filename="../CDlgConfig.cpp" line="72"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1205,7 +1206,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="777"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1327,7 +1328,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapEditWidget.cpp" line="41"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1773,7 +1774,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="452"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1826,7 +1827,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapToolWidget.cpp" line="45"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguration</translation>
     </message>
 </context>
 <context>
@@ -2337,7 +2338,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMegaMenu.cpp" line="205"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3725,32 +3726,32 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="13"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="21"/>
         <source>./basemap.tif</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="28"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="90"/>
         <source>TextLabel</source>
-        <translation type="unfinished">Textkennzeichnung</translation>
+        <translation>Textkennzeichnung</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="52"/>
         <source>level</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="69"/>
         <source>0px x 0px</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3983,27 +3984,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="13"/>
         <source>Configure Garmin Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>Garmin Karte konfigurieren...</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="28"/>
         <source>use typ (if available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze *typ Datei (wenn vorhanden)</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="53"/>
         <source>draw bitmap lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeichne Linien mit Bitmaps</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="62"/>
         <source>grow lines with zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Breitere Linien bei Zoom</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="69"/>
         <source>text above line</source>
-        <translation type="unfinished"></translation>
+        <translation>Text über der Linie</translation>
     </message>
 </context>
 <context>
