@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="it">
+<!DOCTYPE TS>
+<TS version="2.0" language="it">
 <context>
     <name>CCanvas</name>
     <message>
@@ -238,22 +239,22 @@
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="213"/>
-        <source>Top/left corner:<byte value="x9"/>%1
+        <source>Top/left corner:	%1
 </source>
-        <translation>Angolo alto/sinistra:<byte value="x9"/>%1
+        <translation>Angolo alto/sinistra:	%1
 </translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="215"/>
-        <source>Bottom/right corner:<byte value="x9"/>%1
+        <source>Bottom/right corner:	%1
 </source>
-        <translation>Angolo basso/destra:<byte value="x9"/>%1
+        <translation>Angolo basso/destra:	%1
 </translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="229"/>
-        <source>Width x Height [m] x [m]:<byte value="x9"/> %1 x %2</source>
-        <translation>Larghezza x Altezza [m] x [m]:<byte value="x9"/>%1 x %2</translation>
+        <source>Width x Height [m] x [m]:	 %1 x %2</source>
+        <translation>Larghezza x Altezza [m] x [m]:	%1 x %2</translation>
     </message>
 </context>
 <context>
@@ -381,79 +382,79 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation type="unfinished">Connetti al dispositivo.</translation>
+        <translation>Connetti al dispositivo.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>Error...</source>
-        <translation type="unfinished">Errore...</translation>
+        <translation>Errore...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation type="unfinished">QLandkarteM: Fallito il collegamento al dispositivo.</translation>
+        <translation>QLandkarteM: Fallito il collegamento al dispositivo.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation type="unfinished">Caricamento waypoints ...</translation>
+        <translation>Caricamento waypoints ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="218"/>
         <source>%1
 %2 of %3</source>
-        <translation type="unfinished">%1
+        <translation>%1
 %2 di %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation type="unfinished">QLandkarteM: Trasferimento waypoints fallito.</translation>
+        <translation>QLandkarteM: Trasferimento waypoints fallito.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation type="unfinished">Scarica waypoints ...</translation>
+        <translation>Scarica waypoints ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation type="unfinished">Interroga lista dei waypoints dal dispositivo</translation>
+        <translation>Interroga lista dei waypoints dal dispositivo</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation type="unfinished">QLandkarteM: Interrogazione waypoints fallita.</translation>
+        <translation>QLandkarteM: Interrogazione waypoints fallita.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation type="unfinished">Carica tracce ...</translation>
+        <translation>Carica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="276"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation type="unfinished">QLandkarteM: Trasferimento tracce fallito.</translation>
+        <translation>QLandkarteM: Trasferimento tracce fallito.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation type="unfinished">Scarica tracce ...</translation>
+        <translation>Scarica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation type="unfinished">Interroga lista tracce dal dispositivo</translation>
+        <translation>Interroga lista tracce dal dispositivo</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation type="unfinished">QLandkarteM: Interrogazione tracce fallita.</translation>
+        <translation>QLandkarteM: Interrogazione tracce fallita.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="unfinished">QLandkarteM: Caricamento mappa non implementato.</translation>
+        <translation>QLandkarteM: Caricamento mappa non implementato.</translation>
     </message>
 </context>
 <context>
@@ -951,7 +952,7 @@ riga: %2, colonna %3:
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="167"/>
-        <source>&#xb1;%1 m</source>
+        <source>±%1 m</source>
         <translation>±%1 m</translation>
     </message>
     <message>
@@ -961,7 +962,7 @@ riga: %2, colonna %3:
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="174"/>
-        <source>%1&#xb0; T</source>
+        <source>%1° T</source>
         <translation>%1° T</translation>
     </message>
     <message>
@@ -1796,7 +1797,7 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../CMapToolWidget.cpp" line="45"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura</translation>
     </message>
 </context>
 <context>
@@ -2870,7 +2871,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;&lt;span style=&quot; font-size:x-large;&quot;&gt;Version 2, June 1991&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;<byte value="x9"/><byte value="x9"/>&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Preamble&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The licenses for most software are designed to take away yourfreedom to share and change it.  By contrast, the GNU General PublicLicense is intended to guarantee your freedom to share and change freesoftware--to make sure the software is free for all its users.  ThisGeneral Public License applies to most of the Free SoftwareFoundation&apos;s software and to any other program whose authors commit tousing it.  (Some other Free Software Foundation software is covered bythe GNU Library General Public License instead.)  You can apply it toyour programs, too.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;When we speak of free software, we are referring to freedom, notprice.  Our General Public Licenses are designed to make sure that youhave the freedom to distribute copies of free software (and charge forthis service if you wish), that you receive source code or can get itif you want it, that you can change the software or use pieces of itin new free programs; and that you know you can do these things.&lt;/p&gt;
@@ -2880,7 +2881,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Also, for each author&apos;s protection and ours, we want to make certainthat everyone understands that there is no warranty for this freesoftware.  If the software is modified by someone else and passed on, wewant its recipients to know that what they have is not the original, sothat any problems introduced by others will not reflect on the originalauthors&apos; reputations.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Finally, any free program is threatened constantly by softwarepatents.  We wish to avoid the danger that redistributors of a freeprogram will individually obtain patent licenses, in effect making theprogram proprietary.  To prevent this, we have made it clear that anypatent must be licensed for everyone&apos;s free use or not licensed at all.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The precise terms and conditions for copying, distribution andmodification follow.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;<byte value="x9"/><byte value="x9"/>    &lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		    &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;. This License applies to any program or other work which containsa notice placed by the copyright holder saying it may be distributedunder the terms of this General Public License.  The &quot;Program&quot;, below,refers to any such program or work, and a &quot;work based on the Program&quot;means either the Program or any derivative work under copyright law:that is to say, a work containing the Program or a portion of it,either verbatim or with modifications and/or translated into anotherlanguage.  (Hereinafter, translation is included without limitation inthe term &quot;modification&quot;.)  Each licensee is addressed as &quot;you&quot;.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Activities other than copying, distribution and modification are notcovered by this License; they are outside its scope.  The act ofrunning the Program is not restricted, and the output from the Programis covered only if its contents constitute a work based on theProgram (independent of having been made by running the Program).Whether that is true depends on what the Program does.&lt;/p&gt;
@@ -3040,7 +3041,7 @@ p, li { white-space: pre-wrap; }
         <source>Grid Tool</source>
         <translation>Strumento Griglia</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../ICreateMapGeoTiff.ui" line="382"/>
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
 
@@ -3157,7 +3158,7 @@ top/left</source>
         <translation>lon/lat
 in alto/a sinistra</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../ICreateMapOSM.ui" line="45"/>
         <source>e.g.  N59° 59.251 E010° 17.157 </source>
         <translation>es.  N59° 59.251 E010° 17.157 </translation>
@@ -3174,7 +3175,7 @@ bottom/right</source>
         <translation>lon/lat
 in basso/a destra</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../ICreateMapOSM.ui" line="139"/>
         <source>e.g.  N59° 43.553 E010° 57.366 </source>
         <translation>es.  N59° 43.553 E010° 57.366 </translation>
@@ -3884,7 +3885,7 @@ p, li { white-space: pre-wrap; }
         <source>m,</source>
         <translation>m,</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="../IDlgEditWpt.ui" line="111"/>
         <source>°</source>
         <translation>°</translation>
@@ -3955,27 +3956,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="13"/>
         <source>Configure Garmin Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura Mappa Garmin...</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="28"/>
         <source>use typ (if available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa typ (se disponibile)</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="53"/>
         <source>draw bitmap lines</source>
-        <translation type="unfinished"></translation>
+        <translation>disegna linee bitmap</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="62"/>
         <source>grow lines with zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>aumenta dimensione linee con zoom</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="69"/>
         <source>text above line</source>
-        <translation type="unfinished"></translation>
+        <translation>testo sopra la linea</translation>
     </message>
 </context>
 <context>
