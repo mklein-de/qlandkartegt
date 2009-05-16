@@ -240,7 +240,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , useBitmapLines(true)
 , textAboveLine(false)
 {
-    setup();
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
@@ -335,11 +334,21 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     qDebug() << "TDB:" << ptr;
     if(ptr) free(ptr);
 
-    setup();
-
     readTDB(filename);
     processPrimaryMapData();
 
+    QSettings cfg;
+    cfg.beginGroup("garmin/maps");
+    cfg.beginGroup(name);
+    detailsFineTune = cfg.value("details",0).toInt();
+    growLines       = cfg.value("growLines",growLines).toBool();
+    useBitmapLines  = cfg.value("useBitmapLines",useBitmapLines).toBool();
+    textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
+    useTyp          = cfg.value("useTyp",useTyp).toBool();
+    cfg.endGroup();
+    cfg.endGroup();
+
+    setup();
     info          = 0;
     isTransparent = true;
 
