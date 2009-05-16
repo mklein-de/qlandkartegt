@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="fr">
+<defaultcodec></defaultcodec>
 <context>
     <name>CCanvas</name>
     <message>
@@ -113,7 +114,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -151,7 +152,7 @@
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="113"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -389,79 +390,79 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation type="unfinished">Connecté a l&apos;appareil.</translation>
+        <translation>Connecté a l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>Error...</source>
-        <translation type="unfinished">Erreur ...</translation>
+        <translation>Erreur ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation type="unfinished">QLandkarteM: Impossible de se connecter a l&apos;appareil.</translation>
+        <translation>QLandkarteM: Impossible de se connecter a l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation type="unfinished">Envoyer les points géographiques ...</translation>
+        <translation>Envoyer les points géographiques ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="218"/>
         <source>%1
 %2 of %3</source>
-        <translation type="unfinished">%1
+        <translation>%1
 %2 sur %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation type="unfinished">QLandkarteM: Impossible de transférer les points géographiques.</translation>
+        <translation>QLandkarteM: Impossible de transférer les points géographiques.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation type="unfinished">Télécharger les points géographiques ...</translation>
+        <translation>Télécharger les points géographiques ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation type="unfinished">Récupérer la liste des points géographiques de l&apos;appareil</translation>
+        <translation>Récupérer la liste des points géographiques de l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation type="unfinished">QLandkarteM: Impossible de récupérer la liste des points géographiques de l&apos;appareil.</translation>
+        <translation>QLandkarteM: Impossible de récupérer la liste des points géographiques de l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation type="unfinished">Envoyer les tracés ...</translation>
+        <translation>Envoyer les tracés ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="276"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation type="unfinished">QLandkarteM: Impossible de transférer les tracés.</translation>
+        <translation>QLandkarteM: Impossible de transférer les tracés.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation type="unfinished">Télécharger les tracés ...</translation>
+        <translation>Télécharger les tracés ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation type="unfinished">Récupérer la liste des tracés de l&apos;appareil</translation>
+        <translation>Récupérer la liste des tracés de l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation type="unfinished">QLandkarteM: Impossible de récupérer la liste des tracés de l&apos;appareil.</translation>
+        <translation>QLandkarteM: Impossible de récupérer la liste des tracés de l&apos;appareil.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="unfinished">QLandkarteM: L&apos;envoi des cartes n&apos;est pas implémenté.</translation>
+        <translation>QLandkarteM: L&apos;envoi des cartes n&apos;est pas implémenté.</translation>
     </message>
 </context>
 <context>
@@ -635,7 +636,7 @@
     <message>
         <location filename="../CDlgConfig.cpp" line="72"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1203,7 +1204,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="777"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1325,7 +1326,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapEditWidget.cpp" line="41"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1686,7 +1687,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="431"/>
         <source>Marine boundary</source>
-        <translation type="unfinished"></translation>
+        <translation>Bord cotier</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="432"/>
@@ -1701,12 +1702,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="673"/>
         <source>No big endian..</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de big endian..</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="673"/>
         <source>*tdb import has not been ported to big endian architectures, yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;import des fichier TDB n&apos;a pas encore été porté en big endian.</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="727"/>
@@ -1731,12 +1732,12 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1266"/>
         <source>details %1</source>
-        <translation type="unfinished"></translation>
+        <translation>details %1</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1263"/>
         <source>details +%1</source>
-        <translation type="unfinished"></translation>
+        <translation>details +%1</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1961"/>
@@ -1771,7 +1772,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="452"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1824,7 +1825,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMapToolWidget.cpp" line="45"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurer</translation>
     </message>
 </context>
 <context>
@@ -2335,7 +2336,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../CMegaMenu.cpp" line="205"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3956,27 +3957,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="13"/>
         <source>Configure Garmin Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurer la carte Garmin...</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="28"/>
         <source>use typ (if available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le fichier TYP (si disponible)</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="53"/>
         <source>draw bitmap lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Dessiner les lignes Bitmap</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="62"/>
         <source>grow lines with zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Grossir les lignes en meme temps que le zoom</translation>
     </message>
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="69"/>
         <source>text above line</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte au-dessus des lignes</translation>
     </message>
 </context>
 <context>
