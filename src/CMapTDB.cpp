@@ -2748,7 +2748,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-        //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+        //	qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
 
@@ -2756,6 +2756,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             if (x3 == 0x00) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
 		// openmtb bug on bpp=4 colors
+		if ( ( (bpp==4) || (bpp==8) ) && ( (colors==3) || (colors==15) ) ) bpp /=2;
                 //if(bpp == 4) bpp /= 2;
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
