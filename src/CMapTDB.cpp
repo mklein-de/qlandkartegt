@@ -2730,7 +2730,8 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(w,h, QImage::Format_Indexed8 );
         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
 
-        if ( colors >= 16) {
+	// openmtb bug on colors=15 colors
+        if ( colors >= 15) {
             bpp = 8;
         }
         else {
@@ -2754,7 +2755,8 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9) ) {
             if (x3 == 0x00) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
-                if(bpp == 4) bpp /= 2;
+		// openmtb bug on bpp=4 colors
+                //if(bpp == 4) bpp /= 2;
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
