@@ -3,7 +3,7 @@
 <context>
     <name>CCanvas</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCanvas.cpp" line="594"/>
+        <location filename="../CCanvas.cpp" line="594"/>
         <source>Copy Position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11,7 +11,11 @@
 <context>
     <name>CCopyright</name>
     <message>
+<<<<<<< .mine
+        <location filename="../CCopyright.cpp" line="64"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCopyright.cpp" line="64"/>
+>>>>>>> .r1387
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -19,98 +23,102 @@
 <context>
     <name>CCreateMapGeoTiff</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="76"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="76"/>
         <source>square pixels (2 Ref. Pts.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="77"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="77"/>
         <source>linear (3 Ref. Pts.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="78"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="78"/>
         <source>quadratic (6 Ref. Pts.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="79"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="79"/>
         <source>thin plate (4 Ref. Pts.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="158"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="158"/>
         <source>Open map file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="158"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="158"/>
         <source>Raw bitmaps (*.tif *.png *.gif)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="201"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="201"/>
         <source>Save result as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="201"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="201"/>
         <source>GeoTiff (*.tif)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="472"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="472"/>
         <source>Ref %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="259"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="259"/>
         <source>&lt;enter coord&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CCreateMapGeoTiff.cpp" line="334"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="286"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="334"/>
+>>>>>>> .r1387
         <source>Load reference points...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="497"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="497"/>
         <source>Save reference points...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="559"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="559"/>
         <source>Sorry...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="559"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="559"/>
         <source>No Mapinfo TAB file support yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="665"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="665"/>
         <source>Error ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="665"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="665"/>
         <source>Reference points are too close.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="723"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="723"/>
         <source>Failed!
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGeoTiff.cpp" line="778"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="778"/>
         <source>--- finished ---
 </source>
         <translation type="unfinished"></translation>
@@ -119,37 +127,41 @@
 <context>
     <name>CCreateMapGridTool</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="64"/>
+        <location filename="../CCreateMapGridTool.cpp" line="64"/>
         <source>Reference points found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="64"/>
+        <location filename="../CCreateMapGridTool.cpp" line="64"/>
         <source>Do you want to take the existing reference points to calculate additional points on the grid?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="112"/>
+        <location filename="../CCreateMapGridTool.cpp" line="112"/>
         <source>%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CCreateMapGridTool.cpp" line="288"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="113"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="288"/>
+>>>>>>> .r1387
         <source>Error ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="278"/>
+        <location filename="../CCreateMapGridTool.cpp" line="278"/>
         <source>Failed to calculate transformation for ref. points. Are all 4 points placed propperly?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapGridTool.cpp" line="288"/>
+        <location filename="../CCreateMapGridTool.cpp" line="288"/>
         <source>Failed to setup projection. Bad syntax?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,62 +169,62 @@
 <context>
     <name>CCreateMapOSM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="384"/>
+        <location filename="../CCreateMapOSM.cpp" line="384"/>
         <source>Information missing ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="372"/>
+        <location filename="../CCreateMapOSM.cpp" line="372"/>
         <source>The top left coordinate is missing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="376"/>
+        <location filename="../CCreateMapOSM.cpp" line="376"/>
         <source>The bottom right coordinate is missing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="380"/>
+        <location filename="../CCreateMapOSM.cpp" line="380"/>
         <source>The map name is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="384"/>
+        <location filename="../CCreateMapOSM.cpp" line="384"/>
         <source>The comment is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="400"/>
+        <location filename="../CCreateMapOSM.cpp" line="400"/>
         <source>Download files ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="400"/>
+        <location filename="../CCreateMapOSM.cpp" line="400"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="404"/>
+        <location filename="../CCreateMapOSM.cpp" line="404"/>
         <source>Calculating tiles ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="560"/>
+        <location filename="../CCreateMapOSM.cpp" line="560"/>
         <source>download: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="561"/>
+        <location filename="../CCreateMapOSM.cpp" line="561"/>
         <source>tile %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="583"/>
+        <location filename="../CCreateMapOSM.cpp" line="583"/>
         <source>Failed to download tile!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapOSM.cpp" line="616"/>
+        <location filename="../CCreateMapOSM.cpp" line="616"/>
         <source>Select output path ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -220,44 +232,44 @@
 <context>
     <name>CCreateMapQMAP</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="67"/>
+        <location filename="../CCreateMapQMAP.cpp" line="67"/>
         <source>Select map definition file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="103"/>
+        <location filename="../CCreateMapQMAP.cpp" line="103"/>
         <source>Define a map collection file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="147"/>
+        <location filename="../CCreateMapQMAP.cpp" line="147"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="141"/>
+        <location filename="../CCreateMapQMAP.cpp" line="141"/>
         <source>Failed to load file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="147"/>
+        <location filename="../CCreateMapQMAP.cpp" line="147"/>
         <source>All maps in a level must have the same projection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="213"/>
+        <location filename="../CCreateMapQMAP.cpp" line="213"/>
         <source>Top/left corner:<byte value="x9"/>%1
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="215"/>
+        <location filename="../CCreateMapQMAP.cpp" line="215"/>
         <source>Bottom/right corner:<byte value="x9"/>%1
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapQMAP.cpp" line="229"/>
+        <location filename="../CCreateMapQMAP.cpp" line="229"/>
         <source>Width x Height [m] x [m]:<byte value="x9"/> %1 x %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -265,12 +277,12 @@
 <context>
     <name>CCreateMapWMS</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapWMS.cpp" line="229"/>
+        <location filename="../CCreateMapWMS.cpp" line="229"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapWMS.cpp" line="112"/>
+        <location filename="../CCreateMapWMS.cpp" line="112"/>
         <source>Failed to query capabilities.
 
 %1
@@ -279,7 +291,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapWMS.cpp" line="128"/>
+        <location filename="../CCreateMapWMS.cpp" line="128"/>
         <source>Failed to parse capabilities.
 
 %1
@@ -288,12 +300,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapWMS.cpp" line="229"/>
+        <location filename="../CCreateMapWMS.cpp" line="229"/>
         <source>You need to select at least one layer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CCreateMapWMS.cpp" line="358"/>
+        <location filename="../CCreateMapWMS.cpp" line="358"/>
         <source>Define GDAL WMS definition file...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -301,26 +313,35 @@
 <context>
     <name>CDeviceGarmin</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="486"/>
+        <location filename="../CDeviceGarmin.cpp" line="486"/>
         <source>Error ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="480"/>
+        <location filename="../CDeviceGarmin.cpp" line="480"/>
         <source>Failed to load driver.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="486"/>
+        <location filename="../CDeviceGarmin.cpp" line="486"/>
         <source>Driver version mismatch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CDeviceGarmin.cpp" line="891"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="891"/>
+>>>>>>> .r1387
         <source>Device Link Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CDeviceGarmin.cpp" line="848"/>
+        <source>Error...</source>
+        <translation>Fehler ...</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="848"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
@@ -329,55 +350,151 @@
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="821"/>
         <source>Garmin: Download routes is not implemented.</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CDeviceGarmin.cpp" line="848"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="848"/>
+>>>>>>> .r1387
         <source>Failed to create image file.</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CDeviceGarmin.cpp" line="821"/>
+        <source>Garmin: Download routes is not implemented.</source>
+        <translation>Garmin: Das Herunterladen von Routen ist nicht implementiert.</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CDeviceQLandkarteM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="68"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="38"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="38"/>
         <source>QLandkarteM: Upload waypoints is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="43"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="43"/>
         <source>QLandkarteM: Download waypoints is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="48"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="48"/>
         <source>QLandkarteM: Upload tracks is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="53"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="53"/>
         <source>QLandkarteM: Download tracks is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="58"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="58"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceQLandkarteM.cpp" line="68"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="68"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
+<<<<<<< .mine
+    <name>CDeviceTBDOE</name>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="93"/>
+        <source>Connect to device.</source>
+        <translation>Verbindung zum Gerät wird hergestellt.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="301"/>
+        <source>Error...</source>
+        <translation>Fehler ...</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="98"/>
+        <source>QLandkarteM: Failed to connect to device.</source>
+        <translation>QLandkarteM: Verbindungsaufbau zum Gerät ist gescheitert.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="117"/>
+        <source>Upload waypoints ...</source>
+        <translation>Wegpunkte hochladen ...</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="218"/>
+        <source>%1
+%2 of %3</source>
+        <translation>%1
+%2 von %3</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="183"/>
+        <source>QLandkarteM: Failed to transfer waypoints.</source>
+        <translation>QLandkarteM: Übertragung der Wegpunkte ist gescheitert.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="156"/>
+        <source>Download waypoints ...</source>
+        <translation>Wegpunkte runterladen ...</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="158"/>
+        <source>Query list of waypoints from the device</source>
+        <translation>Wegpunkteliste beim Gerät abfragen</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="162"/>
+        <source>QLandkarteM: Failed to query waypoints from device.</source>
+        <translation>QLandkarteM: Abfrage der Wegpunkte gescheitert.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="210"/>
+        <source>Upload tracks ...</source>
+        <translation>Tracks hochladen ...</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="276"/>
+        <source>QLandkarteM: Failed to transfer tracks.</source>
+        <translation>QLandkarteM: Übertragung der Tracks ist gescheitert.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="249"/>
+        <source>Download tracks ...</source>
+        <translation>Trancks runterladen ...</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="251"/>
+        <source>Query list of tracks from the device</source>
+        <translation>Trackliste beim Gerät abfragen</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="255"/>
+        <source>QLandkarteM: Failed to query tracks from device.</source>
+        <translation>QLandkarteM: Abfrage der Tracks ist gescheitert.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTBDOE.cpp" line="301"/>
+        <source>QLandkarteM: Upload map is not implemented.</source>
+        <translation>QLandkarteM: Die Funktion eine Karte hochzuladen ist nicht implementiert.</translation>
+    </message>
+</context>
+<context>
+=======
+>>>>>>> .r1387
     <name>CDiaryDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryDB.cpp" line="52"/>
+        <location filename="../CDiaryDB.cpp" line="52"/>
         <source>Diary</source>
         <translation type="unfinished"></translation>
     </message>
@@ -385,155 +502,167 @@
 <context>
     <name>CDiaryEditWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="75"/>
+        <location filename="../CDiaryEditWidget.cpp" line="75"/>
         <source>&amp;Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="84"/>
+        <location filename="../CDiaryEditWidget.cpp" line="84"/>
         <source>&amp;Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="93"/>
+        <location filename="../CDiaryEditWidget.cpp" line="93"/>
         <source>&amp;Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="105"/>
+        <location filename="../CDiaryEditWidget.cpp" line="105"/>
         <source>&amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="109"/>
+        <location filename="../CDiaryEditWidget.cpp" line="109"/>
         <source>C&amp;enter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="113"/>
+        <location filename="../CDiaryEditWidget.cpp" line="113"/>
         <source>&amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="117"/>
+        <location filename="../CDiaryEditWidget.cpp" line="117"/>
         <source>&amp;Justify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="124"/>
+        <location filename="../CDiaryEditWidget.cpp" line="124"/>
         <source>&amp;Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="160"/>
+        <location filename="../CDiaryEditWidget.cpp" line="160"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="164"/>
+        <location filename="../CDiaryEditWidget.cpp" line="164"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="168"/>
+        <location filename="../CDiaryEditWidget.cpp" line="168"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="172"/>
+        <location filename="../CDiaryEditWidget.cpp" line="172"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="176"/>
+        <location filename="../CDiaryEditWidget.cpp" line="176"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="422"/>
+        <location filename="../CDiaryEditWidget.cpp" line="422"/>
         <source>Diary Wizard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CDiaryEditWidget.cpp" line="430"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="422"/>
         <source>The wizard will replace the current text by it&apos;s own. Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="430"/>
+>>>>>>> .r1387
         <source>&lt;h1&gt;Default Title&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="434"/>
+        <location filename="../CDiaryEditWidget.cpp" line="434"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="437"/>
+        <location filename="../CDiaryEditWidget.cpp" line="437"/>
         <source>&lt;p&gt;This is an automated diary.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="448"/>
+        <location filename="../CDiaryEditWidget.cpp" line="448"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="490"/>
+        <location filename="../CDiaryEditWidget.cpp" line="490"/>
         <source>&lt;th align=&apos;left&apos;&gt;Time&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="450"/>
+        <location filename="../CDiaryEditWidget.cpp" line="450"/>
         <source>&lt;th align=&apos;left&apos;&gt;Name&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="451"/>
+        <location filename="../CDiaryEditWidget.cpp" line="451"/>
         <source>&lt;th align=&apos;left&apos;&gt;Elevation&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="492"/>
+        <location filename="../CDiaryEditWidget.cpp" line="492"/>
         <source>&lt;th align=&apos;left&apos;&gt;Comment&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="486"/>
+        <location filename="../CDiaryEditWidget.cpp" line="486"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="487"/>
+        <location filename="../CDiaryEditWidget.cpp" line="487"/>
         <source>&lt;th align=&apos;left&apos;&gt;Start&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="488"/>
+        <location filename="../CDiaryEditWidget.cpp" line="488"/>
         <source>&lt;th align=&apos;left&apos;&gt;Stop&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="489"/>
+        <location filename="../CDiaryEditWidget.cpp" line="489"/>
         <source>&lt;th align=&apos;left&apos;&gt;Length&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDiaryEditWidget.cpp" line="491"/>
+        <location filename="../CDiaryEditWidget.cpp" line="491"/>
         <source>&lt;th align=&apos;left&apos;&gt;Speed&lt;/th&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="422"/>
+        <source>The wizard will replace the current text by it&apos;s own. Do you want to proceed?</source>
+        <translation>Der Zauberer ersetzt den aktuellen Text durch einen aus den Daten erzeugten Text. Fortfahren?</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="72"/>
+        <location filename="../CDlgConfig.cpp" line="73"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="73"/>
+        <location filename="../CDlgConfig.cpp" line="74"/>
         <source>QLandkarte M</source>
         <translation type="unfinished"></translation>
     </message>
@@ -543,7 +672,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CDlgConfig.cpp" line="202"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConfig.cpp" line="202"/>
+>>>>>>> .r1387
         <source>No plugins found. I expect them in: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -551,52 +684,52 @@
 <context>
     <name>CDlgConvertToTrack</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="28"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="28"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="29"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="29"/>
         <source>10 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="30"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="30"/>
         <source>20 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="31"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="31"/>
         <source>30 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="32"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="32"/>
         <source>50 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="33"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="33"/>
         <source>100 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="34"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="34"/>
         <source>200 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="35"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="35"/>
         <source>300 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="36"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="36"/>
         <source>500 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgConvertToTrack.cpp" line="37"/>
+        <location filename="../CDlgConvertToTrack.cpp" line="37"/>
         <source>1 km</source>
         <translation type="unfinished"></translation>
     </message>
@@ -604,7 +737,7 @@
 <context>
     <name>CDlgEditMapLevel</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditMapLevel.cpp" line="110"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="110"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -612,57 +745,57 @@
 <context>
     <name>CDlgEditWpt</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="110"/>
+        <location filename="../CDlgEditWpt.cpp" line="110"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="106"/>
+        <location filename="../CDlgEditWpt.cpp" line="106"/>
         <source>You must provide a waypoint identifier.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="110"/>
+        <location filename="../CDlgEditWpt.cpp" line="110"/>
         <source>You must provide a waypoint position.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="146"/>
+        <location filename="../CDlgEditWpt.cpp" line="146"/>
         <source>(proj.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="168"/>
+        <location filename="../CDlgEditWpt.cpp" line="168"/>
         <source>Select image file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="173"/>
+        <location filename="../CDlgEditWpt.cpp" line="173"/>
         <source>Add comment ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="173"/>
+        <location filename="../CDlgEditWpt.cpp" line="173"/>
         <source>comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="223"/>
+        <location filename="../CDlgEditWpt.cpp" line="223"/>
         <source>no image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="238"/>
+        <location filename="../CDlgEditWpt.cpp" line="238"/>
         <source>Edit link ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="238"/>
+        <location filename="../CDlgEditWpt.cpp" line="238"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDlgEditWpt.cpp" line="241"/>
+        <location filename="../CDlgEditWpt.cpp" line="241"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -670,113 +803,113 @@
 <context>
     <name>CGarminExport</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="58"/>
+        <location filename="../CGarminExport.cpp" line="58"/>
         <source>Select ouput path...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="71"/>
+        <location filename="../CGarminExport.cpp" line="71"/>
         <source>Creating image from maps:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="85"/>
+        <location filename="../CGarminExport.cpp" line="85"/>
         <source>Map: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="88"/>
+        <location filename="../CGarminExport.cpp" line="88"/>
         <source>Map: %1 (Key: %2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="105"/>
+        <location filename="../CGarminExport.cpp" line="105"/>
         <source>    %1 (%2 MB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="155"/>
+        <location filename="../CGarminExport.cpp" line="155"/>
         <source>Failed to read: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="271"/>
+        <location filename="../CGarminExport.cpp" line="271"/>
         <source>Failed to open: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="284"/>
+        <location filename="../CGarminExport.cpp" line="284"/>
         <source>Bad file format: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="316"/>
+        <location filename="../CGarminExport.cpp" line="316"/>
         <source>contains a duplicate internal filename. Skipped!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="349"/>
+        <location filename="../CGarminExport.cpp" line="349"/>
         <source>Failed to read file structure: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="504"/>
+        <location filename="../CGarminExport.cpp" line="504"/>
         <source>FAT entries: %1 (of %2) Failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="513"/>
+        <location filename="../CGarminExport.cpp" line="513"/>
         <source>Too many tiles.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="508"/>
+        <location filename="../CGarminExport.cpp" line="508"/>
         <source>FAT entries: %1 (of %2) </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="512"/>
+        <location filename="../CGarminExport.cpp" line="512"/>
         <source>File size: %1 MB (of %2 MB) Failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="516"/>
+        <location filename="../CGarminExport.cpp" line="516"/>
         <source>File size: %1 MB (of %2 MB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="530"/>
+        <location filename="../CGarminExport.cpp" line="530"/>
         <source>Initialize %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="539"/>
+        <location filename="../CGarminExport.cpp" line="539"/>
         <source>Write header...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="673"/>
+        <location filename="../CGarminExport.cpp" line="673"/>
         <source>Copy tile data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="678"/>
+        <location filename="../CGarminExport.cpp" line="678"/>
         <source>    Copy %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="706"/>
+        <location filename="../CGarminExport.cpp" line="706"/>
         <source>Copy typ files...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="724"/>
+        <location filename="../CGarminExport.cpp" line="724"/>
         <source>Write map lookup table...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminExport.cpp" line="734"/>
+        <location filename="../CGarminExport.cpp" line="734"/>
         <source>Abort due to errors.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -784,12 +917,12 @@
 <context>
     <name>CGarminIndex</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminIndex.cpp" line="136"/>
+        <location filename="../CGarminIndex.cpp" line="136"/>
         <source>Create index... %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminIndex.cpp" line="374"/>
+        <location filename="../CGarminIndex.cpp" line="374"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
@@ -797,27 +930,27 @@
 <context>
     <name>CGarminTile</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminTile.cpp" line="58"/>
+        <location filename="../CGarminTile.cpp" line="58"/>
         <source>Failed to read: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminTile.cpp" line="78"/>
+        <location filename="../CGarminTile.cpp" line="78"/>
         <source>Failed to open: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminTile.cpp" line="91"/>
+        <location filename="../CGarminTile.cpp" line="91"/>
         <source>Bad file format: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminTile.cpp" line="175"/>
+        <location filename="../CGarminTile.cpp" line="175"/>
         <source>Failed to read file structure: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGarminTile.cpp" line="268"/>
+        <location filename="../CGarminTile.cpp" line="268"/>
         <source>File contains locked / encypted data. Garmin does not want you to use this file with any other software than the one supplied by Garmin.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -825,27 +958,35 @@
 <context>
     <name>CGpx</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGpx.cpp" line="86"/>
+        <location filename="../CGpx.cpp" line="86"/>
         <source>bad application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGpx.cpp" line="91"/>
+        <location filename="../CGpx.cpp" line="91"/>
         <source>File exists ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGpx.cpp" line="97"/>
+        <location filename="../CGpx.cpp" line="97"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGpx.cpp" line="119"/>
+        <location filename="../CGpx.cpp" line="119"/>
         <source>Failed to open: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CGpx.cpp" line="127"/>
+<<<<<<< .mine
+        <location filename="../CGpx.cpp" line="133"/>
+        <source>Not a GPX file: </source>
+        <translation>Keine GPX-Dateien: </translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CGpx.cpp" line="127"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
@@ -860,37 +1001,37 @@ line %2, column %3:
 <context>
     <name>CLiveLogDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="70"/>
+        <location filename="../CLiveLogDB.cpp" line="70"/>
         <source>LiveLog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="169"/>
+        <location filename="../CLiveLogDB.cpp" line="169"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="167"/>
+        <location filename="../CLiveLogDB.cpp" line="167"/>
         <source>&#xb1;%1 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="171"/>
+        <location filename="../CLiveLogDB.cpp" line="171"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="174"/>
+        <location filename="../CLiveLogDB.cpp" line="174"/>
         <source>%1&#xb0; T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="202"/>
+        <location filename="../CLiveLogDB.cpp" line="202"/>
         <source>GPS signal low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogDB.cpp" line="205"/>
+        <location filename="../CLiveLogDB.cpp" line="205"/>
         <source>GPS off</source>
         <translation type="unfinished"></translation>
     </message>
@@ -898,7 +1039,7 @@ line %2, column %3:
 <context>
     <name>CLiveLogToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CLiveLogToolWidget.cpp" line="32"/>
+        <location filename="../CLiveLogToolWidget.cpp" line="32"/>
         <source>Live Log</source>
         <translation type="unfinished"></translation>
     </message>
@@ -906,71 +1047,74 @@ line %2, column %3:
 <context>
     <name>CMainWindow</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="73"/>
+        <location filename="../CMainWindow.cpp" line="73"/>
         <source>Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="88"/>
+        <location filename="../CMainWindow.cpp" line="88"/>
         <source>&lt;b&gt;GPS Device:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="222"/>
+        <location filename="../CMainWindow.cpp" line="222"/>
         <source>Clear all...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="222"/>
+        <location filename="../CMainWindow.cpp" line="222"/>
         <source>This will erase all project data like waypoints and tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="262"/>
+        <location filename="../CMainWindow.cpp" line="262"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="263"/>
+        <location filename="../CMainWindow.cpp" line="263"/>
         <source>Load Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="265"/>
+        <location filename="../CMainWindow.cpp" line="265"/>
         <source>Load Geo Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="266"/>
+        <location filename="../CMainWindow.cpp" line="266"/>
         <source>Save Geo Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="267"/>
+        <location filename="../CMainWindow.cpp" line="267"/>
         <source>Add Geo Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="269"/>
+        <location filename="../CMainWindow.cpp" line="269"/>
         <source>Print Map ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="270"/>
+        <location filename="../CMainWindow.cpp" line="270"/>
         <source>Print Diary ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="272"/>
+        <location filename="../CMainWindow.cpp" line="272"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="276"/>
+        <location filename="../CMainWindow.cpp" line="276"/>
         <source>&amp;Setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMainWindow.cpp" line="331"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="277"/>
         <source>&amp;General</source>
         <translation type="unfinished"></translation>
@@ -987,66 +1131,70 @@ line %2, column %3:
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="331"/>
+>>>>>>> .r1387
         <source>Select map...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="425"/>
+        <location filename="../CMainWindow.cpp" line="425"/>
         <source>Select input file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="508"/>
+        <location filename="../CMainWindow.cpp" line="508"/>
         <source>Convert error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="640"/>
+        <location filename="../CMainWindow.cpp" line="640"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="551"/>
+        <location filename="../CMainWindow.cpp" line="551"/>
         <source>Save geo data?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="553"/>
+        <location filename="../CMainWindow.cpp" line="553"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="580"/>
+        <location filename="../CMainWindow.cpp" line="580"/>
         <source>Select output file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="652"/>
+        <location filename="../CMainWindow.cpp" line="652"/>
         <source>Print Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="682"/>
+        <location filename="../CMainWindow.cpp" line="682"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="688"/>
+        <location filename="../CMainWindow.cpp" line="688"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="691"/>
+        <location filename="../CMainWindow.cpp" line="691"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="695"/>
+        <location filename="../CMainWindow.cpp" line="695"/>
         <source>There are no waypoints, </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMainWindow.cpp" line="727"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="701"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation type="unfinished"></translation>
@@ -1078,34 +1226,87 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="727"/>
+>>>>>>> .r1387
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="730"/>
+        <location filename="../CMainWindow.cpp" line="730"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="734"/>
+        <location filename="../CMainWindow.cpp" line="734"/>
         <source>no overlays. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="739"/>
+        <location filename="../CMainWindow.cpp" line="739"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="742"/>
+        <location filename="../CMainWindow.cpp" line="742"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMainWindow.cpp" line="778"/>
+        <source>QLandkarte M</source>
+        <translation>QLandkarte M</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="281"/>
+        <source>&amp;Help</source>
+        <translation>&amp;Hilfe</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="282"/>
+        <source>About &amp;QLandkarte GT</source>
+        <translation>&amp;Über QLandkarteGT</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="277"/>
+        <source>&amp;General</source>
+        <translation>&amp;Allgemeine Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="701"/>
+        <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Track&lt;/a&gt;, </translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="704"/>
+        <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
+        <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Tracks&lt;/a&gt;, </translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="708"/>
+        <source>no tracks, </source>
+        <translation>keine Tracks,</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="714"/>
+        <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Route&lt;/a&gt; and </translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="717"/>
+        <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Routen&lt;/a&gt; and </translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="721"/>
+        <source>no routes and </source>
+        <translation> keine Routen und</translation>
+    </message>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="777"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
+>>>>>>> .r1387
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMainWindow.cpp" line="778"/>
         <source>QLandkarte M</source>
@@ -1115,42 +1316,42 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3DWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="154"/>
+        <location filename="../CMap3DWidget.cpp" line="154"/>
         <source>Flat / 3D Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="159"/>
+        <location filename="../CMap3DWidget.cpp" line="159"/>
         <source>Show Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="164"/>
+        <location filename="../CMap3DWidget.cpp" line="164"/>
         <source>Track on Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="169"/>
+        <location filename="../CMap3DWidget.cpp" line="169"/>
         <source>Inc. Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="172"/>
+        <location filename="../CMap3DWidget.cpp" line="172"/>
         <source>Dec. Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="175"/>
+        <location filename="../CMap3DWidget.cpp" line="175"/>
         <source>Reset Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="178"/>
+        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Reset light source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMap3DWidget.cpp" line="929"/>
+        <location filename="../CMap3DWidget.cpp" line="929"/>
         <source>:/skybox/%1.bmp</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1158,50 +1359,62 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="61"/>
+        <location filename="../CMapDB.cpp" line="61"/>
         <source>--- No map ---</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapDB.cpp" line="546"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="66"/>
         <source>--- OSM ---</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="546"/>
+>>>>>>> .r1387
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="325"/>
+        <location filename="../CMapDB.cpp" line="325"/>
         <source>Only vector maps are valid overlays.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="497"/>
+        <location filename="../CMapDB.cpp" line="497"/>
         <source>Map 3D...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="521"/>
+        <location filename="../CMapDB.cpp" line="521"/>
         <source>Sorry...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDB.cpp" line="521"/>
+        <location filename="../CMapDB.cpp" line="521"/>
         <source>You can&apos;t select subareas from single file maps.</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CMapDB.cpp" line="66"/>
+        <source>--- OSM ---</source>
+        <translation>--- OSM ---</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CMapDEM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDEM.cpp" line="53"/>
+        <location filename="../CMapDEM.cpp" line="53"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapDEM.cpp" line="53"/>
+        <location filename="../CMapDEM.cpp" line="53"/>
         <source>Failed to load file: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1209,6 +1422,9 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapEditWidget</name>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapEditWidget.cpp" line="51"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="41"/>
         <source></source>
         <translation type="unfinished"></translation>
@@ -1220,72 +1436,97 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="51"/>
+>>>>>>> .r1387
         <source>Convert a TIFF into GeoTiff by geo referencing it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="59"/>
+        <location filename="../CMapEditWidget.cpp" line="59"/>
         <source>&lt;b style=&apos;color: red;&apos;&gt;Can&apos;t find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapEditWidget.cpp" line="63"/>
+        <location filename="../CMapEditWidget.cpp" line="63"/>
         <source>Create a GDAL WMS definition file.</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CMapEditWidget.cpp" line="47"/>
+        <source>Create map collection from existing geo-referenced files.</source>
+        <translation>Erzeuge Kartensammlung aus vorliegenden GeoTiff-Dateienn.</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CMapGeoTiff</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="114"/>
+        <location filename="../CMapGeoTiff.cpp" line="114"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="67"/>
+        <location filename="../CMapGeoTiff.cpp" line="67"/>
         <source>Failed to load file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="88"/>
+        <location filename="../CMapGeoTiff.cpp" line="88"/>
         <source>File must be 8 bit palette or gray indexed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="114"/>
+        <location filename="../CMapGeoTiff.cpp" line="114"/>
         <source>No georeference information found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapGeoTiff.cpp" line="190"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="161"/>
         <source>quadratic zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="190"/>
+>>>>>>> .r1387
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapGeoTiff.cpp" line="193"/>
+        <location filename="../CMapGeoTiff.cpp" line="193"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CMapGeoTiff.cpp" line="161"/>
+        <source>quadratic zoom</source>
+        <translation>Quadratisches Zoom</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapOSM.cpp" line="245"/>
+        <location filename="../CMapOSM.cpp" line="245"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapOSM.cpp" line="248"/>
+        <location filename="../CMapOSM.cpp" line="248"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapOSM.cpp" line="267"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapOSM.cpp" line="267"/>
+>>>>>>> .r1387
         <source>Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1293,12 +1534,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapQMAP</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAP.cpp" line="149"/>
+        <location filename="../CMapQMAP.cpp" line="149"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAP.cpp" line="152"/>
+        <location filename="../CMapQMAP.cpp" line="152"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1306,22 +1547,22 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapQMAPExport</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAPExport.cpp" line="70"/>
+        <location filename="../CMapQMAPExport.cpp" line="70"/>
         <source>Select ouput path...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAPExport.cpp" line="167"/>
+        <location filename="../CMapQMAPExport.cpp" line="167"/>
         <source>Error ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAPExport.cpp" line="167"/>
+        <location filename="../CMapQMAPExport.cpp" line="167"/>
         <source>Failed to read %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapQMAPExport.cpp" line="230"/>
+        <location filename="../CMapQMAPExport.cpp" line="230"/>
         <source>--- finished ---
 </source>
         <translation type="unfinished"></translation>
@@ -1330,27 +1571,27 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapRaster</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapRaster.cpp" line="51"/>
+        <location filename="../CMapRaster.cpp" line="51"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapRaster.cpp" line="45"/>
+        <location filename="../CMapRaster.cpp" line="45"/>
         <source>Failed to load file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapRaster.cpp" line="51"/>
+        <location filename="../CMapRaster.cpp" line="51"/>
         <source>File must be 8 bit palette or gray indexed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapRaster.cpp" line="167"/>
+        <location filename="../CMapRaster.cpp" line="167"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapRaster.cpp" line="170"/>
+        <location filename="../CMapRaster.cpp" line="170"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1358,27 +1599,27 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapSearchThread</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchThread.cpp" line="69"/>
+        <location filename="../CMapSearchThread.cpp" line="69"/>
         <source>Start...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchThread.cpp" line="88"/>
+        <location filename="../CMapSearchThread.cpp" line="88"/>
         <source>Error. This only works on a *.qmap map collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchThread.cpp" line="119"/>
+        <location filename="../CMapSearchThread.cpp" line="119"/>
         <source>Canceled!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchThread.cpp" line="140"/>
+        <location filename="../CMapSearchThread.cpp" line="140"/>
         <source>Parsing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchThread.cpp" line="147"/>
+        <location filename="../CMapSearchThread.cpp" line="147"/>
         <source>Done! Found %1 items.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1386,42 +1627,42 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapSearchWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="281"/>
+        <location filename="../CMapSearchWidget.cpp" line="281"/>
         <source>No mask selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="127"/>
+        <location filename="../CMapSearchWidget.cpp" line="127"/>
         <source>Symbols</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="170"/>
+        <location filename="../CMapSearchWidget.cpp" line="170"/>
         <source>%2 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="218"/>
+        <location filename="../CMapSearchWidget.cpp" line="218"/>
         <source>Missing name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="218"/>
+        <location filename="../CMapSearchWidget.cpp" line="218"/>
         <source>Please provide a symbol name to save the symbol.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="293"/>
+        <location filename="../CMapSearchWidget.cpp" line="293"/>
         <source>no mask</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="340"/>
+        <location filename="../CMapSearchWidget.cpp" line="340"/>
         <source>No area selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapSearchWidget.cpp" line="553"/>
+        <location filename="../CMapSearchWidget.cpp" line="553"/>
         <source>Found %1 items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1429,252 +1670,448 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapTDB</name>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="390"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="443"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="381"/>
+>>>>>>> .r1387
         <source>Major highway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="391"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="382"/>
+>>>>>>> .r1387
         <source>Principal highway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="392"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="383"/>
+>>>>>>> .r1387
         <source>Other highway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="393"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="384"/>
+>>>>>>> .r1387
         <source>Arterial road</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="394"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="385"/>
+>>>>>>> .r1387
         <source>Collector road</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="395"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="386"/>
+>>>>>>> .r1387
         <source>Residential street</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="396"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="387"/>
+>>>>>>> .r1387
         <source>Alley/Private road</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="397"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="388"/>
+>>>>>>> .r1387
         <source>Highway ramp, low speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="398"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="389"/>
+>>>>>>> .r1387
         <source>Highway ramp, high speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="399"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="390"/>
+>>>>>>> .r1387
         <source>Unpaved road</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="400"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="391"/>
+>>>>>>> .r1387
         <source>Major highway connector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="401"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="392"/>
+>>>>>>> .r1387
         <source>Roundabout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="409"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="400"/>
+>>>>>>> .r1387
         <source>Railroad</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="410"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="401"/>
+>>>>>>> .r1387
         <source>Shoreline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="411"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="402"/>
+>>>>>>> .r1387
         <source>Trail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="413"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="404"/>
+>>>>>>> .r1387
         <source>Stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="414"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="405"/>
+>>>>>>> .r1387
         <source>Time zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="416"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="407"/>
+>>>>>>> .r1387
         <source>Ferry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="417"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="408"/>
+>>>>>>> .r1387
         <source>State/province border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="418"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="409"/>
+>>>>>>> .r1387
         <source>County/parish border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="419"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="410"/>
+>>>>>>> .r1387
         <source>International border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="420"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="411"/>
+>>>>>>> .r1387
         <source>River</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="421"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="412"/>
+>>>>>>> .r1387
         <source>Minor land contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="422"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="413"/>
+>>>>>>> .r1387
         <source>Intermediate land contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="423"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="414"/>
+>>>>>>> .r1387
         <source>Major land contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="424"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="415"/>
+>>>>>>> .r1387
         <source>Minor deph contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="425"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="416"/>
+>>>>>>> .r1387
         <source>Intermediate depth contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="426"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="417"/>
+>>>>>>> .r1387
         <source>Major depth contour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="427"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="418"/>
+>>>>>>> .r1387
         <source>Intermittent stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="428"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="419"/>
+>>>>>>> .r1387
         <source>Airport runway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="429"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="420"/>
+>>>>>>> .r1387
         <source>Pipeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="430"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="421"/>
+>>>>>>> .r1387
         <source>Powerline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="431"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="422"/>
+>>>>>>> .r1387
         <source>Marine boundary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="432"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="423"/>
+>>>>>>> .r1387
         <source>Hazard boundary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="568"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="559"/>
+>>>>>>> .r1387
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="673"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="664"/>
+>>>>>>> .r1387
         <source>No big endian..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="673"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="664"/>
+>>>>>>> .r1387
         <source>*tdb import has not been ported to big endian architectures, yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="727"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="718"/>
+>>>>>>> .r1387
         <source>Select Base Map for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="873"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="864"/>
+>>>>>>> .r1387
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="803"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="794"/>
+>>>>>>> .r1387
         <source>However ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="808"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="799"/>
+>>>>>>> .r1387
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="1266"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="1257"/>
+>>>>>>> .r1387
         <source>details %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="1263"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="1254"/>
+>>>>>>> .r1387
         <source>details +%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="1961"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="1952"/>
+>>>>>>> .r1387
         <source>Point of Interest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="2098"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="2089"/>
+>>>>>>> .r1387
         <source>Area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="2808"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="2799"/>
+>>>>>>> .r1387
         <source>Warning...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="2495"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="2486"/>
+>>>>>>> .r1387
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="2571"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="2562"/>
+>>>>>>> .r1387
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapTDB.cpp" line="2808"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapTDB.cpp" line="2799"/>
+>>>>>>> .r1387
         <source>This is a typ file with unknown point encoding. Please report!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1682,80 +2119,109 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="38"/>
+        <location filename="../CMapToolWidget.cpp" line="38"/>
         <source>Maps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="43"/>
+        <location filename="../CMapToolWidget.cpp" line="43"/>
         <source>Add DEM...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="44"/>
+        <location filename="../CMapToolWidget.cpp" line="44"/>
         <source>Del. DEM...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="53"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="45"/>
         <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="53"/>
+>>>>>>> .r1387
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="52"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="52"/>
+>>>>>>> .r1387
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="276"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="276"/>
+>>>>>>> .r1387
         <source>Error export maps...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="276"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="276"/>
+>>>>>>> .r1387
         <source>You need to have the GDAL toolchain installed in your path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="295"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="295"/>
+>>>>>>> .r1387
         <source>Select DEM file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMapToolWidget.cpp" line="295"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapToolWidget.cpp" line="295"/>
+>>>>>>> .r1387
         <source>16bit GeoTiff (*.tif)</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapToolWidget.cpp" line="45"/>
+        <source>Configure</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>CMapWMS</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapWMS.cpp" line="61"/>
+        <location filename="../CMapWMS.cpp" line="61"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapWMS.cpp" line="45"/>
+        <location filename="../CMapWMS.cpp" line="45"/>
         <source>Failed to load file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapWMS.cpp" line="61"/>
+        <location filename="../CMapWMS.cpp" line="61"/>
         <source>No georeference information found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapWMS.cpp" line="292"/>
+        <location filename="../CMapWMS.cpp" line="292"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMapWMS.cpp" line="295"/>
+        <location filename="../CMapWMS.cpp" line="295"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1763,331 +2229,596 @@ Do you want to save your changes?</source>
 <context>
     <name>CMegaMenu</name>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="98"/>
+        <source>Manage maps.</source>
+        <translation>Gehe zum Kartenmenü.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.h" line="60"/>
         <source>-</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="99"/>
+        <source>Manage waypoints.</source>
+        <translation>Gehe zum Wegpunktemenü.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="205"/>
         <source></source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="100"/>
+        <source>Manage tracks.</source>
+        <translation>Gehe zum Trackmenü.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="98"/>
         <source>Map ...</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="102"/>
+        <source>Toggle live log recording.</source>
+        <translation>Gehe zur Echtzeit-Aufzeichnung.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="98"/>
         <source>Manage maps.</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="103"/>
+        <source>Manage overlays, such as textboxes</source>
+        <translation>Gehe zum Overlaymenü</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="99"/>
         <source>Waypoint ...</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="104"/>
+        <source>Extended functions.</source>
+        <translation>Erweiterte Funktionen.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="99"/>
         <source>Manage waypoints.</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="105"/>
+        <source>Remove all waypoints, tracks, ...</source>
+        <translation>Entferne alle Wegpunkte, Tracks, ...</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="100"/>
         <source>Track ...</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="106"/>
+        <source>Upload all data to device.</source>
+        <translation>Alle Daten auf das Gerät laden.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="100"/>
         <source>Manage tracks.</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="107"/>
+        <source>Download all data from device.</source>
+        <translation>Alle Daten vom Gerät laden.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="101"/>
         <source>Route ...</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="197"/>
+        <source>Go back to main menu.</source>
+        <translation>Zurück zum Hauptmenü.</translation>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="102"/>
         <source>Live Log ...</source>
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="102"/>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="198"/>
+        <source>Move the map. Press down the left mouse button and move the mouse.</source>
+        <translation>Die Karte bewegen. Drücke die linke Maustaste und bewege die Maus.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="199"/>
+        <source>Select area for zoom.</source>
+        <translation>Wähle mit der Maus ein Gebiet aus, das vergrößert werden soll.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="200"/>
+        <source>Find your map by jumping to it&apos;s center.</source>
+        <translation>Orientiere Dich auf der Karte, indem Du zu ihrer Mitte gehst.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="118"/>
+        <source>Show 3D map</source>
+        <translation>3D-Karte zeigen</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="120"/>
+        <source>Upload map selection to device.</source>
+        <translation>Kartenauswahl auf das Gerät laden.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="124"/>
+        <source>Close 3D view.</source>
+        <translation>3D-Ansicht schliessen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="146"/>
+        <source>Upload waypoints to device.</source>
+        <translation>Wegpunkte auf das Gerät laden.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="147"/>
+        <source>Download waypoints from device.</source>
+        <translation>Wegpunkte vom Gerät runterladen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="154"/>
+        <source>Combine multiple selected tracks to one.</source>
+        <translation>Mehrere ausgewählte Tracks zu einem Track verbinden.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="156"/>
+        <source>Cut a track into pieces.</source>
+        <translation>Track zerteilen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="158"/>
+        <source>Upload tracks to device.</source>
+        <translation>Tracks auf das Gerät laden.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="159"/>
+        <source>Download tracks from device.</source>
+        <translation>Tracks vom Gerät runterladen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="168"/>
+        <source>Add a waypoint at current position.</source>
+        <translation>Wegpunkt bei der aktuellen Position setzen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="178"/>
+        <source>Add text on the map.</source>
+        <translation>Text in die Karte einfügen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="179"/>
+        <source>Add a textbox on the map.</source>
+        <translation>Textbox in die Karte einfügen.</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="392"/>
+        <source>&lt;b&gt;Main ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Hauptmenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="571"/>
+        <source>&lt;b&gt;Maps ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Kartenmenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="412"/>
+        <source>&lt;b&gt;Maps 3D ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;3D-Kartenmenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="422"/>
+        <source>&lt;b&gt;Waypoints ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Wegpunktemenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="432"/>
+        <source>&lt;b&gt;Tracks ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Trackmenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="451"/>
+        <source>&lt;b&gt;Live Log ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Echtzeit-Aufzeichnungsmenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="461"/>
+        <source>&lt;b&gt;Overlay ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Overlaymenü&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="471"/>
+        <source>&lt;b&gt;Main (More) ...&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Hauptmenü (mehr) ...&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.h" line="60"/>
+        <source>-</source>
+        <translation>-</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="98"/>
+        <source>Map ...</source>
+        <translation>Karte ...</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="99"/>
+        <source>Waypoint ...</source>
+        <translation>Wegpunkt ...</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="100"/>
+        <source>Track ...</source>
+        <translation>Track ...</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CMegaMenu.cpp" line="102"/>
         <source>Toggle live log recording.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="103"/>
+        <location filename="../CMegaMenu.cpp" line="103"/>
         <source>Overlay ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="104"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="103"/>
         <source>Manage overlays, such as textboxes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="104"/>
+>>>>>>> .r1387
         <source>More ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="105"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="104"/>
         <source>Extended functions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="105"/>
+>>>>>>> .r1387
         <source>Clear all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="106"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="105"/>
         <source>Remove all waypoints, tracks, ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="106"/>
+>>>>>>> .r1387
         <source>Upload all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="107"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="106"/>
         <source>Upload all data to device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="107"/>
+>>>>>>> .r1387
         <source>Download all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="197"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="107"/>
         <source>Download all data from device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="197"/>
+>>>>>>> .r1387
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="198"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="197"/>
         <source>Go back to main menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="198"/>
+>>>>>>> .r1387
         <source>Move Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="199"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="198"/>
         <source>Move the map. Press down the left mouse button and move the mouse.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="199"/>
+>>>>>>> .r1387
         <source>Zoom Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="200"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="199"/>
         <source>Select area for zoom.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="200"/>
+>>>>>>> .r1387
         <source>Center Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="114"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="200"/>
         <source>Find your map by jumping to it&apos;s center.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="114"/>
+>>>>>>> .r1387
         <source>Select Sub Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="114"/>
+        <location filename="../CMegaMenu.cpp" line="114"/>
         <source>Select area of map to export. Select area by pressing down the left mouse button and move the mouse.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="115"/>
+        <location filename="../CMegaMenu.cpp" line="115"/>
         <source>Edit / Create Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="116"/>
+        <location filename="../CMegaMenu.cpp" line="116"/>
         <source>Search Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="116"/>
+        <location filename="../CMegaMenu.cpp" line="116"/>
         <source>Find symbols on a map via image recognition.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="118"/>
+        <location filename="../CMegaMenu.cpp" line="118"/>
         <source>3D Map...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="206"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="118"/>
         <source>Show 3D map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="206"/>
+>>>>>>> .r1387
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="124"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="120"/>
         <source>Upload map selection to device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="124"/>
+>>>>>>> .r1387
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="125"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="124"/>
         <source>Close 3D view.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="125"/>
+>>>>>>> .r1387
         <source>Flat / 3D Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="125"/>
+        <location filename="../CMegaMenu.cpp" line="125"/>
         <source>Toggle between 3D track only and full map surface model.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="126"/>
+        <location filename="../CMegaMenu.cpp" line="126"/>
         <source>Inc. Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="126"/>
+        <location filename="../CMegaMenu.cpp" line="126"/>
         <source>Make elevations on the map higher as they are.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="127"/>
+        <location filename="../CMegaMenu.cpp" line="127"/>
         <source>Dec. Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="127"/>
+        <location filename="../CMegaMenu.cpp" line="127"/>
         <source>Make elevations on the map lower as they are.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="128"/>
+        <location filename="../CMegaMenu.cpp" line="128"/>
         <source>Lighting On/Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="128"/>
+        <location filename="../CMegaMenu.cpp" line="128"/>
         <source>Turn on/off lighting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="142"/>
+        <location filename="../CMegaMenu.cpp" line="142"/>
         <source>New Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="142"/>
+        <location filename="../CMegaMenu.cpp" line="142"/>
         <source>Create a new user waypoint. The default position will be the current cursor position.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="143"/>
+        <location filename="../CMegaMenu.cpp" line="143"/>
         <source>Edit Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="143"/>
+        <location filename="../CMegaMenu.cpp" line="143"/>
         <source>Switch cursor to &apos;Edit Waypoint&apos; mode. Point-n-click to edit a waypoint.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="144"/>
+        <location filename="../CMegaMenu.cpp" line="144"/>
         <source>Move Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="144"/>
+        <location filename="../CMegaMenu.cpp" line="144"/>
         <source>Switch cursor to &apos;Move Waypoint&apos; mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave &apos;Move Waypoint&apos; mode and to resume.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="207"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="146"/>
         <source>Upload waypoints to device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="207"/>
+>>>>>>> .r1387
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="154"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="147"/>
         <source>Download waypoints from device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="154"/>
+>>>>>>> .r1387
         <source>Combine Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="155"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="154"/>
         <source>Combine multiple selected tracks to one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="155"/>
+>>>>>>> .r1387
         <source>Edit Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="155"/>
+        <location filename="../CMegaMenu.cpp" line="155"/>
         <source>Toggle track edit dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="156"/>
+        <location filename="../CMegaMenu.cpp" line="156"/>
         <source>Cut Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="157"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="156"/>
         <source>Cut a track into pieces.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="157"/>
+>>>>>>> .r1387
         <source>Select Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="157"/>
+        <location filename="../CMegaMenu.cpp" line="157"/>
         <source>Select track points by rectangle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="166"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="158"/>
         <source>Upload tracks to device.</source>
         <translation type="unfinished"></translation>
@@ -2099,105 +2830,129 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="166"/>
+>>>>>>> .r1387
         <source>Start / Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="166"/>
+        <location filename="../CMegaMenu.cpp" line="166"/>
         <source>Start / stop live log recording.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="167"/>
+        <location filename="../CMegaMenu.cpp" line="167"/>
         <source>Move Map to Pos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="167"/>
+        <location filename="../CMegaMenu.cpp" line="167"/>
         <source>Move the map to keep the positon cursor centered.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="168"/>
+        <location filename="../CMegaMenu.cpp" line="168"/>
         <source>Add Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="178"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="168"/>
         <source>Add a waypoint at current position.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="178"/>
+>>>>>>> .r1387
         <source>Add Static Text Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="179"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="178"/>
         <source>Add text on the map.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="179"/>
+>>>>>>> .r1387
         <source>Add Geo-Ref. Text Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="180"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="179"/>
         <source>Add a textbox on the map.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="180"/>
+>>>>>>> .r1387
         <source>Add Distance Polyline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="180"/>
+        <location filename="../CMegaMenu.cpp" line="180"/>
         <source>Add a polyline to measure distances.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="190"/>
+        <location filename="../CMegaMenu.cpp" line="190"/>
         <source>Diary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="190"/>
+        <location filename="../CMegaMenu.cpp" line="190"/>
         <source>Add / edit diary data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="191"/>
+        <location filename="../CMegaMenu.cpp" line="191"/>
         <source>Pick Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="191"/>
+        <location filename="../CMegaMenu.cpp" line="191"/>
         <source>test only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="192"/>
+        <location filename="../CMegaMenu.cpp" line="192"/>
         <source>Create World Basemap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="192"/>
+        <location filename="../CMegaMenu.cpp" line="192"/>
         <source>Create a world basemap from OSM tiles to be used by QLandkarte M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="206"/>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="101"/>
+        <source>Route ...</source>
+        <translation>Route ...</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CMegaMenu.cpp" line="206"/>
         <source>Upload routes to device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="207"/>
+        <location filename="../CMegaMenu.cpp" line="207"/>
         <source>Download routes from device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CMegaMenu.cpp" line="441"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="392"/>
         <source>&lt;b&gt;Main ...&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
@@ -2224,6 +2979,7 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMegaMenu.cpp" line="441"/>
+>>>>>>> .r1387
         <source>&lt;b&gt;Routes ...&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2246,37 +3002,37 @@ Do you want to save your changes?</source>
 <context>
     <name>CMouseMoveMap</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="116"/>
+        <location filename="../CMouseMoveMap.cpp" line="116"/>
         <source>Copy Pos. Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="117"/>
+        <location filename="../CMouseMoveMap.cpp" line="117"/>
         <source>Edit Waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="119"/>
+        <location filename="../CMouseMoveMap.cpp" line="119"/>
         <source>Move Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="120"/>
+        <location filename="../CMouseMoveMap.cpp" line="120"/>
         <source>Delete Waypoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="125"/>
+        <location filename="../CMouseMoveMap.cpp" line="125"/>
         <source>Add Waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="130"/>
+        <location filename="../CMouseMoveMap.cpp" line="130"/>
         <source>Copy Pos. Trackpoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseMoveMap.cpp" line="131"/>
+        <location filename="../CMouseMoveMap.cpp" line="131"/>
         <source>Edit Track ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2284,7 +3040,7 @@ Do you want to save your changes?</source>
 <context>
     <name>CMouseRefPoint</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CMouseRefPoint.cpp" line="155"/>
+        <location filename="../CMouseRefPoint.cpp" line="155"/>
         <source>%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2292,7 +3048,11 @@ Do you want to save your changes?</source>
 <context>
     <name>COsmTilesHash</name>
     <message>
+<<<<<<< .mine
+        <location filename="../COsmTilesHash.cpp" line="192"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COsmTilesHash.cpp" line="192"/>
+>>>>>>> .r1387
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2300,17 +3060,25 @@ Do you want to save your changes?</source>
 <context>
     <name>COverlayDistance</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="110"/>
+        <location filename="../COverlayDistance.cpp" line="110"/>
         <source>Length: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="434"/>
+        <location filename="../COverlayDistance.cpp" line="434"/>
         <source>Make Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayDistance.cpp" line="435"/>
+<<<<<<< .mine
+        <location filename="../COverlayDistance.cpp" line="436"/>
+        <source>Edit...</source>
+        <translation>Bearbeiten ...</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../COverlayDistance.cpp" line="435"/>
         <source>Make Route</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2323,7 +3091,7 @@ Do you want to save your changes?</source>
 <context>
     <name>COverlayText</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayText.cpp" line="71"/>
+        <location filename="../COverlayText.cpp" line="71"/>
         <source>no text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2331,17 +3099,17 @@ Do you want to save your changes?</source>
 <context>
     <name>COverlayToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayToolWidget.cpp" line="32"/>
+        <location filename="../COverlayToolWidget.cpp" line="32"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayToolWidget.cpp" line="84"/>
+        <location filename="../COverlayToolWidget.cpp" line="84"/>
         <source>&lt;----&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/COverlayToolWidget.cpp" line="86"/>
+        <location filename="../COverlayToolWidget.cpp" line="86"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2349,12 +3117,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CPlot</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CPlot.cpp" line="627"/>
+        <location filename="../CPlot.cpp" line="627"/>
         <source>vertical zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CPlot.cpp" line="631"/>
+        <location filename="../CPlot.cpp" line="631"/>
         <source>reset zoom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2362,12 +3130,20 @@ Do you want to save your changes?</source>
 <context>
     <name>CResources</name>
     <message>
+<<<<<<< .mine
+        <location filename="../CResources.cpp" line="174"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CResources.cpp" line="174"/>
+>>>>>>> .r1387
         <source>No device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CResources.cpp" line="174"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CResources.cpp" line="174"/>
+>>>>>>> .r1387
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2375,7 +3151,7 @@ Do you want to save your changes?</source>
 <context>
     <name>CRoute</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRoute.cpp" line="207"/>
+        <location filename="../CRoute.cpp" line="207"/>
         <source>Route</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2383,12 +3159,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CRouteDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="50"/>
+        <location filename="../CRouteDB.cpp" line="50"/>
         <source>Route%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteDB.cpp" line="156"/>
+        <location filename="../CRouteDB.cpp" line="156"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2396,23 +3172,23 @@ Do you want to save your changes?</source>
 <context>
     <name>CRouteToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="35"/>
+        <location filename="../CRouteToolWidget.cpp" line="35"/>
         <source>Routes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="69"/>
+        <location filename="../CRouteToolWidget.cpp" line="69"/>
         <source>
 length: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="123"/>
+        <location filename="../CRouteToolWidget.cpp" line="123"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CRouteToolWidget.cpp" line="124"/>
+        <location filename="../CRouteToolWidget.cpp" line="124"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2420,37 +3196,37 @@ length: %1 %2</source>
 <context>
     <name>CSearchDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="126"/>
+        <location filename="../CSearchDB.cpp" line="126"/>
         <source>Bad number of return paramters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="142"/>
+        <location filename="../CSearchDB.cpp" line="142"/>
         <source>Success.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="145"/>
+        <location filename="../CSearchDB.cpp" line="145"/>
         <source>Failed. Reason unknown.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="148"/>
+        <location filename="../CSearchDB.cpp" line="148"/>
         <source>Failed. Missing query string.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="151"/>
+        <location filename="../CSearchDB.cpp" line="151"/>
         <source>Failed. No location found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="154"/>
+        <location filename="../CSearchDB.cpp" line="154"/>
         <source>Failed. No location because of legal matters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchDB.cpp" line="157"/>
+        <location filename="../CSearchDB.cpp" line="157"/>
         <source>Failed. Bad API key.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2458,22 +3234,22 @@ length: %1 %2</source>
 <context>
     <name>CSearchToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchToolWidget.cpp" line="45"/>
+        <location filename="../CSearchToolWidget.cpp" line="45"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchToolWidget.cpp" line="48"/>
+        <location filename="../CSearchToolWidget.cpp" line="48"/>
         <source>Copy Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchToolWidget.cpp" line="49"/>
+        <location filename="../CSearchToolWidget.cpp" line="49"/>
         <source>Add Waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CSearchToolWidget.cpp" line="50"/>
+        <location filename="../CSearchToolWidget.cpp" line="50"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2481,7 +3257,7 @@ length: %1 %2</source>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackDB.cpp" line="350"/>
+        <location filename="../CTrackDB.cpp" line="350"/>
         <source>Track%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2489,37 +3265,45 @@ length: %1 %2</source>
 <context>
     <name>CTrackEditWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="295"/>
+        <location filename="../CTrackEditWidget.cpp" line="295"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="358"/>
+        <location filename="../CTrackEditWidget.cpp" line="358"/>
         <source>Remove track points ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="359"/>
+        <location filename="../CTrackEditWidget.cpp" line="359"/>
         <source>You are about to remove purged track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="456"/>
+<<<<<<< .mine
+        <location filename="../CTrackEditWidget.cpp" line="495"/>
+        <source>Trainee</source>
+        <translation>Trainee</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CTrackEditWidget.cpp" line="456"/>
         <source>Speed/Dist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="464"/>
+        <location filename="../CTrackEditWidget.cpp" line="464"/>
         <source>Profile/Dist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="475"/>
+        <location filename="../CTrackEditWidget.cpp" line="475"/>
         <source>Speed/Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackEditWidget.cpp" line="483"/>
+        <location filename="../CTrackEditWidget.cpp" line="483"/>
         <source>Profile/Time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2532,71 +3316,107 @@ length: %1 %2</source>
 <context>
     <name>CTrackStatProfileWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="36"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="36"/>
         <source>distance [m]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CTrackStatProfileWidget.cpp" line="42"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="78"/>
         <source>time [h]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="42"/>
+>>>>>>> .r1387
         <source>alt. [m]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="75"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="75"/>
         <source>distance [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatProfileWidget.cpp" line="80"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="80"/>
         <source>alt. [%1]</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CTrackStatProfileWidget.cpp" line="78"/>
+        <source>time [h]</source>
+        <translation>Zeit [h]</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CTrackStatSpeedWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="32"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="32"/>
         <source>distance [m]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CTrackStatSpeedWidget.cpp" line="37"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="72"/>
         <source>time [h]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="37"/>
+>>>>>>> .r1387
         <source>speed [km/h]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="69"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="69"/>
         <source>distance [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatSpeedWidget.cpp" line="75"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="75"/>
         <source>speed [%1]</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="72"/>
+        <source>time [h]</source>
+        <translation>Zeit [h]</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>CTrackStatTraineeWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatTraineeWidget.cpp" line="31"/>
+        <location filename="../CTrackStatTraineeWidget.cpp" line="31"/>
         <source>distance [m]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatTraineeWidget.cpp" line="64"/>
+<<<<<<< .mine
+        <location filename="../CTrackStatTraineeWidget.cpp" line="63"/>
+        <source>distance [%1]</source>
+        <translation>Entfernung[%1]</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CTrackStatTraineeWidget.cpp" line="64"/>
         <source>heart rate [bpm]</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+</context>
+<context>
+=======
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackStatTraineeWidget.cpp" line="63"/>
         <source>distance [%1]</source>
@@ -2604,80 +3424,81 @@ length: %1 %2</source>
     </message>
 </context>
 <context>
+>>>>>>> .r1387
     <name>CTrackToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="39"/>
+        <location filename="../CTrackToolWidget.cpp" line="39"/>
         <source>Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="47"/>
+        <location filename="../CTrackToolWidget.cpp" line="47"/>
         <source>Edit...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="48"/>
+        <location filename="../CTrackToolWidget.cpp" line="48"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="85"/>
+        <location filename="../CTrackToolWidget.cpp" line="85"/>
         <source>
 length: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="86"/>
+        <location filename="../CTrackToolWidget.cpp" line="86"/>
         <source>, points: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="94"/>
+        <location filename="../CTrackToolWidget.cpp" line="94"/>
         <source>
 time: %1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="97"/>
+        <location filename="../CTrackToolWidget.cpp" line="97"/>
         <source>
 time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="101"/>
+        <location filename="../CTrackToolWidget.cpp" line="101"/>
         <source>, speed: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="103"/>
+        <location filename="../CTrackToolWidget.cpp" line="103"/>
         <source>
 start: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="104"/>
+        <location filename="../CTrackToolWidget.cpp" line="104"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="104"/>
+        <location filename="../CTrackToolWidget.cpp" line="104"/>
         <source>
 end: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="109"/>
+        <location filename="../CTrackToolWidget.cpp" line="109"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="172"/>
+        <location filename="../CTrackToolWidget.cpp" line="172"/>
         <source>Edit track ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrackToolWidget.cpp" line="172"/>
+        <location filename="../CTrackToolWidget.cpp" line="172"/>
         <source>You have to select a track first.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2685,12 +3506,12 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptDB.cpp" line="117"/>
+        <location filename="../CWptDB.cpp" line="117"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptDB.cpp" line="118"/>
+        <location filename="../CWptDB.cpp" line="118"/>
         <source>Delete sticky waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2698,21 +3519,24 @@ end: %1</source>
 <context>
     <name>CWptToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="41"/>
+        <location filename="../CWptToolWidget.cpp" line="41"/>
         <source>Waypoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="47"/>
+        <location filename="../CWptToolWidget.cpp" line="47"/>
         <source>Copy Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="48"/>
+        <location filename="../CWptToolWidget.cpp" line="48"/>
         <source>Edit...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../CWptToolWidget.cpp" line="51"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="49"/>
         <source>Proximity ...</source>
         <translation type="unfinished"></translation>
@@ -2724,74 +3548,91 @@ end: %1</source>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="51"/>
+>>>>>>> .r1387
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="52"/>
+        <location filename="../CWptToolWidget.cpp" line="52"/>
         <source>Delete by ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="88"/>
+        <location filename="../CWptToolWidget.cpp" line="88"/>
         <source> (sticky)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="178"/>
+<<<<<<< .mine
+        <location filename="../CWptToolWidget.cpp" line="49"/>
+        <source>Proximity ...</source>
+        <translation>Abstandswarnung ...</translation>
+    </message>
+    <message>
+=======
+>>>>>>> .r1387
+        <location filename="../CWptToolWidget.cpp" line="178"/>
         <source>Distance [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CWptToolWidget.cpp" line="179"/>
+        <location filename="../CWptToolWidget.cpp" line="179"/>
         <source>Proximity distance ...</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../CWptToolWidget.cpp" line="50"/>
+        <source>Make Route ...</source>
+        <translation>Route erzeugen</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>ICopyright</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="13"/>
+        <location filename="../ICopyright.ui" line="13"/>
         <source>Copyright...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="26"/>
+        <location filename="../ICopyright.ui" line="26"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="34"/>
+        <location filename="../ICopyright.ui" line="34"/>
         <source>QLandkarte GT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="83"/>
+        <location filename="../ICopyright.ui" line="83"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="48"/>
+        <location filename="../ICopyright.ui" line="48"/>
         <source>QT Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="62"/>
+        <location filename="../ICopyright.ui" line="62"/>
         <source>GDAL Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="76"/>
+        <location filename="../ICopyright.ui" line="76"/>
         <source>Proj4 Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="126"/>
+        <location filename="../ICopyright.ui" line="126"/>
         <source>GPL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICopyright.ui" line="132"/>
+        <location filename="../ICopyright.ui" line="132"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -2851,22 +3692,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ICreateMapGeoTiff</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="13"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="409"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="409"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="36"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="36"/>
         <source>Input file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="58"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="58"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -2874,22 +3715,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="125"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="125"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="79"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="79"/>
         <source>Output file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="107"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="107"/>
         <source>Projection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="119"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="119"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -2897,86 +3738,86 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="134"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="134"/>
         <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="163"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="163"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="200"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="200"/>
         <source>This dialog allows you to georeference map files in TIF format with a 8 bit color palette. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="247"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="247"/>
         <source>label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="252"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="252"/>
         <source>Coord.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="257"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="257"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="262"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="262"/>
         <source>y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="275"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="275"/>
         <source>Add Ref.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="285"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="285"/>
         <source>Delete Ref.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="308"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="308"/>
         <source>Go on!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="331"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="331"/>
         <source>Load Ref.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="341"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="341"/>
         <source>Save Ref.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="364"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="364"/>
         <source>Grid Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="382"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="382"/>
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
 
 coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.575377&quot;, &quot;285000 5162000&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="461"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="461"/>
         <source>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGeoTiff.ui" line="499"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="499"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2984,29 +3825,29 @@ coordinate formats: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.193172   46.
 <context>
     <name>ICreateMapGridTool</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="13"/>
+        <location filename="../ICreateMapGridTool.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="248"/>
+        <location filename="../ICreateMapGridTool.ui" line="248"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="71"/>
+        <location filename="../ICreateMapGridTool.ui" line="71"/>
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="104"/>
+        <location filename="../ICreateMapGridTool.ui" line="104"/>
         <source>Projection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="116"/>
+        <location filename="../ICreateMapGridTool.ui" line="116"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3014,47 +3855,47 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="122"/>
+        <location filename="../ICreateMapGridTool.ui" line="122"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="133"/>
+        <location filename="../ICreateMapGridTool.ui" line="133"/>
         <source>Easting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="140"/>
+        <location filename="../ICreateMapGridTool.ui" line="140"/>
         <source>Northing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="158"/>
+        <location filename="../ICreateMapGridTool.ui" line="158"/>
         <source>x - spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="179"/>
+        <location filename="../ICreateMapGridTool.ui" line="179"/>
         <source>y - spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="223"/>
+        <location filename="../ICreateMapGridTool.ui" line="223"/>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="270"/>
+        <location filename="../ICreateMapGridTool.ui" line="270"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="280"/>
+        <location filename="../ICreateMapGridTool.ui" line="280"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapGridTool.ui" line="298"/>
+        <location filename="../ICreateMapGridTool.ui" line="298"/>
         <source>On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3062,79 +3903,79 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ICreateMapOSM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="13"/>
+        <location filename="../ICreateMapOSM.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="25"/>
+        <location filename="../ICreateMapOSM.ui" line="25"/>
         <source>lon/lat
 top/left</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="45"/>
+        <location filename="../ICreateMapOSM.ui" line="45"/>
         <source>e.g.  N59° 59.251 E010° 17.157 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="76"/>
+        <location filename="../ICreateMapOSM.ui" line="76"/>
         <source>map area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="119"/>
+        <location filename="../ICreateMapOSM.ui" line="119"/>
         <source>lon/lat
 bottom/right</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="139"/>
+        <location filename="../ICreateMapOSM.ui" line="139"/>
         <source>e.g.  N59° 43.553 E010° 57.366 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="152"/>
+        <location filename="../ICreateMapOSM.ui" line="152"/>
         <source>map output path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="161"/>
+        <location filename="../ICreateMapOSM.ui" line="161"/>
         <source>This is the path you normally load maps from.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="164"/>
+        <location filename="../ICreateMapOSM.ui" line="164"/>
         <source>&lt;path&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="171"/>
+        <location filename="../ICreateMapOSM.ui" line="171"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="180"/>
+        <location filename="../ICreateMapOSM.ui" line="180"/>
         <source>map name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="187"/>
+        <location filename="../ICreateMapOSM.ui" line="187"/>
         <source>A map will have several files. All files of a map will begin with this name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="194"/>
+        <location filename="../ICreateMapOSM.ui" line="194"/>
         <source>create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="201"/>
+        <location filename="../ICreateMapOSM.ui" line="201"/>
         <source>Provide a short and descriptive comment. The map will be listed by that comment in QLandkarte M.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapOSM.ui" line="208"/>
+        <location filename="../ICreateMapOSM.ui" line="208"/>
         <source>comment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3142,46 +3983,53 @@ bottom/right</source>
 <context>
     <name>ICreateMapQMAP</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="13"/>
+        <location filename="../ICreateMapQMAP.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="169"/>
+        <location filename="../ICreateMapQMAP.ui" line="169"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="37"/>
+        <location filename="../ICreateMapQMAP.ui" line="37"/>
         <source>map definition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="51"/>
+        <location filename="../ICreateMapQMAP.ui" line="51"/>
         <source>comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../ICreateMapQMAP.ui" line="97"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="74"/>
         <source>quadratic zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="97"/>
+>>>>>>> .r1387
         <source>Open existing *.qmap definition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="110"/>
+        <location filename="../ICreateMapQMAP.ui" line="110"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="107"/>
+        <location filename="../ICreateMapQMAP.ui" line="107"/>
         <source>Create new *.qmap definition.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../ICreateMapQMAP.ui" line="179"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="143"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
@@ -3189,6 +4037,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="179"/>
+>>>>>>> .r1387
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -3196,115 +4045,129 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="186"/>
+        <location filename="../ICreateMapQMAP.ui" line="186"/>
         <source>Detail Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="191"/>
+        <location filename="../ICreateMapQMAP.ui" line="191"/>
         <source>min. zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="196"/>
+        <location filename="../ICreateMapQMAP.ui" line="196"/>
         <source>max. zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="201"/>
+        <location filename="../ICreateMapQMAP.ui" line="201"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="214"/>
+        <location filename="../ICreateMapQMAP.ui" line="214"/>
         <source>add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="224"/>
+        <location filename="../ICreateMapQMAP.ui" line="224"/>
         <source>edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="234"/>
+        <location filename="../ICreateMapQMAP.ui" line="234"/>
         <source>del</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="257"/>
+        <location filename="../ICreateMapQMAP.ui" line="257"/>
         <source>up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="273"/>
+        <location filename="../ICreateMapQMAP.ui" line="273"/>
         <source>down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="307"/>
+        <location filename="../ICreateMapQMAP.ui" line="307"/>
         <source>You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="337"/>
+        <location filename="../ICreateMapQMAP.ui" line="337"/>
         <source>Summary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapQMAP.ui" line="365"/>
+        <location filename="../ICreateMapQMAP.ui" line="365"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../ICreateMapQMAP.ui" line="74"/>
+        <source>quadratic zoom</source>
+        <translation>Quadratisches Zoom</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapQMAP.ui" line="143"/>
+        <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
+Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
+        <translation>Du kannst QLandkarte GT-Kartendefinitionsdateien (*.qmap) erzeugen oder bearbeiten. Eine Kartendefinition definiert, welche Datei bei welcher Zoomstufe gezeigt wird. Der Kommentar wird dazu verwendet, die Kartensammlung in der Liste der verfügbaren Karten zu zeigen. ￼Du kannst auch zwischen einem linearen oder quadratischen Zoomverhalten auswählen.Sobald Du ein Kartenset erzeugt hast, kannst Du im Kontext-Menü der Liste der verfügbaren Karten mittels der rechten Maustaste DEM-Daten hinzufügen. </translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>ICreateMapWMS</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="13"/>
+        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="21"/>
+        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="31"/>
+        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="52"/>
+        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="59"/>
+        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="69"/>
+        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="79"/>
+        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="96"/>
+        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="112"/>
+        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ICreateMapWMS.ui" line="134"/>
+        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3312,17 +4175,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDevice</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDevice.cpp" line="50"/>
+        <location filename="../IDevice.cpp" line="50"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDevice.cpp" line="77"/>
+        <location filename="../IDevice.cpp" line="77"/>
         <source>Sorry... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDevice.cpp" line="77"/>
+        <location filename="../IDevice.cpp" line="77"/>
         <source>Your device does not support live log.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3330,17 +4193,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDiaryEditWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDiaryEditWidget.ui" line="13"/>
+        <location filename="../IDiaryEditWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDiaryEditWidget.ui" line="230"/>
+        <location filename="../IDiaryEditWidget.ui" line="230"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDiaryEditWidget.ui" line="96"/>
+        <location filename="../IDiaryEditWidget.ui" line="96"/>
         <source>Create diary skeleton from current data.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3348,37 +4211,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgCombineTracks</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="13"/>
+        <location filename="../IDlgCombineTracks.ui" line="13"/>
         <source>Combine Tracks ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="37"/>
+        <location filename="../IDlgCombineTracks.ui" line="37"/>
         <source>Sort by timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="53"/>
+        <location filename="../IDlgCombineTracks.ui" line="53"/>
         <source>Available Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="120"/>
+        <location filename="../IDlgCombineTracks.ui" line="120"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="89"/>
+        <location filename="../IDlgCombineTracks.ui" line="89"/>
         <source>Selected Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="133"/>
+        <location filename="../IDlgCombineTracks.ui" line="133"/>
         <source>New Track Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCombineTracks.ui" line="140"/>
+        <location filename="../IDlgCombineTracks.ui" line="140"/>
         <source>New Track</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3386,187 +4249,191 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgConfig</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="13"/>
+        <location filename="../IDlgConfig.ui" line="13"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="23"/>
+        <location filename="../IDlgConfig.ui" line="23"/>
         <source>Environment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="29"/>
+        <location filename="../IDlgConfig.ui" line="29"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="35"/>
+        <location filename="../IDlgConfig.ui" line="35"/>
         <source>ABCDEFGHabcdefgh123456789</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="312"/>
+        <location filename="../IDlgConfig.ui" line="312"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="55"/>
+        <location filename="../IDlgConfig.ui" line="55"/>
         <source>Units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="61"/>
+        <location filename="../IDlgConfig.ui" line="61"/>
         <source>Metric</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="68"/>
+        <location filename="../IDlgConfig.ui" line="68"/>
         <source>Nautic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="75"/>
+        <location filename="../IDlgConfig.ui" line="75"/>
         <source>Imperial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="85"/>
+        <location filename="../IDlgConfig.ui" line="85"/>
         <source>Mouse Wheel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="91"/>
+        <location filename="../IDlgConfig.ui" line="91"/>
         <source>Flip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="115"/>
+        <location filename="../IDlgConfig.ui" line="115"/>
         <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="121"/>
+        <location filename="../IDlgConfig.ui" line="121"/>
         <source>Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="127"/>
+        <location filename="../IDlgConfig.ui" line="127"/>
         <source>enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="136"/>
+        <location filename="../IDlgConfig.ui" line="136"/>
         <source>URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="254"/>
+        <location filename="../IDlgConfig.ui" line="254"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="153"/>
+        <location filename="../IDlgConfig.ui" line="153"/>
         <source>00000; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="156"/>
+        <location filename="../IDlgConfig.ui" line="156"/>
         <source>8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="168"/>
+        <location filename="../IDlgConfig.ui" line="168"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="175"/>
+        <location filename="../IDlgConfig.ui" line="175"/>
         <source>Firefox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="180"/>
+        <location filename="../IDlgConfig.ui" line="180"/>
         <source>Konqueror</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="185"/>
+        <location filename="../IDlgConfig.ui" line="185"/>
         <source>other (needs command line)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="196"/>
+        <location filename="../IDlgConfig.ui" line="196"/>
         <source>my command %s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="203"/>
+        <location filename="../IDlgConfig.ui" line="203"/>
         <source>%s will be replaced by URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="214"/>
+        <location filename="../IDlgConfig.ui" line="214"/>
         <source>Device &amp;&amp; Xfer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="226"/>
+        <location filename="../IDlgConfig.ui" line="226"/>
         <source>Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="235"/>
+        <location filename="../IDlgConfig.ui" line="235"/>
         <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="264"/>
+        <location filename="../IDlgConfig.ui" line="264"/>
         <source>4242</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="276"/>
+        <location filename="../IDlgConfig.ui" line="276"/>
         <source>Serial Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="293"/>
+        <location filename="../IDlgConfig.ui" line="293"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="340"/>
+        <location filename="../IDlgConfig.ui" line="340"/>
         <source>Upload All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="379"/>
+        <location filename="../IDlgConfig.ui" line="379"/>
         <source>Waypoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="386"/>
+        <location filename="../IDlgConfig.ui" line="386"/>
         <source>Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../IDlgConfig.ui" line="373"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="393"/>
         <source>Routes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="373"/>
+>>>>>>> .r1387
         <source>Download All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="404"/>
+        <location filename="../IDlgConfig.ui" line="404"/>
         <source>Keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConfig.ui" line="410"/>
+        <location filename="../IDlgConfig.ui" line="410"/>
         <source>&lt;b&gt;Mouseless control&lt;/b&gt;
 &lt;table&gt;&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to east&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to west&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to north&lt;/td&gt;&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;move map view to south&lt;/td&gt;&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/table&gt;
 &lt;b&gt;3D View&lt;/b&gt;
@@ -3579,16 +4446,24 @@ p, li { white-space: pre-wrap; }
 &lt;/table&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../IDlgConfig.ui" line="393"/>
+        <source>Routes</source>
+        <translation>Routen</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>IDlgConvertToTrack</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="13"/>
+        <location filename="../IDlgConvertToTrack.ui" line="13"/>
         <source>Intermediate track points...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgConvertToTrack.ui" line="28"/>
+        <location filename="../IDlgConvertToTrack.ui" line="28"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3596,45 +4471,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgCreateWorldBasemap</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="13"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="13"/>
         <source>Dialog</source>
+<<<<<<< .mine
+        <translation>Dialog</translation>
+=======
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="21"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="21"/>
         <source>./basemap.tif</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="28"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="28"/>
         <source>...</source>
+<<<<<<< .mine
+        <translation>...</translation>
+=======
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="90"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="90"/>
         <source>TextLabel</source>
+<<<<<<< .mine
+        <translation>Textkennzeichnung</translation>
+=======
         <translation type="unfinished"></translation>
+>>>>>>> .r1387
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="52"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="52"/>
         <source>level</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgCreateWorldBasemap.ui" line="69"/>
+        <location filename="../IDlgCreateWorldBasemap.ui" line="69"/>
         <source>0px x 0px</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>IDlgDelWpt</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgDelWpt.ui" line="13"/>
+        <location filename="../IDlgDelWpt.ui" line="13"/>
         <source>Delete waypoint by ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgDelWpt.ui" line="28"/>
+        <location filename="../IDlgDelWpt.ui" line="28"/>
         <source>type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3642,17 +4529,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditDistance</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditDistance.ui" line="13"/>
+        <location filename="../IDlgEditDistance.ui" line="13"/>
         <source>Edit distance overlay ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditDistance.ui" line="28"/>
+        <location filename="../IDlgEditDistance.ui" line="28"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditDistance.ui" line="38"/>
+        <location filename="../IDlgEditDistance.ui" line="38"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3660,22 +4547,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditMapLevel</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="13"/>
+        <location filename="../IDlgEditMapLevel.ui" line="13"/>
         <source>Edit map level ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="21"/>
+        <location filename="../IDlgEditMapLevel.ui" line="21"/>
         <source>zoom levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="55"/>
+        <location filename="../IDlgEditMapLevel.ui" line="55"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="72"/>
+        <location filename="../IDlgEditMapLevel.ui" line="72"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3683,12 +4570,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="139"/>
+        <location filename="../IDlgEditMapLevel.ui" line="139"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="85"/>
+        <location filename="../IDlgEditMapLevel.ui" line="85"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3696,7 +4583,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="101"/>
+        <location filename="../IDlgEditMapLevel.ui" line="101"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3704,7 +4591,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="117"/>
+        <location filename="../IDlgEditMapLevel.ui" line="117"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3712,7 +4599,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditMapLevel.ui" line="133"/>
+        <location filename="../IDlgEditMapLevel.ui" line="133"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -3723,12 +4610,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditRoute</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="13"/>
+        <location filename="../IDlgEditRoute.ui" line="13"/>
         <source>Edit Route ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditRoute.ui" line="28"/>
+        <location filename="../IDlgEditRoute.ui" line="28"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3736,107 +4623,137 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditWpt</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="13"/>
+        <location filename="../IDlgEditWpt.ui" line="13"/>
         <source>Edit Waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="28"/>
+        <location filename="../IDlgEditWpt.ui" line="28"/>
         <source>Symbol &amp; Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="166"/>
+        <location filename="../IDlgEditWpt.ui" line="166"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="47"/>
+        <location filename="../IDlgEditWpt.ui" line="47"/>
         <source>sticky</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="56"/>
+        <location filename="../IDlgEditWpt.ui" line="56"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="75"/>
+        <location filename="../IDlgEditWpt.ui" line="75"/>
         <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="92"/>
+        <location filename="../IDlgEditWpt.ui" line="92"/>
         <source>m,</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="111"/>
+        <location filename="../IDlgEditWpt.ui" line="111"/>
         <source>°</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="118"/>
+        <location filename="../IDlgEditWpt.ui" line="118"/>
         <source>Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="145"/>
+        <location filename="../IDlgEditWpt.ui" line="145"/>
         <source>m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="135"/>
+        <location filename="../IDlgEditWpt.ui" line="135"/>
         <source>Proximity Dist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="152"/>
+        <location filename="../IDlgEditWpt.ui" line="152"/>
         <source>Webpage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="159"/>
+        <location filename="../IDlgEditWpt.ui" line="159"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="173"/>
+        <location filename="../IDlgEditWpt.ui" line="173"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="196"/>
+        <location filename="../IDlgEditWpt.ui" line="196"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="210"/>
+        <location filename="../IDlgEditWpt.ui" line="210"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="220"/>
+        <location filename="../IDlgEditWpt.ui" line="220"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="230"/>
+        <location filename="../IDlgEditWpt.ui" line="230"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="240"/>
+        <location filename="../IDlgEditWpt.ui" line="240"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgEditWpt.ui" line="264"/>
+        <location filename="../IDlgEditWpt.ui" line="264"/>
         <source>no image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
+<<<<<<< .mine
+    <name>IDlgMapTDBConfig</name>
+    <message>
+        <location filename="../IDlgMapTDBConfig.ui" line="13"/>
+        <source>Configure Garmin Map...</source>
+        <translation>Garmin Karte konfigurieren ...</translation>
+    </message>
+    <message>
+        <location filename="../IDlgMapTDBConfig.ui" line="28"/>
+        <source>use typ (if available)</source>
+        <translation>Benutze die *typ Datei (wenn vorhanden)</translation>
+    </message>
+    <message>
+        <location filename="../IDlgMapTDBConfig.ui" line="53"/>
+        <source>draw bitmap lines</source>
+        <translation>Zeichne Linien mit Bitmaps</translation>
+    </message>
+    <message>
+        <location filename="../IDlgMapTDBConfig.ui" line="62"/>
+        <source>grow lines with zoom</source>
+        <translation>Linenbreite wächst mit Zoom</translation>
+    </message>
+    <message>
+        <location filename="../IDlgMapTDBConfig.ui" line="69"/>
+        <source>text above line</source>
+        <translation>Text über der Linie</translation>
+    </message>
+</context>
+<context>
+=======
     <name>IDlgMapTDBConfig</name>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgMapTDBConfig.ui" line="13"/>
@@ -3865,49 +4782,50 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+>>>>>>> .r1387
     <name>IDlgProjWizzard</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="13"/>
+        <location filename="../IDlgProjWizzard.ui" line="13"/>
         <source>Proj4 Wizzard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="28"/>
+        <location filename="../IDlgProjWizzard.ui" line="28"/>
         <source>Projection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="35"/>
+        <location filename="../IDlgProjWizzard.ui" line="35"/>
         <source>Mercator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="44"/>
+        <location filename="../IDlgProjWizzard.ui" line="44"/>
         <source>UTM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="51"/>
+        <location filename="../IDlgProjWizzard.ui" line="51"/>
         <source>zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="85"/>
+        <location filename="../IDlgProjWizzard.ui" line="85"/>
         <source>user defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="97"/>
+        <location filename="../IDlgProjWizzard.ui" line="97"/>
         <source>Datum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="120"/>
+        <location filename="../IDlgProjWizzard.ui" line="120"/>
         <source>Result:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgProjWizzard.ui" line="134"/>
+        <location filename="../IDlgProjWizzard.ui" line="134"/>
         <source>World Mercator (OSM)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3915,7 +4833,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgWptIcon</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IDlgWptIcon.ui" line="13"/>
+        <location filename="../IDlgWptIcon.ui" line="13"/>
         <source>Select icon ...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3923,32 +4841,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IGarminExport</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="13"/>
+        <location filename="../IGarminExport.ui" line="13"/>
         <source>Create gmapsupp.img</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="21"/>
+        <location filename="../IGarminExport.ui" line="21"/>
         <source>Output Path:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="37"/>
+        <location filename="../IGarminExport.ui" line="37"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="46"/>
+        <location filename="../IGarminExport.ui" line="46"/>
         <source>File Prefix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="56"/>
+        <location filename="../IGarminExport.ui" line="56"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IGarminExport.ui" line="63"/>
+        <location filename="../IGarminExport.ui" line="63"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3956,47 +4874,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ILiveLogToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="13"/>
+        <location filename="../ILiveLogToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="141"/>
+        <location filename="../ILiveLogToolWidget.ui" line="141"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="44"/>
+        <location filename="../ILiveLogToolWidget.ui" line="44"/>
         <source>Error horiz.:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="51"/>
+        <location filename="../ILiveLogToolWidget.ui" line="51"/>
         <source>GPS Time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="58"/>
+        <location filename="../ILiveLogToolWidget.ui" line="58"/>
         <source>Position:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="72"/>
+        <location filename="../ILiveLogToolWidget.ui" line="72"/>
         <source>Error vert.:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="79"/>
+        <location filename="../ILiveLogToolWidget.ui" line="79"/>
         <source>Altitude:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="100"/>
+        <location filename="../ILiveLogToolWidget.ui" line="100"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ILiveLogToolWidget.ui" line="107"/>
+        <location filename="../ILiveLogToolWidget.ui" line="107"/>
         <source>Heading:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4004,17 +4922,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMap</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMap.cpp" line="180"/>
+        <location filename="../IMap.cpp" line="180"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMap.cpp" line="191"/>
+        <location filename="../IMap.cpp" line="191"/>
         <source>DEM projection does not match the projection of the basemap.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMap.cpp" line="280"/>
+        <location filename="../IMap.cpp" line="280"/>
         <source>This map does not support this feature.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4022,22 +4940,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMapEditWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapEditWidget.ui" line="19"/>
+        <location filename="../IMapEditWidget.ui" line="19"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapEditWidget.ui" line="33"/>
+        <location filename="../IMapEditWidget.ui" line="33"/>
         <source>Source:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapEditWidget.ui" line="43"/>
+        <location filename="../IMapEditWidget.ui" line="43"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapEditWidget.ui" line="65"/>
+        <location filename="../IMapEditWidget.ui" line="65"/>
         <source>Select a source for the map to create.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4045,37 +4963,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMapQMAPExport</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="13"/>
+        <location filename="../IMapQMAPExport.ui" line="13"/>
         <source>Export map ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="21"/>
+        <location filename="../IMapQMAPExport.ui" line="21"/>
         <source>Output path:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="37"/>
+        <location filename="../IMapQMAPExport.ui" line="37"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="46"/>
+        <location filename="../IMapQMAPExport.ui" line="46"/>
         <source>File prefix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="56"/>
+        <location filename="../IMapQMAPExport.ui" line="56"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="66"/>
+        <location filename="../IMapQMAPExport.ui" line="66"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapQMAPExport.ui" line="73"/>
+        <location filename="../IMapQMAPExport.ui" line="73"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4083,77 +5001,77 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMapSearchWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="25"/>
+        <location filename="../IMapSearchWidget.ui" line="25"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="97"/>
+        <location filename="../IMapSearchWidget.ui" line="97"/>
         <source>Database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="41"/>
+        <location filename="../IMapSearchWidget.ui" line="41"/>
         <source>Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="73"/>
+        <location filename="../IMapSearchWidget.ui" line="73"/>
         <source>Text to find:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="67"/>
+        <location filename="../IMapSearchWidget.ui" line="67"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="110"/>
+        <location filename="../IMapSearchWidget.ui" line="110"/>
         <source>Limit search to viewport</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="130"/>
+        <location filename="../IMapSearchWidget.ui" line="130"/>
         <source>Create Index</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="141"/>
+        <location filename="../IMapSearchWidget.ui" line="141"/>
         <source>Symbols</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="278"/>
+        <location filename="../IMapSearchWidget.ui" line="278"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="205"/>
+        <location filename="../IMapSearchWidget.ui" line="205"/>
         <source>No mask selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="227"/>
+        <location filename="../IMapSearchWidget.ui" line="227"/>
         <source>Gray Threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="271"/>
+        <location filename="../IMapSearchWidget.ui" line="271"/>
         <source>Area:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="293"/>
+        <location filename="../IMapSearchWidget.ui" line="293"/>
         <source>No area selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="318"/>
+        <location filename="../IMapSearchWidget.ui" line="318"/>
         <source>Search...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapSearchWidget.ui" line="328"/>
+        <location filename="../IMapSearchWidget.ui" line="328"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4161,37 +5079,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMapToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="13"/>
+        <location filename="../IMapToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="19"/>
+        <location filename="../IMapToolWidget.ui" line="19"/>
         <source>Known Maps:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="45"/>
+        <location filename="../IMapToolWidget.ui" line="45"/>
         <source>M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="50"/>
+        <location filename="../IMapToolWidget.ui" line="50"/>
         <source>T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="55"/>
+        <location filename="../IMapToolWidget.ui" line="55"/>
         <source>Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="63"/>
+        <location filename="../IMapToolWidget.ui" line="63"/>
         <source>Selected Maps:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMapToolWidget.ui" line="85"/>
+        <location filename="../IMapToolWidget.ui" line="85"/>
         <source>Export Map</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4199,7 +5117,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IMouse</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IMouse.cpp" line="204"/>
+        <location filename="../IMouse.cpp" line="204"/>
         <source>elevation: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4207,7 +5125,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IOverlay</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IOverlay.h" line="50"/>
+        <location filename="../IOverlay.h" line="50"/>
         <source>No info set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4215,7 +5133,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IOverlayToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IOverlayToolWidget.ui" line="13"/>
+        <location filename="../IOverlayToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4223,7 +5141,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IRouteToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IRouteToolWidget.ui" line="13"/>
+        <location filename="../IRouteToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4231,12 +5149,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ISearchToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ISearchToolWidget.ui" line="13"/>
+        <location filename="../ISearchToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ISearchToolWidget.ui" line="21"/>
+        <location filename="../ISearchToolWidget.ui" line="21"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4244,22 +5162,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IStatusDEM</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IStatusDEM.ui" line="13"/>
+        <location filename="../IStatusDEM.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IStatusDEM.ui" line="31"/>
+        <location filename="../IStatusDEM.ui" line="31"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IStatusDEM.ui" line="41"/>
+        <location filename="../IStatusDEM.ui" line="41"/>
         <source>shading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IStatusDEM.ui" line="48"/>
+        <location filename="../IStatusDEM.ui" line="48"/>
         <source>contour</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4267,105 +5185,126 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ITrackEditWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="13"/>
+        <location filename="../ITrackEditWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../ITrackEditWidget.ui" line="70"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="21"/>
         <source>Toggle track statistics view over distance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="70"/>
+>>>>>>> .r1387
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< .mine
+        <location filename="../ITrackEditWidget.ui" line="44"/>
+=======
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="31"/>
         <source>Toggle track statistics view over time.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="44"/>
+>>>>>>> .r1387
         <source>Toggle statistics view for trainings data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="67"/>
+        <location filename="../ITrackEditWidget.ui" line="67"/>
         <source>Close this view.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="73"/>
+        <location filename="../ITrackEditWidget.ui" line="73"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="107"/>
+        <location filename="../ITrackEditWidget.ui" line="107"/>
         <source>#</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="112"/>
+        <location filename="../ITrackEditWidget.ui" line="112"/>
         <source>time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="117"/>
+        <location filename="../ITrackEditWidget.ui" line="117"/>
         <source>altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="122"/>
+        <location filename="../ITrackEditWidget.ui" line="122"/>
         <source>delta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="127"/>
+        <location filename="../ITrackEditWidget.ui" line="127"/>
         <source>azimuth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="132"/>
+        <location filename="../ITrackEditWidget.ui" line="132"/>
         <source>distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="137"/>
+        <location filename="../ITrackEditWidget.ui" line="137"/>
         <source>speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="142"/>
+        <location filename="../ITrackEditWidget.ui" line="142"/>
         <source>ascend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="147"/>
+        <location filename="../ITrackEditWidget.ui" line="147"/>
         <source>descend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="152"/>
+        <location filename="../ITrackEditWidget.ui" line="152"/>
         <source>position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="168"/>
+        <location filename="../ITrackEditWidget.ui" line="168"/>
         <source>remove purged track points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackEditWidget.ui" line="175"/>
+        <location filename="../ITrackEditWidget.ui" line="175"/>
         <source>reset purged track points</source>
         <translation type="unfinished"></translation>
     </message>
+<<<<<<< .mine
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="21"/>
+        <source>Toggle track statistics view over distance.</source>
+        <translation>Trackgraphen über den Weg anzeigen/ausschalten.</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="31"/>
+        <source>Toggle track statistics view over time.</source>
+        <translation>Trackgraphen über die Zeit anzeigen/ausschalten.</translation>
+    </message>
+=======
+>>>>>>> .r1387
 </context>
 <context>
     <name>ITrackStatWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackStatWidget.ui" line="13"/>
+        <location filename="../ITrackStatWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4373,7 +5312,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ITrackToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/ITrackToolWidget.ui" line="5"/>
+        <location filename="../ITrackToolWidget.ui" line="5"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4381,7 +5320,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IWptToolWidget</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/IWptToolWidget.ui" line="13"/>
+        <location filename="../IWptToolWidget.ui" line="13"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4389,42 +5328,42 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PrintPreview</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="226"/>
+        <location filename="../printpreview.cpp" line="226"/>
         <source>Diary - Print Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="250"/>
+        <location filename="../printpreview.cpp" line="250"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="254"/>
+        <location filename="../printpreview.cpp" line="254"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="259"/>
+        <location filename="../printpreview.cpp" line="259"/>
         <source>Page Setup...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="265"/>
+        <location filename="../printpreview.cpp" line="265"/>
         <source>Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="269"/>
+        <location filename="../printpreview.cpp" line="269"/>
         <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="275"/>
+        <location filename="../printpreview.cpp" line="275"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/printpreview.cpp" line="321"/>
+        <location filename="../printpreview.cpp" line="321"/>
         <source>Print Diary</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4432,66 +5371,66 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/tcxreader.cpp" line="45"/>
+        <location filename="../tcxreader.cpp" line="45"/>
         <source>Error open file &apos;%1&apos;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/tcxreader.cpp" line="68"/>
+        <location filename="../tcxreader.cpp" line="68"/>
         <source>The file is not an http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="63"/>
+        <location filename="../GeoMath.cpp" line="63"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="63"/>
+        <location filename="../GeoMath.cpp" line="63"/>
         <source>Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="280"/>
+        <location filename="../GeoMath.cpp" line="280"/>
         <source>Error ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="265"/>
+        <location filename="../GeoMath.cpp" line="265"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/GeoMath.cpp" line="280"/>
+        <location filename="../GeoMath.cpp" line="280"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="389"/>
+        <location filename="../CDeviceGarmin.cpp" line="389"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CDeviceGarmin.cpp" line="404"/>
+        <location filename="../CDeviceGarmin.cpp" line="404"/>
         <source>
 
 Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrack.cpp" line="134"/>
+        <location filename="../CTrack.cpp" line="134"/>
         <source>Corrupt track ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrack.cpp" line="113"/>
+        <location filename="../CTrack.cpp" line="113"/>
         <source>Number of trackpoints is not equal the number of training data trackpoints.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../Documents/cpp/QLandkarteGT/src/CTrack.cpp" line="134"/>
+        <location filename="../CTrack.cpp" line="134"/>
         <source>Number of trackpoints is not equal the number of extended data trackpoints.</source>
         <translation type="unfinished"></translation>
     </message>
