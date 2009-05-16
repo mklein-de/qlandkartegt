@@ -2786,7 +2786,10 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         else if ((a == 7)  || (a == 3)) {
-            readColorTable(in, myXpmDay, colors, maxcolor);
+            if (x3 == 0x10)
+	    	readColorTable(in, myXpmDay, colors, maxcolor);
+	    else
+	    	readColorTableAlpha(in, myXpmDay, colors, maxcolor);
             decodeBitmap(in, myXpmDay, w, h, bpp);
             pointProperties[(typ << 8) | subtyp] = myXpmDay;
             //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
@@ -2800,7 +2803,10 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             } else bpp = 2;
             wBytes = (w * bpp) / 8;
 
-            readColorTable(in, myXpmNight, colors, maxcolor);
+            if (x3 == 0x10)
+            	readColorTable(in, myXpmNight, colors, maxcolor);
+	    else
+	    	readColorTableAlpha(in, myXpmNight, colors, maxcolor);
             decodeBitmap(in, myXpmNight, w, h, bpp);
             //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
             //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
