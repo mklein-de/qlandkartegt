@@ -51,6 +51,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotExportMap();
         void slotAddDEM();
         void slotDelDEM();
+        void slotCfgMap();
 
     private:
         enum columns_e
@@ -77,6 +78,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         QAction * actAddDEM;
         QAction * actDelDEM;
         QAction * actDelMap;
+        QAction * actCfgMap;
 
 };
 #endif                           //CMAPTOOLWIDGET_H

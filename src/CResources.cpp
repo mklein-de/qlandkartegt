@@ -98,9 +98,6 @@ CResources::CResources(QObject * parent)
         qWarning("Unknown unit type. Using 'metric'");
         unit = new CUnitMetric(this);
     }
-
-    CMapTDB::growLines          = cfg.value("garmin/growLines",CMapTDB::growLines).toBool();
-    CMapTDB::useBitmapLines     = cfg.value("garmin/useBitmapLines",CMapTDB::useBitmapLines).toBool();
 }
 
 
@@ -137,10 +134,6 @@ CResources::~CResources()
     cfg.setValue("device/uplRte",IDevice::m_UploadAllRte);
 
     cfg.setValue("environment/unittype",unit->type);
-
-    cfg.setValue("garmin/growLines",CMapTDB::growLines);
-    cfg.setValue("garmin/useBitmapLines",CMapTDB::useBitmapLines);
-
 }
 
 

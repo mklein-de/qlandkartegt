@@ -62,16 +62,14 @@ class CMapTDB : public IMap
         void highlight(QVector<CGarminPolygon>& res);
         void highlight(QVector<CGarminPoint>& res);
 
-        static bool growLines;
-
-        static bool useBitmapLines;
-
+        void config();
     protected:
         virtual void convertRad2Pt(double* u, double* v, int n);
         void resize(const QSize& s);
         bool eventFilter( QObject * watched, QEvent * event );
 
     private:
+        friend class CDlgMapTDBConfig;
         void setup();
         struct strlbl_t
         {
@@ -104,7 +102,7 @@ class CMapTDB : public IMap
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
-        void collectText(CGarminPolygon& item, QPolygonF& line, QFont& font, QFontMetricsF metrics);
+        void collectText(CGarminPolygon& item, QPolygonF& line, QFont& font, QFontMetricsF metrics, qint32 lineWidth);
 
         void decodeBitmap(QDataStream &in, QImage &bytes, int w, int h, int bpp);
         void readASCIIString(QDataStream& ds, QString& str);
@@ -322,10 +320,6 @@ class CMapTDB : public IMap
 
         QPoint          pointFocus;
 
-        bool    useTyp;
-        bool    mouseOverUseTyp;
-        QRect   rectUseTyp;
-
         int detailsFineTune;
         QRect   rectDecDetail;
         QRect   rectIncDetail;
@@ -342,6 +336,7 @@ class CMapTDB : public IMap
             QString         text;
             QFont           font;
             QVector<qreal>  lengths;
+            qint32          lineWidth;
         };
 
         QVector<textpath_t> textpaths;
@@ -353,6 +348,11 @@ class CMapTDB : public IMap
 
         double lon_factor;
         double lat_factor;
+
+        bool useTyp;
+        bool growLines;
+        bool useBitmapLines;
+        bool textAboveLine;
 
 };
 #endif                           //CMAPTDB_H

@@ -234,6 +234,8 @@ class IMap : public QObject
         virtual bool getFastDrawFlag() { return doFastDraw; };
 
         virtual bool isLonLat();
+
+        virtual void config(){};
         signals:
         void sigChanged();
         void sigResize(const QSize& size);

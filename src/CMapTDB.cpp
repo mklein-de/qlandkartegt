@@ -29,6 +29,7 @@
 #include "IUnit.h"
 #include "Platform.h"
 #include "CMapSelectionGarmin.h"
+#include "CDlgMapTDBConfig.h"
 
 #include <QtGui>
 #include <algorithm>
@@ -212,9 +213,9 @@ static quint16 order[] =
     , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
 
-bool CMapTDB::growLines         = true;
-bool CMapTDB::useBitmapLines    = false;
-
+// bool CMapTDB::growLines         = true;
+// bool CMapTDB::useBitmapLines    = false;
+// bool CMapTDB::hCentreText       = true;
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
@@ -229,17 +230,18 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
-, useTyp(true)
-, mouseOverUseTyp(false)
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
 , mouseOverIncDetail(false)
 , lon_factor(+1.0)
 , lat_factor(-1.0)
+, useTyp(true)
+, growLines(false)
+, useBitmapLines(true)
+, textAboveLine(false)
 {
     setup();
     readTDB(filename);
-
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
@@ -260,8 +262,14 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     QString pos     = cfg.value("topleft","").toString();
     zoomidx         = cfg.value("zoomidx",11).toInt();
     detailsFineTune = cfg.value("details",0).toInt();
+    growLines       = cfg.value("growLines",growLines).toBool();
+    useBitmapLines  = cfg.value("useBitmapLines",useBitmapLines).toBool();
+    textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
+    useTyp          = cfg.value("useTyp",useTyp).toBool();
     cfg.endGroup();
     cfg.endGroup();
+
+    setup();
 
     if(pos.isEmpty()) {
         topLeft.u = west;
@@ -302,7 +310,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , polylineProperties(0x40)
 , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
-, useTyp(true)
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
 , mouseOverIncDetail(false)
@@ -310,6 +317,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , pid(0x0320)
 , lon_factor(+1.0)
 , lat_factor(-1.0)
+, useTyp(true)
+, growLines(false)
+, useBitmapLines(true)
+, textAboveLine(false)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -349,6 +360,11 @@ CMapTDB::~CMapTDB()
     cfg.setValue("topleft",pos);
     cfg.setValue("zoomidx",zoomidx);
     cfg.setValue("details", detailsFineTune);
+    cfg.setValue("growLines",growLines);
+    cfg.setValue("useBitmapLines",useBitmapLines);
+    cfg.setValue("textAboveLine",textAboveLine);
+    cfg.setValue("useTyp",useTyp);
+
     cfg.endGroup();
     cfg.endGroup();
 
@@ -566,12 +582,11 @@ void CMapTDB::resize(const QSize& s)
     int yshift = 0;
     if (QApplication::desktop()->height() < 650) yshift = 60 ;
     IMap::resize(s);
-    rectUseTyp      = QRect(55,size.height() - 55 - yshift, 100, 32);
     topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
 
-    rectDecDetail   = QRect(220, size.height() - 55 - yshift, 32, 32);
-    rectIncDetail   = QRect(380, size.height() - 55 - yshift, 32, 32);
-    rectDetail      = QRect(252, size.height() - 55 - yshift, 128, 32);
+    rectDecDetail   = QRect(20, size.height() - 55 - yshift, 32, 32);
+    rectDetail      = QRect(52, size.height() - 55 - yshift, 128, 32);
+    rectIncDetail   = QRect(180, size.height() - 55 - yshift, 32, 32);
 
     setFastDraw();
 }
@@ -584,13 +599,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
-
-        if(rectUseTyp.contains(pointFocus) && !mouseOverUseTyp) {
-            mouseOverUseTyp = true;
-        }
-        else if(!rectUseTyp.contains(pointFocus) && mouseOverUseTyp) {
-            mouseOverUseTyp = false;
-        }
 
         if(rectDecDetail.contains(pointFocus) && !mouseOverDecDetail) {
             mouseOverDecDetail = true;
@@ -606,9 +614,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
             mouseOverIncDetail = false;
         }
 
-        if(rectUseTyp.contains(pointFocus) && e->button() == Qt::LeftButton) {
-            useTyp = !useTyp;
-        }
 
         QMultiMap<QString, QString> dict;
         getInfoPoints(pointFocus, dict);
@@ -633,15 +638,7 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
     }
     else if(parent() == watched && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent * e = (QMouseEvent*)event;
-        if(rectUseTyp.contains(e->pos()) && e->button() == Qt::LeftButton) {
-            useTyp      = !useTyp;
-            needsRedraw = true;
-
-            setup();
-
-            emit sigChanged();
-        }
-        else if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
+        if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
             detailsFineTune -= 1;
             if(detailsFineTune < -5) detailsFineTune = -5;
             needsRedraw = true;
@@ -1232,54 +1229,6 @@ void CMapTDB::draw(QPainter& p)
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
-    if(!typfile.isEmpty()) {
-        QString str;
-
-        int yshift = 0 ;
-        if (QApplication::desktop()->height() < 650) yshift = 60 ;
-        if(useTyp && mouseOverUseTyp) {
-            str = tr("no typ");
-            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconOk32x32.png"));
-        }
-        else if(useTyp && !mouseOverUseTyp) {
-            str = tr("use typ");
-            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconOk32x32.png"));
-        }
-        else if(!useTyp && mouseOverUseTyp) {
-            str = tr("use typ");
-            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconCancel32x32.png"));
-        }
-        else if(!useTyp && !mouseOverUseTyp) {
-            str = tr("no typ");
-            p.drawPixmap(20, size.height() - 55 - yshift, QPixmap(":/icons/iconCancel32x32.png"));
-        }
-
-        QFont font = p.font();
-
-        p.save();
-
-        font.setPixelSize(mouseOverUseTyp ? 30 : 20);
-
-        p.setPen(Qt::white);
-        p.setFont(font);
-
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1,-1 + 5), str);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0,-1 + 5), str);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1,-1 + 5), str);
-
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1, 0 + 5), str);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1, 0 + 5), str);
-
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(-1,+1 + 5), str);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0,+1 + 5), str);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint(+1,+1 + 5), str);
-
-        p.setPen(Qt::darkBlue);
-        p.drawText(rectUseTyp.bottomLeft() - QPoint( 0, 0 + 5),str);
-
-        p.restore();
-    }
-
     // draw detail scaling
     p.setPen(Qt::darkBlue);
     p.setBrush(QColor(255,255,255,100));
@@ -1538,6 +1487,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         font.setBold(false);
         QFontMetricsF metrics(font);
 
+        qint32 lineWidth = p.pen().width();
+        if(!property.pixmap.isNull()){
+            lineWidth = property.pixmap.height();
+        }
+
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
             if(item->type == type) {
@@ -1555,7 +1509,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 // no street needed for uppers zoom factor
                 if (zoomFactor < STREETNAME_THRESHOLD) {
-                    collectText((*item), line, font, metrics);
+                    collectText((*item), line, font, metrics, lineWidth);
                 }
 
                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
@@ -1687,7 +1641,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 }
 
 
-void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics)
+void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
 {
 
     QString str;
@@ -1719,6 +1673,7 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     tp.path.addPolygon(line);
     tp.font = font;
     tp.text = str;
+    tp.lineWidth = lineWidth;
 
     QPointF p1 = line[0];
     const int size = line.size();
@@ -1819,7 +1774,12 @@ void CMapTDB::drawText(QPainter& p)
             p.save();
             p.translate(point1);
             p.rotate(angle);
-            p.translate(0, fm.descent());
+            if(textAboveLine){
+                p.translate(0, -(textpath->lineWidth + 2));
+            }
+            else{
+                p.translate(0, fm.descent());
+            }
             p.drawText(0,0,text.mid(i,1));
             p.restore();
 
@@ -2900,5 +2860,21 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
 {
     query2 = res;
     needsRedraw = true;
+    emit sigChanged();
+}
+
+void CMapTDB::config()
+{
+    CDlgMapTDBConfig dlg(this);
+    dlg.exec();
+
+    needsRedraw = true;
+
+    if(useTyp){
+        readTYP();
+    }
+    else{
+        setup();
+    }
     emit sigChanged();
 }

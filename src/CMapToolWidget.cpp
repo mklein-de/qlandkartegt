@@ -42,6 +42,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     contextMenuKnownMaps = new QMenu(this);
     actAddDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
+    actCfgMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconConfig16x16.png"),tr("Configure"),this,SLOT(slotCfgMap()));
     actDelMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
     connect(treeKnownMaps,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMaps,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
@@ -181,11 +182,18 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             actDelMap->setEnabled(false);
+            if(item->data(eType, Qt::UserRole).toInt() == IMap::eGarmin){
+                actCfgMap->setEnabled(true);
+            }
+            else{
+                actCfgMap->setEnabled(false);
+            }
         }
         else {
             actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
             actDelMap->setEnabled(true);
+            actCfgMap->setEnabled(false);
         }
 
         QPoint p = treeKnownMaps->mapToGlobal(pos);
@@ -303,4 +311,9 @@ void CMapToolWidget::slotDelDEM()
         cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
         dem.deleteLater();
     }
+}
+
+void CMapToolWidget::slotCfgMap()
+{
+    CMapDB::self().getMap().config();
 }
