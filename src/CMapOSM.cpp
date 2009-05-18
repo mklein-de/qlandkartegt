@@ -69,6 +69,12 @@ CMapOSM::CMapOSM(CCanvas * parent)
     zoom(zoomidx);
 
     resize(parent->size());
+
+    if(((lon1 < midU) && (midU < lon2)) && ((lat2 < midV) && (midV < lat1)) && ((midU != 0) && (midV != 0))){
+        IMap::convertRad2Pt(midU, midV);
+        move(QPoint(midU, midV), rect.center());
+    }
+
 }
 
 
@@ -86,6 +92,10 @@ CMapOSM::~CMapOSM()
 
     cfg.setValue("osm/topleft",pos);
     cfg.setValue("osm/zoomidx",zoomidx);
+
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
 
     if(pjsrc) pj_free(pjsrc);
     if (osmTiles) delete osmTiles;

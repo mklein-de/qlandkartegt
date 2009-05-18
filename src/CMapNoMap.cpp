@@ -147,3 +147,12 @@ void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
 
     qDebug() << "zoom:" << zoomFactor;
 }
+
+void CMapNoMap::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
+{
+    lon1 = -180 * DEG_TO_RAD;
+    lon2 =  180 * DEG_TO_RAD;
+    lat1 =   90 * DEG_TO_RAD;
+    lat2 =  -90 * DEG_TO_RAD;
+}
+

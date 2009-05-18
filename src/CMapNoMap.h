@@ -41,7 +41,7 @@ class CMapNoMap : public IMap
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
         void select(const QRect&){};
-        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2){lon1 = lon2 = lat1 = lat2 = 0;};
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
     private:
         double xscale;

@@ -220,10 +220,10 @@ static quint16 order[] =
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
 , filename(filename)
-, north(-90.0)
-, east(-180.0)
-, south(90.0)
-, west(180.0)
+, north(-90.0 * DEG_TO_RAD)
+, east(-180.0 * DEG_TO_RAD)
+, south(90.0 * DEG_TO_RAD)
+, west(180.0 * DEG_TO_RAD)
 , baseimg(0)
 , isTransparent(false)
 , zoomFactor(0)
@@ -292,6 +292,12 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     index = new CGarminIndex(this);
     index->setDBName(name);
+
+    if(((west < midU) && (midU < east)) && ((south < midV) && (midV < north)) && ((midU != 0) && (midV != 0))){
+        IMap::convertRad2Pt(midU, midV);
+        move(QPoint(midU, midV), rect.center());
+    }
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -376,6 +382,10 @@ CMapTDB::~CMapTDB()
 
     cfg.endGroup();
     cfg.endGroup();
+
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
 
     if(pjsrc) pj_free(pjsrc);
 

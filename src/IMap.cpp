@@ -27,6 +27,9 @@
 #include <QtGui>
 #include <math.h>
 
+double IMap::midU = 0;
+double IMap::midV = 0;
+
 IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 : QObject(parent)
 , maptype(type)

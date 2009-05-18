@@ -134,7 +134,7 @@ class IMap : public QObject
         */
         virtual void zoom(qint32& level) = 0;
 
-        ///
+        /// return current zoom level / index
         virtual qint32 getZoomLevel() { return 1; }
 
         /// get the top left and bottom right corner
@@ -226,15 +226,15 @@ class IMap : public QObject
          * \param h - matrix height
          */
         virtual void getRegion(float *buffer, XY topLeft, XY bottomRight, int width, int height) {};
-
-        bool getNeedsRedraw(){return needsRedraw;}
-
+        /// return the state of the needsRedraw flag
+        virtual bool getNeedsRedraw(){return needsRedraw;}
+        /// the map type, hast to be set during construction
         const maptype_e maptype;
-
+        /// return the state of the doFastDraw flag
         virtual bool getFastDrawFlag() { return doFastDraw; };
-
+        /// return true if the map projection is og long/lat type
         virtual bool isLonLat();
-
+        /// summon a configuration dialog, dafault does nothing
         virtual void config(){};
         signals:
         void sigChanged();
@@ -288,6 +288,9 @@ class IMap : public QObject
 
         bool doFastDraw;
         QTimer * timerFastDraw;
+
+        static double midU;
+        static double midV;
 
 };
 #endif                           //IMAP_H
