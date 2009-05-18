@@ -95,13 +95,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         resize(parent->size());
     }
 
-    double lon1, lon2, lat1, lat2;
-    pMaplevel->dimensions(lon1, lat1, lon2, lat2);
-    if(((lon1 < midU) && (midU < lon2)) && ((lat2 < midV) && (midV < lat1)) && ((midU != 0) && (midV != 0))){
-        IMap::convertRad2Pt(midU, midV);
-        move(QPoint(midU, midV), rect.center());
-    }
-
     qDebug() << "done";
 }
 

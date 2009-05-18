@@ -236,6 +236,10 @@ class IMap : public QObject
         virtual bool isLonLat();
         /// summon a configuration dialog, dafault does nothing
         virtual void config(){};
+
+        static double midU;
+        static double midV;
+
         signals:
         void sigChanged();
         void sigResize(const QSize& size);
@@ -288,9 +292,5 @@ class IMap : public QObject
 
         bool doFastDraw;
         QTimer * timerFastDraw;
-
-        static double midU;
-        static double midV;
-
 };
 #endif                           //IMAP_H

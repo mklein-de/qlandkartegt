@@ -4452,7 +4452,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="122"/>
         <source>delta</source>
-        <translation>Höhendifferenz</translation>
+        <translation type="unfinished">Distanz</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="127"/>

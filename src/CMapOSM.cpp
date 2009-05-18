@@ -70,11 +70,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     resize(parent->size());
 
-    if(((lon1 < midU) && (midU < lon2)) && ((lat2 < midV) && (midV < lat1)) && ((midU != 0) && (midV != 0))){
-        IMap::convertRad2Pt(midU, midV);
-        move(QPoint(midU, midV), rect.center());
-    }
-
 }
 
 

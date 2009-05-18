@@ -293,11 +293,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     index = new CGarminIndex(this);
     index->setDBName(name);
 
-    if(((west < midU) && (midU < east)) && ((south < midV) && (midV < north)) && ((midU != 0) && (midV != 0))) {
-        IMap::convertRad2Pt(midU, midV);
-        move(QPoint(midU, midV), rect.center());
-    }
-
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -1954,10 +1949,12 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != points.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            dict.insert(tr("Point of Interest"),point->labels.join(", "));
+            dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
         }
         ++point;
     }
+
+
 }
 
 
@@ -1967,7 +1964,7 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != pois.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            dict.insert(tr("Point of Interest"),point->labels.join(", "));
+            dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
         }
         ++point;
     }
@@ -2104,7 +2101,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
             }
 
             if(c && !line->labels.isEmpty()) {
-                dict.insert(tr("Area"), line->labels.join(" ").simplified());
+                dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
             }
 
             //             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
