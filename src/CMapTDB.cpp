@@ -293,7 +293,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     index = new CGarminIndex(this);
     index->setDBName(name);
 
-    if(((west < midU) && (midU < east)) && ((south < midV) && (midV < north)) && ((midU != 0) && (midV != 0))){
+    if(((west < midU) && (midU < east)) && ((south < midV) && (midV < north)) && ((midU != 0) && (midV != 0))) {
         IMap::convertRad2Pt(midU, midV);
         move(QPoint(midU, midV), rect.center());
     }
@@ -632,7 +632,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         else if(!rectIncDetail.contains(pointFocus) && mouseOverIncDetail) {
             mouseOverIncDetail = false;
         }
-
 
         QMultiMap<QString, QString> dict;
         getInfoPoints(pointFocus, dict);
@@ -1507,7 +1506,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         QFontMetricsF metrics(font);
 
         qint32 lineWidth = p.pen().width();
-        if(!property.pixmap.isNull()){
+        if(!property.pixmap.isNull()) {
             lineWidth = property.pixmap.height();
         }
 
@@ -1580,14 +1579,14 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
 
-                if(!usePixmap){
+                if(!usePixmap) {
                     for(int i = 0; i < size; ++i) {
                         line[i].setX(*u++);
                         line[i].setY(*v++);
                     }
                     p.drawPolyline(line);
                 }
-                else{
+                else {
                     QVector<double> lengths;
                     double u1, u2, v1, v2;
                     QPainterPath path;
@@ -1618,10 +1617,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     const int nLength = lengths.count();
 
                     double curLength = 0;
-                    for(int i = 0; i < nLength; ++i){
+                    for(int i = 0; i < nLength; ++i) {
                         segLength = lengths[i];
 
-//                         qDebug() << curLength << totalLength << curLength / totalLength;
+                        //                         qDebug() << curLength << totalLength << curLength / totalLength;
 
                         QPointF p1      = path.pointAtPercent(curLength / totalLength);
                         QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
@@ -1639,8 +1638,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p.rotate(angle);
                         p.translate(0,-h/2);
 
-                        while(l < segLength){
-                            if((segLength - l) < w){
+                        while(l < segLength) {
+                            if((segLength - l) < w) {
                                 r.setRight(segLength - l);
                                 p.setClipRect(r);
                             }
@@ -1793,10 +1792,10 @@ void CMapTDB::drawText(QPainter& p)
             p.save();
             p.translate(point1);
             p.rotate(angle);
-            if(textAboveLine){
+            if(textAboveLine) {
                 p.translate(0, -(textpath->lineWidth + 2));
             }
-            else{
+            else {
                 p.translate(0, fm.descent());
             }
             p.drawText(0,0,text.mid(i,1));
@@ -2235,6 +2234,7 @@ void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxco
     }
 }
 
+
 void CMapTDB::readColorTableInv(QDataStream &in, QImage &img, int colors, int maxcolors)
 {
     quint8 r,g,b;
@@ -2586,20 +2586,18 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             continue;
         }
 
-
         polyline_property& property = polylineProperties[typ];
 
         if(rows) {
             decodeBitmap(in, myXpmDay, 32, rows, 1);
             hasPixmap = true;
 
-            if(useBitmapLines){
+            if(useBitmapLines) {
                 property.pixmap = myXpmDay;
                 property.grow   = false;
-//             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+                //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
             }
         }
-
 
         if(rows == 0) {
             if(property.pen1.color() == Qt::NoPen) {
@@ -2613,7 +2611,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             }
 
         }
-        else if(!useBitmapLines){
+        else if(!useBitmapLines) {
 
             // hash-in a dash
             // let's try to read a dash pattern from the  bitmap
@@ -2740,7 +2738,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(w,h, QImage::Format_Indexed8 );
         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
 
-	// openmtb bug on colors=15 colors
+        // openmtb bug on colors=15 colors
         if ( colors >= 15) {
             bpp = 8;
         }
@@ -2762,11 +2760,13 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 
         int maxcolor = pow(2.0f,bpp);
 
-        if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9) ) {
+        if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9)  || ( a == 0xf) || ( a == 0xe)) {
             if (x3 == 0x00) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
-		// openmtb bug on bpp=4 colors
-		if ( ( (bpp==4) || (bpp==8) ) && ( (colors==3) || (colors==15) ) ) bpp /=2;
+                // openmtb bug on bpp=4 colors
+                if ( ( (bpp==4) || (bpp==8) ) && ( (colors==3) || (colors==15) ) ) {
+                    bpp /=2;
+                }
                 //if(bpp == 4) bpp /= 2;
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
@@ -2796,10 +2796,12 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         else if ((a == 7)  || (a == 3)) {
-            if (x3 == 0x10)
-	    	readColorTable(in, myXpmDay, colors, maxcolor);
-	    else
-	    	readColorTableAlpha(in, myXpmDay, colors, maxcolor);
+            if (x3 == 0x10) {
+                readColorTable(in, myXpmDay, colors, maxcolor);
+            }
+            else {
+                readColorTableAlpha(in, myXpmDay, colors, maxcolor);
+            }
             decodeBitmap(in, myXpmDay, w, h, bpp);
             pointProperties[(typ << 8) | subtyp] = myXpmDay;
             //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
@@ -2808,15 +2810,24 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             in >> colors >> x3;
             if ( colors >=16) bpp = 8;
             else if (colors >=3 ) {
-                if ( (colors == 3) && (x3 == 0x20) ) bpp = 2;
-                else bpp = 4;
-            } else bpp = 2;
+                if ( (colors == 3) && (x3 == 0x20) ) {
+                    bpp = 2;
+                }
+                else {
+                    bpp = 4;
+                }
+            }
+            else {
+                bpp = 2;
+            }
             wBytes = (w * bpp) / 8;
 
-            if (x3 == 0x10)
-            	readColorTable(in, myXpmNight, colors, maxcolor);
-	    else
-	    	readColorTableAlpha(in, myXpmNight, colors, maxcolor);
+            if (x3 == 0x10) {
+                readColorTable(in, myXpmNight, colors, maxcolor);
+            }
+            else {
+                readColorTableAlpha(in, myXpmNight, colors, maxcolor);
+            }
             decodeBitmap(in, myXpmNight, w, h, bpp);
             //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
             //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
@@ -2891,6 +2902,7 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
     emit sigChanged();
 }
 
+
 void CMapTDB::config()
 {
     CDlgMapTDBConfig dlg(this);
@@ -2898,10 +2910,10 @@ void CMapTDB::config()
 
     needsRedraw = true;
 
-    if(useTyp){
+    if(useTyp) {
         readTYP();
     }
-    else{
+    else {
         setup();
     }
     emit sigChanged();
