@@ -372,10 +372,10 @@ void CMainWindow::slotLoadData()
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
     if(haveGPSBabel) {
-        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdp);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb)";
     }
     else {
-        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
+        formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
 
     QSettings cfg;
@@ -413,10 +413,10 @@ void CMainWindow::slotAddData()
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
     if(haveGPSBabel) {
-        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com/EasyGPS (*.loc);;Mapsource (*.gdb)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdp);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb)";
     }
     else {
-        formats = "QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
+        formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
 
     QSettings cfg;

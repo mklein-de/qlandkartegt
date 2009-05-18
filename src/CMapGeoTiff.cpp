@@ -323,6 +323,8 @@ void CMapGeoTiff::convertM2Pt(double& u, double& v)
 
 void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
 {
+    if(pjsrc == 0) return;
+
     double xx = x, yy = y;
     convertM2Pt(xx, yy);
 
@@ -340,6 +342,7 @@ void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
 void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
 {
     XY p1;
+    if(pjsrc == 0) return;
 
     // convert point to geo. coordinates
     p1.u = p0.x();
@@ -384,6 +387,8 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
 
 void CMapGeoTiff::zoom(qint32& level)
 {
+    if(pjsrc == 0) return;
+
     // no level less than 1
     if(level < 1) {
         zoomFactor  = 1.0 / - (level - 2);
@@ -398,6 +403,8 @@ void CMapGeoTiff::zoom(qint32& level)
 
 void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
 {
+    if(pjsrc == 0) return;
+
     double u[3];
     double v[3];
     double dU, dV;
