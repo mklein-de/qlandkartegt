@@ -156,7 +156,7 @@ IDevice * CResources::device()
 
     // allocate new device
     if(!m_device) {
-        if(m_devKey == "QLandkarteM" && !m_devIPAddress.isEmpty() && m_devIPPort) {
+        if(m_devKey == "QLandkarteM") {
             //m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
             m_device = new CDeviceQLandkarteM(m_devIPAddress,m_devIPPort,this);
         }

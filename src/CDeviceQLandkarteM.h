@@ -42,9 +42,33 @@ class CDeviceQLandkarteM : public IDevice
         void uploadMap(const QList<IMapSelection*>& mss);
 
     private:
-        QUdpSocket *udpSocket;
+        enum packet_e
+        {
+            eNone           = 0
+            , eError        = 1     ///< error occured
+            , eAck          = 2     ///<
+            , eC2HAlive     = 3
+            , eH2CAlive     = 4
+            , eC2HWpt       = 5     ///< send waypoint data from client to host
+            , eH2CWptQuery  = 6     ///< request waypoint keys from host
+            , eH2CWpt       = 7     ///< request waypoint data from host
+            , eH2CTrkQuery  = 8     ///< request track keys from host
+            , eH2CTrk       = 9     ///< request track data from host
+            , eC2HTrk       = 10    ///< send track data from from client to host
+        };
+        bool startDeviceDetection();
+        bool acquire(const QString& operation, int max);
+        void send(const packet_e type, const QByteArray& data);
+        bool recv(packet_e& type, QByteArray& data);
+        bool exchange(packet_e& type,QByteArray& data);
+        void release();
+
+        QUdpSocket udpSocket;
+        QTcpSocket tcpSocket;
         QString ipaddr;
         quint16 port;
+        const int timeout;
+
     private slots:
         void detectedDevice();
 
