@@ -43,6 +43,12 @@ bool CDeviceQLandkarteM::acquire(const QString& operation, int max)
     createProgress(operation, tr("Connect to device."), max);
     qApp->processEvents();
 
+    QByteArray datagram;
+    datagram = "START";
+    udpSocket.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+
+    qApp->processEvents();
+
     tcpSocket.connectToHost(ipaddr,port);
     if(!tcpSocket.waitForConnected(timeout)) {
         QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
@@ -188,9 +194,6 @@ void CDeviceQLandkarteM::detectedDevice()
         ipaddr  = qlmAddress.toString();
         port    = qlmPort;
         qDebug() << "Device detected is " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
-
-        datagram = "START";
-        udpSocket.writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, REMOTE_PORT);
 
     }
 }
