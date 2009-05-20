@@ -17,6 +17,10 @@
 
 **********************************************************************************************/
 #include "CDeviceQLandkarteM.h"
+#include "CWpt.h"
+#include "CWptDB.h"
+#include "CTrack.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 
@@ -100,6 +104,7 @@ bool CDeviceQLandkarteM::recv(packet_e& type, QByteArray& data)
 bool CDeviceQLandkarteM::exchange(packet_e& type,QByteArray& data)
 {
     send(type,data);
+    qApp->processEvents();
     data.clear();
     return recv(type,data);
 }
@@ -114,9 +119,35 @@ void CDeviceQLandkarteM::release()
 
 void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 {
+
     if(!startDeviceDetection()) return;
     if(!acquire(tr("Upload waypoints ..."), wpts.count())) return;
 
+    packet_e type;
+    int cnt = 0;
+    QList<CWpt*>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end() && !progress->wasCanceled()) {
+        QByteArray data;
+        QDataStream s(&data,QIODevice::WriteOnly);
+
+        progress->setLabelText(tr("%1\n%2 of %3").arg((*wpt)->name).arg(++cnt).arg(wpts.count()));
+        progress->setValue(cnt);
+        qApp->processEvents();
+
+        s << *(*wpt);
+
+        if(!exchange(type = eC2HWpt,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        ++wpt;
+    }
 
     return release();
 }
@@ -162,15 +193,18 @@ bool CDeviceQLandkarteM::startDeviceDetection()
 
     qDebug() << ipaddr << port;
     if(ipaddr.isEmpty() || port == 0){
+        QApplication::setOverrideCursor(Qt::WaitCursor);
 
         QByteArray datagram = "GETADRESS";
         udpSocket.writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, REMOTE_PORT);
 
         QTime time;
         time.start();
-        while(time.elapsed() < 5000){
+        while(time.elapsed() < 3000){
             QApplication::processEvents();
         }
+
+        QApplication::restoreOverrideCursor();
     }
 
     if(ipaddr.isEmpty() || port == 0){

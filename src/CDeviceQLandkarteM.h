@@ -49,12 +49,12 @@ class CDeviceQLandkarteM : public IDevice
             , eAck          = 2     ///<
             , eC2HAlive     = 3
             , eH2CAlive     = 4
-            , eC2HWpt       = 5     ///< send waypoint data from client to host
-            , eH2CWptQuery  = 6     ///< request waypoint keys from host
-            , eH2CWpt       = 7     ///< request waypoint data from host
-            , eH2CTrkQuery  = 8     ///< request track keys from host
-            , eH2CTrk       = 9     ///< request track data from host
-            , eC2HTrk       = 10    ///< send track data from from client to host
+            , eC2HWpt       = 5     ///< send waypoint data from client (GT) to host (M)
+            , eH2CWptQuery  = 6     ///< request waypoint keys from host (M)
+            , eH2CWpt       = 7     ///< request waypoint data from host (M)
+            , eH2CTrkQuery  = 8     ///< request track keys from host (M)
+            , eH2CTrk       = 9     ///< request track data from host (M)
+            , eC2HTrk       = 10    ///< send track data from from client (GT) to host (M)
         };
         bool startDeviceDetection();
         bool acquire(const QString& operation, int max);
