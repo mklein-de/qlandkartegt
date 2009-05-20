@@ -20,7 +20,7 @@
 #define CDEVICEQLANDKARTEM_H
 
 #include "IDevice.h"
-#include <QtNetwork> 
+#include <QtNetwork>
 
 class CDeviceQLandkarteM : public IDevice
 {
@@ -42,11 +42,11 @@ class CDeviceQLandkarteM : public IDevice
         void uploadMap(const QList<IMapSelection*>& mss);
 
     private:
-	QUdpSocket *udpSocket;
+        QUdpSocket *udpSocket;
         QString ipaddr;
         quint16 port;
     private slots:
-	void detectedDevice();
+        void detectedDevice();
 
 };
 

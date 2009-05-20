@@ -29,8 +29,7 @@ CDeviceQLandkarteM::CDeviceQLandkarteM(const QString& ipaddr, quint16 port, QObj
     udpSocket->bind(45453);
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(detectedDevice()));
     QByteArray datagram = "GETADRESS";
-    udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                                 QHostAddress::Broadcast, 45454);
+    udpSocket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, 45454);
 }
 
 CDeviceQLandkarteM::~CDeviceQLandkarteM()
@@ -81,8 +80,8 @@ void CDeviceQLandkarteM::detectedDevice()
         quint16 qlmPort;
         datagram.resize(udpSocket->pendingDatagramSize());
         udpSocket->readDatagram(datagram.data(), datagram.size(), &qlmAddress, &qlmPort);
-	ipaddr = qlmAddress.toString();
-	//port = qlmPort;
+        ipaddr = qlmAddress.toString();
+        //port = qlmPort;
         qDebug() << "Device detected is " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
     }
 }
