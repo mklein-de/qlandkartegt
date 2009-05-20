@@ -25,7 +25,12 @@ CDeviceQLandkarteM::CDeviceQLandkarteM(const QString& ipaddr, quint16 port, QObj
 , ipaddr(ipaddr)
 , port(port)
 {
-
+    udpSocket = new QUdpSocket(this);
+    udpSocket->bind(45453);
+    connect(udpSocket, SIGNAL(readyRead()),this, SLOT(detectedDevice()));
+    QByteArray datagram = "GETADRESS";
+    udpSocket->writeDatagram(datagram.data(), datagram.size(),
+                                 QHostAddress::Broadcast, 45454);
 }
 
 CDeviceQLandkarteM::~CDeviceQLandkarteM()
@@ -68,3 +73,16 @@ void CDeviceQLandkarteM::downloadRoutes(QList<CRoute*>& rtes)
     QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+void CDeviceQLandkarteM::detectedDevice()
+{
+    while (udpSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        QHostAddress qlmAddress;
+        quint16 qlmPort;
+        datagram.resize(udpSocket->pendingDatagramSize());
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &qlmAddress, &qlmPort);
+	ipaddr = qlmAddress.toString();
+	//port = qlmPort;
+        qDebug() << "Device detected is " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
+    }
+}
