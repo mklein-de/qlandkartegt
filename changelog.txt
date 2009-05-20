@@ -1,3 +1,25 @@
+--- 2009.05.20 ---
+
+Request #85:
+Garmin Maps: Draw lines with bitmaps form \*typ file
+
+Request #86:
+Add feature selection for Garmin maps. (context menu in the map list)
+
+Bug     #87:
+Many small fixes for typ file icon decoding
+
+Bug     #88:
+Crash on missing map
+
+Request #89:
+Map switching: Keep center of map if it is within the area of the new map.
+
+Request #90:
+Garmin maps: show type ids for polygons and points in info box
+
+
+
 --- 2009.05.05 ---
 
 Request #70:
@@ -493,6 +515,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
