@@ -190,8 +190,6 @@ void CDeviceQLandkarteM::downloadRoutes(QList<CRoute*>& rtes)
 
 bool CDeviceQLandkarteM::startDeviceDetection()
 {
-
-    qDebug() << ipaddr << port;
     if(ipaddr.isEmpty() || port == 0){
         QApplication::setOverrideCursor(Qt::WaitCursor);
 

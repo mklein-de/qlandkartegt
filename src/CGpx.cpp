@@ -18,14 +18,54 @@
 **********************************************************************************************/
 #include "CGpx.h"
 
+#include "CTrack.h"
+
 #include <QtCore>
 #include <QMessageBox>
+#include <iostream>
+
+const QString CGpx::gpx_ns = "http://www.topografix.com/GPX/1/1";
+const QString CGpx::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
+const QString CGpx::gpxx_ns = "http://www.garmin.com/xmlschemas/GpxExtensions/v3";
+const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
+const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
+
+uint qHash(QColor color)
+{
+    return qHash(color.rgba());
+}
 
 CGpx::CGpx(QObject * parent)
 : QObject(parent)
 , QDomDocument()
 {
     writeMetadata();
+
+    colorMap.insert("Black",       QColor(Qt::black));
+    colorMap.insert("DarkRed",     QColor(Qt::darkRed));
+    colorMap.insert("DarkGreen",   QColor(Qt::darkGreen));
+    colorMap.insert("DarkYellow",  QColor(Qt::darkYellow));
+    colorMap.insert("DarkBlue",    QColor(Qt::darkBlue));
+    colorMap.insert("DarkMagenta", QColor(Qt::darkMagenta));
+    colorMap.insert("DarkCyan",    QColor(Qt::darkCyan));
+    colorMap.insert("LightGray",   QColor(Qt::gray));
+    colorMap.insert("DarkGray",    QColor(Qt::darkGray));
+    colorMap.insert("Red",         QColor(Qt::red));
+    colorMap.insert("Green",       QColor(Qt::green));
+    colorMap.insert("Yellow",      QColor(Qt::yellow));
+    colorMap.insert("Blue",        QColor(Qt::blue));
+    colorMap.insert("Magenta",     QColor(Qt::magenta));
+    colorMap.insert("Cyan",        QColor(Qt::cyan));
+    colorMap.insert("White",       QColor(Qt::white));
+    colorMap.insert("Transparent", QColor(Qt::transparent));
+
+    for (int i=0;;++i)
+    {
+        QColor trackColor = CTrack::lineColors[i];
+        QString colorName = colorMap.left(trackColor);
+        if (!colorName.isEmpty()) trackColorMap.insert(colorName, i);
+        if (trackColor == Qt::transparent) break;
+    }
 }
 
 
@@ -35,16 +75,33 @@ CGpx::~CGpx()
 }
 
 
+const Dictionary<QString, QColor>& CGpx::getColorMap() const
+{
+    return colorMap;
+}
+
+const Dictionary<QString, int>& CGpx::getTrackColorMap() const
+{
+    return trackColorMap;
+}
+
+
 void CGpx::writeMetadata()
 {
     QDomElement root = createElement("gpx");
     appendChild(root);
     root.setAttribute("version","1.1");
     root.setAttribute("creator","QLandkarteGT");
-    root.setAttribute("xmlns","http://www.topografix.com/GPX/1/1");
-    root.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
-    root.setAttribute("xmlns:rmc","http://www.qlandkarte.org/");
-    root.setAttribute("xsi:schemaLocation","http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
+    root.setAttribute("xmlns",gpx_ns);
+    root.setAttribute("xmlns:xsi",xsi_ns);
+    root.setAttribute("xmlns:gpxx",gpxx_ns);
+    root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
+    root.setAttribute("xmlns:rmc",rmc_ns);
+    root.setAttribute("xsi:schemaLocation",QString()
+        + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd"
+        + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"
+        + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd"
+    );
 
     QDomElement metadata = createElement("metadata");
     root.appendChild(metadata);
@@ -122,7 +179,7 @@ void CGpx::load(const QString& filename)
     QString msg;
     int line;
     int column;
-    if(!setContent(&file, &msg, &line, &column)) {
+    if(!setContent(&file, true, &msg, &line, &column)) {
         file.close();
         throw tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg);
     }
@@ -133,4 +190,29 @@ void CGpx::load(const QString& filename)
         throw tr("Not a GPX file: ") + filename;
     }
 
+}
+
+QMap<QString,QDomElement> CGpx::mapChildElements(const QDomNode& parent)
+{
+    // I tried to use QDomNamedNodeMap first, but it did not work. After
+    // setNamedItem(child) the size() remained 0. XML support in QT sucks.
+
+    QMap<QString,QDomElement> map;
+
+    QDomNode child = parent.firstChild();
+    while (!child.isNull())
+    {
+        if (child.isElement())
+        {
+            if (child.prefix().isEmpty())
+            {
+                map.insert(child.nodeName(), child.toElement());
+            } else {
+                map.insert(child.namespaceURI()+":"+child.localName(), child.toElement());
+            }
+        }
+        child = child.nextSibling();
+    }
+    
+    return map;
 }

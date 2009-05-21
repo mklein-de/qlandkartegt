@@ -372,7 +372,7 @@ void CMainWindow::slotLoadData()
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
     if(haveGPSBabel) {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdp);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
     }
     else {
         formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
@@ -413,7 +413,7 @@ void CMainWindow::slotAddData()
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
     if(haveGPSBabel) {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdp);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
     }
     else {
         formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
@@ -518,6 +518,23 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
                 COverlayDB::self().loadGPX(gpx);
             }
         }
+        else if(ext == "KML") {
+            tmpfile.open();
+            loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
+            if (!loadGPXData) {
+                QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
+            }
+            else {
+                CGpx gpx(this);
+                gpx.load(tmpfile.fileName());
+                CMapDB::self().loadGPX(gpx);
+                CWptDB::self().loadGPX(gpx);
+                CTrackDB::self().loadGPX(gpx);
+                CRouteDB::self().loadGPX(gpx);
+                CDiaryDB::self().loadGPX(gpx);
+                COverlayDB::self().loadGPX(gpx);
+            }
+        }
         wksFile = filename;
     }
     catch(const QString& msg) {
@@ -576,11 +593,13 @@ void CMainWindow::slotSaveData()
     QSettings cfg;
 
     QString filter =cfg.value("geodata/filter","").toString();
+
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
         ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
         ,&filter
         );
+
     if(filename.isEmpty()) return;
 
     cfg.setValue("geodata/filter",filter);

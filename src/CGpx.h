@@ -20,12 +20,28 @@
 #define CGPX_H
 
 #include <QObject>
+#include <QMap>
+#include <QColor>
+#include <QString>
 #include <QtXml/QDomDocument>
+
+#include "Dictionary.h"
 
 /// handle geo data from GPX files
 class CGpx : public QObject, public QDomDocument
 {
     Q_OBJECT;
+
+    public:
+        // Those are standard GPX/XML namespaces
+        static const QString gpx_ns;
+        static const QString xsi_ns;
+
+        // Those are the URIs of the GPX extensions we support
+        static const QString gpxx_ns;
+        static const QString gpxtpx_ns;
+        static const QString rmc_ns;
+
     public:
         CGpx(QObject * parent);
         virtual ~CGpx();
@@ -33,8 +49,15 @@ class CGpx : public QObject, public QDomDocument
         void load(const QString& filename);
         void save(const QString& filename);
 
+        static QMap<QString,QDomElement> mapChildElements(const QDomNode& parent);
+	
+        const Dictionary<QString, QColor>& getColorMap() const;
+        const Dictionary<QString, int>& getTrackColorMap() const;
+
     protected:
         void writeMetadata();
 
+        Dictionary<QString, QColor> colorMap;
+        Dictionary<QString, int> trackColorMap;
 };
 #endif                           //CGPX_H

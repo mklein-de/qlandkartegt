@@ -214,6 +214,8 @@ class CTrack : public QObject
         quint32 timestamp;
         /// a comment string
         QString comment;
+        /// a track URL
+        QString url;
         /// the track line color
         QColor  color;
 

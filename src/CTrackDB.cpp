@@ -107,123 +107,232 @@ void CTrackDB::saveQLB(CQlb& qlb)
 
 void CTrackDB::loadGPX(CGpx& gpx)
 {
-    const QDomNodeList& trks = gpx.elementsByTagName("trk");
-    uint N = trks.count();
-    for(uint n = 0; n < N; ++n) {
-        const QDomNode& trk = trks.item(n);
+    QDomElement tmpelem;
+    
+    QDomElement trk = gpx.firstChildElement("gpx").firstChildElement("trk");
+    while (!trk.isNull())
+    {
+        CTrack* track = new CTrack(this);
 
-        CTrack * track = new CTrack(this);
+        /*
+         *  Global track information
+         */
+    
+        QMap<QString,QDomElement> trkmap = CGpx::mapChildElements(trk);
 
-        if(trk.namedItem("name").isElement()) {
-            track->setName(trk.namedItem("name").toElement().text());
+        // GPX 1.1
+
+        tmpelem = trkmap.value("name");
+        if(!tmpelem.isNull()) track->setName(tmpelem.text());
+        
+        tmpelem = trkmap.value("desc");
+        if(!tmpelem.isNull()) track->comment = tmpelem.text();
+
+        tmpelem = trkmap.value("link");
+        if(!tmpelem.isNull())
+        {
+            track->url = tmpelem.attribute("href");
+
+            // For now we are ignoring the following elements:
+            // * text - hyperlink text (string)
+            // * type - content mime type (string)
+            // When the URL is somehow supported, we may need those
         }
+        
+        // For now we are ignoring the following elements:
+        // * cmt - GPS comment (string)
+        // * src - data source (string)
+        // * number - track number (integer)
+        // * type - track classification (string)
+        // I haven't seen any software using those, but who knows
 
-        if(trk.namedItem("extensions").isElement()) {
-            const QDomNode& ext = trk.namedItem("extensions");
-            if(ext.namedItem("color").isElement()) {
-                track->setColor(ext.namedItem("color").toElement().text().toUInt());
+        tmpelem = trkmap.value("extensions");
+        if(!tmpelem.isNull())
+        {
+            QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
+    
+            // Garmin extensions v3
+        
+            tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "TrackExtension");
+            if(!tmpelem.isNull())
+            {
+                QMap<QString,QDomElement> trackextensionmap = CGpx::mapChildElements(tmpelem);
+        
+                tmpelem = trackextensionmap.value(CGpx::gpxx_ns + ":" + "DisplayColor");
+                if (!tmpelem.isNull())
+                {
+                    int colorID = gpx.getTrackColorMap().right(tmpelem.text(), -1);
+                    if (colorID >= 0) track->setColor(colorID);
+                }
             }
         }
 
-        QDomNode trkseg     = trk.firstChildElement("trkseg");
-        while(!trkseg.isNull()){
+        // Own backward compatibility, to be removed soon (May 2009)
 
-            QDomElement trkpt   = trkseg.firstChildElement("trkpt");
-            while (!trkpt.isNull()) {
+        tmpelem = trkmap.value("extension");
+        if(!tmpelem.isNull())
+        {
+            QMap<QString,QDomElement> trkextensionmap = CGpx::mapChildElements(tmpelem);
 
+            tmpelem = trkextensionmap.value("color");
+            if(!tmpelem.isNull()) track->setColor(tmpelem.text().toUInt());
+        }
+
+        /*
+         *  Trackpoint information
+         */
+
+        bool foundTraineeData = false;
+
+        QDomElement trkseg = trk.firstChildElement("trkseg");
+        while(!trkseg.isNull())
+        {
+            QDomElement trkpt = trkseg.firstChildElement("trkpt");
+            while (!trkpt.isNull())
+            {
                 CTrack::pt_t pt;
+                
+                QMap<QString,QDomElement> trkptmap = CGpx::mapChildElements(trkpt);
+        
+                // GPX 1.1
 
-                QDomNamedNodeMap attr = trkpt.attributes();
+                pt.lon = trkpt.attribute("lon").toDouble();
+                pt.lat = trkpt.attribute("lat").toDouble();
 
-                pt.lon = attr.namedItem("lon").nodeValue().toDouble();
-                pt.lat = attr.namedItem("lat").nodeValue().toDouble();
+                tmpelem = trkptmap.value("ele");
+                if(!tmpelem.isNull()) pt.ele = tmpelem.text().toDouble();
 
-                if(trkpt.namedItem("ele").isElement()) {
-                    pt.ele = trkpt.namedItem("ele").toElement().text().toDouble();
+                tmpelem = trkptmap.value("time");
+                if(!tmpelem.isNull())
+                {
+                    QString timetext = tmpelem.text();
+
+                    QString format = "yyyy-MM-dd'T'hh:mm:ss";
+                    if (timetext.indexOf(".") != -1) format += ".zzz";
+                    if (timetext.indexOf("Z") != -1) format += "'Z'"; // bugfix for badly coded gpx files
+                    
+                    QDateTime datetime = QDateTime::fromString(timetext, format);
+                    datetime.setTimeSpec(Qt::UTC);
+                    
+                    pt.timestamp = datetime.toTime_t();
+                    pt.timestamp_msec = datetime.time().msec();
                 }
 
-                if(trkpt.namedItem("time").isElement()) {
-                    QDateTime time;
-                    QString strTime = trkpt.namedItem("time").toElement().text();
-                    if(strTime.indexOf("Z") != -1){
-                        if ( strTime.indexOf(".") != -1 ){
-                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz'Z'");
+                tmpelem = trkptmap.value("fix");
+                if(!tmpelem.isNull()) pt.fix = tmpelem.text();
+
+                tmpelem = trkptmap.value("sat");
+                if(!tmpelem.isNull()) pt.sat = tmpelem.text().toUInt();
+
+                tmpelem = trkptmap.value("hdop");
+                if(!tmpelem.isNull()) pt.hdop = tmpelem.text().toDouble();
+
+                tmpelem = trkptmap.value("vdop");
+                if(!tmpelem.isNull()) pt.vdop = tmpelem.text().toDouble();
+
+                tmpelem = trkptmap.value("pdop");
+                if(!tmpelem.isNull()) pt.pdop = tmpelem.text().toDouble();
+
+                // For now we are ignoring the following elements:
+                // * magvar - magnetic variation (degrees)
+                // * geoidheight - height of geoid above WGS84 (meters)
+                // * name - waypoint name (string)
+                // * cmt - GPS waypoint comment (string)
+                // * desc - desctiption (string)
+                // * src - data source (string)
+                // * link - link to additional information (link)
+                // * sym - symbol name (string)
+                // * type - waypoint type (string)
+                // * ageofdgpsdata - seconds since last DGPS update (decimal)
+                // * dgpsid - DGPS station ID (ID)
+        
+                // GPX 1.0 backward compatibility, to be kept
+
+                tmpelem = trkptmap.value("course");
+                if(!tmpelem.isNull()) pt.heading = tmpelem.text().toDouble();
+
+                tmpelem = trkptmap.value("speed");
+                if(!tmpelem.isNull()) pt.velocity = tmpelem.text().toDouble();
+
+                tmpelem = trkptmap.value("extensions");
+                if(!tmpelem.isNull())
+                {
+                    QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
+        
+                    // Garmin extensions v3
+                    
+                    // For now we are ignoring the following elements:
+                    // * Depth - depth (meters)
+                    // * Temperature - temperature (Celsius)
+            
+                    // Garmin Trackpoint Extension v1
+            
+                    // For now we are ignoring the following elements:            
+                    // * atemp - ambient temperature (Celsius)
+                    // * wtemp - water temperature (Celsius)
+                    // * depth - depth (meters)
+            
+                    tmpelem = extensionsmap.value(CGpx::gpxtpx_ns + ":" + "TrackPointExtension");
+                    if(!tmpelem.isNull())
+                    {
+                        QMap<QString,QDomElement> trackpointextensionmap = CGpx::mapChildElements(tmpelem);
+            
+                        tmpelem = trackpointextensionmap.value(CGpx::gpxtpx_ns + ":" + "hr");
+                        if(!tmpelem.isNull())
+                        {
+                            pt.heartReateBpm = tmpelem.text().toUInt();
+                            foundTraineeData = true;
                         }
-                        else{
-                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss'Z'");
+
+                        tmpelem = trackpointextensionmap.value(CGpx::gpxtpx_ns + ":" + "cad");
+                        if(!tmpelem.isNull())
+                        {
+                            pt.cadenceRpm = tmpelem.text().toUInt();
+                            foundTraineeData = true;
                         }
                     }
-                    else{ // bugfix for badly coded gpx files
-                        if ( strTime.indexOf(".") != -1 ){
-                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss.zzz");
-                        }
-                        else{
-                            time = QDateTime::fromString(strTime,"yyyy-MM-dd'T'hh:mm:ss");
-                        }
-                    }
-                    time.setTimeSpec(Qt::UTC);
-                    pt.timestamp = time.toTime_t();
-                    pt.timestamp_msec = time.time().msec();
-                }
+                    
+                    // TrekBuddy extensions
+                    
+                    tmpelem = extensionsmap.value(CGpx::rmc_ns + ":" + "course");
+                    if(!tmpelem.isNull()) pt.heading = tmpelem.text().toDouble();
 
-                if(trkpt.namedItem("hdop").isElement()) {
-                    pt.hdop = trkpt.namedItem("hdop").toElement().text().toDouble();
+                    tmpelem = extensionsmap.value(CGpx::rmc_ns + ":" + "speed");
+                    if(!tmpelem.isNull()) pt.velocity = tmpelem.text().toDouble();
                 }
+                
+                // Own backward compatibility, to be removed soon (May 2009)
 
-                if(trkpt.namedItem("vdop").isElement()) {
-                    pt.vdop = trkpt.namedItem("vdop").toElement().text().toDouble();
-                }
+                tmpelem = trkptmap.value("extension");
+                if(!tmpelem.isNull())
+                {
+                    QMap<QString,QDomElement> extensionmap = CGpx::mapChildElements(tmpelem);
 
-                if(trkpt.namedItem("pdop").isElement()) {
-                    pt.pdop = trkpt.namedItem("pdop").toElement().text().toDouble();
-                }
-
-                // import from GPX 1.0
-                if(trkpt.namedItem("course").isElement()) {
-                    pt.heading = trkpt.namedItem("course").toElement().text().toDouble();
-                }
-                // import from GPX 1.0
-                if(trkpt.namedItem("speed").isElement()) {
-                    pt.velocity = trkpt.namedItem("speed").toElement().text().toDouble();
-                }
-
-                if(trkpt.namedItem("fix").isElement()) {
-                    pt.fix = trkpt.namedItem("fix").toElement().text();
-                }
-
-                if(trkpt.namedItem("sat").isElement()) {
-                    pt.sat = trkpt.namedItem("sat").toElement().text().toUInt();
-                }
-
-                if(trkpt.namedItem("extensions").isElement()) {
-                    const QDomNode& ext = trkpt.namedItem("extensions");
-                    if(ext.namedItem("flags").isElement()) {
-                        pt.flags = ext.namedItem("flags").toElement().text().toUInt();
+                    tmpelem = extensionmap.value("flags");
+                    if(!tmpelem.isNull())
+                    {
+                        pt.flags = tmpelem.text().toUInt();
                         pt.flags &= ~CTrack::pt_t::eFocus;
                         pt.flags &= ~CTrack::pt_t::eSelected;
                         pt.flags &= ~CTrack::pt_t::eCursor;
-                    }
-                    if(ext.namedItem("rmc:course").isElement()) {
-                        pt.heading = ext.namedItem("rmc:course").toElement().text().toDouble();
-                    }
-                    if(ext.namedItem("rmc:speed").isElement()) {
-                        pt.velocity = ext.namedItem("rmc:speed").toElement().text().toDouble();
                     }
                 }
 
                 *track << pt;
                 trkpt = trkpt.nextSiblingElement("trkpt");
             }
+            
             trkseg = trkseg.nextSiblingElement("trkseg");
         }
 
-        if(track->getTrackPoints().count() > 0) {
-            addTrack(track, true);
-        }
-        else {
-            delete track;
-        }
+        if (foundTraineeData) track->setTraineeData();
+
+        if(track->getTrackPoints().count() > 0) addTrack(track, true);
+            else delete track;
+
+        trk = trk.nextSiblingElement("trk");
     }
+    
     emit sigChanged();
 }
 
@@ -242,7 +351,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
         QDomText _name_ = gpx.createTextNode((*track)->getName());
         name.appendChild(_name_);
 
-        QDomElement ext = gpx.createElement("extensions");
+        QDomElement ext = gpx.createElement("extension");
         trk.appendChild(ext);
 
         QDomElement color = gpx.createElement("color");
@@ -313,7 +422,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
             }
 
             // gpx extensions
-            QDomElement extension = gpx.createElement("extensions");
+            QDomElement extension = gpx.createElement("extension");
             trkpt.appendChild(extension);
 
             QDomElement flags = gpx.createElement("flags");
