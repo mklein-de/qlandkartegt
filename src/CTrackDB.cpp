@@ -118,8 +118,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
             track->setName(trk.namedItem("name").toElement().text());
         }
 
-        if(trk.namedItem("extension").isElement()) {
-            const QDomNode& ext = trk.namedItem("extension");
+        if(trk.namedItem("extensions").isElement()) {
+            const QDomNode& ext = trk.namedItem("extensions");
             if(ext.namedItem("color").isElement()) {
                 track->setColor(ext.namedItem("color").toElement().text().toUInt());
             }
@@ -195,8 +195,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
                     pt.sat = trkpt.namedItem("sat").toElement().text().toUInt();
                 }
 
-                if(trkpt.namedItem("extension").isElement()) {
-                    const QDomNode& ext = trkpt.namedItem("extension");
+                if(trkpt.namedItem("extensions").isElement()) {
+                    const QDomNode& ext = trkpt.namedItem("extensions");
                     if(ext.namedItem("flags").isElement()) {
                         pt.flags = ext.namedItem("flags").toElement().text().toUInt();
                         pt.flags &= ~CTrack::pt_t::eFocus;
@@ -242,7 +242,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
         QDomText _name_ = gpx.createTextNode((*track)->getName());
         name.appendChild(_name_);
 
-        QDomElement ext = gpx.createElement("extension");
+        QDomElement ext = gpx.createElement("extensions");
         trk.appendChild(ext);
 
         QDomElement color = gpx.createElement("color");
@@ -313,7 +313,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
             }
 
             // gpx extensions
-            QDomElement extension = gpx.createElement("extension");
+            QDomElement extension = gpx.createElement("extensions");
             trkpt.appendChild(extension);
 
             QDomElement flags = gpx.createElement("flags");
