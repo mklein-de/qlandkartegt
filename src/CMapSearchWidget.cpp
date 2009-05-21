@@ -354,7 +354,7 @@ void CMapSearchWidget::slotMapChanged()
     IMap& map  = CMapDB::self().getMap();
     IMap * ovl = map.getOverlay();
 
-    tabWidget->widget(1)->setEnabled(map.maptype == IMap::eRaster);
+    tabWidget->widget(1)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
     tabWidget->widget(0)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
 }
 

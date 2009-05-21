@@ -65,7 +65,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
     m.description       = tr("--- OSM ---");
     m.key               = "OSMTileServer";
-    m.type              = IMap::eRaster;
+    m.type              = IMap::eTile;
     knownMaps[m.key]    = m;
 
     QSettings cfg;
@@ -532,7 +532,7 @@ void CMapDB::select(const QRect& rect)
         return;
     }
 
-    if(theMap->maptype == IMap::eRaster) {
+    if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eTile) {
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;
         ms->description  = knownMaps[mapkey].description;

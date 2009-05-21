@@ -23,7 +23,8 @@
 #include <IMap.h>
 class COsmTilesHash;
 class CCanvas;
-
+class QComboBox;
+#include <QPair>
 class CMapOSM : public IMap
 {
     Q_OBJECT;
@@ -44,13 +45,18 @@ class CMapOSM : public IMap
 
     public slots:
         void newImageReady(QImage image, bool lastTileLoaded);
+        void setNewTileUrl(int index = -1);
     private:
+        QComboBox *cb;
+        QWidget *parent;
+        int currentTileListIndex;
+        QList<QPair<QString, QString> > tileList;
         QImage image;
         bool lastTileLoaded;
         void draw();
         COsmTilesHash *osmTiles;
         double zoomFactor;
-
+        void config();
         ///actual x offset in [m]
         double x;
         ///actual y offset in [m]

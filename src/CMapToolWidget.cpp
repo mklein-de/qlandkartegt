@@ -80,7 +80,7 @@ void CMapToolWidget::slotDBChanged()
 
             item->setText(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
-            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : QIcon(":/icons/iconUnknown16x16"));
+            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : map->type == IMap::eTile ? QIcon(":/icons/iconTile16x16") : QIcon(":/icons/iconUnknown16x16"));
             item->setData(eType, Qt::UserRole, map->type);
 
             if(map.key() == key) {
@@ -182,7 +182,8 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             actDelMap->setEnabled(false);
-            if(item->data(eType, Qt::UserRole).toInt() == IMap::eGarmin){
+            int mapType = item->data(eType, Qt::UserRole).toInt();
+            if(mapType == IMap::eGarmin || mapType == IMap::eTile){
                 actCfgMap->setEnabled(true);
             }
             else{

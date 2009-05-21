@@ -22,20 +22,29 @@
 #include "CCanvas.h"
 
 #include <QtGui>
+#include "CMainWindow.h"
 #include "COsmTilesHash.h"
 #include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
-: IMap(eRaster, "OSMTileServer", parent)
+: IMap(eTile, "OSMTileServer", parent)
 , xscale( 1.19432854652)
 , yscale(-1.19432854652)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
 , needsRedrawOvl(true)
+, parent(parent)
 {
-    osmTiles = new COsmTilesHash(this);
-    connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
+    osmTiles = 0;
+    // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
+    tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
+    tileList << qMakePair(QString("cloudmade.com (cycle)"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
+    tileList << qMakePair(QString("topo.geofabrik.de (trails)"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
+    tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
+//    tileList << qMakePair(QString("cloudmade.com"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
+
+    setNewTileUrl(0);
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
 
     char * ptr = pj_get_def(pjsrc,0);
@@ -70,6 +79,18 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     resize(parent->size());
 
+    cb = new QComboBox(theMainWindow->getCanvas());
+
+    for(int i = 0; i < tileList.size(); i++)
+    {
+      QPair<QString, QString> p = tileList.at(i);
+      cb->addItem(p.first);
+    }
+
+    connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
+
+    theMainWindow->statusBar()->insertPermanentWidget(0,cb);
+
 }
 
 
@@ -94,8 +115,33 @@ CMapOSM::~CMapOSM()
 
     if(pjsrc) pj_free(pjsrc);
     if (osmTiles) delete osmTiles;
+    if (cb) delete cb;
 }
 
+
+void CMapOSM::setNewTileUrl(int index)
+{
+  if (index == -1)
+    if (currentTileListIndex < tileList.size() -1 )
+      index = currentTileListIndex+1;
+    else
+      index = 0;
+
+  if (currentTileListIndex!= index)
+  {
+    currentTileListIndex = index;
+    if (osmTiles)
+    {
+      delete osmTiles;
+      osmTiles = 0;
+    }
+    osmTiles = new COsmTilesHash(tileList.at(index).second);
+    connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
+
+    needsRedraw = true;
+    emit sigChanged();
+ }
+}
 
 void CMapOSM::convertPt2M(double& u, double& v)
 {
@@ -269,7 +315,9 @@ void CMapOSM::draw(QPainter& p)
     p.drawText(10,24,str);
 
     p.setFont(QFont("Sans Serif",8,QFont::Black));
-    CCanvas::drawText(tr("Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license"), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+
+    CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).first), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).second).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
 
 }
 
@@ -284,7 +332,8 @@ void CMapOSM::draw()
     double lat = y;
     convertM2Rad(lon,lat);
     lastTileLoaded = false;
-    osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
+    if (osmTiles)
+      osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
 
 }
 
@@ -322,4 +371,10 @@ void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lat1 = this->lat1;
     lon2 = this->lon2;
     lat2 = this->lat2;
+}
+
+
+void CMapOSM::config()
+{
+
 }

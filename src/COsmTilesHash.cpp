@@ -29,7 +29,7 @@
 class COsmTilesHashCacheCleanup: public QThread
 {
     public:
-        COsmTilesHashCacheCleanup(QObject *p) : QThread(p) {
+        COsmTilesHashCacheCleanup(QObject *p=0) : QThread(p) {
             QSettings cfg;
 
             if (!cfg.contains("osm/maxcachevalueMB"))
@@ -69,11 +69,15 @@ class COsmTilesHashCacheCleanup: public QThread
         qint32 maxSizeInMB;
 };
 
-COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM)/* : cmapOSM(cmapOSM)*/
+COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
+    int index = tileUrl.indexOf('/');
+    tileServer = tileUrl.left(index);
 
-    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);
-    osmTileBaseUrl = "http://tile.openstreetmap.org/";
+    tileUrlPart = tileUrl.right(tileUrl.size()-index);
+    ttileUrlPart = QString(tileUrlPart).replace('%','p');
+    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
+
     getid = -1;
     requestInProgress =false;
 
@@ -84,7 +88,7 @@ COsmTilesHash::COsmTilesHash(CMapOSM *cmapOSM)/* : cmapOSM(cmapOSM)*/
     enableProxy = CResources::self().getHttpProxy(url,port);
 
     tilesConnection = new QHttp(this);
-    tilesConnection->setHost("tile.openstreetmap.org");
+    tilesConnection->setHost(tileServer);
     if(enableProxy) {
         tilesConnection->setProxy(url,port);
     }
@@ -112,7 +116,7 @@ void COsmTilesHash::slotSetupLink()
     if(enableProxy) {
         tilesConnection->setProxy(url,port);
     }
-    tilesConnection->setHost("tile.openstreetmap.org");
+    tilesConnection->setHost(tileServer);
     connect(tilesConnection,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
@@ -158,9 +162,9 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // *  Tiles are 256  256 pixel PNG files
     // * Each zoom level is a directory, each column is a subdirectory, and each tile in that column is a file
     // * Filename(url) format is /zoom/x/y.png
-    QString osmUrlPart = QString("/%1/%2/%3.png").arg(osm_zoom).arg(osm_x).arg(osm_y);
-    QString osmFilePath = QDir::tempPath() + "/qlandkarteqt/cache/" + osmUrlPart;
-
+    QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
+    QString osmFilePath = QString("%1/qlandkarteqt/cache/%2/%3/%4").arg(QDir::tempPath()).arg(tileServer).arg(ttileUrlPart).arg(osmUrlPart);
+    // qDebug() << osmFilePath;
     bool needHttpAction = true;
     bool outOfDate = false;
     if (tiles.contains(osmUrlPart)) {
@@ -229,8 +233,10 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
         return;
     }
     QString osmUrlPart = osmUrlPartHash.value(id);
-    QString filePath = QDir::tempPath() + "/qlandkarteqt/cache/" + osmUrlPart;
 
+    QString filePath = QString("%1/qlandkarteqt/cache/%2/%3/%4").arg(QDir::tempPath()).arg(tileServer).arg(ttileUrlPart).arg(osmUrlPart);
+
+    //qDebug() << filePath;
     QFileInfo fi(filePath);
 
     if( ! (fi.dir().exists()) )
@@ -242,7 +248,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     }
 
     tiles.insert(osmUrlPart,img1);
-    if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom))) {
+   // if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom))) {
         QPainter p(&image);
         p.drawImage(startPointHash.value(id),img1);
 #ifdef COSMTILESHASHDEBUG
@@ -253,7 +259,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
         startPointHash.remove(id);
         osmRunningHash.remove(osmUrlPart);
         emit newImageReady(image,!osmRunningHash.count());
-    }
+    //}
     return;
 }
 

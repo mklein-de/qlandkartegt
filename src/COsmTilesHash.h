@@ -29,12 +29,15 @@ class COsmTilesHash: public QObject
 {
     Q_OBJECT
         public:
-        COsmTilesHash(CMapOSM *cmapOSM);
+        COsmTilesHash(QString tileUrl);
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
         signals:
         void newImageReady(QImage image, bool lastTileLoaded);
     private:
+        QString tileServer;
+        QString tileUrlPart;
+        QString ttileUrlPart;
         int osm_zoom;
         QRect window;
         QHash<int, QPoint> startPointHash;

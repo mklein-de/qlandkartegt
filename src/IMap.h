@@ -41,7 +41,7 @@ class IMap : public QObject
 {
     Q_OBJECT;
     public:
-        enum maptype_e {eRaster, eGarmin, eDEM};
+        enum maptype_e {eRaster, eGarmin, eDEM, eTile};
 
         IMap(maptype_e type, const QString& key, CCanvas * parent);
         virtual ~IMap();
