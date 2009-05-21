@@ -37,6 +37,8 @@ class TcxReader : public QXmlStreamReader
         void readTcx();
         void readActivities();
         void readActivity();
+        void readCourses();
+        void readCourse();
         void readLap(CTrack *track);
         void readTrack(CTrack *track, int lap);
         void readTrackpoint(CTrack *track, int lap);

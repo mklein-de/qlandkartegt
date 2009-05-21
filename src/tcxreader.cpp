@@ -76,7 +76,7 @@ bool TcxReader::read(QIODevice *device)
 void TcxReader::readUnknownElement()
 {
     Q_ASSERT( isStartElement());
-
+    qDebug() << "unknown element: " << name().string();
     while (!atEnd()) {
         readNext();
 
@@ -101,7 +101,13 @@ void TcxReader::readTcx()
 
         if (isStartElement()) {
             if (name() == "Activities")
+            {
                 readActivities();
+            }
+            else if (name() == "Courses")
+            {
+              readCourses();
+            }
             /*			else if (name() == "Author")
              {
              readAuthor();
@@ -113,6 +119,63 @@ void TcxReader::readTcx()
     }
 }
 
+void TcxReader::readCourses()
+{
+    Q_ASSERT(isStartElement() && name() == "Courses");
+
+    while (!atEnd()) {
+        readNext();
+
+        if (isEndElement())
+            break;
+
+        if (isStartElement()) {
+            if (name() == "Course") {
+                readCourse();
+            }
+            /*      else if (name() == "Author")
+             {
+             readAuthor();
+             }
+                         */
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void TcxReader::readCourse()
+{
+    Q_ASSERT(isStartElement() && name() == "Course");
+
+    CTrack *track = new CTrack(parent);
+    //track->setTraineeData();
+    while (!atEnd()) {
+        readNext();
+
+        if (isEndElement())
+            break;
+
+        if (isStartElement()) {
+            if (name() == "Name") {
+                track->setName(readElementText());
+            }
+            else if (name() == "Track") {
+                readTrack(track,1);
+            }
+            else
+                readUnknownElement();
+        }
+    }
+    if (track->getTrackPoints().count() > 0) {
+        track->rebuild(true);
+        track->sortByTimestamp();
+        CTrackDB::self().addTrack(track, false);
+    }
+    else {
+        delete track;
+    }
+}
 
 void TcxReader::readActivities()
 {
