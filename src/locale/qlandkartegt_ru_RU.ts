@@ -357,7 +357,7 @@
         <translation>Соединение с устройством</translation>
     </message>
     <message>
-        <location filename="../CDeviceQLandkarteM.cpp" line="211"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="209"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
@@ -409,7 +409,7 @@
         <translation>QLandkarteM: Загрузка маршрутов не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceQLandkarteM.cpp" line="211"/>
+        <location filename="../CDeviceQLandkarteM.cpp" line="209"/>
         <source>QLandkarteM: No device found. Is it connected to the network?</source>
         <translation>QLandkarteM: Устройство не найдено. Оно подключено к сети ?</translation>
     </message>
@@ -946,27 +946,27 @@
 <context>
     <name>CGpx</name>
     <message>
-        <location filename="../CGpx.cpp" line="86"/>
+        <location filename="../CGpx.cpp" line="143"/>
         <source>bad application</source>
         <translation>недопустимое приложение</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="91"/>
+        <location filename="../CGpx.cpp" line="148"/>
         <source>File exists ...</source>
         <translation>Файл отсутствует...</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="97"/>
+        <location filename="../CGpx.cpp" line="154"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
         <translation>Файл существует, но он был создан не с помощью QLandkarte GT, если Вы нажмете &apos;да&apos;, что все данные в этом файле будут потеряны. Даже если этот файл содержит данные GPX, QLandkarte GT не может загрузить и сохранить все элементы этого файла. Эти элементы будут потеряны. Я рекомендую использовать другой файл. &lt;b&gt;Вы действительно хотите переписать файл?&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="119"/>
+        <location filename="../CGpx.cpp" line="176"/>
         <source>Failed to open: </source>
         <translation>Невозможно открыть:</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="127"/>
+        <location filename="../CGpx.cpp" line="184"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
@@ -975,7 +975,7 @@ line %2, column %3:
 %4</translation>
     </message>
     <message>
-        <location filename="../CGpx.cpp" line="133"/>
+        <location filename="../CGpx.cpp" line="190"/>
         <source>Not a GPX file: </source>
         <translation>Это не GPX файл:</translation>
     </message>
@@ -1119,119 +1119,119 @@ line %2, column %3:
         <translation>Выберите файл для загрузки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="508"/>
+        <location filename="../CMainWindow.cpp" line="525"/>
         <source>Convert error</source>
         <translation>Ошибка конвертации</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="640"/>
+        <location filename="../CMainWindow.cpp" line="659"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="551"/>
+        <location filename="../CMainWindow.cpp" line="568"/>
         <source>Save geo data?</source>
         <translation>Сохранить GEO данные ?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="553"/>
+        <location filename="../CMainWindow.cpp" line="570"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Загруженные данные изменены.￼
 Вы хотите сохранить эти изменения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="580"/>
+        <location filename="../CMainWindow.cpp" line="598"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="652"/>
+        <location filename="../CMainWindow.cpp" line="671"/>
         <source>Print Map</source>
         <translation>Печать карты</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="682"/>
+        <location filename="../CMainWindow.cpp" line="701"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Аннотация к проекту (&lt;a href=&apos;Clear&apos;&gt;очистить&lt;/a&gt; проект):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="688"/>
+        <location filename="../CMainWindow.cpp" line="707"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>В настоящее время существует %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="691"/>
+        <location filename="../CMainWindow.cpp" line="710"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>В настоящее время есть %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="695"/>
+        <location filename="../CMainWindow.cpp" line="714"/>
         <source>There are no waypoints, </source>
         <translation>Нет путевых точек, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="701"/>
+        <location filename="../CMainWindow.cpp" line="720"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;трек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="704"/>
+        <location filename="../CMainWindow.cpp" line="723"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треки&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="708"/>
+        <location filename="../CMainWindow.cpp" line="727"/>
         <source>no tracks, </source>
         <translation>нет треков, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="714"/>
+        <location filename="../CMainWindow.cpp" line="733"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрут&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="717"/>
+        <location filename="../CMainWindow.cpp" line="736"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрутов&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="721"/>
+        <location filename="../CMainWindow.cpp" line="740"/>
         <source>no routes and </source>
         <translation>нет маршрутов и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="727"/>
+        <location filename="../CMainWindow.cpp" line="746"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложение&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="730"/>
+        <location filename="../CMainWindow.cpp" line="749"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложения&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="734"/>
+        <location filename="../CMainWindow.cpp" line="753"/>
         <source>no overlays. </source>
         <translation>нет наложений. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="739"/>
+        <location filename="../CMainWindow.cpp" line="758"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
         <translation>A &lt;a href=&apos;Diary&apos;&gt;дневник&lt;/a&gt; уже загружен.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="742"/>
+        <location filename="../CMainWindow.cpp" line="761"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
         <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="777"/>
+        <location filename="../CMainWindow.cpp" line="796"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="778"/>
+        <location filename="../CMainWindow.cpp" line="797"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
@@ -1399,19 +1399,24 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="../CMapOSM.cpp" line="250"/>
+        <location filename="../CMapOSM.cpp" line="296"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="253"/>
+        <location filename="../CMapOSM.cpp" line="299"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="272"/>
-        <source>Map has been created by OpenStreetMap under Creative Commons Attribution-ShareAlike 2.0 license</source>
-        <translation>Карта создана с помощью OpenStreetMap с Creative Commons Attribution-ShareAlike 2.0 лицензией</translation>
+        <location filename="../CMapOSM.cpp" line="319"/>
+        <source>Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license</source>
+        <translation>Карта была создана %1 под Creative Commons Attribution-ShareAlike 2.0 лицензией</translation>
+    </message>
+    <message>
+        <location filename="../CMapOSM.cpp" line="320"/>
+        <source>and has been downloaded from: %1</source>
+        <translation>и загружена из: %1</translation>
     </message>
 </context>
 <context>
@@ -1837,22 +1842,22 @@ Do you want to save your changes?</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="276"/>
+        <location filename="../CMapToolWidget.cpp" line="277"/>
         <source>Error export maps...</source>
         <translation>Ошибка экспорта карт...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="276"/>
+        <location filename="../CMapToolWidget.cpp" line="277"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
         <translation>Необходимо установить набор инструментов  для GDAL.</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="295"/>
+        <location filename="../CMapToolWidget.cpp" line="296"/>
         <source>Select DEM file...</source>
         <translation>Выберите DEM файл...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="295"/>
+        <location filename="../CMapToolWidget.cpp" line="296"/>
         <source>16bit GeoTiff (*.tif)</source>
         <translation>16bit GeoTiff (*.tif)</translation>
     </message>
@@ -2417,7 +2422,7 @@ Do you want to save your changes?</source>
 <context>
     <name>COsmTilesHash</name>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="192"/>
+        <location filename="../COsmTilesHash.cpp" line="196"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
         <translation>Тайл %1 был загружен %2 дней назад. Перезагрузка...</translation>
     </message>
@@ -2607,7 +2612,7 @@ length: %1 %2</source>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="350"/>
+        <location filename="../CTrackDB.cpp" line="459"/>
         <source>Track%1</source>
         <translation>Трек %1</translation>
     </message>
@@ -2732,86 +2737,96 @@ length: %1 %2</source>
 <context>
     <name>CTrackToolWidget</name>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="39"/>
+        <location filename="../CTrackToolWidget.cpp" line="41"/>
         <source>Tracks</source>
         <translation>Треки</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="47"/>
+        <location filename="../CTrackToolWidget.cpp" line="49"/>
         <source>Edit...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="48"/>
+        <location filename="../CTrackToolWidget.cpp" line="50"/>
+        <source>Make Overlay</source>
+        <translation>Создать наложение</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="51"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="85"/>
+        <location filename="../CTrackToolWidget.cpp" line="88"/>
         <source>
 length: %1 %2</source>
         <translation>
 длина: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="86"/>
+        <location filename="../CTrackToolWidget.cpp" line="89"/>
         <source>, points: %1</source>
         <translation>,точек: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="94"/>
+        <location filename="../CTrackToolWidget.cpp" line="97"/>
         <source>
 time: %1:</source>
         <translation>
 ￼время: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="97"/>
+        <location filename="../CTrackToolWidget.cpp" line="100"/>
         <source>
 time: </source>
         <translation>
 время:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="101"/>
+        <location filename="../CTrackToolWidget.cpp" line="104"/>
         <source>, speed: %1 %2</source>
         <translation>, скорость: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="103"/>
+        <location filename="../CTrackToolWidget.cpp" line="106"/>
         <source>
 start: %1</source>
         <translation>
 старт: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="104"/>
+        <location filename="../CTrackToolWidget.cpp" line="107"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="104"/>
+        <location filename="../CTrackToolWidget.cpp" line="107"/>
         <source>
 end: %1</source>
         <translation>
 ￼конец: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="109"/>
+        <location filename="../CTrackToolWidget.cpp" line="112"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="172"/>
+        <location filename="../CTrackToolWidget.cpp" line="175"/>
         <source>Edit track ...</source>
         <translation>Редактировать трек...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="172"/>
+        <location filename="../CTrackToolWidget.cpp" line="175"/>
         <source>You have to select a track first.</source>
         <translation>Сначала выберите трек.</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="227"/>
+        <source>created from track</source>
+        <translation>создано из трека</translation>
     </message>
 </context>
 <context>
