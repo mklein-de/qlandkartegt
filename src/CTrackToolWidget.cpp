@@ -24,6 +24,8 @@
 #include "CMapDB.h"
 #include "CMainWindow.h"
 #include "IUnit.h"
+#include "COverlayDB.h"
+#include "CMegaMenu.h"
 
 #include <QtGui>
 
@@ -45,6 +47,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
@@ -195,4 +198,34 @@ void CTrackToolWidget::slotDelete()
         delete item;
     }
     CTrackDB::self().delTracks(keys);
+}
+
+void CTrackToolWidget::slotToOverlay()
+{
+    CTrack * track;
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listTracks->selectedItems();
+    foreach(item,items) {
+        track = tracks[item->data(Qt::UserRole).toString()];
+
+        QList<XY> pts;
+
+        CTrack::pt_t trkpt;
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        foreach(trkpt, trkpts){
+            if(trkpt.flags & CTrack::pt_t::eDeleted) continue;
+
+            XY pt;
+            pt.u = trkpt.lon * DEG_TO_RAD;
+            pt.v = trkpt.lat * DEG_TO_RAD;
+
+            pts << pt;
+        }
+
+        COverlayDB::self().addDistance(track->name, tr("created from track"), pts);
+    }
+
+    CMegaMenu::self().switchByKeyWord("Overlay");
 }

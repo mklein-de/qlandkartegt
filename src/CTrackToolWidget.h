@@ -47,6 +47,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotItemClicked(QListWidgetItem * item);
         void slotContextMenu(const QPoint& pos);
         void slotDelete();
+        void slotToOverlay();
 
     private:
         bool originator;
