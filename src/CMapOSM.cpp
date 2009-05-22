@@ -36,22 +36,40 @@ CMapOSM::CMapOSM(CCanvas * parent)
 , needsRedrawOvl(true)
 , parent(parent)
 {
+    currentTileListIndex = -1;
     osmTiles = 0;
     // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
     tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
     tileList << qMakePair(QString("cloudmade.com (cycle)"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
     tileList << qMakePair(QString("topo.geofabrik.de (trails)"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
     tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
-//    tileList << qMakePair(QString("cloudmade.com"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
 
-    setNewTileUrl(0);
+    cb = new QComboBox(theMainWindow->getCanvas());
+
+    for(int i = 0; i < tileList.size(); i++)
+    {
+      QPair<QString, QString> p = tileList.at(i);
+      cb->addItem(p.first);
+    }
+
+    connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
+
+    theMainWindow->statusBar()->insertPermanentWidget(0,cb);
+
+    QSettings cfg;
+
+    int tileListIndex = cfg.value("osm/tileListIndex",0).toInt();
+    if (tileListIndex >= tileList.size())
+      tileListIndex = 0;
+
+    setNewTileUrl(tileListIndex);
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
 
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "OSM:" << ptr;
     if(ptr) free(ptr);
 
-    QSettings cfg;
+
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();
 
@@ -79,17 +97,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     resize(parent->size());
 
-    cb = new QComboBox(theMainWindow->getCanvas());
-
-    for(int i = 0; i < tileList.size(); i++)
-    {
-      QPair<QString, QString> p = tileList.at(i);
-      cb->addItem(p.first);
-    }
-
-    connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
-
-    theMainWindow->statusBar()->insertPermanentWidget(0,cb);
 
 }
 
@@ -108,7 +115,7 @@ CMapOSM::~CMapOSM()
 
     cfg.setValue("osm/topleft",pos);
     cfg.setValue("osm/zoomidx",zoomidx);
-
+    cfg.setValue("osm/tileListIndex",currentTileListIndex);
     midU = rect.center().x();
     midV = rect.center().y();
     convertPt2Rad(midU, midV);
@@ -135,6 +142,9 @@ void CMapOSM::setNewTileUrl(int index)
       delete osmTiles;
       osmTiles = 0;
     }
+    if (cb->currentIndex() != currentTileListIndex)
+      cb->setCurrentIndex(currentTileListIndex);
+
     osmTiles = new COsmTilesHash(tileList.at(index).second);
     connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
 

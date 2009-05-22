@@ -229,7 +229,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
         // link->setHost("tah.openstreetmap.org")
         // will cause a requestFinished() signal, too.
         // let's ignore it
-        qDebug() << "QImage noc valid http";
+        qDebug() << tr("The recieved data is not an valid image. Maybe it isn't an image ...");
         return;
     }
     QString osmUrlPart = osmUrlPartHash.value(id);
