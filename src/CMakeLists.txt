@@ -5,7 +5,8 @@ find_package(OpenGL)
 
 find_package(GDAL REQUIRED)
 find_package(PROJ REQUIRED)
-# find_package(XercesC COMPONENTS)
+find_package(EXIF)
+
 
 include(${QT_USE_FILE})
 
@@ -320,6 +321,10 @@ IF(WMS_CLIENT)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp)
 ENDIF(WMS_CLIENT)
+
+IF(EXIF_FOUND)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_EXIF")
+ENDIF(EXIF_FOUND)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
