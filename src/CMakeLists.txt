@@ -370,7 +370,7 @@ include_directories(
   ${QT_QTNETWORK_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
-#   ${XERCESC_INCLUDE_DIR}
+  ${EXIF_INCLUDE_DIRS}
 )
 
 add_executable(qlandkartegt
@@ -391,6 +391,7 @@ target_link_libraries(
       ${QT_QTXML_LIBRARIES}
       ${QT_QTSQL_LIBRARIES}
       ${QL_OPENGL_LIBRARIES}
+      ${EXIF_LIBRARIES}
   )
 
 install(

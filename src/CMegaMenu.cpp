@@ -142,7 +142,11 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     fsWpt[5] = func_key_state_t(":/icons/iconAdd16x16",tr("New Waypoint"),&CMegaMenu::funcNewWpt,tr("Create a new user waypoint. The default position will be the current cursor position."));
     fsWpt[6] = func_key_state_t(":/icons/iconEdit16x16",tr("Edit Waypoint"),&CMegaMenu::funcEditWpt,tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
     fsWpt[7] = func_key_state_t(":/icons/iconWptMove16x16",tr("Move Waypoint"),&CMegaMenu::funcMoveWpt,tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
+#ifdef HAS_EXIF
+    fsWpt[8] = func_key_state_t(":/icons/iconImage16x16",tr("From Images..."),&CMegaMenu::funcImageWpt,tr("Create waypoints from geo-referenced images in a path."));
+#else
     fsWpt[8] = func_key_state_t(0,tr("-"),0,tr(""));
+#endif
     fsWpt[9] = func_key_state_t(":/icons/iconUpload16x16",tr("Upload"),&CMegaMenu::funcUploadWpt,tr("Upload waypoints to device."));
     fsWpt[10] = func_key_state_t(":/icons/iconDownload16x16",tr("Download"),&CMegaMenu::funcDownloadWpt,tr("Download waypoints from device."));
 
@@ -619,6 +623,11 @@ void CMegaMenu::funcEditWpt()
 void CMegaMenu::funcMoveWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+}
+
+void CMegaMenu::funcImageWpt()
+{
+
 }
 
 

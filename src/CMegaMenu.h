@@ -106,6 +106,9 @@ class CMegaMenu : public QLabel
         void funcNewWpt();
         void funcEditWpt();
         void funcMoveWpt();
+#ifdef HAS_EXIF
+        void funcImageWpt();
+#endif
         void funcUploadWpt();
         void funcDownloadWpt();
 
