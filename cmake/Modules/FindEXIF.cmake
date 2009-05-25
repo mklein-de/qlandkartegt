@@ -20,7 +20,7 @@ if (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
 else (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
   find_path(EXIF_INCLUDE_DIRS
     NAMES
-      exif-utils.h
+      exif-data.h
     PATHS
         /usr/include
         /usr/local/include

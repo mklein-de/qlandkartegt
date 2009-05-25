@@ -33,6 +33,9 @@
 #include "GeoMath.h"
 
 #include <QtGui>
+#ifdef HAS_EXIF
+#include <libexif/exif-data.h>
+#endif
 
 CWptDB * CWptDB::m_self = 0;
 
@@ -412,8 +415,57 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 }
 
 #ifdef HAS_EXIF
-void CWptDB::createWaypointsFromImages()
+static void exifContentForeachEntryFunc(ExifEntry * exifEntry, void *user_data)
 {
 
+    switch(exifEntry->tag){
+        case EXIF_TAG_GPS_LATITUDE:
+        {
+            qDebug() << exifEntry->tag << exifEntry->size << exifEntry->format << exifEntry->components;
+            qint32 * p = (qint32*)exifEntry->data;
+            qDebug() << p[0] << p[1] << p[3] << p[4] << p[5] << p[6];
+            break;
+        }
+        case EXIF_TAG_GPS_LONGITUDE:
+        {
+            qDebug() << exifEntry->tag << exifEntry->size << exifEntry->format << exifEntry->components;
+            qint32 * p = (qint32*)exifEntry->data;
+            qDebug() << p[0] << p[1] << p[3] << p[4] << p[5] << p[6];
+            break;
+        }
+    }
+}
+
+static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
+{
+    if( exif_content_get_ifd(exifContent) == EXIF_IFD_GPS){
+        exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc, user_data);
+    }
+}
+
+
+
+void CWptDB::createWaypointsFromImages()
+{
+    QSettings cfg;
+    QString path = cfg.value("path/images", "./").toString();
+    path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, 0);
+
+    if(path.isEmpty()) return;
+
+    cfg.setValue("path/images", path);
+
+    QDir dir(path);
+    QStringList filter;
+    filter << "*.jpg" << "*.png";
+    QStringList files = dir.entryList(filter, QDir::Files);
+
+    qDebug() << dir.filePath(files[0]).toLocal8Bit();
+
+    ExifData * exifData     = exif_data_new_from_file(dir.filePath(files[0]).toLocal8Bit());
+    exif_data_foreach_content(exifData, exifDataForeachContentFunc, this);
+
+
+    free(exifData);
 }
 #endif
