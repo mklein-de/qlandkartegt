@@ -18,7 +18,7 @@ if (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
   # in cache already
   set(EXIF_FOUND TRUE)
 else (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
-  find_path(EXIF_INCLUDE_DIR
+  find_path(EXIF_INCLUDE_DIRS
     NAMES
       exif-utils.h
     PATHS
@@ -34,7 +34,7 @@ else (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
 
   # debian uses version suffixes
   # add suffix evey new release
-  find_library(EXIF_LIBRARY
+  find_library(EXIF_LIBRARIES
     NAMES
         exif
     PATHS
@@ -43,13 +43,6 @@ else (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
       /opt/local/lib
       /sw/lib
   )
-
-  set(EXIF_INCLUDE_DIRS
-    ${EXIF_INCLUDE_DIR}
-  )
-  set(EXIF_LIBRARIES
-    ${EXIF_LIBRARY}
-)
 
   if (EXIF_INCLUDE_DIRS AND EXIF_LIBRARIES)
      set(EXIF_FOUND TRUE)

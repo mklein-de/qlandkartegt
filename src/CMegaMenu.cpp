@@ -625,10 +625,12 @@ void CMegaMenu::funcMoveWpt()
     canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 }
 
+#ifdef HAS_EXIF
 void CMegaMenu::funcImageWpt()
 {
-
+    CWptDB::self().createWaypointsFromImages();
 }
+#endif
 
 
 void CMegaMenu::funcUploadWpt()

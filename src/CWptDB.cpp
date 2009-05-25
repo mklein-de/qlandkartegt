@@ -410,3 +410,10 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         ++wpt;
     }
 }
+
+#ifdef HAS_EXIF
+void CWptDB::createWaypointsFromImages()
+{
+
+}
+#endif

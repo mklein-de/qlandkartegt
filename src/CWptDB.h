@@ -79,6 +79,10 @@ class CWptDB : public IDB
 
         int count(){return wpts.count();}
 
+#ifdef HAS_EXIF
+        void createWaypointsFromImages();
+#endif
+
     private:
         friend class CMainWindow;
         friend class CDlgEditWpt;

@@ -324,6 +324,9 @@ ENDIF(WMS_CLIENT)
 
 IF(EXIF_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_EXIF")
+else(EXIF_FOUND)
+    set(EXIF_INCLUDE_DIRS "")
+    set(EXIF_LIBRARIES "")
 ENDIF(EXIF_FOUND)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
