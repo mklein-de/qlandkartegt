@@ -115,6 +115,7 @@ class CWpt : public QObject
             quint32 offset;
             QString info;
             QPixmap pixmap;
+            QString filePath;
         };
         QList<image_t> images;
 

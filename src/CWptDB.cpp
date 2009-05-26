@@ -417,20 +417,40 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 #ifdef HAS_EXIF
 static void exifContentForeachEntryFunc(ExifEntry * exifEntry, void *user_data)
 {
+    CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
     switch(exifEntry->tag){
+        case EXIF_TAG_GPS_LATITUDE_REF:
+        {
+            if(exifEntry->data[0] != 'N'){
+                exifGPS.lat_sign = -1;
+            }
+            break;
+        }
         case EXIF_TAG_GPS_LATITUDE:
         {
-            qDebug() << exifEntry->tag << exifEntry->size << exifEntry->format << exifEntry->components;
-            qint32 * p = (qint32*)exifEntry->data;
-            qDebug() << p[0] << p[1] << p[3] << p[4] << p[5] << p[6];
+            ExifRational * p = (ExifRational*)exifEntry->data;
+
+            if(exifEntry->components == 3){
+                exifGPS.lat = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
+            }
+            break;
+        }
+        case EXIF_TAG_GPS_LONGITUDE_REF:
+        {
+            if(exifEntry->data[0] != 'E'){
+                exifGPS.lon_sign = -1;
+            }
             break;
         }
         case EXIF_TAG_GPS_LONGITUDE:
         {
-            qDebug() << exifEntry->tag << exifEntry->size << exifEntry->format << exifEntry->components;
-            qint32 * p = (qint32*)exifEntry->data;
-            qDebug() << p[0] << p[1] << p[3] << p[4] << p[5] << p[6];
+            ExifRational * p = (ExifRational*)exifEntry->data;
+
+            if(exifEntry->components == 3){
+                exifGPS.lon = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
+            }
+
             break;
         }
     }
@@ -459,13 +479,42 @@ void CWptDB::createWaypointsFromImages()
     QStringList filter;
     filter << "*.jpg" << "*.png";
     QStringList files = dir.entryList(filter, QDir::Files);
+    QString file;
 
-    qDebug() << dir.filePath(files[0]).toLocal8Bit();
+    foreach(file, files){
+        ExifData * exifData = exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
-    ExifData * exifData     = exif_data_new_from_file(dir.filePath(files[0]).toLocal8Bit());
-    exif_data_foreach_content(exifData, exifDataForeachContentFunc, this);
+        exifGPS_t exifGPS;
 
+        exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
 
-    free(exifData);
+        CWpt * wpt      = new CWpt(this);
+        wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
+        wpt->lat        = exifGPS.lat * exifGPS.lon_sign;
+        wpt->icon       = "Flag, Red";
+        wpt->name       = file;
+        CWpt::image_t image;
+
+        QPixmap pixtmp(dir.filePath(file).toLocal8Bit());
+        int w = pixtmp.width();
+        int h = pixtmp.height();
+
+        if(w < h){
+            h *= 240.0 / w;
+            w  = 240;
+        }
+        else{
+            h *= 320.0 / w;
+            w  = 320;
+        }
+
+        image.filePath  = dir.filePath(file).toLocal8Bit();
+        image.pixmap    = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        image.info      = file;
+        wpt->images << image;
+        addWpt(wpt);
+
+        exif_data_unref(exifData);
+    }
 }
 #endif

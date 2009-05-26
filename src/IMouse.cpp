@@ -150,6 +150,15 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 
+        if(!selWpt->images.isEmpty()){
+            p.save();
+            p.translate(u - (320 + 40), v);
+            p.setPen(QPen(Qt::white,3));
+            p.drawRect(selWpt->images[0].pixmap.rect());
+            p.drawPixmap(0,0,selWpt->images[0].pixmap);
+            p.restore();
+        }
+
     }
 }
 

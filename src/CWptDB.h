@@ -81,6 +81,16 @@ class CWptDB : public IDB
 
 #ifdef HAS_EXIF
         void createWaypointsFromImages();
+
+        struct exifGPS_t
+        {
+            exifGPS_t(): lon(0.0), lat(0.0), lon_sign(1), lat_sign(1){}
+            double lon;
+            double lat;
+
+            int lon_sign;
+            int lat_sign;
+        };
 #endif
 
     private:
@@ -93,6 +103,8 @@ class CWptDB : public IDB
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;
+
+
 
 };
 #endif                           //CWPTDB_H
