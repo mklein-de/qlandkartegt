@@ -90,6 +90,8 @@ class CWptDB : public IDB
 
             int lon_sign;
             int lat_sign;
+
+            int timestamp;
         };
 #endif
 

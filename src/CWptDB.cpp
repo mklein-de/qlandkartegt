@@ -415,7 +415,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 }
 
 #ifdef HAS_EXIF
-static void exifContentForeachEntryFunc(ExifEntry * exifEntry, void *user_data)
+static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_data)
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
@@ -456,11 +456,38 @@ static void exifContentForeachEntryFunc(ExifEntry * exifEntry, void *user_data)
     }
 }
 
+static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
+{
+    CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
+
+    switch(exifEntry->tag){
+        case EXIF_TAG_DATE_TIME:
+        {
+//             qDebug() << exifEntry->format << exifEntry->components << exifEntry->size;
+//             qDebug() << (char*)exifEntry->data;
+//             2009:05:23 14:12:10
+            QDateTime timestamp = QDateTime::fromString((char*)exifEntry->data, "yyyy:MM:dd hh:mm:ss");
+            exifGPS.timestamp   = timestamp.toTime_t();
+            break;
+        }
+    }
+}
+
 static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
 {
-    if( exif_content_get_ifd(exifContent) == EXIF_IFD_GPS){
-        exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc, user_data);
+    switch(exif_content_get_ifd(exifContent)){
+
+        case EXIF_IFD_0:
+            exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc0, user_data);
+            break;
+
+        case EXIF_IFD_GPS:
+            exif_content_foreach_entry(exifContent, exifContentForeachEntryFuncGPS, user_data);
+            break;
+
     }
+//     qDebug() << "***" << exif_content_get_ifd(exifContent) << "***";
+//     exif_content_dump(exifContent,0);
 }
 
 
@@ -482,6 +509,8 @@ void CWptDB::createWaypointsFromImages()
     QString file;
 
     foreach(file, files){
+//         qDebug() << "---------------" << file << "---------------";
+
         ExifData * exifData = exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
         exifGPS_t exifGPS;
@@ -491,8 +520,10 @@ void CWptDB::createWaypointsFromImages()
         CWpt * wpt      = new CWpt(this);
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
         wpt->lat        = exifGPS.lat * exifGPS.lon_sign;
+        wpt->timestamp  = exifGPS.timestamp;
         wpt->icon       = "Flag, Red";
         wpt->name       = file;
+
         CWpt::image_t image;
 
         QPixmap pixtmp(dir.filePath(file).toLocal8Bit());

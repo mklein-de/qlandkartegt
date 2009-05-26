@@ -121,6 +121,7 @@ class IMouse : public QObject
         QRect rectMoveWpt;
         QRect rectEditWpt;
         QRect rectCopyWpt;
+        QRect rectViewWpt;
 
         QRect rectDelSearch;
         QRect rectConvertSearch;

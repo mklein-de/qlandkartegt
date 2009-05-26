@@ -48,6 +48,7 @@ IMouse::IMouse(CCanvas * canvas)
     rectMoveWpt         = QRect(32,0,16,16);
     rectEditWpt         = QRect(0,32,16,16);
     rectCopyWpt         = QRect(32,32,16,16);
+    rectViewWpt         = QRect(16,40,16,16);
 
     rectDelSearch       = QRect(0,0,16,16);
     rectConvertSearch   = QRect(0,32,16,16);
@@ -105,6 +106,9 @@ void IMouse::drawSelWpt(QPainter& p)
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
+        if(!selWpt->images.isEmpty()){
+            p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconImage16x16.png"));
+        }
         p.restore();
 
         QString str;
@@ -263,7 +267,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
         QPoint pt = pos - QPoint(u - 24, v - 24);
 
-        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt)) {
+        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt) || rectViewWpt.contains(pt)) {
             if(!doSpecialCursorWpt) {
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
                 doSpecialCursorWpt = true;
@@ -382,6 +386,9 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
 
         selWpt = 0;
         canvas->update();
+    }
+    else if(rectViewWpt.contains(pt)) {
+        CResources::self().openLink(selWpt->images[0].filePath);
     }
 }
 
