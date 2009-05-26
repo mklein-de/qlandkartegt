@@ -103,6 +103,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 QList<CWpt::image_t>::iterator image = wpt.images.begin();
                 while(image != wpt.images.end()) {
                     s1.device()->seek(image->offset);
+                    s1 >> image->filePath;
                     s1 >> image->info;
                     s1 >> image->pixmap;
                     ++image;
@@ -164,6 +165,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     image = wpt.images.begin();
     while(image != wpt.images.end()) {
         image->offset = (quint32)s2.device()->pos();
+        s2 << image->filePath;
         s2 << image->info;
         s2 << image->pixmap;
         ++image;
