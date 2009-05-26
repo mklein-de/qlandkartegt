@@ -1340,7 +1340,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapEditWidget.cpp" line="47"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation>Созание коллекции карт из существующих файлов с GEO данными.</translation>
+        <translation>Создание коллекции карт из существующих файлов с GEO данными.</translation>
     </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="51"/>
@@ -1399,22 +1399,22 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="../CMapOSM.cpp" line="296"/>
+        <location filename="../CMapOSM.cpp" line="306"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="299"/>
+        <location filename="../CMapOSM.cpp" line="309"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="319"/>
+        <location filename="../CMapOSM.cpp" line="329"/>
         <source>Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license</source>
         <translation>Карта была создана %1 под Creative Commons Attribution-ShareAlike 2.0 лицензией</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="320"/>
+        <location filename="../CMapOSM.cpp" line="330"/>
         <source>and has been downloaded from: %1</source>
         <translation>и загружена из: %1</translation>
     </message>
@@ -1893,12 +1893,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CMegaMenu</name>
     <message>
-        <location filename="../CMegaMenu.cpp" line="205"/>
+        <location filename="../CMegaMenu.cpp" line="209"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="205"/>
+        <location filename="../CMegaMenu.cpp" line="209"/>
         <source></source>
         <translation></translation>
     </message>
@@ -1998,42 +1998,42 @@ Do you want to save your changes?</source>
         <translation>Загрузить все данные из устройства.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="197"/>
+        <location filename="../CMegaMenu.cpp" line="201"/>
         <source>Back</source>
         <translation>Вернуться</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="197"/>
+        <location filename="../CMegaMenu.cpp" line="201"/>
         <source>Go back to main menu.</source>
         <translation>Вернуться в главное меню.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="198"/>
+        <location filename="../CMegaMenu.cpp" line="202"/>
         <source>Move Map</source>
         <translation>Переместить карту</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="198"/>
+        <location filename="../CMegaMenu.cpp" line="202"/>
         <source>Move the map. Press down the left mouse button and move the mouse.</source>
         <translation>Перемещение карты. Нажмите левую кнопку мыши и перемещайте мышь.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="199"/>
+        <location filename="../CMegaMenu.cpp" line="203"/>
         <source>Zoom Map</source>
         <translation>Масштабирование карты</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="199"/>
+        <location filename="../CMegaMenu.cpp" line="203"/>
         <source>Select area for zoom.</source>
         <translation>Выберите участок для масштабирования.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="200"/>
+        <location filename="../CMegaMenu.cpp" line="204"/>
         <source>Center Map</source>
         <translation>Центр карты</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="200"/>
+        <location filename="../CMegaMenu.cpp" line="204"/>
         <source>Find your map by jumping to it&apos;s center.</source>
         <translation>Найти Вашу карту, переместившись в ее центр.</translation>
     </message>
@@ -2073,7 +2073,7 @@ Do you want to save your changes?</source>
         <translation>Показать 3D карту</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="206"/>
+        <location filename="../CMegaMenu.cpp" line="210"/>
         <source>Upload</source>
         <translation>Передать</translation>
     </message>
@@ -2164,211 +2164,221 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="../CMegaMenu.cpp" line="146"/>
+        <source>From Images...</source>
+        <translation>Из изображения...</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="146"/>
+        <source>Create waypoints from geo-referenced images in a path.</source>
+        <translation>Создать путевые точки из изображений с GEO данным</translation>
+    </message>
+    <message>
+        <location filename="../CMegaMenu.cpp" line="150"/>
         <source>Upload waypoints to device.</source>
         <translation>Передать путевые точки на устройство.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="207"/>
+        <location filename="../CMegaMenu.cpp" line="211"/>
         <source>Download</source>
         <translation>Загрузить</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="147"/>
+        <location filename="../CMegaMenu.cpp" line="151"/>
         <source>Download waypoints from device.</source>
         <translation>Загрузить путевые точки из устройства.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="154"/>
+        <location filename="../CMegaMenu.cpp" line="158"/>
         <source>Combine Tracks</source>
         <translation>Совместить треки</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="154"/>
+        <location filename="../CMegaMenu.cpp" line="158"/>
         <source>Combine multiple selected tracks to one.</source>
         <translation>Комбинировать выбранные треки в один.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="155"/>
+        <location filename="../CMegaMenu.cpp" line="159"/>
         <source>Edit Track</source>
         <translation>Редактировать трек</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="155"/>
+        <location filename="../CMegaMenu.cpp" line="159"/>
         <source>Toggle track edit dialog.</source>
         <translation>Переключить диалог редактирования трека.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="156"/>
+        <location filename="../CMegaMenu.cpp" line="160"/>
         <source>Cut Tracks</source>
         <translation>Вырезать треки</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="156"/>
+        <location filename="../CMegaMenu.cpp" line="160"/>
         <source>Cut a track into pieces.</source>
         <translation>Разрезать трек на части.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="157"/>
+        <location filename="../CMegaMenu.cpp" line="161"/>
         <source>Select Points</source>
         <translation>Выбрать точки</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="157"/>
+        <location filename="../CMegaMenu.cpp" line="161"/>
         <source>Select track points by rectangle.</source>
         <translation>Выберите точки трека прямоугольным выделением.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="158"/>
+        <location filename="../CMegaMenu.cpp" line="162"/>
         <source>Upload tracks to device.</source>
         <translation>Передать треки на устройство.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="159"/>
+        <location filename="../CMegaMenu.cpp" line="163"/>
         <source>Download tracks from device.</source>
         <translation>Загрузить треки из устройства.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="166"/>
+        <location filename="../CMegaMenu.cpp" line="170"/>
         <source>Start / Stop</source>
         <translation>Старт/Стоп</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="166"/>
+        <location filename="../CMegaMenu.cpp" line="170"/>
         <source>Start / stop live log recording.</source>
         <translation>Старт/Стоп запись лога.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="167"/>
+        <location filename="../CMegaMenu.cpp" line="171"/>
         <source>Move Map to Pos.</source>
         <translation>Переместить карту на позицию.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="167"/>
+        <location filename="../CMegaMenu.cpp" line="171"/>
         <source>Move the map to keep the positon cursor centered.</source>
         <translation>Перемещайте карту, удержанием позиции указателя по центру.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="168"/>
+        <location filename="../CMegaMenu.cpp" line="172"/>
         <source>Add Waypoint</source>
         <translation>Добавить путевую точку</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="168"/>
+        <location filename="../CMegaMenu.cpp" line="172"/>
         <source>Add a waypoint at current position.</source>
         <translation>Добавить путевую точку в текущей позиции.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="178"/>
+        <location filename="../CMegaMenu.cpp" line="182"/>
         <source>Add Static Text Box</source>
         <translation>Добавить статичный текстовый блок</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="178"/>
+        <location filename="../CMegaMenu.cpp" line="182"/>
         <source>Add text on the map.</source>
         <translation>Добавить текст на карту.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="179"/>
+        <location filename="../CMegaMenu.cpp" line="183"/>
         <source>Add Geo-Ref. Text Box</source>
         <translation>Добавить текстовый блок с GEO-коорд.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="179"/>
+        <location filename="../CMegaMenu.cpp" line="183"/>
         <source>Add a textbox on the map.</source>
         <translation>Добавить текстовый блок на карту.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="180"/>
+        <location filename="../CMegaMenu.cpp" line="184"/>
         <source>Add Distance Polyline</source>
         <translation>Добавить дистанцию кривыми</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="180"/>
+        <location filename="../CMegaMenu.cpp" line="184"/>
         <source>Add a polyline to measure distances.</source>
         <translation>Добавить кривые для измерения дистанции.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="190"/>
+        <location filename="../CMegaMenu.cpp" line="194"/>
         <source>Diary</source>
         <translation>Дневник</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="190"/>
+        <location filename="../CMegaMenu.cpp" line="194"/>
         <source>Add / edit diary data</source>
         <translation>Добавить/Редактировать данные Дневника</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="191"/>
+        <location filename="../CMegaMenu.cpp" line="195"/>
         <source>Pick Color</source>
         <translation>Выбрать цвет</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="191"/>
+        <location filename="../CMegaMenu.cpp" line="195"/>
         <source>test only</source>
         <translation>только тест</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="192"/>
+        <location filename="../CMegaMenu.cpp" line="196"/>
         <source>Create World Basemap</source>
         <translation>Создать базовую карту мира</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="192"/>
+        <location filename="../CMegaMenu.cpp" line="196"/>
         <source>Create a world basemap from OSM tiles to be used by QLandkarte M</source>
         <translation>Создать базовую карту мира из тайлов OSM для использования в QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="206"/>
+        <location filename="../CMegaMenu.cpp" line="210"/>
         <source>Upload routes to device.</source>
         <translation>Передать маршруты на устройство.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="207"/>
+        <location filename="../CMegaMenu.cpp" line="211"/>
         <source>Download routes from device.</source>
         <translation>Загрузить маршруты из устройства.</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="392"/>
+        <location filename="../CMegaMenu.cpp" line="396"/>
         <source>&lt;b&gt;Main ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Главное ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="571"/>
+        <location filename="../CMegaMenu.cpp" line="575"/>
         <source>&lt;b&gt;Maps ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Карты ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="412"/>
+        <location filename="../CMegaMenu.cpp" line="416"/>
         <source>&lt;b&gt;Maps 3D ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;3D Карты...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="422"/>
+        <location filename="../CMegaMenu.cpp" line="426"/>
         <source>&lt;b&gt;Waypoints ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Путевые точки ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="432"/>
+        <location filename="../CMegaMenu.cpp" line="436"/>
         <source>&lt;b&gt;Tracks ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Треки ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="441"/>
+        <location filename="../CMegaMenu.cpp" line="445"/>
         <source>&lt;b&gt;Routes ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Маршруты ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="451"/>
+        <location filename="../CMegaMenu.cpp" line="455"/>
         <source>&lt;b&gt;Live Log ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Данные с GPS ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="461"/>
+        <location filename="../CMegaMenu.cpp" line="465"/>
         <source>&lt;b&gt;Overlay ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Наложения ...&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMegaMenu.cpp" line="471"/>
+        <location filename="../CMegaMenu.cpp" line="475"/>
         <source>&lt;b&gt;Main (More) ...&lt;/b&gt;</source>
         <translation>&lt;b&gt;Главное (Далее) ...&lt;/b&gt;</translation>
     </message>
@@ -2425,6 +2435,11 @@ Do you want to save your changes?</source>
         <location filename="../COsmTilesHash.cpp" line="196"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
         <translation>Тайл %1 был загружен %2 дней назад. Перезагрузка...</translation>
+    </message>
+    <message>
+        <location filename="../COsmTilesHash.cpp" line="232"/>
+        <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
+        <translation>Принятые данные не верны. Может быть это не изображение...</translation>
     </message>
 </context>
 <context>
@@ -2832,14 +2847,19 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="117"/>
+        <location filename="../CWptDB.cpp" line="120"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Вы действительно хотите удалить &quot;приклеенную&quot; путевую точку &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="118"/>
+        <location filename="../CWptDB.cpp" line="121"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Удалить &quot;приклеенную&quot; путевую точку...</translation>
+    </message>
+    <message>
+        <location filename="../CWptDB.cpp" line="452"/>
+        <source>Select path...</source>
+        <translation>Выберите путь...</translation>
     </message>
 </context>
 <context>
@@ -3348,7 +3368,7 @@ bottom/right</source>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level.The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
         <translation>Вы можете создавать и редактировать файлы описания карт (*.qmap) для QLandkarte GT. Описания карт используются для привязки масштабирования карты на определенном уровне. Комментарии используются выводе списка доступных карт. ￼￼￼
-После создания набора карт, Вы можете присоеденить к нему DEM данные через левое, контекстное меню инструментов обзора карт.</translation>
+После создания набора карт, Вы можете присоединить к нему DEM данные через левое, контекстное меню инструментов обзора карт.</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="179"/>
@@ -3760,7 +3780,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="28"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
-        <translation>Выбирите интервал для добавления дополнительных точек на треке. &quot;Ничего&quot; использовать имеющиеся точки.</translation>
+        <translation>Выберите интервал для добавления дополнительных точек на треке. &quot;Ничего&quot; использовать имеющиеся точки.</translation>
     </message>
 </context>
 <context>
@@ -4620,7 +4640,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
 Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
         <translation>
 
-Предпологаемое окончание: %02i:%02i:%02i[чч:мм:сс]</translation>
+Предполагаемое окончание: %02i:%02i:%02i[чч:мм:сс]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="134"/>
