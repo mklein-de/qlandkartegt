@@ -613,7 +613,7 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 
 void CCreateMapOSM::slotSelectPath()
 {
-    QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text());
+    QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text(), QFileDialog::DontUseNativeDialog);
     if(!path.isEmpty()) {
         labelPath->setText(path);
     }

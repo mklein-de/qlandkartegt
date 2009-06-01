@@ -167,6 +167,8 @@ void CDlgEditWpt::slotAddImage()
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select image file")
         ,"./"
         ,"Image (*)"
+        ,0
+        , QFileDialog::DontUseNativeDialog
         );
     if(filename.isEmpty()) return;
 

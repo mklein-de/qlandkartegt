@@ -75,7 +75,7 @@ void CDlgEditMapLevel::accept()
 void CDlgEditMapLevel::slotSelectFiles()
 {
 
-    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif)");
+    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif)", 0, QFileDialog::DontUseNativeDialog);
     if(files.isEmpty()) return;
 
     listFiles->clear();
@@ -107,7 +107,7 @@ void CDlgEditMapLevel::slotListChanged()
 
 void CDlgEditMapLevel::slotAdd()
 {
-    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif)");
+    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif)", 0, QFileDialog::DontUseNativeDialog);
     if(files.isEmpty()) return;
 
     QDir dir(mapPath);

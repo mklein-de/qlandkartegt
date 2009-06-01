@@ -155,7 +155,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     QSettings cfg;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.png *.gif)"));
+    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.png *.gif)"), 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     CMapDB::self().openMap(filename, true, *theMainWindow->getCanvas());
@@ -198,7 +198,7 @@ void CCreateMapGeoTiff::slotOutFile()
     QSettings cfg;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif)"));
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif)"), 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     labelOutputFile->setText(filename);
@@ -331,7 +331,7 @@ void CCreateMapGeoTiff::slotDelRef()
 void CCreateMapGeoTiff::slotLoadRef()
 {
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),path.path(),"Ref. points (*.gcp *.tab)");
+    QString filename = QFileDialog::getOpenFileName(0, tr("Load reference points..."),path.path(),"Ref. points (*.gcp *.tab)", 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
@@ -494,7 +494,7 @@ void CCreateMapGeoTiff::slotSaveRef()
     QFileInfo fin(labelInputFile->text());
     QString base = fin.baseName();
 
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.filePath(base),"Ref. points (*.gcp);;Mapinfo (*.tab)", &filter);
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.filePath(base),"Ref. points (*.gcp);;Mapinfo (*.tab)", &filter, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     qDebug() << filename;

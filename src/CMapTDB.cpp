@@ -731,6 +731,8 @@ void CMapTDB::readTDB(const QString& filename)
                     QString filename = QFileDialog::getOpenFileName( 0, tr("Select Base Map for ") + name
                         ,finfo.dir().path()
                         ,"Map File (*.img)"
+                        ,0
+                        , QFileDialog::DontUseNativeDialog
                         );
                     qApp->restoreOverrideCursor();
 

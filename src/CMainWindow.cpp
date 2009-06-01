@@ -335,6 +335,7 @@ void CMainWindow::slotLoadMapSet()
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb)"
     #endif
         , &filter
+        , QFileDialog::DontUseNativeDialog
         );
     if(filename.isEmpty()) return;
 
@@ -384,6 +385,7 @@ void CMainWindow::slotLoadData()
         ,pathData
         ,formats
         ,&filter
+        , QFileDialog::DontUseNativeDialog
         );
     if(filename.isEmpty()) return;
 
@@ -425,6 +427,7 @@ void CMainWindow::slotAddData()
         ,pathData
         ,formats
         ,&filter
+        , QFileDialog::DontUseNativeDialog
         );
 
     if(filename.isEmpty()) return;
@@ -598,6 +601,7 @@ void CMainWindow::slotSaveData()
         ,pathData
         ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
         ,&filter
+        , QFileDialog::DontUseNativeDialog
         );
 
     if(filename.isEmpty()) return;

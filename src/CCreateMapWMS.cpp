@@ -355,7 +355,7 @@ void CCreateMapWMS::slotSelectFile()
 {
     QString filename;
 
-    filename = QFileDialog::getSaveFileName(0,tr("Define GDAL WMS definition file..."), mapPath,"GDAL WMS definition (*.xml)");
+    filename = QFileDialog::getSaveFileName(0,tr("Define GDAL WMS definition file..."), mapPath,"GDAL WMS definition (*.xml)", 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
     mapPath = QFileInfo(filename).path();
 
