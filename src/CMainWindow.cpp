@@ -626,8 +626,18 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
         ext = "GPX";
     }
     else {
-        filename += ".qlb";
-        ext = "QLB";
+//         filename += ".qlb";
+//         ext = "QLB";
+        if (ext == ".gpx") {
+            ext = "GPX";
+        }
+        else if (ext == ".qlb") {
+            ext = "QLB";
+        }
+        else {
+            filename += ".qlb";
+            ext = "QLB";
+        }
     }
 
     pathData = QFileInfo(filename).absolutePath();
