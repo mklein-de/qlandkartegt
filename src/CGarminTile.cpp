@@ -648,6 +648,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     if(subdiv.hasPolygons && !fast && !isTransparent()) {
         pData = pRawData + opgon;
         pEnd  = pRawData + subdiv.rgn_end;
+
         while(pData < pEnd) {
             polygons.push_back(CGarminPolygon());
 
