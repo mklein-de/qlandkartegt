@@ -524,6 +524,16 @@ static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_da
 
 void CWptDB::createWaypointsFromImages()
 {
+
+    if(f_exif_data_new_from_file == 0){
+#ifdef WIN32
+        QMessageBox::warning(0,tr("Missing libexif"), tr("Unable to find libexif-12.dll."), QMessageBox::Abort, QMessageBox::Abort);
+#else
+        QMessageBox::warning(0,tr("Missing libexif"), tr("Unable to find libexif.so."), QMessageBox::Abort, QMessageBox::Abort);
+#endif
+        return;
+    }
+
     QSettings cfg;
     QString path = cfg.value("path/images", "./").toString();
     path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, QFileDialog::DontUseNativeDialog);

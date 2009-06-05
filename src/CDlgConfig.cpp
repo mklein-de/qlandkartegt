@@ -66,6 +66,7 @@ void CDlgConfig::exec()
 
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
 
+    connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
     comboBrowser->setCurrentIndex(resources.m_eBrowser);
     lineBrowserCmd->setText(resources.cmdOther);
 
@@ -205,3 +206,14 @@ void CDlgConfig::fillTypeCombo()
         labelMessage->setText("");
     }
 }
+
+void CDlgConfig::slotBrowserChanged(int idx)
+{
+    if(idx == CResources::eOther) {
+        lineBrowserCmd->setEnabled(true);
+    }
+    else {
+        lineBrowserCmd->setEnabled(false);
+    }
+}
+
