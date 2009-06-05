@@ -388,7 +388,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         canvas->update();
     }
     else if(rectViewWpt.contains(pt)) {
-        CResources::self().openLink(selWpt->images[0].filePath);
+        CResources::self().openLink("file:///" + selWpt->images[0].filePath);
     }
 }
 
