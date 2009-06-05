@@ -60,6 +60,12 @@ else (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
 
   # show the EXIF_INCLUDE_DIRS and EXIF_LIBRARIES variables only in the advanced view
   mark_as_advanced(EXIF_INCLUDE_DIRS EXIF_LIBRARIES)
-
+  
 endif (EXIF_LIBRARIES AND EXIF_INCLUDE_DIRS)
+
+if (WIN32)
+set(EXIF_FOUND TRUE)
+set(EXIF_LIBRARIES "")
+set(EXIF_INCLUDE_DIRS "../include/libexif")
+endif (WIN32)
 

@@ -39,6 +39,20 @@
 
 CWptDB * CWptDB::m_self = 0;
 
+#ifdef WIN32
+typedef void (*exif_content_foreach_entry_t)(ExifContent *, ExifContentForeachEntryFunc , void *);
+typedef void (*exif_data_unref_t)(ExifData *);
+typedef ExifData* (*exif_data_new_from_file_t)(const char *);
+typedef void (*exif_data_foreach_content_t)(ExifData *, ExifDataForeachContentFunc , void *);
+typedef ExifIfd (*exif_content_get_ifd_t)(ExifContent *);
+
+static exif_content_foreach_entry_t f_exif_content_foreach_entry;
+static exif_data_unref_t f_exif_data_unref;
+static exif_data_new_from_file_t f_exif_data_new_from_file;
+static exif_data_foreach_content_t f_exif_data_foreach_content;
+static exif_content_get_ifd_t f_exif_content_get_ifd;
+#endif
+
 CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
@@ -48,6 +62,15 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     CQlb qlb(this);
     qlb.load(QDir::home().filePath(".config/QLandkarteGT/sticky.qlb"));
     loadQLB(qlb);
+
+#ifdef WIN32
+	f_exif_content_foreach_entry	= (exif_content_foreach_entry_t)QLibrary::resolve("libexif-12", "exif_content_foreach_entry");
+	f_exif_data_unref				= (exif_data_unref_t)QLibrary::resolve("libexif-12", "exif_data_unref");
+	f_exif_data_new_from_file		= (exif_data_new_from_file_t)QLibrary::resolve("libexif-12", "exif_data_new_from_file");
+	f_exif_data_foreach_content		= (exif_data_foreach_content_t)QLibrary::resolve("libexif-12", "exif_data_foreach_content");
+	f_exif_content_get_ifd			= (exif_content_get_ifd_t)QLibrary::resolve("libexif-12", "exif_content_get_ifd");
+#endif
+
 }
 
 
@@ -475,21 +498,20 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 
 static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
 {
-    switch(exif_content_get_ifd(exifContent)){
+    switch(f_exif_content_get_ifd(exifContent)){
 
         case EXIF_IFD_0:
-            exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc0, user_data);
+            f_exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc0, user_data);
             break;
 
         case EXIF_IFD_GPS:
-            exif_content_foreach_entry(exifContent, exifContentForeachEntryFuncGPS, user_data);
+            f_exif_content_foreach_entry(exifContent, exifContentForeachEntryFuncGPS, user_data);
             break;
 
     }
 //     qDebug() << "***" << exif_content_get_ifd(exifContent) << "***";
 //     exif_content_dump(exifContent,0);
 }
-
 
 
 void CWptDB::createWaypointsFromImages()
@@ -511,11 +533,11 @@ void CWptDB::createWaypointsFromImages()
     foreach(file, files){
 //         qDebug() << "---------------" << file << "---------------";
 
-        ExifData * exifData = exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
+        ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
         exifGPS_t exifGPS;
 
-        exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
+        f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
 
         CWpt * wpt      = new CWpt(this);
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
@@ -547,7 +569,7 @@ void CWptDB::createWaypointsFromImages()
         wpt->images << image;
         addWpt(wpt);
 
-        exif_data_unref(exifData);
+        f_exif_data_unref(exifData);
     }
 }
 #endif

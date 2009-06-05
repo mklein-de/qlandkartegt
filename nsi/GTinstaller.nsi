@@ -94,8 +94,11 @@ Var StartMenuFolder
   Section "QLandkarteGT" QLandkarteGT
   	SetOutPath $INSTDIR
   	File Files\qlandkartegt.exe
+	File Files\libexif-12.dll
 	File Files\qlandkartegt_de_DE.qm
 	File Files\qlandkartegt_fr_FR.qm
+	File Files\qlandkartegt_it_IT.qm
+	File Files\qlandkartegt_ru_RU.qm
   	WriteUninstaller "$INSTDIR\Uninstall.exe"
   	!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
       	;Create shortcuts
