@@ -155,7 +155,64 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 {
     if(!startDeviceDetection()) return;
-    QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    if(!acquire(tr("Download waypoints ..."), wpts.count())) return;
+
+    progress->setLabelText(tr("Query list of waypoints from the device"));
+    qApp->processEvents();
+
+    packet_e type;
+    QByteArray  data1;
+
+    if(!exchange(type = eH2CWptQuery,data1)) {
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query waypoints from device."),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    if(type == eError) {
+        QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    quint32     nWpt = 0;
+    quint32     n;
+    QString     key, name;
+
+    QDataStream wptlist(&data1, QIODevice::ReadOnly);
+
+    wptlist >> nWpt;
+
+    progress->setMaximum(nWpt);
+    for(n = 0; n < nWpt; ++n) {
+        QByteArray data;
+        QDataStream stream(&data,QIODevice::ReadWrite);
+        wptlist >> key >> name;
+
+        progress->setLabelText(tr("Download waypoint: %1").arg(name));
+        qApp->processEvents();
+
+        stream << key;
+
+        if(!exchange(type = eH2CWpt,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        stream.device()->seek(0);
+
+        CWpt * wpt = new CWpt(&CWptDB::self());
+        stream >> *wpt;
+
+        wpts.push_back(wpt);
+
+        progress->setValue(n + 1);
+    }
+
+    return release();
 }
 
 void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
