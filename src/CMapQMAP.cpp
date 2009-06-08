@@ -225,7 +225,7 @@ void CMapQMAP::draw()
 
     foundMap = false;
 
-    if(pjsrc == 0){
+    if(pjsrc == 0) {
         return;
     }
 
@@ -280,7 +280,7 @@ void CMapQMAP::draw()
 
                 CPLErr err = CE_Failure;
 
-                if(map->rasterBandCount == 1){
+                if(map->rasterBandCount == 1) {
 
                     GDALRasterBand * pBand;
                     pBand = map->dataset->GetRasterBand(1);
@@ -302,25 +302,25 @@ void CMapQMAP::draw()
                         foundMap = true;
                     }
                 }
-                else{
+                else {
                     QImage img(w,h, QImage::Format_ARGB32);
                     QVector<quint8> buffer(w*h);
 
                     img.fill(qRgba(255,255,255,255));
 
-                    for(int b = 1; b <= map->rasterBandCount; ++b){
+                    for(int b = 1; b <= map->rasterBandCount; ++b) {
 
                         GDALRasterBand * pBand;
                         pBand = map->dataset->GetRasterBand(b);
 
                         err = pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, pxx, pxy, buffer.data(), w, h, GDT_Byte, 0, 0);
 
-                        if(!err){
+                        if(!err) {
                             quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
                             quint8 * pSrc   = buffer.data();
                             const int size  = buffer.size();
 
-                            for(int i = 0; i < size; ++i){
+                            for(int i = 0; i < size; ++i) {
                                 *pTar = *pSrc;
                                 pTar += 4;
                                 pSrc += 1;
@@ -403,17 +403,17 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    if(quadraticZoom){
+    if(quadraticZoom) {
 
-        if(zoomidx > 1){
+        if(zoomidx > 1) {
             zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
             zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
         }
-        else{
+        else {
             zoomidx += zoomIn ? -1 : 1;
         }
     }
-    else{
+    else {
         zoomidx += zoomIn ? -1 : 1;
     }
 
@@ -531,7 +531,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
                 pjsrc       = map->pj;
 
                 zoomidx = pMaplevel->min + z - 1;
-                if(quadraticZoom){
+                if(quadraticZoom) {
                     zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
                     z = zoomidx - pMaplevel->min + 1;
                 }

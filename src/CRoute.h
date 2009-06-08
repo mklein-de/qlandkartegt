@@ -27,8 +27,6 @@
 #include <QFile>
 #include <projects.h>
 
-
-
 class CRoute : public QObject
 {
     Q_OBJECT;
@@ -70,7 +68,7 @@ class CRoute : public QObject
 
         QRectF getBoundingRectF();
 
-    signals:
+        signals:
         void sigChanged();
 
     private:
@@ -112,7 +110,4 @@ QDataStream& operator <<(QDataStream& s, CRoute& route);
 
 void operator >>(QFile& f, CRoute& route);
 void operator <<(QFile& f, CRoute& route);
-
-
-#endif //CROUTE_H
-
+#endif                           //CROUTE_H

@@ -42,6 +42,4 @@ class CDlgCreateWorldBasemap : public QDialog, private Ui::IDlgCreateWorldBasema
         COsmTilesHash * tilehash;
 
 };
-
-#endif //CDLGCREATEWORLDBASEMAP_H
-
+#endif                           //CDLGCREATEWORLDBASEMAP_H

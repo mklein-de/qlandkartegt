@@ -451,14 +451,13 @@ void COverlayDistance::slotToTrack()
     CTrack::pt_t pt;
 
     CDlgConvertToTrack dlg(0);
-    if(dlg.exec() == QDialog::Rejected){
+    if(dlg.exec() == QDialog::Rejected) {
         return;
     }
 
     delta = dlg.getDelta();
 
-
-    if(delta == -1){
+    if(delta == -1) {
 
         for(int i = 0; i < points.count(); ++i) {
             pt2 = points[i];
@@ -468,7 +467,7 @@ void COverlayDistance::slotToTrack()
             *track << pt;
         }
     }
-    else{
+    else {
         if((distance / delta) > (MAX_TRACK_SIZE - points.count())) {
             delta = distance / (MAX_TRACK_SIZE - points.count());
         }
@@ -513,6 +512,7 @@ void COverlayDistance::slotToTrack()
     CMegaMenu::self().switchByKeyWord("Tracks");
 }
 
+
 void COverlayDistance::slotToRoute()
 {
     if(points.isEmpty()) return;
@@ -535,6 +535,7 @@ void COverlayDistance::slotToRoute()
 
     CMegaMenu::self().switchByKeyWord("Routes");
 }
+
 
 void COverlayDistance::slotEdit()
 {

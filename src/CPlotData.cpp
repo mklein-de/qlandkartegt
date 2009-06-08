@@ -25,10 +25,10 @@ CPlotData::CPlotData(axis_type_e type, QObject * parent)
 : QObject(parent)
 , grid(true)
 {
-    if(type == eLinear){
+    if(type == eLinear) {
         xaxis = new CPlotAxis(this);
     }
-    else{
+    else {
         xaxis = new CPlotAxisTime(this);
     }
     xaxis->setAutoscale(false);

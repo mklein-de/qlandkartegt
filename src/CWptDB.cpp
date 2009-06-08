@@ -182,6 +182,7 @@ void CWptDB::addWpt(CWpt * wpt)
     emit sigModified();
 }
 
+
 void CWptDB::setProxyDistance(const QStringList& keys, double dist)
 {
     QString key;
@@ -191,6 +192,7 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
     emit sigChanged();
     emit sigModified();
 }
+
 
 void CWptDB::loadGPX(CGpx& gpx)
 {
@@ -445,15 +447,16 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     }
 }
 
+
 #ifdef HAS_EXIF
 static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_data)
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
-    switch(exifEntry->tag){
+    switch(exifEntry->tag) {
         case EXIF_TAG_GPS_LATITUDE_REF:
         {
-            if(exifEntry->data[0] != 'N'){
+            if(exifEntry->data[0] != 'N') {
                 exifGPS.lat_sign = -1;
             }
             break;
@@ -462,14 +465,14 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
 
-            if(exifEntry->components == 3){
+            if(exifEntry->components == 3) {
                 exifGPS.lat = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
             }
             break;
         }
         case EXIF_TAG_GPS_LONGITUDE_REF:
         {
-            if(exifEntry->data[0] != 'E'){
+            if(exifEntry->data[0] != 'E') {
                 exifGPS.lon_sign = -1;
             }
             break;
@@ -478,7 +481,7 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
 
-            if(exifEntry->components == 3){
+            if(exifEntry->components == 3) {
                 exifGPS.lon = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
             }
 
@@ -487,22 +490,24 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
     }
 }
 
+
 static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
-    switch(exifEntry->tag){
+    switch(exifEntry->tag) {
         case EXIF_TAG_DATE_TIME:
         {
-//             qDebug() << exifEntry->format << exifEntry->components << exifEntry->size;
-//             qDebug() << (char*)exifEntry->data;
-//             2009:05:23 14:12:10
+            //             qDebug() << exifEntry->format << exifEntry->components << exifEntry->size;
+            //             qDebug() << (char*)exifEntry->data;
+            //             2009:05:23 14:12:10
             QDateTime timestamp = QDateTime::fromString((char*)exifEntry->data, "yyyy:MM:dd hh:mm:ss");
             exifGPS.timestamp   = timestamp.toTime_t();
             break;
         }
     }
 }
+
 
 static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
 {
@@ -517,8 +522,8 @@ static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_da
             break;
 
     }
-//     qDebug() << "***" << exif_content_get_ifd(exifContent) << "***";
-//     exif_content_dump(exifContent,0);
+    //     qDebug() << "***" << exif_content_get_ifd(exifContent) << "***";
+    //     exif_content_dump(exifContent,0);
 }
 
 
@@ -548,8 +553,8 @@ void CWptDB::createWaypointsFromImages()
     QStringList files = dir.entryList(filter, QDir::Files);
     QString file;
 
-    foreach(file, files){
-//         qDebug() << "---------------" << file << "---------------";
+    foreach(file, files) {
+        //         qDebug() << "---------------" << file << "---------------";
 
         ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
@@ -572,11 +577,11 @@ void CWptDB::createWaypointsFromImages()
         int w = pixtmp.width();
         int h = pixtmp.height();
 
-        if(w < h){
+        if(w < h) {
             h *= 240.0 / w;
             w  = 240;
         }
-        else{
+        else {
             h *= 320.0 / w;
             w  = 320;
         }

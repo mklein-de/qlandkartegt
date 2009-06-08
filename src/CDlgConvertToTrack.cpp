@@ -38,10 +38,12 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
 
 }
 
+
 CDlgConvertToTrack::~CDlgConvertToTrack()
 {
 
 }
+
 
 int CDlgConvertToTrack::getDelta()
 {

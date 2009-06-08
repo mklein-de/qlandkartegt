@@ -50,7 +50,7 @@ class CGpx : public QObject, public QDomDocument
         void save(const QString& filename);
 
         static QMap<QString,QDomElement> mapChildElements(const QDomNode& parent);
-	
+
         const Dictionary<QString, QColor>& getColorMap() const;
         const Dictionary<QString, int>& getTrackColorMap() const;
 

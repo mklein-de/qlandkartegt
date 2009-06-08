@@ -56,6 +56,7 @@ CQlb& CQlb::operator <<(CTrack& trk)
     return *this;
 }
 
+
 CQlb& CQlb::operator <<(CRoute& rte)
 {
     QDataStream stream(&rtes, QIODevice::Append);
@@ -85,11 +86,17 @@ CQlb& CQlb::operator <<(IOverlay& ovl)
 
 void CQlb::load(const QString& filename)
 {
+    QFile file(filename);
+    load(&file);
+}
+
+
+void CQlb::load(QIODevice* ioDevice)
+{
     qint32 type;
 
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly);
-    QDataStream stream(&file);
+    ioDevice->open(QIODevice::ReadOnly);
+    QDataStream stream(ioDevice);
 
     stream >> type;
     while(type != eEnd) {
@@ -117,22 +124,28 @@ void CQlb::load(const QString& filename)
                 break;
 
             default:
-                file.close();
+                ioDevice->close();
                 return;
         }
 
         stream >> type;
     }
 
-    file.close();
+    ioDevice->close();
 }
 
 
 void CQlb::save(const QString& filename)
 {
     QFile file(filename);
-    file.open(QIODevice::WriteOnly);
-    QDataStream stream(&file);
+    save(&file);
+}
+
+
+void CQlb::save(QIODevice* ioDevice)
+{
+    ioDevice->open(QIODevice::WriteOnly);
+    QDataStream stream(ioDevice);
 
     stream << (qint32)eWpt << wpts;
     stream << (qint32)eTrack << trks;
@@ -141,5 +154,5 @@ void CQlb::save(const QString& filename)
     stream << (qint32)eOverlay << ovls;
     stream << (qint32)eEnd;
 
-    file.close();
+    ioDevice->close();
 }

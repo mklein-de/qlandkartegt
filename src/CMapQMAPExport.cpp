@@ -79,13 +79,13 @@ void CMapQMAPExport::slotOutputPath()
 void CMapQMAPExport::slotStderr()
 {
     textBrowser->setTextColor(Qt::red);
-    if(sender() == &cmd1){
+    if(sender() == &cmd1) {
         textBrowser->append(cmd1.readAllStandardError());
     }
-    else if(sender() == &cmd2){
+    else if(sender() == &cmd2) {
         textBrowser->append(cmd2.readAllStandardError());
     }
-    else if(sender() == &cmd3){
+    else if(sender() == &cmd3) {
         textBrowser->append(cmd3.readAllStandardError());
     }
 }
@@ -95,13 +95,13 @@ void CMapQMAPExport::slotStdout()
 {
     textBrowser->setTextColor(Qt::blue);
     QString str;
-    if(sender() == &cmd1){
+    if(sender() == &cmd1) {
         str = cmd1.readAllStandardOutput();
     }
-    else if(sender() == &cmd2){
+    else if(sender() == &cmd2) {
         str = cmd2.readAllStandardOutput();
     }
-    else if(sender() == &cmd3){
+    else if(sender() == &cmd3) {
         str = cmd3.readAllStandardOutput();
     }
 
@@ -245,6 +245,7 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 
 }
 
+
 void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 {
     job_t job = jobs.first();
@@ -259,6 +260,7 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 
     cmd2.start("gdalwarp", args);
 }
+
 
 void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
 {

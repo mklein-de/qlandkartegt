@@ -31,10 +31,12 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     checkTextAboveLine->setChecked(map->textAboveLine);
 }
 
+
 CDlgMapTDBConfig::~CDlgMapTDBConfig()
 {
 
 }
+
 
 void CDlgMapTDBConfig::accept()
 {

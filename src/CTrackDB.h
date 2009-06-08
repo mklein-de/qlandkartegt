@@ -76,6 +76,8 @@ class CTrackDB : public IDB
 
         void select(const QRect& rect);
 
+        void copyToClipboard(bool deleteSelection = false);
+        void pasteFromClipboard();
         signals:
         void sigHighlightTrack(CTrack * track);
 

@@ -31,7 +31,6 @@ struct rte_head_entry_t
     QByteArray  data;
 };
 
-
 QDataStream& operator >>(QDataStream& s, CRoute& route)
 {
     quint32 nRtePts = 0;
@@ -104,6 +103,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
 
     return s;
 }
+
 
 QDataStream& operator <<(QDataStream& s, CRoute& route)
 {
@@ -184,6 +184,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     return s;
 }
 
+
 void operator >>(QFile& f, CRoute& route)
 {
     f.open(QIODevice::ReadOnly);
@@ -191,6 +192,7 @@ void operator >>(QFile& f, CRoute& route)
     s >> route;
     f.close();
 }
+
 
 void operator <<(QFile& f, CRoute& route)
 {
@@ -212,13 +214,14 @@ CRoute::CRoute(QObject * parent)
 , firstTime(true)
 {
 
-
 }
+
 
 CRoute::~CRoute()
 {
 
 }
+
 
 void CRoute::genKey()
 {
@@ -231,6 +234,7 @@ const QString& CRoute::key()
     if(_key_.isEmpty()) genKey();
     return _key_;
 }
+
 
 void CRoute::addPosition(const double lon, const double lat)
 {
@@ -264,6 +268,7 @@ void CRoute::calcDistance()
 
 }
 
+
 QRectF CRoute::getBoundingRectF()
 {
 
@@ -287,6 +292,7 @@ QRectF CRoute::getBoundingRectF()
 
     return QRectF(QPointF(west,north),QPointF(east,south));
 }
+
 
 void CRoute::setIcon(const QString& symname)
 {

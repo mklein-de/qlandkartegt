@@ -36,6 +36,8 @@
 #include "printpreview.h"
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
+#include "CActions.h"
+#include "CMenus.h"
 
 #include <QtGui>
 
@@ -45,7 +47,8 @@ CMainWindow::CMainWindow()
 : modified(false)
 {
     theMainWindow = this;
-
+    groupProvidedMenu = 0;
+    setupMenu = 0;
     setObjectName("MainWidget");
     setWindowTitle("QLandkarte GT");
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
@@ -72,9 +75,26 @@ CMainWindow::CMainWindow()
     canvas = new CCanvas(this);
     canvasTab->addTab(canvas,tr("Map"));
 
+    actionGroupProvider = new CMenus(this);
+
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
+
+    CActions *actions = actionGroupProvider->getActions();
+    canvas->addAction(actions->getAction("aZoomIn"));
+    canvas->addAction(actions->getAction("aZoomOut"));
+    canvas->addAction(actions->getAction("aMoveLeft"));
+    canvas->addAction(actions->getAction("aMoveRight"));
+    canvas->addAction(actions->getAction("aMoveUp"));
+    canvas->addAction(actions->getAction("aMoveDown"));
+
+    //    canvas->addAction(actionGroupProvider->getActions()->getAction("aCopyToClipboard"));
+    //    canvas->addAction(actionGroupProvider->getActions()->getAction("aPasteFromClipboard"));
+    switchState();
+    groupProvidedMenu->setTitle("&Main");
     QWidget * wtmp      = new QWidget(this);
     QVBoxLayout * ltmp  = new QVBoxLayout(wtmp);
     wtmp->setLayout(ltmp);
@@ -97,7 +117,7 @@ CMainWindow::CMainWindow()
     tabbar = new QTabWidget(canvas);
     leftSplitter->addWidget(tabbar);
 
-    leftSplitter->setCollapsible(0, false);
+    leftSplitter->setCollapsible(0, true);
     leftSplitter->setCollapsible(1, true);
     leftSplitter->setCollapsible(2, false);
 
@@ -116,7 +136,6 @@ CMainWindow::CMainWindow()
     livelogdb   = new CLiveLogDB(tabbar, this);
     overlaydb   = new COverlayDB(tabbar, this);
 
-
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -125,7 +144,6 @@ CMainWindow::CMainWindow()
     connect(tabbar, SIGNAL(currentChanged(int)), this, SLOT(slotToolBoxChanged(int)));
     connect(routedb, SIGNAL(sigChanged()), this, SLOT(update()));
     connect(mapdb, SIGNAL(sigChanged()), this, SLOT(update()));
-
 
     connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
@@ -186,11 +204,11 @@ CMainWindow::CMainWindow()
 
     QStringList args = QCoreApplication::arguments();
     args.removeFirst();
-    foreach(QString arg, args)
-    {
-      loadData(arg, QString());
+    foreach(QString arg, args) {
+        loadData(arg, QString());
     }
 
+    connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
 }
 
 
@@ -254,6 +272,15 @@ void CMainWindow::setPositionInfo(const QString& info)
 }
 
 
+void CMainWindow::switchState()
+{
+    if (groupProvidedMenu) {
+        groupProvidedMenu->clear();
+        actionGroupProvider->addActionsToMenu(groupProvidedMenu);
+    }
+}
+
+
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
@@ -272,6 +299,10 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
+    groupProvidedMenu = new QMenu(this);
+    groupProvidedMenu->setTitle(tr("-"));
+    menuBar()->addMenu(groupProvidedMenu);
+
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
@@ -286,23 +317,27 @@ void CMainWindow::setupMenuBar()
 
 void CMainWindow::keyPressEvent(QKeyEvent * e)
 {
-
-    if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
-        return megaMenu->keyPressEvent(e);
-    }
-    else if(e->key() == Qt::Key_Escape) {
-        return megaMenu->keyPressEvent(e);
-    }
-    else if((e->key() == Qt::Key_Plus) || (e->key() == Qt::Key_Minus)) {
-        return megaMenu->keyPressEvent(e);
-    }
-    else if(e->modifiers() == Qt::AltModifier) {
-        if((e->key() == Qt::Key_Up) || (e->key() == Qt::Key_Down)
-        || (e->key() == Qt::Key_Left) || (e->key() == Qt::Key_Right)) {
+    /*
+        if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
             return megaMenu->keyPressEvent(e);
         }
-    }
-    return e->ignore();
+        else if(e->key() == Qt::Key_Escape) {
+            return megaMenu->keyPressEvent(e);
+        }
+        else if((e->key() == Qt::Key_Plus) || (e->key() == Qt::Key_Minus)) {
+            return megaMenu->keyPressEvent(e);
+        }
+        else if(e->modifiers() == Qt::AltModifier) {
+            if((e->key() == Qt::Key_Up) || (e->key() == Qt::Key_Down)
+            || (e->key() == Qt::Key_Left) || (e->key() == Qt::Key_Right)) {
+                return megaMenu->keyPressEvent(e);
+            }
+        }
+        else if (e->modifiers() == Qt::ControlModifier)
+          return megaMenu->keyPressEvent(e);
+
+        return e->ignore();
+        */
 }
 
 
@@ -409,6 +444,7 @@ void CMainWindow::slotLoadData()
 
     cfg.setValue("geodata/filter",filter);
 }
+
 
 void CMainWindow::slotAddData()
 {

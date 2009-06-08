@@ -393,7 +393,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
 
     if(treePoints->selectionMode() == QAbstractItemView::MultiSelection) return;
 
-    //     qDebug() << "CTrackEditWidget::slotPointSelectionChanged()";
+    //    qDebug() << Q_FUNC_INFO;
 
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
@@ -467,6 +467,7 @@ void CTrackEditWidget::slotToggleStatDistance()
         delete trackStatProfileDist;
     }
 }
+
 
 void CTrackEditWidget::slotToggleStatTime()
 {

@@ -28,10 +28,10 @@ CTrackStatSpeedWidget::CTrackStatSpeedWidget(type_e type, QWidget * parent)
 : ITrackStat(type, parent)
 , needResetZoom(true)
 {
-    if(type == eOverDistance){
+    if(type == eOverDistance) {
         plot->setXLabel(tr("distance [m]"));
     }
-    else{
+    else {
         plot->setXLabel(tr("time [h]"));
     }
     plot->setYLabel(tr("speed [km/h]"));
@@ -65,10 +65,10 @@ void CTrackStatSpeedWidget::slotChanged()
         return;
     }
 
-    if(type == eOverDistance){
+    if(type == eOverDistance) {
         plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
     }
-    else{
+    else {
         plot->setXLabel(tr("time [h]"));
     }
 

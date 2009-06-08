@@ -32,6 +32,4 @@ class CDlgConvertToTrack : public QDialog, private Ui::IDlgConvertToTrack
 
         int getDelta();
 };
-
-#endif //CDLGCONVERTTOTRACK_H
-
+#endif                           //CDLGCONVERTTOTRACK_H

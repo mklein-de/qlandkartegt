@@ -278,8 +278,8 @@ bool IMap::isLonLat()
     return true;
 }
 
+
 void IMap::select(IMapSelection& ms, const QRect& rect)
 {
     throw tr("This map does not support this feature.");
 }
-

@@ -39,6 +39,4 @@ class CPlotAxisTime : public CPlotAxis
 
         QString strFormat;
 };
-
-#endif //CPLOTAXISTIME_H
-
+#endif                           //CPLOTAXISTIME_H

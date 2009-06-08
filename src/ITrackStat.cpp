@@ -38,10 +38,10 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
 
     layout()->setSpacing(SPACING);
 
-    if(type == eOverDistance){
+    if(type == eOverDistance) {
         plot = new CPlot(CPlotData::eLinear,this);
     }
-    else{
+    else {
         plot = new CPlot(CPlotData::eTime,this);
     }
     layout()->addWidget(plot);

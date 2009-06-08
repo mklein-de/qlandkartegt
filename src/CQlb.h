@@ -20,6 +20,7 @@
 #define CQLB_H
 
 #include <QObject>
+#include <QIODevice>
 #include <QByteArray>
 
 class CWpt;
@@ -74,8 +75,10 @@ class CQlb : public QObject
         QByteArray& routes(){return rtes;}
         /// write collected data to file
         void save(const QString& filename);
+        void save(QIODevice *ioDevice);
         /// read file and store elements in their designated byte arrays
         void load(const QString& filename);
+        void load(QIODevice *ioDevice);
 
     private:
         /// byte array to hold all waypoints

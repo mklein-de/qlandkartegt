@@ -22,7 +22,6 @@
 #include <QWidget>
 #include "ui_IRouteToolWidget.h"
 
-
 class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
     Q_OBJECT;
@@ -44,6 +43,4 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
     private:
         bool originator;
 };
-
-#endif //CROUTETOOLWIDGET_H
-
+#endif                           //CROUTETOOLWIDGET_H

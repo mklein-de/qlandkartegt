@@ -39,10 +39,12 @@ CRouteDB::CRouteDB(QTabWidget * tb, QObject * parent)
     toolview    = new CRouteToolWidget(tb);
 }
 
+
 CRouteDB::~CRouteDB()
 {
 
 }
+
 
 void CRouteDB::addRoute(CRoute * route, bool silent)
 {
@@ -61,6 +63,7 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
 
 }
 
+
 void CRouteDB::delRoute(const QString& key, bool silent)
 {
     if(!routes.contains(key)) return;
@@ -70,6 +73,7 @@ void CRouteDB::delRoute(const QString& key, bool silent)
         emit sigModified();
     }
 }
+
 
 void CRouteDB::delRoutes(const QStringList& keys)
 {
@@ -82,15 +86,17 @@ void CRouteDB::delRoutes(const QStringList& keys)
     emit sigModified();
 }
 
+
 CRoute * CRouteDB::getRoute(const QString& key)
 {
-    if(routes.contains(key)){
+    if(routes.contains(key)) {
         return routes[key];
     }
-    else{
+    else {
         return 0;
     }
 }
+
 
 void CRouteDB::highlightRoute(const QString& key)
 {
@@ -100,7 +106,7 @@ void CRouteDB::highlightRoute(const QString& key)
         ++route;
     }
 
-    if(routes.contains(key)){
+    if(routes.contains(key)) {
         routes[key]->setHighlight(true);
     }
 
@@ -121,6 +127,7 @@ CRoute* CRouteDB::highlightedRoute()
     return 0;
 
 }
+
 
 QRectF CRouteDB::getBoundingRectF(const QString key)
 {
@@ -147,11 +154,11 @@ void CRouteDB::loadGPX(CGpx& gpx)
         }
         else {
             /* Use desc if name is unavailable, else give it no name. */
-            if (rte.namedItem("desc").isElement()){
+            if (rte.namedItem("desc").isElement()) {
                 r = new CRoute(this);
                 r->setName(rte.namedItem("desc").toElement().text());
             }
-            else{
+            else {
                 r = new CRoute(this);
                 r->setName(tr("Unnamed"));
             }
@@ -189,6 +196,7 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
     emit sigChanged();
 }
+
 
 /// save database data to gpx
 void CRouteDB::saveGPX(CGpx& gpx)
@@ -243,6 +251,7 @@ void CRouteDB::saveGPX(CGpx& gpx)
     }
 }
 
+
 /// load database data from QLandkarte binary
 void CRouteDB::loadQLB(CQlb& qlb)
 {
@@ -258,6 +267,7 @@ void CRouteDB::loadQLB(CQlb& qlb)
     emit sigChanged();
 }
 
+
 /// save database data to QLandkarte binary
 void CRouteDB::saveQLB(CQlb& qlb)
 {
@@ -267,6 +277,7 @@ void CRouteDB::saveQLB(CQlb& qlb)
         ++route;
     }
 }
+
 
 void CRouteDB::upload()
 {
@@ -278,6 +289,7 @@ void CRouteDB::upload()
         dev->uploadRoutes(tmprtes);
     }
 }
+
 
 void CRouteDB::download()
 {
@@ -298,6 +310,7 @@ void CRouteDB::download()
     emit sigModified();
 }
 
+
 void CRouteDB::clear()
 {
     cnt = 0;
@@ -305,6 +318,7 @@ void CRouteDB::clear()
     emit sigChanged();
 
 }
+
 
 void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
@@ -389,4 +403,3 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         }
     }
 }
-

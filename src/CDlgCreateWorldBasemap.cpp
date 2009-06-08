@@ -298,19 +298,21 @@ CDlgCreateWorldBasemap::CDlgCreateWorldBasemap()
         qtColorTable[i] = qRgb(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3);
     }
 
-
 }
+
 
 CDlgCreateWorldBasemap::~CDlgCreateWorldBasemap()
 {
 
 }
 
+
 void CDlgCreateWorldBasemap::slotChangeLevel(int val)
 {
     int width = pow(2.0, val - 1) * 256;
     labelDimensions->setText(QString("%1px x %1px\n %2 MB uncompressed").arg(width).arg((width * width * 4)/1048576));
 }
+
 
 void CDlgCreateWorldBasemap::accept()
 {
@@ -320,11 +322,12 @@ void CDlgCreateWorldBasemap::accept()
     tilehash->startNewDrawing(-180, 85.0511, level, QRect(0,0,width,width));
 }
 
+
 void CDlgCreateWorldBasemap::slotImageReady(QImage image, bool lastTileLoaded)
 {
     labelPreview->setPixmap(QPixmap::fromImage(image.scaled(512,512)));
 
-    if(lastTileLoaded){
+    if(lastTileLoaded) {
         QImage tmp = image.convertToFormat(QImage::Format_Indexed8,qtColorTable);
         tmp.save("./basemap.png");
         QStringList args;

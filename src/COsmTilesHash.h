@@ -50,7 +50,7 @@ class COsmTilesHash: public QObject
         void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
         QImage image;
         QHttp *tilesConnection;
-//         CMapOSM *cmapOSM;
+        //         CMapOSM *cmapOSM;
         QString osmTileBaseUrl;
         bool requestInProgress;
         QHash<QString,QImage> tiles;

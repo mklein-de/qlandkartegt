@@ -172,6 +172,7 @@ void CWptToolWidget::selWptByKey(const QString& key)
     }
 }
 
+
 void CWptToolWidget::slotProximity()
 {
     bool ok         = false;
@@ -191,6 +192,7 @@ void CWptToolWidget::slotProximity()
     }
 }
 
+
 void CWptToolWidget::slotMakeRoute()
 {
     const QList<QListWidgetItem*>& items = listWpts->selectedItems();
@@ -201,7 +203,7 @@ void CWptToolWidget::slotMakeRoute()
     QListWidgetItem * item;
     foreach(item,items) {
         CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
-        if(wpt){
+        if(wpt) {
             route->addPosition(wpt->lon, wpt->lat);
         }
     }

@@ -106,7 +106,7 @@ void IMouse::drawSelWpt(QPainter& p)
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
-        if(!selWpt->images.isEmpty()){
+        if(!selWpt->images.isEmpty()) {
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconImage16x16.png"));
         }
         p.restore();
@@ -154,7 +154,7 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 
-        if(!selWpt->images.isEmpty()){
+        if(!selWpt->images.isEmpty()) {
             p.save();
             p.translate(u - (320 + 40), v);
             p.setPen(QPen(Qt::white,3));

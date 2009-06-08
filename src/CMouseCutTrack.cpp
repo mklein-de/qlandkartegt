@@ -96,7 +96,7 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
             nextTrkPt = &trkpts[idx];
         }
     }
-//     qDebug() << nextTrkPt->lon << nextTrkPt->lat;
+    //     qDebug() << nextTrkPt->lon << nextTrkPt->lat;
 }
 
 

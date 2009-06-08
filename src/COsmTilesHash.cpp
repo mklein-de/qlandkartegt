@@ -103,6 +103,7 @@ COsmTilesHash::~COsmTilesHash()
 
 }
 
+
 void COsmTilesHash::slotSetupLink()
 {
     QString url;
@@ -248,17 +249,17 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     }
 
     tiles.insert(osmUrlPart,img1);
-   // if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom))) {
-        QPainter p(&image);
-        p.drawImage(startPointHash.value(id),img1);
+    // if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom))) {
+    QPainter p(&image);
+    p.drawImage(startPointHash.value(id),img1);
 #ifdef COSMTILESHASHDEBUG
-        p.drawRect(QRect(startPointHash.value(id),QSize(255,255)));
-        p.drawText(startPointHash.value(id) + QPoint(10,10), QString::number(id) + osmUrlPartHash.value(id));
+    p.drawRect(QRect(startPointHash.value(id),QSize(255,255)));
+    p.drawText(startPointHash.value(id) + QPoint(10,10), QString::number(id) + osmUrlPartHash.value(id));
 #endif
-        osmUrlPartHash.remove(id);
-        startPointHash.remove(id);
-        osmRunningHash.remove(osmUrlPart);
-        emit newImageReady(image,!osmRunningHash.count());
+    osmUrlPartHash.remove(id);
+    startPointHash.remove(id);
+    osmRunningHash.remove(osmUrlPart);
+    emit newImageReady(image,!osmRunningHash.count());
     //}
     return;
 }

@@ -67,7 +67,7 @@ class CRouteDB : public IDB
 
         QRectF getBoundingRectF(const QString key);
 
-    signals:
+        signals:
         void sigHighlightRoute(CRoute * route);
 
     private:
@@ -80,6 +80,4 @@ class CRouteDB : public IDB
 
         QMap<QString,CRoute*> routes;
 };
-
-#endif //CROUTEDB_H
-
+#endif                           //CROUTEDB_H

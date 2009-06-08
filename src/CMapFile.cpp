@@ -83,11 +83,10 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
-
     rasterBandCount = dataset->GetRasterCount();
     if(rasterBandCount < 1) return;
 
-    if(rasterBandCount == 1){
+    if(rasterBandCount == 1) {
         GDALRasterBand * pBand;
         pBand = dataset->GetRasterBand(1);
         if(pBand == 0) return;
@@ -104,7 +103,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
                 colortable << qRgba(i, i, i, 255);
             }
         }
-        else{
+        else {
             return;
         }
 

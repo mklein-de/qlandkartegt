@@ -9,7 +9,7 @@
  * as close as possible, but all operations are efficient in both
  * directions. And storage requirements are reasonable, with each
  * object stored only once.
- * 
+ *
  * A sample use case would be translating color names to QColor
  * and using the same mapping for reverse translation.
  */
@@ -21,10 +21,10 @@ class Dictionary
         // The pointers are actually iterators over the other hash map
         typedef QHash<KeyL, void*> HashL;
         typedef QHash<KeyR, void*> HashR;
-        
+
         HashL hashL;
         HashR hashR;
-        
+
     protected:
         // These convert left iterators to right iterators and back
         static typename HashR::iterator left2right(typename HashL::iterator il)
@@ -37,13 +37,13 @@ class Dictionary
             { return typename HashL::const_iterator(ir.value()); }
 
         template<typename I>
-        class iterator_base
+            class iterator_base
         {
             friend class Dictionary;
-        
+
             protected:
                 I i;
-                
+
                 iterator_base(const I& i): i(i) {}
 
             public:
@@ -62,7 +62,7 @@ class Dictionary
                 iterator_base<I>& operator-=(int j) { return i-=j; }
                 bool operator==(const iterator_base<I>& other) const { return i==other.i; }
         };
-        
+
     public:
         // It is sufficient to store only one iterator,
         // we arbitrarily choose the left one
@@ -90,8 +90,7 @@ class Dictionary
         bool empty() const { return hashL.empty(); }
         iterator end() { return hashL.end(); }
         const_iterator end() const { return hashL.end(); }
-        iterator erase(iterator pos)
-        {
+        iterator erase(iterator pos) {
             hashR.erase(left2right(pos.i));
             return hashL.erase(pos.i);
         }
@@ -100,8 +99,7 @@ class Dictionary
         const_iterator find(const KeyL& keyL) const { return findL(keyL); }
         const_iterator find(const KeyR& keyR) const { return findR(keyR); }
         iterator findL(const KeyL& keyL) { return hashL.find(keyL); }
-        iterator findR(const KeyR& keyR)
-        {
+        iterator findR(const KeyR& keyR) {
             typename HashR::iterator ir = hashR.find(keyR);
             if (ir == hashR.end()) return hashL.end();
             return right2left(ir);
@@ -113,15 +111,13 @@ class Dictionary
             if (ir == hashR.end()) return hashL.end();
             return right2left(ir);
         }
-        iterator insert(const KeyL& keyL, const KeyR& keyR)
-        {
+        iterator insert(const KeyL& keyL, const KeyR& keyR) {
             typename HashL::iterator il = hashL.insert(keyL, 0);
             typename HashR::iterator ir = hashR.insert(keyR, il);
             il.value() = ir;
             return il;
         }
-        iterator insertMulti(const KeyL& keyL, const KeyR& keyR)
-        {
+        iterator insertMulti(const KeyL& keyL, const KeyR& keyR) {
             typename HashL::iterator il = hashL.insertMulti(keyL, 0);
             typename HashR::iterator ir = hashR.insertMulti(keyR, il);
             il.value() = ir;
@@ -145,8 +141,7 @@ class Dictionary
         {
             QList<KeyL> ret;
             typename HashR::const_iterator ir = hashR.find(keyR);
-            while (ir != hashR.end() && ir.key() == keyR)
-            {
+            while (ir != hashR.end() && ir.key() == keyR) {
                 ret.append(right2left(ir).key());
                 ++ir;
             }
@@ -154,21 +149,17 @@ class Dictionary
         }
         int remove(const KeyL& keyL) { return removeL(keyL); }
         int remove(const KeyR& keyR) { return removeR(keyR); }
-        int removeL(const KeyL& keyL)
-        {
+        int removeL(const KeyL& keyL) {
             typename HashL::iterator il = hashL.find(keyL);
-            while (il != hashL.end() && il.key() == keyL)
-            {
+            while (il != hashL.end() && il.key() == keyL) {
                 hashR.erase(left2right(il));
                 ++il;
             }
             return hashL.remove(keyL);
         }
-        int removeR(const KeyR& keyR)
-        {
+        int removeR(const KeyR& keyR) {
             typename HashR::iterator ir = hashR.find(keyR);
-            while (ir != hashR.end() && ir.key() == keyR)
-            {
+            while (ir != hashR.end() && ir.key() == keyR) {
                 hashL.erase(right2left(ir));
                 ++ir;
             }
@@ -192,8 +183,7 @@ class Dictionary
         {
             QList<KeyR> ret;
             typename HashL::const_iterator il = hashL.find(keyL);
-            while (il != hashL.end() && il.key() == keyL)
-            {
+            while (il != hashL.end() && il.key() == keyL) {
                 ret.append(left2right(il).key());
                 ++il;
             }
@@ -203,8 +193,7 @@ class Dictionary
         void squeeze() { hashL.squeeze(); hashR.squeeze(); }
         KeyR take(const KeyL& keyL) { return takeL(keyL); }
         KeyL take(const KeyR& keyR) { return takeR(keyR); }
-        KeyR takeL(const KeyL& keyL)
-        {
+        KeyR takeL(const KeyL& keyL) {
             typename HashL::iterator il = hashL.find(keyL);
             if (il == hashL.end()) return KeyR();
             KeyR ret = left2right(il).key();
@@ -212,8 +201,7 @@ class Dictionary
             hashL.erase(il);
             return ret;
         }
-        KeyL takeR(const KeyR& keyR)
-        {
+        KeyL takeR(const KeyR& keyR) {
             typename HashR::iterator ir = hashR.find(keyR);
             if (ir == hashR.end()) return KeyL();
             KeyL ret = right2left(ir).key();
@@ -232,5 +220,4 @@ class Dictionary
         bool operator== ( const QHash<Key, T> & other ) const
         */
 };
-
 #endif

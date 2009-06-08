@@ -56,6 +56,7 @@
 #include "IUnit.h"
 
 #include <QtGui>
+#include "CMenus.h"
 
 CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
@@ -591,6 +592,9 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 void CCanvas::raiseContextMenu(const QPoint& pos)
 {
     QMenu menu(this);
+
+    foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions())
+        menu.addAction(a);
     menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 

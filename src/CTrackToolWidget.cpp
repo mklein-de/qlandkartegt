@@ -200,6 +200,7 @@ void CTrackToolWidget::slotDelete()
     CTrackDB::self().delTracks(keys);
 }
 
+
 void CTrackToolWidget::slotToOverlay()
 {
     CTrack * track;
@@ -214,7 +215,7 @@ void CTrackToolWidget::slotToOverlay()
 
         CTrack::pt_t trkpt;
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        foreach(trkpt, trkpts){
+        foreach(trkpt, trkpts) {
             if(trkpt.flags & CTrack::pt_t::eDeleted) continue;
 
             XY pt;

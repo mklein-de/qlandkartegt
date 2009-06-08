@@ -42,10 +42,12 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     connect(listRoutes,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
+
 CRouteToolWidget::~CRouteToolWidget()
 {
 
 }
+
 
 void CRouteToolWidget::slotDBChanged()
 {
@@ -84,6 +86,7 @@ void CRouteToolWidget::slotDBChanged()
     }
 }
 
+
 void CRouteToolWidget::slotItemClicked(QListWidgetItem * item)
 {
     originator = true;
@@ -91,15 +94,17 @@ void CRouteToolWidget::slotItemClicked(QListWidgetItem * item)
     originator = false;
 }
 
+
 void CRouteToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
     QString key = item->data(Qt::UserRole).toString();
 
     QRectF r = CRouteDB::self().getBoundingRectF(key);
-    if (!r.isNull ()){
+    if (!r.isNull ()) {
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
 }
+
 
 void CRouteToolWidget::keyPressEvent(QKeyEvent * e)
 {
@@ -140,6 +145,7 @@ void CRouteToolWidget::slotEdit()
     dlg.exec();
 }
 
+
 void CRouteToolWidget::slotDelete()
 {
     QStringList keys;
@@ -153,4 +159,3 @@ void CRouteToolWidget::slotDelete()
     CRouteDB::self().delRoutes(keys);
     originator = false;
 }
-

@@ -314,13 +314,12 @@ void CMapDB::openMap(const QString& key)
 
     double lon1, lon2, lat1, lat2;
     theMap->dimensions(lon1, lat1, lon2, lat2);
-    if(((lon1 < IMap::midU) && (IMap::midU < lon2)) && ((lat2 < IMap::midV) && (IMap::midV < lat1)) && ((IMap::midU != 0) && (IMap::midV != 0))){
+    if(((lon1 < IMap::midU) && (IMap::midU < lon2)) && ((lat2 < IMap::midV) && (IMap::midV < lat1)) && ((IMap::midU != 0) && (IMap::midV != 0))) {
         double midU = IMap::midU;
         double midV = IMap::midV;
         theMap->convertRad2Pt(midU, midV);
         theMap->move(QPoint(midU, midV), theMainWindow->getCanvas()->rect().center());
     }
-
 
     emit sigChanged();
     QApplication::restoreOverrideCursor();
@@ -537,7 +536,8 @@ void CMapDB::select(const QRect& rect)
         ms->mapkey       = mapkey;
         ms->description  = knownMaps[mapkey].description;
 
-        try{
+        try
+        {
             theMap->select(*ms, rect);
 
             selectedMaps[ms->key] = ms;
@@ -551,7 +551,7 @@ void CMapDB::select(const QRect& rect)
 
             emit sigChanged();
         }
-        catch(const QString& msg){
+        catch(const QString& msg) {
             delete ms;
             QMessageBox::critical(0,tr("Error..."), msg, QMessageBox::Abort,QMessageBox::Abort);
         }

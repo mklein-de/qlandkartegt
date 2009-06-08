@@ -35,6 +35,7 @@ uint qHash(QColor color)
     return qHash(color.rgba());
 }
 
+
 CGpx::CGpx(QObject * parent)
 : QObject(parent)
 , QDomDocument()
@@ -59,8 +60,7 @@ CGpx::CGpx(QObject * parent)
     colorMap.insert("White",       QColor(Qt::white));
     colorMap.insert("Transparent", QColor(Qt::transparent));
 
-    for (int i=0;;++i)
-    {
+    for (int i=0;;++i) {
         QColor trackColor = CTrack::lineColors[i];
         QString colorName = colorMap.left(trackColor);
         if (!colorName.isEmpty()) trackColorMap.insert(colorName, i);
@@ -79,6 +79,7 @@ const Dictionary<QString, QColor>& CGpx::getColorMap() const
 {
     return colorMap;
 }
+
 
 const Dictionary<QString, int>& CGpx::getTrackColorMap() const
 {
@@ -101,7 +102,7 @@ void CGpx::writeMetadata()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd"
         + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"
         + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd"
-    );
+        );
 
     QDomElement metadata = createElement("metadata");
     root.appendChild(metadata);
@@ -192,6 +193,7 @@ void CGpx::load(const QString& filename)
 
 }
 
+
 QMap<QString,QDomElement> CGpx::mapChildElements(const QDomNode& parent)
 {
     // I tried to use QDomNamedNodeMap first, but it did not work. After
@@ -200,19 +202,17 @@ QMap<QString,QDomElement> CGpx::mapChildElements(const QDomNode& parent)
     QMap<QString,QDomElement> map;
 
     QDomNode child = parent.firstChild();
-    while (!child.isNull())
-    {
-        if (child.isElement())
-        {
-            if (child.prefix().isEmpty())
-            {
+    while (!child.isNull()) {
+        if (child.isElement()) {
+            if (child.prefix().isEmpty()) {
                 map.insert(child.nodeName(), child.toElement());
-            } else {
+            }
+            else {
                 map.insert(child.namespaceURI()+":"+child.localName(), child.toElement());
             }
         }
         child = child.nextSibling();
     }
-    
+
     return map;
 }

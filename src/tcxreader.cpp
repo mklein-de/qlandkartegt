@@ -100,13 +100,11 @@ void TcxReader::readTcx()
             break;
 
         if (isStartElement()) {
-            if (name() == "Activities")
-            {
+            if (name() == "Activities") {
                 readActivities();
             }
-            else if (name() == "Courses")
-            {
-              readCourses();
+            else if (name() == "Courses") {
+                readCourses();
             }
             /*			else if (name() == "Author")
              {
@@ -118,6 +116,7 @@ void TcxReader::readTcx()
         }
     }
 }
+
 
 void TcxReader::readCourses()
 {
@@ -143,6 +142,7 @@ void TcxReader::readCourses()
         }
     }
 }
+
 
 void TcxReader::readCourse()
 {
@@ -176,6 +176,7 @@ void TcxReader::readCourse()
         delete track;
     }
 }
+
 
 void TcxReader::readActivities()
 {

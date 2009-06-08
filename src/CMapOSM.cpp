@@ -46,10 +46,9 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     cb = new QComboBox(theMainWindow->getCanvas());
 
-    for(int i = 0; i < tileList.size(); i++)
-    {
-      QPair<QString, QString> p = tileList.at(i);
-      cb->addItem(p.first);
+    for(int i = 0; i < tileList.size(); i++) {
+        QPair<QString, QString> p = tileList.at(i);
+        cb->addItem(p.first);
     }
 
     connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
@@ -60,7 +59,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     int tileListIndex = cfg.value("osm/tileListIndex",0).toInt();
     if (tileListIndex >= tileList.size())
-      tileListIndex = 0;
+        tileListIndex = 0;
 
     setNewTileUrl(tileListIndex);
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
@@ -68,7 +67,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "OSM:" << ptr;
     if(ptr) free(ptr);
-
 
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();
@@ -96,7 +94,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     zoom(zoomidx);
 
     resize(parent->size());
-
 
 }
 
@@ -128,30 +125,29 @@ CMapOSM::~CMapOSM()
 
 void CMapOSM::setNewTileUrl(int index)
 {
-  if (index == -1)
-    if (currentTileListIndex < tileList.size() -1 )
-      index = currentTileListIndex+1;
+    if (index == -1)
+        if (currentTileListIndex < tileList.size() -1 )
+            index = currentTileListIndex+1;
     else
-      index = 0;
+        index = 0;
 
-  if (currentTileListIndex!= index)
-  {
-    currentTileListIndex = index;
-    if (osmTiles)
-    {
-      delete osmTiles;
-      osmTiles = 0;
+    if (currentTileListIndex!= index) {
+        currentTileListIndex = index;
+        if (osmTiles) {
+            delete osmTiles;
+            osmTiles = 0;
+        }
+        if (cb->currentIndex() != currentTileListIndex)
+            cb->setCurrentIndex(currentTileListIndex);
+
+        osmTiles = new COsmTilesHash(tileList.at(index).second);
+        connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
+
+        needsRedraw = true;
+        emit sigChanged();
     }
-    if (cb->currentIndex() != currentTileListIndex)
-      cb->setCurrentIndex(currentTileListIndex);
-
-    osmTiles = new COsmTilesHash(tileList.at(index).second);
-    connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
-
-    needsRedraw = true;
-    emit sigChanged();
- }
 }
+
 
 void CMapOSM::convertPt2M(double& u, double& v)
 {
@@ -343,7 +339,7 @@ void CMapOSM::draw()
     convertM2Rad(lon,lat);
     lastTileLoaded = false;
     if (osmTiles)
-      osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
+        osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
 
 }
 

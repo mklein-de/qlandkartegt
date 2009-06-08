@@ -58,7 +58,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 
     rasterBandCount = dataset->GetRasterCount();
 
-    if(rasterBandCount == 1){
+    if(rasterBandCount == 1) {
         GDALRasterBand * pBand;
         pBand = dataset->GetRasterBand(1);
 
@@ -67,7 +67,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
             QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
             return;
         }
-
 
         qDebug() << pBand->GetColorInterpretation();
 
@@ -83,7 +82,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
                 colortable << qRgba(i, i, i, 255);
             }
         }
-        else{
+        else {
             delete dataset; dataset = 0;
             QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
             return;
@@ -121,7 +120,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-
     if (pj_is_latlong(pjsrc)) {
         xscale  = adfGeoTransform[1] * DEG_TO_RAD;
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
@@ -139,8 +137,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
-
-
 
     lon1 = xref1;
     lat1 = yref1;
@@ -171,7 +167,7 @@ CMapGeoTiff::~CMapGeoTiff()
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
 
-    if(quadraticZoom){
+    if(quadraticZoom) {
         QSettings cfg;
         cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
         delete quadraticZoom;
@@ -245,12 +241,11 @@ void CMapGeoTiff::draw()
 
         //         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
-
         if(w != 0 && h != 0) {
 
             CPLErr err = CE_Failure;
 
-            if(rasterBandCount == 1){
+            if(rasterBandCount == 1) {
                 GDALRasterBand * pBand;
                 pBand = dataset->GetRasterBand(1);
 
@@ -270,25 +265,25 @@ void CMapGeoTiff::draw()
                     _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
                 }
             }
-            else{
+            else {
                 QImage img(w,h, QImage::Format_ARGB32);
                 QVector<quint8> buffer(w*h);
 
                 img.fill(qRgba(255,255,255,255));
 
-                for(int b = 1; b <= rasterBandCount; ++b){
+                for(int b = 1; b <= rasterBandCount; ++b) {
 
                     GDALRasterBand * pBand;
                     pBand = dataset->GetRasterBand(b);
 
                     err = pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, pxx, pxy, buffer.data(), w, h, GDT_Byte, 0, 0);
 
-                    if(!err){
+                    if(!err) {
                         quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
                         quint8 * pSrc   = buffer.data();
                         const int size  = buffer.size();
 
-                        for(int i = 0; i < size; ++i){
+                        for(int i = 0; i < size; ++i) {
                             *pTar = *pSrc;
                             pTar += 4;
                             pSrc += 1;
@@ -349,17 +344,17 @@ void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    if(quadraticZoom->isChecked()){
+    if(quadraticZoom->isChecked()) {
 
-        if(zoomidx > 1){
+        if(zoomidx > 1) {
             zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
             zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
         }
-        else{
+        else {
             zoomidx += zoomIn ? -1 : 1;
         }
     }
-    else{
+    else {
         zoomidx += zoomIn ? -1 : 1;
     }
     // sigChanged will be sent at the end of this function
@@ -424,10 +419,10 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
-    if(quadraticZoom->isChecked()){
+    if(quadraticZoom->isChecked()) {
         zoomFactor = zoomidx = pow(2.0, ceil(log(zoomFactor)/log(2.0)));
     }
-    else{
+    else {
         zoomidx = zoomFactor;
     }
 
