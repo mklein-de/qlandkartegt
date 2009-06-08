@@ -414,12 +414,12 @@ void CActions::funcMoveWpt()
 }
 
 
-#ifdef HAS_EXIF
 void CActions::funcImageWpt()
 {
+#ifdef HAS_EXIF
     CWptDB::self().createWaypointsFromImages();
-}
 #endif
+}
 
 void CActions::funcUploadWpt()
 {

@@ -88,7 +88,7 @@ void CMenus::switchToActionGroup(ActionGroupName group)
         if (controlledActions.contains(a)) {
             lqdebug(QString("Action with '%1' as text is controlled -> removed").arg(a->text()));
             theMainWindow->removeAction(a);
-            a->setEnabled(false);
+            // a->setEnabled(false);
         }
         else {
             lqdebug(QString("Action with '%1' as text is not controlled -> don't touch").arg(a->text()));
@@ -98,7 +98,7 @@ void CMenus::switchToActionGroup(ActionGroupName group)
     foreach(QAction* a, *actionGroupHash.value(group)) {
         lqdebug(QString("Controlled Action with '%1' added").arg(a->text()));
         theMainWindow->addAction(a);
-        a->setEnabled(true);
+        //a->setEnabled(true);
     }
 
     emit (stateChanged());
