@@ -55,7 +55,6 @@ CMainWindow::CMainWindow()
 
     resources = new CResources(this);
 
-    setupMenuBar();
 
     // setup splitter views
     mainSplitter = new QSplitter(Qt::Horizontal,this);
@@ -77,6 +76,7 @@ CMainWindow::CMainWindow()
 
     actionGroupProvider = new CMenus(this);
 
+
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
@@ -94,7 +94,7 @@ CMainWindow::CMainWindow()
     //    canvas->addAction(actionGroupProvider->getActions()->getAction("aCopyToClipboard"));
     //    canvas->addAction(actionGroupProvider->getActions()->getAction("aPasteFromClipboard"));
     switchState();
-    groupProvidedMenu->setTitle("&Main");
+
     QWidget * wtmp      = new QWidget(this);
     QVBoxLayout * ltmp  = new QVBoxLayout(wtmp);
     wtmp->setLayout(ltmp);
@@ -208,6 +208,7 @@ CMainWindow::CMainWindow()
         loadData(arg, QString());
     }
 
+    setupMenuBar();
     connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
 }
 
@@ -299,9 +300,46 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
-    groupProvidedMenu = new QMenu(this);
-    groupProvidedMenu->setTitle(tr("-"));
-    menuBar()->addMenu(groupProvidedMenu);
+//    groupProvidedMenu = new QMenu(this);
+//    groupProvidedMenu->setTitle(tr("-"));
+//    menuBar()->addMenu(groupProvidedMenu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);
+    menu->setTitle(tr("&Map"));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::WptMenu);
+    menu->setTitle(tr("&Waypoint"));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::TrackMenu);
+    menu->setTitle(tr("&Track"));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::RouteMenu);
+    menu->setTitle(tr("&Route"));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::LiveLogMenu);
+    menu->setTitle(tr("&Live Log"));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::OverlayMenu);
+    menu->setTitle(tr("&Overlay"));
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MainMoreMenu);
+    menu->setTitle(tr("&more"));
+
+
+    menuBar()->addMenu(menu);
+
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));

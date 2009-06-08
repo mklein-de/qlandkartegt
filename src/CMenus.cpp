@@ -29,6 +29,18 @@ CMenus::CMenus(QObject *parent) : QObject(parent)
 {
     activeGroup = MainMenu;
     actions = new CActions(this);
+    QStringList list;
+    list << "aSwitchToMain" << "aMoveArea" << "aZoomArea" << "aCenterMap";
+
+    foreach(QString s, list)
+    {
+        QAction *a = actions->getAction(s);
+        if (a)
+        {
+            excludedActionForMenuBarMenu << a;
+        }
+    }
+
 }
 
 
@@ -105,10 +117,10 @@ void CMenus::switchToActionGroup(ActionGroupName group)
 }
 
 
-bool CMenus::addActionsToMenu(QMenu *menu)
+bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupName groupName)
 {
     menu->setTitle(actions->getMenuTitle());
-    menu->addActions(getActiveActionsList(menu,ContextMenu|MenuBarMenu));
+    menu->addActions(getActiveActionsList(menu,contex,groupName));
 
 }
 
@@ -116,16 +128,17 @@ bool CMenus::addActionsToMenu(QMenu *menu)
 bool CMenus::addActionsToWidget(QLabel *menu)
 {
     menu->setObjectName(actions->getMenuTitle());
-    menu->addActions(getActiveActionsList(menu,LeftSideMenu));
+    menu->addActions(getActiveActionsList(menu,LeftSideMenu,activeGroup));
     menu->setPixmap(actions->getMenuPixmap());
 }
 
 
-QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames names)
+QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames names, ActionGroupName groupName)
 {
     QList<QAction *> list;
     int i=0;
-    foreach(QAction *a, *getActiveActions()) {
+
+    foreach(QAction *a, *getActiveActions(groupName)) {
         lqdebug(QString("enter menu: %1 ").arg(a->shortcut().toString()));
         if ( names.testFlag(LeftSideMenu) )
         {
@@ -163,12 +176,26 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
             if (i> SIZE_OF_MEGAMENU) {
                 return list;
             }
-        } else
+        }
+        else
         {
             i++;
         }
-        list << a;
+        if (!names.testFlag(MenuBarMenu) || !excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)
+        {
+            list << a;
+        }
     }
 
     return list;
 }
+QList<QAction *> *CMenus::getActiveActions(ActionGroupName group)
+{
+    ActionGroupName g = group;
+    if (g == NoMenu)
+    {
+        g = activeGroup;
+    }
+    return actionGroupHash.value(g,new QList<QAction* >());
+};
+

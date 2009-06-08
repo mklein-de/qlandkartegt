@@ -36,6 +36,7 @@ class CMenus: public QObject
         virtual ~CMenus();
         enum ActionGroupName
         {
+            NoMenu,
             Map3DMenu,
             WptMenu,
             LiveLogMenu,
@@ -63,13 +64,14 @@ class CMenus: public QObject
         void removeAction(QAction *action);
         void switchToActionGroup(ActionGroupName group);
         CActions* getActions() {return actions;};
-        QList<QAction *> *getActiveActions() { return actionGroupHash.value(activeGroup,new QList<QAction* >());};
-        bool addActionsToMenu(QMenu *menu);
+        QList<QAction *> *getActiveActions(ActionGroupName group = NoMenu);
+        bool addActionsToMenu(QMenu *menu, MenuContextNames names = QFlags<CMenus::MenuContextName>(ContextMenu), ActionGroupName groupName = NoMenu);
         bool addActionsToWidget(QLabel *menu);
+        QList<QAction *> getActiveActionsList(QObject *menu, MenuContextNames names , ActionGroupName groupName = NoMenu);
         signals:
         void stateChanged();
     private:
-        QList<QAction *> getActiveActionsList(QObject *menu, MenuContextNames names );
+        QSet<QAction *>  excludedActionForMenuBarMenu;
         QSet<QAction *>  controlledActions;
         ActionGroupName activeGroup;
         QHash<ActionGroupName, QList<QAction *> *> actionGroupHash;
