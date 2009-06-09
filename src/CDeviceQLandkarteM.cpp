@@ -56,18 +56,13 @@ bool CDeviceQLandkarteM::acquire(const QString& operation, int max)
     udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
 
     qApp->processEvents();
-    QTime time;
-    time.start();
-    while(time.elapsed() < 3000) {
-        QApplication::processEvents();
-    }
-
-    tcpSocket.connectToHost(ipaddr,port);
-    if(!tcpSocket.waitForConnected(timeout)) {
-        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
-        release();
-        return false;
-    }
+    /*
+        QTime time;
+        time.start();
+        while(time.elapsed() < 3000) {
+            QApplication::processEvents();
+        }
+    */
     return true;
 }
 
@@ -129,9 +124,11 @@ void CDeviceQLandkarteM::release()
 
 void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 {
-
+    QByteArray datagram;
     if(!startDeviceDetection()) return;
     if(!acquire(tr("Upload waypoints ..."), wpts.count())) return;
+    if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
+        if(!waitTcpServerStatus()) return;
 
     packet_e type;
     int cnt = 0;
@@ -159,14 +156,25 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
         ++wpt;
     }
 
-    return release();
+    datagram = "STOP";
+    QUdpSocket udpSocketSend;
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
+        waitTcpServerStatus();
+    return;
 }
 
 
 void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 {
+    QByteArray datagram;
     if(!startDeviceDetection()) return;
     if(!acquire(tr("Download waypoints ..."), wpts.count())) return;
+
+    qDebug() << " Wait status....\r\n";
+    if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
+        if(!waitTcpServerStatus()) return;
+    qDebug() << " downloading....\r\n";
 
     progress->setLabelText(tr("Query list of waypoints from the device"));
     qApp->processEvents();
@@ -223,7 +231,14 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
         progress->setValue(n + 1);
     }
 
-    return release();
+    qDebug() << " Wait status....\r\n";
+    datagram = "STOP";
+    QUdpSocket udpSocketSend;
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
+        waitTcpServerStatus();
+    qDebug() << " End downloading....\r\n";
+    return;
 }
 
 
@@ -298,6 +313,9 @@ bool CDeviceQLandkarteM::startDeviceDetection()
 
 void CDeviceQLandkarteM::detectedDevice()
 {
+    // Detect device only if none already
+    if (ipaddr !="") return;
+
     while (udpSocket.hasPendingDatagrams()) {
         QByteArray datagram;
         QHostAddress qlmAddress;
@@ -311,4 +329,40 @@ void CDeviceQLandkarteM::detectedDevice()
         qDebug() << "Device detected is " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
 
     }
+}
+
+
+bool CDeviceQLandkarteM::waitTcpServerStatus()
+{
+    if (udpSocket.waitForReadyRead( 30000 ))
+    while (udpSocket.hasPendingDatagrams()) {
+        QByteArray datagram;
+        QHostAddress qlmAddress;
+        quint16 qlmPort;
+
+        datagram.resize(udpSocket.pendingDatagramSize());
+        udpSocket.readDatagram(datagram.data(), datagram.size(), &qlmAddress, &qlmPort);
+                                 // Answer from the good M device we are speaking to
+        if (ipaddr == qlmAddress.toString() ) {
+            qDebug() << "Device detected send " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
+            if (datagram== "ACK_START") {
+                qDebug() << "ACK_START\r\n";
+                tcpSocket.connectToHost(ipaddr,port);
+                if(!tcpSocket.waitForConnected(timeout)) {
+                    QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
+                    release();
+                    return false;
+                }
+                qDebug() << "Connected to M\r\n";
+                break;
+            }
+            else {
+                qDebug() << "ACK_STOP\r\n";
+                release();
+                break;
+            }
+        }
+    }
+
+    return true;
 }

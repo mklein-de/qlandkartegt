@@ -56,6 +56,7 @@ class CDeviceQLandkarteM : public IDevice
             , eC2HTrk       = 10 ///< send track data from from client (GT) to host (M)
         };
         bool startDeviceDetection();
+        bool waitTcpServerStatus();
         bool acquire(const QString& operation, int max);
         void send(const packet_e type, const QByteArray& data);
         bool recv(packet_e& type, QByteArray& data);
