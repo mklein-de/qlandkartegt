@@ -23,6 +23,7 @@
 #include "CTrackDB.h"
 
 #include <QtGui>
+#include <QNetworkInterface>
 
 #define REMOTE_PORT 45454
 
@@ -261,14 +262,21 @@ bool CDeviceQLandkarteM::startDeviceDetection()
         QApplication::setOverrideCursor(Qt::WaitCursor);
 
         QByteArray datagram = "GETADRESS";
-        udpSocket.writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, REMOTE_PORT);
-
-        QTime time;
-        time.start();
-        while(time.elapsed() < 3000) {
-            QApplication::processEvents();
-        }
-
+		// Send query on all network broadcast for each network interface 
+		QList<QNetworkInterface> netdevices = QNetworkInterface::allInterfaces();
+		QNetworkInterface netdevice;
+		foreach(netdevice, netdevices){
+			QList<QNetworkAddressEntry> networks = netdevice.addressEntries();
+			QNetworkAddressEntry network;
+			foreach(network, networks){
+				udpSocket.writeDatagram(datagram.data(), datagram.size(), network.broadcast(), REMOTE_PORT);
+				QTime time;
+				time.start();
+				while(time.elapsed() < 3000) {
+					QApplication::processEvents();
+				}
+			}
+		}
         QApplication::restoreOverrideCursor();
     }
 
