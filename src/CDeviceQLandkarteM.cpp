@@ -47,14 +47,20 @@ CDeviceQLandkarteM::~CDeviceQLandkarteM()
 
 bool CDeviceQLandkarteM::acquire(const QString& operation, int max)
 {
+    QUdpSocket udpSocketSend;
     createProgress(operation, tr("Connect to device."), max);
     qApp->processEvents();
 
     QByteArray datagram;
     datagram = "START";
-    udpSocket.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
 
     qApp->processEvents();
+    QTime time;
+    time.start();
+    while(time.elapsed() < 3000) {
+        QApplication::processEvents();
+    }
 
     tcpSocket.connectToHost(ipaddr,port);
     if(!tcpSocket.waitForConnected(timeout)) {
@@ -258,25 +264,26 @@ void CDeviceQLandkarteM::downloadRoutes(QList<CRoute*>& rtes)
 
 bool CDeviceQLandkarteM::startDeviceDetection()
 {
+    QUdpSocket udpSocketSend;
     if(ipaddr.isEmpty() || port == 0) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
 
         QByteArray datagram = "GETADRESS";
-		// Send query on all network broadcast for each network interface 
-		QList<QNetworkInterface> netdevices = QNetworkInterface::allInterfaces();
-		QNetworkInterface netdevice;
-		foreach(netdevice, netdevices){
-			QList<QNetworkAddressEntry> networks = netdevice.addressEntries();
-			QNetworkAddressEntry network;
-			foreach(network, networks){
-				udpSocket.writeDatagram(datagram.data(), datagram.size(), network.broadcast(), REMOTE_PORT);
-				QTime time;
-				time.start();
-				while(time.elapsed() < 3000) {
-					QApplication::processEvents();
-				}
-			}
-		}
+        // Send query on all network broadcast for each network interface
+        QList<QNetworkInterface> netdevices = QNetworkInterface::allInterfaces();
+        QNetworkInterface netdevice;
+        foreach(netdevice, netdevices) {
+            QList<QNetworkAddressEntry> networks = netdevice.addressEntries();
+            QNetworkAddressEntry network;
+            foreach(network, networks) {
+                udpSocketSend.writeDatagram(datagram.data(), datagram.size(), network.broadcast(), REMOTE_PORT);
+            }
+        }
+        QTime time;
+        time.start();
+        while(time.elapsed() < 3000) {
+            QApplication::processEvents();
+        }
         QApplication::restoreOverrideCursor();
     }
 
