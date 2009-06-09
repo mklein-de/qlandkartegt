@@ -71,6 +71,7 @@ class CMenus: public QObject
         signals:
         void stateChanged();
     private:
+        QHash<QAction *, QList<QKeySequence> > actionsShortcuts;
         QSet<QAction *>  excludedActionForMenuBarMenu;
         QSet<QAction *>  controlledActions;
         ActionGroupName activeGroup;

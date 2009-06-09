@@ -332,12 +332,11 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::OverlayMenu);
     menu->setTitle(tr("&Overlay"));
+    menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MainMoreMenu);
     menu->setTitle(tr("&more"));
-
-
     menuBar()->addMenu(menu);
 
 

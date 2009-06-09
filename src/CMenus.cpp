@@ -29,6 +29,7 @@ CMenus::CMenus(QObject *parent) : QObject(parent)
 {
     activeGroup = MainMenu;
     actions = new CActions(this);
+
     QStringList list;
     list << "aSwitchToMain" << "aMoveArea" << "aZoomArea" << "aCenterMap";
 
@@ -100,7 +101,11 @@ void CMenus::switchToActionGroup(ActionGroupName group)
         if (controlledActions.contains(a)) {
             lqdebug(QString("Action with '%1' as text is controlled -> removed").arg(a->text()));
             theMainWindow->removeAction(a);
-            // a->setEnabled(false);
+            lqdebug(a->shortcuts());
+            if (!actionsShortcuts.contains(a))
+                actionsShortcuts.insert(a, a->shortcuts());
+            a->setShortcuts(QList<QKeySequence> ());
+            lqdebug(a->shortcuts());
         }
         else {
             lqdebug(QString("Action with '%1' as text is not controlled -> don't touch").arg(a->text()));
@@ -110,7 +115,9 @@ void CMenus::switchToActionGroup(ActionGroupName group)
     foreach(QAction* a, *actionGroupHash.value(group)) {
         lqdebug(QString("Controlled Action with '%1' added").arg(a->text()));
         theMainWindow->addAction(a);
-        //a->setEnabled(true);
+        if (actionsShortcuts.contains(a))
+            a->setShortcuts(actionsShortcuts.value(a,QList<QKeySequence> ()));
+        lqdebug(a->shortcuts());
     }
 
     emit (stateChanged());
@@ -181,7 +188,14 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
         {
             i++;
         }
-        if (!names.testFlag(MenuBarMenu) || !excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)
+        if (names.testFlag(MenuBarMenu) && !excludedActionForMenuBarMenu.contains(a))
+        {
+            if (!actionsShortcuts.contains(a))
+                actionsShortcuts.insert(a, a->shortcuts());
+            a->setShortcuts(QList<QKeySequence> ());
+            list << a;
+        }
+        else if (names.testFlag(ContextMenu) || names.testFlag(LeftSideMenu))
         {
             list << a;
         }
