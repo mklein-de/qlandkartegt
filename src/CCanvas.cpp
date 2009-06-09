@@ -594,7 +594,9 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     QMenu menu(this);
 
     foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions())
-        menu.addAction(a);
+       menu.addAction(a);
+
+    menu.addSeparator();
     menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 

@@ -189,7 +189,7 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
         {
             i++;
         }
-        if (names.testFlag(MenuBarMenu) && !excludedActionForMenuBarMenu.contains(a))
+        if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu))
         {
             if (!actionsShortcuts.contains(a))
                 actionsShortcuts.insert(a, a->shortcuts());
