@@ -128,7 +128,7 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
 {
     menu->setTitle(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,contex,groupName));
-
+    return true;
 }
 
 
@@ -137,6 +137,7 @@ bool CMenus::addActionsToWidget(QLabel *menu)
     menu->setObjectName(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,LeftSideMenu,activeGroup));
     menu->setPixmap(actions->getMenuPixmap());
+    return true;
 }
 
 
