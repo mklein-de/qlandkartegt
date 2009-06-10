@@ -55,14 +55,10 @@ bool CDeviceQLandkarteM::acquire(const QString& operation, int max)
     datagram = "START";
     udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
 
+    if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
+        if(!waitTcpServerStatus()) return false;
+
     qApp->processEvents();
-    /*
-        QTime time;
-        time.start();
-        while(time.elapsed() < 3000) {
-            QApplication::processEvents();
-        }
-    */
     return true;
 }
 
@@ -117,6 +113,12 @@ bool CDeviceQLandkarteM::exchange(packet_e& type,QByteArray& data)
 
 void CDeviceQLandkarteM::release()
 {
+    QByteArray datagram;
+    datagram = "STOP";
+    QUdpSocket udpSocketSend;
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
+        waitTcpServerStatus();
     if(progress) progress->close();
     tcpSocket.disconnectFromHost();
 }
@@ -124,11 +126,8 @@ void CDeviceQLandkarteM::release()
 
 void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 {
-    QByteArray datagram;
     if(!startDeviceDetection()) return;
     if(!acquire(tr("Upload waypoints ..."), wpts.count())) return;
-    if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
-        if(!waitTcpServerStatus()) return;
 
     packet_e type;
     int cnt = 0;
@@ -155,26 +154,15 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 
         ++wpt;
     }
-
-    datagram = "STOP";
-    QUdpSocket udpSocketSend;
-    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
-    if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
-        waitTcpServerStatus();
+    release();
     return;
 }
 
 
 void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 {
-    QByteArray datagram;
     if(!startDeviceDetection()) return;
     if(!acquire(tr("Download waypoints ..."), wpts.count())) return;
-
-    qDebug() << " Wait status....\r\n";
-    if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
-        if(!waitTcpServerStatus()) return;
-    qDebug() << " downloading....\r\n";
 
     progress->setLabelText(tr("Query list of waypoints from the device"));
     qApp->processEvents();
@@ -231,13 +219,7 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
         progress->setValue(n + 1);
     }
 
-    qDebug() << " Wait status....\r\n";
-    datagram = "STOP";
-    QUdpSocket udpSocketSend;
-    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
-    if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
-        waitTcpServerStatus();
-    qDebug() << " End downloading....\r\n";
+    release();
     return;
 }
 
@@ -342,7 +324,7 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
 
         datagram.resize(udpSocket.pendingDatagramSize());
         udpSocket.readDatagram(datagram.data(), datagram.size(), &qlmAddress, &qlmPort);
-                                 // Answer from the good M device we are speaking to
+        // Answer from the good M device we are speaking to
         if (ipaddr == qlmAddress.toString() ) {
             qDebug() << "Device detected send " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
             if (datagram== "ACK_START") {
@@ -350,7 +332,7 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
                 tcpSocket.connectToHost(ipaddr,port);
                 if(!tcpSocket.waitForConnected(timeout)) {
                     QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
-                    release();
+                    tcpSocket.disconnectFromHost();
                     return false;
                 }
                 qDebug() << "Connected to M\r\n";
@@ -358,11 +340,9 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
             }
             else {
                 qDebug() << "ACK_STOP\r\n";
-                release();
                 break;
             }
         }
     }
-
     return true;
 }
