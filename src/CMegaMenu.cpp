@@ -340,11 +340,11 @@ void CMegaMenu::resizeEvent(QResizeEvent * e)
 
     rectTitle = QRect(0,yoff, w, h);
     for(int i=0; i < 11; ++i) {
-        yoff += 2 + h;
+        yoff += h;
         rectF[i] = QRect(0,yoff, w, h);
     }
 
-    yoff += 2 + h;
+    yoff += h;
     setMinimumHeight(yoff);
 }
 

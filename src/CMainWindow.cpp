@@ -97,12 +97,14 @@ CMainWindow::CMainWindow()
 
     QWidget * wtmp      = new QWidget(this);
     QVBoxLayout * ltmp  = new QVBoxLayout(wtmp);
+    wtmp->setMinimumHeight(1);
     wtmp->setLayout(ltmp);
     leftSplitter->addWidget(wtmp);
 
     summary = new QLabel(wtmp);
     summary->setWordWrap(true);
     summary->setAlignment(Qt::AlignJustify|Qt::AlignTop);
+    //
     ltmp->addWidget(summary);
 
     ltmp->addWidget(new QLabel(tr("<b>GPS Device:</b>"), wtmp));
