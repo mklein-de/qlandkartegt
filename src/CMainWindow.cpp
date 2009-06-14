@@ -40,6 +40,7 @@
 #include "CMenus.h"
 
 #include <QtGui>
+#include "CUndoStack.h"
 
 CMainWindow * theMainWindow = 0;
 
@@ -54,7 +55,6 @@ CMainWindow::CMainWindow()
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
 
     resources = new CResources(this);
-
 
     // setup splitter views
     mainSplitter = new QSplitter(Qt::Horizontal,this);
@@ -76,12 +76,8 @@ CMainWindow::CMainWindow()
 
     actionGroupProvider = new CMenus(this);
 
-
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
-
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
 
     CActions *actions = actionGroupProvider->getActions();
     canvas->addAction(actions->getAction("aZoomIn"));
@@ -90,9 +86,125 @@ CMainWindow::CMainWindow()
     canvas->addAction(actions->getAction("aMoveRight"));
     canvas->addAction(actions->getAction("aMoveUp"));
     canvas->addAction(actions->getAction("aMoveDown"));
+    addAction(actions->getAction("aRedo"));
+    addAction(actions->getAction("aUndo"));
 
-    //    canvas->addAction(actionGroupProvider->getActions()->getAction("aCopyToClipboard"));
-    //    canvas->addAction(actionGroupProvider->getActions()->getAction("aPasteFromClipboard"));
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToMap");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToWpt");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToTrack");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToRoute");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToLiveLog");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToOverlay");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aSwitchToMainMore");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aClearAll");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aUploadAll");
+    actionGroupProvider->addAction(CMenus::MainMenu, "aDownloadAll");
+
+    actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aCenterMap");
+    //    fsMap[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::MapMenu, "aSelectArea");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aEditMap");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aSearchMap");
+#ifdef PLOT_3D
+    actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMap3D");
+#endif
+    actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
+    //    fsMap[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
+#ifdef PLOT_3D
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aCloseMap3D");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DMode");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomPlus");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomMinus");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
+    //    fsMap3D[5] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMap3D[6] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMap3D[7] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMap3D[8] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMap3D[9] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMap3D[10] = func_key_state_t(0,tr("-"),0,tr(""));
+#endif
+
+    actionGroupProvider->addAction(CMenus::WptMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aCenterMap");
+    //    fsWpt[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::WptMenu, "aNewWpt");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aEditWpt");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aMoveWpt");
+#ifdef HAS_EXIF
+    actionGroupProvider->addAction(CMenus::WptMenu, "aImageWpt");
+#else
+    //   fsWpt[8] = func_key_state_t(0, tr("-"), 0, tr(""));
+#endif
+    actionGroupProvider->addAction(CMenus::WptMenu, "aUploadWpt");
+    actionGroupProvider->addAction(CMenus::WptMenu, "aDownloadWpt");
+
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aCenterMap");
+    //    fsTrack[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aCombineTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aEditTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aCutTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aSelTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aUploadTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aDownloadTrack");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aDeleteTrackSelection");
+
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aCenterMap");
+    //    fsLiveLog[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aLiveLog");
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aLockMap");
+    actionGroupProvider->addAction(CMenus::LiveLogMenu, "aAddWpt");
+    //    fsLiveLog[8] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsLiveLog[9] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsLiveLog[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aCenterMap");
+    //    fsOverlay[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aText");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aTextBox");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aDistance");
+    //    fsOverlay[8] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsOverlay[9] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsOverlay[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
+    //    fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+    //    fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
+    //    fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));
+
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aZoomArea");
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aCenterMap");
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aUploadRoute");
+    actionGroupProvider->addAction(CMenus::RouteMenu, "aDownloadRoute");
+
+    connect(actionGroupProvider, SIGNAL(stateChanged()),megaMenu , SLOT(switchState()));
+
     switchState();
 
     QWidget * wtmp      = new QWidget(this);
@@ -302,9 +414,15 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
-//    groupProvidedMenu = new QMenu(this);
-//    groupProvidedMenu->setTitle(tr("-"));
-//    menuBar()->addMenu(groupProvidedMenu);
+    //    groupProvidedMenu = new QMenu(this);
+    //    groupProvidedMenu->setTitle(tr("-"));
+    //    menuBar()->addMenu(groupProvidedMenu);
+
+    menu = new QMenu(this);
+    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
+    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
+    menu->setTitle(tr("&Edit"));
+    menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);
@@ -340,7 +458,6 @@ void CMainWindow::setupMenuBar()
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MainMoreMenu);
     menu->setTitle(tr("&more"));
     menuBar()->addMenu(menu);
-
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
@@ -701,8 +818,8 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
         ext = "GPX";
     }
     else {
-//         filename += ".qlb";
-//         ext = "QLB";
+        //         filename += ".qlb";
+        //         ext = "QLB";
         if (ext == ".gpx") {
             ext = "GPX";
         }

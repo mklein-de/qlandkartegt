@@ -21,7 +21,6 @@
 #define CMAINWINDOW_H
 
 #include <QMainWindow>
-
 class QSplitter;
 class QLabel;
 class QTabWidget;

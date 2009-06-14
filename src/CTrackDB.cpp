@@ -29,6 +29,9 @@
 #include "IMap.h"
 
 #include <QtGui>
+#include "CUndoStack.h"
+#include "CTrackUndoCommandDelete.h"
+#include "CTrackUndoCommandSelect.h"
 
 CTrackDB * CTrackDB::m_self = 0;
 
@@ -38,6 +41,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 {
     m_self      = this;
     toolview    = new CTrackToolWidget(tb);
+    undoStack = CUndoStack::getInstance();
 }
 
 
@@ -459,23 +463,17 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
 void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
-    delete tracks.take(key);
-    if(!silent) {
-        emit sigChanged();
-        emit sigModified();
-    }
+    undoStack->push(new CTrackUndoCommandDelete(this,key,silent));
 }
 
 
 void CTrackDB::delTracks(const QStringList& keys)
 {
-    QString key;
-    foreach(key,keys) {
-        if(!tracks.contains(key)) continue;
-        delete tracks.take(key);
+    undoStack->beginMacro("delTracks");
+    foreach(QString key,keys) {
+        delTrack(key,false);
     }
-    emit sigChanged();
-    emit sigModified();
+    undoStack->endMacro();
 }
 
 
@@ -695,22 +693,12 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 }
 
 
-void CTrackDB::select(const QRect& rect)
+void CTrackDB::select(const QRect& rect, bool select /*= true*/)
 {
     CTrack * track = highlightedTrack();
     if(track == 0) return;
 
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(rect.contains(trkpt->px) && !(trkpt->flags & CTrack::pt_t::eDeleted)) {
-            trkpt->flags |= CTrack::pt_t::eSelected;
-        }
-
-        ++trkpt;
-    }
-
-    emit track->sigChanged();
+    undoStack->push(new CTrackUndoCommandSelect(track, rect, select));
 }
 
 
@@ -761,4 +749,38 @@ void CTrackDB::pasteFromClipboard()
         CTrackDB::self().loadQLB(qlb);
         clipboard->clear();
     }
+}
+
+
+CTrack *CTrackDB::take(const QString& key, bool silent)
+{
+    CTrack *track =  tracks.take(key);
+
+    if (!silent) {
+        emit sigChanged();
+        emit sigModified();
+    }
+    return track;
+}
+
+
+void CTrackDB::insert(const QString& key, CTrack *track, bool silent)
+{
+    tracks.insert(key,track);
+    if (!silent) {
+        emit sigChanged();
+        emit sigModified();
+    }
+}
+
+
+void CTrackDB::emitSigChanged()
+{
+    emit sigChanged();
+}
+
+
+void CTrackDB::emitSigModified()
+{
+    emit sigModified();
 }

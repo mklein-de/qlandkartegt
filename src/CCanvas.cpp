@@ -57,6 +57,9 @@
 
 #include <QtGui>
 #include "CMenus.h"
+#include "CUndoStack.h"
+#include "CCanvasUndoCommandZoom.h"
+#include "CMapUndoCommandMove.h"
 
 CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
@@ -481,7 +484,7 @@ void CCanvas::wheelEvent(QWheelEvent * e)
 
 void CCanvas::zoom(bool in, const QPoint& p)
 {
-    CMapDB::self().getMap().zoom(in, p);
+    CUndoStack::getInstance()->push(new CCanvasUndoCommandZoom(in, p));
     update();
 }
 
@@ -492,7 +495,8 @@ void CCanvas::move(double lon, double lat)
     double u = lon * DEG_TO_RAD;
     double v = lat * DEG_TO_RAD;
     map.convertRad2Pt(u,v);
-    map.move(QPoint(u,v), rect().center());
+
+    CUndoStack::getInstance()->push(new CMapUndoCommandMove(&map,QPoint(u,v), rect().center()));
     update();
 }
 
@@ -539,7 +543,7 @@ void CCanvas::move(move_direction_e dir)
         }
         break;
     }
-    map.move(p1, p2);
+    CUndoStack::getInstance()->push(new CMapUndoCommandMove(&map,p1, p2));
 
     update();
 }
@@ -595,6 +599,8 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
 
     foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions())
        menu.addAction(a);
+
+    menu.addSeparator();
 
     menu.addSeparator();
     menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));

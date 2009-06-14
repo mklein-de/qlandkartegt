@@ -23,6 +23,7 @@ set(qlandkarte_SRCS
     CCopyright.cpp
     CMainWindow.cpp
     CCanvas.cpp
+    CCanvasUndoCommandZoom.cpp
     CStatusDEM.cpp
     IMouse.cpp
     CMouseMoveMap.cpp
@@ -86,9 +87,14 @@ set(qlandkarte_SRCS
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
     CCreateMapWMS.cpp
+    CMapUndoCommandMove.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
     CMapEditWidget.cpp
+    CUndoStack.cpp
+    CTrackUndoCommandDelete.cpp
+    CTrackUndoCommandDeletePts.cpp
+    CTrackUndoCommandSelect.cpp
     CTrack.cpp
     CTrackDB.cpp
     CTrackToolWidget.cpp
@@ -219,6 +225,9 @@ set(qlandkarte_HDRS
     CMapDB.h
     CMapToolWidget.h
     CMapEditWidget.h
+    CUndoStack.h
+    CTrackUndoCommandDelete.h
+    CTrackUndoCommandSelect.h
     CTrack.h
     CTrackDB.h
     CTrackToolWidget.h

@@ -25,6 +25,7 @@
 class QToolBox;
 class CTrack;
 class CTrackToolWidget;
+class QUndoStack;
 
 class CTrackDB : public IDB
 {
@@ -74,14 +75,20 @@ class CTrackDB : public IDB
 
         void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
-        void select(const QRect& rect);
+        void select(const QRect& rect, bool select = true);
 
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
+        CTrack *take(const QString& key, bool silent);
+        void insert(const QString& key, CTrack *track, bool silent);
+        void emitSigChanged();
+        void emitSigModified();
+
         signals:
         void sigHighlightTrack(CTrack * track);
 
     private:
+
         friend class CMainWindow;
         friend class CTrackEditWidget;
 
@@ -91,5 +98,6 @@ class CTrackDB : public IDB
         static CTrackDB * m_self;
 
         QMap<QString,CTrack*> tracks;
+        QUndoStack *undoStack;
 };
 #endif                           //CTRACKDB_H

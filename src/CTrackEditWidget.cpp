@@ -28,6 +28,8 @@
 #include "CMainWindow.h"
 #include "CTabWidget.h"
 #include "IUnit.h"
+#include "CUndoStack.h"
+#include "CTrackUndoCommandDeletePts.h"
 
 #include <QtGui>
 
@@ -357,24 +359,25 @@ void CTrackEditWidget::slotApply()
         QMessageBox::warning(0,tr("Remove track points ...")
             ,tr("You are about to remove purged track points permanently. If you press 'yes', all information will be lost.")
             ,QMessageBox::Yes|QMessageBox::No);
-        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end()) {
-
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                if ( trkpt->editItem ) {
-                    int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
-                    if ( idx != -1 )
-                        treePoints->takeTopLevelItem(idx);
-                    delete (CTrackTreeWidgetItem *)trkpt->editItem;
-                    trkpt->editItem = 0;
-                }
-                trkpt = trkpts.erase(trkpt);
-            }
-            else {
-                ++trkpt;
-            }
-        }
+        //        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+        //        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+        //        while(trkpt != trkpts.end()) {
+        //
+        //            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+        //                if ( trkpt->editItem ) {
+        //                    int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
+        //                    if ( idx != -1 )
+        //                        treePoints->takeTopLevelItem(idx);
+        //                    delete (CTrackTreeWidgetItem *)trkpt->editItem;
+        //                    trkpt->editItem = 0;
+        //                }
+        //                trkpt = trkpts.erase(trkpt);
+        //            }
+        //            else {
+        //                ++trkpt;
+        //            }
+        //        }
+        CUndoStack::getInstance()->push(new CTrackUndoCommandDeletePts(track));
         checkRemoveDelTrkPt->setChecked(false);
         originator = false;
     }

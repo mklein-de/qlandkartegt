@@ -409,7 +409,7 @@ CTrack::CTrack(QObject * parent)
 , ext1Data(false)
 , firstTime(true)
 {
-
+    ref = 1;
 }
 
 

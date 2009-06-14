@@ -36,6 +36,7 @@ class CMouseSelTrack : public IMouse
         void draw(QPainter& p);
     private:
         bool selTrack;
+        bool unselectTrack;
 
 };
 #endif                           //CMOUSESELTRACK_H

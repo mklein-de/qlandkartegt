@@ -56,8 +56,9 @@ class CTrack : public QObject
     Q_OBJECT;
     public:
         CTrack(QObject * parent);
-        virtual ~CTrack();
 
+        virtual ~CTrack();
+        int ref;
         enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1};
 
         struct pt_t

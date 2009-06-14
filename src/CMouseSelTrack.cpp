@@ -25,7 +25,7 @@
 
 CMouseSelTrack::CMouseSelTrack(CCanvas * canvas)
 : IMouse(canvas)
-, selTrack(false)
+, selTrack(false), unselectTrack(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorArrow"),0,0);
 }
@@ -39,7 +39,7 @@ CMouseSelTrack::~CMouseSelTrack()
 
 void CMouseSelTrack::mouseMoveEvent(QMouseEvent * e)
 {
-    if(!selTrack) return;
+    if(!(selTrack || unselectTrack)) return;
     resizeRect(e->pos());
 }
 
@@ -49,6 +49,10 @@ void CMouseSelTrack::mousePressEvent(QMouseEvent * e)
     if(e->button() == Qt::LeftButton) {
         startRect(e->pos());
         selTrack = true;
+    } else if (e->button() == Qt::RightButton)
+    {
+        startRect(e->pos());
+        unselectTrack = true;
     }
 }
 
@@ -58,14 +62,19 @@ void CMouseSelTrack::mouseReleaseEvent(QMouseEvent * e)
     if(e->button() == Qt::LeftButton) {
         selTrack = false;
         resizeRect(e->pos());
-        CTrackDB::self().select(rect.normalized());
+        CTrackDB::self().select(rect.normalized(),true);
         //         canvas->setMouseMode(CCanvas::eMouseMoveArea);
+    }else if (e->button() == Qt::RightButton)
+    {
+        unselectTrack = false;
+        resizeRect(e->pos());
+        CTrackDB::self().select(rect.normalized(),false);
     }
 }
 
 
 void CMouseSelTrack::draw(QPainter& p)
 {
-    if(!selTrack) return;
+    if(!(selTrack || unselectTrack)) return;
     drawRect(p);
 }
