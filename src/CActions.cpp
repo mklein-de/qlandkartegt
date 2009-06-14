@@ -364,10 +364,11 @@ void CActions::funcNewWpt()
 
 void CActions::funcCloseMap3D()
 {
+    //qDebug() << Q_FUNC_INFO;
     CMapDB::self().show3DMap(false);
     setMenuTitle(tr("Maps ..."));
     setMenuPixmap(QPixmap(":/icons/backMap128x128"));
-    actionGroup->switchToActionGroup(CMenus::Map3DMenu);
+    actionGroup->switchToActionGroup(CMenus::MapMenu);
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
