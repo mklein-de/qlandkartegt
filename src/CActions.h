@@ -85,6 +85,8 @@ class CActions : public QObject
         void funcSelTrack();
         void funcUploadTrack();
         void funcDownloadTrack();
+        void funcTrackPurgeSelection();
+
         void funcDeleteTrackSelection();
 
         void funcUploadRoute();

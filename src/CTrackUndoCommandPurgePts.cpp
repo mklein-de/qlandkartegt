@@ -14,53 +14,57 @@
 //C- GNU General Public License for more details.
 //C-  ------------------------------------------------------------------
 
-#include "CTrackUndoCommandDeletePts.h"
+#include "CTrackUndoCommandPurgePts.h"
 #include <QObject>
 #include "CTrackDB.h"
 #include <QDebug>
-CTrackUndoCommandDeletePts::CTrackUndoCommandDeletePts(CTrack *track)
+CTrackUndoCommandPurgePts::CTrackUndoCommandPurgePts(CTrack *track)
 : track(track)
 {
-    setText(QObject::tr("Delete Selection"));
+    setText(QObject::tr("Purge Selection"));
 }
 
 
-CTrackUndoCommandDeletePts::~CTrackUndoCommandDeletePts()
+CTrackUndoCommandPurgePts::~CTrackUndoCommandPurgePts()
 {
 
 }
 
 
-void CTrackUndoCommandDeletePts::redo()
+void CTrackUndoCommandPurgePts::redo()
 {
     //qDebug() << Q_FUNC_INFO;
-    oldList.clear();
+    purgedList.clear();
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
-        oldList.append(*trkpt);
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
-            trkpt = trkpts.erase(trkpt);
+        if(trkpt->flags & CTrack::pt_t::eSelected) {
+            trkpt->flags |= CTrack::pt_t::eDeleted;
+            trkpt->flags &= ~CTrack::pt_t::eSelected;
+            purgedList << trkpt->idx;
         }
-        else {
-            ++trkpt;
-        }
+        ++trkpt;
     }
+    track->rebuild(false);
     emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }
 
 
-void CTrackUndoCommandDeletePts::undo()
+void CTrackUndoCommandPurgePts::undo()
 {
     //qDebug() << Q_FUNC_INFO;
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-    trkpts.clear();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-    foreach(CTrack::pt_t tp, oldList) {
-        trkpts.append(tp);
+    while(trkpt != trkpts.end()) {
+        if(purgedList.contains(trkpt->idx)) {
+            trkpt->flags &= ~CTrack::pt_t::eDeleted;
+            trkpt->flags |= CTrack::pt_t::eSelected;
+        }
+        ++trkpt;
     }
-    track->rebuild(true);
+    track->rebuild(false);
     emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }

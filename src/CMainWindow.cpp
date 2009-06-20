@@ -158,6 +158,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDownloadTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
+    //actionGroupProvider->addAction(CMenus::TrackMenu, "aTrackPurgeSelection");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDeleteTrackSelection");
 
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aSwitchToMain");

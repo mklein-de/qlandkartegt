@@ -94,6 +94,7 @@ set(qlandkarte_SRCS
     CUndoStack.cpp
     CTrackUndoCommandDelete.cpp
     CTrackUndoCommandDeletePts.cpp
+    CTrackUndoCommandPurgePts.cpp
     CTrackUndoCommandSelect.cpp
     CTrack.cpp
     CTrackDB.cpp

@@ -36,6 +36,7 @@
 #include "CDlgCreateWorldBasemap.h"
 #include "CUndoStack.h"
 #include "CTrackUndoCommandDeletePts.h"
+#include "CTrackUndoCommandPurgePts.h"
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -89,6 +90,7 @@ QObject(parent), parent(parent)
     createAction(tr("F8"), ":/icons/iconSelect16x16", tr("&Select Points"), "aSelTrack", tr("Select track points by rectangle."));
     createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadTrack", tr("Upload tracks to device."));
     createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadTrack", tr("Download tracks from device."));
+    createAction(tr("Del"), ":/icons/iconClear16x16", tr("Purge Selection"), "aTrackPurgeSelection", tr("Purge the selected points of the track."));
     createAction(tr("ctrl+Del"), ":/icons/iconClear16x16", tr("Delete Selection"), "aDeleteTrackSelection", tr("Deletes the selected points of the track."));
     //
     createAction(tr("F5"), ":/icons/iconPlayPause16x16", tr("&Start / Stop"), "aLiveLog", tr("Start / stop live log recording."));
@@ -478,11 +480,22 @@ void CActions::funcDownloadTrack()
 }
 
 
-void CActions::funcDeleteTrackSelection()
+void CActions::funcTrackPurgeSelection()
 {
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
+        CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
+}
+
+void CActions::funcDeleteTrackSelection()
+{
+    CTrack *track = CTrackDB::self().highlightedTrack();
+    if (track){
+        CUndoStack::getInstance()->beginMacro(tr("Delete Selection"));
+        CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
         CUndoStack::getInstance()->push(new CTrackUndoCommandDeletePts(track));
+        CUndoStack::getInstance()->endMacro();
+    }
 }
 
 
