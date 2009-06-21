@@ -129,8 +129,9 @@ void CMegaMenu::switchByKeyWord(const QString& key)
 */
 void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *action, bool isCurrent) const
 {
-    if (!option || !action)
+    if (!option || !action){
         return;
+    }
 
     option->initFrom(this);
     option->palette = palette();
@@ -163,21 +164,25 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
             ? QStyleOptionMenuItem::Exclusive : QStyleOptionMenuItem::NonExclusive;
         option->checked = action->isChecked();
     }
-    if (action->menu())
+    if (action->menu()){
         option->menuItemType = QStyleOptionMenuItem::SubMenu;
-    else if (action->isSeparator())
+    }
+    else if (action->isSeparator()){
         option->menuItemType = QStyleOptionMenuItem::Separator;
-
-    else
+    }
+    else{
         option->menuItemType = QStyleOptionMenuItem::Normal;
-    if (action->isIconVisibleInMenu())
+    }
+    if (action->isIconVisibleInMenu()){
         option->icon = action->icon();
+    }
     QString textAndAccel = action->text();
 
     if (textAndAccel.indexOf(QLatin1Char('\t')) == -1) {
         QKeySequence seq = action->shortcut();
-        if (!seq.isEmpty())
+        if (!seq.isEmpty()){
             textAndAccel += QLatin1Char('\t') + QString(seq);
+        }
     }
 
     option->text            = textAndAccel;
