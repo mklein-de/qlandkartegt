@@ -155,7 +155,7 @@ class CGarminTile : public QObject
         /// get access to map data
         const QMap<QString,subfile_desc_t>& getSubFiles(){return subfiles;}
 
-        bool isTransparent(){return transparent;}
+        bool isTransparent(){return false/*transparent*/;}
 
         /// read file content
         /**
