@@ -107,7 +107,7 @@ void IMouse::drawSelWpt(QPainter& p)
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
         if(!selWpt->images.isEmpty()) {
-            p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconImage16x16.png"));
+            p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
         p.restore();
 

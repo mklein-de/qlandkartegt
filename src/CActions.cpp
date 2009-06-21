@@ -79,7 +79,7 @@ QObject(parent), parent(parent)
     createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Waypoint"), "aEditWpt", tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
     createAction(tr("F7"), ":/icons/iconWptMove16x16", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
 #ifdef HAS_EXIF
-    createAction(tr("F8"),":/icons/iconImage16x16",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
+    createAction(tr("F8"),":/icons/iconRaster16x16",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
 #endif
     createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadWpt", tr("Upload waypoints to device."));
     createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadWpt", tr("Download waypoints from device."));
