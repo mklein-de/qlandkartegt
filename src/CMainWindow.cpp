@@ -419,11 +419,12 @@ void CMainWindow::setupMenuBar()
     //    groupProvidedMenu->setTitle(tr("-"));
     //    menuBar()->addMenu(groupProvidedMenu);
 
-    menu = new QMenu(this);
-    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
-    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
-    menu->setTitle(tr("&Edit"));
-    menuBar()->addMenu(menu);
+    // disable for release
+//    menu = new QMenu(this);
+//    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
+//    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
+//    menu->setTitle(tr("&Edit"));
+//    menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);
