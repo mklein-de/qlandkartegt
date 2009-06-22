@@ -173,9 +173,9 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     else{
         option->menuItemType = QStyleOptionMenuItem::Normal;
     }
-    if (action->isIconVisibleInMenu()){
-        option->icon = action->icon();
-    }
+
+    option->icon = action->icon();
+
     QString textAndAccel = action->text();
 
     if (textAndAccel.indexOf(QLatin1Char('\t')) == -1) {
