@@ -297,7 +297,6 @@ void CMegaMenu::mouseMoveEvent(QMouseEvent * e)
 
 void CMegaMenu::slotSplitterMoved(int pos, int index)
 {
-    qDebug() << pos << index;
     if(index == 1){
         setEnabled(pos);
     }
