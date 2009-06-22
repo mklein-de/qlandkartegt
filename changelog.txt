@@ -1,5 +1,12 @@
 --- 2009.06.22 ---
 
+Bug     #99:
+Fix corrupted Russian ts file
+
+
+
+--- 2009.06.22 ---
+
 Bug     #91:
 Crash with track cutting tool if last track point is selected.
 
@@ -534,6 +541,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
