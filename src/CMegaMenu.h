@@ -42,6 +42,8 @@ class CMegaMenu : public QLabel
         static CMegaMenu& self(){return *m_self;}
 
         void switchByKeyWord(const QString& key);
+    public slots:
+        void slotSplitterMoved(int pos, int index);
 
     protected slots:
         void slotEnable(){setEnabled(true);}
@@ -74,5 +76,7 @@ class CMegaMenu : public QLabel
 
         int currentItemIndex;
         bool mouseDown;
+
+        int yoff;
 };
 #endif                           //CMEGAMENU_H

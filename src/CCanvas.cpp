@@ -48,6 +48,8 @@
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
 
+#include "CMegaMenu.h"
+
 #include "GeoMath.h"
 #include "WptIcons.h"
 
@@ -597,12 +599,12 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
 {
     QMenu menu(this);
 
-    foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions())
-       menu.addAction(a);
-
-    menu.addSeparator();
-
-    menu.addSeparator();
+    if(!CMegaMenu::self().isEnabled()){
+        foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions()){
+            menu.addAction(a);
+        }
+        menu.addSeparator();
+    }
     menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 

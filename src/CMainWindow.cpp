@@ -79,6 +79,8 @@ CMainWindow::CMainWindow()
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
+    connect(leftSplitter, SIGNAL(splitterMoved(int, int)), megaMenu, SLOT(slotSplitterMoved(int, int)));
+
     CActions *actions = actionGroupProvider->getActions();
     canvas->addAction(actions->getAction("aZoomIn"));
     canvas->addAction(actions->getAction("aZoomOut"));
@@ -325,6 +327,8 @@ CMainWindow::CMainWindow()
 
     setupMenuBar();
     connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
+
+    megaMenu->slotSplitterMoved(leftSplitter->sizes()[0], 1);
 }
 
 

@@ -49,6 +49,7 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
 , canvas(canvas)
 , currentItemIndex(-1)
 , mouseDown(false)
+, yoff(1)
 {
     m_self = this;
     setScaledContents(true);
@@ -233,9 +234,9 @@ void CMegaMenu::resizeEvent(QResizeEvent * e)
     f.setBold(true);
     QFontMetrics fm(f);
 
-    int yoff    = 0;
-    int w       = e->size().width();
-    int h       = fm.height();
+    int w   = e->size().width();
+    int h   = fm.height();
+    yoff    = 0;
 
     rectTitle = QRect(0,yoff, w, h);
     for(int i=0; i < 11; ++i) {
@@ -291,5 +292,13 @@ void CMegaMenu::mouseMoveEvent(QMouseEvent * e)
             update();
             return;
         }
+    }
+}
+
+void CMegaMenu::slotSplitterMoved(int pos, int index)
+{
+    qDebug() << pos << index;
+    if(index == 1){
+        setEnabled(pos);
     }
 }
