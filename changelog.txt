@@ -1,3 +1,22 @@
+--- 2009.06.22 ---
+
+Bug     #91:
+Crash with track cutting tool if last track point is selected.
+
+Request #93:
+Add klm to list of supported formats (via gpsbabel)
+
+Request #94:
+Convert track to distance polyline
+
+Request #96:
+Add waypoints from geo tagged images.
+
+Request #97:
+Restructure menus to be more flexible.
+
+
+
 --- 2009.05.20 ---
 
 Request #85:
@@ -515,6 +534,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
