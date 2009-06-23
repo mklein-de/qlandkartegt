@@ -3849,12 +3849,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="275"/>
         <source>Add Ref.</source>
-        <translation>Ajouter une référence.</translation>
+        <translation>Ajouter
+une référence.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="285"/>
         <source>Delete Ref.</source>
-        <translation>Effacer une référence.</translation>
+        <translation>Effacer
+une référence.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="308"/>
@@ -3864,12 +3866,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="331"/>
         <source>Load Ref.</source>
-        <translation>Charger des référence.</translation>
+        <translation>Charger
+des référence.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="341"/>
         <source>Save Ref.</source>
-        <translation>Sauvergarder des références.</translation>
+        <translation>Sauvergarder
+des références.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="364"/>

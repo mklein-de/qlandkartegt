@@ -778,22 +778,22 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="76"/>
         <source>square pixels (2 Ref. Pts.)</source>
-        <translation>quadratische Bildpunkte (2 Referenzpunkte)</translation>
+        <translation>quadr. Bildp. (2 Referenzp.)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="77"/>
         <source>linear (3 Ref. Pts.)</source>
-        <translation>linear (3 Referenzpunkte)</translation>
+        <translation>linear (3 Referenzp.)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="78"/>
         <source>quadratic (6 Ref. Pts.)</source>
-        <translation>quadratisch (6 Referenzpunkte)</translation>
+        <translation>quadratisch (6 Referenzp.)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="79"/>
         <source>thin plate (4 Ref. Pts.)</source>
-        <translation>geringfügige Platte (4 Referenzpunkte)</translation>
+        <translation>geringfügige Platte (4 Referenzp.)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="158"/>

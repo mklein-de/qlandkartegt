@@ -735,7 +735,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="76"/>
         <source>square pixels (2 Ref. Pts.)</source>
-        <translation>квадратная пиксельная (2 опорн.точки)</translation>
+        <translation>квадр. пикс. (2 опорн.точки)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="77"/>
@@ -3351,7 +3351,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="36"/>
         <source>Input file:</source>
-        <translation>Выберите файл для загрузки:</translation>
+        <translation>Файл для загрузки:</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="58"/>
@@ -3432,12 +3432,14 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="275"/>
         <source>Add Ref.</source>
-        <translation>Добавить Оп.точку</translation>
+        <translation>Добавить
+Оп.точку</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="285"/>
         <source>Delete Ref.</source>
-        <translation>Удалить Оп.точку</translation>
+        <translation>Удалить
+Оп.точку</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="308"/>
@@ -3447,12 +3449,14 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="331"/>
         <source>Load Ref.</source>
-        <translation>Загрузить Оп.точку</translation>
+        <translation>Загрузить
+Оп.точку</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="341"/>
         <source>Save Ref.</source>
-        <translation>Сохранить Оп.точку</translation>
+        <translation>Сохранить
+Оп.точку</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="364"/>
