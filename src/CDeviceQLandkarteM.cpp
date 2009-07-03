@@ -234,7 +234,64 @@ void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
 void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
 {
     if(!startDeviceDetection()) return;
-    QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Download tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    if(!acquire(tr("Download tracks ..."), trks.count())) return;
+
+    progress->setLabelText(tr("Query list of tracks from the device"));
+    qApp->processEvents();
+
+    packet_e type;
+    QByteArray  data1;
+
+    if(!exchange(type = eH2CTrkQuery,data1)) {
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query tracks from device."),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    if(type == eError) {
+        QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    quint32     nWpt = 0;
+    quint32     n;
+    QString     key, name;
+
+    QDataStream wptlist(&data1, QIODevice::ReadOnly);
+
+    wptlist >> nWpt;
+
+    progress->setMaximum(nWpt);
+    for(n = 0; n < nWpt; ++n) {
+        QByteArray data;
+        QDataStream stream(&data,QIODevice::ReadWrite);
+        wptlist >> key >> name;
+
+        progress->setLabelText(tr("Download track: %1").arg(name));
+        qApp->processEvents();
+
+        stream << key;
+
+        if(!exchange(type = eH2CTrk,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        stream.device()->seek(0);
+
+        CTrack * trk = new CTrack(&CTrackDB::self());
+        stream >> *trk;
+        trks.push_back(trk);
+
+        progress->setValue(n + 1);
+    }
+
+    release();
+    return;
 }
 
 

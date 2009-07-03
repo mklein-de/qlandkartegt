@@ -82,9 +82,9 @@ class CTrack : public QObject
 
             /// index counter for easy QVector access
             qint32  idx;
-            /// longitude []
+            /// longitude [deg]
             float   lon;
-            /// latitude []
+            /// latitude [deg]
             float   lat;
             /// elevation [m]
             float   ele;

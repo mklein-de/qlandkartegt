@@ -253,11 +253,11 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
                                  ///< [m]
             s4 << trkpt->altitude;
             s4 << trkpt->height; ///< [m]
-                                 ///< [m/s]
-            s4 << trkpt->velocity;
-            s4 << trkpt->heading;///< []
-                                 ///< []
-            s4 << trkpt->magnetic;
+
+            s4 << trkpt->velocity;///< [m/s]
+            s4 << trkpt->heading;///< [deg]
+
+            s4 << trkpt->magnetic;///< [deg]
             s4 << trkpt->vdop;   ///<
             s4 << trkpt->hdop;   ///<
             s4 << trkpt->pdop;   ///<
