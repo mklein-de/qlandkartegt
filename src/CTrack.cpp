@@ -79,6 +79,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
 
+                track.setColor(track.colorIdx);
+
                 break;
             }
 
