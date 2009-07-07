@@ -31,7 +31,7 @@ CDeviceQLandkarteM::CDeviceQLandkarteM(const QString& ipaddr, quint16 port, QObj
 : IDevice("QLandkarteM",parent)
 , ipaddr(ipaddr)
 , port(port)
-, timeout(60000)
+, timeout(120000)
 {
     udpSocket.bind(45453, QUdpSocket::ShareAddress);
     connect(&udpSocket, SIGNAL(readyRead()),this, SLOT(detectedDevice()));
