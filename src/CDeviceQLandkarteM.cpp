@@ -227,7 +227,36 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
 {
     if(!startDeviceDetection()) return;
-    QMessageBox::information(0,tr("Error..."), tr("QLandkarteM: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    if(!acquire(tr("Uplaod tracks ..."), trks.count())) return;
+
+    packet_e type;
+    int cnt = 0;
+    QList<CTrack*>::const_iterator trk = trks.begin();
+    while(trk != trks.end() && !progress->wasCanceled()) {
+        QByteArray data;
+        QDataStream s(&data,QIODevice::WriteOnly);
+
+        progress->setLabelText(tr("%1\n%2 of %3").arg((*trk)->name).arg(++cnt).arg(trks.count()));
+        progress->setValue(cnt - 1);
+        qApp->processEvents();
+
+        s << *(*trk);
+
+        if(!exchange(type = eC2HTrk,data)) {
+            QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        if(type == eError) {
+            QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+            return release();
+        }
+
+        ++trk;
+    }
+
+    release();
+    return;
 }
 
 
