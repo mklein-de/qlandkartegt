@@ -203,6 +203,9 @@ void CGarminTile::readBasics(const QString& fn)
     QMap<QString,subfile_desc_t>::iterator subfile = subfiles.begin();
     while(subfile != subfiles.end()) {
         subfile->name = mapdesc.trimmed();
+
+        if((*subfile).parts.contains("GMP")) throw exce_t(errFormat,tr("File is NT format. Unable to read: ") + filename);
+
         readSubfileBasics(*subfile, file);
         ++subfile;
     }
@@ -313,6 +316,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     hdr_rgn_t * pRgnHdr = (hdr_rgn_t*)rgnhdr.data();
     quint32 rgnoff = /*subfile.parts["RGN"].offset +*/ gar_load(uint32_t, pRgnHdr->offset);
 
+
     // parse all 16 byte subdivision entries
     for(i=0; i<nsubdivs_next; ++i, --nsubdiv) {
         qint32 cx,cy;
@@ -356,6 +360,10 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
 
+        subdiv->offsetPoints2       = -1;
+        subdiv->offsetPolylines2    = -1;
+        subdiv->offsetPolygons2     = -1;
+
         subdiv_prev = subdiv;
         ++pSubDivN; ++subdiv;
     }
@@ -396,10 +404,36 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         subdiv->area = QRectF(QPointF(subdiv->west, subdiv->north), QPointF(subdiv->east, subdiv->south));
 
+        subdiv->offsetPoints2       = -1;
+        subdiv->offsetPolylines2    = -1;
+        subdiv->offsetPolygons2     = -1;
+
         subdiv_prev = subdiv;
         ++pSubDivL; ++subdiv;
     }
     subdivs.last().rgn_end = subfile.parts["RGN"].size;
+
+    // read extended NT elements
+    if(pTreHdr->hdr_subfile_part_t::length >= 0x9A && pTreHdr->tre7_size)
+    {
+        qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size);
+        QByteArray subdiv2;
+        readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre7_offset), gar_load(uint32_t, pTreHdr->tre7_size), subdiv2);
+        tre_subdiv2_t * pSubDiv2 = (tre_subdiv2_t*)subdiv2.data();
+
+        const quint32 entries1 = gar_load(uint32_t, pTreHdr->tre7_size) / gar_load(uint32_t, pTreHdr->tre7_rec_size);
+        const quint32 entries2 = subdivs.size();
+
+        for(i=0; i < entries1 && i < entries2; ++i){
+            subdiv_desc_t& subdiv = subdivs[i];
+            subdiv.offsetPoints2    = gar_load(uint32_t, pSubDiv2->offsetPoints);
+            subdiv.offsetPolylines2 = gar_load(uint32_t, pSubDiv2->offsetPolyline);
+            subdiv.offsetPolygons2  = gar_load(uint32_t, pSubDiv2->offsetPolygons);
+
+            ++pSubDiv2;
+        }
+
+    }
 
     subfile.subdivs = subdivs;
 
@@ -419,10 +453,15 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
             qDebug() << "bounding area (m)  " << subdiv->area.topLeft() << subdiv->area.bottomRight();
             qDebug() << "map level          " << subdiv->level;
             qDebug() << "left shifts        " << subdiv->shift;
+
+            qDebug() << "polyg off.         " << subdiv->offsetPolygons2;
+            qDebug() << "polyl off.         " << subdiv->offsetPolylines2;
+            qDebug() << "point off.         " << subdiv->offsetPoints2;
             ++subdiv;
         }
     }
 #endif                       // DEBUG_SHOW_SUBDIV_DATA
+
 
     if(subfile.parts.contains("LBL")) {
         QByteArray lblhdr;

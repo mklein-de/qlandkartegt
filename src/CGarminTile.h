@@ -107,8 +107,10 @@ class CGarminTile : public QObject
             quint32 shift;
             /// map level this subdivision is shown
             quint32 level;
-            /// pointer to string table (LBL section) object
 
+            qint32 offsetPoints2;
+            qint32 offsetPolylines2;
+            qint32 offsetPolygons2;
         };
 
         struct subfile_desc_t
@@ -279,14 +281,20 @@ class CGarminTile : public QObject
             quint8  byte0x00000070_0x00000073[4];
             /*-----------------------------------------------------*/
             quint8  byte0x00000074_0x0000007B[8];
-            quint32 tre7_offset; ///< 0x0000007C .. 0x0000007F
-            quint32 tre7_size;   ///< 0x00000080 .. 0x00000083
-                                 ///< 0x00000084 .. 0x00000085
-            quint16 tre7_rec_size;
+            // Object groups V2 (CTreGroup2).
+            quint32 tre7_offset;    ///< 0x0000007C .. 0x0000007F //Groups2Offset
+            quint32 tre7_size;      ///< 0x00000080 .. 0x00000083  //dwGroups2Length
+            quint16 tre7_rec_size;  ///< 0x00000084 .. 0x00000085 //wGroup2RecSize
             quint8  byte0x00000086_0x00000089[4];
-            quint32 tre8_offset; ///< 0x0000008A .. 0x0000008D
-            quint32 tre8_size;   ///< 0x0000008E .. 0x00000091
-            quint8  byte0x00000092_0x00000099[8];
+            // Order: polyline, polygon, POI; each sorted by type (1 type 1 levels 1 subtype)
+            quint32 tre8_offset;        ///< 0x0000008A .. 0x0000008D
+            quint32 tre8_size;          ///< 0x0000008E .. 0x00000091
+            quint16 tre8_rec_size;      ///< 0x00000092 .. 0x00000093
+
+            quint16 polyl2_types_num;   ///< 0x00000094 .. 0x00000095
+            quint16 polyg2_types_num;   ///< 0x00000096 .. 0x00000097
+            quint16 poi2_types_num;     ///< 0x00000098 .. 0x00000099
+
             /*-----------------------------------------------------*/
             quint8  key[20];     ///< 0x0000009A .. 0x000000AD
             quint32 tre9_offset; ///< 0x000000AE .. 0x000000B1
@@ -299,9 +307,19 @@ class CGarminTile : public QObject
         // RGN part header
         struct hdr_rgn_t : public hdr_subfile_part_t
         {
-            quint32 offset;      ///< 0x00000015 .. 0x00000018
-            quint32 length;      ///< 0x00000019 .. 0x0000000C
+            quint32 offset;         ///< 0x00000015 .. 0x00000018
+            quint32 length;         ///< 0x00000019 .. 0x0000001C
+            quint32 offset_polyg2;  ///< 0x0000001D .. 0x00000020
+            quint32 length_polyg2;  ///< 0x00000021 .. 0x00000024
+            quint8  byte0x00000025_0x00000038[20];
+            quint32 offset_polyl2;  ///< 0x00000039 .. 0x0000003C
+            quint32 length_polyl2;  ///< 0x0000003D .. 0x00000040
+            quint8  byte0x00000041_0x00000054[20];
+            quint32 offset_point2;  ///< 0x00000055 .. 0x00000058
+            quint32 length_point2;  ///< 0x00000059 .. 0x0000005C
         };
+
+
 
         // LBL part header
         struct hdr_lbl_t : public hdr_subfile_part_t
@@ -409,6 +427,13 @@ class CGarminTile : public QObject
         struct tre_subdiv_next_t : public tre_subdiv_t
         {
             quint16 next;
+        };
+
+        struct tre_subdiv2_t {
+            quint32 offsetPolygons;
+            quint32 offsetPolyline;
+            quint32 offsetPoints;
+            quint8 btObjects;
         };
 #ifdef WIN32
 #pragma pack()
