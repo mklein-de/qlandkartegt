@@ -41,7 +41,7 @@ class CGarminPolygon
         CGarminPolygon();
         virtual ~CGarminPolygon();
 
-        quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData);
+        quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData, const quint8 * pEnd);
 
         quint16 type;
         /// direction of line (polyline, only)
@@ -62,11 +62,10 @@ class CGarminPolygon
 
         QStringList labels;
 
+        static quint32 cnt;
     private:
         void bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, quint32& by, sign_info_t& signinfo);
         int bits_per_coord(quint8 base, bool is_signed);
-
-        static quint32 cnt;
 
 };
 

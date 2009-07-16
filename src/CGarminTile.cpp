@@ -29,6 +29,8 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+#include <assert.h>
+
 #undef DEBUG_SHOW_SECT_DESC
 #undef DEBUG_SHOW_TRE_DATA
 #undef DEBUG_SHOW_MAPLEVEL_DATA
@@ -411,7 +413,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv_prev = subdiv;
         ++pSubDivL; ++subdiv;
     }
-    subdivs.last().rgn_end = subfile.parts["RGN"].size;
+    subdivs.last().rgn_end = pRgnHdr->hdr_rgn_t::length;
 
     // read extended NT elements
     if(pTreHdr->hdr_subfile_part_t::length >= 0x9A && pTreHdr->tre7_size)
@@ -663,6 +665,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
     // decode polylines
     if(subdiv.hasPolylines) {
+        CGarminPolygon::cnt = 0;
         pData = pRawData + opline;
         pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd) {
@@ -670,7 +673,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
             CGarminPolygon& p   = polylines.last();
 
-            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
             if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
@@ -679,12 +682,16 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             }
 
             //             qDebug() << p.labels << hex << p.lbl_info;
+            if(pData > pEnd){
+                polylines.pop_back();
+            }
         }
 
     }
 
     // decode polygons
     if(subdiv.hasPolygons && !fast && !isTransparent()) {
+        CGarminPolygon::cnt = 0;
         pData = pRawData + opgon;
         pEnd  = pRawData + subdiv.rgn_end;
 
@@ -693,12 +700,16 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
             CGarminPolygon& p   = polygons.last();
 
-            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData);
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
             if(strtbl && !p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
             else if(strtbl && p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
+            }
+
+            if(pData > pEnd){
+                polygons.pop_back();
             }
         }
     }
@@ -786,7 +797,7 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
                 while(pData < pEnd) {
                     polygons.push_back(CGarminPolygon());
                     CGarminPolygon& p = polygons.last();
-                    pData += p.decode(subdiv->iCenterLng, subdiv->iCenterLat, subdiv->shift, false, pData);
+                    pData += p.decode(subdiv->iCenterLng, subdiv->iCenterLat, subdiv->shift, false, pData, pEnd);
 
                     if(p.type != type) {
                         polygons.pop_back();
@@ -931,7 +942,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
             CGarminPolygon p;
             quint32 offset = pData - pRawData;
 
-            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
             if(strtbl && !p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
@@ -1032,7 +1043,7 @@ void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset
 
     polylines.push_back(CGarminPolygon());
     CGarminPolygon& p = polylines.last();
-    pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData);
+    pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, 0);
 
     file.close();
 }
