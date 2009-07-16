@@ -108,9 +108,12 @@ class CGarminTile : public QObject
             /// map level this subdivision is shown
             quint32 level;
 
-            qint32 offsetPoints2;
-            qint32 offsetPolylines2;
-            qint32 offsetPolygons2;
+            quint32 offsetPoints2;
+            quint32 lengthPoints2;
+            quint32 offsetPolylines2;
+            quint32 lengthPolylines2;
+            quint32 offsetPolygons2;
+            quint32 lengthPolygons2;
         };
 
         struct subfile_desc_t

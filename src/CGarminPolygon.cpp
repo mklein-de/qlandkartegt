@@ -30,6 +30,7 @@
 #include <assert.h>
 
 #undef DEBUG_SHOW_POLY_DATA
+#undef DEBUG_SHOW_POLY2_DATA
 #undef DEBUG_SHOW_POLY_PTS
 
 struct sign_info_t
@@ -175,7 +176,7 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 #endif                       // DEBUG_SHOW_POLY_DATA
 
     sign_info_t signinfo;
-    bits_per_coord(bs_info,*pData,bx,by,signinfo);
+    bits_per_coord(bs_info,*pData,bx,by,signinfo, false);
 
     CShiftReg sr(pData,bs_len,bx,by,extra_bit,signinfo);
     qint32 x1,y1,x = 0,y = 0;
@@ -227,15 +228,124 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 }
 
 
-void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, quint32& by, sign_info_t& signinfo)
+quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, bool line, const quint8 * pData, const quint8 * pEnd)
+{
+    quint32 bytes_total = 6;
+    // bitstream length
+    quint16 bs_len = 0;
+    // type and subtype
+    quint32 subtype;
+    // base bit size info for coordinates
+    quint8 bs_info;
+    // bits per x coord.
+    quint32 bx;
+    // bits per y coord.
+    quint32 by;
+
+
+    type    = *pData++;
+    subtype = *pData++;;
+
+    type = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
+    type = 0x6;
+    // delta longitude and latitude
+    dLng = gar_ptr_load(uint16_t, pData); pData += 2;
+    dLat = gar_ptr_load(uint16_t, pData); pData += 2;
+
+    if((*pData & 0x1) == 0){
+        bs_len       = gar_ptr_load(uint16_t, pData);
+        bs_len       = (bs_len >> 2) - 1;
+        pData       += 2;
+        bytes_total += 2;
+    }
+    else{
+        bs_len = ((* pData) >> 1) - 1;
+        ++pData;
+        ++bytes_total;
+    }
+
+    bs_info = *pData++;
+    bytes_total = bs_len + 1;
+
+    if(bytes_total > 0x10) return bytes_total;
+
+#ifdef DEBUG_SHOW_POLY2_DATA
+    qDebug() << "type:      " << type << hex << type;
+    qDebug() << "dLng:      " << dLng;
+    qDebug() << "dLat:      " << dLat;
+    qDebug() << "len:       " << bs_len;
+    qDebug() << "info:      " << hex << bs_info;
+    qDebug() << "1st byte:  " << hex << *pData;
+    qDebug() << "bytes total" << bytes_total;
+#endif                       // DEBUG_SHOW_POLY_DATA
+
+    sign_info_t signinfo;
+    bits_per_coord(bs_info,*pData,bx,by,signinfo, true);
+
+    CShiftReg sr(pData,bs_len,bx,by,false,signinfo);
+    qint32 x1,y1,x = 0,y = 0;
+    XY xy;
+
+    bool isNegative = (iCenterLon >= 0x800000);
+    // first point
+    x1 = ((qint32)dLng << shift) + iCenterLon;
+    y1 = ((qint32)dLat << shift) + iCenterLat;
+
+    if(x1 >= 0x800000 && !isNegative) x1 = 0x7fffff;
+
+    xy.u = GARMIN_RAD(x1);
+    xy.v = GARMIN_RAD(y1);
+#ifdef DEBUG_SHOW_POLY_PTS
+    qDebug() << xy.u << xy.v << hex << x1 << y1 << DEG(x1) << DEG(y1);
+#endif
+    u << xy.u;
+    v << xy.v;
+
+    // next points
+    while(sr.get(x,y)) {
+        x1 += (x << shift);
+        y1 += (y << shift);
+
+        if(x1 >= 0x800000 && !isNegative) x1 = 0x7fffff;
+
+        xy.u = GARMIN_RAD(x1);
+        xy.v = GARMIN_RAD(y1);
+
+//         assert(abs(xy.u) < PI);
+//         assert(abs(xy.v) < PI/2);
+//         if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
+//         {
+//             qDebug() << "bam";
+//             qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;
+//             assert(0);
+//         }
+#ifdef DEBUG_SHOW_POLY_PTS
+        qDebug() << xy.u << xy.v << (RAD_TO_DEG * xy.u) << (RAD_TO_DEG * xy.v);
+#endif
+        u << xy.u;
+        v << xy.v;
+    }
+
+    id = cnt++;
+//     qDebug() << "<<<" << id;
+
+    return bytes_total;
+}
+
+
+void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, quint32& by, sign_info_t& signinfo, bool isVer2)
 {
     bool x_sign_same, y_sign_same;
 
-    x_sign_same = bfirst & 0x1;
+    quint8 mask = 0x1;
+
+//     x_sign_same = bfirst & 0x1;
+    x_sign_same = bfirst & mask; mask <<= 1;
 
     if(x_sign_same) {
         signinfo.x_has_sign = false;
-        signinfo.nx         = bfirst & 0x2;
+//         signinfo.nx         = bfirst & 0x2;
+        signinfo.nx         = bfirst & mask; mask <<= 1;
         ++signinfo.sign_info_bits;
     }
     else {
@@ -243,11 +353,13 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
     }
     bx = bits_per_coord(base & 0x0F, signinfo.x_has_sign);
 
-    y_sign_same = x_sign_same ? (bfirst & 0x04) : (bfirst & 0x02);
+//     y_sign_same = x_sign_same ? (bfirst & 0x04) : (bfirst & 0x02);
+    y_sign_same = bfirst & mask; mask <<= 1;
 
     if(y_sign_same) {
         signinfo.y_has_sign = false;
-        signinfo.ny         = x_sign_same ? bfirst & 0x08 : bfirst & 0x04;
+//         signinfo.ny         = x_sign_same ? bfirst & 0x08 : bfirst & 0x04;
+        signinfo.ny         = bfirst & mask; mask <<= 1;
         ++signinfo.sign_info_bits;
     }
     else {
@@ -256,6 +368,14 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
 
     by = bits_per_coord((base>>4) & 0x0F, signinfo.y_has_sign);
 
+
+    // Determine extra bits.
+    if(isVer2){
+        if(bfirst & mask){
+            ++bx;
+            ++by;
+        }
+    }
 }
 
 
