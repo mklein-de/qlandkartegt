@@ -203,16 +203,16 @@ void CActions::funcSwitchToMap()
     funcMoveArea();
 }
 
-#ifdef PLOT_3D
 void CActions::funcSwitchToMap3D()
 {
+#ifdef PLOT_3D
     setMenuTitle(tr("&Maps"));
     setMenuPixmap(QPixmap(":/icons/backMap128x128"));
     actionGroup->switchToActionGroup(CMenus::Map3DMenu);
     CMapDB::self().gainFocus();
     CMapDB::self().show3DMap(true);
-}
 #endif
+}
 
 void CActions::funcSwitchToWpt()
 {
@@ -363,9 +363,9 @@ void CActions::funcNewWpt()
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
-#ifdef PLOT_3D
 void CActions::funcCloseMap3D()
 {
+#ifdef PLOT_3D
     //qDebug() << Q_FUNC_INFO;
     CMapDB::self().show3DMap(false);
     setMenuTitle(tr("Maps ..."));
@@ -373,41 +373,49 @@ void CActions::funcCloseMap3D()
     actionGroup->switchToActionGroup(CMenus::MapMenu);
     CMapDB::self().gainFocus();
     funcMoveArea();
+#endif
 }
 
 void CActions::funcMap3DZoomPlus()
 {
+#ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
     if(map) {
         map->eleZoomIn();
     }
+#endif
 }
 
 
 void CActions::funcMap3DZoomMinus()
 {
+#ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
     if(map) {
         map->eleZoomOut();
     }
+#endif
 }
 
 
 void CActions::funcMap3DLighting()
 {
+#ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
     map->lightTurn();
+#endif
 }
 
 
 void CActions::funcMap3DMode()
 {
+#ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
     if(map) {
         map->changeMode();
     }
-}
 #endif
+}
 
 
 void CActions::funcEditWpt()
