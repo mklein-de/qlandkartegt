@@ -203,7 +203,7 @@ void CActions::funcSwitchToMap()
     funcMoveArea();
 }
 
-
+#ifdef PLOT_3D
 void CActions::funcSwitchToMap3D()
 {
     setMenuTitle(tr("&Maps"));
@@ -212,7 +212,7 @@ void CActions::funcSwitchToMap3D()
     CMapDB::self().gainFocus();
     CMapDB::self().show3DMap(true);
 }
-
+#endif
 
 void CActions::funcSwitchToWpt()
 {
@@ -363,7 +363,7 @@ void CActions::funcNewWpt()
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
-
+#ifdef PLOT_3D
 void CActions::funcCloseMap3D()
 {
     //qDebug() << Q_FUNC_INFO;
@@ -374,7 +374,6 @@ void CActions::funcCloseMap3D()
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
-
 
 void CActions::funcMap3DZoomPlus()
 {
@@ -408,6 +407,7 @@ void CActions::funcMap3DMode()
         map->changeMode();
     }
 }
+#endif
 
 
 void CActions::funcEditWpt()
