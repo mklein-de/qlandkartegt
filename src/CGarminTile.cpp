@@ -421,7 +421,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     // read extended NT elements
     if(pTreHdr->hdr_subfile_part_t::length >= 0x9A && pTreHdr->tre7_size)
     {
-        qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size);
+//         qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size);
         QByteArray subdiv2;
         readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre7_offset), gar_load(uint32_t, pTreHdr->tre7_size), subdiv2);
         tre_subdiv2_t * pSubDiv2 = (tre_subdiv2_t*)subdiv2.data();

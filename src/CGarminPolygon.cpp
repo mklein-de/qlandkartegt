@@ -267,7 +267,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     bs_info = *pData++;
     bytes_total = bs_len + 1;
 
-    if(bytes_total > 0x10) return bytes_total;
+    if(bytes_total > 0x40) return bytes_total;
 
 #ifdef DEBUG_SHOW_POLY2_DATA
     qDebug() << "type:      " << type << hex << type;
@@ -371,6 +371,7 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
 
     // Determine extra bits.
     if(isVer2){
+        ++signinfo.sign_info_bits;
         if(bfirst & mask){
             ++bx;
             ++by;
