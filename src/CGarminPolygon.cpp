@@ -242,11 +242,13 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     // bits per y coord.
     quint32 by;
 
+    const quint8 * const pStart = pData;
 
     type    = *pData++;
     subtype = *pData++;;
 
     type = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
+    qDebug() << hex << type;
     type = 0x6;
     // delta longitude and latitude
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;
@@ -260,14 +262,13 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     }
     else{
         bs_len = ((* pData) >> 1) - 1;
-        ++pData;
-        ++bytes_total;
+        pData       += 1;
+        bytes_total += 1;
     }
 
     bs_info = *pData++;
-    bytes_total = bs_len + 1;
+    bytes_total += bs_len + 1;
 
-    if(bytes_total > 0x40) return bytes_total;
 
 #ifdef DEBUG_SHOW_POLY2_DATA
     qDebug() << "type:      " << type << hex << type;
@@ -281,6 +282,10 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     sign_info_t signinfo;
     bits_per_coord(bs_info,*pData,bx,by,signinfo, true);
+
+    qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
+
+    if((pEnd - pStart) < bytes_total) return (pEnd - pStart);
 
     CShiftReg sr(pData,bs_len,bx,by,false,signinfo);
     qint32 x1,y1,x = 0,y = 0;
@@ -313,12 +318,12 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
 //         assert(abs(xy.u) < PI);
 //         assert(abs(xy.v) < PI/2);
-//         if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
-//         {
-//             qDebug() << "bam";
-//             qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;
-//             assert(0);
-//         }
+        if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
+        {
+            qDebug() << "bam";
+            qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;
+            assert(0);
+        }
 #ifdef DEBUG_SHOW_POLY_PTS
         qDebug() << xy.u << xy.v << (RAD_TO_DEG * xy.u) << (RAD_TO_DEG * xy.v);
 #endif
@@ -373,6 +378,7 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
     if(isVer2){
         ++signinfo.sign_info_bits;
         if(bfirst & mask){
+            qDebug() << "V2";
             ++bx;
             ++by;
         }
@@ -383,7 +389,7 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
 // extract bits per coordinate
 int CGarminPolygon::bits_per_coord(quint8 base, bool is_signed)
 {
-    int n= 2;
+    int n = 2;
 
     if ( base <= 9 ) n+= base;
     else n+= (2*base-9);
