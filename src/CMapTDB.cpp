@@ -1569,7 +1569,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
 
-            if(item->type == type) {
+            if((item->type & 0x3F) == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -2021,14 +2021,14 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
             distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
 
             if(distance < shortest) {
-                type = line->type;
+                type = line->type & 0x3F;
 
                 //                 qDebug() << hex << type;
 
                 key  = polyline_typestr[type];
 
                 if(!line->labels.isEmpty()) {
-                    switch(line->type) {
+                    switch(type) {
                                  // "Minor depht contour"
                         case 0x23:
                                  // "Minor land contour"
