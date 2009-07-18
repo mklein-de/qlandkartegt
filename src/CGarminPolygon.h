@@ -51,6 +51,8 @@ class CGarminPolygon
         quint32 lbl_info;
         /// true if label offset has to be used in NET section
         bool lbl_in_NET;
+        ///
+        bool hasV2Label;
         /// delta longitude from subdivision center
         qint16 dLng;
         /// delta latitude from subdivision center

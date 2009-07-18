@@ -61,6 +61,7 @@ CGarminPolygon::CGarminPolygon()
 , direction(false)
 , lbl_info(0)
 , lbl_in_NET(false)
+, hasV2Label(false)
 , dLng(0)
 , dLat(0)
 , id(0)
@@ -244,23 +245,26 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     const quint8 * const pStart = pData;
 
-    type    = *pData++;
-    subtype = *pData++;;
+    type        = *pData++;
+    subtype     = *pData++;;
 
-    type = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
-    qDebug() << hex << type;
+    type        = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
+    hasV2Label  = subtype & 0x20;
+//     qDebug() << hex << type;
     type = 0x6;
     // delta longitude and latitude
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;
     dLat = gar_ptr_load(uint16_t, pData); pData += 2;
 
     if((*pData & 0x1) == 0){
+//         qDebug() << "tic";
         bs_len       = gar_ptr_load(uint16_t, pData);
         bs_len       = (bs_len >> 2) - 1;
         pData       += 2;
         bytes_total += 2;
     }
     else{
+//         qDebug() << "toc";
         bs_len = ((* pData) >> 1) - 1;
         pData       += 1;
         bytes_total += 1;
@@ -283,9 +287,12 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     sign_info_t signinfo;
     bits_per_coord(bs_info,*pData,bx,by,signinfo, true);
 
-    qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
+//     qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
 
-    if((pEnd - pStart) < bytes_total) return (pEnd - pStart);
+    assert((pEnd - pStart) >= bytes_total);
+    if((pEnd - pStart) < bytes_total){
+        return (pEnd - pStart);
+    }
 
     CShiftReg sr(pData,bs_len,bx,by,false,signinfo);
     qint32 x1,y1,x = 0,y = 0;
@@ -316,8 +323,6 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         xy.u = GARMIN_RAD(x1);
         xy.v = GARMIN_RAD(y1);
 
-//         assert(abs(xy.u) < PI);
-//         assert(abs(xy.v) < PI/2);
         if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
         {
             qDebug() << "bam";
@@ -329,6 +334,10 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 #endif
         u << xy.u;
         v << xy.v;
+    }
+
+    if(hasV2Label){
+        bytes_total += 3;
     }
 
     id = cnt++;
@@ -378,7 +387,7 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
     if(isVer2){
         ++signinfo.sign_info_bits;
         if(bfirst & mask){
-            qDebug() << "V2";
+//             qDebug() << "V2";
             ++bx;
             ++by;
         }
