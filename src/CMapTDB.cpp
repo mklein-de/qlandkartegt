@@ -1509,7 +1509,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
-            if(item->type == type) {
+            if((item->type & 0x3F) == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -1821,7 +1821,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
-            if(item->type == type) {
+            if((item->type & 0x7F) == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();

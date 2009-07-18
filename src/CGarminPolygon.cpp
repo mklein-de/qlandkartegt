@@ -251,7 +251,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     type        = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
     hasV2Label  = subtype & 0x20;
 //     qDebug() << hex << type;
-    type = 0x6;
+//     type = 0x6;
     // delta longitude and latitude
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;
     dLat = gar_ptr_load(uint16_t, pData); pData += 2;
@@ -290,9 +290,6 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 //     qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
 
     assert((pEnd - pStart) >= bytes_total);
-    if((pEnd - pStart) < bytes_total){
-        return (pEnd - pStart);
-    }
 
     CShiftReg sr(pData,bs_len,bx,by,false,signinfo);
     qint32 x1,y1,x = 0,y = 0;
@@ -338,6 +335,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     if(hasV2Label){
         bytes_total += 3;
+        /// @todo read label information
     }
 
     id = cnt++;

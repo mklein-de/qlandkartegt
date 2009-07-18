@@ -780,8 +780,6 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
 //             qDebug() << "rgn offset:" << hex << (pData - pRawData);
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
-
-            if((pEnd - pData) < 9) break;
         }
     }
 
