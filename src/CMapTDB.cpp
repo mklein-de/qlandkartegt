@@ -228,7 +228,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , isTransparent(false)
 , zoomFactor(0)
 , polylineProperties(0x40)
-, polygonProperties(0x80)
+// , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
@@ -308,7 +308,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , isTransparent(false)
 , zoomFactor(0)
 , polylineProperties(0x40)
-, polygonProperties(0x80)
+// , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
@@ -495,7 +495,7 @@ void CMapTDB::setup()
     polylineProperties[0x2B] = polyline_property(0x2B, "#000000", Qt::NoPen,   2, Qt::SolidLine, false);
 
     polygonProperties.clear();
-    polygonProperties.resize(0x80);
+//     polygonProperties.resize(0x80);
     polygonProperties[0x01] = polygon_property(0x01, Qt::NoPen,     "#d2c0c0", Qt::SolidPattern);
     polygonProperties[0x02] = polygon_property(0x02, Qt::NoPen,     "#fbeab7", Qt::SolidPattern);
     polygonProperties[0x03] = polygon_property(0x03, Qt::NoPen,     "#a4b094", Qt::SolidPattern);
@@ -1834,9 +1834,18 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                     line[i].setY(*v++);
                 }
 
-                p.drawPolygon(line);
-
-                if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+                if(item->type & 0x10000){
+                    p.save();
+                    polygon_property& property = polygonProperties[item->type];
+                    p.setPen(property.pen);
+                    p.setBrush(property.brush);
+                    p.drawPolygon(line);
+                    p.restore();
+                }
+                else{
+                    p.drawPolygon(line);
+//                     if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+                }
             }
             ++item;
         }
@@ -2379,7 +2388,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         /* seek to position of element polyline */
         quint16 otyp, ofs;
         quint8 ofsc, x;
-        int wtyp, typ, subtyp;
+        quint32 wtyp, typ, subtyp;
         bool hasLocalization = false;
 
         in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
@@ -2393,12 +2402,12 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         }
         wtyp    = (otyp >> 5) | (( otyp & 0x1f) << 11);
         typ     = wtyp & 0x7f;
-        subtyp  = wtyp >> 7;
-        subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
+        subtyp  = otyp & 0x1F;
 
         if(subtyp != 0) {
-            //             qDebug() << "Skiped: " << typ << subtyp << hex << typ << subtyp << otyp << ofsc;
-            continue;
+//             qDebug() << "Skiped: " <<  hex << typ << subtyp << wtyp << otyp ;
+//             continue;
+            typ = 0x10000 + (typ << 8) + subtyp;
         }
 
         in.device()->seek(section.dataOffset + ofs);

@@ -301,7 +301,8 @@ class CMapTDB : public IMap
             bool    known;
         };
 
-        QVector<polygon_property> polygonProperties;
+        QMap<quint32, polygon_property> polygonProperties;
+//         QVector<polygon_property> polygonProperties;
         QList<quint16> polygonDrawOrder;
 
         QMap<quint16, QImage> pointProperties;
