@@ -227,7 +227,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , baseimg(0)
 , isTransparent(false)
 , zoomFactor(0)
-, polylineProperties(0x40)
+// , polylineProperties(0x40)
 // , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
@@ -307,7 +307,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , baseimg(0)
 , isTransparent(false)
 , zoomFactor(0)
-, polylineProperties(0x40)
+// , polylineProperties(0x40)
 // , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
@@ -457,7 +457,7 @@ void CMapTDB::setup()
     polyline_typestr << /*0x3f,*/   tr("");
 
     polylineProperties.clear();
-    polylineProperties.resize(0x40);
+//     polylineProperties.resize(0x40);
     polylineProperties[0x01] = polyline_property(0x01, "#000000", "#c46442",   4, Qt::SolidLine, true);
     polylineProperties[0x02] = polyline_property(0x02, "#000000", "#dc7c5a",   3, Qt::SolidLine, true);
     polylineProperties[0x03] = polyline_property(0x03, "#000000", "#e68664",   2, Qt::SolidLine, true);
@@ -1461,8 +1461,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     // 1st run. Draw all background polylines (polylines that have pen1)
     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
-    for(m = 0; m < M; ++m) {
-        quint16 type = polylineDrawOrder[M - m - 1];
+//     for(m = 0; m < M; ++m) {
+//         quint16 type = polylineDrawOrder[M - m - 1];
+    quint32 type;
+    QList<quint32> keys = polylineProperties.keys();
+    foreach(type, keys){
 
         polyline_property& property = polylineProperties[type];
         bool hasPen1                = property.pen1.color() != Qt::NoPen;
@@ -1510,6 +1513,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
             if((item->type & 0x3F) == type) {
+//             if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -1568,8 +1572,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
-
             if((item->type & 0x3F) == type) {
+//             if(item->type == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
@@ -2541,8 +2545,13 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         }
         wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
         typ = wtyp & 0xff;
-        subtyp = wtyp >> 8;
-        subtyp = (subtyp >>3) | (( subtyp & 0x07) << 5);
+        subtyp  = otyp & 0x1F;
+
+
+        if(otyp & 0x2000) {
+            typ = 0x10000 + (typ << 8) + subtyp;
+        }
+
 
         in.device()->seek( section.dataOffset + ofs );
 

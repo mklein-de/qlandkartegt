@@ -277,7 +277,8 @@ class CMapTDB : public IMap
             QImage  pixmap;
         };
 
-        QVector<polyline_property> polylineProperties;
+//         QVector<polyline_property> polylineProperties;
+        QMap<quint32, polyline_property> polylineProperties;
 
         struct polygon_property
         {
@@ -302,7 +303,6 @@ class CMapTDB : public IMap
         };
 
         QMap<quint32, polygon_property> polygonProperties;
-//         QVector<polygon_property> polygonProperties;
         QList<quint16> polygonDrawOrder;
 
         QMap<quint16, QImage> pointProperties;
