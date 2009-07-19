@@ -1829,7 +1829,6 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                 convertRad2Pt(u,v,size);
 
                 QPolygonF line(size);
-
                 for(int i = 0; i < size; ++i) {
                     line[i].setX(*u++);
                     line[i].setY(*v++);
