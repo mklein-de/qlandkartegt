@@ -2285,7 +2285,7 @@ void CMapTDB::readTYP()
     /* Read typ file descriptor */
     quint16 descriptor;
     in >> descriptor;
-    if ( (descriptor != 0x5b) && (descriptor != 0x6e) ) {
+    if ( (descriptor != 0x5b) && (descriptor != 0x6e)  && (descriptor!=0x9c) ) {
         qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
         return;
     }
@@ -2582,6 +2582,9 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                                  // night
             readColorTableInv(in, myXpmNight, 1,2);
         }
+        else if ( colorFlag == 5) {
+            readColorTableInv(in, myXpmDay, 1,2);
+        }
         else if ( colorFlag == 6) {
             readColorTableInv(in, myXpmDay, 1,2);
         }
@@ -2597,7 +2600,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
                 tainted = true;
             }
 
-            //             qDebug() << "Failed polyline" <<  hex << typ <<  colorFlag << rows << useOrientation;
+            qDebug() << "Failed polyline" <<  hex << ":" << typ <<  colorFlag << rows ;
             continue;
         }
 
@@ -2720,6 +2723,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
 
+
     if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
     }
@@ -2771,7 +2775,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-        //	qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+        //qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
 
