@@ -80,5 +80,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         QAction * actDelMap;
         QAction * actCfgMap;
 
+        QTreeWidget * lastTreeWidget;
+
 };
 #endif                           //CMAPTOOLWIDGET_H

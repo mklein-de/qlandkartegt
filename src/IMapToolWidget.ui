@@ -5,56 +5,125 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
-    <height>597</height>
+    <width>439</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_3" >
    <item>
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string>Known Maps:</string>
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>2</verstretch>
+      </sizepolicy>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QTreeWidget" name="treeKnownMaps" >
-     <property name="contextMenuPolicy" >
-      <enum>Qt::CustomContextMenu</enum>
-     </property>
-     <property name="indentation" >
+     <property name="currentIndex" >
       <number>0</number>
      </property>
-     <property name="rootIsDecorated" >
-      <bool>false</bool>
-     </property>
-     <property name="itemsExpandable" >
-      <bool>false</bool>
-     </property>
-     <property name="columnCount" >
-      <number>3</number>
-     </property>
-     <property name="expandsOnDoubleClick" stdset="0" >
-      <bool>false</bool>
-     </property>
-     <column>
-      <property name="text" >
-       <string>M</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>T</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>Map</string>
-      </property>
-     </column>
+     <widget class="QWidget" name="tabRaster" >
+      <attribute name="title" >
+       <string>Tab 1</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout" >
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeWidget" name="treeKnownMapsRaster" >
+         <property name="contextMenuPolicy" >
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="indentation" >
+          <number>0</number>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="expandsOnDoubleClick" >
+          <bool>false</bool>
+         </property>
+         <property name="columnCount" >
+          <number>3</number>
+         </property>
+         <column>
+          <property name="text" >
+           <string>M</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>T</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Map</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabVector" >
+      <attribute name="title" >
+       <string>Tab 2</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2" >
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTreeWidget" name="treeKnownMapsVector" >
+         <property name="contextMenuPolicy" >
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="indentation" >
+          <number>0</number>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="expandsOnDoubleClick" >
+          <bool>false</bool>
+         </property>
+         <property name="columnCount" >
+          <number>3</number>
+         </property>
+         <column>
+          <property name="text" >
+           <string>M</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>T</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Map</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>
@@ -66,6 +135,12 @@
    </item>
    <item>
     <widget class="QListWidget" name="listSelectedMaps" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="contextMenuPolicy" >
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -91,7 +166,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
