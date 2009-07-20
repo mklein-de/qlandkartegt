@@ -285,9 +285,9 @@ class CGarminTile : public QObject
             /*-----------------------------------------------------*/
             quint8  byte0x00000074_0x0000007B[8];
             // Object groups V2 (CTreGroup2).
-            quint32 tre7_offset;    ///< 0x0000007C .. 0x0000007F //Groups2Offset
-            quint32 tre7_size;      ///< 0x00000080 .. 0x00000083  //dwGroups2Length
-            quint16 tre7_rec_size;  ///< 0x00000084 .. 0x00000085 //wGroup2RecSize
+            quint32 tre7_offset;        ///< 0x0000007C .. 0x0000007F //Groups2Offset
+            quint32 tre7_size;          ///< 0x00000080 .. 0x00000083  //dwGroups2Length
+            quint16 tre7_rec_size;      ///< 0x00000084 .. 0x00000085 //wGroup2RecSize
             quint8  byte0x00000086_0x00000089[4];
             // Order: polyline, polygon, POI; each sorted by type (1 type 1 levels 1 subtype)
             quint32 tre8_offset;        ///< 0x0000008A .. 0x0000008D
