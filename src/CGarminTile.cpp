@@ -446,15 +446,14 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     subdivs.last().rgn_end = pRgnHdr->hdr_rgn_t::length;
 
     // read extended NT elements
-    qDebug() << hex << pTreHdr->hdr_subfile_part_t::length;
-    if(pTreHdr->hdr_subfile_part_t::length >= 0x9A && pTreHdr->tre7_size)
+    if((pTreHdr->hdr_subfile_part_t::length >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t)))
     {
 
         rgnoff = subfile.parts["RGN"].offset;
-//         qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size) << pTreHdr->tre7_rec_size;
+        qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size) << pTreHdr->tre7_rec_size;
         QByteArray subdiv2;
         readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre7_offset), gar_load(uint32_t, pTreHdr->tre7_size), subdiv2);
-        tre_subdiv2_t * pSubDiv2 = (tre_subdiv2_t*)subdiv2.data();
+        tre_subdiv2_t * pSubDiv2    = (tre_subdiv2_t*)subdiv2.data();
 
         const quint32 entries1 = gar_load(uint32_t, pTreHdr->tre7_size) / gar_load(uint32_t, pTreHdr->tre7_rec_size);
         const quint32 entries2 = subdivs.size();
