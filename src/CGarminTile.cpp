@@ -231,6 +231,8 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     // test for mandatory subfile parts
     if(!(subfile.parts.contains("TRE") && subfile.parts.contains("RGN"))) return;
 
+//     qDebug() << "++++" << file.fileName() << "++++";
+
     void (*minno)(hdr_tre_t*,QByteArray&) = 0;
     minno = (void (*)(hdr_tre_t*,QByteArray&))QLibrary::resolve(QDir::home().filePath(".config/QLandkarteGT/mellon.so"),"minno");
 
@@ -446,6 +448,8 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     subdivs.last().rgn_end = pRgnHdr->hdr_rgn_t::length;
 
     // read extended NT elements
+
+//     qDebug() << "yyy" << gar_load(uint32_t, pTreHdr->tre7_rec_size);
     if((pTreHdr->hdr_subfile_part_t::length >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t)))
     {
 
