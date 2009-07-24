@@ -88,8 +88,10 @@ class CMap3DWidget: public QGLWidget
         void draw3DMap();
         void drawTrack();
         void drawSkybox(double x, double y, double z, double xs, double ys, double zs);
+        void drawWpt(CWpt *wpt);
         void getPopint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
         void convertMouse23D(double &u, double& v, double &ele);
+        void convert3D2Screen(double u, double v, double ele, double &x, double &y);
 
         GLuint objectMap;
         GLuint objectTrack;

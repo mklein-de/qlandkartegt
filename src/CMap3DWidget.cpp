@@ -19,6 +19,8 @@
 #include "CMap3DWidget.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CWptDB.h"
+#include "WptIcons.h"
 #include "CMapQMAP.h"
 #include "IUnit.h"
 #include "IMap.h"
@@ -329,6 +331,21 @@ void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
     ele = gl_z0;
 }
 
+void CMap3DWidget::convert3D2Screen(double u, double v, double ele, double &x, double &y)
+{
+    GLdouble projection[16];
+    GLdouble modelview[16];
+    GLdouble gl_x0, gl_y0, gl_z0;
+    GLdouble vx, vy, vz;
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+    gluProject(u, v, ele, modelview, projection, viewport, &vx, &vy, &vz);
+    x = vx;
+    y = vy;
+}
 
 void CMap3DWidget::drawFlatMap()
 {
@@ -1037,6 +1054,105 @@ void CMap3DWidget::paintGL()
     }
     glEnd();
     glError();
+
+    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
+
+    QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
+    while(wpt != wpts.end()) {
+        qDebug() << wpt.key();
+        drawWpt(wpt.value());
+        ++wpt;
+    }
+
+
+}
+
+void CMap3DWidget::drawWpt(CWpt *wpt)
+{
+    double x, y;
+    double u = 0,v = 0,ele = 0;
+    int w, h, side;
+    GLint texture, mask_texture;
+
+    w = size().width();
+    h = size().height();
+    side = qMax(w, h);
+
+    QPixmap icon = getWptIconByName(wpt->icon);
+    u = wpt->lon * DEG_TO_RAD;
+    v = wpt->lat * DEG_TO_RAD;
+    IMap& dem = CMapDB::self().getDEM();
+    if (map3DAct->isChecked())
+        ele = dem.getElevation(u, v);
+
+    map->convertRad2Pt(u, v);
+
+    convertPt23D(u,v,ele);
+    qDebug() << "ok";
+    qDebug() << u << v;
+
+    convert3D2Screen(u,v,ele,x,y);
+
+    qDebug() << x << y;
+    x = (x * 2 -  w) / 100.0;
+    y = (y * 2 - h) / 100.0;
+
+    qDebug() << w << h;
+    qDebug() << x << y;
+
+    GLdouble modelview[16];
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glLoadIdentity();
+
+    glEnable(GL_ALPHA_TEST);
+    glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_DST_COLOR,GL_ZERO);
+    glEnable(GL_TEXTURE_2D);
+    glColor4f(0,0,0,0);
+
+    //draw mask
+    mask_texture = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
+    glBindTexture(GL_TEXTURE_2D, mask_texture);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
+    glVertex3d(x, 0.5 + y, -side/100.0 - 0.001);
+    glTexCoord2f(0, 0);
+    glVertex3d(x, 0 + y, -side/100.0 - 0.001);
+    glTexCoord2f(1, 0);
+    glVertex3d(0.5 + x, y, -side/100.0 - 0.001);
+    glTexCoord2f(1, 1);
+    glVertex3d(0.5 + x, 0.5 + y, -side/100.0 - 0.001);
+    glEnd();
+
+    deleteTexture(mask_texture);
+
+    glBlendFunc(GL_ONE, GL_ONE);
+
+    //draw icon
+    texture = bindTexture(icon);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
+    glVertex3d(x, 0.5 + y, -side/100.0 - 0.001);
+    glTexCoord2f(0, 0);
+    glVertex3d(x, y, -side/100.0 - 0.001);
+    glTexCoord2f(1, 0);
+    glVertex3d(0.5 + x, y, -side/100.0 - 0.001);
+    glTexCoord2f(1, 1);
+    glVertex3d(0.5 + x, 0.5 + y, -side/100.0 - 0.001);
+    glEnd();
+
+    deleteTexture(texture);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+    glDisable(GL_ALPHA_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glLoadMatrixd(modelview);
 }
 
 
@@ -1048,7 +1164,7 @@ void CMap3DWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     /* 20 is equal to value of a maximum zoom factor. */
-    glFrustum(-width/100, width/100, -height/100, height/100, side/100, 200 * side);
+    glFrustum(-width/100.0, width/100.0, -height/100.0, height/100.0, side/100.0, 200.0 * side);
     //glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
 }
