@@ -331,7 +331,7 @@ void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
     ele = gl_z0;
 }
 
-void CMap3DWidget::convert3D2Screen(double u, double v, double ele, double &x, double &y)
+void CMap3DWidget::convert3D2Screen(double u, double v, double ele, double &x, double &y, double &depth)
 {
     GLdouble projection[16];
     GLdouble modelview[16];
@@ -345,6 +345,7 @@ void CMap3DWidget::convert3D2Screen(double u, double v, double ele, double &x, d
     gluProject(u, v, ele, modelview, projection, viewport, &vx, &vy, &vz);
     x = vx;
     y = vy;
+    depth = vz;
 }
 
 void CMap3DWidget::drawFlatMap()
@@ -1069,7 +1070,7 @@ void CMap3DWidget::paintGL()
 
 void CMap3DWidget::drawWpt(CWpt *wpt)
 {
-    double x, y;
+    double x, y, z, wsize;
     double u = 0,v = 0,ele = 0;
     int w, h, side;
     GLint texture, mask_texture;
@@ -1091,8 +1092,9 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     qDebug() << "ok";
     qDebug() << u << v;
 
-    convert3D2Screen(u,v,ele,x,y);
-
+    convert3D2Screen(u, v, ele, x, y, z);
+    // empirical
+    wsize = (1 - z) * 10 * 3;
     qDebug() << x << y;
     x = (x * 2 -  w) / 100.0;
     y = (y * 2 - h) / 100.0;
@@ -1118,13 +1120,13 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x, 0.5 + y, -side/100.0 - 0.001);
+    glVertex3d(x, wsize + y, -side/100.0 - 0.001);
     glTexCoord2f(0, 0);
-    glVertex3d(x, 0 + y, -side/100.0 - 0.001);
+    glVertex3d(x, y, -side/100.0 - 0.001);
     glTexCoord2f(1, 0);
-    glVertex3d(0.5 + x, y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, y, -side/100.0 - 0.001);
     glTexCoord2f(1, 1);
-    glVertex3d(0.5 + x, 0.5 + y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, wsize + y, -side/100.0 - 0.001);
     glEnd();
 
     deleteTexture(mask_texture);
@@ -1137,13 +1139,13 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x, 0.5 + y, -side/100.0 - 0.001);
+    glVertex3d(x, wsize + y, -side/100.0 - 0.001);
     glTexCoord2f(0, 0);
     glVertex3d(x, y, -side/100.0 - 0.001);
     glTexCoord2f(1, 0);
-    glVertex3d(0.5 + x, y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, y, -side/100.0 - 0.001);
     glTexCoord2f(1, 1);
-    glVertex3d(0.5 + x, 0.5 + y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, wsize + y, -side/100.0 - 0.001);
     glEnd();
 
     deleteTexture(texture);
