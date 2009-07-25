@@ -1086,6 +1086,10 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
         ele = dem.getElevation(u, v);
 
     map->convertRad2Pt(u, v);
+    if (u < 0 || u > mapSize.width())
+            return;
+    if (v < 0 || v > mapSize.height())
+            return;
 
     convertPt23D(u,v,ele);
 
