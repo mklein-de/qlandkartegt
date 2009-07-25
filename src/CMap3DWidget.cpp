@@ -1060,7 +1060,6 @@ void CMap3DWidget::paintGL()
 
     QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
     while(wpt != wpts.end()) {
-        qDebug() << wpt.key();
         drawWpt(wpt.value());
         ++wpt;
     }
@@ -1089,18 +1088,12 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     map->convertRad2Pt(u, v);
 
     convertPt23D(u,v,ele);
-    qDebug() << "ok";
-    qDebug() << u << v;
 
     convert3D2Screen(u, v, ele, x, y, z);
     // empirical
     wsize = (1 - z) * 10 * 3;
-    qDebug() << x << y;
     x = (x * 2 -  w) / 100.0;
     y = (y * 2 - h) / 100.0;
-
-    qDebug() << w << h;
-    qDebug() << x << y;
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
