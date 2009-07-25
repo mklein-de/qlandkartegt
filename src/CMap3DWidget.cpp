@@ -1100,8 +1100,8 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     qDebug() << w << h;
     qDebug() << x << y;
 
-    GLdouble modelview[16];
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
     glLoadIdentity();
 
     glEnable(GL_ALPHA_TEST);
@@ -1152,7 +1152,7 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glDisable(GL_BLEND);
     glDisable(GL_ALPHA_TEST);
     glEnable(GL_DEPTH_TEST);
-    glLoadMatrixd(modelview);
+    glPopMatrix();
 }
 
 
