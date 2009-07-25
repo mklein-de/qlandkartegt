@@ -1091,13 +1091,17 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     if (v < 0 || v > mapSize.height())
             return;
 
+    qDebug() << "point - " << u << v << ele;
     convertPt23D(u,v,ele);
+    qDebug() << "3d - " << u << v << ele;
 
     convert3D2Screen(u, v, ele, x, y, z);
+    qDebug() << "3d - " << x << y << z;
     // empirical
     wsize = (1 - z) * 10 * 3;
     x = (x * 2 -  w) / 100.0;
     y = (y * 2 - h) / 100.0;
+    qDebug() << "vp - " << x << y << z;
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
