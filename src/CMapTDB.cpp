@@ -457,45 +457,47 @@ void CMapTDB::setup()
     polyline_typestr << /*0x3f,*/   tr("");
 
     polylineProperties.clear();
-//     polylineProperties.resize(0x40);
-    polylineProperties[0x01] = polyline_property(0x01, "#000000", "#c46442",   4, Qt::SolidLine, true);
-    polylineProperties[0x02] = polyline_property(0x02, "#000000", "#dc7c5a",   3, Qt::SolidLine, true);
-    polylineProperties[0x03] = polyline_property(0x03, "#000000", "#e68664",   2, Qt::SolidLine, true);
-    polylineProperties[0x04] = polyline_property(0x04, "#000000", "#ffff99",   3, Qt::SolidLine, true);
-    polylineProperties[0x05] = polyline_property(0x05, "#000000", "#ffff66",   2, Qt::SolidLine, true);
-    polylineProperties[0x06] = polyline_property(0x06, "#000000", "#FFFFFF",   2, Qt::SolidLine, true);
-    polylineProperties[0x07] = polyline_property(0x07, "#000000", "#c46442",   1, Qt::SolidLine, true);
-    polylineProperties[0x08] = polyline_property(0x08, "#000000", "#e88866",   2, Qt::SolidLine, true);
-    polylineProperties[0x09] = polyline_property(0x09, "#000000", "#e88866",   2, Qt::SolidLine, true);
-    polylineProperties[0x0A] = polyline_property(0x0A, "#000000", "#808080",   2, Qt::SolidLine, true);
-    polylineProperties[0x0B] = polyline_property(0x0B, "#000000", "#c46442",   2, Qt::SolidLine, true);
-    polylineProperties[0x0C] = polyline_property(0x0C, "#000000", "#FFFFFF",   2, Qt::SolidLine, true);
-    polylineProperties[0x14] = polyline_property(0x14, "#000000", "#FFFFFF",   2, Qt::DotLine,  true);
-    polylineProperties[0x15] = polyline_property(0x15, "#000080", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x16] = polyline_property(0x16, "#000000", "#E0E0E0",   1, Qt::SolidLine, true);
-    polylineProperties[0x18] = polyline_property(0x18, "#0000ff", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x19] = polyline_property(0x19, "#00ff00", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x1A] = polyline_property(0x1A, "#000000", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x1B] = polyline_property(0x1B, "#000000", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x1C] = polyline_property(0x1C, "#00c864", Qt::NoPen,   2, Qt::DotLine, false);
-    polylineProperties[0x1D] = polyline_property(0x1D, "#00c864", Qt::NoPen,   2, Qt::DotLine, false);
-    polylineProperties[0x1E] = polyline_property(0x1E, "#00c864", Qt::NoPen,   2, Qt::DotLine, false);
-    polylineProperties[0x1F] = polyline_property(0x1F, "#0000ff", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x20] = polyline_property(0x20, "#b67824", Qt::NoPen,   1, Qt::SolidLine, false);
-    polylineProperties[0x21] = polyline_property(0x21, "#b67824", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x22] = polyline_property(0x22, "#b67824", Qt::NoPen,   3, Qt::SolidLine, false);
-    polylineProperties[0x23] = polyline_property(0x23, "#b67824", Qt::NoPen,   1, Qt::SolidLine, false);
-    polylineProperties[0x24] = polyline_property(0x24, "#b67824", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x25] = polyline_property(0x25, "#b67824", Qt::NoPen,   3, Qt::SolidLine, false);
-    polylineProperties[0x26] = polyline_property(0x26, "#0000ff", Qt::NoPen,   2, Qt::DotLine, false);
-    polylineProperties[0x27] = polyline_property(0x27, "#c46442", Qt::NoPen,   4, Qt::SolidLine, false);
-    polylineProperties[0x28] = polyline_property(0x28, "#aa0000", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x29] = polyline_property(0x29, "#ff0000", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x2A] = polyline_property(0x2A, "#000000", Qt::NoPen,   2, Qt::SolidLine, false);
-    polylineProperties[0x2B] = polyline_property(0x2B, "#000000", Qt::NoPen,   2, Qt::SolidLine, false);
+    polylineProperties[0x01] = polyline_property(0x01, "#c46442",   4, Qt::SolidLine );
+    polylineProperties[0x01].pixmap = QImage(":/typ/majorhighway.xpm");
+    polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine );
+    polylineProperties[0x02].pixmap = QImage(":/typ/principalhighway.xpm");
+    polylineProperties[0x03] = polyline_property(0x03, "#e68664",   2, Qt::SolidLine );
+    polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine );
+    polylineProperties[0x04].pixmap = QImage(":/typ/arterialroad.xpm");
+    polylineProperties[0x05] = polyline_property(0x05, "#dc7c5a",   2, Qt::SolidLine );
+    polylineProperties[0x06] = polyline_property(0x06, "#000000",   2, Qt::SolidLine );
+    polylineProperties[0x07] = polyline_property(0x07, "#c46442",   1, Qt::SolidLine );
+    polylineProperties[0x08] = polyline_property(0x08, "#e88866",   2, Qt::SolidLine );
+    polylineProperties[0x09] = polyline_property(0x09, "#e88866",   2, Qt::SolidLine );
+    polylineProperties[0x0A] = polyline_property(0x0A, "#808080",   2, Qt::SolidLine );
+    polylineProperties[0x0B] = polyline_property(0x0B, "#c46442",   2, Qt::SolidLine );
+    polylineProperties[0x0C] = polyline_property(0x0C, "#FFFFFF",   2, Qt::SolidLine );
+    polylineProperties[0x14] = polyline_property(0x14, "#FFFFFF",   2, Qt::DotLine   );
+    polylineProperties[0x14].pixmap = QImage(":/typ/railroad.xpm");
+    polylineProperties[0x15] = polyline_property(0x15, "#000080",   2, Qt::SolidLine );
+    polylineProperties[0x16] = polyline_property(0x16, "#E0E0E0",   1, Qt::SolidLine );
+    polylineProperties[0x18] = polyline_property(0x18, "#0000ff",   2, Qt::SolidLine );
+    polylineProperties[0x19] = polyline_property(0x19, "#00ff00",   2, Qt::SolidLine );
+    polylineProperties[0x1A] = polyline_property(0x1A, "#000000",   2, Qt::SolidLine );
+    polylineProperties[0x1B] = polyline_property(0x1B, "#000000",   2, Qt::SolidLine );
+    polylineProperties[0x1C] = polyline_property(0x1C, "#00c864",   2, Qt::DotLine   );
+    polylineProperties[0x1D] = polyline_property(0x1D, "#00c864",   2, Qt::DotLine   );
+    polylineProperties[0x1E] = polyline_property(0x1E, "#00c864",   2, Qt::DotLine   );
+    polylineProperties[0x1F] = polyline_property(0x1F, "#0000ff",   2, Qt::SolidLine );
+    polylineProperties[0x20] = polyline_property(0x20, "#b67824",   1, Qt::SolidLine );
+    polylineProperties[0x21] = polyline_property(0x21, "#b67824",   2, Qt::SolidLine );
+    polylineProperties[0x22] = polyline_property(0x22, "#b67824",   3, Qt::SolidLine );
+    polylineProperties[0x23] = polyline_property(0x23, "#b67824",   1, Qt::SolidLine );
+    polylineProperties[0x24] = polyline_property(0x24, "#b67824",   2, Qt::SolidLine );
+    polylineProperties[0x25] = polyline_property(0x25, "#b67824",   3, Qt::SolidLine );
+    polylineProperties[0x26] = polyline_property(0x26, "#0000ff",   2, Qt::DotLine   );
+    polylineProperties[0x27] = polyline_property(0x27, "#c46442",   4, Qt::SolidLine );
+    polylineProperties[0x28] = polyline_property(0x28, "#aa0000",   2, Qt::SolidLine );
+    polylineProperties[0x29] = polyline_property(0x29, "#ff0000",   2, Qt::SolidLine );
+    polylineProperties[0x2A] = polyline_property(0x2A, "#000000",   2, Qt::SolidLine );
+    polylineProperties[0x2B] = polyline_property(0x2B, "#000000",   2, Qt::SolidLine );
 
     polygonProperties.clear();
-//     polygonProperties.resize(0x80);
     polygonProperties[0x01] = polygon_property(0x01, Qt::NoPen,     "#d2c0c0", Qt::SolidPattern);
     polygonProperties[0x02] = polygon_property(0x02, Qt::NoPen,     "#fbeab7", Qt::SolidPattern);
     polygonProperties[0x03] = polygon_property(0x03, Qt::NoPen,     "#a4b094", Qt::SolidPattern);
@@ -1459,135 +1461,63 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     // clear text list
     textpaths.clear();
 
-    // 1st run. Draw all background polylines (polylines that have pen1)
-    //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
-//     for(m = 0; m < M; ++m) {
-//         quint16 type = polylineDrawOrder[M - m - 1];
-    quint32 type;
-    QList<quint32> keys = polylineProperties.keys();
-    foreach(type, keys){
+    QFont font = CResources::self().getMapFont();
 
-        polyline_property& property = polylineProperties[type];
-        bool hasPen1                = property.pen1.color() != Qt::NoPen;
+    int fontsize = 6 + 3.0/zoomFactor;
+    font.setPixelSize(fontsize);
+    font.setBold(false);
+    QFontMetricsF metrics(font);
 
-        QPen pen;
-        if(hasPen1) {
-            pen    = property.pen0;
-
-            if(property.grow && growLines) {
-                int width   = pen.width();
-                width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-                width      += zoomFactor < 3.0 ? 4 : 2;
-                pen.setWidth(width);
-            }
-
-            pen.setStyle(Qt::SolidLine);
-            p.setPen(pen);
-        }
-        else {
-            pen    = property.pen0;
-
-            if(property.grow && growLines) {
-                int width   = pen.width();
-                width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-                width      += zoomFactor < 3.0 ? 4 : 2;
-                pen.setWidth(width);
-            }
-            p.setPen(pen);
-        }
-
-        QFont font = CResources::self().getMapFont();
-
-        int fontsize = pen.width() * 2/3;
-        if((fontsize < 6) || !property.pixmap.isNull()) fontsize = 6 + 3.0/zoomFactor;
-
-        font.setPixelSize(fontsize);
-        font.setBold(false);
-        QFontMetricsF metrics(font);
-
-        qint32 lineWidth = p.pen().width();
-        if(!property.pixmap.isNull()) {
-            lineWidth = property.pixmap.height();
-        }
-
-        polytype_t::iterator item = lines.begin();
-        while(item != lines.end()) {
-            if((item->type & 0x3F) == type) {
-//             if(item->type == type) {
-                double * u      = item->u.data();
-                double * v      = item->v.data();
-                const int size  = item->u.size();
-
-                convertRad2Pt(u,v,size);
-                QPolygonF line(size);
-
-                for(int i = 0; i < size; ++i) {
-                    line[i].setX(*u++);
-                    line[i].setY(*v++);
-                }
-
-                // no street needed for uppers zoom factor
-                if (zoomFactor < STREETNAME_THRESHOLD) {
-                    collectText((*item), line, font, metrics, lineWidth);
-                }
-
-                if(!property.known) qDebug() << "unknown polyline" << hex << type;
-
-                if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen) || !property.pixmap.isNull()) {
-                    ++item;
-                    continue;
-                }
-
-                p.drawPolyline(line);
-
-            }
-            ++item;
-        }
-    }
-
-    if(doFastDraw) return;
-
-    // 2nd run. Draw foreground color of all polylines with pen1
     for(m = 0; m < M; ++m) {
         quint16 type                = polylineDrawOrder[M - m - 1];
         polyline_property& property = polylineProperties[type];
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
-        if(property.pen1.color() == Qt::NoPen && property.pixmap.isNull()) continue;
 
-        QPen pen = property.pen1;
-        if(property.grow && growLines) {
-            int width   = pen.width();
-            width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-            //             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
-            pen.setWidth(width);
-        }
-
+        QPen pen = property.pen0;
         p.setPen(pen);
 
-        QImage& pixmap = property.pixmap;
+        QImage& pixmap          = property.pixmap;
         const bool usePixmap    = !pixmap.isNull();
         const double w          = pixmap.width();
         const double h          = pixmap.height();
+        qint32 lineWidth        = p.pen().width();
+        if(!property.pixmap.isNull()) {
+            lineWidth = property.pixmap.height();
+        }
+
 
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
             if((item->type & 0x3F) == type) {
-//             if(item->type == type) {
+
                 double * u      = item->u.data();
                 double * v      = item->v.data();
                 const int size  = item->u.size();
 
+                convertRad2Pt(u,v,size);
+
                 QPolygonF line(size);
+
 
                 if(!usePixmap) {
                     for(int i = 0; i < size; ++i) {
                         line[i].setX(*u++);
                         line[i].setY(*v++);
                     }
+
+                    if (zoomFactor < STREETNAME_THRESHOLD) {
+                        collectText((*item), line, font, metrics, lineWidth);
+                    }
+
                     p.drawPolyline(line);
                 }
                 else {
+                    if(doFastDraw){
+                        ++item;
+                        continue;
+                    }
+
                     QVector<double> lengths;
                     double u1, u2, v1, v2;
                     QPainterPath path;
@@ -1612,6 +1542,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                         u1 = u2;
                         v1 = v2;
+                    }
+
+                    if (zoomFactor < STREETNAME_THRESHOLD) {
+                        collectText((*item), line, font, metrics, lineWidth);
                     }
 
                     path.addPolygon(line);
@@ -1657,7 +1591,215 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             ++item;
         }
     }
+
 }
+// void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
+// {
+//     int m;
+//     const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
+//
+//     // clear text list
+//     textpaths.clear();
+//
+//     // 1st run. Draw all background polylines (polylines that have pen1)
+//     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
+// //     for(m = 0; m < M; ++m) {
+// //         quint16 type = polylineDrawOrder[M - m - 1];
+//     quint32 type;
+//     QList<quint32> keys = polylineProperties.keys();
+//     foreach(type, keys){
+//
+//         polyline_property& property = polylineProperties[type];
+//         bool hasPen1                = property.pen1.color() != Qt::NoPen;
+//
+//         QPen pen;
+//         if(hasPen1) {
+//             pen    = property.pen0;
+//
+//             if(property.grow && growLines) {
+//                 int width   = pen.width();
+//                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//                 width      += zoomFactor < 3.0 ? 4 : 2;
+//                 pen.setWidth(width);
+//             }
+//
+//             pen.setStyle(Qt::SolidLine);
+//             p.setPen(pen);
+//         }
+//         else {
+//             pen    = property.pen0;
+//
+//             if(property.grow && growLines) {
+//                 int width   = pen.width();
+//                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//                 width      += zoomFactor < 3.0 ? 4 : 2;
+//                 pen.setWidth(width);
+//             }
+//             p.setPen(pen);
+//         }
+//
+//         QFont font = CResources::self().getMapFont();
+//
+//         int fontsize = pen.width() * 2/3;
+//         if((fontsize < 6) || !property.pixmap.isNull()) fontsize = 6 + 3.0/zoomFactor;
+//
+//         font.setPixelSize(fontsize);
+//         font.setBold(false);
+//         QFontMetricsF metrics(font);
+//
+//         qint32 lineWidth = p.pen().width();
+//         if(!property.pixmap.isNull()) {
+//             lineWidth = property.pixmap.height();
+//         }
+//
+//         polytype_t::iterator item = lines.begin();
+//         while(item != lines.end()) {
+//             if((item->type & 0x3F) == type) {
+// //             if(item->type == type) {
+//                 double * u      = item->u.data();
+//                 double * v      = item->v.data();
+//                 const int size  = item->u.size();
+//
+//                 convertRad2Pt(u,v,size);
+//                 QPolygonF line(size);
+//
+//                 for(int i = 0; i < size; ++i) {
+//                     line[i].setX(*u++);
+//                     line[i].setY(*v++);
+//                 }
+//
+//                 // no street needed for uppers zoom factor
+//                 if (zoomFactor < STREETNAME_THRESHOLD) {
+//                     collectText((*item), line, font, metrics, lineWidth);
+//                 }
+//
+//                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
+//
+//                 if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen) || !property.pixmap.isNull()) {
+//                     ++item;
+//                     continue;
+//                 }
+//
+//                 p.drawPolyline(line);
+//
+//             }
+//             ++item;
+//         }
+//     }
+//
+//     if(doFastDraw) return;
+//
+//     // 2nd run. Draw foreground color of all polylines with pen1
+//     for(m = 0; m < M; ++m) {
+//         quint16 type                = polylineDrawOrder[M - m - 1];
+//         polyline_property& property = polylineProperties[type];
+//
+//         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
+//         if(property.pen1.color() == Qt::NoPen && property.pixmap.isNull()) continue;
+//
+//         QPen pen = property.pen1;
+//         if(property.grow && growLines) {
+//             int width   = pen.width();
+//             width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
+//             //             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
+//             pen.setWidth(width);
+//         }
+//
+//         p.setPen(pen);
+//
+//         QImage& pixmap = property.pixmap;
+//         const bool usePixmap    = !pixmap.isNull();
+//         const double w          = pixmap.width();
+//         const double h          = pixmap.height();
+//
+//         polytype_t::iterator item = lines.begin();
+//         while(item != lines.end()) {
+//             if((item->type & 0x3F) == type) {
+// //             if(item->type == type) {
+//                 double * u      = item->u.data();
+//                 double * v      = item->v.data();
+//                 const int size  = item->u.size();
+//
+//                 QPolygonF line(size);
+//
+//                 if(!usePixmap) {
+//                     for(int i = 0; i < size; ++i) {
+//                         line[i].setX(*u++);
+//                         line[i].setY(*v++);
+//                     }
+//                     p.drawPolyline(line);
+//                 }
+//                 else {
+//                     QVector<double> lengths;
+//                     double u1, u2, v1, v2;
+//                     QPainterPath path;
+//                     double segLength, totalLength = 0;
+//                     int i;
+//
+//                     u1 = u[0];
+//                     v1 = v[0];
+//                     line[0].setX(u1);
+//                     line[0].setY(v1);
+//
+//                     for(i = 1; i < size; ++i) {
+//                         u2 = u[i];
+//                         v2 = v[i];
+//
+//                         line[i].setX(u2);
+//                         line[i].setY(v2);
+//
+//                         segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
+//                         totalLength += segLength;
+//                         lengths << segLength;
+//
+//                         u1 = u2;
+//                         v1 = v2;
+//                     }
+//
+//                     path.addPolygon(line);
+//                     const int nLength = lengths.count();
+//
+//                     double curLength = 0;
+//                     for(int i = 0; i < nLength; ++i) {
+//                         segLength = lengths[i];
+//
+//                         //                         qDebug() << curLength << totalLength << curLength / totalLength;
+//
+//                         QPointF p1      = path.pointAtPercent(curLength / totalLength);
+//                         QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
+//                         double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
+//
+//                         double l = 0;
+//                         QRectF r = pixmap.rect();
+//
+//                         if(p2.x() - p1.x() < 0) {
+//                             angle += 180;
+//                         }
+//
+//                         p.save();
+//                         p.translate(p1);
+//                         p.rotate(angle);
+//                         p.translate(0,-h/2);
+//
+//                         while(l < segLength) {
+//                             if((segLength - l) < w) {
+//                                 r.setRight(segLength - l);
+//                                 p.setClipRect(r);
+//                             }
+//                             p.drawImage(0,0,pixmap);
+//                             p.translate(w,0);
+//                             l += w;
+//                         }
+//                         p.restore();
+//                         curLength += segLength;
+//                     }
+//                 }
+//             }
+//
+//             ++item;
+//         }
+//     }
+// }
 
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
@@ -2610,110 +2752,15 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             decodeBitmap(in, myXpmDay, 32, rows, 1);
             hasPixmap = true;
 
-            if(useBitmapLines) {
-                property.pixmap = myXpmDay;
-                property.grow   = false;
-                //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
-            }
-        }
-
-        if(rows == 0) {
-            if(property.pen1.color() == Qt::NoPen) {
-                property.pen0.setColor(myXpmDay.color(1));
-                property.pen0.setStyle(Qt::SolidLine);
-                property.pen1.setColor(Qt::NoPen);
-            }
-            else {
-                property.pen1.setColor(myXpmDay.color(1));
-                property.pen0.setColor(myXpmDay.color(0));
-            }
+            property.pixmap = myXpmDay;
+//             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
 
         }
-        else if(!useBitmapLines) {
-
-            // hash-in a dash
-            // let's try to read a dash pattern from the  bitmap
-            QVector<qreal> dash;
-            quint32 cnt  =  0;
-            quint8 prev  = 0xFF;
-            quint8 * ptr = myXpmDay.bits() + (rows == 1 ? 0 : 32);
-
-            for(int i=0; i < 32; ++i, ++ptr) {
-                //                 printf("%02X ", *ptr);
-                if(prev != 0xFF && prev != *ptr) {
-                    dash << (float(cnt) / rows);
-                    cnt  = 1;
-                }
-                else {
-                    cnt += 1;
-                }
-                prev = *ptr;
-            }
-            if(dash.size() & 0x01) {
-                dash << (float(cnt) / rows);
-            }
-            //             printf("\n");
-            //             qDebug() << "dash:" << dash;
-
-            // there is no sense in growing a line < 3 pixel
-            if(rows < 3) {
-                property.grow = false;
-
-                if(dash.size() < 2) {
-                    property.pen0.setStyle(Qt::SolidLine);
-                    property.pen0.setColor(myXpmDay.color(1));
-                    property.pen0.setWidth(rows);
-                    property.pen1.setColor(Qt::NoPen);
-                }
-                else {
-                    property.pen1.setDashPattern(dash);
-                    property.pen1.setColor(myXpmDay.color(1));
-                    property.pen1.setWidth(rows);
-                    property.pen1.setCapStyle(Qt::FlatCap);
-
-                    if(myXpmDay.color(1) == qRgba(0,0,0,0)) {
-                        property.pen0 = QPen(Qt::NoPen);
-                    }
-                    else {
-                        property.pen0.setStyle(Qt::SolidLine);
-                        property.pen0.setWidth(rows);
-                        property.pen0.setColor(myXpmDay.color(0));
-                    }
-                }
-            }
-            else {
-                property.grow = true;
-
-                if(myXpmDay.color(0) == qRgba(0,0,0,0)) {
-                    property.pen1 = QPen(Qt::NoPen);
-
-                    if(dash.size() < 2) {
-                        property.pen0.setStyle(Qt::SolidLine);
-                    }
-                    else {
-                        property.pen0.setDashPattern(dash);
-                        property.pen0.setCapStyle(Qt::FlatCap);
-                    }
-                    property.pen0.setWidth(rows);
-                    property.pen0.setColor(myXpmDay.color(1));
-                }
-                else {
-                    property.pen0.setColor(myXpmDay.color(0));
-                    property.pen0.setWidth(rows);
-
-                    if(dash.size() < 2) {
-                        property.pen1.setStyle(Qt::SolidLine);
-                    }
-                    else {
-                        property.pen1.setDashPattern(dash);
-                        property.pen1.setCapStyle(Qt::FlatCap);
-                    }
-
-                    property.pen1.setColor(myXpmDay.color(1));
-                    property.pen1.setWidth(rows - 2);
-                }
-            }
+        else{
+            property.pen0.setColor(myXpmDay.color(0));
+//             property.pen0.setColor(myXpmDay.color(1));
         }
+
         property.known = true;
     }
 }

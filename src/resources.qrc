@@ -162,6 +162,11 @@
         <file>icons/wpt/custom4.png</file>
         <file>icons/wpt/custom5.png</file>
 
+        <file>typ/majorhighway.xpm</file>
+        <file>typ/principalhighway.xpm</file>
+        <file>typ/arterialroad.xpm</file>
+        <file>typ/railroad.xpm</file>
+
 
         <file>icons/wpt/1st_aid15x15.png</file>
         <file>icons/wpt/airport15x15.png</file>
