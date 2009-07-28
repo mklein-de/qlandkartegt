@@ -1055,7 +1055,7 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     double x, y, z, wsize;
     double u = 0,v = 0,ele = 0;
     int w, h, side;
-    GLint texture, mask_texture;
+    GLint texture, mask_texture, text_texture, mask_text_texture;
 
     w = size().width();
     h = size().height();
@@ -1095,6 +1095,24 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     qDebug() << "3di - " << a[0] << a[1] << a[2] << a[3];
     wsize = 15;
 
+    //draw text
+    QFont           f = CResources::self().getMapFont();
+    QFontMetrics    fm(f);
+    QRect           r = fm.boundingRect(wpt->name);
+    QPixmap text_pic(r.size());
+    QString str = wpt->name;
+    text_pic.fill(Qt::white);
+    QPainter p(&text_pic);
+    p.setFont(f);
+    //draw mask
+    p.setPen(Qt::darkBlue);
+    p.drawText(text_pic.rect(), Qt::AlignCenter, wpt->name);
+    mask_text_texture = bindTexture(text_pic);
+    //draw text
+    p.setPen(Qt::red);
+    p.drawText(text_pic.rect(), Qt::AlignCenter, wpt->name);
+    text_texture = bindTexture(text_pic);
+
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
@@ -1124,6 +1142,20 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     deleteTexture(mask_texture);
 
+    glBindTexture(GL_TEXTURE_2D, mask_text_texture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
+    glVertex3d(x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glTexCoord2f(0, 0);
+    glVertex3d(x - text_pic.size().width() / 2, y + wsize, z);
+    glTexCoord2f(1, 0);
+    glVertex3d( text_pic.size().width() + x - text_pic.size().width() / 2, y + wsize, z);
+    glTexCoord2f(1, 1);
+    glVertex3d(text_pic.size().width() + x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glEnd();
+
+    deleteTexture(mask_text_texture);
+
     glBlendFunc(GL_ONE, GL_ONE);
 
     //draw icon
@@ -1143,6 +1175,20 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glEnd();
 
     deleteTexture(texture);
+
+    glBindTexture(GL_TEXTURE_2D, text_texture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
+    glVertex3d(x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glTexCoord2f(0, 0);
+    glVertex3d(x - text_pic.size().width() / 2, y + wsize, z);
+    glTexCoord2f(1, 0);
+    glVertex3d( text_pic.size().width() + x - text_pic.size().width() / 2, y + wsize, z);
+    glTexCoord2f(1, 1);
+    glVertex3d(text_pic.size().width() + x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glEnd();
+
+    deleteTexture(text_texture);
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
