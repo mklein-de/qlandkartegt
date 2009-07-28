@@ -331,23 +331,6 @@ void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
     ele = gl_z0;
 }
 
-void CMap3DWidget::convert3D2Screen(double u, double v, double ele, double &x, double &y, double &depth)
-{
-    GLdouble projection[16];
-    GLdouble modelview[16];
-    GLdouble gl_x0, gl_y0, gl_z0;
-    GLdouble vx, vy, vz;
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glGetDoublev(GL_PROJECTION_MATRIX, projection);
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-
-    gluProject(u, v, ele, modelview, projection, viewport, &vx, &vy, &vz);
-    x = vx;
-    y = vy;
-    depth = vz;
-}
-
 void CMap3DWidget::drawFlatMap()
 {
     double w = mapSize.width();
@@ -1095,13 +1078,22 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     convertPt23D(u,v,ele);
     qDebug() << "3d - " << u << v << ele;
 
-    convert3D2Screen(u, v, ele, x, y, z);
-    qDebug() << "3d - " << x << y << z;
-    // empirical
-    wsize = (1 - z) * 10 * 3;
-    x = (x * 2 -  w) / 100.0;
-    y = (y * 2 - h) / 100.0;
-    qDebug() << "vp - " << x << y << z;
+    GLdouble modelview[16];
+    int i, j;
+    GLdouble a[4], b[4] = {u,v,ele,1};
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    for (i = 0; i < 4; i++) {
+            a[i] = 0;
+            for (j = 0; j < 4; j ++)
+                    a[i] += modelview[i+j*4] * b[j];
+    }
+
+    x = a[0];
+    y = a[1];
+    z = a[2];
+
+    qDebug() << "3di - " << a[0] << a[1] << a[2] << a[3];
+    wsize = 15;
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -1109,7 +1101,7 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBlendFunc(GL_DST_COLOR,GL_ZERO);
     glEnable(GL_TEXTURE_2D);
@@ -1121,13 +1113,13 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x, wsize + y, -side/100.0 - 0.001);
+    glVertex3d(x, wsize + y, z);
     glTexCoord2f(0, 0);
-    glVertex3d(x, y, -side/100.0 - 0.001);
+    glVertex3d(x, y, z);
     glTexCoord2f(1, 0);
-    glVertex3d(wsize + x, y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, y, z);
     glTexCoord2f(1, 1);
-    glVertex3d(wsize + x, wsize + y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, wsize + y, z);
     glEnd();
 
     deleteTexture(mask_texture);
@@ -1135,18 +1127,19 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glBlendFunc(GL_ONE, GL_ONE);
 
     //draw icon
+    //icon should be before mask
+    z += 0.1;
     texture = bindTexture(icon);
     glBindTexture(GL_TEXTURE_2D, texture);
-
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x, wsize + y, -side/100.0 - 0.001);
+    glVertex3d(x, wsize + y, z);
     glTexCoord2f(0, 0);
-    glVertex3d(x, y, -side/100.0 - 0.001);
+    glVertex3d(x, y, z);
     glTexCoord2f(1, 0);
-    glVertex3d(wsize + x, y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, y, z);
     glTexCoord2f(1, 1);
-    glVertex3d(wsize + x, wsize + y, -side/100.0 - 0.001);
+    glVertex3d(wsize + x, wsize + y, z);
     glEnd();
 
     deleteTexture(texture);
