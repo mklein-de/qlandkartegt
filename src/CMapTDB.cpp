@@ -1455,12 +1455,8 @@ static quint16 polylineDrawOrder[]  =
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
-    int m;
-    const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
-
     // clear text list
     textpaths.clear();
-
     QFont font = CResources::self().getMapFont();
 
     int fontsize = 6 + 3.0/zoomFactor;
@@ -1468,8 +1464,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     font.setBold(false);
     QFontMetricsF metrics(font);
 
-    for(m = 0; m < M; ++m) {
-        quint16 type                = polylineDrawOrder[M - m - 1];
+    QList<quint32>keys = polylineProperties.keys();
+    qSort(keys);
+    quint32 type;
+
+    foreach(type, keys){
         polyline_property& property = polylineProperties[type];
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
@@ -1486,10 +1485,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             lineWidth = property.pixmap.height();
         }
 
-
         polytype_t::iterator item = lines.begin();
         while(item != lines.end()) {
-            if((item->type & 0x3F) == type) {
+            if(item->type == type) {
 
                 double * u      = item->u.data();
                 double * v      = item->v.data();
