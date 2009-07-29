@@ -1097,20 +1097,31 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     //draw text
     QFont           f = CResources::self().getMapFont();
+    //increase quality of text texture
+    if (f.pixelSize() > 0)
+        f.setPixelSize(f.pixelSize()*3);
+    else
+        f.setPointSize(f.pointSize()*3);
     QFontMetrics    fm(f);
     QRect           r = fm.boundingRect(wpt->name);
+    QSize text_size = r.size() / 3;
     QPixmap text_pic(r.size());
     QString str = wpt->name;
     text_pic.fill(Qt::white);
     QPainter p(&text_pic);
-    p.setFont(f);
     //draw mask
-    p.setPen(Qt::darkBlue);
+    p.setFont(f);
+    p.setPen(Qt::black);
     p.drawText(text_pic.rect(), Qt::AlignCenter, wpt->name);
+    p.end();
     mask_text_texture = bindTexture(text_pic);
     //draw text
-    p.setPen(Qt::red);
+    text_pic.fill(Qt::transparent);
+    p.begin(&text_pic);
+    p.setPen(Qt::darkBlue);
+    p.setFont(f);
     p.drawText(text_pic.rect(), Qt::AlignCenter, wpt->name);
+    p.end();
     text_texture = bindTexture(text_pic);
 
     glMatrixMode(GL_MODELVIEW);
@@ -1145,13 +1156,13 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glBindTexture(GL_TEXTURE_2D, mask_text_texture);
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glVertex3d(x - text_size.width() / 2, text_size.height() + y + wsize, z);
     glTexCoord2f(0, 0);
-    glVertex3d(x - text_pic.size().width() / 2, y + wsize, z);
+    glVertex3d(x - text_size.width() / 2, y + wsize, z);
     glTexCoord2f(1, 0);
-    glVertex3d( text_pic.size().width() + x - text_pic.size().width() / 2, y + wsize, z);
+    glVertex3d( text_size.width() + x - text_size.width() / 2, y + wsize, z);
     glTexCoord2f(1, 1);
-    glVertex3d(text_pic.size().width() + x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glVertex3d(text_size.width() + x - text_size.width() / 2, text_size.height() + y + wsize, z);
     glEnd();
 
     deleteTexture(mask_text_texture);
@@ -1179,13 +1190,13 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glBindTexture(GL_TEXTURE_2D, text_texture);
     glBegin(GL_QUADS);
     glTexCoord2f(0, 1);
-    glVertex3d(x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glVertex3d(x - text_size.width() / 2, text_size.height() + y + wsize, z);
     glTexCoord2f(0, 0);
-    glVertex3d(x - text_pic.size().width() / 2, y + wsize, z);
+    glVertex3d(x - text_size.width() / 2, y + wsize, z);
     glTexCoord2f(1, 0);
-    glVertex3d( text_pic.size().width() + x - text_pic.size().width() / 2, y + wsize, z);
+    glVertex3d( text_size.width() + x - text_size.width() / 2, y + wsize, z);
     glTexCoord2f(1, 1);
-    glVertex3d(text_pic.size().width() + x - text_pic.size().width() / 2, text_pic.size().height() + y + wsize, z);
+    glVertex3d(text_size.width() + x - text_size.width() / 2, text_size.height() + y + wsize, z);
     glEnd();
 
     deleteTexture(text_texture);
