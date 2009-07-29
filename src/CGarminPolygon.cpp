@@ -250,27 +250,23 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     type        = 0x10000 + (quint16(type) << 8) + (subtype & 0x1f);
     hasV2Label  = subtype & 0x20;
-//     qDebug() << hex << type;
-//     type = 0x6;
     // delta longitude and latitude
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;
     dLat = gar_ptr_load(uint16_t, pData); pData += 2;
 
     if((*pData & 0x1) == 0){
-//         qDebug() << "tic";
         bs_len       = gar_ptr_load(uint16_t, pData);
         bs_len       = (bs_len >> 2) - 1;
         pData       += 2;
         bytes_total += 2;
     }
     else{
-//         qDebug() << "toc";
         bs_len = ((* pData) >> 1) - 1;
         pData       += 1;
         bytes_total += 1;
     }
 
-    bs_info = *pData++;
+    bs_info      = *pData++;
     bytes_total += bs_len + 1;
 
 

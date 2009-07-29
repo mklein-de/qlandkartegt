@@ -2755,8 +2755,7 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         }
         else{
-            property.pen0.setColor(myXpmDay.color(0));
-//             property.pen0.setColor(myXpmDay.color(1));
+            property.pen0.setColor(myXpmDay.color(1));
         }
 
         property.known = true;
