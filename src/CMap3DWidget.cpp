@@ -250,8 +250,36 @@ void CMap3DWidget::hideEvent ( QHideEvent * event )
 
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
+    double x, y, z;
+
+    x = mousePos.x();
+    y = mousePos.y();
+    convertMouse23D(x, y, z);
+    convert3D2Pt(x, y, z);
+
+    selWpt = 0;
+    // find the waypoint close to the cursor
+    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+    while(wpt != CWptDB::self().end()) {
+        double u = (*wpt)->lon * DEG_TO_RAD;
+        double v = (*wpt)->lat * DEG_TO_RAD;
+        map->convertRad2Pt(u,v);
+
+        if(((x - u) * (x - u) + (y - v) * (y - v)) < 1225) {
+            selWpt = *wpt;
+            break;
+        }
+
+        ++wpt;
+    }
+
     QMenu menu(this);
-    menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
+    if (selWpt.isNull()) {
+        menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
+    } else {
+            menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
+    }
+
     menu.addSeparator();
 
     menu.addAction(eleZoomInAct);
@@ -1544,3 +1572,10 @@ void CMap3DWidget::slotAddWpt()
 
 }
 
+void CMap3DWidget::slotDeleteWpt()
+{
+    if(selWpt.isNull()) return;
+
+    QString key = selWpt->key();
+    CWptDB::self().delWpt(key);
+}

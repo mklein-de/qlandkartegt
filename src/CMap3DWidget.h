@@ -117,12 +117,15 @@ class CMap3DWidget: public QGLWidget
         QColor wallCollor;
         QColor highBorderColor;
 
+        QPointer<CWpt> selWpt;
+
     private slots:
         void slotChanged();
         void slotTrackChanged(bool updateGLFlag = true);
         void loadTrack();
         void loadMap();
         void mapResize(const QSize& size);
+        void slotDeleteWpt();
         void slotAddWpt();
 
     public slots:
