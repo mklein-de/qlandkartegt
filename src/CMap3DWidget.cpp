@@ -641,7 +641,6 @@ void CMap3DWidget::draw3DMap()
     }
 
     qint16 *eleData;
-    qDebug() << xcount << ycount;
     eleData = getEleRegion(xcount, ycount);
     if (eleData == NULL) {
         qDebug() << "can't get elevation data";
@@ -649,7 +648,6 @@ void CMap3DWidget::draw3DMap()
         drawFlatMap();
         return;
     }
-    qDebug() << xcount << ycount;
 
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
@@ -1078,9 +1076,7 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     if (v < 0 || v > mapSize.height())
             return;
 
-    qDebug() << "point - " << u << v << ele;
     convertPt23D(u,v,ele);
-    qDebug() << "3d - " << u << v << ele;
 
     GLdouble modelview[16];
     int i, j;
@@ -1096,7 +1092,6 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     y = a[1];
     z = a[2];
 
-    qDebug() << "3di - " << a[0] << a[1] << a[2] << a[3];
     wsize = 15;
 
     //draw text
@@ -1543,7 +1538,6 @@ void CMap3DWidget::slotAddWpt()
     y = mousePos.y();
     convertMouse23D(x, y, z);
     convert3D2Pt(x, y, z);
-    qDebug() << "new wpt" << x << y << z;
     map.convertPt2Rad(x, y);
     float ele = dem.getElevation(x, y);
     CWptDB::self().newWpt(x, y, ele);
