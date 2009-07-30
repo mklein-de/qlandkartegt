@@ -461,7 +461,7 @@ void CMapTDB::setup()
     polylineProperties[0x01].pixmap = QImage(":/typ/majorhighway.xpm");
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine );
     polylineProperties[0x02].pixmap = QImage(":/typ/principalhighway.xpm");
-    polylineProperties[0x03] = polyline_property(0x03, "#e68664",   2, Qt::SolidLine );
+    polylineProperties[0x03] = polyline_property(0x03, "#D86C00",   3, Qt::SolidLine );
     polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine );
     polylineProperties[0x04].pixmap = QImage(":/typ/arterialroad.xpm");
     polylineProperties[0x05] = polyline_property(0x05, "#dc7c5a",   2, Qt::SolidLine );
@@ -1591,213 +1591,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     }
 
 }
-// void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
-// {
-//     int m;
-//     const int M = sizeof(polylineDrawOrder)/sizeof(quint16);
-//
-//     // clear text list
-//     textpaths.clear();
-//
-//     // 1st run. Draw all background polylines (polylines that have pen1)
-//     //          Draw all foreground polylines if not doFastDraw (polylines that have only pen0)
-// //     for(m = 0; m < M; ++m) {
-// //         quint16 type = polylineDrawOrder[M - m - 1];
-//     quint32 type;
-//     QList<quint32> keys = polylineProperties.keys();
-//     foreach(type, keys){
-//
-//         polyline_property& property = polylineProperties[type];
-//         bool hasPen1                = property.pen1.color() != Qt::NoPen;
-//
-//         QPen pen;
-//         if(hasPen1) {
-//             pen    = property.pen0;
-//
-//             if(property.grow && growLines) {
-//                 int width   = pen.width();
-//                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//                 width      += zoomFactor < 3.0 ? 4 : 2;
-//                 pen.setWidth(width);
-//             }
-//
-//             pen.setStyle(Qt::SolidLine);
-//             p.setPen(pen);
-//         }
-//         else {
-//             pen    = property.pen0;
-//
-//             if(property.grow && growLines) {
-//                 int width   = pen.width();
-//                 width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//                 width      += zoomFactor < 3.0 ? 4 : 2;
-//                 pen.setWidth(width);
-//             }
-//             p.setPen(pen);
-//         }
-//
-//         QFont font = CResources::self().getMapFont();
-//
-//         int fontsize = pen.width() * 2/3;
-//         if((fontsize < 6) || !property.pixmap.isNull()) fontsize = 6 + 3.0/zoomFactor;
-//
-//         font.setPixelSize(fontsize);
-//         font.setBold(false);
-//         QFontMetricsF metrics(font);
-//
-//         qint32 lineWidth = p.pen().width();
-//         if(!property.pixmap.isNull()) {
-//             lineWidth = property.pixmap.height();
-//         }
-//
-//         polytype_t::iterator item = lines.begin();
-//         while(item != lines.end()) {
-//             if((item->type & 0x3F) == type) {
-// //             if(item->type == type) {
-//                 double * u      = item->u.data();
-//                 double * v      = item->v.data();
-//                 const int size  = item->u.size();
-//
-//                 convertRad2Pt(u,v,size);
-//                 QPolygonF line(size);
-//
-//                 for(int i = 0; i < size; ++i) {
-//                     line[i].setX(*u++);
-//                     line[i].setY(*v++);
-//                 }
-//
-//                 // no street needed for uppers zoom factor
-//                 if (zoomFactor < STREETNAME_THRESHOLD) {
-//                     collectText((*item), line, font, metrics, lineWidth);
-//                 }
-//
-//                 if(!property.known) qDebug() << "unknown polyline" << hex << type;
-//
-//                 if((doFastDraw && (!hasPen1 || !property.grow)) || (property.pen0 == Qt::NoPen) || !property.pixmap.isNull()) {
-//                     ++item;
-//                     continue;
-//                 }
-//
-//                 p.drawPolyline(line);
-//
-//             }
-//             ++item;
-//         }
-//     }
-//
-//     if(doFastDraw) return;
-//
-//     // 2nd run. Draw foreground color of all polylines with pen1
-//     for(m = 0; m < M; ++m) {
-//         quint16 type                = polylineDrawOrder[M - m - 1];
-//         polyline_property& property = polylineProperties[type];
-//
-//         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
-//         if(property.pen1.color() == Qt::NoPen && property.pixmap.isNull()) continue;
-//
-//         QPen pen = property.pen1;
-//         if(property.grow && growLines) {
-//             int width   = pen.width();
-//             width       = zoomFactor > DYN_WIDTH_THRESHOLD ? width : quint32(width + DYN_WIDTH_THRESHOLD/zoomFactor * 0.7);
-//             //             width       = width > MAX_STREET_WIDTH ? MAX_STREET_WIDTH : width;
-//             pen.setWidth(width);
-//         }
-//
-//         p.setPen(pen);
-//
-//         QImage& pixmap = property.pixmap;
-//         const bool usePixmap    = !pixmap.isNull();
-//         const double w          = pixmap.width();
-//         const double h          = pixmap.height();
-//
-//         polytype_t::iterator item = lines.begin();
-//         while(item != lines.end()) {
-//             if((item->type & 0x3F) == type) {
-// //             if(item->type == type) {
-//                 double * u      = item->u.data();
-//                 double * v      = item->v.data();
-//                 const int size  = item->u.size();
-//
-//                 QPolygonF line(size);
-//
-//                 if(!usePixmap) {
-//                     for(int i = 0; i < size; ++i) {
-//                         line[i].setX(*u++);
-//                         line[i].setY(*v++);
-//                     }
-//                     p.drawPolyline(line);
-//                 }
-//                 else {
-//                     QVector<double> lengths;
-//                     double u1, u2, v1, v2;
-//                     QPainterPath path;
-//                     double segLength, totalLength = 0;
-//                     int i;
-//
-//                     u1 = u[0];
-//                     v1 = v[0];
-//                     line[0].setX(u1);
-//                     line[0].setY(v1);
-//
-//                     for(i = 1; i < size; ++i) {
-//                         u2 = u[i];
-//                         v2 = v[i];
-//
-//                         line[i].setX(u2);
-//                         line[i].setY(v2);
-//
-//                         segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
-//                         totalLength += segLength;
-//                         lengths << segLength;
-//
-//                         u1 = u2;
-//                         v1 = v2;
-//                     }
-//
-//                     path.addPolygon(line);
-//                     const int nLength = lengths.count();
-//
-//                     double curLength = 0;
-//                     for(int i = 0; i < nLength; ++i) {
-//                         segLength = lengths[i];
-//
-//                         //                         qDebug() << curLength << totalLength << curLength / totalLength;
-//
-//                         QPointF p1      = path.pointAtPercent(curLength / totalLength);
-//                         QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
-//                         double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
-//
-//                         double l = 0;
-//                         QRectF r = pixmap.rect();
-//
-//                         if(p2.x() - p1.x() < 0) {
-//                             angle += 180;
-//                         }
-//
-//                         p.save();
-//                         p.translate(p1);
-//                         p.rotate(angle);
-//                         p.translate(0,-h/2);
-//
-//                         while(l < segLength) {
-//                             if((segLength - l) < w) {
-//                                 r.setRight(segLength - l);
-//                                 p.setClipRect(r);
-//                             }
-//                             p.drawImage(0,0,pixmap);
-//                             p.translate(w,0);
-//                             l += w;
-//                         }
-//                         p.restore();
-//                         curLength += segLength;
-//                     }
-//                 }
-//             }
-//
-//             ++item;
-//         }
-//     }
-// }
 
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
@@ -1985,11 +1778,13 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                     p.setBrush(property.brush);
                     p.drawPolygon(line);
                     p.restore();
+                    if(!property.known) qDebug() << "unknown polygon" << hex << item->type;
                 }
                 else{
                     p.drawPolygon(line);
-//                     if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+                    if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
                 }
+
             }
             ++item;
         }
@@ -2548,7 +2343,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         typ     = wtyp & 0x7f;
         subtyp  = otyp & 0x1F;
 
-        if(subtyp != 0) {
+        if(otyp & 0x2000) {
 //             qDebug() << "Skiped: " <<  hex << typ << subtyp << wtyp << otyp ;
 //             continue;
             typ = 0x10000 + (typ << 8) + subtyp;
