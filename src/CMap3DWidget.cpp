@@ -78,6 +78,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
 
     createActions();
+    setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
     map3DAct->setChecked(cfg.value("map/3D/3dmap", true).toBool());
@@ -250,6 +251,9 @@ void CMap3DWidget::hideEvent ( QHideEvent * event )
 void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
+    menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
+    menu.addSeparator();
+
     menu.addAction(eleZoomInAct);
     menu.addAction(eleZoomOutAct);
     menu.addAction(eleZoomResetAct);
@@ -1400,6 +1404,7 @@ void CMap3DWidget::focusOutEvent ( QFocusEvent * event )
 
 void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    mousePos = event->pos();
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
@@ -1527,3 +1532,21 @@ void CMap3DWidget::leaveEvent(QEvent * )
         cursorFocus = false;
     }
 }
+
+void CMap3DWidget::slotAddWpt()
+{
+    IMap& map = CMapDB::self().getMap();
+    IMap& dem = CMapDB::self().getDEM();
+    double x, y, z;
+
+    x = mousePos.x();
+    y = mousePos.y();
+    convertMouse23D(x, y, z);
+    convert3D2Pt(x, y, z);
+    qDebug() << "new wpt" << x << y << z;
+    map.convertPt2Rad(x, y);
+    float ele = dem.getElevation(x, y);
+    CWptDB::self().newWpt(x, y, ele);
+
+}
+

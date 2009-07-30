@@ -106,6 +106,8 @@ class CMap3DWidget: public QGLWidget
         bool cursorPress;
         bool reDraw;
 
+        QPoint mousePos;
+
         GLuint mapTexture;
         double xShift, yShift, zoomFactor, eleZoomFactor;
 
@@ -121,6 +123,7 @@ class CMap3DWidget: public QGLWidget
         void loadTrack();
         void loadMap();
         void mapResize(const QSize& size);
+        void slotAddWpt();
 
     public slots:
         void setXRotation(double angle);
