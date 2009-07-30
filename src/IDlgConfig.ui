@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
+    <width>563</width>
     <height>524</height>
    </rect>
   </property>
@@ -407,91 +407,24 @@
        <item>
         <widget class="QLabel" name="label_2" >
          <property name="text" >
-          <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Mouseless control&lt;/span> &lt;/p>
-&lt;table border="0" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;" cellspacing="2" cellpadding="0">
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">right&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move map view to east&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">left&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move map view to west&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">up&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move map view to north&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">down&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move map view to south&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">+&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">zoom in&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">-&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">zoom out&lt;/p>&lt;/td>&lt;/tr>&lt;/table>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">3D View&lt;/span> &lt;/p>
-&lt;table border="0" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;" cellspacing="2" cellpadding="0">
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">m + left mouse&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move map&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">m + scroll mouse or page Up/Down&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">zoom map&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">home/end key&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">increase/decrease map area&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">l + left mouse&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move light source horizontaly&lt;/p>&lt;/td>&lt;/tr>
-&lt;tr>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">h + left mouse&lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;/p>&lt;/td>
-&lt;td>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">move light source vertical&lt;/p>&lt;/td>&lt;/tr>&lt;/table>&lt;/body>&lt;/html></string>
+          <string>&lt;b>Mouseless control&lt;/b>
+&lt;table>
+&lt;tr>&lt;td>right&lt;/td>&lt;td>move map view to east&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>left&lt;/td>&lt;td>move map view to west&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>up&lt;/td>&lt;td>move map view to north&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>down&lt;/td>&lt;td>move map view to south&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>+&lt;/td>&lt;td>zoom in&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>-&lt;/td>&lt;td>zoom out&lt;/td>&lt;/tr>
+&lt;/table>
+&lt;b>3D view&lt;/b>
+&lt;table>
+&lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>move map&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>m + scroll mouse / pageup/pagedown&lt;/td>&lt;td>zoom map&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>home/end&lt;/td>&lt;td>increase/decrease map area&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>move map&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>l + left mouse&lt;/td>&lt;td>move light source horizontally&lt;/td>&lt;/tr>
+&lt;tr>&lt;td>h + left mouse&lt;/td>&lt;td>move light source vertically&lt;/td>&lt;/tr>
+&lt;/table></string>
          </property>
          <property name="alignment" >
           <set>Qt::AlignJustify|Qt::AlignTop</set>

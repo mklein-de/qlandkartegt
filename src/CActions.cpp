@@ -113,10 +113,10 @@ QObject(parent), parent(parent)
 
     createAction(tr("+"), ":/icons/editcopy.png", tr("&Zoom in"), "aZoomIn", tr("Zoom's into the Map."));
     createAction(tr("-"), ":/icons/editcopy.png", tr("&Zoom out"), "aZoomOut", tr("Zoom's out of the Map."));
-    createAction(QKeySequence ( Qt::Key_Left).toString(), ":/icons/editcopy.png", tr("&Move left"), "aMoveLeft", tr("Move to the left side."));
-    createAction(QKeySequence ( Qt::Key_Right).toString(), ":/icons/editcopy.png", tr("&Move right"), "aMoveRight", tr("Move to the right side."));
-    createAction(QKeySequence ( Qt::Key_Up).toString(), ":/icons/editcopy.png", tr("&Move up"), "aMoveUp", tr("Move up."));
-    createAction(QKeySequence ( Qt::Key_Down).toString(), ":/icons/editcopy.png", tr("&Move down"), "aMoveDown", tr("Move down."));
+    createAction(QKeySequence (Qt::ALT + Qt::Key_Left).toString(), ":/icons/editcopy.png", tr("&Move left"), "aMoveLeft", tr("Move to the left side."));
+    createAction(QKeySequence (Qt::ALT + Qt::Key_Right).toString(), ":/icons/editcopy.png", tr("&Move right"), "aMoveRight", tr("Move to the right side."));
+    createAction(QKeySequence (Qt::ALT + Qt::Key_Up).toString(), ":/icons/editcopy.png", tr("&Move up"), "aMoveUp", tr("Move up."));
+    createAction(QKeySequence (Qt::ALT + Qt::Key_Down).toString(), ":/icons/editcopy.png", tr("&Move down"), "aMoveDown", tr("Move down."));
     createAction(tr("ctrl+c"), ":/icons/editcopy.png", tr("&Copy"), "aCopyToClipboard", tr("Copy selected trackpoints to clipboard."));
     createAction(tr("ctrl+v"), ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr("Paste Track."));
     createAction(tr("ctrl+z"), ":/icons/editpaste.png", tr("&Undo"), "aUndo", tr("Undo a command."));
