@@ -413,6 +413,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save as image ..."),this,SLOT(slotSaveImage()));
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
@@ -887,6 +888,22 @@ void CMainWindow::slotPrint()
     canvas->print(printer);
 }
 
+void CMainWindow::slotSaveImage()
+{
+    QString filter;
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+        ,pathData
+        ,"Bitmap (*.png *.jpg);;"
+        ,&filter
+        , QFileDialog::DontUseNativeDialog
+        );
+
+    if(filename.isEmpty()) return;
+
+    QImage img(canvas->size(), QImage::Format_ARGB32);
+    canvas->print(img);
+    img.save(filename);
+}
 
 void CMainWindow::slotModified()
 {

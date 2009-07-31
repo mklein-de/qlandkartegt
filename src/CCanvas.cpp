@@ -300,6 +300,17 @@ void CCanvas::print(QPrinter& printer)
 
 }
 
+void CCanvas::print(QImage& img)
+{
+    QPainter p;
+
+    p.begin(&img);
+    p.fillRect(rect(), QBrush(Qt::white));
+    draw(p);
+    p.end();
+
+}
+
 
 void CCanvas::draw(QPainter& p)
 {
