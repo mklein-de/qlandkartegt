@@ -126,7 +126,9 @@ class CMap3DWidget: public QGLWidget
         void loadMap();
         void mapResize(const QSize& size);
         void slotDeleteWpt();
+        void slotEditWpt();
         void slotAddWpt();
+        void slotCopyPositionWpt();
 
     public slots:
         void setXRotation(double angle);

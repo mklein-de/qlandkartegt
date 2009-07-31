@@ -27,6 +27,8 @@
 #include "CMapDB.h"
 #include "CResources.h"
 #include "CMainWindow.h"
+#include "CDlgEditWpt.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include <QtOpenGL>
@@ -277,7 +279,10 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     if (selWpt.isNull()) {
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     } else {
-            menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
+            menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
+            menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
+            if(!selWpt->sticky)
+                menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
     }
 
     menu.addSeparator();
@@ -1550,4 +1555,23 @@ void CMap3DWidget::slotDeleteWpt()
 
     QString key = selWpt->key();
     CWptDB::self().delWpt(key);
+}
+
+void CMap3DWidget::slotEditWpt()
+{
+    if(selWpt.isNull()) return;
+
+    CDlgEditWpt dlg(*selWpt,this);
+    dlg.exec();
+}
+
+void CMap3DWidget::slotCopyPositionWpt()
+{
+    if(selWpt.isNull()) return;
+
+    QString position;
+    GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
 }
