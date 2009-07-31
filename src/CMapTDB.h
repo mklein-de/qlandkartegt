@@ -351,8 +351,6 @@ class CMapTDB : public IMap
         double lat_factor;
 
         bool useTyp;
-        bool growLines;
-        bool useBitmapLines;
         bool textAboveLine;
 
 };

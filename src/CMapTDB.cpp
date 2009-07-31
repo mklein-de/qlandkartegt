@@ -236,9 +236,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , lon_factor(+1.0)
 , lat_factor(-1.0)
 , useTyp(true)
-, growLines(false)
-, useBitmapLines(true)
-, textAboveLine(false)
+, textAboveLine(true)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -261,8 +259,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     QString pos     = cfg.value("topleft","").toString();
     zoomidx         = cfg.value("zoomidx",11).toInt();
     detailsFineTune = cfg.value("details",0).toInt();
-    growLines       = cfg.value("growLines",growLines).toBool();
-    useBitmapLines  = cfg.value("useBitmapLines",useBitmapLines).toBool();
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     cfg.endGroup();
@@ -318,9 +314,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , lon_factor(+1.0)
 , lat_factor(-1.0)
 , useTyp(true)
-, growLines(false)
-, useBitmapLines(true)
-, textAboveLine(false)
+, textAboveLine(true)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -342,8 +336,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
     detailsFineTune = cfg.value("details",0).toInt();
-    growLines       = cfg.value("growLines",growLines).toBool();
-    useBitmapLines  = cfg.value("useBitmapLines",useBitmapLines).toBool();
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     cfg.endGroup();
@@ -370,8 +362,6 @@ CMapTDB::~CMapTDB()
     cfg.setValue("topleft",pos);
     cfg.setValue("zoomidx",zoomidx);
     cfg.setValue("details", detailsFineTune);
-    cfg.setValue("growLines",growLines);
-    cfg.setValue("useBitmapLines",useBitmapLines);
     cfg.setValue("textAboveLine",textAboveLine);
     cfg.setValue("useTyp",useTyp);
 

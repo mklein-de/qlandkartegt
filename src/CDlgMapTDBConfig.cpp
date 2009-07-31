@@ -26,8 +26,6 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     setupUi(this);
 
     checkUseTyp->setChecked(map->useTyp);
-    checkBitmapLines->setChecked(map->useBitmapLines);
-    checkGrowLines->setChecked(map->growLines);
     checkTextAboveLine->setChecked(map->textAboveLine);
 }
 
@@ -41,8 +39,6 @@ CDlgMapTDBConfig::~CDlgMapTDBConfig()
 void CDlgMapTDBConfig::accept()
 {
     map->useTyp         = checkUseTyp->isChecked();
-    map->useBitmapLines = checkBitmapLines->isChecked();
-    map->growLines      = checkGrowLines->isChecked();
     map->textAboveLine  = checkTextAboveLine->isChecked();
 
     QDialog::accept();
