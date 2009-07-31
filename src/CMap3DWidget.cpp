@@ -1513,7 +1513,7 @@ void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 void CMap3DWidget::enterEvent(QEvent * )
 {
     if (!cursorFocus) {
-        QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveMap")));
+        QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveMap"), 0, 0));
         cursorFocus = true;
     }
 
