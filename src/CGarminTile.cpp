@@ -784,7 +784,9 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             CGarminPolygon& p   = polygons.last();
 //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
-
+            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
         }
     }
 
@@ -796,6 +798,9 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             CGarminPolygon& p   = polylines.last();
 //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
+            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
         }
     }
 

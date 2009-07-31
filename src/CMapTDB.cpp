@@ -1749,15 +1749,24 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
     int n;
     const int N = polygonDrawOrder.size();
+    QSet<quint32> extendedTypes;
+    quint32 type;
 
+    // do old types 1st
     for(n = 0; n < N; ++n) {
-        quint16 type = polygonDrawOrder[0x7F - n];
+        type = polygonDrawOrder[0x7F - n];
 
         p.setPen(polygonProperties[type].pen);
         p.setBrush(polygonProperties[type].brush);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
+            // collect extended types, wise to do it like that?
+            if(item->type & 0x10000){
+                extendedTypes << item->type;
+                ++item;
+                continue;
+            }
             if((item->type & 0x7F) == type) {
                 double * u      = item->u.data();
                 double * v      = item->v.data();
@@ -1771,19 +1780,40 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                     line[i].setY(*v++);
                 }
 
-                if(item->type & 0x10000){
-                    p.save();
-                    polygon_property& property = polygonProperties[item->type];
-                    p.setPen(property.pen);
-                    p.setBrush(property.brush);
-                    p.drawPolygon(line);
-                    p.restore();
-                    if(!property.known) qDebug() << "unknown polygon" << hex << item->type;
+                p.drawPolygon(line);
+                if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+            }
+            ++item;
+        }
+    }
+
+    // do extended types
+    foreach(type, extendedTypes){
+        p.setPen(polygonProperties[type].pen);
+        p.setBrush(polygonProperties[type].brush);
+
+        polytype_t::iterator item = lines.begin();
+        while (item != lines.end()) {
+            if(item->type == type) {
+                double * u      = item->u.data();
+                double * v      = item->v.data();
+                const int size  = item->u.size();
+
+                convertRad2Pt(u,v,size);
+
+                QPolygonF line(size);
+                for(int i = 0; i < size; ++i) {
+                    line[i].setX(*u++);
+                    line[i].setY(*v++);
                 }
-                else{
-                    p.drawPolygon(line);
-                    if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
-                }
+
+                p.save();
+                polygon_property& property = polygonProperties[item->type];
+                p.setPen(property.pen);
+                p.setBrush(property.brush);
+                p.drawPolygon(line);
+                p.restore();
+                if(!property.known) qDebug() << "unknown polygon" << hex << item->type;
 
             }
             ++item;
