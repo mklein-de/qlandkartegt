@@ -1080,6 +1080,23 @@ void CMap3DWidget::paintGL()
 
 }
 
+void drawQuad(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture)
+{
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
+    glVertex3d(x, ysize + y, z);
+    glTexCoord2f(0, 0);
+    glVertex3d(x, y, z);
+    glTexCoord2f(1, 0);
+    glVertex3d(xsize + x, y, z);
+    glTexCoord2f(1, 1);
+    glVertex3d(xsize + x, ysize + y, z);
+    glEnd();
+
+}
+
 void CMap3DWidget::drawWpt(CWpt *wpt)
 {
     double x, y, z, wsize;
@@ -1151,6 +1168,9 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     p.end();
     text_texture = bindTexture(text_pic);
 
+    mask_texture = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
+    texture = bindTexture(icon);
+
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
@@ -1164,69 +1184,21 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     glColor4f(0,0,0,0);
 
     //draw mask
-    mask_texture = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
-    glBindTexture(GL_TEXTURE_2D, mask_texture);
-
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3d(x, wsize + y, z);
-    glTexCoord2f(0, 0);
-    glVertex3d(x, y, z);
-    glTexCoord2f(1, 0);
-    glVertex3d(wsize + x, y, z);
-    glTexCoord2f(1, 1);
-    glVertex3d(wsize + x, wsize + y, z);
-    glEnd();
-
-    deleteTexture(mask_texture);
-
-    glBindTexture(GL_TEXTURE_2D, mask_text_texture);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3d(x - text_size.width() / 2, text_size.height() + y + wsize, z);
-    glTexCoord2f(0, 0);
-    glVertex3d(x - text_size.width() / 2, y + wsize, z);
-    glTexCoord2f(1, 0);
-    glVertex3d( text_size.width() + x - text_size.width() / 2, y + wsize, z);
-    glTexCoord2f(1, 1);
-    glVertex3d(text_size.width() + x - text_size.width() / 2, text_size.height() + y + wsize, z);
-    glEnd();
-
-    deleteTexture(mask_text_texture);
+    drawQuad(x, y, wsize, wsize, z, mask_texture);
+    drawQuad(x - text_size.width() / 2, y + wsize, text_size.width(), text_size.height(), z, mask_text_texture);
 
     glBlendFunc(GL_ONE, GL_ONE);
 
     //draw icon
     //icon should be before mask
     z += 0.1;
-    texture = bindTexture(icon);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3d(x, wsize + y, z);
-    glTexCoord2f(0, 0);
-    glVertex3d(x, y, z);
-    glTexCoord2f(1, 0);
-    glVertex3d(wsize + x, y, z);
-    glTexCoord2f(1, 1);
-    glVertex3d(wsize + x, wsize + y, z);
-    glEnd();
+    drawQuad(x, y, wsize, wsize, z, texture);
+    drawQuad(x - text_size.width() / 2, y + wsize, text_size.width(), text_size.height(), z, text_texture);
 
     deleteTexture(texture);
-
-    glBindTexture(GL_TEXTURE_2D, text_texture);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3d(x - text_size.width() / 2, text_size.height() + y + wsize, z);
-    glTexCoord2f(0, 0);
-    glVertex3d(x - text_size.width() / 2, y + wsize, z);
-    glTexCoord2f(1, 0);
-    glVertex3d( text_size.width() + x - text_size.width() / 2, y + wsize, z);
-    glTexCoord2f(1, 1);
-    glVertex3d(text_size.width() + x - text_size.width() / 2, text_size.height() + y + wsize, z);
-    glEnd();
-
+    deleteTexture(mask_texture);
     deleteTexture(text_texture);
+    deleteTexture(mask_text_texture);
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
