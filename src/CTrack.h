@@ -176,8 +176,8 @@ class CTrack : public QObject
         /// select tarckpoint by index
         void setPointOfFocus(int idx);
         ///
-        QDateTime getStartTimestamp(){if(track.isEmpty()) return QDateTime(); return track.first().timestamp ? QDateTime::fromTime_t(track.first().timestamp) : QDateTime();}
-        QDateTime getEndTimestamp(){if(track.isEmpty()) return QDateTime(); return track.last().timestamp ? QDateTime::fromTime_t(track.last().timestamp) : QDateTime();}
+        QDateTime getStartTimestamp();
+        QDateTime getEndTimestamp();
         /// get the ascend in [m]
         double getAscend(){return totalAscend;}
         /// get the descend in [m]
