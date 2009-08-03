@@ -47,6 +47,9 @@ class CPlot : public QWidget
         signals:
         void activePointSignal(double dist);
 
+    protected slots:
+        void slotSave();
+
     protected:
         void contextMenuEvent(QContextMenuEvent *event);
         void mousePressEvent(QMouseEvent * e);
@@ -81,6 +84,7 @@ class CPlot : public QWidget
         QAction *hZoomAct;
         QAction *vZoomAct;
         QAction *resetZoomAct;
+        QAction *save;
 
         CPlotData * m_pData;
 

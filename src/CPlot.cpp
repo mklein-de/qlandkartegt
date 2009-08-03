@@ -613,6 +613,7 @@ void CPlot::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(hZoomAct);
     menu.addAction(vZoomAct);
     menu.addAction(resetZoomAct);
+    menu.addAction(save);
 
     menu.exec(event->globalPos());
 }
@@ -620,16 +621,19 @@ void CPlot::contextMenuEvent(QContextMenuEvent *event)
 
 void CPlot::createActions()
 {
-    hZoomAct = new QAction("horizontal zoom", this);
+    hZoomAct = new QAction("Horizontal zoom", this);
     hZoomAct->setCheckable(true);
     hZoomAct->setChecked(true);
 
-    vZoomAct = new QAction(tr("vertical zoom"), this);
+    vZoomAct = new QAction(tr("Vertical zoom"), this);
     vZoomAct->setCheckable(true);
     vZoomAct->setChecked(true);
 
-    resetZoomAct = new QAction(tr("reset zoom"), this);
+    resetZoomAct = new QAction(tr("Reset zoom"), this);
     connect(resetZoomAct, SIGNAL(triggered()), this, SLOT(resetZoom()));
+
+    save = new QAction(tr("Save..."), this);
+    connect(save, SIGNAL(triggered()), this, SLOT(slotSave()));
 }
 
 
@@ -641,6 +645,32 @@ void CPlot::resetZoom()
     update();
 }
 
+void CPlot::slotSave()
+{
+
+    QSettings cfg;
+    QString pathData = cfg.value("path/data","./").toString();
+
+    QString filter;
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+        ,pathData
+        ,"Bitmap (*.png *.jpg);;"
+        ,&filter
+        , QFileDialog::DontUseNativeDialog
+        );
+
+    if(filename.isEmpty()) return;
+
+    QImage img(size(), QImage::Format_ARGB32);
+    QPainter p;
+
+    p.begin(&img);
+    p.fillRect(rect(), QBrush(Qt::white));
+    draw(p);
+    p.end();
+
+    img.save(filename);
+}
 
 void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 {
