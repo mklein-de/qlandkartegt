@@ -48,7 +48,9 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -160,6 +162,10 @@ void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 void CTrackToolWidget::slotContextMenu(const QPoint& pos)
 {
     if(listTracks->currentItem()) {
+        originator = true;
+        CTrackDB::self().highlightTrack(listTracks->currentItem()->data(Qt::UserRole).toString());
+        originator = false;
+
         QPoint p = listTracks->mapToGlobal(pos);
         contextMenu->exec(p);
     }
@@ -200,6 +206,16 @@ void CTrackToolWidget::slotDelete()
     CTrackDB::self().delTracks(keys);
 }
 
+
+void CTrackToolWidget::slotDelSelect()
+{
+    const QListWidgetItem* item = listTracks->currentItem();
+    if(item == 0){
+        return;
+    }
+
+    CTrackDB::self().highlightTrack("");
+}
 
 void CTrackToolWidget::slotToOverlay()
 {
