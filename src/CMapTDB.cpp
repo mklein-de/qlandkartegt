@@ -2617,7 +2617,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
 
         // openmtb bug on colors=15 colors
-        if ( colors >= 15) {
+        if ( colors > 15) {
             bpp = 8;
         }
         else {
@@ -2634,7 +2634,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-        //qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+//         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
 
@@ -2649,7 +2649,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x10) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
@@ -2663,7 +2663,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[(typ << 8) | subtyp] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else {
                 if(!tainted) {
