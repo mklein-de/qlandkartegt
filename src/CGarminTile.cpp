@@ -805,7 +805,14 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 
     if(subdiv.lengthPoints2 && !fast){
-
+        pData   = pRawData + subdiv.offsetPoints2;
+        pEnd    = pData + subdiv.lengthPoints2;
+        while(pData < pEnd) {
+            pois.push_back(CGarminPoint());
+            CGarminPoint& p   = pois.last();
+//             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+        }
     }
 }
 

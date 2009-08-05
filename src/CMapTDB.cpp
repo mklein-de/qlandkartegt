@@ -2592,7 +2592,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         /* seek to position of element polyline */
         quint16 otyp, ofs;
         quint8 ofsc;
-        int wtyp, typ, subtyp;
+        quint32 wtyp, typ, subtyp;
 
         in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
         if (section.arrayModulo == 4) {
@@ -2602,10 +2602,19 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             in >> otyp >> ofsc;
             ofs = ofsc;
         }
-        wtyp    = (otyp >> 5) | (( otyp & 0x1f) << 11);
-        typ     = wtyp & 0xff;
-        subtyp  = wtyp >> 8;
-        subtyp  = (subtyp >>3) | (( subtyp & 0x07) << 5);
+
+        wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
+        typ = wtyp & 0xff;
+        subtyp  = otyp & 0x1F;
+
+
+        if(otyp & 0x2000) {
+            typ = 0x10000 + (typ << 8) + subtyp;
+        }
+        else{
+            typ = (typ << 8) + subtyp;
+        }
+
 
         /* Create element */
         in.device()->seek( section.dataOffset + ofs );
@@ -2616,7 +2625,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(w,h, QImage::Format_Indexed8 );
         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
 
-        // openmtb bug on colors=15 colors
+        // openmtb bug on colors=15 colors, oe: changed back for garmin maps
         if ( colors > 15) {
             bpp = 8;
         }
@@ -2647,21 +2656,21 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 }
                 //if(bpp == 4) bpp /= 2;
                 decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+                pointProperties[typ] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x10) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+                pointProperties[typ] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
                 //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x20) {
                 readColorTableAlpha(in, myXpmDay, colors, maxcolor);
                 decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[(typ << 8) | subtyp] = myXpmDay;
+                pointProperties[typ] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
@@ -2681,7 +2690,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 readColorTableAlpha(in, myXpmDay, colors, maxcolor);
             }
             decodeBitmap(in, myXpmDay, w, h, bpp);
-            pointProperties[(typ << 8) | subtyp] = myXpmDay;
+            pointProperties[typ] = myXpmDay;
             //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 
             /* Get again colors and x3 flag */

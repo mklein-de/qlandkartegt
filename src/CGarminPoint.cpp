@@ -81,3 +81,45 @@ quint32 CGarminPoint::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift
 
     return 8;
 }
+
+quint32 CGarminPoint::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData)
+{
+    bool extra = false;
+    qint16 dLng, dLat;
+    quint32 byte_size = 6;
+    quint8 subtype;
+
+    type        = (quint16)(*pData) << 8;
+    ++pData;
+    subtype     = (quint16)(*pData);
+    ++pData;
+
+    type        = 0x10000 + type + (subtype & 0x1F);
+
+    if(subtype & 0x80){
+        extra = true;
+        byte_size += 1;
+    }
+
+    dLng = gar_ptr_load(int16_t, pData); pData += 2;
+    dLat = gar_ptr_load(int16_t, pData); pData += 2;
+
+    qint32 x1,y1;
+
+    x1 = ((qint32)dLng << shift) + iCenterLon;
+    y1 = ((qint32)dLat << shift) + iCenterLat;
+    lon = GARMIN_RAD(x1);
+    lat = GARMIN_RAD(y1);
+
+    if(subtype & 0x20){
+        byte_size += 3;
+        lbl_ptr     = gar_ptr_load(uint24_t, pData);
+        isLbl6      = lbl_ptr & 0x00400000;
+        lbl_ptr    &= 0x003FFFFF;
+
+    }
+
+
+    return byte_size;
+}
+

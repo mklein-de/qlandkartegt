@@ -305,7 +305,7 @@ class CMapTDB : public IMap
         QMap<quint32, polygon_property> polygonProperties;
         QList<quint16> polygonDrawOrder;
 
-        QMap<quint16, QImage> pointProperties;
+        QMap<quint32, QImage> pointProperties;
 
         polytype_t polygons;
         polytype_t polylines;
