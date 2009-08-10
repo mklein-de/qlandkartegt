@@ -763,7 +763,6 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             else if(strtbl && p.lbl_in_NET && p.lbl_info) {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
-
         }
     }
 

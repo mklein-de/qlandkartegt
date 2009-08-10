@@ -717,7 +717,7 @@
 <context>
     <name>CCanvas</name>
     <message>
-        <location filename="../CCanvas.cpp" line="608"/>
+        <location filename="../CCanvas.cpp" line="619"/>
         <source>Copy Position</source>
         <translation>Копировать координаты</translation>
     </message>
@@ -1691,7 +1691,7 @@
         <translation>Файт NT формата. Невозможно прочитать:</translation>
     </message>
     <message>
-        <location filename="../CGarminTile.cpp" line="284"/>
+        <location filename="../CGarminTile.cpp" line="286"/>
         <source>File contains locked / encypted data. Garmin does not want you to use this file with any other software than the one supplied by Garmin.</source>
         <translation>Файл содержит заблокированные/зашифрованные данные. Garmin не хочет, чтобы вы использовали этот файл с другим программным обеспечением, чем то что распространяет сам Garmin.</translation>
     </message>
@@ -1828,198 +1828,203 @@ line %2, column %3:
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="416"/>
+        <source>Save as image ...</source>
+        <translation>Сохранить как изображение ...</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="417"/>
         <source>Print Map ...</source>
         <translation>Печать карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="417"/>
+        <location filename="../CMainWindow.cpp" line="418"/>
         <source>Print Diary ...</source>
         <translation>Печать Дневника...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="419"/>
+        <location filename="../CMainWindow.cpp" line="420"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="435"/>
+        <location filename="../CMainWindow.cpp" line="436"/>
         <source>&amp;Map</source>
         <translation>&amp;Карта</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="440"/>
+        <location filename="../CMainWindow.cpp" line="441"/>
         <source>&amp;Waypoint</source>
         <translation>Путевая точка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="445"/>
+        <location filename="../CMainWindow.cpp" line="446"/>
         <source>&amp;Track</source>
         <translation>Трек</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="450"/>
+        <location filename="../CMainWindow.cpp" line="451"/>
         <source>&amp;Route</source>
         <translation>Маршрут</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="455"/>
+        <location filename="../CMainWindow.cpp" line="456"/>
         <source>&amp;Live Log</source>
         <translation>Данные GPS </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="460"/>
+        <location filename="../CMainWindow.cpp" line="461"/>
         <source>&amp;Overlay</source>
         <translation>Наложение...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="465"/>
+        <location filename="../CMainWindow.cpp" line="466"/>
         <source>&amp;more</source>
         <translation>далее</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="469"/>
+        <location filename="../CMainWindow.cpp" line="470"/>
         <source>&amp;Setup</source>
         <translation>Установки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="470"/>
+        <location filename="../CMainWindow.cpp" line="471"/>
         <source>&amp;General</source>
         <translation>Основные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="474"/>
+        <location filename="../CMainWindow.cpp" line="475"/>
         <source>&amp;Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="475"/>
+        <location filename="../CMainWindow.cpp" line="476"/>
         <source>About &amp;QLandkarte GT</source>
         <translation>О QLandkarte GT</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="528"/>
+        <location filename="../CMainWindow.cpp" line="529"/>
         <source>Select map...</source>
         <translation>Выбор карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="625"/>
+        <location filename="../CMainWindow.cpp" line="626"/>
         <source>Select input file</source>
         <translation>Выберите файл для загрузки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="726"/>
+        <location filename="../CMainWindow.cpp" line="727"/>
         <source>Convert error</source>
         <translation>Ошибка конвертации</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="871"/>
+        <location filename="../CMainWindow.cpp" line="872"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="769"/>
+        <location filename="../CMainWindow.cpp" line="770"/>
         <source>Save geo data?</source>
         <translation>Сохранить GEO данные ?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="771"/>
+        <location filename="../CMainWindow.cpp" line="772"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Загруженные данные изменены.￼
 Вы хотите сохранить эти изменения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="799"/>
+        <location filename="../CMainWindow.cpp" line="895"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="883"/>
+        <location filename="../CMainWindow.cpp" line="884"/>
         <source>Print Map</source>
         <translation>Печать карты</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="913"/>
+        <location filename="../CMainWindow.cpp" line="930"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Аннотация к проекту (&lt;a href=&apos;Clear&apos;&gt;очистить&lt;/a&gt; проект):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="919"/>
+        <location filename="../CMainWindow.cpp" line="936"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>В настоящее время существует %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="922"/>
+        <location filename="../CMainWindow.cpp" line="939"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>В настоящее время есть %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="926"/>
+        <location filename="../CMainWindow.cpp" line="943"/>
         <source>There are no waypoints, </source>
         <translation>Нет путевых точек, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="932"/>
+        <location filename="../CMainWindow.cpp" line="949"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;трек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="935"/>
+        <location filename="../CMainWindow.cpp" line="952"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треки&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="939"/>
+        <location filename="../CMainWindow.cpp" line="956"/>
         <source>no tracks, </source>
         <translation>нет треков, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="945"/>
+        <location filename="../CMainWindow.cpp" line="962"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрут&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="948"/>
+        <location filename="../CMainWindow.cpp" line="965"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрутов&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="952"/>
+        <location filename="../CMainWindow.cpp" line="969"/>
         <source>no routes and </source>
         <translation>нет маршрутов и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="958"/>
+        <location filename="../CMainWindow.cpp" line="975"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложение&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="961"/>
+        <location filename="../CMainWindow.cpp" line="978"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложения&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="965"/>
+        <location filename="../CMainWindow.cpp" line="982"/>
         <source>no overlays. </source>
         <translation>нет наложений. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="970"/>
+        <location filename="../CMainWindow.cpp" line="987"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
         <translation>A &lt;a href=&apos;Diary&apos;&gt;дневник&lt;/a&gt; уже загружен.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="973"/>
+        <location filename="../CMainWindow.cpp" line="990"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
         <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1008"/>
+        <location filename="../CMainWindow.cpp" line="1025"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1009"/>
+        <location filename="../CMainWindow.cpp" line="1026"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
@@ -2027,42 +2032,62 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3DWidget</name>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="154"/>
+        <location filename="../CMap3DWidget.cpp" line="159"/>
         <source>Flat / 3D Mode</source>
         <translation>2D/3D режим</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="159"/>
+        <location filename="../CMap3DWidget.cpp" line="164"/>
         <source>Show Track</source>
         <translation>Показать трек</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="164"/>
+        <location filename="../CMap3DWidget.cpp" line="169"/>
         <source>Track on Map</source>
         <translation>Трек на карте</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="169"/>
+        <location filename="../CMap3DWidget.cpp" line="174"/>
         <source>Inc. Elevation</source>
         <translation>Увеличить возвышение</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="172"/>
+        <location filename="../CMap3DWidget.cpp" line="177"/>
         <source>Dec. Elevation</source>
         <translation>Уменьшить возвышение</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="175"/>
+        <location filename="../CMap3DWidget.cpp" line="180"/>
         <source>Reset Elevation</source>
         <translation>Сброс возвышения</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="178"/>
+        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Reset light source</source>
         <translation>Сброс источника света</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="929"/>
+        <location filename="../CMap3DWidget.cpp" line="280"/>
+        <source>Add Waypoint ...</source>
+        <translation>Добавить путевую точку...</translation>
+    </message>
+    <message>
+        <location filename="../CMap3DWidget.cpp" line="282"/>
+        <source>Copy Pos. Waypoint</source>
+        <translation>Копировать позицию путевой точки</translation>
+    </message>
+    <message>
+        <location filename="../CMap3DWidget.cpp" line="283"/>
+        <source>Edit Waypoint...</source>
+        <translation>Редактировать путевую точку...</translation>
+    </message>
+    <message>
+        <location filename="../CMap3DWidget.cpp" line="285"/>
+        <source>Delete Waypoint</source>
+        <translation>Удалить путевую точку</translation>
+    </message>
+    <message>
+        <location filename="../CMap3DWidget.cpp" line="965"/>
         <source>:/skybox/%1.bmp</source>
         <translation>:/skybox/%1.bmp</translation>
     </message>
@@ -2347,252 +2372,252 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapTDB</name>
     <message>
-        <location filename="../CMapTDB.cpp" line="457"/>
+        <location filename="../CMapTDB.cpp" line="447"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="395"/>
+        <location filename="../CMapTDB.cpp" line="385"/>
         <source>Major highway</source>
         <translation>Основное шоссе</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="396"/>
+        <location filename="../CMapTDB.cpp" line="386"/>
         <source>Principal highway</source>
         <translation>Федеральное шоссе</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="397"/>
+        <location filename="../CMapTDB.cpp" line="387"/>
         <source>Other highway</source>
         <translation>Прочие шоссе</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="398"/>
+        <location filename="../CMapTDB.cpp" line="388"/>
         <source>Arterial road</source>
         <translation>Магистраль</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="399"/>
+        <location filename="../CMapTDB.cpp" line="389"/>
         <source>Collector road</source>
         <translation>Трасса коллектора</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="400"/>
+        <location filename="../CMapTDB.cpp" line="390"/>
         <source>Residential street</source>
         <translation>Улица в жилом районе</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="401"/>
+        <location filename="../CMapTDB.cpp" line="391"/>
         <source>Alley/Private road</source>
         <translation>Аллея/Частная дорога</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="402"/>
+        <location filename="../CMapTDB.cpp" line="392"/>
         <source>Highway ramp, low speed</source>
         <translation>Низкоскоростной съезд/выезд с автомагистрали</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="403"/>
+        <location filename="../CMapTDB.cpp" line="393"/>
         <source>Highway ramp, high speed</source>
         <translation>Высокоскоростной съезд/выезд с автомагистрали</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="404"/>
+        <location filename="../CMapTDB.cpp" line="394"/>
         <source>Unpaved road</source>
         <translation>Дорога без твердого покрытия</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="405"/>
+        <location filename="../CMapTDB.cpp" line="395"/>
         <source>Major highway connector</source>
         <translation>Соединение основных шоссе</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="406"/>
+        <location filename="../CMapTDB.cpp" line="396"/>
         <source>Roundabout</source>
         <translation>Круговое движение</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="414"/>
+        <location filename="../CMapTDB.cpp" line="404"/>
         <source>Railroad</source>
         <translation>Железная дорога</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="415"/>
+        <location filename="../CMapTDB.cpp" line="405"/>
         <source>Shoreline</source>
         <translation>Береговая линия</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="416"/>
+        <location filename="../CMapTDB.cpp" line="406"/>
         <source>Trail</source>
         <translation>Путь</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="418"/>
+        <location filename="../CMapTDB.cpp" line="408"/>
         <source>Stream</source>
         <translation>Ручей</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="419"/>
+        <location filename="../CMapTDB.cpp" line="409"/>
         <source>Time zone</source>
         <translation>Временная зона</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="421"/>
+        <location filename="../CMapTDB.cpp" line="411"/>
         <source>Ferry</source>
         <translation>Переправа</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="422"/>
+        <location filename="../CMapTDB.cpp" line="412"/>
         <source>State/province border</source>
         <translation>Граница области/федерального округа</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="423"/>
+        <location filename="../CMapTDB.cpp" line="413"/>
         <source>County/parish border</source>
         <translation>Гос. границы</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="424"/>
+        <location filename="../CMapTDB.cpp" line="414"/>
         <source>International border</source>
         <translation>Международные границы</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="425"/>
+        <location filename="../CMapTDB.cpp" line="415"/>
         <source>River</source>
         <translation>Река</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="426"/>
+        <location filename="../CMapTDB.cpp" line="416"/>
         <source>Minor land contour</source>
         <translation>Контуры малых земель</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="427"/>
+        <location filename="../CMapTDB.cpp" line="417"/>
         <source>Intermediate land contour</source>
         <translation>Контуры промежуточных земель</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="428"/>
+        <location filename="../CMapTDB.cpp" line="418"/>
         <source>Major land contour</source>
         <translation>Контуры основных земель</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="429"/>
+        <location filename="../CMapTDB.cpp" line="419"/>
         <source>Minor deph contour</source>
         <translation>Малая толщина контура</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="430"/>
+        <location filename="../CMapTDB.cpp" line="420"/>
         <source>Intermediate depth contour</source>
         <translation>Средняя толщина контура</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="431"/>
+        <location filename="../CMapTDB.cpp" line="421"/>
         <source>Major depth contour</source>
         <translation>Основная толщина контура</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="432"/>
+        <location filename="../CMapTDB.cpp" line="422"/>
         <source>Intermittent stream</source>
         <translation>Пересыхающий ручей</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="433"/>
+        <location filename="../CMapTDB.cpp" line="423"/>
         <source>Airport runway</source>
         <translation>Взлетно-посадочная полоса</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="434"/>
+        <location filename="../CMapTDB.cpp" line="424"/>
         <source>Pipeline</source>
         <translation>Трубопровод</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="435"/>
+        <location filename="../CMapTDB.cpp" line="425"/>
         <source>Powerline</source>
         <translation>ЛЭП</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="436"/>
+        <location filename="../CMapTDB.cpp" line="426"/>
         <source>Marine boundary</source>
         <translation>Граница моря</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="437"/>
+        <location filename="../CMapTDB.cpp" line="427"/>
         <source>Hazard boundary</source>
         <translation>Границы опасности</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="573"/>
+        <location filename="../CMapTDB.cpp" line="565"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation>Нет проекции основной карты. Этого не должно получаться.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="677"/>
+        <location filename="../CMapTDB.cpp" line="669"/>
         <source>No big endian..</source>
         <translation>Не big endian...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="677"/>
+        <location filename="../CMapTDB.cpp" line="669"/>
         <source>*tdb import has not been ported to big endian architectures, yet.</source>
         <translation>Импорт *tdb пока не был портирован для big endian архитектуры.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="731"/>
+        <location filename="../CMapTDB.cpp" line="723"/>
         <source>Select Base Map for </source>
         <translation>Выберите базовую карту для</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="879"/>
+        <location filename="../CMapTDB.cpp" line="871"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="809"/>
+        <location filename="../CMapTDB.cpp" line="801"/>
         <source>However ...</source>
         <translation>В любом случае...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="814"/>
+        <location filename="../CMapTDB.cpp" line="806"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать тайлы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карту, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1272"/>
+        <location filename="../CMapTDB.cpp" line="1264"/>
         <source>details %1</source>
         <translation>подробности %1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1269"/>
+        <location filename="../CMapTDB.cpp" line="1261"/>
         <source>details +%1</source>
         <translation>подробности  +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1980"/>
+        <location filename="../CMapTDB.cpp" line="1935"/>
         <source>Point of Interest</source>
         <translation>Интересная точка</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2117"/>
+        <location filename="../CMapTDB.cpp" line="2072"/>
         <source>Area</source>
         <translation>Площадь</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2853"/>
+        <location filename="../CMapTDB.cpp" line="2725"/>
         <source>Warning...</source>
         <translation>Предостережение...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2515"/>
+        <location filename="../CMapTDB.cpp" line="2470"/>
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием полигонов. Просьба сообщить!</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2596"/>
+        <location filename="../CMapTDB.cpp" line="2554"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием графических примитивов. Просьба сообщить!</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2853"/>
+        <location filename="../CMapTDB.cpp" line="2725"/>
         <source>This is a typ file with unknown point encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием точек. Просьба сообщить!</translation>
     </message>
@@ -2620,32 +2645,32 @@ Do you want to save your changes?</source>
         <translation>Настройка</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="53"/>
+        <location filename="../CMapToolWidget.cpp" line="57"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="52"/>
+        <location filename="../CMapToolWidget.cpp" line="56"/>
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="277"/>
+        <location filename="../CMapToolWidget.cpp" line="322"/>
         <source>Error export maps...</source>
         <translation>Ошибка экспорта карт...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="277"/>
+        <location filename="../CMapToolWidget.cpp" line="322"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
         <translation>Необходимо установить набор инструментов  для GDAL.</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="296"/>
+        <location filename="../CMapToolWidget.cpp" line="341"/>
         <source>Select DEM file...</source>
         <translation>Выберите DEM файл...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="296"/>
+        <location filename="../CMapToolWidget.cpp" line="341"/>
         <source>16bit GeoTiff (*.tif)</source>
         <translation>16bit GeoTiff (*.tif)</translation>
     </message>
@@ -2825,14 +2850,24 @@ Do you want to save your changes?</source>
 <context>
     <name>CPlot</name>
     <message>
-        <location filename="../CPlot.cpp" line="627"/>
-        <source>vertical zoom</source>
-        <translation>вертикальное масштабирование</translation>
+        <location filename="../CPlot.cpp" line="628"/>
+        <source>Vertical zoom</source>
+        <translation>Вертикальное масштабирование</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="631"/>
-        <source>reset zoom</source>
-        <translation>сбросить масштабирование</translation>
+        <location filename="../CPlot.cpp" line="632"/>
+        <source>Reset zoom</source>
+        <translation>Сбросить масштабирование</translation>
+    </message>
+    <message>
+        <location filename="../CPlot.cpp" line="635"/>
+        <source>Save...</source>
+        <translation>Сохранить ...</translation>
+    </message>
+    <message>
+        <location filename="../CPlot.cpp" line="656"/>
+        <source>Select output file</source>
+        <translation>Выбрать файл для сохранения</translation>
     </message>
 </context>
 <context>
@@ -3099,78 +3134,83 @@ length: %1 %2</source>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="51"/>
+        <source>Deselect</source>
+        <translation>Сбросить выделение</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="52"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="88"/>
+        <location filename="../CTrackToolWidget.cpp" line="90"/>
         <source>
 length: %1 %2</source>
         <translation>
 длина: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="89"/>
+        <location filename="../CTrackToolWidget.cpp" line="91"/>
         <source>, points: %1</source>
         <translation>,точек: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="97"/>
+        <location filename="../CTrackToolWidget.cpp" line="99"/>
         <source>
 time: %1:</source>
         <translation>
 ￼время: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="100"/>
+        <location filename="../CTrackToolWidget.cpp" line="102"/>
         <source>
 time: </source>
         <translation>
 время:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="104"/>
+        <location filename="../CTrackToolWidget.cpp" line="106"/>
         <source>, speed: %1 %2</source>
         <translation>, скорость: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="106"/>
+        <location filename="../CTrackToolWidget.cpp" line="108"/>
         <source>
 start: %1</source>
         <translation>
 старт: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="107"/>
+        <location filename="../CTrackToolWidget.cpp" line="109"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="107"/>
+        <location filename="../CTrackToolWidget.cpp" line="109"/>
         <source>
 end: %1</source>
         <translation>
 ￼конец: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="112"/>
+        <location filename="../CTrackToolWidget.cpp" line="114"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="175"/>
+        <location filename="../CTrackToolWidget.cpp" line="181"/>
         <source>Edit track ...</source>
         <translation>Редактировать трек...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="175"/>
+        <location filename="../CTrackToolWidget.cpp" line="181"/>
         <source>You have to select a track first.</source>
         <translation>Сначала выберите трек.</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="228"/>
+        <location filename="../CTrackToolWidget.cpp" line="244"/>
         <source>created from track</source>
         <translation>создано из трека</translation>
     </message>
@@ -4097,93 +4137,26 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
         <source>Keys</source>
         <translation>Клавиши управления</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../IDlgConfig.ui" line="410"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouseless control&lt;/span&gt; &lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;right&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to east&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;left&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to west&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;up&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to north&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;down&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to south&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;+&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;zoom in&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;zoom out&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;3D View&lt;/span&gt; &lt;/p&gt;
-&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;m + left mouse&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;m + scroll mouse or page Up/Down&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;zoom map&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;home/end key&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;increase/decrease map area&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;l + left mouse&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move light source horizontaly&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;h + left mouse&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move light source vertical&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;b&gt;Mouseless control&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;right&lt;/td&gt;&lt;td&gt;move map view to east&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;left&lt;/td&gt;&lt;td&gt;move map view to west&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;up&lt;/td&gt;&lt;td&gt;move map view to north&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;down&lt;/td&gt;&lt;td&gt;move map view to south&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;b&gt;3D view&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + scroll mouse / pageup/pagedown&lt;/td&gt;&lt;td&gt;zoom map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;home/end&lt;/td&gt;&lt;td&gt;increase/decrease map area&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;move light source horizontally&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;move light source vertically&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</source>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Управление клавиатурой&lt;/span&gt; &lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;вправо&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение карты на восток&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;влево&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение карты на запад&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;вверх&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение карты на север&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;вниз&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение карты на юг&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;+&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;приблизить&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;отдалить&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Просмотр в 3D &lt;/span&gt; &lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;m + left mouse&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение карты&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;m + scroll mouse or page Up/Down&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;масштабировать карту&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;home/end key&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;increase/decrease map area&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;l + left mouse&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение источника света по горизонтали&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;h + left mouse&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;перемещение источника света по вертикали&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
@@ -4471,17 +4444,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
         <translation>использовать тип (если имеется)</translation>
     </message>
     <message>
-        <location filename="../IDlgMapTDBConfig.ui" line="53"/>
-        <source>draw bitmap lines</source>
-        <translation>рисовать точечную линию</translation>
-    </message>
-    <message>
-        <location filename="../IDlgMapTDBConfig.ui" line="62"/>
-        <source>grow lines with zoom</source>
-        <translation>наращивать линию с масштабированием</translation>
-    </message>
-    <message>
-        <location filename="../IDlgMapTDBConfig.ui" line="69"/>
+        <location filename="../IDlgMapTDBConfig.ui" line="35"/>
         <source>text above line</source>
         <translation>текст поверх линии</translation>
     </message>
@@ -4788,32 +4751,37 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
         <translation>Создание карты на основе OSM</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="19"/>
-        <source>Known Maps:</source>
-        <translation>Доступные карты:</translation>
+        <location filename="../IMapToolWidget.ui" line="29"/>
+        <source>Tab 1</source>
+        <translation>Tab 1</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="45"/>
+        <location filename="../IMapToolWidget.ui" line="110"/>
         <source>M</source>
         <translation>М</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="50"/>
+        <location filename="../IMapToolWidget.ui" line="115"/>
         <source>T</source>
         <translation>Т</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="55"/>
+        <location filename="../IMapToolWidget.ui" line="120"/>
         <source>Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="63"/>
+        <location filename="../IMapToolWidget.ui" line="79"/>
+        <source>Tab 2</source>
+        <translation>Tab 2</translation>
+    </message>
+    <message>
+        <location filename="../IMapToolWidget.ui" line="132"/>
         <source>Selected Maps:</source>
         <translation>Выбранные карты:</translation>
     </message>
     <message>
-        <location filename="../IMapToolWidget.ui" line="85"/>
+        <location filename="../IMapToolWidget.ui" line="160"/>
         <source>Export Map</source>
         <translation>Экспортировать карту</translation>
     </message>
