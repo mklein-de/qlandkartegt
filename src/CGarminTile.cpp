@@ -811,6 +811,11 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
             CGarminPoint& p   = pois.last();
             //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData);
+
+            if(strtbl) {
+                p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
+                    : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+            }
         }
     }
 }

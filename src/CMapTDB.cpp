@@ -1442,7 +1442,6 @@ static quint16 polylineDrawOrder[]  =
 #define DYN_WIDTH_THRESHOLD 15.0
 #define STREETNAME_THRESHOLD 5.0
 #define MAX_STREET_WIDTH 20
-
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
     // clear text list
@@ -1563,7 +1562,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         while(l < segLength) {
                             if((segLength - l) < w) {
                                 r.setRight(segLength - l);
-                                p.setClipRect(r);
+                                p.setClipRect(r, Qt::ReplaceClip);
                             }
                             p.drawImage(0,0,pixmap);
                             p.translate(w,0);
@@ -1873,7 +1872,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
-        if(!pt->labels.isEmpty()) {
+        if(!pt->labels.isEmpty() && (zoomFactor < 2)) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
