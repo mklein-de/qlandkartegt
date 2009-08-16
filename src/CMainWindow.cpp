@@ -579,13 +579,14 @@ void CMainWindow::slotLoadData()
 
     QSettings cfg;
     QString filter   = cfg.value("geodata/filter","").toString();
-    QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
+    QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input files")
         ,pathData
         ,formats
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
-    if(filename.isEmpty()) return;
+
+    if(filenames.isEmpty()) return;
 
     if(modified) {
         if(!maybeSave()) {
@@ -600,7 +601,12 @@ void CMainWindow::slotLoadData()
     CDiaryDB::self().clear();
     COverlayDB::self().clear();
 
-    loadData(filename, filter);
+    QString filename;
+    foreach(filename, filenames){
+        loadData(filename, filter);
+    }
+
+    wksFile.clear();
 
     modified = false;
     setTitleBar();
@@ -625,12 +631,13 @@ void CMainWindow::slotAddData()
     QString filename;
     QString filter   = cfg.value("geodata/filter","").toString();
     //QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
-    QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input file")
+    QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input files")
         ,pathData
         ,formats
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
+
     for (i = 0; i < filenames.size(); ++i) {
         filename = filenames.at(i);
         if(filename.isEmpty()) return;
