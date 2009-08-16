@@ -207,6 +207,7 @@ void CDlgConfig::fillTypeCombo()
     }
 }
 
+
 void CDlgConfig::slotBrowserChanged(int idx)
 {
     if(idx == CResources::eOther) {
@@ -216,4 +217,3 @@ void CDlgConfig::slotBrowserChanged(int idx)
         lineBrowserCmd->setEnabled(false);
     }
 }
-

@@ -256,10 +256,12 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
             s4 << trkpt->altitude;
             s4 << trkpt->height; ///< [m]
 
-            s4 << trkpt->velocity;///< [m/s]
+                                 ///< [m/s]
+            s4 << trkpt->velocity;
             s4 << trkpt->heading;///< [deg]
 
-            s4 << trkpt->magnetic;///< [deg]
+                                 ///< [deg]
+            s4 << trkpt->magnetic;
             s4 << trkpt->vdop;   ///<
             s4 << trkpt->hdop;   ///<
             s4 << trkpt->pdop;   ///<
@@ -639,7 +641,7 @@ QDateTime CTrack::getStartTimestamp()
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end()) {
-        if(trkpt->flags & pt_t::eDeleted){
+        if(trkpt->flags & pt_t::eDeleted) {
             ++trkpt;
             continue;
         }
@@ -648,12 +650,13 @@ QDateTime CTrack::getStartTimestamp()
     return QDateTime();
 }
 
+
 QDateTime CTrack::getEndTimestamp()
 {
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.end() - 1;
     while(trkpt != trkpts.begin()) {
-        if(trkpt->flags & pt_t::eDeleted){
+        if(trkpt->flags & pt_t::eDeleted) {
             --trkpt;
             continue;
         }

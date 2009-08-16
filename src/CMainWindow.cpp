@@ -425,11 +425,11 @@ void CMainWindow::setupMenuBar()
     //    menuBar()->addMenu(groupProvidedMenu);
 
     // disable for release
-//    menu = new QMenu(this);
-//    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
-//    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
-//    menu->setTitle(tr("&Edit"));
-//    menuBar()->addMenu(menu);
+    //    menu = new QMenu(this);
+    //    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
+    //    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
+    //    menu->setTitle(tr("&Edit"));
+    //    menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);
@@ -621,24 +621,29 @@ void CMainWindow::slotAddData()
     }
 
     QSettings cfg;
+    int i;
+    QString filename;
     QString filter   = cfg.value("geodata/filter","").toString();
-    QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
+    //QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
+    QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input file")
         ,pathData
         ,formats
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
+    for (i = 0; i < filenames.size(); ++i) {
+        filename = filenames.at(i);
+        if(filename.isEmpty()) return;
 
-    if(filename.isEmpty()) return;
+        QString tmp = wksFile;
+        loadData(filename, filter);
+        wksFile = tmp;
 
-    QString tmp = wksFile;
-    loadData(filename, filter);
-    wksFile = tmp;
+        modified = true;
+        setTitleBar();
 
-    modified = true;
-    setTitleBar();
-
-    cfg.setValue("geodata/filter",filter);
+        cfg.setValue("geodata/filter",filter);
+    }
 }
 
 
@@ -888,6 +893,7 @@ void CMainWindow::slotPrint()
     canvas->print(printer);
 }
 
+
 void CMainWindow::slotSaveImage()
 {
     QString filter;
@@ -904,6 +910,7 @@ void CMainWindow::slotSaveImage()
     canvas->print(img);
     img.save(filename);
 }
+
 
 void CMainWindow::slotModified()
 {

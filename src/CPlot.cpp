@@ -645,6 +645,7 @@ void CPlot::resetZoom()
     update();
 }
 
+
 void CPlot::slotSave()
 {
 
@@ -671,6 +672,7 @@ void CPlot::slotSave()
 
     img.save(filename);
 }
+
 
 void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 {

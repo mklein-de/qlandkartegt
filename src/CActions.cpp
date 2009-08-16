@@ -203,6 +203,7 @@ void CActions::funcSwitchToMap()
     funcMoveArea();
 }
 
+
 void CActions::funcSwitchToMap3D()
 {
 #ifdef PLOT_3D
@@ -213,6 +214,7 @@ void CActions::funcSwitchToMap3D()
     CMapDB::self().show3DMap(true);
 #endif
 }
+
 
 void CActions::funcSwitchToWpt()
 {
@@ -363,6 +365,7 @@ void CActions::funcNewWpt()
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
+
 void CActions::funcCloseMap3D()
 {
 #ifdef PLOT_3D
@@ -375,6 +378,7 @@ void CActions::funcCloseMap3D()
     funcMoveArea();
 #endif
 }
+
 
 void CActions::funcMap3DZoomPlus()
 {
@@ -495,10 +499,11 @@ void CActions::funcTrackPurgeSelection()
         CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
 }
 
+
 void CActions::funcDeleteTrackSelection()
 {
     CTrack *track = CTrackDB::self().highlightedTrack();
-    if (track){
+    if (track) {
         CUndoStack::getInstance()->beginMacro(tr("Delete Selection"));
         CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
         CUndoStack::getInstance()->push(new CTrackUndoCommandDeletePts(track));

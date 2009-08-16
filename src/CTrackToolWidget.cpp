@@ -51,7 +51,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
 
-
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     QFontMetrics fm(listTracks->font());
@@ -210,12 +209,13 @@ void CTrackToolWidget::slotDelete()
 void CTrackToolWidget::slotDelSelect()
 {
     const QListWidgetItem* item = listTracks->currentItem();
-    if(item == 0){
+    if(item == 0) {
         return;
     }
 
     CTrackDB::self().highlightTrack("");
 }
+
 
 void CTrackToolWidget::slotToOverlay()
 {

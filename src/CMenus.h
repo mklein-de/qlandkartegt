@@ -57,7 +57,7 @@ class CMenus: public QObject
 
         Q_DECLARE_FLAGS(MenuContextNames, MenuContextName)
 
-        void addAction(ActionGroupName group, QAction *action, bool force = false);
+            void addAction(ActionGroupName group, QAction *action, bool force = false);
         void addAction(ActionGroupName group, const QString& actionName, bool force = false);
 
         void removeAction(ActionGroupName group, QAction *action);

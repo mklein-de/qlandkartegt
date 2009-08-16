@@ -485,11 +485,11 @@ void CTrackDB::highlightTrack(const QString& key)
         ++track;
     }
 
-    if(tracks.contains(key)){
+    if(tracks.contains(key)) {
         tracks[key]->setHighlight(true);
         emit sigHighlightTrack(tracks[key]);
     }
-    else{
+    else {
         emit sigHighlightTrack(0);
     }
 

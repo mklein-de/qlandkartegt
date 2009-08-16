@@ -33,11 +33,9 @@ CMenus::CMenus(QObject *parent) : QObject(parent)
     QStringList list;
     list << "aSwitchToMain" << "aMoveArea" << "aZoomArea" << "aCenterMap";
 
-    foreach(QString s, list)
-    {
+    foreach(QString s, list) {
         QAction *a = actions->getAction(s);
-        if (a)
-        {
+        if (a) {
             excludedActionForMenuBarMenu << a;
         }
     }
@@ -148,13 +146,10 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
 
     foreach(QAction *a, *getActiveActions(groupName)) {
         lqdebug(QString("enter menu: %1 ").arg(a->shortcut().toString()));
-        if ( names.testFlag(LeftSideMenu) )
-        {
+        if ( names.testFlag(LeftSideMenu) ) {
             QRegExp re ("^F(\\d+)$");
-            if (i==0)
-            {
-                if (a->shortcut().toString() != "Esc")
-                {
+            if (i==0) {
+                if (a->shortcut().toString() != "Esc") {
                     lqdebug("add action Esc");
                     QAction *dummyAction = new QAction(menu);
                     dummyAction->setText(tr("-"));
@@ -176,8 +171,7 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                 }
                 i++;
             }
-            else
-            {
+            else {
                 lqdebug("not matched" << a->shortcut().toString());
             }
 
@@ -185,32 +179,29 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                 return list;
             }
         }
-        else
-        {
+        else {
             i++;
         }
-        if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu))
-        {
+        if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)) {
             if (!actionsShortcuts.contains(a))
                 actionsShortcuts.insert(a, a->shortcuts());
             a->setShortcuts(QList<QKeySequence> ());
             list << a;
         }
-        else if (names.testFlag(ContextMenu) || names.testFlag(LeftSideMenu))
-        {
+        else if (names.testFlag(ContextMenu) || names.testFlag(LeftSideMenu)) {
             list << a;
         }
     }
 
     return list;
 }
+
+
 QList<QAction *> *CMenus::getActiveActions(ActionGroupName group)
 {
     ActionGroupName g = group;
-    if (g == NoMenu)
-    {
+    if (g == NoMenu) {
         g = activeGroup;
     }
     return actionGroupHash.value(g,new QList<QAction* >());
 };
-

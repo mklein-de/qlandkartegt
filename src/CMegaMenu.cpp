@@ -130,7 +130,7 @@ void CMegaMenu::switchByKeyWord(const QString& key)
 */
 void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *action, bool isCurrent) const
 {
-    if (!option || !action){
+    if (!option || !action) {
         return;
     }
 
@@ -140,13 +140,13 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     option->palette.setBrush(QPalette::Inactive, QPalette::Button, Qt::NoBrush);
     option->state = QStyle::State_None;
 
-    if (window()->isActiveWindow()){
+    if (window()->isActiveWindow()) {
         option->state |= QStyle::State_Active;
     }
-    if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled())){
+    if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled())) {
         option->state |= QStyle::State_Enabled;
     }
-    else{
+    else {
         option->palette.setCurrentColorGroup(QPalette::Disabled);
     }
 
@@ -165,13 +165,13 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
             ? QStyleOptionMenuItem::Exclusive : QStyleOptionMenuItem::NonExclusive;
         option->checked = action->isChecked();
     }
-    if (action->menu()){
+    if (action->menu()) {
         option->menuItemType = QStyleOptionMenuItem::SubMenu;
     }
-    else if (action->isSeparator()){
+    else if (action->isSeparator()) {
         option->menuItemType = QStyleOptionMenuItem::Separator;
     }
-    else{
+    else {
         option->menuItemType = QStyleOptionMenuItem::Normal;
     }
 
@@ -181,7 +181,7 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
 
     if (textAndAccel.indexOf(QLatin1Char('\t')) == -1) {
         QKeySequence seq = action->shortcut();
-        if (!seq.isEmpty()){
+        if (!seq.isEmpty()) {
             textAndAccel += QLatin1Char('\t') + QString(seq);
         }
     }
@@ -295,9 +295,10 @@ void CMegaMenu::mouseMoveEvent(QMouseEvent * e)
     }
 }
 
+
 void CMegaMenu::slotSplitterMoved(int pos, int index)
 {
-    if(index == 1){
+    if(index == 1) {
         setEnabled(pos);
     }
 }

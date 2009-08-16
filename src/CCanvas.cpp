@@ -300,6 +300,7 @@ void CCanvas::print(QPrinter& printer)
 
 }
 
+
 void CCanvas::print(QImage& img)
 {
     QPainter p;
@@ -610,8 +611,8 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
 {
     QMenu menu(this);
 
-    if(!CMegaMenu::self().isEnabled()){
-        foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions()){
+    if(!CMegaMenu::self().isEnabled()) {
+        foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions()) {
             menu.addAction(a);
         }
         menu.addSeparator();

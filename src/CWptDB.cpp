@@ -39,7 +39,6 @@ CWptDB * CWptDB::m_self = 0;
 #ifdef HAS_EXIF
 #include <libexif/exif-data.h>
 
-
 typedef void (*exif_content_foreach_entry_t)(ExifContent *, ExifContentForeachEntryFunc , void *);
 typedef void (*exif_data_unref_t)(ExifData *);
 typedef ExifData* (*exif_data_new_from_file_t)(const char *);
@@ -65,11 +64,11 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 
 #ifdef HAS_EXIF
 #ifdef WIN32
-	f_exif_content_foreach_entry	= (exif_content_foreach_entry_t)QLibrary::resolve("libexif-12", "exif_content_foreach_entry");
-	f_exif_data_unref				= (exif_data_unref_t)QLibrary::resolve("libexif-12", "exif_data_unref");
-	f_exif_data_new_from_file		= (exif_data_new_from_file_t)QLibrary::resolve("libexif-12", "exif_data_new_from_file");
-	f_exif_data_foreach_content		= (exif_data_foreach_content_t)QLibrary::resolve("libexif-12", "exif_data_foreach_content");
-	f_exif_content_get_ifd			= (exif_content_get_ifd_t)QLibrary::resolve("libexif-12", "exif_content_get_ifd");
+    f_exif_content_foreach_entry    = (exif_content_foreach_entry_t)QLibrary::resolve("libexif-12", "exif_content_foreach_entry");
+    f_exif_data_unref               = (exif_data_unref_t)QLibrary::resolve("libexif-12", "exif_data_unref");
+    f_exif_data_new_from_file       = (exif_data_new_from_file_t)QLibrary::resolve("libexif-12", "exif_data_new_from_file");
+    f_exif_data_foreach_content     = (exif_data_foreach_content_t)QLibrary::resolve("libexif-12", "exif_data_foreach_content");
+    f_exif_content_get_ifd          = (exif_content_get_ifd_t)QLibrary::resolve("libexif-12", "exif_content_get_ifd");
 #else
     f_exif_content_foreach_entry    = (exif_content_foreach_entry_t)QLibrary::resolve("libexif", "exif_content_foreach_entry");
     f_exif_data_unref               = (exif_data_unref_t)QLibrary::resolve("libexif", "exif_data_unref");
@@ -511,7 +510,7 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 
 static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
 {
-    switch(f_exif_content_get_ifd(exifContent)){
+    switch(f_exif_content_get_ifd(exifContent)) {
 
         case EXIF_IFD_0:
             f_exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc0, user_data);
@@ -530,7 +529,7 @@ static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_da
 void CWptDB::createWaypointsFromImages()
 {
 
-    if(f_exif_data_new_from_file == 0){
+    if(f_exif_data_new_from_file == 0) {
 #ifdef WIN32
         QMessageBox::warning(0,tr("Missing libexif"), tr("Unable to find libexif-12.dll."), QMessageBox::Abort, QMessageBox::Abort);
 #else

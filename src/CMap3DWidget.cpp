@@ -278,11 +278,12 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     QMenu menu(this);
     if (selWpt.isNull()) {
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
-    } else {
-            menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
-            menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
-            if(!selWpt->sticky)
-                menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
+    }
+    else {
+        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
+        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
+        if(!selWpt->sticky)
+            menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
     }
 
     menu.addSeparator();
@@ -367,6 +368,7 @@ void CMap3DWidget::convertMouse23D(double &u, double& v, double &ele)
     v = gl_y0;
     ele = gl_z0;
 }
+
 
 void CMap3DWidget::drawFlatMap()
 {
@@ -1082,8 +1084,8 @@ void CMap3DWidget::paintGL()
         ++wpt;
     }
 
-
 }
+
 
 void drawQuad(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture)
 {
@@ -1101,6 +1103,7 @@ void drawQuad(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z
     glEnd();
 
 }
+
 
 void CMap3DWidget::drawWpt(CWpt *wpt)
 {
@@ -1122,9 +1125,9 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
 
     map->convertRad2Pt(u, v);
     if (u < 0 || u > mapSize.width())
-            return;
+        return;
     if (v < 0 || v > mapSize.height())
-            return;
+        return;
 
     convertPt23D(u,v,ele);
 
@@ -1133,9 +1136,9 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     GLdouble a[4], b[4] = {u,v,ele,1};
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
     for (i = 0; i < 4; i++) {
-            a[i] = 0;
-            for (j = 0; j < 4; j ++)
-                    a[i] += modelview[i+j*4] * b[j];
+        a[i] = 0;
+        for (j = 0; j < 4; j ++)
+            a[i] += modelview[i+j*4] * b[j];
     }
 
     x = a[0];
@@ -1533,6 +1536,7 @@ void CMap3DWidget::leaveEvent(QEvent * )
     }
 }
 
+
 void CMap3DWidget::slotAddWpt()
 {
     IMap& map = CMapDB::self().getMap();
@@ -1549,6 +1553,7 @@ void CMap3DWidget::slotAddWpt()
 
 }
 
+
 void CMap3DWidget::slotDeleteWpt()
 {
     if(selWpt.isNull()) return;
@@ -1557,6 +1562,7 @@ void CMap3DWidget::slotDeleteWpt()
     CWptDB::self().delWpt(key);
 }
 
+
 void CMap3DWidget::slotEditWpt()
 {
     if(selWpt.isNull()) return;
@@ -1564,6 +1570,7 @@ void CMap3DWidget::slotEditWpt()
     CDlgEditWpt dlg(*selWpt,this);
     dlg.exec();
 }
+
 
 void CMap3DWidget::slotCopyPositionWpt()
 {

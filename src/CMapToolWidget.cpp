@@ -88,10 +88,10 @@ void CMapToolWidget::slotDBChanged()
         QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
         while(map != knownMaps.end()) {
             QTreeWidgetItem * item;
-            if(map->type == IMap::eGarmin){
+            if(map->type == IMap::eGarmin) {
                 item = new QTreeWidgetItem(treeKnownMapsVector);
             }
-            else{
+            else {
                 item = new QTreeWidgetItem(treeKnownMapsRaster);
             }
 
@@ -122,11 +122,11 @@ void CMapToolWidget::slotDBChanged()
     treeKnownMapsVector->sortItems(eName, Qt::AscendingOrder);
     treeKnownMapsRaster->sortItems(eName, Qt::AscendingOrder);
 
-    if(selected){
-        if(selected->data(eType, Qt::UserRole) == IMap::eGarmin){
+    if(selected) {
+        if(selected->data(eType, Qt::UserRole) == IMap::eGarmin) {
             treeKnownMapsVector->setCurrentItem(selected);
         }
-        else{
+        else {
             treeKnownMapsRaster->setCurrentItem(selected);
         }
     }
@@ -206,11 +206,11 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
     QTreeWidgetItem * item      = 0;
-    if(sender() == treeKnownMapsRaster){
+    if(sender() == treeKnownMapsRaster) {
         item = treeKnownMapsRaster->currentItem();
         lastTreeWidget = treeKnownMapsRaster;
     }
-    if(sender() == treeKnownMapsVector){
+    if(sender() == treeKnownMapsVector) {
         item = treeKnownMapsVector->currentItem();
         lastTreeWidget = treeKnownMapsVector;
     }
@@ -258,8 +258,7 @@ void CMapToolWidget::slotDeleteKnownMap()
     QTreeWidgetItem * item;
     QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
 
-
-    if(lastTreeWidget){
+    if(lastTreeWidget) {
         const QList<QTreeWidgetItem*>& items = lastTreeWidget->selectedItems();
         foreach(item,items) {
             keys << item->data(eName, Qt::UserRole).toString();

@@ -766,7 +766,7 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.file.sprintf("%08i.img",p->id);
                 tile.file = finfo.dir().filePath(tile.file);
 
-//                 qDebug() << tile.file;
+                //                 qDebug() << tile.file;
 
                 tile.north  = GARMIN_RAD((gar_load(int32_t,p->north) >> 8) & 0x00FFFFFF);
                 tile.east   = GARMIN_RAD((gar_load(int32_t,p->east) >> 8)  & 0x00FFFFFF);
@@ -1458,7 +1458,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     qSort(keys);
     quint32 type;
 
-    foreach(type, keys){
+    foreach(type, keys) {
         polyline_property& property = polylineProperties[type];
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
@@ -1487,7 +1487,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                 QPolygonF line(size);
 
-
                 if(!usePixmap) {
                     for(int i = 0; i < size; ++i) {
                         line[i].setX(*u++);
@@ -1501,7 +1500,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     p.drawPolyline(line);
                 }
                 else {
-                    if(doFastDraw){
+                    if(doFastDraw) {
                         ++item;
                         continue;
                     }
@@ -1752,7 +1751,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
             // collect extended types, wise to do it like that?
-            if(item->type & 0x10000){
+            if(item->type & 0x10000) {
                 extendedTypes << item->type;
                 ++item;
                 continue;
@@ -1778,7 +1777,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     }
 
     // do extended types
-    foreach(type, extendedTypes){
+    foreach(type, extendedTypes) {
         p.setPen(polygonProperties[type].pen);
         p.setBrush(polygonProperties[type].brush);
 
@@ -2364,8 +2363,8 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
         subtyp  = otyp & 0x1F;
 
         if(otyp & 0x2000) {
-//             qDebug() << "Skiped: " <<  hex << typ << subtyp << wtyp << otyp ;
-//             continue;
+            //             qDebug() << "Skiped: " <<  hex << typ << subtyp << wtyp << otyp ;
+            //             continue;
             typ = 0x10000 + (typ << 8) + subtyp;
         }
 
@@ -2502,11 +2501,9 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         typ = wtyp & 0xff;
         subtyp  = otyp & 0x1F;
 
-
         if(otyp & 0x2000) {
             typ = 0x10000 + (typ << 8) + subtyp;
         }
-
 
         in.device()->seek( section.dataOffset + ofs );
 
@@ -2566,10 +2563,10 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             hasPixmap = true;
 
             property.pixmap = myXpmDay;
-//             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
+            //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
 
         }
-        else{
+        else {
             property.pen0.setColor(myXpmDay.color(1));
         }
 
@@ -2581,7 +2578,6 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
 {
     bool tainted = false;
-
 
     if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
         return;
@@ -2607,14 +2603,12 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
         typ = wtyp & 0xff;
         subtyp  = otyp & 0x1F;
 
-
         if(otyp & 0x2000) {
             typ = 0x10000 + (typ << 8) + subtyp;
         }
-        else{
+        else {
             typ = (typ << 8) + subtyp;
         }
-
 
         /* Create element */
         in.device()->seek( section.dataOffset + ofs );
@@ -2643,7 +2637,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
             }
         }
         wBytes = (w * bpp) / 8;
-//         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+        //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 
         int maxcolor = pow(2.0f,bpp);
 
@@ -2658,7 +2652,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[typ] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else if (x3 == 0x10) {
                 readColorTable(in, myXpmDay, colors, maxcolor);
@@ -2672,7 +2666,7 @@ void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
                 decodeBitmap(in, myXpmDay, w, h, bpp);
                 pointProperties[typ] = myXpmDay;
                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-//                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+                //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
             }
             else {
                 if(!tainted) {
