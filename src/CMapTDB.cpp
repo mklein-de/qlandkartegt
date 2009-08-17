@@ -1445,6 +1445,7 @@ static quint16 polylineDrawOrder[]  =
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
     // clear text list
+    QPolygonF line;
     textpaths.clear();
     QFont font = CResources::self().getMapFont();
 
@@ -1482,9 +1483,15 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 double * v      = item->v.data();
                 const int size  = item->u.size();
 
+                if(size < 2){
+                    ++item;
+                    continue;
+                }
+
                 convertRad2Pt(u,v,size);
 
-                QPolygonF line(size);
+                line.clear();
+                line.resize(size);
 
                 if(!usePixmap) {
                     for(int i = 0; i < size; ++i) {
@@ -1533,6 +1540,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     if (zoomFactor < STREETNAME_THRESHOLD) {
                         collectText((*item), line, font, metrics, lineWidth);
                     }
+
 
                     path.addPolygon(line);
                     const int nLength = lengths.count();
