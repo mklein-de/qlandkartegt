@@ -71,15 +71,15 @@ Var StartMenuFolder
 ;------------------------------------------------------------------------
 ;Components description
 
-  Section "FWTools" FWTools
+  Section "FWTools 2.4.2" FWTools
   	SetOutPath $INSTDIR
   	; Don't do it if we can package install
-  	NSISdl::download http://home.gdal.org/fwtools/FWTools210.exe $TEMP\FWTools210.exe
+  	NSISdl::download http://home.gdal.org/fwtools/FWTools242.exe $TEMP\FWTools242.exe
   	Pop $R0 ;Get the return value
   	  StrCmp $R0 "success" +3
   	    MessageBox MB_OK "Download failed: $R0"
   	    Quit
-  	ExecWait '"$TEMP\FWTools210.exe"'    
+  	ExecWait '"$TEMP\FWTools242.exe"'    
   SectionEnd
   LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
 
@@ -142,7 +142,7 @@ Var StartMenuFolder
   SectionEnd
   LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"
     
-  Section "QT 4.3" QT
+  Section "QT 4.5" QT
 	SetOutPath $INSTDIR
   	File Files\QtCore4.dll
   	File Files\QtGui4.dll

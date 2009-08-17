@@ -30,8 +30,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         /usr/local/include/gdal
         /opt/local/include/gdal
         /sw/include/gdal
-        C:/Progra~1/FWTools2.2.8/include
-        C:/Progra~1/FWTools2.1.0/include
+        C:/Progra~1/FWTools2.4.2/include
   )
 
   # debian uses version suffixes
@@ -50,8 +49,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
       /usr/local/lib
       /opt/local/lib
       /sw/lib
-      C:/Progra~1/FWTools2.2.8/lib
-      C:/Progra~1/FWTools2.1.0/lib
+      C:/Progra~1/FWTools2.4.2/lib
   )
 
   set(GDAL_INCLUDE_DIRS

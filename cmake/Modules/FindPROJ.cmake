@@ -27,8 +27,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/local/include
         /opt/local/include
         /sw/include
-        C:/Progra~1/FWTools2.2.8/include
-        C:/Progra~1/FWTools2.1.0/include
+        C:/Progra~1/FWTools2.4.2/include
     PATH_SUFFIXES
         proj4
 
@@ -45,9 +44,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        C:/Progra~1/FWTools2.2.8/lib
-        C:/Progra~1/FWTools2.1.0/lib
-     
+        C:/Progra~1/FWTools2.4.2/lib     
   )
   mark_as_advanced(LIBPROJ_LIBRARY)
 
