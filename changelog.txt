@@ -1,3 +1,25 @@
+--- 2009.08.17 ---
+
+Bug     #100:
+Make arrow keys work on track edit again.
+
+Request #101:
+Add support for new Garmin map formats (latest ones still missing)
+
+Request #102:
+Save viewport and graphs as bitmap
+
+Request #104:
+Add waypoint support to 3D view (add, del, edit)
+
+Request #105:
+Add deselect for track
+
+Request #106:
+Open multiple files with geo data
+
+
+
 --- 2009.06.22 ---
 
 Bug     #99:
@@ -548,6 +570,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
