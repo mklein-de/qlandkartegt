@@ -412,7 +412,7 @@ void CGarminExport::slotStart()
         quint32 totalBlocks = 0;
         quint32 totalFATs   = 1; // one for the FAT itself
         quint32 maxFATs     = (240 * blocksize) / sizeof(CGarminTile::FATblock_t);
-        quint32 maxFileSize = 0x7FFFFFFF;
+        quint32 maxFileSize = 0xFFFFFFFF;
 
         /////////////////////////////////////////////////////////////
         // first run. read file structure of all tiles
