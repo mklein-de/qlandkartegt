@@ -437,17 +437,17 @@
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Canc</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>Purge Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina selezione</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>Purge the selected points of the track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina i punti selezionati dalla traccia.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="94"/>
@@ -1189,33 +1189,33 @@
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="230"/>
         <source>Uplaod tracks ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="246"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="304"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation type="unfinished">QLandkarteM: Trasferimento tracce fallito.</translation>
+        <translation>QLandkarteM: Trasferimento tracce fallito.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="266"/>
         <source>Download tracks ...</source>
-        <translation type="unfinished">Scarica tracce ...</translation>
+        <translation>Scarica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="268"/>
         <source>Query list of tracks from the device</source>
-        <translation type="unfinished">Interroga lista tracce dal dispositivo</translation>
+        <translation>Interroga lista tracce dal dispositivo</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="275"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation type="unfinished">QLandkarteM: Interrogazione tracce fallita.</translation>
+        <translation>QLandkarteM: Interrogazione tracce fallita.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="298"/>
         <source>Download track: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Scarica traccia: %1</translation>
     </message>
     <message>
         <source>QLandkarteM: Upload tracks is not implemented.</source>
@@ -1252,7 +1252,7 @@
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="93"/>
         <source>Connect to device.</source>
-        <translation type="unfinished">Connetti al dispositivo.</translation>
+        <translation>Connetti al dispositivo.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
@@ -1270,77 +1270,77 @@
         <location filename="../CDeviceTBDOE.cpp" line="281"/>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>Error...</source>
-        <translation type="unfinished">Errore...</translation>
+        <translation>Errore...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="98"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation type="unfinished">QLandkarteM: Fallito il collegamento al dispositivo.</translation>
+        <translation>QLandkarteM: Fallito il collegamento al dispositivo.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="117"/>
         <source>Upload waypoints ...</source>
-        <translation type="unfinished">Caricamento waypoints ...</translation>
+        <translation>Caricamento waypoints ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="125"/>
         <location filename="../CDeviceTBDOE.cpp" line="218"/>
         <source>%1
 %2 of %3</source>
-        <translation type="unfinished">%1
+        <translation>%1
 %2 di %3</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="132"/>
         <location filename="../CDeviceTBDOE.cpp" line="183"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation type="unfinished">QLandkarteM: Trasferimento waypoints fallito.</translation>
+        <translation>QLandkarteM: Trasferimento waypoints fallito.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="156"/>
         <source>Download waypoints ...</source>
-        <translation type="unfinished">Scarica waypoints ...</translation>
+        <translation>Scarica waypoints ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="158"/>
         <source>Query list of waypoints from the device</source>
-        <translation type="unfinished">Interroga lista dei waypoints dal dispositivo</translation>
+        <translation>Interroga lista dei waypoints dal dispositivo</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="162"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation type="unfinished">QLandkarteM: Interrogazione waypoints fallita.</translation>
+        <translation>QLandkarteM: Interrogazione waypoints fallita.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="210"/>
         <source>Upload tracks ...</source>
-        <translation type="unfinished">Carica tracce ...</translation>
+        <translation>Carica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="225"/>
         <location filename="../CDeviceTBDOE.cpp" line="276"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation type="unfinished">QLandkarteM: Trasferimento tracce fallito.</translation>
+        <translation>QLandkarteM: Trasferimento tracce fallito.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="249"/>
         <source>Download tracks ...</source>
-        <translation type="unfinished">Scarica tracce ...</translation>
+        <translation>Scarica tracce ...</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="251"/>
         <source>Query list of tracks from the device</source>
-        <translation type="unfinished">Interroga lista tracce dal dispositivo</translation>
+        <translation>Interroga lista tracce dal dispositivo</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="255"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation type="unfinished">QLandkarteM: Interrogazione tracce fallita.</translation>
+        <translation>QLandkarteM: Interrogazione tracce fallita.</translation>
     </message>
     <message>
         <location filename="../CDeviceTBDOE.cpp" line="301"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation type="unfinished">QLandkarteM: Caricamento mappa non implementato.</translation>
+        <translation>QLandkarteM: Caricamento mappa non implementato.</translation>
     </message>
 </context>
 <context>
@@ -1791,7 +1791,7 @@
     <message>
         <location filename="../CGarminTile.cpp" line="220"/>
         <source>File is NT format. Unable to read: </source>
-        <translation type="unfinished"></translation>
+        <translation>File in formato NT. Impossibile leggerlo: </translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="285"/>
@@ -1935,7 +1935,7 @@ riga: %2, colonna %3:
     <message>
         <location filename="../CMainWindow.cpp" line="416"/>
         <source>Save as image ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva come immagine ...</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="417"/>
@@ -2115,7 +2115,7 @@ Vuoi salvare le modifiche?</translation>
         <location filename="../CMainWindow.cpp" line="582"/>
         <location filename="../CMainWindow.cpp" line="634"/>
         <source>Select input files</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezione file di input</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="966"/>
@@ -2183,22 +2183,22 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../CMap3DWidget.cpp" line="280"/>
         <source>Add Waypoint ...</source>
-        <translation type="unfinished">Aggiungi Waypoint ...</translation>
+        <translation>Aggiungi Waypoint ...</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="283"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="unfinished">Copia Pos. Waypoint</translation>
+        <translation>Copia Pos. Waypoint</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="284"/>
         <source>Edit Waypoint...</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica Waypoint...</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="286"/>
         <source>Delete Waypoint</source>
-        <translation type="unfinished">Elimina Waypoint</translation>
+        <translation>Elimina Waypoint</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="967"/>
@@ -3381,22 +3381,22 @@ Vuoi salvare le modifiche?</translation>
     <message>
         <location filename="../CPlot.cpp" line="628"/>
         <source>Vertical zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom verticale</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="632"/>
         <source>Reset zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Reimposta zoom</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="635"/>
         <source>Save...</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva...</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="656"/>
         <source>Select output file</source>
-        <translation type="unfinished">Seleziona file di output</translation>
+        <translation>Seleziona file di output</translation>
     </message>
 </context>
 <context>
@@ -3672,7 +3672,7 @@ lunghezza: %1 %2</translation>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="51"/>
         <source>Deselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Deseleziona</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="52"/>
@@ -4726,7 +4726,24 @@ Una volta creata una collezione puoi collegargli dei dati DEM attraverso il men√
 &lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;move light source horizontally&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;move light source vertically&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Controlli senza mouse&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;destra&lt;/td&gt;&lt;td&gt;sposta la mappa ad est&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;sinistra&lt;/td&gt;&lt;td&gt;sposta la mappa ad ovest&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;su&lt;/td&gt;&lt;td&gt;sposta la mappa a nord&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;giu&lt;/td&gt;&lt;td&gt;sposta la mappa a sud&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;b&gt;Visualizzazione 3D&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;m + tasto sinistro del mouse&lt;/td&gt;&lt;td&gt;sposta la mappa&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + rotellina / pagina su/pagina giu&lt;/td&gt;&lt;td&gt;zoomma&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Inizio/fine&lt;/td&gt;&lt;td&gt;aumenta/decrementa l&apos;area della mappa&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + tasto sinistro dell mouse&lt;/td&gt;&lt;td&gt;sposta la mappa&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;l + tasto sinistro del mouse&lt;/td&gt;&lt;td&gt;sposta sorgente della luce orizzontalmente&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;h + tasto sinistro del mouse&lt;/td&gt;&lt;td&gt;sposta sorgente della luce verticalmente&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;Mouseless control&lt;/b&gt;
@@ -5380,7 +5397,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IMapToolWidget.ui" line="29"/>
         <source>Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 1</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="60"/>
@@ -5403,7 +5420,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IMapToolWidget.ui" line="79"/>
         <source>Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 2</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="132"/>
@@ -5763,7 +5780,7 @@ Fine stimata: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../CTrackUndoCommandPurgePts.cpp" line="24"/>
         <source>Purge Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina selezione</translation>
     </message>
 </context>
 </TS>
