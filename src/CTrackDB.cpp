@@ -573,6 +573,7 @@ void CTrackDB::splitTrack(int idx)
 
     addTrack(track1, true);
     addTrack(track2, true);
+    delTrack(theTrack->key(), true);
 
     emit sigChanged();
     emit sigModified();
