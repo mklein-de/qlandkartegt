@@ -109,11 +109,11 @@ class CGarminTile : public QObject
             quint32 level;
 
             quint32 offsetPoints2;
-            quint32 lengthPoints2;
+            qint32 lengthPoints2;
             quint32 offsetPolylines2;
-            quint32 lengthPolylines2;
+            qint32 lengthPolylines2;
             quint32 offsetPolygons2;
-            quint32 lengthPolygons2;
+            qint32 lengthPolygons2;
         };
 
         struct subfile_desc_t

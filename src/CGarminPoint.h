@@ -38,7 +38,7 @@ class CGarminPoint
         virtual ~CGarminPoint();
 
         quint32 decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData);
-        quint32 decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData);
+        quint32 decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData, const quint8 * pEnd);
 
         quint32 type;
         bool isLbl6;
