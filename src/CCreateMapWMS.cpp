@@ -131,13 +131,25 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     qDebug() << dom.toString();
 
-    QDomNode WMT_MS_Capabilities = dom.namedItem("WMT_MS_Capabilities");
-    //     if(WMT_MS_Capabilities.toElement().attribute("version") != "1.1.1"){
-    //         QMessageBox::critical(0,tr("Error..."), tr("Failed to check Version.\n\n%1").arg(WMT_MS_Capabilities.toElement().attribute("Version")), QMessageBox::Abort, QMessageBox::Abort);
-    //         return;
-    //     }
+    // Assume more recent version 1.3.0 first
+    versionString = "1.3.0";
+    QDomNode WMS_Capabilities = dom.namedItem("WMS_Capabilities");
+    
+    // If it did not work then try version 1.1.1
+    if (WMS_Capabilities.isNull()) {
+        versionString = "1.1.1";
+        WMS_Capabilities = dom.namedItem("WMT_MS_Capabilities");
+    }
 
-    QDomNode GetMap     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Request").namedItem("GetMap");
+    // Make sure that we guessed the version correctly
+    if(versionString != WMS_Capabilities.toElement().attribute("version")) {
+        QMessageBox::critical(0,tr("Error..."), tr("Failed to check WMS version.\n\nExpected %1, received %2.").arg(
+            versionString, WMS_Capabilities.toElement().attribute("version")), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    // Find supported tile formats [1.1.1] [1.3.0]
+    QDomNode GetMap     = WMS_Capabilities.namedItem("Capability").namedItem("Request").namedItem("GetMap");
     QDomElement format  = GetMap.firstChildElement("Format");
 
     while(!format.isNull()) {
@@ -145,21 +157,32 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         format = format.nextSiblingElement("Format");
     }
 
+    // Find the resource URL [1.1.1] [1.3.0]
     QDomNode OnlineResource = GetMap.firstChildElement("DCPType").firstChildElement("HTTP").firstChildElement("Get").firstChildElement("OnlineResource");
     urlOnlineResource = OnlineResource.toElement().attribute("xlink:href","");
 
-    QDomNode layers     = WMT_MS_Capabilities.namedItem("Capability").namedItem("Layer");
-    QDomElement srs     = layers.firstChildElement("SRS");
-
-    while(!srs.isNull()) {
-        QString strSRS      = srs.text();
-        QStringList listSRS = strSRS.split(" ", QString::SkipEmptyParts);
-        foreach(strSRS, listSRS) {
-            comboProjection->addItem(strSRS);
+    // In 1.1.1 we have SRS and in 1.3.0 CRS
+    QDomNode layers     = WMS_Capabilities.namedItem("Capability").namedItem("Layer");
+    
+    if (versionString == "1.3.0")
+    {
+        QDomElement CRS = layers.firstChildElement("CRS");
+        while(!CRS.isNull()) {
+            comboProjection->addItem(CRS.text());
+            CRS = CRS.nextSiblingElement("CRS");
         }
-        srs = srs.nextSiblingElement("SRS");
+    } else {
+        QDomElement SRS = layers.firstChildElement("SRS");
+        while(!SRS.isNull()) {
+            QStringList listSRS = SRS.text().split(" ", QString::SkipEmptyParts);
+            foreach(QString strSRS, listSRS) {
+                comboProjection->addItem(strSRS);
+            }
+            SRS = SRS.nextSiblingElement("SRS");
+        }
     }
 
+    // Find the layers [1.1.1] [1.3.0]
     QDomNode layer      = layers.firstChildElement("Layer");
 
     while(!layer.isNull()) {
@@ -176,11 +199,29 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         labelFile->setText(path.filePath(lineTitle->text() + ".xml"));
     }
 
-    QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
-    double maxx = LatLonBoundingBox.attribute("maxx","0.0").toDouble();
-    double maxy = LatLonBoundingBox.attribute("maxy","0.0").toDouble();
-    double minx = LatLonBoundingBox.attribute("minx","0.0").toDouble();
-    double miny = LatLonBoundingBox.attribute("miny","0.0").toDouble();
+    // In 1.1.1 we have LatLonBoundingBox and in 1.3.0 EX_GeographicBoundingBox
+    double maxx, maxy, minx, miny;
+    if (versionString == "1.3.0")
+    {
+        QDomElement GeographicBoundingBox = layers.namedItem("EX_GeographicBoundingBox").toElement();
+        
+        bool ok;
+        maxx = GeographicBoundingBox.namedItem("eastBoundLongitude").toElement().text().toDouble(&ok);
+        if (!ok) maxx = 0.0;
+        maxy = GeographicBoundingBox.namedItem("northBoundLatitude").toElement().text().toDouble(&ok);
+        if (!ok) maxy = 0.0;
+        minx = GeographicBoundingBox.namedItem("westBoundLongitude").toElement().text().toDouble(&ok);
+        if (!ok) minx = 0.0;
+        miny = GeographicBoundingBox.namedItem("southBoundLatitude").toElement().text().toDouble(&ok);
+        if (!ok) miny = 0.0;
+    } else {
+        QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
+    
+        maxx = LatLonBoundingBox.attribute("maxx","0.0").toDouble();
+        maxy = LatLonBoundingBox.attribute("maxy","0.0").toDouble();
+        minx = LatLonBoundingBox.attribute("minx","0.0").toDouble();
+        miny = LatLonBoundingBox.attribute("miny","0.0").toDouble();
+    }
 
     rectLatLonBoundingBox.setTop(maxy);
     rectLatLonBoundingBox.setLeft(minx);
@@ -203,16 +244,18 @@ void CCreateMapWMS::slotSave()
     Service.appendChild(Title);
 
     QDomElement  Version  = dom.createElement("Version");
-    Version.appendChild(dom.createTextNode("1.1.1"));
+    Version.appendChild(dom.createTextNode(versionString));
     Service.appendChild(Version);
 
     QDomElement ServerUrl = dom.createElement("ServerUrl");
     ServerUrl.appendChild(dom.createTextNode(urlOnlineResource));
     Service.appendChild(ServerUrl);
 
-    QDomElement SRS       = dom.createElement("SRS");
-    SRS.appendChild(dom.createTextNode(comboProjection->currentText()));
-    Service.appendChild(SRS);
+    QDomElement RS;
+    if (versionString == "1.3.0") RS = dom.createElement("CRS");
+        else RS = dom.createElement("SRS");
+    RS.appendChild(dom.createTextNode(comboProjection->currentText()));
+    Service.appendChild(RS);
 
     QDomElement ImageFormat = dom.createElement("ImageFormat");
     ImageFormat.appendChild(dom.createTextNode(comboFormat->currentText()));
@@ -277,17 +320,18 @@ void CCreateMapWMS::slotSave()
         double  a1 = 0, a2 = 0;
         double sizex, sizey;
 
-        XY p1, p2, p3;
+        XY north, south, east, west;
+        
+        north.v = v1 * DEG_TO_RAD;
+        south.v = v2 * DEG_TO_RAD;
+        north.u = south.u = (u1+u2)/2 * DEG_TO_RAD;
+        
+        east.u = u1 * DEG_TO_RAD;
+        west.u = u2 * DEG_TO_RAD;
+        east.v = west.v = (v1+v2)/2 * DEG_TO_RAD;
 
-        p1.u = u1 * DEG_TO_RAD;
-        p1.v = v1 * DEG_TO_RAD;
-        p2.u = u2 * DEG_TO_RAD;
-        p2.v = v1 * DEG_TO_RAD;
-        p3.u = u1 * DEG_TO_RAD;
-        p3.v = v2 * DEG_TO_RAD;
-
-        sizex = distance(p1, p2, a1, a2);
-        sizey = distance(p1, p3, a1, a2);
+        sizex = parallel_distance(east, west);
+        sizey = distance(north, south, a1, a2);
 
         QDomElement SizeX = dom.createElement("SizeX");
         SizeX.appendChild(dom.createTextNode(QString("%1").arg(sizex,0,'f')));

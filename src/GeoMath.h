@@ -25,6 +25,10 @@
 #endif
 #include <QVector>
 
+extern const double WGS84_a;
+extern const double WGS84_b;
+extern const double WGS84_f;
+
 // extern void GPS_Math_Deg_To_DegMin(float v, qint32 *d, float *m);
 // extern void GPS_Math_DegMin_To_Deg(const qint32 d, const float m, float& deg);
 
@@ -82,6 +86,20 @@ extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>
     @return Return the distance between pt1 and pt2.
 */
 extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
+
+/// calculate the parallel distance between two WGS84 points sharing the same latitude
+/**
+    Note that a distance along a parallel is not the shortest distance between
+    two points that share the same latitude. For example, between two points
+    with opposite latitudes one would travel through the closest pole, which
+    is shorter than along the parallel due to ellipsoidal flattening.
+
+    @param pt1 reference to first input point [rad]
+    @param pt2 reference to second input point [rad]
+
+    @return Return the distance along a parallel between pt1 and pt2.
+*/
+extern double parallel_distance(const XY& p1, const XY& p2);
 
 /**
     @param pt1 starting point longlat [rad]

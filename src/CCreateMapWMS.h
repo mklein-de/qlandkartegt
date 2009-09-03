@@ -42,9 +42,9 @@ class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
 
     private:
         QHttp * server;
+        QString versionString;
         QString urlOnlineResource;
         QRectF  rectLatLonBoundingBox;
         QString mapPath;
-
 };
 #endif                           //CCREATEMAPWMS_H

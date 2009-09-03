@@ -20,6 +20,7 @@
 #include "GeoMath.h"
 #include <stdlib.h>
 #include <QtGui>
+#include <limits>
 
 #if WIN32
 #include <math.h>
@@ -30,6 +31,11 @@ typedef __int32 int32_t;
 #define isnan _isnan
 #define FP_NAN NAN
 #endif
+
+const double WGS84_a = 6378137.0;
+const double WGS84_b = 6356752.314245;
+const double WGS84_f = 1.0/298.257223563;
+
 
 bool GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
 {
@@ -178,6 +184,7 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
 
 
 // from http://www.movable-type.co.uk/scripts/LatLongVincenty.html
+// additional antipodal convergence trick might be a bit lame, but it seems to work
 double distance(const XY& p1, const XY& p2, double& a1, double& a2)
 {
     double cosSigma = 0.0;
@@ -189,18 +196,22 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     double sinLambda = 0.0;
     double cosLambda = 0.0;
 
-                                 // WGS-84 ellipsiod
-    double a = 6378137.0f, b = 6356752.3142f,  f = 1.0f/298.257223563f;
     double L = p2.u - p1.u;
 
-    double U1 = atan((1-f) * tan(p1.v));
-    double U2 = atan((1-f) * tan(p2.v));
+    double U1 = atan((1-WGS84_f) * tan(p1.v));
+    double U2 = atan((1-WGS84_f) * tan(p2.v));
     double sinU1 = sin(U1), cosU1 = cos(U1);
     double sinU2 = sin(U2), cosU2 = cos(U2);
     double lambda = L, lambdaP = (double)(2*PI);
     unsigned iterLimit = 20;
 
-    while ((fabs(lambda - lambdaP) > 1e-12) && (--iterLimit > 0)) {
+    while (fabs(lambda - lambdaP) > 1e-12) {
+        if (!iterLimit)
+        {
+            lambda = PI;
+            qDebug() << "No lambda convergence, most likely due to near-antipodal points. Assuming antipodal.";
+        }
+
         sinLambda = sin(lambda);
         cosLambda = cos(lambda);
         sinSigma = sqrt((cosU2*sinLambda) * (cosU2*sinLambda) + (cosU1*sinU2-sinU1*cosU2*cosLambda) * (cosU1*sinU2-sinU1*cosU2*cosLambda));
@@ -219,23 +230,35 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
             cos2SigmaM = 0;      // equatorial line: cosSqAlpha=0 (6)
         }
 
-        double C = f/16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+        double C = WGS84_f/16 * cosSqAlpha * (4 + WGS84_f * (4 - 3 * cosSqAlpha));
         lambdaP = lambda;
-        lambda = L + (1-C) * f * sinAlpha * (sigma + C*sinSigma*(cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+        
+        if (iterLimit--) lambda = L + (1-C) * WGS84_f * sinAlpha * (sigma + C*sinSigma*(cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     }
-    if (iterLimit==0) return 0;  // formula failed to converge
 
-    double uSq = cosSqAlpha * (a*a - b*b) / (b*b);
+    double uSq = cosSqAlpha * (WGS84_a*WGS84_a - WGS84_b*WGS84_b) / (WGS84_b*WGS84_b);
     double A = 1 + uSq/16384*(4096+uSq*(-768+uSq*(320-175*uSq)));
     double B = uSq/1024 * (256+uSq*(-128+uSq*(74-47*uSq)));
     double deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)-B/6*cos2SigmaM*(-3+4*sinSigma*sinSigma)*(-3+4*cos2SigmaM*cos2SigmaM)));
-    double s = b*A*(sigma-deltaSigma);
+    double s = WGS84_b*A*(sigma-deltaSigma);
 
     a1 = atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * 360 / TWOPI;
     a2 = atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda) * 360 / TWOPI;
     return s;
 }
 
+double parallel_distance(const XY& p1, const XY& p2)
+{
+    // Assure same latitude V
+    if (p1.v != p2.v) return std::numeric_limits<double>::quiet_NaN();
+    
+    // Compute the distance between Earth center and latitude V
+    double cosV = cos(p1.v);
+    double r = WGS84_a*WGS84_b / sqrt(cosV*cosV*WGS84_b*WGS84_b + (1-cosV*cosV)*WGS84_a*WGS84_a);
+    
+    // Return the lenght of U2-U1 arc at latitude V
+    return fabs(p2.u-p1.u)*r*cosV;
+}
 
 void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
 {
