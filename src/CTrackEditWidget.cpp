@@ -177,6 +177,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
 void CTrackEditWidget::slotUpdate()
 {
+    int i;
+
     if (track->hasTraineeData())
         traineeGraph->setEnabled(true);
     else {
@@ -223,10 +225,16 @@ void CTrackEditWidget::slotUpdate()
 
         // gray shade deleted items
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
-            item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+            //item->setFlags((item->flags() & ~Qt::ItemIsEnabled) | Qt::ItemIsTristate);
+            for(i = 0; i < eMaxColumn; ++i){
+                item->setForeground(i,QBrush(Qt::gray));
+            }
         }
         else {
-            item->setFlags(item->flags() | Qt::ItemIsEnabled);
+            //item->setFlags(item->flags() | Qt::ItemIsEnabled | Qt::ItemIsTristate);
+            for(i = 0; i < eMaxColumn; ++i){
+                item->setForeground(i,QBrush(Qt::black));
+            }
         }
 
         // temp. store item of user focus
