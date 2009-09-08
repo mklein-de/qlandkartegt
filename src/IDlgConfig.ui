@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>IDlgConfig</class>
- <widget class="QDialog" name="IDlgConfig" >
-  <property name="geometry" >
+ <widget class="QDialog" name="IDlgConfig">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,36 +10,36 @@
     <height>524</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>3</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Environment</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
           <string>Font</string>
          </property>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QLabel" name="labelFont" >
-            <property name="text" >
+           <widget class="QLabel" name="labelFont">
+            <property name="text">
              <string>ABCDEFGHabcdefgh123456789</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolFont" >
-            <property name="text" >
+           <widget class="QToolButton" name="toolFont">
+            <property name="text">
              <string>...</string>
             </property>
            </widget>
@@ -47,31 +48,31 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="enabled" >
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="title" >
+         <property name="title">
           <string>Units</string>
          </property>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QRadioButton" name="radioMetric" >
-            <property name="text" >
+           <widget class="QRadioButton" name="radioMetric">
+            <property name="text">
              <string>Metric</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioNautic" >
-            <property name="text" >
+           <widget class="QRadioButton" name="radioNautic">
+            <property name="text">
              <string>Nautic</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioImperial" >
-            <property name="text" >
+           <widget class="QRadioButton" name="radioImperial">
+            <property name="text">
              <string>Imperial</string>
             </property>
            </widget>
@@ -80,14 +81,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_3" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
           <string>Mouse Wheel</string>
          </property>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QCheckBox" name="checkFlipMouseWheel" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkFlipMouseWheel">
+            <property name="text">
              <string>Flip</string>
             </property>
            </widget>
@@ -97,10 +98,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>40</height>
@@ -110,49 +111,49 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>Network</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox_4" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
           <string>Proxy</string>
          </property>
-         <layout class="QVBoxLayout" >
+         <layout class="QVBoxLayout">
           <item>
-           <widget class="QCheckBox" name="checkProxy" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkProxy">
+            <property name="text">
              <string>enable</string>
             </property>
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" >
+           <layout class="QHBoxLayout">
             <item>
-             <widget class="QLabel" name="label" >
-              <property name="text" >
+             <widget class="QLabel" name="label">
+              <property name="text">
                <string>URL</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineProxyURL" />
+             <widget class="QLineEdit" name="lineProxyURL"/>
             </item>
             <item>
-             <widget class="QLabel" name="label_4" >
-              <property name="text" >
+             <widget class="QLabel" name="label_4">
+              <property name="text">
                <string>Port</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineProxyPort" >
-              <property name="inputMask" >
+             <widget class="QLineEdit" name="lineProxyPort">
+              <property name="inputMask">
                <string>00000; </string>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>8080</string>
               </property>
              </widget>
@@ -163,43 +164,43 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_5" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
           <string>Browser</string>
          </property>
-         <layout class="QVBoxLayout" >
+         <layout class="QVBoxLayout">
           <item>
-           <widget class="QComboBox" name="comboBrowser" >
+           <widget class="QComboBox" name="comboBrowser">
             <item>
-             <property name="text" >
+             <property name="text">
               <string>Firefox</string>
              </property>
             </item>
             <item>
-             <property name="text" >
+             <property name="text">
               <string>Konqueror</string>
              </property>
             </item>
             <item>
-             <property name="text" >
+             <property name="text">
               <string>other (needs command line)</string>
              </property>
             </item>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineBrowserCmd" >
-            <property name="enabled" >
+           <widget class="QLineEdit" name="lineBrowserCmd">
+            <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>my command %s</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_5" >
-            <property name="text" >
+           <widget class="QLabel" name="label_5">
+            <property name="text">
              <string>%s will be replaced by URL</string>
             </property>
            </widget>
@@ -209,121 +210,121 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="Seite" >
-      <attribute name="title" >
+     <widget class="QWidget" name="Seite">
+      <attribute name="title">
        <string>Device &amp;&amp; Xfer</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <widget class="QComboBox" name="comboDevice" />
+        <widget class="QComboBox" name="comboDevice"/>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupDevice" >
-         <property name="enabled" >
+        <widget class="QGroupBox" name="groupDevice">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="title" >
+         <property name="title">
           <string>Device</string>
          </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <widget class="QLabel" name="labelDevIPAddr" >
-            <property name="enabled" >
+         <layout class="QGridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelDevIPAddr">
+            <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>IP Address</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <layout class="QHBoxLayout" >
+          <item row="0" column="1">
+           <layout class="QHBoxLayout">
             <item>
-             <widget class="QLineEdit" name="lineDevIPAddr" >
-              <property name="enabled" >
+             <widget class="QLineEdit" name="lineDevIPAddr">
+              <property name="enabled">
                <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelDevIPPort" >
-              <property name="enabled" >
+             <widget class="QLabel" name="labelDevIPPort">
+              <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Port</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineDevIPPort" >
-              <property name="enabled" >
+             <widget class="QLineEdit" name="lineDevIPPort">
+              <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>4242</string>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="labelDevSerialPort" >
-            <property name="enabled" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelDevSerialPort">
+            <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Serial Port</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="QLineEdit" name="lineDevSerialPort" >
-            <property name="enabled" >
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineDevSerialPort">
+            <property name="enabled">
              <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="labelDevType" >
-            <property name="enabled" >
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelDevType">
+            <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Type</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1" >
-           <layout class="QHBoxLayout" >
+          <item row="2" column="1">
+           <layout class="QHBoxLayout">
             <item>
-             <widget class="QComboBox" name="comboDevType" >
-              <property name="enabled" >
+             <widget class="QComboBox" name="comboDevType">
+              <property name="enabled">
                <bool>false</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolPlugins" >
-              <property name="enabled" >
+             <widget class="QToolButton" name="toolPlugins">
+              <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>...</string>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="3" column="1" >
-           <widget class="QLabel" name="labelMessage" >
-            <property name="text" >
+          <item row="3" column="1">
+           <widget class="QLabel" name="labelMessage">
+            <property name="text">
              <string/>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignJustify|Qt::AlignVCenter</set>
             </property>
-            <property name="wordWrap" >
+            <property name="wordWrap">
              <bool>true</bool>
             </property>
            </widget>
@@ -332,31 +333,31 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_7" >
-         <property name="enabled" >
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="title" >
+         <property name="title">
           <string>Upload All</string>
          </property>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QCheckBox" name="checkUploadWpt" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkUploadWpt">
+            <property name="text">
              <string>Waypoints</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkUploadTrk" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkUploadTrk">
+            <property name="text">
              <string>Tracks</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkUploadRte" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkUploadRte">
+            <property name="text">
              <string>Routes</string>
             </property>
            </widget>
@@ -365,31 +366,31 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_8" >
-         <property name="enabled" >
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="title" >
+         <property name="title">
           <string>Download All</string>
          </property>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QCheckBox" name="checkDownloadWpt" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkDownloadWpt">
+            <property name="text">
              <string>Waypoints</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkDownloadTrk" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkDownloadTrk">
+            <property name="text">
              <string>Tracks</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkDownloadRte" >
-            <property name="text" >
+           <widget class="QCheckBox" name="checkDownloadRte">
+            <property name="text">
              <string>Routes</string>
             </property>
            </widget>
@@ -399,34 +400,34 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="Seite_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="Seite_2">
+      <attribute name="title">
        <string>Keys</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
-          <string>&lt;b>Mouseless control&lt;/b>
-&lt;table>
-&lt;tr>&lt;td>right&lt;/td>&lt;td>move map view to east&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>left&lt;/td>&lt;td>move map view to west&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>up&lt;/td>&lt;td>move map view to north&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>down&lt;/td>&lt;td>move map view to south&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>+&lt;/td>&lt;td>zoom in&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>-&lt;/td>&lt;td>zoom out&lt;/td>&lt;/tr>
-&lt;/table>
-&lt;b>3D view&lt;/b>
-&lt;table>
-&lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>move map&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>m + scroll mouse / pageup/pagedown&lt;/td>&lt;td>zoom map&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>home/end&lt;/td>&lt;td>increase/decrease map area&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>m + left mouse&lt;/td>&lt;td>move map&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>l + left mouse&lt;/td>&lt;td>move light source horizontally&lt;/td>&lt;/tr>
-&lt;tr>&lt;td>h + left mouse&lt;/td>&lt;td>move light source vertically&lt;/td>&lt;/tr>
-&lt;/table></string>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>&lt;b&gt;Mouseless control&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;move map view to east&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;move map view to west&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;move map view to north&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;move map view to south&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;b&gt;3D view&lt;/b&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + scroll mouse / pageup/pagedown&lt;/td&gt;&lt;td&gt;zoom map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;home/end&lt;/td&gt;&lt;td&gt;increase/decrease map area&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;move light source horizontally&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;move light source vertically&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignJustify|Qt::AlignTop</set>
          </property>
         </widget>
@@ -436,11 +437,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -455,11 +456,11 @@
    <receiver>IDlgConfig</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -471,11 +472,11 @@
    <receiver>IDlgConfig</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
