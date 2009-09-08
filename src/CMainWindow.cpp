@@ -903,19 +903,27 @@ void CMainWindow::slotPrint()
 
 void CMainWindow::slotSaveImage()
 {
-    QString filter;
-    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
-        ,pathData
-        ,"Bitmap (*.png *.jpg);;"
-        ,&filter
-        , QFileDialog::DontUseNativeDialog
-        );
+    CMap3DWidget * map3d = qobject_cast<CMap3DWidget*>(canvasTab->currentWidget());
 
-    if(filename.isEmpty()) return;
+    if(map3d){
+        map3d->slotSaveImage();
+    }
+    else{
 
-    QImage img(canvas->size(), QImage::Format_ARGB32);
-    canvas->print(img);
-    img.save(filename);
+        QString filter;
+        QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+            ,pathData
+            ,"Bitmap (*.png *.jpg);;"
+            ,&filter
+            , QFileDialog::DontUseNativeDialog
+            );
+
+        if(filename.isEmpty()) return;
+
+        QImage img(canvas->size(), QImage::Format_ARGB32);
+        canvas->print(img);
+        img.save(filename);
+    }
 }
 
 

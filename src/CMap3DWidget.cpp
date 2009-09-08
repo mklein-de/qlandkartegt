@@ -1582,3 +1582,23 @@ void CMap3DWidget::slotCopyPositionWpt()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(position);
 }
+
+
+void CMap3DWidget::slotSaveImage()
+{
+    QSettings cfg;
+    QString pathData = cfg.value("path/data","./").toString();
+
+    QString filter;
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+        ,pathData
+        ,"Bitmap (*.png *.jpg);;"
+        ,&filter
+        , QFileDialog::DontUseNativeDialog
+        );
+
+    if(filename.isEmpty()) return;
+
+    QImage image = grabFrameBuffer();
+    image.save(filename);
+}

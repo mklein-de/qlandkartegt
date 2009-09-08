@@ -139,6 +139,7 @@ class CMap3DWidget: public QGLWidget
         void lightReset();
         void changeMode();
         void lightTurn();
+        void slotSaveImage();
 
         signals:
         void xRotationChanged(double angle);
