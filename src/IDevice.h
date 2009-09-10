@@ -57,6 +57,8 @@ class IDevice : public QObject
         virtual void setLiveLog(bool on);
         virtual bool liveLog(){return false;}
 
+        virtual void downloadScreenshot(QImage& image) = 0;
+
         static bool m_UploadAllWpt;
         static bool m_DownloadAllWpt;
         static bool m_UploadAllTrk;

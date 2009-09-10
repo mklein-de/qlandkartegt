@@ -55,6 +55,8 @@ class CDeviceGarmin : public IDevice
         void setLiveLog(bool on);
         bool liveLog();
 
+        void downloadScreenshot(QImage& image);
+
     private slots:
         void slotTimeout();
         void slotCancel();

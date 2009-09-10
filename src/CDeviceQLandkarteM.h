@@ -40,6 +40,8 @@ class CDeviceQLandkarteM : public IDevice
 
         void uploadMap(const QList<IMapSelection*>& mss);
 
+        void downloadScreenshot(QImage& image);
+
     private:
         enum packet_e
         {
@@ -54,6 +56,7 @@ class CDeviceQLandkarteM : public IDevice
             , eH2CTrkQuery  = 8  ///< request track keys from host (M)
             , eH2CTrk       = 9  ///< request track data from host (M)
             , eC2HTrk       = 10 ///< send track data from from client (GT) to host (M)
+            , eH2CScreen    = 11 ///< request screenshot from host (M)
         };
         bool startDeviceDetection();
         bool waitTcpServerStatus();

@@ -38,6 +38,8 @@
 #include "COverlayDB.h"
 #include "CActions.h"
 #include "CMenus.h"
+#include "IDevice.h"
+#include "CDlgScreenshot.h"
 
 #include <QtGui>
 #include "CUndoStack.h"
@@ -413,6 +415,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconScreenshot16x16.png"),tr("Device Screenshot ..."),this,SLOT(slotScreenshot()));
     menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save as image ..."),this,SLOT(slotSaveImage()));
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
@@ -1050,4 +1053,12 @@ void CMainWindow::slotDeviceChanged()
 
     resources->m_devKey = devKey;
     comboDevice->setCurrentIndex(comboDevice->findData(resources->m_devKey));
+}
+
+
+void CMainWindow::slotScreenshot()
+{
+    CDlgScreenshot dlg(this);
+    dlg.exec();
+
 }

@@ -909,3 +909,14 @@ bool CDeviceGarmin::liveLog()
 {
     return timer->isActive();
 }
+
+
+void CDeviceGarmin::downloadScreenshot(QImage& image)
+{
+
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    QMessageBox::information(0,tr("Error..."), tr("Garmin: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+}

@@ -224,6 +224,38 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 }
 
 
+void CDeviceQLandkarteM::downloadScreenshot(QImage& image)
+{
+
+    if(!startDeviceDetection()) return;
+
+    if(!acquire(tr("Download screenshot ..."), 1)) return;
+
+    progress->setLabelText(tr("Download screenshot ..."));
+    qApp->processEvents();
+
+    packet_e type;
+    QByteArray  data;
+
+    if(!exchange(type = eH2CScreen,data)) {
+        QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to download screenshot from device."),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    if(type == eError) {
+        QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
+        return release();
+    }
+
+    QDataStream stream(&data,QIODevice::ReadWrite);
+
+    stream >> image;
+
+    release();
+    return;
+}
+
+
 void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
 {
     if(!startDeviceDetection()) return;
@@ -379,6 +411,8 @@ bool CDeviceQLandkarteM::startDeviceDetection()
 }
 
 
+
+
 void CDeviceQLandkarteM::detectedDevice()
 {
     // Detect device only if none already
@@ -432,3 +466,4 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
     }
     return true;
 }
+

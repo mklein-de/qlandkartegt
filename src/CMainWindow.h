@@ -83,6 +83,7 @@ class CMainWindow : public QMainWindow
         void slotOpenLink(const QString& link);
         void slotCurrentDeviceChanged(int);
         void slotDeviceChanged();
+        void slotScreenshot();
 
     private:
         CMenus *actionGroupProvider;
