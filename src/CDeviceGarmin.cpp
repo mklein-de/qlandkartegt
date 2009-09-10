@@ -29,6 +29,7 @@
 #include "CRoute.h"
 #include "CMapSelectionGarmin.h"
 #include "CGarminExport.h"
+#include "Platform.h"
 
 #undef IDEVICE_H
 #include <garmin/IDevice.h>
@@ -363,6 +364,32 @@ garmin_icon_t GarminIcons[] =
     {  16396, "VOR/TACAN" },
     {     -1, 0 },
 };
+
+// Header of Garmin 256-color BMP bitmap files
+struct garmin_bmp_t
+{
+    quint16 bfType;
+    quint32 bfSize;
+    quint32 bfReserved;
+    quint32 bfOffBits;
+
+    quint32 biSize;
+    qint32 biWidth;
+    qint32 biHeight;
+    quint16 biPlanes;
+    quint16 biBitCount;
+    quint32 biCompression;
+    quint32 biSizeImage;
+    quint32 biXPelsPerMeter;
+    quint32 biYPelsPerMeter;
+    quint32 biClrUsed;
+    quint32 biClrImportant;
+
+    quint32 clrtbl[0x100];
+
+    quint8  data[];
+};
+
 
 /**
   @param progress the progress as integer from 0..100, if -1 no progress bar needed.
@@ -720,41 +747,88 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         QSound::play(":/sounds/xfer-done.wav");
     }
     catch(int /*e*/) {
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
-std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
-while(gartrk != gartrks.end()) {
-
-    CTrack * trk = new CTrack(&CTrackDB::self());
-
-    trk->setName(gartrk->ident.c_str());
-    trk->setColor(gartrk->color);
-
-    std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
-    while(gartrkpt != gartrk->track.end()) {
-        QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
-        t = t.addYears(20).addDays(-1);
-
-        CTrack::pt_t trkpt;
-        trkpt.lon       = gartrkpt->lon;
-        trkpt.lat       = gartrkpt->lat;
-        trkpt.timestamp = t.toTime_t();
-        trkpt.ele       = gartrkpt->alt;
-
-        *trk << trkpt;
-        ++gartrkpt;
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
     }
 
-    if(trk->getTrackPoints().count() > 0) {
-        trks << trk;
+    std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
+    while(gartrk != gartrks.end()) {
+
+        CTrack * trk = new CTrack(&CTrackDB::self());
+
+        trk->setName(gartrk->ident.c_str());
+        trk->setColor(gartrk->color);
+
+        std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
+        while(gartrkpt != gartrk->track.end()) {
+            QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
+            t = t.addYears(20).addDays(-1);
+
+            CTrack::pt_t trkpt;
+            trkpt.lon       = gartrkpt->lon;
+            trkpt.lat       = gartrkpt->lat;
+            trkpt.timestamp = t.toTime_t();
+            trkpt.ele       = gartrkpt->alt;
+
+            *trk << trkpt;
+            ++gartrkpt;
+        }
+
+        if(trk->getTrackPoints().count() > 0) {
+            trks << trk;
+        }
+        ++gartrk;
     }
-    ++gartrk;
+
 }
 
+void CDeviceGarmin::downloadScreenshot(QImage& image)
+{
+    qDebug() << "CDeviceGarmin::downloadScreenshot()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
 
+    char *  clrtbl  = 0;
+    char *  data    = 0;
+    int     width   = 0;
+    int     height  = 0;
+
+    try
+    {
+        dev->screenshot(clrtbl, data, width, height);
+        QSound::play(":/sounds/xfer-done.wav");
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
+
+    if(data != 0 && clrtbl != 0) {
+        /* Hack hack hack - add two dummy bytes at the beginning of the array which are
+         * removed below, and let the bmp record start at offs 2.  This shifts all 4-byte
+         * data in the record to adresses which are a multiple of 4. */
+        QByteArray buffer(sizeof(garmin_bmp_t) + width * height + 2, 0);
+        garmin_bmp_t * pBmp = (garmin_bmp_t*)(buffer.data() + 2);
+        pBmp->bfType        = gar_endian(uint16_t, 0x4d42);
+        pBmp->bfSize        = gar_endian(uint32_t, buffer.size());
+        pBmp->bfReserved    = 0;
+        pBmp->bfOffBits     = gar_endian(uint32_t, sizeof(garmin_bmp_t));
+        pBmp->biSize        = gar_endian(uint32_t, 0x28);
+        pBmp->biWidth       = gar_endian(int32_t, width);
+        pBmp->biHeight      = gar_endian(int32_t, height);
+        pBmp->biPlanes      = gar_endian(uint16_t, 1);
+        pBmp->biBitCount    = gar_endian(uint16_t, 8);
+        pBmp->biCompression = 0;
+        pBmp->biSizeImage   = gar_endian(uint32_t, width * height);
+        pBmp->biYPelsPerMeter = 0;
+        pBmp->biXPelsPerMeter = 0;
+        pBmp->biClrUsed       = gar_endian(uint32_t, 0x100);
+        pBmp->biClrImportant  = gar_endian(uint32_t, 0x100);
+        memcpy(pBmp->clrtbl,clrtbl,sizeof(pBmp->clrtbl));
+        memcpy(pBmp->data,data,width * height);
+
+        image.loadFromData((const uchar *)pBmp, sizeof(garmin_bmp_t) + width * height);
+    }
 }
 
 void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
@@ -911,12 +985,3 @@ bool CDeviceGarmin::liveLog()
 }
 
 
-void CDeviceGarmin::downloadScreenshot(QImage& image)
-{
-
-    Garmin::IDevice * dev = getDevice();
-    if(dev == 0) return;
-
-    QMessageBox::information(0,tr("Error..."), tr("Garmin: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
-
-}
