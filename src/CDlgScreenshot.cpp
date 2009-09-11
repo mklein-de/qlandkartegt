@@ -56,7 +56,7 @@ void CDlgScreenshot::slotSave()
     QString filter;
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"Bitmap (*.png *.jpg);;"
+        ,"Bitmap (*.bmp);;"
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );

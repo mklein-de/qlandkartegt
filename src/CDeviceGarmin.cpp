@@ -364,6 +364,7 @@ garmin_icon_t GarminIcons[] =
     {  16396, "VOR/TACAN" },
     {     -1, 0 },
 };
+#pragma pack(1)
 
 // Header of Garmin 256-color BMP bitmap files
 struct garmin_bmp_t
@@ -389,6 +390,7 @@ struct garmin_bmp_t
 
     quint8  data[];
 };
+#pragma pack(0)
 
 
 /**
@@ -828,6 +830,7 @@ void CDeviceGarmin::downloadScreenshot(QImage& image)
         memcpy(pBmp->data,data,width * height);
 
         image.loadFromData((const uchar *)pBmp, sizeof(garmin_bmp_t) + width * height);
+
     }
 }
 
