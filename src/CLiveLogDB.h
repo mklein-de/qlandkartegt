@@ -69,6 +69,7 @@ class CLiveLogDB : public IDB
     private slots:
         void slotLiveLog(const CLiveLog& log);
         void slotMapChanged();
+        void slotMapDBChanged();
     private:
 
         friend class CMainWindow;

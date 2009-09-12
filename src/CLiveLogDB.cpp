@@ -46,7 +46,8 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
     m_self      = this;
     toolview    = new CLiveLogToolWidget(tb);
 
-    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapDBChanged()));
+    slotMapDBChanged();
 
     saveBackupLog();
     backup = new QFile(QDir::temp().filePath("qlBackupLog"),this);
@@ -221,6 +222,12 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     emit sigChanged();
 }
 
+void CLiveLogDB::slotMapDBChanged()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    connect(&map, SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
+}
 
 void CLiveLogDB::slotMapChanged()
 {
