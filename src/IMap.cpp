@@ -191,7 +191,7 @@ void IMap::registerDEM(CMapDEM& dem)
 
     if(proj1 != proj2) {
         dem.deleteLater();
-        throw tr("DEM projection does not match the projection of the basemap.");
+        throw tr("DEM projection does not match the projection of the basemap.\n\nMap: %1\n\nDEM: %2").arg(proj1).arg(proj2);
     }
 }
 
