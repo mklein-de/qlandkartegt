@@ -433,6 +433,20 @@ QImage CMapTDB::arterialRoad(const QColor& color)
     return pix;
 }
 
+QImage CMapTDB::otherHighway(const QColor& color)
+{
+    QImage pix(16, 3, QImage::Format_ARGB32);
+
+    QPainter p(&pix);
+
+    p.fillRect(0,0,16,3, color);
+    p.setPen(QPen(Qt::black,1));
+    p.drawLine(0,0,16,0);
+    p.drawLine(0,2,16,2);
+
+    return pix;
+}
+
 void CMapTDB::setup()
 {
     polyline_typestr.clear();
@@ -507,6 +521,7 @@ void CMapTDB::setup()
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine );
     polylineProperties[0x02].pixmap = principalHighway("#cc9900");
     polylineProperties[0x03] = polyline_property(0x03, "#D86C00",   3, Qt::SolidLine );
+    polylineProperties[0x03].pixmap = otherHighway(Qt::yellow);
     polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine );
     polylineProperties[0x04].pixmap = arterialRoad("#ffff00");
     polylineProperties[0x05] = polyline_property(0x05, "#dc7c5a",   2, Qt::SolidLine );
@@ -2641,6 +2656,10 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             else if(typ == 0x02)
             {
                 property.pixmap = principalHighway(myXpmDay.color(1));
+            }
+            else if(typ == 0x03)
+            {
+                property.pixmap = otherHighway(myXpmDay.color(1));
             }
             else if(typ == 0x04)
             {
