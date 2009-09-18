@@ -242,10 +242,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     char * ptr;
     ptr = pj_get_def(pjsrc,0);
     qDebug() << "pjsrc:\t" << ptr;
-    free(ptr);
+//     free(ptr);
     ptr = pj_get_def(pjtar,0);
     qDebug() << "pjtar:\t" << ptr;
-    free(ptr);
+//     free(ptr);
 
     processPrimaryMapData();
 
@@ -331,7 +331,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     pjsrc = pj_init_plus(ptr);
 
     qDebug() << "TDB:" << ptr;
-    if(ptr) free(ptr);
+//     if(ptr) free(ptr);
 
     readTDB(filename);
     processPrimaryMapData();
@@ -667,7 +667,7 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     }
     pj_free(pjsrc);
     pjsrc = pj_init_plus(ptr);
-    if(ptr) free(ptr);
+//     if(ptr) free(ptr);
 }
 
 

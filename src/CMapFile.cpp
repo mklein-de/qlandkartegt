@@ -51,7 +51,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     oSRS.exportToProj4(&ptr);
     strOrigProj = strProj = ptr;
 
-    if(ptr) free(ptr);
+//     if(ptr) free(ptr);
 
     qDebug() << strProj;
 

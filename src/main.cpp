@@ -46,7 +46,7 @@ int main(int argc, char ** argv)
         printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
         printf("------------ %s\n",ptr);
-        free(ptr);
+//         free(ptr);
 
         pj_free(pjWGS84);
         pj_free(pjGK);
@@ -100,7 +100,7 @@ int main(int argc, char ** argv)
         printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
         printf("------------ %s\n",ptr);
-        free(ptr);
+//         free(ptr);
 
         pj_free(pjWGS84);
         pj_free(pjGK);
