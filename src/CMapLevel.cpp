@@ -35,6 +35,7 @@ CMapLevel::CMapLevel(quint32 min, quint32 max, CMapQMAP * parent)
 , northbound(-90)
 , eastbound(-180)
 , southbound(90)
+, has32BitRgbFile(false)
 {
     pjtar = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
 }
@@ -75,6 +76,8 @@ void CMapLevel::addMapFile(const QString& filename)
     if(e > eastbound)   eastbound = e;
     if(n > northbound)  northbound = n;
     if(s < southbound)  southbound = s;
+
+    if(mapfile->is32BitRgb()) has32BitRgbFile = true;
 
 }
 

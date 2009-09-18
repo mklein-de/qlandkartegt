@@ -726,7 +726,7 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
     }
 
     if(state == eTranslate) {
-
+        IMap& map = CMapDB::self().getMap();
         state = eWarp;
         QStringList args;
 
@@ -738,6 +738,9 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
             args << "-tps";
         }
 
+        if(map.is32BitRgb()){
+            args << "-r" << "cubic";
+        }
         args << "-dstnodata" << "\"255\"";
         args << tmpfile1->fileName();
 

@@ -52,6 +52,8 @@ class CMapDEM : public IMap
         void getRegion(float *buffer, XY p1, XY p2, int w, int h);
         qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h);
 
+        bool is32BitRgb(){return false;}
+
     private:
         void shading(QImage& img, qint16 * data, float xscale, float yscale);
         void contour(QImage& img, qint16 * data, float xscale, float yscale);

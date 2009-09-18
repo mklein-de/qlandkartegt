@@ -42,7 +42,7 @@ class CMapRaster  : public IMap
         void zoom(qint32& level);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-
+        bool is32BitRgb();
     private:
         /// instance of GDAL dataset
         GDALDataset * dataset;
@@ -56,5 +56,8 @@ class CMapRaster  : public IMap
 
         int   zoomlevel;
         float zoomfactor;
+
+        int rasterBandCount;
+
 };
 #endif                           //CMAPRASTER_H

@@ -44,7 +44,7 @@ class CMapGeoTiff : public IMap
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-
+        bool is32BitRgb();
     private:
         void zoom(qint32& level);
 

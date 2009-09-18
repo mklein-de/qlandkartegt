@@ -237,6 +237,8 @@ class IMap : public QObject
         /// summon a configuration dialog, dafault does nothing
         virtual void config(){};
 
+        virtual bool is32BitRgb(){return true;}
+
         static double midU;
         static double midV;
 

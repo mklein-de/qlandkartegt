@@ -72,6 +72,8 @@ class CMapLevel : public QObject
 
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
+        bool is32BitRgb(){return has32BitRgbFile;}
+
     private:
         QVector<CMapFile*> mapfiles;
 
@@ -83,5 +85,6 @@ class CMapLevel : public QObject
         double eastbound;
         double southbound;
 
+        bool has32BitRgbFile;
 };
 #endif                           //CMAPLEVEL_H

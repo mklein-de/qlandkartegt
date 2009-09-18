@@ -95,5 +95,8 @@ class CMapFile : public QObject
 
         int rasterBandCount;
 
+        bool is32BitRgb();
+
+
 };
 #endif                           //CMAPFILE_H

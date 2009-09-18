@@ -141,3 +141,9 @@ CMapFile::~CMapFile()
     if(dataset) delete dataset;
 
 }
+
+bool CMapFile::is32BitRgb()
+{
+    return rasterBandCount > 1;
+}
+

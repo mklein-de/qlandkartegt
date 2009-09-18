@@ -174,6 +174,11 @@ CMapGeoTiff::~CMapGeoTiff()
     }
 }
 
+bool CMapGeoTiff::is32BitRgb()
+{
+    return rasterBandCount > 1;
+}
+
 
 void CMapGeoTiff::draw(QPainter& p)
 {

@@ -29,6 +29,7 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 , y(0)
 , zoomlevel(1)
 , zoomfactor(1.0)
+, rasterBandCount(0)
 {
     filename = fn;
 
@@ -38,44 +39,54 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
         return;
     }
 
-    GDALRasterBand * pBand;
-    pBand = dataset->GetRasterBand(1);
-    if(pBand == 0) {
-        delete dataset; dataset = 0;
-        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
-        return;
-    }
+    rasterBandCount = dataset->GetRasterCount();
+    if(rasterBandCount == 1) {
+        GDALRasterBand * pBand;
+        pBand = dataset->GetRasterBand(1);
+        if(pBand == 0) {
+            delete dataset; dataset = 0;
+            QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+            return;
+        }
 
-    if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
-        delete dataset; dataset = 0;
-        QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
-        return;
-    }
+        if(pBand->GetColorInterpretation() !=  GCI_PaletteIndex && pBand->GetColorInterpretation() !=  GCI_GrayIndex) {
+            delete dataset; dataset = 0;
+            QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
+            return;
+        }
 
+
+        if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
+            GDALColorTable * pct = pBand->GetColorTable();
+            for(int i=0; i < pct->GetColorEntryCount(); ++i) {
+                const GDALColorEntry& e = *pct->GetColorEntry(i);
+                colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
+            }
+        }
+        else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
+            for(int i=0; i < 256; ++i) {
+                colortable << qRgba(i, i, i, 255);
+            }
+        }
+        else {
+            delete dataset; dataset = 0;
+            QMessageBox::warning(0, tr("Error..."), tr("File must be 8 bit palette or gray indexed."));
+            return;
+        }
+
+        int success = 0;
+        double idx = pBand->GetNoDataValue(&success);
+
+        if(success) {
+            QColor tmp(colortable[idx]);
+            tmp.setAlpha(0);
+            colortable[idx] = tmp.rgba();
+        }
+    }
     maparea.setWidth(dataset->GetRasterXSize());
     maparea.setHeight(dataset->GetRasterYSize());
 
-    if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
-        GDALColorTable * pct = pBand->GetColorTable();
-        for(int i=0; i < pct->GetColorEntryCount(); ++i) {
-            const GDALColorEntry& e = *pct->GetColorEntry(i);
-            colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
-        }
-    }
-    else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
-        for(int i=0; i < 256; ++i) {
-            colortable << qRgba(i, i, i, 255);
-        }
-    }
 
-    int success = 0;
-    double idx = pBand->GetNoDataValue(&success);
-
-    if(success) {
-        QColor tmp(colortable[idx]);
-        tmp.setAlpha(0);
-        colortable[idx] = tmp.rgba();
-    }
 
 }
 
@@ -85,6 +96,10 @@ CMapRaster::~CMapRaster()
     if(dataset) delete dataset;
 }
 
+bool CMapRaster::is32BitRgb()
+{
+    return rasterBandCount > 1;
+}
 
 void CMapRaster::convertPt2M(double& u, double& v)
 {
@@ -206,21 +221,50 @@ void CMapRaster::draw()
     qint32 w    = (qint32)(pxx / zoomfactor) & 0xFFFFFFFC;
     qint32 h    = (qint32)(pxy / zoomfactor);
 
-    GDALRasterBand * pBand;
-    pBand = dataset->GetRasterBand(1);
+    CPLErr err = CE_Failure;
+    if(rasterBandCount == 1){
+        GDALRasterBand * pBand;
+        pBand = dataset->GetRasterBand(1);
 
-    QImage img(QSize(w,h),QImage::Format_Indexed8);
-    img.setColorTable(colortable);
+        QImage img(QSize(w,h),QImage::Format_Indexed8);
+        img.setColorTable(colortable);
 
-    CPLErr err = pBand->RasterIO(GF_Read
-        ,(int)xoff,(int)yoff
-        ,pxx,pxy
-        ,img.bits()
-        ,w,h
-        ,GDT_Byte,0,0);
+        err = pBand->RasterIO(GF_Read,(int)xoff,(int)yoff,pxx,pxy,img.bits(),w,h,GDT_Byte,0,0);
 
-    if(!err) {
-        double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
-        _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+        if(!err) {
+            double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
+            _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+        }
+    }
+    else{
+        QImage img(w,h, QImage::Format_ARGB32);
+        QVector<quint8> buffer(w*h);
+
+        img.fill(qRgba(255,255,255,255));
+        for(int b = 1; b <= rasterBandCount; ++b) {
+
+            GDALRasterBand * pBand;
+            pBand = dataset->GetRasterBand(b);
+
+            err = pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, pxx, pxy, buffer.data(), w, h, GDT_Byte, 0, 0);
+
+            if(!err) {
+                quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
+                quint8 * pSrc   = buffer.data();
+                const int size  = buffer.size();
+
+                for(int i = 0; i < size; ++i) {
+                    *pTar = *pSrc;
+                    pTar += 4;
+                    pSrc += 1;
+                }
+            }
+        }
+
+        if(!err) {
+            double xx = (intersect.left() - x) / zoomfactor, yy = (intersect.top() - y)  / zoomfactor;
+            _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
+        }
+
     }
 }
