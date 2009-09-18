@@ -213,10 +213,6 @@ static quint16 order[] =
     , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
 
-// bool CMapTDB::growLines         = true;
-// bool CMapTDB::useBitmapLines    = false;
-// bool CMapTDB::hCentreText       = true;
-
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
 , filename(filename)
@@ -227,8 +223,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , baseimg(0)
 , isTransparent(false)
 , zoomFactor(0)
-// , polylineProperties(0x40)
-// , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
@@ -237,6 +231,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , lat_factor(-1.0)
 , useTyp(true)
 , textAboveLine(true)
+, poiLabels(true)
+, checkPoiLabels(0)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -261,6 +257,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     detailsFineTune = cfg.value("details",0).toInt();
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
+    poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -289,6 +286,13 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     index = new CGarminIndex(this);
     index->setDBName(name);
 
+    checkPoiLabels = new QCheckBox(theMainWindow->getCanvas());
+    checkPoiLabels->setText(tr("POI labels"));
+    theMainWindow->statusBar()->insertPermanentWidget(0,checkPoiLabels);
+    checkPoiLabels->setChecked(poiLabels);
+    connect(checkPoiLabels, SIGNAL(toggled(bool)), this, SLOT(slotPoiLabels(bool)));
+
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -303,8 +307,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , baseimg(0)
 , isTransparent(false)
 , zoomFactor(0)
-// , polylineProperties(0x40)
-// , polygonProperties(0x80)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
 , mouseOverDecDetail(false)
@@ -315,6 +317,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , lat_factor(-1.0)
 , useTyp(true)
 , textAboveLine(true)
+, poiLabels(true)
+, checkPoiLabels(0)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -338,6 +342,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     detailsFineTune = cfg.value("details",0).toInt();
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
+    poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -364,6 +369,7 @@ CMapTDB::~CMapTDB()
     cfg.setValue("details", detailsFineTune);
     cfg.setValue("textAboveLine",textAboveLine);
     cfg.setValue("useTyp",useTyp);
+    cfg.setValue("poiLabels",poiLabels);
 
     cfg.endGroup();
     cfg.endGroup();
@@ -374,7 +380,18 @@ CMapTDB::~CMapTDB()
 
     if(pjsrc) pj_free(pjsrc);
 
+    if(checkPoiLabels) {
+        delete checkPoiLabels;
+    }
+
     qDebug() << "CMapTDB::~CMapTDB()";
+}
+
+void CMapTDB::slotPoiLabels(bool checked)
+{
+    poiLabels   = checked;
+    needsRedraw = true;
+    emit sigChanged();
 }
 
 QImage CMapTDB::majorHighway(const QColor& color)
@@ -1910,7 +1927,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
-        if(!pt->labels.isEmpty() && ((zoomFactor < 2) ||  (pt->type < 0x1600))) {
+        if(!pt->labels.isEmpty() && ((zoomFactor < 2) || (pt->type < 0x1600))  && poiLabels) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
@@ -1940,7 +1957,6 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 
 void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 {
-
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end()) {
         IMap::convertRad2Pt(pt->lon, pt->lat);
@@ -1952,7 +1968,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
-        if(!pt->labels.isEmpty() && (zoomFactor < 2)) {
+        if(!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));

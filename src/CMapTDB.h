@@ -31,6 +31,7 @@ class CGarminTile;
 class QTimer;
 class QTextDocument;
 class CGarminIndex;
+class QCheckBox;
 
 class CMapTDB : public IMap
 {
@@ -67,6 +68,9 @@ class CMapTDB : public IMap
         virtual void convertRad2Pt(double* u, double* v, int n);
         void resize(const QSize& s);
         bool eventFilter( QObject * watched, QEvent * event );
+
+    private slots:
+        void slotPoiLabels(bool checked);
 
     private:
         friend class CDlgMapTDBConfig;
@@ -359,6 +363,9 @@ class CMapTDB : public IMap
 
         bool useTyp;
         bool textAboveLine;
+
+        bool poiLabels;
+        QCheckBox * checkPoiLabels;
 
 };
 #endif                           //CMAPTDB_H
