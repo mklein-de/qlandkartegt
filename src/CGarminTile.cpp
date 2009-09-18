@@ -744,7 +744,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 
     // decode polylines
-    if(subdiv.hasPolylines) {
+    if(subdiv.hasPolylines && !fast) {
         CGarminPolygon::cnt = 0;
         pData = pRawData + opline;
         pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
@@ -764,7 +764,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
     }
 
     // decode polygons
-    if(subdiv.hasPolygons && !fast && !isTransparent()) {
+    if(subdiv.hasPolygons /*&& !fast*/ && !isTransparent()) {
         CGarminPolygon::cnt = 0;
         pData = pRawData + opgon;
         pEnd  = pRawData + subdiv.rgn_end;
@@ -795,7 +795,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 //         qDebug() << "point len: " << hex << subdiv.lengthPoints2 << dec << subdiv.lengthPoints2;
 //         qDebug() << "point end: " << hex << subdiv.lengthPoints2 + subdiv.offsetPoints2;
 
-    if(subdiv.lengthPolygons2 && !fast && !isTransparent()) {
+    if(subdiv.lengthPolygons2 /*&& !fast*/ && !isTransparent()) {
         pData   = pRawData + subdiv.offsetPolygons2;
         pEnd    = pData + subdiv.lengthPolygons2;
         while(pData < pEnd) {
@@ -809,7 +809,7 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
         }
     }
 
-    if(subdiv.lengthPolylines2) {
+    if(subdiv.lengthPolylines2 && !fast) {
         pData   = pRawData + subdiv.offsetPolylines2;
         pEnd    = pData + subdiv.lengthPolylines2;
         while(pData < pEnd) {

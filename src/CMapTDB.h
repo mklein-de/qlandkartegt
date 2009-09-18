@@ -114,6 +114,12 @@ class CMapTDB : public IMap
         void processTypPolyline(QDataStream& file, const typ_section_t& section);
         void processTypPois(QDataStream& in, const typ_section_t& section);
 
+
+        QImage majorHighway(const QColor& color);
+        QImage residentialStreet(const QColor& color);
+        QImage principalHighway(const QColor& color);
+        QImage arterialRoad(const QColor& color);
+
 #pragma pack(1)
         struct tdb_hdr_t
         {

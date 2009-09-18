@@ -377,6 +377,61 @@ CMapTDB::~CMapTDB()
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
+QImage CMapTDB::majorHighway(const QColor& color)
+{
+    QImage pix(16, 7, QImage::Format_ARGB32);
+
+    QPainter p(&pix);
+
+    p.fillRect(0,0,16,7, color);
+    p.setPen(QPen(Qt::black,1));
+    p.drawLine(0,0,16,0);
+    p.drawLine(0,6,16,6);
+
+    return pix;
+}
+
+QImage CMapTDB::residentialStreet(const QColor& color)
+{
+    QImage pix(16, 3, QImage::Format_ARGB32);
+
+    QPainter p(&pix);
+
+    p.fillRect(0,0,16,3, color);
+    p.setPen(QPen(Qt::black,1));
+    p.drawLine(0,0,16,0);
+    p.drawLine(0,2,16,2);
+
+    return pix;
+}
+
+QImage CMapTDB::principalHighway(const QColor& color)
+{
+    QImage pix(16, 4, QImage::Format_ARGB32);
+
+    QPainter p(&pix);
+
+    p.fillRect(0,0,16,4, color);
+    p.setPen(QPen(Qt::black,1));
+    p.drawLine(0,0,16,0);
+    p.drawLine(0,3,16,3);
+
+    return pix;
+}
+
+QImage CMapTDB::arterialRoad(const QColor& color)
+{
+    QImage pix(16, 5, QImage::Format_ARGB32);
+
+    QPainter p(&pix);
+
+    p.fillRect(0,0,16,5, color);
+    p.setPen(QPen(Qt::black,1));
+    p.drawLine(0,0,16,0);
+    p.drawLine(0,4,16,4);
+
+    return pix;
+}
 
 void CMapTDB::setup()
 {
@@ -448,14 +503,15 @@ void CMapTDB::setup()
 
     polylineProperties.clear();
     polylineProperties[0x01] = polyline_property(0x01, "#c46442",   4, Qt::SolidLine );
-    polylineProperties[0x01].pixmap = QImage(":/typ/majorhighway.xpm");
+    polylineProperties[0x01].pixmap = majorHighway(Qt::blue);
     polylineProperties[0x02] = polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine );
-    polylineProperties[0x02].pixmap = QImage(":/typ/principalhighway.xpm");
+    polylineProperties[0x02].pixmap = principalHighway("#cc9900");
     polylineProperties[0x03] = polyline_property(0x03, "#D86C00",   3, Qt::SolidLine );
     polylineProperties[0x04] = polyline_property(0x04, "#ffff99",   3, Qt::SolidLine );
-    polylineProperties[0x04].pixmap = QImage(":/typ/arterialroad.xpm");
+    polylineProperties[0x04].pixmap = arterialRoad("#ffff00");
     polylineProperties[0x05] = polyline_property(0x05, "#dc7c5a",   2, Qt::SolidLine );
     polylineProperties[0x06] = polyline_property(0x06, "#000000",   2, Qt::SolidLine );
+    polylineProperties[0x06].pixmap = residentialStreet(Qt::white);
     polylineProperties[0x07] = polyline_property(0x07, "#c46442",   1, Qt::SolidLine );
     polylineProperties[0x08] = polyline_property(0x08, "#e88866",   2, Qt::SolidLine );
     polylineProperties[0x09] = polyline_property(0x09, "#e88866",   2, Qt::SolidLine );
@@ -1374,7 +1430,7 @@ void CMapTDB::draw()
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
-    if(!doFastDraw && !isTransparent) {
+    if(/*!doFastDraw && */!isTransparent) {
         drawPolygons(p, polygons);
     }
 
@@ -1405,8 +1461,9 @@ void CMapTDB::draw()
     }
     ////////////////////////
 
-    drawPolylines(p, polylines);
+
     if(!doFastDraw) {
+        drawPolylines(p, polylines);
         // needs to be removed
         p.setPen(QColor("#FFB000"));
         p.setBrush(QColor("#FFB000"));
@@ -2574,7 +2631,24 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         }
         else {
-            property.pen0.setColor(myXpmDay.color(1));
+            if(typ == 0x06){
+                property.pixmap = residentialStreet(myXpmDay.color(1));
+            }
+            else if(typ == 0x01)
+            {
+                property.pixmap = majorHighway(myXpmDay.color(1));
+            }
+            else if(typ == 0x02)
+            {
+                property.pixmap = principalHighway(myXpmDay.color(1));
+            }
+            else if(typ == 0x04)
+            {
+                property.pixmap = arterialRoad(myXpmDay.color(1));
+            }
+            else{
+                property.pen0.setColor(myXpmDay.color(1));
+            }
         }
 
         property.known = true;
