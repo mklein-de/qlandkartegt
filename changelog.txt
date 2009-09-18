@@ -1,3 +1,25 @@
+--- 2009.09.18 ---
+
+Request #107:
+Remove copy of original track when splitting a track
+
+Bug     #108:
+Purgeing trackpoints by del key is no toggle function anymore
+
+Request #109:
+Save 3D view as image file
+
+Request #110:
+Add device screenshot feature
+
+Request #111:
+Tweak rendering for Garmin maps to display latest OSM maps nicely
+
+Request #112:
+Accept any bitmap file type for referencing.
+
+
+
 --- 2009.08.17 ---
 
 Bug     #100:
@@ -570,6 +592,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
