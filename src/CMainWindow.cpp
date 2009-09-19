@@ -633,7 +633,6 @@ void CMainWindow::slotAddData()
     int i;
     QString filename;
     QString filter   = cfg.value("geodata/filter","").toString();
-    //QString filename = QFileDialog::getOpenFileName( 0, tr("Select input file")
     QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input files")
         ,pathData
         ,formats

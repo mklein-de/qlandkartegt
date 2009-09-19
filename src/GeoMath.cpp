@@ -273,6 +273,7 @@ void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
     lat = signLat ? "S" : "N";
     lng = signLon ? "W" : "E";
     str.sprintf("%s%02d\260 %06.3f %s%03d\260 %06.3f",lat.toUtf8().data(),abs(degN),minN,lng.toUtf8().data(),abs(degE),minE);
+    //print fully metric str.sprintf("%s%06.8f\260 %s%06.8f\260 ",lat.toUtf8().data(),y,lng.toUtf8().data(),x);
 }
 
 
