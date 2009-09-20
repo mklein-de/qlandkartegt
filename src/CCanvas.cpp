@@ -578,11 +578,11 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     map.convertPt2M(x_m,y_m);
 
     //     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
-    
+
     if((x == e->x()) && (y == e->y())) {
         map.convertPt2M(x,y);
         info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
-	qDebug() << "--" << info;
+        qDebug() << "--" << info;
     }
     else {
 
@@ -594,16 +594,17 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
         }
 
         info += QString("[%1m, %2m] ").arg(x_m,0,'f',0).arg(y_m,0,'f',0);
-	
+
         x *= RAD_TO_DEG;
         y *= RAD_TO_DEG;
 
         QString str;
         GPS_Math_Deg_To_Str(x,y, str);
         info += str + " ";
-	info += QString(", %1\260 %2\260 ").arg(y,0,'f',7).arg(x,0,'f',7); //add plain degrees
+                                 //add plain degrees
+//         info += QString(", %1\260 %2\260 ").arg(y,0,'f',7).arg(x,0,'f',7);
     }
-    qDebug() << "------" << info;
+    //     qDebug() << "------" << info;
     theMainWindow->setPositionInfo(info);
 
 }

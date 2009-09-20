@@ -116,7 +116,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
     QDomElement trk = gpx.firstChildElement("gpx").firstChildElement("trk");
     while (!trk.isNull()) {
         CTrack* track = new CTrack(this);
-	track->setColor((rand() % 13)+1); //preset a random color
+                                 //preset a random color
+        track->setColor((rand() % 13)+1);
 
         /*
          *  Global track information
@@ -584,15 +585,11 @@ void CTrackDB::splitTrack(int idx)
 void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPointF arrow[4] = {
-      QPointF( -2.0,  0.0),
-      QPointF(-9.0,  2.0),
-      QPointF(- 7.0,  0.0),
-      QPointF(-9.0, -2.0)};
-    QPointF arrow_edge[4] = {
-      QPointF(  0.0,  0.0),
-      QPointF(-12.0,  4.0),
-      QPointF(- 9.0,  0.0),
-      QPointF(-12.0, -4.0)};
+        QPointF( 15.0, 5.0),      //front
+        QPointF( 0.0, 0.0),      //upper tail
+        QPointF( 5.0, 5.0),      //mid tail
+        QPointF( 0.0, 10.0)       //lower tail
+    };
 
     QPoint focus(-1,-1);
     QVector<QPoint> selected;
@@ -661,45 +658,52 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawPolyline(line);
             p.setPen(Qt::white);
             p.drawPolyline(line);
-	    p.setPen(pen);
-            
-	    // draw direction arrows
-	    QPoint  pt, pt1, ptt;
-	    bool    start = true;
-	    double  heading;
-	    pen.setJoinStyle(Qt::MiterJoin);
 
+            // draw direction arrows
+            QPoint  pt, pt1, ptt;
+            bool    start = true;
+            double  heading;
 
-	    foreach(pt,line) {
-	      if(start)           // no arrow on  the first loop
-		start = false;
-	      else
-		{
-		  if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
-		  if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) // keep distance
-		    {
-		      if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
-			{
-			  heading = ( atan2((double)(pt.y() - pt1.y()),
-					    (double)(pt.x() - pt1.x())) * 180.) / M_PI;
-			  p.save();
-			  p.translate((pt.x() + pt1.x())/2, 
-				      (pt.y() + pt1.y())/2); // draw arrow between bullets
-			  p.rotate(heading);
+            pen.setJoinStyle(Qt::MiterJoin);
 
-			  p.setPen(pen);
-			  p.drawPolygon(arrow, 4);
+            //generate arrow pic
+                                 // must be a little bigger or  createHeuristicMask won't work
+            QPixmap arrow_pic(16,11);
+            QPainter t_paint(&arrow_pic);
+            t_paint.setRenderHint(QPainter::Antialiasing, true);
+            t_paint.eraseRect(QRectF(0.,0.,16.,11.));
+            t_paint.setPen(Qt::black);
+            t_paint.setBrush((*track)->getColor());
+            t_paint.drawPolygon(arrow, 4);
+            t_paint.setRenderHint(QPainter::Antialiasing, false);
+            t_paint.end();
+            arrow_pic.setMask(arrow_pic.createHeuristicMask());
 
-			  p.setPen(Qt::black);
-			  p.drawPolygon(arrow_edge, 4);
-
-			  p.restore();
-			  ptt = pt;             //remember last point
-			}
-		    }
-		}
-	      pt1 = pt;
-	    }
+            foreach(pt,line) {
+                if(start){        // no arrow on  the first loop
+                    start = false;
+                }
+                else {
+                    if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+                                 // keep distance
+                    if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
+                        if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
+                            heading = ( atan2((double)(pt.y() - pt1.y()),
+                                (double)(pt.x() - pt1.x())) * 180.) / M_PI;
+                            p.save();
+                            p.translate((pt.x() + pt1.x())/2,
+                                 // draw arrow between bullets
+                                (pt.y() + pt1.y())/2);
+                            p.rotate(heading);
+                            p.drawPixmap(-9, -4, arrow_pic);
+                            p.restore();
+                                 //remember last point
+                            ptt = pt;
+                        }
+                    }
+                }
+                pt1 = pt;
+            }
         }
 
         (*track)->firstTime = false;
@@ -723,42 +727,50 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         // draw bubbles and direction arrows
         QPoint  pt, pt1, ptt;
-	bool    start = true;
-	double  heading;
+        bool    start = true;
+        double  heading;
         QPixmap bullet = (*track)->getBullet();
-	pen.setJoinStyle(Qt::MiterJoin);
-	pen.setColor((*track)->getColor());
-	pen.setWidth(3);
-	p.setPen(pen);
+        pen.setJoinStyle(Qt::MiterJoin);
+        pen.setColor((*track)->getColor());
+        pen.setWidth(3);
+        //p.setPen(pen);
 
+        //generate arrow pic
+        QPixmap arrow_pic(16,11);
+        QPainter t_paint(&arrow_pic);
+        t_paint.setRenderHint(QPainter::Antialiasing, true);
+        t_paint.eraseRect(QRectF(0.,0.,16.,11.));
+        t_paint.setPen(Qt::black);
+        t_paint.setBrush((*track)->getColor());
+        t_paint.drawPolygon(arrow, 4);
+        t_paint.setRenderHint(QPainter::Antialiasing, false);
+        t_paint.end();
+        arrow_pic.setMask(arrow_pic.createHeuristicMask());
 
         foreach(pt,line) {
-	    if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
-	    
-	    if(start)           // no arrow on  the first loop
-	      start = false;
-	    else
-	      {
-		if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) // keep distance
-		  {
-		    if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
-		      {
-			heading = ( atan2((double)(pt.y() - pt1.y()),
-					  (double)(pt.x() - pt1.x())) * 180.) / M_PI;
-			p.save();
-			p.translate((pt.x() + pt1.x())/2, 
-				    (pt.y() + pt1.y())/2); // draw arrow between bullets
-			p.rotate(heading);
-			p.drawPolygon(arrow, 4);
 
-			p.setPen(Qt::black);
-			p.drawPolygon(arrow_edge, 4);
-			p.restore();
-			ptt = pt;             //remember last point
-		      }
-		  }
-	      }
+            if(start){            // no arrow on  the first loop
+                start = false;
+            }
+            else {
+                                 // keep distance
+                if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
+                    if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
+                        heading = ( atan2((double)(pt.y() - pt1.y()),
+                            (double)(pt.x() - pt1.x())) * 180.) / M_PI;
+                        p.save();
+                        p.translate((pt.x() + pt1.x())/2,
+                                 // draw arrow between bullets
+                            (pt.y() + pt1.y())/2);
+                        p.rotate(heading);
+                        p.drawPixmap(-9, -4, arrow_pic);
+                        p.restore();
+                        ptt = pt;//remember last point
+                    }
+                }
+            }
             pt1 = pt;
         }
 
