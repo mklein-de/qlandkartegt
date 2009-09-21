@@ -31,7 +31,6 @@
 
 int main(int argc, char ** argv)
 {
-    GDALAllRegister();
 
     {
         PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
@@ -57,13 +56,16 @@ int main(int argc, char ** argv)
         path.mkpath("./");
     }
 
+    QString locale = QLocale::system().name();
+
+    setenv("LC_NUMERIC","C",1);
     QApplication theApp(argc,argv);
 
 #ifdef ENABLE_TRANSLATION
     {
         QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
         QTranslator *qtTranslator = new QTranslator(0);
-        if (qtTranslator->load(QLatin1String("qt_") + QLocale::system().name(),resourceDir))
+        if (qtTranslator->load(QLatin1String("qt_") + locale,resourceDir))
             theApp.installTranslator(qtTranslator);
 
         QStringList dirList;
@@ -77,7 +79,7 @@ int main(int argc, char ** argv)
         QTranslator *qlandkartegtTranslator = new QTranslator(0);
         qDebug() << dirList;
         foreach(QString dir, dirList) {
-            QString transName = QLatin1String("qlandkartegt_") + QLocale::system().name();
+            QString transName = QLatin1String("qlandkartegt_") + locale;
             if (qlandkartegtTranslator->load( transName, dir)) {
                 theApp.installTranslator(qlandkartegtTranslator);
                 qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
@@ -105,6 +107,9 @@ int main(int argc, char ** argv)
         pj_free(pjWGS84);
         pj_free(pjGK);
     }
+
+    GDALAllRegister();
+
 
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
