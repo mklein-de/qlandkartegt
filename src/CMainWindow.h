@@ -67,6 +67,7 @@ class CMainWindow : public QMainWindow
         void closeEvent(QCloseEvent * e);
 
     private slots:
+        void slotReloadArgs();
         void switchState();
         void slotLoadMapSet();
         void slotCopyright();

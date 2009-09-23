@@ -321,6 +321,10 @@ CMainWindow::CMainWindow()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     megaMenu->switchByKeyWord("Main");
 
+    QSocketNotifier * snRead = new QSocketNotifier(0, QSocketNotifier::Read, this);
+    connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
+
+
     QStringList args = QCoreApplication::arguments();
     args.removeFirst();
     foreach(QString arg, args) {
@@ -331,6 +335,28 @@ CMainWindow::CMainWindow()
     connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
 
     megaMenu->slotSplitterMoved(leftSplitter->sizes()[0], 1);
+}
+
+
+void CMainWindow::slotReloadArgs()
+{
+    char c;
+    int i;
+    i=read(0, &c, 1);		// read char
+
+//    CMapDB::self().clear();
+    CWptDB::self().clear();
+    CTrackDB::self().clear();
+//    CRouteDB::self().clear();
+//    CDiaryDB::self().clear();
+//    COverlayDB::self().clear();
+
+    QStringList args = QCoreApplication::arguments();
+    args.removeFirst();
+    foreach(QString arg, args)
+    {
+      loadData(arg, QString());
+    }
 }
 
 
