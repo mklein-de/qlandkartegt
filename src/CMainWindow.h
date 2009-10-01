@@ -39,6 +39,7 @@ class COverlayDB;
 class QComboBox;
 class CActions;
 class CMenus;
+class QSocketNotifier;
 
 class CMainWindow : public QMainWindow
 {
@@ -149,6 +150,8 @@ class CMainWindow : public QMainWindow
         QLabel * summary;
         /// combobox to switch device
         QComboBox * comboDevice;
+
+        QSocketNotifier * snRead;
 };
 
 extern CMainWindow * theMainWindow;

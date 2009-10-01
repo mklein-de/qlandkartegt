@@ -173,7 +173,13 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 void CWptDB::addWpt(CWpt * wpt)
 {
     if(wpts.contains(wpt->key())) {
-        delWpt(wpt->key(), true);
+        if(wpts[wpt->key()]->sticky){
+            delete wpt;
+            return;
+        }
+        else{
+            delWpt(wpt->key(), true);
+        }
     }
     wpts[wpt->key()] = wpt;
 

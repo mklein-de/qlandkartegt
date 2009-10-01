@@ -321,8 +321,10 @@ CMainWindow::CMainWindow()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     megaMenu->switchByKeyWord("Main");
 
-    QSocketNotifier * snRead = new QSocketNotifier(0, QSocketNotifier::Read, this);
+    snRead = new QSocketNotifier(0, QSocketNotifier::Read, this);
     connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
+
+
 
 
     QStringList args = QCoreApplication::arguments();
@@ -343,6 +345,11 @@ void CMainWindow::slotReloadArgs()
     char c;
     int i;
     i=read(0, &c, 1);		// read char
+
+    if(i != 1){
+        delete snRead;
+        return;
+    }
 
 //    CMapDB::self().clear();
     CWptDB::self().clear();
