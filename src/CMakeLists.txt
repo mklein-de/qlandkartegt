@@ -392,6 +392,7 @@ include_directories(
   ${QT_QTNETWORK_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
   ${EXIF_INCLUDE_DIRS}
 )
 
@@ -414,6 +415,7 @@ target_link_libraries(
       ${QT_QTSQL_LIBRARIES}
       ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}
+      SerialPort
   )
 
 install(
@@ -426,6 +428,14 @@ install(
 if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-  target_link_libraries(qlandkartegt ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES} ${QT_QTXML_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QL_OPENGL_LIBRARIES} ${OPENGL_LIBRARIES} ${QT_LIBRARY_DIR}/qtmain.lib)
+  target_link_libraries(qlandkartegt
+        ${QT_LIBRARIES}
+        ${QT_QTNETWORK_LIBRARIES}
+        ${QT_QTXML_LIBRARIES}
+        ${QT_QTSQL_LIBRARIES}
+        ${QL_OPENGL_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${QT_LIBRARY_DIR}/qtmain.lib
+        SerialPort)
 endif (WIN32)
 
