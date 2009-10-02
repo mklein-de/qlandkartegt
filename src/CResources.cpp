@@ -21,6 +21,7 @@
 //#include "CDeviceTBDOE.h"
 #include "CDeviceGarmin.h"
 #include "CDeviceQLandkarteM.h"
+#include "CDeviceMikrokopter.h"
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
 #include "CUnitNautic.h"
@@ -159,6 +160,9 @@ IDevice * CResources::device()
         if(m_devKey == "QLandkarteM") {
             //m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
             m_device = new CDeviceQLandkarteM(m_devIPAddress,m_devIPPort,this);
+        }
+        if(m_devKey == "Mikrokopter") {
+            m_device = new CDeviceMikrokopter(m_devSerialPort, this);
         }
         else if(m_devKey == "Garmin" && !m_devType.isEmpty()) {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);

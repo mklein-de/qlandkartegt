@@ -83,6 +83,7 @@ set(qlandkarte_SRCS
     IDevice.cpp
     CDeviceQLandkarteM.cpp
     CDeviceGarmin.cpp
+    CDeviceMikrokopter.cpp
     CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
@@ -220,6 +221,7 @@ set(qlandkarte_HDRS
     IDevice.h
     CDeviceQLandkarteM.h
     CDeviceGarmin.h
+    CDeviceMikrokopter.h
     CCreateMapOSM.h
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
