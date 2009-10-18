@@ -963,26 +963,23 @@ void CDeviceGarmin::setLiveLog(bool on)
         dev->setRealTimeMode(on);
     }
     catch(int /*e*/) {
-    timer->stop();
-    log.fix = CLiveLog::eOff;
-    emit sigLiveLog(log);
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
 
-    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-    return;
-}
-
-
-if(on && !timer->isActive()) {
-    timer->start(1000);
-}
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
+    }
 
 
-else {
-    timer->stop();
-    log.fix = CLiveLog::eOff;
-    emit sigLiveLog(log);
-}
-
+    if(on && !timer->isActive()) {
+        timer->start(1000);
+    }
+    else {
+        timer->stop();
+        log.fix = CLiveLog::eOff;
+        emit sigLiveLog(log);
+    }
 
 }
 

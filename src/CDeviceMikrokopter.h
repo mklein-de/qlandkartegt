@@ -24,6 +24,9 @@
 #define CDEVICEMIKROKOPTER_H
 
 #include "IDevice.h"
+#include <ManageSerialPort.h>
+#include <ToolBox.h>
+#include <QMutex>
 
 class CDeviceMikrokopter : public IDevice
 {
@@ -44,6 +47,20 @@ class CDeviceMikrokopter : public IDevice
         void uploadMap(const QList<IMapSelection*>& mss);
 
         void downloadScreenshot(QImage& image);
+
+    private slots:
+        void slotNewData(const QByteArray & data);
+
+    private:
+        bool aquire();
+        void release();
+        bool sendCmd(char cmd, int addr, char data[150], unsigned int len, bool resend);
+
+        ManageSerialPort tty;
+
+        QString rxData;
+
+        QMutex mutex;
 };
 
 #endif //CDEVICEMIKROKOPTER_H

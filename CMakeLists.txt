@@ -34,6 +34,7 @@ include(ConfigureChecks.cmake)
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 add_subdirectory(3rdparty/SerialPort)
+add_subdirectory(3rdparty/QMKToolBox)
 add_subdirectory(src)
 
 if (UNIX AND NOT WIN32)

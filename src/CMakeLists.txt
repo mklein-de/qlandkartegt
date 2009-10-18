@@ -381,6 +381,10 @@ IF(ENABLE_TRANSLATION)
     endif (UNIX AND NOT WIN32)
 ENDIF(ENABLE_TRANSLATION)
 
+if(UNIX)
+    add_definitions(-D_TTY_POSIX_)
+endif(UNIX)
+
 include_directories(
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -393,6 +397,7 @@ include_directories(
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
+  ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
   ${EXIF_INCLUDE_DIRS}
 )
 
@@ -416,6 +421,7 @@ target_link_libraries(
       ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}
       SerialPort
+      QMKToolBox
   )
 
 install(
@@ -427,7 +433,7 @@ install(
 
 if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
-  add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
   target_link_libraries(qlandkartegt
         ${QT_LIBRARIES}
         ${QT_QTNETWORK_LIBRARIES}
@@ -436,6 +442,7 @@ if (WIN32)
         ${QL_OPENGL_LIBRARIES}
         ${OPENGL_LIBRARIES}
         ${QT_LIBRARY_DIR}/qtmain.lib
-        SerialPort)
+        SerialPort
+        QMKToolBox)
 endif (WIN32)
 

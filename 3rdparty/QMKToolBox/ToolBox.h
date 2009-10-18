@@ -21,7 +21,7 @@
 
 #include <QString>
 #include <QIcon>
-#include "../global.h"
+#include "global.h"
 
 class ToolBox
 {
