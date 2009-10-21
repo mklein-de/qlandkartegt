@@ -1123,54 +1123,55 @@ Expected %1, received %2.</source>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="41"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="46"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="51"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="56"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="61"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="66"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="71"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="76"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="129"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="148"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="153"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="158"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="163"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="173"/>
         <source>Error...</source>
+        <translatorcomment>Ошибка</translatorcomment>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="41"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
+        <source>Mikrokopter: Failed to open serial port.</source>
+        <translation>Mikrokopter: Невозможно открыть последовательный порт</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="129"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation>Mikrokopter: Передача путевых точек не реализована.</translation>
+        <translation>Mikrokopter: Upload waypoints is not implemented.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="46"/>
-        <source>Mikrokopter: Download waypoints is not implemented.</source>
-        <translation>Mikrokopter: Загрузка путевых точек не реализована.</translation>
-    </message>
-    <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="51"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="148"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
         <translation>Mikrokopter: Передача треков не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="56"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="153"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
         <translation>Mikrokopter: треков не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="61"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="158"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
         <translation>Mikrokopter: Передача маршрутов не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="66"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="163"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
         <translation>Mikrokopter: Загрузка маршрутов не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="71"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
         <translation>Mikrokopter: Передача карт не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="76"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="173"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
         <translation>Mikrokopter: Загрузка карт не реализована.</translation>
     </message>
@@ -1769,7 +1770,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CGarminTile.cpp" line="220"/>
         <source>File is NT format. Unable to read: </source>
-        <translation>Файл NT формата. Невозможно прочитать:</translation>
+        <translation>Файт NT формата. Невозможно прочитать:</translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="285"/>
@@ -2120,7 +2121,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMainWindow.cpp" line="1085"/>
         <source>Mikrokopter</source>
-        <translation></translation>
+        <translation>Mikrokopter</translation>
     </message>
 </context>
 <context>
@@ -3142,7 +3143,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="366"/>
         <source>You are about to remove purged track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
-        <translation>Вы собираетесь удалить точки трека навсегда. Если нажмете &quot;Да&quot;, вся информация будет потеряна.</translation>
+        <translation>Вы собираетесь удалить точки трека навсегда. Если нажимете &quot;Да&quot;, вся информация будет потеряна.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="464"/>
@@ -4682,7 +4683,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
     <message>
         <location filename="../IDlgScreenshot.ui" line="35"/>
         <source>This will take a screen shot from your connected GPSr. Simply press &apos;Acquire&apos; to download the current screen. In addition, it will copy the image to your clipboard.</source>
-        <translation>Тут Вы можете получить изображение экрана Вашего подключенного GPS устройства. Просто нажмите &quot;Получить&quot; для загрузки текущего экрана. Дополнительно Вы можете скопировать изображение в буфер обмена.</translation>
+        <translation>Тут Вы можите получить изображение экрана Вашего подключенного GPS устройства. Просто нажмите &quot;Получить&quot; для загрузки текущего экрана. Дополнительно Вы можите скопировать изображение в буфер обмена.</translation>
     </message>
     <message>
         <location filename="../IDlgScreenshot.ui" line="50"/>
