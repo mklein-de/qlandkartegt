@@ -106,7 +106,7 @@ void IMouse::drawSelWpt(QPainter& p)
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
-        if(!selWpt->images.isEmpty()) {
+        if(!selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty()) {
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
         p.restore();
@@ -155,10 +155,12 @@ void IMouse::drawSelWpt(QPainter& p)
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 
         if(!selWpt->images.isEmpty()) {
+            QRect r = selWpt->images[0].pixmap.rect();
+
             p.save();
-            p.translate(u - (320 + 40), v);
+            p.translate(u - (r.width() + 40), v);
             p.setPen(QPen(Qt::white,3));
-            p.drawRect(selWpt->images[0].pixmap.rect());
+            p.drawRect(r);
             p.drawPixmap(0,0,selWpt->images[0].pixmap);
             p.restore();
         }
@@ -387,7 +389,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         selWpt = 0;
         canvas->update();
     }
-    else if(rectViewWpt.contains(pt)) {
+    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty()) {
         CResources::self().openLink("file:///" + selWpt->images[0].filePath);
     }
 }
