@@ -29,6 +29,9 @@
 #include "IUnit.h"
 
 #include <QtGui>
+#ifdef HAS_DMTX
+#include <dmtx.h>
+#endif //HAS_DMTX
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
@@ -57,16 +60,22 @@ CDlgEditWpt::~CDlgEditWpt()
 
 int CDlgEditWpt::exec()
 {
+
+    QString barcode;
     QString val, unit;
     toolIcon->setIcon(getWptIconByName(wpt.icon));
     toolIcon->setObjectName(wpt.icon);
+    barcode += tr("type: %1\n").arg(wpt.icon);
 
     lineName->setText(wpt.name);
+    barcode += tr("name: %1\n").arg(wpt.name);
+
     checkSticky->setChecked(wpt.sticky);
 
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
     linePosition->setText(pos);
+    barcode += tr("pos: %1\n").arg(pos);
 
     oldLon = wpt.lon;
     oldLat = wpt.lat;
@@ -75,6 +84,7 @@ int CDlgEditWpt::exec()
     if(wpt.ele != WPT_NOFLOAT) {
         IUnit::self().meter2elevation(wpt.ele, val, unit);
         lineAltitude->setText(val);
+        barcode += tr("ele: %1 %2\n").arg(val, unit);
     }
     if(wpt.prx != WPT_NOFLOAT) {
         IUnit::self().meter2elevation(wpt.prx, val, unit);
@@ -82,6 +92,7 @@ int CDlgEditWpt::exec()
     }
 
     textComment->setPlainText(wpt.comment);
+    barcode += tr("\n%1").arg(wpt.comment);
 
     if(wpt.images.count() != 0) {
         showImage(0);
@@ -94,7 +105,26 @@ int CDlgEditWpt::exec()
         QString str;
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
+        barcode += tr("link: %1\n").arg(str);
     }
+
+#ifdef HAS_DMTX
+    DmtxEncode * enc = dmtxEncodeCreate();
+
+    dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
+    dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
+    dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
+
+    dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toLocal8Bit().data() );
+
+    QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
+    labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
+
+    dmtxEncodeDestroy(&enc);
+#else
+    labelBarcode->setPixmap(":/pics/DummyBarcode");
+#endif //HAS_DMTX
+
 
     return QDialog::exec();
 }
