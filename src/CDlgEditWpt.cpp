@@ -44,6 +44,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushNext, SIGNAL(clicked()), this, SLOT(slotNextImage()));
     connect(pushPrev, SIGNAL(clicked()), this, SLOT(slotPrevImage()));
     connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
+    connect(pushSaveBarcode, SIGNAL(clicked()), this, SLOT(slotSaveBarcode()));
     connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
 
@@ -123,7 +124,9 @@ int CDlgEditWpt::exec()
     dmtxEncodeDestroy(&enc);
 #else
     labelBarcode->setPixmap(":/pics/DummyBarcode");
+    pushSaveBarcode->setEnabled(false);
 #endif //HAS_DMTX
+
 
 
     return QDialog::exec();
@@ -278,4 +281,23 @@ void CDlgEditWpt::slotEditLink()
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
     }
+}
+
+
+void CDlgEditWpt::slotSaveBarcode()
+{
+
+    if(labelBarcode->pixmap() == 0) return;
+
+    QString filter;
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+        ,QDir::home().path()
+        ,"Bitmap (*.png);;"
+        ,&filter
+        , QFileDialog::DontUseNativeDialog
+        );
+
+    if(filename.isEmpty()) return;
+
+    labelBarcode->pixmap()->save(filename);
 }
