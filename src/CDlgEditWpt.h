@@ -46,6 +46,7 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotOpenLink(const QString& link);
         void slotEditLink();
         void slotSaveBarcode();
+        void slotUpdateBarcode();
 
     private:
         void showImage(int idx);

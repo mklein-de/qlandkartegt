@@ -45,6 +45,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushPrev, SIGNAL(clicked()), this, SLOT(slotPrevImage()));
     connect(toolIcon, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
     connect(pushSaveBarcode, SIGNAL(clicked()), this, SLOT(slotSaveBarcode()));
+    connect(pushUpdateBarcode, SIGNAL(clicked()), this, SLOT(slotUpdateBarcode()));
     connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
 
@@ -67,16 +68,13 @@ int CDlgEditWpt::exec()
     toolIcon->setIcon(getWptIconByName(wpt.icon));
     toolIcon->setObjectName(wpt.icon);
 
-
     lineName->setText(wpt.name);
-    barcode += tr("%1\n").arg(wpt.name);
 
     checkSticky->setChecked(wpt.sticky);
 
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
     linePosition->setText(pos);
-    barcode += tr("%1\n").arg(pos);
 
     oldLon = wpt.lon;
     oldLat = wpt.lat;
@@ -92,7 +90,6 @@ int CDlgEditWpt::exec()
     }
 
 
-
     if(wpt.images.count() != 0) {
         showImage(0);
         pushDel->setEnabled(true);
@@ -104,41 +101,11 @@ int CDlgEditWpt::exec()
         QString str;
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
-        barcode += tr("%1\n").arg(link);
     }
 
     textComment->setPlainText(wpt.comment);
-    if(wpt.comment.size()){
-        barcode += wpt.comment;
-    }
 
-#ifdef HAS_DMTX
-    DmtxEncode * enc = dmtxEncodeCreate();
-
-    if(enc){
-        dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
-        dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
-        dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
-
-        barcode += "    ";
-        barcode = barcode.replace('\260',' ');
-        dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toAscii().data() );
-
-        QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
-        labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
-
-        dmtxEncodeDestroy(&enc);
-    }
-    else{
-        labelBarcode->setText("Failed!");
-    }
-#else
-    labelBarcode->setPixmap(":/pics/DummyBarcode");
-    pushSaveBarcode->setEnabled(false);
-#endif //HAS_DMTX
-
-
-
+    slotUpdateBarcode();
     return QDialog::exec();
 }
 
@@ -310,4 +277,45 @@ void CDlgEditWpt::slotSaveBarcode()
     if(filename.isEmpty()) return;
 
     labelBarcode->pixmap()->save(filename);
+}
+
+void CDlgEditWpt::slotUpdateBarcode()
+{
+    QString barcode;
+
+    barcode += tr("%1\n").arg(lineName->text());
+    barcode += tr("%1\n").arg(linePosition->text());
+    if(!link.isEmpty()){
+        barcode += tr("%1\n").arg(link);
+    }
+
+    if(textComment->toPlainText().size()){
+        barcode += textComment->toPlainText();
+    }
+
+#ifdef HAS_DMTX
+    DmtxEncode * enc = dmtxEncodeCreate();
+
+    if(enc){
+        dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
+        dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
+        dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
+
+        barcode += "    ";
+        barcode = barcode.replace('\260',' ');
+        dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toAscii().data() );
+
+        QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
+        labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
+
+        dmtxEncodeDestroy(&enc);
+    }
+    else{
+        labelBarcode->setText("Failed!");
+    }
+#else
+    labelBarcode->setPixmap(":/pics/DummyBarcode");
+    pushSaveBarcode->setEnabled(false);
+#endif //HAS_DMTX
+
 }
