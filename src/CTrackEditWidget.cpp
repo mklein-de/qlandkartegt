@@ -391,13 +391,14 @@ void CTrackEditWidget::slotApply()
     track->setColor(comboColor->currentIndex());
     track->rebuild(true);
     originator = false;
+
     emit CTrackDB::self().sigModified();
 }
 
 
 void CTrackEditWidget::slotPointSelectionChanged()
 {
-    if(track.isNull()) return;
+    if(track.isNull() || originator) return;
 
     if(treePoints->selectionMode() == QAbstractItemView::MultiSelection) return;
 
