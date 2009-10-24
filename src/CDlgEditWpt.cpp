@@ -66,17 +66,17 @@ int CDlgEditWpt::exec()
     QString val, unit;
     toolIcon->setIcon(getWptIconByName(wpt.icon));
     toolIcon->setObjectName(wpt.icon);
-    barcode += tr("type: %1\n").arg(wpt.icon);
+
 
     lineName->setText(wpt.name);
-    barcode += tr("name: %1\n").arg(wpt.name);
+    barcode += tr("%1\n").arg(wpt.name);
 
     checkSticky->setChecked(wpt.sticky);
 
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
     linePosition->setText(pos);
-    barcode += tr("pos: %1\n").arg(pos);
+    barcode += tr("%1\n").arg(pos);
 
     oldLon = wpt.lon;
     oldLat = wpt.lat;
@@ -85,15 +85,13 @@ int CDlgEditWpt::exec()
     if(wpt.ele != WPT_NOFLOAT) {
         IUnit::self().meter2elevation(wpt.ele, val, unit);
         lineAltitude->setText(val);
-        barcode += tr("ele: %1 %2\n").arg(val, unit);
     }
     if(wpt.prx != WPT_NOFLOAT) {
         IUnit::self().meter2elevation(wpt.prx, val, unit);
         lineProximity->setText(val);
     }
 
-    textComment->setPlainText(wpt.comment);
-    barcode += tr("\n%1").arg(wpt.comment);
+
 
     if(wpt.images.count() != 0) {
         showImage(0);
@@ -106,22 +104,34 @@ int CDlgEditWpt::exec()
         QString str;
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
-        barcode += tr("link: %1\n").arg(str);
+        barcode += tr("%1\n").arg(link);
+    }
+
+    textComment->setPlainText(wpt.comment);
+    if(wpt.comment.size()){
+        barcode += wpt.comment;
     }
 
 #ifdef HAS_DMTX
     DmtxEncode * enc = dmtxEncodeCreate();
 
-    dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
-    dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
-    dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
+    if(enc){
+        dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
+        dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
+        dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
 
-    dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toLocal8Bit().data() );
+        barcode += "    ";
+        barcode = barcode.replace('\260',' ');
+        dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toAscii().data() );
 
-    QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
-    labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
+        QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
+        labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
 
-    dmtxEncodeDestroy(&enc);
+        dmtxEncodeDestroy(&enc);
+    }
+    else{
+        labelBarcode->setText("Failed!");
+    }
 #else
     labelBarcode->setPixmap(":/pics/DummyBarcode");
     pushSaveBarcode->setEnabled(false);
