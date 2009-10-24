@@ -314,7 +314,7 @@ void CDlgEditWpt::slotUpdateBarcode()
         labelBarcode->setText("Failed!");
     }
 #else
-    labelBarcode->setPixmap(":/pics/DummyBarcode");
+    labelBarcode->setPixmap(QPixmap(":/pics/DummyBarcode"));
     pushSaveBarcode->setEnabled(false);
 #endif //HAS_DMTX
 
