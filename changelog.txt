@@ -1,3 +1,16 @@
+--- 2009.10.26 ---
+
+Request #113:
+Add direction arrow to tracks
+
+Request #114:
+Add barcode to waypoint edit dialog
+
+Bug     #115:
+Crash when deleting purged trackpoints
+
+
+
 --- 2009.09.18 ---
 
 Request #107:
@@ -592,6 +605,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
