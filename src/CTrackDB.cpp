@@ -34,6 +34,17 @@
 #include "CTrackUndoCommandDelete.h"
 #include "CTrackUndoCommandSelect.h"
 
+#if WIN32
+#include <math.h>
+#include <float.h>
+#ifndef __MINGW32__
+typedef __int32 int32_t;
+#endif
+#define isnan _isnan
+#define FP_NAN NAN
+#endif
+
+
 CTrackDB * CTrackDB::m_self = 0;
 
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
@@ -688,7 +699,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                                  // keep distance
                     if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
                         if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
-                            heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / M_PI;
+                            heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
 
                             p.save();
                             // draw arrow between bullets
@@ -756,7 +767,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                                  // keep distance
                 if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
                     if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
-                        heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / M_PI;
+                        heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
                         p.save();
                         // draw arrow between bullets
                         p.translate((pt.x() + pt1.x())/2, (pt.y() + pt1.y())/2);

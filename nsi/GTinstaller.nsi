@@ -71,7 +71,16 @@ Var StartMenuFolder
 ;------------------------------------------------------------------------
 ;Components description
 
+
+
+
   Section "FWTools 2.4.2" FWTools
+	ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
+	!define TMP_PATH $0
+
+	ExecWait '"${TMP_PATH}\uninstall.exe"'  		
+	
+	
   	SetOutPath $INSTDIR
   	; Don't do it if we can package install
   	NSISdl::download http://home.gdal.org/fwtools/FWTools242.exe $TEMP\FWTools242.exe
@@ -79,7 +88,7 @@ Var StartMenuFolder
   	  StrCmp $R0 "success" +3
   	    MessageBox MB_OK "Download failed: $R0"
   	    Quit
-  	ExecWait '"$TEMP\FWTools242.exe"'    
+  	ExecWait '"$TEMP\FWTools242.exe"'  	
   SectionEnd
   LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
 
@@ -138,6 +147,10 @@ Var StartMenuFolder
     Push GDAL_DRIVER_PATH
     Push '${GDAL_DRIVER_PATH}'
     Call WriteEnvStr
+	
+	IfFileExists ${FWTOOLS_DIR}/bin/proj.dll 0 endIfFileExists
+		CopyFiles ${FWTOOLS_DIR}/bin/proj.dll ${FWTOOLS_DIR}/bin/proj_fw.dll
+	endIfFileExists:
 	
   SectionEnd
   LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"

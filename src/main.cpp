@@ -58,7 +58,9 @@ int main(int argc, char ** argv)
 
     QString locale = QLocale::system().name();
 
+#ifndef WIN32
     setenv("LC_NUMERIC","C",1);
+#endif
     QApplication theApp(argc,argv);
 
 #ifdef ENABLE_TRANSLATION

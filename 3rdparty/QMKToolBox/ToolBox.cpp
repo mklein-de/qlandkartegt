@@ -25,7 +25,7 @@ ToolBox::ToolBox()
 
 void ToolBox::Wait(int Time)
 {
-#ifndef _WIN32_
+#ifndef WIN32
     usleep(Time);
 #else
 //    sleep(Time);

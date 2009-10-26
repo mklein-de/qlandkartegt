@@ -40,9 +40,12 @@
 #include "CMenus.h"
 #include "IDevice.h"
 #include "CDlgScreenshot.h"
+#include "CUndoStack.h"
 
 #include <QtGui>
-#include "CUndoStack.h"
+#ifdef WIN32
+#include <io.h>
+#endif
 
 CMainWindow * theMainWindow = 0;
 
@@ -344,7 +347,11 @@ void CMainWindow::slotReloadArgs()
 {
     char c;
     int i;
-    i=read(0, &c, 1);		// read char
+#ifdef WIN32
+    i=_read(0, &c, 1);		// read char
+#else
+	i=read(0, &c, 1);		// read char
+#endif
 
     if(i != 1){
         delete snRead;
