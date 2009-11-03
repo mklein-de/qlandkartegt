@@ -58,6 +58,7 @@ CMainWindow::CMainWindow()
     setObjectName("MainWidget");
     setWindowTitle("QLandkarte GT");
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
+    setAcceptDrops(true);
 
     resources = new CResources(this);
 
@@ -385,6 +386,34 @@ CMainWindow::~CMainWindow()
     canvas = 0;
 }
 
+void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if(event->mimeData()->hasUrls()){
+        QList<QUrl> urls = event->mimeData()->urls();
+        QFileInfo fi(urls[0].path());
+
+        if(fi.suffix() == "gpx"){
+            event->acceptProposedAction();
+        }
+
+    }
+}
+
+
+void CMainWindow::dropEvent(QDropEvent *event)
+ {
+    QList<QUrl> urls = event->mimeData()->urls();
+    QUrl url;
+
+    foreach(url, urls){
+        QString filename = url.path();
+        QString filter;
+        loadData(filename, filter);
+    }
+
+
+     event->acceptProposedAction();
+ }
 
 void CMainWindow::setTitleBar()
 {

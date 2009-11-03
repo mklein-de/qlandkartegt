@@ -66,6 +66,8 @@ class CMainWindow : public QMainWindow
     protected:
         void keyPressEvent(QKeyEvent * e);
         void closeEvent(QCloseEvent * e);
+        void dragEnterEvent(QDragEnterEvent *event);
+        void dropEvent(QDropEvent *event);
 
     private slots:
         void slotReloadArgs();
