@@ -1588,7 +1588,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         line[i].setY(*v++);
                     }
 
-                    if (zoomFactor < STREETNAME_THRESHOLD) {
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
                         collectText((*item), line, font, metrics, lineWidth);
                     }
 
@@ -1626,7 +1626,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         v1 = v2;
                     }
 
-                    if (zoomFactor < STREETNAME_THRESHOLD) {
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
                         collectText((*item), line, font, metrics, lineWidth);
                     }
 

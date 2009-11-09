@@ -271,21 +271,19 @@ class CMapTDB : public IMap
         QVector<QString> polyline_typestr;
         struct polyline_property
         {
-            polyline_property(): type(0), pen0(Qt::magenta,3)/*, pen1(Qt::NoPen)*/, known(false)/*, grow(false)*/{};
-            polyline_property(quint16 type, const QColor& color0/*, const QColor& color1*/, qreal width, Qt::PenStyle style/*, bool grow*/)
+            polyline_property(): type(0), pen0(Qt::magenta,3), known(false), showText(true){};
+            polyline_property(quint16 type, const QColor& color0, qreal width, Qt::PenStyle style)
                 : type(type)
                 , pen0(QBrush(color0), width, style, Qt::RoundCap, Qt::RoundJoin)
-            //                 , pen1(QBrush(color1), width, style, Qt::RoundCap, Qt::RoundJoin)
                 , known(true)
-            //                 , grow(grow)
+                , showText(true)
                 {}
             quint16 type;
             QPen    pen0;
-            //             QPen    pen1;
             QFont   font;
             bool    known;
-            //             bool    grow;
             QImage  pixmap;
+            bool   showText;
         };
 
         //         QVector<polyline_property> polylineProperties;
