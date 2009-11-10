@@ -2612,7 +2612,9 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
         QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
 
-        //         qDebug() << "Line" << hex << typ <<  colorFlag << rows << useOrientation;
+//         quint8 d1,d2,d3;
+//         in >> d1 >> d2 >> d3;
+//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << d1 << d2 << d3;
 
         if ( colorFlag == 0) {
             readColorTableInv(in, myXpmDay, 2,2);
@@ -2650,6 +2652,10 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             qDebug() << "Failed polyline" <<  hex << ":" << typ <<  colorFlag << rows ;
             continue;
         }
+
+        quint8 x1, x2, x3;
+        in >> x1 >> x2 >> x3;
+        qDebug() << "Line" << hex << typ <<  colorFlag << rows << x1 << x2;
 
         polyline_property& property = polylineProperties[typ];
 
