@@ -142,6 +142,9 @@ set(qlandkarte_SRCS
     CGarminIndex.cpp
     CGarminTile.cpp
     CGarminExport.cpp
+    IGarminTyp.cpp
+    CGarminTyp.cpp
+    CGarminTypNT.cpp
     CMapTDB.cpp
 )
 
@@ -278,6 +281,9 @@ set(qlandkarte_HDRS
     CGarminTile.h
     Garmin.h
     CGarminExport.h
+    IGarminTyp.h
+    CGarminTyp.h
+    CGarminTypNT.h
     CMapTDB.h
 )
 
