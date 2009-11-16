@@ -329,7 +329,7 @@ CMainWindow::CMainWindow()
     connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
 
 
-
+    mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
     QStringList args = QCoreApplication::arguments();
     args.removeFirst();
@@ -475,8 +475,6 @@ void CMainWindow::switchState()
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
-    QSettings cfg;
-    QStringList mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
     menuMostRecent = new QMenu(tr("Load most recent..."),this);
     menuMostRecent->setIcon(QIcon(":/icons/iconFileLoad16x16.png"));
@@ -688,6 +686,7 @@ void CMainWindow::slotLoadData()
     QString filename;
     foreach(filename, filenames){
         loadData(filename, filter);
+        addRecent(filename);
     }
 
     wksFile.clear();
@@ -734,6 +733,7 @@ void CMainWindow::slotAddData()
 
         cfg.setValue("geodata/filter",filter);
     }
+
 }
 
 
@@ -838,8 +838,6 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
-
-    addRecent(filename);
 }
 
 
@@ -1151,9 +1149,27 @@ void CMainWindow::slotLoadRecent()
     QAction * act = qobject_cast<QAction*>(sender());
     if(act){
         QString filename = act->text();
-        loadData(filename,"");
-    }
 
+        if(modified) {
+            if(!maybeSave()) {
+                return;
+            }
+        }
+
+        CMapDB::self().clear();
+        CWptDB::self().clear();
+        CTrackDB::self().clear();
+        CRouteDB::self().clear();
+        CDiaryDB::self().clear();
+        COverlayDB::self().clear();
+
+        loadData(filename,"");
+
+        wksFile.clear();
+
+        modified = false;
+        setTitleBar();
+    }
 }
 
 void CMainWindow::addRecent(const QString& filename)
