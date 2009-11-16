@@ -40,6 +40,7 @@ class QComboBox;
 class CActions;
 class CMenus;
 class QSocketNotifier;
+class QAction;
 
 class CMainWindow : public QMainWindow
 {
@@ -88,10 +89,12 @@ class CMainWindow : public QMainWindow
         void slotCurrentDeviceChanged(int);
         void slotDeviceChanged();
         void slotScreenshot();
+        void slotLoadRecent();
 
     private:
         CMenus *actionGroupProvider;
         void setupMenuBar();
+        void addRecent(const QString& filename);
 
         void loadData(QString& filename, const QString& filter);
         void setTitleBar();
@@ -154,6 +157,10 @@ class CMainWindow : public QMainWindow
         QComboBox * comboDevice;
 
         QSocketNotifier * snRead;
+
+        QMenu * menuMostRecent;
+
+        QStringList mostRecent;
 };
 
 extern CMainWindow * theMainWindow;

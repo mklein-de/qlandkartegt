@@ -382,7 +382,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("path/data",pathData);
     cfg.setValue("mainWidget/geometry", geometry());
-
+    cfg.setValue("geodata/mostRecent", mostRecent);
     canvas = 0;
 }
 
@@ -475,6 +475,17 @@ void CMainWindow::switchState()
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
+    QSettings cfg;
+    QStringList mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
+
+    menuMostRecent = new QMenu(tr("Load most recent..."),this);
+    menuMostRecent->setIcon(QIcon(":/icons/iconFileLoad16x16.png"));
+
+    QString recent;
+    foreach(recent, mostRecent){
+        menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
+    }
+
 
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
@@ -483,6 +494,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
+    menu->addMenu(menuMostRecent);
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconScreenshot16x16.png"),tr("Device Screenshot ..."),this,SLOT(slotScreenshot()));
     menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save as image ..."),this,SLOT(slotSaveImage()));
@@ -826,6 +838,8 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
+
+    addRecent(filename);
 }
 
 
@@ -1129,5 +1143,34 @@ void CMainWindow::slotScreenshot()
 {
     CDlgScreenshot dlg(this);
     dlg.exec();
+
+}
+
+void CMainWindow::slotLoadRecent()
+{
+    QAction * act = qobject_cast<QAction*>(sender());
+    if(act){
+        QString filename = act->text();
+        loadData(filename,"");
+    }
+
+}
+
+void CMainWindow::addRecent(const QString& filename)
+{
+    QString recent;
+    foreach(recent, mostRecent){
+        if(recent == filename) return;
+    }
+
+    if(mostRecent.count() >= 5){
+        mostRecent.removeLast();
+    }
+    mostRecent.prepend(filename);
+
+    menuMostRecent->clear();
+    foreach(recent, mostRecent){
+        menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
+    }
 
 }
