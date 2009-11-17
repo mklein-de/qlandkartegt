@@ -136,6 +136,10 @@ void CDiaryDB::loadGPX(CGpx& gpx)
 void CDiaryDB::saveGPX(CGpx& gpx)
 {
 
+    if(!editWidget.isNull()) {
+        diary.setText(editWidget->textEdit->toHtml());
+    }
+
     QDomElement root        = gpx.documentElement();
     QDomElement extensions  = gpx.createElement("extensions");
     QDomElement dry         = gpx.createElement("diary");
