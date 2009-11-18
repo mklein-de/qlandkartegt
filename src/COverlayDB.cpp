@@ -67,73 +67,84 @@ void COverlayDB::draw(QPainter& p, const QRect& r, bool& needsRedraw)
 
 void COverlayDB::loadGPX(CGpx& gpx)
 {
-    const QDomNodeList& ovls = gpx.elementsByTagName("overlays");
-    uint N = ovls.count();
-    for(uint n = 0; n < N; ++n) {
-        const QDomNode& ovl = ovls.item(n);
+    if (gpx.version() == CGpx::qlVer_foreign)
+        return;
 
-        QDomElement element = ovl.firstChildElement();
-        while (!element.isNull()) {
-            QString type = element.tagName();
-            if(type == "text") {
-                int top     = element.attribute("top","0").toInt();
-                int left    = element.attribute("left","0").toInt();
-                int width   = element.attribute("width","0").toInt();
-                int height  = element.attribute("height","0").toInt();
+    // QLandkarteGT file format v1.0 had more than one extensions
+    // tags, so we have to scan all of them.  We can stop once we
+    // found an overlay tag below it.
+    QDomElement extensions = gpx.firstChildElement("gpx").firstChildElement("extensions");
+    while(!extensions.isNull()) {
+        QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
+        const QDomElement ovl = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
+                                                    "overlays":
+                                                    (CGpx::ql_ns + ":" + "overlays"));
+        if(!ovl.isNull()) {
+            QDomElement element = ovl.firstChildElement();
+            while (!element.isNull()) {
+                QString type = element.tagName();
+                if(type == "text") {
+                    int top     = element.attribute("top","0").toInt();
+                    int left    = element.attribute("left","0").toInt();
+                    int width   = element.attribute("width","0").toInt();
+                    int height  = element.attribute("height","0").toInt();
 
-                QRect rect(left, top, width, height);
-                if(rect.isValid()) {
-                    QString text = element.text();
-                    addText(text,rect);
+                    QRect rect(left, top, width, height);
+                    if(rect.isValid()) {
+                        QString text = element.text();
+                        addText(text,rect);
+                    }
                 }
+                else if(type == "textbox") {
+                    int top     = element.attribute("top","0").toInt();
+                    int left    = element.attribute("left","0").toInt();
+                    int width   = element.attribute("width","0").toInt();
+                    int height  = element.attribute("height","0").toInt();
+                    int anchorx = element.attribute("anchorx","0").toInt();
+                    int anchory = element.attribute("anchory","0").toInt();
+                    double lon  = element.attribute("lon","0").toDouble() * DEG_TO_RAD;
+                    double lat  = element.attribute("lat","0").toDouble() * DEG_TO_RAD;
+
+                    QRect rect(left, top, width, height);
+                    if(rect.isValid()) {
+                        QString text = element.text();
+                        addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
+                    }
+                }
+                else if(type == "distance") {
+                    QString name;
+                    QString comment;
+                    QList<XY> points;
+                    QDomNodeList list;
+                    QDomNode node;
+
+                    list = element.elementsByTagName("name");
+                    if(list.count() == 1) {
+                        node = list.item(0);
+                        name = node.toElement().text();
+                    }
+                    list = element.elementsByTagName("comment");
+                    if(list.count() == 1) {
+                        node = list.item(0);
+                        comment = node.toElement().text();
+                    }
+
+                    list = element.elementsByTagName("point");
+                    for(int i = 0; i < list.size(); ++i) {
+                        XY pt;
+                        pt.u = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
+                        pt.v = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
+                        points << pt;
+                    }
+
+                    addDistance(name, comment, points);
+                }
+
+                element = element.nextSiblingElement();
             }
-            else if(type == "textbox") {
-                int top     = element.attribute("top","0").toInt();
-                int left    = element.attribute("left","0").toInt();
-                int width   = element.attribute("width","0").toInt();
-                int height  = element.attribute("height","0").toInt();
-                int anchorx = element.attribute("anchorx","0").toInt();
-                int anchory = element.attribute("anchory","0").toInt();
-                double lon  = element.attribute("lon","0").toDouble() * DEG_TO_RAD;
-                double lat  = element.attribute("lat","0").toDouble() * DEG_TO_RAD;
-
-                QRect rect(left, top, width, height);
-                if(rect.isValid()) {
-                    QString text = element.text();
-                    addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
-                }
-            }
-            else if(type == "distance") {
-                QString name;
-                QString comment;
-                QList<XY> points;
-                QDomNodeList list;
-                QDomNode node;
-
-                list = element.elementsByTagName("name");
-                if(list.count() == 1) {
-                    node = list.item(0);
-                    name = node.toElement().text();
-                }
-                list = element.elementsByTagName("comment");
-                if(list.count() == 1) {
-                    node = list.item(0);
-                    comment = node.toElement().text();
-                }
-
-                list = element.elementsByTagName("point");
-                for(int i = 0; i < list.size(); ++i) {
-                    XY pt;
-                    pt.u = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
-                    pt.v = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
-                    points << pt;
-                }
-
-                addDistance(name, comment, points);
-            }
-
-            element = element.nextSiblingElement();
+            break;
         }
+        extensions = extensions.nextSiblingElement("extensions");
     }
 }
 
@@ -142,11 +153,9 @@ void COverlayDB::saveGPX(CGpx& gpx)
 {
     QString str;
     QDomElement root        = gpx.documentElement();
+    QDomElement extensions  = gpx.getExtensions();
 
-    QDomElement extensions  = gpx.createElement("extensions");
-    root.appendChild(extensions);
-
-    QDomElement _overlay_   = gpx.createElement("overlays");
+    QDomElement _overlay_   = gpx.createElement("ql:overlays");
     extensions.appendChild(_overlay_);
 
     IOverlay * overlay;

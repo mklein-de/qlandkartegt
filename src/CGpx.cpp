@@ -17,8 +17,8 @@
 
 **********************************************************************************************/
 #include "CGpx.h"
-
 #include "CTrack.h"
+#include "version.h"
 
 #include <QtCore>
 #include <QMessageBox>
@@ -29,6 +29,8 @@ const QString CGpx::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
 const QString CGpx::gpxx_ns = "http://www.garmin.com/xmlschemas/GpxExtensions/v3";
 const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
 const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
+const QString CGpx::ql_ns = "http://www.qlandkarte.org/xmlschemas/v1.1";
+
 
 uint qHash(QColor color)
 {
@@ -92,28 +94,24 @@ void CGpx::writeMetadata()
     QDomElement root = createElement("gpx");
     appendChild(root);
     root.setAttribute("version","1.1");
-    root.setAttribute("creator","QLandkarteGT");
+    root.setAttribute("creator","QLandkarteGT " VER_STR " http://www.qlandkarte.org/");
     root.setAttribute("xmlns",gpx_ns);
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
+    root.setAttribute("xmlns:ql",ql_ns);
     root.setAttribute("xsi:schemaLocation",QString()
-        + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd"
-        + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd"
+        + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "
+        + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "
         + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd"
         );
 
+    extensions = createElement("extensions");
+    root.appendChild(extensions);
+
     QDomElement metadata = createElement("metadata");
     root.appendChild(metadata);
-
-    QDomElement link = createElement("link");
-    metadata.appendChild(link);
-    link.setAttribute("href","http://www.qlandkarte.org/");
-    QDomElement text = createElement("text");
-    link.appendChild(text);
-    QDomText _text_ = createTextNode("QLandkarteGT");
-    text.appendChild(_text_);
 
     QDomElement time = createElement("time");
     metadata.appendChild(time);
@@ -140,7 +138,7 @@ void CGpx::save(const QString& filename)
             gpx.load(filename);
             const  QDomElement& docElem = gpx.documentElement();
             const QDomNamedNodeMap& attr = docElem.attributes();
-            if(attr.namedItem("creator").nodeValue() != "QLandkarteGT") {
+            if(!attr.namedItem("creator").nodeValue().startsWith("QLandkarteGT")) {
                 throw tr("bad application");
             }
         }
@@ -191,6 +189,28 @@ void CGpx::load(const QString& filename)
         throw tr("Not a GPX file: ") + filename;
     }
 
+    if (!docElem.hasAttribute("creator"))
+        throw tr("GPX schema violation: no \"creator\" attribute.");
+
+    QString creator = docElem.attribute("creator");
+    if (creator.startsWith("QLandkarteGT")) {
+        // QLandkarteGT file
+
+        // Test whether this is an old or new file.  New files use
+        // "QLandkarteGT <versionnummber> http://www.qlandkarte.org/"
+        // as creator string, old files use only "QLandkarteGT".
+        if (creator == "QLandkarteGT") {
+            file_version = qlVer_1_0;
+            qDebug() << "Detected old QLandkarteGT format, using compat mode";
+        } else {
+            file_version = qlVer_1_1;
+            qDebug() << "Detected new QLandkarteGT format";
+        }
+    } else {
+        // Foreign GPX file
+        file_version = qlVer_foreign;
+        qDebug() << "Detected foreign GPX format";
+    }
 }
 
 

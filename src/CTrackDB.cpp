@@ -179,14 +179,16 @@ void CTrackDB::loadGPX(CGpx& gpx)
             }
         }
 
-        // Own backward compatibility, to be removed soon (May 2009)
+        // QLandkarteGT backward compatibility
 
-        tmpelem = trkmap.value("extension");
-        if(!tmpelem.isNull()) {
-            QMap<QString,QDomElement> trkextensionmap = CGpx::mapChildElements(tmpelem);
+        if (gpx.version() == CGpx::qlVer_1_0) {
+            tmpelem = trkmap.value("extension");
+            if(!tmpelem.isNull()) {
+                QMap<QString,QDomElement> trkextensionmap = CGpx::mapChildElements(tmpelem);
 
-            tmpelem = trkextensionmap.value("color");
-            if(!tmpelem.isNull()) track->setColor(tmpelem.text().toUInt());
+                tmpelem = trkextensionmap.value("color");
+                if(!tmpelem.isNull()) track->setColor(tmpelem.text().toUInt());
+            }
         }
 
         /*
@@ -304,20 +306,34 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
                     tmpelem = extensionsmap.value(CGpx::rmc_ns + ":" + "speed");
                     if(!tmpelem.isNull()) pt.velocity = tmpelem.text().toDouble();
+
+                    // QLandkarteGT extensions
+
+                    if (gpx.version() >= CGpx::qlVer_1_1) {
+                        tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "flags");
+                        if(!tmpelem.isNull()) {
+                            pt.flags = tmpelem.text().toUInt();
+                            pt.flags &= ~CTrack::pt_t::eFocus;
+                            pt.flags &= ~CTrack::pt_t::eSelected;
+                            pt.flags &= ~CTrack::pt_t::eCursor;
+                        }
+                    }
                 }
 
-                // Own backward compatibility, to be removed soon (May 2009)
+                // QLandkarteGT backward compatibility
 
-                tmpelem = trkptmap.value("extension");
-                if(!tmpelem.isNull()) {
-                    QMap<QString,QDomElement> extensionmap = CGpx::mapChildElements(tmpelem);
-
-                    tmpelem = extensionmap.value("flags");
+                if (gpx.version() == CGpx::qlVer_1_0) {
+                    tmpelem = trkptmap.value("extension");
                     if(!tmpelem.isNull()) {
-                        pt.flags = tmpelem.text().toUInt();
-                        pt.flags &= ~CTrack::pt_t::eFocus;
-                        pt.flags &= ~CTrack::pt_t::eSelected;
-                        pt.flags &= ~CTrack::pt_t::eCursor;
+                        QMap<QString,QDomElement> extensionmap = CGpx::mapChildElements(tmpelem);
+
+                        tmpelem = extensionmap.value("flags");
+                        if(!tmpelem.isNull()) {
+                            pt.flags = tmpelem.text().toUInt();
+                            pt.flags &= ~CTrack::pt_t::eFocus;
+                            pt.flags &= ~CTrack::pt_t::eSelected;
+                            pt.flags &= ~CTrack::pt_t::eCursor;
+                        }
                     }
                 }
 
@@ -354,12 +370,17 @@ void CTrackDB::saveGPX(CGpx& gpx)
         QDomText _name_ = gpx.createTextNode((*track)->getName());
         name.appendChild(_name_);
 
-        QDomElement ext = gpx.createElement("extension");
+        QDomElement ext = gpx.createElement("extensions");
         trk.appendChild(ext);
 
-        QDomElement color = gpx.createElement("color");
-        ext.appendChild(color);
-        QDomText _color_ = gpx.createTextNode(QString::number((*track)->getColorIdx()));
+        QDomElement gpxx_ext = gpx.createElement("gpxx:TrackExtension");
+        ext.appendChild(gpxx_ext);
+
+        QDomElement color = gpx.createElement("gpxx:DisplayColor");
+        gpxx_ext.appendChild(color);
+
+        QString colname = gpx.getTrackColorMap().left((*track)->getColorIdx());
+        QDomText _color_ = gpx.createTextNode(colname);
         color.appendChild(_color_);
 
         QDomElement trkseg = gpx.createElement("trkseg");
@@ -425,24 +446,24 @@ void CTrackDB::saveGPX(CGpx& gpx)
             }
 
             // gpx extensions
-            QDomElement extension = gpx.createElement("extension");
-            trkpt.appendChild(extension);
+            QDomElement extensions = gpx.createElement("extensions");
+            trkpt.appendChild(extensions);
 
-            QDomElement flags = gpx.createElement("flags");
-            extension.appendChild(flags);
+            QDomElement flags = gpx.createElement("ql:flags");
+            extensions.appendChild(flags);
             QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
             flags.appendChild(_flags_);
 
             if(pt->heading != WPT_NOFLOAT) {
                 QDomElement heading = gpx.createElement("rmc:course");
-                extension.appendChild(heading);
+                extensions.appendChild(heading);
                 QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
                 heading.appendChild(_heading_);
             }
 
             if(pt->velocity != WPT_NOFLOAT) {
                 QDomElement velocity = gpx.createElement("rmc:speed");
-                extension.appendChild(velocity);
+                extensions.appendChild(velocity);
                 QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
                 velocity.appendChild(_velocity_);
             }

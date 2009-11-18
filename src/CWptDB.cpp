@@ -243,8 +243,23 @@ void CWptDB::loadGPX(CGpx& gpx)
 
         if(waypoint.namedItem("extensions").isElement()) {
             const QDomNode& ext = waypoint.namedItem("extensions");
-            if(ext.namedItem("dist").isElement()) {
-                wpt->prx = ext.namedItem("dist").toElement().text().toDouble();
+            QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(ext);
+            QDomElement tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "WaypointExtension");
+
+            if(!tmpelem.isNull()) {
+                QMap<QString,QDomElement> waypointextensionmap = CGpx::mapChildElements(tmpelem);
+
+                tmpelem = waypointextensionmap.value(CGpx::gpxx_ns + ":" + "Proximity");
+                if(!tmpelem.isNull()) {
+                    wpt->prx = tmpelem.text().toDouble();
+                }
+            }
+
+            // QLandkarteGT backward compatibility
+            if (gpx.version() == CGpx::qlVer_1_0) {
+                if(ext.namedItem("dist").isElement()) {
+                    wpt->prx = ext.namedItem("dist").toElement().text().toDouble();
+                }
             }
         }
 
@@ -320,12 +335,14 @@ void CWptDB::saveGPX(CGpx& gpx)
         if((*wpt)->prx != 1e25f) {
             QDomElement extensions = gpx.createElement("extensions");
             waypoint.appendChild(extensions);
+            QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");
+            extensions.appendChild(gpxx_ext);
 
             if((*wpt)->prx != 1e25f) {
-                QDomElement dist = gpx.createElement("dist");
-                extensions.appendChild(dist);
-                QDomText _dist_ = gpx.createTextNode(QString::number((*wpt)->prx));
-                dist.appendChild(_dist_);
+                QDomElement proximity = gpx.createElement("Proximity");
+                gpxx_ext.appendChild(proximity);
+                QDomText _proximity_ = gpx.createTextNode(QString::number((*wpt)->prx));
+                proximity.appendChild(_proximity_);
             }
         }
 

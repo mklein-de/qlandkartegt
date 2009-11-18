@@ -117,14 +117,25 @@ int CDiaryDB::count()
 
 void CDiaryDB::loadGPX(CGpx& gpx)
 {
-    const QDomNodeList& drys = gpx.elementsByTagName("diary");
-    uint N = drys.count();
-    for(uint n = 0; n < N; ++n) {
-        const QDomNode& dry = drys.item(n);
-        QString tmp = diary.text();
-        tmp += dry.toElement().text();
-        diary.setText(tmp);
-        break;                   // only entry allowed sofar
+    if (gpx.version() == CGpx::qlVer_foreign)
+        return;
+
+    // QLandkarteGT file format v1.0 had more than one extensions
+    // tags, so we have to scan all of them.  We can stop once we
+    // found a diary tag below it.
+    QDomElement extensions = gpx.firstChildElement("gpx").firstChildElement("extensions");
+    while(!extensions.isNull()) {
+        QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
+        const QDomElement dry = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
+                                                    "diary":
+                                                    (CGpx::ql_ns + ":" + "diary"));
+        if(!dry.isNull()) {
+            QString tmp = diary.text();
+            tmp += dry.toElement().text();
+            diary.setText(tmp);
+            break;
+        }
+        extensions = extensions.nextSiblingElement("extensions");
     }
 
     if(count()) {
@@ -141,8 +152,8 @@ void CDiaryDB::saveGPX(CGpx& gpx)
     }
 
     QDomElement root        = gpx.documentElement();
-    QDomElement extensions  = gpx.createElement("extensions");
-    QDomElement dry         = gpx.createElement("diary");
+    QDomElement extensions  = gpx.getExtensions();
+    QDomElement dry         = gpx.createElement("ql:diary");
     QDomText text           = gpx.createTextNode(diary.text());
 
     root.appendChild(extensions);

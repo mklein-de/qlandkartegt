@@ -41,6 +41,13 @@ class CGpx : public QObject, public QDomDocument
         static const QString gpxx_ns;
         static const QString gpxtpx_ns;
         static const QString rmc_ns;
+        static const QString ql_ns;
+
+        enum gpx_version {
+            qlVer_foreign,      // file was not created by QLandkarteGT
+            qlVer_1_0,          // file uses old, non XSD-compatible extensions
+            qlVer_1_1,          // file uses new, XSD-compatible extensions
+        };
 
     public:
         CGpx(QObject * parent);
@@ -54,10 +61,17 @@ class CGpx : public QObject, public QDomDocument
         const Dictionary<QString, QColor>& getColorMap() const;
         const Dictionary<QString, int>& getTrackColorMap() const;
 
+        QDomElement &getExtensions() { return extensions; };
+        gpx_version version() { return file_version; }
+
     protected:
         void writeMetadata();
 
         Dictionary<QString, QColor> colorMap;
         Dictionary<QString, int> trackColorMap;
+
+    private:
+        QDomElement extensions;
+        gpx_version file_version;
 };
 #endif                           //CGPX_H
