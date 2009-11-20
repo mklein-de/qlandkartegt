@@ -339,7 +339,7 @@ void CWptDB::saveGPX(CGpx& gpx)
             extensions.appendChild(gpxx_ext);
 
             if((*wpt)->prx != 1e25f) {
-                QDomElement proximity = gpx.createElement("Proximity");
+                QDomElement proximity = gpx.createElement("gpxx:Proximity");
                 gpxx_ext.appendChild(proximity);
                 QDomText _proximity_ = gpx.createTextNode(QString::number((*wpt)->prx));
                 proximity.appendChild(_proximity_);

@@ -80,10 +80,16 @@ void COverlayDB::loadGPX(CGpx& gpx)
                                                     "overlays":
                                                     (CGpx::ql_ns + ":" + "overlays"));
         if(!ovl.isNull()) {
-            QDomElement element = ovl.firstChildElement();
-            while (!element.isNull()) {
-                QString type = element.tagName();
-                if(type == "text") {
+            QMap<QString,QDomElement> ovlmap = CGpx::mapChildElements(ovl);
+            for(QMap<QString,QDomElement>::Iterator it = ovlmap.begin();
+                it != ovlmap.end();
+                ++it) {
+                const QString type = it.key();
+                const QDomElement element = ovlmap[it.key()];
+
+                if(type == (gpx.version() == CGpx::qlVer_1_0?
+                            "text":
+                            (CGpx::ql_ns + ":" + "text"))) {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
@@ -95,7 +101,9 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         addText(text,rect);
                     }
                 }
-                else if(type == "textbox") {
+                else if(type == (gpx.version() == CGpx::qlVer_1_0?
+                                 "textbox":
+                                 (CGpx::ql_ns + ":" + "textbox"))) {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
@@ -111,7 +119,9 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
                     }
                 }
-                else if(type == "distance") {
+                else if(type == (gpx.version() == CGpx::qlVer_1_0?
+                                 "distance":
+                                 (CGpx::ql_ns + ":" + "distance"))) {
                     QString name;
                     QString comment;
                     QList<XY> points;
@@ -140,7 +150,6 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     addDistance(name, comment, points);
                 }
 
-                element = element.nextSiblingElement();
             }
             break;
         }
@@ -165,7 +174,7 @@ void COverlayDB::saveGPX(CGpx& gpx)
             COverlayText * overlaytext = qobject_cast<COverlayText*>(overlay);
             if(overlaytext == 0) continue;
 
-            QDomElement text  = gpx.createElement("text");
+            QDomElement text  = gpx.createElement("ql:text");
             _overlay_.appendChild(text);
 
             text.setAttribute("top", overlaytext->rect.top());
@@ -180,7 +189,7 @@ void COverlayDB::saveGPX(CGpx& gpx)
             COverlayTextBox * ovl = qobject_cast<COverlayTextBox*>(overlay);
             if(ovl == 0) continue;
 
-            QDomElement text  = gpx.createElement("textbox");
+            QDomElement text  = gpx.createElement("ql:textbox");
             _overlay_.appendChild(text);
 
             text.setAttribute("top", ovl->rect.top());
@@ -201,20 +210,20 @@ void COverlayDB::saveGPX(CGpx& gpx)
             COverlayDistance * ovl = qobject_cast<COverlayDistance*>(overlay);
             if(ovl == 0) continue;
 
-            QDomElement elem  = gpx.createElement("distance");
+            QDomElement elem  = gpx.createElement("ql:distance");
             _overlay_.appendChild(elem);
 
-            QDomElement name  = gpx.createElement("name");
+            QDomElement name  = gpx.createElement("ql:name");
             elem.appendChild(name);
             name.appendChild(gpx.createTextNode(ovl->name));
 
-            QDomElement comment = gpx.createElement("comment");
+            QDomElement comment = gpx.createElement("ql:comment");
             elem.appendChild(comment);
             comment.appendChild(gpx.createTextNode(ovl->comment));
 
             XY pt;
             foreach(pt, ovl->points) {
-                QDomElement point = gpx.createElement("point");
+                QDomElement point = gpx.createElement("ql:point");
                 str.sprintf("%1.8f",pt.u * RAD_TO_DEG);
                 point.setAttribute("lon",str);
                 str.sprintf("%1.8f",pt.v * RAD_TO_DEG);
