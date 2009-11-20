@@ -689,7 +689,7 @@ void CMainWindow::slotLoadData()
         addRecent(filename);
     }
 
-    wksFile.clear();
+    wksFile = filename;
 
     modified = false;
     setTitleBar();
@@ -726,6 +726,8 @@ void CMainWindow::slotAddData()
 
         QString tmp = wksFile;
         loadData(filename, filter);
+        addRecent(filename);
+
         wksFile = tmp;
 
         modified = true;
@@ -901,8 +903,8 @@ void CMainWindow::slotSaveData()
     if(filename.isEmpty()) return;
 
     cfg.setValue("geodata/filter",filter);
-
     saveData(filename, filter);
+    addRecent(filename);
 }
 
 
@@ -1165,7 +1167,7 @@ void CMainWindow::slotLoadRecent()
 
         loadData(filename,"");
 
-        wksFile.clear();
+        wksFile = filename;
 
         modified = false;
         setTitleBar();
@@ -1179,7 +1181,7 @@ void CMainWindow::addRecent(const QString& filename)
         if(recent == filename) return;
     }
 
-    if(mostRecent.count() >= 5){
+    if(mostRecent.count() >= 10){
         mostRecent.removeLast();
     }
     mostRecent.prepend(filename);
