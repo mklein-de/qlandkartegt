@@ -2654,8 +2654,8 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
         }
 
         quint8 x1, x2, x3;
-        in >> x1 >> x2 >> x3;
-        qDebug() << "Line" << hex << typ <<  colorFlag << rows << x1 << x2;
+//         in >> x1 >> x2 >> x3;
+//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << x1 << x2;
 
         polyline_property& property = polylineProperties[typ];
 
