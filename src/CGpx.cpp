@@ -194,23 +194,25 @@ void CGpx::load(const QString& filename)
         throw tr("GPX schema violation: no \"creator\" attribute.");
 
     QString creator = docElem.attribute("creator");
-    if (creator.startsWith("QLandkarteGT")) {
+    if (creator.startsWith("QLandkarte")) {
         // QLandkarteGT file
 
         // Test whether this is an old or new file.  New files use
         // "QLandkarteGT <versionnummber> http://www.qlandkarte.org/"
         // as creator string, old files use only "QLandkarteGT".
-        if (creator == "QLandkarteGT") {
+        // Very old files use just "QLandkarte".
+        if (creator == "QLandkarteGT" || creator == "QLandkarte") {
             file_version = qlVer_1_0;
-            qDebug() << "Detected old QLandkarteGT format, using compat mode";
+            qDebug() << "CGpx::load(): Detected old" << creator
+                     << "format, using compat mode";
         } else {
             file_version = qlVer_1_1;
-            qDebug() << "Detected new QLandkarteGT format";
+            qDebug() << "CGpx::load(): Detected new QLandkarteGT format";
         }
     } else {
         // Foreign GPX file
         file_version = qlVer_foreign;
-        qDebug() << "Detected foreign GPX format";
+        qDebug() << "CGpx::load(): Detected foreign GPX format";
     }
 }
 
