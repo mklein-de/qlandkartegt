@@ -446,26 +446,32 @@ void CTrackDB::saveGPX(CGpx& gpx)
             }
 
             // gpx extensions
-            QDomElement extensions = gpx.createElement("extensions");
-            trkpt.appendChild(extensions);
+            if(pt->flags.flag() != 0 ||
+                pt->heading != WPT_NOFLOAT ||
+                pt->velocity != WPT_NOFLOAT) {
+                QDomElement extensions = gpx.createElement("extensions");
+                trkpt.appendChild(extensions);
 
-            QDomElement flags = gpx.createElement("ql:flags");
-            extensions.appendChild(flags);
-            QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
-            flags.appendChild(_flags_);
+                if(pt->flags.flag() != 0) {
+                    QDomElement flags = gpx.createElement("ql:flags");
+                    extensions.appendChild(flags);
+                    QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
+                    flags.appendChild(_flags_);
+                }
 
-            if(pt->heading != WPT_NOFLOAT) {
-                QDomElement heading = gpx.createElement("rmc:course");
-                extensions.appendChild(heading);
-                QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
-                heading.appendChild(_heading_);
-            }
+                if(pt->heading != WPT_NOFLOAT) {
+                    QDomElement heading = gpx.createElement("rmc:course");
+                    extensions.appendChild(heading);
+                    QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
+                    heading.appendChild(_heading_);
+                }
 
-            if(pt->velocity != WPT_NOFLOAT) {
-                QDomElement velocity = gpx.createElement("rmc:speed");
-                extensions.appendChild(velocity);
-                QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
-                velocity.appendChild(_velocity_);
+                if(pt->velocity != WPT_NOFLOAT) {
+                    QDomElement velocity = gpx.createElement("rmc:speed");
+                    extensions.appendChild(velocity);
+                    QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
+                    velocity.appendChild(_velocity_);
+                }
             }
 
             ++pt;
