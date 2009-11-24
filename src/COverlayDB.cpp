@@ -160,11 +160,15 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
 void COverlayDB::saveGPX(CGpx& gpx)
 {
+    if (count() == 0) {
+        return;
+    }
+
     QString str;
     QDomElement root        = gpx.documentElement();
     QDomElement extensions  = gpx.getExtensions();
-
     QDomElement _overlay_   = gpx.createElement("ql:overlays");
+
     extensions.appendChild(_overlay_);
 
     IOverlay * overlay;

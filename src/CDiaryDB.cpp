@@ -151,10 +151,15 @@ void CDiaryDB::saveGPX(CGpx& gpx)
         diary.setText(editWidget->textEdit->toHtml());
     }
 
+    const QString diary_text = diary.text();
+    if (diary_text.length() == 0) {
+	return;
+    }
+
     QDomElement root        = gpx.documentElement();
     QDomElement extensions  = gpx.getExtensions();
     QDomElement dry         = gpx.createElement("ql:diary");
-    QDomText text           = gpx.createTextNode(diary.text());
+    QDomText text           = gpx.createTextNode(diary_text);
 
     root.appendChild(extensions);
     extensions.appendChild(dry);
