@@ -545,7 +545,7 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MainMoreMenu);
-    menu->setTitle(tr("&more"));
+    menu->setTitle(tr("Mor&e"));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
