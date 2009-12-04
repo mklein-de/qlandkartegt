@@ -146,6 +146,7 @@ set(qlandkarte_SRCS
     CGarminTyp.cpp
     CGarminTypNT.cpp
     CMapTDB.cpp
+    CDlgTrackFilter.cpp
 )
 
 if (WIN32)
@@ -285,6 +286,7 @@ set(qlandkarte_HDRS
     CGarminTyp.h
     CGarminTypNT.h
     CMapTDB.h
+    CDlgTrackFilter.h
 )
 
 SET(qlandkarte_UIS
@@ -322,6 +324,7 @@ SET(qlandkarte_UIS
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IGarminExport.ui
+    IDlgTrackFilter.ui
 
 )
 

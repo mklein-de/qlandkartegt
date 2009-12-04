@@ -26,6 +26,7 @@
 #include "IUnit.h"
 #include "COverlayDB.h"
 #include "CMegaMenu.h"
+#include "CDlgTrackFilter.h"
 
 #include <QtGui>
 
@@ -47,9 +48,11 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     contextMenu = new QMenu(this);
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
     contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -245,4 +248,19 @@ void CTrackToolWidget::slotToOverlay()
     }
 
     CMegaMenu::self().switchByKeyWord("Overlay");
+}
+
+void CTrackToolWidget::slotFilter()
+{
+    const QListWidgetItem* item = listTracks->currentItem();
+
+    if(item == 0) {
+        QMessageBox::information(0,tr("Filter"), tr("You have to select a track first."),
+                                 QMessageBox::Ok,QMessageBox::Ok);
+        return;
+    };
+
+    CTrack *track = CTrackDB::self().highlightedTrack();
+    CDlgTrackFilter dlg(*track, this);
+    dlg.exec();
 }

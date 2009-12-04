@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2009 Joerg Wunsch <j@uriah.heep.sax.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,47 +16,42 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-#ifndef CTRACKTOOLWIDGET_H
-#define CTRACKTOOLWIDGET_H
+#ifndef CDLGTRACKFILTER_H
+#define CDLGTRACKFILTER_H
 
-#include <QWidget>
-#include <QPointer>
-#include "ui_ITrackToolWidget.h"
+#include <QDialog>
+#include <QDateTime>
 
-class QToolBox;
-class QListWidgetItem;
-class QMenu;
-class CTrackEditWidget;
+#include "ui_IDlgTrackFilter.h"
 
-class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
+class CTrack;
+
+/// dialog to edit waypoint properties
+class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
 {
     Q_OBJECT;
     public:
-        CTrackToolWidget(QTabWidget * parent);
-        virtual ~CTrackToolWidget();
+        CDlgTrackFilter(CTrack &track, QWidget * parent);
+        virtual ~CDlgTrackFilter();
 
     public slots:
-        void slotEdit();
-        void slotDBChanged();
-
-    protected:
-        void keyPressEvent(QKeyEvent * e);
+        void accept();
+        void reject();
 
     private slots:
-        void slotItemDoubleClicked(QListWidgetItem * item);
-        void slotItemClicked(QListWidgetItem * item);
-        void slotContextMenu(const QPoint& pos);
-        void slotDelSelect();
-        void slotDelete();
-        void slotToOverlay();
-        void slotFilter();
+        // "Modify Timestamp" tab slots
+        void slotReset1stOfMonth();
+        void slotResetEpoch();
+        void slotDateTimeChanged(const QDateTime & datetime);
+
+        // "Reduce Dataset" tab slots
+        void slotRadioDistance();
+        void slotRadioTimedelta();
+        void slotSpinDistance(int i);
+        void slotSpinTimedelta(int i);
+        void slotComboMeterFeet(const QString &text);
 
     private:
-        bool originator;
-
-        QMenu * contextMenu;
-
-        QPointer<CTrackEditWidget> trackedit;
-
+        CTrack &track;
 };
-#endif                           //CTRACKTOOLWIDGET_H
+#endif                           //CDLGTRACKFILTER_H
