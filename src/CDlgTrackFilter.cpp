@@ -98,7 +98,6 @@ void CDlgTrackFilter::accept()
     qDebug() << "Accepting track filter";
     bool need_rebuild = false;
     QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     int npts = trkpts.count();
 
     QProgressDialog progress(tr("Running filter..."), tr("Abort filter"), 0, npts, this);
@@ -106,6 +105,7 @@ void CDlgTrackFilter::accept()
     progress.setWindowModality(Qt::WindowModal);
 
     if(tabTimestamp->isEnabled() && checkModifyTimestamps->isChecked()) {
+        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
         if(trkpt->timestamp != 0x000000000 && trkpt->timestamp != 0xFFFFFFFF) {
             qDebug() << "Modifying track timestamps";
@@ -140,6 +140,7 @@ void CDlgTrackFilter::accept()
     }
 
     if(checkReduceDataset->isChecked()) {
+        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
         if(radioTimedelta->isEnabled() && radioTimedelta->isChecked()) {
             qDebug() << "Reducing track dataset by timedelta";
