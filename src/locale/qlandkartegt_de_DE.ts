@@ -1710,6 +1710,20 @@ erwartet: %1, empfangen %2</translation>
     </message>
 </context>
 <context>
+    <name>CDlgTrackFilter</name>
+    <message>
+        <location filename="../CDlgTrackFilter.cpp" line="103"/>
+        <source>Abort filter</source>
+        <translation>Abbrechen
+</translation>
+    </message>
+    <message>
+        <location filename="../CDlgTrackFilter.cpp" line="103"/>
+        <source>Filter track...</source>
+        <translation>Filtere Track</translation>
+    </message>
+</context>
+<context>
     <name>CGarminExport</name>
     <message>
         <location filename="../CGarminExport.cpp" line="58"/>
@@ -2156,6 +2170,11 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
+        <location filename="../CMainWindow.cpp" line="548"/>
+        <source>Mor&amp;e</source>
+        <translation>M&amp;ehr</translation>
+    </message>
+    <message>
         <location filename="../CMainWindow.cpp" line="558"/>
         <source>About &amp;QLandkarte GT</source>
         <translation>&amp;Über QLandkarteGT</translation>
@@ -2200,9 +2219,8 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>&amp;Overlay</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="548"/>
         <source>&amp;more</source>
-        <translation>Me&amp;hr</translation>
+        <translation type="obsolete">Me&amp;hr</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="664"/>
@@ -3631,7 +3649,8 @@ Länge: %1 %2</translation>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="483"/>
+        <location filename="../CTrackDB.cpp" line="489"/>
+        <location filename="../CTrackDB.cpp~" line="450"/>
         <source>Track%1</source>
         <translation>Track%1</translation>
     </message>
@@ -3764,100 +3783,111 @@ Länge: %1 %2</translation>
 <context>
     <name>CTrackToolWidget</name>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="41"/>
+        <location filename="../CTrackToolWidget.cpp" line="42"/>
         <source>Tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="49"/>
+        <location filename="../CTrackToolWidget.cpp" line="50"/>
         <source>Edit...</source>
         <translation>Bearbeiten ...</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="51"/>
+        <source>Filter...</source>
+        <translation>Filter...</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="53"/>
         <source>Deselect</source>
         <translation>Abwählen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="52"/>
+        <location filename="../CTrackToolWidget.cpp" line="54"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="89"/>
+        <location filename="../CTrackToolWidget.cpp" line="92"/>
         <source>
 length: %1 %2</source>
         <translation>
 Länge: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="90"/>
+        <location filename="../CTrackToolWidget.cpp" line="93"/>
         <source>, points: %1</source>
         <translation>, Punkte: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="98"/>
+        <location filename="../CTrackToolWidget.cpp" line="101"/>
         <source>
 time: %1:</source>
         <translation>
 Zeit: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="101"/>
+        <location filename="../CTrackToolWidget.cpp" line="104"/>
         <source>
 time: </source>
         <translation>
 Zeit:  </translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="105"/>
+        <location filename="../CTrackToolWidget.cpp" line="108"/>
         <source>, speed: %1 %2</source>
         <translation>, Geschwindigkeit: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="107"/>
+        <location filename="../CTrackToolWidget.cpp" line="110"/>
         <source>
 start: %1</source>
         <translation>
 Beginn: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="107"/>
-        <location filename="../CTrackToolWidget.cpp" line="108"/>
+        <location filename="../CTrackToolWidget.cpp" line="110"/>
+        <location filename="../CTrackToolWidget.cpp" line="111"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="108"/>
+        <location filename="../CTrackToolWidget.cpp" line="111"/>
         <source>
 end: %1</source>
         <translation>
 Ende: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="113"/>
+        <location filename="../CTrackToolWidget.cpp" line="116"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="180"/>
+        <location filename="../CTrackToolWidget.cpp" line="183"/>
         <source>Edit track ...</source>
         <translation>Track bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="180"/>
+        <location filename="../CTrackToolWidget.cpp" line="183"/>
+        <location filename="../CTrackToolWidget.cpp" line="258"/>
         <source>You have to select a track first.</source>
         <translation>Zuerst muss ein Track ausgewählt werden. </translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="50"/>
+        <location filename="../CTrackToolWidget.cpp" line="258"/>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="52"/>
         <source>Make Overlay</source>
         <translation>Overlay erstellen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="244"/>
+        <location filename="../CTrackToolWidget.cpp" line="247"/>
         <source>created from track</source>
         <translation>Von einem Track abgeleitet.</translation>
     </message>
@@ -5247,6 +5277,102 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgScreenshot.ui" line="60"/>
         <source>Save</source>
         <translation>Speichern</translation>
+    </message>
+</context>
+<context>
+    <name>IDlgTrackFilter</name>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="15"/>
+        <source>Track Filter...</source>
+        <translation>Track Filter...</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="31"/>
+        <source>Reduce dataset</source>
+        <translation>Datensatz reduzieren</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="41"/>
+        <source>Mark points as deleted if:</source>
+        <translation>Punkte als gelöscht markieren wenn:</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="48"/>
+        <source>Distance to previous point less than</source>
+        <translation>Distanz zum vorherigen Punkt weniger als</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="51"/>
+        <location filename="../IDlgTrackFilter.ui" line="88"/>
+        <source>buttonGroupDataset</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="85"/>
+        <source>Time from previous point less than</source>
+        <translation>Zeit zum vorherigen Punkt weniger als</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="138"/>
+        <source>Perform dataset reduction on &quot;OK&quot;</source>
+        <translation>Bei &quot;OK&quot; Datensatz reduzieren</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="146"/>
+        <source>Timestamps</source>
+        <translation>Zeitmarken</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="159"/>
+        <source>Change the track&apos;s starting time (anonymize track) to:</source>
+        <translation>Ändere die Anfangszeit des Tracks zu (Anonymer Track):</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="175"/>
+        <source>Local time</source>
+        <translation>Locale Zeit</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="181"/>
+        <location filename="../IDlgTrackFilter.ui" line="194"/>
+        <source>buttonGroupTZ</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="188"/>
+        <source>UTC</source>
+        <translation>UTC</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="205"/>
+        <source>Reset to 1st of month, hour 00</source>
+        <translation>Auf den 1. des Monats, 00:00 Uhr, zurücksetzen</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="225"/>
+        <source>Reset to 1970-01-01, 00:00 UTC</source>
+        <translation>Zurücksetzen auf 01-01-1970, 00:00 UTC</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="267"/>
+        <source>Leave time deltas as in original track</source>
+        <translation>Zeitabstände wie im originalen Track belassen</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="273"/>
+        <location filename="../IDlgTrackFilter.ui" line="283"/>
+        <source>buttonGroupTDelta</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="280"/>
+        <source>Change time deltas to 1 second per trackpoint</source>
+        <translation>Zeitabstände zu 1 Sekunde pro Punkt ändern</translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="303"/>
+        <source>Modify timestamps on &quot;OK&quot;</source>
+        <translation>Bei &quot;OK&quot; Zeitmarken bearbeiten</translation>
     </message>
 </context>
 <context>

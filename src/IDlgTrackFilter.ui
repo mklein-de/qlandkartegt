@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>354</height>
+    <width>563</width>
+    <height>343</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -356,8 +356,8 @@
   </connection>
  </connections>
  <buttongroups>
+  <buttongroup name="buttonGroupDataset"/>
   <buttongroup name="buttonGroupTDelta"/>
   <buttongroup name="buttonGroupTZ"/>
-  <buttongroup name="buttonGroupDataset"/>
  </buttongroups>
 </ui>

@@ -100,7 +100,7 @@ void CDlgTrackFilter::accept()
     QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
     int npts = trkpts.count();
 
-    QProgressDialog progress(tr("Running filter..."), tr("Abort filter"), 0, npts, this);
+    QProgressDialog progress(tr("Filter track..."), tr("Abort filter"), 0, npts, this);
     progress.setWindowTitle("Filter Progress");
     progress.setWindowModality(Qt::WindowModal);
 
