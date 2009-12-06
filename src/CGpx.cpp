@@ -162,6 +162,7 @@ void CGpx::save(const QString& filename)
         throw tr("Failed to open: ") + filename;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>" << endl;;
     out << toString();
     file.close();
