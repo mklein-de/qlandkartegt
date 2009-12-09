@@ -25,6 +25,7 @@
 #include "CWpt.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CResources.h"
 #include "CRouteDB.h"
 #include "CRoute.h"
 #include "CMapSelectionGarmin.h"
@@ -632,13 +633,19 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         ++wpt;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
         dev->uploadWaypoints(garwpts);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -651,14 +658,20 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     Garmin::IDevice * dev = getDevice();
     if(dev == 0) return;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     std::list<Garmin::Wpt_t> garwpts;
     try
     {
         dev->downloadWaypoints(garwpts);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -727,13 +740,19 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
         ++trk;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
         dev->uploadTracks(gartrks);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -746,14 +765,20 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
     Garmin::IDevice * dev = getDevice();
     if(dev == 0) return;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     std::list<Garmin::Track_t> gartrks;
     try
     {
         dev->downloadTracks(gartrks);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
         return;
     }
 
@@ -799,13 +824,19 @@ void CDeviceGarmin::downloadScreenshot(QImage& image)
     int     width   = 0;
     int     height  = 0;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
         dev->screenshot(clrtbl, data, width, height);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
         return;
     }
 
@@ -883,13 +914,19 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         ++rte; ++id;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
         dev->uploadRoutes(garrtes);
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -940,13 +977,18 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
     QFileInfo fi(tmpfile.fileName());
 
     qDebug() << fi.size();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
         dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
-        QSound::play(":/sounds/xfer-done.wav");
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+        QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
     return;
 }
 

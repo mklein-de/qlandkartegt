@@ -64,6 +64,7 @@ void CDlgConfig::exec()
         radioImperial->setChecked(true);
     }
 
+    checkPlaySound->setChecked(resources.m_playSound);
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
 
     connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
@@ -116,6 +117,7 @@ void CDlgConfig::accept()
     }
 
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
+    resources.m_playSound       = checkPlaySound->isChecked();
 
     resources.m_eBrowser        = (CResources::bowser_e)comboBrowser->currentIndex();
     resources.cmdOther          = lineBrowserCmd->text();

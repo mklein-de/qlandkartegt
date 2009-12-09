@@ -57,6 +57,7 @@ class CResources : public QObject
         QString pathMaps;
 
         bool flipMouseWheel(){return m_flipMouseWheel;}
+        bool playSound(){return m_playSound;}
 
         signals:
         void sigProxyChanged();
@@ -115,6 +116,9 @@ class CResources : public QObject
 
         /// mouse wheel zoom direction
         bool m_flipMouseWheel;
+
+        /// play sound after finishing transfers
+        bool m_playSound;
 
         /// unit translator object
         QPointer<IUnit> unit;

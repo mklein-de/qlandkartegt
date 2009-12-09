@@ -77,6 +77,7 @@ CResources::CResources(QObject * parent)
 
     emit sigDeviceChanged();
 
+    m_playSound       = cfg.value("device/playSound",m_playSound).toBool();
     IDevice::m_DownloadAllTrk   = cfg.value("device/dnlTrk",IDevice::m_DownloadAllTrk).toBool();
     IDevice::m_DownloadAllWpt   = cfg.value("device/dnlWpt",IDevice::m_DownloadAllWpt).toBool();
     IDevice::m_DownloadAllRte   = cfg.value("device/dnlRte",IDevice::m_DownloadAllRte).toBool();
@@ -133,6 +134,7 @@ CResources::~CResources()
     cfg.setValue("device/uplWpt",IDevice::m_UploadAllWpt);
     cfg.setValue("device/uplTrk",IDevice::m_UploadAllTrk);
     cfg.setValue("device/uplRte",IDevice::m_UploadAllRte);
+    cfg.setValue("device/playSound",m_playSound);
 
     cfg.setValue("environment/unittype",unit->type);
 }
