@@ -508,16 +508,36 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT)).arg(XSTR(PLUGINDIR)).arg(devkey);
     QString funcname    = QString("init%1").arg(devkey);
 
-    func = (Garmin::IDevice * (*)(const char*))QLibrary::resolve(libname,funcname.toAscii());
+    QLibrary lib;
+    lib.setFileName(libname);
+    bool lib_loaded = lib.load();
+    if (lib_loaded) {
+        func = (Garmin::IDevice * (*)(const char*))lib.resolve(funcname.toAscii());
+    }
 
-    if(func == 0) {
-        QMessageBox::warning(0,tr("Error ..."),tr("Failed to load driver."),QMessageBox::Ok,QMessageBox::NoButton);
+    if(!lib_loaded || func == 0) {
+        QMessageBox warn;
+        warn.setIcon(QMessageBox::Warning);
+        warn.setWindowTitle(tr("Error ..."));
+        warn.setText(tr("Failed to load driver."));
+        warn.setDetailedText(lib.errorString());
+        warn.setStandardButtons(QMessageBox::Ok);
+        warn.exec();
         return 0;
     }
 
     dev = func(INTERFACE_VERSION);
     if(dev == 0) {
-        QMessageBox::warning(0,tr("Error ..."),tr("Driver version mismatch."),QMessageBox::Ok,QMessageBox::NoButton);
+        QMessageBox warn;
+        warn.setIcon(QMessageBox::Warning);
+        warn.setWindowTitle(tr("Error ..."));
+        warn.setText(tr("Driver version mismatch."));
+        QString detail = QString(
+            tr("The version of your driver plugin \"%1\" does not match the version QLandkarteGT expexts (\"%2\").")
+            ).arg(libname).arg(INTERFACE_VERSION);
+        warn.setDetailedText(detail);
+        warn.setStandardButtons(QMessageBox::Ok);
+        warn.exec();
         func = 0;
     }
 
