@@ -153,7 +153,7 @@ void CDiaryDB::saveGPX(CGpx& gpx)
 
     const QString diary_text = diary.text();
     if (diary_text.length() == 0) {
-	return;
+        return;
     }
 
     QDomElement root        = gpx.documentElement();
