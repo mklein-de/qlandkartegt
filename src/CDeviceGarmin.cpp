@@ -955,7 +955,26 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
 
 void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    qDebug() << "CDeviceGarmin::downloadRoutes()";
+    Garmin::IDevice * dev = getDevice();
+    if(dev == 0) return;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    std::list<Garmin::Route_t> garrtes;
+    try
+    {
+        dev->downloadRoutes(garrtes);
+        if (CResources::self().playSound()) {
+            QSound::play(":/sounds/xfer-done.wav");
+        }
+
+        QApplication::restoreOverrideCursor();
+    }
+    catch(int /*e*/) {
+        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        QApplication::restoreOverrideCursor();
+        return;
+    }
 }
 
 

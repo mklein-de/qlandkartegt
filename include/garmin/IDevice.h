@@ -55,7 +55,7 @@ typedef unsigned __int64    uint64_t;
 #define _MKSTR(x)      _MKSTR_1(x)
 #endif
 
-#define INTERFACE_VERSION "01.16"
+#define INTERFACE_VERSION "01.17"
 
 namespace Garmin
 {
@@ -520,6 +520,12 @@ namespace Garmin
         @param tracks list of tracks to send
     */
     virtual void uploadTracks(std::list<Garmin::Track_t>& tracks) = 0;
+
+    /// download routes from device
+    /**
+        @param routes list of routes
+    */
+    virtual void downloadRoutes(std::list<Garmin::Route_t>& routes) = 0;
 
     /// upload route to device
     /**
