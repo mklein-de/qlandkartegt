@@ -533,7 +533,7 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
         warn.setWindowTitle(tr("Error ..."));
         warn.setText(tr("Driver version mismatch."));
         QString detail = QString(
-            tr("The version of your driver plugin \"%1\" does not match the version QLandkarteGT expexts (\"%2\").")
+            tr("The version of your driver plugin \"%1\" does not match the version QLandkarteGT expects (\"%2\").")
             ).arg(libname).arg(INTERFACE_VERSION);
         warn.setDetailedText(detail);
         warn.setStandardButtons(QMessageBox::Ok);
