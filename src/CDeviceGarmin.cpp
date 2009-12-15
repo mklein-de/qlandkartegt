@@ -827,6 +827,8 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
 
         if(trk->getTrackPoints().count() > 0) {
             trks << trk;
+        } else {
+            delete trk;
         }
         ++gartrk;
     }
@@ -974,6 +976,27 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
         return;
+    }
+
+    std::list<Garmin::Route_t>::const_iterator garrte = garrtes.begin();
+    while(garrte != garrtes.end()) {
+
+        CRoute * rte = new CRoute(&CRouteDB::self());
+
+        rte->setName(garrte->ident.c_str());
+
+        std::vector<Garmin::RtePt_t>::const_iterator garrtept = garrte->route.begin();
+        while(garrtept != garrte->route.end()) {
+            rte->addPosition(garrtept->lon, garrtept->lat);
+            ++garrtept;
+        }
+
+        if(rte->getRoutePoints().count() > 0) {
+            rtes << rte;
+        } else {
+            delete rte;
+        }
+        ++garrte;
     }
 }
 
