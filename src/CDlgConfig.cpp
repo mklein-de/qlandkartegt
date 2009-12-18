@@ -119,7 +119,7 @@ void CDlgConfig::accept()
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
 
-    resources.m_eBrowser        = (CResources::bowser_e)comboBrowser->currentIndex();
+    resources.m_eBrowser        = (CResources::browser_e)comboBrowser->currentIndex();
     resources.cmdOther          = lineBrowserCmd->text();
 
     resources.m_devKey          = comboDevice->itemData(comboDevice->currentIndex()).toString();

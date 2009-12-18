@@ -64,7 +64,7 @@ CResources::CResources(QObject * parent)
     m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
     m_httpProxyPort   = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
 
-    m_eBrowser        = (bowser_e)cfg.value("network/browser",m_eBrowser).toInt();
+    m_eBrowser        = (browser_e)cfg.value("network/browser",m_eBrowser).toInt();
     cmdOther          = cfg.value("network/browser/other","my command \"%s\"").toString();
 
     emit sigProxyChanged();

@@ -70,7 +70,7 @@ class CResources : public QObject
 
         static CResources * m_self;
 
-        enum bowser_e
+        enum browser_e
         {
             eFirefox = 0
             ,eKonqueror = 1
@@ -88,7 +88,7 @@ class CResources : public QObject
         QFont m_mapfont;
 
         /// the installed browser type
-        bowser_e m_eBrowser;
+        browser_e m_eBrowser;
         /// command string to start Firefox
         QString cmdFirefox;
         /// command string to start Konqueror
