@@ -53,6 +53,7 @@ public:
 
     // switch (no arguments)
     void addSwitch( const QString &lname, bool *b );
+    void addSwitch( char sname, const QString &lname, bool *b );
 
     // options (with arguments, sometimes optional)
     void addOption( char s, const QString &l, QString *v );
@@ -67,6 +68,7 @@ public:
     // bare arguments
     void addArgument( const QString &name, QString *v );
     void addOptionalArgument( const QString &name, QString *v );
+    void addOptionalArguments( const QString &name, QStringList *v );
 
     bool parse( bool untilFirstSwitchOnly );
     bool parse() { return parse( false ); }

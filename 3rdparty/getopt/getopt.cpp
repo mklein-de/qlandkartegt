@@ -323,6 +323,8 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 			qWarning( "Too many arguments" );
 			return false;
 		    }
+		} else if ( numOptArgs = 9999 ) {
+		    optArg.listValue->append( a );
 		} else if ( numOptArgs > 0 ) {
 		    if ( optArg.stringValue->isNull() ) { // ###
 			*optArg.stringValue = a;
@@ -422,6 +424,32 @@ void GetOpt::addOption( Option o )
 void GetOpt::addSwitch( const QString &lname, bool *b )
 {
     Option opt( OSwitch, 0, lname );
+    opt.boolValue = b;
+    addOption( opt );
+    // ### could do all inits at the beginning of parse()
+    *b = false;
+}
+
+/**
+   Adds a switch with the long name \a lname and the short name \a sname.
+   If the switch is found
+   during parsing the bool \a *b will bet set to true. Otherwise the
+   bool will be initialized to false.
+
+   Example:
+
+   \code
+   GetOpt opt;
+   bool verbose;
+   opt.addSwitch('v', "verbose", &verbose);
+   \endcode
+
+   The boolean flag \c verbose will be set to true if either \c -v or \c --verbose has
+   been specified in the command line; false otherwise.
+*/
+void GetOpt::addSwitch( char sname, const QString &lname, bool *b )
+{
+    Option opt( OSwitch, sname, lname );
     opt.boolValue = b;
     addOption( opt );
     // ### could do all inits at the beginning of parse()
@@ -599,11 +627,39 @@ void GetOpt::addArgument( const QString &name, QString *v )
  */
 void GetOpt::addOptionalArgument( const QString &name, QString *v )
 {
-    Option opt( OUnknown, 0, name );
-    opt.stringValue = v;
-    optArg = opt;
-    ++numOptArgs;
-    *v = QString::null;
+    if (numOptArgs == 9999) {
+	qWarning( "Cannot use both, addOptionalArguments and addOptionalArgument" );
+    }
+    else {
+	Option opt( OUnknown, 0, name );
+	opt.stringValue = v;
+	optArg = opt;
+	++numOptArgs;
+	*v = QString::null;
+    }
+}
+
+/**
+   Registers optional command line arguments \a name.  All remaining
+   positional arguments on the command line will be assigned to the
+   list.
+
+   For a more detailed description see the addArgument()
+   documentation.
+
+ */
+void GetOpt::addOptionalArguments( const QString &name, QStringList *v )
+{
+    if (numOptArgs != 0) {
+	qWarning( "Cannot use both, addOptionalArguments and addOptionalArgument" );
+    }
+    else {
+	Option opt( OUnknown, 0, name );
+	opt.listValue = v;
+	optArg = opt;
+	numOptArgs = 9999;	// well, many of them
+	*v = QStringList();
+    }
 }
 
 /**
