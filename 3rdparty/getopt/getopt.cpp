@@ -5,7 +5,7 @@
 
 #include <qapplication.h>
 #include <qfileinfo.h>
-#include <qvaluestack.h>
+#include <qstack.h>
 #include <stdlib.h>
 
 #include <assert.h>
@@ -182,13 +182,15 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
     // push all arguments as we got them on a stack
     // more pushes might following when parsing condensed arguments
     // like --key=value.
-    QValueStack<QString> stack;
+    QStack<QString> stack;
     {
-	QStringList::const_iterator it = args.fromLast();
-	const QStringList::const_iterator end = args.end();
-	while ( it != end ) {
-	    stack.push( *it );
+	if (!args.isEmpty()) {
+	    QStringList::const_iterator it = args.end();
 	    --it;
+	    const QStringList::const_iterator begin = args.begin();
+	    do {
+		stack.push( *it );
+	    } while ( it-- != begin );
 	}
     }
 
@@ -216,7 +218,7 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 		}
 		t = LongOpt;
 		// split key=value style arguments
-		int equal = a.find( '=' );
+		int equal = a.indexOf( '=' );
 		if ( equal >= 0 ) {
 		    stack.push( a.mid( equal + 1 ) );
 		    currArg--;
@@ -272,7 +274,7 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 	    }
 	    if ( t == LongOpt && opt.type == OUnknown ) {
 		if ( currOpt.type != OVarLen ) {
-		    qWarning( "Unknown option --%s", a.ascii() );
+		    qWarning( "Unknown option --%s", (const char *)a.toAscii() );
 		    return false;
 		} else {
 		    // VarLength options support arguments starting with '-'
@@ -347,7 +349,7 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 	    } else {
 		QString n = currType == LongOpt ?
 			    currOpt.lname : QString( QChar( currOpt.sname ) );
-		qWarning( "Expected an argument after '%s' option", n.ascii() );
+		qWarning( "Expected an argument after '%s' option", (const char *)n.toAscii() );
 		return false;
 	    }
 	    break;

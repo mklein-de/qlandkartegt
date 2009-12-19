@@ -40,6 +40,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qmap.h>
+#include <qlist.h>
 
 class GetOpt {
 public:
@@ -99,8 +100,8 @@ private:
         QString def;
     };
 
-    QValueList<Option> options;
-    typedef QValueList<Option>::const_iterator OptionConstIterator;
+    QList<Option> options;
+    typedef QList<Option>::const_iterator OptionConstIterator;
     QMap<QString, int> setOptions;
 
     void init( int argc, char *argv[], int offset = 1 );
