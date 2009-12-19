@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2008-2009 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@
 #include "IDevice.h"
 #include "CDlgScreenshot.h"
 #include "CUndoStack.h"
+
+#include "CAppOpts.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -325,15 +327,15 @@ CMainWindow::CMainWindow()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     megaMenu->switchByKeyWord("Main");
 
-    snRead = new QSocketNotifier(0, QSocketNotifier::Read, this);
-    connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
+    if (qlOpts->monitor != -1) {
+        snRead = new QSocketNotifier(qlOpts->monitor, QSocketNotifier::Read, this);
+        connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
+    }
 
 
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
-    QStringList args = QCoreApplication::arguments();
-    args.removeFirst();
-    foreach(QString arg, args) {
+    foreach(QString arg, qlOpts->arguments) {
         loadData(arg, QString());
     }
 
@@ -349,9 +351,9 @@ void CMainWindow::slotReloadArgs()
     char c;
     int i;
 #ifdef WIN32
-    i=_read(0, &c, 1);		// read char
+    i = _read(qlOpts->monitor, &c, 1); // read char
 #else
-	i=read(0, &c, 1);		// read char
+    i = read(qlOpts->monitor, &c, 1); // read char
 #endif
 
     if(i != 1){
@@ -366,9 +368,7 @@ void CMainWindow::slotReloadArgs()
 //    CDiaryDB::self().clear();
 //    COverlayDB::self().clear();
 
-    QStringList args = QCoreApplication::arguments();
-    args.removeFirst();
-    foreach(QString arg, args)
+    foreach(QString arg, qlOpts->arguments)
     {
       loadData(arg, QString());
     }

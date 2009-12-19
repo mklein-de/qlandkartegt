@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2007-2009 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,101 @@
 
 **********************************************************************************************/
 
+#include <cstdlib>
+#include <cstdio>
+
+#include <iostream>
+
 #include <QtCore>
 #include <QtGui>
 #include <QRegExp>
 #include <gdal_priv.h>
 #include <projects.h>
+
+#include "getopt.h"
+#include "CAppOpts.h"
+
 #ifdef __MINGW32__
 #undef LP
 #endif
 
 #include "CMainWindow.h"
 // #include "CGarminTyp.h"
+
+static void usage(std::ostream &s)
+{
+     s << "usage: qlandkartegt [-d | --debug]\n"
+          "                    [-h | --help]\n"
+          "                    [-m FD | --monitor=FD]\n"
+          "                    [-n | --no-splash]\n"
+          "                    [files...]\n";
+}
+
+
+static void myMessageOutput(QtMsgType type, const char *msg)
+{
+    switch (type) {
+    case QtDebugMsg:
+        if (qlOpts->debug) {
+            puts(msg);
+        }
+        break;
+
+    case QtWarningMsg:
+        fprintf(stderr, "Warning: %s\n", msg);
+        break;
+
+    case QtCriticalMsg:
+        fprintf(stderr, "Critical: %s\n", msg);
+        break;
+
+    case QtFatalMsg:
+        fprintf(stderr, "Fatal: %s\n", msg);
+        abort();
+    }
+}
+
+CAppOpts *qlOpts;
+
+static void processOptions()
+{
+    GetOpt opts;                // uses qApp->argc() and qApp->argv()
+    bool dValue;
+    opts.addSwitch('d', "debug", &dValue);
+    bool hValue;
+    opts.addSwitch('h', "help", &hValue);
+    QString mValue;
+    opts.addOptionalOption('m', "monitor", &mValue, "0");
+    bool nValue;
+    opts.addSwitch('n', "no-splash", &nValue);
+    QStringList args;
+    opts.addOptionalArguments("files", &args);
+
+    if (!opts.parse()) {
+        usage(std::cerr);
+        exit(1);
+    }
+
+    if (hValue) {
+        usage(std::cout);
+        exit(0);
+    }
+
+    int m = -1;
+    if (mValue != QString::null) {
+        bool ok;
+        m = mValue.toInt(&ok);
+        if (!ok) {
+            usage(std::cerr);
+            exit(1);
+        }
+    }
+    qlOpts = new CAppOpts(dValue, // bool debug
+                          m,      // int monitor
+                          nValue, // bool nosplash
+                          args);  // arguments
+}
+
 
 int main(int argc, char ** argv)
 {
@@ -62,6 +146,8 @@ int main(int argc, char ** argv)
     setenv("LC_NUMERIC","C",1);
 #endif
     QApplication theApp(argc,argv);
+    processOptions();
+    qInstallMsgHandler(myMessageOutput);
 
 #ifdef ENABLE_TRANSLATION
     {
@@ -122,17 +208,25 @@ int main(int argc, char ** argv)
     qDebug() << QCoreApplication::libraryPaths();
 #endif
 
-    QSplashScreen *splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
-    splash->show();
+    QSplashScreen *splash = 0;
+    if (!qlOpts->nosplash) {
+        splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
+        splash->show();
+    }
     CMainWindow w;
     w.show();
-    splash->finish(&w);
-    delete splash;
+    if (splash != 0) {
+        splash->finish(&w);
+        delete splash;
+    }
 
     //     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
 
     int res  = theApp.exec();
 
     GDALDestroyDriverManager();
+
+    delete qlOpts;
+
     return res;
 }

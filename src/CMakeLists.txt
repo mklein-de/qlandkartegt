@@ -287,6 +287,7 @@ set(qlandkarte_HDRS
     CGarminTypNT.h
     CMapTDB.h
     CDlgTrackFilter.h
+    CAppOpts.h
 )
 
 SET(qlandkarte_UIS
@@ -415,6 +416,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
   ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
+  ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
 )
@@ -441,6 +443,7 @@ target_link_libraries(
       ${DMTX_LIBRARIES}
       SerialPort
       QMKToolBox
+      getopt
   )
 
 install(
