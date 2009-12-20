@@ -37,17 +37,16 @@
 #ifndef GETOPT_H
 #define GETOPT_H
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qmap.h>
-#include <qlist.h>
+#include <QStringList>
+#include <QString>
+#include <QMap>
 
-class GetOpt {
+class CGetOpt {
 public:
-    GetOpt();
-    GetOpt( int offset );
-    GetOpt( int argc, char *argv[] );
-    GetOpt( const QStringList &a );
+    CGetOpt();
+    CGetOpt( int offset );
+    CGetOpt( int argc, char *argv[] );
+    CGetOpt( const QStringList &a );
 
     QString appName() const { return aname; }
 
