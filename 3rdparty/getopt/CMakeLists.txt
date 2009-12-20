@@ -11,11 +11,11 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
 set(SRCS
-    getopt.cpp
+    CGetOpt.cpp
 )
 
 set(HDRS
-    getopt.h
+    CGetOpt.h
 )
 
 set(UIS
@@ -43,6 +43,7 @@ link_directories(
 )
 
 add_library(getopt
+  STATIC
   ${SRCS}
   ${HDRS}
   ${UI_HDRS}

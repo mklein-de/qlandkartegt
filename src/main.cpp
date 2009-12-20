@@ -17,9 +17,6 @@
 
 **********************************************************************************************/
 
-#include <cstdlib>
-#include <cstdio>
-
 #include <iostream>
 
 #include <QtCore>
@@ -28,7 +25,7 @@
 #include <gdal_priv.h>
 #include <projects.h>
 
-#include "getopt.h"
+#include "CGetOpt.h"
 #include "CAppOpts.h"
 
 #ifdef __MINGW32__
@@ -44,7 +41,10 @@ static void usage(std::ostream &s)
           "                    [-h | --help]\n"
           "                    [-m FD | --monitor=FD]\n"
           "                    [-n | --no-splash]\n"
-          "                    [files...]\n";
+          "                    [files...]\n"
+          "\n"
+          "The monitor function will read data from files if there is input on stream FD.\n"
+          "For stdin use FD=0.\n\n";
 }
 
 
@@ -75,7 +75,7 @@ CAppOpts *qlOpts;
 
 static void processOptions()
 {
-    GetOpt opts;                // uses qApp->argc() and qApp->argv()
+    CGetOpt opts;                // uses qApp->argc() and qApp->argv()
     bool dValue;
     opts.addSwitch('d', "debug", &dValue);
     bool hValue;
