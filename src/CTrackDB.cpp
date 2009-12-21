@@ -390,6 +390,11 @@ void CTrackDB::saveGPX(CGpx& gpx)
         QList<CTrack::pt_t>::const_iterator pt = pts.begin();
         while(pt != pts.end()) {
             QDomElement trkpt = gpx.createElement("trkpt");
+            if (gpx.getExportFlag() && (pt->flags.flag() & CTrack::pt_t::eDeleted)) {
+                // skip deleted points when exporting
+                ++pt;
+                continue;
+            }
             trkseg.appendChild(trkpt);
             str.sprintf("%1.8f", pt->lat);
             trkpt.setAttribute("lat",str);
@@ -446,13 +451,13 @@ void CTrackDB::saveGPX(CGpx& gpx)
             }
 
             // gpx extensions
-            if(pt->flags.flag() != 0 ||
+            if((!gpx.getExportFlag() && pt->flags.flag() != 0) ||
                 pt->heading != WPT_NOFLOAT ||
                 pt->velocity != WPT_NOFLOAT) {
                 QDomElement extensions = gpx.createElement("extensions");
                 trkpt.appendChild(extensions);
 
-                if(pt->flags.flag() != 0) {
+                if(!gpx.getExportFlag() && pt->flags.flag() != 0) {
                     QDomElement flags = gpx.createElement("ql:flags");
                     extensions.appendChild(flags);
                     QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));

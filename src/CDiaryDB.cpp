@@ -147,6 +147,9 @@ void CDiaryDB::loadGPX(CGpx& gpx)
 void CDiaryDB::saveGPX(CGpx& gpx)
 {
 
+    if (gpx.getExportFlag()) {
+        return;
+    }
     if(!editWidget.isNull()) {
         diary.setText(editWidget->textEdit->toHtml());
     }

@@ -160,6 +160,9 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
 void COverlayDB::saveGPX(CGpx& gpx)
 {
+    if (gpx.getExportFlag()) {
+        return;
+    }
     if (count() == 0) {
         return;
     }

@@ -491,6 +491,7 @@ void CMainWindow::setupMenuBar()
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
+    menu->addAction(QIcon(":/icons/iconFileExport16x16.png"),tr("Export Geo Data"),this,SLOT(slotExportData()), Qt::CTRL + Qt::Key_X);
     menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
     menu->addMenu(menuMostRecent);
     menu->addSeparator();
@@ -908,18 +909,34 @@ void CMainWindow::slotSaveData()
 }
 
 
-void CMainWindow::saveData(const QString& fn, const QString& filter)
+void CMainWindow::slotExportData()
+{
+    QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
+        ,pathData
+        ,"GPS Exchange (*.gpx)"
+        ,0
+        , QFileDialog::DontUseNativeDialog
+        );
+
+    if(filename.isEmpty()) return;
+
+    saveData(filename, "GPS Exchange (*.gpx)", true);
+    addRecent(filename);
+}
+
+
+void CMainWindow::saveData(const QString& fn, const QString& filter, bool exportFlag)
 {
     QString filename = fn;
     QString ext = filename.right(4);
 
-    if(filter == "QLandkarte (*.qlb)") {
-        if(ext != ".qlb") filename += ".qlb";
-        ext = "QLB";
-    }
-    else if(filter == "GPS Exchange (*.gpx)") {
+    if(exportFlag || filter == "GPS Exchange (*.gpx)") {
         if(ext != ".gpx") filename += ".gpx";
         ext = "GPX";
+    }
+    else if(filter == "QLandkarte (*.qlb)") {
+        if(ext != ".qlb") filename += ".qlb";
+        ext = "QLB";
     }
     else {
         //         filename += ".qlb";
@@ -951,7 +968,7 @@ void CMainWindow::saveData(const QString& fn, const QString& filter)
             qlb.save(filename);
         }
         else if(ext == "GPX") {
-            CGpx gpx(this);
+            CGpx gpx(this, exportFlag);
             CMapDB::self().saveGPX(gpx);
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);

@@ -50,7 +50,7 @@ class CGpx : public QObject, public QDomDocument
         };
 
     public:
-        CGpx(QObject * parent);
+        CGpx(QObject * parent, bool = false);
         virtual ~CGpx();
 
         void load(const QString& filename);
@@ -63,6 +63,7 @@ class CGpx : public QObject, public QDomDocument
 
         QDomElement &getExtensions() { return extensions; };
         gpx_version version() { return file_version; }
+        bool getExportFlag() { return export_flag; }
 
     protected:
         void writeMetadata();
@@ -73,5 +74,6 @@ class CGpx : public QObject, public QDomDocument
     private:
         QDomElement extensions;
         gpx_version file_version;
+        bool export_flag;
 };
 #endif                           //CGPX_H

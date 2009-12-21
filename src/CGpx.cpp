@@ -38,10 +38,11 @@ uint qHash(QColor color)
 }
 
 
-CGpx::CGpx(QObject * parent)
+CGpx::CGpx(QObject * parent, bool exportFlag)
 : QObject(parent)
 , QDomDocument()
 {
+    export_flag = exportFlag;
     writeMetadata();
 
     colorMap.insert("Black",       QColor(Qt::black));
@@ -100,13 +101,19 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
-    root.setAttribute("xmlns:ql",ql_ns);
-    root.setAttribute("xsi:schemaLocation",QString()
+    if (!export_flag) {
+        root.setAttribute("xmlns:ql",ql_ns);
+    }
+    QString schemaLocation = QString()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "
         + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "
-        + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd "
-        + ql_ns     + " http://www.qlandkarte.org/xmlschemas/v1.1/ql-extensions.xsd"
-        );
+        + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
+    if (!export_flag) {
+        schemaLocation += " ";
+        schemaLocation += ql_ns;
+        schemaLocation += " http://www.qlandkarte.org/xmlschemas/v1.1/ql-extensions.xsd";
+    }
+    root.setAttribute("xsi:schemaLocation", schemaLocation);
 
     extensions = createElement("extensions");
     root.appendChild(extensions);
