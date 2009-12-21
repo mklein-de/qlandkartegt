@@ -1,3 +1,31 @@
+--- 2009.12.21 ---
+
+Request #92:
+Rework gpx saving/loading to be standard compliant.
+
+Request #116:
+Add drag-n-drop for gpx et al
+
+Request #117:
+Add map names as tooltips in map list
+
+Request #118:
+Add list of recent loaded/saved geo data files
+
+Request #119:
+Add Spanish translation
+
+Request #120:
+Add track filter to change timestamps and to weed out track points.
+
+Request #121:
+Add download of routes to Garmin devices
+
+Request #122:
+Add command line options (use qlandkartegt --help for more information)
+
+
+
 --- 2009.10.26 ---
 
 Request #113:
@@ -605,6 +633,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
