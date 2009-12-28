@@ -18,7 +18,11 @@ set(SOURCEDIR ${CMAKE_SOURCE_DIR})
 
 set(SHARED_LIB_EXT ".dll")
 if (UNIX AND NOT WIN32)
-  set(SHARED_LIB_EXT ".so")
+  if (APPLE)
+    set(SHARED_LIB_EXT ".dylib")
+  else(APPLE)
+    set(SHARED_LIB_EXT ".so")
+  endif(APPLE)
 endif (UNIX AND NOT WIN32)
 
 check_include_file(stdint.h HAVE_STDINT_H)
