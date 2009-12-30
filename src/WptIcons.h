@@ -29,8 +29,12 @@ struct wpt_icon_t
     QString name;
 };
 
-extern const wpt_icon_t wptIcons[];
+#define N_CUSTOM_ICONS 24
 
-const QPixmap getWptIconByName(const QString& name);
-QString getWptResourceByName(const QString& name);
+extern void initWptIcons();
+extern QPixmap loadIcon(const QString& path);
+extern const wpt_icon_t* getWptIcons();
+extern QPixmap getWptIconByName(const QString& name, QString * src = 0);
+extern void setWptIconByName(const QString& name, const QString& filename);
+extern QString getWptResourceByName(const QString& name);
 #endif                           //WPTICONS_H

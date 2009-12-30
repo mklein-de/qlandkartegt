@@ -41,8 +41,9 @@
 #include "IDevice.h"
 #include "CDlgScreenshot.h"
 #include "CUndoStack.h"
-
+#include "WptIcons.h"
 #include "CAppOpts.h"
+#include "CDlgSetupGarminIcons.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -61,6 +62,8 @@ CMainWindow::CMainWindow()
     setWindowTitle("QLandkarte GT");
     setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
     setAcceptDrops(true);
+
+    initWptIcons();
 
     resources = new CResources(this);
 
@@ -342,6 +345,7 @@ CMainWindow::CMainWindow()
     connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
 
     megaMenu->slotSplitterMoved(leftSplitter->sizes()[0], 1);
+
 }
 
 
@@ -551,6 +555,7 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
+    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&Garmin Icons"),this,SLOT(slotSetupGarminIcons()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
@@ -646,6 +651,11 @@ void CMainWindow::slotConfig()
     dlg.exec();
 }
 
+void CMainWindow::slotSetupGarminIcons()
+{
+    CDlgSetupGarminIcons dlg;
+    dlg.exec();
+}
 
 void CMainWindow::slotLoadData()
 {

@@ -18,10 +18,11 @@
 **********************************************************************************************/
 
 #include "WptIcons.h"
+#include <QtCore>
 
 const char * wptDefault = ":/icons/wpt/flag15x15.png";
 
-const wpt_icon_t wptIcons[] =
+wpt_icon_t wptIcons[] =
 {
     /*    mps    desc */
     //     { wptDefault, "Airport" },
@@ -319,12 +320,60 @@ const wpt_icon_t wptIcons[] =
     { 0, 0 },
 };
 
-const QPixmap getWptIconByName(const QString& name)
+void initWptIcons()
+{
+    QSettings cfg;
+
+    setWptIconByName("Custom 1", cfg.value("garmin/icons/custom1", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 2", cfg.value("garmin/icons/custom2", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 3", cfg.value("garmin/icons/custom3", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 4", cfg.value("garmin/icons/custom4", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 5", cfg.value("garmin/icons/custom5", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 6", cfg.value("garmin/icons/custom6", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 7", cfg.value("garmin/icons/custom7", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 8", cfg.value("garmin/icons/custom8", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 9", cfg.value("garmin/icons/custom9", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 10", cfg.value("garmin/icons/custom10", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 11", cfg.value("garmin/icons/custom11", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 12", cfg.value("garmin/icons/custom12", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 13", cfg.value("garmin/icons/custom13", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 14", cfg.value("garmin/icons/custom14", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 15", cfg.value("garmin/icons/custom15", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 16", cfg.value("garmin/icons/custom16", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 17", cfg.value("garmin/icons/custom17", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 18", cfg.value("garmin/icons/custom18", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 19", cfg.value("garmin/icons/custom19", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 20", cfg.value("garmin/icons/custom20", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 21", cfg.value("garmin/icons/custom21", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 22", cfg.value("garmin/icons/custom22", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 23", cfg.value("garmin/icons/custom23", ":/icons/wpt/custom15x15.bmp").toString());
+    setWptIconByName("Custom 24", cfg.value("garmin/icons/custom24", ":/icons/wpt/custom15x15.bmp").toString());
+
+}
+
+
+QPixmap loadIcon(const QString& path)
+{
+    QFileInfo finfo(path);
+    if(finfo.completeSuffix() != "bmp") {
+        return QPixmap(path);
+    }
+    else {
+        QImage img = QPixmap(path).toImage().convertToFormat(QImage::Format_Indexed8);
+        img.setColor(0,qRgba(0,0,0,0));
+        return QPixmap::fromImage(img);
+    }
+
+    return QPixmap();
+}
+
+QPixmap getWptIconByName(const QString& name, QString * src)
 {
     const wpt_icon_t * ptr = wptIcons;
     while(ptr->name != 0) {
         if(ptr->name == name) {
-            return QPixmap(ptr->icon);
+            if(src) *src = ptr->icon;
+            return loadIcon(ptr->icon);
         }
 
         ++ptr;
@@ -333,6 +382,18 @@ const QPixmap getWptIconByName(const QString& name)
     return QPixmap(wptDefault);
 }
 
+
+void setWptIconByName(const QString& name, const QString& filename)
+{
+    wpt_icon_t * ptr = wptIcons;
+    while(ptr->name != 0) {
+        if(ptr->name == name) {
+            ptr->icon = filename;
+        }
+
+        ++ptr;
+    }
+}
 
 QString getWptResourceByName(const QString& name)
 {
@@ -346,4 +407,9 @@ QString getWptResourceByName(const QString& name)
     }
 
     return QString("");
+}
+
+const wpt_icon_t* getWptIcons()
+{
+    return wptIcons;
 }

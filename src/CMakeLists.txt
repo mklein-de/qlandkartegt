@@ -79,6 +79,8 @@ set(qlandkarte_SRCS
     CDlgEditRoute.cpp
     CDlgMapTDBConfig.cpp
     CDlgScreenshot.cpp
+    CDlgTrackFilter.cpp
+    CDlgSetupGarminIcons.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -146,7 +148,7 @@ set(qlandkarte_SRCS
     CGarminTyp.cpp
     CGarminTypNT.cpp
     CMapTDB.cpp
-    CDlgTrackFilter.cpp
+
 )
 
 if (WIN32)
@@ -221,6 +223,8 @@ set(qlandkarte_HDRS
     CDlgEditRoute.h
     CDlgMapTDBConfig.h
     CDlgScreenshot.h
+    CDlgTrackFilter.h
+    CDlgSetupGarminIcons.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -286,7 +290,6 @@ set(qlandkarte_HDRS
     CGarminTyp.h
     CGarminTypNT.h
     CMapTDB.h
-    CDlgTrackFilter.h
     CAppOpts.h
 )
 
@@ -313,6 +316,8 @@ SET(qlandkarte_UIS
     IDlgEditRoute.ui
     IDlgMapTDBConfig.ui
     IDlgScreenshot.ui
+    IDlgTrackFilter.ui
+    IDlgSetupGarminIcons.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
@@ -325,7 +330,6 @@ SET(qlandkarte_UIS
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IGarminExport.ui
-    IDlgTrackFilter.ui
 
 )
 
