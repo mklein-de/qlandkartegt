@@ -111,7 +111,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMenu, "aDownloadAll");
 
     actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMain");
-    actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::MapMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aCenterMap");
@@ -201,8 +200,8 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
     //    fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
-    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+//     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
+//     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
     //    fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));
