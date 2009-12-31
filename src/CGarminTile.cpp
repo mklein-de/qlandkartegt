@@ -241,7 +241,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     readFile(file, subfile.parts["TRE"].offset, sizeof(hdr_tre_t), trehdr);
     hdr_tre_t * pTreHdr = (hdr_tre_t * )trehdr.data();
 
-    subfile.isTransparent   = pTreHdr->POI_flags & 0x0002;
+    subfile.isTransparent   = pTreHdr->POI_flags & 0x02;
     transparent             = subfile.isTransparent ? true : transparent;
 
 #ifdef DEBUG_SHOW_TRE_DATA
@@ -445,12 +445,12 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv_prev = subdiv;
         ++pSubDivL; ++subdiv;
     }
-    subdivs.last().rgn_end = pRgnHdr->hdr_rgn_t::length;
+    subdivs.last().rgn_end = gar_load(uint32_t, pRgnHdr->hdr_rgn_t::length);
 
     // read extended NT elements
 
 //     qDebug() << "yyy" << gar_load(uint32_t, pTreHdr->tre7_rec_size);
-    if((pTreHdr->hdr_subfile_part_t::length >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t))) {
+    if((gar_load(uint16_t, pTreHdr->hdr_subfile_part_t::length) >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t))) {
 
         rgnoff = subfile.parts["RGN"].offset;
         //         qDebug() << subdivs.count() << (pTreHdr->tre7_size / pTreHdr->tre7_rec_size) << pTreHdr->tre7_rec_size;
@@ -478,7 +478,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         subdiv->offsetPoints2    = skipPois ? 0 : gar_load(uint32_t, pSubDiv2->offsetPoints)   + rgnOffPoint2;
 
         ++subdiv;
-        pSubDiv2 = reinterpret_cast<tre_subdiv2_t*>((quint8*)pSubDiv2 + pTreHdr->tre7_rec_size);
+        pSubDiv2 = reinterpret_cast<tre_subdiv2_t*>((quint8*)pSubDiv2 + gar_endian(uint16_t, pTreHdr->tre7_rec_size));
 
         while(subdiv != subdivs.end()) {
 
@@ -499,7 +499,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
             subdiv_prev = subdiv;
 
             ++subdiv;
-            pSubDiv2 = reinterpret_cast<tre_subdiv2_t*>((quint8*)pSubDiv2 + pTreHdr->tre7_rec_size);
+            pSubDiv2 = reinterpret_cast<tre_subdiv2_t*>((quint8*)pSubDiv2 + gar_endian(uint16_t, pTreHdr->tre7_rec_size));
         }
 
         subdiv_prev->lengthPolygons2  = rgnOffPolyg2 + rgnLenPolyg2 - subdiv_prev->offsetPolygons2;

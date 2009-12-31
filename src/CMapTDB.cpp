@@ -753,10 +753,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
 void CMapTDB::readTDB(const QString& filename)
 {
-#ifdef HAVE_BIGENDIAN
-    QMessageBox::warning(0,tr("No big endian.."),tr("*tdb import has not been ported to big endian architectures, yet."),QMessageBox::Abort,QMessageBox::Abort);
-    return;
-#endif
     QByteArray  data;
     QFile       file(filename);
     QFileInfo   finfo(filename);
