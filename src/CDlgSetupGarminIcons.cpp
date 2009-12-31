@@ -25,6 +25,7 @@
 #include "CDlgSetupGarminIcons.h"
 #include "WptIcons.h"
 #include "CResources.h"
+#include "CDeviceGarmin.h"
 
 #include <QtGui>
 
@@ -207,6 +208,7 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         qDebug() << "clrtbl[0xfe]        " << hex << pBmp->clrtbl[0xfe];
         qDebug() << "clrtbl[0xff]        " << hex << pBmp->clrtbl[0xff];
 
+
         if(    pBmp->biBitCount != 8
             || pBmp->biCompression != 0
             || (pBmp->biClrUsed != 0 && pBmp->biClrUsed != 0x100)
@@ -232,26 +234,20 @@ void CDlgSetupGarminIcons::slotSendToDevice()
     }
 
 
-    IDevice * dev = CResources::self().device();
+    CDeviceGarmin * dev = qobject_cast<CDeviceGarmin*>(CResources::self().device());
     if(dev) {
+        Garmin::IDevice * gardev = dev->getDevice();
+        if(gardev == 0) return;
 
+        try {
+            gardev->uploadCustomIcons(icons);
+        }
+        catch(int /*e*/) {
+            QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+            return;
+        }
 
     }
-/*    Garmin::IDevice * dev = 0;
-    try
-    {
-        dev = gpResources->device();
-        if(dev) {
-            dev->uploadCustomIcons(icons);
-        }
-    }
-    catch(int e) {
-        if(dev == 0) return;
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        if(e == Garmin::errSync) {
-            gpResources->resetDevice();
-        }
-    }*/
 
 }
 

@@ -62,6 +62,7 @@ class CDeviceGarmin : public IDevice
         void slotCancel();
 
     private:
+        friend class CDlgSetupGarminIcons;
         Garmin::IDevice * getDevice();
 
         QString port;
