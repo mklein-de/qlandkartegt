@@ -645,8 +645,8 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         garwpt.lon      = (*wpt)->lon;
         garwpt.alt      = (*wpt)->ele;
         garwpt.dist     = (*wpt)->prx;
-        garwpt.ident    = (*wpt)->name.toLocal8Bit().data();
-        garwpt.comment  = (*wpt)->comment.toLocal8Bit().data();
+        garwpt.ident    = (*wpt)->name.toLatin1().data();
+        garwpt.comment  = (*wpt)->comment.toLatin1().data();
 
         garwpts.push_back(garwpt);
 
@@ -736,7 +736,7 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
     while(trk != trks.end()) {
         Garmin::Track_t gartrk;
 
-        gartrk.ident = (*trk)->getName().toLocal8Bit().data();
+        gartrk.ident = (*trk)->getName().toLatin1().data();
         gartrk.color = (*trk)->getColorIdx();
 
         const QList<CTrack::pt_t>& trkpts           = (*trk)->getTrackPoints();
@@ -914,7 +914,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         }
 
         QString name = (*rte)->getName();
-        garrte.ident = name.toLocal8Bit().data();
+        garrte.ident = name.toLatin1().data();
 
         unsigned cnt = 0;
         const QList<XY>& rtepts         = (*rte)->getRoutePoints();
