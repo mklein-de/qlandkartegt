@@ -35,6 +35,8 @@
 #include "CMainWindow.h"
 // #include "CGarminTyp.h"
 
+#include "config.h"
+
 static void usage(std::ostream &s)
 {
      s << "usage: qlandkartegt [-d | --debug]\n"
@@ -135,7 +137,7 @@ int main(int argc, char ** argv)
         pj_free(pjGK);
     }
 
-    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+    QDir path(QDir::home().filePath(CONFIGDIR));
     if(!path.exists()) {
         path.mkpath("./");
     }
@@ -157,12 +159,16 @@ int main(int argc, char ** argv)
             theApp.installTranslator(qtTranslator);
 
         QStringList dirList;
+#ifndef Q_WS_MAC
         dirList << ".";
         dirList << "src";
 #ifndef Q_OS_WIN32
         dirList << QCoreApplication::applicationDirPath().replace(QRegExp("bin$"), "share/qlandkartegt/translations");
 #else
         dirList << QCoreApplication::applicationDirPath();
+#endif
+#else
+        dirList << QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), "Resources");
 #endif
         QTranslator *qlandkartegtTranslator = new QTranslator(0);
         qDebug() << dirList;
@@ -201,6 +207,7 @@ int main(int argc, char ** argv)
 
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
+    QCoreApplication::setOrganizationDomain("qlandkarte.org");
 
 #ifdef WIN32
     QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
@@ -211,6 +218,9 @@ int main(int argc, char ** argv)
     QSplashScreen *splash = 0;
     if (!qlOpts->nosplash) {
         splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
+#if defined(Q_WS_MAC)
+    	splash->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::SplashScreen);
+#endif
         splash->show();
     }
     CMainWindow w;

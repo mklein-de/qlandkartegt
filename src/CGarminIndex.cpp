@@ -19,6 +19,7 @@
 
 #include "CGarminIndex.h"
 #include "CGarminTile.h"
+#include "config.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -47,7 +48,7 @@ void CGarminIndex::setDBName(const QString& name)
 {
     QMutexLocker lock(&mutex);
 
-    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+    QDir path(QDir::home().filePath(CONFIGDIR));
     dbName = path.filePath(name + ".db");
     qDebug() << "add" << dbName;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

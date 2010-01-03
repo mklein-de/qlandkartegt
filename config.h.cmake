@@ -8,6 +8,9 @@
 #cmakedefine BINARYDIR ${BINARYDIR}
 #cmakedefine SOURCEDIR ${SOURCEDIR}
 
+/* always quote the config dir, as it *will* contain spaces on Mac OS X */
+#cmakedefine CONFIGDIR "${CONFIGDIR}"
+
 #cmakedefine SHARED_LIB_EXT ${SHARED_LIB_EXT}
 
 #cmakedefine HAVE_STDINT_H 1

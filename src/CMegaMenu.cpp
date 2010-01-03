@@ -189,7 +189,7 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     option->text            = textAndAccel;
 
     QFontMetrics fm(option->font);
-    option->tabWidth        = fm.width("ESC");
+    option->tabWidth        = fm.width("MMMM");
     option->maxIconWidth    = 16;
     option->menuRect        = rect();
 }
@@ -224,6 +224,8 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
         style()->drawControl(QStyle::CE_MenuItem, &opt, &p, this);
 
         ++idx;
+        if (idx >= 11)
+        	break;
     }
 }
 

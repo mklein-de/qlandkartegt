@@ -30,6 +30,7 @@
 #include "CMapSearchThread.h"
 #include "IMap.h"
 #include "CGarminIndex.h"
+#include "config.h"
 
 #include <QtGui>
 
@@ -219,7 +220,7 @@ void CMapSearchWidget::slotSaveMask()
         return;
     }
 
-    QFile file(QDir::home().filePath(QString(".config/QLandkarteGT/%1.msk").arg(lineMaskName->text())));
+    QFile file(QDir::home().filePath(QString(CONFIGDIR "%1.msk").arg(lineMaskName->text())));
     file.open(QIODevice::WriteOnly);
 
     QDataStream out(&file);
@@ -239,7 +240,7 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
     QImage pixmap;
     int     intval;
 
-    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+    QDir path(QDir::home().filePath(CONFIGDIR));
     QFile file(path.filePath(name + ".msk"));
     if(file.open(QIODevice::ReadOnly)) {
         QDataStream in(&file);
@@ -274,7 +275,7 @@ void CMapSearchWidget::slotDeleteMask()
 
     if(index != -1) {
         comboSymbols->removeItem(index);
-        QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+        QDir path(QDir::home().filePath(CONFIGDIR));
         QFile file(path.filePath(name + ".msk"));
         file.remove();
 
@@ -292,7 +293,7 @@ void CMapSearchWidget::loadMaskCollection()
     comboSymbols->clear();
     comboSymbols->addItem(tr("no mask"));
 
-    QDir path(QDir::home().filePath(".config/QLandkarteGT/"));
+    QDir path(QDir::home().filePath(CONFIGDIR));
     QStringList filter;
     filter << "*.msk";
     QStringList maskfiles = path.entryList(filter, QDir::Files, QDir::Name);

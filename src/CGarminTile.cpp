@@ -235,7 +235,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
     //     qDebug() << "++++" << file.fileName() << "++++";
 
     void (*minno)(hdr_tre_t*,QByteArray&) = 0;
-    minno = (void (*)(hdr_tre_t*,QByteArray&))QLibrary::resolve(QDir::home().filePath(".config/QLandkarteGT/mellon.so"),"minno");
+    minno = (void (*)(hdr_tre_t*,QByteArray&))QLibrary::resolve(QDir::home().filePath(CONFIGDIR "mellon.so"),"minno");
 
     QByteArray trehdr;
     readFile(file, subfile.parts["TRE"].offset, sizeof(hdr_tre_t), trehdr);

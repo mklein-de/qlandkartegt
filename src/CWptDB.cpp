@@ -31,6 +31,7 @@
 #include "IMap.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
+#include "config.h"
 
 #include <QtGui>
 
@@ -59,7 +60,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     toolview    = new CWptToolWidget(tb);
 
     CQlb qlb(this);
-    qlb.load(QDir::home().filePath(".config/QLandkarteGT/sticky.qlb"));
+    qlb.load(QDir::home().filePath(CONFIGDIR "sticky.qlb"));
     loadQLB(qlb);
 
 #ifdef HAS_EXIF
@@ -93,7 +94,7 @@ CWptDB::~CWptDB()
         ++wpt;
     }
 
-    qlb.save(QDir::home().filePath(".config/QLandkarteGT/sticky.qlb"));
+    qlb.save(QDir::home().filePath(CONFIGDIR "sticky.qlb"));
 }
 
 

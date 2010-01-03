@@ -475,6 +475,14 @@ void CMainWindow::switchState()
 }
 
 
+#if defined(Q_WS_MAC)
+// do not translate on the Mac, so the item is shifted
+#  define tr_nomac(x) (x)
+#else
+#  define tr_nomac(x) tr(x)
+#endif
+
+
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
@@ -503,7 +511,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
-    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
+    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
     //    groupProvidedMenu = new QMenu(this);
@@ -554,13 +562,17 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
+#if defined(Q_WS_MAC)
+    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),"&Preferences",this,SLOT(slotConfig()));
+#else
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
+#endif
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&Garmin Icons"),this,SLOT(slotSetupGarminIcons()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
-    menu->setTitle(tr("&Help"));
-    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
+    menu->setTitle(tr_nomac("&Help"));
+    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr_nomac("About &QLandkarte GT"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
 }
 

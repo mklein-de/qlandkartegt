@@ -505,7 +505,14 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     Garmin::IDevice * (*func)(const char*) = 0;
     Garmin::IDevice * dev = 0;
 
+#if defined(Q_WS_MAC)
+    // MacOS X: plug-ins are stored in the bundle folder
+    QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT))
+								  .arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), "Resources/Drivers"))
+								  .arg(devkey);
+#else
     QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT)).arg(XSTR(PLUGINDIR)).arg(devkey);
+#endif
     QString funcname    = QString("init%1").arg(devkey);
 
     QLibrary lib;

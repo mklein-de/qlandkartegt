@@ -394,13 +394,19 @@ IF(ENABLE_TRANSLATION)
        qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
     endif (UPDATE_TRANSLATIONS)
 
-    if (UNIX AND NOT WIN32)
+    if (UNIX AND NOT WIN32 AND NOT APPLE)
  	 install(
          	 FILES
                    ${qlandkarte_QM_FILES}
     	     DESTINATION
                    ${DATA_INSTALL_PREFIX}/qlandkartegt/translations)
-    endif (UNIX AND NOT WIN32)
+    endif (UNIX AND NOT WIN32 AND NOT APPLE)
+    if (APPLE)
+  	  add_custom_target(locversion.plist ALL
+  		COMMAND
+  			${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
+  	  )
+    endif (APPLE)
 ENDIF(ENABLE_TRANSLATION)
 
 if(UNIX)
@@ -425,17 +431,32 @@ include_directories(
   ${DMTX_INCLUDE_DIRS}
 )
 
-add_executable(qlandkartegt
-  ${qlandkarte_SRCS}
-  ${qlandkarte_HDRS}
-  ${qlandkarte_UI_HDRS}
-  ${qlandkarte_RC_SRCS}
-  ${qlandkarte_MOC_SRCS}
-  ${qlandkarte_QM_FILES}
+set(qlandkarte_ALLINP
+    ${qlandkarte_SRCS}
+    ${qlandkarte_HDRS}
+    ${qlandkarte_UI_HDRS}
+    ${qlandkarte_RC_SRCS}
+    ${qlandkarte_MOC_SRCS}
+    ${qlandkarte_QM_FILES}
 )
 
+if (APPLE)
+  set(MAC_EXTRA_RES
+  	  ${CMAKE_SOURCE_DIR}/MacOSX/${MAC_ICON_FILE}
+  )
+  set_source_files_properties(
+  	${MAC_EXTRA_RES} ${qlandkarte_QM_FILES}
+  PROPERTIES
+  	MACOSX_PACKAGE_LOCATION Resources
+  )
+  add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
+  add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}")
+else(APPLE)
+  add_executable(${PROGNAME} ${qlandkarte_ALLINP})
+endif(APPLE)
+
 target_link_libraries(
-    qlandkartegt
+    ${PROGNAME}
       ${GDAL_LIBRARIES}
       ${PROJ_LIBRARIES}
       ${QT_LIBRARIES}
@@ -452,7 +473,7 @@ target_link_libraries(
 
 install(
     TARGETS
-      qlandkartegt
+      ${PROGNAME}
     DESTINATION
       ${BIN_INSTALL_DIR}
 )
@@ -460,7 +481,7 @@ install(
 if (WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
-  target_link_libraries(qlandkartegt
+  target_link_libraries(${PROGNAME}
         ${QT_LIBRARIES}
         ${QT_QTNETWORK_LIBRARIES}
         ${QT_QTXML_LIBRARIES}
