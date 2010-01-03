@@ -765,7 +765,7 @@
     <message>
         <location filename="../CCopyright.cpp" line="35"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Благодарим за содействие в реализации проекта:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Переводы:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Иконки и др. элементы оформления: от &lt;b&gt;KDE&lt;/b&gt; набор иконок, от &lt;b&gt;Nuvola&lt;/b&gt; набор иконок, а также  от &lt;b&gt;Oxygen&lt;/b&gt; набор иконок. Смотри &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Иконки марштуртных точек скопированы из &lt;b&gt;GPSMan&lt;/b&gt;. Смотри &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Изображение курсора,  &apos;Polar Cursor Theme&apos;. Смотри &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Часть расчетов по двумерным полигонам взяты у  &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. Геодезические расстояние расчитывались Thaddeus Vincenty и скопированы с &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Благодарим за содействие в реализации проекта:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Переводы:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Иконки и др. элементы оформления: от &lt;b&gt;KDE&lt;/b&gt; набор иконок, от &lt;b&gt;Nuvola&lt;/b&gt; набор иконок, а также  от &lt;b&gt;Oxygen&lt;/b&gt; набор иконок. Смотри &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Иконки марштуртных точек скопированы из &lt;b&gt;GPSMan&lt;/b&gt;. Смотри &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Изображение курсора,  &apos;Polar Cursor Theme&apos;. Смотри &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Часть расчетов по двумерным полигонам взяты у  &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. Геодезические расстояние расчитывались Thaddeus Vincenty и скопированы с &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1075,47 +1075,47 @@ Expected %1, received %2.</source>
 <context>
     <name>CDeviceGarmin</name>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="521"/>
-        <location filename="../CDeviceGarmin.cpp" line="533"/>
+        <location filename="../CDeviceGarmin.cpp" line="528"/>
+        <location filename="../CDeviceGarmin.cpp" line="540"/>
         <source>Error ...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="522"/>
+        <location filename="../CDeviceGarmin.cpp" line="529"/>
         <source>Failed to load driver.</source>
         <translation>Невозможно загрузить драйвер.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="534"/>
+        <location filename="../CDeviceGarmin.cpp" line="541"/>
         <source>Driver version mismatch.</source>
         <translation>Версия драйвера устарела.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="536"/>
+        <location filename="../CDeviceGarmin.cpp" line="543"/>
         <source>The version of your driver plugin &quot;%1&quot; does not match the version QLandkarteGT expects (&quot;%2&quot;).</source>
         <translation>Ваша версия драйверов&quot;%1&quot;не совпадает с ожидаемой QLandkarteGT версией (&quot;%2&quot;).</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="574"/>
-        <location filename="../CDeviceGarmin.cpp" line="667"/>
-        <location filename="../CDeviceGarmin.cpp" line="693"/>
-        <location filename="../CDeviceGarmin.cpp" line="774"/>
-        <location filename="../CDeviceGarmin.cpp" line="800"/>
-        <location filename="../CDeviceGarmin.cpp" line="860"/>
-        <location filename="../CDeviceGarmin.cpp" line="950"/>
-        <location filename="../CDeviceGarmin.cpp" line="976"/>
-        <location filename="../CDeviceGarmin.cpp" line="1052"/>
-        <location filename="../CDeviceGarmin.cpp" line="1074"/>
+        <location filename="../CDeviceGarmin.cpp" line="581"/>
+        <location filename="../CDeviceGarmin.cpp" line="674"/>
+        <location filename="../CDeviceGarmin.cpp" line="700"/>
+        <location filename="../CDeviceGarmin.cpp" line="781"/>
+        <location filename="../CDeviceGarmin.cpp" line="807"/>
+        <location filename="../CDeviceGarmin.cpp" line="867"/>
+        <location filename="../CDeviceGarmin.cpp" line="957"/>
+        <location filename="../CDeviceGarmin.cpp" line="983"/>
+        <location filename="../CDeviceGarmin.cpp" line="1059"/>
+        <location filename="../CDeviceGarmin.cpp" line="1081"/>
         <source>Device Link Error</source>
         <translation>Ошибка соединения с устройством</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1026"/>
+        <location filename="../CDeviceGarmin.cpp" line="1033"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1026"/>
+        <location filename="../CDeviceGarmin.cpp" line="1033"/>
         <source>Failed to create image file.</source>
         <translation>Невозможно создать файл изображения.</translation>
     </message>
@@ -1628,6 +1628,39 @@ Expected %1, received %2.</source>
     </message>
 </context>
 <context>
+    <name>CDlgSetupGarminIcons</name>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="76"/>
+        <source>reset icon</source>
+        <translation>сбросить иконку</translation>
+    </message>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="82"/>
+        <source>select icon</source>
+        <translation>выбор иконки</translation>
+    </message>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="126"/>
+        <source>Select icon ...</source>
+        <translation>Выбор иконки...</translation>
+    </message>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
+        <source>Format Error</source>
+        <translation>Ошибка формата</translation>
+    </message>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
+        <source>: Bad icon format</source>
+        <translation>: Неверный формат иконки</translation>
+    </message>
+    <message>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="246"/>
+        <source>Device Link Error</source>
+        <translation>Ошибка соединения с устройством</translation>
+    </message>
+</context>
+<context>
     <name>CDlgTrackFilter</name>
     <message>
         <location filename="../CDlgTrackFilter.cpp" line="103"/>
@@ -1760,12 +1793,12 @@ Expected %1, received %2.</source>
 <context>
     <name>CGarminIndex</name>
     <message>
-        <location filename="../CGarminIndex.cpp" line="136"/>
+        <location filename="../CGarminIndex.cpp" line="137"/>
         <source>Create index... %1</source>
         <translation>Создание индекса... %1</translation>
     </message>
     <message>
-        <location filename="../CGarminIndex.cpp" line="374"/>
+        <location filename="../CGarminIndex.cpp" line="375"/>
         <source>Done</source>
         <translation>Готово</translation>
     </message>
@@ -1898,270 +1931,260 @@ line %2, column %3:
 <context>
     <name>CMainWindow</name>
     <message>
-        <location filename="../CMainWindow.cpp" line="83"/>
+        <location filename="../CMainWindow.cpp" line="86"/>
         <source>Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="233"/>
+        <location filename="../CMainWindow.cpp" line="235"/>
         <source>&lt;b&gt;GPS Device:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Устройство GPS:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="431"/>
+        <location filename="../CMainWindow.cpp" line="434"/>
         <source>Clear all...</source>
         <translation>Очистить все...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="431"/>
+        <location filename="../CMainWindow.cpp" line="434"/>
         <source>This will erase all project data like waypoints and tracks.</source>
         <translation>Это действие удалит все данные, как, например, треки и путевые точки.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="479"/>
+        <location filename="../CMainWindow.cpp" line="490"/>
         <source>Load most recent...</source>
         <translation>Загрузить последний использованный...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="489"/>
+        <location filename="../CMainWindow.cpp" line="500"/>
         <source>&amp;File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="490"/>
+        <location filename="../CMainWindow.cpp" line="501"/>
         <source>Load Map</source>
         <translation>Загрузить карту</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="492"/>
+        <location filename="../CMainWindow.cpp" line="503"/>
         <source>Load Geo Data</source>
         <translation>Загрузить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="493"/>
+        <location filename="../CMainWindow.cpp" line="504"/>
         <source>Save Geo Data</source>
         <translation>Сохранить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="494"/>
+        <location filename="../CMainWindow.cpp" line="505"/>
         <source>Export Geo Data</source>
-        <translation>Экспорт GEO данные</translation>
+        <translation>Экспортировать GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="495"/>
+        <location filename="../CMainWindow.cpp" line="506"/>
         <source>Add Geo Data</source>
         <translation>Добавить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="498"/>
+        <location filename="../CMainWindow.cpp" line="509"/>
         <source>Device Screenshot ...</source>
         <translation>Снимок экрана с устройства ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="499"/>
+        <location filename="../CMainWindow.cpp" line="510"/>
         <source>Save as image ...</source>
         <translation>Сохранить как изображение ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="500"/>
+        <location filename="../CMainWindow.cpp" line="511"/>
         <source>Print Map ...</source>
         <translation>Печать карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="501"/>
+        <location filename="../CMainWindow.cpp" line="512"/>
         <source>Print Diary ...</source>
         <translation>Печать Дневника...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="503"/>
-        <source>Exit</source>
-        <translation>Выход</translation>
-    </message>
-    <message>
-        <location filename="../CMainWindow.cpp" line="519"/>
+        <location filename="../CMainWindow.cpp" line="530"/>
         <source>&amp;Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="524"/>
+        <location filename="../CMainWindow.cpp" line="535"/>
         <source>&amp;Waypoint</source>
         <translation>Путевая точка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="529"/>
+        <location filename="../CMainWindow.cpp" line="540"/>
         <source>&amp;Track</source>
         <translation>Трек</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="534"/>
+        <location filename="../CMainWindow.cpp" line="545"/>
         <source>&amp;Route</source>
         <translation>Маршрут</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="539"/>
+        <location filename="../CMainWindow.cpp" line="550"/>
         <source>&amp;Live Log</source>
         <translation>Данные GPS </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="544"/>
+        <location filename="../CMainWindow.cpp" line="555"/>
         <source>&amp;Overlay</source>
         <translation>Наложение...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="549"/>
+        <location filename="../CMainWindow.cpp" line="560"/>
         <source>Mor&amp;e</source>
         <translation>Далее</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="553"/>
+        <location filename="../CMainWindow.cpp" line="564"/>
         <source>&amp;Setup</source>
         <translation>Установки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="554"/>
+        <location filename="../CMainWindow.cpp" line="568"/>
         <source>&amp;General</source>
         <translation>Основные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="558"/>
-        <source>&amp;Help</source>
-        <translation>Помощь</translation>
+        <location filename="../CMainWindow.cpp" line="570"/>
+        <source>&amp;Garmin Icons</source>
+        <translation>Garmin иконка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="559"/>
-        <source>About &amp;QLandkarte GT</source>
-        <translation>О QLandkarte GT</translation>
-    </message>
-    <message>
-        <location filename="../CMainWindow.cpp" line="611"/>
+        <location filename="../CMainWindow.cpp" line="627"/>
         <source>Select map...</source>
         <translation>Выбор карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="665"/>
-        <location filename="../CMainWindow.cpp" line="717"/>
+        <location filename="../CMainWindow.cpp" line="686"/>
+        <location filename="../CMainWindow.cpp" line="738"/>
         <source>Select input files</source>
         <translation>Выберите файлы для загрузки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="791"/>
-        <location filename="../CMainWindow.cpp" line="808"/>
-        <location filename="../CMainWindow.cpp" line="825"/>
+        <location filename="../CMainWindow.cpp" line="812"/>
+        <location filename="../CMainWindow.cpp" line="829"/>
+        <location filename="../CMainWindow.cpp" line="846"/>
         <source>Convert error</source>
         <translation>Ошибка конвертации</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="842"/>
-        <location filename="../CMainWindow.cpp" line="986"/>
+        <location filename="../CMainWindow.cpp" line="863"/>
+        <location filename="../CMainWindow.cpp" line="1007"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="868"/>
+        <location filename="../CMainWindow.cpp" line="889"/>
         <source>Save geo data?</source>
         <translation>Сохранить GEO данные ?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="869"/>
+        <location filename="../CMainWindow.cpp" line="890"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Загруженные данные изменены.￼
 Вы хотите сохранить эти изменения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="897"/>
-        <location filename="../CMainWindow.cpp" line="914"/>
-        <location filename="../CMainWindow.cpp" line="1010"/>
+        <location filename="../CMainWindow.cpp" line="918"/>
+        <location filename="../CMainWindow.cpp" line="935"/>
+        <location filename="../CMainWindow.cpp" line="1031"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="998"/>
+        <location filename="../CMainWindow.cpp" line="1019"/>
         <source>Print Map</source>
         <translation>Печать карты</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1054"/>
+        <location filename="../CMainWindow.cpp" line="1075"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Аннотация к проекту (&lt;a href=&apos;Clear&apos;&gt;очистить&lt;/a&gt; проект):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1060"/>
+        <location filename="../CMainWindow.cpp" line="1081"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>В настоящее время существует %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1063"/>
+        <location filename="../CMainWindow.cpp" line="1084"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>В настоящее время есть %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1067"/>
+        <location filename="../CMainWindow.cpp" line="1088"/>
         <source>There are no waypoints, </source>
         <translation>Нет путевых точек, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1073"/>
+        <location filename="../CMainWindow.cpp" line="1094"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;трек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1076"/>
+        <location filename="../CMainWindow.cpp" line="1097"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треки&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1080"/>
+        <location filename="../CMainWindow.cpp" line="1101"/>
         <source>no tracks, </source>
         <translation>нет треков, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1086"/>
+        <location filename="../CMainWindow.cpp" line="1107"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрут&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1089"/>
+        <location filename="../CMainWindow.cpp" line="1110"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрутов&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1093"/>
+        <location filename="../CMainWindow.cpp" line="1114"/>
         <source>no routes and </source>
         <translation>нет маршрутов и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1099"/>
+        <location filename="../CMainWindow.cpp" line="1120"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложение&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1102"/>
+        <location filename="../CMainWindow.cpp" line="1123"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложения&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1106"/>
+        <location filename="../CMainWindow.cpp" line="1127"/>
         <source>no overlays. </source>
         <translation>нет наложений. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1111"/>
+        <location filename="../CMainWindow.cpp" line="1132"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
         <translation>A &lt;a href=&apos;Diary&apos;&gt;дневник&lt;/a&gt; уже загружен.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1114"/>
+        <location filename="../CMainWindow.cpp" line="1135"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
         <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1150"/>
+        <location filename="../CMainWindow.cpp" line="1171"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1152"/>
+        <location filename="../CMainWindow.cpp" line="1173"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
@@ -2474,45 +2497,45 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapSearchWidget</name>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="122"/>
-        <location filename="../CMapSearchWidget.cpp" line="263"/>
-        <location filename="../CMapSearchWidget.cpp" line="281"/>
+        <location filename="../CMapSearchWidget.cpp" line="123"/>
+        <location filename="../CMapSearchWidget.cpp" line="264"/>
+        <location filename="../CMapSearchWidget.cpp" line="282"/>
         <source>No mask selected.</source>
         <translation>Маска не выбрана.</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="127"/>
+        <location filename="../CMapSearchWidget.cpp" line="128"/>
         <source>Symbols</source>
         <translation>Символ</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="170"/>
+        <location filename="../CMapSearchWidget.cpp" line="171"/>
         <source>%2 %1</source>
         <translation>%2 %1</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="218"/>
+        <location filename="../CMapSearchWidget.cpp" line="219"/>
         <source>Missing name...</source>
         <translation>Отсутствует имя...</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="218"/>
+        <location filename="../CMapSearchWidget.cpp" line="219"/>
         <source>Please provide a symbol name to save the symbol.</source>
         <translation>Пожалуйста введите имя символа для его сохранения.</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="293"/>
+        <location filename="../CMapSearchWidget.cpp" line="294"/>
         <source>no mask</source>
         <translation>нет маски</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="340"/>
+        <location filename="../CMapSearchWidget.cpp" line="341"/>
         <source>No area selected.</source>
         <translation>Зона не выбрана.</translation>
     </message>
     <message>
-        <location filename="../CMapSearchWidget.cpp" line="455"/>
-        <location filename="../CMapSearchWidget.cpp" line="553"/>
+        <location filename="../CMapSearchWidget.cpp" line="456"/>
+        <location filename="../CMapSearchWidget.cpp" line="554"/>
         <source>Found %1 items</source>
         <translation>Найдено %1 элементов</translation>
     </message>
@@ -2701,80 +2724,70 @@ Do you want to save your changes?</source>
         <translation>Нет проекции основной карты. Этого не должно получаться.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="757"/>
-        <source>No big endian..</source>
-        <translation>Не big endian...</translation>
-    </message>
-    <message>
-        <location filename="../CMapTDB.cpp" line="757"/>
-        <source>*tdb import has not been ported to big endian architectures, yet.</source>
-        <translation>Импорт *tdb пока не был портирован для big endian архитектуры.</translation>
-    </message>
-    <message>
-        <location filename="../CMapTDB.cpp" line="811"/>
+        <location filename="../CMapTDB.cpp" line="807"/>
         <source>Select Base Map for </source>
         <translation>Выберите базовую карту для</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="886"/>
-        <location filename="../CMapTDB.cpp" line="911"/>
-        <location filename="../CMapTDB.cpp" line="959"/>
+        <location filename="../CMapTDB.cpp" line="882"/>
+        <location filename="../CMapTDB.cpp" line="907"/>
+        <location filename="../CMapTDB.cpp" line="955"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="888"/>
+        <location filename="../CMapTDB.cpp" line="884"/>
         <source>However ...</source>
         <translation>В любом случае...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="889"/>
+        <location filename="../CMapTDB.cpp" line="885"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Но ... &lt;/b&gt;&lt;/p&gt;&lt;p&gt;Как я могу читать basemap, а также информацию из файлов TDB *, &lt;br/&gt;я могу дать вам выбрать тайлы карты  для загрузки. Для этого мне&lt;br/&gt; нужно разблокировать ключом (25 цифр) эту карту, как он будет загружен &lt;br/&gt;в устройство вместе с картой.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1346"/>
-        <location filename="../CMapTDB.cpp" line="1352"/>
+        <location filename="../CMapTDB.cpp" line="1342"/>
+        <location filename="../CMapTDB.cpp" line="1348"/>
         <source>details %1</source>
         <translation>подробности %1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1349"/>
+        <location filename="../CMapTDB.cpp" line="1345"/>
         <source>details +%1</source>
         <translation>подробности  +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2015"/>
-        <location filename="../CMapTDB.cpp" line="2029"/>
+        <location filename="../CMapTDB.cpp" line="2011"/>
+        <location filename="../CMapTDB.cpp" line="2025"/>
         <source>Point of Interest</source>
         <translation>Интересная точка</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2166"/>
+        <location filename="../CMapTDB.cpp" line="2162"/>
         <source>Area</source>
         <translation>Площадь</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2564"/>
-        <location filename="../CMapTDB.cpp" line="2648"/>
-        <location filename="../CMapTDB.cpp" line="2795"/>
-        <location filename="../CMapTDB.cpp" line="2841"/>
+        <location filename="../CMapTDB.cpp" line="2560"/>
+        <location filename="../CMapTDB.cpp" line="2644"/>
+        <location filename="../CMapTDB.cpp" line="2791"/>
+        <location filename="../CMapTDB.cpp" line="2837"/>
         <source>Warning...</source>
         <translation>Предостережение...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2564"/>
+        <location filename="../CMapTDB.cpp" line="2560"/>
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием полигонов. Просьба сообщить!</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2648"/>
+        <location filename="../CMapTDB.cpp" line="2644"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием графических примитивов. Просьба сообщить!</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2795"/>
-        <location filename="../CMapTDB.cpp" line="2841"/>
+        <location filename="../CMapTDB.cpp" line="2791"/>
+        <location filename="../CMapTDB.cpp" line="2837"/>
         <source>This is a typ file with unknown point encoding. Please report!</source>
         <translation>Это тип файла с неизвестным кодированием точек. Просьба сообщить!</translation>
     </message>
@@ -3405,33 +3418,33 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="150"/>
+        <location filename="../CWptDB.cpp" line="151"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Вы действительно хотите удалить &quot;приклеенную&quot; путевую точку &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="151"/>
+        <location filename="../CWptDB.cpp" line="152"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Удалить &quot;приклеенную&quot; путевую точку...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="557"/>
-        <location filename="../CWptDB.cpp" line="559"/>
+        <location filename="../CWptDB.cpp" line="558"/>
+        <location filename="../CWptDB.cpp" line="560"/>
         <source>Missing libexif</source>
         <translation>Отсутствует libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="557"/>
+        <location filename="../CWptDB.cpp" line="558"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Не могу найти libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="559"/>
+        <location filename="../CWptDB.cpp" line="560"/>
         <source>Unable to find libexif.so.</source>
         <translation>Не могу найти libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="566"/>
+        <location filename="../CWptDB.cpp" line="567"/>
         <source>Select path...</source>
         <translation>Выберите путь...</translation>
     </message>
@@ -4176,7 +4189,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
     <name>IDlgConfig</name>
     <message>
         <location filename="../IDlgConfig.ui" line="14"/>
-        <source>Dialog</source>
+        <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
@@ -4772,6 +4785,29 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
         <location filename="../IDlgScreenshot.ui" line="60"/>
         <source>Save</source>
         <translation>Сохранить</translation>
+    </message>
+</context>
+<context>
+    <name>IDlgSetupGarminIcons</name>
+    <message>
+        <location filename="../IDlgSetupGarminIcons.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../IDlgSetupGarminIcons.ui" line="29"/>
+        <source>Name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <location filename="../IDlgSetupGarminIcons.ui" line="44"/>
+        <source>Source</source>
+        <translation>Источник</translation>
+    </message>
+    <message>
+        <location filename="../IDlgSetupGarminIcons.ui" line="52"/>
+        <source>Send to device</source>
+        <translation>Передать на устройство</translation>
     </message>
 </context>
 <context>
