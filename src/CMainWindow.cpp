@@ -1170,6 +1170,7 @@ void CMainWindow::slotDeviceChanged()
     comboDevice->addItem(tr(""),"");
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(resources->m_devType, "Garmin");
+    comboDevice->addItem(tr("NMEA"), "NMEA");
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
 
     resources->m_devKey = devKey;

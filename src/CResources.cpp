@@ -22,6 +22,7 @@
 #include "CDeviceGarmin.h"
 #include "CDeviceQLandkarteM.h"
 #include "CDeviceMikrokopter.h"
+#include "CDeviceNMEA.h"
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
 #include "CUnitNautic.h"
@@ -168,6 +169,9 @@ IDevice * CResources::device()
         }
         else if(m_devKey == "Garmin" && !m_devType.isEmpty()) {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);
+        }
+        else if(m_devKey == "NMEA") {
+            m_device = new CDeviceNMEA(m_devSerialPort, this);
         }
 
         connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));

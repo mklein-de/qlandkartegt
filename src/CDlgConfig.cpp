@@ -74,6 +74,7 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr(""),"");
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(tr("Garmin"), "Garmin");
+    comboDevice->addItem(tr("NMEA"), "NMEA");
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
 
     connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
@@ -171,6 +172,10 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
         fillTypeCombo();
     }
     else if(comboDevice->itemData(index) == "Mikrokopter") {
+        lineDevSerialPort->setEnabled(true);
+        labelDevSerialPort->setEnabled(true);
+    }
+    else if(comboDevice->itemData(index) == "NMEA") {
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
     }

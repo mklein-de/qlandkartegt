@@ -261,16 +261,6 @@ private:
 
 };
 
-#endif // MANAGESERIALPORT_H
-
-
-
-
-
-
-
-
-
 class ThreadSend : public QThread
 {
     Q_OBJECT
@@ -290,14 +280,6 @@ private:
     QQueue<QByteArray> dataToSend;
     bool stopped;
 };
-
-
-
-
-
-
-
-
 
 
 class ThreadReceive : public QThread
@@ -320,3 +302,5 @@ private :
 signals:
     void newDataReceived(const QByteArray &dataReceived);
 };
+
+#endif // MANAGESERIALPORT_H
