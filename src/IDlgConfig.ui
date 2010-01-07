@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>524</height>
+    <width>565</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -216,7 +216,11 @@
       </attribute>
       <layout class="QVBoxLayout">
        <item>
-        <widget class="QComboBox" name="comboDevice"/>
+        <widget class="QComboBox" name="comboDevice">
+         <property name="toolTip">
+          <string>Select the device you want to setup.</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupDevice">
@@ -244,6 +248,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</string>
+              </property>
              </widget>
             </item>
             <item>
@@ -260,6 +267,9 @@
              <widget class="QLineEdit" name="lineDevIPPort">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</string>
               </property>
               <property name="text">
                <string>4242</string>
@@ -283,6 +293,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="toolTip">
+             <string>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</string>
+            </property>
            </widget>
           </item>
           <item row="2" column="0">
@@ -302,6 +315,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Select your Garmin device form list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocoll query.</string>
+              </property>
              </widget>
             </item>
             <item>
@@ -316,7 +332,7 @@
             </item>
            </layout>
           </item>
-          <item row="3" column="1">
+          <item row="5" column="1">
            <widget class="QLabel" name="labelMessage">
             <property name="text">
              <string/>
@@ -326,6 +342,33 @@
             </property>
             <property name="wordWrap">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboDevCharset">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelDevCharset">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Character Set</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="buttonGarminIcons">
+            <property name="toolTip">
+             <string>Define custom icons for Garmin Devices.</string>
+            </property>
+            <property name="text">
+             <string>Customize Waypoint Icons...</string>
             </property>
            </widget>
           </item>

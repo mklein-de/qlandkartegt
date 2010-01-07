@@ -43,7 +43,6 @@
 #include "CUndoStack.h"
 #include "WptIcons.h"
 #include "CAppOpts.h"
-#include "CDlgSetupGarminIcons.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -567,7 +566,6 @@ void CMainWindow::setupMenuBar()
 #else
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
 #endif
-    menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&Garmin Icons"),this,SLOT(slotSetupGarminIcons()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
@@ -660,12 +658,6 @@ void CMainWindow::slotToolBoxChanged(int idx)
 void CMainWindow::slotConfig()
 {
     CDlgConfig dlg(this);
-    dlg.exec();
-}
-
-void CMainWindow::slotSetupGarminIcons()
-{
-    CDlgSetupGarminIcons dlg;
     dlg.exec();
 }
 

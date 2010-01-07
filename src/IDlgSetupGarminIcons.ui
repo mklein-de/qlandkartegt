@@ -11,7 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Garmin Waypoint Icons</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -21,7 +24,7 @@
      </property>
      <column>
       <property name="text">
-       <string> </string>
+       <string/>
       </property>
      </column>
      <column>
@@ -31,12 +34,12 @@
      </column>
      <column>
       <property name="text">
-       <string> </string>
+       <string/>
       </property>
      </column>
      <column>
       <property name="text">
-       <string> </string>
+       <string/>
       </property>
      </column>
      <column>

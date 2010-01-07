@@ -38,9 +38,11 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotCurrentDeviceChanged(int index);
         void slotSelectFont();
         void slotBrowserChanged(int idx);
+        void slotSetupGarminIcons();
 
     private:
         void fillTypeCombo();
+        void fillCharsetCombo();
 
 };
 #endif                           //CDLGCONFIG_H

@@ -634,6 +634,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     if(dev == 0) return;
 
     std::list<Garmin::Wpt_t> garwpts;
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
 
     QMap<QString,CWpt*>::iterator wpt = CWptDB::self().begin();
     while(wpt != CWptDB::self().end()) {
@@ -652,8 +653,8 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         garwpt.lon      = (*wpt)->lon;
         garwpt.alt      = (*wpt)->ele;
         garwpt.dist     = (*wpt)->prx;
-        garwpt.ident    = (*wpt)->name.toLatin1().data();
-        garwpt.comment  = (*wpt)->comment.toLatin1().data();
+        garwpt.ident    = codec->fromUnicode((*wpt)->name).data();
+        garwpt.comment  = codec->fromUnicode((*wpt)->comment).data();
 
         garwpts.push_back(garwpt);
 
@@ -702,13 +703,14 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     return;
 }
 
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
 
 std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
 while(garwpt != garwpts.end()) {
     CWpt * wpt = new CWpt(&CWptDB::self());
 
-    wpt->name       = garwpt->ident.c_str();
-    wpt->comment    = garwpt->comment.c_str();
+    wpt->name       = codec->toUnicode(garwpt->ident.c_str());
+    wpt->comment    = codec->toUnicode(garwpt->comment.c_str());
     wpt->lon        = garwpt->lon;
     wpt->lat        = garwpt->lat;
     wpt->ele        = garwpt->alt;
@@ -738,12 +740,13 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
     if(dev == 0) return;
 
     std::list<Garmin::Track_t> gartrks;
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
 
     QList<CTrack*>::const_iterator trk = trks.begin();
     while(trk != trks.end()) {
         Garmin::Track_t gartrk;
 
-        gartrk.ident = (*trk)->getName().toLatin1().data();
+        gartrk.ident = codec->fromUnicode((*trk)->getName()).data();
         gartrk.color = (*trk)->getColorIdx();
 
         const QList<CTrack::pt_t>& trkpts           = (*trk)->getTrackPoints();
@@ -809,12 +812,13 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         return;
     }
 
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
     std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
     while(gartrk != gartrks.end()) {
 
         CTrack * trk = new CTrack(&CTrackDB::self());
 
-        trk->setName(gartrk->ident.c_str());
+        trk->setName(codec->toUnicode(gartrk->ident.c_str()));
         trk->setColor(gartrk->color);
 
         std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
@@ -906,6 +910,8 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
     std::list<Garmin::Route_t> garrtes;
     int id = 0;
 
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+
     QList<CRoute*>::const_iterator rte = rtes.begin();
     while(rte != rtes.end()) {
         Garmin::Route_t garrte;
@@ -921,7 +927,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         }
 
         QString name = (*rte)->getName();
-        garrte.ident = name.toLatin1().data();
+        garrte.ident = codec->fromUnicode(name).data();
 
         unsigned cnt = 0;
         const QList<XY>& rtepts         = (*rte)->getRoutePoints();
@@ -932,7 +938,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
             garrtept.lon            = rtept->u;
             garrtept.lat            = rtept->v;
             garrtept.Wpt_t::ident   = QString("%1.%2").arg(id).arg(++cnt,3,10,QChar('0')).toAscii().data();
-            garrtept.Wpt_t::comment = name.toAscii().data();
+            garrtept.Wpt_t::comment = codec->fromUnicode(name).data();
             garrtept.Wpt_t::smbl    = smbl;
 
             garrte.route.push_back(garrtept);
@@ -985,12 +991,14 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         return;
     }
 
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+
     std::list<Garmin::Route_t>::const_iterator garrte = garrtes.begin();
     while(garrte != garrtes.end()) {
 
         CRoute * rte = new CRoute(&CRouteDB::self());
 
-        rte->setName(garrte->ident.c_str());
+        rte->setName(codec->toUnicode(garrte->ident.c_str()));
 
         std::vector<Garmin::RtePt_t>::const_iterator garrtept = garrte->route.begin();
         while(garrtept != garrte->route.end()) {

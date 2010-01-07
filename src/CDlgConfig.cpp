@@ -24,6 +24,7 @@
 #include "CUnitNautic.h"
 #include "CUnitMetric.h"
 #include "CMapTDB.h"
+#include "CDlgSetupGarminIcons.h"
 
 #include <QtGui>
 
@@ -80,6 +81,8 @@ void CDlgConfig::exec()
     connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
     comboDevice->setCurrentIndex(comboDevice->findData(resources.m_devKey));
 
+    connect(buttonGarminIcons, SIGNAL(clicked()), this, SLOT(slotSetupGarminIcons()));
+
     lineDevIPAddr->setText(resources.m_devIPAddress);
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
@@ -128,6 +131,7 @@ void CDlgConfig::accept()
     resources.m_devIPPort       = lineDevIPPort->text().toUShort();
     resources.m_devSerialPort   = lineDevSerialPort->text();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
+    resources.m_devCharset      = comboDevCharset->itemText(comboDevCharset->currentIndex());
 
     if(resources.m_device) {
         delete resources.m_device;
@@ -157,6 +161,9 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     labelDevSerialPort->setEnabled(false);
     comboDevType->setEnabled(false);
     labelDevType->setEnabled(false);
+    comboDevCharset->setEnabled(false);
+    labelDevCharset->setEnabled(false);
+    buttonGarminIcons->setEnabled(false);
 
     if(comboDevice->itemData(index) == "QLandkarteM") {
         lineDevIPAddr->setEnabled(true);
@@ -169,7 +176,11 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
         labelDevType->setEnabled(true);
+        comboDevCharset->setEnabled(true);
+        labelDevCharset->setEnabled(true);
+        buttonGarminIcons->setEnabled(true);
         fillTypeCombo();
+        fillCharsetCombo();
     }
     else if(comboDevice->itemData(index) == "Mikrokopter") {
         lineDevSerialPort->setEnabled(true);
@@ -220,6 +231,22 @@ void CDlgConfig::fillTypeCombo()
 }
 
 
+void CDlgConfig::fillCharsetCombo()
+{
+    comboDevCharset->clear();
+
+    CResources& resources = CResources::self();
+    QList<QByteArray> allCodecs = QTextCodec::availableCodecs();
+    QByteArray codec;
+
+    qSort(allCodecs);
+    foreach(codec, allCodecs) {
+        comboDevCharset->addItem(codec);
+    }
+    comboDevCharset->setCurrentIndex(comboDevCharset->findText(resources.m_devCharset));
+}
+
+
 void CDlgConfig::slotBrowserChanged(int idx)
 {
     if(idx == CResources::eOther) {
@@ -228,4 +255,10 @@ void CDlgConfig::slotBrowserChanged(int idx)
     else {
         lineBrowserCmd->setEnabled(false);
     }
+}
+
+void CDlgConfig::slotSetupGarminIcons()
+{
+    CDlgSetupGarminIcons dlg;
+    dlg.exec();
 }

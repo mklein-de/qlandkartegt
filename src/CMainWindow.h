@@ -91,7 +91,6 @@ class CMainWindow : public QMainWindow
         void slotDeviceChanged();
         void slotScreenshot();
         void slotLoadRecent();
-        void slotSetupGarminIcons();
 
     private:
         CMenus *actionGroupProvider;

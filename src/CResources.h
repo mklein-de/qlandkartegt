@@ -46,6 +46,7 @@ class CResources : public QObject
 
         /// get pointer to current device handler
         IDevice * device();
+        QString charset();
 
         /// the font used for text on the map
         const QFont& getMapFont(){return m_mapfont;}
@@ -113,6 +114,7 @@ class CResources : public QObject
         QString m_devSerialPort;
 
         QString m_devType;
+        QString m_devCharset;
 
         /// mouse wheel zoom direction
         bool m_flipMouseWheel;

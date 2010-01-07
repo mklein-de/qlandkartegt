@@ -75,6 +75,7 @@ CResources::CResources(QObject * parent)
     m_devIPPort       = cfg.value("device/ipPort",m_devIPPort).toUInt();
     m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
     m_devType         = cfg.value("device/type",m_devType).toString();
+    m_devCharset      = cfg.value("device/charset",m_devCharset).toString();
 
     emit sigDeviceChanged();
 
@@ -128,6 +129,7 @@ CResources::~CResources()
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/type",m_devType);
+    cfg.setValue("device/charset",m_devCharset);
 
     cfg.setValue("device/dnlTrk",IDevice::m_DownloadAllTrk);
     cfg.setValue("device/dnlWpt",IDevice::m_DownloadAllWpt);
@@ -185,6 +187,15 @@ IDevice * CResources::device()
     }
 
     return m_device;
+}
+
+
+QString CResources::charset()
+{
+    if (m_devCharset.isNull() || m_devCharset.isEmpty())
+        return "latin1";
+    else
+        return m_devCharset;
 }
 
 
