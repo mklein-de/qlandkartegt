@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ICreateMapGeoTiff</class>
- <widget class="QWidget" name="ICreateMapGeoTiff" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ICreateMapGeoTiff">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,143 +10,143 @@
     <height>688</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="labelStep1" >
-     <property name="text" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelStep1">
+     <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <layout class="QVBoxLayout" >
+   <item row="0" column="1">
+    <layout class="QVBoxLayout">
      <item>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_2" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+      <layout class="QGridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Input file:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <layout class="QHBoxLayout" >
+       <item row="0" column="1">
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QLabel" name="labelInputFile" >
-           <property name="text" >
+          <widget class="QLabel" name="labelInputFile">
+           <property name="text">
             <string/>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolReload" >
-           <property name="enabled" >
+          <widget class="QToolButton" name="toolReload">
+           <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="toolTip" >
-            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'DejaVu Sans'; font-size:8pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Reload file&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Reload file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Output file:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <layout class="QHBoxLayout" >
+       <item row="1" column="1">
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QLabel" name="labelOutputFile" >
-           <property name="text" >
+          <widget class="QLabel" name="labelOutputFile">
+           <property name="text">
             <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolOutFile" >
-           <property name="enabled" >
+          <widget class="QToolButton" name="toolOutFile">
+           <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label" >
-         <property name="text" >
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
           <string>Projection</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
-        <layout class="QHBoxLayout" >
+       <item row="2" column="1">
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QLineEdit" name="lineProjection" />
+          <widget class="QLineEdit" name="lineProjection"/>
          </item>
          <item>
-          <widget class="QToolButton" name="toolProjWizard" >
-           <property name="toolTip" >
-            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+          <widget class="QToolButton" name="toolProjWizard">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'URW Gothic L'; font-size:9pt; font-weight:200; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Projection Wizard&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'URW Gothic L'; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>...</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_4" >
-         <property name="text" >
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
           <string>Mode</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="QComboBox" name="comboMode" />
+       <item row="3" column="1">
+        <widget class="QComboBox" name="comboMode"/>
        </item>
       </layout>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>384</width>
          <height>41</height>
@@ -155,21 +156,21 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="0" column="2" >
-    <layout class="QVBoxLayout" >
+   <item row="0" column="2">
+    <layout class="QVBoxLayout">
      <item>
-      <widget class="QPushButton" name="pushOpenFile" >
-       <property name="text" >
+      <widget class="QPushButton" name="pushOpenFile">
+       <property name="text">
         <string>Open File</string>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
          <height>40</height>
@@ -178,120 +179,149 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="Line" name="line_6" >
-       <property name="orientation" >
+      <widget class="Line" name="line_6">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="0" column="3" >
-    <layout class="QVBoxLayout" >
+   <item row="0" column="3">
+    <layout class="QVBoxLayout">
      <item>
-      <widget class="QLabel" name="labelDoc1" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>This dialog allows you to georeference map files in TIF format with a 8 bit color palette. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.
-
-</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-       <property name="wordWrap" >
-        <bool>true</bool>
+      <widget class="CHelpButton" name="helpStep1">
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line" >
-       <property name="orientation" >
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="labelStep2" >
-     <property name="enabled" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelStep2">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QTreeWidget" name="treeWidget" >
-     <property name="enabled" >
+   <item row="1" column="1">
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="selectionMode" >
+     <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>label</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Coord.</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>x</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>y</string>
       </property>
      </column>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <layout class="QVBoxLayout" >
+   <item row="1" column="2">
+    <layout class="QVBoxLayout">
      <item>
-      <widget class="QPushButton" name="pushAddRef" >
-       <property name="enabled" >
+      <widget class="QPushButton" name="pushAddRef">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Add Ref.</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushDelRef" >
-       <property name="enabled" >
+      <widget class="QPushButton" name="pushLoadRef">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="text" >
+       <property name="text">
+        <string>Load Ref.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushSaveRef">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Save Ref.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushDelRef">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
         <string>Delete Ref.</string>
        </property>
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pushGridTool">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Grid Tool</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
          <height>40</height>
@@ -300,134 +330,42 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushGoOn" >
-       <property name="enabled" >
+      <widget class="QPushButton" name="pushGoOn">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Go on!</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line_5" >
-       <property name="orientation" >
+      <widget class="Line" name="line_5">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="3" >
-    <layout class="QVBoxLayout" >
+   <item row="1" column="3">
+    <layout class="QVBoxLayout">
      <item>
-      <layout class="QHBoxLayout" >
-       <item>
-        <widget class="QPushButton" name="pushLoadRef" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="text" >
-          <string>Load Ref.</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushSaveRef" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="text" >
-          <string>Save Ref.</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>1</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushGridTool" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="text" >
-          <string>Grid Tool</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="labelDoc2" >
-       <property name="enabled" >
+      <widget class="CHelpButton" name="helpStep2">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
-
-coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "285000 5162000"</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-       <property name="wordWrap" >
-        <bool>true</bool>
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line_2" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="labelStep3" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="text" >
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1" >
-    <widget class="QTextBrowser" name="textBrowser" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="lineWrapMode" >
-      <enum>QTextEdit::NoWrap</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2" >
-    <layout class="QVBoxLayout" >
-     <item>
-      <spacer>
-       <property name="orientation" >
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
          <height>40</height>
@@ -436,56 +374,101 @@ coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "28500
       </spacer>
      </item>
      <item>
-      <widget class="Line" name="line_4" >
-       <property name="orientation" >
+      <widget class="Line" name="line_2">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="3" >
-    <layout class="QVBoxLayout" >
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelStep3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <layout class="QVBoxLayout">
      <item>
-      <widget class="QLabel" name="labelDoc3" >
-       <property name="enabled" >
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="3">
+    <layout class="QVBoxLayout">
+     <item>
+      <widget class="CHelpButton" name="helpStep3">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-       <property name="wordWrap" >
-        <bool>true</bool>
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line_3" >
-       <property name="orientation" >
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line_3">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="3" column="1" >
+   <item row="3" column="1">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeType" >
+     <property name="sizeType">
       <enum>QSizePolicy::MinimumExpanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>40</width>
        <height>20</height>
@@ -493,15 +476,22 @@ coordinate formats: "N49° 10.234 E12° 01.456", "12.193172   46.575377", "28500
      </property>
     </spacer>
    </item>
-   <item row="3" column="2" >
-    <widget class="QPushButton" name="pushClearAll" >
-     <property name="text" >
+   <item row="3" column="2">
+    <widget class="QPushButton" name="pushClearAll">
+     <property name="text">
       <string>Clear All</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CHelpButton</class>
+   <extends>QToolButton</extends>
+   <header>CHelpButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

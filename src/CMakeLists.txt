@@ -149,7 +149,7 @@ set(qlandkarte_SRCS
     CGarminTyp.cpp
     CGarminTypNT.cpp
     CMapTDB.cpp
-
+    CHelpButton.cpp
 )
 
 if (WIN32)
@@ -293,6 +293,7 @@ set(qlandkarte_HDRS
     CGarminTypNT.h
     CMapTDB.h
     CAppOpts.h
+    CHelpButton.h
 )
 
 SET(qlandkarte_UIS
@@ -332,7 +333,7 @@ SET(qlandkarte_UIS
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IGarminExport.ui
-
+    IHelpDlg.ui
 )
 
 SET(qlandkarte_RCS

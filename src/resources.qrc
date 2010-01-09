@@ -81,7 +81,7 @@
         <file>icons/iconImage16x16.png</file>
         <file>icons/iconScreenshot16x16.png</file>
         <file>icons/iconFilter16x16.png</file>
-
+        <file>icons/iconHelp16x16.png</file>
 
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>
@@ -91,6 +91,8 @@
         <file>icons/iconOk32x32.png</file>
         <file>icons/iconAdd32x32.png</file>
         <file>icons/iconMinus32x32.png</file>
+
+	<file>icons/iconHelp48x48.png</file>
 
         <file>icons/editundo.png</file>
         <file>icons/editredo.png</file>
