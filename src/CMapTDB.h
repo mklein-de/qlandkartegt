@@ -21,6 +21,7 @@
 
 #include "IMap.h"
 #include "CGarminTile.h"
+#include "IGarminTyp.h"
 #include <QMap>
 #include <QPen>
 #include <QBrush>
@@ -269,49 +270,49 @@ class CMapTDB : public IMap
         XY bottomRight;
 
         QVector<QString> polyline_typestr;
-        struct polyline_property
-        {
-            polyline_property(): type(0), pen0(Qt::magenta,3), known(false), showText(true){};
-            polyline_property(quint16 type, const QColor& color0, qreal width, Qt::PenStyle style)
-                : type(type)
-                , pen0(QBrush(color0), width, style, Qt::RoundCap, Qt::RoundJoin)
-                , known(true)
-                , showText(true)
-                {}
-            quint16 type;
-            QPen    pen0;
-            QFont   font;
-            bool    known;
-            QImage  pixmap;
-            bool   showText;
-        };
+//         struct polyline_property
+//         {
+//             polyline_property(): type(0), pen0(Qt::magenta,3), known(false), showText(true){};
+//             polyline_property(quint16 type, const QColor& color0, qreal width, Qt::PenStyle style)
+//                 : type(type)
+//                 , pen0(QBrush(color0), width, style, Qt::RoundCap, Qt::RoundJoin)
+//                 , known(true)
+//                 , showText(true)
+//                 {}
+//             quint16 type;
+//             QPen    pen0;
+//             QFont   font;
+//             bool    known;
+//             QImage  pixmap;
+//             bool   showText;
+//         };
 
         //         QVector<polyline_property> polylineProperties;
-        QMap<quint32, polyline_property> polylineProperties;
+        QMap<quint32, IGarminTyp::polyline_property> polylineProperties;
 
-        struct polygon_property
-        {
-            polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
-            polygon_property(quint16 type, const Qt::PenStyle pensty, const QColor& brushColor, Qt::BrushStyle pattern)
-                : type(type)
-                , pen(pensty)
-                , brush(brushColor, pattern)
-                , known(true)
-                {pen.setWidth(1);}
-            polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
-                : type(type)
-                , pen(penColor,1)
-                , brush(brushColor, pattern)
-                , known(true)
-                {}
-            quint16 type;
-            QPen    pen;
-            QBrush  brush;
-            QFont   font;
-            bool    known;
-        };
+//         struct polygon_property
+//         {
+//             polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
+//             polygon_property(quint16 type, const Qt::PenStyle pensty, const QColor& brushColor, Qt::BrushStyle pattern)
+//                 : type(type)
+//                 , pen(pensty)
+//                 , brush(brushColor, pattern)
+//                 , known(true)
+//                 {pen.setWidth(1);}
+//             polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
+//                 : type(type)
+//                 , pen(penColor,1)
+//                 , brush(brushColor, pattern)
+//                 , known(true)
+//                 {}
+//             quint16 type;
+//             QPen    pen;
+//             QBrush  brush;
+//             QFont   font;
+//             bool    known;
+//         };
 
-        QMap<quint32, polygon_property> polygonProperties;
+        QMap<quint32, IGarminTyp::polygon_property> polygonProperties;
         QList<quint16> polygonDrawOrder;
 
         QMap<quint32, QImage> pointProperties;

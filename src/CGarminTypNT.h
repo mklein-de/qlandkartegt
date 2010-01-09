@@ -27,6 +27,8 @@ class CGarminTypNT : public IGarminTyp
     public:
         CGarminTypNT(QObject * parent);
         virtual ~CGarminTypNT();
+
+        bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint16> drawOrder, QMap<quint32, QImage>& points);
 };
 
 #endif //CGARMINTYPNT_H

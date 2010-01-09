@@ -74,14 +74,14 @@ class IGarminTyp : public QObject
             be the only public function needed. The typ file is read and it's content is
             stored in the passed map/list objects.
 
-            @param filename the full qualified path and filename
+            @param in input data stream
             @param polygons reference to polygon properties map
             @param polylines reference to polyline properties map
             @param drawOrder reference to list of polygon draw orders
             @param points reference to point properties map
 
         */
-        virtual bool decode(const QString& filename, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint16> drawOrder, QMap<quint32, QImage>& points) = 0;
+        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint16> drawOrder, QMap<quint32, QImage>& points) = 0;
 
 };
 
