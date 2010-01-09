@@ -30,3 +30,44 @@ IGarminTyp::~IGarminTyp()
 
 }
 
+bool IGarminTyp::parseHeader(QDataStream& in)
+{
+    int i;
+    QString garmintyp;
+    quint8 byte;
+
+    for(i = 0; i < 10; ++i) {
+        in >> byte;
+        garmintyp.append(byte);
+    }
+    garmintyp.append(0);
+    if(garmintyp != "GARMIN TYP") {
+        qDebug() << "CMapTDB::readTYP() not a known typ file";
+        return false;
+    }
+
+    /* reading typ creation date string */
+    quint16 startDate, endDate, year;
+    quint8 month, day, hour, minutes, seconds;
+
+    in.device()->seek(0x0c);
+    in >> startDate >> year >> month >> day >> hour >> minutes >> seconds >> endDate;
+    month -= 1;                  /* Month are like Microsoft starting 0 ? */
+    year += 1900;
+
+    /* Reading points / lines / polygons struct */
+    in >> sectPoints.dataOffset >> sectPoints.dataLength;
+    in >> sectPolylines.dataOffset >> sectPolylines.dataLength;
+    in >> sectPolygons.dataOffset >> sectPolygons.dataLength;
+
+    in >> pid >> fid;
+    qDebug() << "PID" << hex << pid << "FID" << hex << fid;
+
+    /* Read Array datas */
+    in >> sectPoints.arrayOffset >> sectPoints.arrayModulo >> sectPoints.arraySize;
+    in >> sectPolylines.arrayOffset  >> sectPolylines.arrayModulo  >> sectPolylines.arraySize;
+    in >> sectPolygons.arrayOffset >> sectPolygons.arrayModulo >> sectPolygons.arraySize;
+    in >> sectOrder.arrayOffset >> sectOrder.arrayModulo >> sectOrder.arraySize;
+
+    return true;
+}
