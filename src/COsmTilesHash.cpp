@@ -71,6 +71,7 @@ class COsmTilesHashCacheCleanup: public QThread
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
+    qDebug() << "cccccccccccc" << tileUrl;
     int index = tileUrl.indexOf('/');
     tileServer = tileUrl.left(index);
 
@@ -165,7 +166,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Filename(url) format is /zoom/x/y.png
     QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
     QString osmFilePath = QString("%1/qlandkarteqt/cache/%2/%3/%4").arg(QDir::tempPath()).arg(tileServer).arg(ttileUrlPart).arg(osmUrlPart);
-    // qDebug() << osmFilePath;
+//     qDebug() << osmFilePath;
     bool needHttpAction = true;
     bool outOfDate = false;
     if (tiles.contains(osmUrlPart)) {

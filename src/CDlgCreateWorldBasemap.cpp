@@ -290,7 +290,7 @@ static QVector<QRgb>  qtColorTable(256);
 CDlgCreateWorldBasemap::CDlgCreateWorldBasemap()
 {
     setupUi(this);
-    tilehash = new COsmTilesHash(0);
+    tilehash = new COsmTilesHash("tile.openstreetmap.org/%1/%2/%3.png");
     connect(tilehash, SIGNAL(newImageReady(QImage, bool)), this, SLOT(slotImageReady(QImage, bool)));
     connect(spinLevel, SIGNAL(valueChanged(int)), this, SLOT(slotChangeLevel(int)));
 
