@@ -42,7 +42,7 @@ CCopyright::CCopyright()
         "Fabrice Crohas<br/>"
         "Marc Feld<br/>"
         "Joerg Wunsch<br/>"
-        "Albrecht Dreß<br/>"
+        "Albrecht Dre&szlig;<br/>"
         "</p>"
         "<p>Translation:<br/>"
         "Sarah Neumann (German)<br/>"
