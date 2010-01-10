@@ -527,7 +527,7 @@ void CMapDB::select(const QRect& rect)
 {
     QString mapkey = theMap->getKey();
     if(mapkey.isEmpty()) {
-        QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps."), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::information(0,tr("Sorry..."), tr("You can't select subareas from single file maps. Create a collection with F1->F6."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
