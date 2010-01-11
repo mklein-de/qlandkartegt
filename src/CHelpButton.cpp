@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-basic-offset:4; -*- */
 /**********************************************************************************************
-    Copyright (C) 2010 Albrecht Dreß <albrecht.dress@arcor.de>
+    Copyright (C) 2010 Albrecht Dreï¿½ <albrecht.dress@arcor.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ CHelpDialog::CHelpDialog(QWidget * parent)
 {
     setupUi(this);
     helpIcn->setPixmap(QPixmap(":/icons/iconHelp48x48"));
+    
+    setWindowFlags(windowFlags()|Qt::WindowStaysOnTopHint);
 }
 
 
