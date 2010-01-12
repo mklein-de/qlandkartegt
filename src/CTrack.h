@@ -208,6 +208,7 @@ class CTrack : public QObject
         void genKey();
 
         static QDir path;
+	static quint32 keycnt;
 
         /// unique key to address tarck
         QString _key_;

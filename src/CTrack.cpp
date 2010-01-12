@@ -29,6 +29,7 @@
 #endif
 
 QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
+quint32 CTrack::keycnt = 0;
 
 struct trk_head_entry_t
 {
@@ -459,7 +460,7 @@ void CTrack::setColor(unsigned i)
 
 void CTrack::genKey()
 {
-    _key_ = QString("%1%2").arg(timestamp).arg(name);
+    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
 }
 
 

@@ -28,6 +28,7 @@
 #endif
 
 QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
+quint32 CWpt::keycnt = 0;
 
 struct wpt_head_entry_t
 {
@@ -264,7 +265,7 @@ CWpt::~CWpt()
 
 void CWpt::genKey()
 {
-    _key_ = QString("%1%2").arg(timestamp).arg(name);
+    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
 }
 
 

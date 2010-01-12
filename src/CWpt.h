@@ -96,6 +96,7 @@ class CWpt : public QObject
         friend class CDlgEditWpt;
         friend class CDlgWptEdit;
         static QDir path;
+	static quint32 keycnt;
         QString _key_;
 
     public:

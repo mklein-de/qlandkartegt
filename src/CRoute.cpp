@@ -23,6 +23,8 @@
 
 #include <QtGui>
 
+quint32 CRoute::keycnt = 0;
+
 struct rte_head_entry_t
 {
     rte_head_entry_t() : type(CRoute::eEnd), offset(0) {}
@@ -225,7 +227,7 @@ CRoute::~CRoute()
 
 void CRoute::genKey()
 {
-    _key_ = QString("%1%2").arg(timestamp).arg(name);
+    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
 }
 
 
