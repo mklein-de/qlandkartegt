@@ -1837,13 +1837,14 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
     // do old types 1st
     for(n = 0; n < N; ++n) {
-        type = polygonDrawOrder[0x7F - n];
+        type = polygonDrawOrder[(N-1) - n];
 
         p.setPen(polygonProperties[type].pen);
         p.setBrush(polygonProperties[type].brush);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
+            /// @todo do extended types in this loop once new typ file parsing works
             // collect extended types, wise to do it like that?
             if(item->type & 0x10000) {
                 extendedTypes << item->type;
@@ -2308,7 +2309,7 @@ void CMapTDB::readColorTableInv(QDataStream &in, QImage &img, int colors, int ma
     }
 }
 
-
+#define DBG
 void CMapTDB::readTYP()
 {
     int i;
@@ -2321,9 +2322,17 @@ void CMapTDB::readTYP()
 
     if(typfiles.isEmpty()) return;
 
-    typfile = path.absoluteFilePath(typfiles[0]);
+#ifdef DBG
+    QString f;
+    foreach(f, typfiles){
 
+    typfile = path.absoluteFilePath(f);
+    QFile file(path.absoluteFilePath(f));
+#else
+    typfile = path.absoluteFilePath(typfiles[0]);
     QFile file(path.absoluteFilePath(typfiles[0]));
+#endif
+    qDebug() << file.fileName();
     file.open(QIODevice::ReadOnly);
 
     QDataStream in(&file);
@@ -2335,7 +2344,7 @@ void CMapTDB::readTYP()
 
 #ifdef NEW_TYP_PARSER
 
-    qDebug() << "xxxxxxxxxxxxx" << hex << descriptor;
+    qDebug() << "descriptor" << hex << descriptor;
     switch(descriptor)
     {
         case 0x5B:
@@ -2412,6 +2421,10 @@ void CMapTDB::readTYP()
 
 #endif //NEW_TYP_PARSER
     file.close();
+
+#ifdef DBG
+    }
+#endif
 }
 
 
@@ -2444,12 +2457,6 @@ void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
             }
         }
     }
-
-    //     for(unsigned i = 0; i < 0x80; ++i){
-    //         if(i && i%16 == 0) printf(" \n");
-    //         printf("%02X ", polygonDrawOrder[i]);
-    //     }
-    //     printf(" \n");
 }
 
 

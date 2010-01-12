@@ -81,10 +81,11 @@ class IGarminTyp : public QObject
             @param points reference to point properties map
 
         */
-        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint16> drawOrder, QMap<quint32, QImage>& points) = 0;
+        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32> drawOrder, QMap<quint32, QImage>& points) = 0;
 
     protected:
-        bool parseHeader(QDataStream& in);
+        virtual bool parseHeader(QDataStream& in);
+        virtual bool parseDrawOrder(QDataStream& in, QList<quint32> drawOrder);
 
 
         struct typ_section_t

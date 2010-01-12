@@ -272,7 +272,7 @@ class CMapTDB : public IMap
         QVector<QString> polyline_typestr;
         QMap<quint32, IGarminTyp::polyline_property> polylineProperties;
         QMap<quint32, IGarminTyp::polygon_property> polygonProperties;
-        QList<quint16> polygonDrawOrder;
+        QList<quint32> polygonDrawOrder;
         QMap<quint32, QImage> pointProperties;
 
         polytype_t polygons;

@@ -29,7 +29,7 @@ class CGarminTyp : public IGarminTyp
         CGarminTyp(QObject * parent);
         virtual ~CGarminTyp();
 
-        bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint16> drawOrder, QMap<quint32, QImage>& points);
+        bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32> drawOrder, QMap<quint32, QImage>& points);
 };
 
 #endif //CGARMINTYP_H
