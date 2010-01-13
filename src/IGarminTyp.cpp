@@ -94,16 +94,18 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
 
     in.device()->seek(sectOrder.arrayOffset);
 
-    quint16 typ, subtyp;
-    quint8 a2;
+    int i;
+    quint8  typ;
+    quint32 subtyp;
+
     int count=1;
 
     for (unsigned  i = 0; i < (sectOrder.arraySize / 5); i++) {
-        in >> typ >> a2 >> subtyp;
+        in >> typ >>  subtyp;
         if (typ == 0) {
             count++;
         }
-        else if(typ < 0x80) {
+        else if(subtyp == 0) {
 #ifdef DBG
             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
 #endif
@@ -113,9 +115,18 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
             }
         }
         else{
-            quint32 exttyp = (typ << 8)|subtyp;
-            qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp,0,16).arg(count);
-            drawOrder.push_front(exttyp);
+            quint32 exttyp = 0x010000 | (typ << 8);
+            quint32 mask = 0x1;
+
+            for(i=0; i < 0x20; ++i){
+                if(subtyp & mask){
+                    drawOrder.push_front(exttyp|i);
+#ifdef DBG
+                    qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp|i,0,16).arg(count);
+#endif
+                }
+                mask = mask << 1;
+            }
 
         }
     }
