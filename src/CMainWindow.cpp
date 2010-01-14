@@ -203,7 +203,7 @@ CMainWindow::CMainWindow()
     //    fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
 //     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
-//     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
     //    fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));

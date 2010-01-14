@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "IGarminTyp.h"
+#include <QtCore>
 
 #define DBG
 
@@ -49,11 +50,9 @@ bool IGarminTyp::parseHeader(QDataStream& in)
     }
 
     /* reading typ creation date string */
-    quint16 startDate, endDate, year;
-    quint8 month, day, hour, minutes, seconds;
 
     in.device()->seek(0x0c);
-    in >> startDate >> year >> month >> day >> hour >> minutes >> seconds >> endDate;
+    in >> version >> year >> month >> day >> hour >> minutes >> seconds >> codepage;
     month -= 1;                  /* Month are like Microsoft starting 0 ? */
     year += 1900;
 
@@ -72,6 +71,7 @@ bool IGarminTyp::parseHeader(QDataStream& in)
     in >> sectOrder.arrayOffset >> sectOrder.arrayModulo >> sectOrder.arraySize;
 
 #ifdef DBG
+    qDebug() << "Version:" << version << "Codepage:" << codepage;
     qDebug() << "PID" << hex << pid << "FID" << hex << fid;
     qDebug() << "Points     doff/dlen/aoff/amod/asize:" << hex << "\t" << sectPoints.dataOffset << "\t" << sectPoints.dataLength << "\t" << sectPoints.arrayOffset << "\t" << sectPoints.arrayModulo << "\t" << sectPoints.arrayOffset;
     qDebug() << "Polylines  doff/dlen/aoff/amod/asize:" << hex << "\t" << sectPolylines.dataOffset << "\t" << sectPolylines.dataLength << "\t" << sectPolylines.arrayOffset << "\t" << sectPolylines.arrayModulo << "\t" << sectPolylines.arrayOffset;
@@ -88,8 +88,8 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
         return false;
     }
 
-    if(!sectOrder.arrayModulo || ((sectOrder.arraySize % sectOrder.arrayModulo) != 0)) {
-        return false;
+    if((sectOrder.arraySize % sectOrder.arrayModulo) != 0) {
+        return true;
     }
 
     in.device()->seek(sectOrder.arrayOffset);
@@ -100,7 +100,8 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
 
     int count=1;
 
-    for (unsigned  i = 0; i < (sectOrder.arraySize / 5); i++) {
+    const int N = sectOrder.arraySize / sectOrder.arrayModulo;
+    for (unsigned  i = 0; i < N; i++) {
         in >> typ >>  subtyp;
         if (typ == 0) {
             count++;
@@ -132,7 +133,7 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
     }
 
 #ifdef DBG
-for(unsigned i = 0; i < drawOrder.size(); ++i){
+    for(unsigned i = 0; i < drawOrder.size(); ++i){
         if(i && i%16 == 0) printf(" \n");
         printf("%02X ", drawOrder[i]);
     }
@@ -141,3 +142,21 @@ for(unsigned i = 0; i < drawOrder.size(); ++i){
 
    return true;
 }
+
+
+bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons)
+{
+    if(!sectPolygons.arrayModulo || ((sectPolygons.arraySize % sectPolygons.arrayModulo) != 0)) {
+        return true;
+    }
+
+    const int N = sectPolygons.arraySize / sectPolygons.arrayModulo;
+    for (int element = 0; element < N; element++) {
+
+        in.device()->seek( sectPolygons.arrayOffset + (sectPolygons.arrayModulo * element ) );
+
+
+
+    }
+}
+

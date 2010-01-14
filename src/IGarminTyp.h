@@ -86,6 +86,7 @@ class IGarminTyp : public QObject
     protected:
         virtual bool parseHeader(QDataStream& in);
         virtual bool parseDrawOrder(QDataStream& in, QList<quint32> drawOrder);
+        virtual bool parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons);
 
 
         struct typ_section_t
@@ -98,8 +99,8 @@ class IGarminTyp : public QObject
             quint32  arraySize;
         } ;
 
-        quint16 startDate;
-        quint16 endDate;
+        quint16 version;
+        quint16 codepage;
         quint16 year;
         quint8  month;
         quint8  day;
