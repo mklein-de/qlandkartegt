@@ -20,10 +20,13 @@
 #include "IGarminTyp.h"
 #include <QtCore>
 
+#include <stdio.h>
+
 #define DBG
 
-IGarminTyp::IGarminTyp(QObject * parent)
+IGarminTyp::IGarminTyp(format_e format, QObject * parent)
 : QObject(parent)
+, format(format)
 {
 
 }
@@ -32,6 +35,36 @@ IGarminTyp::~IGarminTyp()
 {
 
 }
+
+void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
+{
+    int x = 0,j = 0;
+    quint8 color;
+    for (int y = 0; y < h; y++) {
+        while ( x < w ) {
+            in >> color;
+
+            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
+                int value;
+                if ( i > 0 ) {
+                    value = (color >>= bpp);
+                }
+                else {
+                    value = color;
+                }
+                if ( bpp == 4) value = value & 0xf;
+                if ( bpp == 2) value = value & 0x3;
+                if ( bpp == 1) value = value & 0x1;
+                img.setPixel(x,y,value);
+                //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
+                x += 1;
+            }
+            j += 1;
+        }
+        x = 0;
+    }
+}
+
 
 bool IGarminTyp::parseHeader(QDataStream& in)
 {
@@ -94,15 +127,17 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
 
     in.device()->seek(sectOrder.arrayOffset);
 
-    int i;
+    int i,n;
     quint8  typ;
     quint32 subtyp;
 
     int count=1;
 
     const int N = sectOrder.arraySize / sectOrder.arrayModulo;
+
     for (unsigned  i = 0; i < N; i++) {
         in >> typ >>  subtyp;
+//         qDebug() << hex << typ << subtyp;
         if (typ == 0) {
             count++;
         }
@@ -115,19 +150,27 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
                 drawOrder.move(idx,0);
             }
         }
-        else{
+        else if(format == eNT){
             quint32 exttyp = 0x010000 | (typ << 8);
             quint32 mask = 0x1;
 
-            for(i=0; i < 0x20; ++i){
+            for(n=0; n < 0x20; ++n){
                 if(subtyp & mask){
-                    drawOrder.push_front(exttyp|i);
+                    drawOrder.push_front(exttyp|n);
 #ifdef DBG
-                    qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp|i,0,16).arg(count);
+                    qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp|n,0,16).arg(count);
 #endif
                 }
                 mask = mask << 1;
             }
+
+        }
+        else if(format == eNorm){
+            quint32 exttyp = 0x010000 | (typ << 8) | (subtyp >> 16);
+            drawOrder.push_front(exttyp);
+#ifdef DBG
+            qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp,0,16).arg(count);
+#endif
 
         }
     }
@@ -135,7 +178,7 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
 #ifdef DBG
     for(unsigned i = 0; i < drawOrder.size(); ++i){
         if(i && i%16 == 0) printf(" \n");
-        printf("%02X ", drawOrder[i]);
+        printf("%06X ", drawOrder[i]);
     }
     printf(" \n");
 #endif
@@ -146,17 +189,258 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
 
 bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons)
 {
+    bool tainted = false;
+
     if(!sectPolygons.arrayModulo || ((sectPolygons.arraySize % sectPolygons.arrayModulo) != 0)) {
         return true;
     }
 
+    QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
+
     const int N = sectPolygons.arraySize / sectPolygons.arrayModulo;
     for (int element = 0; element < N; element++) {
+        quint16 t16_1, t16_2, subtyp;
+        quint8  t8;
+        quint32 typ, offset;
+        bool hasLocalization = false;
+        bool hasExtendedColor = false;
+        quint8 ctyp;
+        QImage xpmDay(32,32, QImage::Format_Indexed8);
+        QImage xpmNight(32,32, QImage::Format_Indexed8);
+        quint8 r,g,b;
+        quint8 langcode;
 
         in.device()->seek( sectPolygons.arrayOffset + (sectPolygons.arrayModulo * element ) );
 
+        if (sectPolygons.arrayModulo == 5) {
+            in >> t16_1 >> t16_2 >> t8;
+            offset = t16_2|(t8<<16);
+        }
+        else if (sectPolygons.arrayModulo == 4) {
+            in >> t16_1 >> t16_2;
+            offset = t16_2;
+        }
+        else if (sectPolygons.arrayModulo == 3) {
+            in >> t16_1 >> t8;
+            offset = t8;
+        }
 
+        t16_2   = (t16_1 >> 5) | (( t16_1 & 0x1f) << 11);
+        typ     = t16_2 & 0x7F;
+        subtyp  = t16_1 & 0x1F;
 
+        if(t16_1 & 0x2000) {
+            typ = 0x10000|(typ << 8)|subtyp;
+        }
+#ifdef DBG
+        qDebug() << "Polygon typ:" << hex << typ <<  "offset:" << offset << "orig data:" << t16_1;
+#endif
+
+        in.device()->seek(sectPolygons.dataOffset + offset);
+        in >> t8;
+        hasLocalization     = t8 & 0x10;
+        hasExtendedColor    = t8 & 0x20;
+        ctyp                = t8 & 0x0F;
+
+        switch(ctyp){
+            case 0x06:
+            {
+                // day & night single color
+                in >> b >> g >> r;
+                polygons[typ].brushDay      = QBrush(qRgb(r,g,b));
+                polygons[typ].brushNight    = QBrush(qRgb(r,g,b));
+                polygons[typ].pen           = Qt::NoPen;
+                polygons[typ].known         = true;
+
+                break;
+            }
+            case 0x07:
+            {
+                // day single color & night single color
+                in >> b >> g >> r;
+                polygons[typ].brushDay      = QBrush(qRgb(r,g,b));
+                in >> b >> g >> r;
+                polygons[typ].brushNight    = QBrush(qRgb(r,g,b));
+                polygons[typ].pen           = Qt::NoPen;
+                polygons[typ].known         = true;
+
+                break;
+            }
+            case 0x08:
+            {
+                // day & night two color
+                xpmDay.setNumColors(2);
+
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmDay.setColor(0, qRgb(r,g,b) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmDay);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+                break;
+            }
+
+            case 0x09:
+            {
+                //day two color & night two color
+                xpmDay.setNumColors(2);
+                xpmNight.setNumColors(2);
+
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmDay.setColor(0, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmNight.setColor(1, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmNight.setColor(0, qRgb(r,g,b) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+                decodeBitmap(in, xpmNight, 32, 32, 1);
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmNight);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+
+                break;
+            }
+//         0x0b    => {numcolors=>3,    daycolors=>[0],        nightcolors=>[1,2],    bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0B~~'},    # pruhledna ve dne
+            case 0x0B:
+            {
+                // day one color, transparent & night two color
+                xpmDay.setNumColors(2);
+                xpmNight.setNumColors(2);
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                xpmDay.setColor(0, qRgba(255,255,255,0) );
+
+                in >> b >> g >> r;
+                xpmNight.setColor(1, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmNight.setColor(0, qRgb(r,g,b) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+                decodeBitmap(in, xpmNight, 32, 32, 1);
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmNight);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+
+                break;
+            }
+
+            case 0x0D:
+            {
+                // day two color & night one color, transparent
+                xpmDay.setNumColors(2);
+                xpmNight.setNumColors(2);
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                in >> b >> g >> r;
+                xpmDay.setColor(0, qRgb(r,g,b) );
+
+                in >> b >> g >> r;
+                xpmNight.setColor(1, qRgb(r,g,b) );
+                xpmNight.setColor(0, qRgba(255,255,255,0) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+                decodeBitmap(in, xpmNight, 32, 32, 1);
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmNight);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+
+                break;
+            }
+//         0x0e    => {numcolors=>1,    commoncolors=>[0],                        bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0E~~'},    # pruhledna
+            case 0x0E:
+            {
+                // day & night one color, transparent
+                xpmDay.setNumColors(2);
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                xpmDay.setColor(0, qRgba(255,255,255,0) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmDay);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+
+                break;
+            }
+//         0x0f    => {numcolors=>2,    daycolors=>[0],        nightcolors=>[1],    bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0F~~'},    # FIXME ???
+            case 0x0F:
+            {
+                // day one color, transparent & night one color, transparent
+                xpmDay.setNumColors(2);
+                xpmNight.setNumColors(2);
+                in >> b >> g >> r;
+                xpmDay.setColor(1, qRgb(r,g,b) );
+                xpmDay.setColor(0, qRgba(255,255,255,0) );
+
+                in >> b >> g >> r;
+                xpmNight.setColor(1, qRgb(r,g,b) );
+                xpmNight.setColor(0, qRgba(255,255,255,0) );
+
+                decodeBitmap(in, xpmDay, 32, 32, 1);
+                decodeBitmap(in, xpmNight, 32, 32, 1);
+                polygons[typ].brushDay.setTextureImage(xpmDay);
+                polygons[typ].brushNight.setTextureImage(xpmNight);
+                polygons[typ].pen      = Qt::NoPen;
+                polygons[typ].known    = true;
+
+                break;
+            }
+
+            default:
+                if(!tainted) {
+                    QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                    tainted = true;
+                }
+                qDebug() << "Failed polygon:" << typ << subtyp << hex << typ << subtyp << ctyp;
+        }
+
+//         if(hasLocalization){
+//             quint16 len;
+//             quint8 n = 1;
+//
+//             in >> t8;
+//             len = t8;
+//
+//             if(!(t8 & 0x01)){
+//                 n = 2;
+//                 in >> t8;
+//                 len |= t8 << 8;
+//             }
+//
+//             len -= n;
+//             while(len > 0){
+//                 QByteArray str;
+//                 in >> langcode;
+//                 len -= 2*n;
+//                 while(len > 0){
+//
+//                     in >> t8;
+//                     len -= 2*n;
+//
+//                     if(t8 == 0) break;
+//
+//                     str += t8;
+//
+//                 }
+//                 polygons[typ].strings[langcode] = codec->toUnicode(str);
+//             }
+//         }
     }
+
+    return true;
 }
+
+
 

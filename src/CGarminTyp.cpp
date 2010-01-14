@@ -20,7 +20,7 @@
 #include "CGarminTyp.h"
 
 CGarminTyp::CGarminTyp(QObject * parent)
-: IGarminTyp(parent)
+: IGarminTyp(eNorm, parent)
 {
 
 }
@@ -34,6 +34,11 @@ bool CGarminTyp::decode(QDataStream& in, QMap<quint32, polygon_property>& polygo
 {
 
     if(!parseHeader(in))
+    {
+        return false;
+    }
+
+    if(!parsePolygon(in, polygons))
     {
         return false;
     }

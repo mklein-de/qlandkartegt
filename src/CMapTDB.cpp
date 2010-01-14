@@ -1840,7 +1840,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         type = polygonDrawOrder[(N-1) - n];
 
         p.setPen(polygonProperties[type].pen);
-        p.setBrush(polygonProperties[type].brush);
+        p.setBrush(polygonProperties[type].brushDay);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
@@ -1874,7 +1874,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     // do extended types
     foreach(type, extendedTypes) {
         p.setPen(polygonProperties[type].pen);
-        p.setBrush(polygonProperties[type].brush);
+        p.setBrush(polygonProperties[type].brushDay);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
@@ -1894,7 +1894,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                 p.save();
                 IGarminTyp::polygon_property& property = polygonProperties[item->type];
                 p.setPen(property.pen);
-                p.setBrush(property.brush);
+                p.setBrush(property.brushDay);
                 p.drawPolygon(line);
                 p.restore();
                 if(!property.known) qDebug() << "unknown polygon" << hex << item->type;
@@ -2508,13 +2508,13 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
 
         if ( colorType == 6 ) {
             in >> b >> g >> r;
-            polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
+            polygonProperties[typ].brushDay    = QBrush(qRgb(r,g,b));
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
         else if ( colorType == 7 ) {
             in >> b >> g >> r;
-            polygonProperties[typ].brush    = QBrush(qRgb(r,g,b));
+            polygonProperties[typ].brushDay    = QBrush(qRgb(r,g,b));
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
             in >> b >> g >> r;
@@ -2529,7 +2529,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             myXpm.setColor(0, qRgb(r,g,b) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].brushDay.setTextureImage(myXpm);
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
@@ -2543,7 +2543,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             myXpm.setColor(0, qRgba(255,255,255,0) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].brushDay.setTextureImage(myXpm);
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
@@ -2558,7 +2558,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             in >> b >> g >> r;   // night foreground
 
             decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].brushDay.setTextureImage(myXpm);
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
@@ -2576,7 +2576,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             //             myXpm.setColor(1, qRgb(r,g,b) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].brushDay.setTextureImage(myXpm);
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }
@@ -2587,7 +2587,7 @@ void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
             myXpm.setColor(0, qRgba(0,0,0,0) );
 
             decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brush.setTextureImage(myXpm);
+            polygonProperties[typ].brushDay.setTextureImage(myXpm);
             polygonProperties[typ].pen      = Qt::NoPen;
             polygonProperties[typ].known    = true;
         }

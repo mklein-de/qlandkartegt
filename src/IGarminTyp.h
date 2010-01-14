@@ -26,7 +26,9 @@ class IGarminTyp : public QObject
 {
     Q_OBJECT;
     public:
-        IGarminTyp(QObject * parent);
+        enum format_e {eNorm, eNT};
+
+        IGarminTyp(format_e format, QObject * parent);
         virtual ~IGarminTyp();
 
         struct polyline_property
@@ -48,24 +50,28 @@ class IGarminTyp : public QObject
 
         struct polygon_property
         {
-            polygon_property() : type(0), pen(Qt::magenta), brush(Qt::magenta, Qt::BDiagPattern), known(false){}
+            polygon_property() : type(0), pen(Qt::magenta), brushDay(Qt::magenta, Qt::BDiagPattern), brushNight(Qt::magenta, Qt::BDiagPattern), known(false){}
             polygon_property(quint16 type, const Qt::PenStyle pensty, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(pensty)
-                , brush(brushColor, pattern)
+                , brushDay(brushColor, pattern)
+                , brushNight(brushColor, pattern)
                 , known(true)
                 {pen.setWidth(1);}
             polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(penColor,1)
-                , brush(brushColor, pattern)
+                , brushDay(brushColor, pattern)
+                , brushNight(brushColor, pattern)
                 , known(true)
                 {}
             quint16 type;
             QPen    pen;
-            QBrush  brush;
+            QBrush  brushDay;
+            QBrush  brushNight;
             QFont   font;
             bool    known;
+            QMap<int,QString> strings;
         };
 
         /// decode typ file
@@ -88,6 +94,9 @@ class IGarminTyp : public QObject
         virtual bool parseDrawOrder(QDataStream& in, QList<quint32> drawOrder);
         virtual bool parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons);
 
+        void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);
+
+        format_e format;
 
         struct typ_section_t
         {
@@ -115,6 +124,7 @@ class IGarminTyp : public QObject
         typ_section_t sectPolylines;
         typ_section_t sectPolygons;
         typ_section_t sectOrder;
+
 
 
 };

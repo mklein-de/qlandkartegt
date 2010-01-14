@@ -19,7 +19,7 @@
 #include "CGarminTypNT.h"
 
 CGarminTypNT::CGarminTypNT(QObject * parent)
-: IGarminTyp(parent)
+: IGarminTyp(eNT, parent)
 {
 
 }
@@ -42,10 +42,16 @@ bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& poly
 
     qDebug() << "NT         doff/dlen/aoff/amod/asize:" << hex << "\t" << sectNT.dataOffset << "\t" << sectNT.dataLength << "\t" << sectNT.arrayOffset << "\t" << sectNT.arrayModulo << "\t" << sectNT.arrayOffset;
 
+    if(!parsePolygon(in, polygons))
+    {
+        return false;
+    }
+
     if(!parseDrawOrder(in, drawOrder))
     {
         return false;
     }
+
 
 
     return true;
