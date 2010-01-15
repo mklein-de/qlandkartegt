@@ -2161,10 +2161,17 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 }
             }
 
-            if(c && !line->labels.isEmpty()) {
-                dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+            if(c){
+                if(line->labels.isEmpty()){
+                    QStringList strlist = polygonProperties[line->type].strings.values();
+                    if(strlist.size()){
+                        dict.insert(tr("Area"), strlist.first().simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+                    }
+                }
+                else{
+                    dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+                }
             }
-
             //             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
 
         }

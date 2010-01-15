@@ -308,7 +308,6 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 break;
             }
-//         0x0b    => {numcolors=>3,    daycolors=>[0],        nightcolors=>[1,2],    bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0B~~'},    # pruhledna ve dne
             case 0x0B:
             {
                 // day one color, transparent & night two color
@@ -356,7 +355,6 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 break;
             }
-//         0x0e    => {numcolors=>1,    commoncolors=>[0],                        bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0E~~'},    # pruhledna
             case 0x0E:
             {
                 // day & night one color, transparent
@@ -374,7 +372,6 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 break;
             }
-//         0x0f    => {numcolors=>2,    daycolors=>[0],        nightcolors=>[1],    bitmap=>1, name=>'~HTML~POLYGON_COLORTYPE_0F~~'},    # FIXME ???
             case 0x0F:
             {
                 // day one color, transparent & night one color, transparent
@@ -406,37 +403,40 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 qDebug() << "Failed polygon:" << typ << subtyp << hex << typ << subtyp << ctyp;
         }
 
-//         if(hasLocalization){
-//             quint16 len;
-//             quint8 n = 1;
-//
-//             in >> t8;
-//             len = t8;
-//
-//             if(!(t8 & 0x01)){
-//                 n = 2;
-//                 in >> t8;
-//                 len |= t8 << 8;
-//             }
-//
-//             len -= n;
-//             while(len > 0){
-//                 QByteArray str;
-//                 in >> langcode;
-//                 len -= 2*n;
-//                 while(len > 0){
-//
-//                     in >> t8;
-//                     len -= 2*n;
-//
-//                     if(t8 == 0) break;
-//
-//                     str += t8;
-//
-//                 }
-//                 polygons[typ].strings[langcode] = codec->toUnicode(str);
-//             }
-//         }
+        if(hasLocalization){
+            qint16 len;
+            quint8 n = 1;
+
+            in >> t8;
+            len = t8;
+
+            if(!(t8 & 0x01)){
+                n = 2;
+                in >> t8;
+                len |= t8 << 8;
+            }
+
+            len -= n;
+            while(len > 0){
+                QByteArray str;
+                in >> langcode;
+                len -= 2*n;
+                while(len > 0){
+
+                    in >> t8;
+                    len -= 2*n;
+
+                    if(t8 == 0) break;
+
+                    str += t8;
+
+                }
+                polygons[typ].strings[langcode] = codec->toUnicode(str);
+#ifdef DBG
+                qDebug() << len << langcode << polygons[typ].strings[langcode];
+#endif
+            }
+        }
     }
 
     return true;
