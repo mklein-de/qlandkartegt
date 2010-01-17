@@ -235,6 +235,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , textAboveLine(true)
 , poiLabels(true)
 , checkPoiLabels(0)
+, nightView(false)
+, checkNightView(0)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -260,6 +262,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
+    nightView       = cfg.value("nightView",nightView).toBool();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -294,6 +297,12 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     checkPoiLabels->setChecked(poiLabels);
     connect(checkPoiLabels, SIGNAL(toggled(bool)), this, SLOT(slotPoiLabels(bool)));
 
+    checkNightView = new QCheckBox(theMainWindow->getCanvas());
+    checkNightView->setText(tr("Night"));
+    theMainWindow->statusBar()->insertPermanentWidget(0,checkNightView);
+    checkNightView->setChecked(nightView);
+    connect(checkNightView, SIGNAL(toggled(bool)), this, SLOT(slotNightView(bool)));
+
 
     qDebug() << "CMapTDB::CMapTDB()";
 }
@@ -321,6 +330,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , textAboveLine(true)
 , poiLabels(true)
 , checkPoiLabels(0)
+, nightView(false)
+, checkNightView(0)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -372,6 +383,7 @@ CMapTDB::~CMapTDB()
     cfg.setValue("textAboveLine",textAboveLine);
     cfg.setValue("useTyp",useTyp);
     cfg.setValue("poiLabels",poiLabels);
+    cfg.setValue("nightView",nightView);
 
     cfg.endGroup();
     cfg.endGroup();
@@ -386,12 +398,23 @@ CMapTDB::~CMapTDB()
         delete checkPoiLabels;
     }
 
+    if(checkNightView) {
+        delete checkNightView;
+    }
+
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
 void CMapTDB::slotPoiLabels(bool checked)
 {
     poiLabels   = checked;
+    needsRedraw = true;
+    emit sigChanged();
+}
+
+void CMapTDB::slotNightView(bool checked)
+{
+    nightView   = checked;
     needsRedraw = true;
     emit sigChanged();
 }
@@ -536,16 +559,16 @@ void CMapTDB::setup()
 
     polylineProperties.clear();
     polylineProperties[0x01] = IGarminTyp::polyline_property(0x01, "#c46442",   4, Qt::SolidLine );
-    polylineProperties[0x01].pixmap = majorHighway(Qt::blue);
+//     polylineProperties[0x01].pixmap = majorHighway(Qt::blue);
     polylineProperties[0x02] = IGarminTyp::polyline_property(0x02, "#dc7c5a",   3, Qt::SolidLine );
-    polylineProperties[0x02].pixmap = principalHighway("#cc9900");
+//     polylineProperties[0x02].pixmap = principalHighway("#cc9900");
     polylineProperties[0x03] = IGarminTyp::polyline_property(0x03, "#D86C00",   3, Qt::SolidLine );
-    polylineProperties[0x03].pixmap = otherHighway(Qt::yellow);
+//     polylineProperties[0x03].pixmap = otherHighway(Qt::yellow);
     polylineProperties[0x04] = IGarminTyp::polyline_property(0x04, "#ffff99",   3, Qt::SolidLine );
-    polylineProperties[0x04].pixmap = arterialRoad("#ffff00");
+//     polylineProperties[0x04].pixmap = arterialRoad("#ffff00");
     polylineProperties[0x05] = IGarminTyp::polyline_property(0x05, "#dc7c5a",   2, Qt::SolidLine );
     polylineProperties[0x06] = IGarminTyp::polyline_property(0x06, "#000000",   2, Qt::SolidLine );
-    polylineProperties[0x06].pixmap = residentialStreet(Qt::white);
+//     polylineProperties[0x06].pixmap = residentialStreet(Qt::white);
     polylineProperties[0x07] = IGarminTyp::polyline_property(0x07, "#c46442",   1, Qt::SolidLine );
     polylineProperties[0x08] = IGarminTyp::polyline_property(0x08, "#e88866",   2, Qt::SolidLine );
     polylineProperties[0x09] = IGarminTyp::polyline_property(0x09, "#e88866",   2, Qt::SolidLine );
@@ -553,7 +576,7 @@ void CMapTDB::setup()
     polylineProperties[0x0B] = IGarminTyp::polyline_property(0x0B, "#c46442",   2, Qt::SolidLine );
     polylineProperties[0x0C] = IGarminTyp::polyline_property(0x0C, "#FFFFFF",   2, Qt::SolidLine );
     polylineProperties[0x14] = IGarminTyp::polyline_property(0x14, "#FFFFFF",   2, Qt::DotLine   );
-    polylineProperties[0x14].pixmap = QImage(":/typ/railroad.xpm");
+//     polylineProperties[0x14].pixmap = QImage(":/typ/railroad.xpm");
     polylineProperties[0x15] = IGarminTyp::polyline_property(0x15, "#000080",   2, Qt::SolidLine );
     polylineProperties[0x16] = IGarminTyp::polyline_property(0x16, "#E0E0E0",   1, Qt::SolidLine );
     polylineProperties[0x18] = IGarminTyp::polyline_property(0x18, "#0000ff",   2, Qt::SolidLine );
@@ -1517,7 +1540,209 @@ void CMapTDB::draw()
     p.setRenderHint(QPainter::Antialiasing,false);
 }
 
+#ifdef NEW_TYP_PARSER
+#define STREETNAME_THRESHOLD 5.0
 
+void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font)
+{
+    QPolygonF line;
+    double * u          = l.u.data();
+    double * v          = l.v.data();
+    const int size      = l.u.size();
+    const int lineWidth = p.pen().width();
+
+    if(size < 2){
+        return;
+    }
+
+    convertRad2Pt(u,v,size);
+
+    line.clear();
+    line.resize(size);
+
+    for(int i = 0; i < size; ++i) {
+        line[i].setX(*u++);
+        line[i].setY(*v++);
+    }
+
+    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
+        collectText(l, line, font, metrics, lineWidth);
+    }
+
+    p.drawPolyline(line);
+}
+
+void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
+{
+    QPolygonF line;
+    double * u          = l.u.data();
+    double * v          = l.v.data();
+    const int size      = l.u.size();
+
+    if(size < 2){
+        return;
+    }
+
+    line.clear();
+    line.resize(size);
+
+    for(int i = 0; i < size; ++i) {
+        line[i].setX(*u++);
+        line[i].setY(*v++);
+    }
+
+    p.drawPolyline(line);
+}
+
+void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
+{
+    textpaths.clear();
+    QFont font = CResources::self().getMapFont();
+
+    int fontsize = 6 + 3.0/zoomFactor;
+    font.setPixelSize(fontsize);
+    font.setBold(false);
+    QFontMetricsF metrics(font);
+
+    QList<quint32>keys = polylineProperties.keys();
+    qSort(keys);
+    quint32 type;
+
+    foreach(type, keys) {
+        IGarminTyp::polyline_property& property = polylineProperties[type];
+
+        if(property.hasPixmap){
+            QImage pixmap = nightView ? property.imgNight : property.imgDay;
+            const double w          = pixmap.width();
+            const double h          = pixmap.height();
+
+            polytype_t::iterator item = lines.begin();
+            while(item != lines.end()) {
+                if(item->type == type) {
+                    QPolygonF line;
+
+                    double * u      = item->u.data();
+                    double * v      = item->v.data();
+                    const int size  = item->u.size();
+
+                    if(size < 2){
+                        ++item;
+                        continue;
+                    }
+
+                    convertRad2Pt(u,v,size);
+
+                    line.clear();
+                    line.resize(size);
+
+                    QVector<double> lengths;
+                    double u1, u2, v1, v2;
+                    QPainterPath path;
+                    double segLength, totalLength = 0;
+                    int i;
+
+                    u1 = u[0];
+                    v1 = v[0];
+                    line[0].setX(u1);
+                    line[0].setY(v1);
+
+                    for(i = 1; i < size; ++i) {
+                        u2 = u[i];
+                        v2 = v[i];
+
+                        line[i].setX(u2);
+                        line[i].setY(v2);
+
+                        segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
+                        totalLength += segLength;
+                        lengths << segLength;
+
+                        u1 = u2;
+                        v1 = v2;
+                    }
+
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
+                        collectText((*item), line, font, metrics, h);
+                    }
+
+
+                    path.addPolygon(line);
+                    const int nLength = lengths.count();
+
+                    double curLength = 0;
+                    for(int i = 0; i < nLength; ++i) {
+                        segLength = lengths[i];
+
+                        //                         qDebug() << curLength << totalLength << curLength / totalLength;
+
+                        QPointF p1      = path.pointAtPercent(curLength / totalLength);
+                        QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
+                        double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
+
+                        double l = 0;
+                        QRectF r = pixmap.rect();
+
+                        if(p2.x() - p1.x() < 0) {
+                            angle += 180;
+                        }
+
+                        p.save();
+                        p.translate(p1);
+                        p.rotate(angle);
+                        p.translate(0,-h/2);
+
+                        while(l < segLength) {
+                            if((segLength - l) < w) {
+                                r.setRight(segLength - l);
+                                p.setClipRect(r, Qt::ReplaceClip);
+                            }
+                            p.drawImage(0,0,pixmap);
+                            p.translate(w,0);
+                            l += w;
+                        }
+                        p.restore();
+                        curLength += segLength;
+                    }
+                }
+                ++item;
+            }
+        }
+        else{
+            if(property.hasBorder){
+                // draw background line 1st
+                p.setPen(nightView ? property.penBorderNight : property.penBorderDay);
+                polytype_t::iterator item = lines.begin();
+                while(item != lines.end()) {
+                    if(item->type == type) {
+                        drawLine(p, *item, property, metrics, font);
+                    }
+                    ++item;
+                }
+                // draw foreground line 2nd
+                p.setPen(nightView ? property.penLineNight : property.penLineDay);
+                item = lines.begin();
+                while(item != lines.end()) {
+                    if(item->type == type) {
+                        drawLine(p, *item);
+                    }
+                    ++item;
+                }
+            }
+            else{
+                p.setPen(nightView ? property.penLineNight : property.penLineDay);
+                polytype_t::iterator item = lines.begin();
+                while(item != lines.end()) {
+                    if(item->type == type) {
+                        drawLine(p, *item, property, metrics, font);
+                    }
+                    ++item;
+                }
+            }
+        }
+
+    }
+}
+#else
 static quint16 polylineDrawOrder[]  =
 {
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -1550,16 +1775,16 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
 
-        QPen pen = property.pen0;
+        QPen pen = property.penLineDay;
         p.setPen(pen);
 
-        QImage& pixmap          = property.pixmap;
+        QImage& pixmap          = property.imgDay;
         const bool usePixmap    = !pixmap.isNull();
         const double w          = pixmap.width();
         const double h          = pixmap.height();
         qint32 lineWidth        = p.pen().width();
-        if(!property.pixmap.isNull()) {
-            lineWidth = property.pixmap.height();
+        if(!property.imgDay.isNull()) {
+            lineWidth = property.imgDay.height();
         }
 
         polytype_t::iterator item = lines.begin();
@@ -1674,7 +1899,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     }
 
 }
-
+#endif
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
 {
@@ -1836,7 +2061,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         type = polygonDrawOrder[(N-1) - n];
 
         p.setPen(polygonProperties[type].pen);
-        p.setBrush(polygonProperties[type].brushDay);
+        p.setBrush(nightView ? polygonProperties[type].brushNight : polygonProperties[type].brushDay);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
@@ -1880,7 +2105,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         type = polygonDrawOrder[(N-1) - n];
 
         p.setPen(polygonProperties[type].pen);
-        p.setBrush(polygonProperties[type].brushDay);
+        p.setBrush( nightView ? polygonProperties[type].brushNight : polygonProperties[type].brushDay);
 
         polytype_t::iterator item = lines.begin();
         while (item != lines.end()) {
@@ -2742,32 +2967,32 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
             decodeBitmap(in, myXpmDay, 32, rows, 1);
             hasPixmap = true;
 
-            property.pixmap = myXpmDay;
+            property.imgDay = myXpmDay;
             //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
 
         }
         else {
             if(typ == 0x06){
-                property.pixmap = residentialStreet(myXpmDay.color(1));
+                property.imgDay = residentialStreet(myXpmDay.color(1));
             }
             else if(typ == 0x01)
             {
-                property.pixmap = majorHighway(myXpmDay.color(1));
+                property.imgDay = majorHighway(myXpmDay.color(1));
             }
             else if(typ == 0x02)
             {
-                property.pixmap = principalHighway(myXpmDay.color(1));
+                property.imgDay = principalHighway(myXpmDay.color(1));
             }
             else if(typ == 0x03)
             {
-                property.pixmap = otherHighway(myXpmDay.color(1));
+                property.imgDay = otherHighway(myXpmDay.color(1));
             }
             else if(typ == 0x04)
             {
-                property.pixmap = arterialRoad(myXpmDay.color(1));
+                property.imgDay = arterialRoad(myXpmDay.color(1));
             }
             else{
-                property.pen0.setColor(myXpmDay.color(1));
+                property.penLineDay.setColor(myXpmDay.color(1));
             }
         }
 

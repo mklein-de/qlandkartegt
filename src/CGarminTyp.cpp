@@ -48,6 +48,10 @@ bool CGarminTyp::decode(QDataStream& in, QMap<quint32, polygon_property>& polygo
         return false;
     }
 
+    if(!parsePolyline(in, polylines))
+    {
+        return false;
+    }
 
     return true;
 }

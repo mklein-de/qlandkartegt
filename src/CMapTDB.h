@@ -72,10 +72,12 @@ class CMapTDB : public IMap
 
     private slots:
         void slotPoiLabels(bool checked);
+        void slotNightView(bool checked);
 
     private:
         friend class CDlgMapTDBConfig;
         void setup();
+
         struct strlbl_t
         {
             QPoint  pt;
@@ -119,6 +121,8 @@ class CMapTDB : public IMap
         void processTypPolyline(QDataStream& file, const typ_section_t& section);
         void processTypPois(QDataStream& in, const typ_section_t& section);
 
+        void drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font);
+        void drawLine(QPainter& p, CGarminPolygon& l);
 
         QImage majorHighway(const QColor& color);
         QImage residentialStreet(const QColor& color);
@@ -323,6 +327,8 @@ class CMapTDB : public IMap
 
         bool poiLabels;
         QCheckBox * checkPoiLabels;
+        bool nightView;
+        QCheckBox * checkNightView;
 
 };
 #endif                           //CMAPTDB_H

@@ -327,16 +327,11 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgb(r,g,b) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-//                 decodeBitmap(in, xpmNight, 32, 32, 1);
                 memcpy(xpmNight.bits(), xpmDay.bits(), 128);
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmNight);
                 property.pen      = Qt::NoPen;
                 property.known    = true;
-
-                xpmDay.save("xxx.png");
-                xpmNight.save("yyy.png");
-
                 break;
             }
 
@@ -469,5 +464,154 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
     return true;
 }
 
+bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>& polylines)
+{
+    bool tainted = false;
 
+    if(!sectPolylines.arrayModulo || ((sectPolylines.arraySize % sectPolylines.arrayModulo) != 0)) {
+        return true;
+    }
+
+    QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
+
+    const int N = sectPolylines.arraySize / sectPolylines.arrayModulo;
+    for (int element = 0; element < N; element++) {
+        quint16 t16_1, t16_2, subtyp;
+        quint8  t8_1, t8_2;
+        quint32 typ, offset;
+        bool hasLocalization = false;
+        bool hasTextColor = false;
+        bool renderMode = false;
+        quint8 ctyp, rows;
+        quint8 r,g,b;
+        quint8 langcode;
+
+        in.device()->seek( sectPolylines.arrayOffset + (sectPolylines.arrayModulo * element ) );
+
+        if (sectPolylines.arrayModulo == 5) {
+            in >> t16_1 >> t16_2 >> t8_1;
+            offset = t16_2|(t8_1<<16);
+        }
+        else if (sectPolylines.arrayModulo == 4) {
+            in >> t16_1 >> t16_2;
+            offset = t16_2;
+        }
+        else if (sectPolylines.arrayModulo == 3) {
+            in >> t16_1 >> t8_1;
+            offset = t8_1;
+        }
+
+        t16_2   = (t16_1 >> 5) | (( t16_1 & 0x1f) << 11);
+        typ     = t16_2 & 0x7F;
+        subtyp  = t16_1 & 0x1F;
+
+        if(t16_1 & 0x2000) {
+            typ = 0x10000|(typ << 8)|subtyp;
+        }
+
+
+        in.device()->seek(sectPolylines.dataOffset + offset);
+        in >> t8_1 >> t8_2;
+        ctyp = t8_1 & 0x07;
+        rows = t8_1 >> 3;
+
+        hasLocalization = t8_2 & 0x01;
+        renderMode      = t8_2 & 0x02;
+        hasTextColor    = t8_2 & 0x04;
+
+
+#ifdef DBG
+        qDebug() << "Polyline typ:" << hex << typ << "ctyp:" << ctyp << "offset:" << (sectPolylines.dataOffset + offset) << "orig data:" << t16_1;
+#endif
+
+        //         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
+//         QImage xpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
+//         QImage xpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
+
+        polyline_property& property = polylines[typ];
+#ifdef DBG
+        qDebug() << "rows" << rows << "t8_2" << hex << t8_2;
+#endif
+
+        switch(ctyp){
+
+//     0x00    => {numcolors=>2,    commoncolors=>[0,1],                                    name=>'~HTML~LINE_COLORTYPE_00~~'},    #s okrajem
+//     0x01    => {numcolors=>4,    daycolors=>[0,1],    nightcolors=>[2,3],                    name=>'~HTML~LINE_COLORTYPE_01~~'},
+//     0x03    => {numcolors=>3,    daycolors=>[0],        nightcolors=>[1,2],                    name=>'~HTML~LINE_COLORTYPE_03~~'},
+//     0x05    => {numcolors=>3,    daycolors=>[0,1],        nightcolors=>[2],    borderless=>1,  name=>'~HTML~LINE_COLORTYPE_05~~'},
+//     0x06    => {numcolors=>1,    commoncolors=>[0],                        borderless=>1,    name=>'~HTML~LINE_COLORTYPE_06~~'},
+//     0x07    => {numcolors=>2,    daycolors=>[0],        nightcolors=>[1],    borderless=>1,    name=>'~HTML~LINE_COLORTYPE_07~~'},    # borderless je zrejmy, vzhledem k tomu ze je pocet barev 1 pro noc i pro den
+            case 0x00:
+            {
+                if(rows){
+                    QImage xpm(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm.setColor(1, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm.setColor(0, qRgb(r,g,b) );
+                    decodeBitmap(in, xpm, 32, rows, 1);
+                    property.imgDay     = xpm;
+                    property.imgNight   = xpm;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1, w2;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penBorderDay   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderNight = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> w1 >> w2;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.penBorderDay.setWidth(w2);
+                    property.penBorderNight.setWidth(w2);
+                    property.hasBorder  = true;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
+
+                break;
+            }
+            case 0x01:
+            {
+
+                break;
+            }
+            case 0x03:
+            {
+
+                break;
+            }
+            case 0x05:
+            {
+
+                break;
+            }
+            case 0x06:
+            {
+
+                break;
+            }
+            case 0x07:
+            {
+
+                break;
+            }
+
+            default:
+                if(!tainted) {
+                    QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polyline encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+                    tainted = true;
+                }
+
+                qDebug() << "Failed polyline" <<  hex << ":" << typ <<  ctyp << rows ;
+                continue;
+        }
+
+    }
+    return true;
+}
 
