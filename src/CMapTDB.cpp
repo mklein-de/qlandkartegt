@@ -1826,7 +1826,47 @@ void CMapTDB::drawText(QPainter& p)
 
 }
 
+#ifdef NEW_TYP_PARSER
+void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
+{
+    quint32 type;
+    int n;
+    const int N = polygonDrawOrder.size();
+    for(n = 0; n < N; ++n) {
+        type = polygonDrawOrder[(N-1) - n];
 
+        p.setPen(polygonProperties[type].pen);
+        p.setBrush(polygonProperties[type].brushDay);
+
+        polytype_t::iterator item = lines.begin();
+        while (item != lines.end()) {
+
+            if(item->type != type) {
+                ++item;
+                continue;
+            }
+
+            double * u      = item->u.data();
+            double * v      = item->v.data();
+            const int size  = item->u.size();
+
+            convertRad2Pt(u,v,size);
+
+            QPolygonF line(size);
+            for(int i = 0; i < size; ++i) {
+                line[i].setX(*u++);
+                line[i].setY(*v++);
+            }
+
+            p.drawPolygon(line);
+
+            if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
+            ++item;
+        }
+    }
+
+}
+#else
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
 
@@ -1904,7 +1944,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
         }
     }
 }
-
+#endif
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {

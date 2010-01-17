@@ -31,6 +31,15 @@ class IGarminTyp : public QObject
         IGarminTyp(format_e format, QObject * parent);
         virtual ~IGarminTyp();
 
+        enum label_type_e {
+             eStandard  = 0
+            ,eNone      = 1
+            ,eSmall     = 2
+            ,eNormal    = 3
+            ,eLarge     = 4
+        };
+
+
         struct polyline_property
         {
             polyline_property(): type(0), pen0(Qt::magenta,3), known(false), showText(true){};
@@ -50,21 +59,39 @@ class IGarminTyp : public QObject
 
         struct polygon_property
         {
-            polygon_property() : type(0), pen(Qt::magenta), brushDay(Qt::magenta, Qt::BDiagPattern), brushNight(Qt::magenta, Qt::BDiagPattern), known(false){}
+            polygon_property()
+                : type(0)
+                , pen(Qt::magenta)
+                , brushDay(Qt::magenta, Qt::BDiagPattern)
+                , brushNight(Qt::magenta, Qt::BDiagPattern)
+                , known(false)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
+                {}
+
             polygon_property(quint16 type, const Qt::PenStyle pensty, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(pensty)
                 , brushDay(brushColor, pattern)
                 , brushNight(brushColor, pattern)
                 , known(true)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
                 {pen.setWidth(1);}
+
             polygon_property(quint16 type, const QColor& penColor, const QColor& brushColor, Qt::BrushStyle pattern)
                 : type(type)
                 , pen(penColor,1)
                 , brushDay(brushColor, pattern)
                 , brushNight(brushColor, pattern)
                 , known(true)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
                 {}
+
             quint16 type;
             QPen    pen;
             QBrush  brushDay;
@@ -72,6 +99,9 @@ class IGarminTyp : public QObject
             QFont   font;
             bool    known;
             QMap<int,QString> strings;
+            label_type_e labelType;
+            QColor colorLabelDay;
+            QColor colorLabelNight;
         };
 
         /// decode typ file
@@ -87,11 +117,11 @@ class IGarminTyp : public QObject
             @param points reference to point properties map
 
         */
-        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32> drawOrder, QMap<quint32, QImage>& points) = 0;
+        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, QImage>& points) = 0;
 
     protected:
         virtual bool parseHeader(QDataStream& in);
-        virtual bool parseDrawOrder(QDataStream& in, QList<quint32> drawOrder);
+        virtual bool parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder);
         virtual bool parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons);
 
         void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);

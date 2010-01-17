@@ -21,6 +21,7 @@
 #include <QtCore>
 
 #include <stdio.h>
+#include <string.h>
 
 #define DBG
 
@@ -115,7 +116,7 @@ bool IGarminTyp::parseHeader(QDataStream& in)
     return true;
 }
 
-bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32> drawOrder)
+bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
 {
     if(sectOrder.arrayModulo != 5) {
         return false;
@@ -203,7 +204,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
         quint8  t8;
         quint32 typ, offset;
         bool hasLocalization = false;
-        bool hasExtendedColor = false;
+        bool hasTextColor = false;
         quint8 ctyp;
         QImage xpmDay(32,32, QImage::Format_Indexed8);
         QImage xpmNight(32,32, QImage::Format_Indexed8);
@@ -232,25 +233,28 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
         if(t16_1 & 0x2000) {
             typ = 0x10000|(typ << 8)|subtyp;
         }
-#ifdef DBG
-        qDebug() << "Polygon typ:" << hex << typ <<  "offset:" << offset << "orig data:" << t16_1;
-#endif
 
         in.device()->seek(sectPolygons.dataOffset + offset);
         in >> t8;
-        hasLocalization     = t8 & 0x10;
-        hasExtendedColor    = t8 & 0x20;
-        ctyp                = t8 & 0x0F;
+        hasLocalization = t8 & 0x10;
+        hasTextColor    = t8 & 0x20;
+        ctyp            = t8 & 0x0F;
+
+#ifdef DBG
+        qDebug() << "Polygon typ:" << hex << typ << "ctype:" << ctyp << "offset:" << (sectPolygons.dataOffset + offset) << "orig data:" << t16_1;
+#endif
+
+        polygon_property& property = polygons[typ];
 
         switch(ctyp){
             case 0x06:
             {
                 // day & night single color
                 in >> b >> g >> r;
-                polygons[typ].brushDay      = QBrush(qRgb(r,g,b));
-                polygons[typ].brushNight    = QBrush(qRgb(r,g,b));
-                polygons[typ].pen           = Qt::NoPen;
-                polygons[typ].known         = true;
+                property.brushDay      = QBrush(qRgb(r,g,b));
+                property.brushNight    = QBrush(qRgb(r,g,b));
+                property.pen           = Qt::NoPen;
+                property.known         = true;
 
                 break;
             }
@@ -258,11 +262,11 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             {
                 // day single color & night single color
                 in >> b >> g >> r;
-                polygons[typ].brushDay      = QBrush(qRgb(r,g,b));
+                property.brushDay      = QBrush(qRgb(r,g,b));
                 in >> b >> g >> r;
-                polygons[typ].brushNight    = QBrush(qRgb(r,g,b));
-                polygons[typ].pen           = Qt::NoPen;
-                polygons[typ].known         = true;
+                property.brushNight    = QBrush(qRgb(r,g,b));
+                property.pen           = Qt::NoPen;
+                property.known         = true;
 
                 break;
             }
@@ -277,10 +281,10 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmDay.setColor(0, qRgb(r,g,b) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmDay);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmDay);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
                 break;
             }
 
@@ -301,10 +305,10 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
                 decodeBitmap(in, xpmNight, 32, 32, 1);
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmNight);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmNight);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
 
                 break;
             }
@@ -323,11 +327,15 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgb(r,g,b) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                decodeBitmap(in, xpmNight, 32, 32, 1);
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmNight);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+//                 decodeBitmap(in, xpmNight, 32, 32, 1);
+                memcpy(xpmNight.bits(), xpmDay.bits(), 128);
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmNight);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
+
+                xpmDay.save("xxx.png");
+                xpmNight.save("yyy.png");
 
                 break;
             }
@@ -348,10 +356,10 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
                 decodeBitmap(in, xpmNight, 32, 32, 1);
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmNight);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmNight);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
 
                 break;
             }
@@ -365,10 +373,10 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
 
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmDay);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmDay);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
 
                 break;
             }
@@ -387,10 +395,10 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
                 decodeBitmap(in, xpmNight, 32, 32, 1);
-                polygons[typ].brushDay.setTextureImage(xpmDay);
-                polygons[typ].brushNight.setTextureImage(xpmNight);
-                polygons[typ].pen      = Qt::NoPen;
-                polygons[typ].known    = true;
+                property.brushDay.setTextureImage(xpmDay);
+                property.brushNight.setTextureImage(xpmNight);
+                property.pen      = Qt::NoPen;
+                property.known    = true;
 
                 break;
             }
@@ -409,6 +417,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
             in >> t8;
             len = t8;
+
 
             if(!(t8 & 0x01)){
                 n = 2;
@@ -431,11 +440,29 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                     str += t8;
 
                 }
-                polygons[typ].strings[langcode] = codec->toUnicode(str);
+                property.strings[langcode] = codec->toUnicode(str);
 #ifdef DBG
-                qDebug() << len << langcode << polygons[typ].strings[langcode];
+                qDebug() << len << langcode << property.strings[langcode];
 #endif
             }
+        }
+
+        if(hasTextColor){
+            in >> t8;
+            property.labelType = (label_type_e)(t8 & 0x07);
+
+            if(t8 & 0x08){
+                in >> r >> g >> b;
+                property.colorLabelDay = qRgb(r,g,b);
+            }
+
+            if(t8 & 0x10){
+                in >> r >> g >> b;
+                property.colorLabelNight = qRgb(r,g,b);
+            }
+#ifdef DBG
+            qDebug() << "ext. label: type" << property.labelType << "day" << property.colorLabelDay << "night" << property.colorLabelNight;
+#endif
         }
     }
 

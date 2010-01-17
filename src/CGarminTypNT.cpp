@@ -29,7 +29,7 @@ CGarminTypNT::~CGarminTypNT()
 
 }
 
-bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32> drawOrder, QMap<quint32, QImage>& points)
+bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, QImage>& points)
 {
     quint8 tmp8;
 
