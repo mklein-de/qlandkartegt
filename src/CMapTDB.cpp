@@ -2635,6 +2635,7 @@ void CMapTDB::readTYP()
 
         default:
             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
+            QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format."), QMessageBox::Abort, QMessageBox::Abort);
             return;
     }
 

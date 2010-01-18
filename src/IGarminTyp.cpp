@@ -304,7 +304,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgb(r,g,b) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                decodeBitmap(in, xpmNight, 32, 32, 1);
+                memcpy(xpmNight.bits(), xpmDay.bits(), (32*32));
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmNight);
                 property.pen      = Qt::NoPen;
@@ -327,7 +327,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgb(r,g,b) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                memcpy(xpmNight.bits(), xpmDay.bits(), 128);
+                memcpy(xpmNight.bits(), xpmDay.bits(), (32*32));
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmNight);
                 property.pen      = Qt::NoPen;
@@ -350,7 +350,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgba(255,255,255,0) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                decodeBitmap(in, xpmNight, 32, 32, 1);
+                memcpy(xpmNight.bits(), xpmDay.bits(), (32*32));
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmNight);
                 property.pen      = Qt::NoPen;
@@ -367,7 +367,6 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmDay.setColor(0, qRgba(255,255,255,0) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmDay);
                 property.pen      = Qt::NoPen;
@@ -389,7 +388,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
                 xpmNight.setColor(0, qRgba(255,255,255,0) );
 
                 decodeBitmap(in, xpmDay, 32, 32, 1);
-                decodeBitmap(in, xpmNight, 32, 32, 1);
+                memcpy(xpmNight.bits(), xpmDay.bits(), (32*32));
                 property.brushDay.setTextureImage(xpmDay);
                 property.brushNight.setTextureImage(xpmNight);
                 property.pen      = Qt::NoPen;
@@ -524,23 +523,12 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
         qDebug() << "Polyline typ:" << hex << typ << "ctyp:" << ctyp << "offset:" << (sectPolylines.dataOffset + offset) << "orig data:" << t16_1;
 #endif
 
-        //         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
-//         QImage xpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
-//         QImage xpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
-
         polyline_property& property = polylines[typ];
 #ifdef DBG
         qDebug() << "rows" << rows << "t8_2" << hex << t8_2;
 #endif
 
         switch(ctyp){
-
-//     0x00    => {numcolors=>2,    commoncolors=>[0,1],                                    name=>'~HTML~LINE_COLORTYPE_00~~'},    #s okrajem
-//     0x01    => {numcolors=>4,    daycolors=>[0,1],    nightcolors=>[2,3],                    name=>'~HTML~LINE_COLORTYPE_01~~'},
-//     0x03    => {numcolors=>3,    daycolors=>[0],        nightcolors=>[1,2],                    name=>'~HTML~LINE_COLORTYPE_03~~'},
-//     0x05    => {numcolors=>3,    daycolors=>[0,1],        nightcolors=>[2],    borderless=>1,  name=>'~HTML~LINE_COLORTYPE_05~~'},
-//     0x06    => {numcolors=>1,    commoncolors=>[0],                        borderless=>1,    name=>'~HTML~LINE_COLORTYPE_06~~'},
-//     0x07    => {numcolors=>2,    daycolors=>[0],        nightcolors=>[1],    borderless=>1,    name=>'~HTML~LINE_COLORTYPE_07~~'},    # borderless je zrejmy, vzhledem k tomu ze je pocet barev 1 pro noc i pro den
             case 0x00:
             {
                 if(rows){
@@ -568,7 +556,7 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.penLineNight.setWidth(w1);
                     property.penBorderDay.setWidth(w2);
                     property.penBorderNight.setWidth(w2);
-                    property.hasBorder  = true;
+                    property.hasBorder  = w2 > w1;
                     property.hasPixmap  = false;
                     property.known      = true;
                 }
@@ -577,27 +565,184 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x01:
             {
-
+                if(rows){
+                    QImage xpm1(32, rows, QImage::Format_Indexed8 );
+                    QImage xpm2(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm1.setColor(1, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm1.setColor(0, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(1, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(0, qRgb(r,g,b) );
+                    decodeBitmap(in, xpm1, 32, rows, 1);
+                    memcpy(xpm2.bits(), xpm1.bits(), (32*rows));
+                    property.imgDay     = xpm1;
+                    property.imgNight   = xpm2;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1, w2;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penBorderDay   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penBorderNight = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> w1 >> w2;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.penBorderDay.setWidth(w2);
+                    property.penBorderNight.setWidth(w2);
+                    property.hasBorder  = w2 > w1;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
                 break;
             }
             case 0x03:
             {
+                if(rows){
+                    QImage xpm1(32, rows, QImage::Format_Indexed8 );
+                    QImage xpm2(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm1.setColor(1, qRgb(r,g,b) );
+                    xpm1.setColor(0, qRgba(255,255,255,0) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(1, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(0, qRgb(r,g,b) );
+                    decodeBitmap(in, xpm1, 32, rows, 1);
+                    memcpy(xpm2.bits(), xpm1.bits(), (32*rows));
+                    property.imgDay     = xpm1;
+                    property.imgNight   = xpm2;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1, w2;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderDay   = QPen(Qt::NoPen);
+                    in >> b >> g >> r;
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penBorderNight = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> w1 >> w2;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.penBorderDay.setWidth(w2);
+                    property.penBorderNight.setWidth(w2);
+                    property.hasBorder  = w2 > w1;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
 
                 break;
             }
             case 0x05:
             {
-
+                if(rows){
+                    QImage xpm1(32, rows, QImage::Format_Indexed8 );
+                    QImage xpm2(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm1.setColor(1, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm1.setColor(0, qRgb(r,g,b) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(1, qRgb(r,g,b) );
+                    xpm2.setColor(0, qRgba(255,255,255,0) );
+                    decodeBitmap(in, xpm1, 32, rows, 1);
+                    memcpy(xpm2.bits(), xpm1.bits(), (32*rows));
+                    property.imgDay     = xpm1;
+                    property.imgNight   = xpm2;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penBorderDay   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    in >> b >> g >> r;
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderNight = QPen(Qt::NoPen);
+                    in >> w1;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.hasBorder  = false;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
                 break;
             }
             case 0x06:
             {
-
+                if(rows){
+                    QImage xpm(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm.setColor(1, qRgb(r,g,b) );
+                    xpm.setColor(0, qRgba(255,255,255,0) );
+                    decodeBitmap(in, xpm, 32, rows, 1);
+                    property.imgDay     = xpm;
+                    property.imgNight   = xpm;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderDay   = QPen(Qt::NoPen);
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderNight = QPen(Qt::NoPen);
+                    in >> w1;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.hasBorder  = false;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
                 break;
             }
             case 0x07:
             {
-
+                if(rows){
+                    QImage xpm1(32, rows, QImage::Format_Indexed8 );
+                    QImage xpm2(32, rows, QImage::Format_Indexed8 );
+                    in >> b >> g >> r;
+                    xpm1.setColor(1, qRgb(r,g,b) );
+                    xpm1.setColor(0, qRgba(255,255,255,0) );
+                    in >> b >> g >> r;
+                    xpm2.setColor(1, qRgb(r,g,b) );
+                    xpm2.setColor(0, qRgba(255,255,255,0) );
+                    decodeBitmap(in, xpm1, 32, rows, 1);
+                    memcpy(xpm2.bits(), xpm1.bits(), (32*rows));
+                    property.imgDay     = xpm1;
+                    property.imgNight   = xpm2;
+                    property.hasPixmap  = true;
+                    property.known      = true;
+                }
+                else{
+                    quint8 w1;
+                    in >> b >> g >> r;
+                    property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderDay   = QPen(Qt::NoPen);
+                    in >> b >> g >> r;
+                    property.penLineNight   = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+                    property.penBorderNight = QPen(Qt::NoPen);
+                    in >> w1;
+                    property.penLineDay.setWidth(w1);
+                    property.penLineNight.setWidth(w1);
+                    property.hasBorder  = false;
+                    property.hasPixmap  = false;
+                    property.known      = true;
+                }
                 break;
             }
 
