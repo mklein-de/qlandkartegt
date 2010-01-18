@@ -174,6 +174,7 @@ class IGarminTyp : public QObject
         virtual bool parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder);
         virtual bool parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons);
         virtual bool parsePolyline(QDataStream& in, QMap<quint32, polyline_property>& polylines);
+        virtual bool parsePoint(QDataStream& in, QMap<quint32, QImage>& points);
 
         void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);
 

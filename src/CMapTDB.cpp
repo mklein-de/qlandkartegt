@@ -1446,9 +1446,8 @@ void CMapTDB::draw()
     p.setRenderHint(QPainter::Antialiasing,false);
 }
 
-#ifdef NEW_TYP_PARSER
-#define STREETNAME_THRESHOLD 5.0
 
+#define STREETNAME_THRESHOLD 5.0
 void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font)
 {
     QPolygonF line;
@@ -1648,164 +1647,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
     }
 }
-#else
-static quint16 polylineDrawOrder[]  =
-{
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-    ,0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
-    ,0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
-    ,0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
-};
 
-#define DYN_WIDTH_THRESHOLD 15.0
-#define STREETNAME_THRESHOLD 5.0
-#define MAX_STREET_WIDTH 20
-void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
-{
-    // clear text list
-    QPolygonF line;
-    textpaths.clear();
-    QFont font = CResources::self().getMapFont();
-
-    int fontsize = 6 + 3.0/zoomFactor;
-    font.setPixelSize(fontsize);
-    font.setBold(false);
-    QFontMetricsF metrics(font);
-
-    QList<quint32>keys = polylineProperties.keys();
-    qSort(keys);
-    quint32 type;
-
-    foreach(type, keys) {
-        IGarminTyp::polyline_property& property = polylineProperties[type];
-
-        //         qDebug() << hex << type << property.pen1.color() << (property.pen1 == Qt::NoPen);
-
-        QPen pen = property.penLineDay;
-        p.setPen(pen);
-
-        QImage& pixmap          = property.imgDay;
-        const bool usePixmap    = !pixmap.isNull();
-        const double w          = pixmap.width();
-        const double h          = pixmap.height();
-        qint32 lineWidth        = p.pen().width();
-        if(!property.imgDay.isNull()) {
-            lineWidth = property.imgDay.height();
-        }
-
-        polytype_t::iterator item = lines.begin();
-        while(item != lines.end()) {
-            if(item->type == type) {
-
-                double * u      = item->u.data();
-                double * v      = item->v.data();
-                const int size  = item->u.size();
-
-                if(size < 2){
-                    ++item;
-                    continue;
-                }
-
-                convertRad2Pt(u,v,size);
-
-                line.clear();
-                line.resize(size);
-
-                if(!usePixmap) {
-                    for(int i = 0; i < size; ++i) {
-                        line[i].setX(*u++);
-                        line[i].setY(*v++);
-                    }
-
-                    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
-                        collectText((*item), line, font, metrics, lineWidth);
-                    }
-
-                    p.drawPolyline(line);
-                }
-                else {
-                    if(doFastDraw) {
-                        ++item;
-                        continue;
-                    }
-
-                    QVector<double> lengths;
-                    double u1, u2, v1, v2;
-                    QPainterPath path;
-                    double segLength, totalLength = 0;
-                    int i;
-
-                    u1 = u[0];
-                    v1 = v[0];
-                    line[0].setX(u1);
-                    line[0].setY(v1);
-
-                    for(i = 1; i < size; ++i) {
-                        u2 = u[i];
-                        v2 = v[i];
-
-                        line[i].setX(u2);
-                        line[i].setY(v2);
-
-                        segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
-                        totalLength += segLength;
-                        lengths << segLength;
-
-                        u1 = u2;
-                        v1 = v2;
-                    }
-
-                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
-                        collectText((*item), line, font, metrics, lineWidth);
-                    }
-
-
-                    path.addPolygon(line);
-                    const int nLength = lengths.count();
-
-                    double curLength = 0;
-                    for(int i = 0; i < nLength; ++i) {
-                        segLength = lengths[i];
-
-                        //                         qDebug() << curLength << totalLength << curLength / totalLength;
-
-                        QPointF p1      = path.pointAtPercent(curLength / totalLength);
-                        QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
-                        double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
-
-                        double l = 0;
-                        QRectF r = pixmap.rect();
-
-                        if(p2.x() - p1.x() < 0) {
-                            angle += 180;
-                        }
-
-                        p.save();
-                        p.translate(p1);
-                        p.rotate(angle);
-                        p.translate(0,-h/2);
-
-                        while(l < segLength) {
-                            if((segLength - l) < w) {
-                                r.setRight(segLength - l);
-                                p.setClipRect(r, Qt::ReplaceClip);
-                            }
-                            p.drawImage(0,0,pixmap);
-                            p.translate(w,0);
-                            l += w;
-                        }
-                        p.restore();
-                        curLength += segLength;
-                    }
-                }
-            }
-
-            ++item;
-        }
-    }
-
-}
-#endif
 
 void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
 {
@@ -1957,7 +1799,6 @@ void CMapTDB::drawText(QPainter& p)
 
 }
 
-#ifdef NEW_TYP_PARSER
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
     quint32 type;
@@ -1997,85 +1838,6 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     }
 
 }
-#else
-void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
-{
-
-    int n;
-    const int N = polygonDrawOrder.size();
-    QSet<quint32> extendedTypes;
-    quint32 type;
-
-    // do old types 1st
-    for(n = 0; n < N; ++n) {
-        type = polygonDrawOrder[(N-1) - n];
-
-        p.setPen(polygonProperties[type].pen);
-        p.setBrush( nightView ? polygonProperties[type].brushNight : polygonProperties[type].brushDay);
-
-        polytype_t::iterator item = lines.begin();
-        while (item != lines.end()) {
-            /// @todo do extended types in this loop once new typ file parsing works
-            // collect extended types, wise to do it like that?
-            if(item->type & 0x10000) {
-                extendedTypes << item->type;
-                ++item;
-                continue;
-            }
-            if((item->type & 0x7F) == type) {
-                double * u      = item->u.data();
-                double * v      = item->v.data();
-                const int size  = item->u.size();
-
-                convertRad2Pt(u,v,size);
-
-                QPolygonF line(size);
-                for(int i = 0; i < size; ++i) {
-                    line[i].setX(*u++);
-                    line[i].setY(*v++);
-                }
-
-                p.drawPolygon(line);
-                if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
-            }
-            ++item;
-        }
-    }
-
-    // do extended types
-    foreach(type, extendedTypes) {
-        p.setPen(polygonProperties[type].pen);
-        p.setBrush(polygonProperties[type].brushDay);
-
-        polytype_t::iterator item = lines.begin();
-        while (item != lines.end()) {
-            if(item->type == type) {
-                double * u      = item->u.data();
-                double * v      = item->v.data();
-                const int size  = item->u.size();
-
-                convertRad2Pt(u,v,size);
-
-                QPolygonF line(size);
-                for(int i = 0; i < size; ++i) {
-                    line[i].setX(*u++);
-                    line[i].setY(*v++);
-                }
-
-                p.save();
-                IGarminTyp::polygon_property& property = polygonProperties[item->type];
-                p.setPen(property.pen);
-                p.setBrush(property.brushDay);
-                p.drawPolygon(line);
-                p.restore();
-                if(!property.known) qDebug() << "unknown polygon" << hex << item->type;
-
-            }
-            ++item;
-        }
-    }
-}
-#endif
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
@@ -2352,8 +2114,6 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                     dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                 }
             }
-            //             if(c) dict.insert(tr("Polygon"), QString("0x%1").arg(line->type, 0, 16, QChar('0')));
-
         }
         ++line;
     }
@@ -2421,80 +2181,80 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 }
 
 
-void CMapTDB::readASCIIString(QDataStream& ds, QString& str)
-{
-    str.clear();
-    quint8 byte;
-    ds >> byte;
-    while(byte != 0) {
-        str.append(byte);
-        ds >> byte;
-    }
-}
-
-
-void CMapTDB::readColorTableAlpha(QDataStream &in, QImage &img, int colors, int maxcolors)
-{
-    quint8  byte;
-    quint32 bits = 0;
-    quint32 reg  = 0;
-    quint32 mask = 0x000000FF;
-
-    img.setNumColors(maxcolors);
-    for (int i = 0; i < maxcolors; i++) {
-        if(i < colors) {
-            while(bits < 28) {
-                in >> byte;
-                mask = 0x000000FF << bits;
-                reg  = reg  & (~mask);
-                reg  = reg  | (byte << bits);
-                bits += 8;
-            }
-
-            img.setColor(i, qRgba((reg >> 16) & 0x0FF, (reg >> 8) & 0x0FF, reg & 0x0FF, ~((reg >> 24) & 0x0F) << 4));
-
-            reg   = reg >> 28;
-            bits -= 28;
-        }
-        else {
-            img.setColor(i, qRgba(0,0,0,0));
-        }
-    }
-}
-
-
-void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
-{
-    quint8 r,g,b;
-
-    img.setNumColors(maxcolors);
-    for (int i = 0; i < maxcolors; i++) {
-        if(i < colors) {
-            in >> b >> g >> r;
-            img.setColor(i, qRgb(r,g,b));
-        }
-        else {
-            img.setColor(i, qRgba(0,0,0,0));
-        }
-    }
-}
-
-
-void CMapTDB::readColorTableInv(QDataStream &in, QImage &img, int colors, int maxcolors)
-{
-    quint8 r,g,b;
-
-    img.setNumColors(maxcolors);
-    for (int i = 0; i < maxcolors; i++) {
-        if(i < colors) {
-            in >> b >> g >> r;
-            img.setColor(maxcolors - i - 1, qRgb(r,g,b));
-        }
-        else {
-            img.setColor(maxcolors - i - 1, qRgba(0,0,0,0));
-        }
-    }
-}
+// void CMapTDB::readASCIIString(QDataStream& ds, QString& str)
+// {
+//     str.clear();
+//     quint8 byte;
+//     ds >> byte;
+//     while(byte != 0) {
+//         str.append(byte);
+//         ds >> byte;
+//     }
+// }
+//
+//
+// void CMapTDB::readColorTableAlpha(QDataStream &in, QImage &img, int colors, int maxcolors)
+// {
+//     quint8  byte;
+//     quint32 bits = 0;
+//     quint32 reg  = 0;
+//     quint32 mask = 0x000000FF;
+//
+//     img.setNumColors(maxcolors);
+//     for (int i = 0; i < maxcolors; i++) {
+//         if(i < colors) {
+//             while(bits < 28) {
+//                 in >> byte;
+//                 mask = 0x000000FF << bits;
+//                 reg  = reg  & (~mask);
+//                 reg  = reg  | (byte << bits);
+//                 bits += 8;
+//             }
+//
+//             img.setColor(i, qRgba((reg >> 16) & 0x0FF, (reg >> 8) & 0x0FF, reg & 0x0FF, ~((reg >> 24) & 0x0F) << 4));
+//
+//             reg   = reg >> 28;
+//             bits -= 28;
+//         }
+//         else {
+//             img.setColor(i, qRgba(0,0,0,0));
+//         }
+//     }
+// }
+//
+//
+// void CMapTDB::readColorTable(QDataStream &in, QImage &img, int colors, int maxcolors)
+// {
+//     quint8 r,g,b;
+//
+//     img.setNumColors(maxcolors);
+//     for (int i = 0; i < maxcolors; i++) {
+//         if(i < colors) {
+//             in >> b >> g >> r;
+//             img.setColor(i, qRgb(r,g,b));
+//         }
+//         else {
+//             img.setColor(i, qRgba(0,0,0,0));
+//         }
+//     }
+// }
+//
+//
+// void CMapTDB::readColorTableInv(QDataStream &in, QImage &img, int colors, int maxcolors)
+// {
+//     quint8 r,g,b;
+//
+//     img.setNumColors(maxcolors);
+//     for (int i = 0; i < maxcolors; i++) {
+//         if(i < colors) {
+//             in >> b >> g >> r;
+//             img.setColor(maxcolors - i - 1, qRgb(r,g,b));
+//         }
+//         else {
+//             img.setColor(maxcolors - i - 1, qRgba(0,0,0,0));
+//         }
+//     }
+// }
 
 #define DBG
 void CMapTDB::readTYP()
@@ -2529,8 +2289,6 @@ void CMapTDB::readTYP()
     quint16 descriptor;
     in >> descriptor;
 
-#ifdef NEW_TYP_PARSER
-
     qDebug() << "descriptor" << hex << descriptor;
     switch(descriptor)
     {
@@ -2554,60 +2312,6 @@ void CMapTDB::readTYP()
             return;
     }
 
-#else
-    if ( (descriptor != 0x5b) && (descriptor != 0x6e)  && (descriptor!=0x9c) ) {
-        qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-        return;
-    }
-
-    /* Check Garmin string */
-    QString garmintyp;
-    quint8 byte;
-
-    for(i = 0; i < 10; ++i) {
-        in >> byte;
-        garmintyp.append(byte);
-    }
-    garmintyp.append(0);
-    if(garmintyp != "GARMIN TYP") {
-        qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-        return;
-    }
-
-    /* reading typ creation date string */
-    quint16 startDate, endDate, year;
-    quint8 month, day, hour, minutes, seconds;
-
-    in.device()->seek(0x0c);
-    in >> startDate >> year >> month >> day >> hour >> minutes >> seconds >> endDate;
-    month -= 1;                  /* Month are like Microsoft starting 0 ? */
-    year += 1900;
-
-    typ_section_t sectPoints;
-    typ_section_t sectPolylines;
-    typ_section_t sectPolygons;
-    typ_section_t sectOrder;
-
-    /* Reading points / lines / polygons struct */
-    in >> sectPoints.dataOffset >> sectPoints.dataLength;
-    in >> sectPolylines.dataOffset >> sectPolylines.dataLength;
-    in >> sectPolygons.dataOffset >> sectPolygons.dataLength;
-
-    in >> pid >> fid;
-    qDebug() << "PID" << hex << pid << "FID" << hex << fid;
-
-    /* Read Array datas */
-    in >> sectPoints.arrayOffset >> sectPoints.arrayModulo >> sectPoints.arraySize;
-    in >> sectPolylines.arrayOffset  >> sectPolylines.arrayModulo  >> sectPolylines.arraySize;
-    in >> sectPolygons.arrayOffset >> sectPolygons.arrayModulo >> sectPolygons.arraySize;
-    in >> sectOrder.arrayOffset >> sectOrder.arrayModulo >> sectOrder.arraySize;
-
-    processTypDrawOrder(in, sectOrder);
-    processTypPolygons(in, sectPolygons);
-    processTypPolyline(in, sectPolylines);
-    processTypPois(in, sectPoints);
-
-#endif //NEW_TYP_PARSER
     file.close();
 
 #ifdef DBG
@@ -2616,485 +2320,184 @@ void CMapTDB::readTYP()
 }
 
 
-void CMapTDB::processTypDrawOrder(QDataStream& in, const typ_section_t& section)
-{
-    if(section.arrayModulo != 5) {
-        return;
-    }
-
-    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
-        return;
-    }
-
-    in.device()->seek(section.arrayOffset);
-
-    quint16 typ, a1;
-    quint8 a2;
-    int count=1;
-
-    for (unsigned  i = 0; i < (section.arraySize / 5); i++) {
-        in >> typ >> a1 >> a2;
-        if (typ == 0) {
-            count++;
-        }
-        else if(typ < 0x80) {
-            //             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
-            int idx = polygonDrawOrder.indexOf(typ);
-            if(idx != -1) {
-                polygonDrawOrder.move(idx,0);
-            }
-        }
-    }
-}
-
-
-void CMapTDB::processTypPolygons(QDataStream& in, const typ_section_t& section)
-{
-    bool tainted = false;
-
-    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
-        return;
-    }
-
-    int nbElements = section.arraySize / section.arrayModulo;
-    for (int element=0; element < nbElements; element++) {
-        /* seek to position of element polyline */
-        quint16 otyp, ofs;
-        quint8 ofsc, x;
-        quint32 wtyp, typ, subtyp;
-        bool hasLocalization = false;
-
-        in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
-
-        if (section.arrayModulo == 4) {
-            in >> otyp >> ofs;
-        }
-        if (section.arrayModulo == 3) {
-            in >> otyp >> ofsc;
-            ofs = ofsc;
-        }
-        wtyp    = (otyp >> 5) | (( otyp & 0x1f) << 11);
-        typ     = wtyp & 0x7f;
-        subtyp  = otyp & 0x1F;
-
-        if(otyp & 0x2000) {
-            //             qDebug() << "Skiped: " <<  hex << typ << subtyp << wtyp << otyp ;
-            //             continue;
-            typ = 0x10000 + (typ << 8) + subtyp;
-        }
-
-        in.device()->seek(section.dataOffset + ofs);
-
-        in >> x;
-        hasLocalization = x & 0x10;
-
-        QImage myXpm(32,32, QImage::Format_Indexed8 );
-        int colorType   = x & 0x0f;
-        quint8 r,g,b;
-
-        //         qDebug() << "Changed: " << typ << subtyp << hex << typ << subtyp << colorType;
-
-        if ( colorType == 6 ) {
-            in >> b >> g >> r;
-            polygonProperties[typ].brushDay    = QBrush(qRgb(r,g,b));
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-        else if ( colorType == 7 ) {
-            in >> b >> g >> r;
-            polygonProperties[typ].brushDay    = QBrush(qRgb(r,g,b));
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-            in >> b >> g >> r;
-        }
-        else if ( colorType == 8 ) {
-            myXpm.setNumColors(2);
-            in >> b >> g >> r;
-                                 // forground (day + night)
-            myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;
-                                 // background (day + night)
-            myXpm.setColor(0, qRgb(r,g,b) );
-
-            decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brushDay.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-
-        else if ( colorType == 0xf ) {
-            myXpm.setNumColors(2);
-            in >> b >> g >> r;   // day forground
-            myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;   // night forground
-                                 // background is always transparent
-            myXpm.setColor(0, qRgba(255,255,255,0) );
-
-            decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brushDay.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-
-        else if ( colorType == 9 ) {
-            myXpm.setNumColors(2);
-            in >> b >> g >> r;   // day background
-            myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;   // day forground
-            myXpm.setColor(0, qRgb(r,g,b) );
-            in >> b >> g >> r;   // night background
-            in >> b >> g >> r;   // night foreground
-
-            decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brushDay.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-
-        else if ( colorType == 0xb ) {
-            myXpm.setNumColors(2);
-            in >> b >> g >> r;
-                                 // day forground
-            myXpm.setColor(1, qRgb(r,g,b) );
-            myXpm.setColor(0, qRgba(255,255,255,0) );
-
-            in >> b >> g >> r;   // night forground
-            //             myXpm.setColor(1, qRgb(r,g,b) );
-            in >> b >> g >> r;   // night background
-            //             myXpm.setColor(1, qRgb(r,g,b) );
-
-            decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brushDay.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-        else if ( colorType == 0xe ) {
-            myXpm.setNumColors(2);
-            in >> b >> g >> r;
-            myXpm.setColor(1, qRgb(r,g,b) );
-            myXpm.setColor(0, qRgba(0,0,0,0) );
-
-            decodeBitmap(in, myXpm, 32, 32, 1);
-            polygonProperties[typ].brushDay.setTextureImage(myXpm);
-            polygonProperties[typ].pen      = Qt::NoPen;
-            polygonProperties[typ].known    = true;
-        }
-        else {
-            if(!tainted) {
-                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
-                tainted = true;
-            }
-            qDebug() << "Failed polygon:" << typ << subtyp << hex << typ << subtyp << colorType;
-        }
-    }
-}
-
-
-void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
-{
-    bool tainted = false;
-
-    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
-        return;
-    }
-
-    int nbElements = section.arraySize / section.arrayModulo;
-    for (int element=0; element < nbElements; element++) {
-        quint16 otyp, ofs;
-        quint8 ofsc;
-        int wtyp, typ, subtyp;
-
-        in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
-        if (section.arrayModulo == 4) {
-            in >> otyp >> ofs;
-        }
-        if (section.arrayModulo == 3) {
-            in >> otyp >> ofsc;
-            ofs = ofsc;
-        }
-        wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
-        typ = wtyp & 0xff;
-        subtyp  = otyp & 0x1F;
-
-        if(otyp & 0x2000) {
-            typ = 0x10000 + (typ << 8) + subtyp;
-        }
-
-        in.device()->seek( section.dataOffset + ofs );
-
-        quint8 data1, data2;
-        in >> data1 >> data2;
-
-        bool hasPixmap      = false;
-        int colorFlag       = data1 & 0x07;
-        int rows            = data1 >> 3;
-        //         bool useOrientation = ( (data2 & 0x02) ? 1 :0 );
-        QImage myXpmDay(32,rows ? rows : 1, QImage::Format_Indexed8 );
-        QImage myXpmNight(32,rows ? rows : 1, QImage::Format_Indexed8 );
-
-//         quint8 d1,d2,d3;
-//         in >> d1 >> d2 >> d3;
-//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << d1 << d2 << d3;
-
-        if ( colorFlag == 0) {
-            readColorTableInv(in, myXpmDay, 2,2);
-        }
-        else if ( colorFlag == 1) {
-                                 // day
-            readColorTableInv(in, myXpmDay, 2,2);
-                                 // night
-            readColorTableInv(in, myXpmNight, 2,2);
-        }
-        else if ( colorFlag == 3) {
-                                 // day
-            readColorTableInv(in, myXpmDay, 2,2);
-                                 // night
-            readColorTableInv(in, myXpmNight, 1,2);
-        }
-        else if ( colorFlag == 5) {
-            readColorTableInv(in, myXpmDay, 1,2);
-        }
-        else if ( colorFlag == 6) {
-            readColorTableInv(in, myXpmDay, 1,2);
-        }
-        else if ( colorFlag == 7) {
-                                 // day
-            readColorTableInv(in, myXpmDay, 1,2);
-                                 // night
-            readColorTableInv(in, myXpmNight, 1,2);
-        }
-        else {
-            if(!tainted) {
-                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polyline encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
-                tainted = true;
-            }
-
-            qDebug() << "Failed polyline" <<  hex << ":" << typ <<  colorFlag << rows ;
-            continue;
-        }
-
-        quint8 x1, x2, x3;
-//         in >> x1 >> x2 >> x3;
-//         qDebug() << "Line" << hex << typ <<  colorFlag << rows << x1 << x2;
-
-        IGarminTyp::polyline_property& property = polylineProperties[typ];
-
-        if(rows) {
-            decodeBitmap(in, myXpmDay, 32, rows, 1);
-            hasPixmap = true;
-
-            property.imgDay = myXpmDay;
-            //             myXpmDay.save(QString("l%1.png").arg(typ,2,16,QChar('0')));
-
-        }
-        else {
-//             if(typ == 0x06){
-//                 property.imgDay = residentialStreet(myXpmDay.color(1));
+// void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
+// {
+//     bool tainted = false;
+//
+//     if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
+//         return;
+//     }
+//
+//     int nbElements = section.arraySize / section.arrayModulo;
+//     for (int element=0; element < nbElements; element++) {
+//         /* seek to position of element polyline */
+//         quint16 otyp, ofs;
+//         quint8 ofsc;
+//         quint32 wtyp, typ, subtyp;
+//
+//         in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
+//         if (section.arrayModulo == 4) {
+//             in >> otyp >> ofs;
+//         }
+//         if (section.arrayModulo == 3) {
+//             in >> otyp >> ofsc;
+//             ofs = ofsc;
+//         }
+//
+//         wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
+//         typ = wtyp & 0xff;
+//         subtyp  = otyp & 0x1F;
+//
+//         if(otyp & 0x2000) {
+//             typ = 0x10000 + (typ << 8) + subtyp;
+//         }
+//         else {
+//             typ = (typ << 8) + subtyp;
+//         }
+//
+//         /* Create element */
+//         in.device()->seek( section.dataOffset + ofs );
+//
+//         quint8 a, w, h, colors, x3;
+//         int wBytes, bpp;
+//         in >> a >> w >> h >> colors >> x3;
+//         QImage myXpmDay(w,h, QImage::Format_Indexed8 );
+//         QImage myXpmNight(w,h, QImage::Format_Indexed8 );
+//
+//         // openmtb bug on colors=15 colors, oe: changed back for garmin maps
+//         if ( colors > 15) {
+//             bpp = 8;
+//         }
+//         else {
+//             if (colors >= 3 ) {
+//                 if ( (colors == 3) && (x3 == 0x20) ) {
+//                     bpp = 2;
+//                 }
+//                 else {
+//                     bpp = 4;
+//                 }
 //             }
-//             else if(typ == 0x01)
-//             {
-//                 property.imgDay = majorHighway(myXpmDay.color(1));
+//             else {
+//                 bpp = 2;
 //             }
-//             else if(typ == 0x02)
-//             {
-//                 property.imgDay = principalHighway(myXpmDay.color(1));
+//         }
+//         wBytes = (w * bpp) / 8;
+//         //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+//
+//         int maxcolor = pow(2.0f,bpp);
+//
+//         if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9)  || ( a == 0xf) || ( a == 0xe)) {
+//             if (x3 == 0x00) {
+//                 readColorTable(in, myXpmDay, colors, maxcolor);
+//                 // openmtb bug on bpp=4 colors
+//                 if ( ( (bpp==4) || (bpp==8) ) && ( (colors==3) || (colors==15) ) ) {
+//                     bpp /=2;
+//                 }
+//                 //if(bpp == 4) bpp /= 2;
+//                 decodeBitmap(in, myXpmDay, w, h, bpp);
+//                 pointProperties[typ] = myXpmDay;
+//                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 //             }
-//             else if(typ == 0x03)
-//             {
-//                 property.imgDay = otherHighway(myXpmDay.color(1));
+//             else if (x3 == 0x10) {
+//                 readColorTable(in, myXpmDay, colors, maxcolor);
+//                 decodeBitmap(in, myXpmDay, w, h, bpp);
+//                 pointProperties[typ] = myXpmDay;
+//                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 //             }
-//             else if(typ == 0x04)
-//             {
-//                 property.imgDay = arterialRoad(myXpmDay.color(1));
+//             else if (x3 == 0x20) {
+//                 readColorTableAlpha(in, myXpmDay, colors, maxcolor);
+//                 decodeBitmap(in, myXpmDay, w, h, bpp);
+//                 pointProperties[typ] = myXpmDay;
+//                 //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//                 //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
 //             }
-//             else{
-            property.penLineDay.setColor(myXpmDay.color(1));
+//             else {
+//                 if(!tainted) {
+//                     QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+//                     tainted = true;
+//                 }
+//                 qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
 //             }
-        }
-
-        property.known = true;
-    }
-}
-
-
-void CMapTDB::processTypPois(QDataStream& in, const typ_section_t& section)
-{
-    bool tainted = false;
-
-    if(!section.arrayModulo || ((section.arraySize % section.arrayModulo) != 0)) {
-        return;
-    }
-
-    int nbElements = section.arraySize / section.arrayModulo;
-    for (int element=0; element < nbElements; element++) {
-        /* seek to position of element polyline */
-        quint16 otyp, ofs;
-        quint8 ofsc;
-        quint32 wtyp, typ, subtyp;
-
-        in.device()->seek( section.arrayOffset + (section.arrayModulo * element ) );
-        if (section.arrayModulo == 4) {
-            in >> otyp >> ofs;
-        }
-        if (section.arrayModulo == 3) {
-            in >> otyp >> ofsc;
-            ofs = ofsc;
-        }
-
-        wtyp = (otyp >> 5) | (( otyp & 0x1f) << 11);
-        typ = wtyp & 0xff;
-        subtyp  = otyp & 0x1F;
-
-        if(otyp & 0x2000) {
-            typ = 0x10000 + (typ << 8) + subtyp;
-        }
-        else {
-            typ = (typ << 8) + subtyp;
-        }
-
-        /* Create element */
-        in.device()->seek( section.dataOffset + ofs );
-
-        quint8 a, w, h, colors, x3;
-        int wBytes, bpp;
-        in >> a >> w >> h >> colors >> x3;
-        QImage myXpmDay(w,h, QImage::Format_Indexed8 );
-        QImage myXpmNight(w,h, QImage::Format_Indexed8 );
-
-        // openmtb bug on colors=15 colors, oe: changed back for garmin maps
-        if ( colors > 15) {
-            bpp = 8;
-        }
-        else {
-            if (colors >= 3 ) {
-                if ( (colors == 3) && (x3 == 0x20) ) {
-                    bpp = 2;
-                }
-                else {
-                    bpp = 4;
-                }
-            }
-            else {
-                bpp = 2;
-            }
-        }
-        wBytes = (w * bpp) / 8;
-        //         qDebug() << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
-
-        int maxcolor = pow(2.0f,bpp);
-
-        if ( ( a == 5 ) || ( a == 1 ) || ( a == 0xd ) || ( a == 0xb ) || ( a == 0x9)  || ( a == 0xf) || ( a == 0xe)) {
-            if (x3 == 0x00) {
-                readColorTable(in, myXpmDay, colors, maxcolor);
-                // openmtb bug on bpp=4 colors
-                if ( ( (bpp==4) || (bpp==8) ) && ( (colors==3) || (colors==15) ) ) {
-                    bpp /=2;
-                }
-                //if(bpp == 4) bpp /= 2;
-                decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[typ] = myXpmDay;
-                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-            }
-            else if (x3 == 0x10) {
-                readColorTable(in, myXpmDay, colors, maxcolor);
-                decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[typ] = myXpmDay;
-                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-            }
-            else if (x3 == 0x20) {
-                readColorTableAlpha(in, myXpmDay, colors, maxcolor);
-                decodeBitmap(in, myXpmDay, w, h, bpp);
-                pointProperties[typ] = myXpmDay;
-                //                 if(x3 == 0x00) myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-                //                                 myXpmDay.save(QString("poi%1%2.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-            }
-            else {
-                if(!tainted) {
-                    QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
-                    tainted = true;
-                }
-                qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
-            }
-        }
-        else if ((a == 7)  || (a == 3)) {
-            if (x3 == 0x10) {
-                readColorTable(in, myXpmDay, colors, maxcolor);
-            }
-            else {
-                readColorTableAlpha(in, myXpmDay, colors, maxcolor);
-            }
-            decodeBitmap(in, myXpmDay, w, h, bpp);
-            pointProperties[typ] = myXpmDay;
-            //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-
-            /* Get again colors and x3 flag */
-            in >> colors >> x3;
-            if ( colors >=16) bpp = 8;
-            else if (colors >=3 ) {
-                if ( (colors == 3) && (x3 == 0x20) ) {
-                    bpp = 2;
-                }
-                else {
-                    bpp = 4;
-                }
-            }
-            else {
-                bpp = 2;
-            }
-            wBytes = (w * bpp) / 8;
-
-            if (x3 == 0x10) {
-                readColorTable(in, myXpmNight, colors, maxcolor);
-            }
-            else {
-                readColorTableAlpha(in, myXpmNight, colors, maxcolor);
-            }
-            decodeBitmap(in, myXpmNight, w, h, bpp);
-            //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
-            //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
-
-        }
-        else {
-            if(!tainted) {
-                QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
-                tainted = true;
-            }
-            qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
-        }
-    }
-}
-
-
-void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
-{
-    int x = 0,j = 0;
-    quint8 color;
-    for (int y = 0; y < h; y++) {
-        while ( x < w ) {
-            in >> color;
-
-            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
-                int value;
-                if ( i > 0 ) {
-                    value = (color >>= bpp);
-                }
-                else {
-                    value = color;
-                }
-                if ( bpp == 4) value = value & 0xf;
-                if ( bpp == 2) value = value & 0x3;
-                if ( bpp == 1) value = value & 0x1;
-                img.setPixel(x,y,value);
-                //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
-                x += 1;
-            }
-            j += 1;
-        }
-        x = 0;
-    }
-}
+//         }
+//         else if ((a == 7)  || (a == 3)) {
+//             if (x3 == 0x10) {
+//                 readColorTable(in, myXpmDay, colors, maxcolor);
+//             }
+//             else {
+//                 readColorTableAlpha(in, myXpmDay, colors, maxcolor);
+//             }
+//             decodeBitmap(in, myXpmDay, w, h, bpp);
+//             pointProperties[typ] = myXpmDay;
+//             //             myXpmDay.save(QString("poi%1%2d.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//
+//             /* Get again colors and x3 flag */
+//             in >> colors >> x3;
+//             if ( colors >=16) bpp = 8;
+//             else if (colors >=3 ) {
+//                 if ( (colors == 3) && (x3 == 0x20) ) {
+//                     bpp = 2;
+//                 }
+//                 else {
+//                     bpp = 4;
+//                 }
+//             }
+//             else {
+//                 bpp = 2;
+//             }
+//             wBytes = (w * bpp) / 8;
+//
+//             if (x3 == 0x10) {
+//                 readColorTable(in, myXpmNight, colors, maxcolor);
+//             }
+//             else {
+//                 readColorTableAlpha(in, myXpmNight, colors, maxcolor);
+//             }
+//             decodeBitmap(in, myXpmNight, w, h, bpp);
+//             //             pointProperties[(typ << 8) | subtyp] = myXpmNight;
+//             //             myXpmNight.save(QString("poi%1%2n.png").arg(typ,2,16,QChar('0')).arg(subtyp,2,16,QChar('0')));
+//
+//         }
+//         else {
+//             if(!tainted) {
+//                 QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown point encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
+//                 tainted = true;
+//             }
+//             qDebug() << "Failed:" << hex << typ << subtyp << QString(" A=0x%5 Size %1 x %2 with colors %3 and flags 0x%4 bpp=%6").arg(w).arg(h).arg(colors).arg(x3,0,16).arg(a,0,16).arg(bpp);
+//         }
+//     }
+// }
+//
+//
+// void CMapTDB::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
+// {
+//     int x = 0,j = 0;
+//     quint8 color;
+//     for (int y = 0; y < h; y++) {
+//         while ( x < w ) {
+//             in >> color;
+//
+//             for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
+//                 int value;
+//                 if ( i > 0 ) {
+//                     value = (color >>= bpp);
+//                 }
+//                 else {
+//                     value = color;
+//                 }
+//                 if ( bpp == 4) value = value & 0xf;
+//                 if ( bpp == 2) value = value & 0x3;
+//                 if ( bpp == 1) value = value & 0x1;
+//                 img.setPixel(x,y,value);
+//                 //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
+//                 x += 1;
+//             }
+//             j += 1;
+//         }
+//         x = 0;
+//     }
+// }
 
 
 void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)

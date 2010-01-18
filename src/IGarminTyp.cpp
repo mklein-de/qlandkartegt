@@ -812,3 +812,62 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
     return true;
 }
 
+bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
+{
+    bool tainted = false;
+
+    if(!sectPoints.arrayModulo || ((sectPoints.arraySize % sectPoints.arrayModulo) != 0)) {
+        return true;
+    }
+
+    const int N = sectPoints.arraySize / sectPoints.arrayModulo;
+    for (int element=0; element < N; element++) {
+        quint16 t16_1, t16_2, subtyp;
+        quint8  t8_1, t8_2;
+        quint32 typ, offset;
+        bool hasLocalization = false;
+        bool hasTextColor = false;
+        bool renderMode = false;
+//         quint8 ctyp, rows;
+//         quint8 r,g,b;
+        quint8 langcode;
+
+        in.device()->seek( sectPoints.arrayOffset + (sectPoints.arrayModulo * element ) );
+
+        if (sectPoints.arrayModulo == 5) {
+            in >> t16_1 >> t16_2 >> t8_1;
+            offset = t16_2|(t8_1<<16);
+        }
+        else if (sectPoints.arrayModulo == 4) {
+            in >> t16_1 >> t16_2;
+            offset = t16_2;
+        }
+        else if (sectPoints.arrayModulo == 3) {
+            in >> t16_1 >> t8_1;
+            offset = t8_1;
+        }
+
+        t16_2   = (t16_1 >> 5) | (( t16_1 & 0x1f) << 11);
+        typ     = t16_2 & 0x7FF;
+        subtyp  = t16_1 & 0x01F;
+
+        if(t16_1 & 0x2000) {
+            typ = 0x10000|(typ << 8)|subtyp;
+        }
+        else {
+            typ = (typ << 8) + subtyp;
+        }
+
+        in.device()->seek( sectPoints.dataOffset + offset );
+
+        quint8 a, w, h, colors, x3;
+        in >> a >> w >> h >> colors >> x3;
+
+#ifdef DBG
+        qDebug() << "Point typ:" << hex << typ << /*"ctyp:" << ctyp <<*/ "offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
+#endif
+
+    }
+
+    return true;
+}

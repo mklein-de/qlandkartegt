@@ -38,17 +38,23 @@ bool CGarminTyp::decode(QDataStream& in, QMap<quint32, polygon_property>& polygo
         return false;
     }
 
-    if(!parsePolygon(in, polygons))
-    {
-        return false;
-    }
 
     if(!parseDrawOrder(in, drawOrder))
     {
         return false;
     }
 
+    if(!parsePolygon(in, polygons))
+    {
+        return false;
+    }
+
     if(!parsePolyline(in, polylines))
+    {
+        return false;
+    }
+
+    if(!parsePoint(in, points))
     {
         return false;
     }
