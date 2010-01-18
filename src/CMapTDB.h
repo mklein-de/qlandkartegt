@@ -124,12 +124,6 @@ class CMapTDB : public IMap
         void drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font);
         void drawLine(QPainter& p, CGarminPolygon& l);
 
-        QImage majorHighway(const QColor& color);
-        QImage residentialStreet(const QColor& color);
-        QImage principalHighway(const QColor& color);
-        QImage arterialRoad(const QColor& color);
-        QImage otherHighway(const QColor& color);
-
 #pragma pack(1)
         struct tdb_hdr_t
         {

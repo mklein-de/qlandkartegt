@@ -755,7 +755,59 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                 qDebug() << "Failed polyline" <<  hex << ":" << typ <<  ctyp << rows ;
                 continue;
         }
+        if(hasLocalization){
+            qint16 len;
+            quint8 n = 1;
 
+            in >> t8_1;
+            len = t8_1;
+
+
+            if(!(t8_1 & 0x01)){
+                n = 2;
+                in >> t8_1;
+                len |= t8_1 << 8;
+            }
+
+            len -= n;
+            while(len > 0){
+                QByteArray str;
+                in >> langcode;
+                len -= 2*n;
+                while(len > 0){
+
+                    in >> t8_1;
+                    len -= 2*n;
+
+                    if(t8_1 == 0) break;
+
+                    str += t8_1;
+
+                }
+                property.strings[langcode] = codec->toUnicode(str);
+#ifdef DBG
+                qDebug() << len << langcode << property.strings[langcode];
+#endif
+            }
+        }
+
+        if(hasTextColor){
+            in >> t8_1;
+            property.labelType = (label_type_e)(t8_1 & 0x07);
+
+            if(t8_1 & 0x08){
+                in >> r >> g >> b;
+                property.colorLabelDay = qRgb(r,g,b);
+            }
+
+            if(t8_1 & 0x10){
+                in >> r >> g >> b;
+                property.colorLabelNight = qRgb(r,g,b);
+            }
+#ifdef DBG
+            qDebug() << "ext. label: type" << property.labelType << "day" << property.colorLabelDay << "night" << property.colorLabelNight;
+#endif
+        }
     }
     return true;
 }

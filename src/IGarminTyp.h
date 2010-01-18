@@ -50,7 +50,6 @@ class IGarminTyp : public QObject
             , penBorderDay(Qt::NoPen)
             , penBorderNight(Qt::NoPen)
             , hasPixmap(false)
-            , showText(true)
             , labelType(eStandard)
             , colorLabelDay(Qt::black)
             , colorLabelNight(Qt::black)
@@ -66,7 +65,6 @@ class IGarminTyp : public QObject
             , penBorderDay(penBorderDay)
             , penBorderNight(penBorderNight)
             , hasPixmap(false)
-            , showText(true)
             , labelType(eStandard)
             , colorLabelDay(Qt::black)
             , colorLabelNight(Qt::black)
@@ -81,7 +79,6 @@ class IGarminTyp : public QObject
             , penBorderDay(Qt::NoPen)
             , penBorderNight(Qt::NoPen)
             , hasPixmap(false)
-            , showText(true)
             , labelType(eStandard)
             , colorLabelDay(Qt::black)
             , colorLabelNight(Qt::black)
@@ -102,7 +99,6 @@ class IGarminTyp : public QObject
             QImage  imgNight;
 
             QFont   font;
-            bool    showText;
             QMap<int,QString> strings;
             label_type_e labelType;
             QColor colorLabelDay;

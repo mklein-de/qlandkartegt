@@ -191,30 +191,6 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
 };
 
-static quint16 order[] =
-{
-    //       0x4B, 0x53, 0x14, 0x15, 0x16, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07
-    //     , 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x17, 0x0F, 0x10, 0x11, 0x12
-    //     , 0x13, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22
-    //     , 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E
-    //     , 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
-    //     , 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46
-    //     , 0x47, 0x48, 0x49, 0x4A, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x00
-    //     , 0x50, 0x51, 0x52, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C
-    //     , 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
-    //     , 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74
-    //     , 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 0x00
-
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-    , 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
-    , 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F
-    , 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
-    , 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F
-    , 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F
-    , 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F
-    , 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
-};
-
 CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 : IMap(eGarmin, key, parent)
 , filename(filename)
@@ -419,76 +395,6 @@ void CMapTDB::slotNightView(bool checked)
     emit sigChanged();
 }
 
-QImage CMapTDB::majorHighway(const QColor& color)
-{
-    QImage pix(16, 7, QImage::Format_ARGB32);
-
-    QPainter p(&pix);
-
-    p.fillRect(0,0,16,7, color);
-    p.setPen(QPen(Qt::black,1));
-    p.drawLine(0,0,16,0);
-    p.drawLine(0,6,16,6);
-
-    return pix;
-}
-
-QImage CMapTDB::residentialStreet(const QColor& color)
-{
-    QImage pix(16, 3, QImage::Format_ARGB32);
-
-    QPainter p(&pix);
-
-    p.fillRect(0,0,16,3, color);
-    p.setPen(QPen(Qt::black,1));
-    p.drawLine(0,0,16,0);
-    p.drawLine(0,2,16,2);
-
-    return pix;
-}
-
-QImage CMapTDB::principalHighway(const QColor& color)
-{
-    QImage pix(16, 4, QImage::Format_ARGB32);
-
-    QPainter p(&pix);
-
-    p.fillRect(0,0,16,4, color);
-    p.setPen(QPen(Qt::black,1));
-    p.drawLine(0,0,16,0);
-    p.drawLine(0,3,16,3);
-
-    return pix;
-}
-
-QImage CMapTDB::arterialRoad(const QColor& color)
-{
-    QImage pix(16, 5, QImage::Format_ARGB32);
-
-    QPainter p(&pix);
-
-    p.fillRect(0,0,16,5, color);
-    p.setPen(QPen(Qt::black,1));
-    p.drawLine(0,0,16,0);
-    p.drawLine(0,4,16,4);
-
-    return pix;
-}
-
-QImage CMapTDB::otherHighway(const QColor& color)
-{
-    QImage pix(16, 3, QImage::Format_ARGB32);
-
-    QPainter p(&pix);
-
-    p.fillRect(0,0,16,3, color);
-    p.setPen(QPen(Qt::black,1));
-    p.drawLine(0,0,16,0);
-    p.drawLine(0,2,16,2);
-
-    return pix;
-}
-
 void CMapTDB::setup()
 {
     polyline_typestr.clear();
@@ -660,7 +566,7 @@ void CMapTDB::setup()
 
     polygonDrawOrder.clear();
     for(int i = 0; i < 0x80; i++) {
-        polygonDrawOrder << order[0x7F - i];
+        polygonDrawOrder << (0x7F - i);
     }
 
     pointProperties.clear();
@@ -1565,7 +1471,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
         line[i].setY(*v++);
     }
 
-    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
+    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
         collectText(l, line, font, metrics, lineWidth);
     }
 
@@ -1661,7 +1567,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         v1 = v2;
                     }
 
-                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
                         collectText((*item), line, font, metrics, h);
                     }
 
@@ -1811,7 +1717,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         line[i].setY(*v++);
                     }
 
-                    if (zoomFactor < STREETNAME_THRESHOLD && property.showText) {
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
                         collectText((*item), line, font, metrics, lineWidth);
                     }
 
@@ -2311,7 +2217,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
     QPointF resPt = pt;
     QString key, value;
-    quint16 type = 0;
+    quint32 type = 0;
 
     shortest = 50;
 
@@ -2346,11 +2252,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
             distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
 
             if(distance < shortest) {
-                type = line->type & 0x3F;
-
-                //                 qDebug() << hex << type;
-
-                key  = polyline_typestr[type];
+                type = line->type;
 
                 if(!line->labels.isEmpty()) {
                     switch(type) {
@@ -2390,6 +2292,19 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
         ++line;
     }
 
+    if(type < 0x40){
+        key  = polyline_typestr[type];
+    }
+    else{
+        key.clear();
+    }
+
+    if(key.isEmpty()){
+        QStringList strlist = polylineProperties[type].strings.values();
+        if(strlist.size()){
+            key =  strlist.first().simplified();
+        }
+    }
     if(!key.isEmpty()) {
         dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
@@ -2973,28 +2888,28 @@ void CMapTDB::processTypPolyline(QDataStream& in, const typ_section_t& section)
 
         }
         else {
-            if(typ == 0x06){
-                property.imgDay = residentialStreet(myXpmDay.color(1));
-            }
-            else if(typ == 0x01)
-            {
-                property.imgDay = majorHighway(myXpmDay.color(1));
-            }
-            else if(typ == 0x02)
-            {
-                property.imgDay = principalHighway(myXpmDay.color(1));
-            }
-            else if(typ == 0x03)
-            {
-                property.imgDay = otherHighway(myXpmDay.color(1));
-            }
-            else if(typ == 0x04)
-            {
-                property.imgDay = arterialRoad(myXpmDay.color(1));
-            }
-            else{
-                property.penLineDay.setColor(myXpmDay.color(1));
-            }
+//             if(typ == 0x06){
+//                 property.imgDay = residentialStreet(myXpmDay.color(1));
+//             }
+//             else if(typ == 0x01)
+//             {
+//                 property.imgDay = majorHighway(myXpmDay.color(1));
+//             }
+//             else if(typ == 0x02)
+//             {
+//                 property.imgDay = principalHighway(myXpmDay.color(1));
+//             }
+//             else if(typ == 0x03)
+//             {
+//                 property.imgDay = otherHighway(myXpmDay.color(1));
+//             }
+//             else if(typ == 0x04)
+//             {
+//                 property.imgDay = arterialRoad(myXpmDay.color(1));
+//             }
+//             else{
+            property.penLineDay.setColor(myXpmDay.color(1));
+//             }
         }
 
         property.known = true;
