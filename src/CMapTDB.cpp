@@ -1956,7 +1956,24 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != points.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+            if(point->labels.size()){
+                dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+            }
+            else{
+                if(pointProperties.contains(point->type)){
+                    IGarminTyp::point_property& p = pointProperties[point->type];
+                    if(p.strings.size()){
+                        QStringList strlist = p.strings.values();
+                        dict.insert(tr("Point of Interest"),strlist.first() + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    }
+                    else{
+                        dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    }
+                }
+                else{
+                    dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                }
+            }
         }
         ++point;
     }
@@ -1970,7 +1987,24 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != pois.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+            if(point->labels.size()){
+                dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+            }
+            else{
+                if(pointProperties.contains(point->type)){
+                    IGarminTyp::point_property& p = pointProperties[point->type];
+                    if(p.strings.size()){
+                        QStringList strlist = p.strings.values();
+                        dict.insert(tr("Point of Interest"),strlist.first() + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    }
+                    else{
+                        dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    }
+                }
+                else{
+                    dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                }
+            }
         }
         ++point;
     }

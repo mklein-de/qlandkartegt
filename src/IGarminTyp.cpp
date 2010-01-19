@@ -944,6 +944,8 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         return true;
     }
 
+    QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
+
     const int N = sectPoints.arraySize / sectPoints.arrayModulo;
     for (int element=0; element < N; element++) {
         quint16 t16_1, t16_2, subtyp;
@@ -951,6 +953,8 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         quint32 typ, offset;
         bool hasLocalization = false;
         bool hasTextColor = false;
+        quint8 langcode;
+        quint8 r,g,b;
 
         in.device()->seek( sectPoints.arrayOffset + (sectPoints.arrayModulo * element ) );
 
@@ -1005,6 +1009,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
             }
         }
 
+        point_property& property = points[typ];
         QImage imgDay(w,h, QImage::Format_Indexed8 );
         QImage imgNight(w,h, QImage::Format_Indexed8 );
 
@@ -1017,7 +1022,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         }
         else{
             decodeBitmap(in, imgDay, w, h, bpp);
-            points[typ].imgDay = imgDay;
+            property.imgDay = imgDay;
         }
 
         if(t8_1 == 0x03){
@@ -1041,231 +1046,70 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
             if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20)){
                 continue;
             }
-            points[typ].imgNight = imgDay;
+            property.imgNight = imgDay;
 
         }
         else{
-            points[typ].imgNight = imgDay;
+            property.imgNight = imgDay;
         }
+
+        if(hasLocalization){
+            qint16 len;
+            quint8 n = 1;
+
+            in >> t8_1;
+            len = t8_1;
+
+
+            if(!(t8_1 & 0x01)){
+                n = 2;
+                in >> t8_1;
+                len |= t8_1 << 8;
+            }
+
+            len -= n;
+            while(len > 0){
+                QByteArray str;
+                in >> langcode;
+                len -= 2*n;
+                while(len > 0){
+
+                    in >> t8_1;
+                    len -= 2*n;
+
+                    if(t8_1 == 0) break;
+
+                    str += t8_1;
+
+                }
+                property.strings[langcode] = codec->toUnicode(str);
+#ifdef DBG
+                qDebug() << len << langcode << property.strings[langcode];
+#endif
+            }
+        }
+
+        if(hasTextColor){
+            in >> t8_1;
+            property.labelType = (label_type_e)(t8_1 & 0x07);
+
+            if(t8_1 & 0x08){
+                in >> r >> g >> b;
+                property.colorLabelDay = qRgb(r,g,b);
+            }
+
+            if(t8_1 & 0x10){
+                in >> r >> g >> b;
+                property.colorLabelNight = qRgb(r,g,b);
+            }
+#ifdef DBG
+            qDebug() << "ext. label: type" << property.labelType << "day" << property.colorLabelDay << "night" << property.colorLabelNight;
+#endif
+        }
+
 
     }
 
     return true;
 }
 
-// sub decode {
-//     my ($self, $content_data) = @_;
-//
-//     $self->{l18n} = undef;
-//     $self->{unknown_flags} = undef;
-//     $self->{width} = undef;
-//     $self->{height} = undef;
-//     $self->{morecolors_info} = undef;
-//
-//
-//     $self->{colors} = undef;
-//     $self->{bitmap} = undef;
-//     $self->{colors2} = undef;
-//     $self->{bitmap2} = undef;
-//     $self->{morecolors} = undef;
-//
-//     $self->{strings} = undef;
-//
-//     my $tmp = $content_data;
-//     if (length($tmp) == 0) {
-//
-//         return;
-//     };
-//
-//     my ($a, $w, $h, $colors, $x3) = unpack("CCCCC", substr($tmp, 0, 5, ''));
-//
-//     $self->{l18n} = ($a & 0x04) ? 1 : 0;
-//     $a &= ~0x04;
-//     $self->{unknown_flags} = ($a & 0xF8);
-//     $a &= ~0xF8;
-//
-//     $self->{width} = $w;
-//     $self->height($h);
-//     $self->{x3} = $x3;
-//
-//     my ($bpp, $w_bytes) = $self->bpp_and_width_in_bytes($colors, $w, $x3);
-//
-//     $self->{bpp} = $bpp;
-//
-//     if ($x3 == 0x20) {
-//
-//         if (($colors == 0) && ($bpp >= 16)) {
-//             $colors = $w*$h;
-//         };
-//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors, 1)];
-//     } elsif ($x3 == 0x10) {
-//
-//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors)];
-//     } elsif ($x3 == 0) {
-//         if (($colors == 0) && ($bpp >= 16)) {
-//             $colors = $w*$h;
-//         };
-//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors)];
-//         if ($a == 0) {
-//
-//         };
-//     } else {
-//         die "unknown x3: $x3 (a=$a)";
-//     };
-//
-//     my $bitmapa;
-//     if ($bpp >= 16) {
-//
-//         $bitmapa = '';
-//         for (my $i=0; $i<$colors; $i++) {
-//             $bitmapa .= pack('S', $i);
-//         };
-//     } else {
-//         my $x_zbyva = length($tmp);
-//         my $x_mam_nacist = $h*$w_bytes;
-//
-//         if (($x_zbyva-$x_mam_nacist) < 0) {
-//
-//         };
-//         $bitmapa = substr($tmp, 0, $x_mam_nacist, '');
-//     };
-//     $self->bitmap($bitmapa);
-//
-//
-//
-//     if ($a == 0x01) {
-//
-//     } elsif ($a == 0x00) {
-//
-//     } elsif ($a == 0x03) {
-//
-//         my ($colors2) = unpack("C", (substr($tmp, 0, 1, '')));
-//         my ($x3b) = unpack("C", (substr($tmp, 0, 1, '')));
-//
-//         $self->{x3b} = $x3b;
-//
-//         $self->{colors2} = [$self->get_rgb_triplets(\$tmp, $colors2, ($x3b == 0x20))];
-//         my ($bpp2, $w_bytes2) = $self->bpp_and_width_in_bytes($colors2, $w, $x3b);
-//         $self->{bpp2} = $bpp2;
-//         my $x_zbyva = length($tmp);
-//         my $x_mam_nacist = $h*$w_bytes2;
-//         if (($x_zbyva-$x_mam_nacist) < 0) {
-//
-//         };
-//
-//         my $bitmapa2 = substr($tmp, 0, $x_mam_nacist, '');
-//         $self->{bitmap2} = $bitmapa2;
-//
-//     } elsif ($a == 0x02) {
-//
-//         my ($colors2) = unpack("C", (substr($tmp, 0, 1, '')));
-//         my ($x3b) = unpack("C", (substr($tmp, 0, 1, '')));
-//
-//         $self->{x3b} = $x3b;
-//
-//         $self->{colors2} = [$self->get_rgb_triplets(\$tmp, $colors2)];
-//         my ($bpp2, $w_bytes2) = $self->bpp_and_width_in_bytes($colors2, $w, $x3b);
-//         $self->{bpp2} = $bpp2;
-//         $self->{bitmap2} = undef;
-//
-//     } else {
-//         die $self->id . "neznamy priznak a=$a, zbyva:\n".$self->smart_dump($tmp);
-//     };
-//
-//     if (length($tmp) > 0) {
-//
-//     };
-//     $self->{strings} = [$self->dekoduj_stringy(\$tmp)] if $self->{l18n};
-//
-//     if ($self->{unknown_flags} & 0x08) {
-//         $self->{unknown_flags} &= ~0x08;
-//         $self->{morecolors_info} = unpack('C', substr($tmp, 0, 1, ''));
-//         $self->{morecolors} = $self->get_morecolors(\$tmp, $self->{morecolors_info});
-//     };
-//
-//     $self->{_neznamy_konec} = $tmp;
-// };
-
-
-
-
-
-
-// /*sub bpp_and_width_in_bytes {
-//     my ($self, $numcolors, $w_pixels, $x3_flag) = @_;
-//
-//     my $bpp = undef;
-//     if ($x3_flag == 0x00) {
-//
-//         $bpp = {
-//
-//             0    => 16,    # 16 znamena ze se nepouziva paleta, ale primo barvy
-//
-//             1    => 1,
-//             2    => 2,
-//             3    => 2,
-//             4    => 4,
-//             5    => 4,
-//
-//             (map {$_ => 4} (6 .. 15)),
-//             (map {$_ => 8} (16 .. 31)),
-//
-//             32    => 8,
-//
-//             (map {$_ => 8} (33 .. 255))
-//         }->{$numcolors};
-//     } elsif ($x3_flag == 0x10) {
-//
-//         $bpp = {
-//
-//             0    => 1,    # dulezite, i takove bitmapy (h=0, w=0, bpp=0, bez bitmapy) se tu vyskytuji
-//             (map {$_ => 2} (1 .. 2)),
-//
-//             3    => 4,
-//             4    => 4,
-//             5    => 4,
-//             6    => 4,
-//             7    => 4,
-//             8    => 4,
-//             9    => 4,
-//             10    => 4,
-//             11    => 4,
-//             12    => 4,
-//             13    => 4,
-//             14    => 4,
-//
-//             15    => 8,
-//             16    => 8,
-//             17    => 8,
-//
-//             (map {$_ => 8} (18 .. 255))
-//         }->{$numcolors};
-//     } elsif ($x3_flag == 0x20) {
-//
-//         $bpp = {
-//             0    => 16,    # 16 znamena ze se nepouziva paleta, ale primo barvy
-//             1    => 1,
-//             (map {$_ => 2} (2 .. 3)),
-//             (map {$_ => 4} (4 .. 15)),
-//             (map {$_ => 8} (16 .. 255))
-//         }->{$numcolors};
-//     } else {
-//         die {message => "unknown image flag: $x3_flag"};
-//     };
-//     if (!defined $bpp) {
-//         die $self->id . "unknown bpp: flag=".sprintf('0x%02x', $x3_flag).", colors=$numcolors";
-//
-//     };
-//
-//     my $w_pixels_bytes = ($w_pixels * $bpp) / 8;
-//     if ($w_pixels_bytes > int($w_pixels_bytes)) {
-//
-//         $w_pixels_bytes = int($w_pixels_bytes) + 1;
-//     };
-//     if ($bpp < 0) {
-//         $w_pixels_bytes = 0;
-//     };
-//
-//     return ($bpp, $w_pixels_bytes);
-// };
-// */
