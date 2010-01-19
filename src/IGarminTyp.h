@@ -188,7 +188,7 @@ class IGarminTyp : public QObject
 
         void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);
         bool decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int& bytes);
-
+        bool decodeColorTable(QDataStream& in, QImage& img, int ncolors,  int maxcolor, bool hasAlpha);
         format_e format;
 
         struct typ_section_t

@@ -37,34 +37,7 @@ IGarminTyp::~IGarminTyp()
 
 }
 
-void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
-{
-    int x = 0,j = 0;
-    quint8 color;
-    for (int y = 0; y < h; y++) {
-        while ( x < w ) {
-            in >> color;
 
-            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
-                int value;
-                if ( i > 0 ) {
-                    value = (color >>= bpp);
-                }
-                else {
-                    value = color;
-                }
-                if ( bpp == 4) value = value & 0xf;
-                if ( bpp == 2) value = value & 0x3;
-                if ( bpp == 1) value = value & 0x1;
-                img.setPixel(x,y,value);
-                //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
-                x += 1;
-            }
-            j += 1;
-        }
-        x = 0;
-    }
-}
 
 
 bool IGarminTyp::parseHeader(QDataStream& in)
@@ -821,7 +794,7 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
             if(ncolors < 3){
                 bpp = ncolors;
             }
-            else if(ncolors = 3){
+            else if(ncolors == 3){
                 bpp = 2;
             }
             else if(ncolors < 16){
@@ -841,7 +814,7 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
                 bpp = 1;
             }
             else if(ncolors < 3){
-                bpp = ncolors;
+                bpp = 2;
             }
             else if(ncolors < 15){
                 bpp = 4;
@@ -881,11 +854,86 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
     }
 
     bytes = (w * bpp) / 8;
-    if( (w * bpp) & 0x03 ){
+    if( (w * bpp) & 0x07 ){
         ++bytes;
     }
 
     return true;
+}
+
+bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, int ncolors, int maxcolor, bool hasAlpha)
+{
+
+    img.setNumColors(ncolors);
+
+    if(hasAlpha){
+        int i;
+        quint8  byte;
+        quint32 bits = 0;
+        quint32 reg  = 0;
+        quint32 mask = 0x000000FF;
+
+        for (i = 0; i < ncolors; i++) {
+
+            while(bits < 28) {
+                in >> byte;
+                mask = 0x000000FF << bits;
+                reg  = reg  & (~mask);
+                reg  = reg  | (byte << bits);
+                bits += 8;
+            }
+
+            img.setColor(i, qRgba((reg >> 16) & 0x0FF, (reg >> 8) & 0x0FF, reg & 0x0FF, ~((reg >> 24) & 0x0F) << 4));
+
+            reg   = reg >> 28;
+            bits -= 28;
+        }
+        for(; i < maxcolor; ++i){
+            img.setColor(i,qRgba(0,0,0,0));
+        }
+
+    }
+    else{
+        int i;
+        quint8 r,g,b;
+        for(i = 0; i < ncolors; ++i){
+            in >> b >> g >> r;
+            img.setColor(i, qRgb(r,g,b));
+        }
+        for(; i < maxcolor; ++i){
+            img.setColor(i,qRgba(0,0,0,0));
+        }
+    }
+    return true;
+}
+
+void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp)
+{
+    int x = 0,j = 0;
+    quint8 color;
+    for (int y = 0; y < h; y++) {
+        while ( x < w ) {
+            in >> color;
+
+            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
+                int value;
+                if ( i > 0 ) {
+                    value = (color >>= bpp);
+                }
+                else {
+                    value = color;
+                }
+                if ( bpp == 4) value = value & 0xf;
+                if ( bpp == 2) value = value & 0x3;
+                if ( bpp == 1) value = value & 0x1;
+                img.setPixel(x,y,value);
+                //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
+                x += 1;
+            }
+            j += 1;
+        }
+        x = 0;
+    }
 }
 
 bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& points)
@@ -932,7 +980,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
 
         in.device()->seek( sectPoints.dataOffset + offset );
 
-        int bpp = 0, bytes = 0;
+        int bpp = 0, wbytes = 0;
         quint8  w, h, ncolors, ctyp;
         in >> t8_1 >> w >> h >> ncolors >> ctyp;
 
@@ -943,13 +991,30 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         qDebug() << "Point typ:" << hex << typ << "ctyp:" << ctyp <<"offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
 #endif
 
-        if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, bytes)){
+        if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)){
             continue;
         }
 
 #ifdef DBG
-        qDebug() << "          " << dec << "w" << w << "h" << h << "ncolors" << ncolors << "bpp" << bpp << "bytes" << bytes;
+        qDebug() << "          " << dec << "w" << w << "h" << h << "ncolors" << ncolors << "bpp" << bpp << "wbytes" << wbytes;
 #endif
+
+        if(ctyp == 0x20 || ctyp == 0x00){
+            if((ncolors == 0) && (bpp >= 16)){
+                ncolors = w*h;
+            }
+        }
+
+        QImage imgDay(w,h, QImage::Format_Indexed8 );
+        QImage imgNight(w,h, QImage::Format_Indexed8 );
+
+        if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20)){
+            continue;
+        }
+
+        decodeBitmap(in, imgDay, w, h, bpp);
+        points[typ].imgDay = imgDay;
+
 
     }
 
