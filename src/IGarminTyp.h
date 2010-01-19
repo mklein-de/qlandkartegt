@@ -98,7 +98,6 @@ class IGarminTyp : public QObject
             QImage  imgDay;
             QImage  imgNight;
 
-            QFont   font;
             QMap<int,QString> strings;
             label_type_e labelType;
             QColor colorLabelDay;
@@ -146,12 +145,23 @@ class IGarminTyp : public QObject
             QPen    pen;
             QBrush  brushDay;
             QBrush  brushNight;
-            QFont   font;
+
             QMap<int,QString> strings;
             label_type_e labelType;
             QColor colorLabelDay;
             QColor colorLabelNight;
             bool    known;
+        };
+
+        struct point_property
+        {
+            QImage imgDay;
+            QImage imgNight;
+
+            QMap<int,QString> strings;
+            label_type_e labelType;
+            QColor colorLabelDay;
+            QColor colorLabelNight;
         };
 
         /// decode typ file
@@ -167,16 +177,17 @@ class IGarminTyp : public QObject
             @param points reference to point properties map
 
         */
-        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, QImage>& points) = 0;
+        virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, point_property>& points) = 0;
 
     protected:
         virtual bool parseHeader(QDataStream& in);
         virtual bool parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder);
         virtual bool parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& polygons);
         virtual bool parsePolyline(QDataStream& in, QMap<quint32, polyline_property>& polylines);
-        virtual bool parsePoint(QDataStream& in, QMap<quint32, QImage>& points);
+        virtual bool parsePoint(QDataStream& in, QMap<quint32, point_property>& points);
 
         void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);
+        bool decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int& bytes);
 
         format_e format;
 

@@ -812,7 +812,83 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
     return true;
 }
 
-bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
+bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int& bytes)
+{
+    switch(flags)
+    {
+        case 0x00:
+        {
+            if(ncolors < 3){
+                bpp = ncolors;
+            }
+            else if(ncolors = 3){
+                bpp = 2;
+            }
+            else if(ncolors < 16){
+                bpp = 4;
+            }
+            else if(ncolors < 256){
+                bpp = 8;
+            }
+            else{
+                return false;
+            }
+            break;
+        }
+        case 0x10:
+        {
+            if(ncolors == 0){
+                bpp = 1;
+            }
+            else if(ncolors < 3){
+                bpp = ncolors;
+            }
+            else if(ncolors < 15){
+                bpp = 4;
+            }
+            else if(ncolors < 256){
+                bpp = 8;
+            }
+            else{
+                return false;
+            }
+            break;
+        }
+        case 0x20:
+        {
+            if(ncolors == 0){
+                bpp = 16;
+            }
+            else if(ncolors < 3){
+                bpp = ncolors;
+            }
+            else if(ncolors < 4){
+                bpp = 2;
+            }
+            else if(ncolors < 16){
+                bpp = 4;
+            }
+            else if(ncolors < 256){
+                bpp = 8;
+            }
+            else{
+                return false;
+            }
+            break;
+        }
+        default:
+            return false;
+    }
+
+    bytes = (w * bpp) / 8;
+    if( (w * bpp) & 0x03 ){
+        ++bytes;
+    }
+
+    return true;
+}
+
+bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& points)
 {
     bool tainted = false;
 
@@ -827,9 +903,6 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
         quint32 typ, offset;
         bool hasLocalization = false;
         bool hasTextColor = false;
-//         quint8 ctyp, rows;
-//         quint8 r,g,b;
-        quint8 langcode;
 
         in.device()->seek( sectPoints.arrayOffset + (sectPoints.arrayModulo * element ) );
 
@@ -859,15 +932,23 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
 
         in.device()->seek( sectPoints.dataOffset + offset );
 
-        quint8  w, h, colors, ctyp;
-        in >> t8_1 >> w >> h >> colors >> ctyp;
+        int bpp = 0, bytes = 0;
+        quint8  w, h, ncolors, ctyp;
+        in >> t8_1 >> w >> h >> ncolors >> ctyp;
 
         hasLocalization = t8_1 & 0x04;
         hasTextColor    = t8_1 & 0x08;
         t8_1            = t8_1 & 0x03;
+#ifdef DBG
+        qDebug() << "Point typ:" << hex << typ << "ctyp:" << ctyp <<"offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
+#endif
+
+        if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, bytes)){
+            continue;
+        }
 
 #ifdef DBG
-        qDebug() << "Point typ:" << hex << typ << "ctyp:" << ctyp << dec << "w" << w << "h" << h << "colors" << colors << hex <<"offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
+        qDebug() << "          " << dec << "w" << w << "h" << h << "ncolors" << ncolors << "bpp" << bpp << "bytes" << bytes;
 #endif
 
     }
