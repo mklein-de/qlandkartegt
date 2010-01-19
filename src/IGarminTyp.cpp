@@ -871,3 +871,137 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
 
     return true;
 }
+
+// sub decode {
+//     my ($self, $content_data) = @_;
+//
+//     $self->{l18n} = undef;
+//     $self->{unknown_flags} = undef;
+//     $self->{width} = undef;
+//     $self->{height} = undef;
+//     $self->{morecolors_info} = undef;
+//
+//
+//     $self->{colors} = undef;
+//     $self->{bitmap} = undef;
+//     $self->{colors2} = undef;
+//     $self->{bitmap2} = undef;
+//     $self->{morecolors} = undef;
+//
+//     $self->{strings} = undef;
+//
+//     my $tmp = $content_data;
+//     if (length($tmp) == 0) {
+//
+//         return;
+//     };
+//
+//     my ($a, $w, $h, $colors, $x3) = unpack("CCCCC", substr($tmp, 0, 5, ''));
+//
+//     $self->{l18n} = ($a & 0x04) ? 1 : 0;
+//     $a &= ~0x04;
+//     $self->{unknown_flags} = ($a & 0xF8);
+//     $a &= ~0xF8;
+//
+//     $self->{width} = $w;
+//     $self->height($h);
+//     $self->{x3} = $x3;
+//
+//     my ($bpp, $w_bytes) = $self->bpp_and_width_in_bytes($colors, $w, $x3);
+//
+//     $self->{bpp} = $bpp;
+//
+//     if ($x3 == 0x20) {
+//
+//         if (($colors == 0) && ($bpp >= 16)) {
+//             $colors = $w*$h;
+//         };
+//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors, 1)];
+//     } elsif ($x3 == 0x10) {
+//
+//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors)];
+//     } elsif ($x3 == 0) {
+//         if (($colors == 0) && ($bpp >= 16)) {
+//             $colors = $w*$h;
+//         };
+//         $self->{colors} = [$self->get_rgb_triplets(\$tmp, $colors)];
+//         if ($a == 0) {
+//
+//         };
+//     } else {
+//         die "unknown x3: $x3 (a=$a)";
+//     };
+//
+//     my $bitmapa;
+//     if ($bpp >= 16) {
+//
+//         $bitmapa = '';
+//         for (my $i=0; $i<$colors; $i++) {
+//             $bitmapa .= pack('S', $i);
+//         };
+//     } else {
+//         my $x_zbyva = length($tmp);
+//         my $x_mam_nacist = $h*$w_bytes;
+//
+//         if (($x_zbyva-$x_mam_nacist) < 0) {
+//
+//         };
+//         $bitmapa = substr($tmp, 0, $x_mam_nacist, '');
+//     };
+//     $self->bitmap($bitmapa);
+//
+//
+//
+//     if ($a == 0x01) {
+//
+//     } elsif ($a == 0x00) {
+//
+//     } elsif ($a == 0x03) {
+//
+//         my ($colors2) = unpack("C", (substr($tmp, 0, 1, '')));
+//         my ($x3b) = unpack("C", (substr($tmp, 0, 1, '')));
+//
+//         $self->{x3b} = $x3b;
+//
+//         $self->{colors2} = [$self->get_rgb_triplets(\$tmp, $colors2, ($x3b == 0x20))];
+//         my ($bpp2, $w_bytes2) = $self->bpp_and_width_in_bytes($colors2, $w, $x3b);
+//         $self->{bpp2} = $bpp2;
+//         my $x_zbyva = length($tmp);
+//         my $x_mam_nacist = $h*$w_bytes2;
+//         if (($x_zbyva-$x_mam_nacist) < 0) {
+//
+//         };
+//
+//         my $bitmapa2 = substr($tmp, 0, $x_mam_nacist, '');
+//         $self->{bitmap2} = $bitmapa2;
+//
+//     } elsif ($a == 0x02) {
+//
+//         my ($colors2) = unpack("C", (substr($tmp, 0, 1, '')));
+//         my ($x3b) = unpack("C", (substr($tmp, 0, 1, '')));
+//
+//         $self->{x3b} = $x3b;
+//
+//         $self->{colors2} = [$self->get_rgb_triplets(\$tmp, $colors2)];
+//         my ($bpp2, $w_bytes2) = $self->bpp_and_width_in_bytes($colors2, $w, $x3b);
+//         $self->{bpp2} = $bpp2;
+//         $self->{bitmap2} = undef;
+//
+//     } else {
+//         die $self->id . "neznamy priznak a=$a, zbyva:\n".$self->smart_dump($tmp);
+//     };
+//
+//     if (length($tmp) > 0) {
+//
+//     };
+//     $self->{strings} = [$self->dekoduj_stringy(\$tmp)] if $self->{l18n};
+//
+//     if ($self->{unknown_flags} & 0x08) {
+//         $self->{unknown_flags} &= ~0x08;
+//         $self->{morecolors_info} = unpack('C', substr($tmp, 0, 1, ''));
+//         $self->{morecolors} = $self->get_morecolors(\$tmp, $self->{morecolors_info});
+//     };
+//
+//     $self->{_neznamy_konec} = $tmp;
+// };
+//
