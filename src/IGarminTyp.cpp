@@ -827,7 +827,6 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
         quint32 typ, offset;
         bool hasLocalization = false;
         bool hasTextColor = false;
-        bool renderMode = false;
 //         quint8 ctyp, rows;
 //         quint8 r,g,b;
         quint8 langcode;
@@ -860,11 +859,15 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
 
         in.device()->seek( sectPoints.dataOffset + offset );
 
-        quint8 a, w, h, colors, x3;
-        in >> a >> w >> h >> colors >> x3;
+        quint8  w, h, colors, ctyp;
+        in >> t8_1 >> w >> h >> colors >> ctyp;
+
+        hasLocalization = t8_1 & 0x04;
+        hasTextColor    = t8_1 & 0x08;
+        t8_1            = t8_1 & 0x03;
 
 #ifdef DBG
-        qDebug() << "Point typ:" << hex << typ << /*"ctyp:" << ctyp <<*/ "offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
+        qDebug() << "Point typ:" << hex << typ << "ctyp:" << ctyp << dec << "w" << w << "h" << h << "colors" << colors << hex <<"offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
 #endif
 
     }
@@ -1004,4 +1007,87 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, QImage>& points)
 //
 //     $self->{_neznamy_konec} = $tmp;
 // };
+
+
+
+
+
+
+// /*sub bpp_and_width_in_bytes {
+//     my ($self, $numcolors, $w_pixels, $x3_flag) = @_;
 //
+//     my $bpp = undef;
+//     if ($x3_flag == 0x00) {
+//
+//         $bpp = {
+//
+//             0    => 16,    # 16 znamena ze se nepouziva paleta, ale primo barvy
+//
+//             1    => 1,
+//             2    => 2,
+//             3    => 2,
+//             4    => 4,
+//             5    => 4,
+//
+//             (map {$_ => 4} (6 .. 15)),
+//             (map {$_ => 8} (16 .. 31)),
+//
+//             32    => 8,
+//
+//             (map {$_ => 8} (33 .. 255))
+//         }->{$numcolors};
+//     } elsif ($x3_flag == 0x10) {
+//
+//         $bpp = {
+//
+//             0    => 1,    # dulezite, i takove bitmapy (h=0, w=0, bpp=0, bez bitmapy) se tu vyskytuji
+//             (map {$_ => 2} (1 .. 2)),
+//
+//             3    => 4,
+//             4    => 4,
+//             5    => 4,
+//             6    => 4,
+//             7    => 4,
+//             8    => 4,
+//             9    => 4,
+//             10    => 4,
+//             11    => 4,
+//             12    => 4,
+//             13    => 4,
+//             14    => 4,
+//
+//             15    => 8,
+//             16    => 8,
+//             17    => 8,
+//
+//             (map {$_ => 8} (18 .. 255))
+//         }->{$numcolors};
+//     } elsif ($x3_flag == 0x20) {
+//
+//         $bpp = {
+//             0    => 16,    # 16 znamena ze se nepouziva paleta, ale primo barvy
+//             1    => 1,
+//             (map {$_ => 2} (2 .. 3)),
+//             (map {$_ => 4} (4 .. 15)),
+//             (map {$_ => 8} (16 .. 255))
+//         }->{$numcolors};
+//     } else {
+//         die {message => "unknown image flag: $x3_flag"};
+//     };
+//     if (!defined $bpp) {
+//         die $self->id . "unknown bpp: flag=".sprintf('0x%02x', $x3_flag).", colors=$numcolors";
+//
+//     };
+//
+//     my $w_pixels_bytes = ($w_pixels * $bpp) / 8;
+//     if ($w_pixels_bytes > int($w_pixels_bytes)) {
+//
+//         $w_pixels_bytes = int($w_pixels_bytes) + 1;
+//     };
+//     if ($bpp < 0) {
+//         $w_pixels_bytes = 0;
+//     };
+//
+//     return ($bpp, $w_pixels_bytes);
+// };
+// */
