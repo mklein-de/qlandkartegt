@@ -126,9 +126,11 @@ void CMapToolWidget::slotDBChanged()
     if(selected) {
         if(selected->data(eType, Qt::UserRole) == IMap::eGarmin) {
             treeKnownMapsVector->setCurrentItem(selected);
+            tabWidget->setCurrentIndex(1);
         }
         else {
             treeKnownMapsRaster->setCurrentItem(selected);
+            tabWidget->setCurrentIndex(0);
         }
     }
 
