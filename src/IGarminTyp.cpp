@@ -1012,9 +1012,41 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
             continue;
         }
 
-        decodeBitmap(in, imgDay, w, h, bpp);
-        points[typ].imgDay = imgDay;
+        if(bpp >= 16){
+            continue;
+        }
+        else{
+            decodeBitmap(in, imgDay, w, h, bpp);
+            points[typ].imgDay = imgDay;
+        }
 
+        if(t8_1 == 0x03){
+
+            in >> ncolors >> ctyp;
+            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)){
+                continue;
+            }
+            if(!decodeColorTable(in, imgNight, ncolors, 1 << bpp, ctyp == 0x20)){
+                continue;
+            }
+            decodeBitmap(in, imgNight, w, h, bpp);
+            points[typ].imgNight = imgNight;
+
+        }
+        else if(t8_1 == 0x02){
+            in >> ncolors >> ctyp;
+            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)){
+                continue;
+            }
+            if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20)){
+                continue;
+            }
+            points[typ].imgNight = imgDay;
+
+        }
+        else{
+            points[typ].imgNight = imgDay;
+        }
 
     }
 
