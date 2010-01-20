@@ -203,8 +203,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , zoomFactor(0)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
-, mouseOverDecDetail(false)
-, mouseOverIncDetail(false)
 , lon_factor(+1.0)
 , lat_factor(-1.0)
 , useTyp(true)
@@ -213,6 +211,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , checkPoiLabels(0)
 , nightView(false)
 , checkNightView(0)
+, comboDetails(0)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -279,8 +278,24 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     checkNightView->setChecked(nightView);
     connect(checkNightView, SIGNAL(toggled(bool)), this, SLOT(slotNightView(bool)));
 
+    comboDetails = new QComboBox(theMainWindow->getCanvas());
+    comboDetails->addItem(tr("Detail  5"),  5);
+    comboDetails->addItem(tr("Detail  4"),  4);
+    comboDetails->addItem(tr("Detail  3"),  3);
+    comboDetails->addItem(tr("Detail  2"),  2);
+    comboDetails->addItem(tr("Detail  1"),  1);
+    comboDetails->addItem(tr("Detail  0"),  0);
+    comboDetails->addItem(tr("Detail -1"), -1);
+    comboDetails->addItem(tr("Detail -2"), -2);
+    comboDetails->addItem(tr("Detail -3"), -3);
+    comboDetails->addItem(tr("Detail -4"), -4);
+    comboDetails->addItem(tr("Detail -5"), -5);
+    comboDetails->setCurrentIndex(comboDetails->findData(detailsFineTune));
+    connect(comboDetails, SIGNAL(currentIndexChanged(int)), this, SLOT(slotDetailChanged(int)));
+    theMainWindow->statusBar()->insertPermanentWidget(0,comboDetails);
 
     qDebug() << "CMapTDB::CMapTDB()";
+
 }
 
 
@@ -296,8 +311,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , zoomFactor(0)
 , fm(CResources::self().getMapFont())
 , detailsFineTune(0)
-, mouseOverDecDetail(false)
-, mouseOverIncDetail(false)
 , fid(0x0001)
 , pid(0x0320)
 , lon_factor(+1.0)
@@ -308,6 +321,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , checkPoiLabels(0)
 , nightView(false)
 , checkNightView(0)
+, comboDetails(0)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -378,6 +392,10 @@ CMapTDB::~CMapTDB()
         delete checkNightView;
     }
 
+    if(comboDetails){
+        delete comboDetails;
+    }
+
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
@@ -391,6 +409,14 @@ void CMapTDB::slotPoiLabels(bool checked)
 void CMapTDB::slotNightView(bool checked)
 {
     nightView   = checked;
+    needsRedraw = true;
+    emit sigChanged();
+}
+
+void CMapTDB::slotDetailChanged(int idx)
+{
+
+    detailsFineTune = comboDetails->itemData(idx).toInt();
     needsRedraw = true;
     emit sigChanged();
 }
@@ -588,15 +614,8 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 
 void CMapTDB::resize(const QSize& s)
 {
-    int yshift = 0;
-    if (QApplication::desktop()->height() < 650) yshift = 60 ;
     IMap::resize(s);
     topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
-
-    rectDecDetail   = QRect(20, size.height() - 55 - yshift, 32, 32);
-    rectDetail      = QRect(52, size.height() - 55 - yshift, 128, 32);
-    rectIncDetail   = QRect(180, size.height() - 55 - yshift, 32, 32);
-
     setFastDraw();
 }
 
@@ -608,20 +627,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
-
-        if(rectDecDetail.contains(pointFocus) && !mouseOverDecDetail) {
-            mouseOverDecDetail = true;
-        }
-        else if(!rectDecDetail.contains(pointFocus) && mouseOverDecDetail) {
-            mouseOverDecDetail = false;
-        }
-
-        if(rectIncDetail.contains(pointFocus) && !mouseOverIncDetail) {
-            mouseOverIncDetail = true;
-        }
-        else if(!rectIncDetail.contains(pointFocus) && mouseOverIncDetail) {
-            mouseOverIncDetail = false;
-        }
 
         QMultiMap<QString, QString> dict;
         getInfoPoints(pointFocus, dict);
@@ -643,23 +648,6 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 
         if(!doFastDraw) emit sigChanged();
 
-    }
-    else if(parent() == watched && event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent * e = (QMouseEvent*)event;
-        if(rectDecDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
-            detailsFineTune -= 1;
-            if(detailsFineTune < -5) detailsFineTune = -5;
-            needsRedraw = true;
-            emit sigChanged();
-            qDebug() << "detailsFineTune" << detailsFineTune;
-        }
-        else if(rectIncDetail.contains(e->pos()) && e->button() == Qt::LeftButton) {
-            detailsFineTune += 1;
-            if(detailsFineTune >  5) detailsFineTune =  5;
-            needsRedraw = true;
-            emit sigChanged();
-            qDebug() << "detailsFineTune" << detailsFineTune;
-        }
     }
 
     return IMap::eventFilter(watched, event);
@@ -1235,57 +1223,6 @@ void CMapTDB::draw(QPainter& p)
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
-    // draw detail scaling
-    p.setPen(Qt::darkBlue);
-    p.setBrush(QColor(255,255,255,100));
-    if(mouseOverDecDetail) {
-        p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png").scaled(40,40));
-    }
-    else {
-        p.drawPixmap(rectDecDetail.topLeft(), QPixmap(":/icons/iconMinus32x32.png"));
-    }
-
-    if(mouseOverIncDetail) {
-        p.drawPixmap(rectIncDetail.topLeft(), QPixmap(":/icons/iconAdd32x32.png").scaled(40,40));
-    }
-    else {
-        p.drawPixmap(rectIncDetail, QPixmap(":/icons/iconAdd32x32.png"));
-    }
-
-    QString str;
-    if(detailsFineTune < 0) {
-        str = tr("details %1").arg(detailsFineTune);
-    }
-    else if(detailsFineTune > 0) {
-        str = tr("details +%1").arg(detailsFineTune);
-    }
-    else {
-        str = tr("details %1").arg(detailsFineTune);
-    }
-    QFont font = p.font();
-
-    p.save();
-
-    font.setPixelSize(20);
-
-    p.setPen(Qt::white);
-    p.setFont(font);
-
-    p.drawText(rectDetail.translated(-1,-1 + 5), Qt::AlignCenter, str);
-    p.drawText(rectDetail.translated( 0,-1 + 5), Qt::AlignCenter, str);
-    p.drawText(rectDetail.translated(+1,-1 + 5), Qt::AlignCenter, str);
-
-    p.drawText(rectDetail.translated(-1, 0 + 5), Qt::AlignCenter, str);
-    p.drawText(rectDetail.translated(+1, 0 + 5), Qt::AlignCenter, str);
-
-    p.drawText(rectDetail.translated(-1,+1 + 5), Qt::AlignCenter, str);
-    p.drawText(rectDetail.translated( 0,+1 + 5), Qt::AlignCenter, str);
-    p.drawText(rectDetail.translated(+1,+1 + 5), Qt::AlignCenter, str);
-
-    p.setPen(Qt::darkBlue);
-    p.drawText(rectDetail.translated( 0, 0 + 5), Qt::AlignCenter, str);
-
-    p.restore();
 
     if(doFastDraw) setFastDraw();
 }

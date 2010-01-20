@@ -33,6 +33,7 @@ class QTimer;
 class QTextDocument;
 class CGarminIndex;
 class QCheckBox;
+class QComboBox;
 
 class CMapTDB : public IMap
 {
@@ -73,6 +74,7 @@ class CMapTDB : public IMap
     private slots:
         void slotPoiLabels(bool checked);
         void slotNightView(bool checked);
+        void slotDetailChanged(int idx);
 
     private:
         friend class CDlgMapTDBConfig;
@@ -277,11 +279,6 @@ class CMapTDB : public IMap
         QPoint          pointFocus;
 
         int detailsFineTune;
-        QRect   rectDecDetail;
-        QRect   rectIncDetail;
-        QRect   rectDetail;
-        bool    mouseOverDecDetail;
-        bool    mouseOverIncDetail;
 
         quint16 fid;
         quint16 pid;
@@ -312,6 +309,8 @@ class CMapTDB : public IMap
         QCheckBox * checkPoiLabels;
         bool nightView;
         QCheckBox * checkNightView;
+
+        QComboBox * comboDetails;
 
 };
 #endif                           //CMAPTDB_H
