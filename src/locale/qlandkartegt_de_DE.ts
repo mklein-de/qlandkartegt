@@ -2824,193 +2824,248 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapTDB</name>
     <message>
-        <location filename="../CMapTDB.cpp" line="271"/>
+        <location filename="../CMapTDB.cpp" line="270"/>
         <source>POI labels</source>
         <translation>POI Text</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="277"/>
+        <location filename="../CMapTDB.cpp" line="276"/>
         <source>Night</source>
         <translation>Nacht</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="456"/>
+        <location filename="../CMapTDB.cpp" line="282"/>
+        <source>Detail  5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="283"/>
+        <source>Detail  4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="284"/>
+        <source>Detail  3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="285"/>
+        <source>Detail  2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="286"/>
+        <source>Detail  1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="287"/>
+        <source>Detail  0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="288"/>
+        <source>Detail -1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="289"/>
+        <source>Detail -2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="290"/>
+        <source>Detail -3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="291"/>
+        <source>Detail -4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="292"/>
+        <source>Detail -5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="482"/>
         <source>Major highway</source>
         <translation>Autobahn</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="457"/>
+        <location filename="../CMapTDB.cpp" line="483"/>
         <source>Principal highway</source>
         <translation>Bundesstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="458"/>
+        <location filename="../CMapTDB.cpp" line="484"/>
         <source>Other highway</source>
         <translation>Andere Schnellstraßen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="459"/>
+        <location filename="../CMapTDB.cpp" line="485"/>
         <source>Arterial road</source>
         <translation>Fernstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="460"/>
+        <location filename="../CMapTDB.cpp" line="486"/>
         <source>Collector road</source>
         <translation>Staatsstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="461"/>
+        <location filename="../CMapTDB.cpp" line="487"/>
         <source>Residential street</source>
         <translation>Straße in einem Wohnbezirk</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="462"/>
+        <location filename="../CMapTDB.cpp" line="488"/>
         <source>Alley/Private road</source>
         <translation>Privatweg</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="463"/>
+        <location filename="../CMapTDB.cpp" line="489"/>
         <source>Highway ramp, low speed</source>
         <translation>Autobahnauffahrt/-abfahrt</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="464"/>
+        <location filename="../CMapTDB.cpp" line="490"/>
         <source>Highway ramp, high speed</source>
         <translation>Autobahnauffahrt/-abfahrt</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="465"/>
+        <location filename="../CMapTDB.cpp" line="491"/>
         <source>Unpaved road</source>
         <translation>Nicht asphaltierte Straße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="466"/>
+        <location filename="../CMapTDB.cpp" line="492"/>
         <source>Major highway connector</source>
         <translation>Autobahnzubringer</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="467"/>
+        <location filename="../CMapTDB.cpp" line="493"/>
         <source>Roundabout</source>
         <translation>Kreisel</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="468"/>
+        <location filename="../CMapTDB.cpp" line="494"/>
         <source>Railroad</source>
         <translation>Eisenbahn, Schienen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="469"/>
+        <location filename="../CMapTDB.cpp" line="495"/>
         <source>Shoreline</source>
         <translation>Küste/Ufer</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="470"/>
+        <location filename="../CMapTDB.cpp" line="496"/>
         <source>Trail</source>
         <translation>Pfad</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="471"/>
+        <location filename="../CMapTDB.cpp" line="497"/>
         <source>Stream</source>
         <translation>Fluß</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="472"/>
+        <location filename="../CMapTDB.cpp" line="498"/>
         <source>Time zone</source>
         <translation>Zeitzone</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="473"/>
-        <location filename="../CMapTDB.cpp" line="474"/>
+        <location filename="../CMapTDB.cpp" line="499"/>
+        <location filename="../CMapTDB.cpp" line="500"/>
         <source>Ferry</source>
         <translation>Fähre</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="475"/>
+        <location filename="../CMapTDB.cpp" line="501"/>
         <source>State/province border</source>
         <translation>Bundeslandgrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="476"/>
+        <location filename="../CMapTDB.cpp" line="502"/>
         <source>County/parish border</source>
         <translation>Bezirks-/Gemeindegrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="477"/>
+        <location filename="../CMapTDB.cpp" line="503"/>
         <source>International border</source>
         <translation>Internationale Grenzen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="478"/>
+        <location filename="../CMapTDB.cpp" line="504"/>
         <source>River</source>
         <translation>Fluß</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="479"/>
+        <location filename="../CMapTDB.cpp" line="505"/>
         <source>Minor land contour</source>
         <translation>kleine Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="480"/>
+        <location filename="../CMapTDB.cpp" line="506"/>
         <source>Intermediate land contour</source>
         <translation>mittlere Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="481"/>
+        <location filename="../CMapTDB.cpp" line="507"/>
         <source>Major land contour</source>
         <translation>große Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="482"/>
+        <location filename="../CMapTDB.cpp" line="508"/>
         <source>Minor deph contour</source>
         <translation>kleine Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="483"/>
+        <location filename="../CMapTDB.cpp" line="509"/>
         <source>Intermediate depth contour</source>
         <translation>mittlere Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="484"/>
+        <location filename="../CMapTDB.cpp" line="510"/>
         <source>Major depth contour</source>
         <translation>große Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="485"/>
+        <location filename="../CMapTDB.cpp" line="511"/>
         <source>Intermittent stream</source>
         <translation>Wadi</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="486"/>
+        <location filename="../CMapTDB.cpp" line="512"/>
         <source>Airport runway</source>
         <translation>Landebahn</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="487"/>
+        <location filename="../CMapTDB.cpp" line="513"/>
         <source>Pipeline</source>
         <translation>Pipeline</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="488"/>
+        <location filename="../CMapTDB.cpp" line="514"/>
         <source>Powerline</source>
         <translation>Stromleitung</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="489"/>
+        <location filename="../CMapTDB.cpp" line="515"/>
         <source>Marine boundary</source>
         <translation>Seegrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="490"/>
+        <location filename="../CMapTDB.cpp" line="516"/>
         <source>Hazard boundary</source>
         <translation>gefährliche Grenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="568"/>
+        <location filename="../CMapTDB.cpp" line="594"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation>Keine Projektion der Basiskarte. Das sollte nicht passieren.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2256"/>
+        <location filename="../CMapTDB.cpp" line="2193"/>
         <source>Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format.</source>
         <translation>Unbekanntes TYP Format</translation>
     </message>
@@ -3023,58 +3078,55 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">*tdb Import wurde noch nicht an die Architektur angepaßt (großer Endian).</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="722"/>
+        <location filename="../CMapTDB.cpp" line="710"/>
         <source>Select Base Map for </source>
         <translation>Basiskarte für  auswählen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="797"/>
-        <location filename="../CMapTDB.cpp" line="822"/>
-        <location filename="../CMapTDB.cpp" line="870"/>
+        <location filename="../CMapTDB.cpp" line="785"/>
+        <location filename="../CMapTDB.cpp" line="810"/>
+        <location filename="../CMapTDB.cpp" line="858"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="799"/>
+        <location filename="../CMapTDB.cpp" line="787"/>
         <source>However ...</source>
         <translation>Egal ...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="800"/>
+        <location filename="../CMapTDB.cpp" line="788"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Wie auch immer ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;da ich die Basiskarte und die Information der *tdb Datei lesen kann,&lt;br/&gt;kann ich Dich die Kartenkacheln für das Hochladen aussuchen lassen. Dafür &lt;br/&gt; bauche ich Entsperrschlüssel (25 Zeichen) für die Karte. Dieser muss mit zusammen&lt;br/&gt;mit der Karte geladen werden.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1257"/>
-        <location filename="../CMapTDB.cpp" line="1263"/>
         <source>details %1</source>
-        <translation>Details %1</translation>
+        <translation type="obsolete">Details %1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1260"/>
         <source>details +%1</source>
-        <translation>Details +%1</translation>
+        <translation type="obsolete">Details +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1936"/>
-        <location filename="../CMapTDB.cpp" line="1943"/>
-        <location filename="../CMapTDB.cpp" line="1946"/>
-        <location filename="../CMapTDB.cpp" line="1950"/>
-        <location filename="../CMapTDB.cpp" line="1967"/>
-        <location filename="../CMapTDB.cpp" line="1974"/>
-        <location filename="../CMapTDB.cpp" line="1977"/>
-        <location filename="../CMapTDB.cpp" line="1981"/>
+        <location filename="../CMapTDB.cpp" line="1873"/>
+        <location filename="../CMapTDB.cpp" line="1880"/>
+        <location filename="../CMapTDB.cpp" line="1883"/>
+        <location filename="../CMapTDB.cpp" line="1887"/>
+        <location filename="../CMapTDB.cpp" line="1904"/>
+        <location filename="../CMapTDB.cpp" line="1911"/>
+        <location filename="../CMapTDB.cpp" line="1914"/>
+        <location filename="../CMapTDB.cpp" line="1918"/>
         <source>Point of Interest</source>
         <translation>Sehenswürdigkeit</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2132"/>
-        <location filename="../CMapTDB.cpp" line="2136"/>
+        <location filename="../CMapTDB.cpp" line="2069"/>
+        <location filename="../CMapTDB.cpp" line="2073"/>
         <source>Area</source>
         <translation>Gebiet</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2256"/>
+        <location filename="../CMapTDB.cpp" line="2193"/>
         <source>Warning...</source>
         <translation>Warnung ...</translation>
     </message>
