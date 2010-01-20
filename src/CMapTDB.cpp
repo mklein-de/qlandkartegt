@@ -397,73 +397,8 @@ void CMapTDB::slotNightView(bool checked)
 
 void CMapTDB::setup()
 {
-    polyline_typestr.clear();
-    polyline_typestr << /*0x00,*/   tr("");
-    polyline_typestr << /*0x01,*/   tr("Major highway");
-    polyline_typestr << /*0x02,*/   tr("Principal highway");
-    polyline_typestr << /*0x03,*/   tr("Other highway");
-    polyline_typestr << /*0x04,*/   tr("Arterial road");
-    polyline_typestr << /*0x05,*/   tr("Collector road");
-    polyline_typestr << /*0x06,*/   tr("Residential street");
-    polyline_typestr << /*0x07,*/   tr("Alley/Private road");
-    polyline_typestr << /*0x08,*/   tr("Highway ramp, low speed");
-    polyline_typestr << /*0x09,*/   tr("Highway ramp, high speed");
-    polyline_typestr << /*0x0a,*/   tr("Unpaved road");
-    polyline_typestr << /*0x0b,*/   tr("Major highway connector");
-    polyline_typestr << /*0x0c,*/   tr("Roundabout");
-    polyline_typestr << /*0x0d,*/   tr("");
-    polyline_typestr << /*0x0e,*/   tr("");
-    polyline_typestr << /*0x0f,*/   tr("");
-    polyline_typestr << /*0x10,*/   tr("");
-    polyline_typestr << /*0x11,*/   tr("");
-    polyline_typestr << /*0x12,*/   tr("");
-    polyline_typestr << /*0x13,*/   tr("");
-    polyline_typestr << /*0x14,*/   tr("Railroad");
-    polyline_typestr << /*0x15,*/   tr("Shoreline");
-    polyline_typestr << /*0x16,*/   tr("Trail");
-    polyline_typestr << /*0x17,*/   tr("");
-    polyline_typestr << /*0x18,*/   tr("Stream");
-    polyline_typestr << /*0x19,*/   tr("Time zone");
-    polyline_typestr << /*0x1a,*/   tr("Ferry");
-    polyline_typestr << /*0x1b,*/   tr("Ferry");
-    polyline_typestr << /*0x1c,*/   tr("State/province border");
-    polyline_typestr << /*0x1d,*/   tr("County/parish border");
-    polyline_typestr << /*0x1e,*/   tr("International border");
-    polyline_typestr << /*0x1f,*/   tr("River");
-    polyline_typestr << /*0x20,*/   tr("Minor land contour");
-    polyline_typestr << /*0x21,*/   tr("Intermediate land contour");
-    polyline_typestr << /*0x22,*/   tr("Major land contour");
-    polyline_typestr << /*0x23,*/   tr("Minor deph contour");
-    polyline_typestr << /*0x24,*/   tr("Intermediate depth contour");
-    polyline_typestr << /*0x25,*/   tr("Major depth contour");
-    polyline_typestr << /*0x26,*/   tr("Intermittent stream");
-    polyline_typestr << /*0x27,*/   tr("Airport runway");
-    polyline_typestr << /*0x28,*/   tr("Pipeline");
-    polyline_typestr << /*0x29,*/   tr("Powerline");
-    polyline_typestr << /*0x2a,*/   tr("Marine boundary");
-    polyline_typestr << /*0x2b,*/   tr("Hazard boundary");
-    polyline_typestr << /*0x2c,*/   tr("");
-    polyline_typestr << /*0x2d,*/   tr("");
-    polyline_typestr << /*0x2e,*/   tr("");
-    polyline_typestr << /*0x2f,*/   tr("");
-    polyline_typestr << /*0x30,*/   tr("");
-    polyline_typestr << /*0x31,*/   tr("");
-    polyline_typestr << /*0x32,*/   tr("");
-    polyline_typestr << /*0x33,*/   tr("");
-    polyline_typestr << /*0x34,*/   tr("");
-    polyline_typestr << /*0x35,*/   tr("");
-    polyline_typestr << /*0x36,*/   tr("");
-    polyline_typestr << /*0x37,*/   tr("");
-    polyline_typestr << /*0x38,*/   tr("");
-    polyline_typestr << /*0x39,*/   tr("");
-    polyline_typestr << /*0x3a,*/   tr("");
-    polyline_typestr << /*0x3b,*/   tr("");
-    polyline_typestr << /*0x3c,*/   tr("");
-    polyline_typestr << /*0x3d,*/   tr("");
-    polyline_typestr << /*0x3e,*/   tr("");
-    polyline_typestr << /*0x3f,*/   tr("");
-
     polylineProperties.clear();
+
     polylineProperties[0x01] = IGarminTyp::polyline_property(0x01, Qt::blue,   6, Qt::SolidLine );
     polylineProperties[0x01].penBorderDay = QPen(Qt::black, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     polylineProperties[0x01].penBorderNight = QPen(Qt::lightGray, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -517,6 +452,43 @@ void CMapTDB::setup()
     polylineProperties[0x29] = IGarminTyp::polyline_property(0x29, "#ff0000",   2, Qt::SolidLine );
     polylineProperties[0x2A] = IGarminTyp::polyline_property(0x2A, "#000000",   2, Qt::SolidLine );
     polylineProperties[0x2B] = IGarminTyp::polyline_property(0x2B, "#000000",   2, Qt::SolidLine );
+
+    polylineProperties[0x01].strings[0x00] = tr("Major highway");
+    polylineProperties[0x02].strings[0x00] = tr("Principal highway");
+    polylineProperties[0x03].strings[0x00] = tr("Other highway");
+    polylineProperties[0x04].strings[0x00] = tr("Arterial road");
+    polylineProperties[0x05].strings[0x00] = tr("Collector road");
+    polylineProperties[0x06].strings[0x00] = tr("Residential street");
+    polylineProperties[0x07].strings[0x00] = tr("Alley/Private road");
+    polylineProperties[0x08].strings[0x00] = tr("Highway ramp, low speed");
+    polylineProperties[0x09].strings[0x00] = tr("Highway ramp, high speed");
+    polylineProperties[0x0a].strings[0x00] = tr("Unpaved road");
+    polylineProperties[0x0b].strings[0x00] = tr("Major highway connector");
+    polylineProperties[0x0c].strings[0x00] = tr("Roundabout");
+    polylineProperties[0x14].strings[0x00] = tr("Railroad");
+    polylineProperties[0x15].strings[0x00] = tr("Shoreline");
+    polylineProperties[0x16].strings[0x00] = tr("Trail");
+    polylineProperties[0x18].strings[0x00] = tr("Stream");
+    polylineProperties[0x19].strings[0x00] = tr("Time zone");
+    polylineProperties[0x1a].strings[0x00] = tr("Ferry");
+    polylineProperties[0x1b].strings[0x00] = tr("Ferry");
+    polylineProperties[0x1c].strings[0x00] = tr("State/province border");
+    polylineProperties[0x1d].strings[0x00] = tr("County/parish border");
+    polylineProperties[0x1e].strings[0x00] = tr("International border");
+    polylineProperties[0x1f].strings[0x00] = tr("River");
+    polylineProperties[0x20].strings[0x00] = tr("Minor land contour");
+    polylineProperties[0x21].strings[0x00] = tr("Intermediate land contour");
+    polylineProperties[0x22].strings[0x00] = tr("Major land contour");
+    polylineProperties[0x23].strings[0x00] = tr("Minor deph contour");
+    polylineProperties[0x24].strings[0x00] = tr("Intermediate depth contour");
+    polylineProperties[0x25].strings[0x00] = tr("Major depth contour");
+    polylineProperties[0x26].strings[0x00] = tr("Intermittent stream");
+    polylineProperties[0x27].strings[0x00] = tr("Airport runway");
+    polylineProperties[0x28].strings[0x00] = tr("Pipeline");
+    polylineProperties[0x29].strings[0x00] = tr("Powerline");
+    polylineProperties[0x2a].strings[0x00] = tr("Marine boundary");
+    polylineProperties[0x2b].strings[0x00] = tr("Hazard boundary");
+
 
     polygonProperties.clear();
     polygonProperties[0x01] = IGarminTyp::polygon_property(0x01, Qt::NoPen,     "#d2c0c0", Qt::SolidPattern);
@@ -2104,19 +2076,19 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
         ++line;
     }
 
-    if(type < 0x40){
-        key  = polyline_typestr[type];
-    }
-    else{
-        key.clear();
+//     if(type < 0x40){
+//         key  = polyline_typestr[type];
+//     }
+//     else{
+//         key.clear();
+//     }
+
+
+    QStringList strlist = polylineProperties[type].strings.values();
+    if(strlist.size()){
+        key =  strlist.first().simplified();
     }
 
-    if(key.isEmpty()){
-        QStringList strlist = polylineProperties[type].strings.values();
-        if(strlist.size()){
-            key =  strlist.first().simplified();
-        }
-    }
     if(!key.isEmpty()) {
         dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }

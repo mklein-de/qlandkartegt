@@ -257,7 +257,6 @@ class CMapTDB : public IMap
         /// top bottom right as long / lat [rad]
         XY bottomRight;
 
-        QVector<QString> polyline_typestr;
         QMap<quint32, IGarminTyp::polyline_property> polylineProperties;
         QMap<quint32, IGarminTyp::polygon_property> polygonProperties;
         QList<quint32> polygonDrawOrder;
