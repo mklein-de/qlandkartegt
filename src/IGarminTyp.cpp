@@ -15,6 +15,10 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
+
+    NOTE:   this code is based on the opensource typ file generator at
+            http://ati.land.cz/gps/typdecomp/editor.cgi
+
 **********************************************************************************************/
 
 #include "IGarminTyp.h"

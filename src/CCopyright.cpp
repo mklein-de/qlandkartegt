@@ -63,7 +63,9 @@ CCopyright::CCopyright()
         "The geodesic distance calculation by Thaddeus Vincenty is copied from "
         "<b>http://www.movable-type.co.uk/scripts/LatLongVincenty.html</b>"
         "</p>"
-
+	"<p>"
+	"Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit/"
+	"/<p>"
         ));
 }
 
