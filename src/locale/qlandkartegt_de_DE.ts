@@ -3071,7 +3071,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="2193"/>
         <source>Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format.</source>
-        <translation>Unbekanntes TYP Format</translation>
+        <translation type="unfinished">Unbekanntes TYP Format. Benütze http://ati.land.cz/gps/typdecomp/editor.cgi um es in ein bekanntes umzuwandeln.</translation>
     </message>
     <message>
         <source>No big endian..</source>

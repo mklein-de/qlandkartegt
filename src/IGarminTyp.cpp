@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DBG
+#undef DBG
 
 IGarminTyp::IGarminTyp(format_e format, QObject * parent)
 : QObject(parent)
@@ -400,6 +400,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             while(len > 0){
                 QByteArray str;
                 in >> langcode;
+                languages << langcode;
                 len -= 2*n;
                 while(len > 0){
 
@@ -750,6 +751,7 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             while(len > 0){
                 QByteArray str;
                 in >> langcode;
+                languages << langcode;
                 len -= 2*n;
                 while(len > 0){
 
@@ -1075,6 +1077,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
             while(len > 0){
                 QByteArray str;
                 in >> langcode;
+                languages << langcode;
                 len -= 2*n;
                 while(len > 0){
 

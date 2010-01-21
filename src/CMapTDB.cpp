@@ -212,6 +212,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , nightView(false)
 , checkNightView(0)
 , comboDetails(0)
+, comboLanguages(0)
+, selectedLanguage(-1)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -322,6 +324,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , nightView(false)
 , checkNightView(0)
 , comboDetails(0)
+, comboLanguages(0)
+, selectedLanguage(-1)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -374,6 +378,7 @@ CMapTDB::~CMapTDB()
     cfg.setValue("useTyp",useTyp);
     cfg.setValue("poiLabels",poiLabels);
     cfg.setValue("nightView",nightView);
+    cfg.setValue("selectedLanguage",selectedLanguage);
 
     cfg.endGroup();
     cfg.endGroup();
@@ -394,6 +399,10 @@ CMapTDB::~CMapTDB()
 
     if(comboDetails){
         delete comboDetails;
+    }
+
+    if(comboLanguages){
+        delete comboLanguages;
     }
 
     qDebug() << "CMapTDB::~CMapTDB()";
@@ -421,10 +430,53 @@ void CMapTDB::slotDetailChanged(int idx)
     emit sigChanged();
 }
 
+void CMapTDB::slotLanguageChanged(int idx)
+{
+    selectedLanguage = comboLanguages->itemData(idx).toInt();
+    needsRedraw = true;
+    emit sigChanged();
+}
+
 void CMapTDB::setup()
 {
-    polylineProperties.clear();
+    languages.clear();
+    languages[0x00] = tr("Unspecified");
+    languages[0x01] = tr("French");
+    languages[0x02] = tr("German");
+    languages[0x03] = tr("Dutch");
+    languages[0x04] = tr("English");
+    languages[0x05] = tr("Italian");
+    languages[0x06] = tr("Finnish");
+    languages[0x07] = tr("Swedish");
+    languages[0x08] = tr("Spanish");
+    languages[0x09] = tr("Basque");
+    languages[0x0a] = tr("Catalan");
+    languages[0x0b] = tr("Galician");
+    languages[0x0c] = tr("Welsh");
+    languages[0x0d] = tr("Gaelic");
+    languages[0x0e] = tr("Danish");
+    languages[0x0f] = tr("Norwegian");
+    languages[0x10] = tr("Portuguese");
+    languages[0x11] = tr("Slovak");
+    languages[0x12] = tr("Czech");
+    languages[0x13] = tr("Croatian");
+    languages[0x14] = tr("Hungarian");
+    languages[0x15] = tr("Polish");
+    languages[0x16] = tr("Turkish");
+    languages[0x17] = tr("Greek");
+    languages[0x18] = tr("Slovenian");
+    languages[0x19] = tr("Russian");
+    languages[0x1a] = tr("Estonian");
+    languages[0x1b] = tr("Latvian");
+    languages[0x1c] = tr("Romanian");
+    languages[0x1d] = tr("Albanian");
+    languages[0x1e] = tr("Bosnian");
+    languages[0x1f] = tr("Lithuanian");
+    languages[0x20] = tr("Serbian");
+    languages[0x21] = tr("Macedonian");
+    languages[0x22] = tr("Bulgarian");
 
+    polylineProperties.clear();
     polylineProperties[0x01] = IGarminTyp::polyline_property(0x01, Qt::blue,   6, Qt::SolidLine );
     polylineProperties[0x01].penBorderDay = QPen(Qt::black, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     polylineProperties[0x01].penBorderNight = QPen(Qt::lightGray, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -1874,10 +1926,8 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
             }
             else{
                 if(pointProperties.contains(point->type)){
-                    IGarminTyp::point_property& p = pointProperties[point->type];
-                    if(p.strings.size()){
-                        QStringList strlist = p.strings.values();
-                        dict.insert(tr("Point of Interest"),strlist.first() + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    if(selectedLanguage != -1){
+                        dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                     else{
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
@@ -1905,10 +1955,8 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
             }
             else{
                 if(pointProperties.contains(point->type)){
-                    IGarminTyp::point_property& p = pointProperties[point->type];
-                    if(p.strings.size()){
-                        QStringList strlist = p.strings.values();
-                        dict.insert(tr("Point of Interest"),strlist.first() + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                    if(selectedLanguage != -1){
+                        dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                     else{
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
@@ -2021,9 +2069,9 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 //     }
 
 
-    QStringList strlist = polylineProperties[type].strings.values();
-    if(strlist.size()){
-        key =  strlist.first().simplified();
+
+    if(selectedLanguage != -1){
+        key =  polylineProperties[type].strings[selectedLanguage];
     }
 
     if(!key.isEmpty()) {
@@ -2064,9 +2112,9 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 
             if(c){
                 if(line->labels.isEmpty()){
-                    QStringList strlist = polygonProperties[line->type].strings.values();
-                    if(strlist.size()){
-                        dict.insert(tr("Area"), strlist.first().simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+
+                    if(selectedLanguage != -1){
+                        dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                     }
                 }
                 else{
@@ -2178,6 +2226,28 @@ void CMapTDB::readTYP()
         {
             CGarminTyp typ(0);
             typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+
+            quint8 lang;
+            QSet<quint8> usedLanguages = typ.getLanguages();
+
+            if(!usedLanguages.isEmpty()){
+                comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                foreach(lang, usedLanguages){
+                    comboLanguages->addItem(languages[lang],  lang);
+                }
+                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+
+                QSettings cfg;
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                cfg.endGroup();
+                cfg.endGroup();
+
+                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
+            }
             break;
         }
 
@@ -2185,6 +2255,28 @@ void CMapTDB::readTYP()
         {
             CGarminTypNT typ(0);
             typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+
+            quint8 lang;
+            QSet<quint8> usedLanguages = typ.getLanguages();
+
+            if(!usedLanguages.isEmpty()){
+                comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                foreach(lang, usedLanguages){
+                    comboLanguages->addItem(languages[lang],  lang);
+                }
+                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+
+                QSettings cfg;
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                cfg.endGroup();
+                cfg.endGroup();
+
+                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
+            }
             break;
         }
 

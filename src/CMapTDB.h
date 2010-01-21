@@ -75,6 +75,7 @@ class CMapTDB : public IMap
         void slotPoiLabels(bool checked);
         void slotNightView(bool checked);
         void slotDetailChanged(int idx);
+        void slotLanguageChanged(int idx);
 
     private:
         friend class CDlgMapTDBConfig;
@@ -311,6 +312,12 @@ class CMapTDB : public IMap
         QCheckBox * checkNightView;
 
         QComboBox * comboDetails;
+
+        QMap<quint8, QString> languages;
+
+        QComboBox * comboLanguages;
+
+        quint8 selectedLanguage;
 
 };
 #endif                           //CMAPTDB_H

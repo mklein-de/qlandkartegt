@@ -179,6 +179,8 @@ class IGarminTyp : public QObject
         */
         virtual bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, point_property>& points) = 0;
 
+        QSet<quint8> getLanguages(){return languages;}
+
     protected:
         virtual bool parseHeader(QDataStream& in);
         virtual bool parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder);
@@ -218,7 +220,7 @@ class IGarminTyp : public QObject
         typ_section_t sectPolygons;
         typ_section_t sectOrder;
 
-
+        QSet<quint8> languages;
 
 };
 
