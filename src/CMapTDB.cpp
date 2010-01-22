@@ -2061,14 +2061,6 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
         ++line;
     }
 
-//     if(type < 0x40){
-//         key  = polyline_typestr[type];
-//     }
-//     else{
-//         key.clear();
-//     }
-
-
 
     if(selectedLanguage != -1){
         key =  polylineProperties[type].strings[selectedLanguage];
@@ -2113,7 +2105,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
             if(c){
                 if(line->labels.isEmpty()){
 
-                    if(selectedLanguage != -1){
+                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size()){
                         dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                     }
                 }
