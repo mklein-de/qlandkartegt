@@ -2069,6 +2069,9 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     if(!key.isEmpty()) {
         dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
+    else{
+        dict.insert(tr("Unknown") + QString("(%1)").arg(type,2,16,QChar('0')),value);
+    }
 
     pt = resPt.toPoint();
 }
