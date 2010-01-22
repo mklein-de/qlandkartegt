@@ -777,7 +777,7 @@
     <message>
         <location filename="../CCopyright.cpp" line="35"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf http://ati.land.cz/gps/typedit// erstellt&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; erstellt&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1235,54 +1235,54 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="129"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="148"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="153"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="158"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="163"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="173"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="57"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="126"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="145"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="155"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="160"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="165"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="170"/>
         <source>Error...</source>
         <translation type="unfinished">Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="57"/>
         <source>Mikrokopter: Failed to open serial port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="129"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="126"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="148"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="145"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="153"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="158"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="155"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="163"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="160"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="165"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="173"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="170"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1290,6 +1290,7 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDeviceNMEA</name>
     <message>
+        <location filename="../CDeviceNMEA.cpp" line="174"/>
         <location filename="../CDeviceNMEA.cpp" line="179"/>
         <location filename="../CDeviceNMEA.cpp" line="184"/>
         <location filename="../CDeviceNMEA.cpp" line="189"/>
@@ -1297,47 +1298,46 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDeviceNMEA.cpp" line="199"/>
         <location filename="../CDeviceNMEA.cpp" line="204"/>
         <location filename="../CDeviceNMEA.cpp" line="209"/>
-        <location filename="../CDeviceNMEA.cpp" line="214"/>
         <source>Error...</source>
         <translation>Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="179"/>
+        <location filename="../CDeviceNMEA.cpp" line="174"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="184"/>
+        <location filename="../CDeviceNMEA.cpp" line="179"/>
         <source>NMEA: Download waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="189"/>
+        <location filename="../CDeviceNMEA.cpp" line="184"/>
         <source>NMEA: Upload tracks is not implemented.</source>
         <translation>NMEA: Tracks auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="194"/>
+        <location filename="../CDeviceNMEA.cpp" line="189"/>
         <source>NMEA: Download tracks is not implemented.</source>
         <translation>NMEA: Tracks vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="199"/>
+        <location filename="../CDeviceNMEA.cpp" line="194"/>
         <source>NMEA: Upload routes is not implemented.</source>
         <translation>NMEA: Routen auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="204"/>
+        <location filename="../CDeviceNMEA.cpp" line="199"/>
         <source>NMEA: Download routes is not implemented.</source>
         <translation>NMEA: Routes vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="209"/>
+        <location filename="../CDeviceNMEA.cpp" line="204"/>
         <source>NMEA: Upload maps is not implemented.</source>
         <translation>NMEA: Karten auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="214"/>
+        <location filename="../CDeviceNMEA.cpp" line="209"/>
         <source>NMEA: Download screenschots is not implemented.</source>
         <translation>NMEA: Bildschirmfoto vom Gerät laden ist nicht implementiert.</translation>
     </message>
@@ -1878,32 +1878,32 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDlgSetupGarminIcons</name>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="76"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="73"/>
         <source>reset icon</source>
         <translation>Ikone zurück setzen</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="82"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="79"/>
         <source>select icon</source>
         <translation>Ikone auswählen</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="126"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="123"/>
         <source>Select icon ...</source>
         <translation>Ikone auswählen ...</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="215"/>
         <source>Format Error</source>
         <translation>Formatfehler</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="215"/>
         <source>: Bad icon format</source>
         <translation>: Schlechtes Ikonenformat</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="246"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="243"/>
         <source>Device Link Error</source>
         <translation>Keine Verbindung zum Gerät</translation>
     </message>
@@ -2828,250 +2828,430 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapTDB</name>
     <message>
-        <location filename="../CMapTDB.cpp" line="270"/>
+        <location filename="../CMapTDB.cpp" line="272"/>
         <source>POI labels</source>
         <translation>POI Text</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="276"/>
+        <location filename="../CMapTDB.cpp" line="278"/>
         <source>Night</source>
         <translation>Nacht</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="282"/>
+        <location filename="../CMapTDB.cpp" line="284"/>
         <source>Detail  5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="283"/>
+        <location filename="../CMapTDB.cpp" line="285"/>
         <source>Detail  4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="284"/>
+        <location filename="../CMapTDB.cpp" line="286"/>
         <source>Detail  3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="285"/>
+        <location filename="../CMapTDB.cpp" line="287"/>
         <source>Detail  2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="286"/>
+        <location filename="../CMapTDB.cpp" line="288"/>
         <source>Detail  1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="287"/>
+        <location filename="../CMapTDB.cpp" line="289"/>
         <source>Detail  0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="288"/>
+        <location filename="../CMapTDB.cpp" line="290"/>
         <source>Detail -1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="289"/>
+        <location filename="../CMapTDB.cpp" line="291"/>
         <source>Detail -2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="290"/>
+        <location filename="../CMapTDB.cpp" line="292"/>
         <source>Detail -3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="291"/>
+        <location filename="../CMapTDB.cpp" line="293"/>
         <source>Detail -4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="292"/>
+        <location filename="../CMapTDB.cpp" line="294"/>
         <source>Detail -5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="482"/>
+        <location filename="../CMapTDB.cpp" line="443"/>
+        <source>Unspecified</source>
+        <translation>Unspezifiziert</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="444"/>
+        <source>French</source>
+        <translation>Französisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="445"/>
+        <source>German</source>
+        <translation>Deutsch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="446"/>
+        <source>Dutch</source>
+        <translation>Niederländisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="447"/>
+        <source>English</source>
+        <translation>Englisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="448"/>
+        <source>Italian</source>
+        <translation>Italienisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="449"/>
+        <source>Finnish</source>
+        <translation>Finnisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="450"/>
+        <source>Swedish</source>
+        <translation>Schwedisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="451"/>
+        <source>Spanish</source>
+        <translation>Spanisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="452"/>
+        <source>Basque</source>
+        <translation>Baskisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="453"/>
+        <source>Catalan</source>
+        <translation>Catalanisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="454"/>
+        <source>Galician</source>
+        <translation>Galizisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="455"/>
+        <source>Welsh</source>
+        <translation>Walisisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="456"/>
+        <source>Gaelic</source>
+        <translation>Gälisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="457"/>
+        <source>Danish</source>
+        <translation>Dänisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="458"/>
+        <source>Norwegian</source>
+        <translation>Norwegisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="459"/>
+        <source>Portuguese</source>
+        <translation>Portugisisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="460"/>
+        <source>Slovak</source>
+        <translation>Slovakisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="461"/>
+        <source>Czech</source>
+        <translation>Tschechisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="462"/>
+        <source>Croatian</source>
+        <translation>Kroatisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="463"/>
+        <source>Hungarian</source>
+        <translation>Ungarisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="464"/>
+        <source>Polish</source>
+        <translation>Polnisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="465"/>
+        <source>Turkish</source>
+        <translation>Türkisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="466"/>
+        <source>Greek</source>
+        <translation>Griechisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="467"/>
+        <source>Slovenian</source>
+        <translation>Slovenisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="468"/>
+        <source>Russian</source>
+        <translation>Russisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="469"/>
+        <source>Estonian</source>
+        <translation>Estisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="470"/>
+        <source>Latvian</source>
+        <translation>Lettisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="471"/>
+        <source>Romanian</source>
+        <translation>Romänisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="472"/>
+        <source>Albanian</source>
+        <translation>Albanisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="473"/>
+        <source>Bosnian</source>
+        <translation>Bosnisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="474"/>
+        <source>Lithuanian</source>
+        <translation>Lithauisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="475"/>
+        <source>Serbian</source>
+        <translation>Serbisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="476"/>
+        <source>Macedonian</source>
+        <translation>Mazedonisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="477"/>
+        <source>Bulgarian</source>
+        <translation>Bulgarisch</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="534"/>
         <source>Major highway</source>
         <translation>Autobahn</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="483"/>
+        <location filename="../CMapTDB.cpp" line="535"/>
         <source>Principal highway</source>
         <translation>Bundesstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="484"/>
+        <location filename="../CMapTDB.cpp" line="536"/>
         <source>Other highway</source>
         <translation>Andere Schnellstraßen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="485"/>
+        <location filename="../CMapTDB.cpp" line="537"/>
         <source>Arterial road</source>
         <translation>Fernstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="486"/>
+        <location filename="../CMapTDB.cpp" line="538"/>
         <source>Collector road</source>
         <translation>Staatsstraße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="487"/>
+        <location filename="../CMapTDB.cpp" line="539"/>
         <source>Residential street</source>
         <translation>Straße in einem Wohnbezirk</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="488"/>
+        <location filename="../CMapTDB.cpp" line="540"/>
         <source>Alley/Private road</source>
         <translation>Privatweg</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="489"/>
+        <location filename="../CMapTDB.cpp" line="541"/>
         <source>Highway ramp, low speed</source>
         <translation>Autobahnauffahrt/-abfahrt</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="490"/>
+        <location filename="../CMapTDB.cpp" line="542"/>
         <source>Highway ramp, high speed</source>
         <translation>Autobahnauffahrt/-abfahrt</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="491"/>
+        <location filename="../CMapTDB.cpp" line="543"/>
         <source>Unpaved road</source>
         <translation>Nicht asphaltierte Straße</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="492"/>
+        <location filename="../CMapTDB.cpp" line="544"/>
         <source>Major highway connector</source>
         <translation>Autobahnzubringer</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="493"/>
+        <location filename="../CMapTDB.cpp" line="545"/>
         <source>Roundabout</source>
         <translation>Kreisel</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="494"/>
+        <location filename="../CMapTDB.cpp" line="546"/>
         <source>Railroad</source>
         <translation>Eisenbahn, Schienen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="495"/>
+        <location filename="../CMapTDB.cpp" line="547"/>
         <source>Shoreline</source>
         <translation>Küste/Ufer</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="496"/>
+        <location filename="../CMapTDB.cpp" line="548"/>
         <source>Trail</source>
         <translation>Pfad</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="497"/>
+        <location filename="../CMapTDB.cpp" line="549"/>
         <source>Stream</source>
         <translation>Fluß</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="498"/>
+        <location filename="../CMapTDB.cpp" line="550"/>
         <source>Time zone</source>
         <translation>Zeitzone</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="499"/>
-        <location filename="../CMapTDB.cpp" line="500"/>
+        <location filename="../CMapTDB.cpp" line="551"/>
+        <location filename="../CMapTDB.cpp" line="552"/>
         <source>Ferry</source>
         <translation>Fähre</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="501"/>
+        <location filename="../CMapTDB.cpp" line="553"/>
         <source>State/province border</source>
         <translation>Bundeslandgrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="502"/>
+        <location filename="../CMapTDB.cpp" line="554"/>
         <source>County/parish border</source>
         <translation>Bezirks-/Gemeindegrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="503"/>
+        <location filename="../CMapTDB.cpp" line="555"/>
         <source>International border</source>
         <translation>Internationale Grenzen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="504"/>
+        <location filename="../CMapTDB.cpp" line="556"/>
         <source>River</source>
         <translation>Fluß</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="505"/>
+        <location filename="../CMapTDB.cpp" line="557"/>
         <source>Minor land contour</source>
         <translation>kleine Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="506"/>
+        <location filename="../CMapTDB.cpp" line="558"/>
         <source>Intermediate land contour</source>
         <translation>mittlere Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="507"/>
+        <location filename="../CMapTDB.cpp" line="559"/>
         <source>Major land contour</source>
         <translation>große Höhenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="508"/>
+        <location filename="../CMapTDB.cpp" line="560"/>
         <source>Minor deph contour</source>
         <translation>kleine Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="509"/>
+        <location filename="../CMapTDB.cpp" line="561"/>
         <source>Intermediate depth contour</source>
         <translation>mittlere Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="510"/>
+        <location filename="../CMapTDB.cpp" line="562"/>
         <source>Major depth contour</source>
         <translation>große Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="511"/>
+        <location filename="../CMapTDB.cpp" line="563"/>
         <source>Intermittent stream</source>
         <translation>Wadi</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="512"/>
+        <location filename="../CMapTDB.cpp" line="564"/>
         <source>Airport runway</source>
         <translation>Landebahn</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="513"/>
+        <location filename="../CMapTDB.cpp" line="565"/>
         <source>Pipeline</source>
         <translation>Pipeline</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="514"/>
+        <location filename="../CMapTDB.cpp" line="566"/>
         <source>Powerline</source>
         <translation>Stromleitung</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="515"/>
+        <location filename="../CMapTDB.cpp" line="567"/>
         <source>Marine boundary</source>
         <translation>Seegrenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="516"/>
+        <location filename="../CMapTDB.cpp" line="568"/>
         <source>Hazard boundary</source>
         <translation>gefährliche Grenze</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="594"/>
+        <location filename="../CMapTDB.cpp" line="646"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation>Keine Projektion der Basiskarte. Das sollte nicht passieren.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2193"/>
+        <location filename="../CMapTDB.cpp" line="2073"/>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="2280"/>
         <source>Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format.</source>
-        <translation type="unfinished">Unbekanntes TYP Format. Benütze http://ati.land.cz/gps/typdecomp/editor.cgi um es in ein bekanntes umzuwandeln.</translation>
+        <translation>Unbekanntes TYP Format. Benütze http://ati.land.cz/gps/typdecomp/editor.cgi um es in ein bekanntes umzuwandeln.</translation>
     </message>
     <message>
         <source>No big endian..</source>
@@ -3082,24 +3262,24 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">*tdb Import wurde noch nicht an die Architektur angepaßt (großer Endian).</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="710"/>
+        <location filename="../CMapTDB.cpp" line="762"/>
         <source>Select Base Map for </source>
         <translation>Basiskarte für  auswählen</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="785"/>
-        <location filename="../CMapTDB.cpp" line="810"/>
-        <location filename="../CMapTDB.cpp" line="858"/>
+        <location filename="../CMapTDB.cpp" line="837"/>
+        <location filename="../CMapTDB.cpp" line="862"/>
+        <location filename="../CMapTDB.cpp" line="910"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="787"/>
+        <location filename="../CMapTDB.cpp" line="839"/>
         <source>However ...</source>
         <translation>Egal ...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="788"/>
+        <location filename="../CMapTDB.cpp" line="840"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Wie auch immer ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;da ich die Basiskarte und die Information der *tdb Datei lesen kann,&lt;br/&gt;kann ich Dich die Kartenkacheln für das Hochladen aussuchen lassen. Dafür &lt;br/&gt; bauche ich Entsperrschlüssel (25 Zeichen) für die Karte. Dieser muss mit zusammen&lt;br/&gt;mit der Karte geladen werden.&lt;/p&gt;</translation>
     </message>
@@ -3112,25 +3292,25 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Details +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1873"/>
-        <location filename="../CMapTDB.cpp" line="1880"/>
-        <location filename="../CMapTDB.cpp" line="1883"/>
-        <location filename="../CMapTDB.cpp" line="1887"/>
-        <location filename="../CMapTDB.cpp" line="1904"/>
-        <location filename="../CMapTDB.cpp" line="1911"/>
-        <location filename="../CMapTDB.cpp" line="1914"/>
-        <location filename="../CMapTDB.cpp" line="1918"/>
+        <location filename="../CMapTDB.cpp" line="1925"/>
+        <location filename="../CMapTDB.cpp" line="1930"/>
+        <location filename="../CMapTDB.cpp" line="1933"/>
+        <location filename="../CMapTDB.cpp" line="1937"/>
+        <location filename="../CMapTDB.cpp" line="1954"/>
+        <location filename="../CMapTDB.cpp" line="1959"/>
+        <location filename="../CMapTDB.cpp" line="1962"/>
+        <location filename="../CMapTDB.cpp" line="1966"/>
         <source>Point of Interest</source>
         <translation>Sehenswürdigkeit</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2069"/>
-        <location filename="../CMapTDB.cpp" line="2073"/>
+        <location filename="../CMapTDB.cpp" line="2112"/>
+        <location filename="../CMapTDB.cpp" line="2116"/>
         <source>Area</source>
         <translation>Gebiet</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2193"/>
+        <location filename="../CMapTDB.cpp" line="2280"/>
         <source>Warning...</source>
         <translation>Warnung ...</translation>
     </message>
@@ -5119,7 +5299,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDlgConfig.ui" line="371"/>
         <source>Customize Waypoint Icons...</source>
-        <translation type="unfinished">Benutzerspezifische Ikonen für Wegpunkte...</translation>
+        <translation>Benutzerspezifische Ikonen für Wegpunkte...</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="384"/>
@@ -5767,7 +5947,7 @@ p, li { white-space: pre-wrap; }
     <name>IGarminTyp</name>
     <message>
         <location filename="../IGarminTyp.cpp" line="379"/>
-        <location filename="../IGarminTyp.cpp" line="728"/>
+        <location filename="../IGarminTyp.cpp" line="729"/>
         <source>Warning...</source>
         <translation>Warnung ...</translation>
     </message>
@@ -5777,7 +5957,7 @@ p, li { white-space: pre-wrap; }
         <translation>Das ist eine Typdatei mit unbekannter Art der Polygone. Bitte Bericht erstatten!</translation>
     </message>
     <message>
-        <location filename="../IGarminTyp.cpp" line="728"/>
+        <location filename="../IGarminTyp.cpp" line="729"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
         <translation>Das ist eine Typdatei mit unbekannter Art der Polyline. Bitte Bericht erstatten!</translation>
     </message>
