@@ -137,4 +137,5 @@ void CTrackStatProfileWidget::slotChanged()
         plot->resetZoom();
         needResetZoom = false;
     }
+
 }

@@ -54,6 +54,7 @@ CTrackStatSpeedWidget::~CTrackStatSpeedWidget()
 void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
 {
     needResetZoom = true;
+
 }
 
 
@@ -111,4 +112,5 @@ void CTrackStatSpeedWidget::slotChanged()
         plot->resetZoom();
         needResetZoom = false;
     }
+
 }

@@ -677,6 +677,10 @@ void CPlot::resetZoom()
     m_pData->x().resetZoom();
     m_pData->y().resetZoom();
     setSizes();
+
+    initialYMin = m_pData->y().min();
+    initialYMax = m_pData->y().max();
+
     update();
 }
 
