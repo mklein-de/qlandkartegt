@@ -93,6 +93,9 @@ class CPlotAxis : public QObject
             return old;
         }
 
+        double min(){return used_min;}
+        double max(){return used_max;}
+
     protected:
         virtual void calc();
 

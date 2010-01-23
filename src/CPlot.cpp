@@ -34,6 +34,8 @@ CPlot::CPlot(CPlotData::axis_type_e type, QWidget * parent)
 , top(0)
 , bottom(0)
 , fm(QFont())
+, initialYMax(0)
+, initialYMin(0)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     m_pData = new CPlotData(type, this);
@@ -132,6 +134,7 @@ void CPlot::addTag(CPlotData::point_t& tag)
 void CPlot::paintEvent(QPaintEvent * )
 {
     QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing, true);
     draw(p);
 }
 
@@ -139,6 +142,10 @@ void CPlot::paintEvent(QPaintEvent * )
 void CPlot::resizeEvent(QResizeEvent * )
 {
     setSizes();
+
+    initialYMin = m_pData->y().min();
+    initialYMax = m_pData->y().max();
+
     update();
 }
 
@@ -472,17 +479,26 @@ void CPlot::drawGridY( QPainter &p )
 
 QPen pens[] =
 {
-    QPen(Qt::blue,3)
-    , QPen(Qt::red,1)
+    QPen(Qt::blue,4)
+    , QPen(Qt::red,2)
     , QPen(Qt::darkYellow,2)
     , QPen(Qt::darkGreen,2)
+
+};
+
+QColor colors[] =
+{
+      QColor(0,0,255)
+    , QColor(0,0,0,0)
+    , QColor(0,0,0,0)
+    , QColor(0,0,0,0)
 
 };
 
 void CPlot::drawData(QPainter& p)
 {
     int penIdx = 0;
-    int ptx, pty, ptx_old, pty_old;
+    int ptx, pty;
     QList<CPlotData::line_t> lines                  = m_pData->lines;
     QList<CPlotData::line_t>::const_iterator line   = lines.begin();
 
@@ -490,25 +506,44 @@ void CPlot::drawData(QPainter& p)
     CPlotAxis& yaxis = m_pData->y();
 
     while(line != lines.end()) {
+        QPolygonF background;
+        QPolygonF foreground;
 
         const QPolygonF& polyline       = line->points;
         QPolygonF::const_iterator point = polyline.begin();
 
-        ptx_old = left   + xaxis.val2pt( point->x() );
-        pty_old = bottom - yaxis.val2pt( point->y() );
+        ptx = left   + xaxis.val2pt( point->x() );
+        pty = bottom - yaxis.val2pt( point->y() );
 
-        p.setPen(pens[penIdx++]);
+
+        background << QPointF(left,bottom);
+        background << QPointF(left,pty);
+        background << QPointF(ptx,pty);
+
         while(point != polyline.end()) {
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
 
-            p.drawLine(ptx_old,pty_old,ptx,pty);
-
-            ptx_old = ptx;
-            pty_old = pty;
-
+            if(ptx >= left && ptx <= right){
+                background << QPointF(ptx,pty);
+                foreground << QPointF(ptx, pty);
+            }
             ++point;
         }
+
+        background << QPointF(right,pty);
+        background << QPointF(right,bottom);
+
+        QLinearGradient gradient(0, bottom - yaxis.val2pt(initialYMin), 0, bottom - yaxis.val2pt(initialYMax));
+        gradient.setColorAt(0, colors[penIdx]);
+        gradient.setColorAt(1, QColor(0,0,0,0));
+        p.setPen(Qt::NoPen);
+        p.setBrush(gradient);
+        p.drawPolygon(background);
+
+        p.setPen(pens[penIdx++]);
+        p.setBrush(Qt::NoBrush);
+        p.drawPolyline(foreground);
 
         ++line;
     }

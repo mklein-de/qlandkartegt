@@ -114,6 +114,9 @@ class CPlot : public QWidget
 
         QPoint startMovePos;
         int checkClick;
+
+        double initialYMax;
+        double initialYMin;
     public slots:
         void resetZoom();
 };
