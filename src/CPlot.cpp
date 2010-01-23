@@ -441,7 +441,7 @@ void CPlot::drawGridX( QPainter &p )
     const CPlotAxis::TTic * t = m_pData->x().ticmark();
 
     QPen oldpen = p.pen();
-    p.setPen( QPen( QColor(150,150,150,128), 1, Qt::DotLine ) );
+    p.setPen( QPen( QColor(0,150,0,128), 1, Qt::DotLine ) );
 
     iy = rectGraphArea.top();
     while ( t ) {
@@ -464,7 +464,7 @@ void CPlot::drawGridY( QPainter &p )
     const CPlotAxis::TTic * t = m_pData->y().ticmark();
 
     QPen oldpen = p.pen();
-    p.setPen( QPen( QColor(150,150,150,128), 1, Qt::DotLine ) );
+    p.setPen( QPen( QColor(0,150,0,128), 1, Qt::DotLine ) );
 
     ix = rectGraphArea.left();
     while ( t ) {
