@@ -703,6 +703,7 @@ void CPlot::slotSave()
 
     QImage img(size(), QImage::Format_ARGB32);
     QPainter p;
+    p.setRenderHint(QPainter::Antialiasing, true);
 
     p.begin(&img);
     p.fillRect(rect(), QBrush(Qt::white));
