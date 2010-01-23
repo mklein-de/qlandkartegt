@@ -2324,6 +2324,10 @@ void CMapTDB::config()
     dlg.exec();
 
     needsRedraw = true;
+    if(comboLanguages){
+        delete comboLanguages;
+        comboLanguages  = 0;
+    }
 
     if(useTyp) {
         readTYP();
