@@ -857,6 +857,19 @@ void CMapTDB::readTDB(const QString& filename)
                         cfg.endGroup();
 
                     }
+                    else if(CGarminTile::errFormat){
+                        if(!tainted) {
+                            QMessageBox::warning(0, tr("Error")
+                                                  , tr("<p>Failed to load file:</p>"
+                                                       "<p>%1</p>"
+                                                       "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
+                                                       ).arg(e.msg)
+                                                  ,QMessageBox::Ok,QMessageBox::Ok);
+                            tainted = true;
+                        }
+                        delete tile.img;
+                        tile.img = 0;
+                    }
                     else {
                         if(!tainted) {
                             QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
@@ -2276,7 +2289,7 @@ void CMapTDB::readTYP()
 
         default:
             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-            QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format."), QMessageBox::Abort, QMessageBox::Abort);
+            QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
             return;
     }
 

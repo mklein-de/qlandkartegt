@@ -1893,17 +1893,17 @@ erwartet: %1, empfangen %2</translation>
         <translation>Ikone auswählen ...</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="215"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
         <source>Format Error</source>
         <translation>Formatfehler</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="215"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="218"/>
         <source>: Bad icon format</source>
         <translation>: Schlechtes Ikonenformat</translation>
     </message>
     <message>
-        <location filename="../CDlgSetupGarminIcons.cpp" line="243"/>
+        <location filename="../CDlgSetupGarminIcons.cpp" line="246"/>
         <source>Device Link Error</source>
         <translation>Keine Verbindung zum Gerät</translation>
     </message>
@@ -2077,8 +2077,12 @@ erwartet: %1, empfangen %2</translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="220"/>
+        <source>File is NT format. QLandkarte GT is unable to read map files with NT format: </source>
+        <translation>Die Datei ist im NT format. QLandkarte GT ist nicht in der Lage Karten im NT Format zu lesen:</translation>
+    </message>
+    <message>
         <source>File is NT format. Unable to read: </source>
-        <translation>Die Datei ist im neuen NT Format. Die kann ich nicht laden.</translation>
+        <translation type="obsolete">Die Datei ist im neuen NT Format. Die kann ich nicht laden.</translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="285"/>
@@ -3244,14 +3248,23 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>Keine Projektion der Basiskarte. Das sollte nicht passieren.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2073"/>
+        <location filename="../CMapTDB.cpp" line="863"/>
+        <source>&lt;p&gt;Failed to load file:&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;However, if the basemap is still old format I am able to let you select the map tiles for upload&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Konnte Datei nicht laden:&lt;/p&gt;&lt;p&gt;%1&gt;&lt;/p&gt;&lt;p&gt;Allerdings, wenn die Basiskarte im alten Format ist, ist es möglich Kacheln auszuwählen, um sie auf das Gerät zu laden.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="2086"/>
         <source>Unknown</source>
         <translation>Unbekannt</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2280"/>
+        <location filename="../CMapTDB.cpp" line="2292"/>
+        <source>Unknown typ file format in &apos;%1&apos;. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.</source>
+        <translation>Unbekanntes Format in der TYP Datei &apos;%1&apos;. Auf http://ati.land.cz/gps/typdecomp/editor.cgi kann man die Datei etweder in das alte oder das NT Format wandeln.</translation>
+    </message>
+    <message>
         <source>Unknown typ file format. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to known format.</source>
-        <translation>Unbekanntes TYP Format. Benütze http://ati.land.cz/gps/typdecomp/editor.cgi um es in ein bekanntes umzuwandeln.</translation>
+        <translation type="obsolete">Unbekanntes TYP Format. Benütze http://ati.land.cz/gps/typdecomp/editor.cgi um es in ein bekanntes umzuwandeln.</translation>
     </message>
     <message>
         <source>No big endian..</source>
@@ -3269,7 +3282,8 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="837"/>
         <location filename="../CMapTDB.cpp" line="862"/>
-        <location filename="../CMapTDB.cpp" line="910"/>
+        <location filename="../CMapTDB.cpp" line="875"/>
+        <location filename="../CMapTDB.cpp" line="923"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
@@ -3292,25 +3306,25 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Details +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1925"/>
-        <location filename="../CMapTDB.cpp" line="1930"/>
-        <location filename="../CMapTDB.cpp" line="1933"/>
-        <location filename="../CMapTDB.cpp" line="1937"/>
-        <location filename="../CMapTDB.cpp" line="1954"/>
-        <location filename="../CMapTDB.cpp" line="1959"/>
-        <location filename="../CMapTDB.cpp" line="1962"/>
-        <location filename="../CMapTDB.cpp" line="1966"/>
+        <location filename="../CMapTDB.cpp" line="1938"/>
+        <location filename="../CMapTDB.cpp" line="1943"/>
+        <location filename="../CMapTDB.cpp" line="1946"/>
+        <location filename="../CMapTDB.cpp" line="1950"/>
+        <location filename="../CMapTDB.cpp" line="1967"/>
+        <location filename="../CMapTDB.cpp" line="1972"/>
+        <location filename="../CMapTDB.cpp" line="1975"/>
+        <location filename="../CMapTDB.cpp" line="1979"/>
         <source>Point of Interest</source>
         <translation>Sehenswürdigkeit</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2112"/>
-        <location filename="../CMapTDB.cpp" line="2116"/>
+        <location filename="../CMapTDB.cpp" line="2125"/>
+        <location filename="../CMapTDB.cpp" line="2129"/>
         <source>Area</source>
         <translation>Gebiet</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2280"/>
+        <location filename="../CMapTDB.cpp" line="2292"/>
         <source>Warning...</source>
         <translation>Warnung ...</translation>
     </message>
@@ -3961,22 +3975,22 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Zoom zurückstellen</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="628"/>
+        <location filename="../CPlot.cpp" line="663"/>
         <source>Vertical zoom</source>
         <translation>Vertikale Vergrößerung</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="632"/>
+        <location filename="../CPlot.cpp" line="667"/>
         <source>Reset zoom</source>
         <translation>Vergrößerung zurück setzen</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="635"/>
+        <location filename="../CPlot.cpp" line="670"/>
         <source>Save...</source>
         <translation>Speichern ...</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="656"/>
+        <location filename="../CPlot.cpp" line="695"/>
         <source>Select output file</source>
         <translation>Zu speichernde Datei wählen</translation>
     </message>
@@ -4199,18 +4213,18 @@ Länge: %1 %2</translation>
         <translation>Geschwindigkeit [km/h]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="69"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="70"/>
         <source>distance [%1]</source>
         <translation>Entfernung[%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="75"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="76"/>
         <source>speed [%1]</source>
         <translation>Geschwindigkeit[%1]</translation>
     </message>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="35"/>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="72"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="73"/>
         <source>time [h]</source>
         <translation>Zeit [h]</translation>
     </message>

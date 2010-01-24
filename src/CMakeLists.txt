@@ -373,11 +373,6 @@ else(EXIF_FOUND)
     set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)
 
-SET (USE_NEW_TYP_PARSER OFF CACHE BOOL "Use new typ file parser.")
-IF(USE_NEW_TYP_PARSER)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNEW_TYP_PARSER")
-ENDIF(USE_NEW_TYP_PARSER)
-
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
 qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})

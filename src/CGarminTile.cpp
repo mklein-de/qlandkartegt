@@ -217,7 +217,7 @@ void CGarminTile::readBasics(const QString& fn)
     while(subfile != subfiles.end()) {
         subfile->name = mapdesc.trimmed();
 
-        if((*subfile).parts.contains("GMP")) throw exce_t(errFormat,tr("File is NT format. Unable to read: ") + filename);
+        if((*subfile).parts.contains("GMP")) throw exce_t(errFormat,tr("File is NT format. QLandkarte GT is unable to read map files with NT format: ") + filename);
 
         readSubfileBasics(*subfile, file);
         ++subfile;
