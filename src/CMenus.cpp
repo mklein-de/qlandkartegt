@@ -128,7 +128,6 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
     menu->setTitle(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,contex,groupName));
 
-    qDebug() << groupName;
     if(groupName == MapMenu){
         menu->addAction(actions->getAction("aZoomIn"));
         menu->addAction(actions->getAction("aZoomOut"));
