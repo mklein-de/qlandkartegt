@@ -92,10 +92,10 @@ Var StartMenuFolder
   SectionEnd
   LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
 
-  Section "MSVC 8.0" MSVC
-   	File Files\msvcm80.dll
-  	File Files\msvcp80.dll
-  	File Files\msvcr80.dll
+  Section "MSVC 9.0" MSVC
+   	File Files\msvcm90.dll
+  	File Files\msvcp90.dll
+  	File Files\msvcr90.dll
   	SetOutPath $INSTDIR
   SectionEnd
   LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."
@@ -103,11 +103,12 @@ Var StartMenuFolder
   Section "QLandkarteGT" QLandkarteGT
   	SetOutPath $INSTDIR
   	File Files\qlandkartegt.exe
-	File Files\libexif-12.dll
+;	File Files\libexif-12.dll
 	File Files\qlandkartegt_de_DE.qm
 	File Files\qlandkartegt_fr_FR.qm
 	File Files\qlandkartegt_it_IT.qm
 	File Files\qlandkartegt_ru_RU.qm
+	File Files\qlandkartegt_es_ES.qm
   	WriteUninstaller "$INSTDIR\Uninstall.exe"
   	!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
       	;Create shortcuts
@@ -155,7 +156,7 @@ Var StartMenuFolder
   SectionEnd
   LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"
     
-  Section "QT 4.5" QT
+  Section "QT 4.6" QT
 	SetOutPath $INSTDIR
   	File Files\QtCore4.dll
   	File Files\QtGui4.dll

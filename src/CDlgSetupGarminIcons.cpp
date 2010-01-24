@@ -166,8 +166,11 @@ struct garmin_bmp_t
 
     quint8  data[];
 };
-
+#ifdef WIN32
+#pragma pack()
+#else
 #pragma pack(0)
+#endif
 
 
 void CDlgSetupGarminIcons::slotSendToDevice()
