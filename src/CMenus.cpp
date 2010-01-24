@@ -127,6 +127,12 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
 {
     menu->setTitle(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,contex,groupName));
+
+    qDebug() << groupName;
+    if(groupName == MapMenu){
+        menu->addAction(actions->getAction("aZoomIn"));
+        menu->addAction(actions->getAction("aZoomOut"));
+    }
     return true;
 }
 
@@ -171,15 +177,6 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                     i++;
                 }
                 i++;
-            }
-            else {
-                if(i != 1){
-                    QAction *dummyAction = new QAction(menu);
-                    dummyAction->setText(tr("-"));
-                    dummyAction->setShortcut(tr("F%1").arg(i));
-                    list << dummyAction;
-                    i++;
-                }
             }
 
             if (i> SIZE_OF_MEGAMENU) {
