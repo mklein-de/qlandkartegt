@@ -1,3 +1,40 @@
+--- 2010.01.24 ---
+
+Bug     #123:
+Fixes for big endian systems
+
+Bug     #124:
+Fixes for OSX build system
+
+Request #125:
+Add Garmin custom icons
+
+Request #126:
+Add live log support for NMEA devices
+
+Request #127:
+Make character set selectable for Garmin devices
+
+Request #128:
+Rewrite TYP decoding
+
+Request #129:
+Rewrite render engine for Garmin maps to match better TYP decoding.
+
+Request #130:
+Add checkbox for Garmin night vision to statusbar
+
+Request #131:
+Move detail selection to statusbar for Garmin maps
+
+Request #132:
+Pimp up elevation plots
+
+Request #133:
+Fix GUI glitches
+
+
+
 --- 2009.12.21 ---
 
 Request #92:
@@ -633,6 +670,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
