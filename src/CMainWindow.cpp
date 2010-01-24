@@ -124,6 +124,9 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMap3D");
 #endif
     actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
+
+    actionGroupProvider->addAction(CMenus::MapMenu, "aZoomIn");
+    actionGroupProvider->addAction(CMenus::MapMenu, "aZoomOut");
     //    fsMap[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
 #ifdef PLOT_3D

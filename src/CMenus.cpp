@@ -22,7 +22,7 @@
 #include <QtGui>
 #define SIZE_OF_MEGAMENU 11
 
-//#define lqdebug(x) qDebug() << x
+// #define lqdebug(x) qDebug() << x
 #define lqdebug(x)
 
 CMenus::CMenus(QObject *parent) : QObject(parent)
@@ -100,8 +100,9 @@ void CMenus::switchToActionGroup(ActionGroupName group)
             lqdebug(QString("Action with '%1' as text is controlled -> removed").arg(a->text()));
             theMainWindow->removeAction(a);
             lqdebug(a->shortcuts());
-            if (!actionsShortcuts.contains(a))
+            if (!actionsShortcuts.contains(a)){
                 actionsShortcuts.insert(a, a->shortcuts());
+            }
             a->setShortcuts(QList<QKeySequence> ());
             lqdebug(a->shortcuts());
         }
@@ -173,6 +174,11 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
             }
             else {
                 lqdebug("not matched" << a->shortcut().toString());
+                QAction *dummyAction = new QAction(menu);
+                dummyAction->setText(tr("-"));
+                dummyAction->setShortcut(tr("F%1").arg(i));
+                list << dummyAction;
+
             }
 
             if (i> SIZE_OF_MEGAMENU) {
@@ -183,8 +189,9 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
             i++;
         }
         if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)) {
-            if (!actionsShortcuts.contains(a))
+            if (!actionsShortcuts.contains(a)){
                 actionsShortcuts.insert(a, a->shortcuts());
+            }
             a->setShortcuts(QList<QKeySequence> ());
             list << a;
         }

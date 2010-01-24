@@ -111,8 +111,8 @@ QObject(parent), parent(parent)
     createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadRoute", tr("Download routes from device."));
     //
 
-    createAction(tr("+"), ":/icons/editcopy.png", tr("&Zoom in"), "aZoomIn", tr("Zoom's into the Map."));
-    createAction(tr("-"), ":/icons/editcopy.png", tr("&Zoom out"), "aZoomOut", tr("Zoom's out of the Map."));
+    createAction(tr("+"), ":/icons/zoomin.png", tr("&Zoom in"), "aZoomIn", tr("Zoom's into the Map."));
+    createAction(tr("-"), ":/icons/zoomout.png", tr("&Zoom out"), "aZoomOut", tr("Zoom's out of the Map."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Left).toString(), ":/icons/editcopy.png", tr("&Move left"), "aMoveLeft", tr("Move to the left side."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Right).toString(), ":/icons/editcopy.png", tr("&Move right"), "aMoveRight", tr("Move to the right side."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Up).toString(), ":/icons/editcopy.png", tr("&Move up"), "aMoveUp", tr("Move up."));
