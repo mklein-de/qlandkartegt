@@ -52,7 +52,7 @@ void CHelpButton::setHelp(const QString & title, const QString & contents)
 void CHelpButton::slotClicked()
 {
     if (helpPopup == 0)
-        helpPopup = new CHelpDialog::CHelpDialog();
+        helpPopup = new CHelpDialog();
 
     helpPopup->setWindowTitle(m_title);
     helpPopup->setContents(m_contents);

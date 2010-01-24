@@ -113,7 +113,7 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
 
     const int N = sectOrder.arraySize / sectOrder.arrayModulo;
 
-    for (unsigned  i = 0; i < N; i++) {
+    for (i = 0; i < N; i++) {
         in >> typ >>  subtyp;
 //         qDebug() << hex << typ << subtyp;
         if (typ == 0) {
@@ -955,7 +955,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
     const int N = sectPoints.arraySize / sectPoints.arrayModulo;
     for (int element=0; element < N; element++) {
         quint16 t16_1, t16_2, subtyp;
-        quint8  t8_1, t8_2;
+        quint8  t8_1;
         quint32 typ, offset;
         bool hasLocalization = false;
         bool hasTextColor = false;

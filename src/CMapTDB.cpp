@@ -2184,7 +2184,6 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 
 void CMapTDB::readTYP()
 {
-    int i;
     QFileInfo fi(filename);
     QDir path = fi.absoluteDir();
     QStringList filters;

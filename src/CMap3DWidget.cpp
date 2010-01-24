@@ -687,7 +687,7 @@ void CMap3DWidget::draw3DMap()
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
 
-    int ix, iy, iv, it, j, k, end;
+    int ix=0, iy, iv, it, j, k, end;
     double x, y, u, v;
     GLdouble *vertices;
     GLdouble *texCoords;
