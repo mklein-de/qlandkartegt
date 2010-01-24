@@ -173,12 +173,13 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                 i++;
             }
             else {
-                lqdebug("not matched" << a->shortcut().toString());
-                QAction *dummyAction = new QAction(menu);
-                dummyAction->setText(tr("-"));
-                dummyAction->setShortcut(tr("F%1").arg(i));
-                list << dummyAction;
-
+                if(i != 1){
+                    QAction *dummyAction = new QAction(menu);
+                    dummyAction->setText(tr("-"));
+                    dummyAction->setShortcut(tr("F%1").arg(i));
+                    list << dummyAction;
+                    i++;
+                }
             }
 
             if (i> SIZE_OF_MEGAMENU) {
