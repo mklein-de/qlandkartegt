@@ -115,9 +115,6 @@ void CGpx::writeMetadata()
     }
     root.setAttribute("xsi:schemaLocation", schemaLocation);
 
-    extensions = createElement("extensions");
-    root.appendChild(extensions);
-
     QDomElement metadata = createElement("metadata");
     root.appendChild(metadata);
 
@@ -132,6 +129,15 @@ void CGpx::writeMetadata()
     //     bounds.setAttribute("minlon",0.0);
     //     bounds.setAttribute("maxlat",0.0);
     //     bounds.setAttribute("maxlon",0.0);
+}
+
+
+void CGpx::makeExtensions()
+{
+    QDomElement root = documentElement();
+
+    extensions = createElement("extensions");
+    root.appendChild(extensions);
 }
 
 

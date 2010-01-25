@@ -55,6 +55,7 @@ class CGpx : public QObject, public QDomDocument
 
         void load(const QString& filename);
         void save(const QString& filename);
+        void makeExtensions();
 
         static QMap<QString,QDomElement> mapChildElements(const QDomNode& parent);
 

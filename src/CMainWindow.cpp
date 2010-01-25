@@ -989,6 +989,7 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
             CWptDB::self().saveGPX(gpx);
             CTrackDB::self().saveGPX(gpx);
             CRouteDB::self().saveGPX(gpx);
+            gpx.makeExtensions();
             CDiaryDB::self().saveGPX(gpx);
             COverlayDB::self().saveGPX(gpx);
             gpx.save(filename);
