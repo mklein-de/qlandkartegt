@@ -487,9 +487,12 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         case EXIF_TAG_GPS_LATITUDE:
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
-
             if(exifEntry->components == 3) {
-                exifGPS.lat = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
+//                 qDebug() << "lat" << exifEntry->components;
+//                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
+//                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
+//                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
+                exifGPS.lat = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
             }
             break;
         }
@@ -503,9 +506,12 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         case EXIF_TAG_GPS_LONGITUDE:
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
-
             if(exifEntry->components == 3) {
-                exifGPS.lon = double(p[0].numerator)/p[0].denominator + double(p[1].numerator)/(p[1].denominator * 60) + double(p[2].numerator)/(p[2].denominator * 3600);
+//                 qDebug() << "lon" << exifEntry->components;
+//                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
+//                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
+//                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
+                exifGPS.lon = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
             }
 
             break;
