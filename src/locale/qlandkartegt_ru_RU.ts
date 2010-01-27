@@ -1317,8 +1317,12 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="209"/>
+        <source>NMEA: Download screenshots is not implemented.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>NMEA: Download screenschots is not implemented.</source>
-        <translation>NMEA: Загрузка снимков экрана не поддерживается.</translation>
+        <translation type="obsolete">NMEA: Загрузка снимков экрана не поддерживается.</translation>
     </message>
 </context>
 <context>
@@ -4688,8 +4692,12 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="319"/>
+        <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select your Garmin device form list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocoll query.</source>
-        <translation>Выберите Ваше устройство Garminиз списка. Если Ваше устройство не поддерживается используйте &quot;whatGarmin&quot; и скачать путевые точки.</translation>
+        <translation type="obsolete">Выберите Ваше устройство Garminиз списка. Если Ваше устройство не поддерживается используйте &quot;whatGarmin&quot; и скачать путевые точки.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="361"/>
@@ -5626,6 +5634,14 @@ DEM%%2</translation>
         <location filename="../IMouse.cpp" line="219"/>
         <source>elevation: %1 %2</source>
         <translation>высота: %1 %2</translation>
+    </message>
+</context>
+<context>
+    <name>IOverlay</name>
+    <message>
+        <location filename="../IOverlay.h" line="50"/>
+        <source>No info set</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

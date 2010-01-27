@@ -206,7 +206,7 @@ void CDeviceNMEA::uploadMap(const QList<IMapSelection*>& /*mss*/)
 
 void CDeviceNMEA::downloadScreenshot(QImage& /*image*/)
 {
-    QMessageBox::information(0,tr("Error..."), tr("NMEA: Download screenschots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QMessageBox::information(0,tr("Error..."), tr("NMEA: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
 

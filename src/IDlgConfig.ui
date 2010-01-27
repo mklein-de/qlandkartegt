@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>565</width>
-    <height>559</height>
+    <width>567</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -316,7 +316,7 @@
                <bool>false</bool>
               </property>
               <property name="toolTip">
-               <string>Select your Garmin device form list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocoll query.</string>
+               <string>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</string>
               </property>
              </widget>
             </item>
