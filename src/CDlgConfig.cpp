@@ -212,7 +212,13 @@ void CDlgConfig::fillTypeCombo()
     QRegExp regex("lib(.*)\\" XSTR(SHARED_LIB_EXT));
     QString file;
     QStringList files;
+#if defined(Q_WS_MAC)
+    // MacOS X: plug-ins are stored in the bundle folder
+    QDir inst_dir(QCoreApplication::applicationDirPath()
+                  .replace(QRegExp("MacOS$"), "Resources/Drivers"));
+#else
     QDir inst_dir(XSTR(PLUGINDIR));
+#endif
     files = inst_dir.entryList(QString("*" XSTR(SHARED_LIB_EXT)).split(','));
 
     foreach(file,files) {
@@ -223,7 +229,13 @@ void CDlgConfig::fillTypeCombo()
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
 
     if(files.isEmpty()) {
+#if defined(Q_WS_MAC)
+        labelMessage->setText(tr("No plugins found. I expect them in: %1")
+                                 .arg(QCoreApplication::applicationDirPath()
+                                      .replace(QRegExp("MacOS$"), "Resources/Drivers")));
+#else
         labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(PLUGINDIR)));
+#endif
     }
     else {
         labelMessage->setText("");
