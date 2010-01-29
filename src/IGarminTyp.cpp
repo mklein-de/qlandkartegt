@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#undef DBG
+#define DBG
 
 IGarminTyp::IGarminTyp(format_e format, QObject * parent)
 : QObject(parent)
@@ -128,7 +128,7 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
                 drawOrder.move(idx,0);
             }
         }
-        else if(format == eNT){
+        else /*if(format == eNT)*/{
             quint32 exttyp = 0x010000 | (typ << 8);
             quint32 mask = 0x1;
 
@@ -141,16 +141,15 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
                 }
                 mask = mask << 1;
             }
-
         }
-        else if(format == eNorm){
-            quint32 exttyp = 0x010000 | (typ << 8) | (subtyp >> 16);
-            drawOrder.push_front(exttyp);
-#ifdef DBG
-            qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp,0,16).arg(count);
-#endif
-
-        }
+//         else if(format == eNorm){
+//             quint32 exttyp = 0x010000 | (typ << 8) | (subtyp >> 16);
+//             drawOrder.push_front(exttyp);
+// #ifdef DBG
+//             qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp,0,16).arg(count);
+// #endif
+//
+//         }
     }
 
 #ifdef DBG

@@ -2229,35 +2229,6 @@ void CMapTDB::readTYP()
     qDebug() << "descriptor" << hex << descriptor;
     switch(descriptor)
     {
-        case 0x5B:
-        {
-            CGarminTyp typ(0);
-            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
-
-            quint8 lang;
-            QSet<quint8> usedLanguages = typ.getLanguages();
-
-            if(!usedLanguages.isEmpty()){
-                comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                foreach(lang, usedLanguages){
-                    comboLanguages->addItem(languages[lang],  lang);
-                }
-                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
-                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
-
-                QSettings cfg;
-                cfg.beginGroup("garmin/maps");
-                cfg.beginGroup(name);
-                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
-                cfg.endGroup();
-                cfg.endGroup();
-
-                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
-
-            }
-            break;
-        }
-
         case 0x6E:
         {
             CGarminTypNT typ(0);
@@ -2288,9 +2259,40 @@ void CMapTDB::readTYP()
         }
 
         default:
-            qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-            QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
-            return;
+        case 0x5B:
+        {
+            CGarminTyp typ(0);
+            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+
+            quint8 lang;
+            QSet<quint8> usedLanguages = typ.getLanguages();
+
+            if(!usedLanguages.isEmpty()){
+                comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                foreach(lang, usedLanguages){
+                    comboLanguages->addItem(languages[lang],  lang);
+                }
+                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+
+                QSettings cfg;
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                cfg.endGroup();
+                cfg.endGroup();
+
+                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
+            }
+            break;
+        }
+
+
+//         default:
+//             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
+//             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
+//             return;
     }
 
     file.close();
