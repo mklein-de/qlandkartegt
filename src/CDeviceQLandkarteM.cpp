@@ -53,7 +53,7 @@ bool CDeviceQLandkarteM::acquire(const QString& operation, int max)
 
     QByteArray datagram;
     datagram = "START";
-    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress(ipaddr), port);
 
     if ((tcpSocket.state() != QAbstractSocket::ConnectedState))
         if(!waitTcpServerStatus()) return false;
@@ -116,7 +116,7 @@ void CDeviceQLandkarteM::release()
     QByteArray datagram;
     datagram = "STOP";
     QUdpSocket udpSocketSend;
-    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress::QHostAddress(ipaddr), port);
+    udpSocketSend.writeDatagram(datagram.data(), datagram.size(), QHostAddress(ipaddr), port);
     if ((tcpSocket.state() == QAbstractSocket::ConnectedState))
         waitTcpServerStatus();
     if(progress) progress->close();
