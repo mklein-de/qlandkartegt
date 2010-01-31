@@ -854,11 +854,10 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-    bool pointsAdded = false;
+
     while(trkpt != trkpts.end()) {
         if (trkpt->flags & CTrack::pt_t::eSelected) {
             *tmpTrack << *trkpt;
-            pointsAdded = true;
         }
 
         ++trkpt;
