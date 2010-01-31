@@ -844,7 +844,10 @@ void CTrackDB::select(const QRect& rect, bool select /*= true*/)
 void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 {
     CTrack * track = highlightedTrack();
-    if(track == 0) return;
+    if(track == 0){
+        QMessageBox::warning(0,tr("Failed..."), tr("Failed to copy track. You must select a track or track points of a track."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
     QClipboard *clipboard = QApplication::clipboard();
 
     CTrack *tmpTrack = new CTrack(0);
@@ -860,20 +863,23 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 
         ++trkpt;
     }
-    if (pointsAdded)
-    {
-        CQlb qlb(this);
+
+
+    CQlb qlb(this);
+    if(tmpTrack->getTrackPoints().count()){
         qlb << *tmpTrack;
-        QBuffer buffer;
-        qlb.save(&buffer);
-
-        QMimeData *md = new QMimeData;
-        buffer.open(QIODevice::ReadOnly);
-        md->setData("qlandkartegt/qlb",buffer.readAll());
-        buffer.close();
-
-        clipboard->setMimeData(md);
     }
+    else{
+        qlb << *track;
+    }
+    QBuffer buffer;
+    qlb.save(&buffer);
+    QMimeData *md = new QMimeData;
+    buffer.open(QIODevice::ReadOnly);
+    md->setData("qlandkartegt/qlb",buffer.readAll());
+    buffer.close();
+    clipboard->setMimeData(md);
+
     delete tmpTrack;
 }
 
