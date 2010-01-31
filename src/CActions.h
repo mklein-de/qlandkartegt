@@ -110,8 +110,8 @@ class CActions : public QObject
         void funcMoveRight();
         void funcMoveUp();
         void funcMoveDown();
-        void funcCopyToClipboard();
-        void funcPasteFromClipboard();
+        void funcCopySelectedTrackPointsToClipboard();
+        void funcPasteAsNewTrack();
         void funcRedo();
         void funcUndo();
 };

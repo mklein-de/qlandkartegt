@@ -117,8 +117,8 @@ QObject(parent), parent(parent)
     createAction(QKeySequence (Qt::ALT + Qt::Key_Right).toString(), ":/icons/editcopy.png", tr("&Move right"), "aMoveRight", tr("Move to the right side."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Up).toString(), ":/icons/editcopy.png", tr("&Move up"), "aMoveUp", tr("Move up."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Down).toString(), ":/icons/editcopy.png", tr("&Move down"), "aMoveDown", tr("Move down."));
-    createAction(tr("ctrl+c"), ":/icons/editcopy.png", tr("&Copy"), "aCopyToClipboard", tr("Copy selected trackpoints to clipboard."));
-    createAction(tr("ctrl+v"), ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr("Paste Track."));
+    createAction(tr("ctrl+c"), ":/icons/editcopy.png", tr("&Copy selected track points"), "aCopySelectedTrackPointsToClipboard", tr("Copy selected trackpoints to clipboard."));
+    createAction(tr("ctrl+v"), ":/icons/editpaste.png", tr("&Paste as new track"), "aPasteAsNewTrack", tr("Paste Track."));
     createAction(tr("ctrl+z"), ":/icons/editpaste.png", tr("&Undo"), "aUndo", tr("Undo a command."));
     createAction(tr("ctrl+y"), ":/icons/editpaste.png", tr("&Redo"), "aRedo", tr("Redo a command."));
 }
@@ -610,14 +610,14 @@ void CActions::funcMoveDown()
 
 
 //    else if (e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier)
-void CActions::funcCopyToClipboard()
+void CActions::funcCopySelectedTrackPointsToClipboard()
 {
     CTrackDB::self().copyToClipboard();
 }
 
 
 //    else if (e->key() == Qt::Key_V && e->modifiers() == Qt::ControlModifier)
-void CActions::funcPasteFromClipboard()
+void CActions::funcPasteAsNewTrack()
 {
     CTrackDB::self().pasteFromClipboard();
 }

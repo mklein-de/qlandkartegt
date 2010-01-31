@@ -851,25 +851,29 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    bool pointsAdded = false;
     while(trkpt != trkpts.end()) {
         if (trkpt->flags & CTrack::pt_t::eSelected) {
             *tmpTrack << *trkpt;
+            pointsAdded = true;
         }
 
         ++trkpt;
     }
+    if (pointsAdded)
+    {
+        CQlb qlb(this);
+        qlb << *tmpTrack;
+        QBuffer buffer;
+        qlb.save(&buffer);
 
-    CQlb qlb(this);
-    qlb << *tmpTrack;
-    QBuffer buffer;
-    qlb.save(&buffer);
+        QMimeData *md = new QMimeData;
+        buffer.open(QIODevice::ReadOnly);
+        md->setData("qlandkartegt/qlb",buffer.readAll());
+        buffer.close();
 
-    QMimeData *md = new QMimeData;
-    buffer.open(QIODevice::ReadOnly);
-    md->setData("qlandkartegt/qlb",buffer.readAll());
-    buffer.close();
-
-    clipboard->setMimeData(md);
+        clipboard->setMimeData(md);
+    }
     delete tmpTrack;
 }
 
