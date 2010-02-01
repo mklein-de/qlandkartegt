@@ -877,6 +877,7 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
     buffer.open(QIODevice::ReadOnly);
     md->setData("qlandkartegt/qlb",buffer.readAll());
     buffer.close();
+    clipboard->clear();
     clipboard->setMimeData(md);
 
     delete tmpTrack;
@@ -894,8 +895,7 @@ void CTrackDB::pasteFromClipboard()
         buffer.close();
         CQlb qlb(this);
         qlb.load(&buffer);
-        CTrackDB::self().loadQLB(qlb);
-        clipboard->clear();
+        loadQLB(qlb);
     }
 }
 
