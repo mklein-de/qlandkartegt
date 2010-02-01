@@ -127,8 +127,8 @@ void CDiaryDB::loadGPX(CGpx& gpx)
     while(!extensions.isNull()) {
         QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
         const QDomElement dry = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
-                                                    "diary":
-                                                    (CGpx::ql_ns + ":" + "diary"));
+            "diary":
+        (CGpx::ql_ns + ":" + "diary"));
         if(!dry.isNull()) {
             QString tmp = diary.text();
             tmp += dry.toElement().text();

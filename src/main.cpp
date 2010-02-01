@@ -39,39 +39,40 @@
 
 static void usage(std::ostream &s)
 {
-     s << "usage: qlandkartegt [-d | --debug]\n"
-          "                    [-h | --help]\n"
-          "                    [-m FD | --monitor=FD]\n"
-          "                    [-n | --no-splash]\n"
-          "                    [files...]\n"
-          "\n"
-          "The monitor function will read data from files if there is input on stream FD.\n"
-          "For stdin use FD=0.\n\n";
+    s << "usage: qlandkartegt [-d | --debug]\n"
+        "                    [-h | --help]\n"
+        "                    [-m FD | --monitor=FD]\n"
+        "                    [-n | --no-splash]\n"
+        "                    [files...]\n"
+        "\n"
+        "The monitor function will read data from files if there is input on stream FD.\n"
+        "For stdin use FD=0.\n\n";
 }
 
 
 static void myMessageOutput(QtMsgType type, const char *msg)
 {
     switch (type) {
-    case QtDebugMsg:
-        if (qlOpts->debug) {
-            puts(msg);
-        }
-        break;
+        case QtDebugMsg:
+            if (qlOpts->debug) {
+                puts(msg);
+            }
+            break;
 
-    case QtWarningMsg:
-        fprintf(stderr, "Warning: %s\n", msg);
-        break;
+        case QtWarningMsg:
+            fprintf(stderr, "Warning: %s\n", msg);
+            break;
 
-    case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s\n", msg);
-        break;
+        case QtCriticalMsg:
+            fprintf(stderr, "Critical: %s\n", msg);
+            break;
 
-    case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s\n", msg);
-        abort();
+        case QtFatalMsg:
+            fprintf(stderr, "Fatal: %s\n", msg);
+            abort();
     }
 }
+
 
 CAppOpts *qlOpts;
 
@@ -108,10 +109,10 @@ static void processOptions()
             exit(1);
         }
     }
-    qlOpts = new CAppOpts(dValue, // bool debug
-                          m,      // int monitor
-                          nValue, // bool nosplash
-                          args);  // arguments
+    qlOpts = new CAppOpts(dValue,// bool debug
+        m,                       // int monitor
+        nValue,                  // bool nosplash
+        args);                   // arguments
 }
 
 
@@ -131,7 +132,7 @@ int main(int argc, char ** argv)
         printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
         printf("------------ %s\n",ptr);
-//         free(ptr);
+        //         free(ptr);
 
         pj_free(pjWGS84);
         pj_free(pjGK);
@@ -196,14 +197,13 @@ int main(int argc, char ** argv)
         printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
         printf("------------ %s\n",ptr);
-//         free(ptr);
+        //         free(ptr);
 
         pj_free(pjWGS84);
         pj_free(pjGK);
     }
 
     GDALAllRegister();
-
 
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
@@ -219,7 +219,7 @@ int main(int argc, char ** argv)
     if (!qlOpts->nosplash) {
         splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
 #if defined(Q_WS_MAC)
-    	splash->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::SplashScreen);
+        splash->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::SplashScreen);
 #endif
         splash->show();
     }

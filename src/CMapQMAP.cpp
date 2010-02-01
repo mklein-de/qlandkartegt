@@ -120,10 +120,12 @@ CMapQMAP::~CMapQMAP()
     convertPt2Rad(midU, midV);
 }
 
+
 bool CMapQMAP::is32BitRgb()
 {
     return pMaplevel.isNull() ? true : pMaplevel->is32BitRgb();
 }
+
 
 void CMapQMAP::draw(QPainter& p)
 {

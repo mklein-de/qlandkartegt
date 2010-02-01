@@ -97,6 +97,5 @@ class CMapFile : public QObject
 
         bool is32BitRgb();
 
-
 };
 #endif                           //CMAPFILE_H

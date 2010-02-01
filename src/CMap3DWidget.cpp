@@ -424,135 +424,6 @@ float CMap3DWidget::getRegionValue(float *buffer, int x, int y)
 }
 
 
-#if 0                            // set to 1 for old elevation processing
-void CMap3DWidget::draw3DMap()
-{
-    double w = mapSize.width();
-    double h = mapSize.height();
-
-    int i, iv, it, j, k, cur, end;
-    double step = 5;
-    double x, y, u, v;
-    GLdouble *vertices;
-    GLdouble *texCoords;
-    GLuint idx[4];
-    int num = (w / step + 2);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, mapTexture);
-
-    IMap& dem = CMapDB::self().getDEM();
-    /*
-     * next code can be more optimal if used array of coordinates or VBO
-     */
-    vertices = new GLdouble[num * 3 * 2];
-    texCoords = new GLdouble[num * 2 * 2];
-    it = 0;
-    idx[0] = 0 + num;
-    idx[1] = 1 + num;
-    idx[2] = 1;
-    idx[3] = 0;
-    glVertexPointer(3, GL_DOUBLE, 0, vertices);
-    glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
-    glColor3f(1.0, 0.0, 0.0);
-    glPointSize(2.0);
-
-    for (y = 0; y < h - step; y += step) {
-        it = it % (num * 4);
-        end = it + num * 2;
-        for (x = 0, iv = (it / 2) * 3; it < end; x += step, iv += 3, it += 2) {
-            vertices[iv + 0] = x;
-            vertices[iv + 1] = y;
-            u = x;
-            v = y;
-            texCoords[it  + 0] = u / w;
-            texCoords[it + 1] = 1 - v / h;
-            map->convertPt2Rad(u, v);
-            // next step of optimization will be get elevation for the set of points
-            // read line from DEM file is more effectively
-            vertices[iv + 2] = dem.getElevation(u, v);
-            if  (vertices[iv + 2] > 5000 || vertices[iv + 2] < 0)
-                qDebug() << vertices[iv + 0] << " " << vertices[iv + 1] << " " << vertices[iv + 2] << end;
-            convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
-        }
-
-        for (j = 0; j < 4; j++)
-            idx[j] = idx[j] % (num * 2);
-
-        if (y < step)
-            continue;
-
-        for (k = 0; k < num - 1; k ++) {
-            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
-            for (j = 0; j < 4; j++)
-                idx[j]++;
-        }
-        for (j = 0; j < 4; j++)
-            idx[j]++;
-    }
-    delete [] vertices;
-    delete [] texCoords;
-    glDisable(GL_TEXTURE_2D);
-}
-
-
-void CMap3DWidget::updateElevationLimits()
-{
-    double x, y, u, v, ele;
-    double w = mapSize.width();
-    double h = mapSize.height();
-    double step = 5;
-    IMap& dem = CMapDB::self().getDEM();
-
-    u = 0;
-    v = 0;
-    map->convertPt2Rad(u, v);
-    minElevation = maxElevation = dem.getElevation(u,v);
-
-    for (y = 0; y < h - step; y += step)
-    for (x = 0; x < w; x += step) {
-        u = x;
-        v = y;
-        map->convertPt2Rad(u, v);
-        // FIXME can't use map instead of dem. need investigation.
-        ele = dem.getElevation(u,v);
-        if (ele > maxElevation)
-            maxElevation = ele;
-
-        if (ele < minElevation)
-            minElevation = ele;
-    }
-
-    if (! track.isNull() && (maxElevation - minElevation < 1)) {
-        /*selected track exist and dem isn't present for this map*/
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-        maxElevation = trkpt->ele;
-        minElevation = trkpt->ele;
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                ++trkpt; continue;
-            }
-            if (trkpt->ele > maxElevation)
-                maxElevation = trkpt->ele;
-            if (trkpt->ele < minElevation)
-                minElevation = trkpt->ele;
-            ++trkpt;
-        }
-    }
-
-    if (maxElevation - minElevation < 1) {
-        /*selected track and deb are absent*/
-        maxElevation = 1;
-        minElevation = 0;
-    }
-
-}
-
-
-#else
-
 void CMap3DWidget::drawSkybox(double x, double y, double z, double xs, double ys, double zs)
 {
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
@@ -793,14 +664,15 @@ void CMap3DWidget::updateElevationLimits()
     if (eleData != NULL) {
         minElevation = maxElevation = eleData[0];
 
-        for (i = 0; i < xcount; i++)
-        for (j = 0; j < ycount; j++) {
-            ele = eleData[i + j * xcount];
-            if (ele > maxElevation)
-                maxElevation = ele;
+        for (i = 0; i < xcount; i++) {
+            for (j = 0; j < ycount; j++) {
+                ele = eleData[i + j * xcount];
+                if (ele > maxElevation)
+                    maxElevation = ele;
 
-            if (ele < minElevation)
-                minElevation = ele;
+                if (ele < minElevation)
+                    minElevation = ele;
+            }
         }
     }
 
@@ -829,7 +701,7 @@ void CMap3DWidget::updateElevationLimits()
     }
     delete [] eleData;
 }
-#endif
+
 
 void CMap3DWidget::drawTrack()
 {

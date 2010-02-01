@@ -36,7 +36,6 @@ const double WGS84_a = 6378137.0;
 const double WGS84_b = 6356752.314245;
 const double WGS84_f = 1.0/298.257223563;
 
-
 bool GPS_Math_Deg_To_DegMin(float v, int32_t *d, float *m)
 {
     bool sign = v < 0;
@@ -206,8 +205,7 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     unsigned iterLimit = 20;
 
     while (fabs(lambda - lambdaP) > 1e-12) {
-        if (!iterLimit)
-        {
+        if (!iterLimit) {
             lambda = PI;
             qDebug() << "No lambda convergence, most likely due to near-antipodal points. Assuming antipodal.";
         }
@@ -232,7 +230,7 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
 
         double C = WGS84_f/16 * cosSqAlpha * (4 + WGS84_f * (4 - 3 * cosSqAlpha));
         lambdaP = lambda;
-        
+
         if (iterLimit--) lambda = L + (1-C) * WGS84_f * sinAlpha * (sigma + C*sinSigma*(cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     }
 
@@ -247,18 +245,20 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     return s;
 }
 
+
 double parallel_distance(const XY& p1, const XY& p2)
 {
     // Assure same latitude V
     if (p1.v != p2.v) return std::numeric_limits<double>::quiet_NaN();
-    
+
     // Compute the distance between Earth center and latitude V
     double cosV = cos(p1.v);
     double r = WGS84_a*WGS84_b / sqrt(cosV*cosV*WGS84_b*WGS84_b + (1-cosV*cosV)*WGS84_a*WGS84_a);
-    
+
     // Return the lenght of U2-U1 arc at latitude V
     return fabs(p2.u-p1.u)*r*cosV;
 }
+
 
 void GPS_Math_Deg_To_Str(const float& x, const float& y, QString& str)
 {

@@ -222,12 +222,14 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     emit sigChanged();
 }
 
+
 void CLiveLogDB::slotMapDBChanged()
 {
     IMap& map = CMapDB::self().getMap();
 
     connect(&map, SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
 }
+
 
 void CLiveLogDB::slotMapChanged()
 {

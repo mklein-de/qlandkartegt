@@ -44,7 +44,6 @@ typedef __int32 int32_t;
 #define FP_NAN NAN
 #endif
 
-
 CTrackDB * CTrackDB::m_self = 0;
 
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
@@ -453,7 +452,7 @@ void CTrackDB::saveGPX(CGpx& gpx)
             // gpx extensions
             if((!gpx.getExportFlag() && pt->flags.flag() != 0) ||
                 pt->heading != WPT_NOFLOAT ||
-                pt->velocity != WPT_NOFLOAT) {
+            pt->velocity != WPT_NOFLOAT) {
                 QDomElement extensions = gpx.createElement("extensions");
                 trkpt.appendChild(extensions);
 
@@ -628,10 +627,10 @@ void CTrackDB::splitTrack(int idx)
 void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPointF arrow[4] = {
-        QPointF( 15.0, 5.0),      //front
+        QPointF( 15.0, 5.0),     //front
         QPointF( 0.0, 0.0),      //upper tail
         QPointF( 5.0, 5.0),      //mid tail
-        QPointF( 0.0, 10.0)       //lower tail
+        QPointF( 0.0, 10.0)      //lower tail
     };
 
     QPoint focus(-1,-1);
@@ -723,7 +722,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             arrow_pic.setMask(arrow_pic.createHeuristicMask());
 
             foreach(pt,line) {
-                if(start){        // no arrow on  the first loop
+                if(start) {      // no arrow on  the first loop
                     start = false;
                 }
                 else {
@@ -792,7 +791,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
 
-            if(start){            // no arrow on  the first loop
+            if(start) {          // no arrow on  the first loop
                 start = false;
             }
             else {
@@ -844,7 +843,7 @@ void CTrackDB::select(const QRect& rect, bool select /*= true*/)
 void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 {
     CTrack * track = highlightedTrack();
-    if(track == 0){
+    if(track == 0) {
         QMessageBox::warning(0,tr("Failed..."), tr("Failed to copy track. You must select a track or track points of a track."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -863,12 +862,11 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
         ++trkpt;
     }
 
-
     CQlb qlb(this);
-    if(tmpTrack->getTrackPoints().count()){
+    if(tmpTrack->getTrackPoints().count()) {
         qlb << *tmpTrack;
     }
-    else{
+    else {
         qlb << *track;
     }
     QBuffer buffer;

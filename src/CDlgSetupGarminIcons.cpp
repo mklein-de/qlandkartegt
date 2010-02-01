@@ -39,17 +39,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #undef LP
 #endif
 
-
 CDlgSetupGarminIcons::CDlgSetupGarminIcons()
 {
     setupUi(this);
     connect(butSend,SIGNAL(pressed()),this,SLOT(slotSendToDevice()));
 }
 
+
 CDlgSetupGarminIcons::~CDlgSetupGarminIcons()
 {
 
 }
+
 
 void CDlgSetupGarminIcons::exec()
 {
@@ -96,6 +97,7 @@ void CDlgSetupGarminIcons::exec()
     QDialog::exec();
 }
 
+
 void CDlgSetupGarminIcons::accept()
 {
     QSettings cfg;
@@ -112,6 +114,7 @@ void CDlgSetupGarminIcons::accept()
 
     QDialog::accept();
 }
+
 
 void CDlgSetupGarminIcons::slotChangeIconSource()
 {
@@ -131,6 +134,7 @@ void CDlgSetupGarminIcons::slotChangeIconSource()
     }
 }
 
+
 void CDlgSetupGarminIcons::slotResetIconSource()
 {
     QTreeWidgetItem * entry = listCustomIcons->topLevelItem(sender()->objectName().toInt());
@@ -140,6 +144,7 @@ void CDlgSetupGarminIcons::slotResetIconSource()
     }
 
 }
+
 
 #pragma pack(1)
 // Header of Garmin 256-color BMP bitmap files
@@ -171,7 +176,6 @@ struct garmin_bmp_t
 #else
 #pragma pack(0)
 #endif
-
 
 void CDlgSetupGarminIcons::slotSendToDevice()
 {
@@ -208,13 +212,12 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         qDebug() << "clrtbl[0xfe]        " << hex << pBmp->clrtbl[0xfe];
         qDebug() << "clrtbl[0xff]        " << hex << pBmp->clrtbl[0xff];
 
-
         if(    pBmp->biBitCount != 8
             || pBmp->biCompression != 0
             || (pBmp->biClrUsed != 0 && pBmp->biClrUsed != 0x100)
             || (pBmp->biClrImportant != 0 && pBmp->biClrImportant != 0x100)
             || pBmp->biWidth != 16
-            || pBmp->biHeight != 16) {
+        || pBmp->biHeight != 16) {
             QMessageBox::warning(0,tr("Format Error"),entry->text(4) + tr(": Bad icon format"),QMessageBox::Ok,QMessageBox::NoButton);
             return;
         }
@@ -233,22 +236,21 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         //memcpy(icons.back().data,pBmp->data,pBmp->biSizeImage);
     }
 
-
     CDeviceGarmin * dev = qobject_cast<CDeviceGarmin*>(CResources::self().device());
     if(dev) {
         Garmin::IDevice * gardev = dev->getDevice();
         if(gardev == 0) return;
 
-        try {
+        try
+        {
             gardev->uploadCustomIcons(icons);
         }
         catch(int /*e*/) {
-            QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-            return;
-        }
-
+        QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+        return;
     }
 
 }
 
 
+}

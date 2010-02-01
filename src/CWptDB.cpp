@@ -174,11 +174,11 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 void CWptDB::addWpt(CWpt * wpt)
 {
     if(wpts.contains(wpt->key())) {
-        if(wpts[wpt->key()]->sticky){
+        if(wpts[wpt->key()]->sticky) {
             delete wpt;
             return;
         }
-        else{
+        else {
             delWpt(wpt->key(), true);
         }
     }
@@ -488,10 +488,10 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
             if(exifEntry->components == 3) {
-//                 qDebug() << "lat" << exifEntry->components;
-//                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
-//                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
-//                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
+                //                 qDebug() << "lat" << exifEntry->components;
+                //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
+                //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
+                //                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
                 exifGPS.lat = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
             }
             break;
@@ -507,10 +507,10 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
             if(exifEntry->components == 3) {
-//                 qDebug() << "lon" << exifEntry->components;
-//                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
-//                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
-//                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
+                //                 qDebug() << "lon" << exifEntry->components;
+                //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
+                //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
+                //                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
                 exifGPS.lon = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
             }
 

@@ -66,7 +66,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "OSM:" << ptr;
-//     if(ptr) free(ptr);
+    //     if(ptr) free(ptr);
 
     QString pos     = cfg.value("osm/topleft","").toString();
     zoomidx         = cfg.value("osm/zoomidx",1).toInt();

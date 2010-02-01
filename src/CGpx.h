@@ -43,10 +43,11 @@ class CGpx : public QObject, public QDomDocument
         static const QString rmc_ns;
         static const QString ql_ns;
 
-        enum gpx_version {
-            qlVer_foreign,      // file was not created by QLandkarteGT
-            qlVer_1_0,          // file uses old, non XSD-compatible extensions
-            qlVer_1_1,          // file uses new, XSD-compatible extensions
+        enum gpx_version
+        {
+            qlVer_foreign,       // file was not created by QLandkarteGT
+            qlVer_1_0,           // file uses old, non XSD-compatible extensions
+            qlVer_1_1,           // file uses new, XSD-compatible extensions
         };
 
     public:

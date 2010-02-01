@@ -53,7 +53,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
 
-
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     QFontMetrics fm(listTracks->font());
@@ -250,13 +249,14 @@ void CTrackToolWidget::slotToOverlay()
     CMegaMenu::self().switchByKeyWord("Overlay");
 }
 
+
 void CTrackToolWidget::slotFilter()
 {
     const QListWidgetItem* item = listTracks->currentItem();
 
     if(item == 0) {
         QMessageBox::information(0,tr("Filter"), tr("You have to select a track first."),
-                                 QMessageBox::Ok,QMessageBox::Ok);
+            QMessageBox::Ok,QMessageBox::Ok);
         return;
     };
 

@@ -225,7 +225,7 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
 
         ++idx;
         if (idx >= 11)
-        	break;
+            break;
     }
 }
 

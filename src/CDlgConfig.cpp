@@ -215,7 +215,7 @@ void CDlgConfig::fillTypeCombo()
 #if defined(Q_WS_MAC)
     // MacOS X: plug-ins are stored in the bundle folder
     QDir inst_dir(QCoreApplication::applicationDirPath()
-                  .replace(QRegExp("MacOS$"), "Resources/Drivers"));
+        .replace(QRegExp("MacOS$"), "Resources/Drivers"));
 #else
     QDir inst_dir(XSTR(PLUGINDIR));
 #endif
@@ -231,8 +231,8 @@ void CDlgConfig::fillTypeCombo()
     if(files.isEmpty()) {
 #if defined(Q_WS_MAC)
         labelMessage->setText(tr("No plugins found. I expect them in: %1")
-                                 .arg(QCoreApplication::applicationDirPath()
-                                      .replace(QRegExp("MacOS$"), "Resources/Drivers")));
+            .arg(QCoreApplication::applicationDirPath()
+            .replace(QRegExp("MacOS$"), "Resources/Drivers")));
 #else
         labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(PLUGINDIR)));
 #endif
@@ -268,6 +268,7 @@ void CDlgConfig::slotBrowserChanged(int idx)
         lineBrowserCmd->setEnabled(false);
     }
 }
+
 
 void CDlgConfig::slotSetupGarminIcons()
 {

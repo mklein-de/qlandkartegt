@@ -411,8 +411,6 @@ bool CDeviceQLandkarteM::startDeviceDetection()
 }
 
 
-
-
 void CDeviceQLandkarteM::detectedDevice()
 {
     // Detect device only if none already
@@ -466,4 +464,3 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
     }
     return true;
 }
-

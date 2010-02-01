@@ -134,7 +134,7 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
     // Assume more recent version 1.3.0 first
     versionString = "1.3.0";
     QDomNode WMS_Capabilities = dom.namedItem("WMS_Capabilities");
-    
+
     // If it did not work then try version 1.1.1
     if (WMS_Capabilities.isNull()) {
         versionString = "1.1.1";
@@ -163,15 +163,15 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     // In 1.1.1 we have SRS and in 1.3.0 CRS
     QDomNode layers     = WMS_Capabilities.namedItem("Capability").namedItem("Layer");
-    
-    if (versionString == "1.3.0")
-    {
+
+    if (versionString == "1.3.0") {
         QDomElement CRS = layers.firstChildElement("CRS");
         while(!CRS.isNull()) {
             comboProjection->addItem(CRS.text());
             CRS = CRS.nextSiblingElement("CRS");
         }
-    } else {
+    }
+    else {
         QDomElement SRS = layers.firstChildElement("SRS");
         while(!SRS.isNull()) {
             QStringList listSRS = SRS.text().split(" ", QString::SkipEmptyParts);
@@ -201,10 +201,9 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
 
     // In 1.1.1 we have LatLonBoundingBox and in 1.3.0 EX_GeographicBoundingBox
     double maxx, maxy, minx, miny;
-    if (versionString == "1.3.0")
-    {
+    if (versionString == "1.3.0") {
         QDomElement GeographicBoundingBox = layers.namedItem("EX_GeographicBoundingBox").toElement();
-        
+
         bool ok;
         maxx = GeographicBoundingBox.namedItem("eastBoundLongitude").toElement().text().toDouble(&ok);
         if (!ok) maxx = 0.0;
@@ -214,9 +213,10 @@ void CCreateMapWMS::slotRequestFinished(int , bool error)
         if (!ok) minx = 0.0;
         miny = GeographicBoundingBox.namedItem("southBoundLatitude").toElement().text().toDouble(&ok);
         if (!ok) miny = 0.0;
-    } else {
+    }
+    else {
         QDomElement LatLonBoundingBox = layers.namedItem("LatLonBoundingBox").toElement();
-    
+
         maxx = LatLonBoundingBox.attribute("maxx","0.0").toDouble();
         maxy = LatLonBoundingBox.attribute("maxy","0.0").toDouble();
         minx = LatLonBoundingBox.attribute("minx","0.0").toDouble();
@@ -253,7 +253,7 @@ void CCreateMapWMS::slotSave()
 
     QDomElement RS;
     if (versionString == "1.3.0") RS = dom.createElement("CRS");
-        else RS = dom.createElement("SRS");
+    else RS = dom.createElement("SRS");
     RS.appendChild(dom.createTextNode(comboProjection->currentText()));
     Service.appendChild(RS);
 
@@ -321,11 +321,11 @@ void CCreateMapWMS::slotSave()
         double sizex, sizey;
 
         XY north, south, east, west;
-        
+
         north.v = v1 * DEG_TO_RAD;
         south.v = v2 * DEG_TO_RAD;
         north.u = south.u = (u1+u2)/2 * DEG_TO_RAD;
-        
+
         east.u = u1 * DEG_TO_RAD;
         west.u = u2 * DEG_TO_RAD;
         east.v = west.v = (v1+v2)/2 * DEG_TO_RAD;

@@ -223,10 +223,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     char * ptr;
     ptr = pj_get_def(pjsrc,0);
     qDebug() << "pjsrc:\t" << ptr;
-//     free(ptr);
+    //     free(ptr);
     ptr = pj_get_def(pjtar,0);
     qDebug() << "pjtar:\t" << ptr;
-//     free(ptr);
+    //     free(ptr);
 
     processPrimaryMapData();
 
@@ -338,7 +338,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     pjsrc = pj_init_plus(ptr);
 
     qDebug() << "TDB:" << ptr;
-//     if(ptr) free(ptr);
+    //     if(ptr) free(ptr);
 
     readTDB(filename);
     processPrimaryMapData();
@@ -397,16 +397,17 @@ CMapTDB::~CMapTDB()
         delete checkNightView;
     }
 
-    if(comboDetails){
+    if(comboDetails) {
         delete comboDetails;
     }
 
-    if(comboLanguages){
+    if(comboLanguages) {
         delete comboLanguages;
     }
 
     qDebug() << "CMapTDB::~CMapTDB()";
 }
+
 
 void CMapTDB::slotPoiLabels(bool checked)
 {
@@ -415,12 +416,14 @@ void CMapTDB::slotPoiLabels(bool checked)
     emit sigChanged();
 }
 
+
 void CMapTDB::slotNightView(bool checked)
 {
     nightView   = checked;
     needsRedraw = true;
     emit sigChanged();
 }
+
 
 void CMapTDB::slotDetailChanged(int idx)
 {
@@ -430,12 +433,14 @@ void CMapTDB::slotDetailChanged(int idx)
     emit sigChanged();
 }
 
+
 void CMapTDB::slotLanguageChanged(int idx)
 {
     selectedLanguage = comboLanguages->itemData(idx).toInt();
     needsRedraw = true;
     emit sigChanged();
 }
+
 
 void CMapTDB::setup()
 {
@@ -567,7 +572,6 @@ void CMapTDB::setup()
     polylineProperties[0x2a].strings[0x00] = tr("Marine boundary");
     polylineProperties[0x2b].strings[0x00] = tr("Hazard boundary");
 
-
     polygonProperties.clear();
     polygonProperties[0x01] = IGarminTyp::polygon_property(0x01, Qt::NoPen,     "#d2c0c0", Qt::SolidPattern);
     polygonProperties[0x02] = IGarminTyp::polygon_property(0x02, Qt::NoPen,     "#fbeab7", Qt::SolidPattern);
@@ -660,7 +664,7 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     }
     pj_free(pjsrc);
     pjsrc = pj_init_plus(ptr);
-//     if(ptr) free(ptr);
+    //     if(ptr) free(ptr);
 }
 
 
@@ -857,14 +861,14 @@ void CMapTDB::readTDB(const QString& filename)
                         cfg.endGroup();
 
                     }
-                    else if(CGarminTile::errFormat){
+                    else if(CGarminTile::errFormat) {
                         if(!tainted) {
                             QMessageBox::warning(0, tr("Error")
-                                                  , tr("<p>Failed to load file:</p>"
-                                                       "<p>%1</p>"
-                                                       "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
-                                                       ).arg(e.msg)
-                                                  ,QMessageBox::Ok,QMessageBox::Ok);
+                                , tr("<p>Failed to load file:</p>"
+                                "<p>%1</p>"
+                                "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
+                                ).arg(e.msg)
+                                ,QMessageBox::Ok,QMessageBox::Ok);
                             tainted = true;
                         }
                         delete tile.img;
@@ -1288,7 +1292,6 @@ void CMapTDB::draw(QPainter& p)
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
-
     if(doFastDraw) setFastDraw();
 }
 
@@ -1376,60 +1379,63 @@ void CMapTDB::draw()
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
     if(/*!doFastDraw && */!isTransparent) {
-        drawPolygons(p, polygons);
+    drawPolygons(p, polygons);
+}
+
+
+// needs to be removed
+QPen pen(Qt::red, 30);
+pen.setCapStyle(Qt::RoundCap);
+pen.setJoinStyle(Qt::RoundJoin);
+p.setPen(pen);
+polytype_t::iterator item = query1.begin();
+while(item != query1.end()) {
+    QVector<double> lon = item->u;
+    QVector<double> lat = item->v;
+    double * u      = lon.data();
+    double * v      = lat.data();
+    const int size  = lon.size();
+
+    convertRad2Pt(u,v,size);
+    QPolygonF line(size);
+
+    for(int i = 0; i < size; ++i) {
+        line[i].setX(*u++);
+        line[i].setY(*v++);
     }
 
+    p.drawPolyline(line);
+
+    ++item;
+}
+
+
+////////////////////////
+
+if(!doFastDraw) {
+    drawPolylines(p, polylines);
     // needs to be removed
-    QPen pen(Qt::red, 30);
-    pen.setCapStyle(Qt::RoundCap);
-    pen.setJoinStyle(Qt::RoundJoin);
-    p.setPen(pen);
-    polytype_t::iterator item = query1.begin();
-    while(item != query1.end()) {
-        QVector<double> lon = item->u;
-        QVector<double> lat = item->v;
-        double * u      = lon.data();
-        double * v      = lat.data();
-        const int size  = lon.size();
-
-        convertRad2Pt(u,v,size);
-        QPolygonF line(size);
-
-        for(int i = 0; i < size; ++i) {
-            line[i].setX(*u++);
-            line[i].setY(*v++);
-        }
-
-        p.drawPolyline(line);
-
+    p.setPen(QColor("#FFB000"));
+    p.setBrush(QColor("#FFB000"));
+    pointtype_t::iterator item = query2.begin();
+    while(item != query2.end()) {
+        double u = item->lon;
+        double v = item->lat;
+        IMap::convertRad2Pt(u,v);
+        p.drawEllipse(u - 16, v - 16, 30, 30);
         ++item;
     }
     ////////////////////////
 
+    drawPoints(p, points);
+    drawPois(p, pois);
+    drawText(p);
+    drawLabels(p, labels);
 
-    if(!doFastDraw) {
-        drawPolylines(p, polylines);
-        // needs to be removed
-        p.setPen(QColor("#FFB000"));
-        p.setBrush(QColor("#FFB000"));
-        pointtype_t::iterator item = query2.begin();
-        while(item != query2.end()) {
-            double u = item->lon;
-            double v = item->lat;
-            IMap::convertRad2Pt(u,v);
-            p.drawEllipse(u - 16, v - 16, 30, 30);
-            ++item;
-        }
-        ////////////////////////
+}
 
-        drawPoints(p, points);
-        drawPois(p, pois);
-        drawText(p);
-        drawLabels(p, labels);
 
-    }
-
-    p.setRenderHint(QPainter::Antialiasing,false);
+p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 
@@ -1442,7 +1448,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
     const int size      = l.u.size();
     const int lineWidth = p.pen().width();
 
-    if(size < 2){
+    if(size < 2) {
         return;
     }
 
@@ -1463,6 +1469,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
     p.drawPolyline(line);
 }
 
+
 void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
 {
     QPolygonF line;
@@ -1470,7 +1477,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
     double * v          = l.v.data();
     const int size      = l.u.size();
 
-    if(size < 2){
+    if(size < 2) {
         return;
     }
 
@@ -1484,6 +1491,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
 
     p.drawPolyline(line);
 }
+
 
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
@@ -1502,7 +1510,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     foreach(type, keys) {
         IGarminTyp::polyline_property& property = polylineProperties[type];
 
-        if(property.hasPixmap){
+        if(property.hasPixmap) {
             QImage pixmap = nightView ? property.imgNight : property.imgDay;
             const double w          = pixmap.width();
             const double h          = pixmap.height();
@@ -1516,7 +1524,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     double * v      = item->v.data();
                     const int size  = item->u.size();
 
-                    if(size < 2){
+                    if(size < 2) {
                         ++item;
                         continue;
                     }
@@ -1555,7 +1563,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
                         collectText((*item), line, font, metrics, h);
                     }
-
 
                     path.addPolygon(line);
                     const int nLength = lengths.count();
@@ -1598,8 +1605,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 ++item;
             }
         }
-        else{
-            if(property.hasBorder){
+        else {
+            if(property.hasBorder) {
                 // draw background line 1st
                 p.setPen(nightView ? property.penBorderNight : property.penBorderDay);
                 polytype_t::iterator item = lines.begin();
@@ -1619,7 +1626,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     ++item;
                 }
             }
-            else{
+            else {
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
                 polytype_t::iterator item = lines.begin();
                 while(item != lines.end()) {
@@ -1785,6 +1792,7 @@ void CMapTDB::drawText(QPainter& p)
 
 }
 
+
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
     quint32 type;
@@ -1824,6 +1832,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     }
 
 }
+
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
@@ -1934,19 +1943,19 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != points.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            if(point->labels.size()){
+            if(point->labels.size()) {
                 dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
-            else{
-                if(pointProperties.contains(point->type)){
-                    if(selectedLanguage != -1){
+            else {
+                if(pointProperties.contains(point->type)) {
+                    if(selectedLanguage != -1) {
                         dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
-                    else{
+                    else {
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
-                else{
+                else {
                     dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                 }
             }
@@ -1963,19 +1972,19 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
     while(point != pois.end()) {
         QPoint x = pt - QPoint(point->lon, point->lat);
         if(x.manhattanLength() < 10) {
-            if(point->labels.size()){
+            if(point->labels.size()) {
                 dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
-            else{
-                if(pointProperties.contains(point->type)){
-                    if(selectedLanguage != -1){
+            else {
+                if(pointProperties.contains(point->type)) {
+                    if(selectedLanguage != -1) {
                         dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
-                    else{
+                    else {
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
-                else{
+                else {
                     dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                 }
             }
@@ -2074,15 +2083,14 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
         ++line;
     }
 
-
-    if(selectedLanguage != -1){
+    if(selectedLanguage != -1) {
         key =  polylineProperties[type].strings[selectedLanguage];
     }
 
     if(!key.isEmpty()) {
         dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
-    else{
+    else {
         dict.insert(tr("Unknown") + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
 
@@ -2118,14 +2126,14 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
                 }
             }
 
-            if(c){
-                if(line->labels.isEmpty()){
+            if(c) {
+                if(line->labels.isEmpty()) {
 
-                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size()){
+                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size()) {
                         dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                     }
                 }
-                else{
+                else {
                     dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                 }
             }
@@ -2195,6 +2203,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     sel.description += QString("\nTiles: #%1").arg(sel.tilecnt);
 }
 
+
 void CMapTDB::readTYP()
 {
     QFileInfo fi(filename);
@@ -2208,94 +2217,92 @@ void CMapTDB::readTYP()
 
 #ifdef DBG
     QString f;
-    foreach(f, typfiles){
+    foreach(f, typfiles) {
 
-    typfile = path.absoluteFilePath(f);
-    QFile file(path.absoluteFilePath(f));
+        typfile = path.absoluteFilePath(f);
+        QFile file(path.absoluteFilePath(f));
 #else
-    typfile = path.absoluteFilePath(typfiles[0]);
-    QFile file(path.absoluteFilePath(typfiles[0]));
+        typfile = path.absoluteFilePath(typfiles[0]);
+        QFile file(path.absoluteFilePath(typfiles[0]));
 #endif
-    qDebug() << file.fileName();
-    file.open(QIODevice::ReadOnly);
+        qDebug() << file.fileName();
+        file.open(QIODevice::ReadOnly);
 
-    QDataStream in(&file);
-    in.setByteOrder( QDataStream::LittleEndian);
+        QDataStream in(&file);
+        in.setByteOrder( QDataStream::LittleEndian);
 
-    /* Read typ file descriptor */
-    quint16 descriptor;
-    in >> descriptor;
+        /* Read typ file descriptor */
+        quint16 descriptor;
+        in >> descriptor;
 
-    qDebug() << "descriptor" << hex << descriptor;
-    switch(descriptor)
-    {
-        case 0x6E:
-        {
-            CGarminTypNT typ(0);
-            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+        qDebug() << "descriptor" << hex << descriptor;
+        switch(descriptor) {
+            case 0x6E:
+            {
+                CGarminTypNT typ(0);
+                typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
 
-            quint8 lang;
-            QSet<quint8> usedLanguages = typ.getLanguages();
+                quint8 lang;
+                QSet<quint8> usedLanguages = typ.getLanguages();
 
-            if(!usedLanguages.isEmpty()){
-                comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                foreach(lang, usedLanguages){
-                    comboLanguages->addItem(languages[lang],  lang);
+                if(!usedLanguages.isEmpty()) {
+                    comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                    foreach(lang, usedLanguages) {
+                        comboLanguages->addItem(languages[lang],  lang);
+                    }
+                    connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                    theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+
+                    QSettings cfg;
+                    cfg.beginGroup("garmin/maps");
+                    cfg.beginGroup(name);
+                    selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                    cfg.endGroup();
+                    cfg.endGroup();
+
+                    comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
                 }
-                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
-                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
-
-                QSettings cfg;
-                cfg.beginGroup("garmin/maps");
-                cfg.beginGroup(name);
-                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
-                cfg.endGroup();
-                cfg.endGroup();
-
-                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
-
+                break;
             }
-            break;
+
+            default:
+            case 0x5B:
+            {
+                CGarminTyp typ(0);
+                typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+
+                quint8 lang;
+                QSet<quint8> usedLanguages = typ.getLanguages();
+
+                if(!usedLanguages.isEmpty()) {
+                    comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                    foreach(lang, usedLanguages) {
+                        comboLanguages->addItem(languages[lang],  lang);
+                    }
+                    connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                    theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+
+                    QSettings cfg;
+                    cfg.beginGroup("garmin/maps");
+                    cfg.beginGroup(name);
+                    selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                    cfg.endGroup();
+                    cfg.endGroup();
+
+                    comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
+                }
+                break;
+            }
+
+            //         default:
+            //             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
+            //             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
+            //             return;
         }
 
-        default:
-        case 0x5B:
-        {
-            CGarminTyp typ(0);
-            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
-
-            quint8 lang;
-            QSet<quint8> usedLanguages = typ.getLanguages();
-
-            if(!usedLanguages.isEmpty()){
-                comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                foreach(lang, usedLanguages){
-                    comboLanguages->addItem(languages[lang],  lang);
-                }
-                connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
-                theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
-
-                QSettings cfg;
-                cfg.beginGroup("garmin/maps");
-                cfg.beginGroup(name);
-                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
-                cfg.endGroup();
-                cfg.endGroup();
-
-                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
-
-            }
-            break;
-        }
-
-
-//         default:
-//             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-//             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
-//             return;
-    }
-
-    file.close();
+        file.close();
 
 #ifdef DBG
     }
@@ -2338,7 +2345,7 @@ void CMapTDB::config()
     dlg.exec();
 
     needsRedraw = true;
-    if(comboLanguages){
+    if(comboLanguages) {
         delete comboLanguages;
         comboLanguages  = 0;
     }

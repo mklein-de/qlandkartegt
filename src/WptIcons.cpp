@@ -367,6 +367,7 @@ QPixmap loadIcon(const QString& path)
     return QPixmap();
 }
 
+
 QPixmap getWptIconByName(const QString& name, QString * src)
 {
     const wpt_icon_t * ptr = wptIcons;
@@ -395,6 +396,7 @@ void setWptIconByName(const QString& name, const QString& filename)
     }
 }
 
+
 QString getWptResourceByName(const QString& name)
 {
     const wpt_icon_t * ptr = wptIcons;
@@ -408,6 +410,7 @@ QString getWptResourceByName(const QString& name)
 
     return QString("");
 }
+
 
 const wpt_icon_t* getWptIcons()
 {

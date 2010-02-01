@@ -63,6 +63,4 @@ class CDeviceNMEA : public IDevice
         QTimer * watchdog;
 
 };
-
-#endif //CDEVICENMEA_H
-
+#endif                           //CDEVICENMEA_H

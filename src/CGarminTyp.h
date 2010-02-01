@@ -31,6 +31,4 @@ class CGarminTyp : public IGarminTyp
 
         bool decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, point_property>& points);
 };
-
-#endif //CGARMINTYP_H
-
+#endif                           //CGARMINTYP_H

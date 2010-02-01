@@ -39,6 +39,4 @@ class CDlgScreenshot : public QDialog, private Ui::IDlgScreenshot
         QImage image;
 
 };
-
-#endif //CDLGSCREENSHOT_H
-
+#endif                           //CDLGSCREENSHOT_H

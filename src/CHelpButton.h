@@ -1,6 +1,6 @@
 /* -*-mode:c; c-basic-offset:4; -*- */
 /**********************************************************************************************
-    Copyright (C) 2010 Albrecht Dreﬂ <albrecht.dress@arcor.de>
+    Copyright (C) 2010 Albrecht Dre <albrecht.dress@arcor.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #include <QToolButton>
 #include <QString>
 
-
 class CHelpButton : public QToolButton
 {
     Q_OBJECT;
@@ -42,7 +41,6 @@ class CHelpButton : public QToolButton
         QString m_contents;
 };
 
-
 // Note: the help dialogue is just an internal helper for CHelpButton.
 // DO NOT USE IT.
 #include "ui_IHelpDlg.h"
@@ -56,6 +54,4 @@ class CHelpDialog : public QDialog, private Ui::IHelpDialog
 
         void setContents(const QString & contents) { helpText->setText(contents); };
 };
-
-
-#endif  // __C_HELP_BUTTON__
+#endif                           // __C_HELP_BUTTON__

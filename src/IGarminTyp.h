@@ -31,59 +31,59 @@ class IGarminTyp : public QObject
         IGarminTyp(format_e format, QObject * parent);
         virtual ~IGarminTyp();
 
-        enum label_type_e {
-             eStandard  = 0
+        enum label_type_e
+        {
+            eStandard  = 0
             ,eNone      = 1
             ,eSmall     = 2
             ,eNormal    = 3
             ,eLarge     = 4
         };
 
-
         struct polyline_property
         {
             polyline_property()
-            : type(0)
-            , penLineDay(Qt::magenta,3)
-            , penLineNight(Qt::magenta,3)
-            , hasBorder(false)
-            , penBorderDay(Qt::NoPen)
-            , penBorderNight(Qt::NoPen)
-            , hasPixmap(false)
-            , labelType(eStandard)
-            , colorLabelDay(Qt::black)
-            , colorLabelNight(Qt::black)
-            , known(false)
+                : type(0)
+                , penLineDay(Qt::magenta,3)
+                , penLineNight(Qt::magenta,3)
+                , hasBorder(false)
+                , penBorderDay(Qt::NoPen)
+                , penBorderNight(Qt::NoPen)
+                , hasPixmap(false)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
+                , known(false)
 
-            {};
+                {};
 
             polyline_property(quint16 type, const QPen& penLineDay,  const QPen& penLineNight,  const QPen& penBorderDay,  const QPen& penBorderNight)
-            : type(type)
-            , penLineDay(penLineDay)
-            , penLineNight(penLineNight)
-            , hasBorder(true)
-            , penBorderDay(penBorderDay)
-            , penBorderNight(penBorderNight)
-            , hasPixmap(false)
-            , labelType(eStandard)
-            , colorLabelDay(Qt::black)
-            , colorLabelNight(Qt::black)
-            , known(true)
-            {}
+                : type(type)
+                , penLineDay(penLineDay)
+                , penLineNight(penLineNight)
+                , hasBorder(true)
+                , penBorderDay(penBorderDay)
+                , penBorderNight(penBorderNight)
+                , hasPixmap(false)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
+                , known(true)
+                {}
 
             polyline_property(quint16 type, const QColor& color, int width, Qt::PenStyle style)
-            : type(type)
-            , penLineDay(QPen(color, width, style))
-            , penLineNight(penLineDay)
-            , hasBorder(false)
-            , penBorderDay(Qt::NoPen)
-            , penBorderNight(Qt::NoPen)
-            , hasPixmap(false)
-            , labelType(eStandard)
-            , colorLabelDay(Qt::black)
-            , colorLabelNight(Qt::black)
-            , known(true)
-            {}
+                : type(type)
+                , penLineDay(QPen(color, width, style))
+                , penLineNight(penLineDay)
+                , hasBorder(false)
+                , penBorderDay(Qt::NoPen)
+                , penBorderNight(Qt::NoPen)
+                , hasPixmap(false)
+                , labelType(eStandard)
+                , colorLabelDay(Qt::black)
+                , colorLabelNight(Qt::black)
+                , known(true)
+                {}
 
             quint16 type;
 
@@ -223,6 +223,4 @@ class IGarminTyp : public QObject
         QSet<quint8> languages;
 
 };
-
-#endif //IGARMINTYP_H
-
+#endif                           //IGARMINTYP_H

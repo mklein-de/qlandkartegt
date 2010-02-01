@@ -31,7 +31,6 @@ const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExte
 const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
 const QString CGpx::ql_ns = "http://www.qlandkarte.org/xmlschemas/v1.1";
 
-
 uint qHash(QColor color)
 {
     return qHash(color.rgba());
@@ -218,12 +217,14 @@ void CGpx::load(const QString& filename)
         if (creator == "QLandkarteGT" || creator == "QLandkarte") {
             file_version = qlVer_1_0;
             qDebug() << "CGpx::load(): Detected old" << creator
-                     << "format, using compat mode";
-        } else {
+                << "format, using compat mode";
+        }
+        else {
             file_version = qlVer_1_1;
             qDebug() << "CGpx::load(): Detected new QLandkarteGT format";
         }
-    } else {
+    }
+    else {
         // Foreign GPX file
         file_version = qlVer_foreign;
         qDebug() << "CGpx::load(): Detected foreign GPX format";

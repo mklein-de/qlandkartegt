@@ -348,69 +348,6 @@ void CMapDEM::draw(QPainter& p)
 }
 
 
-#if 0
-void CMapDEM::draw()
-{
-
-    IMap::overlay_e overlay = status->getOverlayType();
-    if(overlay == IMap::eNone) {
-        old_overlay = overlay;
-        buffer.fill(Qt::transparent);
-        return;
-    }
-
-    // check if old area matches new request
-    // kind of a different way to calculate the needRedraw flag
-
-    XY p1, p2;
-    float my_xscale, my_yscale;
-
-    getArea_n_Scaling_fromBase(p1, p2, my_xscale, my_yscale);
-
-    if(    overlay == old_overlay
-        && p1.u == old_p1.u && p1.v == old_p1.v
-        && p2.u == old_p2.u && p2.v == old_p2.v
-        && my_xscale == old_my_xscale && my_yscale == old_my_yscale
-    ) {
-        return;
-    }
-
-    old_p1          = p1;
-    old_p2          = p2;
-    old_my_xscale   = my_xscale;
-    old_my_yscale   = my_yscale;
-    old_overlay     = overlay;
-
-    buffer.fill(Qt::transparent);
-
-    if(pjsrc == 0) return;
-
-    int w = (buffer.width()>>2)<<2;
-    int h =  buffer.height();
-
-    QImage img(w,h,QImage::Format_Indexed8);
-
-    QVector<float> dem(w * h);
-    getRegion(dem.data(), p1, p2, w, h);
-
-    if(overlay == IMap::eShading) {
-        shading(img, dem.data());
-    }
-    else if(overlay == IMap::eContour) {
-        contour(img, dem.data());
-    }
-    else {
-        qWarning() << "Unknown shading type";
-        return;
-    }
-
-    QPainter p(&buffer);
-    p.drawImage(0, 0, img);
-}
-
-
-#else
-
 void CMapDEM::draw()
 {
 
@@ -532,7 +469,7 @@ void CMapDEM::draw()
     QPainter p(&buffer);
     p.drawImage(-pxx, -pxy, img);
 }
-#endif
+
 
 void CMapDEM::shading(QImage& img, qint16 * data, float /*xscale*/, float /*yscale*/)
 {

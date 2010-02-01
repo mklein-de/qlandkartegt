@@ -449,7 +449,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
     // read extended NT elements
 
-//     qDebug() << "yyy" << gar_load(uint32_t, pTreHdr->tre7_rec_size);
+    //     qDebug() << "yyy" << gar_load(uint32_t, pTreHdr->tre7_rec_size);
     if((gar_load(uint16_t, pTreHdr->hdr_subfile_part_t::length) >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t))) {
 
         rgnoff = subfile.parts["RGN"].offset;
@@ -464,12 +464,11 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         bool skipPois = true;
         if(gar_load(uint32_t, pTreHdr->tre7_rec_size) == sizeof(tre_subdiv2_t)) skipPois = false;
 
-//         for(int i = 0; i < pTreHdr->tre7_rec_size; ++i){
-//             if(i%4 == 0) fprintf(stderr,"\n");
-//             fprintf(stderr,"%02X ", ((quint8*)pSubDiv2)[i]);
-//         }
-//         fprintf(stderr,"\n");
-
+        //         for(int i = 0; i < pTreHdr->tre7_rec_size; ++i){
+        //             if(i%4 == 0) fprintf(stderr,"\n");
+        //             fprintf(stderr,"%02X ", ((quint8*)pSubDiv2)[i]);
+        //         }
+        //         fprintf(stderr,"\n");
 
         subdiv       = subdivs.begin();
         subdiv_prev  = subdivs.begin();
@@ -482,11 +481,11 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
         while(subdiv != subdivs.end()) {
 
-//             for(int i = 0; i < pTreHdr->tre7_rec_size; ++i){
-//                 if(i%4 == 0) fprintf(stderr,"\n");
-//                 fprintf(stderr,"%02X ", ((quint8*)pSubDiv2)[i]);
-//             }
-//             fprintf(stderr,"\n");
+            //             for(int i = 0; i < pTreHdr->tre7_rec_size; ++i){
+            //                 if(i%4 == 0) fprintf(stderr,"\n");
+            //                 fprintf(stderr,"%02X ", ((quint8*)pSubDiv2)[i]);
+            //             }
+            //             fprintf(stderr,"\n");
 
             subdiv->offsetPolygons2          = gar_load(uint32_t, pSubDiv2->offsetPolygons) + rgnOffPolyg2;
             subdiv->offsetPolylines2         = gar_load(uint32_t, pSubDiv2->offsetPolyline) + rgnOffPolyl2;
@@ -765,23 +764,24 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
     // decode polygons
     if(subdiv.hasPolygons /*&& !fast*/ && !isTransparent()) {
-        CGarminPolygon::cnt = 0;
-        pData = pRawData + opgon;
-        pEnd  = pRawData + subdiv.rgn_end;
+    CGarminPolygon::cnt = 0;
+    pData = pRawData + opgon;
+    pEnd  = pRawData + subdiv.rgn_end;
 
-        while(pData < pEnd) {
-            polygons.push_back(CGarminPolygon());
-            CGarminPolygon& p   = polygons.last();
+    while(pData < pEnd) {
+        polygons.push_back(CGarminPolygon());
+        CGarminPolygon& p   = polygons.last();
 
-            pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
-            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
-            }
-            else if(strtbl && p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
-            }
+        pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
+        if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+            strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+        }
+        else if(strtbl && p.lbl_in_NET && p.lbl_info) {
+            strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
         }
     }
+}
+
 
 //         qDebug() << "--- Subdivision" << subdiv.n << "---";
 //         qDebug() << "adress:" << hex << subdiv.rgn_start << "- " << subdiv.rgn_end;
@@ -795,51 +795,55 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 //         qDebug() << "point len: " << hex << subdiv.lengthPoints2 << dec << subdiv.lengthPoints2;
 //         qDebug() << "point end: " << hex << subdiv.lengthPoints2 + subdiv.offsetPoints2;
 
-    if(subdiv.lengthPolygons2 /*&& !fast*/ && !isTransparent()) {
-        pData   = pRawData + subdiv.offsetPolygons2;
-        pEnd    = pData + subdiv.lengthPolygons2;
-        while(pData < pEnd) {
-            polygons.push_back(CGarminPolygon());
-            CGarminPolygon& p   = polygons.last();
-            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
-            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
-            }
-        }
+if(subdiv.lengthPolygons2 /*&& !fast*/ && !isTransparent()) {
+pData   = pRawData + subdiv.offsetPolygons2;
+pEnd    = pData + subdiv.lengthPolygons2;
+while(pData < pEnd) {
+    polygons.push_back(CGarminPolygon());
+    CGarminPolygon& p   = polygons.last();
+    //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+    pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
+    if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+        strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
     }
+}
 
-    if(subdiv.lengthPolylines2 && !fast) {
-        pData   = pRawData + subdiv.offsetPolylines2;
-        pEnd    = pData + subdiv.lengthPolylines2;
-        while(pData < pEnd) {
-            polylines.push_back(CGarminPolygon());
-            CGarminPolygon& p   = polylines.last();
-            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
-            if(strtbl && !p.lbl_in_NET && p.lbl_info) {
-                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
-            }
-        }
-    }
 
-    if(subdiv.lengthPoints2 && !fast) {
-        pData   = pRawData + subdiv.offsetPoints2;
-        pEnd    = pData + subdiv.lengthPoints2;
-        while(pData < pEnd) {
-            pois.push_back(CGarminPoint());
-            CGarminPoint& p   = pois.last();
-            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData, pEnd);
+}
 
-            if(strtbl) {
-                p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
-                    : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
-            }
+if(subdiv.lengthPolylines2 && !fast) {
+    pData   = pRawData + subdiv.offsetPolylines2;
+    pEnd    = pData + subdiv.lengthPolylines2;
+    while(pData < pEnd) {
+        polylines.push_back(CGarminPolygon());
+        CGarminPolygon& p   = polylines.last();
+        //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+        pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
+        if(strtbl && !p.lbl_in_NET && p.lbl_info) {
+            strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
         }
     }
 }
 
+
+if(subdiv.lengthPoints2 && !fast) {
+    pData   = pRawData + subdiv.offsetPoints2;
+    pEnd    = pData + subdiv.lengthPoints2;
+    while(pData < pEnd) {
+        pois.push_back(CGarminPoint());
+        CGarminPoint& p   = pois.last();
+        //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+        pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData, pEnd);
+
+        if(strtbl) {
+            p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
+                : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+        }
+    }
+}
+
+
+}
 
 void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level)
 {

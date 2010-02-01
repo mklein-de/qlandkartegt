@@ -79,8 +79,8 @@ class CRoute : public QObject
         void genKey();
         void calcDistance();
 
-	static quint32 keycnt;
-	
+        static quint32 keycnt;
+
         /// unique key to address tarck
         QString _key_;
         /// creation timestamp

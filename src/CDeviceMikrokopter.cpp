@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
 
-
 #include "CDeviceMikrokopter.h"
 
 #include <QtGui>
@@ -27,11 +26,11 @@ CDeviceMikrokopter::CDeviceMikrokopter(const QString& port, QObject * parent)
 : IDevice("Mikrokopter", parent)
 {
 
-    tty.setBaudRate(BAUD57600);   //BaudRate
-    tty.setDataBits(DATA_8);      //DataBits
-    tty.setParity(PAR_NONE);      //Parity
-    tty.setStopBits(STOP_1);      //StopBits
-    tty.setFlowControl(FLOW_OFF); //FlowControl
+    tty.setBaudRate(BAUD57600);  //BaudRate
+    tty.setDataBits(DATA_8);     //DataBits
+    tty.setParity(PAR_NONE);     //Parity
+    tty.setStopBits(STOP_1);     //StopBits
+    tty.setFlowControl(FLOW_OFF);//FlowControl
 
     tty.setTimeout(0, 10);
     tty.enableSending();
@@ -41,33 +40,35 @@ CDeviceMikrokopter::CDeviceMikrokopter(const QString& port, QObject * parent)
     connect(&tty, SIGNAL(newDataReceived(const QByteArray &)), this, SLOT(slotNewData(const QByteArray &)));
 }
 
+
 CDeviceMikrokopter::~CDeviceMikrokopter()
 {
 
 }
 
+
 bool CDeviceMikrokopter::aquire()
 {
-    if(!tty.isOpen()){
+    if(!tty.isOpen()) {
         tty.open();
         tty.receiveData();
     }
 
-    if(!tty.isOpen()){
+    if(!tty.isOpen()) {
         QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Failed to open serial port."),QMessageBox::Abort,QMessageBox::Abort);
         return false;
     }
 
-
-
     return true;
 }
+
 
 void CDeviceMikrokopter::release()
 {
     tty.close();
 
 }
+
 
 bool CDeviceMikrokopter::sendCmd(char cmd, int addr, char data[150], unsigned int len, bool resend)
 {
@@ -84,6 +85,7 @@ bool CDeviceMikrokopter::sendCmd(char cmd, int addr, char data[150], unsigned in
     return tty.sendData(bytebuffer) == 1;
 }
 
+
 void CDeviceMikrokopter::slotNewData(const QByteArray & data)
 {
     qDebug() << "slotNewData()";
@@ -92,81 +94,80 @@ void CDeviceMikrokopter::slotNewData(const QByteArray & data)
     ptr = data.data();
     int idx = 0;
 
-    while (ptr[idx] != '\0')
-    {
-        if (ptr[idx] == '\r')
-        {
-            while ((rxData.length() > 1) && (rxData.at(1) == '#'))
-            {
+    while (ptr[idx] != '\0') {
+        if (ptr[idx] == '\r') {
+            while ((rxData.length() > 1) && (rxData.at(1) == '#')) {
                 rxData.remove(0,1);
             }
 
-            if (ToolBox::check_CRC(rxData))
-            {
+            if (ToolBox::check_CRC(rxData)) {
                 // do decoding?
                 qDebug() << rxData << rxData.size();
             }
-            else{
+            else {
                 qDebug() << "error";
             }
 
-
             rxData.clear();
         }
-        else
-        {
+        else {
             rxData +=  QString(ptr[idx]);
         }
         ++idx;
     }
 }
 
+
 void CDeviceMikrokopter::uploadWpts(const QList<CWpt*>& wpts)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Upload waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceMikrokopter::downloadWpts(QList<CWpt*>& wpts)
 {
-//    QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //    QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 
     if(!aquire()) return;
 
     qDebug() << sendCmd('v', 2, 0, 0, 0);
 
-
-
     //release();
 
 }
+
 
 void CDeviceMikrokopter::uploadTracks(const QList<CTrack*>& trks)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceMikrokopter::downloadTracks(QList<CTrack*>& trks)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Download tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceMikrokopter::uploadRoutes(const QList<CRoute*>& rtes)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Upload routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceMikrokopter::downloadRoutes(QList<CRoute*>& rtes)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceMikrokopter::uploadMap(const QList<IMapSelection*>& mss)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Upload maps is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceMikrokopter::downloadScreenshot(QImage& image)
 {
     QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Download screenschots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
-

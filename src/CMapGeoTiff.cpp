@@ -174,6 +174,7 @@ CMapGeoTiff::~CMapGeoTiff()
     }
 }
 
+
 bool CMapGeoTiff::is32BitRgb()
 {
     return rasterBandCount > 1;

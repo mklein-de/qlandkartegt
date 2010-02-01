@@ -77,19 +77,19 @@ void COverlayDB::loadGPX(CGpx& gpx)
     while(!extensions.isNull()) {
         QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
         const QDomElement ovl = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
-                                                    "overlays":
-                                                    (CGpx::ql_ns + ":" + "overlays"));
+            "overlays":
+        (CGpx::ql_ns + ":" + "overlays"));
         if(!ovl.isNull()) {
             QMap<QString,QDomElement> ovlmap = CGpx::mapChildElements(ovl);
             for(QMap<QString,QDomElement>::Iterator it = ovlmap.begin();
                 it != ovlmap.end();
-                ++it) {
+            ++it) {
                 const QString type = it.key();
                 const QDomElement element = ovlmap[it.key()];
 
                 if(type == (gpx.version() == CGpx::qlVer_1_0?
-                            "text":
-                            (CGpx::ql_ns + ":" + "text"))) {
+                    "text":
+                (CGpx::ql_ns + ":" + "text"))) {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
@@ -102,8 +102,8 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
-                                 "textbox":
-                                 (CGpx::ql_ns + ":" + "textbox"))) {
+                    "textbox":
+                (CGpx::ql_ns + ":" + "textbox"))) {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
@@ -120,8 +120,8 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
-                                 "distance":
-                                 (CGpx::ql_ns + ":" + "distance"))) {
+                    "distance":
+                (CGpx::ql_ns + ":" + "distance"))) {
                     QString name;
                     QString comment;
                     QList<XY> points;

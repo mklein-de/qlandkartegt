@@ -397,7 +397,6 @@ struct garmin_bmp_t
 #pragma pack(0)
 #endif
 
-
 /**
   @param progress the progress as integer from 0..100, if -1 no progress bar needed.
   @param ok if this pointer is 0 no ok button needed, if non zero set to 1 if ok button pressed
@@ -508,8 +507,8 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
 #if defined(Q_WS_MAC)
     // MacOS X: plug-ins are stored in the bundle folder
     QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT))
-								  .arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), "Resources/Drivers"))
-								  .arg(devkey);
+        .arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), "Resources/Drivers"))
+        .arg(devkey);
 #else
     QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT)).arg(XSTR(PLUGINDIR)).arg(devkey);
 #endif
@@ -673,7 +672,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -699,11 +698,12 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
     return;
 }
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+
+QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
 
 std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
 while(garwpt != garwpts.end()) {
@@ -782,7 +782,7 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -807,42 +807,45 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
-        return;
+    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+    QApplication::restoreOverrideCursor();
+    return;
+}
+
+
+QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
+while(gartrk != gartrks.end()) {
+
+    CTrack * trk = new CTrack(&CTrackDB::self());
+
+    trk->setName(codec->toUnicode(gartrk->ident.c_str()));
+    trk->setColor(gartrk->color);
+
+    std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
+    while(gartrkpt != gartrk->track.end()) {
+        QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
+        t = t.addYears(20).addDays(-1);
+
+        CTrack::pt_t trkpt;
+        trkpt.lon       = gartrkpt->lon;
+        trkpt.lat       = gartrkpt->lat;
+        trkpt.timestamp = t.toTime_t();
+        trkpt.ele       = gartrkpt->alt;
+
+        *trk << trkpt;
+        ++gartrkpt;
     }
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
-    std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
-    while(gartrk != gartrks.end()) {
-
-        CTrack * trk = new CTrack(&CTrackDB::self());
-
-        trk->setName(codec->toUnicode(gartrk->ident.c_str()));
-        trk->setColor(gartrk->color);
-
-        std::vector<Garmin::TrkPt_t>::const_iterator gartrkpt = gartrk->track.begin();
-        while(gartrkpt != gartrk->track.end()) {
-            QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
-            t = t.addYears(20).addDays(-1);
-
-            CTrack::pt_t trkpt;
-            trkpt.lon       = gartrkpt->lon;
-            trkpt.lat       = gartrkpt->lat;
-            trkpt.timestamp = t.toTime_t();
-            trkpt.ele       = gartrkpt->alt;
-
-            *trk << trkpt;
-            ++gartrkpt;
-        }
-
-        if(trk->getTrackPoints().count() > 0) {
-            trks << trk;
-        } else {
-            delete trk;
-        }
-        ++gartrk;
+    if(trk->getTrackPoints().count() > 0) {
+        trks << trk;
     }
+    else {
+        delete trk;
+    }
+    ++gartrk;
+}
+
 
 }
 
@@ -868,38 +871,41 @@ void CDeviceGarmin::downloadScreenshot(QImage& image)
         QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
-        return;
-    }
+    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+    QApplication::restoreOverrideCursor();
+    return;
+}
 
-    if(data != 0 && clrtbl != 0) {
-        /* Hack hack hack - add two dummy bytes at the beginning of the array which are
-         * removed below, and let the bmp record start at offs 2.  This shifts all 4-byte
-         * data in the record to adresses which are a multiple of 4. */
-        QByteArray buffer(sizeof(garmin_bmp_t) + width * height + 2, 0);
-        garmin_bmp_t * pBmp = (garmin_bmp_t*)(buffer.data() + 2);
-        pBmp->bfType        = gar_endian(uint16_t, 0x4d42);
-        pBmp->bfSize        = gar_endian(uint32_t, buffer.size());
-        pBmp->bfReserved    = 0;
-        pBmp->bfOffBits     = gar_endian(uint32_t, sizeof(garmin_bmp_t));
-        pBmp->biSize        = gar_endian(uint32_t, 0x28);
-        pBmp->biWidth       = gar_endian(int32_t, width);
-        pBmp->biHeight      = gar_endian(int32_t, height);
-        pBmp->biPlanes      = gar_endian(uint16_t, 1);
-        pBmp->biBitCount    = gar_endian(uint16_t, 8);
-        pBmp->biCompression = 0;
-        pBmp->biSizeImage   = gar_endian(uint32_t, width * height);
-        pBmp->biYPelsPerMeter = 0;
-        pBmp->biXPelsPerMeter = 0;
-        pBmp->biClrUsed       = gar_endian(uint32_t, 0x100);
-        pBmp->biClrImportant  = gar_endian(uint32_t, 0x100);
-        memcpy(pBmp->clrtbl,clrtbl,sizeof(pBmp->clrtbl));
-        memcpy(pBmp->data,data,width * height);
 
-        image.loadFromData((const uchar *)pBmp, sizeof(garmin_bmp_t) + width * height);
+if(data != 0 && clrtbl != 0) {
+    /* Hack hack hack - add two dummy bytes at the beginning of the array which are
+     * removed below, and let the bmp record start at offs 2.  This shifts all 4-byte
+     * data in the record to adresses which are a multiple of 4. */
+    QByteArray buffer(sizeof(garmin_bmp_t) + width * height + 2, 0);
+    garmin_bmp_t * pBmp = (garmin_bmp_t*)(buffer.data() + 2);
+    pBmp->bfType        = gar_endian(uint16_t, 0x4d42);
+    pBmp->bfSize        = gar_endian(uint32_t, buffer.size());
+    pBmp->bfReserved    = 0;
+    pBmp->bfOffBits     = gar_endian(uint32_t, sizeof(garmin_bmp_t));
+    pBmp->biSize        = gar_endian(uint32_t, 0x28);
+    pBmp->biWidth       = gar_endian(int32_t, width);
+    pBmp->biHeight      = gar_endian(int32_t, height);
+    pBmp->biPlanes      = gar_endian(uint16_t, 1);
+    pBmp->biBitCount    = gar_endian(uint16_t, 8);
+    pBmp->biCompression = 0;
+    pBmp->biSizeImage   = gar_endian(uint32_t, width * height);
+    pBmp->biYPelsPerMeter = 0;
+    pBmp->biXPelsPerMeter = 0;
+    pBmp->biClrUsed       = gar_endian(uint32_t, 0x100);
+    pBmp->biClrImportant  = gar_endian(uint32_t, 0x100);
+    memcpy(pBmp->clrtbl,clrtbl,sizeof(pBmp->clrtbl));
+    memcpy(pBmp->data,data,width * height);
 
-    }
+    image.loadFromData((const uchar *)pBmp, sizeof(garmin_bmp_t) + width * height);
+
+}
+
+
 }
 
 void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
@@ -961,7 +967,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -986,35 +992,38 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         QApplication::restoreOverrideCursor();
     }
     catch(int /*e*/) {
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
-
-    std::list<Garmin::Route_t>::const_iterator garrte = garrtes.begin();
-    while(garrte != garrtes.end()) {
-
-        CRoute * rte = new CRoute(&CRouteDB::self());
-
-        rte->setName(codec->toUnicode(garrte->ident.c_str()));
-
-        std::vector<Garmin::RtePt_t>::const_iterator garrtept = garrte->route.begin();
-        while(garrtept != garrte->route.end()) {
-            rte->addPosition(garrtept->lon, garrtept->lat);
-            ++garrtept;
-        }
-
-        if(rte->getRoutePoints().count() > 0) {
-            rtes << rte;
-        } else {
-            delete rte;
-        }
-        ++garrte;
-    }
+    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+    QApplication::restoreOverrideCursor();
+    return;
 }
 
+
+QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+
+std::list<Garmin::Route_t>::const_iterator garrte = garrtes.begin();
+while(garrte != garrtes.end()) {
+
+    CRoute * rte = new CRoute(&CRouteDB::self());
+
+    rte->setName(codec->toUnicode(garrte->ident.c_str()));
+
+    std::vector<Garmin::RtePt_t>::const_iterator garrtept = garrte->route.begin();
+    while(garrtept != garrte->route.end()) {
+        rte->addPosition(garrtept->lon, garrtept->lat);
+        ++garrtept;
+    }
+
+    if(rte->getRoutePoints().count() > 0) {
+        rtes << rte;
+    }
+    else {
+        delete rte;
+    }
+    ++garrte;
+}
+
+
+}
 
 void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
 {
@@ -1065,7 +1074,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
     }
     catch(int /*e*/) {
     QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        QApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
     return;
 }
 
@@ -1082,23 +1091,26 @@ void CDeviceGarmin::setLiveLog(bool on)
         dev->setRealTimeMode(on);
     }
     catch(int /*e*/) {
-        timer->stop();
-        log.fix = CLiveLog::eOff;
-        emit sigLiveLog(log);
+    timer->stop();
+    log.fix = CLiveLog::eOff;
+    emit sigLiveLog(log);
 
-        QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        return;
-    }
+    QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+    return;
+}
 
 
-    if(on && !timer->isActive()) {
-        timer->start(1000);
-    }
-    else {
-        timer->stop();
-        log.fix = CLiveLog::eOff;
-        emit sigLiveLog(log);
-    }
+if(on && !timer->isActive()) {
+    timer->start(1000);
+}
+
+
+else {
+    timer->stop();
+    log.fix = CLiveLog::eOff;
+    emit sigLiveLog(log);
+}
+
 
 }
 
@@ -1106,5 +1118,3 @@ bool CDeviceGarmin::liveLog()
 {
     return timer->isActive();
 }
-
-

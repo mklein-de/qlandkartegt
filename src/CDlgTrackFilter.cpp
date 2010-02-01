@@ -26,11 +26,11 @@
 #include <QtGui>
 
 // Change this when changing comboMeterFeet
-enum meter_feet_index {
+enum meter_feet_index
+{
     METER_INDEX,
     FEET_INDEX,
 };
-
 
 CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
 : QDialog(parent)
@@ -48,7 +48,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         comboMeterFeet->setCurrentIndex((int)FEET_INDEX);
         spinDistance->setSuffix("ft");
     }
-    else{
+    else {
         comboMeterFeet->setCurrentIndex((int)METER_INDEX);
         spinDistance->setSuffix("m");
     }
@@ -75,7 +75,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     connect(buttonReset1stOfMonth, SIGNAL(clicked()), this, SLOT(slotReset1stOfMonth()));
     connect(buttonResetEpoch, SIGNAL(clicked()), this, SLOT(slotResetEpoch()));
     connect(datetimeStartTime, SIGNAL(dateTimeChanged(const QDateTime &)), this,
-            SLOT(slotDateTimeChanged(const QDateTime &)));
+        SLOT(slotDateTimeChanged(const QDateTime &)));
 
     // user-tunable elements on "Reduce Dataset" tab
     connect(radioDistance, SIGNAL(clicked()), this, SLOT(slotRadioDistance()));
@@ -83,7 +83,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     connect(spinDistance, SIGNAL(valueChanged(int)), this, SLOT(slotSpinDistance(int)));
     connect(spinTimedelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinTimedelta(int)));
     connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this,
-            SLOT(slotComboMeterFeet(const QString &)));
+        SLOT(slotComboMeterFeet(const QString &)));
 }
 
 
@@ -240,19 +240,20 @@ void CDlgTrackFilter::slotReset1stOfMonth()
     QDateTime tn = t.addSecs(-offset);
 
     qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-             << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 
     datetimeStartTime->setDateTime(tn);
 
     checkModifyTimestamps->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotResetEpoch()
 {
     QDateTime t = datetimeStartTime->dateTime();
 
     qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-             << "to epoch";
+        << "to epoch";
 
     QDateTime tn;
     radioUTC->setChecked(true);
@@ -266,6 +267,7 @@ void CDlgTrackFilter::slotResetEpoch()
     checkModifyTimestamps->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotDateTimeChanged(const QDateTime &tn)
 {
     checkModifyTimestamps->setChecked(true);
@@ -273,10 +275,12 @@ void CDlgTrackFilter::slotDateTimeChanged(const QDateTime &tn)
     qDebug() << "Resetting starttime to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 }
 
+
 void CDlgTrackFilter::slotRadioDistance()
 {
     checkReduceDataset->setChecked(true);
 }
+
 
 void CDlgTrackFilter::slotSpinDistance(int i)
 {
@@ -285,10 +289,12 @@ void CDlgTrackFilter::slotSpinDistance(int i)
     checkReduceDataset->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotRadioTimedelta()
 {
     checkReduceDataset->setChecked(true);
 }
+
 
 void CDlgTrackFilter::slotSpinTimedelta(int i)
 {
@@ -297,8 +303,8 @@ void CDlgTrackFilter::slotSpinTimedelta(int i)
     checkReduceDataset->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotComboMeterFeet(const QString &text)
 {
     spinDistance->setSuffix(text);
 }
-

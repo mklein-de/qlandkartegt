@@ -58,6 +58,4 @@ class CDeviceMikrokopter : public IDevice
 
         QMutex mutex;
 };
-
-#endif //CDEVICEMIKROKOPTER_H
-
+#endif                           //CDEVICEMIKROKOPTER_H

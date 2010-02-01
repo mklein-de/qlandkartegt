@@ -40,6 +40,4 @@ class CDlgSetupGarminIcons : public QDialog, private Ui::IDlgSetupGarminIcons
         void slotSendToDevice();
 
 };
-
-#endif //CDLGSETUPGARMINICONS_H
-
+#endif                           //CDLGSETUPGARMINICONS_H

@@ -31,7 +31,7 @@
 #include <QtGui>
 #ifdef HAS_DMTX
 #include <dmtx.h>
-#endif //HAS_DMTX
+#endif                           //HAS_DMTX
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
@@ -88,7 +88,6 @@ int CDlgEditWpt::exec()
         IUnit::self().meter2elevation(wpt.prx, val, unit);
         lineProximity->setText(val);
     }
-
 
     if(wpt.images.count() != 0) {
         showImage(0);
@@ -279,24 +278,25 @@ void CDlgEditWpt::slotSaveBarcode()
     labelBarcode->pixmap()->save(filename);
 }
 
+
 void CDlgEditWpt::slotUpdateBarcode()
 {
     QString barcode;
 
     barcode += tr("%1\n").arg(lineName->text());
     barcode += tr("%1\n").arg(linePosition->text());
-    if(!link.isEmpty()){
+    if(!link.isEmpty()) {
         barcode += tr("%1\n").arg(link);
     }
 
-    if(textComment->toPlainText().size()){
+    if(textComment->toPlainText().size()) {
         barcode += textComment->toPlainText();
     }
 
 #ifdef HAS_DMTX
     DmtxEncode * enc = dmtxEncodeCreate();
 
-    if(enc){
+    if(enc) {
         dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
         dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
         dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
@@ -310,12 +310,12 @@ void CDlgEditWpt::slotUpdateBarcode()
 
         dmtxEncodeDestroy(&enc);
     }
-    else{
+    else {
         labelBarcode->setText("Failed!");
     }
 #else
     labelBarcode->setPixmap(QPixmap(":/pics/DummyBarcode"));
     pushSaveBarcode->setEnabled(false);
-#endif //HAS_DMTX
+#endif                       //HAS_DMTX
 
 }

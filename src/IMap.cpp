@@ -186,8 +186,8 @@ void IMap::registerDEM(CMapDEM& dem)
     char * ptr1 = 0, *ptr2 = 0;
     QString proj1 = ptr1 = pj_get_def(pjsrc,0);
     QString proj2 = ptr2 = dem.getProjection();
-//     if(ptr1) free(ptr1);
-//     if(ptr2) free(ptr2);
+    //     if(ptr1) free(ptr1);
+    //     if(ptr2) free(ptr2);
 
     if(proj1 != proj2) {
         dem.deleteLater();

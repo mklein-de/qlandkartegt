@@ -112,7 +112,8 @@ void CMapSearchThread::run()
 
     for(n = 0; n < maxN; ++n) {
 
-        for(m = 0; m < maxM; ++m) { {
+        for(m = 0; m < maxM; ++m) {
+            {
                                  // tmp. mutex lock context
                 QMutexLocker lock(&mutex);
                 if(!go) {

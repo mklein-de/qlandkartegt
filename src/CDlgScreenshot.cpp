@@ -32,10 +32,12 @@ CDlgScreenshot::CDlgScreenshot(QWidget * parent)
     connect(butSave, SIGNAL(clicked()), this, SLOT(slotSave()));
 }
 
+
 CDlgScreenshot::~CDlgScreenshot()
 {
 
 }
+
 
 void CDlgScreenshot::slotAcquire()
 {
@@ -47,6 +49,7 @@ void CDlgScreenshot::slotAcquire()
         butSave->setEnabled(true);
     }
 }
+
 
 void CDlgScreenshot::slotSave()
 {

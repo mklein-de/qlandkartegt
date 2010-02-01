@@ -52,11 +52,11 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     toolOutFile->setIcon(QPixmap(":/icons/iconFileSave16x16.png"));
 
     helpStep1->setHelp(tr("Load Raster Map"),
-                       tr("This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning."));
+        tr("This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning."));
     helpStep2->setHelp(tr("Add Reference Points"),
-                       trUtf8("The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.\n\ncoordinate formats:\n\xe2\x80\xa2 \"N49\xc2\xb0 10.234 E12\xc2\xb0 01.456\"\n\xe2\x80\xa2 \"12.193172   46.575377\"\n\xe2\x80\xa2 \"285000 5162000\""));
+        trUtf8("The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.\n\ncoordinate formats:\n\xe2\x80\xa2 \"N49\xc2\xb0 10.234 E12\xc2\xb0 01.456\"\n\xe2\x80\xa2 \"12.193172   46.575377\"\n\xe2\x80\xa2 \"285000 5162000\""));
     helpStep3->setHelp(tr("Reference Map"),
-                       tr("Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser."));
+        tr("Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser."));
 
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(toolReload, SIGNAL(clicked()), this, SLOT(slotReload()));
@@ -745,7 +745,7 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
             args << "-tps";
         }
 
-        if(map.is32BitRgb()){
+        if(map.is32BitRgb()) {
             args << "-r" << "cubic";
         }
         args << "-dstnodata" << "\"255\"";

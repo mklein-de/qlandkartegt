@@ -37,9 +37,9 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     toolNew->setIcon(QIcon(":/icons/iconNewMap16x16.png"));
 
     helpStep1->setHelp(tr("Define Map"),
-                       tr("You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.\nOnce you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view."));
+        tr("You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.\nOnce you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view."));
     helpStep2->setHelp(tr("Add Maps"),
-                       tr("You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file."));
+        tr("You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file."));
 
     QSettings cfg;
     mapPath = cfg.value("path/maps",mapPath).toString();

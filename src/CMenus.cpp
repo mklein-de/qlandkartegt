@@ -100,7 +100,7 @@ void CMenus::switchToActionGroup(ActionGroupName group)
             lqdebug(QString("Action with '%1' as text is controlled -> removed").arg(a->text()));
             theMainWindow->removeAction(a);
             lqdebug(a->shortcuts());
-            if (!actionsShortcuts.contains(a)){
+            if (!actionsShortcuts.contains(a)) {
                 actionsShortcuts.insert(a, a->shortcuts());
             }
             a->setShortcuts(QList<QKeySequence> ());
@@ -128,7 +128,7 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
     menu->setTitle(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,contex,groupName));
 
-    if(groupName == MapMenu){
+    if(groupName == MapMenu) {
         menu->addAction(actions->getAction("aZoomIn"));
         menu->addAction(actions->getAction("aZoomOut"));
     }
@@ -186,7 +186,7 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
             i++;
         }
         if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)) {
-            if (!actionsShortcuts.contains(a)){
+            if (!actionsShortcuts.contains(a)) {
                 actionsShortcuts.insert(a, a->shortcuts());
             }
             a->setShortcuts(QList<QKeySequence> ());

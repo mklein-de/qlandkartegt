@@ -55,7 +55,6 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
             return;
         }
 
-
         if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
             GDALColorTable * pct = pBand->GetColorTable();
             for(int i=0; i < pct->GetColorEntryCount(); ++i) {
@@ -86,8 +85,6 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
     maparea.setWidth(dataset->GetRasterXSize());
     maparea.setHeight(dataset->GetRasterYSize());
 
-
-
 }
 
 
@@ -96,10 +93,12 @@ CMapRaster::~CMapRaster()
     if(dataset) delete dataset;
 }
 
+
 bool CMapRaster::is32BitRgb()
 {
     return rasterBandCount > 1;
 }
+
 
 void CMapRaster::convertPt2M(double& u, double& v)
 {
@@ -222,7 +221,7 @@ void CMapRaster::draw()
     qint32 h    = (qint32)(pxy / zoomfactor);
 
     CPLErr err = CE_Failure;
-    if(rasterBandCount == 1){
+    if(rasterBandCount == 1) {
         GDALRasterBand * pBand;
         pBand = dataset->GetRasterBand(1);
 
@@ -236,7 +235,7 @@ void CMapRaster::draw()
             _p_.drawPixmap(xx,yy,QPixmap::fromImage(img));
         }
     }
-    else{
+    else {
         QImage img(w,h, QImage::Format_ARGB32);
         QVector<quint8> buffer(w*h);
 

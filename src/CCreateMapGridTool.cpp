@@ -41,12 +41,11 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
     labelExample->setPixmap(QPixmap(":/pics/grid_example"));
 
     helpStep2a->setHelp(tr("Place Reference Points"),
-                        tr("The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.\n\nAltenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size."));
+        tr("The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.\n\nAltenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size."));
     helpStep2b->setHelp(tr("Add Source projection"),
-                        tr("Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4."));
+        tr("Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4."));
     helpStep2c->setHelp(tr("Create grid"),
-                        tr("On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results."));
-
+        tr("On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results."));
 
     connect(pushCancel, SIGNAL(clicked()), this, SLOT(deleteLater()));
     connect(pushOk, SIGNAL(clicked()), this, SLOT(slotOk()));

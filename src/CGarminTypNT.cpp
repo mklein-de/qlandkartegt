@@ -24,45 +24,40 @@ CGarminTypNT::CGarminTypNT(QObject * parent)
 
 }
 
+
 CGarminTypNT::~CGarminTypNT()
 {
 
 }
 
+
 bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, point_property>& points)
 {
     quint8 tmp8;
 
-    if(!parseHeader(in))
-    {
+    if(!parseHeader(in)) {
         return false;
     }
 
     in >> sectNT.arrayOffset >> sectNT.arrayModulo >> sectNT.arraySize >> tmp8 >> sectNT.dataOffset >> sectNT.dataLength;
 
-//     qDebug() << "NT         doff/dlen/aoff/amod/asize:" << hex << "\t" << sectNT.dataOffset << "\t" << sectNT.dataLength << "\t" << sectNT.arrayOffset << "\t" << sectNT.arrayModulo << "\t" << sectNT.arrayOffset;
+    //     qDebug() << "NT         doff/dlen/aoff/amod/asize:" << hex << "\t" << sectNT.dataOffset << "\t" << sectNT.dataLength << "\t" << sectNT.arrayOffset << "\t" << sectNT.arrayModulo << "\t" << sectNT.arrayOffset;
 
-
-    if(!parseDrawOrder(in, drawOrder))
-    {
+    if(!parseDrawOrder(in, drawOrder)) {
         return false;
     }
 
-    if(!parsePolygon(in, polygons))
-    {
+    if(!parsePolygon(in, polygons)) {
         return false;
     }
 
-    if(!parsePolyline(in, polylines))
-    {
+    if(!parsePolyline(in, polylines)) {
         return false;
     }
 
-    if(!parsePoint(in, points))
-    {
+    if(!parsePoint(in, points)) {
         return false;
     }
-
 
     return true;
 }

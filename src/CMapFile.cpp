@@ -51,7 +51,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     oSRS.exportToProj4(&ptr);
     strOrigProj = strProj = ptr;
 
-//     if(ptr) free(ptr);
+    //     if(ptr) free(ptr);
 
     qDebug() << strProj;
 
@@ -142,8 +142,8 @@ CMapFile::~CMapFile()
 
 }
 
+
 bool CMapFile::is32BitRgb()
 {
     return rasterBandCount > 1;
 }
-

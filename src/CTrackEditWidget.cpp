@@ -226,13 +226,13 @@ void CTrackEditWidget::slotUpdate()
         // gray shade deleted items
         if(trkpt->flags & CTrack::pt_t::eDeleted) {
             //item->setFlags((item->flags() & ~Qt::ItemIsEnabled) | Qt::ItemIsTristate);
-            for(i = 0; i < eMaxColumn; ++i){
+            for(i = 0; i < eMaxColumn; ++i) {
                 item->setForeground(i,QBrush(Qt::gray));
             }
         }
         else {
             //item->setFlags(item->flags() | Qt::ItemIsEnabled | Qt::ItemIsTristate);
-            for(i = 0; i < eMaxColumn; ++i){
+            for(i = 0; i < eMaxColumn; ++i) {
                 item->setForeground(i,QBrush(Qt::black));
             }
         }

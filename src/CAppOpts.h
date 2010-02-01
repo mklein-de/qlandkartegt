@@ -24,18 +24,19 @@
 
 class CAppOpts
 {
-public:
-    const bool debug;           // -d, print debug messages
-    const int monitor;          // -m FD, monitor file descriptor
-    const bool nosplash;        // -n, do not display splash screen
-    const QStringList arguments; // positional arguments (files to load)
+    public:
+        const bool debug;        // -d, print debug messages
+        const int monitor;       // -m FD, monitor file descriptor
+        const bool nosplash;     // -n, do not display splash screen
+                                 // positional arguments (files to load)
+        const QStringList arguments;
 
-    CAppOpts(bool d, int m, bool n, const QStringList& a)
-        : debug(d)
-        , monitor(m)
-        , nosplash(n)
-        , arguments(a) {};
-    virtual ~CAppOpts() {};
+        CAppOpts(bool d, int m, bool n, const QStringList& a)
+            : debug(d)
+            , monitor(m)
+            , nosplash(n)
+            , arguments(a) {};
+        virtual ~CAppOpts() {};
 };
 
 extern CAppOpts *qlOpts;

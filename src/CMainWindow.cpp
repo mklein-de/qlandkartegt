@@ -125,8 +125,8 @@ CMainWindow::CMainWindow()
 #endif
     actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
 
-//     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomIn");
-//     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomOut");
+    //     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomIn");
+    //     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomOut");
     //    fsMap[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
 #ifdef PLOT_3D
@@ -205,7 +205,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
     //    fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-//     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
+    //     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
     //    fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
@@ -336,7 +336,6 @@ CMainWindow::CMainWindow()
         connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
     }
 
-
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
     foreach(QString arg, qlOpts->arguments) {
@@ -356,26 +355,27 @@ void CMainWindow::slotReloadArgs()
     char c;
     int i;
 #ifdef WIN32
-    i = _read(qlOpts->monitor, &c, 1); // read char
+                                 // read char
+    i = _read(qlOpts->monitor, &c, 1);
 #else
-    i = read(qlOpts->monitor, &c, 1); // read char
+                                 // read char
+    i = read(qlOpts->monitor, &c, 1);
 #endif
 
-    if(i != 1){
+    if(i != 1) {
         delete snRead;
         return;
     }
 
-//    CMapDB::self().clear();
+    //    CMapDB::self().clear();
     CWptDB::self().clear();
     CTrackDB::self().clear();
-//    CRouteDB::self().clear();
-//    CDiaryDB::self().clear();
-//    COverlayDB::self().clear();
+    //    CRouteDB::self().clear();
+    //    CDiaryDB::self().clear();
+    //    COverlayDB::self().clear();
 
-    foreach(QString arg, qlOpts->arguments)
-    {
-      loadData(arg, QString());
+    foreach(QString arg, qlOpts->arguments) {
+        loadData(arg, QString());
     }
 }
 
@@ -391,13 +391,14 @@ CMainWindow::~CMainWindow()
     canvas = 0;
 }
 
+
 void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
-    if(event->mimeData()->hasUrls()){
+    if(event->mimeData()->hasUrls()) {
         QList<QUrl> urls = event->mimeData()->urls();
         QFileInfo fi(urls[0].path());
 
-        if(fi.suffix() == "gpx"){
+        if(fi.suffix() == "gpx") {
             event->acceptProposedAction();
         }
 
@@ -406,19 +407,19 @@ void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 
 void CMainWindow::dropEvent(QDropEvent *event)
- {
+{
     QList<QUrl> urls = event->mimeData()->urls();
     QUrl url;
 
-    foreach(url, urls){
+    foreach(url, urls) {
         QString filename = url.path();
         QString filter;
         loadData(filename, filter);
     }
 
+    event->acceptProposedAction();
+}
 
-     event->acceptProposedAction();
- }
 
 void CMainWindow::setTitleBar()
 {
@@ -484,7 +485,6 @@ void CMainWindow::switchState()
 #  define tr_nomac(x) tr(x)
 #endif
 
-
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
@@ -493,10 +493,9 @@ void CMainWindow::setupMenuBar()
     menuMostRecent->setIcon(QIcon(":/icons/iconFileLoad16x16.png"));
 
     QString recent;
-    foreach(recent, mostRecent){
+    foreach(recent, mostRecent) {
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
-
 
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
@@ -664,6 +663,7 @@ void CMainWindow::slotConfig()
     dlg.exec();
 }
 
+
 void CMainWindow::slotLoadData()
 {
 
@@ -701,7 +701,7 @@ void CMainWindow::slotLoadData()
     COverlayDB::self().clear();
 
     QString filename;
-    foreach(filename, filenames){
+    foreach(filename, filenames) {
         loadData(filename, filter);
         addRecent(filename);
     }
@@ -1035,10 +1035,10 @@ void CMainWindow::slotSaveImage()
 
     CMap3DWidget * map3d = qobject_cast<CMap3DWidget*>(canvasTab->currentWidget());
 
-    if(map3d){
+    if(map3d) {
         map3d->slotSaveImage(filename);
     }
-    else{
+    else {
         QImage img(canvas->size(), QImage::Format_ARGB32);
         canvas->print(img);
         img.save(filename);
@@ -1181,10 +1181,11 @@ void CMainWindow::slotScreenshot()
 
 }
 
+
 void CMainWindow::slotLoadRecent()
 {
     QAction * act = qobject_cast<QAction*>(sender());
-    if(act){
+    if(act) {
         QString filename = act->text();
 
         if(modified) {
@@ -1209,20 +1210,21 @@ void CMainWindow::slotLoadRecent()
     }
 }
 
+
 void CMainWindow::addRecent(const QString& filename)
 {
     QString recent;
-    foreach(recent, mostRecent){
+    foreach(recent, mostRecent) {
         if(recent == filename) return;
     }
 
-    if(mostRecent.count() >= 10){
+    if(mostRecent.count() >= 10) {
         mostRecent.removeLast();
     }
     mostRecent.prepend(filename);
 
     menuMostRecent->clear();
-    foreach(recent, mostRecent){
+    foreach(recent, mostRecent) {
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
 

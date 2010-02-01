@@ -28,10 +28,10 @@ CDeviceNMEA::CDeviceNMEA(const QString& serialport, QObject * parent)
 , haveSeenGPVTG(false)
 {
     tty.setBaudRate(BAUD4800);   //BaudRate
-    tty.setDataBits(DATA_8);      //DataBits
-    tty.setParity(PAR_NONE);      //Parity
-    tty.setStopBits(STOP_1);      //StopBits
-    tty.setFlowControl(FLOW_OFF); //FlowControl
+    tty.setDataBits(DATA_8);     //DataBits
+    tty.setParity(PAR_NONE);     //Parity
+    tty.setStopBits(STOP_1);     //StopBits
+    tty.setFlowControl(FLOW_OFF);//FlowControl
 
     tty.setTimeout(0, 10);
     tty.enableReceiving();
@@ -43,26 +43,28 @@ CDeviceNMEA::CDeviceNMEA(const QString& serialport, QObject * parent)
     connect(&tty, SIGNAL(newDataReceived(const QByteArray &)), this, SLOT(slotNewDataReceived(const QByteArray &)));
 }
 
+
 CDeviceNMEA::~CDeviceNMEA()
 {
     tty.close();
 }
 
+
 void CDeviceNMEA::setLiveLog(bool on)
 {
     qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
-    if(on){
+    if(on) {
         log.fix = CLiveLog::eNoFix;
         emit sigLiveLog(log);
 
-        if(tty.open()){
+        if(tty.open()) {
             tty.receiveData();
         }
         watchdog->start(10000);
         haveSeenData    = false;
         haveSeenGPVTG   = false;
     }
-    else{
+    else {
         tty.close();
         log.fix = CLiveLog::eOff;
         emit sigLiveLog(log);
@@ -75,28 +77,30 @@ bool CDeviceNMEA::liveLog()
     return tty.isOpen();
 }
 
+
 void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
 {
     int i;
 
-    for(i = 0; i < dataReceived.size(); ++i){
+    for(i = 0; i < dataReceived.size(); ++i) {
 
-        if(dataReceived[i] == '\n'){
+        if(dataReceived[i] == '\n') {
             line = line.trimmed();
             decode();
         }
-        else{
+        else {
             line += dataReceived[i];
         }
     }
 }
 
+
 void CDeviceNMEA::decode()
 {
     QString tok;
     QStringList tokens = line.split(QRegExp("[,*]"));
-//     qDebug() << line;
-//     qDebug() << tokens.count() << tokens;
+    //     qDebug() << line;
+    //     qDebug() << tokens.count() << tokens;
     if((tokens[0] == "$GPGGA")) {
         //             0      1                  2       3         4        5    6     7     8       9     10    11     12   13    14
         //     15 ("$GPGGA", "130108.000", "4901.7451", "N", "01205.8656", "E", "1", "06", "1.8", "331.6", "M", "47.3", "M", "", "0000*5F")
@@ -134,7 +138,7 @@ void CDeviceNMEA::decode()
         log.heading  = 0;
 
         //         calcSecondaryData();
-        if(!haveSeenGPVTG){
+        if(!haveSeenGPVTG) {
             emit sigLiveLog(log);
         }
     }
@@ -163,7 +167,6 @@ void CDeviceNMEA::slotWatchdog()
     }
     watchdog->stop();
 
-
     setLiveLog(false);
 
 }
@@ -174,39 +177,44 @@ void CDeviceNMEA::uploadWpts(const QList<CWpt*>& /*wpts*/)
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Upload waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceNMEA::downloadWpts(QList<CWpt*>& /*wpts*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceNMEA::uploadTracks(const QList<CTrack*>& /*trks*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceNMEA::downloadTracks(QList<CTrack*>& /*trks*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Download tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceNMEA::uploadRoutes(const QList<CRoute*>& /*rtes*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Upload routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceNMEA::downloadRoutes(QList<CRoute*>& /*rtes*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceNMEA::uploadMap(const QList<IMapSelection*>& /*mss*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Upload maps is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void CDeviceNMEA::downloadScreenshot(QImage& /*image*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("NMEA: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
-
-

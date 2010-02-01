@@ -488,7 +488,7 @@ QPen pens[] =
 
 QColor colors[] =
 {
-      QColor(0,0,255)
+    QColor(0,0,255)
     , QColor(0,0,0,0)
     , QColor(0,0,0,0)
     , QColor(0,0,0,0)
@@ -515,7 +515,6 @@ void CPlot::drawData(QPainter& p)
         ptx = left   + xaxis.val2pt( point->x() );
         pty = bottom - yaxis.val2pt( point->y() );
 
-
         background << QPointF(left,bottom);
         background << QPointF(left,pty);
         background << QPointF(ptx,pty);
@@ -524,7 +523,7 @@ void CPlot::drawData(QPainter& p)
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
 
-            if(ptx >= left && ptx <= right){
+            if(ptx >= left && ptx <= right) {
                 background << QPointF(ptx,pty);
                 foreground << QPointF(ptx, pty);
             }
