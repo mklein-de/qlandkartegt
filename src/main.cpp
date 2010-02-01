@@ -52,9 +52,11 @@ static void usage(std::ostream &s)
 
 static void myMessageOutput(QtMsgType type, const char *msg)
 {
-    switch (type) {
+    switch (type)
+    {
         case QtDebugMsg:
-            if (qlOpts->debug) {
+            if (qlOpts->debug)
+            {
                 puts(msg);
             }
             break;
@@ -90,21 +92,25 @@ static void processOptions()
     QStringList args;
     opts.addOptionalArguments("files", &args);
 
-    if (!opts.parse()) {
+    if (!opts.parse())
+    {
         usage(std::cerr);
         exit(1);
     }
 
-    if (hValue) {
+    if (hValue)
+    {
         usage(std::cout);
         exit(0);
     }
 
     int m = -1;
-    if (mValue != QString::null) {
+    if (mValue != QString::null)
+    {
         bool ok;
         m = mValue.toInt(&ok);
-        if (!ok) {
+        if (!ok)
+        {
             usage(std::cerr);
             exit(1);
         }
@@ -139,7 +145,8 @@ int main(int argc, char ** argv)
     }
 
     QDir path(QDir::home().filePath(CONFIGDIR));
-    if(!path.exists()) {
+    if(!path.exists())
+    {
         path.mkpath("./");
     }
 
@@ -173,9 +180,11 @@ int main(int argc, char ** argv)
 #endif
         QTranslator *qlandkartegtTranslator = new QTranslator(0);
         qDebug() << dirList;
-        foreach(QString dir, dirList) {
+        foreach(QString dir, dirList)
+        {
             QString transName = QLatin1String("qlandkartegt_") + locale;
-            if (qlandkartegtTranslator->load( transName, dir)) {
+            if (qlandkartegtTranslator->load( transName, dir))
+            {
                 theApp.installTranslator(qlandkartegtTranslator);
                 qDebug() << "using file '"+ QDir(dir).canonicalPath() + "/" + transName + ".qm' for translations.";
                 break;
@@ -216,7 +225,8 @@ int main(int argc, char ** argv)
 #endif
 
     QSplashScreen *splash = 0;
-    if (!qlOpts->nosplash) {
+    if (!qlOpts->nosplash)
+    {
         splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
 #if defined(Q_WS_MAC)
         splash->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::SplashScreen);
@@ -225,7 +235,8 @@ int main(int argc, char ** argv)
     }
     CMainWindow w;
     w.show();
-    if (splash != 0) {
+    if (splash != 0)
+    {
         splash->finish(&w);
         delete splash;
     }

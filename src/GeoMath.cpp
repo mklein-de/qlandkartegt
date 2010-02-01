@@ -53,7 +53,8 @@ void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& de
 {
 
     deg = abs(d) + m / 60.0;
-    if(sign) {
+    if(sign)
+    {
         deg = -deg;
     }
 
@@ -64,7 +65,8 @@ void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& de
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
     QRegExp re("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
-    if(!re.exactMatch(str)) {
+    if(!re.exactMatch(str))
+    {
         if(!silent) QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss"),QMessageBox::Ok,QMessageBox::NoButton);
         return false;
     }
@@ -112,7 +114,8 @@ bool testLineSegForIntersect(float x11, float y11, float x12, float y12, float x
     float ua = nume_a / denom;
     float ub = nume_b / denom;
 
-    if(ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+    if(ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f)
+    {
         return true;
     }
     return false;
@@ -130,15 +133,18 @@ bool testPointInPolygon(const XY& pt, const QVector<XY>& poly1)
     float  y = pt.v;
 
     npol = poly1.count();
-    if(npol > 2) {
+    if(npol > 2)
+    {
 
         // see http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
-        for (i = 0, j = npol-1; i < npol; j = i++) {
+        for (i = 0, j = npol-1; i < npol; j = i++)
+        {
             p1 = poly1[j];
             p2 = poly1[i];
 
             if ((((p2.v <= y) && (y < p1.v))  || ((p1.v <= y) && (y < p2.v))) &&
-            (x < (p1.u - p2.u) * (y - p2.v) / (p1.v - p2.v) + p2.u)) {
+                (x < (p1.u - p2.u) * (y - p2.v) / (p1.v - p2.v) + p2.u))
+            {
                 c = !c;
             }
         }
@@ -157,7 +163,8 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
     if(npol1 < 2 || npol2 < 2) return false;
 
     // test if points of poly1 are within poly2.
-    for(n = 0; n < npol1; ++n) {
+    for(n = 0; n < npol1; ++n)
+    {
         if(testPointInPolygon(poly1[n],poly2)) return true;
     }
 
@@ -167,13 +174,16 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
 
     XY  p1, p2, p3, p4;
 
-    for (i1 = 0, j1 = npol1-1; i1 < npol1; j1 = i1++) {
+    for (i1 = 0, j1 = npol1-1; i1 < npol1; j1 = i1++)
+    {
         p1 = poly1[j1];
         p2 = poly1[i1];
-        for (i2 = 0, j2 = npol2-1; i2 < npol2; j2 = i2++) {
+        for (i2 = 0, j2 = npol2-1; i2 < npol2; j2 = i2++)
+        {
             p3 = poly2[j2];
             p4 = poly2[i2];
-            if(testLineSegForIntersect(p1.u,p1.v,p2.u,p2.v,p3.u,p3.v,p4.u,p4.v)) {
+            if(testLineSegForIntersect(p1.u,p1.v,p2.u,p2.v,p3.u,p3.v,p4.u,p4.v))
+            {
                 return true;
             }
         }
@@ -204,8 +214,10 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     double lambda = L, lambdaP = (double)(2*PI);
     unsigned iterLimit = 20;
 
-    while (fabs(lambda - lambdaP) > 1e-12) {
-        if (!iterLimit) {
+    while (fabs(lambda - lambdaP) > 1e-12)
+    {
+        if (!iterLimit)
+        {
             lambda = PI;
             qDebug() << "No lambda convergence, most likely due to near-antipodal points. Assuming antipodal.";
         }
@@ -214,7 +226,8 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
         cosLambda = cos(lambda);
         sinSigma = sqrt((cosU2*sinLambda) * (cosU2*sinLambda) + (cosU1*sinU2-sinU1*cosU2*cosLambda) * (cosU1*sinU2-sinU1*cosU2*cosLambda));
 
-        if (sinSigma==0) {
+        if (sinSigma==0)
+        {
             return 0;            // co-incident points
         }
 
@@ -224,7 +237,8 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
         cosSqAlpha = 1 - sinAlpha * sinAlpha;
         cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha;
 
-        if (isnan(cos2SigmaM)) {
+        if (isnan(cos2SigmaM))
+        {
             cos2SigmaM = 0;      // equatorial line: cosSqAlpha=0 (6)
         }
 
@@ -283,24 +297,30 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
     QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");
 
     PJ * pjTar = 0;
-    if(!projstr.isEmpty()) {
+    if(!projstr.isEmpty())
+    {
         pjTar = pj_init_plus(projstr.toLatin1());
-        if(pjTar == 0) {
+        if(pjTar == 0)
+        {
             QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to setup projection. Bad syntax?\n%1").arg(projstr), QMessageBox::Abort,QMessageBox::Abort);
             return false;
         }
     }
     PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
-    if(GPS_Math_Str_To_Deg(str, lon, lat,true)) {
-        if(pjTar) {
+    if(GPS_Math_Str_To_Deg(str, lon, lat,true))
+    {
+        if(pjTar)
+        {
             u = lon * DEG_TO_RAD;
             v = lat * DEG_TO_RAD;
             pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);
         }
     }
-    else {
-        if(!re.exactMatch(str)) {
+    else
+    {
+        if(!re.exactMatch(str))
+        {
             QMessageBox::warning(0,QObject::tr("Error ..."), QObject::tr("Failed to read reference coordinate. Bad syntax?\n%1").arg(str), QMessageBox::Abort,QMessageBox::Abort);
             if(pjWGS84) pj_free(pjWGS84);
             if(pjTar) pj_free(pjTar);
@@ -309,7 +329,8 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
         u = re.cap(1).toDouble();
         v = re.cap(2).toDouble();
 
-        if((abs(u) <= 180) && (abs(v) <= 90) && pjTar) {
+        if((abs(u) <= 180) && (abs(v) <= 90) && pjTar)
+        {
             u = u * DEG_TO_RAD;
             v = v * DEG_TO_RAD;
             pj_transform(pjWGS84,pjTar,1,0,&u,&v,0);

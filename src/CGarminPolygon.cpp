@@ -110,11 +110,13 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     tmpType = type = *pData++;
 
     two_byte_len = type & 0x80;
-    if(line) {
+    if(line)
+    {
         direction = (type & 0x40);
         type &= 0x3F;
     }
-    else {
+    else
+    {
         type &= 0x7F;
     }
 
@@ -137,11 +139,13 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     dLat = gar_ptr_load(uint16_t, pData); pData += 2;
 
     // bitstream length
-    if(two_byte_len) {
+    if(two_byte_len)
+    {
         bs_len = gar_ptr_load(uint16_t, pData); pData += 2;
         bytes_total += bs_len + 1;
     }
-    else {
+    else
+    {
 #if (Q_BYTE_ORDER == Q_LITTLE_ENDIAN)
         (quint8&)bs_len = *pData++;
 #else
@@ -150,7 +154,8 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
         bytes_total += bs_len;
     }
 
-    if(pEnd && ((pStart + bytes_total) > pEnd)) {
+    if(pEnd && ((pStart + bytes_total) > pEnd))
+    {
         return bytes_total;
     }
 
@@ -197,7 +202,8 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     v << xy.v;
 
     // next points
-    while(sr.get(x,y)) {
+    while(sr.get(x,y))
+    {
         x1 += (x << shift);
         y1 += (y << shift);
 
@@ -252,13 +258,15 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     dLng = gar_ptr_load(uint16_t, pData); pData += 2;
     dLat = gar_ptr_load(uint16_t, pData); pData += 2;
 
-    if((*pData & 0x1) == 0) {
+    if((*pData & 0x1) == 0)
+    {
         bs_len       = gar_ptr_load(uint16_t, pData);
         bs_len       = (bs_len >> 2) - 1;
         pData       += 2;
         bytes_total += 2;
     }
-    else {
+    else
+    {
         bs_len = ((* pData) >> 1) - 1;
         pData       += 1;
         bytes_total += 1;
@@ -283,7 +291,8 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     //     qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
 
     //     assert((pEnd - pStart) >= bytes_total);
-    if((pEnd - pStart) < bytes_total) {
+    if((pEnd - pStart) < bytes_total)
+    {
         return (pEnd - pStart);
     }
 
@@ -307,7 +316,8 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     v << xy.v;
 
     // next points
-    while(sr.get(x,y)) {
+    while(sr.get(x,y))
+    {
         x1 += (x << shift);
         y1 += (y << shift);
 
@@ -316,7 +326,8 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         xy.u = GARMIN_RAD(x1);
         xy.v = GARMIN_RAD(y1);
 
-        if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI) {
+        if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
+        {
             qDebug() << "bam";
             qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;
             assert(0);
@@ -328,7 +339,8 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         v << xy.v;
     }
 
-    if(hasV2Label) {
+    if(hasV2Label)
+    {
         quint32 offset = *(quint32*)(pData + bs_len);
         bytes_total += 3;
         /// @todo read label information
@@ -351,13 +363,15 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
     //     x_sign_same = bfirst & 0x1;
     x_sign_same = bfirst & mask; mask <<= 1;
 
-    if(x_sign_same) {
+    if(x_sign_same)
+    {
         signinfo.x_has_sign = false;
         //         signinfo.nx         = bfirst & 0x2;
         signinfo.nx         = bfirst & mask; mask <<= 1;
         ++signinfo.sign_info_bits;
     }
-    else {
+    else
+    {
         signinfo.x_has_sign = true;
     }
     bx = bits_per_coord(base & 0x0F, signinfo.x_has_sign);
@@ -365,22 +379,26 @@ void CGarminPolygon::bits_per_coord(quint8 base, quint8 bfirst, quint32& bx, qui
     //     y_sign_same = x_sign_same ? (bfirst & 0x04) : (bfirst & 0x02);
     y_sign_same = bfirst & mask; mask <<= 1;
 
-    if(y_sign_same) {
+    if(y_sign_same)
+    {
         signinfo.y_has_sign = false;
         //         signinfo.ny         = x_sign_same ? bfirst & 0x08 : bfirst & 0x04;
         signinfo.ny         = bfirst & mask; mask <<= 1;
         ++signinfo.sign_info_bits;
     }
-    else {
+    else
+    {
         signinfo.y_has_sign = true;
     }
 
     by = bits_per_coord((base>>4) & 0x0F, signinfo.y_has_sign);
 
     // Determine extra bits.
-    if(isVer2) {
+    if(isVer2)
+    {
         ++signinfo.sign_info_bits;
-        if(bfirst & mask) {
+        if(bfirst & mask)
+        {
             //             qDebug() << "V2";
             ++bx;
             ++by;
@@ -443,16 +461,20 @@ bool CShiftReg::get(qint32& x, qint32& y)
     if(bits < (bits_per_coord)) return false;
 
     // don't know what to do with it -> skip extra bit
-    if(extraBit) {
+    if(extraBit)
+    {
         reg >>= 1;
         bits -= 1;
     }
 
-    if(sinfo.x_has_sign) {
+    if(sinfo.x_has_sign)
+    {
         qint32 tmp = 0;
-        while(1) {
+        while(1)
+        {
             tmp = reg & xmask;
-            if(tmp != xsign) {
+            if(tmp != xsign)
+            {
                 break;
             }
             x += tmp - 1;
@@ -460,17 +482,21 @@ bool CShiftReg::get(qint32& x, qint32& y)
             bits -= bits_per_x;
             fill(bits_per_y + bits_per_x);
         }
-        if(tmp < xsign) {
+        if(tmp < xsign)
+        {
             x += tmp;
         }
-        else {
+        else
+        {
             x = tmp - (xsign2) - x;
         }
 
     }
-    else {
+    else
+    {
         x = reg & xmask;
-        if(sinfo.nx) {
+        if(sinfo.nx)
+        {
             x = -x;
         }
     }
@@ -478,11 +504,14 @@ bool CShiftReg::get(qint32& x, qint32& y)
     bits -= bits_per_x;
 
     // take y coord., add sign if neccessary, shift register by bits per y coord.
-    if(sinfo.y_has_sign) {
+    if(sinfo.y_has_sign)
+    {
         qint32 tmp = 0;
-        while(1) {
+        while(1)
+        {
             tmp = reg & ymask;
-            if(tmp != ysign) {
+            if(tmp != ysign)
+            {
                 break;
             }
             y += tmp - 1;
@@ -490,16 +519,20 @@ bool CShiftReg::get(qint32& x, qint32& y)
             bits -= bits_per_y;
             fill(bits_per_y);
         }
-        if(tmp < ysign) {
+        if(tmp < ysign)
+        {
             y += tmp;
         }
-        else {
+        else
+        {
             y = tmp - (ysign2) - y;
         }
     }
-    else {
+    else
+    {
         y = reg & ymask;
-        if(sinfo.ny) {
+        if(sinfo.ny)
+        {
             y = -y;
         }
     }
@@ -515,7 +548,8 @@ bool CShiftReg::get(qint32& x, qint32& y)
 void CShiftReg::fill(quint32 b)
 {
     quint64 tmp = 0;
-    while((bits < b) && bytes) {
+    while((bits < b) && bytes)
+    {
 #if (Q_BYTE_ORDER == Q_LITTLE_ENDIAN)
         (quint8&)tmp = *pData++;
 #else

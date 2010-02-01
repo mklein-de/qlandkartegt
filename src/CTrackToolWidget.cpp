@@ -78,7 +78,8 @@ void CTrackToolWidget::slotDBChanged()
 
     const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::const_iterator track = tracks.begin();
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         QListWidgetItem * item = new QListWidgetItem(listTracks);
         icon.fill((*track)->getColor());
 
@@ -96,10 +97,12 @@ void CTrackToolWidget::slotDBChanged()
 
         QTime time;
         time = time.addSecs(ttime);
-        if(days) {
+        if(days)
+        {
             str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
         }
-        else {
+        else
+        {
             str += tr("\ntime: ") + time.toString("HH:mm:ss");
         }
 
@@ -117,14 +120,16 @@ void CTrackToolWidget::slotDBChanged()
         item->setData(Qt::UserRole, (*track)->key());
         item->setIcon(icon);
 
-        if((*track)->isHighlighted()) {
+        if((*track)->isHighlighted())
+        {
             highlighted = item;
         }
 
         ++track;
     }
 
-    if(highlighted) {
+    if(highlighted)
+    {
         listTracks->setCurrentItem(highlighted);
     }
 }
@@ -150,11 +155,13 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
 
 void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotDelete();
         e->accept();
     }
-    else {
+    else
+    {
         QWidget::keyPressEvent(e);
     }
 }
@@ -162,7 +169,8 @@ void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 
 void CTrackToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listTracks->currentItem()) {
+    if(listTracks->currentItem())
+    {
         originator = true;
         CTrackDB::self().highlightTrack(listTracks->currentItem()->data(Qt::UserRole).toString());
         originator = false;
@@ -178,18 +186,21 @@ void CTrackToolWidget::slotEdit()
 {
     const QListWidgetItem* item = listTracks->currentItem();
 
-    if(item == 0) {
+    if(item == 0)
+    {
         QMessageBox::information(0,tr("Edit track ..."), tr("You have to select a track first."),QMessageBox::Ok,QMessageBox::Ok);
         return;
     };
 
-    if(trackedit.isNull()) {
+    if(trackedit.isNull())
+    {
         trackedit = new CTrackEditWidget(theMainWindow->getCanvas());
         connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), trackedit, SLOT(slotSetTrack(CTrack*)));
         theMainWindow->setTempWidget(trackedit);
         trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
     }
-    else {
+    else
+    {
         delete trackedit;
     }
 }
@@ -200,7 +211,8 @@ void CTrackToolWidget::slotDelete()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listTracks->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
@@ -211,7 +223,8 @@ void CTrackToolWidget::slotDelete()
 void CTrackToolWidget::slotDelSelect()
 {
     const QListWidgetItem* item = listTracks->currentItem();
-    if(item == 0) {
+    if(item == 0)
+    {
         return;
     }
 
@@ -226,14 +239,16 @@ void CTrackToolWidget::slotToOverlay()
 
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listTracks->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         track = tracks[item->data(Qt::UserRole).toString()];
 
         QList<XY> pts;
 
         CTrack::pt_t trkpt;
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-        foreach(trkpt, trkpts) {
+        foreach(trkpt, trkpts)
+        {
             if(trkpt.flags & CTrack::pt_t::eDeleted) continue;
 
             XY pt;
@@ -254,7 +269,8 @@ void CTrackToolWidget::slotFilter()
 {
     const QListWidgetItem* item = listTracks->currentItem();
 
-    if(item == 0) {
+    if(item == 0)
+    {
         QMessageBox::information(0,tr("Filter"), tr("You have to select a track first."),
             QMessageBox::Ok,QMessageBox::Ok);
         return;

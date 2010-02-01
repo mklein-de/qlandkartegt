@@ -53,7 +53,8 @@ void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseSelMap::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton)
+    {
         startRect(e->pos());
         selMap = true;
     }
@@ -62,16 +63,19 @@ void CMouseSelMap::mousePressEvent(QMouseEvent * e)
 
 void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton)
+    {
         selMap = false;
         resizeRect(e->pos());
 
         rect = rect.normalized();
 
-        if(rect.width() < 2) {
+        if(rect.width() < 2)
+        {
             rect.setWidth(2);
         }
-        if(rect.height() < 2) {
+        if(rect.height() < 2)
+        {
             rect.setHeight(2);
         }
 

@@ -126,7 +126,8 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
     if(mouse) mouse->looseFocus();
     COverlayDB::self().looseFocus();
 
-    switch(mode) {
+    switch(mode)
+    {
 
         case eMouseMoveArea:
             mouse = mouseMoveMap;
@@ -187,7 +188,8 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
         default:;
 
     }
-    if(underMouse()) {
+    if(underMouse())
+    {
         QApplication::setOverrideCursor(*mouse);
     }
     mouseMode = mode;
@@ -241,7 +243,8 @@ void CCanvas::mouseReleaseEvent(QMouseEvent * e)
 
 void CCanvas::enterEvent(QEvent * )
 {
-    if (!cursorFocus) {
+    if (!cursorFocus)
+    {
         QApplication::setOverrideCursor(*mouse);
         cursorFocus = true;
     }
@@ -250,7 +253,8 @@ void CCanvas::enterEvent(QEvent * )
 
 void CCanvas::leaveEvent(QEvent * )
 {
-    if (cursorFocus) {
+    if (cursorFocus)
+    {
         QApplication::restoreOverrideCursor();
         cursorFocus = false;
     }
@@ -267,7 +271,8 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
 
     p.save();
 
-    if(pagesize.height() > pagesize.width()) {
+    if(pagesize.height() > pagesize.width())
+    {
         _size_.setWidth(pagesize.height());
         _size_.setHeight(pagesize.width());
         rotate = true;
@@ -344,12 +349,14 @@ void CCanvas::drawRefPoints(QPainter& p)
 
     QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
     QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
-    while(refpt != refpts.end()) {
+    while(refpt != refpts.end())
+    {
         double x = refpt->x;
         double y = refpt->y;
         map.convertM2Pt(x,y);
 
-        if(rect().contains(x,y)) {
+        if(rect().contains(x,y))
+        {
             p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPoint31x31"));
             drawText(refpt->item->text(CCreateMapGeoTiff::eLabel),p,QPoint(x, y - 35));
         }
@@ -387,13 +394,16 @@ void CCanvas::drawScale(QPainter& p)
 
     //     qDebug() << log10(d) << d << a << b;
 
-    if(0 <= b && b < log10(3.0f)) {
+    if(0 <= b && b < log10(3.0f))
+    {
         d = 1 * pow(10,a);
     }
-    else if(log10(3.0f) < b && b < log10(5.0f)) {
+    else if(log10(3.0f) < b && b < log10(5.0f))
+    {
         d = 3 * pow(10,a);
     }
-    else {
+    else
+    {
         d = 5 * pow(10,a);
     }
 
@@ -405,7 +415,8 @@ void CCanvas::drawScale(QPainter& p)
     pt1.v = px1.y();
     map.convertPt2Rad(pt1.u,pt1.v);
 
-    if(pt1.u == px1.x() && pt1.v == px1.y()) {
+    if(pt1.u == px1.x() && pt1.v == px1.y())
+    {
         return;
     }
 
@@ -521,7 +532,8 @@ void CCanvas::move(move_direction_e dir)
     QPoint p1 = geometry().center();
     QPoint p2 = p1;
 
-    switch(dir) {
+    switch(dir)
+    {
 
         case eMoveLeft:
             p2.rx() += width() / 4;
@@ -579,15 +591,18 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
 
     //     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
-    if((x == e->x()) && (y == e->y())) {
+    if((x == e->x()) && (y == e->y()))
+    {
         map.convertPt2M(x,y);
         info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
         qDebug() << "--" << info;
     }
-    else {
+    else
+    {
 
         float ele = CMapDB::self().getDEM().getElevation(x,y);
-        if(ele != WPT_NOFLOAT) {
+        if(ele != WPT_NOFLOAT)
+        {
             QString val, unit;
             IUnit::self().meter2elevation(ele, val, unit);
             info += QString(" (ele: %1 %2) ").arg(val).arg(unit);
@@ -614,8 +629,10 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
 {
     QMenu menu(this);
 
-    if(!CMegaMenu::self().isEnabled()) {
-        foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions()) {
+    if(!CMegaMenu::self().isEnabled())
+    {
+        foreach(QAction *a, *theMainWindow->getActionGroupProvider()->getActiveActions())
+        {
             menu.addAction(a);
         }
         menu.addSeparator();

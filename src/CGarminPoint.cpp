@@ -74,7 +74,8 @@ quint32 CGarminPoint::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift
     qDebug() << x1 << y1 << point.u << point.v;
 #endif
 
-    if(hasSubType) {
+    if(hasSubType)
+    {
         type |= *pData;
         return 9;
     }
@@ -97,7 +98,8 @@ quint32 CGarminPoint::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shif
 
     type        = 0x10000 + type + (subtype & 0x1F);
 
-    if(subtype & 0x80) {
+    if(subtype & 0x80)
+    {
         extra = true;
         byte_size += 1;
     }
@@ -112,7 +114,8 @@ quint32 CGarminPoint::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shif
     lon = GARMIN_RAD(x1);
     lat = GARMIN_RAD(y1);
 
-    if(subtype & 0x20) {
+    if(subtype & 0x20)
+    {
         byte_size += 3;
         lbl_ptr     = gar_ptr_load(uint24_t, pData);
         isLbl6      = lbl_ptr & 0x00400000;

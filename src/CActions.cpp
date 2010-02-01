@@ -136,7 +136,8 @@ const QString& name,
 const QString& actionName,
 const QString& toolTip)
 {
-    if (findChild<QAction *> (actionName)) {
+    if (findChild<QAction *> (actionName))
+    {
         qDebug()
             << tr("Action with the name '%1' already registered. Please choose an other name.").arg(actionName);
         return;
@@ -163,7 +164,8 @@ QAction *CActions::getAction(const QString& actionObjectName)
     QAction *tmpAction = findChild<QAction *> (actionObjectName);
     if (tmpAction)
         return tmpAction;
-    else {
+    else
+    {
         qDebug()
             << tr("Action with name '%1' not found. %2").arg(actionObjectName).arg(Q_FUNC_INFO);
         return new QAction(this);
@@ -341,7 +343,8 @@ void CActions::funcEditMap()
 {
 
     CMapDB::self().editMap();
-    if (CCreateMapGeoTiff::self()) {
+    if (CCreateMapGeoTiff::self())
+    {
         // setEnabled(false); // not finished
         connect(CCreateMapGeoTiff::self(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEnable()));
     }
@@ -384,7 +387,8 @@ void CActions::funcMap3DZoomPlus()
 {
 #ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map) {
+    if(map)
+    {
         map->eleZoomIn();
     }
 #endif
@@ -395,7 +399,8 @@ void CActions::funcMap3DZoomMinus()
 {
 #ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map) {
+    if(map)
+    {
         map->eleZoomOut();
     }
 #endif
@@ -415,7 +420,8 @@ void CActions::funcMap3DMode()
 {
 #ifdef PLOT_3D
     CMap3DWidget * map = CMapDB::self().getMap3D();
-    if(map) {
+    if(map)
+    {
         map->changeMode();
     }
 #endif
@@ -503,7 +509,8 @@ void CActions::funcTrackPurgeSelection()
 void CActions::funcDeleteTrackSelection()
 {
     CTrack *track = CTrackDB::self().highlightedTrack();
-    if (track) {
+    if (track)
+    {
         CUndoStack::getInstance()->beginMacro(tr("Delete Selection"));
         CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
         CUndoStack::getInstance()->push(new CTrackUndoCommandDeletePts(track));

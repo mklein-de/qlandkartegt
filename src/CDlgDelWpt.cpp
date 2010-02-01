@@ -33,14 +33,16 @@ CDlgDelWpt::CDlgDelWpt(QWidget * parent)
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
     QSet<QString> types;
 
-    while(wpt != wpts.end()) {
+    while(wpt != wpts.end())
+    {
         types << (*wpt)->icon;
         ++wpt;
     }
 
     QIcon icon;
     QString type;
-    foreach(type, types) {
+    foreach(type, types)
+    {
         icon = getWptIconByName(type);
         new QListWidgetItem(icon, type, listWptByType);
     }
@@ -60,15 +62,18 @@ void CDlgDelWpt::accept()
     QStringList             types;
     QListWidgetItem *       item;
     QList<QListWidgetItem*> selTypes = listWptByType->selectedItems();
-    foreach(item,selTypes) {
+    foreach(item,selTypes)
+    {
         types << item->text();
     }
 
     const QMap<QString,CWpt*>& wpts         = CWptDB::self().getWpts();
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
 
-    while(wpt != wpts.end()) {
-        if(types.contains((*wpt)->icon)) {
+    while(wpt != wpts.end())
+    {
+        if(types.contains((*wpt)->icon))
+        {
             keys << (*wpt)->key();
         }
         ++wpt;

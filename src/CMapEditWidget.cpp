@@ -49,11 +49,13 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     stackedWidget->insertWidget(eQMAP, widgetQMAP);
 
     comboSource->insertItem(eGTIFF,QIcon(":/icons/iconGlobe16x16.png"),tr("Convert a TIFF into GeoTiff by geo referencing it."));
-    if(haveGDAL) {
+    if(haveGDAL)
+    {
         widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
         stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
     }
-    else {
+    else
+    {
         QLabel * label = new QLabel(stackedWidget);
         label->setAlignment(Qt::AlignCenter);
         label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));

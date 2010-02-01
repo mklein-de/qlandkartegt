@@ -102,7 +102,8 @@ void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
 void CMapNoMap::zoom(qint32& level)
 {
     // no level less than 1
-    if(level < 1) {
+    if(level < 1)
+    {
         zoomFactor  = 1.0 / - (level - 2);
         qDebug() << "zoom:" << zoomFactor;
         return;

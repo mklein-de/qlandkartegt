@@ -87,8 +87,10 @@ CWptDB::~CWptDB()
     CQlb qlb(this);
 
     QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()) {
-        if((*wpt)->sticky) {
+    while(wpt != wpts.end())
+    {
+        if((*wpt)->sticky)
+        {
             qlb << *(*wpt);
         }
         ++wpt;
@@ -116,7 +118,8 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele)
     wpt->icon = cfg.value("waypoint/lastSymbol","").toString();
 
     CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
-    if(dlg.exec() == QDialog::Rejected) {
+    if(dlg.exec() == QDialog::Rejected)
+    {
         delete wpt;
         return 0;
     }
@@ -144,12 +147,14 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
 {
     if(!wpts.contains(key)) return;
 
-    if(wpts[key]->sticky) {
+    if(wpts[key]->sticky)
+    {
 
         if(saveSticky) return;
 
         QString msg = tr("Do you really want to delete the sticky waypoint '%1'").arg(wpts[key]->name);
-        if(QMessageBox::question(0,tr("Delete sticky waypoint ..."),msg, QMessageBox::Ok|QMessageBox::No, QMessageBox::No) == QMessageBox::No) {
+        if(QMessageBox::question(0,tr("Delete sticky waypoint ..."),msg, QMessageBox::Ok|QMessageBox::No, QMessageBox::No) == QMessageBox::No)
+        {
             return;
         }
     }
@@ -162,7 +167,8 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
 void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 {
     QString key;
-    foreach(key, keys) {
+    foreach(key, keys)
+    {
         delWpt(key,true, saveSticky);
     }
 
@@ -173,12 +179,15 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 
 void CWptDB::addWpt(CWpt * wpt)
 {
-    if(wpts.contains(wpt->key())) {
-        if(wpts[wpt->key()]->sticky) {
+    if(wpts.contains(wpt->key()))
+    {
+        if(wpts[wpt->key()]->sticky)
+        {
             delete wpt;
             return;
         }
-        else {
+        else
+        {
             delWpt(wpt->key(), true);
         }
     }
@@ -192,7 +201,8 @@ void CWptDB::addWpt(CWpt * wpt)
 void CWptDB::setProxyDistance(const QStringList& keys, double dist)
 {
     QString key;
-    foreach(key,keys) {
+    foreach(key,keys)
+    {
         wpts[key]->prx = dist;
     }
     emit sigChanged();
@@ -204,7 +214,8 @@ void CWptDB::loadGPX(CGpx& gpx)
 {
     const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
     uint N = waypoints.count();
-    for(uint n = 0; n < N; ++n) {
+    for(uint n = 0; n < N; ++n)
+    {
         const QDomNode& waypoint = waypoints.item(n);
 
         CWpt * wpt = new CWpt(this);
@@ -212,59 +223,73 @@ void CWptDB::loadGPX(CGpx& gpx)
         const QDomNamedNodeMap& attr = waypoint.attributes();
         wpt->lon = attr.namedItem("lon").nodeValue().toDouble();
         wpt->lat = attr.namedItem("lat").nodeValue().toDouble();
-        if(waypoint.namedItem("name").isElement()) {
+        if(waypoint.namedItem("name").isElement())
+        {
             wpt->name = waypoint.namedItem("name").toElement().text();
         }
-        if(waypoint.namedItem("cmt").isElement()) {
+        if(waypoint.namedItem("cmt").isElement())
+        {
             wpt->comment = waypoint.namedItem("cmt").toElement().text();
         }
-        if(waypoint.namedItem("desc").isElement()) {
+        if(waypoint.namedItem("desc").isElement())
+        {
             wpt->comment = waypoint.namedItem("desc").toElement().text();
         }
-        if(waypoint.namedItem("link").isElement()) {
+        if(waypoint.namedItem("link").isElement())
+        {
             const QDomNode& link = waypoint.namedItem("link");
             const QDomNamedNodeMap& attr = link.toElement().attributes();
             wpt->link = attr.namedItem("href").nodeValue();
         }
-        if(waypoint.namedItem("url").isElement()) {
+        if(waypoint.namedItem("url").isElement())
+        {
             wpt->link = waypoint.namedItem("url").toElement().text();
         }
-        if(waypoint.namedItem("sym").isElement()) {
+        if(waypoint.namedItem("sym").isElement())
+        {
             wpt->icon =  waypoint.namedItem("sym").toElement().text();
         }
-        if(waypoint.namedItem("ele").isElement()) {
+        if(waypoint.namedItem("ele").isElement())
+        {
             wpt->ele = waypoint.namedItem("ele").toElement().text().toDouble();
         }
-        if(waypoint.namedItem("time").isElement()) {
+        if(waypoint.namedItem("time").isElement())
+        {
             QDateTime time = QDateTime::fromString(waypoint.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
             time.setTimeSpec(Qt::UTC);
                                  // - gpResources->getUTCOffset();
             wpt->timestamp = time.toTime_t();
         }
 
-        if(waypoint.namedItem("extensions").isElement()) {
+        if(waypoint.namedItem("extensions").isElement())
+        {
             const QDomNode& ext = waypoint.namedItem("extensions");
             QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(ext);
             QDomElement tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "WaypointExtension");
 
-            if(!tmpelem.isNull()) {
+            if(!tmpelem.isNull())
+            {
                 QMap<QString,QDomElement> waypointextensionmap = CGpx::mapChildElements(tmpelem);
 
                 tmpelem = waypointextensionmap.value(CGpx::gpxx_ns + ":" + "Proximity");
-                if(!tmpelem.isNull()) {
+                if(!tmpelem.isNull())
+                {
                     wpt->prx = tmpelem.text().toDouble();
                 }
             }
 
             // QLandkarteGT backward compatibility
-            if (gpx.version() == CGpx::qlVer_1_0) {
-                if(ext.namedItem("dist").isElement()) {
+            if (gpx.version() == CGpx::qlVer_1_0)
+            {
+                if(ext.namedItem("dist").isElement())
+                {
                     wpt->prx = ext.namedItem("dist").toElement().text().toDouble();
                 }
             }
         }
 
-        if(wpt->lat == 1000 || wpt->lon == 1000 || wpt->name.isEmpty()) {
+        if(wpt->lat == 1000 || wpt->lon == 1000 || wpt->name.isEmpty())
+        {
             delete wpt;
             continue;
         }
@@ -281,8 +306,10 @@ void CWptDB::saveGPX(CGpx& gpx)
     QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()) {
-        if((*wpt)->sticky) {
+    while(wpt != wpts.end())
+    {
+        if((*wpt)->sticky)
+        {
             ++wpt;
             continue;
         }
@@ -293,7 +320,8 @@ void CWptDB::saveGPX(CGpx& gpx)
         str.sprintf("%1.8f", (*wpt)->lon);
         waypoint.setAttribute("lon",str);
 
-        if((*wpt)->ele != 1e25f) {
+        if((*wpt)->ele != 1e25f)
+        {
             QDomElement ele = gpx.createElement("ele");
             waypoint.appendChild(ele);
             QDomText _ele_ = gpx.createTextNode(QString::number((*wpt)->ele));
@@ -311,14 +339,16 @@ void CWptDB::saveGPX(CGpx& gpx)
         QDomText _name_ = gpx.createTextNode((*wpt)->name);
         name.appendChild(_name_);
 
-        if(!(*wpt)->comment.isEmpty()) {
+        if(!(*wpt)->comment.isEmpty())
+        {
             QDomElement cmt = gpx.createElement("cmt");
             waypoint.appendChild(cmt);
             QDomText _cmt_ = gpx.createTextNode((*wpt)->comment);
             cmt.appendChild(_cmt_);
         }
 
-        if(!(*wpt)->link.isEmpty()) {
+        if(!(*wpt)->link.isEmpty())
+        {
             QDomElement link = gpx.createElement("link");
             waypoint.appendChild(link);
             link.setAttribute("href",(*wpt)->link);
@@ -333,13 +363,15 @@ void CWptDB::saveGPX(CGpx& gpx)
         QDomText _sym_ = gpx.createTextNode((*wpt)->icon);
         sym.appendChild(_sym_);
 
-        if((*wpt)->prx != 1e25f) {
+        if((*wpt)->prx != 1e25f)
+        {
             QDomElement extensions = gpx.createElement("extensions");
             waypoint.appendChild(extensions);
             QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");
             extensions.appendChild(gpxx_ext);
 
-            if((*wpt)->prx != 1e25f) {
+            if((*wpt)->prx != 1e25f)
+            {
                 QDomElement proximity = gpx.createElement("gpxx:Proximity");
                 gpxx_ext.appendChild(proximity);
                 QDomText _proximity_ = gpx.createTextNode(QString::number((*wpt)->prx));
@@ -356,7 +388,8 @@ void CWptDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.waypoints(),QIODevice::ReadOnly);
 
-    while(!stream.atEnd()) {
+    while(!stream.atEnd())
+    {
         CWpt * wpt = new CWpt(this);
         stream >> *wpt;
         addWpt(wpt);
@@ -370,7 +403,8 @@ void CWptDB::loadQLB(CQlb& qlb)
 void CWptDB::saveQLB(CQlb& qlb)
 {
     QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()) {
+    while(wpt != wpts.end())
+    {
         qlb << *(*wpt);
         ++wpt;
     }
@@ -382,7 +416,8 @@ void CWptDB::upload()
     if(wpts.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CWpt*> tmpwpts = wpts.values();
         dev->uploadWpts(tmpwpts);
     }
@@ -393,14 +428,16 @@ void CWptDB::upload()
 void CWptDB::download()
 {
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CWpt*> tmpwpts;
         dev->downloadWpts(tmpwpts);
 
         if(tmpwpts.isEmpty()) return;
 
         CWpt * wpt;
-        foreach(wpt,tmpwpts) {
+        foreach(wpt,tmpwpts)
+        {
             addWpt(wpt);
         }
     }
@@ -413,7 +450,8 @@ void CWptDB::download()
 void CWptDB::selWptByKey(const QString& key)
 {
     CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
-    if(t) {
+    if(t)
+    {
         t->selWptByKey(key);
     }
 }
@@ -424,12 +462,14 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     IMap& map = CMapDB::self().getMap();
 
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()) {
+    while(wpt != wpts.end())
+    {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(rect.contains(QPoint(u,v))) {
+        if(rect.contains(QPoint(u,v)))
+        {
             QPixmap icon = getWptIconByName((*wpt)->icon);
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);
@@ -447,7 +487,8 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             p.drawPixmap(u-7 , v-7, icon);
 
-            if((*wpt)->prx != WPT_NOFLOAT) {
+            if((*wpt)->prx != WPT_NOFLOAT)
+            {
                 XY pt1, pt2;
 
                 pt1.u = (*wpt)->lon * DEG_TO_RAD;
@@ -476,10 +517,12 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
-    switch(exifEntry->tag) {
+    switch(exifEntry->tag)
+    {
         case EXIF_TAG_GPS_LATITUDE_REF:
         {
-            if(exifEntry->data[0] != 'N') {
+            if(exifEntry->data[0] != 'N')
+            {
                 exifGPS.lat_sign = -1;
             }
             break;
@@ -487,7 +530,8 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         case EXIF_TAG_GPS_LATITUDE:
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
-            if(exifEntry->components == 3) {
+            if(exifEntry->components == 3)
+            {
                 //                 qDebug() << "lat" << exifEntry->components;
                 //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
                 //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
@@ -498,7 +542,8 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         }
         case EXIF_TAG_GPS_LONGITUDE_REF:
         {
-            if(exifEntry->data[0] != 'E') {
+            if(exifEntry->data[0] != 'E')
+            {
                 exifGPS.lon_sign = -1;
             }
             break;
@@ -506,7 +551,8 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         case EXIF_TAG_GPS_LONGITUDE:
         {
             ExifRational * p = (ExifRational*)exifEntry->data;
-            if(exifEntry->components == 3) {
+            if(exifEntry->components == 3)
+            {
                 //                 qDebug() << "lon" << exifEntry->components;
                 //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
                 //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
@@ -524,7 +570,8 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
-    switch(exifEntry->tag) {
+    switch(exifEntry->tag)
+    {
         case EXIF_TAG_DATE_TIME:
         {
             //             qDebug() << exifEntry->format << exifEntry->components << exifEntry->size;
@@ -540,7 +587,8 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 
 static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_data)
 {
-    switch(f_exif_content_get_ifd(exifContent)) {
+    switch(f_exif_content_get_ifd(exifContent))
+    {
 
         case EXIF_IFD_0:
             f_exif_content_foreach_entry(exifContent, exifContentForeachEntryFunc0, user_data);
@@ -559,7 +607,8 @@ static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_da
 void CWptDB::createWaypointsFromImages()
 {
 
-    if(f_exif_data_new_from_file == 0) {
+    if(f_exif_data_new_from_file == 0)
+    {
 #ifdef WIN32
         QMessageBox::warning(0,tr("Missing libexif"), tr("Unable to find libexif-12.dll."), QMessageBox::Abort, QMessageBox::Abort);
 #else
@@ -582,7 +631,8 @@ void CWptDB::createWaypointsFromImages()
     QStringList files = dir.entryList(filter, QDir::Files);
     QString file;
 
-    foreach(file, files) {
+    foreach(file, files)
+    {
         //         qDebug() << "---------------" << file << "---------------";
 
         ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
@@ -606,11 +656,13 @@ void CWptDB::createWaypointsFromImages()
         int w = pixtmp.width();
         int h = pixtmp.height();
 
-        if(w < h) {
+        if(w < h)
+        {
             h *= 240.0 / w;
             w  = 240;
         }
-        else {
+        else
+        {
             h *= 320.0 / w;
             w  = 320;
         }

@@ -25,10 +25,12 @@ CPlotData::CPlotData(axis_type_e type, QObject * parent)
 : QObject(parent)
 , grid(true)
 {
-    if(type == eLinear) {
+    if(type == eLinear)
+    {
         xaxis = new CPlotAxis(this);
     }
-    else {
+    else
+    {
         xaxis = new CPlotAxisTime(this);
     }
     xaxis->setAutoscale(false);
@@ -54,9 +56,11 @@ void CPlotData::setLimits()
     double ymin = p->y();
     double ymax = p->y();
 
-    while(line != lines.end()) {
+    while(line != lines.end())
+    {
         QPolygonF::const_iterator p = line->points.begin();
-        while(p != line->points.end()) {
+        while(p != line->points.end())
+        {
             if(p->x() > xmax) xmax = p->x();
             if(p->x() < xmin) xmin = p->x();
             if(p->y() > ymax) ymax = p->y();

@@ -42,47 +42,58 @@ void CPlotAxisTime::calc()
 
     strFormat = "hh:mm:ss";
 
-    if(dSec < 20) {
+    if(dSec < 20)
+    {
         interval = 1;
         tic_start = used_min;
     }
-    else if(dSec < 100) {
+    else if(dSec < 100)
+    {
         interval = 5;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 200) {
+    else if(dSec < 200)
+    {
         interval = 10;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 600) {
+    else if(dSec < 600)
+    {
         interval = 30;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 1200) {
+    else if(dSec < 1200)
+    {
         interval = 60;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 6000) {
+    else if(dSec < 6000)
+    {
         interval = 600;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 12000) {
+    else if(dSec < 12000)
+    {
         interval = 600;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 36000) {
+    else if(dSec < 36000)
+    {
         interval = 1800;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 72000) {
+    else if(dSec < 72000)
+    {
         interval = 3600;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else if(dSec < 216000) {
+    else if(dSec < 216000)
+    {
         interval = 10800;
         tic_start = ceil(used_min / interval) * interval;
     }
-    else {
+    else
+    {
         qDebug() << "ouch";
     }
 
@@ -138,18 +149,21 @@ void CPlotAxisTime::calc()
     //
     //         self.int_interval = interval
 
-    if ( autoscale ) {
+    if ( autoscale )
+    {
         used_min = floor( used_min / interval ) * interval;
         used_max = ceil( used_max / interval ) * interval;
     }
-    else {
+    else
+    {
         used_min = used_min;
         used_max = used_max;
     }
 
     int t1 = ( int )( used_min / interval + 0.5);
     tic_start = interval * t1;
-    if ( tic_start < used_min ) {
+    if ( tic_start < used_min )
+    {
         tic_start += interval;
     }
 
@@ -159,7 +173,8 @@ void CPlotAxisTime::calc()
 const CPlotAxis::TTic* CPlotAxisTime::ticmark( const TTic * t )
 {
     const TTic * _tic_ = CPlotAxis::ticmark(t);
-    if(_tic_) {
+    if(_tic_)
+    {
         QDateTime time = QDateTime::fromTime_t(tic.val);
         time.setTimeSpec(Qt::LocalTime);
         tic.lbl = time.toString(strFormat);

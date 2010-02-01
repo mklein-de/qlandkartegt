@@ -37,14 +37,16 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLDry   ",9)) {
+    if(strncmp(magic,"QLDry   ",9))
+    {
         dev->seek(pos);
         return s;
     }
 
     QList<diary_head_entry_t> entries;
 
-    while(1) {
+    while(1)
+    {
         diary_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -52,11 +54,13 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
     }
 
     QList<diary_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
-        switch(entry->type) {
+        switch(entry->type)
+        {
             case CDiary::eBase:
             {
 
@@ -112,7 +116,8 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<diary_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -120,14 +125,16 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->data;
         ++entry;
     }

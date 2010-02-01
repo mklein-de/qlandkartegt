@@ -33,7 +33,8 @@ class IMapSelection : public QObject
         IMapSelection(type_e type, QObject * parent) : QObject(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){};
         virtual ~IMapSelection(){}
 
-        void operator=(const IMapSelection& ms) {
+        void operator=(const IMapSelection& ms)
+        {
             key         = ms.key;
             mapkey      = ms.mapkey;
             description = ms.description;

@@ -42,7 +42,8 @@ CDlgScreenshot::~CDlgScreenshot()
 void CDlgScreenshot::slotAcquire()
 {
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         dev->downloadScreenshot(image);
         labelScreenshot->setPixmap(QPixmap::fromImage(image));
 

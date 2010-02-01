@@ -79,13 +79,16 @@ void CMapQMAPExport::slotOutputPath()
 void CMapQMAPExport::slotStderr()
 {
     textBrowser->setTextColor(Qt::red);
-    if(sender() == &cmd1) {
+    if(sender() == &cmd1)
+    {
         textBrowser->append(cmd1.readAllStandardError());
     }
-    else if(sender() == &cmd2) {
+    else if(sender() == &cmd2)
+    {
         textBrowser->append(cmd2.readAllStandardError());
     }
-    else if(sender() == &cmd3) {
+    else if(sender() == &cmd3)
+    {
         textBrowser->append(cmd3.readAllStandardError());
     }
 }
@@ -95,13 +98,16 @@ void CMapQMAPExport::slotStdout()
 {
     textBrowser->setTextColor(Qt::blue);
     QString str;
-    if(sender() == &cmd1) {
+    if(sender() == &cmd1)
+    {
         str = cmd1.readAllStandardOutput();
     }
-    else if(sender() == &cmd2) {
+    else if(sender() == &cmd2)
+    {
         str = cmd2.readAllStandardOutput();
     }
-    else if(sender() == &cmd3) {
+    else if(sender() == &cmd3)
+    {
         str = cmd3.readAllStandardOutput();
     }
 
@@ -156,13 +162,16 @@ void CMapQMAPExport::slotStart()
     int levels = srcdef.value("main/levels",0).toInt();
     tardef.setValue("main/levels",levels);
 
-    for(int level = 1; level <= levels; ++level) {
+    for(int level = 1; level <= levels; ++level)
+    {
         QStringList outfiles;
         QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
         QString filename;
-        foreach(filename, filenames) {
+        foreach(filename, filenames)
+        {
             CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
-            if(!mapfile->ok) {
+            if(!mapfile->ok)
+            {
                 delete mapfile;
                 QMessageBox::critical(0,tr("Error ..."), tr("Failed to read %1").arg(filename), QMessageBox::Abort,  QMessageBox::Abort);
                 return QDialog::reject();
@@ -184,7 +193,8 @@ void CMapQMAPExport::slotStart()
             QRect  intersect = selarea.intersected(maparea).toRect();
 
             //             qDebug() << maparea << selarea << intersect;
-            if(intersect.isValid()) {
+            if(intersect.isValid())
+            {
                 job_t job;
                 job.idx    = idx++;
                 job.srcFilename = mapfile->filename;
@@ -225,7 +235,8 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
     file2 = new QTemporaryFile();
     file2->open();
 
-    if(jobs.isEmpty()) {
+    if(jobs.isEmpty())
+    {
         textBrowser->setTextColor(Qt::black);
         textBrowser->append(tr("--- finished ---\n"));
         return;

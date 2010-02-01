@@ -54,18 +54,22 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 
     p.setBrush(QColor(150,150,255,100));
 
-    if(focusedMap == key) {
+    if(focusedMap == key)
+    {
         p.setPen(QPen(Qt::red,2));
     }
-    else if(mapkey == map.getKey()) {
+    else if(mapkey == map.getKey())
+    {
         p.setPen(QPen(Qt::darkBlue,2));
     }
-    else {
+    else
+    {
         p.setPen(QPen(Qt::gray,2));
     }
 
     QRect r(u1, v1, u2 - u1, v2 - v1);
-    if(rect.intersects(r)) {
+    if(rect.intersects(r))
+    {
         p.drawRect(r);
         CCanvas::drawText(description,p,r);
     }

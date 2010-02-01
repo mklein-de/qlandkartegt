@@ -41,7 +41,8 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
 
     if(offset == 0xFFFFFFFF) return;
 
-    if(offset > (quint32)sizeLBL1) {
+    if(offset > (quint32)sizeLBL1)
+    {
         //qWarning() << "Index into string table to large" << hex << offset << dataLBL.size() << hdrLbl->addr_shift << hdrNet->net1_addr_shift;
         return;
     }
@@ -51,14 +52,19 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
     char * lbl = data.data();
 
     char * pBuffer = buffer; *pBuffer = 0;
-    while(*lbl != 0) {
-        if((unsigned)*lbl >= 0x1B && (unsigned)*lbl <= 0x1F) {
+    while(*lbl != 0)
+    {
+        if((unsigned)*lbl >= 0x1B && (unsigned)*lbl <= 0x1F)
+        {
             *pBuffer = 0;
-            if(strlen(buffer)) {
-                if (codepage != 0) {
+            if(strlen(buffer))
+            {
+                if (codepage != 0)
+                {
                     info << codec->toUnicode(buffer);
                 }
-                else {
+                else
+                {
                     info << buffer;
                 }
                 pBuffer = buffer; *pBuffer = 0;
@@ -66,17 +72,20 @@ void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& inf
             ++lbl;
             continue;
         }
-        else if((unsigned)*lbl < 0x07) {
+        else if((unsigned)*lbl < 0x07)
+        {
             ++lbl;
             continue;
         }
-        else {
+        else
+        {
             *pBuffer++ = *lbl++;
         }
     }
 
     *pBuffer = 0;
-    if(strlen(buffer)) {
+    if(strlen(buffer))
+    {
         if (codepage != 0)
             info << codec->toUnicode(buffer);
         else

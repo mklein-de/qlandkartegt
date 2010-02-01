@@ -92,7 +92,8 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 
 CMapSearchWidget::~CMapSearchWidget()
 {
-    if(!canvas.isNull()) {
+    if(!canvas.isNull())
+    {
         delete canvas;
     }
 
@@ -122,7 +123,8 @@ void CMapSearchWidget::slotSelectMask()
 {
     labelMask->setText(tr("No mask selected."));
 
-    if(canvas.isNull()) {
+    if(canvas.isNull())
+    {
         canvas = new CMapSearchCanvas(this);
         connect(canvas, SIGNAL(sigSelection(const QPixmap&)), this, SLOT(slotMaskSelection(const QPixmap&)));
         theMainWindow->getCanvasTab()->addTab(canvas, tr("Symbols"));
@@ -163,7 +165,8 @@ void CMapSearchWidget::slotSearchFinished()
     int cnt = 0;
     QString name = lineMaskName->text().isEmpty() ? "Sym." : lineMaskName->text();
 
-    foreach(symbol, symbols) {
+    foreach(symbol, symbols)
+    {
         double u = symbol.x();
         double v = symbol.y();
 
@@ -202,7 +205,8 @@ void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
 
 void CMapSearchWidget::binarizeViewport(int t)
 {
-    if(canvas.isNull()) {
+    if(canvas.isNull())
+    {
         return;
     }
 
@@ -215,7 +219,8 @@ void CMapSearchWidget::binarizeViewport(int t)
 
 void CMapSearchWidget::slotSaveMask()
 {
-    if(lineMaskName->text().isEmpty()) {
+    if(lineMaskName->text().isEmpty())
+    {
         QMessageBox::warning(this, tr("Missing name..."), tr("Please provide a symbol name to save the symbol."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -242,7 +247,8 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 
     QDir path(QDir::home().filePath(CONFIGDIR));
     QFile file(path.filePath(name + ".msk"));
-    if(file.open(QIODevice::ReadOnly)) {
+    if(file.open(QIODevice::ReadOnly))
+    {
         QDataStream in(&file);
 
         in >> intval;
@@ -260,7 +266,8 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
 
         file.close();
     }
-    else {
+    else
+    {
         labelMask->setText(tr("No mask selected."));
     }
 
@@ -273,7 +280,8 @@ void CMapSearchWidget::slotDeleteMask()
     QString name    = lineMaskName->text();
     int index       = comboSymbols->findText(name);
 
-    if(index != -1) {
+    if(index != -1)
+    {
         comboSymbols->removeItem(index);
         QDir path(QDir::home().filePath(CONFIGDIR));
         QFile file(path.filePath(name + ".msk"));
@@ -299,7 +307,8 @@ void CMapSearchWidget::loadMaskCollection()
     QStringList maskfiles = path.entryList(filter, QDir::Files, QDir::Name);
     QString     maskfile;
 
-    foreach(maskfile, maskfiles) {
+    foreach(maskfile, maskfiles)
+    {
         QImage pixmap;
         int     intval;
 
@@ -319,7 +328,8 @@ void CMapSearchWidget::loadMaskCollection()
     }
 
     int idx = comboSymbols->findText(name);
-    if(idx != -1) {
+    if(idx != -1)
+    {
         comboSymbols->setCurrentIndex(comboSymbols->findText(name));
     }
     checkGui();
@@ -328,20 +338,24 @@ void CMapSearchWidget::loadMaskCollection()
 
 void CMapSearchWidget::checkGui()
 {
-    if(!labelMask->text().isEmpty()) {
+    if(!labelMask->text().isEmpty())
+    {
         lineMaskName->clear();
         toolSaveMask->setEnabled(false);
         toolDeleteMask->setEnabled(false);
     }
-    else {
+    else
+    {
         toolSaveMask->setEnabled(true);
         toolDeleteMask->setEnabled(true);
     }
 
-    if(!labelMask->text().isEmpty() || labelArea->text() == tr("No area selected.") || thread->isRunning()) {
+    if(!labelMask->text().isEmpty() || labelArea->text() == tr("No area selected.") || thread->isRunning())
+    {
         pushSearch->setEnabled(false);
     }
-    else {
+    else
+    {
         pushSearch->setEnabled(true);
     }
 
@@ -388,11 +402,13 @@ void CMapSearchWidget::slotIndexChanged()
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     CGarminIndex * index = tdb->getSearchIndex();
 
-    if(index->created()) {
+    if(index->created())
+    {
         groupLines->setEnabled(true);
         groupPoints->setEnabled(true);
     }
-    else {
+    else
+    {
         groupLines->setEnabled(false);
         groupPoints->setEnabled(false);
     }
@@ -430,7 +446,8 @@ void CMapSearchWidget::slotLineSearchChanged()
 
     QSet<QString> results;
 
-    if(checkSearchViewport->isChecked()) {
+    if(checkSearchViewport->isChecked())
+    {
         double u = 0;
         double v = 0;
         map->convertPt2Rad(u,v);
@@ -443,12 +460,14 @@ void CMapSearchWidget::slotLineSearchChanged()
 
         index->searchPolyline(text, QRectF(p1, p2), results);
     }
-    else {
+    else
+    {
         index->searchPolyline(text, results);
     }
 
     QString result;
-    foreach(result, results) {
+    foreach(result, results)
+    {
         listResultLines->addItem(result);
     }
     listResultLines->sortItems();
@@ -477,9 +496,11 @@ void CMapSearchWidget::slotLineSelected()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QVector<CGarminPolygon> result;
 
-    foreach(item, items) {
+    foreach(item, items)
+    {
         QString text = item->text();
-        if(checkSearchViewport->isChecked()) {
+        if(checkSearchViewport->isChecked())
+        {
             double u = 0;
             double v = 0;
             map->convertPt2Rad(u,v);
@@ -492,7 +513,8 @@ void CMapSearchWidget::slotLineSelected()
 
             index->searchPolyline(text, QRectF(p1, p2), result);
         }
-        else {
+        else
+        {
             index->searchPolyline(text, result);
         }
     }
@@ -528,7 +550,8 @@ void CMapSearchWidget::slotPointSearchChanged()
     CGarminIndex * index = tdb->getSearchIndex();
 
     QSet<QString> results;
-    if(checkSearchViewport->isChecked()) {
+    if(checkSearchViewport->isChecked())
+    {
         double u = 0;
         double v = 0;
         map->convertPt2Rad(u,v);
@@ -541,12 +564,14 @@ void CMapSearchWidget::slotPointSearchChanged()
 
         index->searchPoint(text, QRectF(p1, p2), results);
     }
-    else {
+    else
+    {
         index->searchPoint(text, results);
     }
 
     QString result;
-    foreach(result, results) {
+    foreach(result, results)
+    {
         listResultPoints->addItem(result);
     }
     listResultPoints->sortItems();
@@ -574,9 +599,11 @@ void CMapSearchWidget::slotPointSelected()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QVector<CGarminPoint> result;
 
-    foreach(item, items) {
+    foreach(item, items)
+    {
         QString text = item->text();
-        if(checkSearchViewport->isChecked()) {
+        if(checkSearchViewport->isChecked())
+        {
             double u = 0;
             double v = 0;
             map->convertPt2Rad(u,v);
@@ -589,7 +616,8 @@ void CMapSearchWidget::slotPointSelected()
 
             index->searchPoint(text, QRectF(p1, p2), result);
         }
-        else {
+        else
+        {
             index->searchPoint(text, result);
         }
     }

@@ -38,10 +38,12 @@ bool TcxReader::read(QString path)
 {
     QFile file(path);
     qDebug() << path;
-    if (file.open(QIODevice::ReadOnly)) {
+    if (file.open(QIODevice::ReadOnly))
+    {
         return read(&file);
     }
-    else {
+    else
+    {
         raiseError(QObject::tr("Error open file '%1': %2").arg(path).arg(
             file.errorString()));
     }
@@ -55,9 +57,11 @@ bool TcxReader::read(QIODevice *device)
 
     setDevice(device);
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
-        if (isStartElement()) {
+        if (isStartElement())
+        {
 
                                  // && attributes().value("xmlns") == "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")
             if (name() == "TrainingCenterDatabase")
@@ -77,7 +81,8 @@ void TcxReader::readUnknownElement()
 {
     Q_ASSERT( isStartElement());
     qDebug() << "unknown element: " << name().string();
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
@@ -93,17 +98,21 @@ void TcxReader::readTcx()
 {
     Q_ASSERT(isStartElement() && name() == "TrainingCenterDatabase");
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Activities") {
+        if (isStartElement())
+        {
+            if (name() == "Activities")
+            {
                 readActivities();
             }
-            else if (name() == "Courses") {
+            else if (name() == "Courses")
+            {
                 readCourses();
             }
             /*			else if (name() == "Author")
@@ -122,14 +131,17 @@ void TcxReader::readCourses()
 {
     Q_ASSERT(isStartElement() && name() == "Courses");
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Course") {
+        if (isStartElement())
+        {
+            if (name() == "Course")
+            {
                 readCourse();
             }
             /*      else if (name() == "Author")
@@ -150,29 +162,35 @@ void TcxReader::readCourse()
 
     CTrack *track = new CTrack(parent);
     //track->setTraineeData();
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Name") {
+        if (isStartElement())
+        {
+            if (name() == "Name")
+            {
                 track->setName(readElementText());
             }
-            else if (name() == "Track") {
+            else if (name() == "Track")
+            {
                 readTrack(track,1);
             }
             else
                 readUnknownElement();
         }
     }
-    if (track->getTrackPoints().count() > 0) {
+    if (track->getTrackPoints().count() > 0)
+    {
         track->rebuild(true);
         track->sortByTimestamp();
         CTrackDB::self().addTrack(track, false);
     }
-    else {
+    else
+    {
         delete track;
     }
 }
@@ -182,14 +200,17 @@ void TcxReader::readActivities()
 {
     Q_ASSERT(isStartElement() && name() == "Activities");
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Activity") {
+        if (isStartElement())
+        {
+            if (name() == "Activity")
+            {
                 readActivity();
             }
             /*			else if (name() == "Author")
@@ -210,29 +231,35 @@ void TcxReader::readActivity()
 
     CTrack *track = new CTrack(parent);
     track->setTraineeData();
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Id") {
+        if (isStartElement())
+        {
+            if (name() == "Id")
+            {
                 track->setName(readElementText());
             }
-            else if (name() == "Lap") {
+            else if (name() == "Lap")
+            {
                 readLap(track);
             }
             else
                 readUnknownElement();
         }
     }
-    if (track->getTrackPoints().count() > 0) {
+    if (track->getTrackPoints().count() > 0)
+    {
         track->rebuild(true);
         track->sortByTimestamp();
         CTrackDB::self().addTrack(track, false);
     }
-    else {
+    else
+    {
         delete track;
     }
 }
@@ -243,14 +270,17 @@ void TcxReader::readLap(CTrack *track)
     Q_ASSERT(isStartElement() && name() == "Lap");
 
     int lap = 1;
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Track") {
+        if (isStartElement())
+        {
+            if (name() == "Track")
+            {
                 readTrack(track, lap);
             }
             else
@@ -267,14 +297,17 @@ void TcxReader::readTrack(CTrack *track, int lap)
 
     firstPositionFound = false;
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Trackpoint") {
+        if (isStartElement())
+        {
+            if (name() == "Trackpoint")
+            {
                 readTrackpoint(track, lap);
             }
             else
@@ -296,34 +329,41 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
     pt->distance = pold.distance;
     pt->heartReateBpm = pold.heartReateBpm;
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Time") {
+        if (isStartElement())
+        {
+            if (name() == "Time")
+            {
                 QDateTime time(QDateTime::fromString(readElementText(),
                     Qt::ISODate));
                 time.setTimeSpec(Qt::UTC);
                 pt->timestamp = time.toTime_t();
             }
-            else if (name() == "AltitudeMeters") {
+            else if (name() == "AltitudeMeters")
+            {
                 pt->ele = readElementText().toDouble();
                 pold.ele = pt->ele;
             }
-            else if (name() == "DistanceMeters") {
+            else if (name() == "DistanceMeters")
+            {
                 pt->distance = readElementText().toDouble();
                 pold.distance = pt->distance;
             }
-            else if (name() == "Position") {
+            else if (name() == "Position")
+            {
                 readPosition(pt);
                 pold.lat = pt->lat;
                 pold.lon = pt->lon;
                 firstPositionFound = true;
             }
-            else if (name() == "HeartRateBpm") {
+            else if (name() == "HeartRateBpm")
+            {
                 readHeartRateBpm(pt);
                 pold.heartReateBpm  = pt->heartReateBpm;
             }
@@ -331,7 +371,8 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
                 readUnknownElement();
         }
     }
-    if (firstPositionFound) {
+    if (firstPositionFound)
+    {
         *track << *pt;
     }
 }
@@ -341,14 +382,17 @@ void TcxReader::readHeartRateBpm(CTrack::pt_t *pt)
 {
     Q_ASSERT(isStartElement() && name() == "HeartRateBpm");
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
-            if (name() == "Value") {
+        if (isStartElement())
+        {
+            if (name() == "Value")
+            {
                 pt->heartReateBpm = readElementText().toInt();
             }
             else
@@ -362,13 +406,15 @@ void TcxReader::readPosition(CTrack::pt_t *pt)
 {
     Q_ASSERT(isStartElement() && name() == "Position");
 
-    while (!atEnd()) {
+    while (!atEnd())
+    {
         readNext();
 
         if (isEndElement())
             break;
 
-        if (isStartElement()) {
+        if (isStartElement())
+        {
             if (name() == "LatitudeDegrees")
                 pt->lat = readElementText().toDouble();
             else if (name() == "LongitudeDegrees")

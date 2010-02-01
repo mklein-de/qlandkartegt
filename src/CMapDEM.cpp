@@ -41,14 +41,16 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 , old_overlay(IMap::eNone)
 {
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
-    if(dataset == 0) {
+    if(dataset == 0)
+    {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    if(pBand == 0) {
+    if(pBand == 0)
+    {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
@@ -73,7 +75,8 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    if (strProj.contains("longlat")) {
+    if (strProj.contains("longlat"))
+    {
         xref1   = adfGeoTransform[0] * DEG_TO_RAD;
         yref1   = adfGeoTransform[3] * DEG_TO_RAD;
 
@@ -81,7 +84,8 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
     }
-    else {
+    else
+    {
         xref1   = adfGeoTransform[0];
         yref1   = adfGeoTransform[3];
 
@@ -94,15 +98,18 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     //     qDebug() << xref1 << yref1 << xref2 << yref2 << xscale << yscale;
 
     int i;
-    for(i = 0; i < 256; ++i) {
+    for(i = 0; i < 256; ++i)
+    {
         graytable2 << qRgba(0,0,0,i);
     }
 
-    for(i = 0; i < 128; ++i) {
+    for(i = 0; i < 128; ++i)
+    {
         graytable1 << qRgba(0,0,0,(128 - i)/* << 1*/);
     }
 
-    for(i = 128; i < 255; ++i) {
+    for(i = 128; i < 255; ++i)
+    {
         graytable1 << qRgba(255,255,255,(i - 128)/* << 1*/);
     }
 
@@ -208,7 +215,8 @@ qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
     qint16 * pData = new qint16[w*h];
 
     CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, pData, w, h, GDT_Int16, 1, 0, 0, 0, 0);
-    if(err == CE_Failure) {
+    if(err == CE_Failure)
+    {
         qDebug() << "failure" << endl;
         //FIXME add handle error
         delete [] pData;
@@ -258,7 +266,8 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     qint16 * pData = _tmp_.data();
 
     CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, pData, w1, h1, GDT_Int16, 1, 0, 0, 0, 0);
-    if(err == CE_Failure) {
+    if(err == CE_Failure)
+    {
         qDebug() << "failure" << endl;
         //FIXME add handle error
         return;
@@ -274,12 +283,14 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     qint32 yi;
 
     yf = yoff1_f - yoff1;
-    for(int j = 0; j < h; ++j, yf += ystep) {
+    for(int j = 0; j < h; ++j, yf += ystep)
+    {
         yi = floor(yf);
         y  = yf - yi;
 
         xf = xoff1_f - xoff1;
-        for(int i = 0; i < w; ++i, xf += xstep) {
+        for(int i = 0; i < w; ++i, xf += xstep)
+        {
             xi = floor(xf);
             x  = xf - xi;
 
@@ -323,7 +334,8 @@ float CMapDEM::getElevation(double lon, double lat)
     //     qDebug() << xoff << yoff << x << y;
 
     CPLErr err = dataset->RasterIO(GF_Read, floor(xoff), floor(yoff), 2, 2, &e, 2, 2, GDT_Int16, 1, 0, 0, 0, 0);
-    if(err == CE_Failure) {
+    if(err == CE_Failure)
+    {
         return WPT_NOFLOAT;
     }
 
@@ -352,7 +364,8 @@ void CMapDEM::draw()
 {
 
     IMap::overlay_e overlay = status->getOverlayType();
-    if(overlay == IMap::eNone) {
+    if(overlay == IMap::eNone)
+    {
         old_overlay = overlay;
         buffer.fill(Qt::transparent);
         return;
@@ -370,7 +383,8 @@ void CMapDEM::draw()
         && p1.u == old_p1.u && p1.v == old_p1.v
         && p2.u == old_p2.u && p2.v == old_p2.v
         && my_xscale == old_my_xscale && my_yscale == old_my_yscale
-    ) {
+        )
+    {
         return;
     }
 
@@ -446,19 +460,23 @@ void CMapDEM::draw()
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
     CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data.data(), w1, h1, GDT_Int16, 0, 0);
-    if(err == CE_Failure) {
+    if(err == CE_Failure)
+    {
         return;
     }
 
     QImage img(w1,h1,QImage::Format_Indexed8);
 
-    if(overlay == IMap::eShading) {
+    if(overlay == IMap::eShading)
+    {
         shading(img,data.data(), my_xscale, my_yscale);
     }
-    else if(overlay == IMap::eContour) {
+    else if(overlay == IMap::eContour)
+    {
         contour(img,data.data(), my_xscale, my_yscale);
     }
-    else {
+    else
+    {
         qWarning() << "Unknown shading type";
         return;
     }
@@ -481,7 +499,8 @@ void CMapDEM::shading(QImage& img, qint16 * data, float /*xscale*/, float /*ysca
     float max = -32768;
     float ele;
 
-    for(i = 0; i < (w1 * h1); i++) {
+    for(i = 0; i < (w1 * h1); i++)
+    {
         ele = data[i];
         if(ele < 0) continue;
         if(ele < min) min = ele;
@@ -497,7 +516,8 @@ void CMapDEM::shading(QImage& img, qint16 * data, float /*xscale*/, float /*ysca
     int f = (max -min);
     f = f ? f : 1;
 
-    for(i = 0; i < ((w1 * h1) - 1); i++) {
+    for(i = 0; i < ((w1 * h1) - 1); i++)
+    {
         *pixel = ((data[i] - min) * 150 / f);
         ++pixel;
     }
@@ -514,8 +534,10 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
     int idx  = 0;
     float min  =  32768;
     float max  = -32768;
-    for(r = 0; r < (h1 - 1); ++r) {
-        for(c = 0; c < (w1 - 1); ++c) {
+    for(r = 0; r < (h1 - 1); ++r)
+    {
+        for(c = 0; c < (w1 - 1); ++c)
+        {
             diff  = data[idx +  1    ] - data[idx];
             diff += data[idx + w1    ] - data[idx];
             diff += data[idx + w1 + 1] - data[idx];
@@ -528,11 +550,13 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
 
     //     qDebug() << min << max;
 
-    for(c = 0; c < w1; ++c) {
+    for(c = 0; c < w1; ++c)
+    {
         data[idx++] = 0;
     }
     float f = 30;
-    if(xscl < 4) {
+    if(xscl < 4)
+    {
         f  = abs(min) < abs(max) ? abs(max) : abs(min);
         f /= 2;
     }
@@ -541,7 +565,8 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
     img.setColorTable(graytable1);
     uchar * pixel = img.bits();
     int val;
-    for(i = 0; i < (w1 * h1); ++i) {
+    for(i = 0; i < (w1 * h1); ++i)
+    {
         val = 128 + data[i] * 100 / f;
         if(val > 254) val = 254;
         if(val < 1  ) val = 1;

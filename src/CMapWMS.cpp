@@ -33,14 +33,16 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     filename = fn;
 
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
-    if(dataset == 0) {
+    if(dataset == 0)
+    {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
     }
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    if(pBand == 0) {
+    if(pBand == 0)
+    {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
         return;
@@ -56,7 +58,8 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     qDebug() << "WMS:" << ptr;
 
     pjsrc = pj_init_plus(ptr);
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         delete dataset; dataset = 0;
         QMessageBox::warning(0, tr("Error..."), tr("No georeference information found."));
         return;
@@ -68,14 +71,16 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    if (pj_is_latlong(pjsrc)) {
+    if (pj_is_latlong(pjsrc))
+    {
         xscale  = adfGeoTransform[1] * DEG_TO_RAD;
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
         xref1   = adfGeoTransform[0] * DEG_TO_RAD;
         yref1   = adfGeoTransform[3] * DEG_TO_RAD;
     }
-    else {
+    else
+    {
         xscale  = adfGeoTransform[1];
         yscale  = adfGeoTransform[5];
 
@@ -107,11 +112,13 @@ CMapWMS::CMapWMS(const QString& key, const QString& fn, CCanvas * parent)
     cfg.endGroup();
     cfg.endGroup();
 
-    if(pos.isEmpty()) {
+    if(pos.isEmpty())
+    {
         x = 0;
         y = 0;
     }
-    else {
+    else
+    {
         float u = 0;
         float v = 0;
         GPS_Math_Str_To_Deg(pos, u, v);
@@ -216,7 +223,8 @@ void CMapWMS::zoom(qint32& level)
     needsRedraw = true;
 
     // no level less than 1
-    if(level < 1) {
+    if(level < 1)
+    {
         zoomFactor  = 1.0 / - (level - 2);
         qDebug() << "zoom:" << zoomFactor;
         return;
@@ -283,22 +291,26 @@ void CMapWMS::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
 
-    if(needsRedraw) {
+    if(needsRedraw)
+    {
         draw();
     }
 
     QString str;
-    if(zoomFactor < 1.0) {
+    if(zoomFactor < 1.0)
+    {
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
-    else {
+    else
+    {
         str = tr("Zoom level x%1").arg(zoomidx);
     }
 
     p.drawImage(0,0,buffer);
 
     // render overlay
-    if(!ovlMap.isNull() && !doFastDraw) {
+    if(!ovlMap.isNull() && !doFastDraw)
+    {
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -332,7 +344,8 @@ void CMapWMS::draw()
 
     QVector<QRgb> graytable2;
     int i;
-    for(i = 0; i < 256; ++i) {
+    for(i = 0; i < 256; ++i)
+    {
         graytable2 << qRgb(i,i,i);
     }
 
@@ -347,7 +360,8 @@ void CMapWMS::draw()
 
     //     qDebug() << maparea << viewport << intersect;
 
-    if(intersect.isValid()) {
+    if(intersect.isValid())
+    {
 
         // x/y offset [pixel] into file matrix
         qint32 xoff = (intersect.left()   - xref1) / xscale;
@@ -366,7 +380,8 @@ void CMapWMS::draw()
 
         //         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
-        if(w != 0 && h != 0) {
+        if(w != 0 && h != 0)
+        {
 
             QImage img(QSize(w,h),QImage::Format_RGB32);
             img.fill(0);
@@ -380,20 +395,25 @@ void CMapWMS::draw()
                 ,w,h
                 ,GDT_Byte,nBands,NULL,0,0,0);
 
-            if(!err) {
+            if(!err)
+            {
                 quint8 * pR     = (quint8 *)data.data();
                 quint8 * pG     = (quint8 *)data.data() + w* h;
                 quint8 * pB     = (quint8 *)data.data() + w* h + w * h;
                 quint8 * pA     = (quint8 *)data.data() + w* h + w * h + w * h;
                 quint32 * pImg  = (quint32 *)img.bits();
 
-                if(nBands == 3) {
-                    for(i = 0; i < w*h; i++) {
+                if(nBands == 3)
+                {
+                    for(i = 0; i < w*h; i++)
+                    {
                         *pImg++ = qRgb(*pR++,*pG++,*pB++);
                     }
                 }
-                else if(nBands == 4) {
-                    for(i = 0; i < w*h; i++) {
+                else if(nBands == 4)
+                {
+                    for(i = 0; i < w*h; i++)
+                    {
                         *pImg++ = qRgba(*pR++,*pG++,*pB++,*pA++);
                     }
                 }
@@ -402,7 +422,8 @@ void CMapWMS::draw()
                 convertM2Pt(xx,yy);
                 _p_.drawImage(xx,yy,img);
             }
-            else {
+            else
+            {
                 IMap::draw();
             }
         }
@@ -420,7 +441,8 @@ void CMapWMS::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p2.u        = r.right();
     p2.v        = r.bottom();
 
-    if(!pj_is_latlong(pjsrc)) {
+    if(!pj_is_latlong(pjsrc))
+    {
         pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
         pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
     }

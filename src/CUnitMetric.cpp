@@ -40,23 +40,28 @@ void CUnitMetric::meter2elevation(float meter, QString& val, QString& unit)
 
 void CUnitMetric::meter2distance(float meter, QString& val, QString& unit)
 {
-    if(meter < 10) {
+    if(meter < 10)
+    {
         val.sprintf("%1.1f", meter);
         unit = "m";
     }
-    else if(meter < 1000) {
+    else if(meter < 1000)
+    {
         val.sprintf("%1.0f", meter);
         unit = "m";
     }
-    else if(meter < 10000) {
+    else if(meter < 10000)
+    {
         val.sprintf("%1.2f", meter / 1000);
         unit = "km";
     }
-    else if(meter < 20000) {
+    else if(meter < 20000)
+    {
         val.sprintf("%1.1f", meter / 1000);
         unit = "km";
     }
-    else {
+    else
+    {
         val.sprintf("%1.0f", meter / 1000);
         unit = "km";
     }
@@ -65,10 +70,12 @@ void CUnitMetric::meter2distance(float meter, QString& val, QString& unit)
 
 void CUnitMetric::meter2speed(float meter, QString& val, QString& unit)
 {
-    if (meter < 10.0) {
+    if (meter < 10.0)
+    {
         val.sprintf("%1.2f",meter * speedfactor);
     }
-    else {
+    else
+    {
         val.sprintf("%1.0f",meter * speedfactor);
     }
     unit = speedunit;
@@ -89,10 +96,12 @@ float CUnitMetric::str2speed(QString& str)
 
 float CUnitMetric::str2distance(QString& str)
 {
-    if(str.contains(" km")) {
+    if(str.contains(" km"))
+    {
         return (1000 * str.remove(" km").toDouble());
     }
-    else if (str.contains(" m")) {
+    else if (str.contains(" m"))
+    {
         return str.remove(" m").toDouble();
     }
     return 0;

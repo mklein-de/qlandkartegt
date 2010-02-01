@@ -42,14 +42,16 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLRte   ",9)) {
+    if(strncmp(magic,"QLRte   ",9))
+    {
         dev->seek(pos);
         return s;
     }
 
     QList<rte_head_entry_t> entries;
 
-    while(1) {
+    while(1)
+    {
         rte_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -57,12 +59,14 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
     }
 
     QList<rte_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
 
-        switch(entry->type) {
+        switch(entry->type)
+        {
             case CRoute::eBase:
             {
 
@@ -84,7 +88,8 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 route.routeDegree.clear();
                 s1 >> nRtePts;
 
-                for(n = 0; n < nRtePts; ++n) {
+                for(n = 0; n < nRtePts; ++n)
+                {
                     XY rtept;
                     float u, v;
 
@@ -136,7 +141,8 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     QList<XY>::iterator rtept   = rtepts.begin();
 
     s2 << (quint32)rtepts.size();
-    while(rtept != rtepts.end()) {
+    while(rtept != rtepts.end())
+    {
         s2 << (float)rtept->u;
         s2 << (float)rtept->v;
         ++rtept;
@@ -163,7 +169,8 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<rte_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -171,14 +178,16 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->data;
         ++entry;
     }
@@ -261,7 +270,8 @@ void CRoute::calcDistance()
 
     QList<XY>::const_iterator p1 = routeDegree.begin();
     QList<XY>::const_iterator p2 = routeDegree.begin() + 1;
-    while(p2 != routeDegree.end()) {
+    while(p2 != routeDegree.end())
+    {
         pt1.u = p1->u * DEG_TO_RAD; pt1.v = p1->v * DEG_TO_RAD;
         pt2.u = p2->u * DEG_TO_RAD; pt2.v = p2->v * DEG_TO_RAD;
         dist += distance(pt1,pt2,a1,a2);
@@ -282,7 +292,8 @@ QRectF CRoute::getBoundingRectF()
     //CRoute * route = routes[key];
     QList<XY>& rtepts = getRoutePoints();
     QList<XY>::const_iterator rtept = rtepts.begin();
-    while(rtept != rtepts.end()) {
+    while(rtept != rtepts.end())
+    {
 
         if(rtept->u < west)  west  = rtept->u;
         if(rtept->u > east)  east  = rtept->u;

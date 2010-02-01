@@ -48,7 +48,8 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 {
     mousePos = e->pos();
 
-    if(moveMap) {
+    if(moveMap)
+    {
         //CMapDB::self().getMap().move(oldPoint, e->pos());
         CUndoStack::getInstance()->push(new CMapUndoCommandMove(&CMapDB::self().getMap(),oldPoint, e->pos()));
         oldPoint = e->pos();
@@ -64,21 +65,26 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton)
+    {
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(!selWpt.isNull()) {
+        if(!selWpt.isNull())
+        {
             CWptDB::self().selWptByKey(selWpt->key());
             mousePressEventWpt(e);
         }
-        else if(track && selTrkPt) {
+        else if(track && selTrkPt)
+        {
             track->setPointOfFocus(selTrkPt->idx);
         }
-        else if(!selSearch.isNull()) {
+        else if(!selSearch.isNull())
+        {
             mousePressEventSearch(e);
         }
-        else {
+        else
+        {
             CUndoStack::getInstance()->beginMacro(tr("Move map"));
             cursor = QCursor(QPixmap(":/cursors/cursorMove"));
             QApplication::setOverrideCursor(cursor);
@@ -86,7 +92,8 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
             oldPoint    = e->pos();
         }
     }
-    else if(e->button() == Qt::RightButton) {
+    else if(e->button() == Qt::RightButton)
+    {
         canvas->raiseContextMenu(e->pos());
     }
 }
@@ -94,7 +101,8 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
 void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(moveMap && (e->button() == Qt::LeftButton)) {
+    if(moveMap && (e->button() == Qt::LeftButton))
+    {
         CUndoStack::getInstance()->endMacro();
         moveMap = false;
         cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
@@ -116,21 +124,25 @@ void CMouseMoveMap::draw(QPainter& p)
 
 void CMouseMoveMap::contextMenu(QMenu& menu)
 {
-    if(!selWpt.isNull()) {
+    if(!selWpt.isNull())
+    {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint ..."),this,SLOT(slotEditWpt()));
-        if(!selWpt->sticky) {
+        if(!selWpt->sticky)
+        {
             menu.addAction(QPixmap(":/icons/iconWptMove16x16.png"),tr("Move Waypoint"),this,SLOT(slotMoveWpt()));
             menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
     }
-    else {
+    else
+    {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     }
 
-    if(selTrkPt) {
+    if(selTrkPt)
+    {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
@@ -220,7 +232,8 @@ void CMouseMoveMap::slotEditTrack()
     if(toolview) toolview->slotEdit();
 
     CTrack * track = CTrackDB::self().highlightedTrack();
-    if(track) {
+    if(track)
+    {
         track->setPointOfFocus(selTrkPt->idx);
     }
 }

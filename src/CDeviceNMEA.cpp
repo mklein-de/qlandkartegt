@@ -53,18 +53,21 @@ CDeviceNMEA::~CDeviceNMEA()
 void CDeviceNMEA::setLiveLog(bool on)
 {
     qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
-    if(on) {
+    if(on)
+    {
         log.fix = CLiveLog::eNoFix;
         emit sigLiveLog(log);
 
-        if(tty.open()) {
+        if(tty.open())
+        {
             tty.receiveData();
         }
         watchdog->start(10000);
         haveSeenData    = false;
         haveSeenGPVTG   = false;
     }
-    else {
+    else
+    {
         tty.close();
         log.fix = CLiveLog::eOff;
         emit sigLiveLog(log);
@@ -82,13 +85,16 @@ void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
 {
     int i;
 
-    for(i = 0; i < dataReceived.size(); ++i) {
+    for(i = 0; i < dataReceived.size(); ++i)
+    {
 
-        if(dataReceived[i] == '\n') {
+        if(dataReceived[i] == '\n')
+        {
             line = line.trimmed();
             decode();
         }
-        else {
+        else
+        {
             line += dataReceived[i];
         }
     }
@@ -101,14 +107,16 @@ void CDeviceNMEA::decode()
     QStringList tokens = line.split(QRegExp("[,*]"));
     //     qDebug() << line;
     //     qDebug() << tokens.count() << tokens;
-    if((tokens[0] == "$GPGGA")) {
+    if((tokens[0] == "$GPGGA"))
+    {
         //             0      1                  2       3         4        5    6     7     8       9     10    11     12   13    14
         //     15 ("$GPGGA", "130108.000", "4901.7451", "N", "01205.8656", "E", "1", "06", "1.8", "331.6", "M", "47.3", "M", "", "0000*5F")
         //         qDebug() << tokens.count() << tokens;
         log.ele = tokens[9].toDouble();
 
     }
-    else if((tokens[0] == "$GPGSA")) {
+    else if((tokens[0] == "$GPGSA"))
+    {
         //             0      1    2     3    4      5     6     7    8   9  10  11  12  13  14    15    16     17
         //     18 ("$GPGSA", "A", "3", "11", "23", "13", "04", "17", "", "", "", "", "", "", "", "3.5", "2.2", "2.6*31")
         //         qDebug() << tokens.count() << tokens;
@@ -118,7 +126,8 @@ void CDeviceNMEA::decode()
         log.error_vert = tokens[17].toDouble();
         //         qDebug() << (hdop * 3);
     }
-    else if((tokens[0] == "$GPRMC")) {
+    else if((tokens[0] == "$GPRMC"))
+    {
         //         13 ("$GPRMC", "122450.539", "V", "4901.6288", "N", "01205.5946", "E", "", "", "030408", "", "", "N*76")
         //            ("$GPRMC", "183956.648", "A", "4341.0506", "N", "00407.7897", "E", "3.81", "186.84", "060408", "", "", "A", "64")
         //         qDebug() << tokens.count() << tokens[1] << tokens[9];
@@ -138,11 +147,13 @@ void CDeviceNMEA::decode()
         log.heading  = 0;
 
         //         calcSecondaryData();
-        if(!haveSeenGPVTG) {
+        if(!haveSeenGPVTG)
+        {
             emit sigLiveLog(log);
         }
     }
-    else if((tokens[0] == "$GPVTG")) {
+    else if((tokens[0] == "$GPVTG"))
+    {
         //                  0        1       2    3   4      5     6      7     8    9
         //          11 ("$GPVTG", "357.22", "T", "", "M", "0.09", "N", "0.16", "K", "A", "32")
 
@@ -161,7 +172,8 @@ void CDeviceNMEA::decode()
 
 void CDeviceNMEA::slotWatchdog()
 {
-    if(tty.isOpen() && haveSeenData) {
+    if(tty.isOpen() && haveSeenData)
+    {
         haveSeenData = false;
         return;
     }

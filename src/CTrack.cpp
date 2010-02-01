@@ -48,14 +48,16 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLTrk   ",9)) {
+    if(strncmp(magic,"QLTrk   ",9))
+    {
         dev->seek(pos);
         return s;
     }
 
     QList<trk_head_entry_t> entries;
 
-    while(1) {
+    while(1)
+    {
         trk_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -63,12 +65,14 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
     }
 
     QList<trk_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
 
-        switch(entry->type) {
+        switch(entry->type)
+        {
             case CTrack::eBase:
             {
 
@@ -93,7 +97,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 track.track.clear();
                 s1 >> nTrkPts;
 
-                for(n = 0; n < nTrkPts; ++n) {
+                for(n = 0; n < nTrkPts; ++n)
+                {
                     CTrack::pt_t trkpt;
                     s1 >> trkpt.lon;
                     s1 >> trkpt.lat;
@@ -112,13 +117,15 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 quint32 nTrkPts1 = 0;
 
                 s1 >> nTrkPts1;
-                if(nTrkPts1 != nTrkPts) {
+                if(nTrkPts1 != nTrkPts)
+                {
                     QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of training data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
                     break;
                 }
 
                 QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
-                while (pt1 != track.track.end()) {
+                while (pt1 != track.track.end())
+                {
                     s1 >> pt1->heartReateBpm;
                     s1 >> pt1->cadenceRpm;
                     pt1++;
@@ -133,13 +140,15 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 quint32 nTrkPts1 = 0;
 
                 s1 >> nTrkPts1;
-                if(nTrkPts1 != nTrkPts) {
+                if(nTrkPts1 != nTrkPts)
+                {
                     QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of extended data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
                     break;
                 }
 
                 QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
-                while (pt1 != track.track.end()) {
+                while (pt1 != track.track.end())
+                {
                                  ///< [m]
                     s1 >> pt1->altitude;
                                  ///< [m]
@@ -211,7 +220,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
 
     s2 << (quint32)trkpts.size();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         s2 << trkpt->lon;
         s2 << trkpt->lat;
         s2 << trkpt->ele;
@@ -225,7 +235,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     //---------------------------------------
     // prepare trainings data
     //---------------------------------------
-    if(track.traineeData) {
+    if(track.traineeData)
+    {
         trk_head_entry_t entryTrainPts;
         entryTrainPts.type = CTrack::eTrain;
         QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
@@ -233,7 +244,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         trkpt = trkpts.begin();
 
         s3 << (quint32)trkpts.size();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
             s3 << trkpt->heartReateBpm;
             s3 << trkpt->cadenceRpm;
             ++trkpt;
@@ -244,7 +256,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     //---------------------------------------
     // prepare extended trackpoint data 1
     //---------------------------------------
-    if(track.ext1Data) {
+    if(track.ext1Data)
+    {
         trk_head_entry_t entryTrkExt1;
         entryTrkExt1.type = CTrack::eTrkExt1;
         QDataStream s4(&entryTrkExt1.data, QIODevice::WriteOnly);
@@ -252,7 +265,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         trkpt = trkpts.begin();
 
         s4 << (quint32)trkpts.size();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
                                  ///< [m]
             s4 << trkpt->altitude;
             s4 << trkpt->height; ///< [m]
@@ -296,7 +310,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<trk_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -304,14 +319,16 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->data;
         ++entry;
     }
@@ -435,8 +452,10 @@ QRectF CTrack::getBoundingRectF()
     //CTrack * track = tracks[key];
     QList<CTrack::pt_t>& trkpts = getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(!(trkpt->flags & CTrack::pt_t::eDeleted)) {
+    while(trkpt != trkpts.end())
+    {
+        if(!(trkpt->flags & CTrack::pt_t::eDeleted))
+        {
             if(trkpt->lon < west)  west  = trkpt->lon;
             if(trkpt->lon > east)  east  = trkpt->lon;
             if(trkpt->lat < south) south = trkpt->lat;
@@ -516,9 +535,11 @@ void CTrack::rebuild(bool reindex)
     avgspeed1       = 0;
 
     // reindex track if desired
-    if(reindex) {
+    if(reindex)
+    {
         quint32 idx = 0;
-        while(pt1 != track.end()) {
+        while(pt1 != track.end())
+        {
             pt1->idx = idx++;
             pt1->flags.setChanged(true);
             ++pt1;
@@ -527,7 +548,8 @@ void CTrack::rebuild(bool reindex)
     }
 
     // skip leading deleted points
-    while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted)) {
+    while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted))
+    {
         pt1->azimuth    = 0;
         pt1->delta      = 0;
         pt1->speed      = -1;
@@ -538,7 +560,8 @@ void CTrack::rebuild(bool reindex)
     }
 
     // no points at all?
-    if(pt1 == track.end()) {
+    if(pt1 == track.end())
+    {
         emit sigChanged();
         return;
     }
@@ -554,10 +577,12 @@ void CTrack::rebuild(bool reindex)
     t1              = pt1->timestamp;
 
     // process track
-    while(++pt2 != track.end()) {
+    while(++pt2 != track.end())
+    {
 
         // reset deleted points
-        if(pt2->flags & pt_t::eDeleted) {
+        if(pt2->flags & pt_t::eDeleted)
+        {
             pt2->azimuth    = WPT_NOFLOAT;
             pt2->delta      = 0;
             pt2->speed      = -1;
@@ -568,7 +593,8 @@ void CTrack::rebuild(bool reindex)
         }
 
         int dt = -1;
-        if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF) {
+        if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF)
+        {
             dt = pt2->timestamp - pt1->timestamp;
         }
 
@@ -586,19 +612,23 @@ void CTrack::rebuild(bool reindex)
         if (qAbs(pt2->slope )>100)
             pt2->slope = pt1->slope;
         // qDebug() << slope << pt2->delta << pt2->slope;
-        if(slope > 0) {
+        if(slope > 0)
+        {
             totalAscend  += slope;
         }
-        else {
+        else
+        {
             totalDescend += slope;
         }
         pt2->ascend     = totalAscend;
         pt2->descend    = totalDescend;
-        if(ext1Data && pt2->velocity != WPT_NOFLOAT) {
+        if(ext1Data && pt2->velocity != WPT_NOFLOAT)
+        {
             pt2->speed  =  pt2->velocity;
             //             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
         }
-        else {
+        else
+        {
             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
         }
         pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);
@@ -625,11 +655,13 @@ void CTrack::setPointOfFocus(int idx)
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         trkpt->flags &= ~CTrack::pt_t::eFocus;
         ++trkpt;
     }
-    if(idx < track.count()) {
+    if(idx < track.count())
+    {
         trkpts[idx].flags |= CTrack::pt_t::eFocus;
         trkpts[idx].flags |= CTrack::pt_t::eSelected;
     }
@@ -641,8 +673,10 @@ QDateTime CTrack::getStartTimestamp()
 {
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & pt_t::eDeleted)
+        {
             ++trkpt;
             continue;
         }
@@ -656,8 +690,10 @@ QDateTime CTrack::getEndTimestamp()
 {
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.end() - 1;
-    while(trkpt != trkpts.begin()) {
-        if(trkpt->flags & pt_t::eDeleted) {
+    while(trkpt != trkpts.begin())
+    {
+        if(trkpt->flags & pt_t::eDeleted)
+        {
             --trkpt;
             continue;
         }

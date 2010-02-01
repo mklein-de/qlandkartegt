@@ -88,7 +88,8 @@ void CSearchDB::slotSetupLink()
 
     if(google) delete google;
     google = new QHttp(this);
-    if(enableProxy) {
+    if(enableProxy)
+    {
         google->setProxy(url,port);
     }
     google->setHost("maps.google.com");
@@ -107,7 +108,8 @@ void CSearchDB::slotRequestFinished(int , bool error)
 {
     QApplication::restoreOverrideCursor();
 
-    if(error) {
+    if(error)
+    {
         emit sigStatus(google->errorString());
 
     }
@@ -115,17 +117,20 @@ void CSearchDB::slotRequestFinished(int , bool error)
     QString asw = google->readAll();
     asw = asw.simplified();
 
-    if(asw.isEmpty()) {
+    if(asw.isEmpty())
+    {
         emit sigFinished();
         return;
     }
 
     QStringList values = asw.split(",");
 
-    if(values.count() != 4) {
+    if(values.count() != 4)
+    {
         emit sigStatus(tr("Bad number of return paramters"));
     }
-    else if(values[0] == "200") {
+    else if(values[0] == "200")
+    {
 
         tmpResult.lat = values[2].toDouble();
         tmpResult.lon = values[3].toDouble();
@@ -141,22 +146,28 @@ void CSearchDB::slotRequestFinished(int , bool error)
 
         emit sigStatus(tr("Success."));
     }
-    else if(values[0] == "500") {
+    else if(values[0] == "500")
+    {
         emit sigStatus(tr("Failed. Reason unknown."));
     }
-    else if(values[0] == "601") {
+    else if(values[0] == "601")
+    {
         emit sigStatus(tr("Failed. Missing query string."));
     }
-    else if(values[0] == "602") {
+    else if(values[0] == "602")
+    {
         emit sigStatus(tr("Failed. No location found."));
     }
-    else if(values[0] == "603") {
+    else if(values[0] == "603")
+    {
         emit sigStatus(tr("Failed. No location because of legal matters."));
     }
-    else if(values[0] == "610") {
+    else if(values[0] == "610")
+    {
         emit sigStatus(tr("Failed. Bad API key."));
     }
-    else {
+    else
+    {
         emit sigStatus(asw);
     }
 
@@ -178,12 +189,14 @@ void CSearchDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     IMap& map = CMapDB::self().getMap();
 
     QMap<QString,CSearch*>::const_iterator result = results.begin();
-    while(result != results.end()) {
+    while(result != results.end())
+    {
         double u = (*result)->lon * DEG_TO_RAD;
         double v = (*result)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(rect.contains(QPoint(u,v))) {
+        if(rect.contains(QPoint(u,v)))
+        {
             p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
             CCanvas::drawText((*result)->query, p, QPoint(u, v - 10));
         }
@@ -197,7 +210,8 @@ void CSearchDB::delResults(const QStringList& keys)
 {
 
     QString key;
-    foreach(key, keys) {
+    foreach(key, keys)
+    {
         results.remove(key);
     }
 

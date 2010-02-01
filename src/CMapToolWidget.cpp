@@ -86,12 +86,15 @@ void CMapToolWidget::slotDBChanged()
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
     {
         QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
-        while(map != knownMaps.end()) {
+        while(map != knownMaps.end())
+        {
             QTreeWidgetItem * item;
-            if(map->type == IMap::eGarmin) {
+            if(map->type == IMap::eGarmin)
+            {
                 item = new QTreeWidgetItem(treeKnownMapsVector);
             }
-            else {
+            else
+            {
                 item = new QTreeWidgetItem(treeKnownMapsRaster);
             }
 
@@ -101,20 +104,24 @@ void CMapToolWidget::slotDBChanged()
             item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : map->type == IMap::eTile ? QIcon(":/icons/iconTile16x16") : QIcon(":/icons/iconUnknown16x16"));
             item->setData(eType, Qt::UserRole, map->type);
 
-            if(map.key() == key) {
+            if(map.key() == key)
+            {
                 selected = item;
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
                 item->setData(eMode, Qt::UserRole, eSelected);
             }
-            else if(basemap.hasOverlayMap(map.key())) {
+            else if(basemap.hasOverlayMap(map.key()))
+            {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlayActive);
             }
-            else if(map->type == IMap::eGarmin) {
+            else if(map->type == IMap::eGarmin)
+            {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16")));
                 item->setData(eMode, Qt::UserRole, eOverlay);
             }
-            else {
+            else
+            {
                 item->setData(eMode, Qt::UserRole, eNoMode);
             }
             ++map;
@@ -123,12 +130,15 @@ void CMapToolWidget::slotDBChanged()
     treeKnownMapsVector->sortItems(eName, Qt::AscendingOrder);
     treeKnownMapsRaster->sortItems(eName, Qt::AscendingOrder);
 
-    if(selected) {
-        if(selected->data(eType, Qt::UserRole) == IMap::eGarmin) {
+    if(selected)
+    {
+        if(selected->data(eType, Qt::UserRole) == IMap::eGarmin)
+        {
             treeKnownMapsVector->setCurrentItem(selected);
             tabWidget->setCurrentIndex(1);
         }
-        else {
+        else
+        {
             treeKnownMapsRaster->setCurrentItem(selected);
             tabWidget->setCurrentIndex(0);
         }
@@ -136,12 +146,14 @@ void CMapToolWidget::slotDBChanged()
 
     // adjust column sizes to fit
     treeKnownMapsVector->header()->setResizeMode(0,QHeaderView::Interactive);
-    for(int i=0; i < eMaxColumn - 1; ++i) {
+    for(int i=0; i < eMaxColumn - 1; ++i)
+    {
         treeKnownMapsVector->resizeColumnToContents(i);
     }
 
     treeKnownMapsRaster->header()->setResizeMode(0,QHeaderView::Interactive);
-    for(int i=0; i < eMaxColumn - 1; ++i) {
+    for(int i=0; i < eMaxColumn - 1; ++i)
+    {
         treeKnownMapsRaster->resizeColumnToContents(i);
     }
 
@@ -150,7 +162,8 @@ void CMapToolWidget::slotDBChanged()
     {
         QListWidgetItem * selected = 0;
         QMap<QString,IMapSelection*>::const_iterator map = selectedMaps.begin();
-        while(map != selectedMaps.end()) {
+        while(map != selectedMaps.end())
+        {
             QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
 
             item->setText((*map)->description);
@@ -176,13 +189,16 @@ void CMapToolWidget::slotKnownMapDoubleClicked(QTreeWidgetItem* item, int)
 
 void CMapToolWidget::slotKnownMapClicked(QTreeWidgetItem* item, int c)
 {
-    if(c == eMode) {
+    if(c == eMode)
+    {
         QString key = item->data(eName, Qt::UserRole).toString();
 
-        if(item->data(eMode, Qt::UserRole).toInt() == eOverlay) {
+        if(item->data(eMode, Qt::UserRole).toInt() == eOverlay)
+        {
             CMapDB::self().getMap().addOverlayMap(key);
         }
-        else if(item->data(eMode, Qt::UserRole).toInt() == eOverlayActive) {
+        else if(item->data(eMode, Qt::UserRole).toInt() == eOverlayActive)
+        {
             CMapDB::self().getMap().delOverlayMap(key);
         }
 
@@ -196,7 +212,8 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
     QString key = item->data(Qt::UserRole).toString();
 
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
-    if(selectedMaps.contains(key)) {
+    if(selectedMaps.contains(key))
+    {
         const IMapSelection * ms = selectedMaps[key];
 
         CMapDB::self().getMap().zoom(ms->lon1, ms->lat1, ms->lon2, ms->lat2);
@@ -209,31 +226,38 @@ void CMapToolWidget::slotSelectedMapClicked(QListWidgetItem* item)
 void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 {
     QTreeWidgetItem * item      = 0;
-    if(sender() == treeKnownMapsRaster) {
+    if(sender() == treeKnownMapsRaster)
+    {
         item = treeKnownMapsRaster->currentItem();
         lastTreeWidget = treeKnownMapsRaster;
     }
-    if(sender() == treeKnownMapsVector) {
+    if(sender() == treeKnownMapsVector)
+    {
         item = treeKnownMapsVector->currentItem();
         lastTreeWidget = treeKnownMapsVector;
     }
 
-    if(item) {
+    if(item)
+    {
         IMap& dem = CMapDB::self().getDEM();
 
-        if(item->data(eMode, Qt::UserRole).toInt() == eSelected) {
+        if(item->data(eMode, Qt::UserRole).toInt() == eSelected)
+        {
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             actDelMap->setEnabled(false);
             int mapType = item->data(eType, Qt::UserRole).toInt();
-            if(mapType == IMap::eGarmin || mapType == IMap::eTile) {
+            if(mapType == IMap::eGarmin || mapType == IMap::eTile)
+            {
                 actCfgMap->setEnabled(true);
             }
-            else {
+            else
+            {
                 actCfgMap->setEnabled(false);
             }
         }
-        else {
+        else
+        {
             actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
             actDelMap->setEnabled(true);
@@ -248,7 +272,8 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
 
 void CMapToolWidget::slotContextMenuSelectedMaps(const QPoint& pos)
 {
-    if(listSelectedMaps->currentItem()) {
+    if(listSelectedMaps->currentItem())
+    {
         QPoint p = listSelectedMaps->mapToGlobal(pos);
         contextMenuSelectedMaps->exec(p);
     }
@@ -261,9 +286,11 @@ void CMapToolWidget::slotDeleteKnownMap()
     QTreeWidgetItem * item;
     QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
 
-    if(lastTreeWidget) {
+    if(lastTreeWidget)
+    {
         const QList<QTreeWidgetItem*>& items = lastTreeWidget->selectedItems();
-        foreach(item,items) {
+        foreach(item,items)
+        {
             keys << item->data(eName, Qt::UserRole).toString();
             delete item;
         }
@@ -277,7 +304,8 @@ void CMapToolWidget::slotDeleteSelectedMap()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listSelectedMaps->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
@@ -291,7 +319,8 @@ void CMapToolWidget::slotSelectMap(QListWidgetItem* item)
 {
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     QString key = item->data(Qt::UserRole).toString();
-    if(selectedMaps.contains(key)) {
+    if(selectedMaps.contains(key))
+    {
         IMapSelection::focusedMap = key;
         theMainWindow->getCanvas()->update();
     }
@@ -316,11 +345,13 @@ void CMapToolWidget::slotExportMap()
 
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
     const IMapSelection * ms = selectedMaps[key];
-    if(ms->type == IMapSelection::eRaster) {
+    if(ms->type == IMapSelection::eRaster)
+    {
         bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
         bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
         bool haveGDAL = haveGDALWarp && haveGDALTranslate;
-        if(!haveGDAL) {
+        if(!haveGDAL)
+        {
             QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);
             return;
         }
@@ -328,7 +359,8 @@ void CMapToolWidget::slotExportMap()
         CMapQMAPExport dlg((CMapSelectionRaster&)*ms,this);
         dlg.exec();
     }
-    if(ms->type == IMapSelection::eGarmin) {
+    if(ms->type == IMapSelection::eGarmin)
+    {
         CGarminExport dlg(this);
         dlg.exportToFile((CMapSelectionGarmin&)*ms);
     }
@@ -354,7 +386,8 @@ void CMapToolWidget::slotAddDEM()
 void CMapToolWidget::slotDelDEM()
 {
     IMap& dem = CMapDB::self().getDEM();
-    if(dem.maptype == IMap::eDEM) {
+    if(dem.maptype == IMap::eDEM)
+    {
         QSettings cfg;
         cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
         dem.deleteLater();

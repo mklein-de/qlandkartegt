@@ -80,23 +80,27 @@ int CDlgEditWpt::exec()
     oldLat = wpt.lat;
 
     //TODO: that has to be metric/imperial
-    if(wpt.ele != WPT_NOFLOAT) {
+    if(wpt.ele != WPT_NOFLOAT)
+    {
         IUnit::self().meter2elevation(wpt.ele, val, unit);
         lineAltitude->setText(val);
     }
-    if(wpt.prx != WPT_NOFLOAT) {
+    if(wpt.prx != WPT_NOFLOAT)
+    {
         IUnit::self().meter2elevation(wpt.prx, val, unit);
         lineProximity->setText(val);
     }
 
-    if(wpt.images.count() != 0) {
+    if(wpt.images.count() != 0)
+    {
         showImage(0);
         pushDel->setEnabled(true);
     }
 
     link = wpt.link;
 
-    if(!link.isEmpty()) {
+    if(!link.isEmpty())
+    {
         QString str;
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
@@ -111,16 +115,19 @@ int CDlgEditWpt::exec()
 
 void CDlgEditWpt::accept()
 {
-    if(lineName->text().isEmpty()) {
+    if(lineName->text().isEmpty())
+    {
         QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint identifier."),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
-    if(linePosition->text().isEmpty()) {
+    if(linePosition->text().isEmpty())
+    {
         QMessageBox::warning(0,tr("Error"),tr("You must provide a waypoint position."),QMessageBox::Ok,QMessageBox::NoButton);
         return;
     }
 
-    if(!GPS_Math_Str_To_Deg(linePosition->text(), wpt.lon, wpt.lat)) {
+    if(!GPS_Math_Str_To_Deg(linePosition->text(), wpt.lon, wpt.lat))
+    {
         return;
     }
     wpt.icon        = toolIcon->objectName();
@@ -130,7 +137,8 @@ void CDlgEditWpt::accept()
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineAltitude->text());
 
     // change elevation if position has changed and DEM data is present
-    if(oldLon != wpt.lon || oldLat != wpt.lat) {
+    if(oldLon != wpt.lon || oldLat != wpt.lat)
+    {
         float ele = CMapDB::self().getDEM().getElevation(wpt.lon * DEG_TO_RAD, wpt.lat * DEG_TO_RAD);
         if(ele != WPT_NOFLOAT) wpt.ele = ele;
     }
@@ -139,7 +147,8 @@ void CDlgEditWpt::accept()
     wpt.comment     = textComment->toPlainText();
     wpt.link        = link;
 
-    if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty()) {
+    if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty())
+    {
         double bearing  = lineBearing->text().toDouble() * DEG_TO_RAD;
         double distance = lineDistance->text().toDouble();
 
@@ -220,7 +229,8 @@ void CDlgEditWpt::showImage(int idx)
 {
     if(idx < 0) idx = 0;
 
-    if(idx < wpt.images.count()) {
+    if(idx < wpt.images.count())
+    {
         idxImg = idx;
 
         CWpt::image_t& img = wpt.images[idx];
@@ -230,7 +240,8 @@ void CDlgEditWpt::showImage(int idx)
         pushNext->setEnabled(idx < (wpt.images.count() - 1) && wpt.images.count() != 1);
         pushPrev->setEnabled(idx > 0);
     }
-    else {
+    else
+    {
         labelImage->setText(tr("no image"));
         labelInfo->setText("");
     }
@@ -247,12 +258,14 @@ void CDlgEditWpt::slotEditLink()
 {
     bool ok = false;
     QString _link = QInputDialog::getText(0,tr("Edit link ..."),tr("Link: 'http://...'"),QLineEdit::Normal,link,&ok);
-    if(ok) {
+    if(ok)
+    {
         link = _link;
         labelLink->setText(tr("None"));
     }
 
-    if(!link.isEmpty()) {
+    if(!link.isEmpty())
+    {
         QString str;
         str = "<a href='" + link + "'>" + link + "</a>";
         labelLink->setText(str);
@@ -285,18 +298,21 @@ void CDlgEditWpt::slotUpdateBarcode()
 
     barcode += tr("%1\n").arg(lineName->text());
     barcode += tr("%1\n").arg(linePosition->text());
-    if(!link.isEmpty()) {
+    if(!link.isEmpty())
+    {
         barcode += tr("%1\n").arg(link);
     }
 
-    if(textComment->toPlainText().size()) {
+    if(textComment->toPlainText().size())
+    {
         barcode += textComment->toPlainText();
     }
 
 #ifdef HAS_DMTX
     DmtxEncode * enc = dmtxEncodeCreate();
 
-    if(enc) {
+    if(enc)
+    {
         dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
         dmtxEncodeSetProp( enc, DmtxPropWidth, 200 );
         dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
@@ -310,7 +326,8 @@ void CDlgEditWpt::slotUpdateBarcode()
 
         dmtxEncodeDestroy(&enc);
     }
-    else {
+    else
+    {
         labelBarcode->setText("Failed!");
     }
 #else

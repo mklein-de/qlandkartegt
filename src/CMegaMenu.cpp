@@ -71,7 +71,8 @@ void CMegaMenu::switchState()
 {
     QList<QAction *> acts = QWidget::actions();
     QAction * act;
-    foreach(act,acts) {
+    foreach(act,acts)
+    {
         removeAction(act);
     }
     actionGroup->addActionsToWidget(this);
@@ -86,7 +87,8 @@ void CMegaMenu::switchByKeyWord(const QString& key)
     if (!isEnabled())
         return;
 
-    if (key == "Main") {
+    if (key == "Main")
+    {
         actions->funcSwitchToMain();
     } else if (key == "Waypoints")
     {
@@ -130,7 +132,8 @@ void CMegaMenu::switchByKeyWord(const QString& key)
 */
 void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *action, bool isCurrent) const
 {
-    if (!option || !action) {
+    if (!option || !action)
+    {
         return;
     }
 
@@ -140,38 +143,47 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     option->palette.setBrush(QPalette::Inactive, QPalette::Button, Qt::NoBrush);
     option->state = QStyle::State_None;
 
-    if (window()->isActiveWindow()) {
+    if (window()->isActiveWindow())
+    {
         option->state |= QStyle::State_Active;
     }
-    if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled())) {
+    if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled()))
+    {
         option->state |= QStyle::State_Enabled;
     }
-    else {
+    else
+    {
         option->palette.setCurrentColorGroup(QPalette::Disabled);
     }
 
     option->font = action->font();
 
-    if (isCurrent && !action->isSeparator()) {
+    if (isCurrent && !action->isSeparator())
+    {
         option->state |= QStyle::State_Selected | (mouseDown ? QStyle::State_Sunken : QStyle::State_None);
     }
 
     //     option->menuHasCheckableItems = d->hasCheckableItems;
-    if (!action->isCheckable()) {
+    if (!action->isCheckable())
+    {
         option->checkType = QStyleOptionMenuItem::NotCheckable;
     }
-    else {
+    else
+    {
         option->checkType = (action->actionGroup() && action->actionGroup()->isExclusive())
             ? QStyleOptionMenuItem::Exclusive : QStyleOptionMenuItem::NonExclusive;
         option->checked = action->isChecked();
     }
-    if (action->menu()) {
+    if (action->menu())
+    {
         option->menuItemType = QStyleOptionMenuItem::SubMenu;
     }
-    else if (action->isSeparator()) {
+    else if (action->isSeparator())
+    {
         option->menuItemType = QStyleOptionMenuItem::Separator;
     }
-    else {
+    else
+    {
         option->menuItemType = QStyleOptionMenuItem::Normal;
     }
 
@@ -179,9 +191,11 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
 
     QString textAndAccel = action->text();
 
-    if (textAndAccel.indexOf(QLatin1Char('\t')) == -1) {
+    if (textAndAccel.indexOf(QLatin1Char('\t')) == -1)
+    {
         QKeySequence seq = action->shortcut();
-        if (!seq.isEmpty()) {
+        if (!seq.isEmpty())
+        {
             textAndAccel += QLatin1Char('\t') + QString(seq);
         }
     }
@@ -213,7 +227,8 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
     int idx = 0;
     QList<QAction *> acts = QWidget::actions();
     QAction * act;
-    foreach(act,acts) {
+    foreach(act,acts)
+    {
         p.setClipRegion(rectF[idx]);
 
         QStyleOptionMenuItem opt;
@@ -241,7 +256,8 @@ void CMegaMenu::resizeEvent(QResizeEvent * e)
     yoff    = 0;
 
     rectTitle = QRect(0,yoff, w, h);
-    for(int i=0; i < 11; ++i) {
+    for(int i=0; i < 11; ++i)
+    {
         yoff += h;
         rectF[i] = QRect(0,yoff, w, h);
     }
@@ -272,8 +288,10 @@ void CMegaMenu::mouseReleaseEvent(QMouseEvent * e)
 
     QPoint pos = e->pos();
     currentItemIndex = -1;
-    for(int i = 0; i < 11; ++i) {
-        if(rectF[i].contains(pos)) {
+    for(int i = 0; i < 11; ++i)
+    {
+        if(rectF[i].contains(pos))
+        {
             acts[i]->trigger();
             break;
         }
@@ -288,8 +306,10 @@ void CMegaMenu::mouseMoveEvent(QMouseEvent * e)
 {
     QPoint pos = e->pos();
     currentItemIndex = -1;
-    for(int i = 0; i < 11; ++i) {
-        if(rectF[i].contains(pos)) {
+    for(int i = 0; i < 11; ++i)
+    {
+        if(rectF[i].contains(pos))
+        {
             currentItemIndex = i;
             update();
             return;
@@ -300,7 +320,8 @@ void CMegaMenu::mouseMoveEvent(QMouseEvent * e)
 
 void CMegaMenu::slotSplitterMoved(int pos, int index)
 {
-    if(index == 1) {
+    if(index == 1)
+    {
         setEnabled(pos);
     }
 }

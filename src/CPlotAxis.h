@@ -70,15 +70,19 @@ class CPlotAxis : public QObject
         /// get the total limits and the used ones
         virtual void getLimits(double& limMin, double& limMax, double& useMin, double& useMax);
 
-        inline int val2pt( double val ) {
-            if ( scale == 0 ) {
+        inline int val2pt( double val )
+        {
+            if ( scale == 0 )
+            {
                 return 0;
             }
             return ( int ) ( ( val - used_min ) * scale + 0.5 );
         }
 
-        inline double pt2val( int pt ) {
-            if ( scale == 0 ) {
+        inline double pt2val( int pt )
+        {
+            if ( scale == 0 )
+            {
                 return 0;
             }
             return ( double ) ( ( (double)pt - 0.5 ) / scale + used_min );
@@ -87,7 +91,8 @@ class CPlotAxis : public QObject
         void setAutoscale(bool on){autoscale = on;}
 
         inline ETicType getTicType(){return tic_type;}
-        inline ETicType setTicType(ETicType t) {
+        inline ETicType setTicType(ETicType t)
+        {
             ETicType old = tic_type;
             tic_type = t;
             return old;

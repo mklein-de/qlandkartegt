@@ -199,14 +199,16 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
 
     connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
-    if(!embedded) {
+    if(!embedded)
+    {
         toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
         connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
 
         toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
         connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
     }
-    else {
+    else
+    {
         toolWizard->hide();
         toolExit->hide();
     }
@@ -276,10 +278,12 @@ void CDiaryEditWidget::textStyle(int styleIndex)
 {
     QTextCursor cursor = textEdit->textCursor();
 
-    if (styleIndex != 0) {
+    if (styleIndex != 0)
+    {
         QTextListFormat::Style style = QTextListFormat::ListDisc;
 
-        switch (styleIndex) {
+        switch (styleIndex)
+        {
             default:
             case 1:
                 style = QTextListFormat::ListDisc;
@@ -307,10 +311,12 @@ void CDiaryEditWidget::textStyle(int styleIndex)
 
         QTextListFormat listFmt;
 
-        if (cursor.currentList()) {
+        if (cursor.currentList())
+        {
             listFmt = cursor.currentList()->format();
         }
-        else {
+        else
+        {
             listFmt.setIndent(blockFmt.indent() + 1);
             blockFmt.setIndent(0);
             cursor.setBlockFormat(blockFmt);
@@ -322,7 +328,8 @@ void CDiaryEditWidget::textStyle(int styleIndex)
 
         cursor.endEditBlock();
     }
-    else {
+    else
+    {
         // ####
         QTextBlockFormat bfmt;
         bfmt.setObjectIndex(-1);
@@ -373,16 +380,20 @@ void CDiaryEditWidget::colorChanged(const QColor &c)
 
 void CDiaryEditWidget::alignmentChanged(Qt::Alignment a)
 {
-    if (a & Qt::AlignLeft) {
+    if (a & Qt::AlignLeft)
+    {
         actionAlignLeft->setChecked(true);
     }
-    else if (a & Qt::AlignHCenter) {
+    else if (a & Qt::AlignHCenter)
+    {
         actionAlignCenter->setChecked(true);
     }
-    else if (a & Qt::AlignRight) {
+    else if (a & Qt::AlignRight)
+    {
         actionAlignRight->setChecked(true);
     }
-    else if (a & Qt::AlignJustify) {
+    else if (a & Qt::AlignJustify)
+    {
         actionAlignJustify->setChecked(true);
     }
 }
@@ -403,7 +414,8 @@ void CDiaryEditWidget::cursorPositionChanged()
 
 void CDiaryEditWidget::setWindowModified(bool yes)
 {
-    if(yes && !embedded) {
+    if(yes && !embedded)
+    {
         emit CDiaryDB::self().sigModified();
         emit CDiaryDB::self().sigChanged();
     }
@@ -418,7 +430,8 @@ void CDiaryEditWidget::clipboardDataChanged()
 
 void CDiaryEditWidget::slotDocWizard()
 {
-    if(!textEdit->toPlainText().isEmpty()) {
+    if(!textEdit->toPlainText().isEmpty())
+    {
         QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizard"), tr("The wizard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
         if(res == QMessageBox::Cancel) return;
     }
@@ -426,10 +439,12 @@ void CDiaryEditWidget::slotDocWizard()
     QString str;
 
     const QString& file = theMainWindow->getCurrentFilename();
-    if(file.isEmpty()) {
+    if(file.isEmpty())
+    {
         str += tr("<h1>Default Title</h1>");
     }
-    else {
+    else
+    {
 
         str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
     }
@@ -440,7 +455,8 @@ void CDiaryEditWidget::slotDocWizard()
     QStringList keys;
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
 
-    if(!wpts.isEmpty()) {
+    if(!wpts.isEmpty())
+    {
         str += "<h2>Waypoints</h2>";
         str += "<p>";
         str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
@@ -453,7 +469,8 @@ void CDiaryEditWidget::slotDocWizard()
         str += "</tr>";
         keys = wpts.keys();
         keys.sort();
-        foreach(key,keys) {
+        foreach(key,keys)
+        {
             CWpt * wpt = wpts[key];
             if(wpt->sticky) continue;
 
@@ -462,10 +479,12 @@ void CDiaryEditWidget::slotDocWizard()
             str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
             str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
 
-            if(wpt->ele != WPT_NOFLOAT) {
+            if(wpt->ele != WPT_NOFLOAT)
+            {
                 str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
             }
-            else {
+            else
+            {
                 str += QString("<td align='left' valign='top'>-</td>");
             }
 
@@ -478,7 +497,8 @@ void CDiaryEditWidget::slotDocWizard()
     }
 
     const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
-    if(!tracks.isEmpty()) {
+    if(!tracks.isEmpty())
+    {
         str += "<h2>Tracks</h2>";
         str += "<p>";
         str += "<table border='0' cellspacing='1' cellpadding='4' bgcolor='#448e35'>";
@@ -494,7 +514,8 @@ void CDiaryEditWidget::slotDocWizard()
 
         keys = tracks.keys();
         keys.sort();
-        foreach(key,keys) {
+        foreach(key,keys)
+        {
             CTrack * track = tracks[key];
             str += "<tr bgcolor='#ffffff'>";
             str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());
@@ -502,10 +523,12 @@ void CDiaryEditWidget::slotDocWizard()
             str += QString("<td align='left' valign='top'>%1</td>").arg(track->getEndTimestamp().toString());
 
             double distance = track->getTotalDistance();
-            if(distance > 9999.9) {
+            if(distance > 9999.9)
+            {
                 str += QString("<td align='left' valign='top'>%1 km</td>").arg(distance / 1000.0, 0, 'f', 3);
             }
-            else {
+            else
+            {
                 str += QString("<td align='left' valign='top'>%1 m</td>").arg(distance,0 ,'f', 0);
             }
 

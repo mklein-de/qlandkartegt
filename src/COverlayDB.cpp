@@ -58,7 +58,8 @@ void COverlayDB::draw(QPainter& p, const QRect& r, bool& needsRedraw)
 {
     p.setRenderHint(QPainter::Antialiasing,true);
     IOverlay * overlay;
-    foreach(overlay, overlays) {
+    foreach(overlay, overlays)
+    {
         overlay->draw(p);
     }
     p.setRenderHint(QPainter::Antialiasing,false);
@@ -74,36 +75,42 @@ void COverlayDB::loadGPX(CGpx& gpx)
     // tags, so we have to scan all of them.  We can stop once we
     // found an overlay tag below it.
     QDomElement extensions = gpx.firstChildElement("gpx").firstChildElement("extensions");
-    while(!extensions.isNull()) {
+    while(!extensions.isNull())
+    {
         QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
         const QDomElement ovl = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
             "overlays":
         (CGpx::ql_ns + ":" + "overlays"));
-        if(!ovl.isNull()) {
+        if(!ovl.isNull())
+        {
             QMap<QString,QDomElement> ovlmap = CGpx::mapChildElements(ovl);
             for(QMap<QString,QDomElement>::Iterator it = ovlmap.begin();
                 it != ovlmap.end();
-            ++it) {
+                ++it)
+            {
                 const QString type = it.key();
                 const QDomElement element = ovlmap[it.key()];
 
                 if(type == (gpx.version() == CGpx::qlVer_1_0?
                     "text":
-                (CGpx::ql_ns + ":" + "text"))) {
+                    (CGpx::ql_ns + ":" + "text")))
+                {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
                     int height  = element.attribute("height","0").toInt();
 
                     QRect rect(left, top, width, height);
-                    if(rect.isValid()) {
+                    if(rect.isValid())
+                    {
                         QString text = element.text();
                         addText(text,rect);
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
                     "textbox":
-                (CGpx::ql_ns + ":" + "textbox"))) {
+                    (CGpx::ql_ns + ":" + "textbox")))
+                {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
                     int width   = element.attribute("width","0").toInt();
@@ -114,14 +121,16 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     double lat  = element.attribute("lat","0").toDouble() * DEG_TO_RAD;
 
                     QRect rect(left, top, width, height);
-                    if(rect.isValid()) {
+                    if(rect.isValid())
+                    {
                         QString text = element.text();
                         addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
                     "distance":
-                (CGpx::ql_ns + ":" + "distance"))) {
+                    (CGpx::ql_ns + ":" + "distance")))
+                {
                     QString name;
                     QString comment;
                     QList<XY> points;
@@ -129,18 +138,21 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     QDomNode node;
 
                     list = element.elementsByTagName("name");
-                    if(list.count() == 1) {
+                    if(list.count() == 1)
+                    {
                         node = list.item(0);
                         name = node.toElement().text();
                     }
                     list = element.elementsByTagName("comment");
-                    if(list.count() == 1) {
+                    if(list.count() == 1)
+                    {
                         node = list.item(0);
                         comment = node.toElement().text();
                     }
 
                     list = element.elementsByTagName("point");
-                    for(int i = 0; i < list.size(); ++i) {
+                    for(int i = 0; i < list.size(); ++i)
+                    {
                         XY pt;
                         pt.u = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
                         pt.v = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
@@ -160,10 +172,12 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
 void COverlayDB::saveGPX(CGpx& gpx)
 {
-    if (gpx.getExportFlag()) {
+    if (gpx.getExportFlag())
+    {
         return;
     }
-    if (count() == 0) {
+    if (count() == 0)
+    {
         return;
     }
 
@@ -175,9 +189,11 @@ void COverlayDB::saveGPX(CGpx& gpx)
     extensions.appendChild(_overlay_);
 
     IOverlay * overlay;
-    foreach(overlay, overlays) {
+    foreach(overlay, overlays)
+    {
 
-        if(overlay->type == "Text") {
+        if(overlay->type == "Text")
+        {
             COverlayText * overlaytext = qobject_cast<COverlayText*>(overlay);
             if(overlaytext == 0) continue;
 
@@ -192,7 +208,8 @@ void COverlayDB::saveGPX(CGpx& gpx)
             QDomText _text_ = gpx.createTextNode(overlaytext->sometext);
             text.appendChild(_text_);
         }
-        else if(overlay->type == "TextBox") {
+        else if(overlay->type == "TextBox")
+        {
             COverlayTextBox * ovl = qobject_cast<COverlayTextBox*>(overlay);
             if(ovl == 0) continue;
 
@@ -213,7 +230,8 @@ void COverlayDB::saveGPX(CGpx& gpx)
             QDomText _text_ = gpx.createTextNode(ovl->text);
             text.appendChild(_text_);
         }
-        else if(overlay->type == "Distance") {
+        else if(overlay->type == "Distance")
+        {
             COverlayDistance * ovl = qobject_cast<COverlayDistance*>(overlay);
             if(ovl == 0) continue;
 
@@ -229,7 +247,8 @@ void COverlayDB::saveGPX(CGpx& gpx)
             comment.appendChild(gpx.createTextNode(ovl->comment));
 
             XY pt;
-            foreach(pt, ovl->points) {
+            foreach(pt, ovl->points)
+            {
                 QDomElement point = gpx.createElement("ql:point");
                 str.sprintf("%1.8f",pt.u * RAD_TO_DEG);
                 point.setAttribute("lon",str);
@@ -246,7 +265,8 @@ void COverlayDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.overlays(),QIODevice::ReadOnly);
 
-    while(!stream.atEnd()) {
+    while(!stream.atEnd())
+    {
         stream >> *this;
     }
 
@@ -257,7 +277,8 @@ void COverlayDB::loadQLB(CQlb& qlb)
 void COverlayDB::saveQLB(CQlb& qlb)
 {
     IOverlay * overlay;
-    foreach(overlay, overlays) {
+    foreach(overlay, overlays)
+    {
         qlb << *overlay;
     }
 }
@@ -272,7 +293,8 @@ void COverlayDB::clear()
 void COverlayDB::delOverlays(const QStringList& keys)
 {
     QString key;
-    foreach(key, keys) {
+    foreach(key, keys)
+    {
         IOverlay * overlay = overlays.take(key);
         overlay->deleteLater();
     }

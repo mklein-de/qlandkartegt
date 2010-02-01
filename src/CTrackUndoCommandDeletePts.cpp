@@ -37,12 +37,15 @@ void CTrackUndoCommandDeletePts::redo()
     oldList.clear();
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         oldList.append(*trkpt);
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             trkpt = trkpts.erase(trkpt);
         }
-        else {
+        else
+        {
             ++trkpt;
         }
     }
@@ -57,7 +60,8 @@ void CTrackUndoCommandDeletePts::undo()
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     trkpts.clear();
 
-    foreach(CTrack::pt_t tp, oldList) {
+    foreach(CTrack::pt_t tp, oldList)
+    {
         trkpts.append(tp);
     }
     track->rebuild(true);

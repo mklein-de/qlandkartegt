@@ -59,7 +59,8 @@ void CRouteToolWidget::slotDBChanged()
 
     const QMap<QString,CRoute*>& routes         = CRouteDB::self().getRoutes();
     QMap<QString,CRoute*>::const_iterator route = routes.begin();
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
 
         QString val1, unit1, val2, unit2;
@@ -74,14 +75,16 @@ void CRouteToolWidget::slotDBChanged()
         item->setData(Qt::UserRole, (*route)->key());
         item->setIcon((*route)->getIcon());
 
-        if((*route)->isHighlighted()) {
+        if((*route)->isHighlighted())
+        {
             highlighted = item;
         }
 
         ++route;
     }
 
-    if(highlighted) {
+    if(highlighted)
+    {
         listRoutes->setCurrentItem(highlighted);
     }
 }
@@ -100,7 +103,8 @@ void CRouteToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     QString key = item->data(Qt::UserRole).toString();
 
     QRectF r = CRouteDB::self().getBoundingRectF(key);
-    if (!r.isNull ()) {
+    if (!r.isNull ())
+    {
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
 }
@@ -108,11 +112,13 @@ void CRouteToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 
 void CRouteToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotDelete();
         e->accept();
     }
-    else {
+    else
+    {
         QWidget::keyPressEvent(e);
     }
 }
@@ -121,7 +127,8 @@ void CRouteToolWidget::keyPressEvent(QKeyEvent * e)
 void CRouteToolWidget::slotContextMenu(const QPoint& pos)
 {
     QListWidgetItem * item = listRoutes->currentItem();
-    if(item) {
+    if(item)
+    {
         QPoint p = listRoutes->mapToGlobal(pos);
 
         QMenu contextMenu;
@@ -151,7 +158,8 @@ void CRouteToolWidget::slotDelete()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listRoutes->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }

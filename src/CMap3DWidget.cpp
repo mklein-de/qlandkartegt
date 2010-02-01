@@ -46,7 +46,8 @@
 void glError()
 {
     GLenum err = glGetError();
-    while (err != GL_NO_ERROR) {
+    while (err != GL_NO_ERROR)
+    {
         qDebug("glError: %s caught at %s:%u\n",
             (char *)gluErrorString(err), __FILE__, __LINE__);
         err = glGetError();
@@ -122,7 +123,8 @@ void CMap3DWidget::mapResize(const QSize& size)
 
 void CMap3DWidget::loadMap()
 {
-    if (! map.isNull()) {
+    if (! map.isNull())
+    {
         disconnect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
         disconnect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
         disconnect(map, SIGNAL(sigResize(const QSize&)), this, SLOT(mapResize(const QSize&)));
@@ -131,7 +133,8 @@ void CMap3DWidget::loadMap()
     assert(!map.isNull());
     // map should be square
     mapSize = map->getSize();
-    if (mapSize.width() != mapSize.height()) {
+    if (mapSize.width() != mapSize.height())
+    {
         int side = qMax(mapSize.width(), mapSize.height());
         map->resize(QSize(side, side));
         mapSize = map->getSize();
@@ -262,12 +265,14 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     selWpt = 0;
     // find the waypoint close to the cursor
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()) {
+    while(wpt != CWptDB::self().end())
+    {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map->convertRad2Pt(u,v);
 
-        if(((x - u) * (x - u) + (y - v) * (y - v)) < 1225) {
+        if(((x - u) * (x - u) + (y - v) * (y - v)) < 1225)
+        {
             selWpt = *wpt;
             break;
         }
@@ -276,10 +281,12 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 
     QMenu menu(this);
-    if (selWpt.isNull()) {
+    if (selWpt.isNull())
+    {
         menu.addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Waypoint ..."),this,SLOT(slotAddWpt()));
     }
-    else {
+    else
+    {
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint..."),this,SLOT(slotEditWpt()));
         if(!selWpt->sticky)
@@ -296,11 +303,13 @@ void CMap3DWidget::contextMenuEvent(QContextMenuEvent *event)
     menu.addAction(showTrackAct);
     menu.addAction(mapEleAct);
 
-    if(track.isNull()) {
+    if(track.isNull())
+    {
         showTrackAct->setEnabled(false);
         mapEleAct->setEnabled(false);
     }
-    else {
+    else
+    {
         showTrackAct->setEnabled(true);
         mapEleAct->setEnabled(true);
     }
@@ -502,11 +511,13 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 {
     GLdouble v1[3], v2[3];
     int i;
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 3; i++)
+    {
         v1[i] = c[i] - a[i];
         v2[i] = c[i] - b[i];
     }
-    for (i =0; i < 3; i++) {
+    for (i =0; i < 3; i++)
+    {
         r[i] = v1[(i + 1) % 3] * v2[(i + 2) % 3] - v1[(i + 2) % 3] * v2[(i + 1) % 3];
     }
 }
@@ -536,19 +547,22 @@ void CMap3DWidget::draw3DMap()
     int xcount, ycount;
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
-    if (map->getFastDrawFlag()) {
+    if (map->getFastDrawFlag())
+    {
         xcount = (w / (step * 10.0) + 1);
         ycount = (h / (step * 10.0) + 1);
 
     }
-    else {
+    else
+    {
         xcount = (w / step + 1);
         ycount = (h / step + 1);
     }
 
     qint16 *eleData;
     eleData = getEleRegion(xcount, ycount);
-    if (eleData == NULL) {
+    if (eleData == NULL)
+    {
         qDebug() << "can't get elevation data";
         qDebug() << "draw flat map";
         drawFlatMap();
@@ -590,7 +604,8 @@ void CMap3DWidget::draw3DMap()
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(2.0);
 
-    for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++) {
+    for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++)
+    {
         /* array vertices contain two lines ( previouse and current)
          * they change position that avoid memcopy
          * one time current line is at the begin of array vertices,
@@ -599,7 +614,8 @@ void CMap3DWidget::draw3DMap()
         iv = iv % (xcount * 3 * 2);
         it = it % (xcount * 2 * 2);
         end = ix + xcount;
-        for (x = 0, ix = 0; ix < xcount; x += current_step_x, iv += 3, it += 2, ix++) {
+        for (x = 0, ix = 0; ix < xcount; x += current_step_x, iv += 3, it += 2, ix++)
+        {
             vertices[iv + 0] = x;
             vertices[iv + 1] = y;
             u = x;
@@ -628,7 +644,8 @@ void CMap3DWidget::draw3DMap()
         if (iy == 0)
             continue;
 
-        for (k = 0; k < xcount - 1; k ++) {
+        for (k = 0; k < xcount - 1; k ++)
+        {
             glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
             for (j = 0; j < 4; j++)
                 idx[j]++;
@@ -661,11 +678,14 @@ void CMap3DWidget::updateElevationLimits()
 
     eleData = getEleRegion(xcount, ycount);
     minElevation = maxElevation = 0;
-    if (eleData != NULL) {
+    if (eleData != NULL)
+    {
         minElevation = maxElevation = eleData[0];
 
-        for (i = 0; i < xcount; i++) {
-            for (j = 0; j < ycount; j++) {
+        for (i = 0; i < xcount; i++)
+        {
+            for (j = 0; j < ycount; j++)
+            {
                 ele = eleData[i + j * xcount];
                 if (ele > maxElevation)
                     maxElevation = ele;
@@ -676,14 +696,17 @@ void CMap3DWidget::updateElevationLimits()
         }
     }
 
-    if (! track.isNull() && (maxElevation - minElevation < 1)) {
+    if (! track.isNull() && (maxElevation - minElevation < 1))
+    {
         /*selected track exist and dem isn't present for this map*/
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         maxElevation = trkpt->ele;
         minElevation = trkpt->ele;
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
                 ++trkpt; continue;
             }
             if (trkpt->ele > maxElevation)
@@ -694,7 +717,8 @@ void CMap3DWidget::updateElevationLimits()
         }
     }
 
-    if (maxElevation - minElevation < 1) {
+    if (maxElevation - minElevation < 1)
+    {
         /*selected track and deb are absent*/
         maxElevation = 1;
         minElevation = 0;
@@ -710,7 +734,8 @@ void CMap3DWidget::drawTrack()
     double ele1, ele2;
     IMap& dem = CMapDB::self().getDEM();
 
-    if (! track.isNull()) {
+    if (! track.isNull())
+    {
         XY pt1, pt2;
 
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -725,8 +750,10 @@ void CMap3DWidget::drawTrack()
         map->convertRad2Pt(pt1.u, pt1.v);
         convertPt23D(pt1.u, pt1.v, ele1);
 
-        while(trkpt != trkpts.end()) {
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
                 ++trkpt; continue;
             }
             pt2.u = trkpt->lon * DEG_TO_RAD;
@@ -741,7 +768,8 @@ void CMap3DWidget::drawTrack()
             quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);
 
             //draw selected points
-            if (trkpt->flags & CTrack::pt_t::eSelected) {
+            if (trkpt->flags & CTrack::pt_t::eSelected)
+            {
                 glBegin(GL_LINES);
                 glColor3f(1.0, 0.0, 0.0);
                 glVertex3d(pt1.u, pt1.v, ele1);
@@ -801,7 +829,8 @@ void CMap3DWidget::makeTrackObject()
 void CMap3DWidget::setXRotation(double angle)
 {
     normalizeAngle(&angle);
-    if (angle > 0 && angle < 90) {
+    if (angle > 0 && angle < 90)
+    {
         xRot = angle;
         emit xRotationChanged(angle);
         updateGL();
@@ -812,7 +841,8 @@ void CMap3DWidget::setXRotation(double angle)
 void CMap3DWidget::setZRotation(double angle)
 {
     normalizeAngle(&angle);
-    if (angle != zRot) {
+    if (angle != zRot)
+    {
         zRot = angle;
         emit zRotationChanged(angle);
         updateGL();
@@ -835,7 +865,8 @@ void CMap3DWidget::initializeGL()
 
     glClearColor(1.0, 1.0, 1.0, 0.0);
     int i;
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 6; i++)
+    {
         QImage img(tr(":/skybox/%1.bmp").arg(i));
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
@@ -860,7 +891,8 @@ void CMap3DWidget::lightTurn()
 
 void CMap3DWidget::paintGL()
 {
-    if (reDraw) {
+    if (reDraw)
+    {
         reDraw = false;
         QApplication::setOverrideCursor(Qt::WaitCursor);
         deleteTexture(mapTexture);
@@ -887,7 +919,8 @@ void CMap3DWidget::paintGL()
     glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
     glTranslated(0.0, 0.0, -minElevation);
 
-    if (light) {
+    if (light)
+    {
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
@@ -909,7 +942,8 @@ void CMap3DWidget::paintGL()
     }
 
     glCallList(objectMap);
-    if (light) {
+    if (light)
+    {
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
@@ -938,7 +972,8 @@ void CMap3DWidget::paintGL()
 
     glBegin(GL_LINES);
     glColor3f(0.5, 0.5, 0.5);
-    for(i = -n; i <= n; i ++) {
+    for(i = -n; i <= n; i ++)
+    {
         glVertex3f(-d * n, i * d, minElevation);
         glVertex3f(d * n, i * d, minElevation);
 
@@ -951,7 +986,8 @@ void CMap3DWidget::paintGL()
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
 
     QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
-    while(wpt != wpts.end()) {
+    while(wpt != wpts.end())
+    {
         drawWpt(wpt.value());
         ++wpt;
     }
@@ -1007,7 +1043,8 @@ void CMap3DWidget::drawWpt(CWpt *wpt)
     int i, j;
     GLdouble a[4], b[4] = {u,v,ele,1};
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++)
+    {
         a[i] = 0;
         for (j = 0; j < 4; j ++)
             a[i] += modelview[i+j*4] * b[j];
@@ -1150,8 +1187,10 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
     QList<CTrack::pt_t>& pts          = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator pt  = pts.begin();
-    while(pt != pts.end()) {
-        if(pt->flags & CTrack::pt_t::eDeleted) {
+    while(pt != pts.end())
+    {
+        if(pt->flags & CTrack::pt_t::eDeleted)
+        {
             ++pt; continue;
         }
         p.u = pt->lon * DEG_TO_RAD;
@@ -1160,14 +1199,16 @@ void CMap3DWidget::mouseDoubleClickEvent ( QMouseEvent * event )
 
         int d2 = abs(x0 - p.u) + abs(y0 - p.v);
 
-        if(d2 < d1) {
+        if(d2 < d1)
+        {
             selTrkPt = &(*pt);
             d1 = d2;
         }
 
         ++pt;
     }
-    if (selTrkPt) {
+    if (selTrkPt)
+    {
         selTrkPt->flags |= CTrack::pt_t::eSelected;
         track->setPointOfFocus(selTrkPt->idx);
         updateGL();
@@ -1179,7 +1220,8 @@ void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 {
     qDebug() << "CMap3DWidget::mousePressEvent";
     lastPos = event->pos();
-    if (!cursorPress) {
+    if (!cursorPress)
+    {
         QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
         cursorPress = true;
     }
@@ -1189,7 +1231,8 @@ void CMap3DWidget::mousePressEvent(QMouseEvent *event)
 void CMap3DWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     qDebug() << "CMap3DWidget::mouseReleaseEvent";
-    if (cursorPress) {
+    if (cursorPress)
+    {
         QApplication::restoreOverrideCursor();
         cursorPress = false;
     }
@@ -1228,7 +1271,8 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
 
     qint32 dx = 0, dy = 0;
     qint32 zoomMap = 0;
-    switch (event->key()) {
+    switch (event->key())
+    {
         case Qt::Key_Up:
             dy -= 100;
             break;
@@ -1260,11 +1304,13 @@ void CMap3DWidget::keyPressEvent ( QKeyEvent * event )
             event->ignore();
             return;
     }
-    if (zoomMap) {
+    if (zoomMap)
+    {
         map->zoom(zoomMap > 0 ? true : false, QPoint(mapSize.width() / 2, mapSize.height() / 2));
     }
 
-    if (dx || dy) {
+    if (dx || dy)
+    {
         map->move(QPoint(dx, dy), QPoint(0, 0));
     }
     updateGL();
@@ -1283,10 +1329,12 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
-    if (pressedKeys.contains(Qt::Key_H)) {
+    if (pressedKeys.contains(Qt::Key_H))
+    {
         zLight += dy;
     }
-    else if (pressedKeys.contains(Qt::Key_L)) {
+    else if (pressedKeys.contains(Qt::Key_L))
+    {
         double x0, y0, z0;
         double x1, y1, z1;
         x0 = event->x();
@@ -1301,7 +1349,8 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
         yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
         updateGL();
     }
-    else if (pressedKeys.contains(Qt::Key_M)) {
+    else if (pressedKeys.contains(Qt::Key_M))
+    {
         QPoint p1 = event->pos(), p2 = lastPos;
         convertDsp2Z0(p1);
         convertDsp2Z0(p2);
@@ -1309,11 +1358,13 @@ void CMap3DWidget::mouseMoveEvent(QMouseEvent *event)
         dy = p1.y() - p2.y();
         map->move(QPoint(dx, dy), QPoint(0, 0));
     }
-    else if (event->buttons() & Qt::LeftButton) {
+    else if (event->buttons() & Qt::LeftButton)
+    {
         setXRotation(xRot - xRotSens * dy);
         setZRotation(zRot + zRotSens * dx);
     }
-    else if (event->buttons() & Qt::MidButton) {
+    else if (event->buttons() & Qt::MidButton)
+    {
         xShift += dx / zoomFactor;
         yShift -= dy / zoomFactor;
     }
@@ -1368,15 +1419,19 @@ void CMap3DWidget::normalizeAngle(double *angle)
 void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
-    if (pressedKeys.contains(Qt::Key_M)) {
+    if (pressedKeys.contains(Qt::Key_M))
+    {
         map->zoom(in, QPoint(mapSize.width() / 2, mapSize.height() / 2));
     }
-    else {
-        if (in) {
+    else
+    {
+        if (in)
+        {
             qDebug() << "in" << endl;
             zoomFactor *= 1.1;
         }
-        else {
+        else
+        {
             qDebug() << "out" << endl;
             zoomFactor /= 1.1;
         }
@@ -1387,7 +1442,8 @@ void CMap3DWidget::wheelEvent ( QWheelEvent * e )
 
 void CMap3DWidget::enterEvent(QEvent * )
 {
-    if (!cursorFocus) {
+    if (!cursorFocus)
+    {
         QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveMap"), 0, 0));
         cursorFocus = true;
     }
@@ -1397,12 +1453,14 @@ void CMap3DWidget::enterEvent(QEvent * )
 
 void CMap3DWidget::leaveEvent(QEvent * )
 {
-    if (cursorPress) {
+    if (cursorPress)
+    {
         QApplication::restoreOverrideCursor();
         cursorPress = false;
     }
 
-    if (cursorFocus) {
+    if (cursorFocus)
+    {
         QApplication::restoreOverrideCursor();
         cursorFocus = false;
     }

@@ -37,7 +37,8 @@ IDB::~IDB()
 
 void IDB::gainFocus()
 {
-    if(toolview && tabbar->currentWidget() != toolview) {
+    if(toolview && tabbar->currentWidget() != toolview)
+    {
         tabbar->setCurrentWidget(toolview);
     }
 }

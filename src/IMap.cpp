@@ -45,7 +45,8 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
     QSettings cfg;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
 
-    if(parent) {
+    if(parent)
+    {
         resize(parent->size());
         connect(parent, SIGNAL(sigResize(const QSize&)), this , SLOT(resize(const QSize&)));
         parent->update();
@@ -98,7 +99,8 @@ void IMap::draw()
 
 void IMap::convertPt2Rad(double& u, double& v)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         //         u = v = 0;
         return;
     }
@@ -117,7 +119,8 @@ void IMap::convertPt2Rad(double& u, double& v)
 
 void IMap::convertRad2Pt(double& u, double& v)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return;
     }
 
@@ -136,7 +139,8 @@ void IMap::convertRad2Pt(double& u, double& v)
 
 void IMap::convertRad2M(double& u, double& v)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return;
     }
 
@@ -146,7 +150,8 @@ void IMap::convertRad2M(double& u, double& v)
 
 void IMap::convertM2Rad(double& u, double& v)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return;
     }
 
@@ -169,7 +174,8 @@ void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& m
 static char nullstr[1] = "";
 char * IMap::getProjection()
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return nullstr;
     }
     return pj_get_def(pjsrc,0);
@@ -178,7 +184,8 @@ char * IMap::getProjection()
 
 void IMap::registerDEM(CMapDEM& dem)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         dem.deleteLater();
         throw tr("No basemap projection. That shouldn't happen.");
     }
@@ -189,7 +196,8 @@ void IMap::registerDEM(CMapDEM& dem)
     //     if(ptr1) free(ptr1);
     //     if(ptr2) free(ptr2);
 
-    if(proj1 != proj2) {
+    if(proj1 != proj2)
+    {
         dem.deleteLater();
         throw tr("DEM projection does not match the projection of the basemap.\n\nMap: %1\n\nDEM: %2").arg(proj1).arg(proj2);
     }
@@ -199,14 +207,16 @@ void IMap::registerDEM(CMapDEM& dem)
 void IMap::addOverlayMap(const QString& k)
 {
     // prevent registering twice
-    if(key == k) {
+    if(key == k)
+    {
         return;
     }
 
     needsRedraw = true;
 
     // pass request to next overlay map
-    if(!ovlMap.isNull()) {
+    if(!ovlMap.isNull())
+    {
         ovlMap->addOverlayMap(k);
         emit sigChanged();
         return;
@@ -230,7 +240,8 @@ void IMap::delOverlayMap(const QString& k)
 {
     if(ovlMap.isNull()) return;
 
-    if(ovlMap->getKey() != k) {
+    if(ovlMap->getKey() != k)
+    {
         ovlMap->delOverlayMap(k);
         emit sigChanged();
         return;
@@ -247,7 +258,8 @@ bool IMap::hasOverlayMap(const QString& k)
 
     if(ovlMap.isNull()) return (k == key);
 
-    if(key != k) {
+    if(key != k)
+    {
         return ovlMap->hasOverlayMap(k);
     }
 
@@ -272,7 +284,8 @@ void IMap::slotResetFastDraw()
 
 bool IMap::isLonLat()
 {
-    if(pjsrc) {
+    if(pjsrc)
+    {
         return pj_is_latlong(pjsrc);
     }
     return true;

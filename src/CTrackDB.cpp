@@ -78,7 +78,8 @@ CTrackToolWidget * CTrackDB::getToolWidget()
 
 QRectF CTrackDB::getBoundingRectF(const QString key)
 {
-    if(!tracks.contains(key)) {
+    if(!tracks.contains(key))
+    {
         return QRectF();
     }
     return tracks.value(key)->getBoundingRectF();
@@ -88,7 +89,8 @@ QRectF CTrackDB::getBoundingRectF(const QString key)
 QRectF CTrackDB::getBoundingRectF()
 {
     QRectF r;
-    foreach(CTrack *track, tracks.values()) {
+    foreach(CTrack *track, tracks.values())
+    {
         r = r.united(track->getBoundingRectF());
     }
     return r;
@@ -99,7 +101,8 @@ void CTrackDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
 
-    while(!stream.atEnd()) {
+    while(!stream.atEnd())
+    {
         CTrack * track = new CTrack(this);
         stream >> *track;
         addTrack(track, true);
@@ -113,7 +116,8 @@ void CTrackDB::loadQLB(CQlb& qlb)
 void CTrackDB::saveQLB(CQlb& qlb)
 {
     QMap<QString, CTrack*>::const_iterator track = tracks.begin();
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         qlb << *(*track);
         ++track;
     }
@@ -124,7 +128,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
 {
     QDomElement tmpelem;
     QDomElement trk = gpx.firstChildElement("gpx").firstChildElement("trk");
-    while (!trk.isNull()) {
+    while (!trk.isNull())
+    {
         CTrack* track = new CTrack(this);
                                  //preset a random color
         track->setColor((rand() % 13)+1);
@@ -144,7 +149,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
         if(!tmpelem.isNull()) track->comment = tmpelem.text();
 
         tmpelem = trkmap.value("link");
-        if(!tmpelem.isNull()) {
+        if(!tmpelem.isNull())
+        {
             track->url = tmpelem.attribute("href");
 
             // For now we are ignoring the following elements:
@@ -161,17 +167,20 @@ void CTrackDB::loadGPX(CGpx& gpx)
         // I haven't seen any software using those, but who knows
 
         tmpelem = trkmap.value("extensions");
-        if(!tmpelem.isNull()) {
+        if(!tmpelem.isNull())
+        {
             QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 
             // Garmin extensions v3
 
             tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "TrackExtension");
-            if(!tmpelem.isNull()) {
+            if(!tmpelem.isNull())
+            {
                 QMap<QString,QDomElement> trackextensionmap = CGpx::mapChildElements(tmpelem);
 
                 tmpelem = trackextensionmap.value(CGpx::gpxx_ns + ":" + "DisplayColor");
-                if (!tmpelem.isNull()) {
+                if (!tmpelem.isNull())
+                {
                     int colorID = gpx.getTrackColorMap().right(tmpelem.text(), -1);
                     if (colorID >= 0) track->setColor(colorID);
                 }
@@ -180,9 +189,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
         // QLandkarteGT backward compatibility
 
-        if (gpx.version() == CGpx::qlVer_1_0) {
+        if (gpx.version() == CGpx::qlVer_1_0)
+        {
             tmpelem = trkmap.value("extension");
-            if(!tmpelem.isNull()) {
+            if(!tmpelem.isNull())
+            {
                 QMap<QString,QDomElement> trkextensionmap = CGpx::mapChildElements(tmpelem);
 
                 tmpelem = trkextensionmap.value("color");
@@ -197,9 +208,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
         bool foundTraineeData = false;
 
         QDomElement trkseg = trk.firstChildElement("trkseg");
-        while(!trkseg.isNull()) {
+        while(!trkseg.isNull())
+        {
             QDomElement trkpt = trkseg.firstChildElement("trkpt");
-            while (!trkpt.isNull()) {
+            while (!trkpt.isNull())
+            {
                 CTrack::pt_t pt;
 
                 QMap<QString,QDomElement> trkptmap = CGpx::mapChildElements(trkpt);
@@ -213,7 +226,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 if(!tmpelem.isNull()) pt.ele = tmpelem.text().toDouble();
 
                 tmpelem = trkptmap.value("time");
-                if(!tmpelem.isNull()) {
+                if(!tmpelem.isNull())
+                {
                     QString timetext = tmpelem.text();
 
                     QString format = "yyyy-MM-dd'T'hh:mm:ss";
@@ -265,7 +279,8 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 if(!tmpelem.isNull()) pt.velocity = tmpelem.text().toDouble();
 
                 tmpelem = trkptmap.value("extensions");
-                if(!tmpelem.isNull()) {
+                if(!tmpelem.isNull())
+                {
                     QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 
                     // Garmin extensions v3
@@ -282,17 +297,20 @@ void CTrackDB::loadGPX(CGpx& gpx)
                     // * depth - depth (meters)
 
                     tmpelem = extensionsmap.value(CGpx::gpxtpx_ns + ":" + "TrackPointExtension");
-                    if(!tmpelem.isNull()) {
+                    if(!tmpelem.isNull())
+                    {
                         QMap<QString,QDomElement> trackpointextensionmap = CGpx::mapChildElements(tmpelem);
 
                         tmpelem = trackpointextensionmap.value(CGpx::gpxtpx_ns + ":" + "hr");
-                        if(!tmpelem.isNull()) {
+                        if(!tmpelem.isNull())
+                        {
                             pt.heartReateBpm = tmpelem.text().toUInt();
                             foundTraineeData = true;
                         }
 
                         tmpelem = trackpointextensionmap.value(CGpx::gpxtpx_ns + ":" + "cad");
-                        if(!tmpelem.isNull()) {
+                        if(!tmpelem.isNull())
+                        {
                             pt.cadenceRpm = tmpelem.text().toUInt();
                             foundTraineeData = true;
                         }
@@ -308,9 +326,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
                     // QLandkarteGT extensions
 
-                    if (gpx.version() >= CGpx::qlVer_1_1) {
+                    if (gpx.version() >= CGpx::qlVer_1_1)
+                    {
                         tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "flags");
-                        if(!tmpelem.isNull()) {
+                        if(!tmpelem.isNull())
+                        {
                             pt.flags = tmpelem.text().toUInt();
                             pt.flags &= ~CTrack::pt_t::eFocus;
                             pt.flags &= ~CTrack::pt_t::eSelected;
@@ -321,13 +341,16 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
                 // QLandkarteGT backward compatibility
 
-                if (gpx.version() == CGpx::qlVer_1_0) {
+                if (gpx.version() == CGpx::qlVer_1_0)
+                {
                     tmpelem = trkptmap.value("extension");
-                    if(!tmpelem.isNull()) {
+                    if(!tmpelem.isNull())
+                    {
                         QMap<QString,QDomElement> extensionmap = CGpx::mapChildElements(tmpelem);
 
                         tmpelem = extensionmap.value("flags");
-                        if(!tmpelem.isNull()) {
+                        if(!tmpelem.isNull())
+                        {
                             pt.flags = tmpelem.text().toUInt();
                             pt.flags &= ~CTrack::pt_t::eFocus;
                             pt.flags &= ~CTrack::pt_t::eSelected;
@@ -360,7 +383,8 @@ void CTrackDB::saveGPX(CGpx& gpx)
     QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CTrack*>::iterator track = tracks.begin();
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         QDomElement trk = gpx.createElement("trk");
         root.appendChild(trk);
 
@@ -387,9 +411,11 @@ void CTrackDB::saveGPX(CGpx& gpx)
 
         QList<CTrack::pt_t>& pts = (*track)->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator pt = pts.begin();
-        while(pt != pts.end()) {
+        while(pt != pts.end())
+        {
             QDomElement trkpt = gpx.createElement("trkpt");
-            if (gpx.getExportFlag() && (pt->flags.flag() & CTrack::pt_t::eDeleted)) {
+            if (gpx.getExportFlag() && (pt->flags.flag() & CTrack::pt_t::eDeleted))
+            {
                 // skip deleted points when exporting
                 ++pt;
                 continue;
@@ -400,14 +426,16 @@ void CTrackDB::saveGPX(CGpx& gpx)
             str.sprintf("%1.8f", pt->lon);
             trkpt.setAttribute("lon",str);
 
-            if(pt->ele != WPT_NOFLOAT) {
+            if(pt->ele != WPT_NOFLOAT)
+            {
                 QDomElement ele = gpx.createElement("ele");
                 trkpt.appendChild(ele);
                 QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele));
                 ele.appendChild(_ele_);
             }
 
-            if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF) {
+            if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF)
+            {
                 QDateTime t = QDateTime::fromTime_t(pt->timestamp).toUTC();
                 t = t.addMSecs(pt->timestamp_msec);
                 QDomElement time = gpx.createElement("time");
@@ -416,33 +444,38 @@ void CTrackDB::saveGPX(CGpx& gpx)
                 time.appendChild(_time_);
             }
 
-            if(pt->hdop != WPT_NOFLOAT) {
+            if(pt->hdop != WPT_NOFLOAT)
+            {
                 QDomElement hdop = gpx.createElement("hdop");
                 trkpt.appendChild(hdop);
                 QDomText _hdop_ = gpx.createTextNode(QString::number(pt->hdop));
                 hdop.appendChild(_hdop_);
             }
-            if(pt->vdop != WPT_NOFLOAT) {
+            if(pt->vdop != WPT_NOFLOAT)
+            {
                 QDomElement vdop = gpx.createElement("vdop");
                 trkpt.appendChild(vdop);
                 QDomText _vdop_ = gpx.createTextNode(QString::number(pt->vdop));
                 vdop.appendChild(_vdop_);
             }
-            if(pt->pdop != WPT_NOFLOAT) {
+            if(pt->pdop != WPT_NOFLOAT)
+            {
                 QDomElement pdop = gpx.createElement("pdop");
                 trkpt.appendChild(pdop);
                 QDomText _pdop_ = gpx.createTextNode(QString::number(pt->pdop));
                 pdop.appendChild(_pdop_);
             }
 
-            if(pt->fix != "") {
+            if(pt->fix != "")
+            {
                 QDomElement fix = gpx.createElement("fix");
                 trkpt.appendChild(fix);
                 QDomText _fix_ = gpx.createTextNode(pt->fix);
                 fix.appendChild(_fix_);
             }
 
-            if(pt->sat != 0) {
+            if(pt->sat != 0)
+            {
                 QDomElement sat = gpx.createElement("sat");
                 trkpt.appendChild(sat);
                 QDomText _sat_ = gpx.createTextNode(QString::number(pt->sat));
@@ -452,25 +485,29 @@ void CTrackDB::saveGPX(CGpx& gpx)
             // gpx extensions
             if((!gpx.getExportFlag() && pt->flags.flag() != 0) ||
                 pt->heading != WPT_NOFLOAT ||
-            pt->velocity != WPT_NOFLOAT) {
+                pt->velocity != WPT_NOFLOAT)
+            {
                 QDomElement extensions = gpx.createElement("extensions");
                 trkpt.appendChild(extensions);
 
-                if(!gpx.getExportFlag() && pt->flags.flag() != 0) {
+                if(!gpx.getExportFlag() && pt->flags.flag() != 0)
+                {
                     QDomElement flags = gpx.createElement("ql:flags");
                     extensions.appendChild(flags);
                     QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
                     flags.appendChild(_flags_);
                 }
 
-                if(pt->heading != WPT_NOFLOAT) {
+                if(pt->heading != WPT_NOFLOAT)
+                {
                     QDomElement heading = gpx.createElement("rmc:course");
                     extensions.appendChild(heading);
                     QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
                     heading.appendChild(_heading_);
                 }
 
-                if(pt->velocity != WPT_NOFLOAT) {
+                if(pt->velocity != WPT_NOFLOAT)
+                {
                     QDomElement velocity = gpx.createElement("rmc:speed");
                     extensions.appendChild(velocity);
                     QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
@@ -489,7 +526,8 @@ void CTrackDB::saveGPX(CGpx& gpx)
 
 void CTrackDB::addTrack(CTrack* track, bool silent)
 {
-    if(track->getName().isEmpty()) {
+    if(track->getName().isEmpty())
+    {
         track->setName(tr("Track%1").arg(cnt++));
     }
     track->rebuild(false);
@@ -497,7 +535,8 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
     tracks[track->key()] = track;
 
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    if(!silent) {
+    if(!silent)
+    {
         emit sigChanged();
         emit sigModified();
     }
@@ -514,7 +553,8 @@ void CTrackDB::delTrack(const QString& key, bool silent)
 void CTrackDB::delTracks(const QStringList& keys)
 {
     undoStack->beginMacro("delTracks");
-    foreach(QString key,keys) {
+    foreach(QString key,keys)
+    {
         delTrack(key,false);
     }
     undoStack->endMacro();
@@ -524,16 +564,19 @@ void CTrackDB::delTracks(const QStringList& keys)
 void CTrackDB::highlightTrack(const QString& key)
 {
     QMap<QString,CTrack*>::iterator track = tracks.begin();
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         (*track)->setHighlight(false);
         ++track;
     }
 
-    if(tracks.contains(key)) {
+    if(tracks.contains(key))
+    {
         tracks[key]->setHighlight(true);
         emit sigHighlightTrack(tracks[key]);
     }
-    else {
+    else
+    {
         emit sigHighlightTrack(0);
     }
 
@@ -546,7 +589,8 @@ CTrack* CTrackDB::highlightedTrack()
 {
 
     QMap<QString,CTrack*>::iterator track = tracks.begin();
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         if((*track)->isHighlighted()) return *track;
         ++track;
     }
@@ -560,7 +604,8 @@ void CTrackDB::upload()
     if(tracks.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CTrack*> tmptrks = tracks.values();
         dev->uploadTracks(tmptrks);
     }
@@ -570,14 +615,16 @@ void CTrackDB::upload()
 void CTrackDB::download()
 {
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CTrack*> tmptrk;
         dev->downloadTracks(tmptrk);
 
         if(tmptrk.isEmpty()) return;
 
         CTrack * trk;
-        foreach(trk,tmptrk) {
+        foreach(trk,tmptrk)
+        {
             addTrack(trk, true);
         }
     }
@@ -605,13 +652,15 @@ void CTrackDB::splitTrack(int idx)
 
     CTrack * track1 = new CTrack(this);
     track1->setName(theTrack->getName() + "_1");
-    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i) {
+    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i)
+    {
         *track1 << *trkpt++;
     }
 
     CTrack * track2 = new CTrack(this);
     track2->setName(theTrack->getName() + "_2");
-    for( ;(trkpt != track.end()); ++i) {
+    for( ;(trkpt != track.end()); ++i)
+    {
         *track2 << *trkpt++;
     }
 
@@ -626,7 +675,8 @@ void CTrackDB::splitTrack(int idx)
 
 void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
-    QPointF arrow[4] = {
+    QPointF arrow[4] =
+    {
         QPointF( 15.0, 5.0),     //front
         QPointF( 0.0, 0.0),      //upper tail
         QPointF( 5.0, 5.0),      //mid tail
@@ -645,7 +695,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     QPixmap bullet_red(":/icons/bullet_red.png");
 
-    while(track != tracks.end()) {
+    while(track != tracks.end())
+    {
         QPolygon& line = (*track)->getPolyline();
         line.clear();
 
@@ -653,9 +704,11 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         QList<CTrack::pt_t>& trkpts = (*track)->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
 
-            if ( needsRedraw || firstTime) {
+            if ( needsRedraw || firstTime)
+            {
                 double u = trkpt->lon * DEG_TO_RAD;
                 double v = trkpt->lat * DEG_TO_RAD;
 
@@ -664,17 +717,20 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             }
 
-            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected) {
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eSelected)
+            {
                 selected << trkpt->px;
             }
 
-            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eFocus) {
+            if((*track)->isHighlighted() && trkpt->flags & CTrack::pt_t::eFocus)
+            {
                 focus = trkpt->px;
             }
 
             // skip deleted points, however if they are selected the
             // selection mark is shown
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
                 ++trkpt; continue;
             }
 
@@ -682,16 +738,19 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             ++trkpt;
         }
 
-        if(!rect.intersects(line.boundingRect())) {
+        if(!rect.intersects(line.boundingRect()))
+        {
             ++track; continue;
         }
 
-        if((*track)->isHighlighted()) {
+        if((*track)->isHighlighted())
+        {
             // store highlighted track to draw it later
             // it must be drawn above all other tracks
             highlighted = track;
         }
-        else {
+        else
+        {
             // draw normal track
             QPen pen((*track)->getColor(),3);
             pen.setCapStyle(Qt::RoundCap);
@@ -721,15 +780,20 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             t_paint.end();
             arrow_pic.setMask(arrow_pic.createHeuristicMask());
 
-            foreach(pt,line) {
-                if(start) {      // no arrow on  the first loop
+            foreach(pt,line)
+            {
+                if(start)        // no arrow on  the first loop
+                {
                     start = false;
                 }
-                else {
+                else
+                {
                     if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
                                  // keep distance
-                    if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
-                        if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
+                    if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50)
+                    {
+                        if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
+                        {
                             heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
 
                             p.save();
@@ -752,7 +816,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     }
 
     // if there is a highlighted track, draw it
-    if(highlighted != tracks.end()) {
+    if(highlighted != tracks.end())
+    {
         track = highlighted;
 
         QPolygon& line = (*track)->getPolyline();
@@ -787,17 +852,22 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         t_paint.end();
         arrow_pic.setMask(arrow_pic.createHeuristicMask());
 
-        foreach(pt,line) {
+        foreach(pt,line)
+        {
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
 
-            if(start) {          // no arrow on  the first loop
+            if(start)            // no arrow on  the first loop
+            {
                 start = false;
             }
-            else {
+            else
+            {
                                  // keep distance
-                if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50) {
-                    if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y())) {
+                if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50)
+                {
+                    if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
+                    {
                         heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
                         p.save();
                         // draw arrow between bullets
@@ -813,13 +883,15 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         }
 
         pt1 = QPoint();
-        foreach(pt,selected) {
+        foreach(pt,selected)
+        {
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
             p.drawPixmap(pt.x() - 5 ,pt.y() - 5, bullet_red);
             pt1 = pt;
         }
 
-        if(focus != QPoint(-1,-1)) {
+        if(focus != QPoint(-1,-1))
+        {
             p.setPen(QPen(Qt::white,3));
             p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
             p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
@@ -843,7 +915,8 @@ void CTrackDB::select(const QRect& rect, bool select /*= true*/)
 void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 {
     CTrack * track = highlightedTrack();
-    if(track == 0) {
+    if(track == 0)
+    {
         QMessageBox::warning(0,tr("Failed..."), tr("Failed to copy track. You must select a track or track points of a track."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -854,8 +927,10 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
 
-    while(trkpt != trkpts.end()) {
-        if (trkpt->flags & CTrack::pt_t::eSelected) {
+    while(trkpt != trkpts.end())
+    {
+        if (trkpt->flags & CTrack::pt_t::eSelected)
+        {
             *tmpTrack << *trkpt;
         }
 
@@ -863,10 +938,12 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
     }
 
     CQlb qlb(this);
-    if(tmpTrack->getTrackPoints().count()) {
+    if(tmpTrack->getTrackPoints().count())
+    {
         qlb << *tmpTrack;
     }
-    else {
+    else
+    {
         qlb << *track;
     }
     QBuffer buffer;
@@ -886,7 +963,8 @@ void CTrackDB::pasteFromClipboard()
 {
     QClipboard *clipboard = QApplication::clipboard();
     qDebug() << clipboard->mimeData()->formats();
-    if (clipboard->mimeData()->hasFormat("qlandkartegt/qlb")) {
+    if (clipboard->mimeData()->hasFormat("qlandkartegt/qlb"))
+    {
         QBuffer buffer;
         buffer.open(QIODevice::WriteOnly);
         buffer.write(clipboard->mimeData()->data("qlandkartegt/qlb"));
@@ -902,7 +980,8 @@ CTrack *CTrackDB::take(const QString& key, bool silent)
 {
     CTrack *track =  tracks.take(key);
 
-    if (!silent) {
+    if (!silent)
+    {
         emit sigChanged();
         emit sigModified();
     }
@@ -913,7 +992,8 @@ CTrack *CTrackDB::take(const QString& key, bool silent)
 void CTrackDB::insert(const QString& key, CTrack *track, bool silent)
 {
     tracks.insert(key,track);
-    if (!silent) {
+    if (!silent)
+    {
         emit sigChanged();
         emit sigModified();
     }

@@ -82,8 +82,10 @@ bool CDeviceQLandkarteM::recv(packet_e& type, QByteArray& data)
     qint32 size;
     QDataStream in(&tcpSocket);
 
-    while(tcpSocket.bytesAvailable() < (int)(2 * sizeof(qint32))) {
-        if (!tcpSocket.waitForReadyRead(timeout)) {
+    while(tcpSocket.bytesAvailable() < (int)(2 * sizeof(qint32)))
+    {
+        if (!tcpSocket.waitForReadyRead(timeout))
+        {
             return false;
         }
     }
@@ -91,8 +93,10 @@ bool CDeviceQLandkarteM::recv(packet_e& type, QByteArray& data)
     in >> (qint32&)type;
     in >> size;
 
-    while(tcpSocket.bytesAvailable() < size) {
-        if (!tcpSocket.waitForReadyRead(timeout)) {
+    while(tcpSocket.bytesAvailable() < size)
+    {
+        if (!tcpSocket.waitForReadyRead(timeout))
+        {
             return false;
         }
     }
@@ -132,7 +136,8 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
     packet_e type;
     int cnt = 0;
     QList<CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end() && !progress->wasCanceled()) {
+    while(wpt != wpts.end() && !progress->wasCanceled())
+    {
         QByteArray data;
         QDataStream s(&data,QIODevice::WriteOnly);
 
@@ -142,12 +147,14 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
 
         s << *(*wpt);
 
-        if(!exchange(type = eC2HWpt,data)) {
+        if(!exchange(type = eC2HWpt,data))
+        {
             QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError) {
+        if(type == eError)
+        {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -170,12 +177,14 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
     packet_e type;
     QByteArray  data1;
 
-    if(!exchange(type = eH2CWptQuery,data1)) {
+    if(!exchange(type = eH2CWptQuery,data1))
+    {
         QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query waypoints from device."),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
 
-    if(type == eError) {
+    if(type == eError)
+    {
         QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
@@ -189,7 +198,8 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
     wptlist >> nWpt;
 
     progress->setMaximum(nWpt);
-    for(n = 0; n < nWpt; ++n) {
+    for(n = 0; n < nWpt; ++n)
+    {
         QByteArray data;
         QDataStream stream(&data,QIODevice::ReadWrite);
         wptlist >> key >> name;
@@ -199,12 +209,14 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
 
         stream << key;
 
-        if(!exchange(type = eH2CWpt,data)) {
+        if(!exchange(type = eH2CWpt,data))
+        {
             QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer waypoints."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError) {
+        if(type == eError)
+        {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -237,12 +249,14 @@ void CDeviceQLandkarteM::downloadScreenshot(QImage& image)
     packet_e type;
     QByteArray  data;
 
-    if(!exchange(type = eH2CScreen,data)) {
+    if(!exchange(type = eH2CScreen,data))
+    {
         QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to download screenshot from device."),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
 
-    if(type == eError) {
+    if(type == eError)
+    {
         QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
@@ -264,7 +278,8 @@ void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
     packet_e type;
     int cnt = 0;
     QList<CTrack*>::const_iterator trk = trks.begin();
-    while(trk != trks.end() && !progress->wasCanceled()) {
+    while(trk != trks.end() && !progress->wasCanceled())
+    {
         QByteArray data;
         QDataStream s(&data,QIODevice::WriteOnly);
 
@@ -274,12 +289,14 @@ void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
 
         s << *(*trk);
 
-        if(!exchange(type = eC2HTrk,data)) {
+        if(!exchange(type = eC2HTrk,data))
+        {
             QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError) {
+        if(type == eError)
+        {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -303,12 +320,14 @@ void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
     packet_e type;
     QByteArray  data1;
 
-    if(!exchange(type = eH2CTrkQuery,data1)) {
+    if(!exchange(type = eH2CTrkQuery,data1))
+    {
         QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to query tracks from device."),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
 
-    if(type == eError) {
+    if(type == eError)
+    {
         QMessageBox::critical(0,tr("Error..."), QString(data1),QMessageBox::Abort,QMessageBox::Abort);
         return release();
     }
@@ -322,7 +341,8 @@ void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
     wptlist >> nWpt;
 
     progress->setMaximum(nWpt);
-    for(n = 0; n < nWpt; ++n) {
+    for(n = 0; n < nWpt; ++n)
+    {
         QByteArray data;
         QDataStream stream(&data,QIODevice::ReadWrite);
         wptlist >> key >> name;
@@ -332,12 +352,14 @@ void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
 
         stream << key;
 
-        if(!exchange(type = eH2CTrk,data)) {
+        if(!exchange(type = eH2CTrk,data))
+        {
             QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to transfer tracks."),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
 
-        if(type == eError) {
+        if(type == eError)
+        {
             QMessageBox::critical(0,tr("Error..."), QString(data),QMessageBox::Abort,QMessageBox::Abort);
             return release();
         }
@@ -380,29 +402,34 @@ void CDeviceQLandkarteM::downloadRoutes(QList<CRoute*>& rtes)
 bool CDeviceQLandkarteM::startDeviceDetection()
 {
     QUdpSocket udpSocketSend;
-    if(ipaddr.isEmpty() || port == 0) {
+    if(ipaddr.isEmpty() || port == 0)
+    {
         QApplication::setOverrideCursor(Qt::WaitCursor);
 
         QByteArray datagram = "GETADRESS";
         // Send query on all network broadcast for each network interface
         QList<QNetworkInterface> netdevices = QNetworkInterface::allInterfaces();
         QNetworkInterface netdevice;
-        foreach(netdevice, netdevices) {
+        foreach(netdevice, netdevices)
+        {
             QList<QNetworkAddressEntry> networks = netdevice.addressEntries();
             QNetworkAddressEntry network;
-            foreach(network, networks) {
+            foreach(network, networks)
+            {
                 udpSocketSend.writeDatagram(datagram.data(), datagram.size(), network.broadcast(), REMOTE_PORT);
             }
         }
         QTime time;
         time.start();
-        while(time.elapsed() < 3000) {
+        while(time.elapsed() < 3000)
+        {
             QApplication::processEvents();
         }
         QApplication::restoreOverrideCursor();
     }
 
-    if(ipaddr.isEmpty() || port == 0) {
+    if(ipaddr.isEmpty() || port == 0)
+    {
         QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: No device found. Is it connected to the network?"),QMessageBox::Abort,QMessageBox::Abort);
         return false;
     }
@@ -416,7 +443,8 @@ void CDeviceQLandkarteM::detectedDevice()
     // Detect device only if none already
     if (ipaddr !="") return;
 
-    while (udpSocket.hasPendingDatagrams()) {
+    while (udpSocket.hasPendingDatagrams())
+    {
         QByteArray datagram;
         QHostAddress qlmAddress;
         quint16 qlmPort;
@@ -435,7 +463,8 @@ void CDeviceQLandkarteM::detectedDevice()
 bool CDeviceQLandkarteM::waitTcpServerStatus()
 {
     if (udpSocket.waitForReadyRead( 30000 ))
-    while (udpSocket.hasPendingDatagrams()) {
+        while (udpSocket.hasPendingDatagrams())
+    {
         QByteArray datagram;
         QHostAddress qlmAddress;
         quint16 qlmPort;
@@ -443,12 +472,15 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
         datagram.resize(udpSocket.pendingDatagramSize());
         udpSocket.readDatagram(datagram.data(), datagram.size(), &qlmAddress, &qlmPort);
         // Answer from the good M device we are speaking to
-        if (ipaddr == qlmAddress.toString() ) {
+        if (ipaddr == qlmAddress.toString() )
+        {
             qDebug() << "Device detected send " << datagram << " with address " << ipaddr << " and port " << port << "\r\n";
-            if (datagram== "ACK_START") {
+            if (datagram== "ACK_START")
+            {
                 qDebug() << "ACK_START\r\n";
                 tcpSocket.connectToHost(ipaddr,port);
-                if(!tcpSocket.waitForConnected(timeout)) {
+                if(!tcpSocket.waitForConnected(timeout))
+                {
                     QMessageBox::critical(0,tr("Error..."), tr("QLandkarteM: Failed to connect to device."),QMessageBox::Abort,QMessageBox::Abort);
                     tcpSocket.disconnectFromHost();
                     return false;
@@ -456,7 +488,8 @@ bool CDeviceQLandkarteM::waitTcpServerStatus()
                 qDebug() << "Connected to M\r\n";
                 break;
             }
-            else {
+            else
+            {
                 qDebug() << "ACK_STOP\r\n";
                 break;
             }

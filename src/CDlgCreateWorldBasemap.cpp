@@ -294,7 +294,8 @@ CDlgCreateWorldBasemap::CDlgCreateWorldBasemap()
     connect(tilehash, SIGNAL(newImageReady(QImage, bool)), this, SLOT(slotImageReady(QImage, bool)));
     connect(spinLevel, SIGNAL(valueChanged(int)), this, SLOT(slotChangeLevel(int)));
 
-    for(int i=0; i<256; ++i) {
+    for(int i=0; i<256; ++i)
+    {
         qtColorTable[i] = qRgb(defaultColorTable[i].c1,defaultColorTable[i].c2,defaultColorTable[i].c3);
     }
 
@@ -327,7 +328,8 @@ void CDlgCreateWorldBasemap::slotImageReady(QImage image, bool lastTileLoaded)
 {
     labelPreview->setPixmap(QPixmap::fromImage(image.scaled(512,512)));
 
-    if(lastTileLoaded) {
+    if(lastTileLoaded)
+    {
         QImage tmp = image.convertToFormat(QImage::Format_Indexed8,qtColorTable);
         tmp.save("./basemap.png");
         QStringList args;

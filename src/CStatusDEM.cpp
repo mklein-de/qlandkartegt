@@ -32,7 +32,8 @@ CStatusDEM::CStatusDEM(QWidget * parent)
     QSettings cfg;
     overlay = (IMap::overlay_e)cfg.value("map/overlay",overlay).toInt();
 
-    switch(overlay) {
+    switch(overlay)
+    {
         case IMap::eNone:
             radioNone->setChecked(true);
             break;
@@ -62,13 +63,16 @@ CStatusDEM::~CStatusDEM()
 void CStatusDEM::slotShowShading()
 {
     QString button = sender()->objectName();
-    if(button == "radioNone") {
+    if(button == "radioNone")
+    {
         overlay = IMap::eNone;
     }
-    else if(button == "radioShading") {
+    else if(button == "radioShading")
+    {
         overlay = IMap::eShading;
     }
-    else if(button == "radioContour") {
+    else if(button == "radioContour")
+    {
         overlay = IMap::eContour;
     }
 

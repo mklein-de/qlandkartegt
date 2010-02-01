@@ -33,9 +33,11 @@ CMenus::CMenus(QObject *parent) : QObject(parent)
     QStringList list;
     list << "aSwitchToMain" << "aMoveArea" << "aZoomArea" << "aCenterMap";
 
-    foreach(QString s, list) {
+    foreach(QString s, list)
+    {
         QAction *a = actions->getAction(s);
-        if (a) {
+        if (a)
+        {
             excludedActionForMenuBarMenu << a;
         }
     }
@@ -61,7 +63,8 @@ void CMenus::addAction(ActionGroupName groupName, const QString& actionName, boo
 void CMenus::addAction(ActionGroupName groupName, QAction *action, bool force /*= false*/)
 {
     QList<QAction *> *actionGroup;
-    if(!actionGroupHash.contains(groupName)) {
+    if(!actionGroupHash.contains(groupName))
+    {
         actionGroup = new QList<QAction *>();
         actionGroupHash.insert(groupName, actionGroup);
     }
@@ -88,30 +91,36 @@ void CMenus::removeAction(QAction *action)
 void CMenus::switchToActionGroup(ActionGroupName group)
 {
 
-    if (!actionGroupHash.value(group)) {
+    if (!actionGroupHash.value(group))
+    {
         qDebug() << tr("ActionGroup %1 not defined. Please fix.").arg(group);
         return;
     }
 
     activeGroup = group;
 
-    foreach(QAction* a, ((QWidget *)theMainWindow)->actions()) {
-        if (controlledActions.contains(a)) {
+    foreach(QAction* a, ((QWidget *)theMainWindow)->actions())
+    {
+        if (controlledActions.contains(a))
+        {
             lqdebug(QString("Action with '%1' as text is controlled -> removed").arg(a->text()));
             theMainWindow->removeAction(a);
             lqdebug(a->shortcuts());
-            if (!actionsShortcuts.contains(a)) {
+            if (!actionsShortcuts.contains(a))
+            {
                 actionsShortcuts.insert(a, a->shortcuts());
             }
             a->setShortcuts(QList<QKeySequence> ());
             lqdebug(a->shortcuts());
         }
-        else {
+        else
+        {
             lqdebug(QString("Action with '%1' as text is not controlled -> don't touch").arg(a->text()));
         }
     }
 
-    foreach(QAction* a, *actionGroupHash.value(group)) {
+    foreach(QAction* a, *actionGroupHash.value(group))
+    {
         lqdebug(QString("Controlled Action with '%1' added").arg(a->text()));
         theMainWindow->addAction(a);
         if (actionsShortcuts.contains(a))
@@ -128,7 +137,8 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
     menu->setTitle(actions->getMenuTitle());
     menu->addActions(getActiveActionsList(menu,contex,groupName));
 
-    if(groupName == MapMenu) {
+    if(groupName == MapMenu)
+    {
         menu->addAction(actions->getAction("aZoomIn"));
         menu->addAction(actions->getAction("aZoomOut"));
     }
@@ -150,12 +160,16 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
     QList<QAction *> list;
     int i=0;
 
-    foreach(QAction *a, *getActiveActions(groupName)) {
+    foreach(QAction *a, *getActiveActions(groupName))
+    {
         lqdebug(QString("enter menu: %1 ").arg(a->shortcut().toString()));
-        if ( names.testFlag(LeftSideMenu) ) {
+        if ( names.testFlag(LeftSideMenu) )
+        {
             QRegExp re ("^F(\\d+)$");
-            if (i==0) {
-                if (a->shortcut().toString() != "Esc") {
+            if (i==0)
+            {
+                if (a->shortcut().toString() != "Esc")
+                {
                     lqdebug("add action Esc");
                     QAction *dummyAction = new QAction(menu);
                     dummyAction->setText(tr("-"));
@@ -164,10 +178,12 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                 }
                 i++;
             }
-            if (re.exactMatch(a->shortcut().toString()) ) {
+            if (re.exactMatch(a->shortcut().toString()) )
+            {
                 int nextNumber = re.cap(1).toInt();
                 lqdebug(QString("match: i=%1, nextNumber=%2").arg(i).arg(nextNumber) << a->shortcut().toString());
-                while(i < nextNumber ) {
+                while(i < nextNumber )
+                {
                     lqdebug("add action" << nextNumber << i);
                     QAction *dummyAction = new QAction(menu);
                     dummyAction->setText(tr("-"));
@@ -178,21 +194,26 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
                 i++;
             }
 
-            if (i> SIZE_OF_MEGAMENU) {
+            if (i> SIZE_OF_MEGAMENU)
+            {
                 return list;
             }
         }
-        else {
+        else
+        {
             i++;
         }
-        if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu)) {
-            if (!actionsShortcuts.contains(a)) {
+        if (names.testFlag(MenuBarMenu) && (!excludedActionForMenuBarMenu.contains(a) || groupName == MapMenu))
+        {
+            if (!actionsShortcuts.contains(a))
+            {
                 actionsShortcuts.insert(a, a->shortcuts());
             }
             a->setShortcuts(QList<QKeySequence> ());
             list << a;
         }
-        else if (names.testFlag(ContextMenu) || names.testFlag(LeftSideMenu)) {
+        else if (names.testFlag(ContextMenu) || names.testFlag(LeftSideMenu))
+        {
             list << a;
         }
     }
@@ -204,7 +225,8 @@ QList<QAction *> CMenus::getActiveActionsList(QObject *menu, MenuContextNames na
 QList<QAction *> *CMenus::getActiveActions(ActionGroupName group)
 {
     ActionGroupName g = group;
-    if (g == NoMenu) {
+    if (g == NoMenu)
+    {
         g = activeGroup;
     }
     return actionGroupHash.value(g,new QList<QAction* >());

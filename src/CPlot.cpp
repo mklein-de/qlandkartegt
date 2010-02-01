@@ -187,7 +187,8 @@ void CPlot::setLRTB()
     right -= scaleWidthX1 / 2;
 
     top = 0;
-    if(!m_pData->tags.isEmpty()) {
+    if(!m_pData->tags.isEmpty())
+    {
         top += fontHeight;
         top += 16;
     }
@@ -216,10 +217,12 @@ void CPlot::setSizeIconArea()
 void CPlot::setSizeXLabel()
 {
     int y;
-    if ( m_pData->xlabel.isEmpty() ) {
+    if ( m_pData->xlabel.isEmpty() )
+    {
         rectX1Label = QRect( 0, 0, 0, 0 );
     }
-    else {
+    else
+    {
         rectX1Label.setWidth( right - left );
         rectX1Label.setHeight( fontHeight );
         y = ( size().height() - rectX1Label.height());
@@ -238,10 +241,12 @@ void CPlot::setSizeXLabel()
 */
 void CPlot::setSizeYLabel()
 {
-    if ( m_pData->ylabel.isEmpty() ) {
+    if ( m_pData->ylabel.isEmpty() )
+    {
         rectY1Label = QRect( 0, 0, 0, 0 );
     }
-    else {
+    else
+    {
         rectY1Label.setWidth( bottom - top );
         rectY1Label.setHeight( fontHeight );
         rectY1Label.moveTopLeft( QPoint( size().height() - bottom, 0 ) );
@@ -291,7 +296,8 @@ void CPlot::drawLabels( QPainter &p )
 {
     p.setPen(Qt::darkBlue);
 
-    if ( rectX1Label.isValid() ) {
+    if ( rectX1Label.isValid() )
+    {
         p.drawText( rectX1Label, Qt::AlignCenter, m_pData->xlabel );
     }
 
@@ -301,7 +307,8 @@ void CPlot::drawLabels( QPainter &p )
     m.rotate( -90 );
     p.setMatrix( m );
 
-    if ( rectY1Label.isValid() ) {
+    if ( rectY1Label.isValid() )
+    {
         p.drawText( rectY1Label, Qt::AlignCenter, m_pData->ylabel );
     }
     p.restore();
@@ -325,9 +332,11 @@ void CPlot::drawXScale( QPainter &p )
 
     iy = bottom + deadAreaY;
     const CPlotAxis::TTic * t = m_pData->x().ticmark();
-    while ( t ) {
+    while ( t )
+    {
         ix = left + m_pData->x().val2pt( t->val ) - ( scaleWidthX1 + 1 ) / 2;
-        if ( ( ( ix_ < 0 ) || ( ( ix - ix_ ) > scaleWidthX1 + 5 ) ) && !t->lbl.isEmpty() ) {
+        if ( ( ( ix_ < 0 ) || ( ( ix - ix_ ) > scaleWidthX1 + 5 ) ) && !t->lbl.isEmpty() )
+        {
             recText.moveTopLeft( QPoint( ix, iy ) );
             p.drawText( recText, Qt::AlignCenter, t->lbl );
             ix_ = ix;
@@ -368,7 +377,8 @@ void CPlot::drawYScale( QPainter &p )
 
     ix = left - scaleWidthY1 - deadAreaX;
     const CPlotAxis::TTic * t = m_pData->y().ticmark();
-    while ( t ) {
+    while ( t )
+    {
         iy = bottom - m_pData->y().val2pt( t->val ) - fontHeight / 2;
 
         recText.moveTopLeft( QPoint( ix, iy ) );
@@ -403,7 +413,8 @@ void CPlot::drawXTic( QPainter & p )
     p.setPen(QPen(Qt::black,2));
     iyb = rectGraphArea.bottom();
     iyt = rectGraphArea.top();
-    while ( t ) {
+    while ( t )
+    {
         ix = left + m_pData->x().val2pt( t->val );
         p.drawLine( ix, iyb, ix, iyb - 5 );
         p.drawLine( ix, iyt, ix, iyt + 5 );
@@ -421,7 +432,8 @@ void CPlot::drawYTic( QPainter &p )
     p.setPen(QPen(Qt::black,2));
     ixl = rectGraphArea.left();
     ixr = rectGraphArea.right();
-    while ( t ) {
+    while ( t )
+    {
         iy = bottom - m_pData->y().val2pt( t->val );
         p.drawLine( ixl, iy, ixl + 5, iy );
         p.drawLine( ixr, iy, ixr - 5, iy );
@@ -444,7 +456,8 @@ void CPlot::drawGridX( QPainter &p )
     p.setPen( QPen( QColor(0,150,0,128), 1, Qt::DotLine ) );
 
     iy = rectGraphArea.top();
-    while ( t ) {
+    while ( t )
+    {
         ix = left + m_pData->x().val2pt( t->val );
         p.drawLine( ix, iy, ix, iy + dy );
         t = m_pData->x().ticmark( t );
@@ -467,7 +480,8 @@ void CPlot::drawGridY( QPainter &p )
     p.setPen( QPen( QColor(0,150,0,128), 1, Qt::DotLine ) );
 
     ix = rectGraphArea.left();
-    while ( t ) {
+    while ( t )
+    {
         iy = bottom - m_pData->y().val2pt( t->val );
         p.drawLine( ix, iy, ix + dx, iy );
         t = m_pData->y().ticmark( t );
@@ -505,7 +519,8 @@ void CPlot::drawData(QPainter& p)
     CPlotAxis& xaxis = m_pData->x();
     CPlotAxis& yaxis = m_pData->y();
 
-    while(line != lines.end()) {
+    while(line != lines.end())
+    {
         QPolygonF background;
         QPolygonF foreground;
 
@@ -519,11 +534,13 @@ void CPlot::drawData(QPainter& p)
         background << QPointF(left,pty);
         background << QPointF(ptx,pty);
 
-        while(point != polyline.end()) {
+        while(point != polyline.end())
+        {
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
 
-            if(ptx >= left && ptx <= right) {
+            if(ptx >= left && ptx <= right)
+            {
                 background << QPointF(ptx,pty);
                 foreground << QPointF(ptx, pty);
             }
@@ -552,7 +569,8 @@ void CPlot::drawData(QPainter& p)
         QPolygonF::const_iterator point = marks.begin();
         p.setPen(QPen(Qt::red,2));
 
-        while(point != marks.end()) {
+        while(point != marks.end())
+        {
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
 
@@ -563,7 +581,8 @@ void CPlot::drawData(QPainter& p)
         }
     }
 
-    if(!m_pData->point1.point.isNull()) {
+    if(!m_pData->point1.point.isNull())
+    {
         p.setPen(QPen(Qt::darkGreen));
         ptx = left   + xaxis.val2pt( m_pData->point1.point.x() );
         pty = bottom - yaxis.val2pt( m_pData->point1.point.y() );
@@ -588,7 +607,8 @@ void CPlot::drawLegend(QPainter& p)
     QList<CPlotData::line_t> lines                  = m_pData->lines;
     QList<CPlotData::line_t>::const_iterator line   = lines.begin();
 
-    while(line != lines.end()) {
+    while(line != lines.end())
+    {
         p.setPen(Qt::black);
         p.drawText(x + 30 ,y,line->label);
         p.setPen(pens[penIdx++]);
@@ -613,11 +633,13 @@ void CPlot::drawTags(QPainter& p)
     QFontMetrics fm(p.font());
 
     QVector<CPlotData::point_t>::const_iterator tag = m_pData->tags.begin();
-    while(tag != m_pData->tags.end()) {
+    while(tag != m_pData->tags.end())
+    {
         ptx = left   + xaxis.val2pt( tag->point.x() );
         pty = bottom - yaxis.val2pt( tag->point.y() );
 
-        if (left < ptx &&  ptx < right) {
+        if (left < ptx &&  ptx < right)
+        {
             rect = fm.boundingRect(tag->label);
             rect.moveCenter(QPoint(ptx, fontHeight / 2));
             p.setPen(Qt::darkBlue);
@@ -626,8 +648,10 @@ void CPlot::drawTags(QPainter& p)
             p.drawPixmap(ptx - tag->icon.width() / 2, fontHeight, tag->icon);
 
             p.setPen(QPen(Qt::white, 3));
-            if (fontHeight + 16 < pty) {
-                if (pty > bottom) {
+            if (fontHeight + 16 < pty)
+            {
+                if (pty > bottom)
+                {
                     pty = bottom;
                 }
 
@@ -750,10 +774,12 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
 void CPlot::mouseReleaseEvent(QMouseEvent * e)
 {
-    if (e->button() == Qt::LeftButton) {
+    if (e->button() == Qt::LeftButton)
+    {
         QApplication::restoreOverrideCursor();
     }
-    if (checkClick && e->button() == Qt::LeftButton) {
+    if (checkClick && e->button() == Qt::LeftButton)
+    {
         QPoint pos = e->pos();
         double dist = getXValByPixel(pos.x());
         emit activePointSignal(dist);
@@ -763,7 +789,8 @@ void CPlot::mouseReleaseEvent(QMouseEvent * e)
 
 void CPlot::mousePressEvent(QMouseEvent * e)
 {
-    if (e->button() == Qt::LeftButton) {
+    if (e->button() == Qt::LeftButton)
+    {
         QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
         startMovePos = e->pos();
         checkClick = true;

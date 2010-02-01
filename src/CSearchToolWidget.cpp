@@ -63,7 +63,8 @@ CSearchToolWidget::~CSearchToolWidget()
 void CSearchToolWidget::slotReturnPressed()
 {
     QString line = lineInput->text().trimmed();
-    if(!line.isEmpty()) {
+    if(!line.isEmpty())
+    {
         CSearchDB::self().search(line);
         lineInput->setEnabled(false);
     }
@@ -82,7 +83,8 @@ void CSearchToolWidget::slotDBChanged()
     listResults->clear();
 
     QMap<QString,CSearch*>::const_iterator result = CSearchDB::self().begin();
-    while(result != CSearchDB::self().end()) {
+    while(result != CSearchDB::self().end())
+    {
         QListWidgetItem * item = new QListWidgetItem(listResults);
         item->setText((*result)->query);
 
@@ -94,7 +96,8 @@ void CSearchToolWidget::slotDBChanged()
 
 void CSearchToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listResults->currentItem()) {
+    if(listResults->currentItem())
+    {
         QPoint p = listResults->mapToGlobal(pos);
         contextMenu->exec(p);
     }
@@ -104,7 +107,8 @@ void CSearchToolWidget::slotContextMenu(const QPoint& pos)
 void CSearchToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     CSearch * result = CSearchDB::self().getResultByKey(item->text());
-    if(result) {
+    if(result)
+    {
         theMainWindow->getCanvas()->move(result->lon, result->lat);
     }
 }
@@ -115,7 +119,8 @@ void CSearchToolWidget::slotDelete()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listResults->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->text();
         delete item;
     }
@@ -153,14 +158,17 @@ void CSearchToolWidget::slotAdd()
 
 void CSearchToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotDelete();
         e->accept();
     }
-    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier) {
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier)
+    {
         slotCopyPosition();
     }
-    else {
+    else
+    {
         QWidget::keyPressEvent(e);
     }
 }

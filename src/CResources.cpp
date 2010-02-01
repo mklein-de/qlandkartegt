@@ -92,13 +92,16 @@ CResources::CResources(QObject * parent)
     QString unittype = cfg.value("environment/unittype","metric").toString();
     if(unittype == "metric")
         unit = new CUnitMetric(this);
-    else if(unittype == "nautic") {
+    else if(unittype == "nautic")
+    {
         unit = new CUnitNautic(this);
     }
-    else if(unittype == "imperial") {
+    else if(unittype == "imperial")
+    {
         unit = new CUnitImperial(this);
     }
-    else {
+    else
+    {
         qWarning("Unknown unit type. Using 'metric'");
         unit = new CUnitMetric(this);
     }
@@ -154,25 +157,31 @@ bool CResources::getHttpProxy(QString& url, quint16& port)
 IDevice * CResources::device()
 {
     // purge device if the key does not match
-    if(m_device && (m_device->getDevKey() != m_devKey)) {
+    if(m_device && (m_device->getDevKey() != m_devKey))
+    {
         qDebug() << m_device->getDevKey() << m_devKey;
         delete m_device;
         m_device = 0;
     }
 
     // allocate new device
-    if(!m_device) {
-        if(m_devKey == "QLandkarteM") {
+    if(!m_device)
+    {
+        if(m_devKey == "QLandkarteM")
+        {
             //m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
             m_device = new CDeviceQLandkarteM(m_devIPAddress,m_devIPPort,this);
         }
-        if(m_devKey == "Mikrokopter") {
+        if(m_devKey == "Mikrokopter")
+        {
             m_device = new CDeviceMikrokopter(m_devSerialPort, this);
         }
-        else if(m_devKey == "Garmin" && !m_devType.isEmpty()) {
+        else if(m_devKey == "Garmin" && !m_devType.isEmpty())
+        {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);
         }
-        else if(m_devKey == "NMEA") {
+        else if(m_devKey == "NMEA")
+        {
             m_device = new CDeviceNMEA(m_devSerialPort, this);
         }
 
@@ -180,7 +189,8 @@ IDevice * CResources::device()
     }
 
     // still no device?
-    if(!m_device) {
+    if(!m_device)
+    {
         qWarning() << "no device";
         // TODO: would be nicer to open the setup dialog
         QMessageBox::critical(0,tr("No device."),tr("You have to select a device in Setup->Config->Device & Xfer"), QMessageBox::Abort, QMessageBox::Abort);
@@ -202,16 +212,20 @@ QString CResources::charset()
 void CResources::openLink(const QString& link)
 {
     QString cmd;
-    if(m_eBrowser == eFirefox) {
+    if(m_eBrowser == eFirefox)
+    {
         cmd.sprintf(cmdFirefox.toAscii(),link.toAscii().data());
     }
-    else if(m_eBrowser == eKonqueror) {
+    else if(m_eBrowser == eKonqueror)
+    {
         cmd.sprintf(cmdKonqueror.toAscii(),link.toAscii().data());
     }
-    else if(m_eBrowser == eOther) {
+    else if(m_eBrowser == eOther)
+    {
         cmd.sprintf(cmdOther.toAscii(),link.toAscii().data());
     }
-    else {
+    else
+    {
         return;
     }
 

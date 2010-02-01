@@ -28,10 +28,12 @@ CTrackStatSpeedWidget::CTrackStatSpeedWidget(type_e type, QWidget * parent)
 : ITrackStat(type, parent)
 , needResetZoom(true)
 {
-    if(type == eOverDistance) {
+    if(type == eOverDistance)
+    {
         plot->setXLabel(tr("distance [m]"));
     }
-    else {
+    else
+    {
         plot->setXLabel(tr("time [h]"));
     }
     plot->setYLabel(tr("speed [km/h]"));
@@ -61,15 +63,18 @@ void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
 void CTrackStatSpeedWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
-    if(track.isNull()) {
+    if(track.isNull())
+    {
         plot->clear();
         return;
     }
 
-    if(type == eOverDistance) {
+    if(type == eOverDistance)
+    {
         plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
     }
-    else {
+    else
+    {
         plot->setXLabel(tr("time [h]"));
     }
 
@@ -85,18 +90,22 @@ void CTrackStatSpeedWidget::slotChanged()
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             ++trkpt; continue;
         }
         lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
         lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->avgspeed * speedfactor);
         //         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
-        if(trkpt->flags & CTrack::pt_t::eSelected) {
+        if(trkpt->flags & CTrack::pt_t::eSelected)
+        {
             marksSpeed << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
-        if(trkpt->flags & CTrack::pt_t::eFocus) {
+        if(trkpt->flags & CTrack::pt_t::eFocus)
+        {
             focusSpeed = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
         }
 
@@ -108,7 +117,8 @@ void CTrackStatSpeedWidget::slotChanged()
     plot->newMarks(marksSpeed);
 
     plot->setLimits();
-    if (needResetZoom) {
+    if (needResetZoom)
+    {
         plot->resetZoom();
         needResetZoom = false;
     }

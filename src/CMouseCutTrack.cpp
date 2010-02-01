@@ -44,7 +44,8 @@ void CMouseCutTrack::draw(QPainter& p)
     drawSelTrkPt(p);
 
     IMap& map = CMapDB::self().getMap();
-    if(nextTrkPt) {
+    if(nextTrkPt)
+    {
         double u1 = nextTrkPt->lon * DEG_TO_RAD;
         double v1 = nextTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u1,v1);
@@ -82,17 +83,21 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
     if(track == 0) return;
 
     int idx = 0;
-    if(selTrkPt) {
+    if(selTrkPt)
+    {
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         idx = trkpts.indexOf(*selTrkPt);
-        while(idx < trkpts.size()) {
-            if(&trkpts[idx] != selTrkPt && !(trkpts[idx].flags & CTrack::pt_t::eDeleted)) {
+        while(idx < trkpts.size())
+        {
+            if(&trkpts[idx] != selTrkPt && !(trkpts[idx].flags & CTrack::pt_t::eDeleted))
+            {
                 break;
             }
 
             ++idx;
         }
-        if(idx < trkpts.size()) {
+        if(idx < trkpts.size())
+        {
             nextTrkPt = &trkpts[idx];
         }
     }
@@ -102,7 +107,8 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseCutTrack::mousePressEvent(QMouseEvent * e)
 {
-    if(selTrkPt && nextTrkPt && selTrkPt != nextTrkPt) {
+    if(selTrkPt && nextTrkPt && selTrkPt != nextTrkPt)
+    {
         CTrackDB::self().splitTrack(selTrkPt->idx);
     }
 }

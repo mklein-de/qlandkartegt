@@ -48,7 +48,8 @@ CRouteDB::~CRouteDB()
 
 void CRouteDB::addRoute(CRoute * route, bool silent)
 {
-    if(route->getName().isEmpty()) {
+    if(route->getName().isEmpty())
+    {
         route->setName(tr("Route%1").arg(cnt++));
     }
 
@@ -56,7 +57,8 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
     routes[route->key()] = route;
 
     connect(route,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    if(!silent) {
+    if(!silent)
+    {
         emit sigChanged();
         emit sigModified();
     }
@@ -68,7 +70,8 @@ void CRouteDB::delRoute(const QString& key, bool silent)
 {
     if(!routes.contains(key)) return;
     delete routes.take(key);
-    if(!silent) {
+    if(!silent)
+    {
         emit sigChanged();
         emit sigModified();
     }
@@ -78,7 +81,8 @@ void CRouteDB::delRoute(const QString& key, bool silent)
 void CRouteDB::delRoutes(const QStringList& keys)
 {
     QString key;
-    foreach(key,keys) {
+    foreach(key,keys)
+    {
         if(!routes.contains(key)) continue;
         delete routes.take(key);
     }
@@ -89,10 +93,12 @@ void CRouteDB::delRoutes(const QStringList& keys)
 
 CRoute * CRouteDB::getRoute(const QString& key)
 {
-    if(routes.contains(key)) {
+    if(routes.contains(key))
+    {
         return routes[key];
     }
-    else {
+    else
+    {
         return 0;
     }
 }
@@ -101,12 +107,14 @@ CRoute * CRouteDB::getRoute(const QString& key)
 void CRouteDB::highlightRoute(const QString& key)
 {
     QMap<QString,CRoute*>::iterator route = routes.begin();
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         (*route)->setHighlight(false);
         ++route;
     }
 
-    if(routes.contains(key)) {
+    if(routes.contains(key))
+    {
         routes[key]->setHighlight(true);
     }
 
@@ -120,7 +128,8 @@ CRoute* CRouteDB::highlightedRoute()
 {
 
     QMap<QString,CRoute*>::iterator route = routes.begin();
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         if((*route)->isHighlighted()) return *route;
         ++route;
     }
@@ -131,7 +140,8 @@ CRoute* CRouteDB::highlightedRoute()
 
 QRectF CRouteDB::getBoundingRectF(const QString key)
 {
-    if(!routes.contains(key)) {
+    if(!routes.contains(key))
+    {
         return QRectF();
     }
     return routes.value(key)->getBoundingRectF();
@@ -143,22 +153,27 @@ void CRouteDB::loadGPX(CGpx& gpx)
 {
     const QDomNodeList& rtes = gpx.elementsByTagName("rte");
     uint N = rtes.count();
-    for(uint n = 0; n < N; ++n) {
+    for(uint n = 0; n < N; ++n)
+    {
         const QDomNode& rte = rtes.item(n);
 
         CRoute * r = 0;
         /* name is not a required element. */
-        if(rte.namedItem("name").isElement()) {
+        if(rte.namedItem("name").isElement())
+        {
             r = new CRoute(this);
             r->setName(rte.namedItem("name").toElement().text());
         }
-        else {
+        else
+        {
             /* Use desc if name is unavailable, else give it no name. */
-            if (rte.namedItem("desc").isElement()) {
+            if (rte.namedItem("desc").isElement())
+            {
                 r = new CRoute(this);
                 r->setName(rte.namedItem("desc").toElement().text());
             }
-            else {
+            else
+            {
                 r = new CRoute(this);
                 r->setName(tr("Unnamed"));
             }
@@ -166,7 +181,8 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
         QDomElement rtept = rte.firstChildElement("rtept");
 
-        while (!rtept.isNull()) {
+        while (!rtept.isNull())
+        {
             XY pt;
             QDomNamedNodeMap attr = rtept.attributes();
 
@@ -175,7 +191,8 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
             r->addPosition(pt.u,pt.v);
 
-            if(rtept.namedItem("sym").isElement()) {
+            if(rtept.namedItem("sym").isElement())
+            {
                 QString symname = rtept.namedItem("sym").toElement().text();
                 r->setIcon(symname);
             }
@@ -183,7 +200,8 @@ void CRouteDB::loadGPX(CGpx& gpx)
             rtept = rtept.nextSiblingElement("rtept");
         }
 
-        if(routes.contains(r->key())) {
+        if(routes.contains(r->key()))
+        {
             delete routes.take(r->key());
         }
 
@@ -203,7 +221,8 @@ void CRouteDB::saveGPX(CGpx& gpx)
 {
     QDomElement root = gpx.documentElement();
     QMap<QString,CRoute*>::iterator route = routes.begin();
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         QDomElement gpxRoute = gpx.createElement("rte");
         root.appendChild(gpxRoute);
 
@@ -215,7 +234,8 @@ void CRouteDB::saveGPX(CGpx& gpx)
         unsigned cnt = 0;
         QList<XY>& rtepts = (*route)->getRoutePoints();
         QList<XY>::const_iterator rtept = rtepts.begin();
-        while(rtept != rtepts.end()) {
+        while(rtept != rtepts.end())
+        {
             QDomElement gpxRtept = gpx.createElement("rtept");
             gpxRoute.appendChild(gpxRtept);
 
@@ -257,7 +277,8 @@ void CRouteDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.routes(),QIODevice::ReadOnly);
 
-    while(!stream.atEnd()) {
+    while(!stream.atEnd())
+    {
         CRoute * route = new CRoute(this);
         stream >> *route;
         route->calcDistance();
@@ -272,7 +293,8 @@ void CRouteDB::loadQLB(CQlb& qlb)
 void CRouteDB::saveQLB(CQlb& qlb)
 {
     QMap<QString, CRoute*>::const_iterator route = routes.begin();
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         qlb << *(*route);
         ++route;
     }
@@ -284,7 +306,8 @@ void CRouteDB::upload()
     if(routes.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CRoute*> tmprtes = routes.values();
         dev->uploadRoutes(tmprtes);
     }
@@ -294,14 +317,16 @@ void CRouteDB::upload()
 void CRouteDB::download()
 {
     IDevice * dev = CResources::self().device();
-    if(dev) {
+    if(dev)
+    {
         QList<CRoute*> tmprtes;
         dev->downloadRoutes(tmprtes);
 
         if(tmprtes.isEmpty()) return;
 
         CRoute * rte;
-        foreach(rte,tmprtes) {
+        foreach(rte,tmprtes)
+        {
             addRoute(rte, true);
         }
     }
@@ -329,7 +354,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QMap<QString,CRoute*>::iterator route       = routes.begin();
     QMap<QString,CRoute*>::iterator highlighted = routes.end();
 
-    while(route != routes.end()) {
+    while(route != routes.end())
+    {
         QPolygon& line = (*route)->getPolyline();
 
         bool firstTime = (*route)->firstTime;
@@ -337,9 +363,11 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QList<XY>& rtepts         = (*route)->getRoutePoints();
         QList<XY>::iterator rtept = rtepts.begin();
 
-        if ( needsRedraw || firstTime) {
+        if ( needsRedraw || firstTime)
+        {
             line.clear();
-            while(rtept != rtepts.end()) {
+            while(rtept != rtepts.end())
+            {
                 double u = rtept->u * DEG_TO_RAD;
                 double v = rtept->v * DEG_TO_RAD;
 
@@ -349,16 +377,19 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             }
         }
 
-        if(!rect.intersects(line.boundingRect())) {
+        if(!rect.intersects(line.boundingRect()))
+        {
             ++route; continue;
         }
 
-        if((*route)->isHighlighted()) {
+        if((*route)->isHighlighted())
+        {
             // store highlighted route to draw it later
             // it must be drawn above all other routes
             highlighted = route;
         }
-        else {
+        else
+        {
             // draw normal route
             QPen pen(Qt::darkMagenta,7);
             pen.setCapStyle(Qt::RoundCap);
@@ -371,7 +402,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             // draw bubbles
             QPoint pt;
             QPixmap bullet = (*route)->getIcon();
-            foreach(pt,line) {
+            foreach(pt,line)
+            {
                 p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
             }
         }
@@ -381,7 +413,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     }
 
     // if there is a highlighted route, draw it
-    if(highlighted != routes.end()) {
+    if(highlighted != routes.end())
+    {
         route = highlighted;
 
         QPolygon& line = (*route)->getPolyline();
@@ -398,7 +431,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         // draw bubbles
         QPoint pt;
         QPixmap bullet = (*route)->getIcon();
-        foreach(pt,line) {
+        foreach(pt,line)
+        {
             p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
         }
     }

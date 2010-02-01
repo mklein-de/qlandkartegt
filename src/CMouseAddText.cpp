@@ -41,7 +41,8 @@ CMouseAddText::~CMouseAddText()
 void CMouseAddText::draw(QPainter& p)
 {
 
-    if(selArea) {
+    if(selArea)
+    {
         p.setBrush(Qt::white);
         p.setPen(Qt::black);
         p.drawRect(rect);
@@ -51,7 +52,8 @@ void CMouseAddText::draw(QPainter& p)
 
 void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
 {
-    if(selArea) {
+    if(selArea)
+    {
         resizeRect(e->pos());
     }
 }
@@ -59,8 +61,10 @@ void CMouseAddText::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddText::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
-        if(!selArea) {
+    if(e->button() == Qt::LeftButton)
+    {
+        if(!selArea)
+        {
             startRect(e->pos());
             selArea = true;
         }
@@ -70,8 +74,10 @@ void CMouseAddText::mousePressEvent(QMouseEvent * e)
 
 void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
-        if(selArea) {
+    if(e->button() == Qt::LeftButton)
+    {
+        if(selArea)
+        {
             resizeRect(e->pos());
             selArea     = false;
             COverlayDB::self().addText("",rect);

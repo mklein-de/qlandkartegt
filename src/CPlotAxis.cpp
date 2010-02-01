@@ -53,18 +53,22 @@ void CPlotAxis::setMinMax( double given_min, double given_max )
 {
     double tmp;
 
-    if ( given_min == given_max ) {
-        if ( given_min != 0.0 ) {
+    if ( given_min == given_max )
+    {
+        if ( given_min != 0.0 )
+        {
             given_min -= given_min / 10.0;
             given_max += given_max / 10.0;
         }
-        else {
+        else
+        {
             given_min -= 0.1;
             given_max += 0.1;
         }
     }
 
-    if ( given_min > given_max ) {
+    if ( given_min > given_max )
+    {
         tmp = given_max;
         given_max = given_min;
         given_min = tmp;
@@ -106,18 +110,21 @@ void CPlotAxis::calc()
     interval = exponent + residue;
     interval = pow( 10, interval );
 
-    if ( autoscale ) {
+    if ( autoscale )
+    {
         used_min = floor( used_min / interval ) * interval;
         used_max = ceil( used_max / interval ) * interval;
     }
-    else {
+    else
+    {
         used_min = used_min;
         used_max = used_max;
     }
 
     int t1 = ( int )( used_min / interval + 0.5);
     tic_start = interval * t1;
-    if ( tic_start < used_min ) {
+    if ( tic_start < used_min )
+    {
         tic_start += interval;
     }
 }
@@ -130,27 +137,33 @@ const QString CPlotAxis::fmtsgl( double val )
     double exponent;
     double residue;
 
-    if ( val != 0 ) {
+    if ( val != 0 )
+    {
         if ( val < 0 ) val = -val;
         tmp = log10( val );
         exponent = ( int ) tmp;
         residue = tmp - exponent;
     }
-    else {
+    else
+    {
         exponent = 0;
         residue = 0;
     }
 
-    if ( abs( ( int ) exponent ) > 5 ) {
+    if ( abs( ( int ) exponent ) > 5 )
+    {
         f = "%1.2e";
     }
-    else {
-        if ( exponent >= 0 ) {
+    else
+    {
+        if ( exponent >= 0 )
+        {
             f = "%" + QString( "%1" ).arg( ( int ) ( exponent + 1 ) );
             if ( ( exponent == 0 ) && ( residue < 0 ) ) f += ".1f";
             else f += ".0f";
         }
-        else {
+        else
+        {
             f = "%1." + QString( "%1" ).arg( ( int ) ( -exponent + 1 ) ) + "f";
         }
     }
@@ -182,27 +195,33 @@ const QString CPlotAxis::fmtdbl( double val )
     double exponent;
     double residue;
 
-    if ( val != 0 ) {
+    if ( val != 0 )
+    {
         if ( val < 0 ) val = -val;
         tmp = log10( val );
         exponent = ( int ) tmp;
         residue = tmp - exponent;
     }
-    else {
+    else
+    {
         exponent = 0;
         residue = 0;
     }
 
-    if ( abs( ( int ) exponent ) > 5 ) {
+    if ( abs( ( int ) exponent ) > 5 )
+    {
         f = "%1.3e";
     }
-    else {
-        if ( exponent >= 0 ) {
+    else
+    {
+        if ( exponent >= 0 )
+        {
             f = "%" + QString( "%1" ).arg( ( int ) ( exponent + 1 ) );
             if ( ( exponent == 0 ) && ( residue < 0 ) ) f += ".2f";
             else f += ".1f";
         }
-        else {
+        else
+        {
             f = "%1." + QString( "%1" ).arg( ( int ) ( -exponent + 2 ) ) + "f";
         }
     }
@@ -220,7 +239,8 @@ int CPlotAxis::getScaleWidth( const QFontMetrics& m )
     QString format_single_prec = fmtsgl( interval );
 
     const TTic * t = ticmark();
-    while ( t ) {
+    while ( t )
+    {
         tmp = m.width( QString().sprintf( format_single_prec.toLatin1().data(), t->val ) );
         if ( tmp > width ) width = tmp;
         t = ticmark( t );
@@ -242,57 +262,70 @@ const CPlotAxis::TTic* CPlotAxis::ticmark( const TTic * t )
 {
     QString format_single_prec = fmtsgl( interval );
 
-    switch ( tic_type ) {
+    switch ( tic_type )
+    {
         case notic:
             return 0;
             break;
 
         case minmax:
-            if ( t == NULL ) {
+            if ( t == NULL )
+            {
                 tic.val = used_min;
                 firstTic = true;
             }
-            else if ( firstTic == true ) {
+            else if ( firstTic == true )
+            {
                 tic.val = used_max;
                 firstTic = false;
             }
-            else {
+            else
+            {
                 return 0;
             }
             break;
 
         case norm:
-            if ( interval == 0 ) {
+            if ( interval == 0 )
+            {
                 //qWarning() << "CPlotAxis::ticmark() mode 'norm': interval == 0";
                 return 0;
             }
-            if ( t == NULL ) {
+            if ( t == NULL )
+            {
                 tic.val = tic_start;
             }
-            else {
+            else
+            {
                 tic.val += interval;
-                if ( ( tic.val - used_max ) > interval / 20 ) {
+                if ( ( tic.val - used_max ) > interval / 20 )
+                {
                     return 0;
                 }
             }
             break;
 
         case full:
-            if ( t == NULL ) {
+            if ( t == NULL )
+            {
                 tic.val = used_min;
                 firstTic = true;
             }
-            else if ( firstTic == true ) {
+            else if ( firstTic == true )
+            {
                 tic.val = tic_start;
                 firstTic = false;
             }
-            else if ( lastTic == true ) {
+            else if ( lastTic == true )
+            {
                 lastTic = false;
                 return 0;
             }
-            else {
+            else
+            {
                 tic.val += interval;
-                if ( ( tic.val - used_max ) > interval / 20 ) {
+                if ( ( tic.val - used_max ) > interval / 20 )
+                {
                     tic.val = used_max;
                     lastTic = true;
                 }

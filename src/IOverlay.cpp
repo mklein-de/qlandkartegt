@@ -37,14 +37,16 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
     char magic[9];
     s.readRawData(magic,9);
 
-    if(strncmp(magic,"QLOvl   ",9)) {
+    if(strncmp(magic,"QLOvl   ",9))
+    {
         dev->seek(pos);
         return s;
     }
 
     QList<ovl_head_entry_t> entries;
 
-    while(1) {
+    while(1)
+    {
         ovl_head_entry_t entry;
         s >> entry.type >> entry.offset;
         entries << entry;
@@ -52,12 +54,14 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
     }
 
     QList<ovl_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         qint64 o = pos + entry->offset;
         dev->seek(o);
         s >> entry->data;
 
-        switch(entry->type) {
+        switch(entry->type)
+        {
             case IOverlay::eBase:
             {
 
@@ -65,13 +69,15 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                 QString type;
 
                 s1 >> type;
-                if(type == "Text") {
+                if(type == "Text")
+                {
                     QRect rect;
                     QString text;
                     s1 >> rect >> text;
                     db.addText(text,rect);
                 }
-                else if(type == "TextBox") {
+                else if(type == "TextBox")
+                {
                     QRect rect;
                     QPoint pt;
                     QString text;
@@ -79,14 +85,16 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     s1 >> lon >> lat >> pt >> rect >> text;
                     db.addTextBox(text, lon, lat, pt, rect);
                 }
-                else if(type == "Distance") {
+                else if(type == "Distance")
+                {
                     QString name;
                     QString comment;
                     int size;
                     XY pt;
                     QList<XY> points;
                     s1 >> name >> comment >> size;
-                    for(int i = 0; i < size; ++i) {
+                    for(int i = 0; i < size; ++i)
+                    {
                         s1 >> pt.u >> pt.v;
                         points << pt;
                     }
@@ -136,7 +144,8 @@ QDataStream& operator <<(QDataStream& s, IOverlay& ovl)
     quint32 offset = entries.count() * 8 + 9;
 
     QList<ovl_head_entry_t>::iterator entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         entry->offset = offset;
         offset += entry->data.size() + sizeof(quint32);
         ++entry;
@@ -144,14 +153,16 @@ QDataStream& operator <<(QDataStream& s, IOverlay& ovl)
 
     // write offset table
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->type << entry->offset;
         ++entry;
     }
 
     // write entry data
     entry = entries.begin();
-    while(entry != entries.end()) {
+    while(entry != entries.end())
+    {
         s << entry->data;
         ++entry;
     }

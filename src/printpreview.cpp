@@ -98,7 +98,8 @@ void PreviewView::paintEvent(QPaintEvent *)
     p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
 
     const int pages = doc->pageCount();
-    for (int i = 0; i < pages; ++i) {
+    for (int i = 0; i < pages; ++i)
+    {
         p.save();
         p.scale(scale, scale);
         paintPage(&p, i);
@@ -200,7 +201,8 @@ void PreviewView::mousePressEvent(QMouseEvent *e)
 
 void PreviewView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (mousePressPos.isNull()) {
+    if (mousePressPos.isNull())
+    {
         e->ignore();
         return;
     }
@@ -331,7 +333,8 @@ void PrintPreview::print()
 void PrintPreview::pageSetup()
 {
     QPageSetupDialog dlg(&printer, this);
-    if (dlg.exec() == QDialog::Accepted) {
+    if (dlg.exec() == QDialog::Accepted)
+    {
         setup();
         view->updateLayout();
     }

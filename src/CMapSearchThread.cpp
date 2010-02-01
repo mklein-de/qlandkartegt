@@ -84,7 +84,8 @@ void CMapSearchThread::run()
     double v2 = area.lat2;
 
     QFileInfo fi(area.mapkey);
-    if(fi.completeSuffix() != "qmap") {
+    if(fi.completeSuffix() != "qmap")
+    {
         emit sigProgress(tr("Error. This only works on a *.qmap map collection."), 0);
         return;
     }
@@ -110,13 +111,16 @@ void CMapSearchThread::run()
 
     symbols.clear();
 
-    for(n = 0; n < maxN; ++n) {
+    for(n = 0; n < maxN; ++n)
+    {
 
-        for(m = 0; m < maxM; ++m) {
+        for(m = 0; m < maxM; ++m)
+        {
             {
                                  // tmp. mutex lock context
                 QMutexLocker lock(&mutex);
-                if(!go) {
+                if(!go)
+                {
                     emit sigProgress(tr("Canceled!"), 0);
                     return;
                 }
@@ -129,11 +133,13 @@ void CMapSearchThread::run()
             img.findSymbol(syms, *mask);
 
             QPoint sym;
-            foreach(sym, syms) {
+            foreach(sym, syms)
+            {
                 double x = sym.x();
                 double y = sym.y();
                 map.convertPt2M(x,y);
-                if(rectArea.contains(x,y)) {
+                if(rectArea.contains(x,y))
+                {
                     symbols << QPoint(x,y);
                 }
             }

@@ -61,7 +61,8 @@ CGarminStrTbl6::~CGarminStrTbl6()
 void CGarminStrTbl6::fill()
 {
     quint32 tmp;
-    if(bits < 6) {
+    if(bits < 6)
+    {
         tmp = *p++;
         reg |= tmp << (24 - bits);
         bits += 8;
@@ -75,7 +76,8 @@ void CGarminStrTbl6::get(QFile& file, quint32 offset, type_e t, QStringList& lab
 
     if(offset == 0xFFFFFFFF) return;
 
-    if(offset > (quint32)sizeLBL1) {
+    if(offset > (quint32)sizeLBL1)
+    {
         //         qWarning() << "Index into string table to large" << hex << offset << dataLBL.size() << hdrLbl->addr_shift << hdrNet->net1_addr_shift;
         return;
     }
@@ -92,24 +94,30 @@ void CGarminStrTbl6::get(QFile& file, quint32 offset, type_e t, QStringList& lab
     p = (quint8*)data.data();
 
     fill();
-    while(idx < sizeof(buffer)) {
+    while(idx < sizeof(buffer))
+    {
         c1 = reg >> 26; reg <<= 6; bits -= 6; fill();
         //terminator
         if(c1 > 0x2F) break;
 
         c2 = str6tbl1[c1];
-        if(c2 == 0) {
-            if(c1 == 0x1C) {
+        if(c2 == 0)
+        {
+            if(c1 == 0x1C)
+            {
                 c1 = reg >> 26; reg <<= 6; bits -= 6; fill();
                 buffer[idx++] = str6tbl2[c1];
             }
-            else if(c1 == 0x1B) {
+            else if(c1 == 0x1B)
+            {
                 c1 = reg >> 26; reg <<= 6; bits -= 6; fill();
                 buffer[idx++] = str6tbl3[c1];
             }
-            else if(c1 > 0x1C && c1 < 0x20) {
+            else if(c1 > 0x1C && c1 < 0x20)
+            {
                 buffer[idx] = 0;
-                if(strlen(buffer)) {
+                if(strlen(buffer))
+                {
                     if (codepage != 0)
                         labels << codec->toUnicode(buffer);
                     else
@@ -119,13 +127,15 @@ void CGarminStrTbl6::get(QFile& file, quint32 offset, type_e t, QStringList& lab
                 buffer[0] = 0;
             }
         }
-        else {
+        else
+        {
             buffer[idx++] = str6tbl1[c1];
         }
     }
 
     buffer[idx] = 0;
-    if(strlen(buffer)) {
+    if(strlen(buffer))
+    {
         if (codepage != 0)
             labels << codec->toUnicode(buffer);
         else

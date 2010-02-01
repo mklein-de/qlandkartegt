@@ -44,23 +44,27 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-    if(IUnit::self().baseunit == "ft") {
+    if(IUnit::self().baseunit == "ft")
+    {
         comboMeterFeet->setCurrentIndex((int)FEET_INDEX);
         spinDistance->setSuffix("ft");
     }
-    else {
+    else
+    {
         comboMeterFeet->setCurrentIndex((int)METER_INDEX);
         spinDistance->setSuffix("m");
     }
 
-    if(trkpt->timestamp == 0x000000000 || trkpt->timestamp == 0xFFFFFFFF) {
+    if(trkpt->timestamp == 0x000000000 || trkpt->timestamp == 0xFFFFFFFF)
+    {
         // no track time available
         tabTimestamp->setEnabled(false);
         radioTimedelta->setEnabled(false);
         spinTimedelta->setEnabled(false);
         qDebug() << "Track has no timestamps that could be modified.";
     }
-    else {
+    else
+    {
         tabTimestamp->setEnabled(true);
         radioTimedelta->setEnabled(true);
         spinTimedelta->setEnabled(true);
@@ -104,29 +108,36 @@ void CDlgTrackFilter::accept()
     progress.setWindowTitle("Filter Progress");
     progress.setWindowModality(Qt::WindowModal);
 
-    if(tabTimestamp->isEnabled() && checkModifyTimestamps->isChecked()) {
+    if(tabTimestamp->isEnabled() && checkModifyTimestamps->isChecked())
+    {
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-        if(trkpt->timestamp != 0x000000000 && trkpt->timestamp != 0xFFFFFFFF) {
+        if(trkpt->timestamp != 0x000000000 && trkpt->timestamp != 0xFFFFFFFF)
+        {
             qDebug() << "Modifying track timestamps";
             need_rebuild = true;
 
             QDateTime t;
-            if(radioLocalTime->isChecked()) {
+            if(radioLocalTime->isChecked())
+            {
                 t = QDateTime::fromTime_t(trkpt->timestamp).toLocalTime();
             }
-            else {
+            else
+            {
                 t = QDateTime::fromTime_t(trkpt->timestamp).toUTC();
             }
             QDateTime tn = datetimeStartTime->dateTime();
             int offset = (int)tn.toTime_t() - (int)t.toTime_t();
             int i = 0;
 
-            while(trkpt != trkpts.end()) {
-                if(radioDelta1s->isChecked()) {
+            while(trkpt != trkpts.end())
+            {
+                if(radioDelta1s->isChecked())
+                {
                     trkpt->timestamp = tn.toTime_t() + i;
                 }
-                else {
+                else
+                {
                     trkpt->timestamp += offset;
                 }
                 ++trkpt;
@@ -139,10 +150,12 @@ void CDlgTrackFilter::accept()
         }
     }
 
-    if(checkReduceDataset->isChecked()) {
+    if(checkReduceDataset->isChecked())
+    {
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-        if(radioTimedelta->isEnabled() && radioTimedelta->isChecked()) {
+        if(radioTimedelta->isEnabled() && radioTimedelta->isChecked())
+        {
             qDebug() << "Reducing track dataset by timedelta";
             need_rebuild = true;
 
@@ -153,11 +166,14 @@ void CDlgTrackFilter::accept()
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
             int i = 1;
-            while(trkpt != trkpts.end()) {
-                if(trkpt->timestamp < lasttime + timedelta) {
+            while(trkpt != trkpts.end())
+            {
+                if(trkpt->timestamp < lasttime + timedelta)
+                {
                     trkpt->flags |= CTrack::pt_t::eDeleted;
                 }
-                else {
+                else
+                {
                     lasttime = trkpt->timestamp;
                 }
                 ++trkpt;
@@ -170,12 +186,14 @@ void CDlgTrackFilter::accept()
 
             QApplication::restoreOverrideCursor();
         }
-        else if(radioDistance->isChecked()) {
+        else if(radioDistance->isChecked())
+        {
             qDebug() << "Reducing track dataset by distance";
             need_rebuild = true;
 
             float min_distance = spinDistance->value();
-            if(spinDistance->suffix() == "ft") {
+            if(spinDistance->suffix() == "ft")
+            {
                 min_distance *= 0.3048;
             }
             XY p1, p2;
@@ -187,17 +205,20 @@ void CDlgTrackFilter::accept()
 
             int i = 1;
 
-            while(trkpt != trkpts.end()) {
+            while(trkpt != trkpts.end())
+            {
                 p2.u = DEG_TO_RAD * trkpt->lon;
                 p2.v = DEG_TO_RAD * trkpt->lat;
                 double a1, a2;
 
                 double delta = distance(p1,p2,a1,a2);
 
-                if(delta < min_distance) {
+                if(delta < min_distance)
+                {
                     trkpt->flags |= CTrack::pt_t::eDeleted;
                 }
-                else {
+                else
+                {
                     p1 = p2;
                     progress.setValue(i);
                     qApp->processEvents(QEventLoop::AllEvents, 100);
@@ -213,7 +234,8 @@ void CDlgTrackFilter::accept()
     }
 
     progress.setValue(npts);
-    if(need_rebuild) {
+    if(need_rebuild)
+    {
         track.rebuild(false);
     }
 

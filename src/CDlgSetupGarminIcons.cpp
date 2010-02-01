@@ -60,7 +60,8 @@ void CDlgSetupGarminIcons::exec()
     QString src;
 
     // setup custom icons tab
-    for(int i=0; i < N_CUSTOM_ICONS; ++i) {
+    for(int i=0; i < N_CUSTOM_ICONS; ++i)
+    {
         QTreeWidgetItem * entry = new QTreeWidgetItem(listCustomIcons);
 
         name = QString("Custom %1").arg(i + 1);
@@ -102,7 +103,8 @@ void CDlgSetupGarminIcons::accept()
 {
     QSettings cfg;
     QString name;
-    for(int i=0; i < N_CUSTOM_ICONS; ++i) {
+    for(int i=0; i < N_CUSTOM_ICONS; ++i)
+    {
         name = QString("Custom %1").arg(i + 1);
 
         QTreeWidgetItem * entry = listCustomIcons->topLevelItem(i);
@@ -122,9 +124,11 @@ void CDlgSetupGarminIcons::slotChangeIconSource()
     QDir dir(cfg.value("path/icons",QDir::homePath()).toString());
 
     QTreeWidgetItem * entry = listCustomIcons->topLevelItem(sender()->objectName().toInt());
-    if(entry) {
+    if(entry)
+    {
         QString filename = QFileDialog::getOpenFileName(0,tr("Select icon ..."),dir.path());
-        if(!filename.isEmpty()) {
+        if(!filename.isEmpty())
+        {
             entry->setIcon(0,QIcon(loadIcon(filename)));
 
             entry->setText(4,filename);
@@ -138,7 +142,8 @@ void CDlgSetupGarminIcons::slotChangeIconSource()
 void CDlgSetupGarminIcons::slotResetIconSource()
 {
     QTreeWidgetItem * entry = listCustomIcons->topLevelItem(sender()->objectName().toInt());
-    if(entry) {
+    if(entry)
+    {
         entry->setIcon(0,QIcon(loadIcon(":/icons/wpt/custom15x15.bmp")));
         entry->setText(4,":/icons/wpt/custom15x15.bmp");
     }
@@ -182,7 +187,8 @@ void CDlgSetupGarminIcons::slotSendToDevice()
 
     std::list<Garmin::Icon_t> icons;
 
-    for(int i=0; i < N_CUSTOM_ICONS; ++i) {
+    for(int i=0; i < N_CUSTOM_ICONS; ++i)
+    {
         QTreeWidgetItem * entry = listCustomIcons->topLevelItem(i);
         QFile file(entry->text(4));
         if(!file.open(QIODevice::ReadOnly)) continue;
@@ -217,7 +223,8 @@ void CDlgSetupGarminIcons::slotSendToDevice()
             || (pBmp->biClrUsed != 0 && pBmp->biClrUsed != 0x100)
             || (pBmp->biClrImportant != 0 && pBmp->biClrImportant != 0x100)
             || pBmp->biWidth != 16
-        || pBmp->biHeight != 16) {
+            || pBmp->biHeight != 16)
+        {
             QMessageBox::warning(0,tr("Format Error"),entry->text(4) + tr(": Bad icon format"),QMessageBox::Ok,QMessageBox::NoButton);
             return;
         }
@@ -227,8 +234,10 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         icons.back().idx = i;
         memcpy(icons.back().clrtbl,pBmp->clrtbl,sizeof(icon.clrtbl));
 
-        for(int r = 0; r < pBmp->biHeight; ++r) {
-            for(int c = 0; c < pBmp->biWidth; ++c) {
+        for(int r = 0; r < pBmp->biHeight; ++r)
+        {
+            for(int c = 0; c < pBmp->biWidth; ++c)
+            {
                 icons.back().data[r * pBmp->biWidth + c] = pBmp->data[(pBmp->biHeight - 1 - r)*pBmp->biWidth + c];
             }
         }
@@ -237,7 +246,8 @@ void CDlgSetupGarminIcons::slotSendToDevice()
     }
 
     CDeviceGarmin * dev = qobject_cast<CDeviceGarmin*>(CResources::self().device());
-    if(dev) {
+    if(dev)
+    {
         Garmin::IDevice * gardev = dev->getDevice();
         if(gardev == 0) return;
 
@@ -245,12 +255,12 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         {
             gardev->uploadCustomIcons(icons);
         }
-        catch(int /*e*/) {
-        QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
-        return;
+        catch(int e)
+        {
+            QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
+            return;
+        }
+
     }
-
-}
-
 
 }

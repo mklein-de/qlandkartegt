@@ -64,14 +64,16 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     double adfGeoTransform[6];
     dataset->GetGeoTransform( adfGeoTransform );
 
-    if (pj_is_latlong(pj)) {
+    if (pj_is_latlong(pj))
+    {
         xscale  = adfGeoTransform[1] * DEG_TO_RAD;
         yscale  = adfGeoTransform[5] * DEG_TO_RAD;
 
         xref1   = adfGeoTransform[0] * DEG_TO_RAD;
         yref1   = adfGeoTransform[3] * DEG_TO_RAD;
     }
-    else {
+    else
+    {
         xscale  = adfGeoTransform[1];
         yscale  = adfGeoTransform[5];
 
@@ -86,31 +88,38 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     rasterBandCount = dataset->GetRasterCount();
     if(rasterBandCount < 1) return;
 
-    if(rasterBandCount == 1) {
+    if(rasterBandCount == 1)
+    {
         GDALRasterBand * pBand;
         pBand = dataset->GetRasterBand(1);
         if(pBand == 0) return;
 
-        if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex ) {
+        if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex )
+        {
             GDALColorTable * pct = pBand->GetColorTable();
-            for(int i=0; i < pct->GetColorEntryCount(); ++i) {
+            for(int i=0; i < pct->GetColorEntryCount(); ++i)
+            {
                 const GDALColorEntry& e = *pct->GetColorEntry(i);
                 colortable << qRgba(e.c1, e.c2, e.c3, e.c4);
             }
         }
-        else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex ) {
-            for(int i=0; i < 256; ++i) {
+        else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex )
+        {
+            for(int i=0; i < 256; ++i)
+            {
                 colortable << qRgba(i, i, i, 255);
             }
         }
-        else {
+        else
+        {
             return;
         }
 
         int success = 0;
         double idx = pBand->GetNoDataValue(&success);
 
-        if(success) {
+        if(success)
+        {
             QColor tmp(colortable[idx]);
             tmp.setAlpha(0);
             colortable[idx] = tmp.rgba();

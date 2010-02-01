@@ -51,7 +51,8 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 
     // create map level list
     CMapLevel * maplevel = 0;
-    for(int n=1; n <= nLevels; ++n) {
+    for(int n=1; n <= nLevels; ++n)
+    {
         mapdef.beginGroup(QString("level%1").arg(n));
         quint32 min = mapdef.value("zoomLevelMin",-1).toUInt();
         quint32 max = mapdef.value("zoomLevelMax",-1).toUInt();
@@ -59,9 +60,11 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 
         // add GeoTiff files to map level
         QStringList files = mapdef.value("files","").toString().split("|", QString::SkipEmptyParts);
-        if(files.count()) {
+        if(files.count())
+        {
             QString file;
-            foreach(file,files) {
+            foreach(file,files)
+            {
                 maplevel->addMapFile(path.filePath(file));
             }
             maplevels << maplevel;
@@ -90,7 +93,8 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QSettings cfg;
     exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
 
-    if(parent) {
+    if(parent)
+    {
         connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
         resize(parent->size());
     }
@@ -129,36 +133,43 @@ bool CMapQMAP::is32BitRgb()
 
 void CMapQMAP::draw(QPainter& p)
 {
-    if(pMaplevel.isNull() || pjsrc == 0) {
+    if(pMaplevel.isNull() || pjsrc == 0)
+    {
         IMap::draw(p);
         return;
     }
 
     // update internal buffer
-    if(needsRedraw) {
+    if(needsRedraw)
+    {
         draw();
     }
 
     // copy internal buffer if valid
-    if(!foundMap) {
+    if(!foundMap)
+    {
         IMap::draw(p);
     }
-    else {
+    else
+    {
         p.drawImage(0,0,buffer);
     }
 
     // render overlay
-    if(!ovlMap.isNull() && !doFastDraw) {
+    if(!ovlMap.isNull() && !doFastDraw)
+    {
         ovlMap->draw(size, needsRedraw, p);
     }
 
     needsRedraw = !foundMap;
 
     QString str;
-    if(zoomFactor < 1.0) {
+    if(zoomFactor < 1.0)
+    {
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
-    else {
+    else
+    {
         str = tr("Zoom level x%1").arg(zoomidx);
     }
 
@@ -190,8 +201,10 @@ void CMapQMAP::__test()
     QVector<float> ele1(c * r);
     float * ptr = ele1.data();
     int x, y = 0;
-    for(y = 0; y < r; ++y) {
-        for(x = 0; x < c; ++x) {
+    for(y = 0; y < r; ++y)
+    {
+        for(x = 0; x < c; ++x)
+        {
             double u = x;
             double v = y;
             convertPt2Rad(u,v);
@@ -213,8 +226,10 @@ void CMapQMAP::__test()
 
     printf("---------------------\n");
 
-    for(y = 0 ; y < (c * r); y++) {
-        if(ele1[y] != ele2[y]) {
+    for(y = 0 ; y < (c * r); y++)
+    {
+        if(ele1[y] != ele2[y])
+        {
             qDebug() << "missmatch at " << y;
             break;
         }
@@ -231,7 +246,8 @@ void CMapQMAP::draw()
 
     foundMap = false;
 
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return;
     }
 
@@ -253,14 +269,16 @@ void CMapQMAP::draw()
     // Iterate over all mapfiles within a maplevel. If a map's rectangel intersects with the
     // viewport rectangle, the part of the map within the intersecting rectangle has to be drawn.
     QVector<CMapFile*>::const_iterator mapfile = pMaplevel->begin();
-    while(mapfile != pMaplevel->end()) {
+    while(mapfile != pMaplevel->end())
+    {
 
         map = *mapfile;
 
         QRectF maparea   = QRectF(QPointF(map->xref1, map->yref1), QPointF(map->xref2, map->yref2));
         QRectF intersect = viewport.intersected(maparea);
 
-        if(intersect.isValid()) {
+        if(intersect.isValid())
+        {
 
             // x/y offset [pixel] into file matrix
             qint32 xoff = (intersect.left()   - map->xref1) / map->xscale;
@@ -282,11 +300,13 @@ void CMapQMAP::draw()
             // correct pxx by truncation
             pxx         =   (qint32)(w * zoomFactor * xzoomFactor);
 
-            if(w != 0 && h != 0) {
+            if(w != 0 && h != 0)
+            {
 
                 CPLErr err = CE_Failure;
 
-                if(map->rasterBandCount == 1) {
+                if(map->rasterBandCount == 1)
+                {
 
                     GDALRasterBand * pBand;
                     pBand = map->dataset->GetRasterBand(1);
@@ -301,32 +321,37 @@ void CMapQMAP::draw()
                         ,w,h
                         ,GDT_Byte,0,0);
 
-                    if(!err) {
+                    if(!err)
+                    {
                         double xx = intersect.left(), yy = intersect.bottom();
                         convertM2Pt(xx,yy);
                         _p_.drawImage(xx,yy,img);
                         foundMap = true;
                     }
                 }
-                else {
+                else
+                {
                     QImage img(w,h, QImage::Format_ARGB32);
                     QVector<quint8> buffer(w*h);
 
                     img.fill(qRgba(255,255,255,255));
 
-                    for(int b = 1; b <= map->rasterBandCount; ++b) {
+                    for(int b = 1; b <= map->rasterBandCount; ++b)
+                    {
 
                         GDALRasterBand * pBand;
                         pBand = map->dataset->GetRasterBand(b);
 
                         err = pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, pxx, pxy, buffer.data(), w, h, GDT_Byte, 0, 0);
 
-                        if(!err) {
+                        if(!err)
+                        {
                             quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
                             quint8 * pSrc   = buffer.data();
                             const int size  = buffer.size();
 
-                            for(int i = 0; i < size; ++i) {
+                            for(int i = 0; i < size; ++i)
+                            {
                                 *pTar = *pSrc;
                                 pTar += 4;
                                 pSrc += 1;
@@ -334,7 +359,8 @@ void CMapQMAP::draw()
                         }
                     }
 
-                    if(!err) {
+                    if(!err)
+                    {
                         double xx = intersect.left(), yy = intersect.bottom();
                         convertM2Pt(xx,yy);
                         _p_.drawImage(xx,yy,img);
@@ -409,17 +435,21 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    if(quadraticZoom) {
+    if(quadraticZoom)
+    {
 
-        if(zoomidx > 1) {
+        if(zoomidx > 1)
+        {
             zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
             zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
         }
-        else {
+        else
+        {
             zoomidx += zoomIn ? -1 : 1;
         }
     }
-    else {
+    else
+    {
         zoomidx += zoomIn ? -1 : 1;
     }
 
@@ -457,14 +487,16 @@ qint32 CMapQMAP::getZoomLevel()
 void CMapQMAP::zoom(qint32& level)
 {
     needsRedraw = true;
-    if(maplevels.isEmpty()) {
+    if(maplevels.isEmpty())
+    {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;
     }
 
     // no level less than 1
-    if(level < 1) {
+    if(level < 1)
+    {
         zoomFactor  = 1.0 / - (level - 2);
         setFastDraw();
         emit sigChanged();
@@ -474,8 +506,10 @@ void CMapQMAP::zoom(qint32& level)
 
     QVector<CMapLevel*>::const_iterator maplevel = maplevels.begin();
 
-    while(maplevel != maplevels.end()) {
-        if((*maplevel)->min <= level && level <= (*maplevel)->max) {
+    while(maplevel != maplevels.end())
+    {
+        if((*maplevel)->min <= level && level <= (*maplevel)->max)
+        {
             break;
         }
 
@@ -484,7 +518,8 @@ void CMapQMAP::zoom(qint32& level)
 
     // no maplevel means level is larger than maximum level
     // thus the last (maximum) level is used.
-    if(maplevel == maplevels.end()) {
+    if(maplevel == maplevels.end())
+    {
         --maplevel;
         level = (*maplevel)->max;
     }
@@ -501,7 +536,8 @@ void CMapQMAP::zoom(qint32& level)
 void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 {
     needsRedraw = true;
-    if(maplevels.isEmpty() || (pjsrc == 0)) {
+    if(maplevels.isEmpty() || (pjsrc == 0))
+    {
         pMaplevel   = 0;
         pjsrc       = 0;
         return;
@@ -513,7 +549,8 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 
     qint32 level;
     QVector<CMapLevel*>::iterator maplevel = maplevels.begin();
-    while(maplevel != maplevels.end()) {
+    while(maplevel != maplevels.end())
+    {
         u[0] = lon1;
         v[0] = lat1;
         u[1] = lon2;
@@ -527,17 +564,20 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 
         const CMapFile * map = *(*maplevel)->begin();
 
-        for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level) {
+        for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level)
+        {
             int z = level - (*maplevel)->min + 1;
             double pxU = dU / (map->xscale * z);
             double pxV = dV / (map->yscale * z);
 
-            if((pxU < size.width()) && (pxV < size.height())) {
+            if((pxU < size.width()) && (pxV < size.height()))
+            {
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
 
                 zoomidx = pMaplevel->min + z - 1;
-                if(quadraticZoom) {
+                if(quadraticZoom)
+                {
                     zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
                     z = zoomidx - pMaplevel->min + 1;
                 }
@@ -559,7 +599,8 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
 
 void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
-    if(pMaplevel.isNull()) {
+    if(pMaplevel.isNull())
+    {
         lon1 = lat1 = lon2 = lat2 = 0;
         return;
     }
@@ -570,7 +611,8 @@ void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2
 
 void CMapQMAP::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
-    if(pMaplevel.isNull()) {
+    if(pMaplevel.isNull())
+    {
         return;
     }
     const CMapFile * map = *pMaplevel->begin();

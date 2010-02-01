@@ -32,15 +32,18 @@ CDlgWptIcon::CDlgWptIcon(QToolButton& but)
     QListWidgetItem * currentItem = 0;
 
     const wpt_icon_t * icon = getWptIcons();
-    while(icon->name != 0) {
+    while(icon->name != 0)
+    {
         QListWidgetItem * item = new QListWidgetItem(loadIcon(icon->icon), icon->name, listIcons);
-        if(currentIcon == icon->name) {
+        if(currentIcon == icon->name)
+        {
             currentItem = item;
         }
         ++icon;
     }
 
-    if(currentItem) {
+    if(currentItem)
+    {
         listIcons->setCurrentItem(currentItem);
         listIcons->scrollToItem(currentItem);
     }

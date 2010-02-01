@@ -35,23 +35,28 @@ CGarminTyp::~CGarminTyp()
 bool CGarminTyp::decode(QDataStream& in, QMap<quint32, polygon_property>& polygons, QMap<quint32, polyline_property>& polylines, QList<quint32>& drawOrder, QMap<quint32, point_property>& points)
 {
 
-    if(!parseHeader(in)) {
+    if(!parseHeader(in))
+    {
         return false;
     }
 
-    if(!parseDrawOrder(in, drawOrder)) {
+    if(!parseDrawOrder(in, drawOrder))
+    {
         return false;
     }
 
-    if(!parsePolygon(in, polygons)) {
+    if(!parsePolygon(in, polygons))
+    {
         return false;
     }
 
-    if(!parsePolyline(in, polylines)) {
+    if(!parsePolyline(in, polylines))
+    {
         return false;
     }
 
-    if(!parsePoint(in, points)) {
+    if(!parsePoint(in, points))
+    {
         return false;
     }
 

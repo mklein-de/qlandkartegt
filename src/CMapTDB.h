@@ -197,14 +197,16 @@ class CMapTDB : public IMap
             quint8 level;
             bool useBaseMap;
 
-            bool operator==(const map_level_t &ml) {
+            bool operator==(const map_level_t &ml)
+            {
                 if (ml.bits != bits || ml.level != level || ml.useBaseMap != useBaseMap)
                     return false;
                 else
                     return true;
             }
 
-            static bool GreaterThan(const map_level_t &ml1, const map_level_t &ml2) {
+            static bool GreaterThan(const map_level_t &ml1, const map_level_t &ml2)
+            {
                 return ml1.bits < ml2.bits;
             }
         };

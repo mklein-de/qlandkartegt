@@ -38,10 +38,12 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
 
     layout()->setSpacing(SPACING);
 
-    if(type == eOverDistance) {
+    if(type == eOverDistance)
+    {
         plot = new CPlot(CPlotData::eLinear,this);
     }
-    else {
+    else
+    {
         plot = new CPlot(CPlotData::eTime,this);
     }
     layout()->addWidget(plot);
@@ -64,16 +66,20 @@ void ITrackStat::activePointEvent(double dist)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     quint32 idx = 0;
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             ++trkpt; continue;
         }
 
-        if(type == eOverDistance && dist < trkpt->distance) {
+        if(type == eOverDistance && dist < trkpt->distance)
+        {
             track->setPointOfFocus(idx);
             break;
         }
-        if(type == eOverTime && dist < trkpt->timestamp) {
+        if(type == eOverTime && dist < trkpt->timestamp)
+        {
             track->setPointOfFocus(idx);
             break;
         }
@@ -96,7 +102,8 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
     QVector<wpt_t>::iterator wpt = wpts.begin();
     QMap<QString,CWpt*>::const_iterator w = wptdb.begin();
 
-    while(wpt != wpts.end()) {
+    while(wpt != wpts.end())
+    {
         wpt->wpt    = (*w);
         wpt->x      = wpt->wpt->lon * DEG_TO_RAD;
         wpt->y      = wpt->wpt->lat * DEG_TO_RAD;
@@ -108,8 +115,10 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
 
     QList<CTrack::pt_t>& trkpts                 = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             ++trkpt;
             continue;
         }
@@ -119,9 +128,11 @@ void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
         map.convertRad2M(x, y);
 
         wpt = wpts.begin();
-        while(wpt != wpts.end()) {
+        while(wpt != wpts.end())
+        {
             double d = (x - wpt->x) * (x - wpt->x) + (y - wpt->y) * (y - wpt->y);
-            if(d < wpt->d) {
+            if(d < wpt->d)
+            {
                 wpt->d      = d;
                 wpt->trkpt  = *trkpt;
             }

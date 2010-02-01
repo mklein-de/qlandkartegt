@@ -51,14 +51,16 @@ CMapLevel::~CMapLevel()
 void CMapLevel::addMapFile(const QString& filename)
 {
     CMapFile * mapfile = new CMapFile(filename,this);
-    if(mapfile && !mapfile->ok) {
+    if(mapfile && !mapfile->ok)
+    {
         qDebug() << "skip" << filename;
         delete mapfile;
         return;
     }
     mapfiles << mapfile;
     Q_ASSERT((*mapfiles.begin())->strProj == mapfile->strProj);
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         pjsrc = pj_init_plus(mapfile->strProj.toLatin1());
     }
 

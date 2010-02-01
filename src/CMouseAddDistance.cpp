@@ -48,7 +48,8 @@ void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton && overlay.isNull()) {
+    if(e->button() == Qt::LeftButton && overlay.isNull())
+    {
         pos      = e->pos();
         double x = e->pos().x();
         double y = e->pos().y();
@@ -60,7 +61,8 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         pts << pt;
         overlay = COverlayDB::self().addDistance("", "", pts);
     }
-    else if(e->button() == Qt::LeftButton && !overlay.isNull()) {
+    else if(e->button() == Qt::LeftButton && !overlay.isNull())
+    {
         double x = e->pos().x();
         double y = e->pos().y();
         CMapDB::self().getMap().convertPt2Rad(x,y);
@@ -70,7 +72,8 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 
         overlay->addPoint(pt);
     }
-    else if(e->button() == Qt::RightButton) {
+    else if(e->button() == Qt::RightButton)
+    {
         overlay = 0;
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }

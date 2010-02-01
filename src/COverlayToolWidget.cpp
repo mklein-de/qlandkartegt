@@ -50,7 +50,8 @@ void COverlayToolWidget::slotDBChanged()
 
     QMap<QString, IOverlay*>& overlays                  = COverlayDB::self().overlays;
     QMap<QString, IOverlay*>::const_iterator overlay    = overlays.begin();
-    while(overlay != overlays.end()) {
+    while(overlay != overlays.end())
+    {
         QListWidgetItem * item = new QListWidgetItem(listOverlays);
         item->setIcon((*overlay)->icon);
         item->setText((*overlay)->getInfo());
@@ -64,7 +65,8 @@ void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
     QString key = item->data(Qt::UserRole).toString();
     QMap<QString,IOverlay*>& overlays = COverlayDB::self().overlays;
-    if(!overlays.contains(key)) {
+    if(!overlays.contains(key))
+    {
         return;
     }
 
@@ -75,12 +77,14 @@ void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 {
     QListWidgetItem * item = listOverlays->currentItem();
-    if(item) {
+    if(item)
+    {
         QPoint p = listOverlays->mapToGlobal(pos);
 
         QMenu contextMenu;
         COverlayDB::self().customMenu(item->data(Qt::UserRole).toString(), contextMenu);
-        if(contextMenu.isEmpty()) {
+        if(contextMenu.isEmpty())
+        {
             contextMenu.addAction(QPixmap(),tr("<---->"));
         }
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
@@ -95,7 +99,8 @@ void COverlayToolWidget::slotDelete()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listOverlays->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
@@ -105,7 +110,8 @@ void COverlayToolWidget::slotDelete()
 
 void COverlayToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotDelete();
         e->accept();
     }

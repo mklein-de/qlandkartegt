@@ -88,7 +88,8 @@ void IMouse::drawRect(QPainter& p)
 void IMouse::drawSelWpt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(!selWpt.isNull()) {
+    if(!selWpt.isNull())
+    {
         double u = selWpt->lon * DEG_TO_RAD;
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -100,38 +101,45 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.save();
         p.translate(u - 24, v - 24);
-        if(!selWpt->sticky) {
+        if(!selWpt->sticky)
+        {
             p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
             p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWptMove16x16.png"));
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
-        if(!selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty()) {
+        if(!selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
+        {
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
         p.restore();
 
         QString str;
-        if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF) {
+        if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF)
+        {
             QDateTime time = QDateTime::fromTime_t(selWpt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
         }
 
-        if(selWpt->ele != WPT_NOFLOAT) {
+        if(selWpt->ele != WPT_NOFLOAT)
+        {
             if(str.count()) str += "\n";
             QString val, unit;
             IUnit::self().meter2elevation(selWpt->ele, val, unit);
             str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
 
-        if(selWpt->comment.count()) {
+        if(selWpt->comment.count())
+        {
             if(str.count()) str += "\n";
 
-            if(selWpt->comment.count() < 200) {
+            if(selWpt->comment.count() < 200)
+            {
                 str += selWpt->comment;
             }
-            else {
+            else
+            {
                 str += selWpt->comment.left(197) + "...";
             }
 
@@ -154,7 +162,8 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
 
-        if(!selWpt->images.isEmpty()) {
+        if(!selWpt->images.isEmpty())
+        {
             QRect r = selWpt->images[0].pixmap.rect();
 
             p.save();
@@ -172,7 +181,8 @@ void IMouse::drawSelWpt(QPainter& p)
 void IMouse::drawSelSearch(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(!selSearch.isNull()) {
+    if(!selSearch.isNull())
+    {
         double u = selSearch->lon * DEG_TO_RAD;
         double v = selSearch->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -196,7 +206,8 @@ void IMouse::drawSelSearch(QPainter& p)
 void IMouse::drawSelTrkPt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(selTrkPt && !selWpt) {
+    if(selTrkPt && !selWpt)
+    {
         double u = selTrkPt->lon * DEG_TO_RAD;
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -206,13 +217,15 @@ void IMouse::drawSelTrkPt(QPainter& p)
         p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
 
         QString str;
-        if(selTrkPt->timestamp != 0x00000000 && selTrkPt->timestamp != 0xFFFFFFFF) {
+        if(selTrkPt->timestamp != 0x00000000 && selTrkPt->timestamp != 0xFFFFFFFF)
+        {
             QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
         }
 
-        if(selTrkPt->ele != WPT_NOFLOAT) {
+        if(selTrkPt->ele != WPT_NOFLOAT)
+        {
             if(str.count()) str += "\n";
             QString val, unit;
             IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
@@ -248,12 +261,14 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
     // find the waypoint close to the cursor
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()) {
+    while(wpt != CWptDB::self().end())
+    {
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225) {
+        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225)
+        {
             selWpt = *wpt;
             break;
         }
@@ -262,35 +277,43 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
     }
 
     // check for cursor-over-function
-    if(selWpt) {
+    if(selWpt)
+    {
         double u = selWpt->lon * DEG_TO_RAD;
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
         QPoint pt = pos - QPoint(u - 24, v - 24);
 
-        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt) || rectViewWpt.contains(pt)) {
-            if(!doSpecialCursorWpt) {
+        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt) || rectViewWpt.contains(pt))
+        {
+            if(!doSpecialCursorWpt)
+            {
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
                 doSpecialCursorWpt = true;
             }
         }
-        else {
-            if(doSpecialCursorWpt) {
+        else
+        {
+            if(doSpecialCursorWpt)
+            {
                 QApplication::restoreOverrideCursor();
                 doSpecialCursorWpt = false;
             }
         }
     }
-    else {
-        if(doSpecialCursorWpt) {
+    else
+    {
+        if(doSpecialCursorWpt)
+        {
             QApplication::restoreOverrideCursor();
             doSpecialCursorWpt = false;
         }
     }
 
     // do a canvas update on a change only
-    if(oldWpt != selWpt) {
+    if(oldWpt != selWpt)
+    {
         canvas->update();
     }
 }
@@ -304,12 +327,14 @@ void IMouse::mouseMoveEventSearch(QMouseEvent * e)
 
     // find the search close to the cursor
     QMap<QString,CSearch*>::const_iterator search = CSearchDB::self().begin();
-    while(search != CSearchDB::self().end()) {
+    while(search != CSearchDB::self().end())
+    {
         double u = (*search)->lon * DEG_TO_RAD;
         double v = (*search)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225) {
+        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225)
+        {
             selSearch = *search;
             break;
         }
@@ -318,35 +343,43 @@ void IMouse::mouseMoveEventSearch(QMouseEvent * e)
     }
 
     // check for cursor-over-function
-    if(selSearch) {
+    if(selSearch)
+    {
         double u = selSearch->lon * DEG_TO_RAD;
         double v = selSearch->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
         QPoint pt = pos - QPoint(u - 24, v - 24);
 
-        if(rectDelSearch.contains(pt) || rectCopySearch.contains(pt) ||  rectConvertSearch.contains(pt)) {
-            if(!doSpecialCursorSearch) {
+        if(rectDelSearch.contains(pt) || rectCopySearch.contains(pt) ||  rectConvertSearch.contains(pt))
+        {
+            if(!doSpecialCursorSearch)
+            {
                 QApplication::setOverrideCursor(Qt::PointingHandCursor);
                 doSpecialCursorSearch = true;
             }
         }
-        else {
-            if(doSpecialCursorSearch) {
+        else
+        {
+            if(doSpecialCursorSearch)
+            {
                 QApplication::restoreOverrideCursor();
                 doSpecialCursorSearch = false;
             }
         }
     }
-    else {
-        if(doSpecialCursorSearch) {
+    else
+    {
+        if(doSpecialCursorSearch)
+        {
             QApplication::restoreOverrideCursor();
             doSpecialCursorSearch = false;
         }
     }
 
     // do a canvas update on a change only
-    if(oldSearch != selSearch) {
+    if(oldSearch != selSearch)
+    {
         canvas->update();
     }
 }
@@ -363,10 +396,12 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     map.convertRad2Pt(u,v);
 
     QPoint pt = pos - QPoint(u - 24, v - 24);
-    if(rectDelWpt.contains(pt) && !selWpt->sticky) {
+    if(rectDelWpt.contains(pt) && !selWpt->sticky)
+    {
         CWptDB::self().delWpt(selWpt->key(), false, true);
     }
-    else if(rectMoveWpt.contains(pt) && !selWpt->sticky) {
+    else if(rectMoveWpt.contains(pt) && !selWpt->sticky)
+    {
         canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 
         QMouseEvent event1(QEvent::MouseMove, QPoint(u,v), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
@@ -375,11 +410,13 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         QMouseEvent event2(QEvent::MouseButtonPress, QPoint(u,v), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
         QCoreApplication::sendEvent(canvas,&event2);
     }
-    else if(rectEditWpt.contains(pt)) {
+    else if(rectEditWpt.contains(pt))
+    {
         CDlgEditWpt dlg(*selWpt,canvas);
         dlg.exec();
     }
-    else if(rectCopyWpt.contains(pt)) {
+    else if(rectCopyWpt.contains(pt))
+    {
         QString position;
         GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
 
@@ -389,7 +426,8 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         selWpt = 0;
         canvas->update();
     }
-    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty()) {
+    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
+    {
         CResources::self().openLink("file:///" + selWpt->images[0].filePath);
     }
 }
@@ -406,17 +444,20 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
     map.convertRad2Pt(u,v);
 
     QPoint pt = pos - QPoint(u - 24, v - 24);
-    if(rectDelSearch.contains(pt)) {
+    if(rectDelSearch.contains(pt))
+    {
         QStringList keys;
         keys << selSearch->query;
         CSearchDB::self().delResults(keys);
         selSearch = 0;
         canvas->update();
     }
-    else if(rectConvertSearch.contains(pt)) {
+    else if(rectConvertSearch.contains(pt))
+    {
         float ele = CMapDB::self().getDEM().getElevation(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD);
         CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele);
-        if(wpt) {
+        if(wpt)
+        {
             selWpt = wpt;
             QStringList keys;
             keys << selSearch->query;
@@ -425,7 +466,8 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
         }
 
     }
-    else if(rectCopyWpt.contains(pt)) {
+    else if(rectCopyWpt.contains(pt))
+    {
         QString position;
         GPS_Math_Deg_To_Str(selSearch->lon, selSearch->lat, position);
 
@@ -449,14 +491,17 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 
     QList<CTrack::pt_t>& pts          = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator pt  = pts.begin();
-    while(pt != pts.end()) {
-        if(pt->flags & CTrack::pt_t::eDeleted) {
+    while(pt != pts.end())
+    {
+        if(pt->flags & CTrack::pt_t::eDeleted)
+        {
             ++pt; continue;
         }
 
         int d2 = abs(e->pos().x() - pt->px.x()) + abs(e->pos().y() - pt->px.y());
 
-        if(d2 < d1) {
+        if(d2 < d1)
+        {
             selTrkPt = &(*pt);
             d1 = d2;
         }
@@ -464,7 +509,8 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
         ++pt;
     }
 
-    if(oldTrackPt != selTrkPt) {
+    if(oldTrackPt != selTrkPt)
+    {
         canvas->update();
     }
 
@@ -475,30 +521,37 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
 {
     IOverlay * oldOverlay = selOverlay;
 
-    if(!selOverlay || !selOverlay->mouseActionInProgress()) {
+    if(!selOverlay || !selOverlay->mouseActionInProgress())
+    {
 
         QMap<QString, IOverlay*>::const_iterator overlay = COverlayDB::self().begin();
-        while(overlay != COverlayDB::self().end()) {
+        while(overlay != COverlayDB::self().end())
+        {
             if((*overlay)->isCloseEnought(e->pos())) break;
             ++overlay;
         }
 
-        if(overlay != COverlayDB::self().end()) {
+        if(overlay != COverlayDB::self().end())
+        {
             (*overlay)->select(*overlay);
             selOverlay = *overlay;
         }
-        else {
+        else
+        {
             IOverlay::select(0);
             selOverlay = 0;
         }
 
     }
 
-    if(oldOverlay != selOverlay) {
-        if(selOverlay) {
+    if(oldOverlay != selOverlay)
+    {
+        if(selOverlay)
+        {
             canvas->setMouseMode(CCanvas::eMouseOverlay);
         }
-        else {
+        else
+        {
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
         canvas->update();

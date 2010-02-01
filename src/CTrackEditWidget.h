@@ -32,10 +32,12 @@ class CTrackTreeWidgetItem : public QTreeWidgetItem
 {
 
     public:
-        CTrackTreeWidgetItem(QTreeWidget *tree) : QTreeWidgetItem(tree) {
+        CTrackTreeWidgetItem(QTreeWidget *tree) : QTreeWidgetItem(tree)
+        {
         }
 
-        CTrackTreeWidgetItem ( QTreeWidget * parent, const QStringList & strings) : QTreeWidgetItem (parent,strings) {
+        CTrackTreeWidgetItem ( QTreeWidget * parent, const QStringList & strings) : QTreeWidgetItem (parent,strings)
+        {
         }
 
         bool operator< ( const QTreeWidgetItem & other ) const;

@@ -285,7 +285,8 @@ CMainWindow::CMainWindow()
 
     // restore last session position and size of mainWidget
     {
-        if ( cfg.contains("mainWidget/geometry")) {
+        if ( cfg.contains("mainWidget/geometry"))
+        {
             QRect r = cfg.value("mainWidget/geometry").toRect();
             //qDebug() << r << QDesktopWidget().screenGeometry();
             if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
@@ -306,10 +307,12 @@ CMainWindow::CMainWindow()
     sizes[2] = (int)(mainSplitter->height() * 0.4);
     leftSplitter->setSizes(sizes);
 
-    if( cfg.contains("mainWidget/mainSplitter") ) {
+    if( cfg.contains("mainWidget/mainSplitter") )
+    {
         mainSplitter->restoreState(cfg.value("mainWidget/mainSplitter",mainSplitter->saveState()).toByteArray());
     }
-    if( cfg.contains("mainWidget/leftSplitter") ) {
+    if( cfg.contains("mainWidget/leftSplitter") )
+    {
         leftSplitter->restoreState(cfg.value("mainWidget/leftSplitter",leftSplitter->saveState()).toByteArray());
     }
 
@@ -331,14 +334,16 @@ CMainWindow::CMainWindow()
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
     megaMenu->switchByKeyWord("Main");
 
-    if (qlOpts->monitor != -1) {
+    if (qlOpts->monitor != -1)
+    {
         snRead = new QSocketNotifier(qlOpts->monitor, QSocketNotifier::Read, this);
         connect(snRead, SIGNAL(activated(int)), this, SLOT(slotReloadArgs()));
     }
 
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
-    foreach(QString arg, qlOpts->arguments) {
+    foreach(QString arg, qlOpts->arguments)
+    {
         loadData(arg, QString());
     }
 
@@ -362,7 +367,8 @@ void CMainWindow::slotReloadArgs()
     i = read(qlOpts->monitor, &c, 1);
 #endif
 
-    if(i != 1) {
+    if(i != 1)
+    {
         delete snRead;
         return;
     }
@@ -374,7 +380,8 @@ void CMainWindow::slotReloadArgs()
     //    CDiaryDB::self().clear();
     //    COverlayDB::self().clear();
 
-    foreach(QString arg, qlOpts->arguments) {
+    foreach(QString arg, qlOpts->arguments)
+    {
         loadData(arg, QString());
     }
 }
@@ -394,11 +401,13 @@ CMainWindow::~CMainWindow()
 
 void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
-    if(event->mimeData()->hasUrls()) {
+    if(event->mimeData()->hasUrls())
+    {
         QList<QUrl> urls = event->mimeData()->urls();
         QFileInfo fi(urls[0].path());
 
-        if(fi.suffix() == "gpx") {
+        if(fi.suffix() == "gpx")
+        {
             event->acceptProposedAction();
         }
 
@@ -411,7 +420,8 @@ void CMainWindow::dropEvent(QDropEvent *event)
     QList<QUrl> urls = event->mimeData()->urls();
     QUrl url;
 
-    foreach(url, urls) {
+    foreach(url, urls)
+    {
         QString filename = url.path();
         QString filter;
         loadData(filename, filter);
@@ -423,10 +433,12 @@ void CMainWindow::dropEvent(QDropEvent *event)
 
 void CMainWindow::setTitleBar()
 {
-    if(wksFile.isEmpty()) {
+    if(wksFile.isEmpty())
+    {
         setWindowTitle(QString("QLandkarte GT") + (modified ? " *" : ""));
     }
-    else {
+    else
+    {
         setWindowTitle(QString("QLandkarte GT - ") + QFileInfo(wksFile).fileName() + (modified ? " *" : ""));
     }
 }
@@ -436,7 +448,8 @@ void CMainWindow::clearAll()
 {
     QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
 
-    if(res == QMessageBox::Ok) {
+    if(res == QMessageBox::Ok)
+    {
         CSearchDB::self().clear();
         CMapDB::self().clear();
         CWptDB::self().clear();
@@ -471,7 +484,8 @@ void CMainWindow::setPositionInfo(const QString& info)
 
 void CMainWindow::switchState()
 {
-    if (groupProvidedMenu) {
+    if (groupProvidedMenu)
+    {
         groupProvidedMenu->clear();
         actionGroupProvider->addActionsToMenu(groupProvidedMenu);
     }
@@ -493,7 +507,8 @@ void CMainWindow::setupMenuBar()
     menuMostRecent->setIcon(QIcon(":/icons/iconFileLoad16x16.png"));
 
     QString recent;
-    foreach(recent, mostRecent) {
+    foreach(recent, mostRecent)
+    {
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
 
@@ -605,15 +620,18 @@ void CMainWindow::keyPressEvent(QKeyEvent * e)
 
 void CMainWindow::closeEvent(QCloseEvent * e)
 {
-    if(!modified) {
+    if(!modified)
+    {
         e->accept();
         return;
     }
 
-    if (maybeSave()) {
+    if (maybeSave())
+    {
         e->accept();
     }
-    else {
+    else
+    {
         e->ignore();
     }
 }
@@ -669,10 +687,12 @@ void CMainWindow::slotLoadData()
 
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
-    if(haveGPSBabel) {
+    if(haveGPSBabel)
+    {
         formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
     }
-    else {
+    else
+    {
         formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
 
@@ -687,8 +707,10 @@ void CMainWindow::slotLoadData()
 
     if(filenames.isEmpty()) return;
 
-    if(modified) {
-        if(!maybeSave()) {
+    if(modified)
+    {
+        if(!maybeSave())
+        {
             return;
         }
     }
@@ -701,7 +723,8 @@ void CMainWindow::slotLoadData()
     COverlayDB::self().clear();
 
     QString filename;
-    foreach(filename, filenames) {
+    foreach(filename, filenames)
+    {
         loadData(filename, filter);
         addRecent(filename);
     }
@@ -719,10 +742,12 @@ void CMainWindow::slotAddData()
 {
     bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
     QString formats;
-    if(haveGPSBabel) {
+    if(haveGPSBabel)
+    {
         formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
     }
-    else {
+    else
+    {
         formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
     }
 
@@ -737,7 +762,8 @@ void CMainWindow::slotAddData()
         , QFileDialog::DontUseNativeDialog
         );
 
-    for (i = 0; i < filenames.size(); ++i) {
+    for (i = 0; i < filenames.size(); ++i)
+    {
         filename = filenames.at(i);
         if(filename.isEmpty()) return;
 
@@ -767,7 +793,8 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
 
     try
     {
-        if(ext == "QLB") {
+        if(ext == "QLB")
+        {
             CQlb qlb(this);
             qlb.load(filename);
             CMapDB::self().loadQLB(qlb);
@@ -777,7 +804,8 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CDiaryDB::self().loadQLB(qlb);
             COverlayDB::self().loadQLB(qlb);
         }
-        else if(ext == "GPX") {
+        else if(ext == "GPX")
+        {
             CGpx gpx(this);
             gpx.load(filename);
             CMapDB::self().loadGPX(gpx);
@@ -787,26 +815,33 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
             CDiaryDB::self().loadGPX(gpx);
             COverlayDB::self().loadGPX(gpx);
         }
-        else if(ext == "TCX") {
+        else if(ext == "TCX")
+        {
             TcxReader tcxReader(this);
-            if (!tcxReader.read(filename)) {
+            if (!tcxReader.read(filename))
+            {
                 throw(tcxReader.errorString());
             }
-            else {
+            else
+            {
                 //emit CTrackDB::self().sigChanged(); //??
                 QRectF r = CTrackDB::self().getBoundingRectF();
-                if (!r.isNull ()) {
+                if (!r.isNull ())
+                {
                     CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
                 }
             }
         }
-        else if(ext == "LOC") {
+        else if(ext == "LOC")
+        {
             tmpfile.open();
             loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData) {
+            if (!loadGPXData)
+            {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
-            else {
+            else
+            {
                 CGpx gpx(this);
                 gpx.load(tmpfile.fileName());
                 CMapDB::self().loadGPX(gpx);
@@ -817,13 +852,16 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
                 COverlayDB::self().loadGPX(gpx);
             }
         }
-        else if(ext == "GDB") {
+        else if(ext == "GDB")
+        {
             tmpfile.open();
             loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData) {
+            if (!loadGPXData)
+            {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
-            else {
+            else
+            {
                 CGpx gpx(this);
                 gpx.load(tmpfile.fileName());
                 CMapDB::self().loadGPX(gpx);
@@ -834,13 +872,16 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
                 COverlayDB::self().loadGPX(gpx);
             }
         }
-        else if(ext == "KML") {
+        else if(ext == "KML")
+        {
             tmpfile.open();
             loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData) {
+            if (!loadGPXData)
+            {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
-            else {
+            else
+            {
                 CGpx gpx(this);
                 gpx.load(tmpfile.fileName());
                 CMapDB::self().loadGPX(gpx);
@@ -853,7 +894,8 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
         }
         wksFile = filename;
     }
-    catch(const QString& msg) {
+    catch(const QString& msg)
+    {
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
@@ -886,18 +928,22 @@ bool CMainWindow::maybeSave()
         "Do you want to save your changes?"),
         QMessageBox::Save | QMessageBox::Discard| QMessageBox::Cancel);
 
-    if (ret == QMessageBox::Save) {
-        if(wksFile.isEmpty()) {
+    if (ret == QMessageBox::Save)
+    {
+        if(wksFile.isEmpty())
+        {
             slotSaveData();
         }
-        else {
+        else
+        {
             QSettings cfg;
             QString filter = cfg.value("geodata/filter","").toString();
             saveData(wksFile, filter);
         }
         return true;
     }
-    else if (ret == QMessageBox::Cancel) {
+    else if (ret == QMessageBox::Cancel)
+    {
         return false;
     }
     return true;
@@ -946,24 +992,30 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
     QString filename = fn;
     QString ext = filename.right(4);
 
-    if(exportFlag || filter == "GPS Exchange (*.gpx)") {
+    if(exportFlag || filter == "GPS Exchange (*.gpx)")
+    {
         if(ext != ".gpx") filename += ".gpx";
         ext = "GPX";
     }
-    else if(filter == "QLandkarte (*.qlb)") {
+    else if(filter == "QLandkarte (*.qlb)")
+    {
         if(ext != ".qlb") filename += ".qlb";
         ext = "QLB";
     }
-    else {
+    else
+    {
         //         filename += ".qlb";
         //         ext = "QLB";
-        if (ext == ".gpx") {
+        if (ext == ".gpx")
+        {
             ext = "GPX";
         }
-        else if (ext == ".qlb") {
+        else if (ext == ".qlb")
+        {
             ext = "QLB";
         }
-        else {
+        else
+        {
             filename += ".qlb";
             ext = "QLB";
         }
@@ -973,7 +1025,8 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
 
     try
     {
-        if(ext == "QLB") {
+        if(ext == "QLB")
+        {
             CQlb qlb(this);
             CMapDB::self().saveQLB(qlb);
             CWptDB::self().saveQLB(qlb);
@@ -983,7 +1036,8 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
             COverlayDB::self().saveQLB(qlb);
             qlb.save(filename);
         }
-        else if(ext == "GPX") {
+        else if(ext == "GPX")
+        {
             CGpx gpx(this, exportFlag);
             CMapDB::self().saveGPX(gpx);
             CWptDB::self().saveGPX(gpx);
@@ -998,7 +1052,8 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
         wksFile  = filename;
         modified = false;
     }
-    catch(const QString& msg) {
+    catch(const QString& msg)
+    {
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
@@ -1035,10 +1090,12 @@ void CMainWindow::slotSaveImage()
 
     CMap3DWidget * map3d = qobject_cast<CMap3DWidget*>(canvasTab->currentWidget());
 
-    if(map3d) {
+    if(map3d)
+    {
         map3d->slotSaveImage(filename);
     }
-    else {
+    else
+    {
         QImage img(canvas->size(), QImage::Format_ARGB32);
         canvas->print(img);
         img.save(filename);
@@ -1072,62 +1129,80 @@ void CMainWindow::slotDataChanged()
 
     str += "<p>";
     c = CWptDB::self().count();
-    if(c > 0) {
-        if(c == 1) {
+    if(c > 0)
+    {
+        if(c == 1)
+        {
             str += tr("Currently there is %1 <a href='Waypoints'>waypoint</a>, ").arg(c);
         }
-        else {
+        else
+        {
             str += tr("Currently there are %1 <a href='Waypoints'>waypoints</a>, ").arg(c);
         }
     }
-    else {
+    else
+    {
         str += tr("There are no waypoints, ");
     }
 
     c = CTrackDB::self().count();
-    if(c > 0) {
-        if(c == 1) {
+    if(c > 0)
+    {
+        if(c == 1)
+        {
             str += tr(" %1 <a href='Tracks'>track</a>, ").arg(c);
         }
-        else {
+        else
+        {
             str += tr(" %1 <a href='Tracks'>tracks</a>, ").arg(c);
         }
     }
-    else {
+    else
+    {
         str += tr("no tracks, ");
     }
 
     c = CRouteDB::self().count();
-    if(c > 0) {
-        if(c == 1) {
+    if(c > 0)
+    {
+        if(c == 1)
+        {
             str += tr(" %1 <a href='Routes'>route</a> and ").arg(c);
         }
-        else {
+        else
+        {
             str += tr(" %1 <a href='Routes'>routes</a> and ").arg(c);
         }
     }
-    else {
+    else
+    {
         str += tr("no routes and ");
     }
 
     c = COverlayDB::self().count();
-    if(c > 0) {
-        if(c == 1) {
+    if(c > 0)
+    {
+        if(c == 1)
+        {
             str += tr(" %1 <a href='Overlay'>overlay</a>. ").arg(c);
         }
-        else {
+        else
+        {
             str += tr(" %1 <a href='Overlay'>overlays</a>. ").arg(c);
         }
     }
-    else {
+    else
+    {
         str += tr("no overlays. ");
     }
 
     c = CDiaryDB::self().count();
-    if(c > 0) {
+    if(c > 0)
+    {
         str += tr("A <a href='Diary'>diary</a> is loaded.");
     }
-    else {
+    else
+    {
         str += tr("The diary (<a href='Diary'>new</a>) is empty.");
     }
 
@@ -1140,13 +1215,16 @@ void CMainWindow::slotDataChanged()
 
 void CMainWindow::slotOpenLink(const QString& link)
 {
-    if(link == "Diary") {
+    if(link == "Diary")
+    {
         CDiaryDB::self().openEditWidget();
     }
-    else if(link == "Clear") {
+    else if(link == "Clear")
+    {
         clearAll();
     }
-    else {
+    else
+    {
         CMegaMenu::self().switchByKeyWord(link);
     }
 }
@@ -1185,11 +1263,14 @@ void CMainWindow::slotScreenshot()
 void CMainWindow::slotLoadRecent()
 {
     QAction * act = qobject_cast<QAction*>(sender());
-    if(act) {
+    if(act)
+    {
         QString filename = act->text();
 
-        if(modified) {
-            if(!maybeSave()) {
+        if(modified)
+        {
+            if(!maybeSave())
+            {
                 return;
             }
         }
@@ -1214,17 +1295,20 @@ void CMainWindow::slotLoadRecent()
 void CMainWindow::addRecent(const QString& filename)
 {
     QString recent;
-    foreach(recent, mostRecent) {
+    foreach(recent, mostRecent)
+    {
         if(recent == filename) return;
     }
 
-    if(mostRecent.count() >= 10) {
+    if(mostRecent.count() >= 10)
+    {
         mostRecent.removeLast();
     }
     mostRecent.prepend(filename);
 
     menuMostRecent->clear();
-    foreach(recent, mostRecent) {
+    foreach(recent, mostRecent)
+    {
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
 

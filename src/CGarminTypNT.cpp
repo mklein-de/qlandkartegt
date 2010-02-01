@@ -35,7 +35,8 @@ bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& poly
 {
     quint8 tmp8;
 
-    if(!parseHeader(in)) {
+    if(!parseHeader(in))
+    {
         return false;
     }
 
@@ -43,19 +44,23 @@ bool CGarminTypNT::decode(QDataStream& in, QMap<quint32, polygon_property>& poly
 
     //     qDebug() << "NT         doff/dlen/aoff/amod/asize:" << hex << "\t" << sectNT.dataOffset << "\t" << sectNT.dataLength << "\t" << sectNT.arrayOffset << "\t" << sectNT.arrayModulo << "\t" << sectNT.arrayOffset;
 
-    if(!parseDrawOrder(in, drawOrder)) {
+    if(!parseDrawOrder(in, drawOrder))
+    {
         return false;
     }
 
-    if(!parsePolygon(in, polygons)) {
+    if(!parsePolygon(in, polygons))
+    {
         return false;
     }
 
-    if(!parsePolyline(in, polylines)) {
+    if(!parsePolyline(in, polylines))
+    {
         return false;
     }
 
-    if(!parsePoint(in, points)) {
+    if(!parsePoint(in, points))
+    {
         return false;
     }
 

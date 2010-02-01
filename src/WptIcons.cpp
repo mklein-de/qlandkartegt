@@ -355,10 +355,12 @@ void initWptIcons()
 QPixmap loadIcon(const QString& path)
 {
     QFileInfo finfo(path);
-    if(finfo.completeSuffix() != "bmp") {
+    if(finfo.completeSuffix() != "bmp")
+    {
         return QPixmap(path);
     }
-    else {
+    else
+    {
         QImage img = QPixmap(path).toImage().convertToFormat(QImage::Format_Indexed8);
         img.setColor(0,qRgba(0,0,0,0));
         return QPixmap::fromImage(img);
@@ -371,8 +373,10 @@ QPixmap loadIcon(const QString& path)
 QPixmap getWptIconByName(const QString& name, QString * src)
 {
     const wpt_icon_t * ptr = wptIcons;
-    while(ptr->name != 0) {
-        if(ptr->name == name) {
+    while(ptr->name != 0)
+    {
+        if(ptr->name == name)
+        {
             if(src) *src = ptr->icon;
             return loadIcon(ptr->icon);
         }
@@ -387,8 +391,10 @@ QPixmap getWptIconByName(const QString& name, QString * src)
 void setWptIconByName(const QString& name, const QString& filename)
 {
     wpt_icon_t * ptr = wptIcons;
-    while(ptr->name != 0) {
-        if(ptr->name == name) {
+    while(ptr->name != 0)
+    {
+        if(ptr->name == name)
+        {
             ptr->icon = filename;
         }
 
@@ -400,8 +406,10 @@ void setWptIconByName(const QString& name, const QString& filename)
 QString getWptResourceByName(const QString& name)
 {
     const wpt_icon_t * ptr = wptIcons;
-    while(ptr->name != 0) {
-        if(ptr->name == name) {
+    while(ptr->name != 0)
+    {
+        if(ptr->name == name)
+        {
             return ptr->icon;
         }
 

@@ -43,12 +43,14 @@ CMouseAddTextBox::~CMouseAddTextBox()
 void CMouseAddTextBox::draw(QPainter& p)
 {
 
-    if(selArea) {
+    if(selArea)
+    {
         p.setBrush(Qt::white);
         p.setPen(Qt::black);
         p.drawRect(rect);
     }
-    if(selAnchor) {
+    if(selAnchor)
+    {
         p.setBrush(Qt::white);
         p.setPen(Qt::black);
         p.drawPolygon(COverlayTextBox::makePolyline(anchor, rect));
@@ -58,10 +60,12 @@ void CMouseAddTextBox::draw(QPainter& p)
 
 void CMouseAddTextBox::mouseMoveEvent(QMouseEvent * e)
 {
-    if(selArea) {
+    if(selArea)
+    {
         resizeRect(e->pos());
     }
-    else if(selAnchor) {
+    else if(selAnchor)
+    {
         anchor = e->pos();
         canvas->update();
     }
@@ -70,12 +74,15 @@ void CMouseAddTextBox::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseAddTextBox::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
-        if(!selArea && !selAnchor) {
+    if(e->button() == Qt::LeftButton)
+    {
+        if(!selArea && !selAnchor)
+        {
             startRect(e->pos());
             selArea = true;
         }
-        else if(selAnchor) {
+        else if(selAnchor)
+        {
             selAnchor = false;
 
             double u = anchor.x();
@@ -91,8 +98,10 @@ void CMouseAddTextBox::mousePressEvent(QMouseEvent * e)
 
 void CMouseAddTextBox::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
-        if(selArea) {
+    if(e->button() == Qt::LeftButton)
+    {
+        if(selArea)
+        {
             resizeRect(e->pos());
             selArea     = false;
             selAnchor   = true;

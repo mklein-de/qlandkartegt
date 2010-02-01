@@ -37,7 +37,8 @@ class CDiary : public QObject
         QString text(){return m_text;}
         void setText(const QString& t){m_text = t;}
 
-        CDiary& operator=(const CDiary& d) {
+        CDiary& operator=(const CDiary& d)
+        {
             setParent(d.parent());
             timestamp   = d.timestamp;
             m_text      = d.m_text;

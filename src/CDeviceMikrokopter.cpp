@@ -49,12 +49,14 @@ CDeviceMikrokopter::~CDeviceMikrokopter()
 
 bool CDeviceMikrokopter::aquire()
 {
-    if(!tty.isOpen()) {
+    if(!tty.isOpen())
+    {
         tty.open();
         tty.receiveData();
     }
 
-    if(!tty.isOpen()) {
+    if(!tty.isOpen())
+    {
         QMessageBox::information(0,tr("Error..."), tr("Mikrokopter: Failed to open serial port."),QMessageBox::Abort,QMessageBox::Abort);
         return false;
     }
@@ -94,23 +96,29 @@ void CDeviceMikrokopter::slotNewData(const QByteArray & data)
     ptr = data.data();
     int idx = 0;
 
-    while (ptr[idx] != '\0') {
-        if (ptr[idx] == '\r') {
-            while ((rxData.length() > 1) && (rxData.at(1) == '#')) {
+    while (ptr[idx] != '\0')
+    {
+        if (ptr[idx] == '\r')
+        {
+            while ((rxData.length() > 1) && (rxData.at(1) == '#'))
+            {
                 rxData.remove(0,1);
             }
 
-            if (ToolBox::check_CRC(rxData)) {
+            if (ToolBox::check_CRC(rxData))
+            {
                 // do decoding?
                 qDebug() << rxData << rxData.size();
             }
-            else {
+            else
+            {
                 qDebug() << "error";
             }
 
             rxData.clear();
         }
-        else {
+        else
+        {
             rxData +=  QString(ptr[idx]);
         }
         ++idx;

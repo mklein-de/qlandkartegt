@@ -41,15 +41,18 @@ bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
     QString str1 = text(sortCol);
     QString str2 = other.text(sortCol);
 
-    if (str1.contains(speed) && str2.contains(speed)) {
+    if (str1.contains(speed) && str2.contains(speed))
+    {
         d1 = IUnit::self().str2speed(str1);
         d2 = IUnit::self().str2speed(str2);
     }
-    else if (str1.contains(distance) && str2.contains(distance)) {
+    else if (str1.contains(distance) && str2.contains(distance))
+    {
         d1 = IUnit::self().str2distance(str1);
         d2 = IUnit::self().str2distance(str2);
     }
-    else {
+    else
+    {
         /* let's assume it's a double without any unit ... */
         d1 = str1.toDouble();
         d2 = str2.toDouble();
@@ -79,7 +82,8 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
 
     QPixmap icon(16,8);
-    for(int i=0; i < 17; ++i) {
+    for(int i=0; i < 17; ++i)
+    {
         icon.fill(CTrack::lineColors[i]);
         comboColor->addItem(icon,"",QVariant(i));
     }
@@ -96,19 +100,24 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 CTrackEditWidget::~CTrackEditWidget()
 {
-    if(!trackStatProfileDist.isNull()) {
+    if(!trackStatProfileDist.isNull())
+    {
         delete trackStatProfileDist;
     }
-    if(!trackStatSpeedDist.isNull()) {
+    if(!trackStatSpeedDist.isNull())
+    {
         delete trackStatSpeedDist;
     }
-    if(!trackStatProfileTime.isNull()) {
+    if(!trackStatProfileTime.isNull())
+    {
         delete trackStatProfileTime;
     }
-    if(!trackStatSpeedTime.isNull()) {
+    if(!trackStatSpeedTime.isNull())
+    {
         delete trackStatSpeedTime;
     }
-    if(!trackStatTrainee.isNull()) {
+    if(!trackStatTrainee.isNull())
+    {
         delete trackStatTrainee;
     }
 }
@@ -118,10 +127,12 @@ void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
 {
     if(track.isNull()) return;
 
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotPurge();
     }
-    else {
+    else
+    {
         QWidget::keyPressEvent(e);
     }
 }
@@ -131,14 +142,16 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 {
     if(originator) return;
 
-    if(track) {
+    if(track)
+    {
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
 
         // clean view
         QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
             trkpt->editItem = 0;
             ++trkpt;
         }
@@ -146,7 +159,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     }
 
     track = t;
-    if(track.isNull()) {
+    if(track.isNull())
+    {
         close();
         return;
     }
@@ -155,7 +169,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         trkpt->editItem = 0;
         ++trkpt;
     }
@@ -166,7 +181,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     slotUpdate();
 
     treePoints->setUpdatesEnabled(false);
-    for(int i=0; i < eMaxColumn - 1; ++i) {
+    for(int i=0; i < eMaxColumn - 1; ++i)
+    {
         treePoints->resizeColumnToContents(i);
     }
     treePoints->setUpdatesEnabled(true);
@@ -181,7 +197,8 @@ void CTrackEditWidget::slotUpdate()
 
     if (track->hasTraineeData())
         traineeGraph->setEnabled(true);
-    else {
+    else
+    {
         traineeGraph->setEnabled(false);
         if (!trackStatTrainee.isNull())
             delete trackStatTrainee;
@@ -199,9 +216,11 @@ void CTrackEditWidget::slotUpdate()
     CTrackTreeWidgetItem * focus                 = 0;
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         CTrackTreeWidgetItem * item;
-        if ( !trkpt->editItem ) {
+        if ( !trkpt->editItem )
+        {
             trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
             item = (CTrackTreeWidgetItem *)trkpt->editItem;
             item->setTextAlignment(eNum,Qt::AlignLeft);
@@ -215,7 +234,8 @@ void CTrackEditWidget::slotUpdate()
             trkpt->flags.setChanged(true);
         }
 
-        if ( !trkpt->flags.isChanged() ) {
+        if ( !trkpt->flags.isChanged() )
+        {
             ++trkpt;
             continue;
         }
@@ -224,29 +244,36 @@ void CTrackEditWidget::slotUpdate()
         item->setData(0, Qt::UserRole, trkpt->idx);
 
         // gray shade deleted items
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             //item->setFlags((item->flags() & ~Qt::ItemIsEnabled) | Qt::ItemIsTristate);
-            for(i = 0; i < eMaxColumn; ++i) {
+            for(i = 0; i < eMaxColumn; ++i)
+            {
                 item->setForeground(i,QBrush(Qt::gray));
             }
         }
-        else {
+        else
+        {
             //item->setFlags(item->flags() | Qt::ItemIsEnabled | Qt::ItemIsTristate);
-            for(i = 0; i < eMaxColumn; ++i) {
+            for(i = 0; i < eMaxColumn; ++i)
+            {
                 item->setForeground(i,QBrush(Qt::black));
             }
         }
 
         // temp. store item of user focus
-        if(trkpt->flags & CTrack::pt_t::eFocus) {
+        if(trkpt->flags & CTrack::pt_t::eFocus)
+        {
             focus = item;
         }
 
-        if(trkpt->flags & CTrack::pt_t::eSelected) {
+        if(trkpt->flags & CTrack::pt_t::eSelected)
+        {
             if ( !item->isSelected() )
                 item->setSelected(true);
         }
-        else {
+        else
+        {
             if ( item->isSelected() )
                 item->setSelected(false);
         }
@@ -255,23 +282,27 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eNum,QString::number(trkpt->idx));
 
         // timestamp
-        if(trkpt->timestamp != 0x00000000 && trkpt->timestamp != 0xFFFFFFFF) {
+        if(trkpt->timestamp != 0x00000000 && trkpt->timestamp != 0xFFFFFFFF)
+        {
             QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
         }
-        else {
+        else
+        {
             str = "-";
         }
 
         item->setText(eTime,str);
 
         // altitude
-        if(trkpt->ele != WPT_NOFLOAT) {
+        if(trkpt->ele != WPT_NOFLOAT)
+        {
             IUnit::self().meter2elevation(trkpt->ele, val, unit);
             str = tr("%1 %2").arg(val).arg(unit);
         }
-        else {
+        else
+        {
             str = "-";
         }
         item->setText(eAltitude,str);
@@ -281,10 +312,12 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eDelta, tr("%1 %2").arg(val).arg(unit));
 
         // azimuth
-        if(trkpt->azimuth != WPT_NOFLOAT) {
+        if(trkpt->azimuth != WPT_NOFLOAT)
+        {
             str.sprintf("%1.0f\260",trkpt->azimuth);
         }
-        else {
+        else
+        {
             str = "-";
         }
         item->setText(eAzimuth,str);
@@ -298,11 +331,13 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eDescend, tr("%1 %2").arg(val).arg(unit));
 
         // speed
-        if(trkpt->speed > 0) {
+        if(trkpt->speed > 0)
+        {
             IUnit::self().meter2speed(trkpt->speed, val, unit);
             str = tr("%1 %2").arg(val).arg(unit);
         }
-        else {
+        else
+        {
             str = "-";
         }
         item->setText(eSpeed,str);
@@ -319,7 +354,8 @@ void CTrackEditWidget::slotUpdate()
     treePoints->header()->setResizeMode(0,QHeaderView::Interactive);
 
     // scroll to item of user focus
-    if(focus) {
+    if(focus)
+    {
         //         treePoints->setCurrentItem(focus);
         treePoints->scrollToItem(focus);
     }
@@ -330,7 +366,8 @@ void CTrackEditWidget::slotUpdate()
 
 void CTrackEditWidget::slotCheckReset(bool checked)
 {
-    if(checked) {
+    if(checked)
+    {
         checkRemoveDelTrkPt->setChecked(false);
     }
 }
@@ -338,7 +375,8 @@ void CTrackEditWidget::slotCheckReset(bool checked)
 
 void CTrackEditWidget::slotCheckRemove(bool checked)
 {
-    if(checked) {
+    if(checked)
+    {
         checkResetDelTrkPt->setChecked(false);
     }
 }
@@ -350,10 +388,12 @@ void CTrackEditWidget::slotApply()
 
     originator = true;
 
-    if(checkResetDelTrkPt->isChecked()) {
+    if(checkResetDelTrkPt->isChecked())
+    {
         QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
             trkpt->flags &= ~CTrack::pt_t::eDeleted;
             ++trkpt;
         }
@@ -361,16 +401,20 @@ void CTrackEditWidget::slotApply()
         originator = false;
     }
 
-    if(checkRemoveDelTrkPt->isChecked()) {
+    if(checkRemoveDelTrkPt->isChecked())
+    {
         QMessageBox::warning(0,tr("Remove track points ...")
             ,tr("You are about to remove purged track points permanently. If you press 'yes', all information will be lost.")
             ,QMessageBox::Yes|QMessageBox::No);
         QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end()) {
+        while(trkpt != trkpts.end())
+        {
 
-            if(trkpt->flags & CTrack::pt_t::eDeleted) {
-                if ( trkpt->editItem ) {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                if ( trkpt->editItem )
+                {
                     int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
                     if ( idx != -1 )
                         treePoints->takeTopLevelItem(idx);
@@ -379,7 +423,8 @@ void CTrackEditWidget::slotApply()
                 }
                 trkpt = trkpts.erase(trkpt);
             }
-            else {
+            else
+            {
                 ++trkpt;
             }
         }
@@ -407,7 +452,8 @@ void CTrackEditWidget::slotPointSelectionChanged()
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
+    while(trkpt != trkpts.end())
+    {
         trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
     }
@@ -415,7 +461,8 @@ void CTrackEditWidget::slotPointSelectionChanged()
     // set eSelected flag for selected points
     QList<QTreeWidgetItem*> items = treePoints->selectedItems();
     QList<QTreeWidgetItem*>::const_iterator item = items.begin();
-    while(item != items.end()) {
+    while(item != items.end())
+    {
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
         trkpts[idxTrkPt].flags |= CTrack::pt_t::eSelected;
         ++item;
@@ -442,12 +489,15 @@ void CTrackEditWidget::slotPurge()
     QList<QTreeWidgetItem*> items                   = treePoints->selectedItems();
     QList<QTreeWidgetItem*>::const_iterator item    = items.begin();
 
-    while(item != items.end()) {
+    while(item != items.end())
+    {
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
-        if(trkpts[idxTrkPt].flags & CTrack::pt_t::eDeleted) {
+        if(trkpts[idxTrkPt].flags & CTrack::pt_t::eDeleted)
+        {
             trkpts[idxTrkPt].flags &= ~CTrack::pt_t::eDeleted;
         }
-        else {
+        else
+        {
             trkpts[idxTrkPt].flags |= CTrack::pt_t::eDeleted;
         }
 
@@ -460,19 +510,23 @@ void CTrackEditWidget::slotPurge()
 
 void CTrackEditWidget::slotToggleStatDistance()
 {
-    if(trackStatSpeedDist.isNull()) {
+    if(trackStatSpeedDist.isNull())
+    {
         trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
     }
-    else {
+    else
+    {
         delete trackStatSpeedDist;
     }
 
-    if(trackStatProfileDist.isNull()) {
+    if(trackStatProfileDist.isNull())
+    {
         trackStatProfileDist = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfileDist, tr("Profile/Dist."));
     }
-    else {
+    else
+    {
         delete trackStatProfileDist;
     }
 }
@@ -480,19 +534,23 @@ void CTrackEditWidget::slotToggleStatDistance()
 
 void CTrackEditWidget::slotToggleStatTime()
 {
-    if(trackStatSpeedTime.isNull()) {
+    if(trackStatSpeedTime.isNull())
+    {
         trackStatSpeedTime = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
         theMainWindow->getCanvasTab()->addTab(trackStatSpeedTime, tr("Speed/Time"));
     }
-    else {
+    else
+    {
         delete trackStatSpeedTime;
     }
 
-    if(trackStatProfileTime.isNull()) {
+    if(trackStatProfileTime.isNull())
+    {
         trackStatProfileTime = new CTrackStatProfileWidget(ITrackStat::eOverTime, this);
         theMainWindow->getCanvasTab()->addTab(trackStatProfileTime, tr("Profile/Time"));
     }
-    else {
+    else
+    {
         delete trackStatProfileTime;
     }
 }
@@ -500,11 +558,13 @@ void CTrackEditWidget::slotToggleStatTime()
 
 void CTrackEditWidget::slotToggleTrainee()
 {
-    if(trackStatTrainee.isNull()) {
+    if(trackStatTrainee.isNull())
+    {
         trackStatTrainee = new CTrackStatTraineeWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
     }
-    else {
+    else
+    {
         delete trackStatTrainee;
     }
 }

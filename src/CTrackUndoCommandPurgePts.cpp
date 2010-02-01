@@ -37,8 +37,10 @@ void CTrackUndoCommandPurgePts::redo()
     purgedList.clear();
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eSelected) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eSelected)
+        {
             trkpt->flags |= CTrack::pt_t::eDeleted;
             trkpt->flags &= ~CTrack::pt_t::eSelected;
             purgedList << trkpt->idx;
@@ -57,8 +59,10 @@ void CTrackUndoCommandPurgePts::undo()
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-    while(trkpt != trkpts.end()) {
-        if(purgedList.contains(trkpt->idx)) {
+    while(trkpt != trkpts.end())
+    {
+        if(purgedList.contains(trkpt->idx))
+        {
             trkpt->flags &= ~CTrack::pt_t::eDeleted;
             trkpt->flags |= CTrack::pt_t::eSelected;
         }

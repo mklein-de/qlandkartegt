@@ -245,11 +245,13 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     setup();
 
-    if(pos.isEmpty()) {
+    if(pos.isEmpty())
+    {
         topLeft.u = west;
         topLeft.v = north;
     }
-    else {
+    else
+    {
         float u = 0;
         float v = 0;
         GPS_Math_Str_To_Deg(pos, u, v);
@@ -329,7 +331,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
-    if(QString(ptr).contains("longlat")) {
+    if(QString(ptr).contains("longlat"))
+    {
         lon_factor =   PI / pow(2.0, 24);
         lat_factor = - PI / pow(2.0, 24);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
@@ -389,19 +392,23 @@ CMapTDB::~CMapTDB()
 
     if(pjsrc) pj_free(pjsrc);
 
-    if(checkPoiLabels) {
+    if(checkPoiLabels)
+    {
         delete checkPoiLabels;
     }
 
-    if(checkNightView) {
+    if(checkNightView)
+    {
         delete checkNightView;
     }
 
-    if(comboDetails) {
+    if(comboDetails)
+    {
         delete comboDetails;
     }
 
-    if(comboLanguages) {
+    if(comboLanguages)
+    {
         delete comboLanguages;
     }
 
@@ -631,13 +638,15 @@ void CMapTDB::setup()
     polygonProperties[0x69] = IGarminTyp::polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
     polygonDrawOrder.clear();
-    for(int i = 0; i < 0x80; i++) {
+    for(int i = 0; i < 0x80; i++)
+    {
         polygonDrawOrder << (0x7F - i);
     }
 
     pointProperties.clear();
 
-    if(useTyp) {
+    if(useTyp)
+    {
         readTYP();
     }
 }
@@ -645,7 +654,8 @@ void CMapTDB::setup()
 
 void CMapTDB::registerDEM(CMapDEM& dem)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         dem.deleteLater();
         throw tr("No basemap projection. That shouldn't happen.");
     }
@@ -653,13 +663,15 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     char * ptr = dem.getProjection();
     qDebug() << "Reproject map to:" << ptr;
 
-    if(QString(ptr).contains("longlat")) {
+    if(QString(ptr).contains("longlat"))
+    {
         lon_factor =   PI / pow(2.0, 23);
         lat_factor = - PI / pow(2.0, 23);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
-    if(strlen(ptr) == 0) {
+    if(strlen(ptr) == 0)
+    {
         return;
     }
     pj_free(pjsrc);
@@ -679,7 +691,8 @@ void CMapTDB::resize(const QSize& s)
 bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 {
 
-    if(parent() == watched && event->type() == QEvent::MouseMove && !doFastDraw) {
+    if(parent() == watched && event->type() == QEvent::MouseMove && !doFastDraw)
+    {
         QMouseEvent * e = (QMouseEvent*)event;
 
         pointFocus = e->pos();
@@ -695,7 +708,8 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         qSort(keys);
 
         infotext.clear();
-        foreach(key,keys) {
+        foreach(key,keys)
+        {
             infotext += "<b>" + key + ":</b><br/>";
             const QStringList& values = dict.values(key).toSet().toList();
             infotext += values.join("<br/>");
@@ -726,9 +740,11 @@ void CMapTDB::readTDB(const QString& filename)
     quint32 basemapId   = 0;
     bool    tainted     = false;
 
-    while((quint8*)pRecord < pRawData + data.size()) {
+    while((quint8*)pRecord < pRawData + data.size())
+    {
         pRecord->size = gar_load(uint16_t,pRecord->size);
-        switch(pRecord->type) {
+        switch(pRecord->type)
+        {
             case 0x50:           // product name
             {
                 tdb_product_t * p = (tdb_product_t*)pRecord;
@@ -760,7 +776,8 @@ void CMapTDB::readTDB(const QString& filename)
                 cfg.endGroup();
 
                 QFileInfo basemapFileInfo(basemap);
-                if(!basemapFileInfo.isFile()) {
+                if(!basemapFileInfo.isFile())
+                {
 
                     qApp->changeOverrideCursor(Qt::ArrowCursor);
                     QString filename = QFileDialog::getOpenFileName( 0, tr("Select Base Map for ") + name
@@ -771,7 +788,8 @@ void CMapTDB::readTDB(const QString& filename)
                         );
                     qApp->restoreOverrideCursor();
 
-                    if(filename.isEmpty()) {
+                    if(filename.isEmpty())
+                    {
                         deleteLater();
                         return;
                     }
@@ -824,7 +842,8 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.memSize = 0;
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
-                for(quint16 i=0; i < s->count; ++i) {
+                for(quint16 i=0; i < s->count; ++i)
+                {
                     tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }
 
@@ -833,9 +852,11 @@ void CMapTDB::readTDB(const QString& filename)
                     tile.img = new CGarminTile(this);
                     tile.img->readBasics(tile.file);
                 }
-                catch(CGarminTile::exce_t e) {
+                catch(CGarminTile::exce_t e)
+                {
 
-                    if(e.err == CGarminTile::errLock) {
+                    if(e.err == CGarminTile::errLock)
+                    {
                         if(!mapkey.isEmpty()) break;
 
                         QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
@@ -848,7 +869,8 @@ void CMapTDB::readTDB(const QString& filename)
                             "to the unit together with the map.</p>"
                             ));
                         // no money, no brother, no sister - no key
-                        if(mapkey.isEmpty()) {
+                        if(mapkey.isEmpty())
+                        {
                             deleteLater();
                             return;
                         }
@@ -861,8 +883,10 @@ void CMapTDB::readTDB(const QString& filename)
                         cfg.endGroup();
 
                     }
-                    else if(CGarminTile::errFormat) {
-                        if(!tainted) {
+                    else if(CGarminTile::errFormat)
+                    {
+                        if(!tainted)
+                        {
                             QMessageBox::warning(0, tr("Error")
                                 , tr("<p>Failed to load file:</p>"
                                 "<p>%1</p>"
@@ -874,8 +898,10 @@ void CMapTDB::readTDB(const QString& filename)
                         delete tile.img;
                         tile.img = 0;
                     }
-                    else {
-                        if(!tainted) {
+                    else
+                    {
+                        if(!tainted)
+                        {
                             QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
                             tainted = true;
                         }
@@ -895,9 +921,11 @@ void CMapTDB::readTDB(const QString& filename)
 
                 tdb_copyrights_t * p = (tdb_copyrights_t*)pRecord;
                 tdb_copyright_t  * c = &p->entry;
-                while((void*)c < (void*)((quint8*)p + gar_load(uint16_t,p->size) + 3)) {
+                while((void*)c < (void*)((quint8*)p + gar_load(uint16_t,p->size) + 3))
+                {
 
-                    if(c->type != 0x07) {
+                    if(c->type != 0x07)
+                    {
                         out << c->str << "<br/>" << endl;
                     }
                     c = (tdb_copyright_t*)((quint8*)c + 4 + strlen(c->str) + 1);
@@ -922,7 +950,8 @@ bool CMapTDB::processPrimaryMapData()
         baseimg = new CGarminTile(this);
         baseimg->readBasics(basemap);
     }
-    catch(CGarminTile::exce_t e) {
+    catch(CGarminTile::exce_t e)
+    {
         // no basemap? bad luck!
         QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::NoButton);
         deleteLater();
@@ -941,14 +970,17 @@ bool CMapTDB::processPrimaryMapData()
     QMap<QString,CGarminTile::subfile_desc_t>::const_iterator basemap_subfile;
 
     /* Find best candidate for basemap. */
-    while (subfile != subfiles.end()) {
+    while (subfile != subfiles.end())
+    {
         QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
         /* Skip any upper levels that contain no real data. */
-        while (!maplevel->inherited) {
+        while (!maplevel->inherited)
+        {
             ++maplevel;
         }
         /* Check for the least detailed map. */
-        if (maplevel->bits < fewest_map_bits) {
+        if (maplevel->bits < fewest_map_bits)
+        {
             fewest_map_bits = maplevel->bits;
             basemap_subfile = subfile;
         }
@@ -958,8 +990,10 @@ bool CMapTDB::processPrimaryMapData()
     /* Add all basemap levels to the list. */
     quint8 largestBitsBasemap = 0;
     QVector<CGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
-    while(maplevel != basemap_subfile->maplevels.end()) {
-        if (!maplevel->inherited) {
+    while(maplevel != basemap_subfile->maplevels.end())
+    {
+        if (!maplevel->inherited)
+        {
             map_level_t ml;
             ml.bits  = maplevel->bits;
             ml.level = maplevel->level;
@@ -971,31 +1005,38 @@ bool CMapTDB::processPrimaryMapData()
         ++maplevel;
     }
 
-    if(!tiles.isEmpty()) {
+    if(!tiles.isEmpty())
+    {
         CGarminTile * img = 0;
         QMap<QString,tile_t>::iterator tile = tiles.begin();
-        while(tile != tiles.end()) {
+        while(tile != tiles.end())
+        {
             img = tile->img;
             if(img) break;
             ++tile;
         }
-        if(img) {
+        if(img)
+        {
             const QMap<QString,CGarminTile::subfile_desc_t>& subfiles = img->getSubFiles();
             QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile = subfiles.begin();
             /*
              * Query all subfiles for possible maplevels.
              * Exclude basemap to avoid polution.
              */
-            while (subfile != subfiles.end()) {
+            while (subfile != subfiles.end())
+            {
                 QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
 
                 /* Skip basemap. */
-                if (subfile == basemap_subfile) {
+                if (subfile == basemap_subfile)
+                {
                     ++subfile;
                     continue;
                 }
-                while (maplevel != subfile->maplevels.end()) {
-                    if (!maplevel->inherited && (maplevel->bits > largestBitsBasemap)) {
+                while (maplevel != subfile->maplevels.end())
+                {
+                    if (!maplevel->inherited && (maplevel->bits > largestBitsBasemap))
+                    {
                         map_level_t ml;
                         ml.bits  = maplevel->bits;
                         ml.level = maplevel->level;
@@ -1018,7 +1059,8 @@ bool CMapTDB::processPrimaryMapData()
     }
 
 #ifdef DEBUG_SHOW_MAPLEVELS
-    for(int i=0; i < maplevels.count(); ++i) {
+    for(int i=0; i < maplevels.count(); ++i)
+    {
         map_level_t& ml = maplevels[i];
         qDebug() << ml.bits << ml.level << ml.useBaseMap;
     }
@@ -1028,14 +1070,17 @@ bool CMapTDB::processPrimaryMapData()
     // Search all basemap levels for tile boundaries.
     // More detailed polygons will overwrite least detailed ones
     polygons.clear();
-    for(int i=0; i < maplevels.count(); ++i) {
+    for(int i=0; i < maplevels.count(); ++i)
+    {
         if(!maplevels[i].useBaseMap) break;
 
         baseimg->loadPolygonsOfType(polygons, 0x4a, maplevels[i].level);
 
         polytype_t::iterator item = polygons.begin();
-        while (item != polygons.end()) {
-            if((item->labels.size() > 1) && tiles.contains(item->labels[1])) {
+        while (item != polygons.end())
+        {
+            if((item->labels.size() > 1) && tiles.contains(item->labels[1]))
+            {
                 tile_t& tile = tiles[item->labels[1]];
 
                 double * u = item->u.data();
@@ -1044,7 +1089,8 @@ bool CMapTDB::processPrimaryMapData()
 
                 tile.defArea.clear();
 
-                for(int n = 0; n < N; ++n, ++u, ++v) {
+                for(int n = 0; n < N; ++n, ++u, ++v)
+                {
                     tile.defArea << QPointF(*u, *v);
                 }
 
@@ -1085,7 +1131,8 @@ void CMapTDB::convertM2Pt(double* u, double* v, int n)
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
-    for(int i = 0; i < n; ++i, ++u, ++v) {
+    for(int i = 0; i < n; ++i, ++u, ++v)
+    {
         *u = (*u - pt.u) / (zoomFactor * lon_factor);
         *v = (*v - pt.v) / (zoomFactor * lat_factor);
     }
@@ -1093,7 +1140,8 @@ void CMapTDB::convertM2Pt(double* u, double* v, int n)
 
 void CMapTDB::convertRad2Pt(double* u, double* v, int n)
 {
-    if(pjsrc == 0) {
+    if(pjsrc == 0)
+    {
         return;
     }
 
@@ -1177,13 +1225,15 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     dU = u[1] - u[0];
     dV = v[2] - v[0];
 
-    for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i) {
+    for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i)
+    {
 
         double z    = scales[i].scale;
         double pxU  = dU / (+1.0 * z);
         double pxV  = dV / (-1.0 * z);
 
-        if((pxU < size.width()) && (pxV < size.height())) {
+        if((pxU < size.width()) && (pxV < size.height()))
+        {
             zoomFactor  = z;
             zoomidx     = i;
             double u = lon1 + (lon2 - lon1)/2;
@@ -1243,33 +1293,39 @@ void CMapTDB::draw(QPainter& p)
     bottomRight.v = size.height();
     convertPt2Rad(bottomRight.u, bottomRight.v);
 
-    if((bottomRight.u < 0) && (bottomRight.u < topLeft.u)) {
+    if((bottomRight.u < 0) && (bottomRight.u < topLeft.u))
+    {
         bottomRight.u = 180 * DEG_TO_RAD + (180 * DEG_TO_RAD + bottomRight.u );
     }
 
-    if((topLeft.u > 0) && (topLeft.u > bottomRight.u)) {
+    if((topLeft.u > 0) && (topLeft.u > bottomRight.u))
+    {
         topLeft.u = -180 * DEG_TO_RAD - (180 * DEG_TO_RAD - topLeft.u);
     }
 
     // render map if necessary
-    if(needsRedraw) {
+    if(needsRedraw)
+    {
         draw();
     }
     // copy internal buffer to paint device
     p.drawImage(0,0,buffer);
 
     // render overlay
-    if(!ovlMap.isNull() && !doFastDraw) {
+    if(!ovlMap.isNull() && !doFastDraw)
+    {
         ovlMap->draw(size, needsRedraw, p);
     }
 
     needsRedraw = false;
 
-    if(!infotext.isEmpty() && info) {
+    if(!infotext.isEmpty() && info)
+    {
         QFont f = p.font();
         f.setBold(false);
         f.setItalic(false);
-        if(f.pointSize() < 8) {
+        if(f.pointSize() < 8)
+        {
             f.setPointSize(8);
         }
         info->setDefaultFont(f);
@@ -1300,20 +1356,23 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 {
     int i;
 
-    if(s != size) {
+    if(s != size)
+    {
         resize(s);
         needsRedraw = true;
         doFastDraw  = false;
     }
 
-    if(needsRedraw) {
+    if(needsRedraw)
+    {
         float sx, sy;
         getArea_n_Scaling_fromBase(topLeft, bottomRight, sx, sy);
 
         zoomFactor = sx/lon_factor;
         lat_factor = sy/sx * lon_factor;
 
-        for(i=0; i < MAX_IDX_ZOOM; ++i) {
+        for(i=0; i < MAX_IDX_ZOOM; ++i)
+        {
             if(scales[i].scale <= sx) break;
         }
 
@@ -1323,8 +1382,10 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         // make map semi transparent
         quint32 * ptr  = (quint32*)buffer.bits();
-        for(int i = 0; i < (buffer.numBytes()>>2); ++i) {
-            if(*ptr & 0xFF000000) {
+        for(int i = 0; i < (buffer.numBytes()>>2); ++i)
+        {
+            if(*ptr & 0xFF000000)
+            {
                 *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
             }
             ++ptr;
@@ -1351,7 +1412,8 @@ void CMapTDB::draw()
 
     quint8 bits = scales[zoomidx].bits + detailsFineTune;
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
-    do {
+    do
+    {
         --maplevel;
         if(bits >= maplevel->bits) break;
     } while(maplevel != maplevels.begin());
@@ -1363,13 +1425,17 @@ void CMapTDB::draw()
     points.clear();
     labels.clear();
 
-    if(maplevel->useBaseMap) {
+    if(maplevel->useBaseMap)
+    {
         baseimg->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, viewport);
     }
-    else {
+    else
+    {
         QMap<QString,tile_t>::const_iterator tile = tiles.begin();
-        while(tile != tiles.end()) {
-            if(tile->img && tile->area.intersects(viewport)) {
+        while(tile != tiles.end())
+        {
+            if(tile->img && tile->area.intersects(viewport))
+            {
                 tile->img->loadVisibleData(doFastDraw, polygons, polylines, points, pois, maplevel->level, viewport);
             }
             ++tile;
@@ -1389,7 +1455,8 @@ pen.setCapStyle(Qt::RoundCap);
 pen.setJoinStyle(Qt::RoundJoin);
 p.setPen(pen);
 polytype_t::iterator item = query1.begin();
-while(item != query1.end()) {
+while(item != query1.end())
+{
     QVector<double> lon = item->u;
     QVector<double> lat = item->v;
     double * u      = lon.data();
@@ -1399,7 +1466,8 @@ while(item != query1.end()) {
     convertRad2Pt(u,v,size);
     QPolygonF line(size);
 
-    for(int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i)
+    {
         line[i].setX(*u++);
         line[i].setY(*v++);
     }
@@ -1412,13 +1480,15 @@ while(item != query1.end()) {
 
 ////////////////////////
 
-if(!doFastDraw) {
+if(!doFastDraw)
+{
     drawPolylines(p, polylines);
     // needs to be removed
     p.setPen(QColor("#FFB000"));
     p.setBrush(QColor("#FFB000"));
     pointtype_t::iterator item = query2.begin();
-    while(item != query2.end()) {
+    while(item != query2.end())
+    {
         double u = item->lon;
         double v = item->lat;
         IMap::convertRad2Pt(u,v);
@@ -1448,7 +1518,8 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
     const int size      = l.u.size();
     const int lineWidth = p.pen().width();
 
-    if(size < 2) {
+    if(size < 2)
+    {
         return;
     }
 
@@ -1457,12 +1528,14 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
     line.clear();
     line.resize(size);
 
-    for(int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i)
+    {
         line[i].setX(*u++);
         line[i].setY(*v++);
     }
 
-    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
+    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone)
+    {
         collectText(l, line, font, metrics, lineWidth);
     }
 
@@ -1477,14 +1550,16 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
     double * v          = l.v.data();
     const int size      = l.u.size();
 
-    if(size < 2) {
+    if(size < 2)
+    {
         return;
     }
 
     line.clear();
     line.resize(size);
 
-    for(int i = 0; i < size; ++i) {
+    for(int i = 0; i < size; ++i)
+    {
         line[i].setX(*u++);
         line[i].setY(*v++);
     }
@@ -1507,24 +1582,29 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     qSort(keys);
     quint32 type;
 
-    foreach(type, keys) {
+    foreach(type, keys)
+    {
         IGarminTyp::polyline_property& property = polylineProperties[type];
 
-        if(property.hasPixmap) {
+        if(property.hasPixmap)
+        {
             QImage pixmap = nightView ? property.imgNight : property.imgDay;
             const double w          = pixmap.width();
             const double h          = pixmap.height();
 
             polytype_t::iterator item = lines.begin();
-            while(item != lines.end()) {
-                if(item->type == type) {
+            while(item != lines.end())
+            {
+                if(item->type == type)
+                {
                     QPolygonF line;
 
                     double * u      = item->u.data();
                     double * v      = item->v.data();
                     const int size  = item->u.size();
 
-                    if(size < 2) {
+                    if(size < 2)
+                    {
                         ++item;
                         continue;
                     }
@@ -1545,7 +1625,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     line[0].setX(u1);
                     line[0].setY(v1);
 
-                    for(i = 1; i < size; ++i) {
+                    for(i = 1; i < size; ++i)
+                    {
                         u2 = u[i];
                         v2 = v[i];
 
@@ -1560,7 +1641,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         v1 = v2;
                     }
 
-                    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone) {
+                    if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone)
+                    {
                         collectText((*item), line, font, metrics, h);
                     }
 
@@ -1568,7 +1650,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     const int nLength = lengths.count();
 
                     double curLength = 0;
-                    for(int i = 0; i < nLength; ++i) {
+                    for(int i = 0; i < nLength; ++i)
+                    {
                         segLength = lengths[i];
 
                         //                         qDebug() << curLength << totalLength << curLength / totalLength;
@@ -1580,7 +1663,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         double l = 0;
                         QRectF r = pixmap.rect();
 
-                        if(p2.x() - p1.x() < 0) {
+                        if(p2.x() - p1.x() < 0)
+                        {
                             angle += 180;
                         }
 
@@ -1589,8 +1673,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p.rotate(angle);
                         p.translate(0,-h/2);
 
-                        while(l < segLength) {
-                            if((segLength - l) < w) {
+                        while(l < segLength)
+                        {
+                            if((segLength - l) < w)
+                            {
                                 r.setRight(segLength - l);
                                 p.setClipRect(r, Qt::ReplaceClip);
                             }
@@ -1605,13 +1691,17 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 ++item;
             }
         }
-        else {
-            if(property.hasBorder) {
+        else
+        {
+            if(property.hasBorder)
+            {
                 // draw background line 1st
                 p.setPen(nightView ? property.penBorderNight : property.penBorderDay);
                 polytype_t::iterator item = lines.begin();
-                while(item != lines.end()) {
-                    if(item->type == type) {
+                while(item != lines.end())
+                {
+                    if(item->type == type)
+                    {
                         drawLine(p, *item, property, metrics, font);
                     }
                     ++item;
@@ -1619,18 +1709,23 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 // draw foreground line 2nd
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
                 item = lines.begin();
-                while(item != lines.end()) {
-                    if(item->type == type) {
+                while(item != lines.end())
+                {
+                    if(item->type == type)
+                    {
                         drawLine(p, *item);
                     }
                     ++item;
                 }
             }
-            else {
+            else
+            {
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
                 polytype_t::iterator item = lines.begin();
-                while(item != lines.end()) {
-                    if(item->type == type) {
+                while(item != lines.end())
+                {
+                    if(item->type == type)
+                    {
                         drawLine(p, *item, property, metrics, font);
                     }
                     ++item;
@@ -1646,9 +1741,11 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
 {
 
     QString str;
-    if (!item.labels.isEmpty()) {
+    if (!item.labels.isEmpty())
+    {
 
-        switch(item.type) {
+        switch(item.type)
+        {
             case 0x23:
             case 0x20:
             case 0x24:
@@ -1678,7 +1775,8 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
 
     QPointF p1 = line[0];
     const int size = line.size();
-    for(int i = 1; i < size; ++i) {
+    for(int i = 1; i < size; ++i)
+    {
         QPointF p2  = line[i];
         qreal dx    = p2.x() - p1.x();
         qreal dy    = p2.y() - p1.y();
@@ -1695,7 +1793,8 @@ void CMapTDB::drawText(QPainter& p)
     p.setPen(Qt::black);
 
     QVector<textpath_t>::iterator textpath = textpaths.begin();
-    while(textpath != textpaths.end()) {
+    while(textpath != textpaths.end())
+    {
         QFont& font         = textpath->font;
         QFontMetricsF fm(font);
         QPainterPath& path  = textpath->path;
@@ -1705,7 +1804,8 @@ void CMapTDB::drawText(QPainter& p)
         qreal width         = fm.width(textpath->text);
 
         // adjust font size until string fits into polyline
-        while(width > (length * 0.7)) {
+        while(width > (length * 0.7))
+        {
             font.setPixelSize(font.pixelSize() - 1);
             fm      = QFontMetricsF(font);
             width   = fm.width(textpath->text);
@@ -1714,7 +1814,8 @@ void CMapTDB::drawText(QPainter& p)
         }
 
         // no way to draw a readable string - skip
-        if((font.pixelSize() < 8)) {
+        if((font.pixelSize() < 8))
+        {
             ++textpath;
             continue;
         }
@@ -1724,14 +1825,17 @@ void CMapTDB::drawText(QPainter& p)
         const qreal ref = (length - width) / 2;
         qreal offset    = 0;
 
-        for(int i = 0; i < lengths.size(); ++i) {
+        for(int i = 0; i < lengths.size(); ++i)
+        {
             const qreal d = lengths[i];
 
-            if((offset + d/2) >= ref) {
+            if((offset + d/2) >= ref)
+            {
                 offset = ref;
                 break;
             }
-            if((offset + d) >= ref) {
+            if((offset + d) >= ref)
+            {
                 offset += d/2;
                 break;
             }
@@ -1750,7 +1854,8 @@ void CMapTDB::drawText(QPainter& p)
 
         // flip path if string start is E->W direction
         // this helps, sometimes, in 50 % of the cases :)
-        if(point2.x() - point1.x() < 0) {
+        if(point2.x() - point1.x() < 0)
+        {
             path    = path.toReversed();
         }
 
@@ -1758,7 +1863,8 @@ void CMapTDB::drawText(QPainter& p)
 
         // draw string letter by letter and adjust angle
         const int size = text.size();
-        for(int i = 0; i < size; ++i) {
+        for(int i = 0; i < size; ++i)
+        {
 
             percent1  =  offset / length;
             percent2  = (offset + fm.width(text[i])) / length;
@@ -1768,17 +1874,20 @@ void CMapTDB::drawText(QPainter& p)
 
             angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
-            if(point2.x() - point1.x() < 0) {
+            if(point2.x() - point1.x() < 0)
+            {
                 angle += 180;
             }
 
             p.save();
             p.translate(point1);
             p.rotate(angle);
-            if(textAboveLine) {
+            if(textAboveLine)
+            {
                 p.translate(0, -(textpath->lineWidth + 2));
             }
-            else {
+            else
+            {
                 p.translate(0, fm.descent());
             }
             p.drawText(0,0,text.mid(i,1));
@@ -1798,16 +1907,19 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
     quint32 type;
     int n;
     const int N = polygonDrawOrder.size();
-    for(n = 0; n < N; ++n) {
+    for(n = 0; n < N; ++n)
+    {
         type = polygonDrawOrder[(N-1) - n];
 
         p.setPen(polygonProperties[type].pen);
         p.setBrush(nightView ? polygonProperties[type].brushNight : polygonProperties[type].brushDay);
 
         polytype_t::iterator item = lines.begin();
-        while (item != lines.end()) {
+        while (item != lines.end())
+        {
 
-            if(item->type != type) {
+            if(item->type != type)
+            {
                 ++item;
                 continue;
             }
@@ -1819,7 +1931,8 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
             convertRad2Pt(u,v,size);
 
             QPolygonF line(size);
-            for(int i = 0; i < size; ++i) {
+            for(int i = 0; i < size; ++i)
+            {
                 line[i].setX(*u++);
                 line[i].setY(*v++);
             }
@@ -1838,9 +1951,11 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 {
 
     pointtype_t::iterator pt = pts.begin();
-    while(pt != pts.end()) {
+    while(pt != pts.end())
+    {
 
-        if((pt->type > 0x1600) && (zoomFactor > 5.0)) {
+        if((pt->type > 0x1600) && (zoomFactor > 5.0))
+        {
             ++pt;
             continue;
         };
@@ -1848,15 +1963,18 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
         bool showLabel = true;
-        if(pointProperties.contains(pt->type)) {
+        if(pointProperties.contains(pt->type))
+        {
             p.drawImage(pt->lon - 4, pt->lat - 4, nightView ? pointProperties[pt->type].imgNight : pointProperties[pt->type].imgDay);
             showLabel = pointProperties[pt->type].labelType != IGarminTyp::eNone;
         }
-        else {
+        else
+        {
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
-        if(!pt->labels.isEmpty() && ((zoomFactor < 2) || (pt->type < 0x1600))  && poiLabels && showLabel) {
+        if(!pt->labels.isEmpty() && ((zoomFactor < 2) || (pt->type < 0x1600))  && poiLabels && showLabel)
+        {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
@@ -1865,13 +1983,15 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 
             // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end()) {
+            while(label != labels.end())
+            {
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
 
             // if no intersection was found, add label to list
-            if(label == labels.end()) {
+            if(label == labels.end())
+            {
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
                 strlbl.pt   = QPoint(pt->lon, pt->lat);
@@ -1887,19 +2007,23 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 {
     pointtype_t::iterator pt = pts.begin();
-    while(pt != pts.end()) {
+    while(pt != pts.end())
+    {
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
         bool showLabel = true;
-        if(pointProperties.contains(pt->type)) {
+        if(pointProperties.contains(pt->type))
+        {
             p.drawImage(pt->lon - 4, pt->lat - 4, nightView ? pointProperties[pt->type].imgNight : pointProperties[pt->type].imgDay);
             showLabel = pointProperties[pt->type].labelType != IGarminTyp::eNone;
         }
-        else {
+        else
+        {
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
-        if(!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels && showLabel) {
+        if(!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels && showLabel)
+        {
 
             // calculate bounding rectangle with a border of 2 px
             QRect rect = fm.boundingRect(pt->labels.join(" "));
@@ -1908,13 +2032,15 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 
             // test rectangle for intersection with existng labels
             QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end()) {
+            while(label != labels.end())
+            {
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
 
             // if no intersection was found, add label to list
-            if(label == labels.end()) {
+            if(label == labels.end())
+            {
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
                 strlbl.pt   = QPoint(pt->lon, pt->lat);
@@ -1930,7 +2056,8 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
 {
     QVector<strlbl_t>::const_iterator lbl = lbls.begin();
-    while(lbl != lbls.end()) {
+    while(lbl != lbls.end())
+    {
         CCanvas::drawText(lbl->str, p, lbl->pt, Qt::black);
         ++lbl;
     }
@@ -1940,22 +2067,30 @@ void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
 void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     pointtype_t::const_iterator point = points.begin();
-    while(point != points.end()) {
+    while(point != points.end())
+    {
         QPoint x = pt - QPoint(point->lon, point->lat);
-        if(x.manhattanLength() < 10) {
-            if(point->labels.size()) {
+        if(x.manhattanLength() < 10)
+        {
+            if(point->labels.size())
+            {
                 dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
-            else {
-                if(pointProperties.contains(point->type)) {
-                    if(selectedLanguage != -1) {
+            else
+            {
+                if(pointProperties.contains(point->type))
+                {
+                    if(selectedLanguage != -1)
+                    {
                         dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
-                    else {
+                    else
+                    {
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
-                else {
+                else
+                {
                     dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                 }
             }
@@ -1969,22 +2104,30 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
 void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     pointtype_t::const_iterator point = pois.begin();
-    while(point != pois.end()) {
+    while(point != pois.end())
+    {
         QPoint x = pt - QPoint(point->lon, point->lat);
-        if(x.manhattanLength() < 10) {
-            if(point->labels.size()) {
+        if(x.manhattanLength() < 10)
+        {
+            if(point->labels.size())
+            {
                 dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
-            else {
-                if(pointProperties.contains(point->type)) {
-                    if(selectedLanguage != -1) {
+            else
+            {
+                if(pointProperties.contains(point->type))
+                {
+                    if(selectedLanguage != -1)
+                    {
                         dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[selectedLanguage] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
-                    else {
+                    else
+                    {
                         dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
-                else {
+                else
+                {
                     dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
                 }
             }
@@ -2013,16 +2156,19 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     shortest = 50;
 
     polytype_t::const_iterator line = polylines.begin();
-    while(line != polylines.end()) {
+    while(line != polylines.end())
+    {
         len = line->u.count();
         // need at least 2 points
-        if(len < 2) {
+        if(len < 2)
+        {
             ++line;
             continue;
         }
 
         // see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
-        for(i=1; i<len; ++i) {
+        for(i=1; i<len; ++i)
+        {
             p1.u = line->u[i-1];
             p1.v = line->v[i-1];
             p2.u = line->u[i];
@@ -2042,11 +2188,14 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
             distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
 
-            if(distance < shortest) {
+            if(distance < shortest)
+            {
                 type = line->type;
 
-                if(!line->labels.isEmpty()) {
-                    switch(type) {
+                if(!line->labels.isEmpty())
+                {
+                    switch(type)
+                    {
                                  // "Minor depht contour"
                         case 0x23:
                                  // "Minor land contour"
@@ -2071,7 +2220,8 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
                             value = line->labels.join(" ").simplified();
                     }
                 }
-                else {
+                else
+                {
                     value = "-";
                 }
                 resPt.setX(x);
@@ -2083,14 +2233,17 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
         ++line;
     }
 
-    if(selectedLanguage != -1) {
+    if(selectedLanguage != -1)
+    {
         key =  polylineProperties[type].strings[selectedLanguage];
     }
 
-    if(!key.isEmpty()) {
+    if(!key.isEmpty())
+    {
         dict.insert(key + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
-    else {
+    else
+    {
         dict.insert(tr("Unknown") + QString("(%1)").arg(type,2,16,QChar('0')),value);
     }
 
@@ -2108,32 +2261,40 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
     QString value;
 
     polytype_t::const_iterator line = polygons.begin();
-    while(line != polygons.end()) {
+    while(line != polygons.end())
+    {
 
         npol = line->u.count();
-        if(npol > 2) {
+        if(npol > 2)
+        {
             c = 0;
             // see http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
-            for (i = 0, j = npol-1; i < npol; j = i++) {
+            for (i = 0, j = npol-1; i < npol; j = i++)
+            {
                 p1.u = line->u[j];
                 p1.v = line->v[j];
                 p2.u = line->u[i];
                 p2.v = line->v[i];
 
                 if ((((p2.v <= y) && (y < p1.v))  || ((p1.v <= y) && (y < p2.v))) &&
-                (x < (p1.u - p2.u) * (y - p2.v) / (p1.v - p2.v) + p2.u)) {
+                    (x < (p1.u - p2.u) * (y - p2.v) / (p1.v - p2.v) + p2.u))
+                {
                     c = !c;
                 }
             }
 
-            if(c) {
-                if(line->labels.isEmpty()) {
+            if(c)
+            {
+                if(line->labels.isEmpty())
+                {
 
-                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size()) {
+                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size())
+                    {
                         dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                     }
                 }
-                else {
+                else
+                {
                     dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                 }
             }
@@ -2158,7 +2319,8 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     QPolygonF poly;
     poly << QPointF(lon1, lat1) << QPointF(lon2, lat1) << QPointF(lon2, lat2) << QPointF(lon1, lat2);
 
-    if(!sel.maps.contains(key)) {
+    if(!sel.maps.contains(key))
+    {
         CMapSelectionGarmin::map_t& m = sel.maps[key];
         m.unlockKey = mapkey;
         m.name      = name;
@@ -2169,15 +2331,19 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     QMap<QString, CMapSelectionGarmin::map_t>::iterator map = sel.maps.find(key);
 
     QMap<QString,tile_t>::iterator tile = tiles.begin();
-    while(tile != tiles.end()) {
+    while(tile != tiles.end())
+    {
         QPolygonF res = poly.intersected(tile->defArea);
 
-        if(!res.isEmpty()) {
+        if(!res.isEmpty())
+        {
 
-            if(map->tiles.contains(tile->key)) {
+            if(map->tiles.contains(tile->key))
+            {
                 map->tiles.remove(tile->key);
             }
-            else {
+            else
+            {
                 CMapSelectionGarmin::tile_t t;
                 t.id        = tile->id;
                 t.name      = tile->name;
@@ -2217,7 +2383,8 @@ void CMapTDB::readTYP()
 
 #ifdef DBG
     QString f;
-    foreach(f, typfiles) {
+    foreach(f, typfiles)
+    {
 
         typfile = path.absoluteFilePath(f);
         QFile file(path.absoluteFilePath(f));
@@ -2236,7 +2403,8 @@ void CMapTDB::readTYP()
         in >> descriptor;
 
         qDebug() << "descriptor" << hex << descriptor;
-        switch(descriptor) {
+        switch(descriptor)
+        {
             case 0x6E:
             {
                 CGarminTypNT typ(0);
@@ -2245,9 +2413,11 @@ void CMapTDB::readTYP()
                 quint8 lang;
                 QSet<quint8> usedLanguages = typ.getLanguages();
 
-                if(!usedLanguages.isEmpty()) {
+                if(!usedLanguages.isEmpty())
+                {
                     comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                    foreach(lang, usedLanguages) {
+                    foreach(lang, usedLanguages)
+                    {
                         comboLanguages->addItem(languages[lang],  lang);
                     }
                     connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
@@ -2275,9 +2445,11 @@ void CMapTDB::readTYP()
                 quint8 lang;
                 QSet<quint8> usedLanguages = typ.getLanguages();
 
-                if(!usedLanguages.isEmpty()) {
+                if(!usedLanguages.isEmpty())
+                {
                     comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                    foreach(lang, usedLanguages) {
+                    foreach(lang, usedLanguages)
+                    {
                         comboLanguages->addItem(languages[lang],  lang);
                     }
                     connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
@@ -2314,7 +2486,8 @@ void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 {
     QStringList files;
     QMap<QString,tile_t>::const_iterator tile = tiles.begin();
-    while(tile != tiles.end()) {
+    while(tile != tiles.end())
+    {
         files << tile->file;
         ++tile;
     }
@@ -2345,15 +2518,18 @@ void CMapTDB::config()
     dlg.exec();
 
     needsRedraw = true;
-    if(comboLanguages) {
+    if(comboLanguages)
+    {
         delete comboLanguages;
         comboLanguages  = 0;
     }
 
-    if(useTyp) {
+    if(useTyp)
+    {
         readTYP();
     }
-    else {
+    else
+    {
         setup();
     }
     emit sigChanged();

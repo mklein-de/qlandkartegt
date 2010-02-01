@@ -55,13 +55,16 @@ void CDlgConfig::exec()
     lineProxyPort->setText(QString("%1").arg(resources.m_httpProxyPort));
 
     labelFont->setFont(resources.m_mapfont);
-    if(resources.unit->type == "metric") {
+    if(resources.unit->type == "metric")
+    {
         radioMetric->setChecked(true);
     }
-    else if(resources.unit->type == "nautic") {
+    else if(resources.unit->type == "nautic")
+    {
         radioNautic->setChecked(true);
     }
-    else if(resources.unit->type == "imperial") {
+    else if(resources.unit->type == "imperial")
+    {
         radioImperial->setChecked(true);
     }
 
@@ -110,13 +113,16 @@ void CDlgConfig::accept()
 
     resources.m_mapfont         = labelFont->font();
 
-    if(radioMetric->isChecked()) {
+    if(radioMetric->isChecked())
+    {
         resources.unit = new CUnitMetric(&resources);
     }
-    if(radioImperial->isChecked()) {
+    if(radioImperial->isChecked())
+    {
         resources.unit = new CUnitImperial(&resources);
     }
-    if(radioNautic->isChecked()) {
+    if(radioNautic->isChecked())
+    {
         resources.unit = new CUnitNautic(&resources);
     }
 
@@ -133,7 +139,8 @@ void CDlgConfig::accept()
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
     resources.m_devCharset      = comboDevCharset->itemText(comboDevCharset->currentIndex());
 
-    if(resources.m_device) {
+    if(resources.m_device)
+    {
         delete resources.m_device;
         resources.m_device = 0;
     }
@@ -165,13 +172,15 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     labelDevCharset->setEnabled(false);
     buttonGarminIcons->setEnabled(false);
 
-    if(comboDevice->itemData(index) == "QLandkarteM") {
+    if(comboDevice->itemData(index) == "QLandkarteM")
+    {
         lineDevIPAddr->setEnabled(true);
         labelDevIPAddr->setEnabled(true);
         lineDevIPPort->setEnabled(true);
         labelDevIPPort->setEnabled(true);
     }
-    else if(comboDevice->itemData(index) == "Garmin") {
+    else if(comboDevice->itemData(index) == "Garmin")
+    {
         comboDevType->setEnabled(true);
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
@@ -182,11 +191,13 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
         fillTypeCombo();
         fillCharsetCombo();
     }
-    else if(comboDevice->itemData(index) == "Mikrokopter") {
+    else if(comboDevice->itemData(index) == "Mikrokopter")
+    {
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
     }
-    else if(comboDevice->itemData(index) == "NMEA") {
+    else if(comboDevice->itemData(index) == "NMEA")
+    {
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
     }
@@ -197,7 +208,8 @@ void CDlgConfig::slotSelectFont()
 {
     bool ok = false;
     QFont font = QFontDialog::getFont(&ok, labelFont->font(), this);
-    if(ok) {
+    if(ok)
+    {
         labelFont->setFont(font);
     }
 
@@ -221,14 +233,17 @@ void CDlgConfig::fillTypeCombo()
 #endif
     files = inst_dir.entryList(QString("*" XSTR(SHARED_LIB_EXT)).split(','));
 
-    foreach(file,files) {
-        if(regex.exactMatch(file)) {
+    foreach(file,files)
+    {
+        if(regex.exactMatch(file))
+        {
             comboDevType->addItem(regex.cap(1));
         }
     }
     comboDevType->setCurrentIndex(comboDevType->findText(resources.m_devType));
 
-    if(files.isEmpty()) {
+    if(files.isEmpty())
+    {
 #if defined(Q_WS_MAC)
         labelMessage->setText(tr("No plugins found. I expect them in: %1")
             .arg(QCoreApplication::applicationDirPath()
@@ -237,7 +252,8 @@ void CDlgConfig::fillTypeCombo()
         labelMessage->setText(tr("No plugins found. I expect them in: %1").arg(XSTR(PLUGINDIR)));
 #endif
     }
-    else {
+    else
+    {
         labelMessage->setText("");
     }
 }
@@ -252,7 +268,8 @@ void CDlgConfig::fillCharsetCombo()
     QByteArray codec;
 
     qSort(allCodecs);
-    foreach(codec, allCodecs) {
+    foreach(codec, allCodecs)
+    {
         comboDevCharset->addItem(codec);
     }
     comboDevCharset->setCurrentIndex(comboDevCharset->findText(resources.m_devCharset));
@@ -261,10 +278,12 @@ void CDlgConfig::fillCharsetCombo()
 
 void CDlgConfig::slotBrowserChanged(int idx)
 {
-    if(idx == CResources::eOther) {
+    if(idx == CResources::eOther)
+    {
         lineBrowserCmd->setEnabled(true);
     }
-    else {
+    else
+    {
         lineBrowserCmd->setEnabled(false);
     }
 }

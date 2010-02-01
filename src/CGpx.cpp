@@ -62,7 +62,8 @@ CGpx::CGpx(QObject * parent, bool exportFlag)
     colorMap.insert("White",       QColor(Qt::white));
     colorMap.insert("Transparent", QColor(Qt::transparent));
 
-    for (int i=0;;++i) {
+    for (int i=0;;++i)
+    {
         QColor trackColor = CTrack::lineColors[i];
         QString colorName = colorMap.left(trackColor);
         if (!colorName.isEmpty()) trackColorMap.insert(colorName, i);
@@ -100,14 +101,16 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
-    if (!export_flag) {
+    if (!export_flag)
+    {
         root.setAttribute("xmlns:ql",ql_ns);
     }
     QString schemaLocation = QString()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "
         + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "
         + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
-    if (!export_flag) {
+    if (!export_flag)
+    {
         schemaLocation += " ";
         schemaLocation += ql_ns;
         schemaLocation += " http://www.qlandkarte.org/xmlschemas/v1.1/ql-extensions.xsd";
@@ -144,18 +147,21 @@ void CGpx::save(const QString& filename)
 {
     QFile file(filename);
 
-    if(file.exists()) {
+    if(file.exists())
+    {
         CGpx gpx(0);
         try
         {
             gpx.load(filename);
             const  QDomElement& docElem = gpx.documentElement();
             const QDomNamedNodeMap& attr = docElem.attributes();
-            if(!attr.namedItem("creator").nodeValue().startsWith("QLandkarteGT")) {
+            if(!attr.namedItem("creator").nodeValue().startsWith("QLandkarteGT"))
+            {
                 throw tr("bad application");
             }
         }
-        catch(const QString& msg) {
+        catch(const QString& msg)
+        {
             int res = QMessageBox::warning(0,tr("File exists ...")
                 ,tr("The file exists and it has not been created by QLandkarte GT. "
                 "If you press 'yes' all data in this file will be lost. "
@@ -164,13 +170,15 @@ void CGpx::save(const QString& filename)
                 "will be lost. I recommend to use another file. "
                 "<b>Do you really want to overwrite the file?</b>")
                 ,QMessageBox::Yes|QMessageBox::No,QMessageBox::No);
-            if(res == QMessageBox::No) {
+            if(res == QMessageBox::No)
+            {
                 return;
             }
         }
     }
 
-    if(!file.open(QIODevice::WriteOnly)) {
+    if(!file.open(QIODevice::WriteOnly))
+    {
         throw tr("Failed to open: ") + filename;
     }
     QTextStream out(&file);
@@ -185,21 +193,24 @@ void CGpx::load(const QString& filename)
 {
     clear();
     QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)) {
+    if(!file.open(QIODevice::ReadOnly))
+    {
         throw tr("Failed to open: ") + filename;
     }
 
     QString msg;
     int line;
     int column;
-    if(!setContent(&file, true, &msg, &line, &column)) {
+    if(!setContent(&file, true, &msg, &line, &column))
+    {
         file.close();
         throw tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg);
     }
     file.close();
 
     const  QDomElement& docElem = documentElement();
-    if(docElem.tagName() != "gpx") {
+    if(docElem.tagName() != "gpx")
+    {
         throw tr("Not a GPX file: ") + filename;
     }
 
@@ -207,24 +218,28 @@ void CGpx::load(const QString& filename)
         throw tr("GPX schema violation: no \"creator\" attribute.");
 
     QString creator = docElem.attribute("creator");
-    if (creator.startsWith("QLandkarte")) {
+    if (creator.startsWith("QLandkarte"))
+    {
         // QLandkarteGT file
 
         // Test whether this is an old or new file.  New files use
         // "QLandkarteGT <versionnummber> http://www.qlandkarte.org/"
         // as creator string, old files use only "QLandkarteGT".
         // Very old files use just "QLandkarte".
-        if (creator == "QLandkarteGT" || creator == "QLandkarte") {
+        if (creator == "QLandkarteGT" || creator == "QLandkarte")
+        {
             file_version = qlVer_1_0;
             qDebug() << "CGpx::load(): Detected old" << creator
                 << "format, using compat mode";
         }
-        else {
+        else
+        {
             file_version = qlVer_1_1;
             qDebug() << "CGpx::load(): Detected new QLandkarteGT format";
         }
     }
-    else {
+    else
+    {
         // Foreign GPX file
         file_version = qlVer_foreign;
         qDebug() << "CGpx::load(): Detected foreign GPX format";
@@ -240,12 +255,16 @@ QMap<QString,QDomElement> CGpx::mapChildElements(const QDomNode& parent)
     QMap<QString,QDomElement> map;
 
     QDomNode child = parent.firstChild();
-    while (!child.isNull()) {
-        if (child.isElement()) {
-            if (child.prefix().isEmpty()) {
+    while (!child.isNull())
+    {
+        if (child.isElement())
+        {
+            if (child.prefix().isEmpty())
+            {
                 map.insert(child.nodeName(), child.toElement());
             }
-            else {
+            else
+            {
                 map.insert(child.namespaceURI()+":"+child.localName(), child.toElement());
             }
         }

@@ -64,14 +64,17 @@ CWptToolWidget::~CWptToolWidget()
 
 void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(e->key() == Qt::Key_Delete) {
+    if(e->key() == Qt::Key_Delete)
+    {
         slotDelete();
         e->accept();
     }
-    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier) {
+    else if(e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier)
+    {
         slotCopyPosition();
     }
-    else {
+    else
+    {
         QWidget::keyPressEvent(e);
     }
 }
@@ -82,12 +85,15 @@ void CWptToolWidget::slotDBChanged()
     listWpts->clear();
 
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end()) {
+    while(wpt != CWptDB::self().end())
+    {
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        if((*wpt)->sticky) {
+        if((*wpt)->sticky)
+        {
             item->setText((*wpt)->name + tr(" (sticky)"));
         }
-        else {
+        else
+        {
             item->setText((*wpt)->name);
         }
 
@@ -101,7 +107,8 @@ void CWptToolWidget::slotDBChanged()
 void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
-    if(wpt) {
+    if(wpt)
+    {
         theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
     }
 }
@@ -109,7 +116,8 @@ void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 
 void CWptToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listWpts->currentItem()) {
+    if(listWpts->currentItem())
+    {
         QPoint p = listWpts->mapToGlobal(pos);
         contextMenu->exec(p);
     }
@@ -119,7 +127,8 @@ void CWptToolWidget::slotContextMenu(const QPoint& pos)
 void CWptToolWidget::slotEdit()
 {
     CWpt * wpt = CWptDB::self().getWptByKey(listWpts->currentItem()->data(Qt::UserRole).toString());
-    if(wpt) {
+    if(wpt)
+    {
         CDlgEditWpt dlg(*wpt,this);
         dlg.exec();
     }
@@ -131,7 +140,8 @@ void CWptToolWidget::slotDelete()
     QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-    foreach(item,items) {
+    foreach(item,items)
+    {
         keys << item->data(Qt::UserRole).toString();
         delete item;
     }
@@ -164,9 +174,11 @@ void CWptToolWidget::slotCopyPosition()
 
 void CWptToolWidget::selWptByKey(const QString& key)
 {
-    for(int i=0; i<listWpts->count(); ++i) {
+    for(int i=0; i<listWpts->count(); ++i)
+    {
         QListWidgetItem * item = listWpts->item(i);
-        if(item && item->data(Qt::UserRole) == key) {
+        if(item && item->data(Qt::UserRole) == key)
+        {
             listWpts->setCurrentItem(item);
         }
     }
@@ -178,14 +190,16 @@ void CWptToolWidget::slotProximity()
     bool ok         = false;
     QString str    = tr("Distance [%1]").arg(IUnit::self().baseunit);
     double dist     = QInputDialog::getDouble(0,tr("Proximity distance ..."), str, 0, 0, 2147483647, 0,&ok);
-    if(ok) {
+    if(ok)
+    {
         str = QString("%1 %2").arg(dist).arg(IUnit::self().baseunit);
         dist = IUnit::self().str2distance(str);
 
         QStringList keys;
         QListWidgetItem * item;
         const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-        foreach(item,items) {
+        foreach(item,items)
+        {
             keys << item->data(Qt::UserRole).toString();
         }
         CWptDB::self().setProxyDistance(keys,(dist == 0 ? WPT_NOFLOAT : dist));
@@ -201,9 +215,11 @@ void CWptToolWidget::slotMakeRoute()
     CRoute * route = new CRoute(&CRouteDB::self());
 
     QListWidgetItem * item;
-    foreach(item,items) {
+    foreach(item,items)
+    {
         CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
-        if(wpt) {
+        if(wpt)
+        {
             route->addPosition(wpt->lon, wpt->lat);
         }
     }

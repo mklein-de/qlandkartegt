@@ -48,12 +48,14 @@ bool IGarminTyp::parseHeader(QDataStream& in)
     QString garmintyp;
     quint8 byte;
 
-    for(i = 0; i < 10; ++i) {
+    for(i = 0; i < 10; ++i)
+    {
         in >> byte;
         garmintyp.append(byte);
     }
     garmintyp.append(0);
-    if(garmintyp != "GARMIN TYP") {
+    if(garmintyp != "GARMIN TYP")
+    {
         qDebug() << "CMapTDB::readTYP() not a known typ file";
         return false;
     }
@@ -93,11 +95,13 @@ bool IGarminTyp::parseHeader(QDataStream& in)
 
 bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
 {
-    if(sectOrder.arrayModulo != 5) {
+    if(sectOrder.arrayModulo != 5)
+    {
         return false;
     }
 
-    if((sectOrder.arraySize % sectOrder.arrayModulo) != 0) {
+    if((sectOrder.arraySize % sectOrder.arrayModulo) != 0)
+    {
         return true;
     }
 
@@ -111,18 +115,22 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
 
     const int N = sectOrder.arraySize / sectOrder.arrayModulo;
 
-    for (i = 0; i < N; i++) {
+    for (i = 0; i < N; i++)
+    {
         in >> typ >>  subtyp;
         //         qDebug() << hex << typ << subtyp;
-        if (typ == 0) {
+        if (typ == 0)
+        {
             count++;
         }
-        else if(subtyp == 0) {
+        else if(subtyp == 0)
+        {
 #ifdef DBG
             qDebug() << QString("Type 0x%1 is priority %2").arg(typ,0,16).arg(count);
 #endif
             int idx = drawOrder.indexOf(typ);
-            if(idx != -1) {
+            if(idx != -1)
+            {
                 drawOrder.move(idx,0);
             }
         }
@@ -130,8 +138,10 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
         quint32 exttyp = 0x010000 | (typ << 8);
         quint32 mask = 0x1;
 
-        for(n=0; n < 0x20; ++n) {
-            if(subtyp & mask) {
+        for(n=0; n < 0x20; ++n)
+        {
+            if(subtyp & mask)
+            {
                 drawOrder.push_front(exttyp|n);
 #ifdef DBG
                 qDebug() << QString("Type 0x%1 is priority %2").arg(exttyp|n,0,16).arg(count);
@@ -152,7 +162,8 @@ bool IGarminTyp::parseDrawOrder(QDataStream& in, QList<quint32>& drawOrder)
 
 
 #ifdef DBG
-for(unsigned i = 0; i < drawOrder.size(); ++i) {
+for(unsigned i = 0; i < drawOrder.size(); ++i)
+{
     if(i && i%16 == 0) printf(" \n");
     printf("%06X ", drawOrder[i]);
 }
@@ -169,14 +180,16 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 {
     bool tainted = false;
 
-    if(!sectPolygons.arrayModulo || ((sectPolygons.arraySize % sectPolygons.arrayModulo) != 0)) {
+    if(!sectPolygons.arrayModulo || ((sectPolygons.arraySize % sectPolygons.arrayModulo) != 0))
+    {
         return true;
     }
 
     QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
 
     const int N = sectPolygons.arraySize / sectPolygons.arrayModulo;
-    for (int element = 0; element < N; element++) {
+    for (int element = 0; element < N; element++)
+    {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8;
         quint32 typ, offset;
@@ -190,15 +203,18 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
         in.device()->seek( sectPolygons.arrayOffset + (sectPolygons.arrayModulo * element ) );
 
-        if (sectPolygons.arrayModulo == 5) {
+        if (sectPolygons.arrayModulo == 5)
+        {
             in >> t16_1 >> t16_2 >> t8;
             offset = t16_2|(t8<<16);
         }
-        else if (sectPolygons.arrayModulo == 4) {
+        else if (sectPolygons.arrayModulo == 4)
+        {
             in >> t16_1 >> t16_2;
             offset = t16_2;
         }
-        else if (sectPolygons.arrayModulo == 3) {
+        else if (sectPolygons.arrayModulo == 3)
+        {
             in >> t16_1 >> t8;
             offset = t8;
         }
@@ -207,7 +223,8 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
         typ     = t16_2 & 0x7F;
         subtyp  = t16_1 & 0x1F;
 
-        if(t16_1 & 0x2000) {
+        if(t16_1 & 0x2000)
+        {
             typ = 0x10000|(typ << 8)|subtyp;
         }
 
@@ -223,7 +240,8 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
         polygon_property& property = polygons[typ];
 
-        switch(ctyp) {
+        switch(ctyp)
+        {
             case 0x06:
             {
                 // day & night single color
@@ -375,33 +393,38 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             }
 
             default:
-                if(!tainted) {
+                if(!tainted)
+                {
                     QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polygon encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                     tainted = true;
                 }
                 qDebug() << "Failed polygon:" << typ << subtyp << hex << typ << subtyp << ctyp;
         }
 
-        if(hasLocalization) {
+        if(hasLocalization)
+        {
             qint16 len;
             quint8 n = 1;
 
             in >> t8;
             len = t8;
 
-            if(!(t8 & 0x01)) {
+            if(!(t8 & 0x01))
+            {
                 n = 2;
                 in >> t8;
                 len |= t8 << 8;
             }
 
             len -= n;
-            while(len > 0) {
+            while(len > 0)
+            {
                 QByteArray str;
                 in >> langcode;
                 languages << langcode;
                 len -= 2*n;
-                while(len > 0) {
+                while(len > 0)
+                {
 
                     in >> t8;
                     len -= 2*n;
@@ -418,16 +441,19 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             }
         }
 
-        if(hasTextColor) {
+        if(hasTextColor)
+        {
             in >> t8;
             property.labelType = (label_type_e)(t8 & 0x07);
 
-            if(t8 & 0x08) {
+            if(t8 & 0x08)
+            {
                 in >> r >> g >> b;
                 property.colorLabelDay = qRgb(r,g,b);
             }
 
-            if(t8 & 0x10) {
+            if(t8 & 0x10)
+            {
                 in >> r >> g >> b;
                 property.colorLabelNight = qRgb(r,g,b);
             }
@@ -445,14 +471,16 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
 {
     bool tainted = false;
 
-    if(!sectPolylines.arrayModulo || ((sectPolylines.arraySize % sectPolylines.arrayModulo) != 0)) {
+    if(!sectPolylines.arrayModulo || ((sectPolylines.arraySize % sectPolylines.arrayModulo) != 0))
+    {
         return true;
     }
 
     QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
 
     const int N = sectPolylines.arraySize / sectPolylines.arrayModulo;
-    for (int element = 0; element < N; element++) {
+    for (int element = 0; element < N; element++)
+    {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8_1, t8_2;
         quint32 typ, offset;
@@ -465,15 +493,18 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
 
         in.device()->seek( sectPolylines.arrayOffset + (sectPolylines.arrayModulo * element ) );
 
-        if (sectPolylines.arrayModulo == 5) {
+        if (sectPolylines.arrayModulo == 5)
+        {
             in >> t16_1 >> t16_2 >> t8_1;
             offset = t16_2|(t8_1<<16);
         }
-        else if (sectPolylines.arrayModulo == 4) {
+        else if (sectPolylines.arrayModulo == 4)
+        {
             in >> t16_1 >> t16_2;
             offset = t16_2;
         }
-        else if (sectPolylines.arrayModulo == 3) {
+        else if (sectPolylines.arrayModulo == 3)
+        {
             in >> t16_1 >> t8_1;
             offset = t8_1;
         }
@@ -482,7 +513,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
         typ     = t16_2 & 0x7F;
         subtyp  = t16_1 & 0x1F;
 
-        if(t16_1 & 0x2000) {
+        if(t16_1 & 0x2000)
+        {
             typ = 0x10000|(typ << 8)|subtyp;
         }
 
@@ -504,10 +536,12 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
         qDebug() << "rows" << rows << "t8_2" << hex << t8_2;
 #endif
 
-        switch(ctyp) {
+        switch(ctyp)
+        {
             case 0x00:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
                     xpm.setColor(1, qRgb(r,g,b) );
@@ -519,7 +553,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1, w2;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -541,7 +576,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x01:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm1(32, rows, QImage::Format_Indexed8 );
                     QImage xpm2(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
@@ -559,7 +595,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1, w2;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -582,7 +619,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x03:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm1(32, rows, QImage::Format_Indexed8 );
                     QImage xpm2(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
@@ -599,7 +637,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1, w2;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -622,7 +661,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x05:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm1(32, rows, QImage::Format_Indexed8 );
                     QImage xpm2(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
@@ -639,7 +679,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -659,7 +700,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x06:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
                     xpm.setColor(1, qRgb(r,g,b) );
@@ -670,7 +712,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -688,7 +731,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
             case 0x07:
             {
-                if(rows) {
+                if(rows)
+                {
                     QImage xpm1(32, rows, QImage::Format_Indexed8 );
                     QImage xpm2(32, rows, QImage::Format_Indexed8 );
                     in >> b >> g >> r;
@@ -704,7 +748,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                     property.hasPixmap  = true;
                     property.known      = true;
                 }
-                else {
+                else
+                {
                     quint8 w1;
                     in >> b >> g >> r;
                     property.penLineDay     = QPen(QBrush(qRgb(r,g,b)), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -723,7 +768,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
 
             default:
-                if(!tainted) {
+                if(!tainted)
+                {
                     QMessageBox::warning(0, tr("Warning..."), tr("This is a typ file with unknown polyline encoding. Please report!"), QMessageBox::Abort, QMessageBox::Abort);
                     tainted = true;
                 }
@@ -731,26 +777,30 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                 qDebug() << "Failed polyline" <<  hex << ":" << typ <<  ctyp << rows ;
                 continue;
         }
-        if(hasLocalization) {
+        if(hasLocalization)
+        {
             qint16 len;
             quint8 n = 1;
 
             in >> t8_1;
             len = t8_1;
 
-            if(!(t8_1 & 0x01)) {
+            if(!(t8_1 & 0x01))
+            {
                 n = 2;
                 in >> t8_1;
                 len |= t8_1 << 8;
             }
 
             len -= n;
-            while(len > 0) {
+            while(len > 0)
+            {
                 QByteArray str;
                 in >> langcode;
                 languages << langcode;
                 len -= 2*n;
-                while(len > 0) {
+                while(len > 0)
+                {
 
                     in >> t8_1;
                     len -= 2*n;
@@ -767,16 +817,19 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             }
         }
 
-        if(hasTextColor) {
+        if(hasTextColor)
+        {
             in >> t8_1;
             property.labelType = (label_type_e)(t8_1 & 0x07);
 
-            if(t8_1 & 0x08) {
+            if(t8_1 & 0x08)
+            {
                 in >> r >> g >> b;
                 property.colorLabelDay = qRgb(r,g,b);
             }
 
-            if(t8_1 & 0x10) {
+            if(t8_1 & 0x10)
+            {
                 in >> r >> g >> b;
                 property.colorLabelNight = qRgb(r,g,b);
             }
@@ -791,63 +844,80 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
 
 bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int& bytes)
 {
-    switch(flags) {
+    switch(flags)
+    {
         case 0x00:
         {
-            if(ncolors < 3) {
+            if(ncolors < 3)
+            {
                 bpp = ncolors;
             }
-            else if(ncolors == 3) {
+            else if(ncolors == 3)
+            {
                 bpp = 2;
             }
-            else if(ncolors < 16) {
+            else if(ncolors < 16)
+            {
                 bpp = 4;
             }
-            else if(ncolors < 256) {
+            else if(ncolors < 256)
+            {
                 bpp = 8;
             }
-            else {
+            else
+            {
                 return false;
             }
             break;
         }
         case 0x10:
         {
-            if(ncolors == 0) {
+            if(ncolors == 0)
+            {
                 bpp = 1;
             }
-            else if(ncolors < 3) {
+            else if(ncolors < 3)
+            {
                 bpp = 2;
             }
-            else if(ncolors < 15) {
+            else if(ncolors < 15)
+            {
                 bpp = 4;
             }
-            else if(ncolors < 256) {
+            else if(ncolors < 256)
+            {
                 bpp = 8;
             }
-            else {
+            else
+            {
                 return false;
             }
             break;
         }
         case 0x20:
         {
-            if(ncolors == 0) {
+            if(ncolors == 0)
+            {
                 bpp = 16;
             }
-            else if(ncolors < 3) {
+            else if(ncolors < 3)
+            {
                 bpp = ncolors;
             }
-            else if(ncolors < 4) {
+            else if(ncolors < 4)
+            {
                 bpp = 2;
             }
-            else if(ncolors < 16) {
+            else if(ncolors < 16)
+            {
                 bpp = 4;
             }
-            else if(ncolors < 256) {
+            else if(ncolors < 256)
+            {
                 bpp = 8;
             }
-            else {
+            else
+            {
                 return false;
             }
             break;
@@ -857,7 +927,8 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
     }
 
     bytes = (w * bpp) / 8;
-    if( (w * bpp) & 0x07 ) {
+    if( (w * bpp) & 0x07 )
+    {
         ++bytes;
     }
 
@@ -870,16 +941,19 @@ bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, int ncolors, int
 
     img.setNumColors(ncolors);
 
-    if(hasAlpha) {
+    if(hasAlpha)
+    {
         int i;
         quint8  byte;
         quint32 bits = 0;
         quint32 reg  = 0;
         quint32 mask = 0x000000FF;
 
-        for (i = 0; i < ncolors; i++) {
+        for (i = 0; i < ncolors; i++)
+        {
 
-            while(bits < 28) {
+            while(bits < 28)
+            {
                 in >> byte;
                 mask = 0x000000FF << bits;
                 reg  = reg  & (~mask);
@@ -892,19 +966,23 @@ bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, int ncolors, int
             reg   = reg >> 28;
             bits -= 28;
         }
-        for(; i < maxcolor; ++i) {
+        for(; i < maxcolor; ++i)
+        {
             img.setColor(i,qRgba(0,0,0,0));
         }
 
     }
-    else {
+    else
+    {
         int i;
         quint8 r,g,b;
-        for(i = 0; i < ncolors; ++i) {
+        for(i = 0; i < ncolors; ++i)
+        {
             in >> b >> g >> r;
             img.setColor(i, qRgb(r,g,b));
         }
-        for(; i < maxcolor; ++i) {
+        for(; i < maxcolor; ++i)
+        {
             img.setColor(i,qRgba(0,0,0,0));
         }
     }
@@ -916,16 +994,21 @@ void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bp
 {
     int x = 0,j = 0;
     quint8 color;
-    for (int y = 0; y < h; y++) {
-        while ( x < w ) {
+    for (int y = 0; y < h; y++)
+    {
+        while ( x < w )
+        {
             in >> color;
 
-            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ ) {
+            for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ )
+            {
                 int value;
-                if ( i > 0 ) {
+                if ( i > 0 )
+                {
                     value = (color >>= bpp);
                 }
-                else {
+                else
+                {
                     value = color;
                 }
                 if ( bpp == 4) value = value & 0xf;
@@ -946,14 +1029,16 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
 {
     bool tainted = false;
 
-    if(!sectPoints.arrayModulo || ((sectPoints.arraySize % sectPoints.arrayModulo) != 0)) {
+    if(!sectPoints.arrayModulo || ((sectPoints.arraySize % sectPoints.arrayModulo) != 0))
+    {
         return true;
     }
 
     QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
 
     const int N = sectPoints.arraySize / sectPoints.arrayModulo;
-    for (int element=0; element < N; element++) {
+    for (int element=0; element < N; element++)
+    {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8_1;
         quint32 typ, offset;
@@ -964,15 +1049,18 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
 
         in.device()->seek( sectPoints.arrayOffset + (sectPoints.arrayModulo * element ) );
 
-        if (sectPoints.arrayModulo == 5) {
+        if (sectPoints.arrayModulo == 5)
+        {
             in >> t16_1 >> t16_2 >> t8_1;
             offset = t16_2|(t8_1<<16);
         }
-        else if (sectPoints.arrayModulo == 4) {
+        else if (sectPoints.arrayModulo == 4)
+        {
             in >> t16_1 >> t16_2;
             offset = t16_2;
         }
-        else if (sectPoints.arrayModulo == 3) {
+        else if (sectPoints.arrayModulo == 3)
+        {
             in >> t16_1 >> t8_1;
             offset = t8_1;
         }
@@ -981,10 +1069,12 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         typ     = t16_2 & 0x7FF;
         subtyp  = t16_1 & 0x01F;
 
-        if(t16_1 & 0x2000) {
+        if(t16_1 & 0x2000)
+        {
             typ = 0x10000|(typ << 8)|subtyp;
         }
-        else {
+        else
+        {
             typ = (typ << 8) + subtyp;
         }
 
@@ -1001,7 +1091,8 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         qDebug() << "Point typ:" << hex << typ << "ctyp:" << ctyp <<"offset:" << (sectPoints.dataOffset + offset) << "orig data:" << t16_1;
 #endif
 
-        if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)) {
+        if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes))
+        {
             continue;
         }
 
@@ -1009,8 +1100,10 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         qDebug() << "          " << dec << "w" << w << "h" << h << "ncolors" << ncolors << "bpp" << bpp << "wbytes" << wbytes;
 #endif
 
-        if(ctyp == 0x20 || ctyp == 0x00) {
-            if((ncolors == 0) && (bpp >= 16)) {
+        if(ctyp == 0x20 || ctyp == 0x00)
+        {
+            if((ncolors == 0) && (bpp >= 16))
+            {
                 ncolors = w*h;
             }
         }
@@ -1019,66 +1112,80 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
         QImage imgDay(w,h, QImage::Format_Indexed8 );
         QImage imgNight(w,h, QImage::Format_Indexed8 );
 
-        if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20)) {
+        if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20))
+        {
             continue;
         }
 
-        if(bpp >= 16) {
+        if(bpp >= 16)
+        {
             continue;
         }
-        else {
+        else
+        {
             decodeBitmap(in, imgDay, w, h, bpp);
             property.imgDay = imgDay;
         }
 
-        if(t8_1 == 0x03) {
+        if(t8_1 == 0x03)
+        {
 
             in >> ncolors >> ctyp;
-            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)) {
+            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes))
+            {
                 continue;
             }
-            if(!decodeColorTable(in, imgNight, ncolors, 1 << bpp, ctyp == 0x20)) {
+            if(!decodeColorTable(in, imgNight, ncolors, 1 << bpp, ctyp == 0x20))
+            {
                 continue;
             }
             decodeBitmap(in, imgNight, w, h, bpp);
             points[typ].imgNight = imgNight;
 
         }
-        else if(t8_1 == 0x02) {
+        else if(t8_1 == 0x02)
+        {
             in >> ncolors >> ctyp;
-            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes)) {
+            if(!decodeBppAndBytes(ncolors, w, ctyp, bpp, wbytes))
+            {
                 continue;
             }
-            if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20)) {
+            if(!decodeColorTable(in, imgDay, ncolors, 1 << bpp, ctyp == 0x20))
+            {
                 continue;
             }
             property.imgNight = imgDay;
 
         }
-        else {
+        else
+        {
             property.imgNight = imgDay;
         }
 
-        if(hasLocalization) {
+        if(hasLocalization)
+        {
             qint16 len;
             quint8 n = 1;
 
             in >> t8_1;
             len = t8_1;
 
-            if(!(t8_1 & 0x01)) {
+            if(!(t8_1 & 0x01))
+            {
                 n = 2;
                 in >> t8_1;
                 len |= t8_1 << 8;
             }
 
             len -= n;
-            while(len > 0) {
+            while(len > 0)
+            {
                 QByteArray str;
                 in >> langcode;
                 languages << langcode;
                 len -= 2*n;
-                while(len > 0) {
+                while(len > 0)
+                {
 
                     in >> t8_1;
                     len -= 2*n;
@@ -1095,16 +1202,19 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
             }
         }
 
-        if(hasTextColor) {
+        if(hasTextColor)
+        {
             in >> t8_1;
             property.labelType = (label_type_e)(t8_1 & 0x07);
 
-            if(t8_1 & 0x08) {
+            if(t8_1 & 0x08)
+            {
                 in >> r >> g >> b;
                 property.colorLabelDay = qRgb(r,g,b);
             }
 
-            if(t8_1 & 0x10) {
+            if(t8_1 & 0x10)
+            {
                 in >> r >> g >> b;
                 property.colorLabelNight = qRgb(r,g,b);
             }

@@ -47,12 +47,14 @@ void CDiaryDB::openEditWidget()
     CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
     if(tb == 0) return;
 
-    if(editWidget.isNull()) {
+    if(editWidget.isNull())
+    {
         editWidget = new CDiaryEditWidget(diary.text(), tabbar);
         tb->addTab(editWidget,tr("Diary"));
 
     }
-    else {
+    else
+    {
         diary.setText(editWidget->textEdit->toHtml());
         delete editWidget;
 
@@ -64,10 +66,12 @@ void CDiaryDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream >> diary;
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         editWidget->textEdit->setHtml(diary.text());
     }
-    if(count()) {
+    if(count())
+    {
         emit sigChanged();
     }
 }
@@ -75,7 +79,8 @@ void CDiaryDB::loadQLB(CQlb& qlb)
 
 void CDiaryDB::saveQLB(CQlb& qlb)
 {
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         diary.setText(editWidget->textEdit->toHtml());
     }
     qlb << diary;
@@ -87,7 +92,8 @@ void CDiaryDB::clear()
     CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
     if(tb == 0) return;
 
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         delete editWidget;
     }
     diary = CDiary(this);
@@ -97,7 +103,8 @@ void CDiaryDB::clear()
 
 const QString CDiaryDB::getDiary()
 {
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         diary.setText(editWidget->textEdit->toHtml());
     }
     return diary.text();
@@ -106,7 +113,8 @@ const QString CDiaryDB::getDiary()
 
 int CDiaryDB::count()
 {
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         diary.setText(editWidget->textEdit->toHtml());
     }
     QTextBrowser browser;
@@ -124,12 +132,14 @@ void CDiaryDB::loadGPX(CGpx& gpx)
     // tags, so we have to scan all of them.  We can stop once we
     // found a diary tag below it.
     QDomElement extensions = gpx.firstChildElement("gpx").firstChildElement("extensions");
-    while(!extensions.isNull()) {
+    while(!extensions.isNull())
+    {
         QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
         const QDomElement dry = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
             "diary":
         (CGpx::ql_ns + ":" + "diary"));
-        if(!dry.isNull()) {
+        if(!dry.isNull())
+        {
             QString tmp = diary.text();
             tmp += dry.toElement().text();
             diary.setText(tmp);
@@ -138,7 +148,8 @@ void CDiaryDB::loadGPX(CGpx& gpx)
         extensions = extensions.nextSiblingElement("extensions");
     }
 
-    if(count()) {
+    if(count())
+    {
         emit sigChanged();
     }
 }
@@ -147,15 +158,18 @@ void CDiaryDB::loadGPX(CGpx& gpx)
 void CDiaryDB::saveGPX(CGpx& gpx)
 {
 
-    if (gpx.getExportFlag()) {
+    if (gpx.getExportFlag())
+    {
         return;
     }
-    if(!editWidget.isNull()) {
+    if(!editWidget.isNull())
+    {
         diary.setText(editWidget->textEdit->toHtml());
     }
 
     const QString diary_text = diary.text();
-    if (diary_text.length() == 0) {
+    if (diary_text.length() == 0)
+    {
         return;
     }
 

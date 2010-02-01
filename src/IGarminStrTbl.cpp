@@ -33,20 +33,25 @@ IGarminStrTbl::IGarminStrTbl(const quint16 codepage, const quint8 mask, QObject 
 , codec(0)
 , mask(mask)
 {
-    if(codepage != 0) {
+    if(codepage != 0)
+    {
 
-        if(1250 <= codepage && codepage <= 1258) {
+        if(1250 <= codepage && codepage <= 1258)
+        {
             char strcp[64];
             sprintf(strcp,"Windows-%i",codepage);
             codec = QTextCodec::codecForName(strcp);
         }
-        else if(codepage == 950) {
+        else if(codepage == 950)
+        {
             codec = QTextCodec::codecForName("Big5");
         }
-        else if(codepage == 850) {
+        else if(codepage == 850)
+        {
             codec = QTextCodec::codecForName("IBM 850");
         }
-        else {
+        else
+        {
             qDebug() << "unknown codepage:" << codepage << "0x" << hex << codepage;
         }
     }
@@ -64,13 +69,15 @@ void IGarminStrTbl::readFile(QFile& file, quint32 offset, quint32 size, QByteArr
     file.seek(offset);
     data = file.read(size);
 
-    if((quint32)data.size() != size) {
+    if((quint32)data.size() != size)
+    {
         //         throw exce_t(eErrOpen, tr("Failed to read: ") + file.filename());
         return;
     }
 
     quint8 * p = (quint8*)data.data();
-    for(quint32 i = 0; i < size; ++i) {
+    for(quint32 i = 0; i < size; ++i)
+    {
         *p++ ^= mask;
     }
 
@@ -81,21 +88,25 @@ quint32 IGarminStrTbl::calcOffset(QFile& file, const quint32 offset, type_e t)
 {
     quint32 newOffset = offset;
 
-    if(t == poi) {
+    if(t == poi)
+    {
         QByteArray buffer;
         readFile(file, offsetLBL6 + offset, sizeof(uint32_t), buffer);
         newOffset = gar_ptr_load(uint32_t, buffer.data());
         newOffset = (newOffset & 0x003FFFFF);
     }
-    else if(t == net) {
-        if(offsetNET1 == 0) {
+    else if(t == net)
+    {
+        if(offsetNET1 == 0)
+        {
             return 0xFFFFFFFF;
         }
 
         QByteArray data;
         readFile(file,  offsetNET1 + (offset << addrshift2), sizeof(uint32_t), data);
         newOffset = gar_ptr_load(uint32_t, data.data());
-        if(newOffset & 0x00400000) {
+        if(newOffset & 0x00400000)
+        {
             return 0xFFFFFFFF;
         }
         newOffset = (newOffset & 0x003FFFFF);

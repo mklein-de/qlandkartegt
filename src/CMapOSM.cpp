@@ -46,7 +46,8 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     cb = new QComboBox(theMainWindow->getCanvas());
 
-    for(int i = 0; i < tileList.size(); i++) {
+    for(int i = 0; i < tileList.size(); i++)
+    {
         QPair<QString, QString> p = tileList.at(i);
         cb->addItem(p.first);
     }
@@ -78,11 +79,13 @@ CMapOSM::CMapOSM(CCanvas * parent)
     pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
-    if(pos.isEmpty()) {
+    if(pos.isEmpty())
+    {
         x = 0;
         y = 0;
     }
-    else {
+    else
+    {
         float u = 0;
         float v = 0;
         GPS_Math_Str_To_Deg(pos, u, v);
@@ -131,9 +134,11 @@ void CMapOSM::setNewTileUrl(int index)
     else
         index = 0;
 
-    if (currentTileListIndex!= index) {
+    if (currentTileListIndex!= index)
+    {
         currentTileListIndex = index;
-        if (osmTiles) {
+        if (osmTiles)
+        {
             delete osmTiles;
             osmTiles = 0;
         }
@@ -223,7 +228,8 @@ void CMapOSM::zoom(qint32& level)
 {
     if(level > 18) level = 18;
     // no level less than 1
-    if(level < 1) {
+    if(level < 1)
+    {
         level       = 1;
         zoomFactor  = 1.0;
         qDebug() << "zoom:" << zoomFactor;
@@ -259,7 +265,8 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     int z1 = dU / size.width();
     int z2 = dV / size.height();
 
-    for(i=0; i < 18; ++i) {
+    for(i=0; i < 18; ++i)
+    {
         zoomFactor  = (1<<i);
         zoomidx     = i + 1;
         if(zoomFactor > z1 && zoomFactor > z2) break;
@@ -283,14 +290,16 @@ void CMapOSM::draw(QPainter& p)
     if(pjsrc == 0) return IMap::draw(p);
 
     // render map if necessary
-    if(needsRedraw) {
+    if(needsRedraw)
+    {
         draw();
     }
 
     p.drawImage(0,0,buffer);
 
     // render overlay
-    if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw) {
+    if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw)
+    {
         ovlMap->draw(size, needsRedrawOvl, p);
         needsRedrawOvl = false;
     }
@@ -298,10 +307,12 @@ void CMapOSM::draw(QPainter& p)
     needsRedraw = false;
 
     QString str;
-    if(zoomFactor < 1.0) {
+    if(zoomFactor < 1.0)
+    {
         str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
     }
-    else {
+    else
+    {
         str = tr("Zoom level x%1").arg(zoomFactor);
     }
 
@@ -361,7 +372,8 @@ void CMapOSM::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p2.u        = r.right();
     p2.v        = r.bottom();
 
-    if(!pj_is_latlong(pjsrc)) {
+    if(!pj_is_latlong(pjsrc))
+    {
         pj_transform(pjsrc,pjtar,1,0,&p1.u,&p1.v,0);
         pj_transform(pjsrc,pjtar,1,0,&p2.u,&p2.v,0);
     }

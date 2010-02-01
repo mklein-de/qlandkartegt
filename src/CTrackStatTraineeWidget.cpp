@@ -55,7 +55,8 @@ void CTrackStatTraineeWidget::slotSetTrack(CTrack* track)
 void CTrackStatTraineeWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
-    if(track.isNull()) {
+    if(track.isNull())
+    {
         plot->clear();
         return;
     }
@@ -73,8 +74,10 @@ void CTrackStatTraineeWidget::slotChanged()
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             ++trkpt; continue;
         }
         //qDebug() << trkpt->heartReateBpm;
@@ -85,7 +88,8 @@ void CTrackStatTraineeWidget::slotChanged()
         //          marksSpeed << QPointF(trkpt->distance, trkpt->speed * speedfactor);
         //      }
 
-        if(trkpt->flags & CTrack::pt_t::eFocus) {
+        if(trkpt->flags & CTrack::pt_t::eFocus)
+        {
             focusSpeed = QPointF(trkpt->distance, trkpt->heartReateBpm);
         }
 
@@ -97,7 +101,8 @@ void CTrackStatTraineeWidget::slotChanged()
     // plot->newMarks(marksSpeed);
 
     plot->setLimits();
-    if (needResetZoom) {
+    if (needResetZoom)
+    {
         plot->resetZoom();
         needResetZoom = false;
     }

@@ -99,9 +99,11 @@ void CQlb::load(QIODevice* ioDevice)
     QDataStream stream(ioDevice);
 
     stream >> type;
-    while(type != eEnd) {
+    while(type != eEnd)
+    {
 
-        switch(type) {
+        switch(type)
+        {
 
             case eWpt:
                 stream >> wpts;

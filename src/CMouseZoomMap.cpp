@@ -48,7 +48,8 @@ void CMouseZoomMap::mouseMoveEvent(QMouseEvent * e)
 
 void CMouseZoomMap::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton)
+    {
         startRect(e->pos());
         zoomMap = true;
     }
@@ -57,16 +58,19 @@ void CMouseZoomMap::mousePressEvent(QMouseEvent * e)
 
 void CMouseZoomMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton) {
+    if(e->button() == Qt::LeftButton)
+    {
         zoomMap = false;
         resizeRect(e->pos());
 
         rect = rect.normalized();
 
-        if(rect.width() < 10) {
+        if(rect.width() < 10)
+        {
             rect.setWidth(10);
         }
-        if(rect.height() < 10) {
+        if(rect.height() < 10)
+        {
             rect.setHeight(10);
         }
 

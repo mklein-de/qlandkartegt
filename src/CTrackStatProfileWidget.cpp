@@ -32,10 +32,12 @@ CTrackStatProfileWidget::CTrackStatProfileWidget(type_e type, QWidget * parent)
 , needResetZoom(true)
 {
 
-    if(type == eOverDistance) {
+    if(type == eOverDistance)
+    {
         plot->setXLabel(tr("distance [m]"));
     }
-    else {
+    else
+    {
         plot->setXLabel(tr("time [h]"));
     }
 
@@ -66,15 +68,18 @@ void CTrackStatProfileWidget::slotSetTrack(CTrack* track)
 void CTrackStatProfileWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
-    if(track.isNull()) {
+    if(track.isNull())
+    {
         plot->clear();
         return;
     }
 
-    if(type == eOverDistance) {
+    if(type == eOverDistance)
+    {
         plot->setXLabel(tr("distance [%1]").arg(IUnit::self().baseunit));
     }
-    else {
+    else
+    {
         plot->setXLabel(tr("time [h]"));
     }
     plot->setYLabel(tr("alt. [%1]").arg(IUnit::self().baseunit));
@@ -89,20 +94,25 @@ void CTrackStatProfileWidget::slotChanged()
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end()) {
-        if(trkpt->flags & CTrack::pt_t::eDeleted) {
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
             ++trkpt; continue;
         }
-        if(trkpt->dem != WPT_NOFLOAT) {
+        if(trkpt->dem != WPT_NOFLOAT)
+        {
             lineDEM << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->dem * basefactor);
         }
 
         lineElev    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
-        if(trkpt->flags & CTrack::pt_t::eSelected) {
+        if(trkpt->flags & CTrack::pt_t::eSelected)
+        {
             marksElev  << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         }
 
-        if(trkpt->flags & CTrack::pt_t::eFocus) {
+        if(trkpt->flags & CTrack::pt_t::eFocus)
+        {
             focusElev  = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         }
 
@@ -115,8 +125,10 @@ void CTrackStatProfileWidget::slotChanged()
     addWptTags(wpts);
 
     QVector<wpt_t>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end()) {
-        if(wpt->d < 400) {
+    while(wpt != wpts.end())
+    {
+        if(wpt->d < 400)
+        {
             CPlotData::point_t tag;
             tag.point = QPointF(type == eOverDistance ? wpt->trkpt.distance :  (double)wpt->trkpt.timestamp, wpt->trkpt.ele);
             tag.icon  = getWptIconByName(wpt->wpt->icon);
@@ -129,11 +141,13 @@ void CTrackStatProfileWidget::slotChanged()
 
     plot->newLine(lineElev,focusElev, "GPS");
     plot->newMarks(marksElev);
-    if(!lineDEM.isEmpty()) {
+    if(!lineDEM.isEmpty())
+    {
         plot->addLine(lineDEM, "DEM");
     }
     plot->setLimits();
-    if (needResetZoom) {
+    if (needResetZoom)
+    {
         plot->resetZoom();
         needResetZoom = false;
     }

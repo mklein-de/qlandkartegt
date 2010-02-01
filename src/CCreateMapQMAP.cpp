@@ -87,7 +87,8 @@ void CCreateMapQMAP::slotNewMap()
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
-    if(fi.suffix() != "qmap") {
+    if(fi.suffix() != "qmap")
+    {
         filename += ".qmap";
     }
 
@@ -104,7 +105,8 @@ void CCreateMapQMAP::slotNewMap()
 void CCreateMapQMAP::slotSaveMap()
 {
     QString filename = labelCurrentMap->text();
-    if(filename.isEmpty()) {
+    if(filename.isEmpty())
+    {
         filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)", 0, QFileDialog::DontUseNativeDialog);
         if(filename.isEmpty()) return;
     }
@@ -140,15 +142,18 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
     double      south   =   90.0 * DEG_TO_RAD;
     double      east    =  180.0 * DEG_TO_RAD;
 
-    foreach(file, files) {
+    foreach(file, files)
+    {
         CMapFile map(QDir(mapPath).filePath(file).toUtf8(),this);
-        if(!map.ok) {
+        if(!map.ok)
+        {
             QMessageBox::critical(this,tr("Error..."), tr("Failed to load file %1.").arg(file), QMessageBox::Ok, QMessageBox::Ok);
             delete item;
             return;
         }
 
-        if(!projection.isEmpty() && projection != map.strProj) {
+        if(!projection.isEmpty() && projection != map.strProj)
+        {
             QMessageBox::critical(this,tr("Error..."), tr("All maps in a level must have the same projection."), QMessageBox::Ok, QMessageBox::Ok);
             delete item;
             return;
@@ -200,7 +205,8 @@ void CCreateMapQMAP::processLevelList()
     int zoom = 0;
     QList<QTreeWidgetItem*> items = treeLevels->findItems(".*",Qt::MatchRegExp);
     QTreeWidgetItem * item;
-    foreach(item,items) {
+    foreach(item,items)
+    {
         if(item->data(0,eNorth).toDouble() > north) north = item->data(0,eNorth).toDouble();
         if(item->data(0,eSouth).toDouble() < south) south = item->data(0,eSouth).toDouble();
         if(item->data(0,eWest).toDouble() > west) west = item->data(0,eWest).toDouble();
@@ -249,7 +255,8 @@ void CCreateMapQMAP::readqmap(const QString& filename)
 
     int levels  = mapdef.value("main/levels",0).toInt();
 
-    for(int i = 1; i <= levels; ++i) {
+    for(int i = 1; i <= levels; ++i)
+    {
         mapdef.beginGroup(QString("level%1").arg(i));
         QTreeWidgetItem * item = new QTreeWidgetItem(treeLevels);
         item->setText(eLevel,QString("%1").arg(i));
@@ -290,7 +297,8 @@ void CCreateMapQMAP::writeqmap(const QString& filename)
 
     QList<QTreeWidgetItem*> items = treeLevels->findItems(".*",Qt::MatchRegExp);
     QTreeWidgetItem * item;
-    foreach(item,items) {
+    foreach(item,items)
+    {
         mapdef.beginGroup(QString("level%1").arg(item->text(eLevel).toInt()));
         mapdef.setValue("files",item->text(eFiles).replace("; ","|"));
         mapdef.setValue("zoomLevelMin", item->text(eMinZoom).toInt());
@@ -305,13 +313,15 @@ void CCreateMapQMAP::writeqmap(const QString& filename)
 void CCreateMapQMAP::slotLevelSelectionChanged()
 {
     QTreeWidgetItem * item = treeLevels->currentItem();
-    if(item) {
+    if(item)
+    {
         pushEdit->setEnabled(true);
         pushDel->setEnabled(true);
         pushUp->setEnabled(true);
         pushDown->setEnabled(true);
     }
-    else {
+    else
+    {
         pushEdit->setEnabled(false);
         pushDel->setEnabled(false);
         pushUp->setEnabled(false);
@@ -327,11 +337,13 @@ void CCreateMapQMAP::slotAdd()
     item->setData(0,eZoom,4);
 
     CDlgEditMapLevel dlg(item, mapPath, this);
-    if(dlg.exec() == QDialog::Accepted) {
+    if(dlg.exec() == QDialog::Accepted)
+    {
         mapData2Item(item);
         processLevelList();
     }
-    else {
+    else
+    {
         delete item;
     }
 
