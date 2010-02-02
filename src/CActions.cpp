@@ -87,7 +87,7 @@ QObject(parent), parent(parent)
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Combine &Tracks"), "aCombineTrack", tr("Combine multiple selected tracks to one."));
     createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Track"), "aEditTrack", tr("Toggle track edit dialog."));
-    createAction(tr("F7"), ":/icons/iconEditCut16x16", tr("&Cut Tracks"), "aCutTrack", tr("Cut a track into pieces."));
+    createAction(tr("F7"), ":/icons/iconEditCut16x16", tr("&Split Track"), "aCutTrack", tr("Split a track into pieces."));
     createAction(tr("F8"), ":/icons/iconSelect16x16", tr("&Select Points"), "aSelTrack", tr("Select track points by rectangle."));
     createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadTrack", tr("Upload tracks to device."));
     createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadTrack", tr("Download tracks from device."));
