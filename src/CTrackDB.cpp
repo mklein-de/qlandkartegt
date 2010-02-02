@@ -96,7 +96,6 @@ QRectF CTrackDB::getBoundingRectF()
     return r;
 }
 
-
 void CTrackDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
@@ -105,6 +104,27 @@ void CTrackDB::loadQLB(CQlb& qlb)
     {
         CTrack * track = new CTrack(this);
         stream >> *track;
+        addTrack(track, true);
+    }
+
+    emit sigChanged();
+
+}
+
+
+
+void CTrackDB::loadQLB(CQlb& qlb, bool asDuplicat)
+{
+    QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
+
+    while(!stream.atEnd())
+    {
+        CTrack * track = new CTrack(this);
+        stream >> *track;
+        if(asDuplicat)
+        {
+            track->genKey();
+        }
         addTrack(track, true);
     }
 
@@ -971,7 +991,7 @@ void CTrackDB::pasteFromClipboard()
         buffer.close();
         CQlb qlb(this);
         qlb.load(&buffer);
-        loadQLB(qlb);
+        loadQLB(qlb, true);
     }
 }
 

@@ -38,6 +38,7 @@ class CTrackDB : public IDB
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb);
+        void loadQLB(CQlb& qlb, bool asDuplicat);
         void saveQLB(CQlb& qlb);
 
         void upload();
