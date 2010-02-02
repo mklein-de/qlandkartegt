@@ -73,6 +73,7 @@ QObject(parent), parent(parent)
     createAction(tr("F2"),":/icons/iconInc16x16",tr("&Inc. Elevation"),"aMap3DZoomPlus",tr("Make elevations on the map higher as they are."));
     createAction(tr("F3"),":/icons/iconDec16x16",tr("&Dec. Elevation"),"aMap3DZoomMinus",tr("Make elevations on the map lower as they are."));
     createAction(tr("F4"),":/icons/iconLight16x16",tr("&Lighting On/Off"), "aMap3DLighting",tr("Turn on/off lighting."));
+    createAction(tr("F5"),":/icons/iconTrack16x16",tr("&Trackmode"), "aMap3DTrackmode",tr("Glue point of view to track."));
 #endif
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
@@ -423,6 +424,17 @@ void CActions::funcMap3DMode()
     if(map)
     {
         map->changeMode();
+    }
+#endif
+}
+
+void CActions::funcMap3DTrackmode()
+{
+#ifdef PLOT_3D
+    CMap3DWidget * map = CMapDB::self().getMap3D();
+    if(map)
+    {
+        map->changeTrackmode();
     }
 #endif
 }

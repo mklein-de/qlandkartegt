@@ -105,11 +105,16 @@ class CMap3DWidget: public QGLWidget
         bool cursorFocus;
         bool cursorPress;
         bool reDraw;
+        bool trackmode;
 
         QPoint mousePos;
 
         GLuint mapTexture;
-        double xShift, yShift, zoomFactor, eleZoomFactor;
+        double xShift;
+        double yShift;
+        double zShift;
+        double zoomFactor;
+        double eleZoomFactor;
 
         double maxElevation, minElevation;
 
@@ -138,6 +143,7 @@ class CMap3DWidget: public QGLWidget
         void eleZoomReset();
         void lightReset();
         void changeMode();
+        void changeTrackmode();
         void lightTurn();
         void slotSaveImage(const QString& filename);
 

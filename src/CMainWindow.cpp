@@ -135,6 +135,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomPlus");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomMinus");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackmode");
     //    fsMap3D[5] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMap3D[6] = func_key_state_t(0,tr("-"),0,tr(""));
     //    fsMap3D[7] = func_key_state_t(0,tr("-"),0,tr(""));

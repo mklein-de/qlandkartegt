@@ -71,6 +71,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
 
     xShift = 0;
     yShift = 0;
+    zShift = 0;
     zoomFactor = 1;
 
     eleZoomFactor = cfg.value("map/3D/eleZoomFactor", 1).toDouble();
@@ -90,6 +91,7 @@ CMap3DWidget::CMap3DWidget(QWidget * parent)
     cursorFocus = false;
     cursorPress = false;
     reDraw = false;
+    trackmode = false;
 }
 
 
@@ -149,10 +151,14 @@ void CMap3DWidget::loadMap()
 void CMap3DWidget::loadTrack()
 {
     if (!track.isNull())
+    {
         disconnect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
+    }
     track = CTrackDB::self().highlightedTrack();
     if (!track.isNull())
+    {
         connect(track, SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
+    }
     emit sigTrackChanged();
 }
 
@@ -196,6 +202,42 @@ void CMap3DWidget::changeMode()
     slotChanged();
 }
 
+void CMap3DWidget::changeTrackmode()
+{
+    if(track.isNull())
+    {
+        return;
+    }
+
+    double ele1;
+    XY pt1;
+    IMap& dem = CMapDB::self().getDEM();
+    CTrack::pt_t trkpt = track->getTrackPoints().first();
+
+
+    pt1.u = trkpt.lon * DEG_TO_RAD;
+    pt1.v = trkpt.lat * DEG_TO_RAD;
+    if (mapEleAct->isChecked())
+    {
+        ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+    }
+    else
+    {
+        ele1 = trkpt.ele;
+    }
+
+    map->convertRad2Pt(pt1.u, pt1.v);
+    convertPt23D(pt1.u, pt1.v, ele1);
+
+    qDebug() << pt1.u << pt1.v << ele1;
+
+    xShift = - pt1.u;
+    yShift = - pt1.v;
+    zShift = - ele1;
+
+    zoomFactor = 1.0;
+    updateGL();
+}
 
 void CMap3DWidget::eleZoomOut()
 {
@@ -909,7 +951,7 @@ void CMap3DWidget::paintGL()
     glTranslated(0.0, 0.0, -side);
     glRotated(-xRot, 1.0, 0.0, 0.0);
     glScalef(zoomFactor, zoomFactor, zoomFactor);
-    glTranslated(xShift * 2, 2 * yShift, 0.0);
+    glTranslated(xShift, yShift, zShift);
 
     glRotated(zRot, 0.0, 0.0, 1.0);
 
