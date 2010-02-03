@@ -104,7 +104,7 @@ void IMouse::drawSelWpt(QPainter& p)
         if(!selWpt->sticky)
         {
             p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
-            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWptMove16x16.png"));
+            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));

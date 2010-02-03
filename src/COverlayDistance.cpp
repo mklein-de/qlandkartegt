@@ -225,111 +225,135 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 {
     if(thePoint == 0) return;
 
-    if(!doFuncWheel)
+
+    if(e->button() == Qt::LeftButton)
     {
-        doFuncWheel = true;
-        return;
-    }
-
-    QPoint pos1 = e->pos();
-    IMap& map   = CMapDB::self().getMap();
-
-    XY pt = *thePoint;
-    map.convertRad2Pt(pt.u, pt.v);
-    pos1 -= QPoint(pt.u - 24, pt.v - 24);
-
-    if(rectDel.contains(pos1))
-    {
-        int idx = points.indexOf(*thePoint);
-
-        if(idx == -1) return;
-
-        points.takeAt(idx);
-
-        if(points.isEmpty())
+        if(doMove)
         {
-            QStringList keys(key);
-            COverlayDB::self().delOverlays(keys);
+            doMove      = false;
+            thePoint    = 0;
+            calcDistance();
+            theMainWindow->getCanvas()->update();
+
+            QApplication::restoreOverrideCursor();
+
+            emit sigChanged();
+            return;
         }
-        calcDistance();
-        doFuncWheel = false;
-        thePoint    = 0;
 
-        emit sigChanged();
+        if(!doFuncWheel)
+        {
+            doFuncWheel = true;
+            theMainWindow->getCanvas()->update();
+            return;
+        }
+
+        QPoint pos1 = e->pos();
+        IMap& map   = CMapDB::self().getMap();
+
+        XY pt = *thePoint;
+        map.convertRad2Pt(pt.u, pt.v);
+        pos1 -= QPoint(pt.u - 24, pt.v - 24);
+
+        if(rectDel.contains(pos1))
+        {
+            int idx = points.indexOf(*thePoint);
+
+            if(idx == -1) return;
+
+            points.takeAt(idx);
+
+            if(points.isEmpty())
+            {
+                QStringList keys(key);
+                COverlayDB::self().delOverlays(keys);
+            }
+            calcDistance();
+            doFuncWheel = false;
+            thePoint    = 0;
+
+            emit sigChanged();
+        }
+        else if(rectMove.contains(pos1))
+        {
+            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0));
+            savePoint   = *thePoint;
+            doMove      = true;
+            doFuncWheel = false;
+        }
+        else if(rectAdd1.contains(pos1))
+        {
+            int idx = points.indexOf(*thePoint);
+
+            if(idx == -1) return;
+
+            XY pt;
+            pt.u = e->pos().x();
+            pt.v = e->pos().y();
+            map.convertPt2Rad(pt.u, pt.v);
+            points.insert(idx,pt);
+
+            thePoint    = &points[idx];
+            doMove      = true;
+            doFuncWheel = false;
+
+            theMainWindow->getCanvas()->update();
+        }
+        else if(rectAdd2.contains(pos1))
+        {
+            int idx = points.indexOf(*thePoint);
+
+            if(idx == -1) return;
+
+            idx++;
+
+            XY pt;
+            pt.u = e->pos().x();
+            pt.v = e->pos().y();
+            map.convertPt2Rad(pt.u, pt.v);
+            points.insert(idx,pt);
+
+            thePoint    = &points[idx];
+            doMove      = true;
+            doFuncWheel = false;
+
+            theMainWindow->getCanvas()->update();
+
+        }
+        else
+        {
+            doFuncWheel = false;
+            thePoint    = 0;
+        }
     }
-    else if(rectMove.contains(pos1))
+    else if(e->button() == Qt::RightButton)
     {
-        doMove      = true;
-        doFuncWheel = false;
-    }
-    else if(rectAdd1.contains(pos1))
-    {
-        int idx = points.indexOf(*thePoint);
+        if(doMove)
+        {
+            doMove      = false;
 
-        if(idx == -1) return;
+            *thePoint   = savePoint;
+            thePoint    = 0;
 
-        XY pt;
-        pt.u = e->pos().x();
-        pt.v = e->pos().y();
-        map.convertPt2Rad(pt.u, pt.v);
-        points.insert(idx,pt);
+            calcDistance();
+            theMainWindow->getCanvas()->update();
 
-        thePoint    = &points[idx];
-        doMove      = true;
-        doFuncWheel = false;
+            QApplication::restoreOverrideCursor();
 
-        theMainWindow->getCanvas()->update();
-    }
-    else if(rectAdd2.contains(pos1))
-    {
-        int idx = points.indexOf(*thePoint);
+            emit sigChanged();
+            return;
+        }
 
-        if(idx == -1) return;
-
-        idx++;
-
-        XY pt;
-        pt.u = e->pos().x();
-        pt.v = e->pos().y();
-        map.convertPt2Rad(pt.u, pt.v);
-        points.insert(idx,pt);
-
-        thePoint    = &points[idx];
-        doMove      = true;
-        doFuncWheel = false;
-
-        theMainWindow->getCanvas()->update();
-
-    }
-    else
-    {
-        doFuncWheel = false;
-        thePoint    = 0;
     }
 }
 
 
 void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 {
-    QPoint pos = e->pos();
-    IMap& map  = CMapDB::self().getMap();
-
-    if(doMove && thePoint)
-    {
-        XY pt;
-        pt.u = pos.x();
-        pt.v = pos.y();
-        map.convertPt2Rad(pt.u, pt.v);
-        *thePoint  = pt;
-        thePoint   = 0;
-
-        calcDistance();
-        theMainWindow->getCanvas()->update();
-
-    }
-
-    doMove      = false;
-    emit sigChanged();
+//     QPoint pos = e->pos();
+//     IMap& map  = CMapDB::self().getMap();
+//
+//     emit sigChanged();
 }
 
 
@@ -385,7 +409,7 @@ void COverlayDistance::draw(QPainter& p)
             p.save();
             p.translate(pt2.u - 24, pt2.v - 24);
             p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
-            p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
+            p.drawPixmap(rectMove, QPixmap(":/icons/iconMove16x16.png"));
             if(anglePrev < 360)
             {
                 p.save();
