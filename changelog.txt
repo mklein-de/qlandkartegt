@@ -1,3 +1,28 @@
+--- 2010.02.06 ---
+
+Bug     #134:
+Fix: GPX has bad <extension/> tag
+
+Bug     #135:
+Fix: Missing polylines in openmtbmap
+
+Request #136:
+Update language files
+
+Bug     #137:
+Fix bad syntax that makes GCC 4.5 to fail
+
+Bug     #138:
+Fix: QLandkarte GT crashing on copy-n-paste track. (+ enhance copy-n-paste)
+
+Bug     #139:
+Fix overflow in retrieving GPS position from exif data
+
+Request #140:
+Unify behavior when moving a waypoint and distance polyline point
+
+
+
 --- 2010.01.24 ---
 
 Bug     #123:
@@ -670,6 +695,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
