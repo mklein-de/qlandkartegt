@@ -65,7 +65,6 @@ class CMainWindow : public QMainWindow
         CMenus *getActionGroupProvider() { return actionGroupProvider;};
 
     protected:
-        void keyPressEvent(QKeyEvent * e);
         void closeEvent(QCloseEvent * e);
         void dragEnterEvent(QDragEnterEvent *event);
         void dropEvent(QDropEvent *event);
