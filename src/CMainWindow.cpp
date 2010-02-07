@@ -43,6 +43,7 @@
 #include "CUndoStack.h"
 #include "WptIcons.h"
 #include "CAppOpts.h"
+#include "CMap3DWidget.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -116,7 +117,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MapMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aCenterMap");
-    //    fsMap[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::MapMenu, "aSelectArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aEditMap");
     actionGroupProvider->addAction(CMenus::MapMenu, "aSearchMap");
@@ -125,9 +125,6 @@ CMainWindow::CMainWindow()
 #endif
     actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
 
-    //     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomIn");
-    //     actionGroupProvider->addAction(CMenus::MapMenu, "aZoomOut");
-    //    fsMap[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
 #ifdef PLOT_3D
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aCloseMap3D");
@@ -135,27 +132,18 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomPlus");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomMinus");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
-    //actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackmode");
-    //    fsMap3D[5] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMap3D[6] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMap3D[7] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMap3D[8] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMap3D[9] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMap3D[10] = func_key_state_t(0,tr("-"),0,tr(""));
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackmode");
 #endif
 
     actionGroupProvider->addAction(CMenus::WptMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::WptMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::WptMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::WptMenu, "aCenterMap");
-    //    fsWpt[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::WptMenu, "aNewWpt");
     actionGroupProvider->addAction(CMenus::WptMenu, "aEditWpt");
     actionGroupProvider->addAction(CMenus::WptMenu, "aMoveWpt");
 #ifdef HAS_EXIF
     actionGroupProvider->addAction(CMenus::WptMenu, "aImageWpt");
-#else
-    //   fsWpt[8] = func_key_state_t(0, tr("-"), 0, tr(""));
 #endif
     actionGroupProvider->addAction(CMenus::WptMenu, "aUploadWpt");
     actionGroupProvider->addAction(CMenus::WptMenu, "aDownloadWpt");
@@ -164,7 +152,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCenterMap");
-    //    fsTrack[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCombineTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aEditTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCutTrack");
@@ -173,44 +160,30 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDownloadTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
-    //actionGroupProvider->addAction(CMenus::TrackMenu, "aTrackPurgeSelection");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDeleteTrackSelection");
 
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aCenterMap");
-    //    fsLiveLog[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aLiveLog");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aLockMap");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aAddWpt");
-    //    fsLiveLog[8] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsLiveLog[9] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsLiveLog[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aCenterMap");
-    //    fsOverlay[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aText");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aTextBox");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aDistance");
-    //    fsOverlay[8] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsOverlay[9] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsOverlay[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
-    //    fsMainMore[4] = func_key_state_t(0,tr("-"),0,tr(""));
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-    //     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aColorPicker");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
-    //    fsMainMore[8] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMainMore[9] = func_key_state_t(0,tr("-"),0,tr(""));
-    //    fsMainMore[10] = func_key_state_t(0,tr("-"),0,tr(""));
 
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
@@ -343,10 +316,14 @@ CMainWindow::CMainWindow()
 
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
+
     foreach(QString arg, qlOpts->arguments)
     {
         loadData(arg, QString());
     }
+
+    modified = false;
+    setTitleBar();
 
     setupMenuBar();
     connect(actionGroupProvider, SIGNAL(stateChanged()), this, SLOT(switchState()));
@@ -374,12 +351,8 @@ void CMainWindow::slotReloadArgs()
         return;
     }
 
-    //    CMapDB::self().clear();
     CWptDB::self().clear();
     CTrackDB::self().clear();
-    //    CRouteDB::self().clear();
-    //    CDiaryDB::self().clear();
-    //    COverlayDB::self().clear();
 
     foreach(QString arg, qlOpts->arguments)
     {
@@ -531,16 +504,6 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
-    //    groupProvidedMenu = new QMenu(this);
-    //    groupProvidedMenu->setTitle(tr("-"));
-    //    menuBar()->addMenu(groupProvidedMenu);
-
-    // disable for release
-    //    menu = new QMenu(this);
-    //    menu->addAction(CUndoStack::getInstance()->createUndoAction(this));
-    //    menu->addAction(CUndoStack::getInstance()->createRedoAction(this));
-    //    menu->setTitle(tr("&Edit"));
-    //    menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);
@@ -590,32 +553,6 @@ void CMainWindow::setupMenuBar()
     menu->setTitle(tr_nomac("&Help"));
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr_nomac("About &QLandkarte GT"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
-}
-
-
-void CMainWindow::keyPressEvent(QKeyEvent * e)
-{
-    /*
-        if((e->key() >= Qt::Key_F1) && (e->key() < Qt::Key_F11)) {
-            return megaMenu->keyPressEvent(e);
-        }
-        else if(e->key() == Qt::Key_Escape) {
-            return megaMenu->keyPressEvent(e);
-        }
-        else if((e->key() == Qt::Key_Plus) || (e->key() == Qt::Key_Minus)) {
-            return megaMenu->keyPressEvent(e);
-        }
-        else if(e->modifiers() == Qt::AltModifier) {
-            if((e->key() == Qt::Key_Up) || (e->key() == Qt::Key_Down)
-            || (e->key() == Qt::Key_Left) || (e->key() == Qt::Key_Right)) {
-                return megaMenu->keyPressEvent(e);
-            }
-        }
-        else if (e->modifiers() == Qt::ControlModifier)
-          return megaMenu->keyPressEvent(e);
-
-        return e->ignore();
-        */
 }
 
 
@@ -1005,8 +942,6 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
     }
     else
     {
-        //         filename += ".qlb";
-        //         ext = "QLB";
         if (ext == ".gpx")
         {
             ext = "GPX";
