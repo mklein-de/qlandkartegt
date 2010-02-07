@@ -22,7 +22,7 @@
 #include <QThread>
 #include <QPixmap>
 #include <QList>
-#include <QPoint>
+#include <QPointF>
 #include <QMutex>
 #include "CMapSelectionRaster.h"
 
@@ -37,7 +37,7 @@ class CMapSearchThread : public QThread
 
         void start(const int threshold, const QImage& mask, const CMapSelectionRaster& mapsel);
 
-        const QList<QPoint>& getLastResult(){return symbols;}
+        const QList<QPointF>& getLastResult(){return symbols;}
 
         void cancel();
 
@@ -54,7 +54,7 @@ class CMapSearchThread : public QThread
         CMapSelectionRaster area;
         CImage * mask;
         qint32 zoomlevel;
-        QList<QPoint> symbols;
+        QList<QPointF> symbols;
         QMutex mutex;
         bool go;
 

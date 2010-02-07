@@ -157,8 +157,8 @@ void CMapSearchWidget::slotCancel()
 
 void CMapSearchWidget::slotSearchFinished()
 {
-    QPoint symbol;
-    const QList<QPoint>& symbols = thread->getLastResult();
+    QPointF symbol;
+    const QList<QPointF>& symbols = thread->getLastResult();
 
     IMap& map = CMapDB::self().getMap();
 
@@ -170,7 +170,11 @@ void CMapSearchWidget::slotSearchFinished()
         double u = symbol.x();
         double v = symbol.y();
 
-        map.convertM2Rad(u,v);
+        if((u > PI/2) || (v > PI/4))
+        {
+            map.convertM2Rad(u,v);
+        }
+
         CSearchDB::self().add(tr("%2 %1").arg(++cnt).arg(name), u, v);
     }
 

@@ -84,7 +84,8 @@ void CMapSearchThread::run()
     double v2 = area.lat2;
 
     QFileInfo fi(area.mapkey);
-    if(fi.completeSuffix() != "qmap")
+
+    if(fi.suffix() != "qmap")
     {
         emit sigProgress(tr("Error. This only works on a *.qmap map collection."), 0);
         return;
@@ -140,7 +141,7 @@ void CMapSearchThread::run()
                 map.convertPt2M(x,y);
                 if(rectArea.contains(x,y))
                 {
-                    symbols << QPoint(x,y);
+                    symbols << QPointF(x,y);
                 }
             }
 

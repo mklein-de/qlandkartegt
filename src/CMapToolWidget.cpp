@@ -245,7 +245,6 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
         {
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
-            actDelMap->setEnabled(false);
             int mapType = item->data(eType, Qt::UserRole).toInt();
             if(mapType == IMap::eGarmin || mapType == IMap::eTile)
             {
@@ -260,7 +259,6 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
         {
             actAddDEM->setEnabled(false);
             actDelDEM->setEnabled(false);
-            actDelMap->setEnabled(true);
             actCfgMap->setEnabled(false);
         }
 
@@ -286,15 +284,25 @@ void CMapToolWidget::slotDeleteKnownMap()
     QTreeWidgetItem * item;
     QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
 
+    bool wasSelected = false;
+
     if(lastTreeWidget)
     {
         const QList<QTreeWidgetItem*>& items = lastTreeWidget->selectedItems();
         foreach(item,items)
         {
+            if(item->data(eMode, Qt::UserRole).toInt() == eSelected)
+            {
+                wasSelected = true;
+            }
             keys << item->data(eName, Qt::UserRole).toString();
             delete item;
         }
         CMapDB::self().delKnownMap(keys);
+    }
+
+    if(wasSelected){
+        CMapDB::self().openMap("NoMap");
     }
 }
 
