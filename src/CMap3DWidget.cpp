@@ -951,6 +951,7 @@ void CMap3DWidget::paintGL()
     glTranslated(0.0, 0.0, -side);
     glRotated(-xRot, 1.0, 0.0, 0.0);
     glScalef(zoomFactor, zoomFactor, zoomFactor);
+
     glTranslated(xShift, yShift, zShift);
 
     glRotated(zRot, 0.0, 0.0, 1.0);
@@ -1176,7 +1177,7 @@ void CMap3DWidget::resizeGL(int width, int height)
     glLoadIdentity();
     /* 20 is equal to value of a maximum zoom factor. */
     glFrustum(-width/100.0, width/100.0, -height/100.0, height/100.0, side/100.0, 200.0 * side);
-    //glOrtho(-width, width, -height, height, 0, 20 * side);
+//     glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
 }
 

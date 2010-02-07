@@ -78,14 +78,14 @@ QObject(parent), parent(parent)
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
     createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Waypoint"), "aEditWpt", tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
-    createAction(tr("F7"), ":/icons/iconWptMove16x16", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
+    createAction(tr("F7"), ":/icons/iconMove16x16", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
 #ifdef HAS_EXIF
     createAction(tr("F8"),":/icons/iconRaster16x16",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
 #endif
     createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadWpt", tr("Upload waypoints to device."));
     createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadWpt", tr("Download waypoints from device."));
     //
-    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Combine &Tracks"), "aCombineTrack", tr("Combine multiple selected tracks to one."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Join &Tracks"), "aCombineTrack", tr("Join multiple selected tracks to one."));
     createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Track"), "aEditTrack", tr("Toggle track edit dialog."));
     createAction(tr("F7"), ":/icons/iconEditCut16x16", tr("&Split Track"), "aCutTrack", tr("Split a track into pieces."));
     createAction(tr("F8"), ":/icons/iconSelect16x16", tr("&Select Points"), "aSelTrack", tr("Select track points by rectangle."));
