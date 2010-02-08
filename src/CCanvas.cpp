@@ -370,11 +370,10 @@ void CCanvas::drawScale(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
 
+    double a,b,d;
     int yshift = 0;
     if (QApplication::desktop()->height() < 650) yshift = 60 ;
     QPoint px1(rect().bottomRight() - QPoint(100,50 + yshift));
-
-    if(map.isLonLat()) return;
 
     // step I: get the approximate distance for 200px in the bottom right corner
     double u1 = px1.x();
@@ -386,13 +385,26 @@ void CCanvas::drawScale(QPainter& p)
     map.convertPt2M(u1,v1);
     map.convertPt2M(u2,v2);
 
-    double d = u1 - u2;
+    if(map.isLonLat())
+    {
+        XY p1,p2;
+        double a1,a2;
+        p1.u = u1;
+        p1.v = v1;
+        p2.u = u2;
+        p2.v = v2;
+        d = distance(p1, p2, a1, a2);
+
+    }
+    else
+    {
+        d = u1 - u2;
+    //     qDebug() << log10(d) << d << a << b;
+    }
 
     // step II: derive the actual scale length in [m]
-    double a = (int)log10(d);
-    double b = log10(d) - a;
-
-    //     qDebug() << log10(d) << d << a << b;
+    a = (int)log10(d);
+    b = log10(d) - a;
 
     if(0 <= b && b < log10(3.0f))
     {
