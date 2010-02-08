@@ -1225,12 +1225,18 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     dU = u[1] - u[0];
     dV = v[2] - v[0];
 
+
     for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i)
     {
 
         double z    = scales[i].scale;
         double pxU  = dU / (+1.0 * z);
         double pxV  = dV / (-1.0 * z);
+
+        if(isLonLat()){
+            pxU /= lon_factor;
+            pxV /= lat_factor;
+        }
 
         if((pxU < size.width()) && (pxV < size.height()))
         {

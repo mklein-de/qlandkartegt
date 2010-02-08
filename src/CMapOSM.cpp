@@ -41,7 +41,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
     tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
     tileList << qMakePair(QString("cloudmade.com (cycle)"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
-    tileList << qMakePair(QString("topo.geofabrik.de (trails)"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
+    // tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
     tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
 
     cb = new QComboBox(theMainWindow->getCanvas());
@@ -69,8 +69,8 @@ CMapOSM::CMapOSM(CCanvas * parent)
     qDebug() << "OSM:" << ptr;
     //     if(ptr) free(ptr);
 
-    QString pos     = cfg.value("osm/topleft","").toString();
-    zoomidx         = cfg.value("osm/zoomidx",1).toInt();
+    QString pos     = cfg.value("osm/topleft","N82 58.759 W151 08.934").toString();
+    zoomidx         = cfg.value("osm/zoomidx",15).toInt();
 
     lon1 = xref1   = -40075016/2;
     lat1 = yref1   =  40075016/2;

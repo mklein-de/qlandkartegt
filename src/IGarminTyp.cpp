@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DBG
+#undef DBG
 
 IGarminTyp::IGarminTyp(format_e format, QObject * parent)
 : QObject(parent)
