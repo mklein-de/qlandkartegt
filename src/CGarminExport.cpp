@@ -425,6 +425,7 @@ void CGarminExport::slotStart()
     quint16 blockcnt  = 0;
     QByteArray mapsourc;
     QDataStream mps(&mapsourc,QIODevice::WriteOnly);
+    mps.setVersion(QDataStream::Qt_4_5);
     mps.setByteOrder(QDataStream::LittleEndian);
 
     pushExport->setEnabled(false);

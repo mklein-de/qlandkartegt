@@ -387,6 +387,7 @@ void CWptDB::saveGPX(CGpx& gpx)
 void CWptDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.waypoints(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     while(!stream.atEnd())
     {

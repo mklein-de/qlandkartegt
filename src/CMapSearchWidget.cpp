@@ -233,6 +233,7 @@ void CMapSearchWidget::slotSaveMask()
     file.open(QIODevice::WriteOnly);
 
     QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_5);
     out << sliderThreshold->value();
     out << (int)1;
     out << mask->rgb();
@@ -254,6 +255,7 @@ void CMapSearchWidget::slotSelectMaskByName(const QString& name)
     if(file.open(QIODevice::ReadOnly))
     {
         QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
 
         in >> intval;
         sliderThreshold->setValue(intval);
@@ -319,6 +321,7 @@ void CMapSearchWidget::loadMaskCollection()
         QFile file(path.filePath(maskfile));
         file.open(QIODevice::ReadOnly);
         QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
         in >> intval;
         in >> intval;
         in >> pixmap;

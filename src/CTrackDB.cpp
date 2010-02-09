@@ -99,6 +99,7 @@ QRectF CTrackDB::getBoundingRectF()
 void CTrackDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     while(!stream.atEnd())
     {
@@ -116,6 +117,7 @@ void CTrackDB::loadQLB(CQlb& qlb)
 void CTrackDB::loadQLB(CQlb& qlb, bool asDuplicat)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     while(!stream.atEnd())
     {

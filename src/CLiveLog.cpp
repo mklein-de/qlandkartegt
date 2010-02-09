@@ -23,6 +23,7 @@ void operator <<(QFile& f, const CLiveLog& log)
 {
     f.open(QIODevice::Append);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << log;
     f.close();
 }

@@ -276,6 +276,7 @@ void CRouteDB::saveGPX(CGpx& gpx)
 void CRouteDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.routes(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     while(!stream.atEnd())
     {

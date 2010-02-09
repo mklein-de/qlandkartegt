@@ -77,6 +77,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             {
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> track._key_;
                 s1 >> track.timestamp;
@@ -92,6 +93,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             case CTrack::eTrkPts:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
                 quint32 n;
 
                 track.track.clear();
@@ -113,6 +115,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             case CTrack::eTrain:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
                 quint32 nTrkPts1 = 0;
 
@@ -137,6 +140,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             case CTrack::eTrkExt1:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
                 quint32 nTrkPts1 = 0;
 
                 s1 >> nTrkPts1;
@@ -200,6 +204,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     trk_head_entry_t entryBase;
     entryBase.type = CTrack::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << track.key();
     s1 << track.timestamp;
@@ -215,6 +220,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     trk_head_entry_t entryTrkPts;
     entryTrkPts.type = CTrack::eTrkPts;
     QDataStream s2(&entryTrkPts.data, QIODevice::WriteOnly);
+    s2.setVersion(QDataStream::Qt_4_5);
 
     QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
@@ -240,6 +246,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         trk_head_entry_t entryTrainPts;
         entryTrainPts.type = CTrack::eTrain;
         QDataStream s3(&entryTrainPts.data, QIODevice::WriteOnly);
+        s3.setVersion(QDataStream::Qt_4_5);
 
         trkpt = trkpts.begin();
 
@@ -261,6 +268,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         trk_head_entry_t entryTrkExt1;
         entryTrkExt1.type = CTrack::eTrkExt1;
         QDataStream s4(&entryTrkExt1.data, QIODevice::WriteOnly);
+        s4.setVersion(QDataStream::Qt_4_5);
 
         trkpt = trkpts.begin();
 
@@ -341,6 +349,7 @@ void operator >>(QFile& f, CTrack& track)
 {
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s >> track;
     f.close();
 }
@@ -350,6 +359,7 @@ void operator <<(QFile& f, CTrack& track)
 {
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << track;
     f.close();
 }

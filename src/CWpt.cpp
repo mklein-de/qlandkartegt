@@ -76,6 +76,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
             {
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> wpt._key_;
                 s1 >> wpt.sticky;
@@ -95,6 +96,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
             case CWpt::eImage:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
                 CWpt::image_t img;
 
                 wpt.images.clear();
@@ -137,6 +139,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     wpt_head_entry_t entryBase;
     entryBase.type = CWpt::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << wpt._key_;
     s1 << wpt.sticky;
@@ -158,6 +161,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     wpt_head_entry_t entryImage;
     entryImage.type = CWpt::eImage;
     QDataStream s2(&entryImage.data, QIODevice::WriteOnly);
+    s2.setVersion(QDataStream::Qt_4_5);
 
     // write place holder for image offset
     QList<CWpt::image_t>::iterator image = wpt.images.begin();
@@ -241,6 +245,7 @@ void operator >>(QFile& f, CWpt& wpt)
 {
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s >> wpt;
     f.close();
 }
@@ -250,6 +255,7 @@ void operator <<(QFile& f, CWpt& wpt)
 {
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << wpt;
     f.close();
 }

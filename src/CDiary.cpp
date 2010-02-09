@@ -65,6 +65,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
             {
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> diary.timestamp;
                 QString tmp; s1 >> tmp;
@@ -92,6 +93,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     diary_head_entry_t entryBase;
     entryBase.type = CDiary::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << diary.timestamp;
     s1 << diary.m_text;
@@ -147,6 +149,7 @@ void operator >>(QFile& f, CDiary& diary)
 {
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s >> diary;
     f.close();
 }
@@ -156,6 +159,7 @@ void operator <<(QFile& f, CDiary& diary)
 {
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << diary;
     f.close();
 }

@@ -66,6 +66,7 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
             {
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
                 QString type;
 
                 s1 >> type;
@@ -121,6 +122,7 @@ QDataStream& operator <<(QDataStream& s, IOverlay& ovl)
     ovl_head_entry_t entryBase;
     entryBase.type = IOverlay::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
     s1 << ovl.type;
     ovl.save(s1);
     entries << entryBase;
@@ -175,6 +177,7 @@ void operator >>(QFile& f, COverlayDB& db)
 {
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s >> db;
     f.close();
 }
@@ -184,6 +187,7 @@ void operator <<(QFile& f, IOverlay& ovl)
 {
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << ovl;
     f.close();
 }

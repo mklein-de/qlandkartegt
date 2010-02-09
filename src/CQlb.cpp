@@ -42,6 +42,7 @@ CQlb::~CQlb()
 CQlb& CQlb::operator <<(CWpt& wpt)
 {
     QDataStream stream(&wpts, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream << wpt;
 
     return *this;
@@ -51,6 +52,7 @@ CQlb& CQlb::operator <<(CWpt& wpt)
 CQlb& CQlb::operator <<(CTrack& trk)
 {
     QDataStream stream(&trks, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream << trk;
 
     return *this;
@@ -60,6 +62,7 @@ CQlb& CQlb::operator <<(CTrack& trk)
 CQlb& CQlb::operator <<(CRoute& rte)
 {
     QDataStream stream(&rtes, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream << rte;
 
     return *this;
@@ -69,6 +72,7 @@ CQlb& CQlb::operator <<(CRoute& rte)
 CQlb& CQlb::operator <<(CDiary& dry)
 {
     QDataStream stream(&drys, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream << dry;
 
     return *this;
@@ -78,6 +82,7 @@ CQlb& CQlb::operator <<(CDiary& dry)
 CQlb& CQlb::operator <<(IOverlay& ovl)
 {
     QDataStream stream(&ovls, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream << ovl;
 
     return *this;
@@ -97,6 +102,7 @@ void CQlb::load(QIODevice* ioDevice)
 
     ioDevice->open(QIODevice::ReadOnly);
     QDataStream stream(ioDevice);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     stream >> type;
     while(type != eEnd)
@@ -148,6 +154,7 @@ void CQlb::save(QIODevice* ioDevice)
 {
     ioDevice->open(QIODevice::WriteOnly);
     QDataStream stream(ioDevice);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     stream << (qint32)eWpt << wpts;
     stream << (qint32)eTrack << trks;

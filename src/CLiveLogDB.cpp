@@ -67,6 +67,7 @@ void CLiveLogDB::saveBackupLog()
         QFile tmp(QDir::temp().filePath("qlBackupLog"));
         tmp.open(QIODevice::ReadOnly);
         QDataStream in(&tmp);
+        in.setVersion(QDataStream::Qt_4_5);
 
         CTrack * t = new CTrack(&CTrackDB::self());
         t->setName(tr("LiveLog"));

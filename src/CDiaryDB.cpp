@@ -65,6 +65,7 @@ void CDiaryDB::openEditWidget()
 void CDiaryDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
     stream >> diary;
     if(!editWidget.isNull())
     {

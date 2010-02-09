@@ -67,6 +67,7 @@ void CDeviceQLandkarteM::send(const packet_e type, const QByteArray& data)
 {
     QByteArray packet;
     QDataStream out(&packet,QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_5);
     out << (qint32)type;
     out << (qint32)0;
     out << data;
@@ -81,6 +82,7 @@ bool CDeviceQLandkarteM::recv(packet_e& type, QByteArray& data)
 {
     qint32 size;
     QDataStream in(&tcpSocket);
+    in.setVersion(QDataStream::Qt_4_5);
 
     while(tcpSocket.bytesAvailable() < (int)(2 * sizeof(qint32)))
     {
@@ -140,6 +142,7 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
     {
         QByteArray data;
         QDataStream s(&data,QIODevice::WriteOnly);
+        s.setVersion(QDataStream::Qt_4_5);
 
         progress->setLabelText(tr("%1\n%2 of %3").arg((*wpt)->name).arg(++cnt).arg(wpts.count()));
         progress->setValue(cnt);
@@ -194,6 +197,7 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
     QString     key, name;
 
     QDataStream wptlist(&data1, QIODevice::ReadOnly);
+    wptlist.setVersion(QDataStream::Qt_4_5);
 
     wptlist >> nWpt;
 
@@ -202,6 +206,7 @@ void CDeviceQLandkarteM::downloadWpts(QList<CWpt*>& wpts)
     {
         QByteArray data;
         QDataStream stream(&data,QIODevice::ReadWrite);
+        stream.setVersion(QDataStream::Qt_4_5);
         wptlist >> key >> name;
 
         progress->setLabelText(tr("Download waypoint: %1").arg(name));
@@ -262,6 +267,7 @@ void CDeviceQLandkarteM::downloadScreenshot(QImage& image)
     }
 
     QDataStream stream(&data,QIODevice::ReadWrite);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     stream >> image;
 
@@ -282,6 +288,7 @@ void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
     {
         QByteArray data;
         QDataStream s(&data,QIODevice::WriteOnly);
+        s.setVersion(QDataStream::Qt_4_5);
 
         progress->setLabelText(tr("%1\n%2 of %3").arg((*trk)->name).arg(++cnt).arg(trks.count()));
         progress->setValue(cnt - 1);
@@ -337,6 +344,7 @@ void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
     QString     key, name;
 
     QDataStream wptlist(&data1, QIODevice::ReadOnly);
+    wptlist.setVersion(QDataStream::Qt_4_5);
 
     wptlist >> nWpt;
 
@@ -345,6 +353,7 @@ void CDeviceQLandkarteM::downloadTracks(QList<CTrack*>& trks)
     {
         QByteArray data;
         QDataStream stream(&data,QIODevice::ReadWrite);
+        stream.setVersion(QDataStream::Qt_4_5);
         wptlist >> key >> name;
 
         progress->setLabelText(tr("Download track: %1").arg(name));

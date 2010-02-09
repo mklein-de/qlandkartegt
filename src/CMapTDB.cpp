@@ -2402,6 +2402,7 @@ void CMapTDB::readTYP()
         file.open(QIODevice::ReadOnly);
 
         QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
         in.setByteOrder( QDataStream::LittleEndian);
 
         /* Read typ file descriptor */

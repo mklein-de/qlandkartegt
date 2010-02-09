@@ -264,6 +264,7 @@ void COverlayDB::saveGPX(CGpx& gpx)
 void COverlayDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.overlays(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
     while(!stream.atEnd())
     {

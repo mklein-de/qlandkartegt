@@ -71,6 +71,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
             {
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> route._key_;
                 s1 >> route.timestamp;
@@ -83,6 +84,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
             case CRoute::eRtePts:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
                 quint32 n;
 
                 route.routeDegree.clear();
@@ -122,6 +124,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     rte_head_entry_t entryBase;
     entryBase.type = CRoute::eBase;
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << route.key();
     s1 << route.timestamp;
@@ -136,6 +139,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     rte_head_entry_t entryRtePts;
     entryRtePts.type = CRoute::eRtePts;
     QDataStream s2(&entryRtePts.data, QIODevice::WriteOnly);
+    s2.setVersion(QDataStream::Qt_4_5);
 
     QList<XY>& rtepts           = route.getRoutePoints();
     QList<XY>::iterator rtept   = rtepts.begin();
@@ -200,6 +204,7 @@ void operator >>(QFile& f, CRoute& route)
 {
     f.open(QIODevice::ReadOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s >> route;
     f.close();
 }
@@ -209,6 +214,7 @@ void operator <<(QFile& f, CRoute& route)
 {
     f.open(QIODevice::WriteOnly);
     QDataStream s(&f);
+    s.setVersion(QDataStream::Qt_4_5);
     s << route;
     f.close();
 }
