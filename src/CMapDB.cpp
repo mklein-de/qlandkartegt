@@ -32,6 +32,7 @@
 #include "CCanvas.h"
 #ifdef PLOT_3D
 #include "CMap3DWidget.h"
+#include "CMap3D.h"
 #endif
 #include "CTabWidget.h"
 #include "CMapSelectionGarmin.h"
@@ -275,6 +276,12 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
     if(!fileDEM.isEmpty()) openDEM(fileDEM);
 
+#ifdef PLOT_3D_NEW
+    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+#endif
+
+
     emit sigChanged();
 
     QApplication::restoreOverrideCursor();
@@ -340,6 +347,11 @@ void CMapDB::openMap(const QString& key)
         theMap->convertRad2Pt(midU, midV);
         theMap->move(QPoint(midU, midV), theMainWindow->getCanvas()->rect().center());
     }
+
+#ifdef PLOT_3D_NEW
+    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+#endif
 
     emit sigChanged();
     QApplication::restoreOverrideCursor();
