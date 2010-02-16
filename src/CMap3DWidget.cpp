@@ -448,7 +448,7 @@ void CMap3DWidget::drawFlatMap()
 }
 
 
-qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
+bool CMap3DWidget::getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount)
 {
     double w = mapSize.width();
     double h = mapSize.height();
@@ -461,10 +461,9 @@ qint16 *CMap3DWidget::getEleRegion(int& xcount, int& ycount)
     p2.v = h;
     map->convertPt2Rad(p1.u, p1.v);
     map->convertPt2Rad(p2.u, p2.v);
-    qint16 * eleData;
-    eleData = dem.getOrigRegion(p1, p2, xcount, ycount);
-    //FIXME we must move and resize map accordin to new p1 and p2
-    return eleData;
+
+    return dem.getOrigRegion(eleData.data(), p1, p2, xcount, ycount);
+
 }
 
 
@@ -601,9 +600,10 @@ void CMap3DWidget::draw3DMap()
         ycount = (h / step + 1);
     }
 
-    qint16 *eleData;
-    eleData = getEleRegion(xcount, ycount);
-    if (eleData == NULL)
+    QVector<qint16> eleData(xcount*ycount);
+
+    bool ok = getEleRegion(eleData, xcount, ycount);
+    if (!ok)
     {
         qDebug() << "can't get elevation data";
         qDebug() << "draw flat map";
@@ -674,9 +674,9 @@ void CMap3DWidget::draw3DMap()
             b[1] = iy + s;
             c[0] = ix - s;
             c[1] = iy + s;
-            getPopint(a, ix + s, iy + s , ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
-            getPopint(b, ix - s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
-            getPopint(c, ix + s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData);
+            getPopint(a, ix + s, iy + s , ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
+            getPopint(b, ix - s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
+            getPopint(c, ix + s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
             getNormal(a, b, c, &normals[iv]);
         }
 
@@ -698,7 +698,6 @@ void CMap3DWidget::draw3DMap()
     delete [] vertices;
     delete [] texCoords;
     delete [] normals;
-    delete [] eleData;
     glDisable(GL_TEXTURE_2D);
     glError();
 }
@@ -716,11 +715,11 @@ void CMap3DWidget::updateElevationLimits()
     int xcount = (w / step + 1);
     int ycount = (h / step + 1);
 
-    qint16 * eleData;
+    QVector<qint16> eleData(xcount*ycount);
 
-    eleData = getEleRegion(xcount, ycount);
+    bool ok = getEleRegion(eleData, xcount, ycount);
     minElevation = maxElevation = 0;
-    if (eleData != NULL)
+    if (ok)
     {
         minElevation = maxElevation = eleData[0];
 
@@ -765,7 +764,7 @@ void CMap3DWidget::updateElevationLimits()
         maxElevation = 1;
         minElevation = 0;
     }
-    delete [] eleData;
+
 }
 
 

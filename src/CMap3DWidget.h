@@ -56,7 +56,7 @@ class CMap3DWidget: public QGLWidget
         void focusOutEvent ( QFocusEvent * event );
         void createActions();
         void updateElevationLimits();
-        qint16 *getEleRegion(int& xcount, int& ycount);
+        bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
         float getRegionValue(float *buffer, int x, int y);
         void enterEvent(QEvent * );
         void leaveEvent(QEvent * );

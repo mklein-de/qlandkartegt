@@ -17,8 +17,10 @@
 
 **********************************************************************************************/
 
+#include "CMapDB.h"
 #include "CMap3D.h"
 #include "CResources.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -29,6 +31,21 @@ static void glError()
     {
         qDebug("glError: %s caught at %s:%u\n", (char *)gluErrorString(err), __FILE__, __LINE__);
         err = glGetError();
+    }
+}
+
+inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
+{
+    GLdouble v1[3], v2[3];
+    int i;
+    for (i = 0; i < 3; i++)
+    {
+        v1[i] = c[i] - a[i];
+        v2[i] = c[i] - b[i];
+    }
+    for (i =0; i < 3; i++)
+    {
+        r[i] = v1[(i + 1) % 3] * v2[(i + 2) % 3] - v1[(i + 2) % 3] * v2[(i + 1) % 3];
     }
 }
 
@@ -119,6 +136,87 @@ void CMap3D::resizeGL(int width, int height)
     glError();
 }
 
+void CMap3D::setElevationLimits()
+{
+    double step = 5;
+    double ele;
+    int i, j;
+    QSize mapSize = theMap->getSize();
+    double w = mapSize.width();
+    double h = mapSize.height();
+
+    // increment xcount, because the number of points are on one more
+    // than number of lengths |--|--|--|--|
+    int xcount = (w / step + 1);
+    int ycount = (h / step + 1);
+
+    minEle = maxEle = 0;
+
+    QVector<qint16> eleData(xcount*ycount);
+    bool ok = getEleRegion(eleData, xcount, ycount);
+    if (ok)
+    {
+        minEle = maxEle = eleData[0];
+
+        for (i = 0; i < xcount; i++)
+        {
+            for (j = 0; j < ycount; j++)
+            {
+                ele = eleData[i + j * xcount];
+                if (ele > maxEle)
+                    maxEle = ele;
+
+                if (ele < minEle)
+                    minEle = ele;
+            }
+        }
+    }
+
+//    if (! track.isNull() && (maxElevation - minElevation < 1))
+//    {
+//        /*selected track exist and dem isn't present for this map*/
+//        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+//        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+//        maxElevation = trkpt->ele;
+//        minElevation = trkpt->ele;
+//        while(trkpt != trkpts.end())
+//        {
+//            if(trkpt->flags & CTrack::pt_t::eDeleted)
+//            {
+//                ++trkpt; continue;
+//            }
+//            if (trkpt->ele > maxElevation)
+//                maxElevation = trkpt->ele;
+//            if (trkpt->ele < minElevation)
+//                minElevation = trkpt->ele;
+//            ++trkpt;
+//        }
+//    }
+
+    if (maxEle - minEle < 1)
+    {
+        /*selected track and deb are absent*/
+        maxEle = 1;
+        minEle = 0;
+    }
+
+    XY p1, p2;
+    p1.u = 0;
+    p1.v = 0;
+    p2.u = w;
+    p2.v = 0;
+    theMap->convertPt2Rad(p1.u, p1.v);
+    theMap->convertPt2Rad(p2.u, p2.v);
+
+    double a1, a2;
+    double d = distance(p1, p2, a1, a2);
+    zoomFactorEle = (maxEle - minEle) / d;
+
+    qDebug() << minEle << maxEle << d << zoomFactorEle;
+
+
+}
+
 void CMap3D::setPOV (void)
 {
     glRotatef(xRotation,1.0,0.0,0.0);
@@ -144,8 +242,16 @@ void CMap3D::setMapObject()
     // Save Current Matrix
     glPushMatrix();
     glScalef(2.0, 2.0, 1.0);
-    drawFlatMap();
+//    drawFlatMap();
+
+    /* subtract the offset and set the Z axis scale */
+//    glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
+    glScalef(1.0, 1.0, zoomFactorEle);
+    glTranslated(0.0, 0.0, -minEle);
+    draw3DMap();
     glPopMatrix();
+
+
 
     glEndList();
 }
@@ -161,6 +267,8 @@ void CMap3D::paintGL()
 
         qDebug() << "void CMap3D::paintGL()";
         qDebug() << theMap->getSize();
+
+        setElevationLimits();
 
         QPixmap pm(theMap->getSize());
         QPainter p(&pm);
@@ -333,6 +441,133 @@ void CMap3D::drawFlatMap()
     glError();
 }
 
+void CMap3D::draw3DMap()
+{
+    QSize   s = theMap->getSize();
+    double  w = s.width();
+    double  h = s.height();
+    double  step = 5;
+    int xcount, ycount;
+    // increment xcount, because the number of points are on one more
+    // than number of lengths |--|--|--|--|
+    if (theMap->getFastDrawFlag())
+    {
+        xcount = (w / (step * 10.0) + 1);
+        ycount = (h / (step * 10.0) + 1);
+
+    }
+    else
+    {
+        xcount = (w / step + 1);
+        ycount = (h / step + 1);
+    }
+
+    QVector<qint16> eleData(xcount * ycount);
+    bool ok = getEleRegion(eleData, xcount, ycount);
+
+    if (!ok)
+    {
+        qDebug() << "can't get elevation data";
+        qDebug() << "draw flat map";
+        drawFlatMap();
+        return;
+    }
+
+    // getEleRegion() might have changed xcount and ycount
+    double current_step_x = w / (double) (xcount - 1);
+    double current_step_y = h / (double) (ycount - 1);
+
+    int ix=0, iy, iv, it, j, k, end;
+    double x, y, u, v;
+    GLuint idx[4];
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, mapTextureId);
+
+    /*
+     * next code can be more optimal if used array of coordinates or VBO
+     */
+    QVector<GLdouble> vertices(xcount * 3 * 2);
+    QVector<GLdouble> normals(xcount * 3 * 2);
+    QVector<GLdouble> texCoords(xcount * 2 * 2);
+    it = 0;
+    iv = 0;
+    idx[0] = 0 + xcount;
+    idx[1] = 1 + xcount;
+    idx[2] = 1;
+    idx[3] = 0;
+    glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
+    glTexCoordPointer(2, GL_DOUBLE, 0, texCoords.data());
+    glNormalPointer(GL_DOUBLE, 0, normals.data());
+    glColor3f(1.0, 0.0, 0.0);
+    glPointSize(2.0);
+
+    for (iy = 0, y = 0; iy < ycount; y += current_step_y, iy++)
+    {
+        /* array vertices contain two lines ( previouse and current)
+         * they change position that avoid memcopy
+         * one time current line is at the begin of array vertices,
+         * than at the end and etc
+         */
+        iv = iv % (xcount * 3 * 2);
+        it = it % (xcount * 2 * 2);
+        end = ix + xcount;
+        for (x = 0, ix = 0; ix < xcount; x += current_step_x, iv += 3, it += 2, ix++)
+        {
+            vertices[iv + 0] = x;
+            vertices[iv + 1] = y;
+            u = x;
+            v = y;
+            texCoords[it  + 0] = u / w;
+            texCoords[it + 1] = 1 - v / h;
+            vertices[iv + 2] = eleData[ix + iy * xcount];
+            convertPt23D(vertices[iv + 0], vertices[iv + 1], vertices[iv + 2]);
+            GLdouble a[3],b[3],c[3];
+            int s = 3;
+            a[0] = ix - s;
+            a[1] = iy - s;
+            b[0] = ix + s;
+            b[1] = iy + s;
+            c[0] = ix - s;
+            c[1] = iy + s;
+            getPoint(a, ix + s, iy + s , ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
+            getPoint(b, ix - s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
+            getPoint(c, ix + s, iy - s, ix, iy, xcount, ycount, current_step_x, current_step_y, eleData.data());
+            getNormal(a, b, c, &normals[iv]);
+        }
+
+        for (j = 0; j < 4; j++)
+        {
+            idx[j] = idx[j] % (xcount * 2);
+        }
+
+        if (iy == 0)
+        {
+            continue;
+        }
+
+        for (k = 0; k < xcount - 1; k ++)
+        {
+            glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, idx);
+            for (j = 0; j < 4; j++)
+            {
+                idx[j]++;
+            }
+        }
+        for (j = 0; j < 4; j++)
+        {
+            idx[j]++;
+        }
+    }
+
+    glDisable(GL_TEXTURE_2D);
+    glError();
+}
+
 
 void CMap3D::mousePressEvent(QMouseEvent *event)
 {
@@ -443,5 +678,54 @@ double CMap3D::normalizeAngle(double angle)
     }
 
     return angle;
+}
+
+bool CMap3D::getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount)
+{
+    QSize   s = theMap->getSize();
+    double  w = s.width();
+    double  h = s.height();
+
+    IMap& dem = CMapDB::self().getDEM();
+    XY p1, p2;
+    p1.u = 0;
+    p1.v = 0;
+    p2.u = w;
+    p2.v = h;
+    theMap->convertPt2Rad(p1.u, p1.v);
+    theMap->convertPt2Rad(p2.u, p2.v);
+
+    return dem.getOrigRegion(eleData.data(), p1, p2, xcount, ycount);
+}
+
+void CMap3D::convertPt23D(double& u, double& v, double &ele)
+{
+    QSize mapSize = theMap->getSize();
+    u = u - mapSize.width()/2;
+    v = mapSize.height()/2 - v;
+}
+
+void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData)
+{
+    if (xi < 0)
+    {
+        xi = 0;
+    }
+    if (yi <0)
+    {
+        yi = 0;
+    }
+    if (xi >= xcount)
+    {
+        xi = xcount - 1;
+    }
+    if (yi >= ycount)
+    {
+        yi = ycount - 1;
+    }
+    v[0] = xi * current_step_x;
+    v[1] = yi * current_step_y;
+    v[2] = eleData[xi + yi * xcount];
+    convertPt23D(v[0], v[1], v[2]);
 }
 

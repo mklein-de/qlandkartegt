@@ -42,7 +42,12 @@ class CMap3D : public QGLWidget
         void initializeGL();
         void resizeGL(int width, int height);
 
+        void convertPt23D(double& u, double& v, double &ele);
         double normalizeAngle(double angle);
+        bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);        
+        void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
+
+        void setElevationLimits();
 
         /// set the point of view
         void setPOV (void);
@@ -57,6 +62,8 @@ class CMap3D : public QGLWidget
         void drawBaseGrid();
 
         void drawFlatMap();
+
+        void draw3DMap();
 
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
@@ -85,6 +92,12 @@ class CMap3D : public QGLWidget
         double ypos;
         /// the actual z position
         double zpos;
+
+        double minEle;
+
+        double maxEle;
+
+        double zoomFactorEle;
 
         /// the zoom factor
         double zoomFactor;

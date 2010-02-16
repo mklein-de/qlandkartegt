@@ -167,9 +167,10 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 }
 
 
-qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
+bool CMapDEM::getOrigRegion(qint16 * data,XY &topLeft, XY &bottomRight, int& w, int& h)
 {
-    if(pjsrc == 0) return NULL;
+    memset(data, 0, sizeof(qint16) * h * w);
+    if(pjsrc == 0) return false;
 
     // 1. convert top left and bottom right point into the projection system used by the DEM data
     pj_transform(pjtar, pjsrc, 1, 0, &topLeft.u, &topLeft.v, 0);
@@ -211,27 +212,18 @@ qint16 *CMapDEM::getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h)
         h = h1;
 
     // 7. read DEM data from file
-    qDebug() << w << h;
-    qint16 * pData = new qint16[w*h];
 
-    CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, pData, w, h, GDT_Int16, 1, 0, 0, 0, 0);
-    if(err == CE_Failure)
-    {
-        qDebug() << "failure" << endl;
-        //FIXME add handle error
-        delete [] pData;
-        return NULL;
-    }
-    return pData;
+    CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data, w, h, GDT_Int16, 1, 0, 0, 0, 0);
+    return (err != CE_Failure);
 }
 
 
-void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
+bool CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
 {
     //     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
     memset(data, 0, sizeof(float) * h * w);
 
-    if(pjsrc == 0) return;
+    if(pjsrc == 0) return false;
 
     // 1. convert top left and bottom right point into the projection system used by the DEM data
     pj_transform(pjtar, pjsrc, 1, 0, &topLeft.u, &topLeft.v, 0);
@@ -259,7 +251,7 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     quint32 h1 = yoff2 - yoff1 + 1;
 
     // memory sanity check
-    if(double(w1) * double(h1) > pow(2.0f,31)) return;
+    if(double(w1) * double(h1) > pow(2.0f,31)) return false;
 
     // 7. read DEM data from file
     QVector<qint16> _tmp_(w1*h1);
@@ -269,8 +261,8 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
     if(err == CE_Failure)
     {
         qDebug() << "failure" << endl;
-        //FIXME add handle error
-        return;
+
+        return false;
     }
 
     double xstep = (xoff2_f  - xoff1_f) / (w - 1);
@@ -310,6 +302,8 @@ void CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
 
         }
     }
+
+    return true;
 }
 
 

@@ -49,8 +49,8 @@ class CMapDEM : public IMap
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(double lon, double lat);
-        void getRegion(float *buffer, XY p1, XY p2, int w, int h);
-        qint16 *getOrigRegion(XY &topLeft, XY &bottomRight, int& w, int& h);
+        bool getRegion(float *buffer, XY p1, XY p2, int w, int h);
+        bool getOrigRegion(qint16 * data, XY &topLeft, XY &bottomRight, int& w, int& h);
 
         bool is32BitRgb(){return false;}
 
