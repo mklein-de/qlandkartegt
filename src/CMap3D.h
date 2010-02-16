@@ -33,11 +33,9 @@ class CMap3D : public QGLWidget
     public:
         CMap3D(IMap * map, QWidget * parent);
         virtual ~CMap3D();
-    void setXRotation(double arg1);
-
 
     protected slots:
-
+        void slotChanged();
 
     protected:
         void paintGL();
@@ -48,9 +46,17 @@ class CMap3D : public QGLWidget
 
         /// set the point of view
         void setPOV (void);
+
+        void setMapObject();
+
+        /// draw sky and clouds
         void drawSkybox();
+        /// draw axes in the coord center
         void drawCenterStar();
+        /// draw a grid in the x/y plane
         void drawBaseGrid();
+
+        void drawFlatMap();
 
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
@@ -73,17 +79,29 @@ class CMap3D : public QGLWidget
         /// the rotation in the z axis in[°]
         double zRotation;
 
-        double xpos;
+        /// the actual x position
+        double xpos;        
+        /// the actual y position
         double ypos;
+        /// the actual z position
         double zpos;
 
+        /// the zoom factor
         double zoomFactor;
 
+        /// the actual mouse position
         QPoint mousePos;
-
+        /// the last mouse position
         QPoint lastPos;
 
-        quint32 skyBox[6];
+        /// skybox texture IDs
+        GLuint skyBox[6];
+
+        bool needsRedraw;
+
+        GLuint mapTextureId;
+
+        GLuint mapObjectId;
 };
 
 #endif //CMAP3D_H

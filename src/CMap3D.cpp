@@ -22,6 +22,17 @@
 
 #include <QtGui>
 
+static void glError()
+{
+    GLenum err = glGetError();
+    while (err != GL_NO_ERROR)
+    {
+        qDebug("glError: %s caught at %s:%u\n", (char *)gluErrorString(err), __FILE__, __LINE__);
+        err = glGetError();
+    }
+}
+
+
 CMap3D::CMap3D(IMap * map, QWidget * parent)
 : QGLWidget(parent)
 , xRotation(280)
@@ -31,12 +42,16 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , ypos(-400)
 , zpos(200)
 , zoomFactor(0.5)
+, needsRedraw(true)
+, mapTextureId(0)
+, mapObjectId(0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
 
     theMap = map;
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    connect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
 }
 
 CMap3D::~CMap3D()
@@ -47,7 +62,15 @@ CMap3D::~CMap3D()
     {
         deleteTexture(skyBox[i]);
     }
+    deleteTexture(mapTextureId);
 
+    glDeleteLists(mapObjectId, 1);
+}
+
+void CMap3D::slotChanged()
+{
+    needsRedraw = true;
+    updateGL();
 }
 
 void CMap3D::initializeGL()
@@ -69,6 +92,10 @@ void CMap3D::initializeGL()
         skyBox[i] = bindTexture(img, GL_TEXTURE_2D);
     }
 
+    mapObjectId = glGenLists(1);
+
+    needsRedraw = true;
+    glError();
 }
 
 void CMap3D::resizeGL(int width, int height)
@@ -80,13 +107,16 @@ void CMap3D::resizeGL(int width, int height)
     ysize = height;
     zsize = side;
 
+    theMap->resize(QSize(width,height));
+
     glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
     glMatrixMode (GL_PROJECTION); //set the matrix to projection
     glLoadIdentity ();
-    gluPerspective (60, (GLfloat)width / (GLfloat)height, 1.0, 2*side); //set the perspective (angle of sight, width, height, , depth)
+    gluPerspective (60, (GLfloat)width / (GLfloat)height, 1.0, 1000*side); //set the perspective (angle of sight, width, height, , depth)
     glMatrixMode (GL_MODELVIEW); //set the matrix back to model
 
-
+    needsRedraw = true;
+    glError();
 }
 
 void CMap3D::setPOV (void)
@@ -96,10 +126,54 @@ void CMap3D::setPOV (void)
     glRotatef(zRotation,0.0,0.0,1.0);
     glTranslated(-xpos,-ypos,-zpos);
     glScalef(zoomFactor, zoomFactor, zoomFactor);
+    glError();
+}
+
+void CMap3D::setMapObject()
+{
+    glNewList(mapObjectId, GL_COMPILE);
+
+    GLfloat ambient[] ={0.0, 0.0, 0.0, 0.0};
+    GLfloat diffuse[] ={1.0, 1.0, 1.0, 1.0};
+    GLfloat specular[] ={0.0, 0.0, 0.0, 1.0};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+
+
+    // Save Current Matrix
+    glPushMatrix();
+    glScalef(2.0, 2.0, 1.0);
+    drawFlatMap();
+    glPopMatrix();
+
+    glEndList();
 }
 
 void CMap3D::paintGL()
 {
+    if(needsRedraw)
+    {
+        needsRedraw = false;
+
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        deleteTexture(mapTextureId);
+
+        qDebug() << "void CMap3D::paintGL()";
+        qDebug() << theMap->getSize();
+
+        QPixmap pm(theMap->getSize());
+        QPainter p(&pm);
+        p.eraseRect(pm.rect());
+        theMap->draw(p);
+        mapTextureId = bindTexture(pm, GL_TEXTURE_2D);
+
+        setMapObject();
+
+        QApplication::restoreOverrideCursor();
+
+    }
+
     glClearColor (0.0,0.0,0.0,0.0); //clear the screen to black
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
@@ -107,6 +181,9 @@ void CMap3D::paintGL()
     setPOV();
 
     drawSkybox();
+
+    glCallList(mapObjectId);
+
     drawCenterStar();
     drawBaseGrid();
 }
@@ -178,6 +255,8 @@ void CMap3D::drawSkybox()
 
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
+
+    glError();
 }
 
 void CMap3D::drawCenterStar()
@@ -197,6 +276,8 @@ void CMap3D::drawCenterStar()
     glVertex3f(0.0, 0.0,  100.0);
 
     glEnd();
+
+    glError();
 }
 
 void CMap3D::drawBaseGrid()
@@ -221,7 +302,37 @@ void CMap3D::drawBaseGrid()
         glVertex3f(+xsize, i * d, 0);
     }
     glEnd();
+
+    glError();
 }
+
+void CMap3D::drawFlatMap()
+{
+    QSize   s = theMap->getSize();
+    double  w = s.width();
+    double  h = s.height();
+
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, mapTextureId);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0.0, 0.0);
+    glVertex3d(-w/2, -h/2, 0);
+    glNormal3d(0.0, 0.0, -1.0);
+    glTexCoord2d(1.0, 0.0);
+    glVertex3d( w/2, -h/2, 0);
+    glNormal3d(0.0, 0.0, -1.0);
+    glTexCoord2d(1.0, 1.0);
+    glVertex3d( w/2,  h/2, 0);
+    glNormal3d(0.0, 0.0, -1.0);
+    glTexCoord2d(0.0, 1.0);
+    glVertex3d(-w/2,  h/2, 0);
+    glNormal3d(0.0, 0.0, -1.0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    glError();
+}
+
 
 void CMap3D::mousePressEvent(QMouseEvent *event)
 {
@@ -250,21 +361,14 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
 void CMap3D::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
-//    if (pressedKeys.contains(Qt::Key_M))
-//    {
-//        map->zoom(in, QPoint(mapSize.width() / 2, mapSize.height() / 2));
-//    }
-//    else
-//    {
-        if (in)
-        {
-            zoomFactor *= 1.1;
-        }
-        else
-        {
-            zoomFactor /= 1.1;
-        }
-//    }
+    if (in)
+    {
+        zoomFactor *= 1.1;
+    }
+    else
+    {
+        zoomFactor /= 1.1;
+    }
     updateGL();
 }
 

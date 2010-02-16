@@ -43,7 +43,7 @@
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
-void glError()
+static void glError()
 {
     GLenum err = glGetError();
     while (err != GL_NO_ERROR)
