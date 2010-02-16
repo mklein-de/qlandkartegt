@@ -37,39 +37,53 @@ class CMap3D : public QGLWidget
 
 
     protected slots:
-        void slotMapResize(const QSize& size);
+
 
     protected:
         void paintGL();
         void initializeGL();
         void resizeGL(int width, int height);
 
-        void camera (void);
+        double normalizeAngle(double angle);
+
+        /// set the point of view
+        void setPOV (void);
+        void drawSkybox();
+        void drawCenterStar();
+        void drawBaseGrid();
 
         void mouseMoveEvent(QMouseEvent *event);
+        void mousePressEvent(QMouseEvent *event);
         void keyPressEvent ( QKeyEvent * event );
+        void wheelEvent ( QWheelEvent * e );
 
         /// the attached parent map object
         QPointer<IMap> theMap;
-        /// the width [px] of the current parent map
+        /// the width of the skybox
         int xsize;
-        /// the height [px] of the current parent map
+        /// the depth of the skybox
         int ysize;
+        /// the vertical height of the skybox
+        int zsize;
 
+        /// the rotation in the x axis in[°]
         double xRotation;
+        /// the rotation in the y axis in[°]
         double yRotation;
+        /// the rotation in the z axis in[°]
         double zRotation;
 
         double xpos;
         double ypos;
         double zpos;
 
+        double zoomFactor;
+
         QPoint mousePos;
 
         QPoint lastPos;
 
-    private:
-        double normalizeAngle(double angle);
+        quint32 skyBox[6];
 };
 
 #endif //CMAP3D_H
