@@ -124,6 +124,11 @@ void CMap3D::resizeGL(int width, int height)
     ysize = height;
     zsize = side;
 
+
+    if(theMap.isNull())
+    {
+        return;
+    }
     theMap->resize(QSize(width,height));
 
     glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
