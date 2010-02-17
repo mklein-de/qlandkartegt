@@ -37,34 +37,34 @@ class CMap3D : public QGLWidget
     protected slots:
         void slotChanged();
         void slotFPVModeChanged();
-
+        void slotResetLight();
 
     protected:
         void paintGL();
         void initializeGL();
         void resizeGL(int width, int height);
 
-        void convertPt23D(double& u, double& v, double &ele);
         double normalizeAngle(double angle);
-        bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);        
+        void convertPt23D(double& u, double& v, double &ele);
+        void convertMouse23D(double &u, double& v, double &ele);
+        bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
 
+        /// set min / max elevation limits and zoomFactorZ
         void setElevationLimits();
-
         /// set the point of view
         void setPOV (void);
-
+        /// create calll list for map
         void setMapObject();
-
         /// draw sky and clouds
         void drawSkybox();
         /// draw axes in the coord center
         void drawCenterStar();
         /// draw a grid in the x/y plane
         void drawBaseGrid();
-
+        /// draw map on a plane without elevation
         void drawFlatMap();
-
+        /// draw map as real 3D model
         void draw3DMap();
 
         void mouseMoveEvent(QMouseEvent *e);
@@ -91,7 +91,7 @@ class CMap3D : public QGLWidget
         /// the rotation in the z axis in[°]
         double zRotation;
         /// the actual x position
-        double xpos;        
+        double xpos;
         /// the actual y position
         double ypos;
         /// the actual z position
@@ -121,8 +121,17 @@ class CMap3D : public QGLWidget
 
         QAction * act3DMap;
         QAction * actFPVMode;
+        QAction * actResetLight;
 
-        bool shiftPressed;
+        /// set true if shift key is pressed.
+        bool keyShiftPressed;
+        bool keyLPressed;
+
+        bool light;
+        double xLight;
+        double yLight;
+        double zLight;
+
 };
 
 #endif //CMAP3D_H

@@ -64,7 +64,13 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , needsRedraw(true)
 , mapTextureId(0)
 , mapObjectId(0)
-, shiftPressed(false)
+, keyShiftPressed(false)
+, keyLPressed(false)
+, light(true)
+, xLight(0.0)
+, yLight(-400.0)
+, zLight(5000.0)
+
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -73,7 +79,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
 
-    act3DMap = new QAction(tr("Flat / 3D Mode"), this);
+    act3DMap = new QAction(tr(" 3D Mode / Flat"), this);
     act3DMap->setCheckable(true);
     act3DMap->setChecked(true);
     connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
@@ -83,10 +89,19 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actFPVMode->setChecked(true);
     connect(actFPVMode, SIGNAL(triggered()), this, SLOT(slotFPVModeChanged()));
 
+    actResetLight = new QAction(tr("Reset Light"), this);
+    connect(actResetLight, SIGNAL(triggered()), this, SLOT(slotResetLight()));
+
+
     QSettings cfg;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
-    actFPVMode->setChecked(cfg.value("map/3D/fpv", true).toBool());    
+    actFPVMode->setChecked(cfg.value("map/3D/fpv", true).toBool());
     zoomFactorEle = cfg.value("map/3D/zoomFactorEle", zoomFactorEle).toDouble();
+    light = cfg.value("map/3D/light", light).toBool();
+    xLight = cfg.value("map/3D/xLight", xLight).toDouble();
+    yLight = cfg.value("map/3D/yLight", yLight).toDouble();
+    zLight = cfg.value("map/3D/zLight", zLight).toDouble();
+
 
     qApp->installEventFilter(this);
 }
@@ -107,6 +122,11 @@ CMap3D::~CMap3D()
     cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
     cfg.setValue("map/3D/fpv", actFPVMode->isChecked());
     cfg.setValue("map/3D/zoomFactorEle", zoomFactorEle);
+    cfg.setValue("map/3D/light", light);
+    cfg.setValue("map/3D/xLight", xLight);
+    cfg.setValue("map/3D/yLight", yLight);
+    cfg.setValue("map/3D/zLight", zLight);
+
 }
 
 void CMap3D::slotChanged()
@@ -143,6 +163,13 @@ void CMap3D::slotFPVModeChanged()
     updateGL();
 }
 
+void CMap3D::slotResetLight()
+{
+    xLight = 0;
+    yLight = 0;
+    zLight = 5000;
+    updateGL();
+}
 
 void CMap3D::initializeGL()
 {
@@ -286,7 +313,6 @@ void CMap3D::setMapObject()
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 
-
     // Save Current Matrix
     glPushMatrix();
     glScalef(2.0, 2.0, zoomFactorZ);
@@ -300,6 +326,7 @@ void CMap3D::setMapObject()
         drawFlatMap();
     }
     glPopMatrix();
+
 
     glEndList();
 }
@@ -338,8 +365,29 @@ void CMap3D::paintGL()
 
     drawSkybox();
 
+    if (light)
+    {
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+
+        GLfloat light0_pos[] = {xLight, yLight, - (zLight + minEle), 0.0};
+
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+        glShadeModel(GL_SMOOTH);
+
+        glMaterialf (GL_FRONT,GL_SHININESS, 10);
+    }
+
     glScalef(1.0, 1.0, zoomFactorEle);
     glCallList(mapObjectId);
+
+    if (light)
+    {
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glDisable(GL_LIGHT0);
+        glDisable(GL_LIGHTING);
+    }
 
     drawCenterStar();
 //    drawBaseGrid();
@@ -667,17 +715,35 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
 
     if (event->buttons() & Qt::LeftButton)
     {
-        QPoint diff = mousePos - lastPos;
-        xRotation = normalizeAngle(xRotation + (double) diff.y() * 0.3); //set the xrot to xrot with the addition of the difference in the y position
-        zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
-
-        if(!actFPVMode->isChecked())
+        if(keyLPressed)
         {
-            double r = sqrt(xpos*xpos + ypos*ypos);
-            xpos = -r*sin(zRotation/180 * PI);
-            ypos = -r*cos(zRotation/180 * PI);
-        }
+            double x0, y0, z0;
+            double x1, y1, z1;
+            x0 = event->x();
+            y0 = event->y();
+            convertMouse23D(x0, y0, z0);
+            x1 = lastPos.x();
+            y1 = lastPos.y();
+            convertMouse23D(x1, y1, z1);
 
+            double z = zLight + minEle;
+            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
+            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
+
+        }
+        else
+        {
+            QPoint diff = mousePos - lastPos;
+            xRotation = normalizeAngle(xRotation + (double) diff.y() * 0.3); //set the xrot to xrot with the addition of the difference in the y position
+            zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
+
+            if(!actFPVMode->isChecked())
+            {
+                double r = sqrt(xpos*xpos + ypos*ypos);
+                xpos = -r*sin(zRotation/180 * PI);
+                ypos = -r*cos(zRotation/180 * PI);
+            }
+        }
     }
 
     lastPos = mousePos;
@@ -688,7 +754,7 @@ void CMap3D::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
 
-    if(shiftPressed)
+    if(keyShiftPressed)
     {
         if (in)
         {
@@ -697,7 +763,7 @@ void CMap3D::wheelEvent ( QWheelEvent * e )
         else
         {
             zoomFactorEle /= 1.1;
-        }        
+        }
     }
     else
     {
@@ -776,6 +842,7 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
     QMenu menu(this);
     menu.addAction(act3DMap);
     menu.addAction(actFPVMode);
+    menu.addAction(actResetLight);
 
     menu.exec(e->globalPos());
 }
@@ -791,11 +858,15 @@ void CMap3D::showEvent ( QShowEvent * e )
 bool CMap3D::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::KeyPress)
-    {        
-        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(e);        
+    {
+        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(e);
         if(keyEvent->key() == Qt::Key_Shift)
-        {            
-            shiftPressed = true;
+        {
+            keyShiftPressed = true;
+        }
+        else if(keyEvent->key() == Qt::Key_L)
+        {
+            keyLPressed = true;
         }
     }
     else if (e->type() == QEvent::KeyRelease)
@@ -803,7 +874,11 @@ bool CMap3D::eventFilter(QObject *o, QEvent *e)
         QKeyEvent * keyEvent = static_cast<QKeyEvent*>(e);
         if(keyEvent->key() == Qt::Key_Shift)
         {
-            shiftPressed = false;
+            keyShiftPressed = false;
+        }
+        else if(keyEvent->key() == Qt::Key_L)
+        {
+            keyLPressed = false;
         }
     }
 
@@ -874,3 +949,23 @@ void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, 
     convertPt23D(v[0], v[1], v[2]);
 }
 
+void CMap3D::convertMouse23D(double &u, double& v, double &ele)
+{
+    GLdouble projection[16];
+    GLdouble modelview[16];
+    GLdouble gl_x0, gl_y0, gl_z0;
+    GLsizei vx, vy;
+    GLfloat depth;
+    GLint viewport[4];
+    vx = u;
+    vy = height() - v;
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+    glReadPixels(vx, vy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    gluUnProject(vx, vy, depth, modelview, projection, viewport, &gl_x0, &gl_y0, &gl_z0);
+    u = gl_x0;
+    v = gl_y0;
+    ele = gl_z0;
+}

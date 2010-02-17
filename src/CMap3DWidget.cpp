@@ -968,14 +968,14 @@ void CMap3DWidget::paintGL()
         glEnable(GL_LIGHT0);
 
         GLfloat light0_pos[] = {xLight, yLight, - (zLight + minElevation), 0.0};
-        /*
-        GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
-        GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
-        GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
-        glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
-        */
+
+//         GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
+//         GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
+//         GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
+//         glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+//         glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
+//         glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
+
 
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
         glShadeModel(GL_SMOOTH);
