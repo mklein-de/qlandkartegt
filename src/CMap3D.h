@@ -36,6 +36,7 @@ class CMap3D : public QGLWidget
 
     protected slots:
         void slotChanged();
+        void slotFPVModeChanged();
 
 
     protected:
@@ -72,6 +73,7 @@ class CMap3D : public QGLWidget
         void wheelEvent ( QWheelEvent * e );
         void contextMenuEvent(QContextMenuEvent *e);
         void showEvent( QShowEvent * e);
+        bool eventFilter(QObject *o, QEvent *e);
 
         /// the attached parent map object
         QPointer<IMap> theMap;
@@ -118,6 +120,9 @@ class CMap3D : public QGLWidget
         GLuint mapObjectId;
 
         QAction * act3DMap;
+        QAction * actFPVMode;
+
+        bool shiftPressed;
 };
 
 #endif //CMAP3D_H

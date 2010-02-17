@@ -64,6 +64,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , needsRedraw(true)
 , mapTextureId(0)
 , mapObjectId(0)
+, shiftPressed(false)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -77,9 +78,17 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     act3DMap->setChecked(true);
     connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
+    actFPVMode = new QAction(tr("FPV / Rotate"), this);
+    actFPVMode->setCheckable(true);
+    actFPVMode->setChecked(true);
+    connect(actFPVMode, SIGNAL(triggered()), this, SLOT(slotFPVModeChanged()));
 
     QSettings cfg;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
+    actFPVMode->setChecked(cfg.value("map/3D/fpv", true).toBool());    
+    zoomFactorEle = cfg.value("map/3D/zoomFactorEle", zoomFactorEle).toDouble();
+
+    qApp->installEventFilter(this);
 }
 
 CMap3D::~CMap3D()
@@ -96,6 +105,8 @@ CMap3D::~CMap3D()
 
     QSettings cfg;
     cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
+    cfg.setValue("map/3D/fpv", actFPVMode->isChecked());
+    cfg.setValue("map/3D/zoomFactorEle", zoomFactorEle);
 }
 
 void CMap3D::slotChanged()
@@ -106,6 +117,29 @@ void CMap3D::slotChanged()
     {
         return;
     }
+
+
+    updateGL();
+}
+
+void CMap3D::slotFPVModeChanged()
+{
+    if(!actFPVMode->isChecked())
+    {
+//        if(xpos > 0 && zRotation < 180)
+//        {
+//            zRotation = -zRotation;
+//        }
+//        else if(xpos < 0 && zRotation > 180)
+//        {
+//            zRotation = -zRotation;
+//        }
+//
+//        double r = sqrt(xpos*xpos + ypos*ypos);
+//        xpos = -r*sin(zRotation/180 * PI);
+//        ypos = -r*cos(zRotation/180 * PI);
+    }
+
     updateGL();
 }
 
@@ -234,8 +268,10 @@ void CMap3D::setPOV (void)
     glRotatef(xRotation,1.0,0.0,0.0);
     glRotatef(yRotation,0.0,1.0,0.0);
     glRotatef(zRotation,0.0,0.0,1.0);
+
     glTranslated(-xpos,-ypos,-zpos);
     glScalef(zoomFactor, zoomFactor, zoomFactor);
+
     glError();
 }
 
@@ -253,7 +289,7 @@ void CMap3D::setMapObject()
 
     // Save Current Matrix
     glPushMatrix();
-    glScalef(2.0, 2.0, zoomFactorEle * zoomFactorZ);
+    glScalef(2.0, 2.0, zoomFactorZ);
     if(act3DMap->isChecked())
     {
         glTranslated(0.0, 0.0, -minEle);
@@ -302,9 +338,10 @@ void CMap3D::paintGL()
 
     drawSkybox();
 
+    glScalef(1.0, 1.0, zoomFactorEle);
     glCallList(mapObjectId);
 
-//    drawCenterStar();
+    drawCenterStar();
 //    drawBaseGrid();
 }
 
@@ -581,10 +618,44 @@ void CMap3D::draw3DMap()
 }
 
 
-void CMap3D::mousePressEvent(QMouseEvent *event)
+void CMap3D::mousePressEvent(QMouseEvent *e)
 {
-    mousePos = event->pos();
+    mousePos = e->pos();
 
+    if (e->buttons() & Qt::LeftButton)
+    {
+        if(!actFPVMode->isChecked())
+        {
+            qDebug() << ">>>>>>>>>"  << zRotation << xpos << ypos;
+            double diff = 0;
+            if(zRotation > 180)
+            {
+                diff = (zRotation - 180)* 2;
+            }
+
+
+            zRotation = atan(ypos/xpos)/PI * 180;
+
+            qDebug() << "---------"  << zRotation << xpos << ypos;
+
+            if(xpos < 0)
+            {
+                   zRotation = -zRotation;
+            }
+
+            zRotation += 90 + diff;
+
+            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
+
+
+
+            double r = sqrt(xpos*xpos + ypos*ypos);
+            xpos = -r*sin(zRotation/180 * PI);
+            ypos = -r*cos(zRotation/180 * PI);
+
+            updateGL();
+        }
+    }
     lastPos = mousePos;
 }
 
@@ -599,6 +670,14 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
         QPoint diff = mousePos - lastPos;
         xRotation = normalizeAngle(xRotation + (double) diff.y() * 0.3); //set the xrot to xrot with the addition of the difference in the y position
         zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
+
+        if(!actFPVMode->isChecked())
+        {
+            double r = sqrt(xpos*xpos + ypos*ypos);
+            xpos = -r*sin(zRotation/180 * PI);
+            ypos = -r*cos(zRotation/180 * PI);
+        }
+
     }
 
     lastPos = mousePos;
@@ -608,13 +687,28 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
 void CMap3D::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
-    if (in)
+
+    if(shiftPressed)
     {
-        zoomFactor *= 1.1;
+        if (in)
+        {
+            zoomFactorEle *= 1.1;
+        }
+        else
+        {
+            zoomFactorEle /= 1.1;
+        }        
     }
     else
     {
-        zoomFactor /= 1.1;
+        if (in)
+        {
+            zoomFactor *= 1.1;
+        }
+        else
+        {
+            zoomFactor /= 1.1;
+        }
     }
     updateGL();
 }
@@ -628,7 +722,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
         {
             if(e->modifiers() & Qt::ShiftModifier)
             {
-                zpos += 10;
+                zpos += 5;
             }
             else
             {
@@ -643,7 +737,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
         {
             if(e->modifiers() & Qt::ShiftModifier)
             {
-                zpos -= 10;
+                zpos -= 5;
             }
             else
             {
@@ -681,6 +775,7 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu menu(this);
     menu.addAction(act3DMap);
+    menu.addAction(actFPVMode);
 
     menu.exec(e->globalPos());
 }
@@ -691,6 +786,28 @@ void CMap3D::showEvent ( QShowEvent * e )
     {
         updateGL();
     }
+}
+
+bool CMap3D::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::KeyPress)
+    {        
+        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(e);        
+        if(keyEvent->key() == Qt::Key_Shift)
+        {            
+            shiftPressed = true;
+        }
+    }
+    else if (e->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(e);
+        if(keyEvent->key() == Qt::Key_Shift)
+        {
+            shiftPressed = false;
+        }
+    }
+
+    return QGLWidget::eventFilter(o, e);
 }
 
 double CMap3D::normalizeAngle(double angle)
