@@ -37,6 +37,7 @@ class CMap3D : public QGLWidget
     protected slots:
         void slotChanged();
 
+
     protected:
         void paintGL();
         void initializeGL();
@@ -65,10 +66,12 @@ class CMap3D : public QGLWidget
 
         void draw3DMap();
 
-        void mouseMoveEvent(QMouseEvent *event);
-        void mousePressEvent(QMouseEvent *event);
-        void keyPressEvent ( QKeyEvent * event );
+        void mouseMoveEvent(QMouseEvent *e);
+        void mousePressEvent(QMouseEvent *e);
+        void keyPressEvent ( QKeyEvent * e );
         void wheelEvent ( QWheelEvent * e );
+        void contextMenuEvent(QContextMenuEvent *e);
+        void showEvent( QShowEvent * e);
 
         /// the attached parent map object
         QPointer<IMap> theMap;
@@ -85,36 +88,36 @@ class CMap3D : public QGLWidget
         double yRotation;
         /// the rotation in the z axis in[°]
         double zRotation;
-
         /// the actual x position
         double xpos;        
         /// the actual y position
         double ypos;
         /// the actual z position
         double zpos;
-
+        /// minimum elevation
         double minEle;
-
+        /// maximum elevation
         double maxEle;
-
+        /// zom factor for elevation, multiplied with zoomFactorZ
         double zoomFactorEle;
-
-        /// the zoom factor
+        /// the over all zoom factor
         double zoomFactor;
-
+        /// the base zoome factor for zaxis
+        double zoomFactorZ;
         /// the actual mouse position
         QPoint mousePos;
         /// the last mouse position
         QPoint lastPos;
-
         /// skybox texture IDs
         GLuint skyBox[6];
-
+        /// set true to update complete map
         bool needsRedraw;
-
+        /// the texture ID of the map pixmap
         GLuint mapTextureId;
-
+        /// the object ID to replay map render
         GLuint mapObjectId;
+
+        QAction * act3DMap;
 };
 
 #endif //CMAP3D_H

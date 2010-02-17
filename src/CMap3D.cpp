@@ -58,7 +58,9 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , xpos(0)
 , ypos(-400)
 , zpos(200)
+, zoomFactorEle(1.0)
 , zoomFactor(0.5)
+, zoomFactorZ(1.0)
 , needsRedraw(true)
 , mapTextureId(0)
 , mapObjectId(0)
@@ -69,6 +71,15 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     theMap = map;
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+
+    act3DMap = new QAction(tr("Flat / 3D Mode"), this);
+    act3DMap->setCheckable(true);
+    act3DMap->setChecked(true);
+    connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
+
+
+    QSettings cfg;
+    act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
 }
 
 CMap3D::~CMap3D()
@@ -82,13 +93,22 @@ CMap3D::~CMap3D()
     deleteTexture(mapTextureId);
 
     glDeleteLists(mapObjectId, 1);
+
+    QSettings cfg;
+    cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
 }
 
 void CMap3D::slotChanged()
 {
     needsRedraw = true;
+
+    if(isHidden())
+    {
+        return;
+    }
     updateGL();
 }
+
 
 void CMap3D::initializeGL()
 {
@@ -205,20 +225,7 @@ void CMap3D::setElevationLimits()
         minEle = 0;
     }
 
-    XY p1, p2;
-    p1.u = 0;
-    p1.v = 0;
-    p2.u = w;
-    p2.v = 0;
-    theMap->convertPt2Rad(p1.u, p1.v);
-    theMap->convertPt2Rad(p2.u, p2.v);
-
-    double a1, a2;
-    double d = distance(p1, p2, a1, a2);
-    zoomFactorEle = (maxEle - minEle) / d;
-
-    qDebug() << minEle << maxEle << d << zoomFactorEle;
-
+    zoomFactorZ =  zsize * 0.1 / (maxEle - minEle);
 
 }
 
@@ -246,17 +253,17 @@ void CMap3D::setMapObject()
 
     // Save Current Matrix
     glPushMatrix();
-    glScalef(2.0, 2.0, 1.0);
-//    drawFlatMap();
-
-    /* subtract the offset and set the Z axis scale */
-//    glScalef(1.0, 1.0, eleZoomFactor * (mapSize.width() / 10.0) / (maxElevation - minElevation));
-    glScalef(1.0, 1.0, zoomFactorEle);
-    glTranslated(0.0, 0.0, -minEle);
-    draw3DMap();
+    glScalef(2.0, 2.0, zoomFactorEle * zoomFactorZ);
+    if(act3DMap->isChecked())
+    {
+        glTranslated(0.0, 0.0, -minEle);
+        draw3DMap();
+    }
+    else
+    {
+        drawFlatMap();
+    }
     glPopMatrix();
-
-
 
     glEndList();
 }
@@ -297,8 +304,8 @@ void CMap3D::paintGL()
 
     glCallList(mapObjectId);
 
-    drawCenterStar();
-    drawBaseGrid();
+//    drawCenterStar();
+//    drawBaseGrid();
 }
 
 void CMap3D::drawSkybox()
@@ -668,6 +675,22 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
     }
 
     updateGL();
+}
+
+void CMap3D::contextMenuEvent(QContextMenuEvent *e)
+{
+    QMenu menu(this);
+    menu.addAction(act3DMap);
+
+    menu.exec(e->globalPos());
+}
+
+void CMap3D::showEvent ( QShowEvent * e )
+{
+    if(needsRedraw)
+    {
+        updateGL();
+    }
 }
 
 double CMap3D::normalizeAngle(double angle)
