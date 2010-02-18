@@ -617,7 +617,14 @@ void CTrack::rebuild(bool reindex)
 
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
-        slope           = pt2->ele - pt1->ele;
+        if ((pt1->ele != WPT_NOFLOAT) && (pt2->ele != WPT_NOFLOAT))
+        {
+            slope           = pt2->ele - pt1->ele;
+        }
+        else
+        {
+            slope = 0.;
+        }
         pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
         if (qAbs(pt2->slope )>100)
             pt2->slope = pt1->slope;
