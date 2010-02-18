@@ -335,6 +335,7 @@ void CCanvas::draw(QPainter& p)
 
     drawRefPoints(p);
     drawScale(p);
+    drawCompass(p);
 
     mouse->draw(p);
 }
@@ -462,16 +463,49 @@ void CCanvas::drawScale(QPainter& p)
 }
 
 
+void CCanvas::drawCompass(QPainter& p)
+{
+    QPolygon arrow;
+
+#define H 60
+#define W 30
+
+    arrow << QPoint(0, -H/2) << QPoint(-W/2, H/2) << QPoint(0, H/3) << QPoint(W/2, H/2);
+
+    p.save();
+
+    p.translate(size().width() - 50, size().height() - 50);
+    p.rotate(-CMapDB::self().getMap().getAngleNorth());
+
+    p.setBrush(Qt::NoBrush);
+    p.setPen(QPen(Qt::white,3));
+    p.drawPolygon(arrow);
+
+    p.setPen(QPen(Qt::black,1));
+    p.setBrush(QColor(150,150,255,100));
+    p.drawPolygon(arrow);
+
+    drawText("N", p, QPoint(0, -H/2));
+    drawText("S", p, QPoint(0, +H/2 + 15));
+
+    p.restore();
+}
+
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
-    QFont           f = CResources::self().getMapFont();
-    QFontMetrics    fm(f);
+    CCanvas::drawText(str,p,center, color, CResources::self().getMapFont());
+}
+
+void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color, const QFont& font)
+{
+
+    QFontMetrics    fm(font);
     QRect           r = fm.boundingRect(str);
 
     r.moveCenter(center);
 
     p.setPen(Qt::white);
-    p.setFont(f);
+    p.setFont(font);
 
     p.drawText(r.topLeft() - QPoint(-1,-1), str);
     p.drawText(r.topLeft() - QPoint( 0,-1), str);

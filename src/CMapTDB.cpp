@@ -1166,6 +1166,8 @@ void CMapTDB::move(const QPoint& old, const QPoint& next)
     needsRedraw = true;
     setFastDraw();
     emit sigChanged();
+
+    setAngleNorth();
 }
 
 

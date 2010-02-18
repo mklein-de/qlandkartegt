@@ -184,6 +184,8 @@ void CMapOSM::move(const QPoint& old, const QPoint& next)
     needsRedrawOvl  = true;
     setFastDraw();
     emit sigChanged();
+
+    setAngleNorth();
 }
 
 

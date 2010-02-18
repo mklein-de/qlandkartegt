@@ -139,6 +139,7 @@ void CMapDEM::convertM2Pt(double& u, double& v)
 
 void CMapDEM::move(const QPoint& old, const QPoint& next)
 {
+    setAngleNorth();
 }
 
 

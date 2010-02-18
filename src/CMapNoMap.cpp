@@ -61,6 +61,8 @@ void CMapNoMap::move(const QPoint& old, const QPoint& next)
     y = yy;
     needsRedraw = true;
     emit sigChanged();
+
+    setAngleNorth();
 }
 
 

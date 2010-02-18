@@ -361,6 +361,8 @@ void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
     x = xx;
     y = yy;
     emit sigChanged();
+
+    setAngleNorth();
 }
 
 

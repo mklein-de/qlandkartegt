@@ -24,6 +24,7 @@
 #include <QGLWidget>
 #include <QPointer>
 #include <QPoint>
+#include <QPen>
 
 #include "IMap.h"
 
@@ -66,6 +67,13 @@ class CMap3D : public QGLWidget
         void drawFlatMap();
         /// draw map as real 3D model
         void draw3DMap();
+
+        /// draw compass on bottom of screen
+        void drawCompass(QPainter& p);
+
+        void drawElevation(QPainter& p);
+
+        void drawHorizont(QPainter& p);
 
         void mouseMoveEvent(QMouseEvent *e);
         void mousePressEvent(QMouseEvent *e);
@@ -125,12 +133,25 @@ class CMap3D : public QGLWidget
 
         /// set true if shift key is pressed.
         bool keyShiftPressed;
+        /// set true if L key is pressed.
         bool keyLPressed;
 
+        /// set true to use elevation shading
         bool light;
+        /// x pos of light source
         double xLight;
+        /// y pos of light source
         double yLight;
+        /// z pos of light source
         double zLight;
+
+        /// the difference from to true north to map's north
+        double angleNorth;
+
+        QPen pen0;
+        QPen pen1;
+        QPen pen2;
+
 
 };
 

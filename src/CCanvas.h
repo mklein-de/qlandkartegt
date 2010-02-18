@@ -45,6 +45,7 @@ class QPrinter;
 class QMenu;
 class CMouseCutTrack;
 class CMouseSelTrack;
+class QFont;
 
 /// the map canvas area
 class CCanvas : public QWidget
@@ -103,6 +104,7 @@ class CCanvas : public QWidget
 
         /// draw text with white border
         static void drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color = Qt::darkBlue);
+        static void drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color, const QFont& font);
         static void drawText(const QString& str, QPainter& p, const QRect& r, const QColor& color = Qt::darkBlue);
 
         void raiseContextMenu(const QPoint& pos);
@@ -133,6 +135,7 @@ class CCanvas : public QWidget
         void draw(QPainter& p);
         void drawRefPoints(QPainter& p);
         void drawScale(QPainter& p);
+        void drawCompass(QPainter& p);
 
     private:
         friend class CStatusCanvas;

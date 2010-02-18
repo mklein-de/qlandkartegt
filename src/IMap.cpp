@@ -23,6 +23,7 @@
 #include "CMapDB.h"
 #include "CMapDEM.h"
 #include "IMapSelection.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include <math.h>
@@ -39,6 +40,7 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 , needsRedraw(true)
 , key(key)
 , doFastDraw(false)
+, angleNorth(0)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -77,8 +79,22 @@ void IMap::resize(const QSize& s)
 
     needsRedraw = true;
     emit sigResize(s);
+
+    setAngleNorth();
 }
 
+void IMap::setAngleNorth()
+{
+    XY p1,p2;
+    double d, a1 = 0, a2 = 0;
+    p2.u = p1.u = rect.center().x();
+    p2.v = p1.v = rect.bottom();
+    p2.v -= 400;
+    convertPt2Rad(p1.u, p1.v);    
+    convertPt2Rad(p2.u, p2.v);
+    d = distance(p1, p2, a1, a2);
+    angleNorth = a1;
+}
 
 void IMap::draw(QPainter& p)
 {

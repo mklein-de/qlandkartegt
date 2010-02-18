@@ -21,8 +21,11 @@
 #include "CMap3D.h"
 #include "CResources.h"
 #include "GeoMath.h"
+#include "CCanvas.h"
 
 #include <QtGui>
+
+#define APPERTURE_ANGLE 60.0
 
 static void glError()
 {
@@ -52,7 +55,7 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 
 CMap3D::CMap3D(IMap * map, QWidget * parent)
 : QGLWidget(parent)
-, xRotation(280)
+, xRotation(0)
 , yRotation(0)
 , zRotation(0)
 , xpos(0)
@@ -70,10 +73,15 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , xLight(0.0)
 , yLight(-400.0)
 , zLight(5000.0)
+, angleNorth(0)
+, pen0(Qt::white, 5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+, pen1(Qt::black, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+, pen2(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
+    setAutoFillBackground(false);
 
     theMap = map;
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
@@ -132,6 +140,8 @@ CMap3D::~CMap3D()
 void CMap3D::slotChanged()
 {
     needsRedraw = true;
+
+    angleNorth = theMap->getAngleNorth();
 
     if(isHidden())
     {
@@ -205,7 +215,6 @@ void CMap3D::resizeGL(int width, int height)
     ysize = height;
     zsize = side;
 
-
     if(theMap.isNull())
     {
         return;
@@ -215,8 +224,9 @@ void CMap3D::resizeGL(int width, int height)
     glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
     glMatrixMode (GL_PROJECTION); //set the matrix to projection
     glLoadIdentity ();
-    gluPerspective (60, (GLfloat)width / (GLfloat)height, 1.0, 1000*side); //set the perspective (angle of sight, width, height, , depth)
+    gluPerspective (APPERTURE_ANGLE, (GLfloat)width / (GLfloat)height, 1.0, 1000*side); //set the perspective (angle of sight, width, height, , depth)
     glMatrixMode (GL_MODELVIEW); //set the matrix back to model
+    glLoadIdentity ();
 
     needsRedraw = true;
     glError();
@@ -292,6 +302,7 @@ void CMap3D::setElevationLimits()
 
 void CMap3D::setPOV (void)
 {
+    glRotatef(270,1.0,0.0,0.0);
     glRotatef(xRotation,1.0,0.0,0.0);
     glRotatef(yRotation,0.0,1.0,0.0);
     glRotatef(zRotation,0.0,0.0,1.0);
@@ -315,7 +326,7 @@ void CMap3D::setMapObject()
 
     // Save Current Matrix
     glPushMatrix();
-    glScalef(2.0, 2.0, zoomFactorZ);
+    glScalef(1.0, 1.0, zoomFactorZ);
     if(act3DMap->isChecked())
     {
         glTranslated(0.0, 0.0, -minEle);
@@ -390,7 +401,18 @@ void CMap3D::paintGL()
     }
 
     drawCenterStar();
-//    drawBaseGrid();
+    drawBaseGrid();
+
+
+    QPainter p;
+    p.begin(this);
+
+    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    drawCompass(p);
+    drawElevation(p);
+    drawHorizont(p);
+
+    p.end();
 }
 
 void CMap3D::drawSkybox()
@@ -406,7 +428,7 @@ void CMap3D::drawSkybox()
     glPushMatrix();
 
     // First apply scale matrix
-    glScalef(xsize, ysize, zsize);
+    glScalef(xsize/2, ysize/2, zsize/2);
 
     float f = 1;
     float r = 1.005f;            // If you have border issues change this to 1.005f
@@ -666,6 +688,271 @@ void CMap3D::draw3DMap()
 }
 
 
+void CMap3D::drawCompass(QPainter& p)
+{
+    QFont f1 = CResources::self().getMapFont();
+    QFont f2 = f1;
+    f2.setPointSize(f1.pointSize() + 3);
+    int textOff = QFontMetrics(f2).height();
+
+    p.save();
+    p.translate(rect().center().x(), height() - 100);
+
+    QPolygon arrow1, arrow2;
+    arrow1 << QPoint(-4,15) << QPoint(0,30) << QPoint(4,15);
+    arrow2 << QPoint(-4,75) << QPoint(0,60) << QPoint(4,75);
+
+    p.setPen(pen0);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen1);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen2);
+    p.setBrush(Qt::yellow);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+
+
+    double scale  = width() /(3 * APPERTURE_ANGLE);
+    double offset = zRotation + angleNorth;
+
+    for(int deg = floor(zRotation - APPERTURE_ANGLE/2); deg <= ceil(zRotation + APPERTURE_ANGLE/2); ++deg)
+    {
+        QString str;
+
+        int x = (deg - offset) * scale;
+
+        if((deg % 10) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(x,35,x,50);
+            p.setPen(pen1);
+            p.drawLine(x,35,x,50);
+            p.setPen(pen2);
+            p.drawLine(x,35,x,50);
+            str = QString("%1\260").arg(deg < 0 ? 360 - deg : deg);
+            p.setFont(f1);
+        }
+        else if((deg % 5) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(x,40,x,50);
+            p.setPen(pen1);
+            p.drawLine(x,40,x,50);
+            p.setPen(pen2);
+            p.drawLine(x,40,x,50);
+
+        }
+        else
+        {
+            p.setPen(pen0);
+            p.drawLine(x,47,x,50);
+            p.setPen(pen1);
+            p.drawLine(x,47,x,50);
+            p.setPen(pen2);
+            p.drawLine(x,47,x,50);
+        }
+
+
+        if(deg == 0 || deg == 360){
+            str = "N";
+            p.setFont(f2);
+        }
+        if(deg == 45){
+            str = "NO";
+            p.setFont(f2);
+        }
+        else if(deg == 90){
+            str = "O";
+            p.setFont(f2);
+        }
+        else if(deg == 135){
+            str = "SO";
+            p.setFont(f2);
+        }
+        else if(deg == 180){
+            str = "S";
+            p.setFont(f2);
+        }
+        else if(deg == 225){
+            str = "SW";
+            p.setFont(f2);
+        }
+        else if(deg == 270){
+            str = "W";
+            p.setFont(f2);
+        }
+        else if(deg == 315){
+            str = "NW";
+            p.setFont(f2);
+        }
+
+
+        if(!str.isEmpty())
+        {
+            CCanvas::drawText(str,p, QPoint(x,50 + 10 + textOff), Qt::darkBlue, p.font());            
+        }
+
+    }
+
+    p.restore();
+}
+
+#define ELE_RANGE 500.0
+void CMap3D::drawElevation(QPainter& p)
+{
+    double elevation = minEle + zpos / (zoomFactorZ * zoomFactorEle * zoomFactor);
+    if(isinf(elevation)) return;
+
+    QFont f1 = CResources::self().getMapFont();
+    int textOff = QFontMetrics(f1).height();
+
+    p.save();
+    p.translate(width() - 100, rect().center().y());
+
+    QPolygon arrow1, arrow2;
+    arrow1 << QPoint(15, -4) << QPoint(30, 0) << QPoint(15, 4);
+    arrow2 << QPoint(75, -4) << QPoint(60, 0) << QPoint(75, 4);
+
+    p.setPen(pen0);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen1);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen2);
+    p.setBrush(Qt::yellow);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+
+
+    double scale  = height() /(3 * ELE_RANGE);
+    for(int ele = floor(elevation - ELE_RANGE/2); ele <= ceil(elevation + ELE_RANGE/2); ele++)
+    {
+        QString str;
+
+        int y = (elevation - ele) * scale;
+
+        if((ele % 100) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(35,y,50,y);
+            p.setPen(pen1);
+            p.drawLine(35,y,50,y);
+            p.setPen(pen2);
+            p.drawLine(35,y,50,y);
+            str = QString("%1m").arg(ele);
+            p.setFont(f1);
+        }
+        else if((ele % 50) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(40,y,50,y);
+            p.setPen(pen1);
+            p.drawLine(40,y,50,y);
+            p.setPen(pen2);
+            p.drawLine(40,y,50,y);
+        }
+        else if((ele % 10) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(47,y,50,y);
+            p.setPen(pen1);
+            p.drawLine(47,y,50,y);
+            p.setPen(pen2);
+            p.drawLine(47,y,50,y);
+        }
+
+        if(!str.isEmpty())
+        {
+            CCanvas::drawText(str,p, QPoint(0, y + textOff/2), Qt::darkBlue, p.font());
+        }
+
+    }
+
+    p.restore();
+}
+
+void CMap3D::drawHorizont(QPainter& p)
+{
+    double horizont = xRotation;
+
+    QFont f1 = CResources::self().getMapFont();
+    int textOff = QFontMetrics(f1).height();
+
+    p.save();
+    p.translate(0, rect().center().y());
+    double scale  = - height() /(3 * 180.0);
+
+
+
+    for(int deg = -90; deg <= 90; ++deg)
+    {
+        QString str;
+        int y = deg * scale;
+
+        if(deg == -90 || deg == 90 || deg == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(30,y,60,y);
+            p.setPen(pen1);
+            p.drawLine(30,y,60,y);
+            p.setPen(pen2);
+            p.drawLine(30,y,60,y);
+            str = QString("%1\260").arg(abs(deg));
+            p.setFont(f1);
+        }
+        else if((deg % 10) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(40,y,50,y);
+            p.setPen(pen1);
+            p.drawLine(40,y,50,y);
+            p.setPen(pen2);
+            p.drawLine(40,y,50,y);
+            str = QString("%1\260").arg(abs(deg));
+            p.setFont(f1);
+        }
+        else if((deg % 5) == 0)
+        {
+            p.setPen(pen0);
+            p.drawLine(43,y,47,y);
+            p.setPen(pen1);
+            p.drawLine(43,y,47,y);
+            p.setPen(pen2);
+            p.drawLine(43,y,47,y);
+
+        }
+
+        if(!str.isEmpty())
+        {
+            CCanvas::drawText(str,p, QPoint(80, y + textOff/2), Qt::darkBlue, p.font());
+        }
+
+
+    }
+
+    int y = horizont * scale;
+    QPolygon arrow1, arrow2;
+    arrow1 << QPoint(15, y - 4) << QPoint(30, y) << QPoint(15, y + 4);
+    arrow2 << QPoint(75, y - 4) << QPoint(60, y) << QPoint(75, y + 4);
+
+    p.setPen(pen0);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen1);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+    p.setPen(pen2);
+    p.setBrush(Qt::yellow);
+    p.drawPolygon(arrow1);
+    p.drawPolygon(arrow2);
+
+
+    p.restore();
+}
+
 void CMap3D::mousePressEvent(QMouseEvent *e)
 {
     mousePos = e->pos();
@@ -674,17 +961,16 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
     {
         if(!actFPVMode->isChecked())
         {
-            qDebug() << ">>>>>>>>>"  << zRotation << xpos << ypos;
+//            qDebug() << ">>>>>>>>>"  << zRotation << xpos << ypos;
             double diff = 0;
             if(zRotation > 180)
             {
                 diff = (zRotation - 180)* 2;
             }
 
-
             zRotation = atan(ypos/xpos)/PI * 180;
 
-            qDebug() << "---------"  << zRotation << xpos << ypos;
+//            qDebug() << "---------"  << zRotation << xpos << ypos;
 
             if(xpos < 0)
             {
@@ -693,9 +979,7 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
 
             zRotation += 90 + diff;
 
-            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
-
-
+//            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
 
             double r = sqrt(xpos*xpos + ypos*ypos);
             xpos = -r*sin(zRotation/180 * PI);
@@ -734,8 +1018,13 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
         else
         {
             QPoint diff = mousePos - lastPos;
-            xRotation = normalizeAngle(xRotation + (double) diff.y() * 0.3); //set the xrot to xrot with the addition of the difference in the y position
+            xRotation = xRotation + (double) diff.y() * 0.3; //set the xrot to xrot with the addition of the difference in the y position
+            if(xRotation >  90.0) xRotation =  90.0;
+            if(xRotation < -90.0) xRotation = -90.0;
+
             zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
+
+            qDebug() << xRotation;
 
             if(!actFPVMode->isChecked())
             {
@@ -788,7 +1077,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
         {
             if(e->modifiers() & Qt::ShiftModifier)
             {
-                zpos += 5;
+                zpos += 1;
             }
             else
             {
@@ -803,7 +1092,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
         {
             if(e->modifiers() & Qt::ShiftModifier)
             {
-                zpos -= 5;
+                zpos -= 1;
             }
             else
             {
@@ -907,15 +1196,15 @@ bool CMap3D::getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount)
     double  h = s.height();
 
     IMap& dem = CMapDB::self().getDEM();
-    XY p1, p2;
-    p1.u = 0;
-    p1.v = 0;
-    p2.u = w;
-    p2.v = h;
-    theMap->convertPt2Rad(p1.u, p1.v);
-    theMap->convertPt2Rad(p2.u, p2.v);
+    XY pen1, pen2;
+    pen1.u = 0;
+    pen1.v = 0;
+    pen2.u = w;
+    pen2.v = h;
+    theMap->convertPt2Rad(pen1.u, pen1.v);
+    theMap->convertPt2Rad(pen2.u, pen2.v);
 
-    return dem.getOrigRegion(eleData.data(), p1, p2, xcount, ycount);
+    return dem.getOrigRegion(eleData.data(), pen1, pen2, xcount, ycount);
 }
 
 void CMap3D::convertPt23D(double& u, double& v, double &ele)
