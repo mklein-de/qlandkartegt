@@ -731,7 +731,7 @@ void CMap3D::drawCompass(QPainter& p)
             p.drawLine(x,35,x,50);
             p.setPen(pen2);
             p.drawLine(x,35,x,50);
-            str = QString("%1\260").arg(deg < 0 ? 360 - deg : deg);
+            str = QString("%1\260").arg(deg < 0 ? 360 + deg : deg > 360 ? deg - 360 : deg);
             p.setFont(f1);
         }
         else if((deg % 5) == 0)
