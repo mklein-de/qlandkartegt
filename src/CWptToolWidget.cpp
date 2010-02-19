@@ -189,15 +189,29 @@ void CWptToolWidget::slotProximity()
 {
     bool ok         = false;
     QString str    = tr("Distance [%1]").arg(IUnit::self().baseunit);
-    double dist     = QInputDialog::getDouble(0,tr("Proximity distance ..."), str, 0, 0, 2147483647, 0,&ok);
+    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+    QListWidgetItem * item;
+    double prx = 0.0;
+    // If no item is selected, or multiple items, don't try to provide
+    // an initial value to the dialog.
+    if (items.count() == 1)
+    {
+        item = items.first();
+	QString key = item->data(Qt::UserRole).toString();
+	CWpt *pt    = CWptDB::self().getWptByKey(key);
+
+	if (pt->prx != WPT_NOFLOAT)
+	{
+	    prx  = pt->prx * IUnit::self().basefactor;
+	}
+    }
+    double dist     = QInputDialog::getDouble(0,tr("Proximity distance ..."), str, prx, 0, 2147483647, 0,&ok);
     if(ok)
     {
         str = QString("%1 %2").arg(dist).arg(IUnit::self().baseunit);
         dist = IUnit::self().str2distance(str);
 
         QStringList keys;
-        QListWidgetItem * item;
-        const QList<QListWidgetItem*>& items = listWpts->selectedItems();
         foreach(item,items)
         {
             keys << item->data(Qt::UserRole).toString();
