@@ -41,7 +41,6 @@ class CMap3D : public QGLWidget
         void slotResetLight();
 
     protected:
-        void paintGL();
         void initializeGL();
         void resizeGL(int width, int height);
 
@@ -50,6 +49,8 @@ class CMap3D : public QGLWidget
         void convertMouse23D(double &u, double& v, double &ele);
         bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
+
+        void setupViewport(int width, int height);
 
         /// set min / max elevation limits and zoomFactorZ
         void setElevationLimits();
@@ -81,6 +82,7 @@ class CMap3D : public QGLWidget
         void wheelEvent ( QWheelEvent * e );
         void contextMenuEvent(QContextMenuEvent *e);
         void showEvent( QShowEvent * e);
+        void paintEvent( QPaintEvent * e);
         bool eventFilter(QObject *o, QEvent *e);
 
         /// the attached parent map object

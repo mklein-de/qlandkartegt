@@ -149,7 +149,7 @@ void CMap3D::slotChanged()
     }
 
 
-    updateGL();
+    update();
 }
 
 void CMap3D::slotFPVModeChanged()
@@ -170,7 +170,7 @@ void CMap3D::slotFPVModeChanged()
 //        ypos = -r*cos(zRotation/180 * PI);
     }
 
-    updateGL();
+    update();
 }
 
 void CMap3D::slotResetLight()
@@ -178,21 +178,21 @@ void CMap3D::slotResetLight()
     xLight = 0;
     yLight = 0;
     zLight = 5000;
-    updateGL();
+    update();
 }
 
 void CMap3D::initializeGL()
 {
     qDebug() << "void CMap3D::initializeGL()";
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_LINE_SMOOTH);
-
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+//    glEnable(GL_CULL_FACE);
+//    glEnable(GL_DEPTH_TEST);
+//    glShadeModel(GL_SMOOTH);
+//    glEnable(GL_LINE_SMOOTH);
+//
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
     for (int i = 0; i < 6; i++)
     {
@@ -204,6 +204,16 @@ void CMap3D::initializeGL()
 
     needsRedraw = true;
     glError();
+}
+
+void CMap3D::setupViewport(int width, int height)
+{
+    glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
+    glMatrixMode (GL_PROJECTION); //set the matrix to projection
+    glLoadIdentity ();
+    gluPerspective (APPERTURE_ANGLE, (GLfloat)width / (GLfloat)height, 1.0, 1000*(width > height ? width : height)); //set the perspective (angle of sight, width, height, , depth)
+    glMatrixMode (GL_MODELVIEW); //set the matrix back to model
+    glLoadIdentity ();
 }
 
 void CMap3D::resizeGL(int width, int height)
@@ -221,12 +231,7 @@ void CMap3D::resizeGL(int width, int height)
     }
     theMap->resize(QSize(width,height));
 
-    glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
-    glMatrixMode (GL_PROJECTION); //set the matrix to projection
-    glLoadIdentity ();
-    gluPerspective (APPERTURE_ANGLE, (GLfloat)width / (GLfloat)height, 1.0, 1000*side); //set the perspective (angle of sight, width, height, , depth)
-    glMatrixMode (GL_MODELVIEW); //set the matrix back to model
-    glLoadIdentity ();
+    setupViewport(width, height);
 
     needsRedraw = true;
     glError();
@@ -342,8 +347,26 @@ void CMap3D::setMapObject()
     glEndList();
 }
 
-void CMap3D::paintGL()
+
+void CMap3D::paintEvent( QPaintEvent * e)
 {
+    // start 3D painting
+
+    // restore all settings
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+    setupViewport(width(), height());
+
+    // render objects on change
     if(needsRedraw)
     {
         needsRedraw = false;
@@ -368,6 +391,7 @@ void CMap3D::paintGL()
 
     }
 
+    // start rendering the sceene
     glClearColor (0.0,0.0,0.0,0.0); //clear the screen to black
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
     glLoadIdentity();
@@ -400,18 +424,24 @@ void CMap3D::paintGL()
         glDisable(GL_LIGHTING);
     }
 
-    drawCenterStar();
     drawBaseGrid();
+    drawCenterStar();
 
+    // restore 2D context
+    glShadeModel(GL_FLAT);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
 
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+
+    // start 2D painting
     QPainter p;
     p.begin(this);
-
     p.setRenderHint(QPainter::HighQualityAntialiasing, true);
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
-
     p.end();
 }
 
@@ -557,6 +587,7 @@ void CMap3D::drawFlatMap()
     glNormal3d(0.0, 0.0, -1.0);
     glEnd();
     glDisable(GL_TEXTURE_2D);
+    glDisable(GL_NORMALIZE);
     glError();
 }
 
@@ -684,6 +715,7 @@ void CMap3D::draw3DMap()
     }
 
     glDisable(GL_TEXTURE_2D);
+    glDisable(GL_NORMALIZE);
     glError();
 }
 
@@ -985,7 +1017,7 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
             xpos = -r*sin(zRotation/180 * PI);
             ypos = -r*cos(zRotation/180 * PI);
 
-            updateGL();
+            update();
         }
     }
     lastPos = mousePos;
@@ -1024,8 +1056,6 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
 
             zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
 
-            qDebug() << xRotation;
-
             if(!actFPVMode->isChecked())
             {
                 double r = sqrt(xpos*xpos + ypos*ypos);
@@ -1036,7 +1066,7 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
     }
 
     lastPos = mousePos;
-    updateGL();
+    update();
 }
 
 void CMap3D::wheelEvent ( QWheelEvent * e )
@@ -1065,7 +1095,7 @@ void CMap3D::wheelEvent ( QWheelEvent * e )
             zoomFactor /= 1.1;
         }
     }
-    updateGL();
+    update();
 }
 
 
@@ -1123,7 +1153,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             e->ignore();
     }
 
-    updateGL();
+    update();
 }
 
 void CMap3D::contextMenuEvent(QContextMenuEvent *e)
@@ -1140,7 +1170,7 @@ void CMap3D::showEvent ( QShowEvent * e )
 {
     if(needsRedraw)
     {
-        updateGL();
+        update();
     }
 }
 
