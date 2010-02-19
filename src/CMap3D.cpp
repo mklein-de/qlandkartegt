@@ -185,15 +185,6 @@ void CMap3D::initializeGL()
 {
     qDebug() << "void CMap3D::initializeGL()";
 
-//    glEnable(GL_CULL_FACE);
-//    glEnable(GL_DEPTH_TEST);
-//    glShadeModel(GL_SMOOTH);
-//    glEnable(GL_LINE_SMOOTH);
-//
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-
     for (int i = 0; i < 6; i++)
     {
         QImage img(tr(":/skybox/%1.bmp").arg(i));
@@ -343,7 +334,6 @@ void CMap3D::setMapObject()
     }
     glPopMatrix();
 
-
     glEndList();
 }
 
@@ -356,13 +346,10 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-    glShadeModel(GL_SMOOTH);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
 
     setupViewport(width(), height());
 
@@ -373,9 +360,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
         QApplication::setOverrideCursor(Qt::WaitCursor);
         deleteTexture(mapTextureId);
-
-        qDebug() << "void CMap3D::paintGL()";
-        qDebug() << theMap->getSize();
 
         setElevationLimits();
 
@@ -400,6 +384,9 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     drawSkybox();
 
+    glPushMatrix();
+    glScalef(2.0, 2.0, zoomFactorEle);
+
     if (light)
     {
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -409,12 +396,9 @@ void CMap3D::paintEvent( QPaintEvent * e)
         GLfloat light0_pos[] = {xLight, yLight, - (zLight + minEle), 0.0};
 
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-        glShadeModel(GL_SMOOTH);
-
         glMaterialf (GL_FRONT,GL_SHININESS, 10);
     }
 
-    glScalef(1.0, 1.0, zoomFactorEle);
     glCallList(mapObjectId);
 
     if (light)
@@ -423,6 +407,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
     }
+    glPopMatrix();
 
     drawBaseGrid();
     drawCenterStar();
@@ -431,6 +416,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glShadeModel(GL_FLAT);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LINE_SMOOTH);
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -439,6 +425,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     QPainter p;
     p.begin(this);
     p.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
@@ -458,7 +445,7 @@ void CMap3D::drawSkybox()
     glPushMatrix();
 
     // First apply scale matrix
-    glScalef(xsize/2, ysize/2, zsize/2);
+    glScalef(xsize, ysize, zsize);
 
     float f = 1;
     float r = 1.005f;            // If you have border issues change this to 1.005f
@@ -823,7 +810,7 @@ void CMap3D::drawCompass(QPainter& p)
 
         if(!str.isEmpty())
         {
-            CCanvas::drawText(str,p, QPoint(x,50 + 10 + textOff), Qt::darkBlue, p.font());            
+            CCanvas::drawText(str,p, QPoint(x,50 + 10 + textOff), Qt::darkBlue, p.font());
         }
 
     }
@@ -1043,8 +1030,8 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             convertMouse23D(x1, y1, z1);
 
             double z = zLight + minEle;
-            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z);
-            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z);
+            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z) * 10;
+            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z) * 10;
 
         }
         else
