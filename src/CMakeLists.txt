@@ -92,7 +92,6 @@ set(qlandkarte_SRCS
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
-    CCreateMapWMS.cpp
     CMapUndoCommandMove.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
@@ -237,7 +236,6 @@ set(qlandkarte_HDRS
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
     CCreateMapGridTool.h
-    CCreateMapWMS.h
     CMapDB.h
     CMapToolWidget.h
     CMapEditWidget.h
@@ -325,7 +323,6 @@ SET(qlandkarte_UIS
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
-    ICreateMapWMS.ui
     IRouteToolWidget.ui
     IStatusDEM.ui
     IDlgProjWizzard.ui
@@ -348,21 +345,21 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET (PLOT_3D_NEW OFF CACHE BOOL "Use new 3D mode (developmental)")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D")
     if(PLOT_3D_NEW)
-      SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3D.h)
-      SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3D.cpp)
       SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D_NEW")
     endif(PLOT_3D_NEW)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3DWidget.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3DWidget.cpp)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3D.h CDlg3DHelp.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3D.cpp CDlg3DHelp.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} IDlg3DHelp.ui)    
     SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
-SET (WMS_CLIENT ON CACHE BOOL "WMS Maps service")
+SET (WMS_CLIENT OFF CACHE BOOL "WMS Maps service")
 IF(WMS_CLIENT)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWMS_CLIENT")
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h CCreateMapWMS.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp CCreateMapWMS.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} ICreateMapWMS.ui)    
 ENDIF(WMS_CLIENT)
 
 IF(EXIF_FOUND)

@@ -181,6 +181,12 @@ void CMap3D::slotResetLight()
     update();
 }
 
+void CMap3D::slotSaveImage(const QString& filename)
+{
+    QImage image = grabFrameBuffer();
+    image.save(filename);
+}
+
 void CMap3D::initializeGL()
 {
     qDebug() << "void CMap3D::initializeGL()";

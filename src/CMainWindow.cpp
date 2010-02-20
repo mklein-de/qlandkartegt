@@ -43,7 +43,7 @@
 #include "CUndoStack.h"
 #include "WptIcons.h"
 #include "CAppOpts.h"
-#include "CMap3DWidget.h"
+#include "CMap3D.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -1024,7 +1024,7 @@ void CMainWindow::slotSaveImage()
 
     if(filename.isEmpty()) return;
 
-    CMap3DWidget * map3d = qobject_cast<CMap3DWidget*>(canvasTab->currentWidget());
+    CMap3D * map3d = qobject_cast<CMap3D*>(canvasTab->currentWidget());
 
     if(map3d)
     {

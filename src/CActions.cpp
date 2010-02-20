@@ -37,6 +37,9 @@
 #include "CUndoStack.h"
 #include "CTrackUndoCommandDeletePts.h"
 #include "CTrackUndoCommandPurgePts.h"
+#ifdef PLOT_3D
+#include "CMap3D.h"
+#endif
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -387,7 +390,7 @@ void CActions::funcCloseMap3D()
 void CActions::funcMap3DZoomPlus()
 {
 #ifdef PLOT_3D
-    CMap3DWidget * map = CMapDB::self().getMap3D();
+    CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->eleZoomIn();
@@ -399,7 +402,7 @@ void CActions::funcMap3DZoomPlus()
 void CActions::funcMap3DZoomMinus()
 {
 #ifdef PLOT_3D
-    CMap3DWidget * map = CMapDB::self().getMap3D();
+    CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->eleZoomOut();
@@ -411,7 +414,7 @@ void CActions::funcMap3DZoomMinus()
 void CActions::funcMap3DLighting()
 {
 #ifdef PLOT_3D
-    CMap3DWidget * map = CMapDB::self().getMap3D();
+    CMap3D * map = CMapDB::self().getMap3D();
     map->lightTurn();
 #endif
 }
@@ -420,7 +423,7 @@ void CActions::funcMap3DLighting()
 void CActions::funcMap3DMode()
 {
 #ifdef PLOT_3D
-    CMap3DWidget * map = CMapDB::self().getMap3D();
+    CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->changeMode();
@@ -431,7 +434,7 @@ void CActions::funcMap3DMode()
 void CActions::funcMap3DTrackmode()
 {
 #ifdef PLOT_3D
-    CMap3DWidget * map = CMapDB::self().getMap3D();
+    CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->changeTrackmode();

@@ -41,6 +41,8 @@ class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
         CCreateMapOSM  * widgetOSM;
         CCreateMapQMAP * widgetQMAP;
         CCreateMapGeoTiff * widgetGeoTiff;
+#ifdef WMS_CLIENT
         CCreateMapWMS * widgetWMS;
+#endif
 };
 #endif                           //CMAPEDITWIDGET_H

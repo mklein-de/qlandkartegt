@@ -31,7 +31,6 @@
 #include "GeoMath.h"
 #include "CCanvas.h"
 #ifdef PLOT_3D
-#include "CMap3DWidget.h"
 #include "CMap3D.h"
 #endif
 #include "CTabWidget.h"
@@ -546,14 +545,14 @@ void CMapDB::editMap()
 #ifdef PLOT_3D
 void CMapDB::show3DMap(bool show)
 {
-    if(map3DWidget.isNull() && show)
+    if(map3D.isNull() && show)
     {
-        map3DWidget = new CMap3DWidget(theMainWindow->getCanvas());
-        theMainWindow->getCanvasTab()->addTab(map3DWidget, tr("Map 3D..."));
+        map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+        theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
     }
-    else if(!map3DWidget.isNull() && !show)
+    else if(!map3D.isNull() && !show)
     {
-        map3DWidget->deleteLater();
+        map3D->deleteLater();
     }
 }
 #endif

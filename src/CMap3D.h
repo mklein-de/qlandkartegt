@@ -35,6 +35,14 @@ class CMap3D : public QGLWidget
         CMap3D(IMap * map, QWidget * parent);
         virtual ~CMap3D();
 
+    public slots:
+        void eleZoomIn(){};
+        void eleZoomOut(){};
+        void lightTurn(){};
+        void changeMode(){};
+        void changeTrackmode(){};
+        void slotSaveImage(const QString& filename);
+
     protected slots:
         void slotChanged();
         void slotFPVModeChanged();
