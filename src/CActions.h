@@ -68,8 +68,6 @@ class CActions : public QObject
 
         void funcCloseMap3D();
         void funcMap3DMode();
-        void funcMap3DZoomPlus();
-        void funcMap3DZoomMinus();
         void funcMap3DLighting();
         void funcMap3DTrackmode();
 

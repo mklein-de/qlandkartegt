@@ -129,8 +129,6 @@ CMainWindow::CMainWindow()
 #ifdef PLOT_3D
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aCloseMap3D");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DMode");
-    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomPlus");
-    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DZoomMinus");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackmode");
 #endif

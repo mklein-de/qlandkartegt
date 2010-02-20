@@ -136,6 +136,10 @@ CMapDB::~CMapDB()
     cfg.setValue("maps/knownMaps",maps);
 }
 
+CMap3D * CMapDB::getMap3D()
+{
+    return map3D;
+}
 
 void CMapDB::clear()
 {

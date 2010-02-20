@@ -28,6 +28,8 @@
 
 #include "IMap.h"
 
+class QPushButton;
+
 class CMap3D : public QGLWidget
 {
     Q_OBJECT;
@@ -36,10 +38,8 @@ class CMap3D : public QGLWidget
         virtual ~CMap3D();
 
     public slots:
-        void eleZoomIn(){};
-        void eleZoomOut(){};
-        void lightTurn(){};
-        void changeMode(){};
+        void lightTurn();
+        void slotChange3DMode();
         void changeTrackmode(){};
         void slotSaveImage(const QString& filename);
 
@@ -47,6 +47,8 @@ class CMap3D : public QGLWidget
         void slotChanged();
         void slotFPVModeChanged();
         void slotResetLight();
+        void slotHelp3D();
+        void slotTrackChanged();
 
     protected:
         void initializeGL();
@@ -57,6 +59,7 @@ class CMap3D : public QGLWidget
         void convertMouse23D(double &u, double& v, double &ele);
         bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
+        void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
 
         void setupViewport(int width, int height);
 
@@ -64,8 +67,10 @@ class CMap3D : public QGLWidget
         void setElevationLimits();
         /// set the point of view
         void setPOV (void);
-        /// create calll list for map
+        /// create call list for map
         void setMapObject();
+        /// create call list for track
+        void setTrackObject();
         /// draw sky and clouds
         void drawSkybox();
         /// draw axes in the coord center
@@ -136,6 +141,8 @@ class CMap3D : public QGLWidget
         GLuint mapTextureId;
         /// the object ID to replay map render
         GLuint mapObjectId;
+        /// the object ID to replay track render
+        GLuint trkObjectId;
 
         QAction * act3DMap;
         QAction * actFPVMode;
@@ -162,6 +169,7 @@ class CMap3D : public QGLWidget
         QPen pen1;
         QPen pen2;
 
+        QPushButton * helpButton;
 
 };
 

@@ -26,16 +26,13 @@
 #include <QList>
 #include <QMap>
 #include <QPointer>
-#ifdef PLOT_3D
-#include "CMap3D.h"
-#endif
 
 class QPainter;
 class CCanvas;
 class CMapNoMap;
 class CMapEditWidget;
 class CMapSearchWidget;
-
+class CMap3D;
 
 class CMapDB : public IDB
 {
@@ -64,7 +61,7 @@ class CMapDB : public IDB
         IMap& getDEM();
 
 #ifdef PLOT_3D
-        CMap3D * getMap3D(){return map3D;}
+        CMap3D * getMap3D();
 #endif
 
         /// delete known maps by keys

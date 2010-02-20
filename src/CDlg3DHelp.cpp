@@ -1,23 +1,19 @@
 /**********************************************************************************************
+    Copyright (C) 2010 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/  
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Not defined
-  Email:       Not defined
-  Phone:       Not defined
-  Fax:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CDlg3DHelp.cpp
-
-  Module:      
-
-  Description:
-
-  Created:     02/17/2010
-
-  (C) 2010 DSP Solutions. All rights reserved.
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
 
@@ -25,7 +21,7 @@
 
 CDlg3DHelp::CDlg3DHelp()
 {
-
+    setupUi(this);
 }
 
 CDlg3DHelp::~CDlg3DHelp()

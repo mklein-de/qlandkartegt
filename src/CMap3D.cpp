@@ -22,6 +22,10 @@
 #include "CResources.h"
 #include "GeoMath.h"
 #include "CCanvas.h"
+#include "CMainWindow.h"
+#include "CDlg3DHelp.h"
+#include "CTrack.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 
@@ -53,6 +57,10 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 }
 
 
+static QColor wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
+static QColor highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
+
+
 CMap3D::CMap3D(IMap * map, QWidget * parent)
 : QGLWidget(parent)
 , xRotation(0)
@@ -67,6 +75,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , needsRedraw(true)
 , mapTextureId(0)
 , mapObjectId(0)
+, trkObjectId(0)
 , keyShiftPressed(false)
 , keyLPressed(false)
 , light(true)
@@ -87,12 +96,14 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
     connect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
 
-    act3DMap = new QAction(tr(" 3D Mode / Flat"), this);
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
+
+    act3DMap = new QAction(tr(" 3D / 2D"), this);
     act3DMap->setCheckable(true);
     act3DMap->setChecked(true);
     connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
-    actFPVMode = new QAction(tr("FPV / Rotate"), this);
+    actFPVMode = new QAction(tr("FPV / Rot."), this);
     actFPVMode->setCheckable(true);
     actFPVMode->setChecked(true);
     connect(actFPVMode, SIGNAL(triggered()), this, SLOT(slotFPVModeChanged()));
@@ -111,6 +122,10 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     zLight = cfg.value("map/3D/zLight", zLight).toDouble();
 
 
+    helpButton = new QPushButton(tr("Help 3d"));
+    connect(helpButton, SIGNAL(clicked()), this, SLOT(slotHelp3D()));
+    theMainWindow->statusBar()->insertPermanentWidget(0,helpButton);
+
     qApp->installEventFilter(this);
 }
 
@@ -125,6 +140,7 @@ CMap3D::~CMap3D()
     deleteTexture(mapTextureId);
 
     glDeleteLists(mapObjectId, 1);
+    glDeleteLists(trkObjectId, 1);
 
     QSettings cfg;
     cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
@@ -134,6 +150,8 @@ CMap3D::~CMap3D()
     cfg.setValue("map/3D/xLight", xLight);
     cfg.setValue("map/3D/yLight", yLight);
     cfg.setValue("map/3D/zLight", zLight);
+
+    delete helpButton;
 
 }
 
@@ -187,6 +205,32 @@ void CMap3D::slotSaveImage(const QString& filename)
     image.save(filename);
 }
 
+void CMap3D::slotHelp3D()
+{
+    CDlg3DHelp dlg;
+    dlg.exec();
+}
+
+void CMap3D::lightTurn()
+{
+
+    light = !light;
+    update();
+}
+
+void CMap3D::slotTrackChanged()
+{
+    setTrackObject();
+    update();
+}
+
+void CMap3D::slotChange3DMode()
+{
+    act3DMap->setChecked(!act3DMap->isChecked());
+    needsRedraw = true;
+    update();
+}
+
 void CMap3D::initializeGL()
 {
     qDebug() << "void CMap3D::initializeGL()";
@@ -198,6 +242,7 @@ void CMap3D::initializeGL()
     }
 
     mapObjectId = glGenLists(1);
+    trkObjectId = glGenLists(1);
 
     needsRedraw = true;
     glError();
@@ -270,13 +315,13 @@ void CMap3D::setElevationLimits()
         }
     }
 
-//    if (! track.isNull() && (maxElevation - minElevation < 1))
+//    if (! track.isNull() && (maxElevation - minEle < 1))
 //    {
 //        /*selected track exist and dem isn't present for this map*/
 //        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
 //        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
 //        maxElevation = trkpt->ele;
-//        minElevation = trkpt->ele;
+//        minEle = trkpt->ele;
 //        while(trkpt != trkpts.end())
 //        {
 //            if(trkpt->flags & CTrack::pt_t::eDeleted)
@@ -285,8 +330,8 @@ void CMap3D::setElevationLimits()
 //            }
 //            if (trkpt->ele > maxElevation)
 //                maxElevation = trkpt->ele;
-//            if (trkpt->ele < minElevation)
-//                minElevation = trkpt->ele;
+//            if (trkpt->ele < minEle)
+//                minEle = trkpt->ele;
 //            ++trkpt;
 //        }
 //    }
@@ -343,6 +388,84 @@ void CMap3D::setMapObject()
     glEndList();
 }
 
+void CMap3D::setTrackObject()
+{
+    glNewList(trkObjectId, GL_COMPILE);    
+    glPushMatrix();    
+    glScalef(1.0, 1.0, zoomFactorZ);
+    glTranslated(0.0, 0.0, -minEle);
+
+    glLineWidth(2.0);
+    glPointSize(5.0);
+    double ele1, ele2;
+    IMap& dem = CMapDB::self().getDEM();
+
+    CTrack * track = CTrackDB::self().highlightedTrack();
+
+    if (track != 0)
+    {
+        XY pt1, pt2;
+
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+
+        pt1.u = trkpt->lon * DEG_TO_RAD;
+        pt1.v = trkpt->lat * DEG_TO_RAD;
+//        if (mapEleAct->isChecked())
+//            ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+//        else
+//            ele1 = trkpt->ele;
+        ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+
+
+        theMap->convertRad2Pt(pt1.u, pt1.v);
+        convertPt23D(pt1.u, pt1.v, ele1);
+
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++trkpt; continue;
+            }
+            pt2.u = trkpt->lon * DEG_TO_RAD;
+            pt2.v = trkpt->lat * DEG_TO_RAD;
+//            if (mapEleAct->isChecked())
+//                ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+//            else
+//                ele2 = trkpt->ele +1;
+            ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+            theMap->convertRad2Pt(pt2.u, pt2.v);
+            convertPt23D(pt2.u, pt2.v, ele2);
+
+            quad(pt1.u, pt1.v, ele1, pt2.u, pt2.v, ele2);
+
+            //draw selected points
+            if (trkpt->flags & CTrack::pt_t::eSelected)
+            {
+                glBegin(GL_LINES);
+                glColor3f(1.0, 0.0, 0.0);
+                glVertex3d(pt1.u, pt1.v, ele1);
+                glVertex3d(pt1.u, pt1.v, minEle);
+                glEnd();
+                glBegin(GL_POINTS);
+                glVertex3d(pt1.u, pt1.v, ele1);
+                glEnd();
+            }
+
+            ele1 = ele2;
+            pt1 = pt2;
+            ++trkpt;
+        }
+    }
+
+    // restore line width by default
+    glLineWidth(1);
+
+    glPopMatrix();
+    glEndList();
+}
+
+
 
 void CMap3D::paintEvent( QPaintEvent * e)
 {
@@ -357,6 +480,11 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+
     setupViewport(width(), height());
 
     // render objects on change
@@ -365,10 +493,10 @@ void CMap3D::paintEvent( QPaintEvent * e)
         needsRedraw = false;
 
         QApplication::setOverrideCursor(Qt::WaitCursor);
-        deleteTexture(mapTextureId);
 
         setElevationLimits();
 
+        deleteTexture(mapTextureId);
         QPixmap pm(theMap->getSize());
         QPainter p(&pm);
         p.eraseRect(pm.rect());
@@ -376,6 +504,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
         mapTextureId = bindTexture(pm, GL_TEXTURE_2D);
 
         setMapObject();
+        setTrackObject();
 
         QApplication::restoreOverrideCursor();
 
@@ -404,7 +533,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
         glMaterialf (GL_FRONT,GL_SHININESS, 10);
     }
-
     glCallList(mapObjectId);
 
     if (light)
@@ -413,6 +541,8 @@ void CMap3D::paintEvent( QPaintEvent * e)
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
     }
+
+    glCallList(trkObjectId);
     glPopMatrix();
 
     drawBaseGrid();
@@ -1036,8 +1166,8 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             convertMouse23D(x1, y1, z1);
 
             double z = zLight + minEle;
-            xLight += (x0 / (z -z0) * z - x1 / (z -z1) * z) * 10;
-            yLight += (y0 / (z -z0) * z - y1 / (z -z1) * z) * 10;
+            xLight -= (x0 / (z -z0) * z - x1 / (z -z1) * z) * 10;
+            yLight -= (y0 / (z -z0) * z - y1 / (z -z1) * z) * 10;
 
         }
         else
@@ -1280,4 +1410,37 @@ void CMap3D::convertMouse23D(double &u, double& v, double &ele)
     u = gl_x0;
     v = gl_y0;
     ele = gl_z0;
+}
+
+void CMap3D::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
+{
+    glBegin(GL_QUADS);
+    double c1, c2;
+    // compute colors
+    c1 = z1 / maxEle * 255;
+    c2 = z2 / maxEle * 255;
+
+    qglColor(wallCollor);
+    glVertex3d(x2, y2, minEle);
+    glVertex3d(x1, y1, minEle);
+    qglColor(wallCollor.dark(c1));
+    glVertex3d(x1, y1, z1);
+    qglColor(wallCollor.dark(c2));
+    glVertex3d(x2, y2, z2);
+
+    qglColor(wallCollor.dark(c2));
+    glVertex3d(x2, y2, z2);
+    qglColor(wallCollor.dark(c1));
+    glVertex3d(x1, y1, z1);
+    qglColor(wallCollor);
+    glVertex3d(x1, y1, minEle);
+    glVertex3d(x2, y2, minEle);
+
+    glEnd();
+
+    glBegin(GL_LINES);
+    qglColor(highBorderColor);
+    glVertex3d(x1, y1, z1);
+    glVertex3d(x2, y2, z2);
+    glEnd();
 }
