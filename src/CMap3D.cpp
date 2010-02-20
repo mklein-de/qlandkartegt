@@ -214,6 +214,8 @@ void CMap3D::slotChanged()
             ++pt;
         }
 
+        zoomFactor = 0.5;
+
         x0 = selTrkPt.lon * DEG_TO_RAD;
         y0 = selTrkPt.lat * DEG_TO_RAD;
         theMap->convertRad2Pt(x0, y0);
@@ -243,18 +245,10 @@ void CMap3D::slotFPVModeChanged()
 {
     if(!actFPVMode->isChecked())
     {
-//        if(xpos > 0 && zRotation < 180)
-//        {
-//            zRotation = -zRotation;
-//        }
-//        else if(xpos < 0 && zRotation > 180)
-//        {
-//            zRotation = -zRotation;
-//        }
-//
-//        double r = sqrt(xpos*xpos + ypos*ypos);
-//        xpos = -r*sin(zRotation/180 * PI);
-//        ypos = -r*cos(zRotation/180 * PI);
+        actTrackMode->setChecked(false);
+    }
+    else{
+
     }
 
     update();
@@ -643,14 +637,14 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glPopMatrix();
 
     // start 2D painting
-//    QPainter p;
-//    p.begin(this);
-//    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
-//
-//    drawCompass(p);
-//    drawElevation(p);
-//    drawHorizont(p);
-//    p.end();
+    QPainter p;
+    p.begin(this);
+    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+    drawCompass(p);
+    drawElevation(p);
+    drawHorizont(p);
+    p.end();
 }
 
 void CMap3D::drawSkybox()
@@ -1384,15 +1378,13 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         const CTrack::pt_t trkpt = trkpts[trkPointIndex];
 
-        zRotation = trkpt.heading;
+        zRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
 
         xpos = trkpt.lon * DEG_TO_RAD;
         ypos = trkpt.lat * DEG_TO_RAD;
         theMap->convertRad2Pt(xpos, ypos);
         convertPt23D(xpos, ypos, zpos);
         zpos = (trkpt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
-
-
     }
 
     update();
