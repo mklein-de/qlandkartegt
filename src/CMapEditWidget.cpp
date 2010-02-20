@@ -21,7 +21,7 @@
 #include "CCreateMapOSM.h"
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
-#include "CCreateMapWMS.h"
+//#include "CCreateMapWMS.h"
 
 #include <QtGui>
 
