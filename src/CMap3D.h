@@ -27,6 +27,7 @@
 #include <QPen>
 
 #include "IMap.h"
+#include "CTrack.h"
 
 class QPushButton;
 
@@ -40,12 +41,13 @@ class CMap3D : public QGLWidget
     public slots:
         void lightTurn();
         void slotChange3DMode();
+        void slotChange3DFPVMode();
         void changeTrackmode(){};
         void slotSaveImage(const QString& filename);
 
     protected slots:
         void slotChanged();
-        void slotFPVModeChanged();
+        void slotFPVModeChanged();        
         void slotResetLight();
         void slotHelp3D();
         void slotTrackChanged();
@@ -56,6 +58,7 @@ class CMap3D : public QGLWidget
 
         double normalizeAngle(double angle);
         void convertPt23D(double& u, double& v, double &ele);
+        void convert3D2Pt(double& u, double& v, double &ele);
         void convertMouse23D(double &u, double& v, double &ele);
         bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
@@ -100,6 +103,7 @@ class CMap3D : public QGLWidget
 
         /// the attached parent map object
         QPointer<IMap> theMap;
+        QPointer<CTrack> theTrack;
         /// the width of the skybox
         int xsize;
         /// the depth of the skybox
@@ -147,6 +151,8 @@ class CMap3D : public QGLWidget
         QAction * act3DMap;
         QAction * actFPVMode;
         QAction * actResetLight;
+        QAction * actTrackOnMap;
+        QAction * actTrackMode;
 
         /// set true if shift key is pressed.
         bool keyShiftPressed;
@@ -170,6 +176,8 @@ class CMap3D : public QGLWidget
         QPen pen2;
 
         QPushButton * helpButton;
+
+        int trkPointIndex;
 
 };
 

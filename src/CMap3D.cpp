@@ -86,6 +86,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , pen0(Qt::white, 5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , pen1(Qt::black, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , pen2(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+, trkPointIndex(-1)
 
 {
     setMouseTracking(true);
@@ -98,7 +99,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
 
-    act3DMap = new QAction(tr(" 3D / 2D"), this);
+    act3DMap = new QAction(tr("3D / 2D"), this);
     act3DMap->setCheckable(true);
     act3DMap->setChecked(true);
     connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
@@ -111,10 +112,20 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actResetLight = new QAction(tr("Reset Light"), this);
     connect(actResetLight, SIGNAL(triggered()), this, SLOT(slotResetLight()));
 
+    actTrackOnMap =  new QAction(tr("Track on map"), this);
+    actTrackOnMap->setCheckable(true);
+    actTrackOnMap->setChecked(true);
+    connect(actTrackOnMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
+
+    actTrackMode = new QAction(tr("POV on track"), this);
+    actTrackMode->setCheckable(true);
+    actTrackMode->setChecked(false);
+    connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotChanged()));
 
     QSettings cfg;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
     actFPVMode->setChecked(cfg.value("map/3D/fpv", true).toBool());
+    actTrackOnMap->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
     zoomFactorEle = cfg.value("map/3D/zoomFactorEle", zoomFactorEle).toDouble();
     light = cfg.value("map/3D/light", light).toBool();
     xLight = cfg.value("map/3D/xLight", xLight).toDouble();
@@ -145,6 +156,7 @@ CMap3D::~CMap3D()
     QSettings cfg;
     cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
     cfg.setValue("map/3D/fpv", actFPVMode->isChecked());
+    cfg.setValue("map/3D/trackonmap", actTrackOnMap->isChecked());
     cfg.setValue("map/3D/zoomFactorEle", zoomFactorEle);
     cfg.setValue("map/3D/light", light);
     cfg.setValue("map/3D/xLight", xLight);
@@ -160,6 +172,63 @@ void CMap3D::slotChanged()
     needsRedraw = true;
 
     angleNorth = theMap->getAngleNorth();
+
+    if(!theTrack.isNull() && actTrackMode->isChecked())
+    {
+        //find track point closest and snap to it.
+        double x0 = xpos;
+        double y0 = ypos;
+        double z0 = zpos;
+        XY p;
+        CTrack::pt_t selTrkPt;
+
+        convert3D2Pt(x0, y0, z0);
+
+        int d1 =0x7FFFFFFF;
+
+        trkPointIndex = -1;
+        int cnt = -1;
+        QList<CTrack::pt_t>& pts          = theTrack->getTrackPoints();
+        QList<CTrack::pt_t>::iterator pt  = pts.begin();
+        while(pt != pts.end())
+        {
+            cnt++;
+
+            if(pt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++pt; continue;
+            }
+            p.u = pt->lon * DEG_TO_RAD;
+            p.v = pt->lat * DEG_TO_RAD;
+            theMap->convertRad2Pt(p.u, p.v);
+
+            int d2 = abs(x0 - p.u) + abs(y0 - p.v);
+
+            if(d2 < d1)
+            {
+                trkPointIndex = cnt;
+                selTrkPt = (*pt);
+                d1 = d2;
+            }
+
+            ++pt;
+        }
+
+        x0 = selTrkPt.lon * DEG_TO_RAD;
+        y0 = selTrkPt.lat * DEG_TO_RAD;
+        theMap->convertRad2Pt(x0, y0);
+        convertPt23D(x0, y0, z0);
+
+        xpos = x0;
+        ypos = y0;
+        zpos = (selTrkPt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
+
+        actFPVMode->setChecked(true);
+    }
+    else
+    {
+        trkPointIndex = -1;
+    }
 
     if(isHidden())
     {
@@ -220,6 +289,9 @@ void CMap3D::lightTurn()
 
 void CMap3D::slotTrackChanged()
 {
+    actTrackMode->setChecked(false);
+
+    theTrack = CTrackDB::self().highlightedTrack();
     setTrackObject();
     update();
 }
@@ -228,6 +300,12 @@ void CMap3D::slotChange3DMode()
 {
     act3DMap->setChecked(!act3DMap->isChecked());
     needsRedraw = true;
+    update();
+}
+
+void CMap3D::slotChange3DFPVMode()
+{
+    actFPVMode->setChecked(!actFPVMode->isChecked());
     update();
 }
 
@@ -411,11 +489,14 @@ void CMap3D::setTrackObject()
 
         pt1.u = trkpt->lon * DEG_TO_RAD;
         pt1.v = trkpt->lat * DEG_TO_RAD;
-//        if (mapEleAct->isChecked())
-//            ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
-//        else
-//            ele1 = trkpt->ele;
-        ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+        if (actTrackOnMap->isChecked())
+        {
+            ele1 = dem.getElevation(pt1.u, pt1.v) + 1;
+        }
+        else
+        {
+            ele1 = trkpt->ele;
+        }
 
 
         theMap->convertRad2Pt(pt1.u, pt1.v);
@@ -429,11 +510,15 @@ void CMap3D::setTrackObject()
             }
             pt2.u = trkpt->lon * DEG_TO_RAD;
             pt2.v = trkpt->lat * DEG_TO_RAD;
-//            if (mapEleAct->isChecked())
-//                ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
-//            else
-//                ele2 = trkpt->ele +1;
-            ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+            if (actTrackOnMap->isChecked())
+            {
+                ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+            }
+            else
+            {
+                ele2 = trkpt->ele +1;
+            }
+
             theMap->convertRad2Pt(pt2.u, pt2.v);
             convertPt23D(pt2.u, pt2.v, ele2);
 
@@ -558,14 +643,14 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glPopMatrix();
 
     // start 2D painting
-    QPainter p;
-    p.begin(this);
-    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
-
-    drawCompass(p);
-    drawElevation(p);
-    drawHorizont(p);
-    p.end();
+//    QPainter p;
+//    p.begin(this);
+//    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
+//
+//    drawCompass(p);
+//    drawElevation(p);
+//    drawHorizont(p);
+//    p.end();
 }
 
 void CMap3D::drawSkybox()
@@ -1232,6 +1317,10 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             {
                 zpos += 1;
             }
+            else if(!theTrack.isNull() && actTrackMode->isChecked())
+            {
+                trkPointIndex++;
+            }
             else
             {
                 double zRotRad = (zRotation / 180 * PI);
@@ -1246,6 +1335,10 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             if(e->modifiers() & Qt::ShiftModifier)
             {
                 zpos -= 1;
+            }
+            else if(!theTrack.isNull() && actTrackMode->isChecked())
+            {
+                trkPointIndex--;
             }
             else
             {
@@ -1276,6 +1369,32 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             e->ignore();
     }
 
+    if(!theTrack.isNull() && actTrackMode->isChecked())
+    {
+
+        QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
+        if(trkPointIndex >= trkpts.count())
+        {
+            trkPointIndex = trkpts.count() - 1;
+        }
+        if(trkPointIndex < 0)
+        {
+            trkPointIndex = 0;
+        }
+
+        const CTrack::pt_t trkpt = trkpts[trkPointIndex];
+
+        zRotation = trkpt.heading;
+
+        xpos = trkpt.lon * DEG_TO_RAD;
+        ypos = trkpt.lat * DEG_TO_RAD;
+        theMap->convertRad2Pt(xpos, ypos);
+        convertPt23D(xpos, ypos, zpos);
+        zpos = (trkpt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
+
+
+    }
+
     update();
 }
 
@@ -1284,6 +1403,19 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
     QMenu menu(this);
     menu.addAction(act3DMap);
     menu.addAction(actFPVMode);
+    if(theTrack.isNull())
+    {
+        actTrackOnMap->setEnabled(false);
+        actTrackMode->setEnabled(false);
+        actTrackMode->setChecked(false);
+    }
+    else
+    {
+        actTrackOnMap->setEnabled(true);
+        actTrackMode->setEnabled(true);
+    }
+    menu.addAction(actTrackOnMap);
+    menu.addAction(actTrackMode);
     menu.addAction(actResetLight);
 
     menu.exec(e->globalPos());
@@ -1366,6 +1498,14 @@ void CMap3D::convertPt23D(double& u, double& v, double &ele)
     u = u - mapSize.width()/2;
     v = mapSize.height()/2 - v;
 }
+
+void CMap3D::convert3D2Pt(double& u, double& v, double &ele)
+{
+    QSize mapSize = theMap->getSize();
+    u = u + mapSize.width()/2;
+    v = mapSize.height()/2 - v;
+}
+
 
 void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData)
 {
