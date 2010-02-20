@@ -40,7 +40,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     osmTiles = 0;
     // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
     tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
-    tileList << qMakePair(QString("cloudmade.com (cycle)"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
+    tileList << qMakePair(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
     // tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
     tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
 
