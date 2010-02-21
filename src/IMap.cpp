@@ -66,6 +66,11 @@ IMap::~IMap()
     qDebug() << "IMap::~IMap()";
     if(pjtar) pj_free(pjtar);
 
+    if(ovlMap)
+    {
+        delete ovlMap;
+    }
+
     QSettings cfg;
     cfg.setValue("map/zoom",zoomidx);
 }
