@@ -707,7 +707,7 @@ QDateTime CTrack::getEndTimestamp()
 {
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.end() - 1;
-    while(trkpt != trkpts.begin())
+    while(trkpt > trkpts.begin())
     {
         if(trkpt->flags & pt_t::eDeleted)
         {
