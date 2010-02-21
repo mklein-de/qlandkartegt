@@ -27,7 +27,7 @@
 #include "CTrackToolWidget.h"
 
 #include <QtGui>
-#include "CUndoStack.h"
+#include "CUndoStackView.h"
 #include "CMapUndoCommandMove.h"
 
 CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
@@ -51,7 +51,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
     if(moveMap)
     {
         //CMapDB::self().getMap().move(oldPoint, e->pos());
-        CUndoStack::getInstance()->push(new CMapUndoCommandMove(&CMapDB::self().getMap(),oldPoint, e->pos()));
+        CUndoStackView::getInstance()->push(new CMapUndoCommandMove(&CMapDB::self().getMap(),oldPoint, e->pos()));
         oldPoint = e->pos();
         canvas->update();
     }
@@ -85,7 +85,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         }
         else
         {
-            CUndoStack::getInstance()->beginMacro(tr("Move map"));
+            CUndoStackView::getInstance()->beginMacro(tr("Move map"));
             cursor = QCursor(QPixmap(":/cursors/cursorMove"));
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
@@ -103,7 +103,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
     if(moveMap && (e->button() == Qt::LeftButton))
     {
-        CUndoStack::getInstance()->endMacro();
+        CUndoStackView::getInstance()->endMacro();
         moveMap = false;
         cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
         QApplication::restoreOverrideCursor();

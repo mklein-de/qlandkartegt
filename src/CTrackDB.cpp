@@ -30,7 +30,7 @@
 #include "IMap.h"
 
 #include <QtGui>
-#include "CUndoStack.h"
+#include "CUndoStackModel.h"
 #include "CTrackUndoCommandDelete.h"
 #include "CTrackUndoCommandSelect.h"
 
@@ -52,7 +52,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 {
     m_self      = this;
     toolview    = new CTrackToolWidget(tb);
-    undoStack = CUndoStack::getInstance();
+    undoStack = CUndoStackModel::getInstance();
 }
 
 

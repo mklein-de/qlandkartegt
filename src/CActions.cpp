@@ -34,7 +34,8 @@
 #include "CResources.h"
 #include "IDevice.h"
 #include "CDlgCreateWorldBasemap.h"
-#include "CUndoStack.h"
+#include "CUndoStackModel.h"
+#include "CUndoStackView.h"
 #include "CTrackUndoCommandDeletePts.h"
 #include "CTrackUndoCommandPurgePts.h"
 #ifdef PLOT_3D
@@ -503,7 +504,7 @@ void CActions::funcTrackPurgeSelection()
 {
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
-        CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
+        CUndoStackModel::getInstance()->push(new CTrackUndoCommandPurgePts(track));
 }
 
 
@@ -512,10 +513,10 @@ void CActions::funcDeleteTrackSelection()
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
     {
-        CUndoStack::getInstance()->beginMacro(tr("Delete Selection"));
-        CUndoStack::getInstance()->push(new CTrackUndoCommandPurgePts(track));
-        CUndoStack::getInstance()->push(new CTrackUndoCommandDeletePts(track));
-        CUndoStack::getInstance()->endMacro();
+        CUndoStackModel::getInstance()->beginMacro(tr("Delete Selection"));
+        CUndoStackModel::getInstance()->push(new CTrackUndoCommandPurgePts(track));
+        CUndoStackModel::getInstance()->push(new CTrackUndoCommandDeletePts(track));
+        CUndoStackModel::getInstance()->endMacro();
     }
 }
 
@@ -633,7 +634,7 @@ void CActions::funcPasteFromClipboard()
 
 void CActions::funcRedo()
 {
-    CUndoStack::getInstance()->redo();
+    CUndoStackModel::getInstance()->redo();
     //    emit CTrackDB::m_self.sigChanged();
     //    emit CTrackDB::m_self->sigModified();
 }
@@ -641,7 +642,7 @@ void CActions::funcRedo()
 
 void CActions::funcUndo()
 {
-    CUndoStack::getInstance()->undo();
+    CUndoStackModel::getInstance()->undo();
     //    emit CTrackDB::m_self()->sigChanged();
     //    emit CTrackDB::m_self()->sigModified();
 }

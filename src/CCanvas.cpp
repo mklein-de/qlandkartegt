@@ -59,7 +59,7 @@
 
 #include <QtGui>
 #include "CMenus.h"
-#include "CUndoStack.h"
+#include "CUndoStackView.h"
 #include "CCanvasUndoCommandZoom.h"
 #include "CMapUndoCommandMove.h"
 
@@ -555,7 +555,7 @@ void CCanvas::wheelEvent(QWheelEvent * e)
 
 void CCanvas::zoom(bool in, const QPoint& p)
 {
-    CUndoStack::getInstance()->push(new CCanvasUndoCommandZoom(in, p));
+    CUndoStackView::getInstance()->push(new CCanvasUndoCommandZoom(in, p));
     update();
 }
 
@@ -567,7 +567,7 @@ void CCanvas::move(double lon, double lat)
     double v = lat * DEG_TO_RAD;
     map.convertRad2Pt(u,v);
 
-    CUndoStack::getInstance()->push(new CMapUndoCommandMove(&map,QPoint(u,v), rect().center()));
+    CUndoStackView::getInstance()->push(new CMapUndoCommandMove(&map,QPoint(u,v), rect().center()));
     update();
 }
 
@@ -615,7 +615,7 @@ void CCanvas::move(move_direction_e dir)
         }
         break;
     }
-    CUndoStack::getInstance()->push(new CMapUndoCommandMove(&map,p1, p2));
+    CUndoStackView::getInstance()->push(new CMapUndoCommandMove(&map,p1, p2));
 
     update();
 }
