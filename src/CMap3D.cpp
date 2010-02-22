@@ -58,7 +58,6 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 
 inline double calcZRotationDelta(double delta)
 {    
-    printf("%f\n", delta);
     if(delta > 20.0)
     {
         return 10.0;
@@ -351,7 +350,6 @@ void CMap3D::slotTrackModeChanged()
 
 void CMap3D::slotAnimateRotation()
 {
-    qDebug() << zRotation << deltaRotation << targetZRotation << fabs(targetZRotation - zRotation);
     zRotation += deltaRotation;
     if(deltaRotation < 0)
     {
