@@ -320,12 +320,24 @@ void CMap3D::slotTrackModeChanged()
 
         x0 = selTrkPt.lon * DEG_TO_RAD;
         y0 = selTrkPt.lat * DEG_TO_RAD;
+
+        double ele;
+        if (actTrackOnMap->isChecked())
+        {
+            IMap& dem = CMapDB::self().getDEM();
+            ele = dem.getElevation(x0, y0) + 1;
+        }
+        else
+        {
+            ele = selTrkPt.ele;
+        }
+
         theMap->convertRad2Pt(x0, y0);
         convertPt23D(x0, y0, z0);
 
         xpos = x0;
         ypos = y0;
-        zpos = (selTrkPt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
+        zpos = (ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
 
         actFPVMode->setChecked(true);
     }
@@ -1465,9 +1477,23 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         xpos = trkpt.lon * DEG_TO_RAD;
         ypos = trkpt.lat * DEG_TO_RAD;
+
+        double ele;
+        if (actTrackOnMap->isChecked())
+        {
+            IMap& dem = CMapDB::self().getDEM();
+            ele = dem.getElevation(xpos, ypos) + 1;
+        }
+        else
+        {
+            ele = trkpt.ele;
+        }
+
         theMap->convertRad2Pt(xpos, ypos);
         convertPt23D(xpos, ypos, zpos);
-        zpos = (trkpt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
+
+
+        zpos = (ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
     }
 
     update();
