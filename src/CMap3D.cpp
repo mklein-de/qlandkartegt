@@ -56,6 +56,23 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
     }
 }
 
+inline double calcZRotationDelta(double delta)
+{    
+    printf("%f\n", delta);
+    if(delta > 20.0)
+    {
+        return 10.0;
+    }
+    else if(delta < 20.0)
+    {
+        return 5.0;
+    }
+    else if(delta < 5.0)
+    {
+        return 1.0;
+    }
+}
+
 
 static QColor wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
 static QColor highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
@@ -87,7 +104,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , pen1(Qt::black, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , pen2(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , trkPointIndex(-1)
-
+, targetZRotation(0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -120,7 +137,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actTrackMode = new QAction(tr("POV on track"), this);
     actTrackMode->setCheckable(true);
     actTrackMode->setChecked(false);
-    connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotChanged()));
+    connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotChangeTrackMode()));
 
     QSettings cfg;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
@@ -132,10 +149,16 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     yLight = cfg.value("map/3D/yLight", yLight).toDouble();
     zLight = cfg.value("map/3D/zLight", zLight).toDouble();
 
-
     helpButton = new QPushButton(tr("Help 3d"));
     connect(helpButton, SIGNAL(clicked()), this, SLOT(slotHelp3D()));
     theMainWindow->statusBar()->insertPermanentWidget(0,helpButton);
+
+    timerAnimateRotation = new QTimer(this);
+    timerAnimateRotation->setSingleShot(false);
+    timerAnimateRotation->setInterval(50);
+    connect(timerAnimateRotation, SIGNAL(timeout()), this, SLOT(slotAnimateRotation()));
+
+    slotTrackChanged();
 
     qApp->installEventFilter(this);
 }
@@ -172,65 +195,6 @@ void CMap3D::slotChanged()
     needsRedraw = true;
 
     angleNorth = theMap->getAngleNorth();
-
-    if(!theTrack.isNull() && actTrackMode->isChecked())
-    {
-        //find track point closest and snap to it.
-        double x0 = xpos;
-        double y0 = ypos;
-        double z0 = zpos;
-        XY p;
-        CTrack::pt_t selTrkPt;
-
-        convert3D2Pt(x0, y0, z0);
-
-        int d1 =0x7FFFFFFF;
-
-        trkPointIndex = -1;
-        int cnt = -1;
-        QList<CTrack::pt_t>& pts          = theTrack->getTrackPoints();
-        QList<CTrack::pt_t>::iterator pt  = pts.begin();
-        while(pt != pts.end())
-        {
-            cnt++;
-
-            if(pt->flags & CTrack::pt_t::eDeleted)
-            {
-                ++pt; continue;
-            }
-            p.u = pt->lon * DEG_TO_RAD;
-            p.v = pt->lat * DEG_TO_RAD;
-            theMap->convertRad2Pt(p.u, p.v);
-
-            int d2 = abs(x0 - p.u) + abs(y0 - p.v);
-
-            if(d2 < d1)
-            {
-                trkPointIndex = cnt;
-                selTrkPt = (*pt);
-                d1 = d2;
-            }
-
-            ++pt;
-        }
-
-        zoomFactor = 0.5;
-
-        x0 = selTrkPt.lon * DEG_TO_RAD;
-        y0 = selTrkPt.lat * DEG_TO_RAD;
-        theMap->convertRad2Pt(x0, y0);
-        convertPt23D(x0, y0, z0);
-
-        xpos = x0;
-        ypos = y0;
-        zpos = (selTrkPt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
-
-        actFPVMode->setChecked(true);
-    }
-    else
-    {
-        trkPointIndex = -1;
-    }
 
     if(isHidden())
     {
@@ -300,6 +264,97 @@ void CMap3D::slotChange3DMode()
 void CMap3D::slotChange3DFPVMode()
 {
     actFPVMode->setChecked(!actFPVMode->isChecked());
+    update();
+}
+
+void CMap3D::slotChangeTrackMode()
+{
+    if(!theTrack.isNull() && actTrackMode->isChecked())
+    {
+        //find track point closest and snap to it.
+        double x0 = xpos;
+        double y0 = ypos;
+        double z0 = zpos;
+        XY p;
+        CTrack::pt_t selTrkPt;
+
+        convert3D2Pt(x0, y0, z0);
+
+        int d1 =0x7FFFFFFF;
+
+        trkPointIndex = -1;
+        int cnt = -1;
+        QList<CTrack::pt_t>& pts          = theTrack->getTrackPoints();
+        QList<CTrack::pt_t>::iterator pt  = pts.begin();
+        while(pt != pts.end())
+        {
+            cnt++;
+
+            if(pt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++pt; continue;
+            }
+            p.u = pt->lon * DEG_TO_RAD;
+            p.v = pt->lat * DEG_TO_RAD;
+            theMap->convertRad2Pt(p.u, p.v);
+
+            int d2 = abs(x0 - p.u) + abs(y0 - p.v);
+
+            if(d2 < d1)
+            {
+                trkPointIndex = cnt;
+                selTrkPt = (*pt);
+                d1 = d2;
+            }
+
+            ++pt;
+        }
+
+        zoomFactor = 0.5;
+
+        x0 = selTrkPt.lon * DEG_TO_RAD;
+        y0 = selTrkPt.lat * DEG_TO_RAD;
+        theMap->convertRad2Pt(x0, y0);
+        convertPt23D(x0, y0, z0);
+
+        xpos = x0;
+        ypos = y0;
+        zpos = (selTrkPt.ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
+
+        actFPVMode->setChecked(true);
+    }
+    else
+    {
+        actTrackMode->setChecked(false);
+        trkPointIndex = -1;
+    }
+    update();
+}
+
+void CMap3D::slotAnimateRotation()
+{
+    qDebug() << zRotation << deltaRotation << targetZRotation << fabs(targetZRotation - zRotation);
+    zRotation += deltaRotation;
+    if(deltaRotation < 0)
+    {
+        if(zRotation < targetZRotation)
+        {
+            zRotation       = targetZRotation;            
+            timerAnimateRotation->stop();
+
+        }
+        deltaRotation   = -calcZRotationDelta(fabs(targetZRotation - zRotation));
+    }
+    else
+    {
+        if(zRotation > targetZRotation)
+        {
+            zRotation       = targetZRotation;            
+            timerAnimateRotation->stop();
+        }
+        deltaRotation   = calcZRotationDelta(fabs(targetZRotation - zRotation));
+    }
+
     update();
 }
 
@@ -562,7 +617,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-//    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
@@ -604,7 +658,9 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     setPOV();
 
+    glEnable(GL_CULL_FACE);
     drawSkybox();
+    glDisable(GL_CULL_FACE);
 
     glPushMatrix();
     glScalef(2.0, 2.0, zoomFactorEle);
@@ -634,10 +690,9 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     drawBaseGrid();
     drawCenterStar();
-
     // restore 2D context
     glShadeModel(GL_FLAT);
-    glDisable(GL_CULL_FACE);
+
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LINE_SMOOTH);
 
@@ -1395,7 +1450,9 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         if(trkpt.azimuth != WPT_NOFLOAT)
         {
-            zRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
+            targetZRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
+            deltaRotation = targetZRotation > zRotation ? 1.0 : -1.0;
+            timerAnimateRotation->start();
         }
 
         xpos = trkpt.lon * DEG_TO_RAD;

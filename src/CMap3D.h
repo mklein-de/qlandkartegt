@@ -48,9 +48,11 @@ class CMap3D : public QGLWidget
     protected slots:
         void slotChanged();
         void slotFPVModeChanged();        
+        void slotChangeTrackMode();
         void slotResetLight();
         void slotHelp3D();
         void slotTrackChanged();
+        void slotAnimateRotation();
 
     protected:
         void initializeGL();
@@ -175,9 +177,15 @@ class CMap3D : public QGLWidget
         QPen pen1;
         QPen pen2;
 
+        /// button in statusbar to open help dialog
         QPushButton * helpButton;
 
+        /// used for trackmode as index into the track
         int trkPointIndex;
+
+        QTimer * timerAnimateRotation;
+        double targetZRotation;
+        double deltaRotation;
 
 };
 
