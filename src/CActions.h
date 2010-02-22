@@ -70,7 +70,7 @@ class CActions : public QObject
         void funcMap3DMode();
         void funcMap3DFPVMode();
         void funcMap3DLighting();
-        void funcMap3DTrackmode();
+        void funcMap3DTrackMode();
 
         void funcNewWpt();
         void funcEditWpt();

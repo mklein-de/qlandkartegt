@@ -112,14 +112,14 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 
     theMap = map;
     connect(map, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-    connect(map, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    connect(map, SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
 
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrackChanged()));
 
     act3DMap = new QAction(tr("3D / 2D"), this);
     act3DMap->setCheckable(true);
     act3DMap->setChecked(true);
-    connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
+    connect(act3DMap, SIGNAL(triggered()), this, SLOT(slotMapChanged()));
 
     actFPVMode = new QAction(tr("FPV / Rot."), this);
     actFPVMode->setCheckable(true);
@@ -132,12 +132,12 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actTrackOnMap =  new QAction(tr("Track on map"), this);
     actTrackOnMap->setCheckable(true);
     actTrackOnMap->setChecked(true);
-    connect(actTrackOnMap, SIGNAL(triggered()), this, SLOT(slotChanged()));
+    connect(actTrackOnMap, SIGNAL(triggered()), this, SLOT(slotMapChanged()));
 
     actTrackMode = new QAction(tr("POV on track"), this);
     actTrackMode->setCheckable(true);
     actTrackMode->setChecked(false);
-    connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotChangeTrackMode()));
+    connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotTrackModeChanged()));
 
     QSettings cfg;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
@@ -190,7 +190,7 @@ CMap3D::~CMap3D()
 
 }
 
-void CMap3D::slotChanged()
+void CMap3D::slotMapChanged()
 {
     needsRedraw = true;
 
@@ -267,7 +267,13 @@ void CMap3D::slotChange3DFPVMode()
     update();
 }
 
-void CMap3D::slotChangeTrackMode()
+void CMap3D::slotChange3DTrackMode()
+{
+    actTrackMode->setChecked(!actTrackMode->isChecked());
+    slotTrackModeChanged();
+}
+
+void CMap3D::slotTrackModeChanged()
 {
     if(!theTrack.isNull() && actTrackMode->isChecked())
     {
@@ -658,9 +664,9 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     setPOV();
 
-    glEnable(GL_CULL_FACE);
+
     drawSkybox();
-    glDisable(GL_CULL_FACE);
+
 
     glPushMatrix();
     glScalef(2.0, 2.0, zoomFactorEle);
@@ -715,6 +721,7 @@ void CMap3D::drawSkybox()
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
+    glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
 
     glColor4f(1.0, 1.0, 0.0,1.0f);
@@ -776,6 +783,7 @@ void CMap3D::drawSkybox()
     glEnd();
 
     glPopMatrix();
+    glDisable(GL_CULL_FACE);
     glDisable(GL_TEXTURE_2D);
 
     glError();

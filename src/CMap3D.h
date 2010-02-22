@@ -42,13 +42,14 @@ class CMap3D : public QGLWidget
         void lightTurn();
         void slotChange3DMode();
         void slotChange3DFPVMode();
+        void slotChange3DTrackMode();
         void changeTrackmode(){};
         void slotSaveImage(const QString& filename);
 
     protected slots:
-        void slotChanged();
+        void slotMapChanged();
         void slotFPVModeChanged();        
-        void slotChangeTrackMode();
+        void slotTrackModeChanged();
         void slotResetLight();
         void slotHelp3D();
         void slotTrackChanged();

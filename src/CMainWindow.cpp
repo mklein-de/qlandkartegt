@@ -131,7 +131,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DMode");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DFPVMode");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
-    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackmode");
+    actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackMode");
 #endif
 
     actionGroupProvider->addAction(CMenus::WptMenu, "aSwitchToMain");

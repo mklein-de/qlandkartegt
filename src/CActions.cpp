@@ -75,8 +75,8 @@ QObject(parent), parent(parent)
     createAction(tr("ESC"),":/icons/iconBack16x16",tr("&Close"),"aCloseMap3D",tr("Close 3D view."));
     createAction(tr("F1"),0,tr("3D / 2D"),"aMap3DMode",tr("Toggle between 3D and 2D map."));
     createAction(tr("F2"),0,tr("FPV / Rot."),"aMap3DFPVMode",tr("Toggle between first person view and rotation mode."));
-    createAction(tr("F3"),":/icons/iconLight16x16",tr("&Lighting On/Off"), "aMap3DLighting",tr("Turn on/off lighting."));
-    createAction(tr("F4"),":/icons/iconTrack16x16",tr("&Trackmode"), "aMap3DTrackmode",tr("Glue point of view to track."));
+    createAction(tr("F3"),":/icons/iconLight16x16",tr("Lighting On/Off"), "aMap3DLighting",tr("Turn on/off lighting."));
+    createAction(tr("F4"),":/icons/iconTrack16x16",tr("Trackmode"), "aMap3DTrackMode",tr("Glue point of view to track."));
 #endif
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
@@ -418,13 +418,13 @@ void CActions::funcMap3DFPVMode()
 #endif
 }
 
-void CActions::funcMap3DTrackmode()
+void CActions::funcMap3DTrackMode()
 {
 #ifdef PLOT_3D
     CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
-        map->changeTrackmode();
+        map->slotChange3DTrackMode();
     }
 #endif
 }
