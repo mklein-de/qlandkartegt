@@ -222,7 +222,7 @@ void CMapQMAP::__test()
     convertPt2Rad(p2.u, p2.v);
 
     QVector<float> ele2(c * r);
-    dem.getRegion(ele2.data(), p1, p2, c, r);
+    dem.getRegion(ele2, p1, p2, c, r);
 
     printf("---------------------\n");
 

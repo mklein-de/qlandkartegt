@@ -216,7 +216,7 @@ class IMap : public QObject
          * \param h - matrix height
          * @return - return new buffer with size w * h
          */
-        virtual bool getOrigRegion(qint16 * data, XY &topLeft, XY &bottomRight, int& width, int& height) { return false; };
+        virtual bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& width, int& height) { return false; };
         /**
          * get values for the defined region.
          * \param buffer - elevation matrix. It must has size w * h.
@@ -225,7 +225,7 @@ class IMap : public QObject
          * \param w - matrix width
          * \param h - matrix height
          */
-        virtual bool getRegion(float *buffer, XY topLeft, XY bottomRight, int width, int height) {};
+        virtual bool getRegion(QVector<float>& buffer, XY topLeft, XY bottomRight, int width, int height) {};
         /// return the state of the needsRedraw flag
         virtual bool getNeedsRedraw(){return needsRedraw;}
         /// the map type, hast to be set during construction

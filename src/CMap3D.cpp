@@ -79,8 +79,8 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , keyShiftPressed(false)
 , keyLPressed(false)
 , light(true)
-, xLight(0.0)
-, yLight(-400.0)
+, xLight(200.0)
+, yLight(400.0)
 , zLight(5000.0)
 , angleNorth(0)
 , pen0(Qt::white, 5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
@@ -256,8 +256,8 @@ void CMap3D::slotFPVModeChanged()
 
 void CMap3D::slotResetLight()
 {
-    xLight = 0;
-    yLight = 0;
+    xLight = 200;
+    yLight = 400;
     zLight = 5000;
     update();
 }
@@ -353,7 +353,7 @@ void CMap3D::resizeGL(int width, int height)
 
 void CMap3D::setElevationLimits()
 {
-    double step = 5;
+    double step = 1;
     double ele;
     int i, j;
     QSize mapSize = theMap->getSize();
@@ -367,7 +367,7 @@ void CMap3D::setElevationLimits()
 
     minEle = maxEle = 0;
 
-    QVector<qint16> eleData(xcount*ycount);
+    QVector<float> eleData(xcount*ycount);
     bool ok = getEleRegion(eleData, xcount, ycount);
     if (ok)
     {
@@ -379,34 +379,42 @@ void CMap3D::setElevationLimits()
             {
                 ele = eleData[i + j * xcount];
                 if (ele > maxEle)
+                {
                     maxEle = ele;
+                }
 
                 if (ele < minEle)
+                {
                     minEle = ele;
+                }
             }
         }
     }
 
-//    if (! track.isNull() && (maxElevation - minEle < 1))
-//    {
-//        /*selected track exist and dem isn't present for this map*/
-//        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-//        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-//        maxElevation = trkpt->ele;
-//        minEle = trkpt->ele;
-//        while(trkpt != trkpts.end())
-//        {
-//            if(trkpt->flags & CTrack::pt_t::eDeleted)
-//            {
-//                ++trkpt; continue;
-//            }
-//            if (trkpt->ele > maxElevation)
-//                maxElevation = trkpt->ele;
-//            if (trkpt->ele < minEle)
-//                minEle = trkpt->ele;
-//            ++trkpt;
-//        }
-//    }
+    if(!theTrack.isNull())
+    {
+        /*selected track exist and dem isn't present for this map*/
+        QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++trkpt; continue;
+            }
+
+            if (trkpt->ele > maxEle)
+            {
+                maxEle = trkpt->ele;
+            }
+
+            if (trkpt->ele < minEle)
+            {
+                minEle = trkpt->ele;
+            }
+            ++trkpt;
+        }
+    }
 
     if (maxEle - minEle < 1)
     {
@@ -798,7 +806,7 @@ void CMap3D::draw3DMap()
     QSize   s = theMap->getSize();
     double  w = s.width();
     double  h = s.height();
-    double  step = 5;
+    double  step = 1;
     int xcount, ycount;
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -814,7 +822,7 @@ void CMap3D::draw3DMap()
         ycount = (h / step + 1);
     }
 
-    QVector<qint16> eleData(xcount * ycount);
+    QVector<float> eleData(xcount * ycount);
     bool ok = getEleRegion(eleData, xcount, ycount);
 
     if (!ok)
@@ -1466,7 +1474,7 @@ double CMap3D::normalizeAngle(double angle)
     return angle;
 }
 
-bool CMap3D::getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount)
+bool CMap3D::getEleRegion(QVector<float>& eleData, int& xcount, int& ycount)
 {
     QSize   s = theMap->getSize();
     double  w = s.width();
@@ -1481,7 +1489,10 @@ bool CMap3D::getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount)
     theMap->convertPt2Rad(pen1.u, pen1.v);
     theMap->convertPt2Rad(pen2.u, pen2.v);
 
-    return dem.getOrigRegion(eleData.data(), pen1, pen2, xcount, ycount);
+//    return dem.getOrigRegion(eleData, pen1, pen2, xcount, ycount);    
+    return dem.getRegion(eleData, pen1, pen2, xcount, ycount);
+
+
 }
 
 void CMap3D::convertPt23D(double& u, double& v, double &ele)
@@ -1499,7 +1510,7 @@ void CMap3D::convert3D2Pt(double& u, double& v, double &ele)
 }
 
 
-void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData)
+void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData)
 {
     if (xi < 0)
     {

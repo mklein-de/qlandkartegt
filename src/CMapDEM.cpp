@@ -168,9 +168,10 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 }
 
 
-bool CMapDEM::getOrigRegion(qint16 * data,XY &topLeft, XY &bottomRight, int& w, int& h)
+bool CMapDEM::getOrigRegion(QVector<qint16>& data,XY &topLeft, XY &bottomRight, int& w, int& h)
 {
-    memset(data, 0, sizeof(qint16) * h * w);
+    //memset(data, 0, sizeof(qint16) * h * w);
+    data.fill(0);
     if(pjsrc == 0) return false;
 
     // 1. convert top left and bottom right point into the projection system used by the DEM data
@@ -206,23 +207,30 @@ bool CMapDEM::getOrigRegion(qint16 * data,XY &topLeft, XY &bottomRight, int& w, 
     pj_transform(pjsrc, pjtar, 1, 0, &bottomRight.u, &bottomRight.v, 0);
 
     // memory sanity check
-    if(double(w1) * double(h1) > pow(2.0f,31)) return NULL;
+    if(double(w1) * double(h1) > pow(2.0f,31)) return false;
+
     if (w1 < w)
+    {
         w = w1;
+    }
     if (h1 < h)
+    {
         h = h1;
+    }
 
-    // 7. read DEM data from file
+    Q_ASSERT(w1 <= w);
+    Q_ASSERT(h1 <= h);
 
-    CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data, w, h, GDT_Int16, 1, 0, 0, 0, 0);
+    // 7. read DEM data from file    
+    CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data.data(), w, h, GDT_Int16, 1, 0, 0, 0, 0);
     return (err != CE_Failure);
 }
 
 
-bool CMapDEM::getRegion(float *data, XY topLeft, XY bottomRight, int w, int h)
+bool CMapDEM::getRegion(QVector<float>& data, XY topLeft, XY bottomRight, int w, int h)
 {
     //     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
-    memset(data, 0, sizeof(float) * h * w);
+    data.fill(0.0);
 
     if(pjsrc == 0) return false;
 

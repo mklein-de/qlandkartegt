@@ -60,8 +60,8 @@ class CMap3D : public QGLWidget
         void convertPt23D(double& u, double& v, double &ele);
         void convert3D2Pt(double& u, double& v, double &ele);
         void convertMouse23D(double &u, double& v, double &ele);
-        bool getEleRegion(QVector<qint16>& eleData, int& xcount, int& ycount);
-        void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, qint16 *eleData);
+        bool getEleRegion(QVector<float>& eleData, int& xcount, int& ycount);
+        void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData);
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
 
         void setupViewport(int width, int height);
