@@ -562,7 +562,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-    glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
@@ -846,8 +846,8 @@ void CMap3D::draw3DMap()
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnable(GL_NORMALIZE);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, mapTextureId);
 
+    glBindTexture(GL_TEXTURE_2D, mapTextureId);
     /*
      * next code can be more optimal if used array of coordinates or VBO
      */
@@ -926,6 +926,9 @@ void CMap3D::draw3DMap()
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_NORMALIZE);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
     glError();
 }
 
@@ -1311,6 +1314,8 @@ void CMap3D::wheelEvent ( QWheelEvent * e )
 
 void CMap3D::keyPressEvent ( QKeyEvent * e )
 {
+    bool changePOV2Track = false;
+
     switch (e->key())
     {
         case Qt::Key_W:
@@ -1322,6 +1327,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             else if(!theTrack.isNull() && actTrackMode->isChecked())
             {
                 trkPointIndex++;
+                changePOV2Track = true;
             }
             else
             {
@@ -1341,6 +1347,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             else if(!theTrack.isNull() && actTrackMode->isChecked())
             {
                 trkPointIndex--;
+                changePOV2Track = true;
             }
             else
             {
@@ -1371,7 +1378,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             e->ignore();
     }
 
-    if(!theTrack.isNull() && actTrackMode->isChecked())
+    if(changePOV2Track)
     {
 
         QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
@@ -1386,7 +1393,10 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         const CTrack::pt_t trkpt = trkpts[trkPointIndex];
 
-        zRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
+        if(trkpt.azimuth != WPT_NOFLOAT)
+        {
+            zRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
+        }
 
         xpos = trkpt.lon * DEG_TO_RAD;
         ypos = trkpt.lat * DEG_TO_RAD;
