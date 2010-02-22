@@ -6101,11 +6101,11 @@ p, li { white-space: pre-wrap; }
 Map: %1
 
 DEM: %2</source>
-        <translation>Die Projektion der DEM Daten is nicht die selbe wie die der Basiskarte.
+        <translation type="unfinished">Die Projektion der DEM Daten is nicht die selbe wie die der Basiskarte.
 
 Karte: %1
 
-DEM: %1</translation>
+DEM: %2</translation>
     </message>
     <message>
         <source>DEM projection does not match the projection of the basemap.</source>
