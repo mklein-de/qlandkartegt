@@ -26,6 +26,9 @@
 #include "CDlg3DHelp.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
+#include "CWpt.h"
+#include "CWptDB.h"
+#include "WptIcons.h"
 
 #include <QtGui>
 
@@ -675,6 +678,17 @@ void CMap3D::paintEvent( QPaintEvent * e)
     setPOV();
 
 
+//    GLdouble vX = 0, vY = 0, vZ = 0;
+
+    glGetDoublev(GL_MODELVIEW_MATRIX,modelMatrix);
+    glGetDoublev(GL_PROJECTION_MATRIX,projMatrix);
+    glGetIntegerv(GL_VIEWPORT,viewport);
+//    gluProject(100.0,100.0,0.0,modelMatrix, projMatrix, viewport, &vX, &vY, &vZ);
+
+//    qDebug() << vX << vY << vZ;
+
+
+
     drawSkybox();
 
 
@@ -714,12 +728,14 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
+    glFinish();
 
     // start 2D painting
     QPainter p;
     p.begin(this);
     p.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
+    drawWaypoints(p);
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
@@ -1005,6 +1021,26 @@ void CMap3D::draw3DMap()
     glError();
 }
 
+
+void CMap3D::drawWaypoints(QPainter& p)
+{
+    GLdouble x = 0, y = 0, z = 0, vX = 0, vY = 0, vZ = 0;
+
+    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
+    QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        QPixmap icon = getWptIconByName((*wpt)->icon);
+        gluProject(100.0,100.0,100.0,modelMatrix, projMatrix, viewport, &vX, &vY, &vZ);
+
+        qDebug() << vX << vY << vZ;
+
+//        p.drawPixmap(vX,ysize - vY, icon);
+
+        break;
+        ++wpt;
+    }
+}
 
 void CMap3D::drawCompass(QPainter& p)
 {

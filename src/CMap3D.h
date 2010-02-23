@@ -88,6 +88,8 @@ class CMap3D : public QGLWidget
         /// draw map as real 3D model
         void draw3DMap();
 
+        void drawWaypoints(QPainter& p);
+
         /// draw compass on bottom of screen
         void drawCompass(QPainter& p);
 
@@ -188,6 +190,9 @@ class CMap3D : public QGLWidget
         double targetZRotation;
         double deltaRotation;
 
+        GLint viewport[4];
+        GLdouble modelMatrix[16];
+        GLdouble projMatrix[16];
 };
 
 #endif //CMAP3D_H
