@@ -43,7 +43,6 @@ class CMap3D : public QGLWidget
         void slotChange3DMode();
         void slotChange3DFPVMode();
         void slotChange3DTrackMode();
-        void changeTrackmode(){};
         void slotSaveImage(const QString& filename);
 
     protected slots:
@@ -58,6 +57,7 @@ class CMap3D : public QGLWidget
     protected:
         void initializeGL();
         void resizeGL(int width, int height);
+        void setupViewport(int width, int height);
 
         double normalizeAngle(double angle);
         void convertPt23D(double& u, double& v, double &ele);
@@ -66,8 +66,8 @@ class CMap3D : public QGLWidget
         bool getEleRegion(QVector<float>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData);
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
+        void drawBitmap(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask);
 
-        void setupViewport(int width, int height);
 
         /// set min / max elevation limits and zoomFactorZ
         void setElevationLimits();
@@ -88,7 +88,7 @@ class CMap3D : public QGLWidget
         /// draw map as real 3D model
         void draw3DMap();
 
-        void drawWaypoints(QPainter& p);
+        void drawWaypoints();
 
         /// draw compass on bottom of screen
         void drawCompass(QPainter& p);
@@ -190,9 +190,6 @@ class CMap3D : public QGLWidget
         double targetZRotation;
         double deltaRotation;
 
-        GLint viewport[4];
-        GLdouble modelMatrix[16];
-        GLdouble projMatrix[16];
 };
 
 #endif //CMAP3D_H

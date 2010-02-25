@@ -677,20 +677,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     setPOV();
 
-
-//    GLdouble vX = 0, vY = 0, vZ = 0;
-
-    glGetDoublev(GL_MODELVIEW_MATRIX,modelMatrix);
-    glGetDoublev(GL_PROJECTION_MATRIX,projMatrix);
-    glGetIntegerv(GL_VIEWPORT,viewport);
-//    gluProject(100.0,100.0,0.0,modelMatrix, projMatrix, viewport, &vX, &vY, &vZ);
-
-//    qDebug() << vX << vY << vZ;
-
-
-
     drawSkybox();
-
 
     glPushMatrix();
     glScalef(2.0, 2.0, zoomFactorEle);
@@ -716,15 +703,20 @@ void CMap3D::paintEvent( QPaintEvent * e)
     }
 
     glCallList(trkObjectId);
+
+    drawWaypoints();
+
     glPopMatrix();
 
     drawBaseGrid();
     drawCenterStar();
+
     // restore 2D context
     glShadeModel(GL_FLAT);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LINE_SMOOTH);
+
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -735,7 +727,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     p.begin(this);
     p.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
-    drawWaypoints(p);
+
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
@@ -895,7 +887,7 @@ void CMap3D::draw3DMap()
     QSize   s = theMap->getSize();
     double  w = s.width();
     double  h = s.height();
-    double  step = 1;
+    double  step = 2;
     int xcount, ycount;
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -1022,24 +1014,85 @@ void CMap3D::draw3DMap()
 }
 
 
-void CMap3D::drawWaypoints(QPainter& p)
+void CMap3D::drawBitmap(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask)
 {
-    GLdouble x = 0, y = 0, z = 0, vX = 0, vY = 0, vZ = 0;
+    glPushMatrix();
+
+    double m = isMask ? +0.1 : 0;
+
+    glTranslated(x, y, z);
+    glRotatef(-zRotation, 0,0,1);
+    glScalef(1.0, 1.0, 2.0/(zoomFactorZ*zoomFactorEle));
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1); glVertex3d(0, m, ysize );
+    glTexCoord2f(0, 0); glVertex3d(0, m, 0);
+    glTexCoord2f(1, 0); glVertex3d(xsize, m, 0);
+    glTexCoord2f(1, 1); glVertex3d(xsize, m, ysize );
+    glEnd();
+    glPopMatrix();
+}
+
+void CMap3D::drawWaypoints()
+{
+    int i, j;
+    const QSize mapSize = theMap->getSize();
+    const double wsize = 15;
+
+    GLint iconId, iconMaskId;
+
+    glPushMatrix();
+
+    glEnable(GL_ALPHA_TEST);
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glColor4f(0,0,0,0);
+
+    glScalef(1.0, 1.0, zoomFactorZ);
+    glTranslated(0.0, 0.0, -minEle);
 
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
     QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
     while(wpt != wpts.end())
     {
+        double u,v,ele = 0;
         QPixmap icon = getWptIconByName((*wpt)->icon);
-        gluProject(100.0,100.0,100.0,modelMatrix, projMatrix, viewport, &vX, &vY, &vZ);
 
-        qDebug() << vX << vY << vZ;
+        u = (*wpt)->lon * DEG_TO_RAD;
+        v = (*wpt)->lat * DEG_TO_RAD;
+        IMap& dem = CMapDB::self().getDEM();
+        if (act3DMap->isChecked())
+        {
+            ele = dem.getElevation(u, v);
+        }
 
-//        p.drawPixmap(vX,ysize - vY, icon);
 
-        break;
+        ele += 1;
+
+        theMap->convertRad2Pt(u, v);
+
+        convertPt23D(u,v,ele);
+
+        glBlendFunc(GL_DST_COLOR,GL_ZERO);
+
+        iconMaskId  = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
+        iconId      = bindTexture(icon);       
+        drawBitmap(u, v, wsize, wsize, ele, iconMaskId, true);
+
+        glBlendFunc(GL_ONE, GL_ONE);
+
+        drawBitmap(u, v, wsize, wsize, ele, iconId, false);
+        deleteTexture(iconMaskId);
+        deleteTexture(iconId);
+
         ++wpt;
     }
+
+    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
 }
 
 void CMap3D::drawCompass(QPainter& p)
