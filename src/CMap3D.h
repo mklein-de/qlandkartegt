@@ -66,7 +66,7 @@ class CMap3D : public QGLWidget
         bool getEleRegion(QVector<float>& eleData, int& xcount, int& ycount);
         void getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, int ycount, double current_step_x, double current_step_y, float *eleData);
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
-        void drawBitmap(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask);
+        void quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask);
 
 
         /// set min / max elevation limits and zoomFactorZ

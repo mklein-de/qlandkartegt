@@ -1014,11 +1014,11 @@ void CMap3D::draw3DMap()
 }
 
 
-void CMap3D::drawBitmap(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask)
+void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask)
 {
     glPushMatrix();
 
-    double m = isMask ? +0.1 : 0;
+    double m = isMask ? +0.2 : 0;
 
     glTranslated(x, y, z);
     glRotatef(-zRotation, 0,0,1);
@@ -1038,7 +1038,7 @@ void CMap3D::drawWaypoints()
 {
     int i, j;
     const QSize mapSize = theMap->getSize();
-    const double wsize = 15;
+    const double wsize = 3;
 
     GLint iconId, iconMaskId;
 
@@ -1068,7 +1068,7 @@ void CMap3D::drawWaypoints()
         }
 
 
-        ele += 1;
+        ele += 5;
 
         theMap->convertRad2Pt(u, v);
 
@@ -1078,11 +1078,11 @@ void CMap3D::drawWaypoints()
 
         iconMaskId  = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
         iconId      = bindTexture(icon);       
-        drawBitmap(u, v, wsize, wsize, ele, iconMaskId, true);
+        quadTexture(u, v, wsize, wsize, ele, iconMaskId, true);
 
         glBlendFunc(GL_ONE, GL_ONE);
 
-        drawBitmap(u, v, wsize, wsize, ele, iconId, false);
+        quadTexture(u, v, wsize, wsize, ele, iconId, false);
         deleteTexture(iconMaskId);
         deleteTexture(iconId);
 
@@ -1496,6 +1496,11 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 double zRotRad = (zRotation / 180 * PI);
                 xpos += sin(zRotRad) * 4;
                 ypos += cos(zRotRad) * 4;
+
+                double xRotRad = (xRotation / 180 * PI);
+                zpos -= sin(xRotRad) * 4;
+
+                qDebug() << xRotation << xRotRad << zpos;
             }
             break;
         }
@@ -1516,6 +1521,10 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 double zRotRad = (zRotation / 180 * PI);
                 xpos -= sin(zRotRad) * 4;
                 ypos -= cos(zRotRad) * 4;
+
+                double xRotRad = (xRotation / 180 * PI);
+                zpos += sin(xRotRad) * 4;
+
             }
             break;
         }
