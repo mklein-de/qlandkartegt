@@ -24,6 +24,7 @@
 #include "CCanvas.h"
 #include "CMainWindow.h"
 #include "CDlg3DHelp.h"
+#include "CDlgConfig3D.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CWpt.h"
@@ -106,6 +107,8 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , yLight(400.0)
 , zLight(5000.0)
 , angleNorth(0)
+, quality3D(eCoarse)
+, coupleElePOV(true)
 , pen0(Qt::white, 5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , pen1(Qt::black, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
 , pen2(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
@@ -154,6 +157,8 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     xLight = cfg.value("map/3D/xLight", xLight).toDouble();
     yLight = cfg.value("map/3D/yLight", yLight).toDouble();
     zLight = cfg.value("map/3D/zLight", zLight).toDouble();
+    quality3D = (EQuality3D)cfg.value("map/3D/quality3D", quality3D).toInt();
+    coupleElePOV = cfg.value("map/3D/coupleElePOV", coupleElePOV).toBool();
 
     helpButton = new QPushButton(tr("Help 3d"));
     connect(helpButton, SIGNAL(clicked()), this, SLOT(slotHelp3D()));
@@ -191,6 +196,8 @@ CMap3D::~CMap3D()
     cfg.setValue("map/3D/xLight", xLight);
     cfg.setValue("map/3D/yLight", yLight);
     cfg.setValue("map/3D/zLight", zLight);
+    cfg.setValue("map/3D/quality3D", quality3D);
+    cfg.setValue("map/3D/coupleElePOV", coupleElePOV);
 
     delete helpButton;
 
@@ -244,6 +251,15 @@ void CMap3D::slotHelp3D()
     dlg.exec();
 }
 
+void CMap3D::slotConfig3D()
+{
+    CDlgConfig3D dlg(*this);
+    dlg.exec();
+
+    needsRedraw = true;
+    update();
+}
+
 void CMap3D::lightTurn()
 {
 
@@ -256,7 +272,8 @@ void CMap3D::slotTrackChanged()
     actTrackMode->setChecked(false);
 
     theTrack = CTrackDB::self().highlightedTrack();
-    setTrackObject();
+    //setTrackObject();
+    needsRedraw = true;
     update();
 }
 
@@ -334,6 +351,11 @@ void CMap3D::slotTrackModeChanged()
             ele = dem.getElevation(x0, y0) + 1;
         }
         else
+        {
+            ele = selTrkPt.ele;
+        }
+
+        if(ele == WPT_NOFLOAT)
         {
             ele = selTrkPt.ele;
         }
@@ -431,19 +453,20 @@ void CMap3D::resizeGL(int width, int height)
 
 void CMap3D::setElevationLimits()
 {
-    double step = 1;
     double ele;
     int i, j;
     QSize mapSize = theMap->getSize();
     double w = mapSize.width();
     double h = mapSize.height();
 
+    double step = quality3D;
+
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
     int xcount = (w / step + 1);
     int ycount = (h / step + 1);
 
-    minEle = maxEle = 0;
+    minEle = maxEle = 0.0;
 
     QVector<float> eleData(xcount*ycount);
     bool ok = getEleRegion(eleData, xcount, ycount);
@@ -496,9 +519,9 @@ void CMap3D::setElevationLimits()
 
     if (maxEle - minEle < 1)
     {
-        /*selected track and deb are absent*/
-        maxEle = 1;
-        minEle = 0;
+        /*selected track and dem are absent*/
+        maxEle = 9000.0;
+        minEle = 0.0;
     }
 
     zoomFactorZ =  zsize * 0.1 / (maxEle - minEle);
@@ -578,6 +601,11 @@ void CMap3D::setTrackObject()
             ele1 = trkpt->ele;
         }
 
+        if(ele1 == WPT_NOFLOAT)
+        {
+            ele1 = trkpt->ele;
+        }
+
 
         theMap->convertRad2Pt(pt1.u, pt1.v);
         convertPt23D(pt1.u, pt1.v, ele1);
@@ -598,6 +626,12 @@ void CMap3D::setTrackObject()
             {
                 ele2 = trkpt->ele +1;
             }
+
+            if(ele2 == WPT_NOFLOAT)
+            {
+                ele2 = trkpt->ele;
+            }
+
 
             theMap->convertRad2Pt(pt2.u, pt2.v);
             convertPt23D(pt2.u, pt2.v, ele2);
@@ -735,6 +769,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
+
     p.end();
 }
 
@@ -891,7 +926,9 @@ void CMap3D::draw3DMap()
     QSize   s = theMap->getSize();
     double  w = s.width();
     double  h = s.height();
-    double  step = 2;
+
+    double step = quality3D;
+
     int xcount, ycount;
     // increment xcount, because the number of points are on one more
     // than number of lengths |--|--|--|--|
@@ -1042,7 +1079,7 @@ void CMap3D::drawWaypoints()
 {
     int i, j;
     const QSize mapSize = theMap->getSize();
-    const double wsize = 3;
+    const double wsize = 5;
 
     GLint iconId, iconMaskId;
 
@@ -1069,6 +1106,11 @@ void CMap3D::drawWaypoints()
         if (act3DMap->isChecked())
         {
             ele = dem.getElevation(u, v);
+        }
+        else
+        {
+            ele = minEle;
+
         }
 
 
@@ -1364,6 +1406,7 @@ void CMap3D::drawHorizont(QPainter& p)
     p.restore();
 }
 
+
 void CMap3D::mousePressEvent(QMouseEvent *e)
 {
     mousePos = e->pos();
@@ -1405,8 +1448,6 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
 void CMap3D::mouseMoveEvent(QMouseEvent *event)
 {
     mousePos = event->pos();
-    int dx = event->x() - lastPos.x();
-    int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton)
     {
@@ -1424,6 +1465,7 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             double z = zLight + minEle;
             xLight -= (x0 / (z -z0) * z - x1 / (z -z1) * z) * 10;
             yLight -= (y0 / (z -z0) * z - y1 / (z -z1) * z) * 10;
+
 
         }
         else
@@ -1443,6 +1485,7 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             }
         }
     }
+
 
     lastPos = mousePos;
     update();
@@ -1501,10 +1544,11 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 xpos += sin(zRotRad) * 4;
                 ypos += cos(zRotRad) * 4;
 
-                double xRotRad = (xRotation / 180 * PI);
-                zpos -= sin(xRotRad) * 4;
-
-                qDebug() << xRotation << xRotRad << zpos;
+                if(coupleElePOV)
+                {
+                    double xRotRad = (xRotation / 180 * PI);
+                    zpos -= sin(xRotRad) * 4;
+                }
             }
             break;
         }
@@ -1526,9 +1570,11 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 xpos -= sin(zRotRad) * 4;
                 ypos -= cos(zRotRad) * 4;
 
-                double xRotRad = (xRotation / 180 * PI);
-                zpos += sin(xRotRad) * 4;
-
+                if(coupleElePOV)
+                {
+                    double xRotRad = (xRotation / 180 * PI);
+                    zpos += sin(xRotRad) * 4;
+                }
             }
             break;
         }
@@ -1589,6 +1635,11 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             ele = trkpt.ele;
         }
 
+        if(ele == WPT_NOFLOAT)
+        {
+            ele = trkpt.ele;
+        }
+
         theMap->convertRad2Pt(xpos, ypos);
         convertPt23D(xpos, ypos, zpos);
 
@@ -1618,6 +1669,8 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
     menu.addAction(actTrackOnMap);
     menu.addAction(actTrackMode);
     menu.addAction(actResetLight);
+
+    menu.addAction(tr("Config"), this, SLOT(slotConfig3D()));
 
     menu.exec(e->globalPos());
 }

@@ -51,10 +51,12 @@ class CMap3D : public QGLWidget
         void slotTrackModeChanged();
         void slotResetLight();
         void slotHelp3D();
+        void slotConfig3D();
         void slotTrackChanged();
         void slotAnimateRotation();
 
     protected:
+        friend class CDlgConfig3D;
         void initializeGL();
         void resizeGL(int width, int height);
         void setupViewport(int width, int height);
@@ -175,6 +177,17 @@ class CMap3D : public QGLWidget
 
         /// the difference from to true north to map's north
         double angleNorth;
+
+        enum EQuality3D
+        {
+             eFine    = 1
+            ,eMedium  = 3
+            ,eCoarse  = 6
+        };
+
+        EQuality3D quality3D;
+
+        bool coupleElePOV;
 
         QPen pen0;
         QPen pen1;
