@@ -64,20 +64,18 @@ inline double calcZRotationDelta(double delta)
 {    
     if(delta >= 20.0)
     {
-        return 10.0;
+        return 5;
     }
     else if(delta < 20.0)
     {
-        return 5.0;
+        return 2.5;
     }
     else if(delta < 5.0)
     {
         return 1.0;
     }
-    else
-    {
-        return 1.0;
-    }
+
+    return 1.0;
 }
 
 
@@ -166,7 +164,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 
     timerAnimateRotation = new QTimer(this);
     timerAnimateRotation->setSingleShot(false);
-    timerAnimateRotation->setInterval(50);
+    timerAnimateRotation->setInterval(30);
     connect(timerAnimateRotation, SIGNAL(timeout()), this, SLOT(slotAnimateRotation()));
 
     slotTrackChanged();
@@ -269,11 +267,14 @@ void CMap3D::lightTurn()
 
 void CMap3D::slotTrackChanged()
 {
-    actTrackMode->setChecked(false);
-
+    CTrack * trk = theTrack;
+    actTrackMode->setChecked(false);    
     theTrack = CTrackDB::self().highlightedTrack();
-    //setTrackObject();
-    needsRedraw = true;
+
+    if(trk != theTrack)
+    {
+        needsRedraw = true;
+    }
     update();
 }
 
@@ -379,25 +380,17 @@ void CMap3D::slotTrackModeChanged()
 
 void CMap3D::slotAnimateRotation()
 {
-    zRotation += deltaRotation;
-    if(deltaRotation < 0)
-    {
-        if(zRotation < targetZRotation)
-        {
-            zRotation       = targetZRotation;            
-            timerAnimateRotation->stop();
+    zRotation += stepRot;
+    deltaRot  -= abs(stepRot);
 
-        }
-        deltaRotation   = -calcZRotationDelta(fabs(targetZRotation - zRotation));
+    if(deltaRot < 0)
+    {
+        zRotation = targetZRotation;
+        timerAnimateRotation->stop();
     }
     else
     {
-        if(zRotation > targetZRotation)
-        {
-            zRotation       = targetZRotation;            
-            timerAnimateRotation->stop();
-        }
-        deltaRotation   = calcZRotationDelta(fabs(targetZRotation - zRotation));
+        stepRot = (stepRot > 0) ? calcZRotationDelta(deltaRot) : -calcZRotationDelta(deltaRot);
     }
 
     update();
@@ -1259,7 +1252,7 @@ void CMap3D::drawElevation(QPainter& p)
     if(isinf(elevation)) return;
 
     QFont f1 = CResources::self().getMapFont();
-    int textOff = QFontMetrics(f1).height();
+    int textOff = QFontMetrics(f1).descent() + QFontMetrics(f1).height()/2;
 
     p.save();
     p.translate(width() - 100, rect().center().y());
@@ -1319,7 +1312,7 @@ void CMap3D::drawElevation(QPainter& p)
 
         if(!str.isEmpty())
         {
-            CCanvas::drawText(str,p, QPoint(0, y + textOff/2), Qt::darkBlue, p.font());
+            CCanvas::drawText(str,p, QPoint(0, y + textOff), Qt::darkBlue, p.font());
         }
 
     }
@@ -1332,7 +1325,7 @@ void CMap3D::drawHorizont(QPainter& p)
     double horizont = xRotation;
 
     QFont f1 = CResources::self().getMapFont();
-    int textOff = QFontMetrics(f1).height();
+    int textOff = QFontMetrics(f1).descent() + QFontMetrics(f1).height()/2;
 
     p.save();
     p.translate(0, rect().center().y());
@@ -1345,7 +1338,7 @@ void CMap3D::drawHorizont(QPainter& p)
         QString str;
         int y = deg * scale;
 
-        if(deg == -90 || deg == 90 || deg == 0)
+        if((deg % 90) == 0)
         {
             p.setPen(pen0);
             p.drawLine(30,y,60,y);
@@ -1353,8 +1346,6 @@ void CMap3D::drawHorizont(QPainter& p)
             p.drawLine(30,y,60,y);
             p.setPen(pen2);
             p.drawLine(30,y,60,y);
-            str = QString("%1\260").arg(abs(deg));
-            p.setFont(f1);
         }
         else if((deg % 10) == 0)
         {
@@ -1364,8 +1355,6 @@ void CMap3D::drawHorizont(QPainter& p)
             p.drawLine(40,y,50,y);
             p.setPen(pen2);
             p.drawLine(40,y,50,y);
-            str = QString("%1\260").arg(abs(deg));
-            p.setFont(f1);
         }
         else if((deg % 5) == 0)
         {
@@ -1378,9 +1367,11 @@ void CMap3D::drawHorizont(QPainter& p)
 
         }
 
-        if(!str.isEmpty())
+        if((deg % 45) == 0)
         {
-            CCanvas::drawText(str,p, QPoint(80, y + textOff/2), Qt::darkBlue, p.font());
+            str = QString("%1\260").arg(abs(deg));
+            p.setFont(f1);
+            CCanvas::drawText(str,p, QPoint(80, y + textOff), Qt::darkBlue, p.font());
         }
 
 
@@ -1616,8 +1607,22 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         if(trkpt.azimuth != WPT_NOFLOAT)
         {
-            targetZRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180 : trkpt.azimuth;
-            deltaRotation = targetZRotation > zRotation ? 1.0 : -1.0;
+            targetZRotation = e->key() == Qt::Key_S ? trkpt.azimuth - 180.0 : trkpt.azimuth;
+            if(targetZRotation < 0) targetZRotation += 360.0;
+
+            deltaRot = fabs(targetZRotation - zRotation);
+            while(deltaRot >= 360.0) deltaRot -= 360;
+
+            if(deltaRot < 180)
+            {
+                stepRot     = targetZRotation > zRotation ? 1.0 : -1.0;
+            }
+            else
+            {
+                stepRot     = targetZRotation < zRotation ? 1.0 : -1.0;
+                deltaRot    = 360.0 - deltaRot;
+            }
+
             timerAnimateRotation->start();
         }
 

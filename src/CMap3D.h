@@ -201,7 +201,8 @@ class CMap3D : public QGLWidget
 
         QTimer * timerAnimateRotation;
         double targetZRotation;
-        double deltaRotation;
+        double stepRot;
+        double deltaRot;
 
 };
 
