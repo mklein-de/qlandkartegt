@@ -61,7 +61,7 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 
 inline double calcZRotationDelta(double delta)
 {    
-    if(delta > 20.0)
+    if(delta >= 20.0)
     {
         return 10.0;
     }
@@ -70,6 +70,10 @@ inline double calcZRotationDelta(double delta)
         return 5.0;
     }
     else if(delta < 5.0)
+    {
+        return 1.0;
+    }
+    else
     {
         return 1.0;
     }
