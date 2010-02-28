@@ -1,6 +1,5 @@
-<!DOCTYPE RCC>
-  <RCC version="1.0">
-    <qresource>
+<RCC>
+    <qresource prefix="/">
         <file>pics/splash.png</file>
         <file>pics/Step1.png</file>
         <file>pics/Step2.png</file>
@@ -83,18 +82,14 @@
         <file>icons/iconFilter16x16.png</file>
         <file>icons/iconHelp16x16.png</file>
         <file>icons/iconMove16x16.png</file>
-
         <file>icons/iconExit22x22.png</file>
         <file>icons/iconPrint22x22.png</file>
         <file>icons/iconConfig22x22.png</file>
-
         <file>icons/iconCancel32x32.png</file>
         <file>icons/iconOk32x32.png</file>
         <file>icons/iconAdd32x32.png</file>
         <file>icons/iconMinus32x32.png</file>
-
-	<file>icons/iconHelp48x48.png</file>
-
+        <file>icons/iconHelp48x48.png</file>
         <file>icons/editundo.png</file>
         <file>icons/editredo.png</file>
         <file>icons/editcut.png</file>
@@ -103,10 +98,8 @@
         <file>icons/zoomin.png</file>
         <file>icons/zoomout.png</file>
         <file>icons/toolswizard.png</file>
-
         <file>icons/bullet_blue.png</file>
         <file>icons/bullet_red.png</file>
-
         <file>icons/small_bullet_black.png</file>
         <file>icons/small_bullet_blue.png</file>
         <file>icons/small_bullet_cyan.png</file>
@@ -123,12 +116,8 @@
         <file>icons/small_bullet_red.png</file>
         <file>icons/small_bullet_yellow.png</file>
         <file>icons/small_bullet_white.png</file>
-
-
-
         <file>icons/iconRefPoint31x31.png</file>
         <file>icons/iconRefPointHL31x31.png</file>
-
         <file>icons/textbold.png</file>
         <file>icons/textcenter.png</file>
         <file>icons/textitalic.png</file>
@@ -136,7 +125,6 @@
         <file>icons/textleft.png</file>
         <file>icons/textright.png</file>
         <file>icons/textunder.png</file>
-
         <file>icons/backGlobe128x128.png</file>
         <file>icons/backGlobe+128x128.png</file>
         <file>icons/backMap128x128.png</file>
@@ -145,7 +133,6 @@
         <file>icons/backLiveLog128x128.png</file>
         <file>icons/backOverlay128x128.png</file>
         <file>icons/backRoute128x128.png</file>
-
         <file>cursors/cursorMoveMap.png</file>
         <file>cursors/cursorZoom.png</file>
         <file>cursors/cursorSelMap.png</file>
@@ -162,19 +149,15 @@
         <file>cursors/cursor1.png</file>
         <file>cursors/cursor2.png</file>
         <file>cursors/cursorColorChooser.png</file>
-
         <file>icons/wpt/custom1.png</file>
         <file>icons/wpt/custom2.png</file>
         <file>icons/wpt/custom3.png</file>
         <file>icons/wpt/custom4.png</file>
         <file>icons/wpt/custom5.png</file>
-
         <file>typ/majorhighway.xpm</file>
         <file>typ/principalhighway.xpm</file>
         <file>typ/arterialroad.xpm</file>
         <file>typ/railroad.xpm</file>
-
-
         <file>icons/wpt/1st_aid15x15.png</file>
         <file>icons/wpt/airport15x15.png</file>
         <file>icons/wpt/amusement_park15x15.png</file>
@@ -442,7 +425,6 @@
         <file>icons/wpt/WP_dot15x15.png</file>
         <file>icons/wpt/wreck15x15.png</file>
         <file>icons/wpt/zoo15x15.png</file>
-
         <file>skybox/0.bmp</file>
         <file>skybox/1.bmp</file>
         <file>skybox/2.bmp</file>
@@ -455,8 +437,6 @@
         <file>skybox/3.png</file>
         <file>skybox/4.png</file>
         <file>skybox/5.png</file>
-
         <file>sounds/xfer-done.wav</file>
     </qresource>
-  </RCC>
-
+</RCC>

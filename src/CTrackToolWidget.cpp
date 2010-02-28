@@ -50,8 +50,11 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
     contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+    actHide = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
+    actHide->setCheckable(true);
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -82,6 +85,20 @@ void CTrackToolWidget::slotDBChanged()
     {
         QListWidgetItem * item = new QListWidgetItem(listTracks);
         icon.fill((*track)->getColor());
+
+        QPainter p;
+        p.begin(&icon);
+
+        if((*track)->isHidden())
+        {
+            p.drawPixmap(0,0,QPixmap(":icons/iconClear16x16"));
+        }
+        else
+        {
+            p.drawPixmap(0,0,QPixmap(":icons/iconOk16x16"));
+        }
+        p.end();
+
 
         QString val1, unit1, val2, unit2;
 
@@ -175,6 +192,8 @@ void CTrackToolWidget::slotContextMenu(const QPoint& pos)
         CTrackDB::self().highlightTrack(listTracks->currentItem()->data(Qt::UserRole).toString());
         originator = false;
 
+        actHide->setChecked(!CTrackDB::self().highlightedTrack()->isHidden());
+
         QPoint p = listTracks->mapToGlobal(pos);
         contextMenu->exec(p);
     }
@@ -217,6 +236,18 @@ void CTrackToolWidget::slotDelete()
         delete item;
     }
     CTrackDB::self().delTracks(keys);
+}
+
+void CTrackToolWidget::slotShow()
+{
+    QStringList keys;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listTracks->selectedItems();
+    foreach(item,items)
+    {
+        keys << item->data(Qt::UserRole).toString();
+    }
+    CTrackDB::self().hideTrack(keys, !actHide->isChecked());;
 }
 
 

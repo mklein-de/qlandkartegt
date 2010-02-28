@@ -607,6 +607,25 @@ void CTrackDB::highlightTrack(const QString& key)
 }
 
 
+void CTrackDB::hideTrack(const QStringList& keys, bool hide)
+{
+    QString key;
+    foreach(key, keys)
+    {
+        if(tracks.contains(key))
+        {
+            CTrack * track = tracks[key];
+            track->hide(hide);
+            if(track->isHighlighted() && hide)
+            {
+                tracks[key]->setHighlight(false);
+                emit sigHighlightTrack(tracks[key]);
+            }
+        }
+    }
+    emit sigChanged();
+}
+
 CTrack* CTrackDB::highlightedTrack()
 {
 
@@ -719,6 +738,13 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     while(track != tracks.end())
     {
+
+        if((*track)->m_hide){
+
+            ++track;
+            continue;
+        }
+
         QPolygon& line = (*track)->getPolyline();
         line.clear();
 

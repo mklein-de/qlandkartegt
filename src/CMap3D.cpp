@@ -758,7 +758,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
     p.begin(this);
     p.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
-
     drawCompass(p);
     drawElevation(p);
     drawHorizont(p);
@@ -1748,7 +1747,6 @@ bool CMap3D::getEleRegion(QVector<float>& eleData, int& xcount, int& ycount)
     theMap->convertPt2Rad(pen1.u, pen1.v);
     theMap->convertPt2Rad(pen2.u, pen2.v);
 
-//    return dem.getOrigRegion(eleData, pen1, pen2, xcount, ycount);    
     return dem.getRegion(eleData, pen1, pen2, xcount, ycount);
 
 
@@ -1846,3 +1844,5 @@ void CMap3D::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y
     glVertex3d(x2, y2, z2);
     glEnd();
 }
+
+

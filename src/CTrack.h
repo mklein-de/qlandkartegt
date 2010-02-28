@@ -198,6 +198,9 @@ class CTrack : public QObject
         bool hasExt1Data() { return ext1Data;};
         void setExt1Data() { ext1Data = true;};
 
+        void hide(bool ok){ m_hide = ok;}
+        bool isHidden(){return m_hide;}
+
         signals:
         void sigChanged();
 
@@ -250,6 +253,8 @@ class CTrack : public QObject
         bool ext1Data;
 
         bool firstTime;
+
+        bool m_hide;
 
 };
 

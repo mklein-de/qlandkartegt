@@ -64,6 +64,8 @@ class CTrackDB : public IDB
         */
         CTrack* highlightedTrack();
 
+        void hideTrack(const QStringList& keys, bool hide);
+
         /// get access to track dictionary
         const QMap<QString,CTrack*>& getTracks(){return tracks;}
 

@@ -26,6 +26,7 @@
 class QToolBox;
 class QListWidgetItem;
 class QMenu;
+class QAction;
 class CTrackEditWidget;
 
 class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
@@ -50,6 +51,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotDelete();
         void slotToOverlay();
         void slotFilter();
+        void slotShow();
 
     private:
         bool originator;
@@ -57,6 +59,8 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QMenu * contextMenu;
 
         QPointer<CTrackEditWidget> trackedit;
+
+        QAction * actHide;
 
 };
 #endif                           //CTRACKTOOLWIDGET_H
