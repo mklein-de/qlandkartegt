@@ -1538,6 +1538,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 {
                     double xRotRad = (xRotation / 180 * PI);
                     zpos -= sin(xRotRad) * 4;
+                    adjustElevationToMap();
                 }
             }
             break;
@@ -1564,6 +1565,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
                 {
                     double xRotRad = (xRotation / 180 * PI);
                     zpos += sin(xRotRad) * 4;
+                    adjustElevationToMap();
                 }
             }
             break;
@@ -1846,3 +1848,22 @@ void CMap3D::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y
 }
 
 
+void CMap3D::adjustElevationToMap()
+{
+    float e1 = minEle + zpos / (zoomFactorZ * zoomFactorEle * zoomFactor);
+    if(!isinf(e1))
+    {
+        double x = xpos;
+        double y = ypos;
+        double z = zpos;
+
+        convert3D2Pt(x,y,z);
+        theMap->convertPt2Rad(x,y);
+
+        float e2 = CMapDB::self().getDEM().getElevation(x,y);
+        if(e2 > e1 && !isnan(e2))
+        {
+            zpos = (e2 + 10 - minEle) * (zoomFactorZ * zoomFactorEle * zoomFactor);
+        }
+    }
+}

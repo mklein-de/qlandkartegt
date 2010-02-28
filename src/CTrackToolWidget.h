@@ -52,6 +52,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotToOverlay();
         void slotFilter();
         void slotShow();
+        void slotZoomToFit();
 
     private:
         bool originator;
@@ -60,7 +61,15 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 
         QPointer<CTrackEditWidget> trackedit;
 
+        QAction * actEdit;
+        QAction * actFilter;
+        QAction * actDistance;
         QAction * actHide;
+        QAction * actZoomToFit;
+        QAction * actDeSel;
+        QAction * actDel;
+
+
 
 };
 #endif                           //CTRACKTOOLWIDGET_H

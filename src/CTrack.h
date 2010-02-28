@@ -198,7 +198,7 @@ class CTrack : public QObject
         bool hasExt1Data() { return ext1Data;};
         void setExt1Data() { ext1Data = true;};
 
-        void hide(bool ok){ m_hide = ok;}
+        void hide(bool ok);
         bool isHidden(){return m_hide;}
 
         signals:

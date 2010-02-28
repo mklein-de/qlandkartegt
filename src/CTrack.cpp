@@ -526,6 +526,11 @@ void CTrack::sortByTimestamp()
     qSort(track.begin(), track.end(), trackpointLessThan);
 }
 
+void CTrack::hide(bool ok)
+{
+    m_hide = ok;
+    if(!ok) firstTime = true;
+}
 
 #define A 0.22140
 

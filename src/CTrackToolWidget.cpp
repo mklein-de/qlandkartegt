@@ -47,14 +47,15 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     connect(listTracks,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 
     contextMenu = new QMenu(this);
-    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
-    contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
-    actHide = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
-    actHide->setCheckable(true);
-    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
-    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+    actEdit     = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    actFilter   = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
+    actDistance = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+    actHide     = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
+    actZoomToFit = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
+    actDeSel    = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
+    actDel      = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
 
+    actHide->setCheckable(true);
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -158,7 +159,9 @@ void CTrackToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 
     QRectF r = CTrackDB::self().getBoundingRectF(key);
     if (!r.isNull ())
+    {
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
 }
 
 
@@ -186,11 +189,28 @@ void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 
 void CTrackToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listTracks->currentItem())
+    int cnt = listTracks->selectedItems().count();
+    if(cnt > 0)
     {
-        originator = true;
-        CTrackDB::self().highlightTrack(listTracks->currentItem()->data(Qt::UserRole).toString());
-        originator = false;
+        if(listTracks->currentItem())
+        {
+            originator = true;
+            CTrackDB::self().highlightTrack(listTracks->currentItem()->data(Qt::UserRole).toString());
+            originator = false;
+        }
+
+        if(cnt > 1)
+        {
+            actEdit->setEnabled(false);
+            actFilter->setEnabled(false);
+            actDeSel->setEnabled(false);
+        }
+        else
+        {
+            actEdit->setEnabled(true);
+            actFilter->setEnabled(true);
+            actDeSel->setEnabled(true);
+        }
 
         actHide->setChecked(!CTrackDB::self().highlightedTrack()->isHidden());
 
@@ -310,4 +330,21 @@ void CTrackToolWidget::slotFilter()
     CTrack *track = CTrackDB::self().highlightedTrack();
     CDlgTrackFilter dlg(*track, this);
     dlg.exec();
+}
+
+
+void CTrackToolWidget::slotZoomToFit()
+{
+    QRectF r;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listTracks->selectedItems();
+    foreach(item,items)
+    {
+        r |= CTrackDB::self().getBoundingRectF(item->data(Qt::UserRole).toString());
+    }
+
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
 }
