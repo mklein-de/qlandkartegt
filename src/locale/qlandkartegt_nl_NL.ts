@@ -1621,6 +1621,24 @@ Expected %1, received %2.</source>
     </message>
 </context>
 <context>
+    <name>CDlgConfig3D</name>
+    <message>
+        <location filename="../CDlgConfig3D.cpp" line="30"/>
+        <source>fine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgConfig3D.cpp" line="31"/>
+        <source>medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgConfig3D.cpp" line="32"/>
+        <source>coarse</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CDlgConvertToTrack</name>
     <message>
         <location filename="../CDlgConvertToTrack.cpp" line="28"/>
@@ -2323,38 +2341,43 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3D</name>
     <message>
-        <location filename="../CMap3D.cpp" line="121"/>
+        <location filename="../CMap3D.cpp" line="126"/>
         <source>3D / 2D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="126"/>
+        <location filename="../CMap3D.cpp" line="131"/>
         <source>FPV / Rot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="131"/>
+        <location filename="../CMap3D.cpp" line="136"/>
         <source>Reset Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="134"/>
+        <location filename="../CMap3D.cpp" line="139"/>
         <source>Track on map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="139"/>
+        <location filename="../CMap3D.cpp" line="144"/>
         <source>POV on track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="154"/>
+        <location filename="../CMap3D.cpp" line="161"/>
         <source>Help 3d</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="386"/>
+        <location filename="../CMap3D.cpp" line="405"/>
         <source>:/skybox/%1.bmp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMap3D.cpp" line="1679"/>
+        <source>Config</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3565,12 +3588,12 @@ length: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="942"/>
+        <location filename="../CTrackDB.cpp" line="968"/>
         <source>Failed...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="942"/>
+        <location filename="../CTrackDB.cpp" line="968"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3724,84 +3747,94 @@ length: %1 %2</source>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="53"/>
-        <source>Deselect</source>
+        <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="54"/>
+        <source>Zoom to fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="55"/>
+        <source>Deselect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="56"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="92"/>
+        <location filename="../CTrackToolWidget.cpp" line="110"/>
         <source>
 length: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="93"/>
+        <location filename="../CTrackToolWidget.cpp" line="111"/>
         <source>, points: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="102"/>
+        <location filename="../CTrackToolWidget.cpp" line="120"/>
         <source>
 time: %1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="106"/>
+        <location filename="../CTrackToolWidget.cpp" line="124"/>
         <source>
 time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="110"/>
+        <location filename="../CTrackToolWidget.cpp" line="128"/>
         <source>, speed: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="112"/>
+        <location filename="../CTrackToolWidget.cpp" line="130"/>
         <source>
 start: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="112"/>
-        <location filename="../CTrackToolWidget.cpp" line="113"/>
+        <location filename="../CTrackToolWidget.cpp" line="130"/>
+        <location filename="../CTrackToolWidget.cpp" line="131"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="113"/>
+        <location filename="../CTrackToolWidget.cpp" line="131"/>
         <source>
 end: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="118"/>
+        <location filename="../CTrackToolWidget.cpp" line="136"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="191"/>
+        <location filename="../CTrackToolWidget.cpp" line="230"/>
         <source>Edit track ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="191"/>
-        <location filename="../CTrackToolWidget.cpp" line="274"/>
+        <location filename="../CTrackToolWidget.cpp" line="230"/>
+        <location filename="../CTrackToolWidget.cpp" line="325"/>
         <source>You have to select a track first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="261"/>
+        <location filename="../CTrackToolWidget.cpp" line="312"/>
         <source>created from track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="274"/>
+        <location filename="../CTrackToolWidget.cpp" line="325"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4800,24 +4833,60 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="486"/>
-        <source>&lt;b&gt;Mouseless control&lt;/b&gt;
-&lt;table&gt;
-&lt;tr&gt;&lt;td&gt;alt + right&lt;/td&gt;&lt;td&gt;move map view to east&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;alt + left&lt;/td&gt;&lt;td&gt;move map view to west&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;alt + up&lt;/td&gt;&lt;td&gt;move map view to north&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;alt + down&lt;/td&gt;&lt;td&gt;move map view to south&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;zoom in&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;zoom out&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-&lt;b&gt;3D view&lt;/b&gt;
-&lt;table&gt;
-&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;m + scroll mouse / pageup/pagedown&lt;/td&gt;&lt;td&gt;zoom map&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;home/end&lt;/td&gt;&lt;td&gt;increase/decrease map area&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;m + left mouse&lt;/td&gt;&lt;td&gt;move map&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;l + left mouse&lt;/td&gt;&lt;td&gt;move light source horizontally&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;h + left mouse&lt;/td&gt;&lt;td&gt;move light source vertically&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;</source>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouseless control&lt;/span&gt; &lt;/p&gt;
+&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;alt + right&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to east&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;alt + left&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to west&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;alt + up&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to north&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;alt + down&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;move map view to south&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;+&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;zoom in&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;zoom out&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>IDlgConfig3D</name>
+    <message>
+        <location filename="../IDlgConfig3D.ui" line="14"/>
+        <source>3D View Options...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig3D.ui" line="29"/>
+        <source>Model Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig3D.ui" line="39"/>
+        <source>Couple Elevation/POV</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
