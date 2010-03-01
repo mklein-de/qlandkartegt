@@ -1051,7 +1051,7 @@ void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize,
 {
     glPushMatrix();
 
-    double m = isMask ? +0.2 : 0;
+    double m = isMask ? +0.1 : 0;
 
     glTranslated(x, y, z);
     glRotatef(-zRotation, 0,0,1);
@@ -1059,10 +1059,10 @@ void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize,
 
     glBindTexture(GL_TEXTURE_2D, texture);
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 1); glVertex3d(0, m, ysize );
+    glTexCoord2f(0, 1); glVertex3d(0, m, xsize );
     glTexCoord2f(0, 0); glVertex3d(0, m, 0);
-    glTexCoord2f(1, 0); glVertex3d(xsize, m, 0);
-    glTexCoord2f(1, 1); glVertex3d(xsize, m, ysize );
+    glTexCoord2f(1, 0); glVertex3d(ysize, m, 0);
+    glTexCoord2f(1, 1); glVertex3d(ysize, m, xsize );
     glEnd();
     glPopMatrix();
 }
@@ -1073,7 +1073,7 @@ void CMap3D::drawWaypoints()
     const QSize mapSize = theMap->getSize();
     const double wsize = 5;
 
-    GLint iconId, iconMaskId;
+    GLint iconId, iconMaskId, textId, textMaskId;
 
     glPushMatrix();
 
@@ -1104,25 +1104,42 @@ void CMap3D::drawWaypoints()
             ele = minEle;
 
         }
-
-
         ele += 5;
 
         theMap->convertRad2Pt(u, v);
-
         convertPt23D(u,v,ele);
+
+        QFont f = CResources::self().getMapFont();
+        QFontMetrics fm(f);
+        QRect r = fm.boundingRect((*wpt)->name);
+        QPixmap text(r.width() + 2, r.height() + 2);
+        text.fill(Qt::transparent);
+        QPainter p(&text);
+        CCanvas::drawText((*wpt)->name,p,text.rect());
+        p.end();
+
+        double tw = wsize;
+        double th = wsize * double(text.width())/double(text.height());
+
 
         glBlendFunc(GL_DST_COLOR,GL_ZERO);
 
         iconMaskId  = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
         iconId      = bindTexture(icon);       
+        textMaskId  = bindTexture(text.alphaChannel().createMaskFromColor(Qt::black));
+        textId      = bindTexture(text);
+
         quadTexture(u, v, wsize, wsize, ele, iconMaskId, true);
+        quadTexture(u, v, tw, th, ele + wsize * icon.height(), textMaskId, true);
 
         glBlendFunc(GL_ONE, GL_ONE);
 
         quadTexture(u, v, wsize, wsize, ele, iconId, false);
+        quadTexture(u, v, tw, th, ele + wsize * icon.height(), textId, false);
         deleteTexture(iconMaskId);
         deleteTexture(iconId);
+        deleteTexture(textMaskId);
+        deleteTexture(textId);
 
         ++wpt;
     }
