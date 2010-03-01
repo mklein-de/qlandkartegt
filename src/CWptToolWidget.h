@@ -24,6 +24,7 @@
 
 class QToolBox;
 class QMenu;
+class QAction;
 
 /// waypoint tool view
 class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
@@ -48,8 +49,17 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotCopyPosition();
         void slotProximity();
         void slotMakeRoute();
+        void slotZoomToFit();
 
     private:
         QMenu * contextMenu;
+        QAction * actCopyPos;
+        QAction * actEdit;
+        QAction * actProximity;
+        QAction * actMakeRte;
+        QAction * actZoomToFit;
+        QAction * actDelete;
+        QAction * actDeleteBy;
+
 };
 #endif                           //CWPTTOOLWIDGET_H

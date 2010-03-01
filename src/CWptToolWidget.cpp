@@ -29,6 +29,7 @@
 #include "CDlgDelWpt.h"
 #include "GeoMath.h"
 #include "IUnit.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -43,13 +44,14 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listWpts,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
-    contextMenu = new QMenu(this);
-    contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
-    contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
-    contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
-    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
-    contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
+    contextMenu     = new QMenu(this);
+    actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
+    actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
+    actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
+    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
+    actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+    actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -116,8 +118,23 @@ void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 
 void CWptToolWidget::slotContextMenu(const QPoint& pos)
 {
-    if(listWpts->currentItem())
+    int cnt = listWpts->selectedItems().count();
+
+    if(cnt > 0)
     {
+        if(cnt > 1)
+        {
+            actCopyPos->setEnabled(false);
+            actEdit->setEnabled(false);
+            actMakeRte->setEnabled(true);
+        }
+        else
+        {
+            actCopyPos->setEnabled(true);
+            actEdit->setEnabled(true);
+            actMakeRte->setEnabled(false);
+        }
+
         QPoint p = listWpts->mapToGlobal(pos);
         contextMenu->exec(p);
     }
@@ -169,6 +186,26 @@ void CWptToolWidget::slotCopyPosition()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(position);
 
+}
+
+void CWptToolWidget::slotZoomToFit()
+{
+
+    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+    QList<QListWidgetItem*>::const_iterator item = items.begin();
+
+    CWpt * wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
+
+    QRectF r(wpt->lon, wpt->lat, 0.00001, 0.00001);
+
+    while(item != items.end())
+    {
+        wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
+        r |= QRectF(wpt->lon, wpt->lat, 0.00001, 0.00001);
+        ++item;
+    }
+
+    CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }
 
 

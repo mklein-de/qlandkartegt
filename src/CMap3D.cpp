@@ -1115,7 +1115,7 @@ void CMap3D::drawWaypoints()
         QPixmap text(r.width() + 2, r.height() + 2);
         text.fill(Qt::transparent);
         QPainter p(&text);
-        CCanvas::drawText((*wpt)->name,p,text.rect());
+        CCanvas::drawText((*wpt)->name,p,text.rect().adjusted(1,1,-1,-1));
         p.end();
 
         double tw = wsize;
