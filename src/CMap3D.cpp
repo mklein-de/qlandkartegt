@@ -32,6 +32,18 @@
 #include "WptIcons.h"
 
 #include <QtGui>
+#include <math.h>
+
+
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
+#ifdef WIN32
+#include <float.h>
+#define isnan(x) _isnan(x)
+#define isinf(x) (!_finite(x)) 
+#endif
 
 #define APPERTURE_ANGLE 60.0
 
@@ -1069,7 +1081,6 @@ void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize,
 
 void CMap3D::drawWaypoints()
 {
-    int i, j;
     const QSize mapSize = theMap->getSize();
     const double wsize = 5;
 

@@ -225,7 +225,7 @@ class IMap : public QObject
          * \param w - matrix width
          * \param h - matrix height
          */
-        virtual bool getRegion(QVector<float>& buffer, XY topLeft, XY bottomRight, int width, int height) {};
+        virtual bool getRegion(QVector<float>& buffer, XY topLeft, XY bottomRight, int width, int height) {return false;}
         /// return the state of the needsRedraw flag
         virtual bool getNeedsRedraw(){return needsRedraw;}
         /// the map type, hast to be set during construction
