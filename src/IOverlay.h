@@ -80,12 +80,16 @@ class IOverlay : public QObject
 
         virtual void looseFocus(){};
 
+        virtual QRectF getBoundingRectF(){return QRectF();}
+
         /// the overlay type as string
         const QString type;
         /// the overlay icon
         const QPixmap icon;
         /// the unique overlay key used by the database
         const QString key;
+
+
 
         signals:
         void sigChanged();

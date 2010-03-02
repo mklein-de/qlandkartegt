@@ -74,6 +74,8 @@ class COverlayDB : public IDB
 
         void looseFocus();
 
+        IOverlay * getOverlayByKey(const QString& key);
+
     private:
         friend class CMainWindow;
         friend class COverlayToolWidget;

@@ -47,6 +47,15 @@ COverlayDB::~COverlayDB()
 }
 
 
+IOverlay * COverlayDB::getOverlayByKey(const QString& key)
+{
+    if(overlays.contains(key))
+    {
+        return overlays[key];
+    }
+    return 0;
+}
+
 void COverlayDB::looseFocus()
 {
     IOverlay * overlay;

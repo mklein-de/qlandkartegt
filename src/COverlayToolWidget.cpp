@@ -19,6 +19,7 @@
 #include "COverlayToolWidget.h"
 #include "COverlayDB.h"
 #include "IOverlay.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -83,16 +84,44 @@ void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 
         QMenu contextMenu;
         COverlayDB::self().customMenu(item->data(Qt::UserRole).toString(), contextMenu);
-        if(contextMenu.isEmpty())
-        {
-            contextMenu.addAction(QPixmap(),tr("<---->"));
-        }
+//        if(contextMenu.isEmpty())
+//        {
+//            contextMenu.addAction(QPixmap(),tr("<---->"));
+//        }
+        contextMenu.addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
 
         contextMenu.exec(p);
     }
 }
 
+void COverlayToolWidget::slotZoomToFit()
+{
+    QRectF r;
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listOverlays->selectedItems();
+    foreach(item,items)
+    {
+        IOverlay * ovl =  COverlayDB::self().getOverlayByKey(item->data(Qt::UserRole).toString());
+
+        if(r.isNull() && !ovl->getBoundingRectF().isNull())
+        {
+            r = ovl->getBoundingRectF();
+        }
+        else if(!ovl->getBoundingRectF().isNull())
+        {
+            r |= ovl->getBoundingRectF();
+        }
+
+    }
+
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
+
+}
 
 void COverlayToolWidget::slotDelete()
 {

@@ -642,3 +642,24 @@ void COverlayDistance::looseFocus()
     doMove          = false;
     doFuncWheel     = false;
 }
+
+QRectF COverlayDistance::getBoundingRectF()
+{
+    double north =  -90.0 * DEG_TO_RAD;
+    double south =  +90.0 * DEG_TO_RAD;
+    double west  = +180.0 * DEG_TO_RAD;
+    double east  = -180.0 * DEG_TO_RAD;
+
+    XY pt;
+    foreach(pt, points)
+    {
+        if(pt.u < west)  west  = pt.u;
+        if(pt.u > east)  east  = pt.u;
+        if(pt.v < south) south = pt.v;
+        if(pt.v > north) north = pt.v;
+    }
+
+    return QRectF(QPointF(west * RAD_TO_DEG,north * RAD_TO_DEG),QPointF(east * RAD_TO_DEG,south * RAD_TO_DEG));
+
+}
+

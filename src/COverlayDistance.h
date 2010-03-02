@@ -64,6 +64,8 @@ class COverlayDistance : public IOverlay
 
         void looseFocus();
 
+        QRectF getBoundingRectF();
+
     private slots:
         void slotToTrack();
         void slotToRoute();
