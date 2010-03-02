@@ -133,7 +133,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actFPVMode->setChecked(true);
     connect(actFPVMode, SIGNAL(triggered()), this, SLOT(slotFPVModeChanged()));
 
-    actResetLight = new QAction(tr("Reset Light"), this);
+    actResetLight = new QAction(QIcon(":icons/iconLight16x16"),tr("Reset Light"), this);
     connect(actResetLight, SIGNAL(triggered()), this, SLOT(slotResetLight()));
 
     actTrackOnMap =  new QAction(tr("Track on map"), this);
@@ -1127,11 +1127,13 @@ void CMap3D::drawWaypoints()
         QFont f = CResources::self().getMapFont();
         QFontMetrics fm(f);
         QRect r = fm.boundingRect((*wpt)->name);
-        QPixmap text(r.width() + 2, r.height() + 2);
+        QPixmap text(r.width() + 4, r.height() + 2);
         text.fill(Qt::transparent);
         QPainter p(&text);
-        CCanvas::drawText((*wpt)->name,p,text.rect().adjusted(1,1,-1,-1));
+        CCanvas::drawText((*wpt)->name,p,text.rect().adjusted(2,1,-1,-1));
         p.end();
+
+        text.save("text.png");
 
         double tw = wsize;
         double th = wsize * double(text.width())/double(text.height());
@@ -1709,7 +1711,7 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
     menu.addAction(actTrackMode);
     menu.addAction(actResetLight);
 
-    menu.addAction(tr("Config"), this, SLOT(slotConfig3D()));
+    menu.addAction(QIcon(":icons/iconConfig16x16"),tr("Config"), this, SLOT(slotConfig3D()));
 
     menu.exec(e->globalPos());
 }
