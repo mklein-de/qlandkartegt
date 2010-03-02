@@ -955,6 +955,7 @@ void CMap3D::draw3DMap()
     {
         qDebug() << "can't get elevation data";
         qDebug() << "draw flat map";
+        act3DMap->setChecked(false);
         drawFlatMap();
         return;
     }
@@ -1292,6 +1293,8 @@ void CMap3D::drawCompass(QPainter& p)
 #define ELE_RANGE 500.0
 void CMap3D::drawElevation(QPainter& p)
 {
+    if(act3DMap->isChecked() == false) return;
+
     double elevation = minEle + zpos / (zoomFactorZ * zoomFactorEle * zoomFactor);
     if(isinf(elevation)) return;
 
@@ -1907,9 +1910,10 @@ void CMap3D::adjustElevationToMap()
         theMap->convertPt2Rad(x,y);
 
         float e2 = CMapDB::self().getDEM().getElevation(x,y);
-        if(e2 > e1 && !isnan(e2))
+        if(e2 > e1 && !isnan(e2) && e2 != WPT_NOFLOAT)
         {
             zpos = (e2 + 10 - minEle) * (zoomFactorZ * zoomFactorEle * zoomFactor);
         }
     }
 }
+
