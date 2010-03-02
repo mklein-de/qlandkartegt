@@ -635,7 +635,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     map.convertPt2Rad(x,y);
     map.convertPt2M(x_m,y_m);
 
-    //     qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
+//    qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
     if((x == e->x()) && (y == e->y()))
     {

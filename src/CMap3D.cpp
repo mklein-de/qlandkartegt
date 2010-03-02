@@ -1089,24 +1089,39 @@ void CMap3D::drawWaypoints()
     QMap<QString,CWpt*>::const_iterator wpt  = wpts.begin();
     while(wpt != wpts.end())
     {
-        double u,v,ele = 0;
+        double u,v, u1, v1, ele = 0;
         QPixmap icon = getWptIconByName((*wpt)->icon);
 
-        u = (*wpt)->lon * DEG_TO_RAD;
-        v = (*wpt)->lat * DEG_TO_RAD;
+        u1 = u = (*wpt)->lon * DEG_TO_RAD;
+        v1 = v = (*wpt)->lat * DEG_TO_RAD;
+        theMap->convertRad2Pt(u, v);
+
+        if (u < 0 || u > xsize)
+        {
+            ++wpt;
+            continue;
+        }
+        if (v < 0 || v > ysize)
+        {
+            ++wpt;
+            continue;
+        }
+
+
+
         IMap& dem = CMapDB::self().getDEM();
         if (act3DMap->isChecked())
         {
-            ele = dem.getElevation(u, v);
+            ele = dem.getElevation(u1, v1);
         }
         else
         {
             ele = minEle;
 
         }
-        ele += 5;
+        ele += 5 / (zoomFactorZ*zoomFactorEle);
+        
 
-        theMap->convertRad2Pt(u, v);
         convertPt23D(u,v,ele);
 
         QFont f = CResources::self().getMapFont();
@@ -1130,12 +1145,12 @@ void CMap3D::drawWaypoints()
         textId      = bindTexture(text);
 
         quadTexture(u, v, wsize, wsize, ele, iconMaskId, true);
-        quadTexture(u, v, tw, th, ele + wsize * icon.height(), textMaskId, true);
+        quadTexture(u, v, tw, th, ele + icon.height() / (zoomFactorZ*zoomFactorEle), textMaskId, true);
 
         glBlendFunc(GL_ONE, GL_ONE);
 
         quadTexture(u, v, wsize, wsize, ele, iconId, false);
-        quadTexture(u, v, tw, th, ele + wsize * icon.height(), textId, false);
+        quadTexture(u, v, tw, th, ele + icon.height() / (zoomFactorZ*zoomFactorEle), textId, false);
         deleteTexture(iconMaskId);
         deleteTexture(iconId);
         deleteTexture(textMaskId);
@@ -1491,11 +1506,12 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
                 ypos = -r*cos(zRotation/180 * PI);
             }
         }
+        update();
     }
 
 
     lastPos = mousePos;
-    update();
+
 }
 
 void CMap3D::wheelEvent ( QWheelEvent * e )
