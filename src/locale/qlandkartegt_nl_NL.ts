@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="nl_NL">
 <context>
     <name>CActions</name>
     <message>
@@ -2108,7 +2108,7 @@ line %2, column %3:
     <message>
         <location filename="../CMainWindow.cpp" line="489"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bestand</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="490"/>
@@ -2341,42 +2341,42 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3D</name>
     <message>
-        <location filename="../CMap3D.cpp" line="126"/>
+        <location filename="../CMap3D.cpp" line="138"/>
         <source>3D / 2D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="131"/>
+        <location filename="../CMap3D.cpp" line="143"/>
         <source>FPV / Rot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="136"/>
+        <location filename="../CMap3D.cpp" line="148"/>
         <source>Reset Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="139"/>
+        <location filename="../CMap3D.cpp" line="151"/>
         <source>Track on map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="144"/>
+        <location filename="../CMap3D.cpp" line="156"/>
         <source>POV on track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="161"/>
+        <location filename="../CMap3D.cpp" line="173"/>
         <source>Help 3d</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="405"/>
+        <location filename="../CMap3D.cpp" line="417"/>
         <source>:/skybox/%1.bmp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="1679"/>
+        <location filename="../CMap3D.cpp" line="1728"/>
         <source>Config</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3423,17 +3423,17 @@ Do you want to save your changes?</source>
 <context>
     <name>COverlayToolWidget</name>
     <message>
-        <location filename="../COverlayToolWidget.cpp" line="32"/>
+        <location filename="../COverlayToolWidget.cpp" line="33"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../COverlayToolWidget.cpp" line="88"/>
-        <source>&lt;----&gt;</source>
+        <location filename="../COverlayToolWidget.cpp" line="91"/>
+        <source>Zoom to fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../COverlayToolWidget.cpp" line="90"/>
+        <location filename="../COverlayToolWidget.cpp" line="92"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3876,52 +3876,57 @@ end: %1</source>
 <context>
     <name>CWptToolWidget</name>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="41"/>
+        <location filename="../CWptToolWidget.cpp" line="42"/>
         <source>Waypoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="47"/>
+        <location filename="../CWptToolWidget.cpp" line="48"/>
         <source>Copy Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="48"/>
+        <location filename="../CWptToolWidget.cpp" line="49"/>
         <source>Edit...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="49"/>
+        <location filename="../CWptToolWidget.cpp" line="50"/>
         <source>Proximity ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="50"/>
+        <location filename="../CWptToolWidget.cpp" line="51"/>
         <source>Make Route ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="51"/>
+        <location filename="../CWptToolWidget.cpp" line="52"/>
+        <source>Zoom to fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CWptToolWidget.cpp" line="53"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="52"/>
+        <location filename="../CWptToolWidget.cpp" line="54"/>
         <source>Delete by ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="93"/>
+        <location filename="../CWptToolWidget.cpp" line="95"/>
         <source> (sticky)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="191"/>
+        <location filename="../CWptToolWidget.cpp" line="228"/>
         <source>Distance [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="208"/>
+        <location filename="../CWptToolWidget.cpp" line="245"/>
         <source>Proximity distance ...</source>
         <translation type="unfinished"></translation>
     </message>
