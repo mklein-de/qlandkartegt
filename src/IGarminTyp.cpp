@@ -1027,7 +1027,7 @@ void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bp
 
 bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& points)
 {
-    bool tainted = false;
+//    bool tainted = false;
 
     if(!sectPoints.arrayModulo || ((sectPoints.arraySize % sectPoints.arrayModulo) != 0))
     {

@@ -21,7 +21,7 @@
 #include "CMapDB.h"
 
 CCanvasUndoCommandZoom::CCanvasUndoCommandZoom(bool in, const QPoint &p)
-: in(in) , p(p)
+: p(p), in(in)
 {
     if(in)
         setText(QObject::tr("Zoom in"));

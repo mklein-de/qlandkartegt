@@ -28,13 +28,14 @@
 
 CMapOSM::CMapOSM(CCanvas * parent)
 : IMap(eTile, "OSMTileServer", parent)
-, xscale( 1.19432854652)
-, yscale(-1.19432854652)
+, parent(parent)
+, zoomFactor(1.0)
 , x(0)
 , y(0)
-, zoomFactor(1.0)
+, xscale( 1.19432854652)
+, yscale(-1.19432854652)
 , needsRedrawOvl(true)
-, parent(parent)
+
 {
     currentTileListIndex = -1;
     osmTiles = 0;
@@ -129,10 +130,16 @@ CMapOSM::~CMapOSM()
 void CMapOSM::setNewTileUrl(int index)
 {
     if (index == -1)
+    {
         if (currentTileListIndex < tileList.size() -1 )
+        {
             index = currentTileListIndex+1;
+        }
+    }
     else
+    {
         index = 0;
+    }
 
     if (currentTileListIndex!= index)
     {

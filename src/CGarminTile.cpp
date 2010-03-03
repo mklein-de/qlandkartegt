@@ -242,7 +242,7 @@ void CGarminTile::readBasics(const QString& fn)
 }
 
 
-static quint32 rgnoff = 0;
+//static quint32 rgnoff = 0;
 void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 {
     quint32 i;
@@ -483,8 +483,8 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         readFile(file, subfile.parts["TRE"].offset + gar_load(uint32_t, pTreHdr->tre7_offset), gar_load(uint32_t, pTreHdr->tre7_size), subdiv2);
         tre_subdiv2_t * pSubDiv2    = (tre_subdiv2_t*)subdiv2.data();
 
-        const quint32 entries1 = gar_load(uint32_t, pTreHdr->tre7_size) / gar_load(uint32_t, pTreHdr->tre7_rec_size);
-        const quint32 entries2 = subdivs.size();
+//        const quint32 entries1 = gar_load(uint32_t, pTreHdr->tre7_size) / gar_load(uint32_t, pTreHdr->tre7_rec_size);
+//        const quint32 entries2 = subdivs.size();
 
         bool skipPois = true;
         if(gar_load(uint32_t, pTreHdr->tre7_rec_size) == sizeof(tre_subdiv2_t)) skipPois = false;

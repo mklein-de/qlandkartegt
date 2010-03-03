@@ -282,7 +282,7 @@ void CMapToolWidget::slotDeleteKnownMap()
 {
     QStringList keys;
     QTreeWidgetItem * item;
-    QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
+//    QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
 
     bool wasSelected = false;
 

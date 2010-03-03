@@ -563,6 +563,7 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
 
             break;
         }
+        default:;
     }
 }
 
@@ -582,7 +583,9 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
             exifGPS.timestamp   = timestamp.toTime_t();
             break;
         }
+        default:;
     }
+
 }
 
 
@@ -598,6 +601,8 @@ static void exifDataForeachContentFunc(ExifContent * exifContent, void * user_da
         case EXIF_IFD_GPS:
             f_exif_content_foreach_entry(exifContent, exifContentForeachEntryFuncGPS, user_data);
             break;
+
+        default:;
 
     }
     //     qDebug() << "***" << exif_content_get_ifd(exifContent) << "***";

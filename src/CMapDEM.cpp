@@ -195,9 +195,9 @@ bool CMapDEM::getOrigRegion(QVector<qint16>& data,XY &topLeft, XY &bottomRight, 
     int yoff2 = ceil(yoff2_f);   //qDebug() << "yoff2:" << yoff2 << yoff2_f;
 
     // 6. get width and height to read from file
-    quint32 w1 = xoff2 - xoff1 + 1;
+    qint32 w1 = xoff2 - xoff1 + 1;
                                  //qDebug() << "w1:" << w1 << "h1:" << h1;
-    quint32 h1 = yoff2 - yoff1 + 1;
+    qint32 h1 = yoff2 - yoff1 + 1;
 
     topLeft.u = xoff1 * xscale + xref1;
     topLeft.v = yoff1 * yscale + yref1;

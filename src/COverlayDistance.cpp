@@ -583,7 +583,6 @@ void COverlayDistance::slotToRoute()
 {
     if(points.isEmpty()) return;
 
-    IMap& map       = CMapDB::self().getDEM();
     CRoute * route  = new CRoute(&CRouteDB::self());
 
     route->setName(name);

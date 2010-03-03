@@ -82,7 +82,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
 
     tileUrlPart = tileUrl.right(tileUrl.size()-index);
     ttileUrlPart = QString(tileUrlPart).replace('%','p');
-    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
+//    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
 
     getid = -1;
     requestInProgress =false;
