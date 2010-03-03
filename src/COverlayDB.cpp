@@ -92,13 +92,25 @@ void COverlayDB::loadGPX(CGpx& gpx)
         (CGpx::ql_ns + ":" + "overlays"));
         if(!ovl.isNull())
         {
-            QMap<QString,QDomElement> ovlmap = CGpx::mapChildElements(ovl);
-            for(QMap<QString,QDomElement>::Iterator it = ovlmap.begin();
-                it != ovlmap.end();
-                ++it)
+            QDomNodeList ovllist = ovl.childNodes();
+            uint i;
+            for(i = 0; i < ovllist.length(); i++)
             {
-                const QString type = it.key();
-                const QDomElement element = ovlmap[it.key()];
+                QDomNode child = ovllist.item(i);
+                QString type;
+                if (child.isNull() || !child.isElement())
+                {
+                    continue;
+                }
+                if (child.prefix().isEmpty())
+                {
+                    type = child.nodeName();
+                }
+                else
+                {
+                    type = child.namespaceURI()+":"+child.localName();
+                }
+                const QDomElement element = child.toElement();
 
                 if(type == (gpx.version() == CGpx::qlVer_1_0?
                     "text":
