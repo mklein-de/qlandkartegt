@@ -1,3 +1,55 @@
+--- 2010.03.04 ---
+
+Bug     #141:
+Fix: Raster map search does not work with map files containing multiple '.' 
+
+Bug     #142:
+Fix: Raster map search does not work with lon/lat WGS84 projection
+
+Request #143:
+Delete map while active/shown
+
+Request #144:
+Make scalebar work for maps with lat/lon projection
+
+Bug     #145:
+Fix: Zoom to area does not work when using lon/lat DEM and Garmin maps
+
+Bug     #146:
+Fix: qlb and sticky waypoint handling for qt4.6
+
+Request #147:
+Hide / show tracks
+
+Request #148:
+Add zoom to fit for multiple selected tracks
+
+Request #149:
+Add zoom to fit for multiple selected waypoints
+
+Request #150:
+Rewrite 3D view
+
+Request #151:
+Add first person view to 3D view
+
+Request #152:
+Add point of view on track to 3D view
+
+Request #153:
+Add compass to 3D view
+
+Request #154:
+Add elevation meter to 3D view
+
+Request #155:
+Add artificial horizont to 3D view
+
+Request #156:
+Add zoom to fit for multiple selected overlays
+
+
+
 --- 2010.02.06 ---
 
 Bug     #134:
@@ -695,6 +747,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
