@@ -2746,7 +2746,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapEditWidget.cpp" line="49"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation>Erzeuge Kartensammlung aus vorliegenden GeoTiff-Dateienn.</translation>
+        <translation>Erzeuge Kartensammlung aus vorliegenden GeoTiff-Dateien.</translation>
     </message>
 </context>
 <context>
@@ -6305,7 +6305,7 @@ p, li { white-space: pre-wrap; }
 Map: %1
 
 DEM: %2</source>
-        <translation>Die Projektion der DEM Daten is nicht die selbe wie die der Basiskarte.
+        <translation>Die Projektion der DEM Daten ist nicht die selbe wie die der Basiskarte.
 
 Karte: %1
 

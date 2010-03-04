@@ -192,7 +192,7 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
     {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8;
-        quint32 typ, offset;
+        quint32 typ, offset=0;
         bool hasLocalization = false;
         bool hasTextColor = false;
         quint8 ctyp;
@@ -483,7 +483,7 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
     {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8_1, t8_2;
-        quint32 typ, offset;
+        quint32 typ, offset=0;
         bool hasLocalization = false;
         bool hasTextColor = false;
         bool renderMode = false;
@@ -1041,7 +1041,7 @@ bool IGarminTyp::parsePoint(QDataStream& in, QMap<quint32, point_property>& poin
     {
         quint16 t16_1, t16_2, subtyp;
         quint8  t8_1;
-        quint32 typ, offset;
+        quint32 typ, offset=0;
         bool hasLocalization = false;
         bool hasTextColor = false;
         quint8 langcode;
