@@ -569,9 +569,10 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
         for(level = (*maplevel)->min; level <= (*maplevel)->max; ++level)
         {
             int z = level - (*maplevel)->min + 1;
-            double pxU = dU / (map->xscale * z);
-            double pxV = dV / (map->yscale * z);
+            double pxU = fabs(dU / (map->xscale * z));
+            double pxV = fabs(dV / (map->yscale * z));
 
+            qDebug() << pxU << size.width() << pxV << size.height();
             if((pxU < size.width()) && (pxV < size.height()))
             {
                 pMaplevel   = *maplevel;

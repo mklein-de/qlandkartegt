@@ -452,8 +452,8 @@ void CMapGeoTiff::zoom(double lon1, double lat1, double lon2, double lat2)
     dU = (u[1] - u[0]) / xscale;
     dV = (v[0] - v[2]) / yscale;
 
-    int z1 = dU / size.width();
-    int z2 = dV / size.height();
+    int z1 = fabs(dU / size.width());
+    int z2 = fabs(dV / size.height());
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
     if(quadraticZoom->isChecked())

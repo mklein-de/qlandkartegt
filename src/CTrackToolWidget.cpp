@@ -336,11 +336,16 @@ void CTrackToolWidget::slotFilter()
 void CTrackToolWidget::slotZoomToFit()
 {
     QRectF r;
-    QListWidgetItem * item;
+
     const QList<QListWidgetItem*>& items = listTracks->selectedItems();
-    foreach(item,items)
+    QList<QListWidgetItem*>::const_iterator item = items.begin();
+
+    r = CTrackDB::self().getBoundingRectF((*item)->data(Qt::UserRole).toString());
+
+    while(item != items.end())
     {
-        r |= CTrackDB::self().getBoundingRectF(item->data(Qt::UserRole).toString());
+        r |= CTrackDB::self().getBoundingRectF((*item)->data(Qt::UserRole).toString());
+        ++item;
     }
 
     if (!r.isNull ())

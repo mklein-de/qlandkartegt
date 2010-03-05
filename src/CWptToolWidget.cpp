@@ -196,14 +196,16 @@ void CWptToolWidget::slotZoomToFit()
 
     CWpt * wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
 
-    QRectF r(wpt->lon, wpt->lat, 0.00001, 0.00001);
+    QRectF r(wpt->lon, wpt->lat, 0.001, 0.001);
 
     while(item != items.end())
     {
         wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
-        r |= QRectF(wpt->lon, wpt->lat, 0.00001, 0.00001);
+        r |= QRectF(wpt->lon, wpt->lat, 0.001, 0.001);
         ++item;
     }
+
+    qDebug() << "ggggggggggg" << r;
 
     CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }

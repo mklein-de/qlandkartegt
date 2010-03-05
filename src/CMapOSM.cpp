@@ -268,8 +268,8 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
     v[2] = lat2;
 
     pj_transform(pjtar, pjsrc,3,0,u,v,0);
-    dU = u[1] - u[0];
-    dV = v[0] - v[2];
+    dU = fabs(u[1] - u[0]);
+    dV = fabs(v[0] - v[2]);
 
     int z1 = dU / size.width();
     int z2 = dV / size.height();
@@ -280,6 +280,8 @@ void CMapOSM::zoom(double lon1, double lat1, double lon2, double lat2)
         zoomidx     = i + 1;
         if(zoomFactor > z1 && zoomFactor > z2) break;
     }
+
+    qDebug() << zoomFactor << z1 << zoomFactor << z2;
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;

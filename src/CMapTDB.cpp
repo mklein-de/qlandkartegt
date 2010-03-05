@@ -1240,7 +1240,7 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
             pxV /= lat_factor;
         }
 
-        if((pxU < size.width()) && (pxV < size.height()))
+        if((fabs(pxU) < size.width()) && (fabs(pxV) < size.height()))
         {
             zoomFactor  = z;
             zoomidx     = i;
