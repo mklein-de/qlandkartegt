@@ -29,7 +29,9 @@
 #include "CImage.h"
 #include "CMapSearchThread.h"
 #include "IMap.h"
+#ifdef SQL_SEARCH_GARMIN
 #include "CGarminIndex.h"
+#endif //SQL_SEARCH_GARMIN
 #include "config.h"
 
 #include <QtGui>
@@ -67,6 +69,7 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
     slotMapChanged();
 
+#ifdef SQL_SEARCH_GARMIN
     connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotIndexChanged()));
     slotIndexChanged();
@@ -84,6 +87,11 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     connect(lineTextToFindPoints, SIGNAL( textChanged(const QString &)), SLOT(slotPointSearchChanged( const QString& )));
     connect(lineTextToFindPoints, SIGNAL( returnPressed()), SLOT(slotPointSearchChanged()));
     connect(listResultPoints, SIGNAL(itemSelectionChanged ()), this, SLOT(slotPointSelected()));
+#else
+    tabWidget->removeTab(0);
+#endif //SQL_SEARCH_GARMIN
+
+
 
     QSettings cfg;
     checkSearchViewport->setChecked(cfg.value("search/viewportlimit", false).toBool());
@@ -104,11 +112,14 @@ CMapSearchWidget::~CMapSearchWidget()
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
 
+
+#ifdef SQL_SEARCH_GARMIN
     CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
     QVector<CGarminPoint>   res1;
     QVector<CGarminPolygon> res2;
     tdb->highlight(res1);
     tdb->highlight(res2);
+#endif //SQL_SEARCH_GARMIN
 }
 
 
@@ -374,13 +385,20 @@ void CMapSearchWidget::checkGui()
 void CMapSearchWidget::slotMapChanged()
 {
     IMap& map  = CMapDB::self().getMap();
+#ifdef SQL_SEARCH_GARMIN
     IMap * ovl = map.getOverlay();
+#endif //SQL_SEARCH_GARMIN
 
+#ifdef SQL_SEARCH_GARMIN
     tabWidget->widget(1)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
     tabWidget->widget(0)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
+#else
+    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
+#endif //SQL_SEARCH_GARMIN
 }
 
 
+#ifdef SQL_SEARCH_GARMIN
 void CMapSearchWidget::slotProgressIndex(const QString& status, const int progress)
 {
     labelProgress2->setText(status);
@@ -633,3 +651,5 @@ void CMapSearchWidget::slotPointSelected()
 
     QApplication::restoreOverrideCursor();
 }
+
+#endif //SQL_SEARCH_GARMIN

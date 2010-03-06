@@ -174,6 +174,7 @@ class CGarminTile : public QObject
 
         */
         void loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport);
+
         /// read all polygons of a certain type in a file
         /**
             @param polygons     reference to vector to store polygons
@@ -181,6 +182,8 @@ class CGarminTile : public QObject
             @param level        detail level to use
         */
         void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
+
+#ifdef SQL_SEARCH_GARMIN
 
         /// create database index for later element lookup
         void createIndex(QSqlDatabase& db);
@@ -194,6 +197,7 @@ class CGarminTile : public QObject
         void readPolyline(const QString& subfile, quint32 subdiv, quint32 offset, polytype_t& polylines);
 
         void readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point);
+#endif //SQL_SEARCH_GARMIN
 
     private:
         void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);

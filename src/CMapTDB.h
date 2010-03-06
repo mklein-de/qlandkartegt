@@ -28,10 +28,13 @@
 #include <QFont>
 #include <QFontMetrics>
 
-class CGarminTile;
 class QTimer;
 class QTextDocument;
+
+#ifdef SQL_SEARCH_GARMIN
 class CGarminIndex;
+#endif //SQL_SEARCH_GARMIN
+
 class QCheckBox;
 class QComboBox;
 
@@ -59,11 +62,13 @@ class CMapTDB : public IMap
         void registerDEM(CMapDEM& dem);
         void select(IMapSelection& ms, const QRect& rect);
 
+#ifdef SQL_SEARCH_GARMIN
         void createSearchIndex(QObject * reveiver, const char * slot);
         CGarminIndex * getSearchIndex(){return index;}
 
         void highlight(QVector<CGarminPolygon>& res);
         void highlight(QVector<CGarminPoint>& res);
+#endif //SQL_SEARCH_GARMIN
 
         void config();
     protected:
@@ -297,7 +302,9 @@ class CMapTDB : public IMap
 
         QVector<textpath_t> textpaths;
 
+#ifdef SQL_SEARCH_GARMIN
         CGarminIndex * index;
+#endif //SQL_SEARCH_GARMIN
 
         QVector<CGarminPolygon> query1;
         QVector<CGarminPoint> query2;

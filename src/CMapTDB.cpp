@@ -21,7 +21,9 @@
 #include "CMapDEM.h"
 #include "Garmin.h"
 #include "CGarminTile.h"
+#ifdef SQL_SEARCH_GARMIN
 #include "CGarminIndex.h"
+#endif //SQL_SEARCH_GARMIN
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -267,8 +269,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     parent->installEventFilter(this);
 
+#ifdef SQL_SEARCH_GARMIN
     index = new CGarminIndex(this);
     index->setDBName(name);
+#endif //SQL_SEARCH_GARMIN
 
     checkPoiLabels = new QCheckBox(theMainWindow->getCanvas());
     checkPoiLabels->setText(tr("POI labels"));
@@ -360,8 +364,11 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     info          = 0;
     isTransparent = true;
 
+#ifdef SQL_SEARCH_GARMIN
     index = new CGarminIndex(this);
     index->setDBName(name);
+#endif //SQL_SEARCH_GARMIN
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -2490,7 +2497,7 @@ void CMapTDB::readTYP()
 #endif
 }
 
-
+#ifdef SQL_SEARCH_GARMIN
 void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 {
     QStringList files;
@@ -2519,7 +2526,7 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
     needsRedraw = true;
     emit sigChanged();
 }
-
+#endif //SQL_SEARCH_GARMIN
 
 void CMapTDB::config()
 {

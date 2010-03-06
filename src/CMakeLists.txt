@@ -143,7 +143,6 @@ set(qlandkarte_SRCS
     CGarminStrTblUtf8.cpp
     CGarminPolygon.cpp
     CGarminPoint.cpp
-    CGarminIndex.cpp
     CGarminTile.cpp
     CGarminExport.cpp
     IGarminTyp.cpp
@@ -286,7 +285,6 @@ set(qlandkarte_HDRS
     CGarminStrTblUtf8.h
     CGarminPolygon.h
     CGarminPoint.h
-    CGarminIndex.h
     CGarminTile.h
     Garmin.h
     CGarminExport.h
@@ -366,6 +364,15 @@ IF(WMS_CLIENT)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp CCreateMapWMS.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} ICreateMapWMS.ui)    
 ENDIF(WMS_CLIENT)
+
+SET (SQL_SEARCH_GARMIN OFF CACHE BOOL "Create SQL database from garmin maps to search polyllines and pois")
+IF(SQL_SEARCH_GARMIN)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSQL_SEARCH_GARMIN")
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CGarminIndex.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CGarminIndex.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} )    
+ENDIF(SQL_SEARCH_GARMIN)
+
 
 IF(EXIF_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_EXIF")
