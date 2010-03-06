@@ -66,9 +66,6 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     mask = new CImage(this);
     loadMaskCollection();
 
-    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
-    slotMapChanged();
-
 #ifdef SQL_SEARCH_GARMIN
     connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotIndexChanged()));
@@ -91,7 +88,8 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     tabWidget->removeTab(0);
 #endif //SQL_SEARCH_GARMIN
 
-
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
+    slotMapChanged();
 
     QSettings cfg;
     checkSearchViewport->setChecked(cfg.value("search/viewportlimit", false).toBool());
