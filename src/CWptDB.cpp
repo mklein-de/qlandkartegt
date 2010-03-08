@@ -107,6 +107,26 @@ void CWptDB::clear()
 }
 
 
+QList<CWptDB::keys_t> CWptDB::keys()
+{
+    QList<keys_t> k;
+
+    QString k1;
+    QStringList ks = wpts.keys();
+
+    foreach(k1, ks)
+    {
+        keys_t k2;
+
+        k2.key  = k1;
+        k2.name = wpts[k1]->name;
+
+        k << k2;
+    }
+
+    return k;
+}
+
 CWpt * CWptDB::newWpt(float lon, float lat, float ele)
 {
     CWpt * wpt = new CWpt(this);

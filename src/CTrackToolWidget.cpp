@@ -146,6 +146,8 @@ void CTrackToolWidget::slotDBChanged()
         ++track;
     }
 
+    listTracks->sortItems();
+
     if(highlighted)
     {
         listTracks->setCurrentItem(highlighted);

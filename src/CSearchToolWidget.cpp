@@ -91,6 +91,8 @@ void CSearchToolWidget::slotDBChanged()
         ++result;
     }
 
+    listResults->sortItems();
+
 }
 
 

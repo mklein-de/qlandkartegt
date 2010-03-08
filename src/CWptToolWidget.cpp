@@ -81,28 +81,37 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
     }
 }
 
+bool keyLessThan(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.name.toLower() < s2.name.toLower();
+}
 
 void CWptToolWidget::slotDBChanged()
 {
     listWpts->clear();
 
-    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end())
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+    qSort(keys.begin(), keys.end(), keyLessThan);
+
+    foreach(key, keys)
     {
+        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        if((*wpt)->sticky)
+        if(wpt->sticky)
         {
-            item->setText((*wpt)->name + tr(" (sticky)"));
+            item->setText(wpt->name + tr(" (sticky)"));
         }
         else
         {
-            item->setText((*wpt)->name);
+            item->setText(wpt->name);
         }
 
-        item->setIcon(getWptIconByName((*wpt)->icon));
-        item->setData(Qt::UserRole, (*wpt)->key());
-        ++wpt;
+        item->setIcon(getWptIconByName(wpt->icon));
+        item->setData(Qt::UserRole, wpt->key());
     }
+
 }
 
 

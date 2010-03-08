@@ -23,6 +23,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QStringList>
 
 class CWptToolWidget;
 class CWpt;
@@ -42,6 +43,11 @@ class CWptDB : public IDB
         QMap<QString,CWpt*> ::iterator begin(){return wpts.begin();}
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
+
+        struct keys_t{QString key; QString name;};
+
+        /// get all keys in the database
+        QList<keys_t> keys();
 
         const QMap<QString,CWpt*>& getWpts(){return wpts;}
 

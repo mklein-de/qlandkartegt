@@ -59,6 +59,8 @@ void COverlayToolWidget::slotDBChanged()
         item->setData(Qt::UserRole, overlay.key());
         ++overlay;
     }
+
+    listOverlays->sortItems();
 }
 
 
