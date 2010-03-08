@@ -64,24 +64,53 @@ void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& de
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
-    QRegExp re("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
-    if(!re.exactMatch(str))
+    QRegExp re1("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
+
+    QRegExp re2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
+
+    QRegExp re3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
+
+    if(re2.exactMatch(str))
     {
-        if(!silent) QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss"),QMessageBox::Ok,QMessageBox::NoButton);
+        bool signLat    = re2.cap(1) == "S";
+        float absLat    = re2.cap(2).toDouble();
+        lat = signLat ? -absLat : absLat;
+
+        bool signLon    = re2.cap(3) == "W";
+        float absLon    = re2.cap(4).toDouble();
+        lon = signLon ? -absLon : absLon;
+    }
+    else if(re1.exactMatch(str))
+    {
+
+        bool signLat    = re1.cap(1) == "S";
+        int degLat      = re1.cap(2).toInt();
+        float minLat    = re1.cap(3).toDouble();
+
+        GPS_Math_DegMin_To_Deg(signLat, degLat, minLat, lat);
+
+        bool signLon    = re1.cap(4) == "W";
+        int degLon      = re1.cap(5).toInt();
+        float minLon    = re1.cap(6).toDouble();
+
+        GPS_Math_DegMin_To_Deg(signLon, degLon, minLon, lon);
+    }
+    else if(re3.exactMatch(str))
+    {
+        lat             = re3.cap(1).toDouble();
+        lon             = re3.cap(2).toDouble();
+    }
+    else
+    {
+        if(!silent) QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Bad position format. Must be: \"[N|S] ddd mm.sss [W|E] ddd mm.sss\" or \"[N|S] ddd.ddd [W|E] ddd.ddd\""),QMessageBox::Ok,QMessageBox::NoButton);
         return false;
     }
 
-    bool signLat    = re.cap(1) == "S";
-    int degLat      = re.cap(2).toInt();
-    float minLat   = re.cap(3).toDouble();
-
-    GPS_Math_DegMin_To_Deg(signLat, degLat, minLat, lat);
-
-    bool signLon    = re.cap(4) == "W";
-    int degLon      = re.cap(5).toInt();
-    float minLon   = re.cap(6).toDouble();
-
-    GPS_Math_DegMin_To_Deg(signLon, degLon, minLon, lon);
+    if(fabs(lon) > 180.0 || fabs(lat) > 90.0)
+    {
+        if(!silent) QMessageBox::warning(0,QObject::tr("Error"),QObject::tr("Position values out of bounds. "),QMessageBox::Ok,QMessageBox::NoButton);
+        return false;
+    }
 
     return true;
 }
