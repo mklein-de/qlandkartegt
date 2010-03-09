@@ -42,7 +42,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
     tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
     tileList << qMakePair(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
-    // tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
+//    tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
     tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
 
     cb = new QComboBox(theMainWindow->getCanvas());
@@ -129,14 +129,12 @@ CMapOSM::~CMapOSM()
 
 void CMapOSM::setNewTileUrl(int index)
 {
-    if (index == -1)
+
+    if(index >= tileList.count())
     {
-        if (currentTileListIndex < tileList.size() -1 )
-        {
-            index = currentTileListIndex+1;
-        }
+        index = tileList.count() - 1;
     }
-    else
+    else if(index < 0)
     {
         index = 0;
     }
@@ -158,6 +156,7 @@ void CMapOSM::setNewTileUrl(int index)
         needsRedraw = true;
         emit sigChanged();
     }
+
 }
 
 
