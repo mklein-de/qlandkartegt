@@ -81,8 +81,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     tileServer = tileUrl.left(index);
 
     tileUrlPart = tileUrl.right(tileUrl.size()-index);
-    ttileUrlPart = QString(tileUrlPart).replace('%','p');
-//    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
+    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
 
     getid = -1;
     requestInProgress =false;
@@ -174,8 +173,9 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Each zoom level is a directory, each column is a subdirectory, and each tile in that column is a file
     // * Filename(url) format is /zoom/x/y.png
     QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
-    QString osmFilePath = QString("%1/qlandkarteqt/cache/%2/%3/%4").arg(QDir::tempPath()).arg(tileServer).arg(ttileUrlPart).arg(osmUrlPart);
-    //     qDebug() << osmFilePath;
+    QString osmFilePath = QString("%1/qlandkarteqt/cache/%2/%3").arg(QDir::tempPath()).arg(tileServer).arg(osmUrlPart);
+//    qDebug() << osmUrlPart;
+//    qDebug() << osmFilePath;
     bool needHttpAction = true;
     bool outOfDate = false;
     if (tiles.contains(osmUrlPart))
@@ -254,7 +254,7 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     }
     QString osmUrlPart = osmUrlPartHash.value(id);
 
-    QString filePath = QString("%1/qlandkarteqt/cache/%2/%3/%4").arg(QDir::tempPath()).arg(tileServer).arg(ttileUrlPart).arg(osmUrlPart);
+    QString filePath = QString("%1/qlandkarteqt/cache/%2/%3").arg(QDir::tempPath()).arg(tileServer).arg(osmUrlPart);
 
     //qDebug() << filePath;
     QFileInfo fi(filePath);

@@ -37,7 +37,6 @@ class COsmTilesHash: public QObject
     private:
         QString tileServer;
         QString tileUrlPart;
-        QString ttileUrlPart;
         int osm_zoom;
         QRect window;
         QHash<int, QPoint> startPointHash;
