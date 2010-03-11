@@ -182,7 +182,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+//    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
 
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
