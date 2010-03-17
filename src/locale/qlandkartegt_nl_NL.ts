@@ -280,7 +280,7 @@
     <message>
         <location filename="../CActions.cpp" line="75"/>
         <source>&amp;Close</source>
-        <translation>&amp;Skuiten</translation>
+        <translation>&amp;Sluiten</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="75"/>
@@ -300,7 +300,7 @@
     <message>
         <location filename="../CActions.cpp" line="77"/>
         <source>FPV / Rot.</source>
-        <translation type="unfinished"></translation>
+        <translation>FPV /Tot.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="77"/>
@@ -330,7 +330,7 @@
     <message>
         <location filename="../CActions.cpp" line="82"/>
         <source>&amp;New Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nieuw Wegpunt</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="82"/>
@@ -340,7 +340,7 @@
     <message>
         <location filename="../CActions.cpp" line="83"/>
         <source>&amp;Edit Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bewerk Wegpunt</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="83"/>
@@ -407,12 +407,12 @@
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>&amp;Split Track</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Splits Track</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>Split a track into pieces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Splits een track in stukken.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="94"/>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../CActions.cpp" line="97"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Del</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="97"/>
@@ -528,7 +528,7 @@
     <message>
         <location filename="../CActions.cpp" line="109"/>
         <source>&amp;Diary</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dagboek</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="109"/>
@@ -573,7 +573,7 @@
     <message>
         <location filename="../CActions.cpp" line="118"/>
         <source>&amp;Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Inzoemen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="118"/>
@@ -588,7 +588,7 @@
     <message>
         <location filename="../CActions.cpp" line="119"/>
         <source>&amp;Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uitzoemen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="119"/>
@@ -714,17 +714,17 @@
         <location filename="../CActions.cpp" line="205"/>
         <location filename="../CActions.cpp" line="216"/>
         <source>&amp;Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kaarten</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="227"/>
         <source>&amp;Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wegpunten</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="237"/>
         <source>&amp;Tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tracks</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="247"/>
@@ -734,12 +734,12 @@
     <message>
         <location filename="../CActions.cpp" line="257"/>
         <source>&amp;Live Log</source>
-        <translation type="unfinished">&amp;Live Log</translation>
+        <translation>&amp;Live Log</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="267"/>
         <source>&amp;Overlay</source>
-        <translation type="unfinished">&amp;Overlays</translation>
+        <translation>&amp;Overlays</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="277"/>
@@ -765,7 +765,7 @@
     <message>
         <location filename="../CCopyright.cpp" line="35"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Bedankt voor de bijdrage aan dit projekt: &lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Bedankt voor de vertaling::&lt;/p&gt;&lt;p&gt;Sarah Neumann (Duits)&lt;br/&gt;Fabrice Crohas (Frans)&lt;br/&gt;Alessandro Briosi (Italiaans)&lt;br/&gt;Harrie Klomp (Nederlands)&lt;br/&gt;Mike Markov (Russisch)&lt;br/&gt;Oscar A. (Spaans)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Zie &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; en &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunt symbolen zijn van &lt;b&gt;GPSMan&lt;/b&gt; gekopieerd. Zie &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Muiswijzers zijn uit de &apos;Polar Cursor Theme&apos;. Zie &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; gekopieerd. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty werd van &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; gekopieerd.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; erstellt&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Bedankt voor de bijdrage aan dit projekt: &lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Bedankt voor de vertaling::&lt;/p&gt;&lt;p&gt;Sarah Neumann (Duits)&lt;br/&gt;Fabrice Crohas (Frans)&lt;br/&gt;Alessandro Briosi (Italiaans)&lt;br/&gt;Harrie Klomp (Nederlands)&lt;br/&gt;Mike Markov (Russisch)&lt;br/&gt;Oscar A. (Spaans)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Zie &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; en &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunt symbolen zijn van &lt;b&gt;GPSMan&lt;/b&gt; gekopieerd. Zie &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Muiswijzers zijn uit de &apos;Polar Cursor Theme&apos;. Zie &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; gekopieerd. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty werd van &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; gekopieerd.&lt;/p&gt;&lt;p&gt;Het Typebestandsdecodering werd met behulp van de broncode op &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; verkregen&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1110,7 +1110,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
         <location filename="../CCreateMapWMS.cpp" line="152"/>
         <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation type="unfinished">Fout ...</translation>
+        <translation>Fout ...</translation>
     </message>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="114"/>
@@ -1323,7 +1323,7 @@ Expected %1, received %2.</source>
         <location filename="../CDeviceQLandkarteM.cpp" line="293"/>
         <source>%1
 %2 of %3</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 van %3</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="155"/>
@@ -1346,7 +1346,7 @@ Expected %1, received %2.</source>
         <location filename="../CDeviceQLandkarteM.cpp" line="442"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="493"/>
         <source>Error...</source>
-        <translation type="unfinished">Fout ...</translation>
+        <translation>Fout ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="155"/>
@@ -1451,7 +1451,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="75"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vet</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="84"/>
@@ -1461,7 +1461,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="93"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Onderstreept</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="105"/>
@@ -1501,7 +1501,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="168"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Knippen</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="172"/>
@@ -2022,7 +2022,7 @@ line %2, column %3:
     <message>
         <location filename="../CGpx.cpp" line="214"/>
         <source>Not a GPX file: </source>
-        <translation type="unfinished"></translation>
+        <translation>Geen GPX bestand:</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="218"/>
@@ -2532,7 +2532,7 @@ Do you want to save your changes?</source>
         <location filename="../CMapGeoTiff.cpp" line="95"/>
         <location filename="../CMapGeoTiff.cpp" line="123"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout ...</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="56"/>
@@ -2569,22 +2569,22 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="../CMapOSM.cpp" line="323"/>
+        <location filename="../CMapOSM.cpp" line="322"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="327"/>
+        <location filename="../CMapOSM.cpp" line="326"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="347"/>
+        <location filename="../CMapOSM.cpp" line="346"/>
         <source>Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="348"/>
+        <location filename="../CMapOSM.cpp" line="347"/>
         <source>and has been downloaded from: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2664,7 +2664,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapSearchThread.cpp" line="69"/>
         <source>Start...</source>
-        <translation type="unfinished"></translation>
+        <translation>Start ...</translation>
     </message>
     <message>
         <location filename="../CMapSearchThread.cpp" line="90"/>
@@ -2674,7 +2674,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapSearchThread.cpp" line="125"/>
         <source>Canceled!</source>
-        <translation type="unfinished"></translation>
+        <translation>Geanuleerd!</translation>
     </message>
     <message>
         <location filename="../CMapSearchThread.cpp" line="148"/>
@@ -3428,12 +3428,12 @@ Do you want to save your changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../COverlayToolWidget.cpp" line="91"/>
+        <location filename="../COverlayToolWidget.cpp" line="93"/>
         <source>Zoom to fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../COverlayToolWidget.cpp" line="92"/>
+        <location filename="../COverlayToolWidget.cpp" line="94"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
@@ -3509,12 +3509,12 @@ length: %1 %2</source>
         <translation>lengte: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="135"/>
+        <location filename="../CRouteToolWidget.cpp" line="138"/>
         <source>Edit</source>
         <translation>Bewerken</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="136"/>
+        <location filename="../CRouteToolWidget.cpp" line="139"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
@@ -3818,23 +3818,23 @@ end: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="230"/>
+        <location filename="../CTrackToolWidget.cpp" line="232"/>
         <source>Edit track ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="230"/>
-        <location filename="../CTrackToolWidget.cpp" line="325"/>
+        <location filename="../CTrackToolWidget.cpp" line="232"/>
+        <location filename="../CTrackToolWidget.cpp" line="327"/>
         <source>You have to select a track first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="312"/>
+        <location filename="../CTrackToolWidget.cpp" line="314"/>
         <source>created from track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="325"/>
+        <location filename="../CTrackToolWidget.cpp" line="327"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3842,33 +3842,33 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="155"/>
+        <location filename="../CWptDB.cpp" line="175"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="156"/>
+        <location filename="../CWptDB.cpp" line="176"/>
         <source>Delete sticky waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="619"/>
-        <location filename="../CWptDB.cpp" line="621"/>
+        <location filename="../CWptDB.cpp" line="639"/>
+        <location filename="../CWptDB.cpp" line="641"/>
         <source>Missing libexif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="619"/>
+        <location filename="../CWptDB.cpp" line="639"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="621"/>
+        <location filename="../CWptDB.cpp" line="641"/>
         <source>Unable to find libexif.so.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="628"/>
+        <location filename="../CWptDB.cpp" line="648"/>
         <source>Select path...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3881,52 +3881,52 @@ end: %1</source>
         <translation>Wegpunten</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="48"/>
+        <location filename="../CWptToolWidget.cpp" line="50"/>
         <source>Copy Position</source>
         <translation>Kopieer positie</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="49"/>
+        <location filename="../CWptToolWidget.cpp" line="51"/>
         <source>Edit...</source>
         <translation>Bewerken ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="50"/>
+        <location filename="../CWptToolWidget.cpp" line="52"/>
         <source>Proximity ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="51"/>
+        <location filename="../CWptToolWidget.cpp" line="53"/>
         <source>Make Route ...</source>
         <translation>Maak Route ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="52"/>
+        <location filename="../CWptToolWidget.cpp" line="54"/>
         <source>Zoom to fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="53"/>
+        <location filename="../CWptToolWidget.cpp" line="55"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="54"/>
+        <location filename="../CWptToolWidget.cpp" line="56"/>
         <source>Delete by ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="95"/>
+        <location filename="../CWptToolWidget.cpp" line="106"/>
         <source> (sticky)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="230"/>
+        <location filename="../CWptToolWidget.cpp" line="241"/>
         <source>Distance [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="247"/>
+        <location filename="../CWptToolWidget.cpp" line="258"/>
         <source>Proximity distance ...</source>
         <translation>Afstand ...</translation>
     </message>
@@ -4132,7 +4132,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ICreateMapGeoTiff.ui" line="252"/>
         <location filename="../ui_ICreateMapGeoTiff.h" line="431"/>
         <source>Coord.</source>
-        <translation type="unfinished"></translation>
+        <translation>Coord.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="257"/>
@@ -4280,30 +4280,32 @@ p, li { white-space: pre-wrap; }
         <location filename="../ui_ICreateMapOSM.h" line="218"/>
         <source>lon/lat
 top/left</source>
-        <translation type="unfinished"></translation>
+        <translation>Lon/Lat
+boven/links</translation>
     </message>
     <message utf8="true">
         <location filename="../ICreateMapOSM.ui" line="45"/>
         <source>e.g.  N59° 59.251 E010° 17.157 </source>
-        <translation type="unfinished"></translation>
+        <translation>bijv.  N59° 59.251 E010° 17.157 </translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="76"/>
         <location filename="../ui_ICreateMapOSM.h" line="222"/>
         <source>map area</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaart gebied</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="119"/>
         <location filename="../ui_ICreateMapOSM.h" line="223"/>
         <source>lon/lat
 bottom/right</source>
-        <translation type="unfinished"></translation>
+        <translation>Lon/Lat
+onder/rechts</translation>
     </message>
     <message utf8="true">
         <location filename="../ICreateMapOSM.ui" line="139"/>
         <source>e.g.  N59° 43.553 E010° 57.366 </source>
-        <translation type="unfinished"></translation>
+        <translation>bijv.  N59° 43.553 E010° 57.366 </translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="152"/>
@@ -4315,13 +4317,13 @@ bottom/right</source>
         <location filename="../ICreateMapOSM.ui" line="161"/>
         <location filename="../ui_ICreateMapOSM.h" line="229"/>
         <source>This is the path you normally load maps from.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit is het pad waar normaal de kaarten uit geladen worden.</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="164"/>
         <location filename="../ui_ICreateMapOSM.h" line="231"/>
         <source>&lt;path&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;path&gt;</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="171"/>
@@ -4333,25 +4335,25 @@ bottom/right</source>
         <location filename="../ICreateMapOSM.ui" line="180"/>
         <location filename="../ui_ICreateMapOSM.h" line="233"/>
         <source>map name</source>
-        <translation type="unfinished"></translation>
+        <translation>kaart naam</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="187"/>
         <location filename="../ui_ICreateMapOSM.h" line="235"/>
         <source>A map will have several files. All files of a map will begin with this name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Een kaart heeft een aantal bestanden. Alle bestanden van een kaart zal met dezelfde naam beginnen.</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="194"/>
         <location filename="../ui_ICreateMapOSM.h" line="237"/>
         <source>create</source>
-        <translation type="unfinished"></translation>
+        <translation>creëren</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="201"/>
         <location filename="../ui_ICreateMapOSM.h" line="239"/>
         <source>Provide a short and descriptive comment. The map will be listed by that comment in QLandkarte M.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef een kort beschrijvend commentaar. De kaart zal met dit commentaar in QLandkarteM vermeld worden.</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="208"/>
@@ -4362,12 +4364,12 @@ bottom/right</source>
     <message utf8="true">
         <location filename="../ui_ICreateMapOSM.h" line="221"/>
         <source>e.g.  N59Â° 59.251 E010Â° 17.157 </source>
-        <translation type="unfinished"></translation>
+        <translation>bijv.  N59° 59.251 E010° 17.157 </translation>
     </message>
     <message utf8="true">
         <location filename="../ui_ICreateMapOSM.h" line="226"/>
         <source>e.g.  N59Â° 43.553 E010Â° 57.366 </source>
-        <translation type="unfinished"></translation>
+        <translation>bijv.  N59° 43.553 E010° 57.366 </translation>
     </message>
 </context>
 <context>
@@ -4730,7 +4732,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgConfig.ui" line="14"/>
         <location filename="../ui_IDlgConfig.h" line="449"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorkeuren</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="24"/>
@@ -4748,7 +4750,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgConfig.ui" line="36"/>
         <location filename="../ui_IDlgConfig.h" line="451"/>
         <source>ABCDEFGHabcdefgh123456789</source>
-        <translation type="unfinished"></translation>
+        <translation>ABCDEFGHabcdefgh123456789</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="43"/>
@@ -5268,7 +5270,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgEditWpt.ui" line="14"/>
         <location filename="../ui_IDlgEditWpt.h" line="393"/>
         <source>Edit Waypoint ...</source>
-        <translation type="unfinished">Bewerk Wegpunt ...</translation>
+        <translation>Bewerk Wegpunt ...</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="29"/>
@@ -5391,7 +5393,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgEditWpt.ui" line="349"/>
         <location filename="../ui_IDlgEditWpt.h" line="416"/>
         <source>Wpt. Summary</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpt. overzicht</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="365"/>
@@ -5408,7 +5410,7 @@ p, li { white-space: pre-wrap; }
     <message utf8="true">
         <location filename="../ui_IDlgEditWpt.h" line="400"/>
         <source>Â°</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5693,7 +5695,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IGarminExport.ui" line="56"/>
         <location filename="../ui_IGarminExport.h" line="116"/>
         <source>Export</source>
-        <translation type="unfinished">Exporteer</translation>
+        <translation>Exporteer</translation>
     </message>
     <message>
         <location filename="../IGarminExport.ui" line="63"/>
@@ -5999,7 +6001,7 @@ DEM: %2</source>
         <location filename="../IMapSearchWidget.ui" line="328"/>
         <location filename="../ui_IMapSearchWidget.h" line="374"/>
         <source>Cancel</source>
-        <translation>Anuleren</translation>
+        <translation>fAnuleren</translation>
     </message>
 </context>
 <context>
@@ -6014,7 +6016,7 @@ DEM: %2</source>
         <location filename="../IMapToolWidget.ui" line="29"/>
         <location filename="../ui_IMapToolWidget.h" line="148"/>
         <source>Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 1</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="60"/>
@@ -6044,7 +6046,7 @@ DEM: %2</source>
         <location filename="../IMapToolWidget.ui" line="79"/>
         <location filename="../ui_IMapToolWidget.h" line="153"/>
         <source>Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 2</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="132"/>
@@ -6311,12 +6313,12 @@ DEM: %2</source>
     <message>
         <location filename="../printpreview.cpp" line="267"/>
         <source>Zoom In</source>
-        <translation>Zoem in</translation>
+        <translation>Inzoemen</translation>
     </message>
     <message>
         <location filename="../printpreview.cpp" line="271"/>
         <source>Zoom Out</source>
-        <translation>Zoem uit</translation>
+        <translation>Uitzoemen</translation>
     </message>
     <message>
         <location filename="../printpreview.cpp" line="277"/>
@@ -6334,12 +6336,12 @@ DEM: %2</source>
     <message>
         <location filename="../CCanvasUndoCommandZoom.cpp" line="27"/>
         <source>Zoom in</source>
-        <translation>Zoem in</translation>
+        <translation>Inzoemen</translation>
     </message>
     <message>
         <location filename="../CCanvasUndoCommandZoom.cpp" line="29"/>
         <source>Zoom out</source>
-        <translation>Zoem uit</translation>
+        <translation>Uitzoemen</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="425"/>
@@ -6382,7 +6384,7 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../CTrackUndoCommandDeletePts.cpp" line="24"/>
         <source>Delete Selection</source>
-        <translation>Selectie Verwijderen</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <location filename="../CTrackUndoCommandPurgePts.cpp" line="24"/>
@@ -6392,37 +6394,47 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../CTrackUndoCommandSelect.cpp" line="26"/>
         <source>Select Trackpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Trackpunten selecteren</translation>
     </message>
     <message>
         <location filename="../CTrackUndoCommandSelect.cpp" line="28"/>
         <source>Unselect Trackpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Trackpunten de-selecteren</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="70"/>
+        <location filename="../GeoMath.cpp" line="105"/>
+        <location filename="../GeoMath.cpp" line="111"/>
         <source>Error</source>
         <translation>Fout</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="70"/>
         <source>Bad position format. Must be: [N|S] ddd mm.sss [W|E] ddd mm.sss</source>
-        <translation>Ongelige positie invoer. Moet zijn:[N][S] ddd mm.sss [W][E] ddd mmm.sss</translation>
+        <translation type="obsolete">Ongelige positie invoer. Moet zijn:[N][S] ddd mm.sss [W][E] ddd mmm.sss</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="305"/>
-        <location filename="../GeoMath.cpp" line="324"/>
+        <location filename="../GeoMath.cpp" line="105"/>
+        <source>Bad position format. Must be: &quot;[N|S] ddd mm.sss [W|E] ddd mm.sss&quot; or &quot;[N|S] ddd.ddd [W|E] ddd.ddd&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GeoMath.cpp" line="111"/>
+        <source>Position values out of bounds. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GeoMath.cpp" line="334"/>
+        <location filename="../GeoMath.cpp" line="353"/>
         <source>Error ...</source>
         <translation>Fout ...</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="305"/>
+        <location filename="../GeoMath.cpp" line="334"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="324"/>
+        <location filename="../GeoMath.cpp" line="353"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
         <translation type="unfinished"></translation>
