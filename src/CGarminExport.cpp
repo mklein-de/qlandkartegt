@@ -81,7 +81,6 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         myMap.fid = map->fid;
         myMap.pid = map->pid;
 
-        qDebug() << "ffffffffff" << hex << myMap.fid << myMap.pid;
 
         maps << myMap;
         if(myMap.key.isEmpty())
@@ -504,9 +503,11 @@ void CGarminExport::slotStart()
         while(map != maps.end())
         {
             mps << quint8('F');
-            mps << quint16(5);
+            mps << quint16(5 + map->map.toAscii().size());
             // I suspect this should really be the basic file name of the .img set:
             mps << map->fid << map->pid;
+
+            mps.writeRawData(map->map.toAscii(),map->map.toAscii().size());
             mps.writeRawData("\0",1);
 
             if(!map->key.isEmpty())
