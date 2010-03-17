@@ -326,6 +326,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
         ++pMapLevel;
     }
 
+
     quint32 nsubdivs_next = nsubdivs - nsubdivs_last;
 
     //////////////////////////////////

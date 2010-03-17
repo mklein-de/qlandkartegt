@@ -104,7 +104,7 @@ class CMapTDB : public IMap
         } ;
 
         void readTDB(const QString& filename);
-        void readTYP();
+        void readTYP();        
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
@@ -174,7 +174,7 @@ class CMapTDB : public IMap
 
         struct tile_t
         {
-            tile_t() : selected(false){}
+            tile_t() : img(0), selected(false){}
             quint32 id;
             QString key;
             QString name;
@@ -226,6 +226,10 @@ class CMapTDB : public IMap
             /// minimum bits required for this resolution
             quint32 bits;
         };
+
+        void readTile(tile_t& tile);
+
+        bool tainted;
 
         /// tdb filename
         QString filename;
