@@ -2449,6 +2449,9 @@ void CMapTDB::readTYP()
                     comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
 
                 }
+
+                pid = typ.getPid();
+                fid = typ.getFid();
                 break;
             }
 
@@ -2481,6 +2484,9 @@ void CMapTDB::readTYP()
                     comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
 
                 }
+                pid = typ.getPid();
+                fid = typ.getFid();
+
                 break;
             }
 
