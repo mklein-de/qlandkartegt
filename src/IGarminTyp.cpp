@@ -994,6 +994,9 @@ void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bp
 {
     int x = 0,j = 0;
     quint8 color;
+
+    if(bpp == 0) return;
+
     for (int y = 0; y < h; y++)
     {
         while ( x < w )
