@@ -29,7 +29,7 @@
 class COsmTilesHashCacheCleanup: public QThread
 {
     public:
-        COsmTilesHashCacheCleanup(QObject *p=0) : QThread(p)
+        COsmTilesHashCacheCleanup(QObject * p) : QThread(p)
         {
             QSettings cfg;
 
@@ -38,6 +38,11 @@ class COsmTilesHashCacheCleanup: public QThread
             maxSizeInMB = cfg.value("osm/maxcachevalueMB").toInt();
             start(QThread::IdlePriority);
         };
+
+        virtual ~COsmTilesHashCacheCleanup()
+        {
+//            qDebug() << "~COsmTilesHashCacheCleanup()";
+        }
 
         void run()
         {
@@ -81,7 +86,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     tileServer = tileUrl.left(index);
 
     tileUrlPart = tileUrl.right(tileUrl.size()-index);
-    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup();
+    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);
 
     getid = -1;
     requestInProgress =false;
