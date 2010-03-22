@@ -470,9 +470,12 @@ if (APPLE)
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
   add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}")
 else(APPLE)
-  add_executable(${PROGNAME} ${qlandkarte_ALLINP})
+  add_executable(${PROGNAME} WIN32 ${qlandkarte_ALLINP})
 endif(APPLE)
 
+if(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
+endif(MSVC)
 target_link_libraries(
     ${PROGNAME}
       ${GDAL_LIBRARIES}
@@ -481,6 +484,7 @@ target_link_libraries(
       ${QT_QTNETWORK_LIBRARIES}
       ${QT_QTXML_LIBRARIES}
       ${QT_QTSQL_LIBRARIES}
+      ${QT_QTMAIN_LIBRARIES}
       ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}
       ${DMTX_LIBRARIES}
@@ -495,19 +499,3 @@ install(
     DESTINATION
       ${BIN_INSTALL_DIR}
 )
-
-if (WIN32)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /subsystem:windows")
-  add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
-  target_link_libraries(${PROGNAME}
-        ${QT_LIBRARIES}
-        ${QT_QTNETWORK_LIBRARIES}
-        ${QT_QTXML_LIBRARIES}
-        ${QT_QTSQL_LIBRARIES}
-        ${QL_OPENGL_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${QT_LIBRARY_DIR}/qtmain.lib
-        SerialPort
-        QMKToolBox)
-endif (WIN32)
-
