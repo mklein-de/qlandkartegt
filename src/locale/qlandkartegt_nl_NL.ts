@@ -773,7 +773,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="54"/>
         <source>Load Raster Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Rasterkaart laden</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="55"/>
@@ -1697,7 +1697,7 @@ Expected %1, received %2.</source>
         <location filename="../CDlgEditMapLevel.cpp" line="79"/>
         <location filename="../CDlgEditMapLevel.cpp" line="114"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer &lt;b&gt;alle&lt;/b&gt; bestanden voor dit level.</translation>
     </message>
 </context>
 <context>
@@ -3264,28 +3264,28 @@ Do you want to save your changes?</source>
         <location filename="../CMapWMS.cpp" line="47"/>
         <location filename="../CMapWMS.cpp" line="64"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout ...</translation>
     </message>
     <message>
         <location filename="../CMapWMS.cpp" line="38"/>
         <location filename="../CMapWMS.cpp" line="47"/>
         <source>Failed to load file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden van bestand mislukt: %1</translation>
     </message>
     <message>
         <location filename="../CMapWMS.cpp" line="64"/>
         <source>No georeference information found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen geografische informatie gevonden.</translation>
     </message>
     <message>
         <location filename="../CMapWMS.cpp" line="302"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Overzoem x%1</translation>
     </message>
     <message>
         <location filename="../CMapWMS.cpp" line="306"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoemstap x%1</translation>
     </message>
 </context>
 <context>
@@ -3301,7 +3301,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMenus.cpp" line="96"/>
         <source>ActionGroup %1 not defined. Please fix.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiegroep %1 niet gedefinieerd. Definieren altublieft.</translation>
     </message>
     <message>
         <location filename="../CMenus.cpp" line="175"/>
@@ -3330,7 +3330,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="130"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpuntpositie kopieren</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="131"/>
@@ -3355,7 +3355,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="147"/>
         <source>Copy Pos. Trackpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Trackpuntpositie kopieren</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="148"/>
@@ -3381,12 +3381,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../COsmTilesHash.cpp" line="213"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tegel %1 was van een %2 oude bestand. Nieuwe laden ...</translation>
     </message>
     <message>
         <location filename="../COsmTilesHash.cpp" line="252"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Het ontvangen bestand is geen geldige afbeelding ...</translation>
     </message>
 </context>
 <context>
@@ -3394,17 +3394,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../COverlayDistance.cpp" line="114"/>
         <source>Length: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Lengte %1 %2</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="493"/>
         <source>Make Track</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak Track</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="494"/>
         <source>Make Route</source>
-        <translation type="unfinished"></translation>
+        <translation>Maakk Route</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="495"/>
@@ -3425,12 +3425,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../COverlayToolWidget.cpp" line="33"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekenen</translation>
     </message>
     <message>
         <location filename="../COverlayToolWidget.cpp" line="93"/>
         <source>Zoom to fit</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoem tot het past</translation>
     </message>
     <message>
         <location filename="../COverlayToolWidget.cpp" line="94"/>
@@ -3443,17 +3443,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CPlot.cpp" line="686"/>
         <source>Vertical zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertilale zoem</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="690"/>
         <source>Reset zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstel zoem</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="693"/>
         <source>Save...</source>
-        <translation type="unfinished"></translation>
+        <translation>Oplaan ...</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="718"/>
@@ -3466,12 +3466,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CResources.cpp" line="196"/>
         <source>No device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen apparaat.</translation>
     </message>
     <message>
         <location filename="../CResources.cpp" line="196"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
-        <translation type="unfinished">Selecteer een apparaat in</translation>
+        <translation>Selecteer een apparaat in-Insrelingen &gt;Algemene instellingen -&gt;Apparaat &amp;Overdracht</translation>
     </message>
 </context>
 <context>
@@ -3487,12 +3487,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CRouteDB.cpp" line="53"/>
         <source>Route%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Route%1</translation>
     </message>
     <message>
         <location filename="../CRouteDB.cpp" line="178"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Naamloos</translation>
     </message>
 </context>
 <context>
@@ -3585,17 +3585,17 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackDB.cpp" line="553"/>
         <source>Track%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Track%1</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="968"/>
         <source>Failed...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislukt ...</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="968"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren van track mislukt. Slecteer een track of trackpunten van een track.</translation>
     </message>
 </context>
 <context>
@@ -3613,7 +3613,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="406"/>
         <source>Remove track points ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder track punten ...</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="407"/>
@@ -3623,22 +3623,22 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="516"/>
         <source>Speed/Dist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelheid/Afst.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="526"/>
         <source>Profile/Dist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Profiel/afst.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="540"/>
         <source>Speed/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelheid/Tijd</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="550"/>
         <source>Profile/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Profiel/Tijd</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="564"/>
@@ -3715,7 +3715,7 @@ length: %1 %2</source>
         <location filename="../CTrackStatTraineeWidget.cpp" line="32"/>
         <location filename="../CTrackStatTraineeWidget.cpp" line="65"/>
         <source>heart rate [bpm]</source>
-        <translation type="unfinished"></translation>
+        <translation>hartslag [spm]</translation>
     </message>
     <message>
         <location filename="../CTrackStatTraineeWidget.cpp" line="64"/>
@@ -4628,7 +4628,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlg3DHelp.ui" line="14"/>
         <location filename="../ui_IDlg3DHelp.h" line="61"/>
         <source>Help for 3D view...</source>
-        <translation type="unfinished"></translation>
+        <translation>Help voor 3D zicht ...</translation>
     </message>
     <message>
         <location filename="../IDlg3DHelp.ui" line="20"/>
