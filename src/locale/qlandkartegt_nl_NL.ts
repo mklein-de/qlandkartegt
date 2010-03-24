@@ -2743,348 +2743,348 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="285"/>
         <source>Night</source>
-        <translation type="unfinished"></translation>
+        <translation>Nacht</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="291"/>
         <source>Detail  5</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 5</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="292"/>
         <source>Detail  4</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 4</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="293"/>
         <source>Detail  3</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 3</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="294"/>
         <source>Detail  2</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 2</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="295"/>
         <source>Detail  1</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 1</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="296"/>
         <source>Detail  0</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail 0</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="297"/>
         <source>Detail -1</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail -1</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="298"/>
         <source>Detail -2</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail -2</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="299"/>
         <source>Detail -3</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail -3</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="300"/>
         <source>Detail -4</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail -4</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="301"/>
         <source>Detail -5</source>
-        <translation type="unfinished"></translation>
+        <translation>Detail -5</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="463"/>
         <source>Unspecified</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongespecificeerd </translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="464"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>Frans</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="465"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Duits</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="466"/>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>Nederlands</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="467"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Engels</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="468"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiaans</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="469"/>
         <source>Finnish</source>
-        <translation type="unfinished"></translation>
+        <translation>Fins</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="470"/>
         <source>Swedish</source>
-        <translation type="unfinished"></translation>
+        <translation>Zweeds</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="471"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>Spaans</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="472"/>
         <source>Basque</source>
-        <translation type="unfinished"></translation>
+        <translation>Baskisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="473"/>
         <source>Catalan</source>
-        <translation type="unfinished"></translation>
+        <translation>Catalaans</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="474"/>
         <source>Galician</source>
-        <translation type="unfinished"></translation>
+        <translation>Galicisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="475"/>
         <source>Welsh</source>
-        <translation type="unfinished"></translation>
+        <translation>Waals</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="476"/>
         <source>Gaelic</source>
-        <translation type="unfinished"></translation>
+        <translation>Keltisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="477"/>
         <source>Danish</source>
-        <translation type="unfinished"></translation>
+        <translation>Deens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="478"/>
         <source>Norwegian</source>
-        <translation type="unfinished"></translation>
+        <translation>Noors</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="479"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugees</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="480"/>
         <source>Slovak</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovaaks</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="481"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>Tsjechisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="482"/>
         <source>Croatian</source>
-        <translation type="unfinished"></translation>
+        <translation>Kroatisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="483"/>
         <source>Hungarian</source>
-        <translation type="unfinished"></translation>
+        <translation>Hongaars</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="484"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Pools</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="485"/>
         <source>Turkish</source>
-        <translation type="unfinished"></translation>
+        <translation>Turks</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="486"/>
         <source>Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>Grieks</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="487"/>
         <source>Slovenian</source>
-        <translation type="unfinished"></translation>
+        <translation>Sloveens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="488"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>Russisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="489"/>
         <source>Estonian</source>
-        <translation type="unfinished"></translation>
+        <translation>Estlands</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="490"/>
         <source>Latvian</source>
-        <translation type="unfinished"></translation>
+        <translation>Letlands</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="491"/>
         <source>Romanian</source>
-        <translation type="unfinished"></translation>
+        <translation>Roemeens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="492"/>
         <source>Albanian</source>
-        <translation type="unfinished"></translation>
+        <translation>Albanees</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="493"/>
         <source>Bosnian</source>
-        <translation type="unfinished"></translation>
+        <translation>Bosnisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="494"/>
         <source>Lithuanian</source>
-        <translation type="unfinished"></translation>
+        <translation>Litouws</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="495"/>
         <source>Serbian</source>
-        <translation type="unfinished"></translation>
+        <translation>Servisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="496"/>
         <source>Macedonian</source>
-        <translation type="unfinished"></translation>
+        <translation>Macedonisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="497"/>
         <source>Bulgarian</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulgaars</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="554"/>
         <source>Major highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Autosnelweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="555"/>
         <source>Principal highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="556"/>
         <source>Other highway</source>
-        <translation type="unfinished"></translation>
+        <translation>Andere snelweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="557"/>
         <source>Arterial road</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="558"/>
         <source>Collector road</source>
-        <translation type="unfinished"></translation>
+        <translation>Privinciale weg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="559"/>
         <source>Residential street</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdstraat</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="560"/>
         <source>Alley/Private road</source>
-        <translation type="unfinished"></translation>
+        <translation>Priveweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="561"/>
         <source>Highway ramp, low speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Oprit autosnelweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="562"/>
         <source>Highway ramp, high speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Afrit autosnelweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="563"/>
         <source>Unpaved road</source>
-        <translation type="unfinished"></translation>
+        <translation>Onverharde weg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="564"/>
         <source>Major highway connector</source>
-        <translation type="unfinished"></translation>
+        <translation>Autosnelweg verbinding</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="565"/>
         <source>Roundabout</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotonde</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="566"/>
         <source>Railroad</source>
-        <translation type="unfinished"></translation>
+        <translation>Soorweg</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="567"/>
         <source>Shoreline</source>
-        <translation type="unfinished"></translation>
+        <translation>Kustlijn</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="568"/>
         <source>Trail</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="569"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroom</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="570"/>
         <source>Time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdzone</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="571"/>
         <location filename="../CMapTDB.cpp" line="572"/>
         <source>Ferry</source>
-        <translation type="unfinished"></translation>
+        <translation>Veer</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="573"/>
         <source>State/province border</source>
-        <translation type="unfinished"></translation>
+        <translation>Staat/Provincie grens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="574"/>
         <source>County/parish border</source>
-        <translation type="unfinished"></translation>
+        <translation>Provinciegrens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="575"/>
         <source>International border</source>
-        <translation type="unfinished"></translation>
+        <translation>Internationale grens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="576"/>
         <source>River</source>
-        <translation type="unfinished"></translation>
+        <translation>Rivier</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="577"/>
@@ -3124,37 +3124,37 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="584"/>
         <source>Airport runway</source>
-        <translation type="unfinished"></translation>
+        <translation>Landingsbaan</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="585"/>
         <source>Pipeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Pijplijn</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="586"/>
         <source>Powerline</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroomleiding</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="587"/>
         <source>Marine boundary</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeegrens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="588"/>
         <source>Hazard boundary</source>
-        <translation type="unfinished"></translation>
+        <translation>Gevaarlijke grens</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="668"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen basismap projectie. Dat zou niet mogen gebeuren.</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="791"/>
         <source>Select Base Map for </source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer basismap voor</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="972"/>
@@ -3162,7 +3162,7 @@ Do you want to save your changes?</source>
         <location filename="../CMapTDB.cpp" line="1015"/>
         <location filename="../CMapTDB.cpp" line="1035"/>
         <source>Error</source>
-        <translation type="unfinished">Fout</translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="974"/>
@@ -3194,13 +3194,13 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapTDB.cpp" line="2340"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="2386"/>
         <location filename="../CMapTDB.cpp" line="2391"/>
         <source>Area</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebied</translation>
     </message>
 </context>
 <context>
@@ -5098,13 +5098,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgCreateWorldBasemap.ui" line="13"/>
         <location filename="../ui_IDlgCreateWorldBasemap.h" line="131"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialoog</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="21"/>
         <location filename="../ui_IDlgCreateWorldBasemap.h" line="132"/>
         <source>./basemap.tif</source>
-        <translation type="unfinished"></translation>
+        <translation>./basiskaart.tif</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="28"/>
@@ -5124,13 +5124,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgCreateWorldBasemap.ui" line="52"/>
         <location filename="../ui_IDlgCreateWorldBasemap.h" line="135"/>
         <source>level</source>
-        <translation type="unfinished"></translation>
+        <translation>Level</translation>
     </message>
     <message>
         <location filename="../IDlgCreateWorldBasemap.ui" line="69"/>
         <location filename="../ui_IDlgCreateWorldBasemap.h" line="136"/>
         <source>0px x 0px</source>
-        <translation type="unfinished"></translation>
+        <translation>Opx x Opx</translation>
     </message>
 </context>
 <context>
@@ -5139,13 +5139,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgDelWpt.ui" line="13"/>
         <location filename="../ui_IDlgDelWpt.h" line="81"/>
         <source>Delete waypoint by ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder wegpunt met ...</translation>
     </message>
     <message>
         <location filename="../IDlgDelWpt.ui" line="28"/>
         <location filename="../ui_IDlgDelWpt.h" line="82"/>
         <source>type</source>
-        <translation type="unfinished"></translation>
+        <translation>type</translation>
     </message>
 </context>
 <context>
@@ -5593,7 +5593,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgTrackFilter.ui" line="146"/>
         <location filename="../ui_IDlgTrackFilter.h" line="296"/>
         <source>Timestamps</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdstempels</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="159"/>
@@ -5605,7 +5605,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgTrackFilter.ui" line="175"/>
         <location filename="../ui_IDlgTrackFilter.h" line="289"/>
         <source>Local time</source>
-        <translation>Locale tijd</translation>
+        <translation>Lokale tijd</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="181"/>
