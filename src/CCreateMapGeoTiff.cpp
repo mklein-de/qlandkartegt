@@ -737,10 +737,10 @@ void CCreateMapGeoTiff::slotGoOn()
 
     textBrowser->clear();
     textBrowser->setTextColor(Qt::black);
-    textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
+    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
     state = eTranslate;
-    cmd.start("gdal_translate", args);
+    cmd.start(GDALTRANSLATE, args);
 
     enableStep3();
 }
@@ -802,9 +802,9 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         args << tmpfile2->fileName();
 
         textBrowser->setTextColor(Qt::black);
-        textBrowser->append("gdalwarp " +  args.join(" ") + "\n");
+        textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
 
-        cmd.start("gdalwarp", args);
+        cmd.start(GDALWARP, args);
         return;
     }
     if(state == eWarp)
@@ -823,9 +823,9 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         args << labelOutputFile->text();
 
         textBrowser->setTextColor(Qt::black);
-        textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
+        textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
-        cmd.start("gdal_translate", args);
+        cmd.start(GDALTRANSLATE, args);
         return;
     }
     cleanupTmpFiles();

@@ -355,8 +355,8 @@ void CMapToolWidget::slotExportMap()
     const IMapSelection * ms = selectedMaps[key];
     if(ms->type == IMapSelection::eRaster)
     {
-        bool haveGDALWarp       = QProcess::execute("gdalwarp --version") == 0;
-        bool haveGDALTranslate  = QProcess::execute("gdal_translate --version") == 0;
+        bool haveGDALWarp       = QProcess::execute(GDALWARP " --version") == 0;
+        bool haveGDALTranslate  = QProcess::execute(GDALTRANSLATE " --version") == 0;
         bool haveGDAL = haveGDALWarp && haveGDALTranslate;
         if(!haveGDAL)
         {

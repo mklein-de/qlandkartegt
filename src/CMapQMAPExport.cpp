@@ -250,9 +250,9 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
     args << file1->fileName();
 
     textBrowser->setTextColor(Qt::black);
-    textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
+    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
-    cmd1.start("gdal_translate", args);
+    cmd1.start(GDALTRANSLATE, args);
 
 }
 
@@ -267,9 +267,9 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
     args << file2->fileName();
 
     textBrowser->setTextColor(Qt::black);
-    textBrowser->append("gdalwarp " +  args.join(" ") + "\n");
+    textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
 
-    cmd2.start("gdalwarp", args);
+    cmd2.start(GDALWARP, args);
 }
 
 
@@ -285,7 +285,7 @@ void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
     args << job.tarFilename;
 
     textBrowser->setTextColor(Qt::black);
-    textBrowser->append("gdal_translate " +  args.join(" ") + "\n");
+    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
-    cmd3.start("gdal_translate", args);
+    cmd3.start(GDALTRANSLATE, args);
 }

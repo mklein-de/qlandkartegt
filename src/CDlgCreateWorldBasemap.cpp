@@ -338,15 +338,15 @@ void CDlgCreateWorldBasemap::slotImageReady(QImage image, bool lastTileLoaded)
         args << "-gcp" << "0" << QString("%1").arg(image.height()) << "-20037508" << "-20037508";
         args << "-a_srs" << "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs";
         args << "./basemap.png" << "./basemap.tif";
-        qDebug() << "gdal_translate" << args.join(" ");
-        QProcess::execute("gdal_translate", args);
+        qDebug() << GDALTRANSLATE << args.join(" ");
+        QProcess::execute(GDALTRANSLATE, args);
 
         args.clear();
         args << "-t_srs" << "EPSG:4326";
         args << "-ts" << QString("%1").arg(image.width()) << QString("%1").arg(image.height());
         args << "./basemap.tif" << "./basemap_wgs84.tif";
-        qDebug() << "gdalwarp" << args.join(" ");
-        QProcess::execute("gdalwarp", args);
+        qDebug() << GDALWARP << args.join(" ");
+        QProcess::execute(GDALWARP, args);
 
         args.clear();
         args << "-co" << "tiled=yes";
@@ -354,8 +354,8 @@ void CDlgCreateWorldBasemap::slotImageReady(QImage image, bool lastTileLoaded)
         args << "-co" << "blockysize=256";
         args << "-co" << "compress=LZW";
         args << "./basemap_wgs84.tif" << "./basemap_wgs84_x.tif";
-        qDebug() << "gdal_translate" << args.join(" ");
-        QProcess::execute("gdal_translate", args);
+        qDebug() << GDALTRANSLATE << args.join(" ");
+        QProcess::execute(GDALTRANSLATE, args);
 
     }
 }

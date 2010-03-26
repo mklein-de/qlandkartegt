@@ -622,7 +622,7 @@ void CMainWindow::slotConfig()
 void CMainWindow::slotLoadData()
 {
 
-    bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
+    bool haveGPSBabel = QProcess::execute(GPSBABEL " -V") == 0;
     QString formats;
     if(haveGPSBabel)
     {
@@ -677,7 +677,7 @@ void CMainWindow::slotLoadData()
 
 void CMainWindow::slotAddData()
 {
-    bool haveGPSBabel = QProcess::execute("gpsbabel -V") == 0;
+    bool haveGPSBabel = QProcess::execute(GPSBABEL " -V") == 0;
     QString formats;
     if(haveGPSBabel)
     {
@@ -841,7 +841,7 @@ void CMainWindow::loadData(QString& filename, const QString& filter)
 
 bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile)
 {
-    QString program = "gpsbabel";
+    QString program = GPSBABEL;
     QStringList arguments;
     arguments << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
 

@@ -8,6 +8,26 @@ find_package(PROJ REQUIRED)
 find_package(EXIF)
 find_package(DMTX)
 
+find_program(GDALWARP gdalwarp DOC "full path of the gdalwarp application")
+if(GDALWARP)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGDALWARP=\\\"${GDALWARP}\\\"")
+else(GDALWARP)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGDALWARP=\\\"gdalwarp\\\"")
+endif(GDALWARP)
+
+find_program(GDALTRANSLATE gdal_translate DOC "full path of the gdal_translate application")
+if(GDALTRANSLATE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGDALTRANSLATE=\\\"${GDALTRANSLATE}\\\"")
+else(GDALTRANSLATE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGDALTRANSLATE=\\\"gdal_translate\\\"")
+endif(GDALTRANSLATE)
+
+find_program(GPSBABEL gpsbabel DOC "full path of the gpsbabel application")
+if(GPSBABEL)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGPSBABEL=\\\"${GPSBABEL}\\\"")
+else(GPSBABEL)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGPSBABEL=\\\"gpsbabel\\\"")
+endif(GPSBABEL)
 
 include(${QT_USE_FILE})
 
