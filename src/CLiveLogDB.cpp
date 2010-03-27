@@ -137,15 +137,17 @@ void CLiveLogDB::clear()
 
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
+    CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
+    if(w == 0) return;
+
+    // always update the time
+    w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
 
     if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
 
     m_log = log;
 
     *backup << log;
-
-    CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
-    if(w == 0) return;
 
     float speed_km_h = log.velocity * 3.6;
     float heading = log.heading;
@@ -184,7 +186,6 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         {
             w->lblHeading->setText(tr("%1\260 T").arg((int)(heading + 0.5),3,'f',0,'0'));
         }
-        w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
 
         simplelog_t slog;
         slog.timestamp  = log.timestamp;
