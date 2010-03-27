@@ -164,7 +164,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     QSettings cfg;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.png *.gif)"), 0, QFileDialog::DontUseNativeDialog);
+    QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.tiff *.png *.gif)"), 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     CMapDB::self().openMap(filename, true, *theMainWindow->getCanvas());
@@ -208,7 +208,7 @@ void CCreateMapGeoTiff::slotOutFile()
     QSettings cfg;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif)"), 0, QFileDialog::DontUseNativeDialog);
+    QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif *.tiff)"), 0, QFileDialog::DontUseNativeDialog);
     if(filename.isEmpty()) return;
 
     labelOutputFile->setText(filename);

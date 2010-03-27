@@ -717,7 +717,7 @@ void CPlot::slotSave()
     QString filter;
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"Bitmap (*.png *.jpg);;"
+        ,"Bitmap (*.png *.jpg *.jpeg);;"
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );

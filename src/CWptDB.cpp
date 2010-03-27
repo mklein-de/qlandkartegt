@@ -653,7 +653,7 @@ void CWptDB::createWaypointsFromImages()
 
     QDir dir(path);
     QStringList filter;
-    filter << "*.jpg" << "*.png";
+    filter << "*.jpg" << "*.jpeg" << "*.png";
     QStringList files = dir.entryList(filter, QDir::Files);
     QString file;
 
