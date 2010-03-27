@@ -57,6 +57,8 @@ class IGarminStrTbl : public QObject
         quint16 codepage;
         QTextCodec * codec;
         const quint8 mask;
+        quint32 mask32;
+        quint64 mask64;
 
         char buffer[1024];
 };
