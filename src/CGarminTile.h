@@ -461,6 +461,8 @@ class CGarminTile : public QObject
         QString filename;
         /// xor mask for encrypted files
         quint8 mask;
+        quint32 mask32;
+        quint64 mask64;
         /// map description string
         QString mapdesc;
         /// hold all subfile descriptors

@@ -30,3 +30,9 @@ check_include_file(inttypes.h HAVE_INTTYPES_H)
 check_include_file(byteswap.h HAVE_BYTESWAP_H)
 
 test_big_endian(HAVE_BIGENDIAN)
+
+# check if we're on a 64bit host
+if(CMAKE_SIZEOF_VOID_P MATCHES "8")
+  SET(HOST_IS_64_BIT 1)
+endif(CMAKE_SIZEOF_VOID_P MATCHES "8")
+
