@@ -203,9 +203,9 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         if(m_lockToCenter)
         {
             QSize size  = map.getSize();
-            int   dx    = size.width()  / 4;
-            int   dy    = size.height() / 4;
-            QRect area  = QRect(dx, dy, 2*dx, 2*dy);
+            int   dx    = size.width()  / 6;
+            int   dy    = size.height() / 6;
+            QRect area  = QRect(2*dx, 2*dy, 2*dx, 2*dy);
             if(!area.contains(u,v))
             {
                 map.move(QPoint(u,v), area.center());
