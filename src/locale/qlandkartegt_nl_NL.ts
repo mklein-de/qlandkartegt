@@ -350,7 +350,7 @@
     <message>
         <location filename="../CActions.cpp" line="84"/>
         <source>&amp;Move Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Verplaats Wegpunt</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="84"/>
@@ -588,7 +588,7 @@
     <message>
         <location filename="../CActions.cpp" line="119"/>
         <source>&amp;Zoom out</source>
-        <translation>&amp;Uitzoemen</translation>
+        <translation>&amp;Uitzoomen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="119"/>
@@ -783,12 +783,12 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="56"/>
         <source>Add Reference Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg referentie punten toe</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="58"/>
         <source>Reference Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Referentie Kaart</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="59"/>
@@ -846,12 +846,12 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="167"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
-        <translation type="unfinished"></translation>
+        <translation>Raw bitmaps (*.tif *.tiff *.png *.gif)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="211"/>
         <source>GeoTiff (*.tif *.tiff)</source>
-        <translation type="unfinished"></translation>
+        <translation>GeoTiff (*.tif *.tiff)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="269"/>
@@ -937,7 +937,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="47"/>
         <source>Create grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer grid</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="48"/>
@@ -1464,7 +1464,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="84"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;cursief</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="93"/>
@@ -1494,7 +1494,7 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="124"/>
         <source>&amp;Color...</source>
-        <translation>&amp;Kleur....</translation>
+        <translation>&amp;Kleur ...</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="160"/>
@@ -1534,12 +1534,12 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="444"/>
         <source>&lt;h1&gt;Default Title&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Standaard titel&lt;/h1&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="449"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;%1&lt;/h1&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="452"/>
@@ -1555,48 +1555,48 @@ Expected %1, received %2.</source>
         <location filename="../CDiaryEditWidget.cpp" line="465"/>
         <location filename="../CDiaryEditWidget.cpp" line="510"/>
         <source>&lt;th align=&apos;left&apos;&gt;Time&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Tijd&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="466"/>
         <source>&lt;th align=&apos;left&apos;&gt;Name&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Naam&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="467"/>
         <source>&lt;th align=&apos;left&apos;&gt;Elevation&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;hoogteverschil&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="468"/>
         <location filename="../CDiaryEditWidget.cpp" line="512"/>
         <source>&lt;th align=&apos;left&apos;&gt;Comment&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Omschrijving&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="506"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="507"/>
         <source>&lt;th align=&apos;left&apos;&gt;Start&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Start&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="508"/>
         <source>&lt;th align=&apos;left&apos;&gt;Stop&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Stop&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="509"/>
         <source>&lt;th align=&apos;left&apos;&gt;Length&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Lengte&lt;/th&gt;</translation>
     </message>
     <message>
         <location filename="../CDiaryEditWidget.cpp" line="511"/>
         <source>&lt;th align=&apos;left&apos;&gt;Speed&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;th align=&apos;left&apos;&gt;Selheid&lt;/th&gt;</translation>
     </message>
 </context>
 <context>
@@ -1798,12 +1798,12 @@ Expected %1, received %2.</source>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="81"/>
         <source>select icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer icoon</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="129"/>
         <source>Select icon ...</source>
-        <translation type="unfinished">Selecteer icoon ...</translation>
+        <translation>Selecteer icoon ...</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="228"/>
@@ -2546,7 +2546,7 @@ Do you want to save your changes?</source>
         <location filename="../CMapGeoTiff.cpp" line="56"/>
         <location filename="../CMapGeoTiff.cpp" line="70"/>
         <source>Failed to load file: %1</source>
-        <translation type="unfinished">Laden van bestand mislukt: %1</translation>
+        <translation>Laden van bestand mislukt: %1</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="95"/>
@@ -2556,7 +2556,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="123"/>
         <source>No georeference information found.</source>
-        <translation type="unfinished">Geen geografische informatie gevonden.</translation>
+        <translation>Geen geografische informatie gevonden.</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="169"/>
@@ -2566,12 +2566,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="206"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Overzoem x%1</translation>
+        <translation>Overzoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="210"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoemstap x%1</translation>
+        <translation>Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -2579,12 +2579,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapOSM.cpp" line="322"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Overzoem x%1</translation>
+        <translation>Overzoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapOSM.cpp" line="326"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoemstap x%1</translation>
+        <translation>Zoom niveau x%1</translation>
     </message>
     <message>
         <location filename="../CMapOSM.cpp" line="346"/>
@@ -2602,12 +2602,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapQMAP.cpp" line="169"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Overzoem x%1</translation>
+        <translation>Overzoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapQMAP.cpp" line="173"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoemstap x%1</translation>
+        <translation>Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -2648,7 +2648,7 @@ Do you want to save your changes?</source>
         <location filename="../CMapRaster.cpp" line="39"/>
         <location filename="../CMapRaster.cpp" line="51"/>
         <source>Failed to load file: %1</source>
-        <translation type="unfinished">Laden van bestand mislukt: %1</translation>
+        <translation>Laden van bestand mislukt: %1</translation>
     </message>
     <message>
         <location filename="../CMapRaster.cpp" line="58"/>
@@ -2659,12 +2659,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapRaster.cpp" line="194"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Overzoem x%1</translation>
+        <translation>Overzoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapRaster.cpp" line="198"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoemstap x%1</translation>
+        <translation>Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -2707,12 +2707,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapSearchWidget.cpp" line="139"/>
         <source>Symbols</source>
-        <translation type="unfinished">Symbolen</translation>
+        <translation>Symbolen</translation>
     </message>
     <message>
         <location filename="../CMapSearchWidget.cpp" line="187"/>
         <source>%2 %1</source>
-        <translation type="unfinished">%2 %1</translation>
+        <translation>%2 %1</translation>
     </message>
     <message>
         <location filename="../CMapSearchWidget.cpp" line="237"/>
@@ -2732,7 +2732,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapSearchWidget.cpp" line="369"/>
         <source>No area selected.</source>
-        <translation type="unfinished">Geen gebied geselecteerd.</translation>
+        <translation>Geen gebied geselecteerd.</translation>
     </message>
     <message>
         <location filename="../CMapSearchWidget.cpp" line="498"/>
@@ -3288,12 +3288,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapWMS.cpp" line="302"/>
         <source>Overzoom x%1</source>
-        <translation>Overzoem x%1</translation>
+        <translation>Overzoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapWMS.cpp" line="306"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoemstap x%1</translation>
+        <translation>Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -3438,7 +3438,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../COverlayToolWidget.cpp" line="93"/>
         <source>Zoom to fit</source>
-        <translation>Zoem tot het past</translation>
+        <translation>Passend inzoomen</translation>
     </message>
     <message>
         <location filename="../COverlayToolWidget.cpp" line="94"/>
@@ -3451,17 +3451,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CPlot.cpp" line="290"/>
         <source>No or bad data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen of slechte data.</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="706"/>
         <source>Vertical zoom</source>
-        <translation>Vertilale zoem</translation>
+        <translation>Vertilale zoom</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="710"/>
         <source>Reset zoom</source>
-        <translation>Herstel zoem</translation>
+        <translation>Herstel zoom</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="713"/>
@@ -3484,7 +3484,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CResources.cpp" line="196"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
-        <translation>Selecteer een apparaat in-Insrelingen &gt;Algemene instellingen -&gt;Apparaat &amp;Overdracht</translation>
+        <translation>Selecteer een apparaat in-Instelingen &gt;Algemene instellingen -&gt;Apparaat &amp; Overdracht</translation>
     </message>
 </context>
 <context>
@@ -3741,7 +3741,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="42"/>
         <source>Tracks</source>
-        <translation type="unfinished">Tracks</translation>
+        <translation>Tracks</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="50"/>
@@ -3751,7 +3751,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="51"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>filter ...</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="52"/>
@@ -3766,7 +3766,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="54"/>
         <source>Zoom to fit</source>
-        <translation type="unfinished">Zoem tot het past</translation>
+        <translation>Passend inzoomen</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="55"/>
@@ -3787,30 +3787,30 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="111"/>
         <source>, points: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>, punten: %1</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="120"/>
         <source>
 time: %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>tijd: %1:</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="124"/>
         <source>
 time: </source>
-        <translation type="unfinished"></translation>
+        <translation>tijd:</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="128"/>
         <source>, speed: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>, snelheid: %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="130"/>
         <source>
 start: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>start:%1</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="130"/>
@@ -3822,34 +3822,34 @@ start: %1</source>
         <location filename="../CTrackToolWidget.cpp" line="131"/>
         <source>
 end: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>einde: %1</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="136"/>
         <source>
 %1%2 %3, %4%5 %6</source>
-        <translation type="unfinished"></translation>
+        <translation>%1%2 %3, %4%5 %6</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="232"/>
         <source>Edit track ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk track ...</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="232"/>
         <location filename="../CTrackToolWidget.cpp" line="327"/>
         <source>You have to select a track first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer eerst een track.</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="314"/>
         <source>created from track</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> van track</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="327"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>filter</translation>
     </message>
 </context>
 <context>
@@ -3916,7 +3916,7 @@ end: %1</source>
     <message>
         <location filename="../CWptToolWidget.cpp" line="54"/>
         <source>Zoom to fit</source>
-        <translation type="unfinished">Zoem tot het past</translation>
+        <translation>Passend inzoomen</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="55"/>
@@ -4335,7 +4335,7 @@ onder/rechts</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="38"/>
         <source>map definition</source>
-        <translation type="unfinished"></translation>
+        <translation>kaart definitie</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="52"/>
@@ -4361,7 +4361,7 @@ onder/rechts</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="108"/>
         <source>Create new *.qmap definition.</source>
-        <translation type="unfinished"></translation>
+        <translation>creëer nieuwe *.qmap definitie.</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="186"/>
@@ -4379,7 +4379,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapQMAP.ui" line="198"/>
         <source>min. zoom</source>
-        <translation>min. zoem</translation>
+        <translation>min. zoom</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="203"/>
@@ -4404,7 +4404,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapQMAP.ui" line="241"/>
         <source>del</source>
-        <translation type="unfinished"></translation>
+        <translation>del</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="264"/>
@@ -4527,7 +4527,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDiaryEditWidget.ui" line="96"/>
         <source>Create diary skeleton from current data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer dagboek met huidige gegevens.</translation>
     </message>
 </context>
 <context>
@@ -4774,7 +4774,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="272"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg TCP/IP poort voor apparaat toe. &quot;Zet op 0 voor LandkarteGT&quot;.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="275"/>
@@ -4799,7 +4799,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="319"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecteer Garmin apparaat uit de lijst. als het apparaat niet wordt ondersteunt gebruik &quot;whatGarmin&quot; en F</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="361"/>
@@ -4903,8 +4903,8 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;&lt;td&gt;alt +  ← &lt;/td&gt;&lt;td&gt;beweeg naar het westen&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;alt + ↑ &lt;/td&gt;&lt;td&gt;beweeg naar het noorden&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;alt + ↓ &lt;/td&gt;&lt;td&gt;beweeg naar het zuiden&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;inzoemen&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;uitzoemen&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;+&lt;/td&gt;&lt;td&gt;inzoomen&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;uitzoomen&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</translation>
     </message>
 </context>
@@ -5544,7 +5544,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IMap.cpp" line="211"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
-        <translation type="unfinished">Geen basismap projectie. Dat zou niet mogen gebeuren.</translation>
+        <translation>Geen basismap projectie. Dat zou niet mogen gebeuren.</translation>
     </message>
     <message>
         <location filename="../IMap.cpp" line="223"/>
@@ -5878,12 +5878,12 @@ DEM: %2</source>
     <message>
         <location filename="../ITrackEditWidget.ui" line="122"/>
         <source>delta</source>
-        <translation type="unfinished"></translation>
+        <translation>delta</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="127"/>
         <source>azimuth</source>
-        <translation type="unfinished"></translation>
+        <translation>azimut</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="132"/>
@@ -5970,12 +5970,12 @@ DEM: %2</source>
     <message>
         <location filename="../printpreview.cpp" line="267"/>
         <source>Zoom In</source>
-        <translation>Inzoemen</translation>
+        <translation>Zoom in</translation>
     </message>
     <message>
         <location filename="../printpreview.cpp" line="271"/>
         <source>Zoom Out</source>
-        <translation>Uitzoemen</translation>
+        <translation>Zoom uit</translation>
     </message>
     <message>
         <location filename="../printpreview.cpp" line="277"/>
@@ -5993,12 +5993,12 @@ DEM: %2</source>
     <message>
         <location filename="../CCanvasUndoCommandZoom.cpp" line="27"/>
         <source>Zoom in</source>
-        <translation>Inzoemen</translation>
+        <translation>Zoom in</translation>
     </message>
     <message>
         <location filename="../CCanvasUndoCommandZoom.cpp" line="29"/>
         <source>Zoom out</source>
-        <translation>Uitzoemen</translation>
+        <translation>Zoom uit</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="425"/>
@@ -6026,12 +6026,12 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../CTrack.cpp" line="125"/>
         <source>Number of trackpoints is not equal the number of training data trackpoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal trackpunten is niet gelijk aan het aantal van de training data trackpunten.</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="149"/>
         <source>Number of trackpoints is not equal the number of extended data trackpoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal trackpunten is niet gelijk aan het aantal van de overige data trackpunten.</translation>
     </message>
     <message>
         <location filename="../CTrackUndoCommandDelete.cpp" line="28"/>
@@ -6076,7 +6076,7 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../GeoMath.cpp" line="111"/>
         <source>Position values out of bounds. </source>
-        <translation type="unfinished"></translation>
+        <translation>Positie waarden buiten de grenzen.</translation>
     </message>
     <message>
         <location filename="../GeoMath.cpp" line="334"/>
@@ -6099,7 +6099,7 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../tcxreader.cpp" line="47"/>
         <source>Error open file &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout bij openen bestand &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../tcxreader.cpp" line="71"/>
