@@ -1537,68 +1537,23 @@ void CMapTDB::draw()
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
-    if(/*!doFastDraw && */!isTransparent) {
-    drawPolygons(p, polygons);
-}
-
-
-// needs to be removed
-QPen pen(Qt::red, 30);
-pen.setCapStyle(Qt::RoundCap);
-pen.setJoinStyle(Qt::RoundJoin);
-p.setPen(pen);
-polytype_t::iterator item = query1.begin();
-while(item != query1.end())
-{
-    QVector<double> lon = item->u;
-    QVector<double> lat = item->v;
-    double * u      = lon.data();
-    double * v      = lat.data();
-    const int size  = lon.size();
-
-    convertRad2Pt(u,v,size);
-    QPolygonF line(size);
-
-    for(int i = 0; i < size; ++i)
-    {
-        line[i].setX(*u++);
-        line[i].setY(*v++);
+    if(!isTransparent) {
+        drawPolygons(p, polygons);
     }
 
-    p.drawPolyline(line);
 
-    ++item;
-}
-
-
-////////////////////////
-
-if(!doFastDraw)
-{
-    drawPolylines(p, polylines);
-    // needs to be removed
-    p.setPen(QColor("#FFB000"));
-    p.setBrush(QColor("#FFB000"));
-    pointtype_t::iterator item = query2.begin();
-    while(item != query2.end())
+    if(!doFastDraw)
     {
-        double u = item->lon;
-        double v = item->lat;
-        IMap::convertRad2Pt(u,v);
-        p.drawEllipse(u - 16, v - 16, 30, 30);
-        ++item;
+        drawPolylines(p, polylines);
+        drawPoints(p, points);
+        drawPois(p, pois);
+        drawText(p);
+        drawLabels(p, labels);
+
     }
-    ////////////////////////
-
-    drawPoints(p, points);
-    drawPois(p, pois);
-    drawText(p);
-    drawLabels(p, labels);
-
-}
 
 
-p.setRenderHint(QPainter::Antialiasing,false);
+    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 
@@ -1619,12 +1574,11 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
     convertRad2Pt(u,v,size);
 
     line.clear();
-    line.resize(size);
+    line.reserve(size);
 
     for(int i = 0; i < size; ++i)
     {
-        line[i].setX(*u++);
-        line[i].setY(*v++);
+        line.append(QPointF(*u++, *v++));
     }
 
     if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone)
@@ -1636,11 +1590,11 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
 }
 
 
-void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
+void CMapTDB::drawLine(QPainter& p, const CGarminPolygon& l)
 {
     QPolygonF line;
-    double * u          = l.u.data();
-    double * v          = l.v.data();
+    const double * u    = l.u.data();
+    const double * v    = l.v.data();
     const int size      = l.u.size();
 
     if(size < 2)
@@ -1649,12 +1603,11 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l)
     }
 
     line.clear();
-    line.resize(size);
+    line.reserve(size);
 
     for(int i = 0; i < size; ++i)
     {
-        line[i].setX(*u++);
-        line[i].setY(*v++);
+        line.append(QPointF(*u++, *v++));
     }
 
     p.drawPolyline(line);
@@ -1681,12 +1634,13 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         if(property.hasPixmap)
         {
-            QImage pixmap = nightView ? property.imgNight : property.imgDay;
+            const QImage pixmap     = nightView ? property.imgNight : property.imgDay;
             const double w          = pixmap.width();
             const double h          = pixmap.height();
 
             polytype_t::iterator item = lines.begin();
-            while(item != lines.end())
+            polytype_t::iterator end = lines.end();
+            while(item != end)
             {
                 if(item->type == type)
                 {
@@ -1705,7 +1659,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     convertRad2Pt(u,v,size);
 
                     line.clear();
-                    line.resize(size);
+                    line.reserve(size);
 
                     QVector<double> lengths;
                     double u1, u2, v1, v2;
@@ -1715,16 +1669,14 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                     u1 = u[0];
                     v1 = v[0];
-                    line[0].setX(u1);
-                    line[0].setY(v1);
+                    line.append(QPointF(u1,v1));
 
                     for(i = 1; i < size; ++i)
                     {
                         u2 = u[i];
                         v2 = v[i];
 
-                        line[i].setX(u2);
-                        line[i].setY(v2);
+                        line.append(QPointF(u2,v2));
 
                         segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
                         totalLength += segLength;
@@ -1743,18 +1695,18 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     const int nLength = lengths.count();
 
                     double curLength = 0;
+                    QPointF p2       = path.pointAtPercent(curLength / totalLength);
                     for(int i = 0; i < nLength; ++i)
                     {
-                        segLength = lengths[i];
+                        segLength = lengths.at(i);
 
                         //                         qDebug() << curLength << totalLength << curLength / totalLength;
 
-                        QPointF p1      = path.pointAtPercent(curLength / totalLength);
-                        QPointF p2      = path.pointAtPercent((curLength + segLength) / totalLength);
+                        QPointF p1      = p2;
+                        p2              = path.pointAtPercent((curLength + segLength) / totalLength);
                         double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
 
                         double l = 0;
-                        QRectF r = pixmap.rect();
 
                         if(p2.x() - p1.x() < 0)
                         {
@@ -1770,6 +1722,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         {
                             if((segLength - l) < w)
                             {
+                                QRectF r = pixmap.rect();
                                 r.setRight(segLength - l);
                                 p.setClipRect(r, Qt::ReplaceClip);
                             }
@@ -1791,7 +1744,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 // draw background line 1st
                 p.setPen(nightView ? property.penBorderNight : property.penBorderDay);
                 polytype_t::iterator item = lines.begin();
-                while(item != lines.end())
+                polytype_t::iterator end = lines.end();
+                while(item != end)
                 {
                     if(item->type == type)
                     {
@@ -1802,7 +1756,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 // draw foreground line 2nd
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
                 item = lines.begin();
-                while(item != lines.end())
+                while(item != end)
                 {
                     if(item->type == type)
                     {
@@ -1815,7 +1769,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             {
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
                 polytype_t::iterator item = lines.begin();
-                while(item != lines.end())
+                polytype_t::iterator end = lines.end();
+                while(item != end)
                 {
                     if(item->type == type)
                     {
@@ -1830,7 +1785,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 }
 
 
-void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
+void CMapTDB::collectText(CGarminPolygon& item, const QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
 {
 
     QString str;
@@ -1866,15 +1821,14 @@ void CMapTDB::collectText(CGarminPolygon& item, QPolygonF& line,  QFont& font, Q
     tp.text = str;
     tp.lineWidth = lineWidth;
 
-    QPointF p1 = line[0];
     const int size = line.size();
     for(int i = 1; i < size; ++i)
     {
-        QPointF p2  = line[i];
+        const QPointF &p1 = line[i-1];
+        const QPointF &p2 = line[i];
         qreal dx    = p2.x() - p1.x();
         qreal dy    = p2.y() - p1.y();
         tp.lengths << sqrt(dx * dx + dy * dy);
-        p1 = p2;
     }
 
     textpaths << tp;
@@ -1885,12 +1839,13 @@ void CMapTDB::drawText(QPainter& p)
 {
     p.setPen(Qt::black);
 
-    QVector<textpath_t>::iterator textpath = textpaths.begin();
-    while(textpath != textpaths.end())
+    QVector<textpath_t>::const_iterator textpath = textpaths.constBegin();
+    QVector<textpath_t>::const_iterator end      = textpaths.constEnd();
+    while(textpath != end)
     {
-        QFont& font         = textpath->font;
+        QFont font          = textpath->font;
         QFontMetricsF fm(font);
-        QPainterPath& path  = textpath->path;
+        QPainterPath path   = textpath->path;
 
         // get path length and string length
         qreal length        = fabs(path.length());
@@ -1936,7 +1891,7 @@ void CMapTDB::drawText(QPainter& p)
         }
 
         // get starting angle of first two letters
-        QString& text   = textpath->text;
+        const QString& text = textpath->text;
         qreal percent1  =  offset / length;
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
 
@@ -1956,13 +1911,15 @@ void CMapTDB::drawText(QPainter& p)
 
         // draw string letter by letter and adjust angle
         const int size = text.size();
+        percent2 = offset / length;
+        point2   = path.pointAtPercent(percent2);
         for(int i = 0; i < size; ++i)
         {
 
-            percent1  =  offset / length;
+            percent1  = percent2;
             percent2  = (offset + fm.width(text[i])) / length;
 
-            point1  = path.pointAtPercent(percent1);
+            point1  = point2;
             point2  = path.pointAtPercent(percent2);
 
             angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
@@ -1997,6 +1954,7 @@ void CMapTDB::drawText(QPainter& p)
 
 void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 {
+    QPolygonF line;
     quint32 type;
     int n;
     const int N = polygonDrawOrder.size();
@@ -2023,11 +1981,11 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
             convertRad2Pt(u,v,size);
 
-            QPolygonF line(size);
+            line.clear();
+            line.reserve(size);
             for(int i = 0; i < size; ++i)
             {
-                line[i].setX(*u++);
-                line[i].setY(*v++);
+                line.append(QPointF(*u++, *v++));
             }
 
             p.drawPolygon(line);
@@ -2075,15 +2033,15 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
             rect.moveCenter(QPoint(pt->lon, pt->lat));
 
             // test rectangle for intersection with existng labels
-            QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end())
+            QVector<strlbl_t>::const_iterator label = labels.constBegin();
+            while(label != labels.constEnd())
             {
                 if(label->rect.intersects(rect)) break;
                 ++label;
             }
 
             // if no intersection was found, add label to list
-            if(label == labels.end())
+            if(label == labels.constEnd())
             {
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();

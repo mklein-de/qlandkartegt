@@ -117,10 +117,10 @@ class CMapTDB : public IMap
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
-        void collectText(CGarminPolygon& item, QPolygonF& line, QFont& font, QFontMetricsF metrics, qint32 lineWidth);
+        void collectText(CGarminPolygon& item, const QPolygonF& line, QFont& font, QFontMetricsF metrics, qint32 lineWidth);
 
         void drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font);
-        void drawLine(QPainter& p, CGarminPolygon& l);
+        void drawLine(QPainter& p, const CGarminPolygon& l);
 
 #pragma pack(1)
         struct tdb_hdr_t
