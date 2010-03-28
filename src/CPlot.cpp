@@ -54,6 +54,7 @@ void CPlot::clear()
     m_pData->lines.clear();
     m_pData->marks.points.clear();
     m_pData->tags.clear();
+    m_pData->badData = true;
     update();
 }
 
@@ -90,12 +91,19 @@ void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& 
 {
     m_pData->lines.clear();
 
-    m_pData->point1.point = focus;
+    QRectF r = line.boundingRect();
+    if(!r.isValid())
+    {
+        m_pData->badData = true;
+        return;
+    }
 
     CPlotData::line_t l;
     l.points    = line;
     l.label     = label;
 
+    m_pData->point1.point = focus;
+    m_pData->badData = false;
     m_pData->lines << l;
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
@@ -107,10 +115,18 @@ void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& 
 
 void CPlot::addLine(const QPolygonF& line, const QString& label)
 {
+    QRectF r = line.boundingRect();
+    if(!r.isValid())
+    {
+        m_pData->badData = true;
+        return;
+    }
+
     CPlotData::line_t l;
     l.points    = line;
     l.label     = label;
 
+    m_pData->badData = false;
     m_pData->lines << l;
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
@@ -269,7 +285,11 @@ void CPlot::draw(QPainter& p)
 {
     p.fillRect(rect(),Qt::white);
 
-    if(m_pData->lines.isEmpty()) return;
+    if(m_pData->lines.isEmpty() || m_pData->badData)
+    {
+        p.drawText(rect(), Qt::AlignCenter, tr("No or bad data."));
+        return;
+    }
 
     p.setFont(CResources::self().getMapFont());
     p.setClipping(true);

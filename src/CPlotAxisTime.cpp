@@ -97,57 +97,6 @@ void CPlotAxisTime::calc()
         qDebug() << "ouch";
     }
 
-    //         elif dSec < 216000:
-    //             interval = 10800
-    //             format = "%d %b %H:%M"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 3 h"
-    //         elif dSec < 432000:
-    //             interval = 21600
-    //             format = "%d %b %H:%M"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 6 h"
-    //         elif dSec < 864000:
-    //             interval = 43200
-    //             format = "%d %b %H:%M"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 12 h"
-    //         elif dSec < 1728000:
-    //             interval = 86400
-    //             format = "%d %b %H:%M"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 1 day"
-    //         elif dSec < 3456000:
-    //             interval = 172800
-    //             format = "%d %b"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 2 days"
-    //         elif dSec < 12096000:
-    //             interval = 604800
-    //             format = "%d %b"
-    //             tic_start = ceil(float(self.used_min)/interval)*interval + time.timezone
-    //             if tic_start < self.used_min:
-    //                 tic_start += interval
-    //             self.labelInterval = "dt = 1 week"
-    //         else:
-    //             print "could not scale time axis"
-    //
-    //         self.tics = []
-    //         while ( tic_start - self.used_max ) <= interval / 40:
-    //             self.tics.append((tic_start,time.strftime(format,time.localtime(tic_start))))
-    //             tic_start += interval
-    //
-    //         self.int_interval = interval
 
     if ( autoscale )
     {

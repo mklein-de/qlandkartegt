@@ -24,6 +24,7 @@
 CPlotData::CPlotData(axis_type_e type, QObject * parent)
 : QObject(parent)
 , grid(true)
+, badData(true)
 {
     if(type == eLinear)
     {
@@ -46,6 +47,10 @@ CPlotData::~CPlotData()
 
 void CPlotData::setLimits()
 {
+    if(lines.size() == 0 || badData)
+    {
+        return;
+    }
 
     QList<line_t>::const_iterator line  = lines.begin();
     if(line == lines.end()) return;

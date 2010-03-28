@@ -53,6 +53,7 @@ void CPlotAxis::setMinMax( double given_min, double given_max )
 {
     double tmp;
 
+
     if ( given_min == given_max )
     {
         if ( given_min != 0.0 )
@@ -376,8 +377,12 @@ void CPlotAxis::move(int delta_pt)
     double delta_val = pt2val(delta_pt) - pt2val(0);
     bool f = ! (used_max - used_min < limit_max - limit_min);
     if (f ^ (used_min + delta_val < limit_min))
+    {
         delta_val = (limit_min - used_min);
+    }
     if (f ^ (used_max + delta_val > limit_max))
+    {
         delta_val = (limit_max - used_max);
+    }
     setMinMax(used_min + delta_val, used_max + delta_val);
 }

@@ -75,6 +75,8 @@ class CPlotData : public QObject
         /// vector of plot tags such as waypoints
         QVector<point_t> tags;
 
+        bool badData;
+
     protected:
         CPlotAxis * xaxis;
         CPlotAxis * yaxis;
