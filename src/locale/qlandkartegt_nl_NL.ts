@@ -212,12 +212,12 @@
     <message>
         <location filename="../CActions.cpp" line="63"/>
         <source>&amp;Zoom Map</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zoom Kaart</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="63"/>
         <source>Select area for zoom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selekt gebied v]om in te zoomen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="64"/>
@@ -285,7 +285,7 @@
     <message>
         <location filename="../CActions.cpp" line="75"/>
         <source>Close 3D view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluit 3D venster.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="76"/>
@@ -417,7 +417,7 @@
     <message>
         <location filename="../CActions.cpp" line="94"/>
         <source>&amp;Select Points</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Selecteer Punten</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="94"/>
@@ -442,12 +442,12 @@
     <message>
         <location filename="../CActions.cpp" line="97"/>
         <source>Purge Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Purge Selectie</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="97"/>
         <source>Purge the selected points of the track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Purge de geselecteerde punten van de track.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="98"/>
@@ -463,7 +463,7 @@
     <message>
         <location filename="../CActions.cpp" line="98"/>
         <source>Deletes the selected points of the track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder de geselecteerde punten van de track.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="100"/>
@@ -478,7 +478,7 @@
     <message>
         <location filename="../CActions.cpp" line="101"/>
         <source>Move Map to &amp;Pos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweeg kaart naar &amp;Pos.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="101"/>
@@ -488,7 +488,7 @@
     <message>
         <location filename="../CActions.cpp" line="102"/>
         <source>Add &amp;Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg &amp;Wegpunt toe</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="102"/>
@@ -538,12 +538,12 @@
     <message>
         <location filename="../CActions.cpp" line="110"/>
         <source>&amp;Pick Color</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kies Kleur</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="110"/>
         <source>test only</source>
-        <translation type="unfinished"></translation>
+        <translation>alleen testen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="111"/>
@@ -663,7 +663,7 @@
     <message>
         <location filename="../CActions.cpp" line="125"/>
         <source>Paste Track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plak Track.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="126"/>
@@ -785,6 +785,16 @@
         <source>Add Reference Points</source>
         <translation>Voeg referentie punten toe</translation>
     </message>
+    <message utf8="true">
+        <location filename="../CCreateMapGeoTiff.cpp" line="57"/>
+        <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
+
+coordinate formats:
+â¢ &quot;N49Â° 10.234 E12Â° 01.456&quot;
+â¢ &quot;12.193172   46.575377&quot;
+â¢ &quot;285000 5162000&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="58"/>
         <source>Reference Map</source>
@@ -832,16 +842,6 @@
     <message>
         <source>GeoTiff (*.tif)</source>
         <translation type="obsolete">GeoTiff (*.tif)</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../CCreateMapGeoTiff.cpp" line="57"/>
-        <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
-
-coordinate formats:
-• &quot;N49° 10.234 E12° 01.456&quot;
-• &quot;12.193172   46.575377&quot;
-• &quot;285000 5162000&quot;</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="167"/>
@@ -3631,7 +3631,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="407"/>
         <source>You are about to remove purged track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiermee zulen alle gepurgde trackpunten verwijderd worden.wanneer op &quot;yes&quot; gedrukt wordt zal alle informatie verloren gaan.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="516"/>
@@ -3656,7 +3656,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="564"/>
         <source>Trainee</source>
-        <translation type="unfinished"></translation>
+        <translation>Training</translation>
     </message>
 </context>
 <context>
@@ -5853,7 +5853,7 @@ DEM: %2</source>
     <message>
         <location filename="../ITrackEditWidget.ui" line="67"/>
         <source>Close this view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluit dit venster.</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="73"/>
@@ -5913,12 +5913,12 @@ DEM: %2</source>
     <message>
         <location filename="../ITrackEditWidget.ui" line="168"/>
         <source>remove purged track points</source>
-        <translation type="unfinished"></translation>
+        <translation>verwijder gepurgde trackpunten</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="175"/>
         <source>reset purged track points</source>
-        <translation type="unfinished"></translation>
+        <translation>herstel gepurgde trackpunten</translation>
     </message>
 </context>
 <context>
@@ -6046,7 +6046,7 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../CTrackUndoCommandPurgePts.cpp" line="24"/>
         <source>Purge Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Purge selectie</translation>
     </message>
     <message>
         <location filename="../CTrackUndoCommandSelect.cpp" line="26"/>
@@ -6088,13 +6088,13 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
         <location filename="../GeoMath.cpp" line="334"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Projectie mislukt. Verkeerde invoer? %1</translation>
     </message>
     <message>
         <location filename="../GeoMath.cpp" line="353"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lezen van referentie coördinaten mislukt, Verkeerde invoer? %1</translation>
     </message>
     <message>
         <location filename="../tcxreader.cpp" line="47"/>
@@ -6104,7 +6104,7 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
     <message>
         <location filename="../tcxreader.cpp" line="71"/>
         <source>The file is not an http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het bestand is geen http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 bestand.</translation>
     </message>
 </context>
 </TS>
