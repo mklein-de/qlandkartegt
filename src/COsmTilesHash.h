@@ -32,6 +32,7 @@ class COsmTilesHash: public QObject
         COsmTilesHash(QString tileUrl);
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
+        static const QString &getCacheFolder(void) { return cacheFolder; };
         signals:
         void newImageReady(QImage image, bool lastTileLoaded);
     private:
@@ -54,6 +55,7 @@ class COsmTilesHash: public QObject
         bool requestInProgress;
         QHash<QString,QImage> tiles;
         int getid;
+        static QString cacheFolder;
     private slots:
         // void slotCreate();
         void slotRequestFinished(int , bool error);

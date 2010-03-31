@@ -22,9 +22,18 @@
 #include <QtGui>
 #include <QtNetwork/QHttp>
 
+#ifndef Q_OS_WIN32
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <pwd.h>
+#include <unistd.h>
+#endif
+
 #ifndef M_PI
 # define M_PI   3.14159265358979323846
 #endif
+
+QString COsmTilesHash::cacheFolder;
 
 class COsmTilesHashCacheCleanup: public QThread
 {
@@ -46,11 +55,9 @@ class COsmTilesHashCacheCleanup: public QThread
 
         void run()
         {
-            QString tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
-
             qint32 totalSize = 0;
             QFileInfoList fileList;
-            QDirIterator it(tempDir, QStringList("*.png"), QDir::Files | QDir::Writable, QDirIterator::Subdirectories);
+            QDirIterator it(COsmTilesHash::getCacheFolder(), QStringList("*.png"), QDir::Files | QDir::Writable, QDirIterator::Subdirectories);
             while (it.hasNext())
             {
                 it.next();
@@ -81,7 +88,24 @@ class COsmTilesHashCacheCleanup: public QThread
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
-    qDebug() << "cccccccccccc" << tileUrl;
+    if (cacheFolder.isEmpty()) {
+#ifndef Q_OS_WIN32
+        const char *envCache = getenv("QLGT_CACHE");
+
+        if (envCache)
+        {
+            cacheFolder = envCache;
+        }
+        else {
+            struct passwd * userInfo = getpwuid(getuid());
+            cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
+        }
+#else
+        cacheFolder = QDir::tempPath() + "/qlandkarteqt/cache/";
+#endif
+        qDebug() << "using OSM tile cache folder" << cacheFolder;
+    }
+
     int index = tileUrl.indexOf('/');
     tileServer = tileUrl.left(index);
 
@@ -178,7 +202,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Each zoom level is a directory, each column is a subdirectory, and each tile in that column is a file
     // * Filename(url) format is /zoom/x/y.png
     QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
-    QString osmFilePath = QString("%1/qlandkarteqt/cache/%2/%3").arg(QDir::tempPath()).arg(tileServer).arg(osmUrlPart);
+    QString osmFilePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
 //    qDebug() << osmUrlPart;
 //    qDebug() << osmFilePath;
     bool needHttpAction = true;
@@ -259,13 +283,20 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     }
     QString osmUrlPart = osmUrlPartHash.value(id);
 
-    QString filePath = QString("%1/qlandkarteqt/cache/%2/%3").arg(QDir::tempPath()).arg(tileServer).arg(osmUrlPart);
+    QString filePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
 
     //qDebug() << filePath;
     QFileInfo fi(filePath);
 
-    if( ! (fi.dir().exists()) )
+    if( ! (fi.dir().exists()) ) {
+#ifndef Q_OS_WIN32
+        mode_t mask = umask(S_IRWXG | S_IRWXO);
+#endif
         QDir().mkpath(fi.dir().path());
+#ifndef Q_OS_WIN32
+        umask(mask);
+#endif
+    }
 
     QFile f(filePath);
     if (f.open(QIODevice::WriteOnly))
