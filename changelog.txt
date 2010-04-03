@@ -1,3 +1,37 @@
+--- 2010.04.03 ---
+
+Bug     #157:
+Fixed: Bad zoom factor for "zoom to fit"
+
+Request #158:
+Sort list entries in tool views
+
+Request #159:
+Accept more formats for waypoint coords and related.
+
+Bug     #160:
+Fixed: Typ file is not used in gmapsupp.img
+
+Request #161:
+Code map set name into gmapsupp.img
+
+Request #162:
+Allow use of *.hgt files to import elevation data
+
+Bug     #163:
+Fixed: GDAL tools not found on OS X port
+
+Bug     #164:
+Fixed: Endless loop on profile over time for tracks with no timestamp.
+
+Request #165:
+Revert track
+
+Request #166:
+Speed up loading of Garmin tiles.
+
+
+
 --- 2010.03.04 ---
 
 Bug     #141:
@@ -747,6 +781,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
