@@ -51,6 +51,7 @@ class CTrackDB : public IDB
         void delTracks(const QStringList& keys);
         void CombineTracks();
         void splitTrack(int idx);
+        void revertTrack(const QString& key);
 
         void highlightTrack(const QString& key);
         /// get highlighted track

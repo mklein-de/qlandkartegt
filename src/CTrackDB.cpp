@@ -1058,3 +1058,29 @@ void CTrackDB::emitSigModified()
 {
     emit sigModified();
 }
+
+void CTrackDB::revertTrack(const QString& key)
+{
+    if(!tracks.contains(key))
+    {
+        return;
+    }
+    CTrack *torg =  tracks[key];
+    CTrack *tnew = new CTrack(this);
+
+    tnew->name = torg->name + tr("_rev");
+
+    QList<CTrack::pt_t> track = torg->track;
+    while(track.size())
+    {
+        CTrack::pt_t pt = track.takeLast();
+
+        pt.timestamp        = 0;
+        pt.timestamp_msec   = 0;
+
+        *tnew << pt;
+    }
+
+    addTrack(tnew, false);
+
+}
