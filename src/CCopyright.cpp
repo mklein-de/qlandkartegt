@@ -50,6 +50,7 @@ CCopyright::CCopyright()
         "Alessandro Briosi (Italian)<br/>"
         "Mike Markov (Russian)<br/>"
         "Oscar A. (Spanish)<br/>"
+        "Harrie Klomp (Dutch)<br/>"
         "</p>"
         "<p>"
         "Icons and eye candy are from the <b>KDE</b> icon set, the <b>Nuvola</b> icon set and "
