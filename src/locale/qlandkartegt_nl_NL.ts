@@ -325,7 +325,7 @@
     <message>
         <location filename="../CActions.cpp" line="79"/>
         <source>Glue point of view to track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoek van zicht vanaf de track.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="82"/>
@@ -335,7 +335,7 @@
     <message>
         <location filename="../CActions.cpp" line="82"/>
         <source>Create a new user waypoint. The default position will be the current cursor position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer een nieuw gebruiker wegpunt. De wegpunt zal onder de huidige cursor verschijnen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="83"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../CActions.cpp" line="83"/>
         <source>Switch cursor to &apos;Edit Waypoint&apos; mode. Point-n-click to edit a waypoint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweeg de muis naar het wegpunt en verander de modus in bewerken. </translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="84"/>
@@ -355,34 +355,34 @@
     <message>
         <location filename="../CActions.cpp" line="84"/>
         <source>Switch cursor to &apos;Move Waypoint&apos; mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave &apos;Move Waypoint&apos; mode and to resume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweeg de muis naar het wegpunt en verander de modus in bewegen. Als de wegpunt verplaatst is nog een keer links klikken. Gebruik de rechte muisknop om te annuleren. </translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="86"/>
         <source>From &amp;Images...</source>
-        <translation type="unfinished"></translation>
+        <translation>Van &amp;afbeeldingen ...</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="86"/>
         <source>Create waypoints from geo-referenced images in a path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer wegpunten van geo referentie afbeeldingen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="88"/>
         <source>Upload waypoints to device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunten uploaden naar apparaat.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="89"/>
         <location filename="../CActions.cpp" line="96"/>
         <location filename="../CActions.cpp" line="115"/>
         <source>Down&amp;load</source>
-        <translation type="unfinished"></translation>
+        <translation>Down&amp;load</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="89"/>
         <source>Download waypoints from device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegpunten downloaden uit apparaat.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="91"/>
@@ -392,7 +392,7 @@
     <message>
         <location filename="../CActions.cpp" line="91"/>
         <source>Join multiple selected tracks to one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschillende geselecteerde tracks samenvoegen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="92"/>
@@ -402,7 +402,7 @@
     <message>
         <location filename="../CActions.cpp" line="92"/>
         <source>Toggle track edit dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wissel track beheer venster.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="93"/>
@@ -473,7 +473,7 @@
     <message>
         <location filename="../CActions.cpp" line="100"/>
         <source>Start / stop live log recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start / Stop live log opname.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="101"/>
@@ -483,7 +483,7 @@
     <message>
         <location filename="../CActions.cpp" line="101"/>
         <source>Move the map to keep the positon cursor centered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweeg de map om de cursor in het midden te houden.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="102"/>
@@ -493,37 +493,37 @@
     <message>
         <location filename="../CActions.cpp" line="102"/>
         <source>Add a waypoint at current position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg wegpunt to op huidige positie.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="105"/>
         <source>Add Static &amp;Text Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg staische &amp;Tekstbox toe</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="105"/>
         <source>Add text on the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg tekst op de kaart toe.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="106"/>
         <source>Add &amp;Geo-Ref. Text Box</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg &amp;Geo Ref.tekstbox toe</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="106"/>
         <source>Add a textbox on the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een tekstbox toe op de kaart.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="107"/>
         <source>Add Distance &amp;Polyline</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg afstands &amp;polyline toe</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="107"/>
         <source>Add a polyline to measure distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een polyline toe om afstanden te meten.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="109"/>
@@ -533,7 +533,7 @@
     <message>
         <location filename="../CActions.cpp" line="109"/>
         <source>Add / edit diary data</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak / Bewerk dagboek</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="110"/>
@@ -553,7 +553,7 @@
     <message>
         <location filename="../CActions.cpp" line="111"/>
         <source>Create a world basemap from OSM tiles to be used by QLandkarte M</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer een wereld basismap van OSM delen die gebruikt kan worden in QLandkarte M</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="114"/>
@@ -598,42 +598,42 @@
     <message>
         <location filename="../CActions.cpp" line="120"/>
         <source>&amp;Move left</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Naar links</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="120"/>
         <source>Move to the left side.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar links bewegen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="121"/>
         <source>&amp;Move right</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Naar rechts</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="121"/>
         <source>Move to the right side.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar rechts bewegen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="122"/>
         <source>&amp;Move up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Naar boven</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="122"/>
         <source>Move up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar boven bewegen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="123"/>
         <source>&amp;Move down</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Naar onderen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="123"/>
         <source>Move down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar onderen bewegen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="124"/>
@@ -778,7 +778,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="55"/>
         <source>This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="56"/>
@@ -793,7 +793,12 @@ coordinate formats:
 â¢ &quot;N49Â° 10.234 E12Â° 01.456&quot;
 â¢ &quot;12.193172   46.575377&quot;
 â¢ &quot;285000 5162000&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgende stap is het ingeven van bekende referentie punten. Voeg de referentie punten toe op de map met de latitude / longtitude (WGS84) of de lengte en breedte (m) in de tabel. Vervolgens kan het punt naar de correcte plaats van de kaart geschoven worden.
+
+Koordinaat formaten: 
+• &quot;N49° 10.234 E12° 01.456&quot;
+• &quot;12.193172   46.575377&quot;
+• &quot;285000 5162000&quot;</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="58"/>
@@ -803,7 +808,7 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="59"/>
         <source>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nu kan QLandkarte GT het bestand berekenen met hulp van de GDAL tools. Bekijk de voortgang in het voortgang venster.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="83"/>
@@ -915,24 +920,26 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="43"/>
         <source>Place Reference Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Plaats referentie punten</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="44"/>
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation type="unfinished"></translation>
+        <translation>De raster tool zal een aantal referentiepunten met berekende lengte en breedte graden op de lijnkruisingen van een liniare kaart plaatsen. Daarvoor dient men eerst 4 referentiepunten op het raster te plaatsen zoals in het voorbeeld te zien is.
+
+Als aternatief kan ook gekozen worden voor bestaande refentiepunten. In dit geval hoeft alleen de rastermaat aangegeven te worden.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="45"/>
         <source>Add Source projection</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg bron projectie toe</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="46"/>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vervolgens kan er een raster verandering naar WGS84 aangebracht worden. Hiervoor moeten de lengte en de breedte van de linker boven referentiepunt definieren. En de afstand tussen punt 1 en 2, en tussen punt 1 en punt 4.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="47"/>
@@ -942,7 +949,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="48"/>
         <source>On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results.</source>
-        <translation type="unfinished"></translation>
+        <translation>Na een druk op OK zal de raster tool gelijkmatige referenie punten op de kaart plaatsen. Bedenk wel om de punten handmatig te corrigeren voor een precieser resultaat.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="74"/>
@@ -952,7 +959,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="74"/>
         <source>Do you want to take the existing reference points to calculate additional points on the grid?</source>
-        <translation type="unfinished"></translation>
+        <translation>Moeten de bestaande referentie punten gebruikt worden om de aanvullende punten te berekenen op het raster?</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="127"/>
@@ -968,7 +975,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="302"/>
         <source>Failed to calculate transformation for ref. points. Are all 4 points placed propperly?</source>
-        <translation type="unfinished"></translation>
+        <translation>Berekenen van refeferentie punten voor tranformatie mislukt Zijn de 4 punten correct geplaatst?</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="314"/>
@@ -1009,7 +1016,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapOSM.cpp" line="409"/>
         <source>Download files ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestanden downloaden ...</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="409"/>
@@ -1019,7 +1026,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapOSM.cpp" line="413"/>
         <source>Calculating tiles ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Delen berekenen ...</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="573"/>
@@ -1034,7 +1041,7 @@ Altenatively you might have chosen to use already existing reference points. In 
     <message>
         <location filename="../CCreateMapOSM.cpp" line="597"/>
         <source>Failed to download tile!</source>
-        <translation type="unfinished"></translation>
+        <translation>Downloaden van deel mislukt!</translation>
     </message>
     <message>
         <location filename="../CCreateMapOSM.cpp" line="632"/>
@@ -1053,7 +1060,7 @@ Altenatively you might have chosen to use already existing reference points. In 
         <location filename="../CCreateMapQMAP.cpp" line="40"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Met QLandkarte GT is het mogelijk om een kaartdefinitie bestand (*.qmap) te maken of te bewerken. Een kaartdefinitie bepaald welke bestanden worden gezien op een bepaald zoom niveau. De beschrijving van de kaart collectie wordt gebruikt in de lijst van beschikbare kaarten. Er kan gekozen worden tussen lineaire of kwadratische zoom niveaus. Na een kaartenset gemaakt te hebben kan in het contextmenu de lijst van beschikbare kaarten met de rechter muisknop DEM gegevens opvragen.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="41"/>
@@ -1063,7 +1070,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="42"/>
         <source>You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er kunnen verschillende detail lagen op elkaar gestapeld worden. Voor elke detail laag kan een aantal zoom nivaeus gedefinieerd worden. Verschillende kaartbestanden kunnen samengevoegd worden als een detailkaart. Alle kaartbestanden in een laag dienen dezelfde pojectie en schaal te hebben.  Er is minstens een laag nodig in een bestand.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="72"/>
@@ -1729,7 +1736,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="120"/>
         <source>You must provide a waypoint identifier.</source>
-        <translation>geef een naam aan het wegpunt.</translation>
+        <translation>Geef een naam aan het wegpunt.</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="125"/>
@@ -3356,17 +3363,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="131"/>
         <source>Edit Waypoint ...</source>
-        <translation>Bewerk Wegpunt ...</translation>
+        <translation>Bewerk wegpunt ...</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="134"/>
         <source>Move Waypoint</source>
-        <translation>Verplaats Wegpunt</translation>
+        <translation>Verplaats wegpunt</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="135"/>
         <source>Delete Waypoint</source>
-        <translation>Verwijder Wegpunt</translation>
+        <translation>Verwijder wegpunt</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="141"/>
@@ -3400,12 +3407,12 @@ Do you want to save your changes?</source>
 <context>
     <name>COsmTilesHash</name>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="218"/>
+        <location filename="../COsmTilesHash.cpp" line="242"/>
         <source>Tile %1 was loaded from %2 days old File. Reloading ...</source>
         <translation>Tegel %1 was van een %2 oude bestand. Nieuwe laden ...</translation>
     </message>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="257"/>
+        <location filename="../COsmTilesHash.cpp" line="281"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
         <translation>Het ontvangen bestand is geen geldige afbeelding ...</translation>
     </message>
@@ -3623,6 +3630,11 @@ length: %1 %2</source>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Kopieren van track mislukt. Slecteer een track of trackpunten van een track.</translation>
     </message>
+    <message>
+        <location filename="../CTrackDB.cpp" line="1071"/>
+        <source>_rev</source>
+        <translation>_rev</translation>
+    </message>
 </context>
 <context>
     <name>CTrackEditWidget</name>
@@ -3768,99 +3780,106 @@ length: %1 %2</source>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="52"/>
+        <source>Revert</source>
+        <translation>Omdraaien</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="53"/>
         <source>Make Overlay</source>
         <translation>Maak overlay</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="53"/>
+        <location filename="../CTrackToolWidget.cpp" line="54"/>
         <source>Show</source>
         <translation>Tonen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="54"/>
+        <location filename="../CTrackToolWidget.cpp" line="55"/>
         <source>Zoom to fit</source>
         <translation>Passend inzoomen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="55"/>
+        <location filename="../CTrackToolWidget.cpp" line="56"/>
         <source>Deselect</source>
         <translation>De-selecteer</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="56"/>
+        <location filename="../CTrackToolWidget.cpp" line="57"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="110"/>
+        <location filename="../CTrackToolWidget.cpp" line="111"/>
         <source>
 length: %1 %2</source>
         <translation>lengte: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="111"/>
+        <location filename="../CTrackToolWidget.cpp" line="112"/>
         <source>, points: %1</source>
         <translation>, punten: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="120"/>
+        <location filename="../CTrackToolWidget.cpp" line="121"/>
         <source>
 time: %1:</source>
         <translation>tijd: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="124"/>
+        <location filename="../CTrackToolWidget.cpp" line="125"/>
         <source>
 time: </source>
         <translation>tijd:</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="128"/>
+        <location filename="../CTrackToolWidget.cpp" line="129"/>
         <source>, speed: %1 %2</source>
         <translation>, snelheid: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="130"/>
+        <location filename="../CTrackToolWidget.cpp" line="131"/>
         <source>
 start: %1</source>
         <translation>start:%1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="130"/>
         <location filename="../CTrackToolWidget.cpp" line="131"/>
+        <location filename="../CTrackToolWidget.cpp" line="132"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="131"/>
+        <location filename="../CTrackToolWidget.cpp" line="132"/>
         <source>
 end: %1</source>
         <translation>einde: %1</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="136"/>
+        <location filename="../CTrackToolWidget.cpp" line="137"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>%1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="232"/>
+        <location filename="../CTrackToolWidget.cpp" line="235"/>
         <source>Edit track ...</source>
         <translation>Bewerk track ...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="232"/>
-        <location filename="../CTrackToolWidget.cpp" line="327"/>
+        <location filename="../CTrackToolWidget.cpp" line="235"/>
+        <location filename="../CTrackToolWidget.cpp" line="330"/>
+        <location filename="../CTrackToolWidget.cpp" line="369"/>
         <source>You have to select a track first.</source>
         <translation>Selecteer eerst een track.</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="314"/>
+        <location filename="../CTrackToolWidget.cpp" line="317"/>
         <source>created from track</source>
         <translation> gemaakt van track</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="327"/>
+        <location filename="../CTrackToolWidget.cpp" line="330"/>
+        <location filename="../CTrackToolWidget.cpp" line="369"/>
         <source>Filter</source>
         <translation>filter</translation>
     </message>
@@ -4597,7 +4616,45 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;down: move light source south&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;left: move light source west&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;right: move light source east&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hoe het 3D zicht te bedienen.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Het zicht en de hoek van zicht (HVZ) zijn te bedienen met een aantal toetsen en muis bewegingen. &lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;EPZ/Roteren:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Er zijn twee basis standen: De eerste persoons zicht (EPZ) en in rotatie stand. In EPZ stand kan HVZ vrij rondbewegen over het scherm. In rotatie stand kan het HVZ rond het centrum van de kaart cirkelen.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&quot;track&quot; stand:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In track stand is de HVZ gebonden aan punten van geselecteerde track. Gebruik de toetsen &quot;w&quot; en &quot;s&quot; om over de track te bewegen. Gebruik de muis (linker knop ingedrukt houden) om rond te draaien.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Muis:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Met de muis de HVZ bedienen. Linker knop van muis ingedrukt houden en bewegen. Beweging van de muis van boven naar onder zal de hoogte van HVZ veranderen. Bwegen van de kaart van links naar rechts is afhankelijk van de stand:&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;EPZ: zal rond eigen as draaien. Rotatie: zal hele scherm draaien.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Muiswiel:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Door de muiswiel te draaien kan  in en uit gezoomd worden. Wanneer de shift toets ingedrukt wordt tijdens het scrollen kan alleen in 3D de hoogte veranderen.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Toetsen:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;De HVZ kan ook met toetsen bedient worden. Dit is onafhankelijk van de gekozen stand.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;w: naar voren&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;s: naar achteren&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a: naar links&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;d: naar rechts&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + a: naar boven&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + s: naar beneden&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Licht:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Om de lichtbron te bewegen kan de &quot;L&quot; toets en de linker muisknop gebruikt worden.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;↑: beweeg lichtbron naar noorden&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;↓: beweeg lichtbron naar zuiden&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;←: beweeg lichtbron naar westen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;→: beweeg lichtbron naar oosten&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
