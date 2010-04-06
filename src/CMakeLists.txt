@@ -7,6 +7,7 @@ find_package(GDAL REQUIRED)
 find_package(PROJ REQUIRED)
 find_package(EXIF)
 find_package(DMTX)
+find_package(GPSD)
 
 find_program(GDALWARP gdalwarp DOC "full path of the gdalwarp application")
 if(GDALWARP)
@@ -365,11 +366,7 @@ SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
 
 IF(PLOT_3D AND OPENGL_FOUND)
-    SET (PLOT_3D_NEW OFF CACHE BOOL "Use new 3D mode (developmental)")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D")
-    if(PLOT_3D_NEW)
-      SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D_NEW")
-    endif(PLOT_3D_NEW)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3D.h CDlg3DHelp.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3D.cpp CDlg3DHelp.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IDlg3DHelp.ui)    
@@ -377,22 +374,14 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
 
-SET (WMS_CLIENT OFF CACHE BOOL "WMS Maps service")
-IF(WMS_CLIENT)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWMS_CLIENT")
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMapWMS.h CCreateMapWMS.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMapWMS.cpp CCreateMapWMS.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS} ICreateMapWMS.ui)    
-ENDIF(WMS_CLIENT)
-
-SET (SQL_SEARCH_GARMIN OFF CACHE BOOL "Create SQL database from garmin maps to search polyllines and pois")
-IF(SQL_SEARCH_GARMIN)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSQL_SEARCH_GARMIN")
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CGarminIndex.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CGarminIndex.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS} )    
-ENDIF(SQL_SEARCH_GARMIN)
-
+if(GPSD_FOUND)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_GPSD")
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CDeviceGPSD.h )
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CDeviceGPSD.cpp)
+else(GPSD_FOUND)
+    SET(GPSD_INCLUDE_DIRS "")
+    SET(GPSD_LIBRARIES "")
+endif(GPSD_FOUND)
 
 IF(EXIF_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_EXIF")
@@ -467,6 +456,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
+  ${GPSD_INCLUDE_DIRS}
 )
 
 set(qlandkarte_ALLINP
@@ -508,6 +498,7 @@ target_link_libraries(
       ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}
       ${DMTX_LIBRARIES}
+      ${GPSD_LIBRARIES}
       SerialPort
       QMKToolBox
       getopt

@@ -18,11 +18,13 @@
 **********************************************************************************************/
 
 #include "CResources.h"
-//#include "CDeviceTBDOE.h"
 #include "CDeviceGarmin.h"
 #include "CDeviceQLandkarteM.h"
 #include "CDeviceMikrokopter.h"
 #include "CDeviceNMEA.h"
+#ifdef HAS_GPSD
+#include "CDeviceGPSD.h"
+#endif
 #include "CLiveLogDB.h"
 #include "CUnitMetric.h"
 #include "CUnitNautic.h"
@@ -184,6 +186,12 @@ IDevice * CResources::device()
         {
             m_device = new CDeviceNMEA(m_devSerialPort, this);
         }
+#ifdef HAS_GPSD
+        else if(m_devKey == "GPSD")
+        {
+            m_device = new CDeviceGPSD(this);
+        }
+#endif
 
         connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));
     }

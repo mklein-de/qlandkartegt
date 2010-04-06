@@ -1181,6 +1181,9 @@ void CMainWindow::slotDeviceChanged()
     comboDevice->addItem(resources->m_devType, "Garmin");
     comboDevice->addItem(tr("NMEA"), "NMEA");
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
+#ifdef HAS_GPSD
+    comboDevice->addItem(tr("GPSD"), "GPSD");
+#endif
 
     resources->m_devKey = devKey;
     comboDevice->setCurrentIndex(comboDevice->findData(resources->m_devKey));

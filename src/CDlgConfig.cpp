@@ -80,6 +80,9 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("Garmin"), "Garmin");
     comboDevice->addItem(tr("NMEA"), "NMEA");
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
+#ifdef HAS_GPSD
+    comboDevice->addItem(tr("GPSD"), "GPSD");
+#endif
 
     connect(comboDevice, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCurrentDeviceChanged(int)));
     comboDevice->setCurrentIndex(comboDevice->findData(resources.m_devKey));
