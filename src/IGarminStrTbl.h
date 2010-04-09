@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QFile;
+class QFileExt;
 class QByteArray;
 class QStringList;
 
@@ -38,10 +38,10 @@ class IGarminStrTbl : public QObject
         void registerLBL6(const quint32 offset, const quint32 size){offsetLBL6 = offset; sizeLBL6 = size;}
         void registerNET1(const quint32 offset, const quint32 size, const quint8 shift){offsetNET1 = offset; sizeNET1 = size; addrshift2 = shift;}
 
-        virtual void get(QFile& file, quint32 offset, type_e t, QStringList& info) = 0;
+        virtual void get(QFileExt& file, quint32 offset, type_e t, QStringList& info) = 0;
     protected:
-        void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
-        quint32 calcOffset(QFile& file, const quint32 offset, type_e t);
+        void readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data);
+        quint32 calcOffset(QFileExt& file, const quint32 offset, type_e t);
 
         quint32 offsetLBL1;
         quint32 sizeLBL1;

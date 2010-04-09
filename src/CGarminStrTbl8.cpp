@@ -34,7 +34,7 @@ CGarminStrTbl8::~CGarminStrTbl8()
 }
 
 
-void CGarminStrTbl8::get(QFile& file, quint32 offset, type_e t, QStringList& info)
+void CGarminStrTbl8::get(QFileExt& file, quint32 offset, type_e t, QStringList& info)
 {
 
     offset = calcOffset(file, offset, t);

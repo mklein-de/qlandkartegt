@@ -39,6 +39,8 @@
 #include <algorithm>
 #include <QSqlDatabase>
 
+#include <sys/time.h>
+
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
@@ -1512,6 +1514,8 @@ void CMapTDB::draw()
     pois.clear();
     points.clear();
     labels.clear();
+  struct timeval tv1, tv2;
+  gettimeofday(&tv1, NULL);
 
     if(maplevel->useBaseMap)
     {
@@ -1534,6 +1538,8 @@ void CMapTDB::draw()
             ++tile;
         }
     }
+  gettimeofday(&tv2, NULL);
+  fprintf(stderr, "loadVisibleData complete: %d\n", tv2.tv_usec - tv1.tv_usec);
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
@@ -1637,7 +1643,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             const QImage pixmap     = nightView ? property.imgNight : property.imgDay;
             const double w          = pixmap.width();
             const double h          = pixmap.height();
-
+//fprintf(stderr, "line count: %d\n", lines.count());
             polytype_t::iterator item = lines.begin();
             polytype_t::iterator end = lines.end();
             while(item != end)
@@ -1662,6 +1668,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     line.reserve(size);
 
                     QVector<double> lengths;
+                    lengths.reserve(size);
                     double u1, u2, v1, v2;
                     QPainterPath path;
                     double segLength, totalLength = 0;

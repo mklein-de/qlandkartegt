@@ -30,7 +30,7 @@
 #include "CGarminPolygon.h"
 #include "CGarminPoint.h"
 
-class QFile;
+class QFileExt;
 class QByteArray;
 class QPainter;
 class IMap;
@@ -200,10 +200,10 @@ class CGarminTile : public QObject
 #endif //SQL_SEARCH_GARMIN
 
     private:
-        void readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data);
-        void readSubfileBasics(subfile_desc_t& subfile, QFile& file);
-        void loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
-        void createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db);
+        void readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data);
+        void readSubfileBasics(subfile_desc_t& subfile, QFileExt& file);
+        void loadSubDiv(QFileExt& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois);
+        void createIndexSubDiv(QFileExt& file, quint32 idSubfile, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, QSqlDatabase& db);
 
         // share the structures
         friend class CGarminExport;

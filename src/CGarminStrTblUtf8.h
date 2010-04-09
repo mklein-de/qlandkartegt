@@ -27,6 +27,6 @@ class CGarminStrTblUtf8 : public IGarminStrTbl
         CGarminStrTblUtf8(const quint16 codepage, const quint8 mask, QObject * parent);
         virtual ~CGarminStrTblUtf8();
 
-        void get(QFile& file, quint32 offset, type_e t, QStringList& info);
+        void get(QFileExt& file, quint32 offset, type_e t, QStringList& info);
 };
 #endif                           //CGARMINSTRTBLUTF8_H

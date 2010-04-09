@@ -33,7 +33,7 @@ CGarminStrTblUtf8::~CGarminStrTblUtf8()
 }
 
 
-void CGarminStrTblUtf8::get(QFile& file, quint32 offset, type_e t, QStringList& labels)
+void CGarminStrTblUtf8::get(QFileExt& file, quint32 offset, type_e t, QStringList& labels)
 {
     offset = calcOffset(file, offset, t);
 

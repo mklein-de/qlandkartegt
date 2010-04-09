@@ -19,6 +19,7 @@
 
 #include "Platform.h"
 #include "IGarminStrTbl.h"
+#include "QFileExt.h"
 
 #include <QtCore>
 
@@ -77,26 +78,22 @@ IGarminStrTbl::~IGarminStrTbl()
 }
 
 
-void IGarminStrTbl::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
+void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByteArray& data)
 {
-    file.seek(offset);
-    data = file.read(size);
-
-    if((quint32)data.size() != size)
+    if(offset + size > file.size())
     {
         //         throw exce_t(eErrOpen, tr("Failed to read: ") + file.filename());
         return;
     }
 
-//    quint8 * p = (quint8*)data.data();
-//    for(quint32 i = 0; i < size; ++i)
-//    {
-//        *p++ ^= mask;
-//    }
-
     // wenn mask == 0 ist kein xor noetig
-    if(mask == 0)
+    if(mask == 0) {
+      data = QByteArray::fromRawData(file.data(offset), size);
       return;
+    }
+    
+    // TODO: dieses copy is unnoetig
+    data = QByteArray(file.data(offset), size);
 
 #ifdef HOST_IS_64_BIT
     quint64 * p64 = (quint64*)data.data();
@@ -120,13 +117,9 @@ void IGarminStrTbl::readFile(QFile& file, quint32 offset, quint32 size, QByteArr
     {
         *p++ ^= mask;
     }
-
-
-
 }
 
-
-quint32 IGarminStrTbl::calcOffset(QFile& file, const quint32 offset, type_e t)
+quint32 IGarminStrTbl::calcOffset(QFileExt& file, const quint32 offset, type_e t)
 {
     quint32 newOffset = offset;
 

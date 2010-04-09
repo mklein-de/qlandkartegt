@@ -23,6 +23,7 @@
 #include "Platform.h"
 #include "IMap.h"
 #include "CMapDB.h"
+#include "QFileExt.h"
 
 #include <QtGui>
 #include <QSqlDatabase>
@@ -36,6 +37,7 @@
 #undef DEBUG_SHOW_MAPLEVEL_DATA
 #undef DEBUG_SHOW_SUBDIV_DATA
 #undef DEBUG_SHOW_POLY_DATA
+#include <sys/time.h>
 
 #undef DEBUG_SHOW_SECTION_BORDERS
 
@@ -50,20 +52,20 @@ CGarminTile::~CGarminTile()
 {
 }
 
-
-void CGarminTile::readFile(QFile& file, quint32 offset, quint32 size, QByteArray& data)
+void CGarminTile::readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data)
 {
-    file.seek(offset);
-    data = file.read(size);
-
-    if((quint32)data.size() != size)
-    {
+    if(offset + size > file.size()) {
         throw exce_t(eErrOpen, tr("Failed to read: ") + filename);
     }
-
+    
     // wenn mask == 0 ist kein xor noetig
-    if(mask == 0)
+    if(mask == 0) {
+      data = QByteArray::fromRawData(file.data(offset), size);
       return;
+    }
+
+    // TODO: dieses copy is unnoetig
+    data = QByteArray(file.data(offset), size);
 
 #ifdef HOST_IS_64_BIT
     quint64 * p64 = (quint64*)data.data();
@@ -99,12 +101,12 @@ void CGarminTile::readBasics(const QString& fn)
     qint64 fsize    = QFileInfo(fn).size();
 
     //     qDebug() << "++++" << filename << "++++";
-    QFile file(filename);
+    QFileExt file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
         throw exce_t(eErrOpen, tr("Failed to open: ") + filename);
     }
-    file.read((char*)&mask, 1);
+    mask = (quint8)*file.data(0);
     
     mask32   = mask;
     mask32 <<= 8;
@@ -276,7 +278,7 @@ void CGarminTile::readBasics(const QString& fn)
 
 
 //static quint32 rgnoff = 0;
-void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
+void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
 {
     quint32 i;
     // test for mandatory subfile parts
@@ -664,14 +666,17 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFile& file)
 
 void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport)
 {
-    QFile file(filename);
+//  struct timeval tv1, tv2;
+//  gettimeofday(&tv1, NULL);
+    QFileExt file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
         return;
     }
+    fprintf(stderr, "loadVisibleData: %s (%d)\n", qPrintable(filename), file.size());
 
-    QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
-    while(subfile != subfiles.end())
+    QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.constBegin();
+    while(subfile != subfiles.constEnd())
     {
         //         qDebug() << "subfile:" << subfile->area << viewport << subfile->area.intersects(viewport);
         if(!subfile->area.intersects(viewport))
@@ -687,8 +692,8 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
 
         const QVector<subdiv_desc_t>&  subdivs = subfile->subdivs;
         // collect polylines
-        QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.begin();
-        while(subdiv != subdivs.end())
+        QVector<subdiv_desc_t>::const_iterator subdiv = subdivs.constBegin();
+        while(subdiv != subdivs.constEnd())
         {
             //             if(subdiv->level == level) qDebug() << "subdiv:" << subdiv->level << level <<  subdiv->area << viewport << subdiv->area.intersects(viewport);
             if(subdiv->level != level || !subdiv->area.intersects(viewport))
@@ -715,13 +720,15 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
     }
 
     file.close();
+//  gettimeofday(&tv2, NULL);
+//  fprintf(stderr, "tv: %d, %d - %d, %d\n", tv1.tv_sec, tv1.tv_usec, tv2.tv_sec, tv2.tv_usec);
 }
 
 
-void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
+void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarminStrTbl * strtbl, const QByteArray& rgndata, bool fast, polytype_t& polylines, polytype_t& polygons, pointtype_t& points, pointtype_t& pois)
 {
     if(subdiv.rgn_start == subdiv.rgn_end && !subdiv.lengthPolygons2 && !subdiv.lengthPolylines2 && !subdiv.lengthPoints2) return;
-
+//fprintf(stderr, "loadSubDiv\n");
     //     qDebug() << "---------" << file.fileName() << "---------";
 
     const quint8 * pRawData = (quint8*)rgndata.data();
@@ -950,7 +957,8 @@ void CGarminTile::loadSubDiv(QFile& file, const subdiv_desc_t& subdiv, IGarminSt
 
 void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level)
 {
-    QFile file(filename);
+  fprintf(stderr, "Load polygons %s\n", qPrintable(filename));
+    QFileExt file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
         return;
@@ -1075,6 +1083,7 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
 #ifdef SQL_SEARCH_GARMIN
 void CGarminTile::createIndex(QSqlDatabase& db)
 {
+  fprintf(stderr, "createIndex %s\n", qPrintable(filename));
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
@@ -1315,6 +1324,7 @@ void CGarminTile::createIndexSubDiv(QFile& file, quint32 idSubfile, const subdiv
 
 void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset, polytype_t& polylines)
 {
+  fprintf(stderr, "readPolyline %s\n", qPrintable(filename));
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
@@ -1337,6 +1347,7 @@ void CGarminTile::readPolyline(const QString& subfile, quint32 n, quint32 offset
 
 void CGarminTile::readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point)
 {
+  fprintf(stderr, "readPoint %s\n", qPrintable(filename));
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
