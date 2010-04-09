@@ -61,6 +61,7 @@
 #include "CWpt.h"
 #include "CTrack.h"
 #include "WptIcons.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -463,6 +464,7 @@ void CDiaryEditWidget::slotDocWizard()
         str += "<tr bgcolor='#c6e3c0'>";
         str += tr("<th align='left' style='width: 16px;'></th>");
         str += tr("<th align='left'>Time</th>");
+        str += tr("<th align='left'>Pos.</th>");
         str += tr("<th align='left'>Name</th>");
         str += tr("<th align='left'>Elevation</th>");
         str += tr("<th align='left'>Comment</th>");
@@ -474,9 +476,13 @@ void CDiaryEditWidget::slotDocWizard()
             CWpt * wpt = wpts[key];
             if(wpt->sticky) continue;
 
+            QString pos;
+            GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
+
             str += "<tr  bgcolor='#ffffff'>";
             str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(getWptResourceByName(wpt->icon));
             str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
+            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(pos);
             str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
 
             if(wpt->ele != WPT_NOFLOAT)
