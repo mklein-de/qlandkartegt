@@ -334,5 +334,6 @@ class CMapTDB : public IMap
 
         QPixmap buffer;
 
+
 };
 #endif                           //CMAPTDB_H
