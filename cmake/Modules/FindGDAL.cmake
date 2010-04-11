@@ -31,6 +31,8 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         /opt/local/include/gdal
         /sw/include/gdal
         C:/Progra~1/FWTools2.4.2/include
+    PATH_SUFFIXES
+        gdal
   )
 
   # debian uses version suffixes

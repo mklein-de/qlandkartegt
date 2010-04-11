@@ -104,7 +104,7 @@ class CMapTDB : public IMap
         } ;
 
         void readTDB(const QString& filename);
-        void readTYP();        
+        void readTYP();
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
@@ -331,6 +331,8 @@ class CMapTDB : public IMap
         QComboBox * comboLanguages;
 
         quint8 selectedLanguage;
+
+        QPixmap buffer;
 
 };
 #endif                           //CMAPTDB_H

@@ -37,7 +37,6 @@
 #undef DEBUG_SHOW_MAPLEVEL_DATA
 #undef DEBUG_SHOW_SUBDIV_DATA
 #undef DEBUG_SHOW_POLY_DATA
-#include <sys/time.h>
 
 #undef DEBUG_SHOW_SECTION_BORDERS
 
@@ -666,8 +665,6 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
 
 void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& polylines, pointtype_t& points, pointtype_t& pois, unsigned level, const QRectF& viewport)
 {
-//  struct timeval tv1, tv2;
-//  gettimeofday(&tv1, NULL);
     QFileExt file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
@@ -720,8 +717,6 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
     }
 
     file.close();
-//  gettimeofday(&tv2, NULL);
-//  fprintf(stderr, "tv: %d, %d - %d, %d\n", tv1.tv_sec, tv1.tv_usec, tv2.tv_sec, tv2.tv_usec);
 }
 
 static inline bool isCompletlyOutside(const QVector<double> &u, const QVector<double> &v, const QRectF &viewport)
