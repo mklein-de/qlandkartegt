@@ -39,7 +39,7 @@
 #include <algorithm>
 #include <QSqlDatabase>
 
-#include <sys/time.h>
+//#include <sys/time.h>
 
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
@@ -1514,8 +1514,9 @@ void CMapTDB::draw()
     pois.clear();
     points.clear();
     labels.clear();
-  struct timeval tv1, tv2;
-  gettimeofday(&tv1, NULL);
+
+//  struct timeval tv1, tv2, tv3;
+//  gettimeofday(&tv1, NULL);
 
     if(maplevel->useBaseMap)
     {
@@ -1538,8 +1539,12 @@ void CMapTDB::draw()
             ++tile;
         }
     }
-  gettimeofday(&tv2, NULL);
-  fprintf(stderr, "loadVisibleData complete: %d\n", tv2.tv_usec - tv1.tv_usec);
+
+//  gettimeofday(&tv2, NULL);
+//  qint64 diff = tv2.tv_usec - tv1.tv_usec;
+//  if(diff < 0)
+//    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
+//  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
@@ -1558,15 +1563,19 @@ void CMapTDB::draw()
 
     }
 
+//  gettimeofday(&tv3, NULL);
+//  diff = tv3.tv_usec - tv2.tv_usec;
+//  if(diff < 0)
+//    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
+//  fprintf(stderr, "draw complete: %d\n", diff);
 
     p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 
 #define STREETNAME_THRESHOLD 5.0
-void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font)
+void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font)
 {
-    QPolygonF line;
     double * u          = l.u.data();
     double * v          = l.v.data();
     const int size      = l.u.size();
@@ -1579,7 +1588,7 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
 
     convertRad2Pt(u,v,size);
 
-    line.clear();
+    QPolygonF line;
     line.reserve(size);
 
     for(int i = 0; i < size; ++i)
@@ -1598,7 +1607,6 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_prop
 
 void CMapTDB::drawLine(QPainter& p, const CGarminPolygon& l)
 {
-    QPolygonF line;
     const double * u    = l.u.data();
     const double * v    = l.v.data();
     const int size      = l.u.size();
@@ -1608,7 +1616,7 @@ void CMapTDB::drawLine(QPainter& p, const CGarminPolygon& l)
         return;
     }
 
-    line.clear();
+    QPolygonF line;
     line.reserve(size);
 
     for(int i = 0; i < size; ++i)
@@ -1630,45 +1638,60 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     font.setBold(false);
     QFontMetricsF metrics(font);
 
-    QList<quint32>keys = polylineProperties.keys();
-    qSort(keys);
-    quint32 type;
+    QPolygonF line;
+    QVector<double> lengths;
 
-    foreach(type, keys)
+    int pixmapCount = 0;
+    int borderCount = 0;
+    int normalCount = 0;
+
+    QHash<quint32, QList<quint32> > dict;
+    for(int i = 0; i < lines.count(); ++i) {
+      dict[lines[i].type].push_back(i);
+    }
+
+    QMap<quint32, IGarminTyp::polyline_property>::iterator props = polylineProperties.begin();
+    QMap<quint32, IGarminTyp::polyline_property>::iterator end = polylineProperties.end();
+    for(;props != end; ++props)
     {
-        IGarminTyp::polyline_property& property = polylineProperties[type];
+        const quint32 &type = props.key();
+        const IGarminTyp::polyline_property& property = props.value();
+
+        if(dict[type].count() == 0)
+        {
+          continue;
+        }
 
         if(property.hasPixmap)
         {
-            const QImage pixmap     = nightView ? property.imgNight : property.imgDay;
+            const QImage &pixmap    = nightView ? property.imgNight : property.imgDay;
             const double w          = pixmap.width();
             const double h          = pixmap.height();
-//fprintf(stderr, "line count: %d\n", lines.count());
-            polytype_t::iterator item = lines.begin();
-            polytype_t::iterator end = lines.end();
-            while(item != end)
-            {
-                if(item->type == type)
-                {
-                    QPolygonF line;
 
-                    double * u      = item->u.data();
-                    double * v      = item->v.data();
-                    const int size  = item->u.size();
+            QList<quint32>::const_iterator it = dict[type].constBegin();
+            for( ; it != dict[type].constEnd() ; ++it)
+            {
+                CGarminPolygon &item = lines[*it];
+                {
+                    pixmapCount++;
+
+                    double * u      = item.u.data();
+                    double * v      = item.v.data();
+                    const int size  = item.u.size();
 
                     if(size < 2)
                     {
-                        ++item;
                         continue;
                     }
 
                     convertRad2Pt(u,v,size);
 
-                    line.clear();
+                    line.resize(0);
                     line.reserve(size);
 
-                    QVector<double> lengths;
+                    lengths.resize(0);
                     lengths.reserve(size);
+
                     double u1, u2, v1, v2;
                     QPainterPath path;
                     double segLength, totalLength = 0;
@@ -1695,7 +1718,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                     if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone)
                     {
-                        collectText((*item), line, font, metrics, h);
+                        collectText(item, line, font, metrics, h);
                     }
 
                     path.addPolygon(line);
@@ -1741,7 +1764,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         curLength += segLength;
                     }
                 }
-                ++item;
             }
         }
         else
@@ -1750,49 +1772,41 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             {
                 // draw background line 1st
                 p.setPen(nightView ? property.penBorderNight : property.penBorderDay);
-                polytype_t::iterator item = lines.begin();
-                polytype_t::iterator end = lines.end();
-                while(item != end)
+
+                QList<quint32>::const_iterator it = dict[type].constBegin();
+                for( ; it != dict[type].constEnd() ; ++it)
                 {
-                    if(item->type == type)
-                    {
-                        drawLine(p, *item, property, metrics, font);
-                    }
-                    ++item;
+                    borderCount++;
+                    drawLine(p, lines[*it], property, metrics, font);
                 }
                 // draw foreground line 2nd
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
-                item = lines.begin();
-                while(item != end)
+
+                it = dict[type].constBegin();
+                for( ; it != dict[type].constEnd() ; ++it)
                 {
-                    if(item->type == type)
-                    {
-                        drawLine(p, *item);
-                    }
-                    ++item;
+                    drawLine(p, lines[*it]);
                 }
             }
             else
             {
                 p.setPen(nightView ? property.penLineNight : property.penLineDay);
-                polytype_t::iterator item = lines.begin();
-                polytype_t::iterator end = lines.end();
-                while(item != end)
+
+                QList<quint32>::const_iterator it = dict[type].constBegin();
+                for( ; it != dict[type].constEnd() ; ++it)
                 {
-                    if(item->type == type)
-                    {
-                        drawLine(p, *item, property, metrics, font);
-                    }
-                    ++item;
+                    normalCount++;
+                    drawLine(p, lines[*it], property, metrics, font);
                 }
             }
         }
 
     }
+//    fprintf(stderr, "pixmapCount: %d, borderCount: %d, normalCount: %d\n", pixmapCount, borderCount, normalCount);
 }
 
 
-void CMapTDB::collectText(CGarminPolygon& item, const QPolygonF& line,  QFont& font, QFontMetricsF metrics, qint32 lineWidth)
+void CMapTDB::collectText(const CGarminPolygon& item, const QPolygonF& line, const QFont& font, const QFontMetricsF& metrics, qint32 lineWidth)
 {
 
     QString str;
@@ -1988,7 +2002,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
             convertRad2Pt(u,v,size);
 
-            line.clear();
+            line.resize(0);
             line.reserve(size);
             for(int i = 0; i < size; ++i)
             {
@@ -2111,7 +2125,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
 }
 
 
-void CMapTDB::drawLabels(QPainter& p, QVector<strlbl_t> lbls)
+void CMapTDB::drawLabels(QPainter& p, const QVector<strlbl_t> &lbls)
 {
     QVector<strlbl_t>::const_iterator lbl = lbls.begin();
     while(lbl != lbls.end())

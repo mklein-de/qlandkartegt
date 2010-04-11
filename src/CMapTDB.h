@@ -110,16 +110,16 @@ class CMapTDB : public IMap
         void drawPolygons(QPainter& p, polytype_t& lines);
         void drawPoints(QPainter& p, pointtype_t& points);
         void drawPois(QPainter& p, pointtype_t& points);
-        void drawLabels(QPainter& p, QVector<strlbl_t> lbls);
+        void drawLabels(QPainter& p, const QVector<strlbl_t> &lbls);
         void drawText(QPainter& p);
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict);
-        void collectText(CGarminPolygon& item, const QPolygonF& line, QFont& font, QFontMetricsF metrics, qint32 lineWidth);
+        void collectText(const CGarminPolygon& item, const QPolygonF& line, const QFont& font, const QFontMetricsF& metrics, qint32 lineWidth);
 
-        void drawLine(QPainter& p, CGarminPolygon& l, IGarminTyp::polyline_property& property, QFontMetricsF& metrics, QFont& font);
+        void drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font);
         void drawLine(QPainter& p, const CGarminPolygon& l);
 
 #pragma pack(1)
