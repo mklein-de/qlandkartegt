@@ -80,7 +80,7 @@ void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
-    buffer = QImage(size, QImage::Format_ARGB32);
+    buffer = QImage(size, QImage::Format_ARGB32_Premultiplied);
 
     needsRedraw = true;
     emit sigResize(s);

@@ -332,8 +332,5 @@ class CMapTDB : public IMap
 
         quint8 selectedLanguage;
 
-        QPixmap buffer;
-
-
 };
 #endif                           //CMAPTDB_H

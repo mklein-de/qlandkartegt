@@ -997,15 +997,21 @@ void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bp
 
     if(bpp == 0) return;
 
+    quint32 mask;
+    if ( bpp == 4) mask = 0xf;
+    if ( bpp == 2) mask = 0x3;
+    if ( bpp == 1) mask = 0x1;
+
     for (int y = 0; y < h; y++)
     {
+        unsigned char *scanline = img.scanLine( y );
         while ( x < w )
         {
             in >> color;
 
             for ( int i = 0; (i < (8 / bpp)) && (x < w) ; i++ )
             {
-                int value;
+                quint32 value;
                 if ( i > 0 )
                 {
                     value = (color >>= bpp);
@@ -1014,10 +1020,8 @@ void IGarminTyp::decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bp
                 {
                     value = color;
                 }
-                if ( bpp == 4) value = value & 0xf;
-                if ( bpp == 2) value = value & 0x3;
-                if ( bpp == 1) value = value & 0x1;
-                img.setPixel(x,y,value);
+                value &= mask;
+                scanline[x] = value;
                 //                 qDebug() << QString("value(%4) pixel at (%1,%2) is 0x%3 j is %5").arg(x).arg(y).arg(value,0,16).arg(color).arg(j);
                 x += 1;
             }

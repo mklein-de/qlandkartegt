@@ -693,7 +693,6 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
-    buffer = QPixmap(s);
     topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
     setFastDraw();
 }
@@ -1400,8 +1399,7 @@ void CMapTDB::draw(QPainter& p)
         draw();
     }
     // copy internal buffer to paint device
-//    p.drawImage(0,0,buffer);
-    p.drawPixmap(0,0,buffer);
+    p.drawImage(0,0,buffer);
 
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
@@ -1472,20 +1470,19 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         draw();
 
-//        // make map semi transparent
-//        quint32 * ptr  = (quint32*)buffer.bits();
-//        for(int i = 0; i < (buffer.numBytes()>>2); ++i)
-//        {
-//            if(*ptr & 0xFF000000)
-//            {
-//                *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
-//            }
-//            ++ptr;
-//        }
+        // make map semi transparent
+        quint32 * ptr  = (quint32*)buffer.bits();
+        for(int i = 0; i < (buffer.numBytes()>>2); ++i)
+        {
+            if(*ptr & 0xFF000000)
+            {
+                *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
+            }
+            ++ptr;
+        }
     }
 
-//    p.drawImage(0,0,buffer);
-    p.drawPixmap(0,0,buffer);
+    p.drawImage(0,0,buffer);
 
     if(ovlMap) ovlMap->draw(s, needsRedraw, p);
 }
