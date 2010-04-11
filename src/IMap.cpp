@@ -95,7 +95,7 @@ void IMap::setAngleNorth()
     p2.u = p1.u = rect.center().x();
     p2.v = p1.v = rect.bottom();
     p2.v -= 400;
-    convertPt2Rad(p1.u, p1.v);    
+    convertPt2Rad(p1.u, p1.v);
     convertPt2Rad(p2.u, p2.v);
     d = distance(p1, p2, a1, a2);
     angleNorth = a1;
@@ -290,7 +290,7 @@ bool IMap::hasOverlayMap(const QString& k)
 
 void IMap::setFastDraw()
 {
-    timerFastDraw->start(500);
+    timerFastDraw->start(300);
     doFastDraw = true;
 }
 
