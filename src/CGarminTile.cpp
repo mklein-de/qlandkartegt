@@ -613,11 +613,11 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         quint32 offsetLbl1 = subfile.parts["LBL"].offset + gar_load(uint32_t, pLblHdr->lbl1_offset);
         quint32 offsetLbl6 = subfile.parts["LBL"].offset + gar_load(uint32_t, pLblHdr->lbl6_offset);
 
+        QByteArray nethdr;
         quint32 offsetNet1  = 0;
         hdr_net_t * pNetHdr = 0;
         if(subfile.parts.contains("NET"))
         {
-            QByteArray nethdr;
             readFile(file, subfile.parts["NET"].offset, sizeof(hdr_net_t), nethdr);
             pNetHdr = (hdr_net_t*)nethdr.data();
             offsetNet1 = subfile.parts["NET"].offset + gar_load(uint32_t, pNetHdr->net1_offset);
@@ -724,10 +724,15 @@ static inline bool isCompletlyOutside(const QVector<double> &u, const QVector<do
     bool bOutside = true;
     // this should never happen but who knows...
     if(u.count() != v.count())
-      return true;
-    for(int i = 0; i < u.count(); ++i) {
+    {
+        return true;
+    }
+    for(int i = 0; i < u.count(); ++i)
+    {
         if(viewport.contains(u.at(i), v.at(i)))
-          return false;
+        {
+              return false;
+        }
     }
     return true;
 }
