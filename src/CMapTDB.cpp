@@ -2045,7 +2045,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
-        if(!pt->labels.isEmpty() && ((zoomFactor < 2) || (pt->type < 0x1600))  && poiLabels && showLabel)
+        if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || ((pt->type < 0x1600)  && showLabel))
         {
 
             // calculate bounding rectangle with a border of 2 px
@@ -2094,7 +2094,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
-        if(!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels && showLabel)
+        if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || ((pt->type < 0x1600)  && showLabel))
         {
 
             // calculate bounding rectangle with a border of 2 px

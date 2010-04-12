@@ -818,15 +818,17 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(!viewport.contains(p.lon, p.lat))
+            {
                 continue;
-
-            points.push_back(p);
+            }
 
             if(strtbl)
             {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
                     : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
+
+            points.push_back(p);
         }
     }
 
@@ -842,14 +844,17 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(!viewport.contains(p.lon, p.lat))
+            {
                 continue;
+            }
 
-            pois.push_back(p);
             if(strtbl)
             {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
                     : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
+
+            pois.push_back(p);
         }
     }
 
@@ -866,9 +871,11 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(isCompletlyOutside(p.u, p.v, viewport))
+            {
                 continue;
+            }
 
-            polylines.push_back(p);
+
             if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
@@ -877,6 +884,8 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
+
+            polylines.push_back(p);
         }
     }
 
@@ -894,9 +903,11 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(isCompletlyOutside(p.u, p.v, viewport))
+            {
                 continue;
+            }
 
-            polygons.push_back(p);
+
             if(strtbl && !p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
@@ -905,6 +916,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
+            polygons.push_back(p);
         }
     }
 
@@ -932,13 +944,15 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(isCompletlyOutside(p.u, p.v, viewport))
+            {
                 continue;
+            }
 
-            polygons.push_back(p);
             if(strtbl && !p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
+            polygons.push_back(p);
         }
     }
 
