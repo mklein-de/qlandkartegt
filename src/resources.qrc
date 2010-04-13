@@ -438,5 +438,9 @@
         <file>skybox/4.png</file>
         <file>skybox/5.png</file>
         <file>sounds/xfer-done.wav</file>
+        <file>icons/iconGoogleMaps22x22.png</file>
+        <file>icons/iconExtensions16x16.png</file>
+        <file>icons/iconExtensions22x22.png</file>
+        <file>icons/iconGoogleMaps16x16.png</file>
     </qresource>
 </RCC>

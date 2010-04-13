@@ -303,6 +303,10 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 tmpelem = trkptmap.value("extensions");
                 if(!tmpelem.isNull())
                 {
+					pt.gpx_exts.setValues(tmpelem); //TODO: Abholen der Extension
+					
+					track->tr_ext.addKey2List(tmpelem);//TODO: Auslesen der Namen der Ext
+
                     QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 
                     // Garmin extensions v3

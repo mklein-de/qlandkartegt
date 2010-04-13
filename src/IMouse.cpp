@@ -231,8 +231,29 @@ void IMouse::drawSelTrkPt(QPainter& p)
             IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
             str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
+//-----------------------------------------------------------------------------------------------------------
+	//TODO: HOVERTEXT FOR EXTENSIONS
 
-        QFont           f = CResources::self().getMapFont();
+		if (!selTrkPt->gpx_exts.values.empty())
+		{
+			QList<QString> ext_list = selTrkPt->gpx_exts.values.keys();
+			QString ex_name, ex_val;
+	
+			
+			for(int i=0; i < selTrkPt->gpx_exts.values.size(); ++i)
+			{
+				ex_name = ext_list.value(i);
+				ex_val = selTrkPt->gpx_exts.getValue(ex_name);
+				
+				if (ex_val != "") {str += tr("\n %1: %2 ").arg(ex_name).arg(ex_val);}
+
+			}
+
+		}
+
+//-----------------------------------------------------------------------------------------------------------
+		if (str != "") {      
+  		QFont           f = CResources::self().getMapFont();
         QFontMetrics    fm(f);
         QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
         r1.moveTopLeft(QPoint(u + 45, v));
@@ -248,7 +269,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
-
+		}
     }
 }
 

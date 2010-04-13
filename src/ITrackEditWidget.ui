@@ -1,59 +1,116 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ITrackEditWidget</class>
- <widget class="QWidget" name="ITrackEditWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ITrackEditWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>869</width>
-    <height>283</height>
+    <width>938</width>
+    <height>418</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>938</width>
+    <height>416</height>
+   </size>
+  </property>
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QToolButton" name="toolGraphDistance" >
-       <property name="toolTip" >
+      <widget class="QToolButton" name="toolGraphDistance">
+       <property name="toolTip">
         <string>Toggle track statistics view over distance.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolGraphTime" >
-       <property name="toolTip" >
+      <widget class="QToolButton" name="toolGraphTime">
+       <property name="toolTip">
         <string>Toggle track statistics view over time.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="traineeGraph" >
-       <property name="enabled" >
+      <widget class="QToolButton" name="traineeGraph">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Toggle statistics view for trainings data.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>...</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer>
-       <property name="orientation" >
+      <widget class="QToolButton" name="toolGraphExtensions">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>19</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Toggle extensions statistics view over time</string>
+       </property>
+       <property name="text">
+        <string>Extensions</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolGoogleMaps">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>19</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Show the track on Google Maps</string>
+       </property>
+       <property name="text">
+        <string>Google Maps</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>718</width>
          <height>20</height>
@@ -62,125 +119,329 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolExit" >
-       <property name="toolTip" >
+      <widget class="QToolButton" name="toolExit">
+       <property name="toolTip">
         <string>Close this view.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+S</string>
        </property>
-       <property name="checkable" >
+       <property name="checkable">
         <bool>true</bool>
        </property>
-       <property name="autoRaise" >
+       <property name="autoRaise">
         <bool>false</bool>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QTreeWidget" name="treePoints" >
-     <property name="alternatingRowColors" >
-      <bool>true</bool>
-     </property>
-     <property name="selectionMode" >
-      <enum>QAbstractItemView::ExtendedSelection</enum>
-     </property>
-     <property name="rootIsDecorated" >
-      <bool>false</bool>
-     </property>
-     <property name="uniformRowHeights" >
-      <bool>true</bool>
-     </property>
-     <property name="itemsExpandable" >
-      <bool>false</bool>
-     </property>
-     <property name="sortingEnabled" >
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text" >
-       <string>#</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>time</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>altitude</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>delta</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>azimuth</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>distance</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>speed</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>ascend</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>descend</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>position</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" >
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="_3">
      <item>
-      <widget class="QComboBox" name="comboColor" />
+      <widget class="QComboBox" name="comboColor"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineName" />
+      <widget class="QLineEdit" name="lineName"/>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkRemoveDelTrkPt" >
-       <property name="text" >
+      <widget class="QCheckBox" name="checkRemoveDelTrkPt">
+       <property name="text">
         <string>remove purged track points</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkResetDelTrkPt" >
-       <property name="text" >
+      <widget class="QCheckBox" name="checkResetDelTrkPt">
+       <property name="text">
         <string>reset purged track points</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox" >
-       <property name="standardButtons" >
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
         <set>QDialogButtonBox::Apply</set>
        </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="main">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="tabPosition">
+        <enum>QTabWidget::South</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="elideMode">
+        <enum>Qt::ElideNone</enum>
+       </property>
+       <property name="usesScrollButtons">
+        <bool>true</bool>
+       </property>
+       <property name="documentMode">
+        <bool>false</bool>
+       </property>
+       <property name="movable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="tabView">
+        <attribute name="title">
+         <string>Tracklist</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QTreeWidget" name="treePoints">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <property name="uniformRowHeights">
+            <bool>true</bool>
+           </property>
+           <property name="itemsExpandable">
+            <bool>false</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>#</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>altitude</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>delta</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>azimuth</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>distance</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>speed</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>ascend</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>descend</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>position</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabSettings">
+        <attribute name="title">
+         <string>Settings</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Choose here which columns are shown in the tracklist view</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QGroupBox" name="groupBox_Standard">
+           <property name="title">
+            <string>Standard</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="checkBox_num">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="text">
+               <string>row number (#)</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="checkBox_tim">
+              <property name="text">
+               <string>time</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="checkBox_hig">
+              <property name="text">
+               <string>altitude</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="checkBox_dis">
+              <property name="text">
+               <string>delta</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QCheckBox" name="checkBox_azi">
+              <property name="text">
+               <string>azimuth</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QCheckBox" name="checkBox_ent">
+              <property name="text">
+               <string>distance</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QCheckBox" name="checkBox_vel">
+              <property name="text">
+               <string>speed</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QCheckBox" name="checkBox_suu">
+              <property name="text">
+               <string>ascend</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QCheckBox" name="checkBox_sud">
+              <property name="text">
+               <string>descend</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QCheckBox" name="checkBox_pos">
+              <property name="text">
+               <string>position</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>2</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QGroupBox" name="groupBox_Extensions">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="title">
+            <string>Extensions</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2"/>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>

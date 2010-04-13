@@ -1314,47 +1314,47 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation type="unfinished">Fehler ...</translation>
+        <translation>Fehler...</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Fehler beim öffnen des seriellen Ports</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Upload der Wegpunkte ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Upload von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Download von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Upload von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Download von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Upload von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrokopter: Download von Screenshots ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -2475,6 +2475,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation></translation>
     </message>
     <message>
+		<location filename="../CMainWindow.cpp" line="552"/>
         <source>&amp;Help</source>
         <translation type="obsolete">&amp;Hilfe</translation>
     </message>
@@ -4329,6 +4330,11 @@ Länge: %1 %2</translation>
         <source>Profile/Time</source>
         <translation>Profil/Zeit</translation>
     </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="285"/>
+        <source>no extensions elements in this file</source>
+        <translation>keine extensions Elemente in dieser Datei</translation>
+    </message>
 </context>
 <context>
     <name>CTrackStatProfileWidget</name>
@@ -5255,7 +5261,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDlg3DHelp.ui" line="14"/>
         <source>Help for 3D view...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe zur 3D Ansicht...</translation>
     </message>
     <message>
         <location filename="../IDlg3DHelp.ui" line="20"/>
@@ -6700,6 +6706,51 @@ DEM: %2</translation>
         <location filename="../ITrackEditWidget.ui" line="31"/>
         <source>Toggle track statistics view over time.</source>
         <translation>Trackgraphen über die Zeit anzeigen/ausschalten.</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="294"/>
+        <source>Choose here which columns are shown in the tracklist view</source>
+        <translation>Wähle hier die Spalten an, die in der Trackliste angezeigt werden sollen</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="432"/>
+        <source>Extensions</source>
+        <translation>Extensions</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="301"/>
+        <source>Standard</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="313"/>
+        <source>row number (#)</source>
+        <translation>Zeilennummer (#)</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="85"/>
+        <source>Toggle extensions statistics view over time</source>
+        <translation>Extensionsgraphen über die Zeit anzeigen/ausschalten</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="101"/>
+        <source>Show the track on Google Maps</source>
+        <translation>Zeige den Track auf Google Maps</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="104"/>
+        <source>Google Maps</source>
+        <translation>Google Maps</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="200"/>
+        <source>Tracklist</source>
+        <translation>Trackliste</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="288"/>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>

@@ -105,6 +105,7 @@ set(qlandkarte_SRCS
     CDlgConfig3D.cpp
     CQlb.cpp
     CGpx.cpp
+	CGpxExtension.cpp
     IDevice.cpp
     CDeviceQLandkarteM.cpp
     CDeviceGarmin.cpp
@@ -132,6 +133,7 @@ set(qlandkarte_SRCS
     CTrackStatProfileWidget.cpp
     CTrackStatSpeedWidget.cpp
     CTrackStatTraineeWidget.cpp
+	CTrackStatExtensionWidget.cpp
     CRoute.cpp
     CRouteDB.cpp
     CRouteToolWidget.cpp
@@ -250,6 +252,7 @@ set(qlandkarte_HDRS
     CDlgConfig3D.h
     CQlb.h
     CGpx.h
+	CGpxExtension.h
     IDevice.h
     CDeviceQLandkarteM.h
     CDeviceGarmin.h
@@ -274,6 +277,7 @@ set(qlandkarte_HDRS
     CTrackStatProfileWidget.h
     CTrackStatSpeedWidget.h
     CTrackStatTraineeWidget.h
+	CTrackStatExtensionWidget.h
     CRoute.h
     CRouteDB.h
     CRouteToolWidget.h

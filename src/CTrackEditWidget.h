@@ -20,13 +20,20 @@
 #define CTRACKEDITWIDGET_H
 
 #include <QWidget>
+#include <QObject>
+#include <QBoxLayout>
 #include <QPointer>
+#include <CGpxExtension.h>
+#include <QVBoxLayout>
 #include "ui_ITrackEditWidget.h"
 
 class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
+
+//TODO: Class Defininition
+class CTrackStatExtensionWidget;
 
 class CTrackTreeWidgetItem : public QTreeWidgetItem
 {
@@ -63,7 +70,17 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleStatTime();
         void slotToggleTrainee();
 
-    protected:
+		//TODO: Deklaration der Methode für die Extensions Graphen
+		void slotToggleExtensionsGraph();
+		
+		//TODO: eigenes Methödchen
+		void slotSetColumns(bool checked);
+		void slotSetColumnsExt(bool checked);
+
+		void slotGoogleMaps(); //TODO: Google Maps
+
+
+protected:
         void keyPressEvent(QKeyEvent * e);
 
     private:
@@ -91,6 +108,25 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatProfileWidget> trackStatProfileTime;
         QPointer<CTrackStatSpeedWidget> trackStatSpeedTime;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
+
+		QList<QString> names_of_ext;	//TODO: Namen der extensions
+		int num_of_ext;					//TODO: Anzahl der extensions
+		
+		QList<QCheckBox *> c_boxes;
+		
+		QPointer<CTrackStatExtensionWidget> tab;	//TODO: QPointer for tabs to be handled
+
+		QList<CTrackStatExtensionWidget *> tabs;	//TODO: QList with all extension tabs made for further handling
+
+		QSpacerItem *Vspace;						//TODO: Spacer Item
+
+		QLabel *label;
+
+
+		int tabstat;
+		int no_ext_info_stat;
+		int count;
+
 
 };
 #endif                           //CTRACKEDITWIDGET_H

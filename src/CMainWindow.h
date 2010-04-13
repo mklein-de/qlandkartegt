@@ -117,10 +117,11 @@ class CMainWindow : public QMainWindow
         /// left hand tool box
         QTabWidget  * tabbar;
 
-        CTabWidget * canvasTab;
+       	CTabWidget * canvasTab;
 
-        /// the map canvas
+		 /// the map canvas
         CCanvas * canvas;
+       
         /// coordinate label
         QLabel * statusCoord;
 
