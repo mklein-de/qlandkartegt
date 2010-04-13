@@ -75,7 +75,7 @@ class IMouse : public QObject
         /// called by CCanvas right befor a new mouse handler is selected.
         virtual void looseFocus(){};
 
-		CGpxExtTr tr_ext;		//TODO: CGpxExtPt -> tr_ext	
+        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 
     protected:
         /// for internal use to start a semi-transparent capture rectangle
@@ -134,9 +134,10 @@ class IMouse : public QObject
 
         QPointer<CSearch> selSearch;
 
-		QPointer<CTrack> track;  //TODO: noch ne def
+        QPointer<CTrack> track;  //TODO: noch ne def
 
-		int num_of_ext;					//TODO: Anzahl der extensions
-		QList<QString> names_of_ext;	//TODO: Namen der extensions
+        int num_of_ext;          //TODO: Anzahl der extensions
+                                 //TODO: Namen der extensions
+        QList<QString> names_of_ext;
 };
 #endif                           //IMOUSE_H

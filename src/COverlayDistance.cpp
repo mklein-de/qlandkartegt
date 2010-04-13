@@ -225,7 +225,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 {
     if(thePoint == 0) return;
 
-
     if(e->button() == Qt::LeftButton)
     {
         if(doMove)
@@ -350,10 +349,10 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
 void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 {
-//     QPoint pos = e->pos();
-//     IMap& map  = CMapDB::self().getMap();
-//
-//     emit sigChanged();
+    //     QPoint pos = e->pos();
+    //     IMap& map  = CMapDB::self().getMap();
+    //
+    //     emit sigChanged();
 }
 
 
@@ -642,6 +641,7 @@ void COverlayDistance::looseFocus()
     doFuncWheel     = false;
 }
 
+
 QRectF COverlayDistance::getBoundingRectF()
 {
     double north =  -90.0 * DEG_TO_RAD;
@@ -661,4 +661,3 @@ QRectF COverlayDistance::getBoundingRectF()
     return QRectF(QPointF(west * RAD_TO_DEG,north * RAD_TO_DEG),QPointF(east * RAD_TO_DEG,south * RAD_TO_DEG));
 
 }
-

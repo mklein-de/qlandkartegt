@@ -202,6 +202,7 @@ void CMap3DWidget::changeMode()
     slotChanged();
 }
 
+
 void CMap3DWidget::changeTrackmode()
 {
     if(track.isNull())
@@ -213,7 +214,6 @@ void CMap3DWidget::changeTrackmode()
     XY pt1;
     IMap& dem = CMapDB::self().getDEM();
     CTrack::pt_t trkpt = track->getTrackPoints().first();
-
 
     pt1.u = trkpt.lon * DEG_TO_RAD;
     pt1.v = trkpt.lat * DEG_TO_RAD;
@@ -238,6 +238,7 @@ void CMap3DWidget::changeTrackmode()
     zoomFactor = 1.0;
     updateGL();
 }
+
 
 void CMap3DWidget::eleZoomOut()
 {
@@ -969,13 +970,12 @@ void CMap3DWidget::paintGL()
 
         GLfloat light0_pos[] = {xLight, yLight, - (zLight + minElevation), 0.0};
 
-//         GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
-//         GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
-//         GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
-//         glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
-//         glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
-//         glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
-
+        //         GLfloat diffuse0[] = {0.5, 1.0, 1.0, 1.0};
+        //         GLfloat ambient0[] = {1.0, 0.5, 1.0, 1.0};
+        //         GLfloat specular0[] = {1.0, 1.0, 0.5, 1.0};
+        //         glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+        //         glLightfv(GL_LIGHT0, GL_DIFFUSE, specular0);
+        //         glLightfv(GL_LIGHT0, GL_SPECULAR, diffuse0);
 
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
         glShadeModel(GL_SMOOTH);
@@ -1176,7 +1176,7 @@ void CMap3DWidget::resizeGL(int width, int height)
     glLoadIdentity();
     /* 20 is equal to value of a maximum zoom factor. */
     glFrustum(-width/100.0, width/100.0, -height/100.0, height/100.0, side/100.0, 200.0 * side);
-//     glOrtho(-width, width, -height, height, 0, 20 * side);
+    //     glOrtho(-width, width, -height, height, 0, 20 * side);
     glMatrixMode(GL_MODELVIEW);
 }
 

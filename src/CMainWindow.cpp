@@ -125,7 +125,6 @@ CMainWindow::CMainWindow()
 #endif
     actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
 
-
 #ifdef PLOT_3D
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aCloseMap3D");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DMode");
@@ -182,7 +181,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-//    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+    //    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
 
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
@@ -314,7 +313,6 @@ CMainWindow::CMainWindow()
     }
 
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
-
 
     foreach(QString arg, qlOpts->arguments)
     {
@@ -502,7 +500,6 @@ void CMainWindow::setupMenuBar()
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
-
 
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MapMenu);

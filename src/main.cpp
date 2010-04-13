@@ -33,7 +33,7 @@
 #endif
 
 #include "CMainWindow.h"
-#include "CGarminTyp.h"	//TODO: this shall not be commented out when building a debug version with Visual Studio 2005
+#include "CGarminTyp.h"          //TODO: this shall not be commented out when building a debug version with Visual Studio 2005
 
 #include "config.h"
 

@@ -56,6 +56,7 @@ IOverlay * COverlayDB::getOverlayByKey(const QString& key)
     return 0;
 }
 
+
 void COverlayDB::looseFocus()
 {
     IOverlay * overlay;

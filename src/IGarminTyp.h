@@ -181,7 +181,6 @@ class IGarminTyp : public QObject
 
         QSet<quint8> getLanguages(){return languages;}
 
-
         quint16 getFid(){return fid;}
 
         quint16 getPid(){return pid;}

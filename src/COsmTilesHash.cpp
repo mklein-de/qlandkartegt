@@ -50,7 +50,7 @@ class COsmTilesHashCacheCleanup: public QThread
 
         virtual ~COsmTilesHashCacheCleanup()
         {
-//            qDebug() << "~COsmTilesHashCacheCleanup()";
+            //            qDebug() << "~COsmTilesHashCacheCleanup()";
         }
 
         void run()
@@ -88,7 +88,8 @@ class COsmTilesHashCacheCleanup: public QThread
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
-    if (cacheFolder.isEmpty()) {
+    if (cacheFolder.isEmpty())
+    {
 #ifndef Q_OS_WIN32
         const char *envCache = getenv("QLGT_CACHE");
 
@@ -96,7 +97,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
         {
             cacheFolder = envCache;
         }
-        else {
+        else
+        {
             struct passwd * userInfo = getpwuid(getuid());
             cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
         }
@@ -203,8 +205,8 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Filename(url) format is /zoom/x/y.png
     QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
     QString osmFilePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
-//    qDebug() << osmUrlPart;
-//    qDebug() << osmFilePath;
+    //    qDebug() << osmUrlPart;
+    //    qDebug() << osmFilePath;
     bool needHttpAction = true;
     bool outOfDate = false;
     if (tiles.contains(osmUrlPart))
@@ -288,7 +290,8 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     //qDebug() << filePath;
     QFileInfo fi(filePath);
 
-    if( ! (fi.dir().exists()) ) {
+    if( ! (fi.dir().exists()) )
+    {
 #ifndef Q_OS_WIN32
         mode_t mask = umask(S_IRWXG | S_IRWXO);
 #endif

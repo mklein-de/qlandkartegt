@@ -30,6 +30,4 @@ class CDlg3DHelp : public QDialog, private Ui::IDlg3DHelp
         CDlg3DHelp();
         virtual ~CDlg3DHelp();
 };
-
-#endif //CDLG3DHELP_H
-
+#endif                           //CDLG3DHELP_H

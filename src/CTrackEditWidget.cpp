@@ -21,7 +21,8 @@
 #include "CTrackStatProfileWidget.h"
 #include "CTrackStatSpeedWidget.h"
 #include "CTrackStatTraineeWidget.h"
-#include "CTrackStatExtensionWidget.h" //Anfügen des Ext. Widgets
+                                 //Anfgen des Ext. Widgets
+#include "CTrackStatExtensionWidget.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -82,18 +83,18 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
 
-//------------------------------------
-//TODO: Extra Icon für Extension & Connect dazu
+    //------------------------------------
+    //TODO: Extra Icon fr Extension & Connect dazu
 
-	toolGraphExtensions->setIcon(QIcon(":/icons/iconExtensions16x16.png"));
+    toolGraphExtensions->setIcon(QIcon(":/icons/iconExtensions16x16.png"));
     connect(toolGraphExtensions, SIGNAL(clicked()), this, SLOT(slotToggleExtensionsGraph()));
 
-	//TODO: Icon for Google maps
+    //TODO: Icon for Google maps
 
- 	toolGoogleMaps->setIcon(QIcon(":/icons/iconGoogleMaps16x16.png"));
+    toolGoogleMaps->setIcon(QIcon(":/icons/iconGoogleMaps16x16.png"));
     connect(toolGoogleMaps, SIGNAL(clicked()), this, SLOT(slotGoogleMaps()));
 
-//--------------------------------------
+    //--------------------------------------
 
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i)
@@ -108,20 +109,19 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
     connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
 
-	//TODO: checkboxes to switch on/off standard columns
-	connect(checkBox_num,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool))); 
-	connect(checkBox_tim,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_hig,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_dis,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_azi,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_ent,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_vel,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_suu,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_sud,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    //TODO: checkboxes to switch on/off standard columns
+    connect(checkBox_num,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_tim,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_hig,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_dis,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_azi,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_ent,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_vel,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_suu,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_sud,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
 
     treePoints->sortByColumn(eNum, Qt::AscendingOrder);
-
 
 }
 
@@ -149,19 +149,21 @@ CTrackEditWidget::~CTrackEditWidget()
         delete trackStatTrainee;
     }
 
-	num_of_ext	= track->tr_ext.set.toList().size();
-	for(int i=0; i < num_of_ext; ++i) {
-	 //TODO: delete all extension tabs and reset tab counter and tabs list
-			if (tabs.size() != 0){
-			delete tabs[i];			
-			if (i == num_of_ext-1) 
-					{
-						tabstat = 0; 
-						tabs.clear();
-					}
-			}
+    num_of_ext  = track->tr_ext.set.toList().size();
+    for(int i=0; i < num_of_ext; ++i)
+    {
+        //TODO: delete all extension tabs and reset tab counter and tabs list
+        if (tabs.size() != 0)
+        {
+            delete tabs[i];
+            if (i == num_of_ext-1)
+            {
+                tabstat = 0;
+                tabs.clear();
+            }
+        }
 
-	}
+    }
 
 }
 
@@ -200,20 +202,22 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         }
         treePoints->clear();     // this also delete the items
 
-		//------------------------------------------------------------------------------------
-		//TODO: delete checkboxes & spacer
-		for(int i=0; i < c_boxes.size(); ++i)	{
-			
-			delete c_boxes[i];	//remove checkboxes
+        //------------------------------------------------------------------------------------
+        //TODO: delete checkboxes & spacer
+        for(int i=0; i < c_boxes.size(); ++i)
+        {
 
-		}	
-		
-		c_boxes.clear();												//empty qlist
-	
-		gridLayout_2->removeItem(Vspace);								//remove spacer
-		gridLayout_2->removeWidget(label);
-		
-		//------------------------------------------------------------------------------------
+            delete c_boxes[i];   //remove checkboxes
+
+        }
+
+        c_boxes.clear();         //empty qlist
+
+                                 //remove spacer
+        gridLayout_2->removeItem(Vspace);
+        gridLayout_2->removeWidget(label);
+
+        //------------------------------------------------------------------------------------
     }
 
     track = t;
@@ -223,80 +227,89 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         return;
     }
 
-//----------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 
-	//TODO: create for every extension a checkbox and column and link them together
-	
-	num_of_ext		= track->tr_ext.set.toList().size();										//Anzahl der Extensions
-	names_of_ext	= track->tr_ext.set.toList();												//Namen der Extensions
+    //TODO: create for every extension a checkbox and column and link them together
 
-if (num_of_ext)
-	{
-		
-	gridLayout_2->removeWidget(label);
+                                 //Anzahl der Extensions
+    num_of_ext      = track->tr_ext.set.toList().size();
+                                 //Namen der Extensions
+    names_of_ext    = track->tr_ext.set.toList();
 
-	//checkboxes setzten
-	for(int i=0; i < num_of_ext; ++i)
+    if (num_of_ext)
     {
-			
-		QString name		= names_of_ext[i];												//Namen der Extentions pro i in Variable
-		QString obj_name	= QString("%1").arg(eMaxColumn+i);								//Name des objects
 
-		QCheckBox *CheckBoxMake;															// Check box generieren, checken und mit Name versehen
-			CheckBoxMake = new QCheckBox(name);
-				CheckBoxMake->setChecked(true);
-				CheckBoxMake->setObjectName(obj_name); 
-				//CheckBoxMake->setToolTip(obj_name);
-				c_boxes.insert(i, CheckBoxMake);
-		gridLayout_2->addWidget(CheckBoxMake, i, 0, 1, 1);
-				
-		int number_of_column = eMaxColumn + i;												// hier wird hochgezählt
+        gridLayout_2->removeWidget(label);
 
-	   QTreeWidgetItem *___qtreewidgetitem = treePoints->headerItem();						//Spalten in die Trackliste einfügen
-        ___qtreewidgetitem->setText(number_of_column, name); 
+        //checkboxes setzten
+        for(int i=0; i < num_of_ext; ++i)
+        {
 
-		connect(CheckBoxMake ,SIGNAL(clicked(bool)),this,SLOT(slotSetColumnsExt(bool)));	// Connect zwischen checkbox und column
-		
-	}
+                                 //Namen der Extentions pro i in Variable
+            QString name        = names_of_ext[i];
+                                 //Name des objects
+            QString obj_name    = QString("%1").arg(eMaxColumn+i);
 
-//QSpacerItem *Vspace;
-	Vspace = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
-	gridLayout_2->addItem(Vspace, num_of_ext+1, 0, 1, 1);
+                                 // Check box generieren, checken und mit Name versehen
+            QCheckBox *CheckBoxMake;
+            CheckBoxMake = new QCheckBox(name);
+            CheckBoxMake->setChecked(true);
+            CheckBoxMake->setObjectName(obj_name);
+            //CheckBoxMake->setToolTip(obj_name);
+            c_boxes.insert(i, CheckBoxMake);
+            gridLayout_2->addWidget(CheckBoxMake, i, 0, 1, 1);
 
-	}
-	else
-	{
-		if (no_ext_info_stat == 0)
-			{
-			QString lname = "no_ext_info";
-			label = new QLabel(lname);
-			label->setObjectName(lname);
-			label->setEnabled(false);
-			QFont font;
-				font.setBold(true);
-				font.setItalic(false);
-				font.setWeight(75);
-				font.setStyleStrategy(QFont::PreferDefault);
-			label->setFont(font);
-			label->setAlignment(Qt::AlignCenter);
-			label->setText(tr("no extensions elements in this file"));	//keine extensions Elemente in dieser Datei
-			gridLayout_2->addWidget(label, 0, 0, 0, 0);
-			no_ext_info_stat = 1;
-			}
-		else 
-			{
-			gridLayout_2->removeWidget(label);
-			no_ext_info_stat = 0;
-			}
-	}
+                                 // hier wird hochgezhlt
+            int number_of_column = eMaxColumn + i;
 
-//----------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------
+                                 //Spalten in die Trackliste einfgen
+            QTreeWidgetItem *___qtreewidgetitem = treePoints->headerItem();
+            ___qtreewidgetitem->setText(number_of_column, name);
 
-	 QApplication::setOverrideCursor(Qt::WaitCursor);
+                                 // Connect zwischen checkbox und column
+            connect(CheckBoxMake ,SIGNAL(clicked(bool)),this,SLOT(slotSetColumnsExt(bool)));
+
+        }
+
+        //QSpacerItem *Vspace;
+        Vspace = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        gridLayout_2->addItem(Vspace, num_of_ext+1, 0, 1, 1);
+
+    }
+    else
+    {
+        if (no_ext_info_stat == 0)
+        {
+            QString lname = "no_ext_info";
+            label = new QLabel(lname);
+            label->setObjectName(lname);
+            label->setEnabled(false);
+            QFont font;
+            font.setBold(true);
+            font.setItalic(false);
+            font.setWeight(75);
+            font.setStyleStrategy(QFont::PreferDefault);
+            label->setFont(font);
+            label->setAlignment(Qt::AlignCenter);
+                                 //keine extensions Elemente in dieser Datei
+            label->setText(tr("no extensions elements in this file"));
+            gridLayout_2->addWidget(label, 0, 0, 0, 0);
+            no_ext_info_stat = 1;
+        }
+        else
+        {
+            gridLayout_2->removeWidget(label);
+            no_ext_info_stat = 0;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
@@ -310,8 +323,8 @@ if (num_of_ext)
     connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
 
     slotUpdate();
-	
-	//TODO: resize
+
+    //TODO: resize
 
     treePoints->setUpdatesEnabled(false);
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
@@ -338,16 +351,16 @@ void CTrackEditWidget::slotUpdate()
             delete trackStatTrainee;
     }
 
-	//TODO: endable ext. sym. only when there are exts
-	num_of_ext = track->tr_ext.set.toList().size();
-	if (num_of_ext == 0)
-		{
-			toolGraphExtensions->setEnabled(false);
-		}
-	else
-		{
-			toolGraphExtensions->setEnabled(true);
-		}
+    //TODO: endable ext. sym. only when there are exts
+    num_of_ext = track->tr_ext.set.toList().size();
+    if (num_of_ext == 0)
+    {
+        toolGraphExtensions->setEnabled(false);
+    }
+    else
+    {
+        toolGraphExtensions->setEnabled(true);
+    }
 
     if(originator) return;
 
@@ -358,17 +371,17 @@ void CTrackEditWidget::slotUpdate()
     treePoints->setSelectionMode(QAbstractItemView::MultiSelection);
 
     QString str, val, unit;
-    CTrackTreeWidgetItem * focus	= 0;
+    CTrackTreeWidgetItem * focus    = 0;
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
+                                 //Anzahl der Extensions
+    num_of_ext =  track->tr_ext.set.toList().size();
+                                 //Namen der Extensions
+    names_of_ext = track->tr_ext.set.toList();
 
-	num_of_ext =  track->tr_ext.set.toList().size();	//Anzahl der Extensions
-	names_of_ext = track->tr_ext.set.toList();			//Namen der Extensions
-
-	//TODO: Declare Google maps parameter
-	QString gmaps;
-
+    //TODO: Declare Google maps parameter
+    QString gmaps;
 
     while(trkpt != trkpts.end())
     {
@@ -385,7 +398,7 @@ void CTrackEditWidget::slotUpdate()
             item->setTextAlignment(eAscend,Qt::AlignRight);
             item->setTextAlignment(eDescend,Qt::AlignRight);
             item->setTextAlignment(eSpeed,Qt::AlignRight);
-		
+
             trkpt->flags.setChanged(true);
         }
 
@@ -496,72 +509,69 @@ void CTrackEditWidget::slotUpdate()
             str = "-";
         }
         item->setText(eSpeed,str);
-		
 
-		//QDesktopServices::openUrl(QUrl(gmaps));	//Opens URL directly in Browser
-		
+        //QDesktopServices::openUrl(QUrl(gmaps));	//Opens URL directly in Browser
 
-		// position
-	
+        // position
 
-		GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
-		item->setText(ePosition,str);
-		
+        GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
+        item->setText(ePosition,str);
 
-/*
-		if (count == 100) {
-		//TODO: Google maps link
+        /*
+                if (count == 100) {
+                //TODO: Google maps link
 
-		gmaps = tr("http://maps.google.com/maps?f=l&t=h&z=16&om=1&g=&q=%1,%2(%3. Trackpoint)").arg(trkpt->lat).arg(trkpt->lon).arg(trkpt->idx);
+                gmaps = tr("http://maps.google.com/maps?f=l&t=h&z=16&om=1&g=&q=%1,%2(%3. Trackpoint)").arg(trkpt->lat).arg(trkpt->lon).arg(trkpt->idx);
 
+                QLabel *gmlabel = new QLabel(this);
+                gmlabel->setText("<a href=\""+gmaps+"\">"+str+"</a>");
 
-		QLabel *gmlabel = new QLabel(this);
-		gmlabel->setText("<a href=\""+gmaps+"\">"+str+"</a>");
+                gmlabel->setToolTip("click to show ["+str+"] on google maps");
+                gmlabel->setOpenExternalLinks(true);
+                gmlabel->setAutoFillBackground(true);
 
-		gmlabel->setToolTip("click to show ["+str+"] on google maps");
-		gmlabel->setOpenExternalLinks(true);
-		gmlabel->setAutoFillBackground(true);
+                treePoints->setItemWidget(item, ePosition, gmlabel);
 
-		treePoints->setItemWidget(item, ePosition, gmlabel);
-		
-		count = 0;
+                count = 0;
 
-		}
-		else {
-			item->setText(ePosition,str);
-			count++;
-		}
+                }
+                else {
+                    item->setText(ePosition,str);
+                    count++;
+                }
 
-*/
+        */
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-// TODO: Ext. einfügen
-		
+        //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
+        // TODO: Ext. einfgen
 
+        //Trackliste Zellen fllen
+        for(int i=0; i < num_of_ext; ++i)
+        {
+            QString end;
+            int col = eMaxColumn+i;
 
-	//Trackliste Zellen füllen
-	for(int i=0; i < num_of_ext; ++i)
-    {
-		QString end;
-		int col = eMaxColumn+i;
-		
-		QString nam = names_of_ext[i];					//Name der Ext.
+                                 //Name der Ext.
+            QString nam = names_of_ext[i];
 
-		QString val = trkpt->gpx_exts.getValue(nam);	//Wert der Ext.
-			
-		if (val != "")	{end = val;}
-		else			{end = "-";}
-		
-		item->setText(col,end);						//Einfügen
-		item->setTextAlignment(col,Qt::AlignRight);	// formatieren
+                                 //Wert der Ext.
+            QString val = trkpt->gpx_exts.getValue(nam);
 
-	}
+            if (val != "")  {end = val;}
+            else            {end = "-";}
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
+                                 //Einfgen
+            item->setText(col,end);
+                                 // formatieren
+            item->setTextAlignment(col,Qt::AlignRight);
+
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
 
         trkpt->flags.setChanged(false);
 
@@ -618,7 +628,6 @@ void CTrackEditWidget::slotApply()
         checkResetDelTrkPt->setChecked(false);
         originator = false;
     }
-
 
     if(checkRemoveDelTrkPt->isChecked())
     {
@@ -732,7 +741,7 @@ void CTrackEditWidget::slotToggleStatDistance()
     if(trackStatSpeedDist.isNull())
     {
         trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
-		theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
         theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
     }
     else
@@ -743,7 +752,7 @@ void CTrackEditWidget::slotToggleStatDistance()
     if(trackStatProfileDist.isNull())
     {
         trackStatProfileDist = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
-		theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
         theMainWindow->getCanvasTab()->addTab(trackStatProfileDist, tr("Profile/Dist."));
     }
     else
@@ -757,9 +766,11 @@ void CTrackEditWidget::slotToggleStatTime()
 {
     if(trackStatSpeedTime.isNull())
     {
-        trackStatSpeedTime = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);	//TODO: TIME BUTTON
+                                 //TODO: TIME BUTTON
+        trackStatSpeedTime = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
         theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-		theMainWindow->getCanvasTab()->addTab(trackStatSpeedTime, tr("Speed/Time"));	//TAB hinzufügen
+                                 //TAB hinzufgen
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeedTime, tr("Speed/Time"));
     }
     else
     {
@@ -769,8 +780,9 @@ void CTrackEditWidget::slotToggleStatTime()
     if(trackStatProfileTime.isNull())
     {
         trackStatProfileTime = new CTrackStatProfileWidget(ITrackStat::eOverTime, this);
-		theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-        theMainWindow->getCanvasTab()->addTab(trackStatProfileTime, tr("Profile/Time")); //Tab hinzufügen
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+                                 //Tab hinzufgen
+        theMainWindow->getCanvasTab()->addTab(trackStatProfileTime, tr("Profile/Time"));
     }
     else
     {
@@ -784,7 +796,7 @@ void CTrackEditWidget::slotToggleTrainee()
     if(trackStatTrainee.isNull())
     {
         trackStatTrainee = new CTrackStatTraineeWidget(ITrackStat::eOverDistance, this);
-		theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
         theMainWindow->getCanvasTab()->addTab(trackStatTrainee, tr("Trainee"));
     }
     else
@@ -797,184 +809,200 @@ void CTrackEditWidget::slotToggleTrainee()
 //TODO: method to show & hide the extensions graphs
 void CTrackEditWidget::slotToggleExtensionsGraph()
 {
-	
-	num_of_ext		= track->tr_ext.set.toList().size();	//Anzahl der Extensions
-	names_of_ext	= track->tr_ext.set.toList();			//Namen der Extensions
 
+                                 //Anzahl der Extensions
+    num_of_ext      = track->tr_ext.set.toList().size();
+                                 //Namen der Extensions
+    names_of_ext    = track->tr_ext.set.toList();
 
-	for(int i=0; i < num_of_ext; ++i)
+    for(int i=0; i < num_of_ext; ++i)
     {
-			QString name = names_of_ext[i];
+        QString name = names_of_ext[i];
 
-				if (tabstat == 0)
-				{
-					tab = new CTrackStatExtensionWidget(ITrackStat::eOverTime, this);	//Ext tab über die zeit
-					tab->setObjectName(name);
-					tab->setToolTip(name);
-					//theMainWindow->getCanvasTab()->setTabsClosable(true);
-					theMainWindow->getCanvasTab()->setMovable(true);
-					theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-					theMainWindow->getCanvasTab()->addTab(tab, name+"/t");					//add Tab
-					
-					tabs.insert(i, tab);												//add Tab index to list for further handling
+        if (tabstat == 0)
+        {
+                                 //Ext tab ber die zeit
+            tab = new CTrackStatExtensionWidget(ITrackStat::eOverTime, this);
+            tab->setObjectName(name);
+            tab->setToolTip(name);
+            //theMainWindow->getCanvasTab()->setTabsClosable(true);
+            theMainWindow->getCanvasTab()->setMovable(true);
+            theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+                                 //add Tab
+            theMainWindow->getCanvasTab()->addTab(tab, name+"/t");
 
-					if (i == num_of_ext-1) {tabstat = 1;}
-				}	
-				else if (tabstat == 1)
+            tabs.insert(i, tab); //add Tab index to list for further handling
 
-				{
-					//delete all extension tabs and reset tab counter and tabs list
-					delete tabs[i];		
-					if (i == num_of_ext-1) 
-					{
-						tabstat = 0; 
-						tabs.clear();
-					}
-				}
+            if (i == num_of_ext-1) {tabstat = 1;}
+        }
+        else if (tabstat == 1)
 
-	}
-		
+        {
+            //delete all extension tabs and reset tab counter and tabs list
+            delete tabs[i];
+            if (i == num_of_ext-1)
+            {
+                tabstat = 0;
+                tabs.clear();
+            }
+        }
+
+    }
+
 }
 
 
 //TODO: method to switch on/off standard columns in track view
 void CTrackEditWidget::slotSetColumns(bool checked)
 {
-	//who made the signal
-	QString name_std_is = (QObject::sender()->objectName());
-	
+    //who made the signal
+    QString name_std_is = (QObject::sender()->objectName());
 
-	if (name_std_is == "checkBox_num")											//0. checkBox_num - number
-		{																
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(0);}
-			else				{CTrackEditWidget::treePoints->hideColumn(0);}
-		}
-	else if (name_std_is == "checkBox_tim")										//1. checkBox_tim - time
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(1);}
-			else				{CTrackEditWidget::treePoints->hideColumn(1);}
-		}
-	else if (name_std_is == "checkBox_hig")										//2 .checkBox_hig - hight
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(2);}
-			else				{CTrackEditWidget::treePoints->hideColumn(2);}
-		}
-	else if (name_std_is == "checkBox_dis")										//3 .checkBox_dis - distance
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(3);}
-			else				{CTrackEditWidget::treePoints->hideColumn(3);}
-		}
-	else if (name_std_is == "checkBox_azi")										//4 .checkBox_azi - azimuth
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(4);}
-			else				{CTrackEditWidget::treePoints->hideColumn(4);}
-		}
-	else if (name_std_is == "checkBox_ent")										//5 .checkBox_ent - entfernung
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(5);}
-			else				{CTrackEditWidget::treePoints->hideColumn(5);}
-		}
-	else if (name_std_is == "checkBox_vel")										//6 .checkBox_vel - velocity
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(6);}
-			else				{CTrackEditWidget::treePoints->hideColumn(6);}
-		}
-	else if (name_std_is == "checkBox_suu")										//4 .checkBox_suu - summ up
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(7);}
-			else				{CTrackEditWidget::treePoints->hideColumn(7);}
-		}
-	else if (name_std_is == "checkBox_sud")										//8 .checkBox_sud - summ down
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(8);}
-			else				{CTrackEditWidget::treePoints->hideColumn(8);}
-		}
-	else if (name_std_is == "checkBox_pos")										//9 .checkBox_pos - position
-		{	
-			if(checked == true)	{CTrackEditWidget::treePoints->showColumn(9);}
-			else				{CTrackEditWidget::treePoints->hideColumn(9);}
-		}
-	else
-		{	//sender unknown -> nothing happens
-		}
-	
+                                 //0. checkBox_num - number
+    if (name_std_is == "checkBox_num")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(0);}
+        else                {CTrackEditWidget::treePoints->hideColumn(0);}
+    }
+                                 //1. checkBox_tim - time
+    else if (name_std_is == "checkBox_tim")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(1);}
+        else                {CTrackEditWidget::treePoints->hideColumn(1);}
+    }
+                                 //2 .checkBox_hig - hight
+    else if (name_std_is == "checkBox_hig")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(2);}
+        else                {CTrackEditWidget::treePoints->hideColumn(2);}
+    }
+                                 //3 .checkBox_dis - distance
+    else if (name_std_is == "checkBox_dis")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(3);}
+        else                {CTrackEditWidget::treePoints->hideColumn(3);}
+    }
+                                 //4 .checkBox_azi - azimuth
+    else if (name_std_is == "checkBox_azi")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(4);}
+        else                {CTrackEditWidget::treePoints->hideColumn(4);}
+    }
+                                 //5 .checkBox_ent - entfernung
+    else if (name_std_is == "checkBox_ent")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(5);}
+        else                {CTrackEditWidget::treePoints->hideColumn(5);}
+    }
+                                 //6 .checkBox_vel - velocity
+    else if (name_std_is == "checkBox_vel")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(6);}
+        else                {CTrackEditWidget::treePoints->hideColumn(6);}
+    }
+                                 //4 .checkBox_suu - summ up
+    else if (name_std_is == "checkBox_suu")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(7);}
+        else                {CTrackEditWidget::treePoints->hideColumn(7);}
+    }
+                                 //8 .checkBox_sud - summ down
+    else if (name_std_is == "checkBox_sud")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(8);}
+        else                {CTrackEditWidget::treePoints->hideColumn(8);}
+    }
+                                 //9 .checkBox_pos - position
+    else if (name_std_is == "checkBox_pos")
+    {
+        if(checked == true) {CTrackEditWidget::treePoints->showColumn(9);}
+        else                {CTrackEditWidget::treePoints->hideColumn(9);}
+    }
+    else
+    {                            //sender unknown -> nothing happens
+    }
+
 }
 
 
 //TODO: switch extension columns on/off
 void CTrackEditWidget::slotSetColumnsExt(bool checked)
 {
-	QString nameis = (QObject::sender()->objectName());		//who's sender of checkbox signal
-	int col = nameis.toInt();								//use object name as column #
+                                 //who's sender of checkbox signal
+    QString nameis = (QObject::sender()->objectName());
+    int col = nameis.toInt();    //use object name as column #
 
-	//on or off
-	if(checked == true)	{CTrackEditWidget::treePoints->showColumn(col);}
-	else				{CTrackEditWidget::treePoints->hideColumn(col);}
+    //on or off
+    if(checked == true) {CTrackEditWidget::treePoints->showColumn(col);}
+    else                {CTrackEditWidget::treePoints->hideColumn(col);}
 
 }
+
 
 //TODO: Show Track in Google Maps
 void CTrackEditWidget::slotGoogleMaps()
 {
-QString str, outp;
-int count = 0;
-int pnts = 0;
-int every_this = 0;
+    QString str, outp;
+    int count = 0;
+    int pnts = 0;
+    int every_this = 0;
 
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-pnts = trkpts.size();
-if (pnts <= 25) {
-
-   while(trkpt != trkpts.end())
+    pnts = trkpts.size();
+    if (pnts <= 25)
     {
-			
-			GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
-			if (count == 0)		{outp += str;}
-			else				{outp += "+to:"+str;}
-			trkpt++;
-			count++;
-	}
-}
-else {
-	
-	every_this = (pnts/25);
-	int icount = 0;
-	int multi = 0;
 
-   while(trkpt != trkpts.end())
+        while(trkpt != trkpts.end())
+        {
+
+            GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
+            if (count == 0)     {outp += str;}
+            else                {outp += "+to:"+str;}
+            trkpt++;
+            count++;
+        }
+    }
+    else
     {
-			if (count == every_this)	
-				{
-					
-					GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
-					if (icount == 0)		{outp += str;}
-					else				{outp += "+to:"+str;}
-					//every_this += every_this;
-					icount++;
-					multi = icount+1;
-			}
-			else if (count == every_this*multi)
-			{
-					GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
-					if (icount == 0)		{outp += str;}
-					else				{outp += "+to:"+str;}
-					//every_this += every_this;
-					icount++;
-					multi = icount+1;
-			}
 
-			//trkpt->idx = trkpt->idx+every_this;
-			trkpt++;
-			count++;
-	}
+        every_this = (pnts/25);
+        int icount = 0;
+        int multi = 0;
 
-}
-   /*
-   QMessageBox msgBox;
- msgBox.setText("text");
- msgBox.exec();
- */
-   QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?f=h&saddr=&daddr="+outp, QUrl::TolerantMode));
+        while(trkpt != trkpts.end())
+        {
+            if (count == every_this)
+            {
+
+                GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
+                if (icount == 0)        {outp += str;}
+                else                {outp += "+to:"+str;}
+                //every_this += every_this;
+                icount++;
+                multi = icount+1;
+            }
+            else if (count == every_this*multi)
+            {
+                GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
+                if (icount == 0)        {outp += str;}
+                else                {outp += "+to:"+str;}
+                //every_this += every_this;
+                icount++;
+                multi = icount+1;
+            }
+
+            //trkpt->idx = trkpt->idx+every_this;
+            trkpt++;
+            count++;
+        }
+
+    }
+    /*
+    QMessageBox msgBox;
+    msgBox.setText("text");
+    msgBox.exec();
+    */
+    QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?f=h&saddr=&daddr="+outp, QUrl::TolerantMode));
 }

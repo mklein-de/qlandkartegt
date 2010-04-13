@@ -65,7 +65,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotPointSearchChanged();
         void slotPointSearchChanged(const QString&);
         void slotPointSelected();
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
     private:
         void binarizeViewport(int t);

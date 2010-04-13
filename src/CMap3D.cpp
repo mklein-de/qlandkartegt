@@ -34,7 +34,6 @@
 #include <QtGui>
 #include <math.h>
 
-
 #ifndef GL_CLAMP_TO_EDGE
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
@@ -42,7 +41,7 @@
 #ifdef WIN32
 #include <float.h>
 #define isnan(x) _isnan(x)
-#define isinf(x) (!_finite(x)) 
+#define isinf(x) (!_finite(x))
 #endif
 
 #define APPERTURE_ANGLE 60.0
@@ -56,6 +55,7 @@ static void glError()
         err = glGetError();
     }
 }
+
 
 inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
 {
@@ -72,8 +72,9 @@ inline void getNormal(GLdouble *a, GLdouble *b, GLdouble *c, GLdouble *r)
     }
 }
 
+
 inline double calcZRotationDelta(double delta)
-{    
+{
     if(delta >= 20.0)
     {
         return 5;
@@ -93,7 +94,6 @@ inline double calcZRotationDelta(double delta)
 
 static QColor wallCollor = QColor::fromCmykF(0.40, 0.0, 1.0, 0);
 static QColor highBorderColor = QColor::fromRgbF(0.0, 0.0, 1.0, 0);
-
 
 CMap3D::CMap3D(IMap * map, QWidget * parent)
 : QGLWidget(parent)
@@ -184,6 +184,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     qApp->installEventFilter(this);
 }
 
+
 CMap3D::~CMap3D()
 {
     qDebug() << "CMap3D::~CMap3D()";
@@ -213,6 +214,7 @@ CMap3D::~CMap3D()
 
 }
 
+
 void CMap3D::slotMapChanged()
 {
     needsRedraw = true;
@@ -224,9 +226,9 @@ void CMap3D::slotMapChanged()
         return;
     }
 
-
     update();
 }
+
 
 void CMap3D::slotFPVModeChanged()
 {
@@ -234,12 +236,14 @@ void CMap3D::slotFPVModeChanged()
     {
         actTrackMode->setChecked(false);
     }
-    else{
+    else
+    {
 
     }
 
     update();
 }
+
 
 void CMap3D::slotResetLight()
 {
@@ -249,17 +253,20 @@ void CMap3D::slotResetLight()
     update();
 }
 
+
 void CMap3D::slotSaveImage(const QString& filename)
 {
     QImage image = grabFrameBuffer();
     image.save(filename);
 }
 
+
 void CMap3D::slotHelp3D()
 {
     CDlg3DHelp dlg;
     dlg.exec();
 }
+
 
 void CMap3D::slotConfig3D()
 {
@@ -270,6 +277,7 @@ void CMap3D::slotConfig3D()
     update();
 }
 
+
 void CMap3D::lightTurn()
 {
 
@@ -277,10 +285,11 @@ void CMap3D::lightTurn()
     update();
 }
 
+
 void CMap3D::slotTrackChanged()
 {
     CTrack * trk = theTrack;
-    actTrackMode->setChecked(false);    
+    actTrackMode->setChecked(false);
     theTrack = CTrackDB::self().highlightedTrack();
 
     if(trk != theTrack)
@@ -290,6 +299,7 @@ void CMap3D::slotTrackChanged()
     update();
 }
 
+
 void CMap3D::slotChange3DMode()
 {
     act3DMap->setChecked(!act3DMap->isChecked());
@@ -297,17 +307,20 @@ void CMap3D::slotChange3DMode()
     update();
 }
 
+
 void CMap3D::slotChange3DFPVMode()
 {
     actFPVMode->setChecked(!actFPVMode->isChecked());
     update();
 }
 
+
 void CMap3D::slotChange3DTrackMode()
 {
     actTrackMode->setChecked(!actTrackMode->isChecked());
     slotTrackModeChanged();
 }
+
 
 void CMap3D::slotTrackModeChanged()
 {
@@ -390,6 +403,7 @@ void CMap3D::slotTrackModeChanged()
     update();
 }
 
+
 void CMap3D::slotAnimateRotation()
 {
     zRotation += stepRot;
@@ -408,6 +422,7 @@ void CMap3D::slotAnimateRotation()
     update();
 }
 
+
 void CMap3D::initializeGL()
 {
     qDebug() << "void CMap3D::initializeGL()";
@@ -425,15 +440,19 @@ void CMap3D::initializeGL()
     glError();
 }
 
+
 void CMap3D::setupViewport(int width, int height)
 {
-    glViewport (0, 0, (GLsizei)width, (GLsizei)height); //set the viewport to the current window specifications
-    glMatrixMode (GL_PROJECTION); //set the matrix to projection
+                                 //set the viewport to the current window specifications
+    glViewport (0, 0, (GLsizei)width, (GLsizei)height);
+    glMatrixMode (GL_PROJECTION);//set the matrix to projection
     glLoadIdentity ();
-    gluPerspective (APPERTURE_ANGLE, (GLfloat)width / (GLfloat)height, 1.0, 1000*(width > height ? width : height)); //set the perspective (angle of sight, width, height, , depth)
+                                 //set the perspective (angle of sight, width, height, , depth)
+    gluPerspective (APPERTURE_ANGLE, (GLfloat)width / (GLfloat)height, 1.0, 1000*(width > height ? width : height));
     glMatrixMode (GL_MODELVIEW); //set the matrix back to model
     glLoadIdentity ();
 }
+
 
 void CMap3D::resizeGL(int width, int height)
 {
@@ -455,6 +474,7 @@ void CMap3D::resizeGL(int width, int height)
     needsRedraw = true;
     glError();
 }
+
 
 void CMap3D::setElevationLimits()
 {
@@ -533,6 +553,7 @@ void CMap3D::setElevationLimits()
 
 }
 
+
 void CMap3D::setPOV (void)
 {
     glRotatef(270,1.0,0.0,0.0);
@@ -545,6 +566,7 @@ void CMap3D::setPOV (void)
 
     glError();
 }
+
 
 void CMap3D::setMapObject()
 {
@@ -574,10 +596,11 @@ void CMap3D::setMapObject()
     glEndList();
 }
 
+
 void CMap3D::setTrackObject()
 {
-    glNewList(trkObjectId, GL_COMPILE);    
-    glPushMatrix();    
+    glNewList(trkObjectId, GL_COMPILE);
+    glPushMatrix();
     glScalef(1.0, 1.0, zoomFactorZ);
     glTranslated(0.0, 0.0, -minEle);
 
@@ -611,7 +634,6 @@ void CMap3D::setTrackObject()
             ele1 = trkpt->ele;
         }
 
-
         theMap->convertRad2Pt(pt1.u, pt1.v);
         convertPt23D(pt1.u, pt1.v, ele1);
 
@@ -636,7 +658,6 @@ void CMap3D::setTrackObject()
             {
                 ele2 = trkpt->ele;
             }
-
 
             theMap->convertRad2Pt(pt2.u, pt2.v);
             convertPt23D(pt2.u, pt2.v, ele2);
@@ -670,7 +691,6 @@ void CMap3D::setTrackObject()
 }
 
 
-
 void CMap3D::paintEvent( QPaintEvent * e)
 {
     // start 3D painting
@@ -686,7 +706,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-
 
     setupViewport(width(), height());
 
@@ -714,8 +733,10 @@ void CMap3D::paintEvent( QPaintEvent * e)
     }
 
     // start rendering the sceene
-    glClearColor (0.0,0.0,0.0,0.0); //clear the screen to black
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
+                                 //clear the screen to black
+    glClearColor (0.0,0.0,0.0,0.0);
+                                 //clear the color buffer and the depth buffer
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
     setPOV();
@@ -760,7 +781,6 @@ void CMap3D::paintEvent( QPaintEvent * e)
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LINE_SMOOTH);
 
-
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
     glFinish();
@@ -776,6 +796,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
 
     p.end();
 }
+
 
 void CMap3D::drawSkybox()
 {
@@ -850,6 +871,7 @@ void CMap3D::drawSkybox()
     glError();
 }
 
+
 void CMap3D::drawCenterStar()
 {
     glBegin(GL_LINES);
@@ -870,6 +892,7 @@ void CMap3D::drawCenterStar()
 
     glError();
 }
+
 
 void CMap3D::drawBaseGrid()
 {
@@ -896,6 +919,7 @@ void CMap3D::drawBaseGrid()
 
     glError();
 }
+
 
 void CMap3D::drawFlatMap()
 {
@@ -924,6 +948,7 @@ void CMap3D::drawFlatMap()
     glDisable(GL_NORMALIZE);
     glError();
 }
+
 
 void CMap3D::draw3DMap()
 {
@@ -1080,6 +1105,7 @@ void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize,
     glPopMatrix();
 }
 
+
 void CMap3D::drawWaypoints()
 {
     const QSize mapSize = theMap->getSize();
@@ -1119,8 +1145,6 @@ void CMap3D::drawWaypoints()
             continue;
         }
 
-
-
         IMap& dem = CMapDB::self().getDEM();
         if (act3DMap->isChecked())
         {
@@ -1132,7 +1156,6 @@ void CMap3D::drawWaypoints()
 
         }
         ele += 5 / (zoomFactorZ*zoomFactorEle);
-        
 
         convertPt23D(u,v,ele);
 
@@ -1150,11 +1173,10 @@ void CMap3D::drawWaypoints()
         double tw = wsize;
         double th = wsize * double(text.width())/double(text.height());
 
-
         glBlendFunc(GL_DST_COLOR,GL_ZERO);
 
         iconMaskId  = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
-        iconId      = bindTexture(icon);       
+        iconId      = bindTexture(icon);
         textMaskId  = bindTexture(text.alphaChannel().createMaskFromColor(Qt::black));
         textId      = bindTexture(text);
 
@@ -1178,6 +1200,7 @@ void CMap3D::drawWaypoints()
     glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 }
+
 
 void CMap3D::drawCompass(QPainter& p)
 {
@@ -1203,7 +1226,6 @@ void CMap3D::drawCompass(QPainter& p)
     p.setBrush(Qt::yellow);
     p.drawPolygon(arrow1);
     p.drawPolygon(arrow2);
-
 
     double scale  = width() /(3 * APPERTURE_ANGLE);
     double offset = zRotation + angleNorth;
@@ -1245,40 +1267,46 @@ void CMap3D::drawCompass(QPainter& p)
             p.drawLine(x,47,x,50);
         }
 
-
-        if(deg == 0 || deg == 360){
+        if(deg == 0 || deg == 360)
+        {
             str = "N";
             p.setFont(f2);
         }
-        if(deg == 45){
+        if(deg == 45)
+        {
             str = "NO";
             p.setFont(f2);
         }
-        else if(deg == 90){
+        else if(deg == 90)
+        {
             str = "O";
             p.setFont(f2);
         }
-        else if(deg == 135){
+        else if(deg == 135)
+        {
             str = "SO";
             p.setFont(f2);
         }
-        else if(deg == 180){
+        else if(deg == 180)
+        {
             str = "S";
             p.setFont(f2);
         }
-        else if(deg == 225){
+        else if(deg == 225)
+        {
             str = "SW";
             p.setFont(f2);
         }
-        else if(deg == 270){
+        else if(deg == 270)
+        {
             str = "W";
             p.setFont(f2);
         }
-        else if(deg == 315){
+        else if(deg == 315)
+        {
             str = "NW";
             p.setFont(f2);
         }
-
 
         if(!str.isEmpty())
         {
@@ -1289,6 +1317,7 @@ void CMap3D::drawCompass(QPainter& p)
 
     p.restore();
 }
+
 
 #define ELE_RANGE 500.0
 void CMap3D::drawElevation(QPainter& p)
@@ -1318,7 +1347,6 @@ void CMap3D::drawElevation(QPainter& p)
     p.setBrush(Qt::yellow);
     p.drawPolygon(arrow1);
     p.drawPolygon(arrow2);
-
 
     double scale  = height() /(3 * ELE_RANGE);
     for(int ele = floor(elevation - ELE_RANGE/2); ele <= ceil(elevation + ELE_RANGE/2); ele++)
@@ -1367,6 +1395,7 @@ void CMap3D::drawElevation(QPainter& p)
     p.restore();
 }
 
+
 void CMap3D::drawHorizont(QPainter& p)
 {
     double horizont = xRotation;
@@ -1377,8 +1406,6 @@ void CMap3D::drawHorizont(QPainter& p)
     p.save();
     p.translate(0, rect().center().y());
     double scale  = - height() /(3 * 180.0);
-
-
 
     for(int deg = -90; deg <= 90; ++deg)
     {
@@ -1421,7 +1448,6 @@ void CMap3D::drawHorizont(QPainter& p)
             CCanvas::drawText(str,p, QPoint(80, y + textOff), Qt::darkBlue, p.font());
         }
 
-
     }
 
     int y = horizont * scale;
@@ -1440,7 +1466,6 @@ void CMap3D::drawHorizont(QPainter& p)
     p.drawPolygon(arrow1);
     p.drawPolygon(arrow2);
 
-
     p.restore();
 }
 
@@ -1453,7 +1478,7 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
     {
         if(!actFPVMode->isChecked())
         {
-//            qDebug() << ">>>>>>>>>"  << zRotation << xpos << ypos;
+            //            qDebug() << ">>>>>>>>>"  << zRotation << xpos << ypos;
             double diff = 0;
             if(zRotation > 180)
             {
@@ -1462,16 +1487,16 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
 
             zRotation = atan(ypos/xpos)/PI * 180;
 
-//            qDebug() << "---------"  << zRotation << xpos << ypos;
+            //            qDebug() << "---------"  << zRotation << xpos << ypos;
 
             if(xpos < 0)
             {
-                   zRotation = -zRotation;
+                zRotation = -zRotation;
             }
 
             zRotation += 90 + diff;
 
-//            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
+            //            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
 
             double r = sqrt(xpos*xpos + ypos*ypos);
             xpos = -r*sin(zRotation/180 * PI);
@@ -1482,6 +1507,7 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
     }
     lastPos = mousePos;
 }
+
 
 void CMap3D::mouseMoveEvent(QMouseEvent *event)
 {
@@ -1504,16 +1530,17 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             xLight -= (x0 / (z -z0) * z - x1 / (z -z1) * z) * 10;
             yLight -= (y0 / (z -z0) * z - y1 / (z -z1) * z) * 10;
 
-
         }
         else
         {
             QPoint diff = mousePos - lastPos;
-            xRotation = xRotation + (double) diff.y() * 0.3; //set the xrot to xrot with the addition of the difference in the y position
+                                 //set the xrot to xrot with the addition of the difference in the y position
+            xRotation = xRotation + (double) diff.y() * 0.3;
             if(xRotation >  90.0) xRotation =  90.0;
             if(xRotation < -90.0) xRotation = -90.0;
 
-            zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);  //set the xrot to yrot with the addition of the difference in the x position
+                                 //set the xrot to yrot with the addition of the difference in the x position
+            zRotation = normalizeAngle(zRotation + (double) diff.x() * 0.3);
 
             if(!actFPVMode->isChecked())
             {
@@ -1525,10 +1552,10 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
         update();
     }
 
-
     lastPos = mousePos;
 
 }
+
 
 void CMap3D::wheelEvent ( QWheelEvent * e )
 {
@@ -1698,12 +1725,12 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
         theMap->convertRad2Pt(xpos, ypos);
         convertPt23D(xpos, ypos, zpos);
 
-
         zpos = (ele + 10 - minEle) * zoomFactorZ * zoomFactorEle * zoomFactor;
     }
 
     update();
 }
+
 
 void CMap3D::contextMenuEvent(QContextMenuEvent *e)
 {
@@ -1730,6 +1757,7 @@ void CMap3D::contextMenuEvent(QContextMenuEvent *e)
     menu.exec(e->globalPos());
 }
 
+
 void CMap3D::showEvent ( QShowEvent * e )
 {
     if(needsRedraw)
@@ -1737,6 +1765,7 @@ void CMap3D::showEvent ( QShowEvent * e )
         update();
     }
 }
+
 
 bool CMap3D::eventFilter(QObject *o, QEvent *e)
 {
@@ -1768,6 +1797,7 @@ bool CMap3D::eventFilter(QObject *o, QEvent *e)
     return QGLWidget::eventFilter(o, e);
 }
 
+
 double CMap3D::normalizeAngle(double angle)
 {
     while (angle < 0)
@@ -1782,6 +1812,7 @@ double CMap3D::normalizeAngle(double angle)
 
     return angle;
 }
+
 
 bool CMap3D::getEleRegion(QVector<float>& eleData, int& xcount, int& ycount)
 {
@@ -1800,8 +1831,8 @@ bool CMap3D::getEleRegion(QVector<float>& eleData, int& xcount, int& ycount)
 
     return dem.getRegion(eleData, pen1, pen2, xcount, ycount);
 
-
 }
+
 
 void CMap3D::convertPt23D(double& u, double& v, double &ele)
 {
@@ -1809,6 +1840,7 @@ void CMap3D::convertPt23D(double& u, double& v, double &ele)
     u = u - mapSize.width()/2;
     v = mapSize.height()/2 - v;
 }
+
 
 void CMap3D::convert3D2Pt(double& u, double& v, double &ele)
 {
@@ -1842,6 +1874,7 @@ void CMap3D::getPoint(double v[], int xi, int yi, int xi0, int yi0, int xcount, 
     convertPt23D(v[0], v[1], v[2]);
 }
 
+
 void CMap3D::convertMouse23D(double &u, double& v, double &ele)
 {
     GLdouble projection[16];
@@ -1862,6 +1895,7 @@ void CMap3D::convertMouse23D(double &u, double& v, double &ele)
     v = gl_y0;
     ele = gl_z0;
 }
+
 
 void CMap3D::quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2)
 {
@@ -1916,4 +1950,3 @@ void CMap3D::adjustElevationToMap()
         }
     }
 }
-

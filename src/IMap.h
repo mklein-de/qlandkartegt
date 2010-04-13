@@ -239,7 +239,7 @@ class IMap : public QObject
 
         virtual bool is32BitRgb(){return true;}
 
-        /// return the angle of the true north compared to the vertical axis of the map [°]
+        /// return the angle of the true north compared to the vertical axis of the map []
         virtual double getAngleNorth(){return angleNorth;}
 
         static double midU;

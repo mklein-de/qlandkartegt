@@ -96,6 +96,7 @@ QRectF CTrackDB::getBoundingRectF()
     return r;
 }
 
+
 void CTrackDB::loadQLB(CQlb& qlb)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
@@ -111,7 +112,6 @@ void CTrackDB::loadQLB(CQlb& qlb)
     emit sigChanged();
 
 }
-
 
 
 void CTrackDB::loadQLB(CQlb& qlb, bool asDuplicat)
@@ -303,9 +303,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 tmpelem = trkptmap.value("extensions");
                 if(!tmpelem.isNull())
                 {
-					pt.gpx_exts.setValues(tmpelem); //TODO: Abholen der Extension
-					
-					track->tr_ext.addKey2List(tmpelem);//TODO: Auslesen der Namen der Ext
+                                 //TODO: Abholen der Extension
+                    pt.gpx_exts.setValues(tmpelem);
+
+                                 //TODO: Auslesen der Namen der Ext
+                    track->tr_ext.addKey2List(tmpelem);
 
                     QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 
@@ -630,6 +632,7 @@ void CTrackDB::hideTrack(const QStringList& keys, bool hide)
     emit sigChanged();
 }
 
+
 CTrack* CTrackDB::highlightedTrack()
 {
 
@@ -743,7 +746,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     while(track != tracks.end())
     {
 
-        if((*track)->m_hide){
+        if((*track)->m_hide)
+        {
 
             ++track;
             continue;
@@ -1062,6 +1066,7 @@ void CTrackDB::emitSigModified()
 {
     emit sigModified();
 }
+
 
 void CTrackDB::revertTrack(const QString& key)
 {

@@ -127,6 +127,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
     return k;
 }
 
+
 CWpt * CWptDB::newWpt(float lon, float lat, float ele)
 {
     CWpt * wpt = new CWpt(this);

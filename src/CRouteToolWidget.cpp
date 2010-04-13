@@ -83,7 +83,6 @@ void CRouteToolWidget::slotDBChanged()
         ++route;
     }
 
-
     listRoutes->sortItems();
 
     if(highlighted)

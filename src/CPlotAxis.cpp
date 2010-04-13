@@ -53,7 +53,6 @@ void CPlotAxis::setMinMax( double given_min, double given_max )
 {
     double tmp;
 
-
     if ( given_min == given_max )
     {
         if ( given_min != 0.0 )

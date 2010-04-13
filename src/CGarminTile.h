@@ -197,7 +197,7 @@ class CGarminTile : public QObject
         void readPolyline(const QString& subfile, quint32 subdiv, quint32 offset, polytype_t& polylines);
 
         void readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point);
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
     private:
         void readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data);

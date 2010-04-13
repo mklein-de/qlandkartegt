@@ -86,17 +86,17 @@ void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 
         QMenu contextMenu;
         COverlayDB::self().customMenu(item->data(Qt::UserRole).toString(), contextMenu);
-//        if(contextMenu.isEmpty())
-//        {
-//            contextMenu.addAction(QPixmap(),tr("<---->"));
-//        }
+        //        if(contextMenu.isEmpty())
+        //        {
+        //            contextMenu.addAction(QPixmap(),tr("<---->"));
+        //        }
         contextMenu.addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
-
 
         contextMenu.exec(p);
     }
 }
+
 
 void COverlayToolWidget::slotZoomToFit()
 {
@@ -124,6 +124,7 @@ void COverlayToolWidget::slotZoomToFit()
     }
 
 }
+
 
 void COverlayToolWidget::slotDelete()
 {

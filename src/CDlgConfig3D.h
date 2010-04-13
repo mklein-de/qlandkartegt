@@ -39,7 +39,4 @@ class CDlgConfig3D : public QDialog, private Ui::IDlgConfig3D
     private:
         CMap3D& view3D;
 };
-
-
-#endif //CDLGCONFIG3D_H
-
+#endif                           //CDLGCONFIG3D_H

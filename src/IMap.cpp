@@ -88,6 +88,7 @@ void IMap::resize(const QSize& s)
     setAngleNorth();
 }
 
+
 void IMap::setAngleNorth()
 {
     XY p1,p2;
@@ -100,6 +101,7 @@ void IMap::setAngleNorth()
     d = distance(p1, p2, a1, a2);
     angleNorth = a1;
 }
+
 
 void IMap::draw(QPainter& p)
 {

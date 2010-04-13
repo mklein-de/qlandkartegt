@@ -33,7 +33,7 @@ class QTextDocument;
 
 #ifdef SQL_SEARCH_GARMIN
 class CGarminIndex;
-#endif //SQL_SEARCH_GARMIN
+#endif                           //SQL_SEARCH_GARMIN
 
 class QCheckBox;
 class QComboBox;
@@ -68,7 +68,7 @@ class CMapTDB : public IMap
 
         void highlight(QVector<CGarminPolygon>& res);
         void highlight(QVector<CGarminPoint>& res);
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
         void config();
     protected:
@@ -308,7 +308,7 @@ class CMapTDB : public IMap
 
 #ifdef SQL_SEARCH_GARMIN
         CGarminIndex * index;
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
         QVector<CGarminPolygon> query1;
         QVector<CGarminPoint> query2;

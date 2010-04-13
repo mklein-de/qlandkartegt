@@ -221,7 +221,7 @@ bool CMapDEM::getOrigRegion(QVector<qint16>& data,XY &topLeft, XY &bottomRight, 
     Q_ASSERT(w1 <= w);
     Q_ASSERT(h1 <= h);
 
-    // 7. read DEM data from file    
+    // 7. read DEM data from file
     CPLErr err = dataset->RasterIO(GF_Read, xoff1, yoff1, w1, h1, data.data(), w, h, GDT_Int16, 1, 0, 0, 0, 0);
     return (err != CE_Failure);
 }

@@ -27,7 +27,7 @@
 #include <QDateTime>
 #include "CWpt.h"
 
-#include "CGpxExtension.h" //TODO: include von gpx ext
+#include "CGpxExtension.h"       //TODO: include von gpx ext
 
 #define MAX_TRACK_SIZE 10000
 
@@ -59,7 +59,7 @@ class CTrack : public QObject
     public:
         CTrack(QObject * parent);
 
-	    CGpxExtTr tr_ext;		//TODO: CGpxExtPt -> tr_ext		
+        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 
         virtual ~CTrack();
         int ref;
@@ -79,10 +79,8 @@ class CTrack : public QObject
                 speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT),
                 ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0),
                 fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
-                vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT), 
+                vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
                 flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL){}
-
-			
 
             bool operator==(const pt_t& pt){return pt.idx == idx;}
 
@@ -136,8 +134,8 @@ class CTrack : public QObject
             float   vx;          ///< [m/s] velocity
             float   vy;          ///< [m/s] velocity
             float   vz;          ///< [m/s] velocity
-		
-			CGpxExtPt gpx_exts;		//TODO: CGpxExtPt -> gpx_exts
+
+            CGpxExtPt gpx_exts;  //TODO: CGpxExtPt -> gpx_exts
 
             /// display flags
             CFlags flags;

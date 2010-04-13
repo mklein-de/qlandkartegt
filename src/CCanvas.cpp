@@ -400,7 +400,7 @@ void CCanvas::drawScale(QPainter& p)
     else
     {
         d = u1 - u2;
-    //     qDebug() << log10(d) << d << a << b;
+        //     qDebug() << log10(d) << d << a << b;
     }
 
     // step II: derive the actual scale length in [m]
@@ -491,10 +491,12 @@ void CCanvas::drawCompass(QPainter& p)
     p.restore();
 }
 
+
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
     CCanvas::drawText(str,p,center, color, CResources::self().getMapFont());
 }
+
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color, const QFont& font)
 {
@@ -635,7 +637,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     map.convertPt2Rad(x,y);
     map.convertPt2M(x_m,y_m);
 
-//    qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
+    //    qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
     if((x == e->x()) && (y == e->y()))
     {

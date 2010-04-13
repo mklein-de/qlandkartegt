@@ -89,8 +89,6 @@ class IOverlay : public QObject
         /// the unique overlay key used by the database
         const QString key;
 
-
-
         signals:
         void sigChanged();
 

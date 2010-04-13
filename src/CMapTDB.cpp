@@ -23,7 +23,7 @@
 #include "CGarminTile.h"
 #ifdef SQL_SEARCH_GARMIN
 #include "CGarminIndex.h"
-#endif //SQL_SEARCH_GARMIN
+#endif                           //SQL_SEARCH_GARMIN
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -275,7 +275,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 #ifdef SQL_SEARCH_GARMIN
     index = new CGarminIndex(this);
     index->setDBName(name);
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
     checkPoiLabels = new QCheckBox(theMainWindow->getCanvas());
     checkPoiLabels->setText(tr("POI labels"));
@@ -370,7 +370,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 #ifdef SQL_SEARCH_GARMIN
     index = new CGarminIndex(this);
     index->setDBName(name);
-#endif //SQL_SEARCH_GARMIN
+#endif                       //SQL_SEARCH_GARMIN
 
     qDebug() << "CMapTDB::CMapTDB()";
 }
@@ -857,68 +857,68 @@ void CMapTDB::readTDB(const QString& filename)
                     tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }
 
-//                try
-//                {
-//                    tile.img = new CGarminTile(this);
-//                    tile.img->readBasics(tile.file);
-//                }
-//                catch(CGarminTile::exce_t e)
-//                {
-//
-//                    if(e.err == CGarminTile::errLock)
-//                    {
-//                        if(!mapkey.isEmpty()) break;
-//
-//                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
-//                        // help is on the way!!!
-//                        mapkey = QInputDialog::getText(0,tr("However ...")
-//                            ,tr("<p><b>However ...</b></p>"
-//                            "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
-//                            "I am able to let you select the map tiles for upload. To do this I<br/>"
-//                            "need the unlock key (25 digits) for this map, as it has to be uploaded<br/>"
-//                            "to the unit together with the map.</p>"
-//                            ));
-//                        // no money, no brother, no sister - no key
-//                        if(mapkey.isEmpty())
-//                        {
-//                            deleteLater();
-//                            return;
-//                        }
-//
-//                        QSettings cfg;
-//                        cfg.beginGroup("garmin/maps");
-//                        cfg.beginGroup(name);
-//                        cfg.setValue("key",mapkey);
-//                        cfg.endGroup();
-//                        cfg.endGroup();
-//
-//                    }
-//                    else if(CGarminTile::errFormat)
-//                    {
-//                        if(!tainted)
-//                        {
-//                            QMessageBox::warning(0, tr("Error")
-//                                , tr("<p>Failed to load file:</p>"
-//                                "<p>%1</p>"
-//                                "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
-//                                ).arg(e.msg)
-//                                ,QMessageBox::Ok,QMessageBox::Ok);
-//                            tainted = true;
-//                        }
-//                        delete tile.img;
-//                        tile.img = 0;
-//                    }
-//                    else
-//                    {
-//                        if(!tainted)
-//                        {
-//                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
-//                            tainted = true;
-//                        }
-//                        delete tile.img;
-//                        tile.img = 0;
-//                    }
-//                }
+                //                try
+                //                {
+                //                    tile.img = new CGarminTile(this);
+                //                    tile.img->readBasics(tile.file);
+                //                }
+                //                catch(CGarminTile::exce_t e)
+                //                {
+                //
+                //                    if(e.err == CGarminTile::errLock)
+                //                    {
+                //                        if(!mapkey.isEmpty()) break;
+                //
+                //                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
+                //                        // help is on the way!!!
+                //                        mapkey = QInputDialog::getText(0,tr("However ...")
+                //                            ,tr("<p><b>However ...</b></p>"
+                //                            "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
+                //                            "I am able to let you select the map tiles for upload. To do this I<br/>"
+                //                            "need the unlock key (25 digits) for this map, as it has to be uploaded<br/>"
+                //                            "to the unit together with the map.</p>"
+                //                            ));
+                //                        // no money, no brother, no sister - no key
+                //                        if(mapkey.isEmpty())
+                //                        {
+                //                            deleteLater();
+                //                            return;
+                //                        }
+                //
+                //                        QSettings cfg;
+                //                        cfg.beginGroup("garmin/maps");
+                //                        cfg.beginGroup(name);
+                //                        cfg.setValue("key",mapkey);
+                //                        cfg.endGroup();
+                //                        cfg.endGroup();
+                //
+                //                    }
+                //                    else if(CGarminTile::errFormat)
+                //                    {
+                //                        if(!tainted)
+                //                        {
+                //                            QMessageBox::warning(0, tr("Error")
+                //                                , tr("<p>Failed to load file:</p>"
+                //                                "<p>%1</p>"
+                //                                "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
+                //                                ).arg(e.msg)
+                //                                ,QMessageBox::Ok,QMessageBox::Ok);
+                //                            tainted = true;
+                //                        }
+                //                        delete tile.img;
+                //                        tile.img = 0;
+                //                    }
+                //                    else
+                //                    {
+                //                        if(!tainted)
+                //                        {
+                //                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
+                //                            tainted = true;
+                //                        }
+                //                        delete tile.img;
+                //                        tile.img = 0;
+                //                    }
+                //                }
             }
             break;
 
@@ -951,6 +951,7 @@ void CMapTDB::readTDB(const QString& filename)
         pRecord = (tdb_hdr_t*)((quint8*)pRecord + pRecord->size + sizeof(tdb_hdr_t));
     }
 }
+
 
 void CMapTDB::readTile(tile_t& tile)
 {
@@ -1309,7 +1310,6 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
     dU = u[1] - u[0];
     dV = v[2] - v[0];
 
-
     for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i)
     {
 
@@ -1317,7 +1317,8 @@ void CMapTDB::zoom(double lon1, double lat1, double lon2, double lat2)
         double pxU  = dU / (+1.0 * z);
         double pxV  = dV / (-1.0 * z);
 
-        if(isLonLat()){
+        if(isLonLat())
+        {
             pxU /= lon_factor;
             pxV /= lat_factor;
         }
@@ -1515,8 +1516,8 @@ void CMapTDB::draw()
     points.clear();
     labels.clear();
 
-//  struct timeval tv1, tv2, tv3;
-//  gettimeofday(&tv1, NULL);
+    //  struct timeval tv1, tv2, tv3;
+    //  gettimeofday(&tv1, NULL);
 
     if(maplevel->useBaseMap)
     {
@@ -1540,18 +1541,18 @@ void CMapTDB::draw()
         }
     }
 
-//  gettimeofday(&tv2, NULL);
-//  qint64 diff = tv2.tv_usec - tv1.tv_usec;
-//  if(diff < 0)
-//    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
-//  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
+    //  gettimeofday(&tv2, NULL);
+    //  qint64 diff = tv2.tv_usec - tv1.tv_usec;
+    //  if(diff < 0)
+    //    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
+    //  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
 
     p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
 
-    if(!isTransparent) {
+    if(!isTransparent)
+    {
         drawPolygons(p, polygons);
     }
-
 
     if(!doFastDraw)
     {
@@ -1563,11 +1564,11 @@ void CMapTDB::draw()
 
     }
 
-//  gettimeofday(&tv3, NULL);
-//  diff = tv3.tv_usec - tv2.tv_usec;
-//  if(diff < 0)
-//    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
-//  fprintf(stderr, "draw complete: %d\n", diff);
+    //  gettimeofday(&tv3, NULL);
+    //  diff = tv3.tv_usec - tv2.tv_usec;
+    //  if(diff < 0)
+    //    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
+    //  fprintf(stderr, "draw complete: %d\n", diff);
 
     p.setRenderHint(QPainter::Antialiasing,false);
 }
@@ -1646,8 +1647,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int normalCount = 0;
 
     QHash<quint32, QList<quint32> > dict;
-    for(int i = 0; i < lines.count(); ++i) {
-      dict[lines[i].type].push_back(i);
+    for(int i = 0; i < lines.count(); ++i)
+    {
+        dict[lines[i].type].push_back(i);
     }
 
     QMap<quint32, IGarminTyp::polyline_property>::iterator props = polylineProperties.begin();
@@ -1659,7 +1661,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
         if(dict[type].count() == 0)
         {
-          continue;
+            continue;
         }
 
         if(property.hasPixmap)
@@ -1802,7 +1804,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
 
     }
-//    fprintf(stderr, "pixmapCount: %d, borderCount: %d, normalCount: %d\n", pixmapCount, borderCount, normalCount);
+    //    fprintf(stderr, "pixmapCount: %d, borderCount: %d, normalCount: %d\n", pixmapCount, borderCount, normalCount);
 }
 
 
@@ -2560,6 +2562,7 @@ void CMapTDB::readTYP()
 #endif
 }
 
+
 #ifdef SQL_SEARCH_GARMIN
 void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
 {
@@ -2589,7 +2592,7 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
     needsRedraw = true;
     emit sigChanged();
 }
-#endif //SQL_SEARCH_GARMIN
+#endif                           //SQL_SEARCH_GARMIN
 
 void CMapTDB::config()
 {

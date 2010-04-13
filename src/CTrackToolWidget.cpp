@@ -101,7 +101,6 @@ void CTrackToolWidget::slotDBChanged()
         }
         p.end();
 
-
         QString val1, unit1, val2, unit2;
 
         QString str     = (*track)->getName();
@@ -263,6 +262,7 @@ void CTrackToolWidget::slotDelete()
     CTrackDB::self().delTracks(keys);
 }
 
+
 void CTrackToolWidget::slotShow()
 {
     QStringList keys;
@@ -372,4 +372,3 @@ void CTrackToolWidget::slotRevert()
 
     CTrackDB::self().revertTrack(item->data(Qt::UserRole).toString());
 }
-

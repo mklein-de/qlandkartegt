@@ -87,11 +87,12 @@ void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByte
     }
 
     // wenn mask == 0 ist kein xor noetig
-    if(mask == 0) {
-      data = QByteArray::fromRawData(file.data(offset), size);
-      return;
+    if(mask == 0)
+    {
+        data = QByteArray::fromRawData(file.data(offset), size);
+        return;
     }
-    
+
     // TODO: dieses copy is unnoetig
     data = QByteArray(file.data(offset), size);
 
@@ -99,7 +100,7 @@ void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByte
     quint64 * p64 = (quint64*)data.data();
     for(quint32 i = 0; i < size/8; ++i)
     {
-      *p64++ ^= mask64;
+        *p64++ ^= mask64;
     }
     quint32 rest = size % 8;
     quint8 * p = (quint8*)p64;
@@ -107,7 +108,7 @@ void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByte
     quint32 * p32 = (quint32*)data.data();
     for(quint32 i = 0; i < size/4; ++i)
     {
-      *p32++ ^= mask32;
+        *p32++ ^= mask32;
     }
     quint32 rest = size % 4;
     quint8 * p = (quint8*)p32;
@@ -118,6 +119,7 @@ void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByte
         *p++ ^= mask;
     }
 }
+
 
 quint32 IGarminStrTbl::calcOffset(QFileExt& file, const quint32 offset, type_e t)
 {

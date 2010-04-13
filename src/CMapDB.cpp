@@ -136,10 +136,12 @@ CMapDB::~CMapDB()
     cfg.setValue("maps/knownMaps",maps);
 }
 
+
 CMap3D * CMapDB::getMap3D()
 {
     return map3D;
 }
+
 
 void CMapDB::clear()
 {
@@ -283,7 +285,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
     theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
 #endif
-
 
     emit sigChanged();
 

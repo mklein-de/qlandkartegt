@@ -44,7 +44,7 @@ class CDeviceGPSD : public IDevice
 
 class CGPSDThread : public QThread
 {
-   public:
+    public:
         CGPSDThread( int _pipe_fd );
         virtual ~CGPSDThread();
 
@@ -53,7 +53,7 @@ class CGPSDThread : public QThread
 
         bool log( CLiveLog& out );
 
-   protected:
+    protected:
         virtual void run();
 
         gps_data_t* gpsdata;
@@ -64,6 +64,5 @@ class CGPSDThread : public QThread
         bool changed;
 
         int pipe_fd;
-}; // class CGPSDThread
-
+};                               // class CGPSDThread
 #endif                           //CDEVICEGPSD_H

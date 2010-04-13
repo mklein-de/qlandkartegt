@@ -24,8 +24,8 @@ CDlg3DHelp::CDlg3DHelp()
     setupUi(this);
 }
 
+
 CDlg3DHelp::~CDlg3DHelp()
 {
 
 }
-

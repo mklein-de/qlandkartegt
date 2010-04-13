@@ -71,7 +71,5 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QAction * actDel;
         QAction * actRevert;
 
-
-
 };
 #endif                           //CTRACKTOOLWIDGET_H

@@ -407,6 +407,7 @@ void CActions::funcMap3DMode()
 #endif
 }
 
+
 void CActions::funcMap3DFPVMode()
 {
 #ifdef PLOT_3D
@@ -417,6 +418,7 @@ void CActions::funcMap3DFPVMode()
     }
 #endif
 }
+
 
 void CActions::funcMap3DTrackMode()
 {

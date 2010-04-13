@@ -97,7 +97,6 @@ void CPlotAxisTime::calc()
         qDebug() << "ouch";
     }
 
-
     if ( autoscale )
     {
         used_min = floor( used_min / interval ) * interval;

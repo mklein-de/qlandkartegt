@@ -37,7 +37,7 @@ CTabWidget::~CTabWidget()
 void CTabWidget::addTab(QWidget * w, const QString& label)
 {
     QTabWidget::addTab(w,label);
-	setObjectName(label);
+    setObjectName(label);
     setCurrentWidget(w);
 
     connect(w, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyChild(QObject*)));

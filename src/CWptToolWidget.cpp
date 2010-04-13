@@ -83,10 +83,12 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
     }
 }
 
+
 bool keyLessThan(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
     return s1.name.toLower() < s2.name.toLower();
 }
+
 
 void CWptToolWidget::slotDBChanged()
 {
@@ -199,6 +201,7 @@ void CWptToolWidget::slotCopyPosition()
 
 }
 
+
 void CWptToolWidget::slotZoomToFit()
 {
 
@@ -247,13 +250,13 @@ void CWptToolWidget::slotProximity()
     if (items.count() == 1)
     {
         item = items.first();
-	QString key = item->data(Qt::UserRole).toString();
-	CWpt *pt    = CWptDB::self().getWptByKey(key);
+        QString key = item->data(Qt::UserRole).toString();
+        CWpt *pt    = CWptDB::self().getWptByKey(key);
 
-	if (pt->prx != WPT_NOFLOAT)
-	{
-	    prx  = pt->prx * IUnit::self().basefactor;
-	}
+        if (pt->prx != WPT_NOFLOAT)
+        {
+            prx  = pt->prx * IUnit::self().basefactor;
+        }
     }
     double dist     = QInputDialog::getDouble(0,tr("Proximity distance ..."), str, prx, 0, 2147483647, 0,&ok);
     if(ok)

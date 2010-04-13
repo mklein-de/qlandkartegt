@@ -81,7 +81,6 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         myMap.fid = map->fid;
         myMap.pid = map->pid;
 
-
         maps << myMap;
         if(myMap.key.isEmpty())
         {

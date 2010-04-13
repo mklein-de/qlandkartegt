@@ -5,11 +5,11 @@
 #include "ITrackStat.h"
 #include "CTrackEditWidget.h"
 
-extern int ext_handler; //TODO: Extension handler
+extern int ext_handler;          //TODO: Extension handler
 
 class CTrackStatExtensionWidget : public ITrackStat
 {
-	Q_OBJECT;
+    Q_OBJECT;
     public:
         CTrackStatExtensionWidget(type_e type, QWidget * parent);
         virtual ~CTrackStatExtensionWidget();
@@ -20,9 +20,9 @@ class CTrackStatExtensionWidget : public ITrackStat
 
     private:
         bool needResetZoom;
-		int num_of_ext;					//TODO: Anzahl der extensions
-		QList<QString> names_of_ext;	//TODO: Namen der extensions
-
+        int num_of_ext;          //TODO: Anzahl der extensions
+                                 //TODO: Namen der extensions
+        QList<QString> names_of_ext;
 
 };
 #endif                           //CTRACKSTATEXTENSIONWIDGET_H

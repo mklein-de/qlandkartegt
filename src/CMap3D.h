@@ -20,7 +20,6 @@
 #ifndef CMAP3D_H
 #define CMAP3D_H
 
-
 #include <QGLWidget>
 #include <QPointer>
 #include <QPoint>
@@ -47,7 +46,7 @@ class CMap3D : public QGLWidget
 
     protected slots:
         void slotMapChanged();
-        void slotFPVModeChanged();        
+        void slotFPVModeChanged();
         void slotTrackModeChanged();
         void slotResetLight();
         void slotHelp3D();
@@ -79,7 +78,6 @@ class CMap3D : public QGLWidget
         void quad(GLdouble x1, GLdouble y1, GLdouble z1, GLdouble x2, GLdouble y2, GLdouble z2);
         /// draw a quad vertice with texture
         void quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize, GLdouble z, GLint texture, bool isMask);
-
 
         /// set min / max elevation limits and zoomFactorZ
         void setElevationLimits();
@@ -129,11 +127,11 @@ class CMap3D : public QGLWidget
         /// the vertical height of the skybox
         int zsize;
 
-        /// the rotation in the x axis in[°]
+        /// the rotation in the x axis in[]
         double xRotation;
-        /// the rotation in the y axis in[°]
+        /// the rotation in the y axis in[]
         double yRotation;
-        /// the rotation in the z axis in[°]
+        /// the rotation in the z axis in[]
         double zRotation;
         /// the actual x position
         double xpos;
@@ -192,7 +190,7 @@ class CMap3D : public QGLWidget
         /// render quality of 3D map
         enum EQuality3D
         {
-             eFine    = 1
+            eFine    = 1
             ,eMedium  = 3
             ,eCoarse  = 6
         };
@@ -223,6 +221,4 @@ class CMap3D : public QGLWidget
         double deltaRot;
 
 };
-
-#endif //CMAP3D_H
-
+#endif                           //CMAP3D_H

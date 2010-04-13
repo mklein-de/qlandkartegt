@@ -294,8 +294,8 @@ void CMegaMenu::mouseReleaseEvent(QMouseEvent * e)
         {
             if (acts.size() > i)
             {
-                 acts[i]->trigger();
-                 break;
+                acts[i]->trigger();
+                break;
             }
         }
     }

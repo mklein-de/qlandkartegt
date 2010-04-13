@@ -231,45 +231,45 @@ void IMouse::drawSelTrkPt(QPainter& p)
             IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
             str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
-//-----------------------------------------------------------------------------------------------------------
-	//TODO: HOVERTEXT FOR EXTENSIONS
+        //-----------------------------------------------------------------------------------------------------------
+        //TODO: HOVERTEXT FOR EXTENSIONS
 
-		if (!selTrkPt->gpx_exts.values.empty())
-		{
-			QList<QString> ext_list = selTrkPt->gpx_exts.values.keys();
-			QString ex_name, ex_val;
-	
-			
-			for(int i=0; i < selTrkPt->gpx_exts.values.size(); ++i)
-			{
-				ex_name = ext_list.value(i);
-				ex_val = selTrkPt->gpx_exts.getValue(ex_name);
-				
-				if (ex_val != "") {str += tr("\n %1: %2 ").arg(ex_name).arg(ex_val);}
+        if (!selTrkPt->gpx_exts.values.empty())
+        {
+            QList<QString> ext_list = selTrkPt->gpx_exts.values.keys();
+            QString ex_name, ex_val;
 
-			}
+            for(int i=0; i < selTrkPt->gpx_exts.values.size(); ++i)
+            {
+                ex_name = ext_list.value(i);
+                ex_val = selTrkPt->gpx_exts.getValue(ex_name);
 
-		}
+                if (ex_val != "") {str += tr("\n %1: %2 ").arg(ex_name).arg(ex_val);}
 
-//-----------------------------------------------------------------------------------------------------------
-		if (str != "") {      
-  		QFont           f = CResources::self().getMapFont();
-        QFontMetrics    fm(f);
-        QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
-        r1.moveTopLeft(QPoint(u + 45, v));
+            }
 
-        QRect           r2 = r1;
-        r2.setWidth(r1.width() + 4);
-        r2.moveLeft(r1.left() - 2);
+        }
 
-        p.setPen(QColor(100,100,255,200));
-        p.setBrush(QColor(255,255,255,200));
-        p.drawRect(r2);
+        //-----------------------------------------------------------------------------------------------------------
+        if (str != "")
+        {
+            QFont           f = CResources::self().getMapFont();
+            QFontMetrics    fm(f);
+            QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+            r1.moveTopLeft(QPoint(u + 45, v));
 
-        p.setFont(CResources::self().getMapFont());
-        p.setPen(Qt::darkBlue);
-        p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
-		}
+            QRect           r2 = r1;
+            r2.setWidth(r1.width() + 4);
+            r2.moveLeft(r1.left() - 2);
+
+            p.setPen(QColor(100,100,255,200));
+            p.setBrush(QColor(255,255,255,200));
+            p.drawRect(r2);
+
+            p.setFont(CResources::self().getMapFont());
+            p.setPen(Qt::darkBlue);
+            p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+        }
     }
 }
 

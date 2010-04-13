@@ -32,10 +32,12 @@ CDlgConfig3D::CDlgConfig3D(CMap3D& view3D)
     comboQuality->addItem(tr("coarse"),CMap3D::eCoarse);
 }
 
+
 CDlgConfig3D::~CDlgConfig3D()
 {
 
 }
+
 
 void CDlgConfig3D::exec()
 {
@@ -43,6 +45,7 @@ void CDlgConfig3D::exec()
     checkElePov->setChecked(view3D.coupleElePOV);
     QDialog::exec();
 }
+
 
 void CDlgConfig3D::accept()
 {
