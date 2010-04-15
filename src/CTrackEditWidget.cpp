@@ -155,7 +155,10 @@ CTrackEditWidget::~CTrackEditWidget()
         //TODO: delete all extension tabs and reset tab counter and tabs list
         if (tabs.size() != 0)
         {
-            delete tabs[i];
+            if (tabs[i])
+			{
+				delete tabs[i];
+			}
             if (i == num_of_ext-1)
             {
                 tabstat = 0;
@@ -324,7 +327,20 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     slotUpdate();
 
-    //TODO: resize
+    //TODO: resize of the TrackEditWidget
+	QSettings cfg;	
+	// restore last session position and size of TrackEditWidget
+        if ( cfg.contains("TrackEditWidget/geometry"))
+        {
+            QRect r = cfg.value("TrackEditWidget/geometry").toRect();
+
+            if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))		
+					{tabWidget->setGeometry(r);}
+        }
+		else
+		{
+			cfg.setValue("TrackEditWidget/geometry",tabWidget->geometry());
+		}
 
     treePoints->setUpdatesEnabled(false);
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
@@ -810,45 +826,60 @@ void CTrackEditWidget::slotToggleTrainee()
 void CTrackEditWidget::slotToggleExtensionsGraph()
 {
 
-                                 //Anzahl der Extensions
-    num_of_ext      = track->tr_ext.set.toList().size();
-                                 //Namen der Extensions
-    names_of_ext    = track->tr_ext.set.toList();
+	num_of_ext		= track->tr_ext.set.toList().size();	//Anzahl der Extensions
+	names_of_ext	= track->tr_ext.set.toList();			//Namen der Extensions
 
-    for(int i=0; i < num_of_ext; ++i)
+
+	for(int i=0; i < num_of_ext; ++i)
     {
-        QString name = names_of_ext[i];
+			QString name = names_of_ext[i];
 
-        if (tabstat == 0)
-        {
-                                 //Ext tab ber die zeit
-            tab = new CTrackStatExtensionWidget(ITrackStat::eOverTime, this);
-            tab->setObjectName(name);
-            tab->setToolTip(name);
-            //theMainWindow->getCanvasTab()->setTabsClosable(true);
-            theMainWindow->getCanvasTab()->setMovable(true);
-            theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-                                 //add Tab
-            theMainWindow->getCanvasTab()->addTab(tab, name+"/t");
+				if (tabstat == 0)
+				{
+					tab = new CTrackStatExtensionWidget(ITrackStat::eOverTime, this);	//Ext tab über die zeit
+					tab->setObjectName(name);
+					tab->setToolTip(name);
+					
+					theMainWindow->getCanvasTab()->addTab(tab, name+"/t");				//add Tab
+					tabs.insert(i, tab);												//add Tab index to list for further handling
 
-            tabs.insert(i, tab); //add Tab index to list for further handling
+					if (i == num_of_ext-1) {tabstat = 1;}
+				}	
+				else if (tabstat == 1)
 
-            if (i == num_of_ext-1) {tabstat = 1;}
-        }
-        else if (tabstat == 1)
+				{
+					//delete all extension tabs and reset tab counter and tabs list
+					if(tabs[i] != 0)
+					{
+						delete tabs[i];		
+						//theMainWindow->getCanvasTab()->removeTab(i);
+					}
+					if (i == num_of_ext-1) 
+					{
+						tabstat = 0; 
+						tabs.clear();
+					}
+				}
 
-        {
-            //delete all extension tabs and reset tab counter and tabs list
-            delete tabs[i];
-            if (i == num_of_ext-1)
-            {
-                tabstat = 0;
-                tabs.clear();
-            }
-        }
+	}
 
-    }
+	//Tab Settings
+	theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+	theMainWindow->getCanvasTab()->setMovable(true);
 
+	//TODO: make tabs closeable
+
+	theMainWindow->getCanvasTab()->setTabsClosable(true);
+	
+		if (tabstat == 1)
+		{
+			connect(theMainWindow->getCanvasTab(),SIGNAL(tabCloseRequested(int)),this,SLOT(slotKillTab(int)));
+		}
+		else
+		{
+			disconnect(theMainWindow->getCanvasTab(),SIGNAL(tabCloseRequested(int)), this, SLOT(slotKillTab(int)));
+		}
+		
 }
 
 
@@ -1005,4 +1036,13 @@ void CTrackEditWidget::slotGoogleMaps()
     msgBox.exec();
     */
     QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?f=h&saddr=&daddr="+outp, QUrl::TolerantMode));
+}
+
+//TODO: Close Tab
+void CTrackEditWidget::slotKillTab(int index)
+{
+	if (index != 0)
+	{
+		theMainWindow->getCanvasTab()->removeTab(index);
+	}
 }

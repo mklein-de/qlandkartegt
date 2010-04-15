@@ -2475,7 +2475,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation></translation>
     </message>
     <message>
-		<location filename="../CMainWindow.cpp" line="552"/>
+        <location filename="../CMainWindow.cpp" line="552"/>
         <source>&amp;Help</source>
         <translation type="obsolete">&amp;Hilfe</translation>
     </message>
@@ -4021,11 +4021,16 @@ Sollen die Änderungen gespeichert werden?</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="147"/>
+        <source>Open Pos. with Google Maps</source>
+        <translation>Trackpunktposition auf Google Maps anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../CMouseMoveMap.cpp" line="148"/>
         <source>Copy Pos. Trackpoint</source>
         <translation>Trackpunktposition kopieren</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="148"/>
+        <location filename="../CMouseMoveMap.cpp" line="149"/>
         <source>Edit Track ...</source>
         <translation>Track bearbeiten ...</translation>
     </message>
