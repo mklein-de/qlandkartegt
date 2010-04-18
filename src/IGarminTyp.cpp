@@ -777,6 +777,8 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
                 qDebug() << "Failed polyline" <<  hex << ":" << typ <<  ctyp << rows ;
                 continue;
         }
+        property.imgDay     = property.imgDay.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+        property.imgNight   = property.imgNight.convertToFormat(QImage::Format_ARGB32_Premultiplied);
         if(hasLocalization)
         {
             qint16 len;

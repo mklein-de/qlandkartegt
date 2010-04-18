@@ -55,6 +55,7 @@ sign_info_t::sign_info_t()
 
 
 quint32 CGarminPolygon::cnt = 0;
+quint32 CGarminPolygon::maxVecSize = 0;
 
 CGarminPolygon::CGarminPolygon()
 : type(0)
@@ -96,6 +97,12 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     quint16 tmpType;
 
     const quint8 * const pStart = pData;
+
+    labels.clear();
+    u.resize(0);
+    v.resize(0);
+    u.reserve(maxVecSize);
+    v.reserve(maxVecSize);
 
     /* poly_type
 
@@ -229,6 +236,9 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
     id = cnt++;
     //     qDebug() << "<<<" << id;
+    
+    if(maxVecSize < u.size())
+      maxVecSize = u.size();
     return bytes_total;
 }
 
@@ -248,6 +258,12 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     quint32 by;
 
     const quint8 * const pStart = pData;
+
+    labels.clear();
+    u.resize(0);
+    v.resize(0);
+    u.reserve(maxVecSize);
+    v.reserve(maxVecSize);
 
     type        = *pData++;
     subtype     = *pData++;;
@@ -350,6 +366,8 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     id = cnt++;
     //     qDebug() << "<<<" << id;
 
+    if(maxVecSize < u.size())
+      maxVecSize = u.size();
     return bytes_total;
 }
 

@@ -1629,6 +1629,34 @@ void CMapTDB::drawLine(QPainter& p, const CGarminPolygon& l)
 }
 
 
+static inline QImage img2line(const QImage &img, int width)
+{
+    Q_ASSERT(img.format() == QImage::Format_ARGB32_Premultiplied);
+
+    QImage newImage(width, img.height(), QImage::Format_ARGB32_Premultiplied);
+
+    const int bpl_src = img.bytesPerLine();
+    const int bpl_dst = newImage.bytesPerLine();
+    const uchar *_srcBits = img.bits();
+    uchar *_dstBits = newImage.bits();
+
+    for(int i = 0; i < img.height(); i++)
+    {
+        const uchar *srcBits = _srcBits + bpl_src * i;
+        uchar *dstBits = _dstBits + bpl_dst * i;
+
+        int bytesToCopy = bpl_dst;
+        while(bytesToCopy > 0)
+        {
+            memcpy(dstBits, srcBits, std::min(bytesToCopy, bpl_src));
+            dstBits += bpl_src;
+            bytesToCopy -= bpl_src;
+        }
+    }
+    return newImage;
+}
+
+
 void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 {
     textpaths.clear();
@@ -1639,8 +1667,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     font.setBold(false);
     QFontMetricsF metrics(font);
 
-    QPolygonF line;
-    QVector<double> lengths;
+    QPolygonF line; line.reserve(100);
+    QVector<double> lengths; lengths.reserve(100);
 
     int pixmapCount = 0;
     int borderCount = 0;
@@ -1748,6 +1776,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p.save();
                         p.translate(p1);
                         p.rotate(angle);
+#if 0
                         p.translate(0,-h/2);
 
                         while(l < segLength)
@@ -1762,6 +1791,10 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                             p.translate(w,0);
                             l += w;
                         }
+#else
+                        p.drawImage(0,-h/2, img2line(pixmap, segLength));
+#endif
+
                         p.restore();
                         curLength += segLength;
                     }
