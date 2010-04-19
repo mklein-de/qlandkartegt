@@ -36,10 +36,16 @@
 #include "CGarminTypNT.h"
 
 #include <QtGui>
-#include <algorithm>
 #include <QSqlDatabase>
+#include <algorithm>
 
 //#include <sys/time.h>
+
+#ifdef WIN32
+#define CMAPTDB_MIN(x,y) _cpp_min(x,y)
+#else //WIN32
+#define CMAPTDB_MIN(x,y) std::min(x,y)
+#endif //WIN32
 
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
@@ -1648,7 +1654,7 @@ static inline QImage img2line(const QImage &img, int width)
         int bytesToCopy = bpl_dst;
         while(bytesToCopy > 0)
         {
-            memcpy(dstBits, srcBits, std::min(bytesToCopy, bpl_src));
+            memcpy(dstBits, srcBits, CMAPTDB_MIN(bytesToCopy, bpl_src));
             dstBits += bpl_src;
             bytesToCopy -= bpl_src;
         }
