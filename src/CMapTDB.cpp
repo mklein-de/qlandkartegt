@@ -1668,8 +1668,12 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     textpaths.clear();
     QFont font = CResources::self().getMapFont();
 
-    int fontsize = 6 + 3.0/zoomFactor;
-    font.setPixelSize(fontsize);
+//    int fontsize = 6 + 3.0/zoomFactor;
+
+//    if(fontsize < font.pixelSize()){
+//        font.setPixelSize(fontsize);
+//    }
+    font.setPixelSize(12);
     font.setBold(false);
     QFontMetricsF metrics(font);
 
@@ -1930,6 +1934,9 @@ void CMapTDB::drawText(QPainter& p)
             continue;
         }
 
+        fm = QFontMetricsF(font);
+        p.setFont(font);
+
         // adjust exact offset to first half of segment
         const QVector<qreal>& lengths = textpath->lengths;
         const qreal ref = (length - width) / 2;
@@ -1960,6 +1967,7 @@ void CMapTDB::drawText(QPainter& p)
         QPointF point1  = path.pointAtPercent(percent1);
         QPointF point2  = path.pointAtPercent(percent2);
 
+
         qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
         // flip path if string start is E->W direction
@@ -1968,8 +1976,6 @@ void CMapTDB::drawText(QPainter& p)
         {
             path    = path.toReversed();
         }
-
-        p.setFont(textpath->font);
 
         // draw string letter by letter and adjust angle
         const int size = text.size();
@@ -1994,6 +2000,7 @@ void CMapTDB::drawText(QPainter& p)
             p.save();
             p.translate(point1);
             p.rotate(angle);
+
             if(textAboveLine)
             {
                 p.translate(0, -(textpath->lineWidth + 2));
