@@ -898,7 +898,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
     }
 
     // decode polygons
-    if(subdiv.hasPolygons /*&& !fast*/ && !isTransparent())
+    if(subdiv.hasPolygons  && !isTransparent())
     {
         CGarminPolygon::cnt = 0;
         pData = pRawData + opgon;
@@ -939,78 +939,77 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
     //         qDebug() << "point len: " << hex << subdiv.lengthPoints2 << dec << subdiv.lengthPoints2;
     //         qDebug() << "point end: " << hex << subdiv.lengthPoints2 + subdiv.offsetPoints2;
 
-    if(subdiv.lengthPolygons2 /*&& !fast*/ && !isTransparent()) {
-    pData   = pRawData + subdiv.offsetPolygons2;
-    pEnd    = pData + subdiv.lengthPolygons2;
-    while(pData < pEnd)
+    if(subdiv.lengthPolygons2  && !isTransparent())
     {
-        CGarminPolygon p;
-        //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-        pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
-
-        // skip points outside our current viewport
-        if(isCompletlyOutside(p.u, p.v, viewport))
+        pData   = pRawData + subdiv.offsetPolygons2;
+        pEnd    = pData + subdiv.lengthPolygons2;
+        while(pData < pEnd)
         {
-            continue;
-        }
+            CGarminPolygon p;
+            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
 
-        if(strtbl && !p.lbl_in_NET && p.lbl_info)
-        {
-            strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
-        }
-        polygons.push_back(p);
-    }
-}
+            // skip points outside our current viewport
+            if(isCompletlyOutside(p.u, p.v, viewport))
+            {
+                continue;
+            }
 
-
-if(subdiv.lengthPolylines2 && !fast)
-{
-    pData   = pRawData + subdiv.offsetPolylines2;
-    pEnd    = pData + subdiv.lengthPolylines2;
-    while(pData < pEnd)
-    {
-        CGarminPolygon p;
-        //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-        pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
-
-        // skip points outside our current viewport
-        if(isCompletlyOutside(p.u, p.v, viewport))
-            continue;
-
-        polylines.push_back(p);
-        if(strtbl && !p.lbl_in_NET && p.lbl_info)
-        {
-            strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            if(strtbl && !p.lbl_in_NET && p.lbl_info)
+            {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
+            polygons.push_back(p);
         }
     }
-}
 
-
-if(subdiv.lengthPoints2 && !fast)
-{
-    pData   = pRawData + subdiv.offsetPoints2;
-    pEnd    = pData + subdiv.lengthPoints2;
-    while(pData < pEnd)
+    if(subdiv.lengthPolylines2 && !fast)
     {
-        CGarminPoint p;
-        //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
-        pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData, pEnd);
-
-        // skip points outside our current viewport
-        if(!viewport.contains(p.lon, p.lat))
-            continue;
-
-        pois.push_back(p);
-        if(strtbl)
+        pData   = pRawData + subdiv.offsetPolylines2;
+        pEnd    = pData + subdiv.lengthPolylines2;
+        while(pData < pEnd)
         {
-            p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
-                : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+            CGarminPolygon p;
+            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
+
+            // skip points outside our current viewport
+            if(isCompletlyOutside(p.u, p.v, viewport))
+                continue;
+
+            polylines.push_back(p);
+            if(strtbl && !p.lbl_in_NET && p.lbl_info)
+            {
+                strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
+            }
         }
     }
+
+    if(subdiv.lengthPoints2 && !fast)
+    {
+        pData   = pRawData + subdiv.offsetPoints2;
+        pEnd    = pData + subdiv.lengthPoints2;
+        while(pData < pEnd)
+        {
+            CGarminPoint p;
+            //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
+            pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, pData, pEnd);
+
+            // skip points outside our current viewport
+            if(!viewport.contains(p.lon, p.lat))
+                continue;
+
+            pois.push_back(p);
+            if(strtbl)
+            {
+                p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
+                    : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
+            }
+        }
+    }
+
 }
 
-
-}
 
 void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level)
 {
