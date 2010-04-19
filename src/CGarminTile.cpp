@@ -724,19 +724,32 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
 
 static inline bool isCompletlyOutside(const QVector<double> &u, const QVector<double> &v, const QRectF &viewport)
 {
-    bool bOutside = true;
+
     // this should never happen but who knows...
     if(u.count() != v.count())
     {
         return true;
     }
+
+    double north =  -90.0 * DEG_TO_RAD;
+    double south =   90.0 * DEG_TO_RAD;
+    double west  =  180.0 * DEG_TO_RAD;
+    double east  = -180.0 * DEG_TO_RAD;
     for(int i = 0; i < u.count(); ++i)
     {
-        if(viewport.contains(u.at(i), v.at(i)))
-        {
-            return false;
-        }
+        if(north < v[i]) north = v[i];
+        if(south > v[i]) south = v[i];
+        if(west  > u[i]) west  = u[i];
+        if(east  < u[i]) east  = u[i];
     }
+
+    QRectF ref(west, north,  east - west, south - north);
+
+    if(viewport.intersects(ref))
+    {
+        return false;
+    }
+
     return true;
 }
 
