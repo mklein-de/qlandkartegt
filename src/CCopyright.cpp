@@ -43,6 +43,7 @@ CCopyright::CCopyright()
         "Marc Feld<br/>"
         "Joerg Wunsch<br/>"
         "Albrecht Dre&szlig;<br/>"
+        "Christian Treffs<br/>"
         "</p>"
         "<p>Translation:<br/>"
         "Sarah Neumann (German)<br/>"
