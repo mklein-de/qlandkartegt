@@ -90,6 +90,8 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
             oldPoint    = e->pos();
+
+            CMapDB::self().getMap().fastDrawOn();
         }
     }
     else if(e->button() == Qt::RightButton)
@@ -105,6 +107,8 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
     {
         CUndoStackView::getInstance()->endMacro();
         moveMap = false;
+        CMapDB::self().getMap().fastDrawOff();
+
         cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
         QApplication::restoreOverrideCursor();
         canvas->update();
@@ -145,8 +149,8 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconGoogleMaps16x16.png"),tr("Open Pos. with Google Maps"),this,SLOT(slotOpenGoogleMaps())); //TODO: Google Maps right click
-		menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
-        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));		
+                menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
+        menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
     }
 }
 
@@ -240,18 +244,18 @@ void CMouseMoveMap::slotEditTrack()
 }
 void CMouseMoveMap::slotOpenGoogleMaps()	//TODO: Open Google Maps
 {
-	QString position;
+        QString position;
     GPS_Math_Deg_To_Str(selTrkPt->lon, selTrkPt->lat, position);
-	 
 
-	QDateTime utime = QDateTime::fromTime_t(selTrkPt->timestamp);
+
+        QDateTime utime = QDateTime::fromTime_t(selTrkPt->timestamp);
     utime.setTimeSpec(Qt::LocalTime);
     QString time = utime.toString();
 
 /*
-	QMessageBox msgBox;
-	msgBox.setText(position);
-	msgBox.exec();
+        QMessageBox msgBox;
+        msgBox.setText(position);
+        msgBox.exec();
 */
-	QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
+        QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
 }

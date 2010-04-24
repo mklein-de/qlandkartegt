@@ -41,6 +41,7 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 , key(key)
 , doFastDraw(false)
 , angleNorth(0)
+, fastDrawWithoutTimer(false)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -290,17 +291,35 @@ bool IMap::hasOverlayMap(const QString& k)
 }
 
 
-void IMap::setFastDraw()
+void IMap::setFastDrawTimer()
 {
+    if(fastDrawWithoutTimer)
+    {
+        return;
+    }
     timerFastDraw->start(300);
     doFastDraw = true;
 }
-
 
 void IMap::slotResetFastDraw()
 {
     needsRedraw = true;
     doFastDraw  = false;
+    emit sigChanged();
+}
+
+
+void IMap::fastDrawOn()
+{
+    doFastDraw = true;
+    fastDrawWithoutTimer = true;
+}
+
+void IMap::fastDrawOff()
+{
+    needsRedraw = true;
+    doFastDraw  = false;
+    fastDrawWithoutTimer = false;
     emit sigChanged();
 }
 

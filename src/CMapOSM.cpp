@@ -188,7 +188,7 @@ void CMapOSM::move(const QPoint& old, const QPoint& next)
     y = yy;
     needsRedraw     = true;
     needsRedrawOvl  = true;
-    setFastDraw();
+    setFastDrawTimer();
     emit sigChanged();
 
     setAngleNorth();
@@ -246,7 +246,7 @@ void CMapOSM::zoom(qint32& level)
     zoomFactor = (1<<(level-1));
     needsRedraw     = true;
     needsRedrawOvl   = true;
-    setFastDraw();
+    setFastDrawTimer();
     emit sigChanged();
 
 }

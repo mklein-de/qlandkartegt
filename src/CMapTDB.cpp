@@ -700,7 +700,7 @@ void CMapTDB::resize(const QSize& s)
 {
     IMap::resize(s);
     topLeftInfo     = QPoint(size.width() - TEXTWIDTH - 10 , 10);
-    setFastDraw();
+    setFastDrawTimer();
 }
 
 
@@ -1253,7 +1253,6 @@ void CMapTDB::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
     needsRedraw = true;
-    setFastDraw();
     emit sigChanged();
 
     setAngleNorth();
@@ -1354,7 +1353,7 @@ void CMapTDB::zoom(qint32& level)
 
     qDebug() << zoomidx << zoomFactor << scales[zoomidx].bits << scales[zoomidx].scale << scales[zoomidx].label;
 
-    setFastDraw();
+    setFastDrawTimer();
 
     emit sigChanged();
 }
@@ -1445,7 +1444,7 @@ void CMapTDB::draw(QPainter& p)
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
-    if(doFastDraw) setFastDraw();
+    if(doFastDraw) setFastDrawTimer();
 }
 
 

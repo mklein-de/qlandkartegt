@@ -242,6 +242,9 @@ class IMap : public QObject
         /// return the angle of the true north compared to the vertical axis of the map []
         virtual double getAngleNorth(){return angleNorth;}
 
+        virtual void fastDrawOn();
+        virtual void fastDrawOff();
+
         static double midU;
         static double midV;
 
@@ -265,7 +268,7 @@ class IMap : public QObject
     protected:
         virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
         virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
-        virtual void setFastDraw();
+        virtual void setFastDrawTimer();
 
         void setAngleNorth();
 
@@ -301,5 +304,8 @@ class IMap : public QObject
         QTimer * timerFastDraw;
 
         double angleNorth;
+
+    private:
+        bool fastDrawWithoutTimer;
 };
 #endif                           //IMAP_H

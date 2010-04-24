@@ -372,7 +372,7 @@ void CMapQMAP::draw()
         ++mapfile;
     }
 
-    if(doFastDraw) setFastDraw();
+    if(doFastDraw) setFastDrawTimer();
 }
 
 
@@ -419,7 +419,7 @@ void CMapQMAP::move(const QPoint& old, const QPoint& next)
     topLeft = p2;
 
     needsRedraw = true;
-    setFastDraw();
+    setFastDrawTimer();
     emit sigChanged();
 
     setAngleNorth();
@@ -500,7 +500,7 @@ void CMapQMAP::zoom(qint32& level)
     if(level < 1)
     {
         zoomFactor  = 1.0 / - (level - 2);
-        setFastDraw();
+        setFastDrawTimer();
         emit sigChanged();
         qDebug() << "zoom:" << zoomFactor;
         return;
@@ -529,7 +529,7 @@ void CMapQMAP::zoom(qint32& level)
     pMaplevel   = *maplevel;
     pjsrc       = (*pMaplevel->begin())->pj;
     zoomFactor  = level - (*maplevel)->min + 1;
-    setFastDraw();
+    setFastDrawTimer();
     emit sigChanged();
     qDebug() << "zoom:" << zoomFactor;
 }
