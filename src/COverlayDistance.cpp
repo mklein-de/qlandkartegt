@@ -471,6 +471,11 @@ void COverlayDistance::calcDistance()
 {
     distance = 0.0;
 
+    if(points.count() < 2)
+    {
+        return;
+    }
+
     double a1,a2;
     XY pt1, pt2;
     pt1 = points.first();
