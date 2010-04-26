@@ -1403,9 +1403,13 @@ void CMapTDB::draw(QPainter& p)
     if(needsRedraw)
     {
         draw();
+        pixBuffer = QPixmap::fromImage(buffer);
+        // wenn man Speicher sparen will/muss
+        //buffer = QImage();
     }
+
     // copy internal buffer to paint device
-    p.drawImage(0,0,buffer);
+    p.drawPixmap(0,0,pixBuffer);
 
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
