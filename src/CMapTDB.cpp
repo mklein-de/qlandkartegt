@@ -89,7 +89,7 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
     ,                            //8
     {
-        QString("300 km"), 3000.0, 13
+        QString("300 km"), 3000.0, 12
     }
     ,                            //9
     {
@@ -149,7 +149,7 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
     ,                            //23
     {
-        QString("1 km"), 10.0, 24
+        QString("1 km"), 10.0, 23
     }
     ,                            //24
     {
@@ -1510,7 +1510,16 @@ void CMapTDB::draw()
     p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
 
-    quint8 bits = scales[zoomidx].bits + detailsFineTune;
+    quint8 bits = scales[zoomidx].bits;
+    if((zoomidx >= 25) && (detailsFineTune < 0))
+    {
+        bits += detailsFineTune + (zoomidx - 25);
+    }
+    else
+    {
+        bits += detailsFineTune;
+    }
+
     QVector<map_level_t>::const_iterator maplevel = maplevels.end();
     do
     {
