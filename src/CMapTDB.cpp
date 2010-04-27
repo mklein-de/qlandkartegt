@@ -862,69 +862,6 @@ void CMapTDB::readTDB(const QString& filename)
                 {
                     tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }
-
-                //                try
-                //                {
-                //                    tile.img = new CGarminTile(this);
-                //                    tile.img->readBasics(tile.file);
-                //                }
-                //                catch(CGarminTile::exce_t e)
-                //                {
-                //
-                //                    if(e.err == CGarminTile::errLock)
-                //                    {
-                //                        if(!mapkey.isEmpty()) break;
-                //
-                //                        QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Abort,QMessageBox::Abort);
-                //                        // help is on the way!!!
-                //                        mapkey = QInputDialog::getText(0,tr("However ...")
-                //                            ,tr("<p><b>However ...</b></p>"
-                //                            "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
-                //                            "I am able to let you select the map tiles for upload. To do this I<br/>"
-                //                            "need the unlock key (25 digits) for this map, as it has to be uploaded<br/>"
-                //                            "to the unit together with the map.</p>"
-                //                            ));
-                //                        // no money, no brother, no sister - no key
-                //                        if(mapkey.isEmpty())
-                //                        {
-                //                            deleteLater();
-                //                            return;
-                //                        }
-                //
-                //                        QSettings cfg;
-                //                        cfg.beginGroup("garmin/maps");
-                //                        cfg.beginGroup(name);
-                //                        cfg.setValue("key",mapkey);
-                //                        cfg.endGroup();
-                //                        cfg.endGroup();
-                //
-                //                    }
-                //                    else if(CGarminTile::errFormat)
-                //                    {
-                //                        if(!tainted)
-                //                        {
-                //                            QMessageBox::warning(0, tr("Error")
-                //                                , tr("<p>Failed to load file:</p>"
-                //                                "<p>%1</p>"
-                //                                "<p>However, if the basemap is still old format I am able to let you select the map tiles for upload</p>"
-                //                                ).arg(e.msg)
-                //                                ,QMessageBox::Ok,QMessageBox::Ok);
-                //                            tainted = true;
-                //                        }
-                //                        delete tile.img;
-                //                        tile.img = 0;
-                //                    }
-                //                    else
-                //                    {
-                //                        if(!tainted)
-                //                        {
-                //                            QMessageBox::warning(0,tr("Error"),e.msg,QMessageBox::Ok,QMessageBox::Ok);
-                //                            tainted = true;
-                //                        }
-                //                        delete tile.img;
-                //                        tile.img = 0;
-                //                    }
-                //                }
             }
             break;
 
@@ -1527,6 +1464,7 @@ void CMapTDB::draw()
         if(bits >= maplevel->bits) break;
     } while(maplevel != maplevels.begin());
 
+
     QRectF viewport(QPointF(topLeft.u, topLeft.v), QPointF(bottomRight.u, bottomRight.v));
     polygons.clear();
     polylines.clear();
@@ -1574,9 +1512,11 @@ void CMapTDB::draw()
 
     if(!doFastDraw)
     {
+        QVector<QRect> rectPois;
+
         drawPolylines(p, polylines);
-        drawPoints(p, points);
-        drawPois(p, pois);
+        drawPoints(p, points, rectPois);
+        drawPois(p, pois, rectPois);
         drawText(p);
         drawLabels(p, labels);
 
@@ -2079,7 +2019,23 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 }
 
 
-void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
+inline bool isCluttered(QVector<QRect>& rectPois, const QRect& rect)
+{
+    QVector<QRect>::const_iterator rectPoiEnd   = rectPois.end();
+    QVector<QRect>::const_iterator rectPoi      = rectPois.begin();
+    while(rectPoi != rectPoiEnd)
+    {
+        if(rect.intersects(*rectPoi))
+        {
+            return true;
+        }
+        rectPoi++;
+    }
+    rectPois << rect;
+    return false;
+}
+
+void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 {
 
     pointtype_t::iterator pt = pts.begin();
@@ -2094,7 +2050,14 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 
         IMap::convertRad2Pt(pt->lon, pt->lat);
 
+        if(isCluttered(rectPois, QRect(pt->lon, pt->lat,16,16)))
+        {
+            ++pt;
+            continue;
+        }
+
         bool showLabel = true;
+
         if(pointProperties.contains(pt->type))
         {
             p.drawImage(pt->lon - 4, pt->lat - 4, nightView ? pointProperties[pt->type].imgNight : pointProperties[pt->type].imgDay);
@@ -2136,12 +2099,18 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts)
 }
 
 
-void CMapTDB::drawPois(QPainter& p, pointtype_t& pts)
+void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 {
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end())
     {
         IMap::convertRad2Pt(pt->lon, pt->lat);
+
+        if(isCluttered(rectPois, QRect(pt->lon, pt->lat,16,16)))
+        {
+            ++pt;
+            continue;
+        }
 
         bool showLabel = true;
         if(pointProperties.contains(pt->type))

@@ -108,8 +108,8 @@ class CMapTDB : public IMap
         bool processPrimaryMapData();
         void drawPolylines(QPainter& p, polytype_t& lines);
         void drawPolygons(QPainter& p, polytype_t& lines);
-        void drawPoints(QPainter& p, pointtype_t& points);
-        void drawPois(QPainter& p, pointtype_t& points);
+        void drawPoints(QPainter& p, pointtype_t& points, QVector<QRect>& rectPois);
+        void drawPois(QPainter& p, pointtype_t& points, QVector<QRect>& rectPois);
         void drawLabels(QPainter& p, const QVector<strlbl_t> &lbls);
         void drawText(QPainter& p);
 
