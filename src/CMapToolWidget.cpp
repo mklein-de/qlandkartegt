@@ -246,7 +246,8 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
             int mapType = item->data(eType, Qt::UserRole).toInt();
-            if(mapType == IMap::eGarmin || mapType == IMap::eTile)
+//            if(mapType == IMap::eGarmin || mapType == IMap::eTile)
+            if(0)
             {
                 actCfgMap->setEnabled(true);
             }

@@ -81,10 +81,12 @@ class CMapTDB : public IMap
         void slotNightView(bool checked);
         void slotDetailChanged(int idx);
         void slotLanguageChanged(int idx);
+        void slotTypfileChanged(int idx);
 
     private:
         friend class CDlgMapTDBConfig;
         void setup();
+        void checkTypFiles();
 
         struct strlbl_t
         {
@@ -333,6 +335,8 @@ class CMapTDB : public IMap
         quint8 selectedLanguage;
 
         QPixmap pixBuffer;
+
+        QComboBox * comboTypfiles;
 
 };
 #endif                           //CMAPTDB_H

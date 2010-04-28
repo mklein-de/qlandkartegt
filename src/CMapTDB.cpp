@@ -225,6 +225,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 , comboDetails(0)
 , comboLanguages(0)
 , selectedLanguage(-1)
+, comboTypfiles(0)
 {
     readTDB(filename);
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
@@ -251,9 +252,11 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
     nightView       = cfg.value("nightView",nightView).toBool();
+    typfile         = cfg.value("typfile","").toString();
     cfg.endGroup();
     cfg.endGroup();
 
+    checkTypFiles();
     setup();
 
     if(pos.isEmpty())
@@ -341,6 +344,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 , comboDetails(0)
 , comboLanguages(0)
 , selectedLanguage(-1)
+, comboTypfiles(0)
 {
     char * ptr = CMapDB::self().getMap().getProjection();
 
@@ -366,10 +370,13 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     textAboveLine   = cfg.value("textAboveLine",textAboveLine).toBool();
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
+    typfile         = cfg.value("typfile","").toString();
     cfg.endGroup();
     cfg.endGroup();
 
+    checkTypFiles();
     setup();
+
     info          = 0;
     isTransparent = true;
 
@@ -398,7 +405,7 @@ CMapTDB::~CMapTDB()
     cfg.setValue("poiLabels",poiLabels);
     cfg.setValue("nightView",nightView);
     cfg.setValue("selectedLanguage",selectedLanguage);
-
+    cfg.setValue("typfile",typfile);
     cfg.endGroup();
     cfg.endGroup();
 
@@ -426,6 +433,11 @@ CMapTDB::~CMapTDB()
     if(comboLanguages)
     {
         delete comboLanguages;
+    }
+
+    if(comboTypfiles)
+    {
+        delete comboTypfiles;
     }
 
     qDebug() << "CMapTDB::~CMapTDB()";
@@ -464,6 +476,74 @@ void CMapTDB::slotLanguageChanged(int idx)
     emit sigChanged();
 }
 
+void CMapTDB::slotTypfileChanged(int idx)
+{
+
+    qDebug() << "nnnn";
+    typfile = comboTypfiles->itemData(idx).toString();
+    setup();
+    needsRedraw = true;
+    emit sigChanged();
+
+}
+
+
+void CMapTDB::checkTypFiles()
+{
+
+    // used to connect combobox signal after setup
+    bool lateConnect = false;
+
+    // get list of typ files
+    QFileInfo fi(filename);
+    QDir path = fi.absoluteDir();
+    QStringList filters;
+    filters << "*.typ" << "*.TYP";
+    QStringList typfiles = path.entryList(filters, QDir::Files);
+
+    // if there is more than one
+    if(typfiles.count() > 1)
+    {
+        if(comboTypfiles == 0)
+        {
+            comboTypfiles = new QComboBox(theMainWindow->getCanvas());
+            theMainWindow->statusBar()->insertPermanentWidget(0,comboTypfiles);
+            lateConnect = true;
+        }
+        else
+        {
+            comboTypfiles->clear();
+        }
+
+        foreach(typfile, typfiles)
+        {
+            comboTypfiles->addItem(QFileInfo(typfile).baseName(), typfile);
+        }
+
+        int idx = comboTypfiles->findData(typfile);
+        if(idx == -1)
+        {
+            idx = 1;
+        }
+        comboTypfiles->setCurrentIndex(idx);
+        typfile = comboTypfiles->itemData(idx).toString();
+    }
+    else if(typfiles.count() == 1)
+    {
+        // select the only one
+        if(comboTypfiles)
+        {
+            delete comboTypfiles;
+            comboTypfiles = 0;
+        }
+        typfile = typfiles[0];
+    }
+
+    if(lateConnect)
+    {
+        connect(comboTypfiles, SIGNAL(currentIndexChanged(int)), this, SLOT(slotTypfileChanged(int)));
+    }
+}
 
 void CMapTDB::setup()
 {
@@ -661,10 +741,8 @@ void CMapTDB::setup()
 
     pointProperties.clear();
 
-    if(useTyp)
-    {
-        readTYP();
-    }
+    readTYP();
+
 }
 
 
@@ -2475,118 +2553,120 @@ void CMapTDB::readTYP()
 {
     QFileInfo fi(filename);
     QDir path = fi.absoluteDir();
-    QStringList filters;
 
-    filters << "*.typ" << "*.TYP";
-    QStringList typfiles = path.entryList(filters, QDir::Files);
-
-    if(typfiles.isEmpty()) return;
-
-#ifdef DBG
-    QString f;
-    foreach(f, typfiles)
+    if(typfile.isEmpty() || typfile == tr("none"))
     {
+        return;
+    }
 
-        typfile = path.absoluteFilePath(f);
-        QFile file(path.absoluteFilePath(f));
-#else
-        typfile = path.absoluteFilePath(typfiles[0]);
-        QFile file(path.absoluteFilePath(typfiles[0]));
-#endif
-        qDebug() << file.fileName();
-        file.open(QIODevice::ReadOnly);
+    QFile file(path.absoluteFilePath(typfile));
 
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-        in.setByteOrder( QDataStream::LittleEndian);
+    qDebug() << file.fileName();
+    file.open(QIODevice::ReadOnly);
 
-        /* Read typ file descriptor */
-        quint16 descriptor;
-        in >> descriptor;
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_5);
+    in.setByteOrder( QDataStream::LittleEndian);
 
-        qDebug() << "descriptor" << hex << descriptor;
-        switch(descriptor)
+    /* Read typ file descriptor */
+    quint16 descriptor;
+    in >> descriptor;
+
+    qDebug() << "descriptor" << hex << descriptor;
+    switch(descriptor)
+    {
+        case 0x6E:
         {
-            case 0x6E:
+            CGarminTypNT typ(0);
+            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
+
+            quint8 lang;
+            QSet<quint8> usedLanguages = typ.getLanguages();
+
+            if(!usedLanguages.isEmpty())
             {
-                CGarminTypNT typ(0);
-                typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
-
-                quint8 lang;
-                QSet<quint8> usedLanguages = typ.getLanguages();
-
-                if(!usedLanguages.isEmpty())
+                if(comboLanguages == 0)
                 {
                     comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                    foreach(lang, usedLanguages)
-                    {
-                        comboLanguages->addItem(languages[lang],  lang);
-                    }
                     connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
                     theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
-
-                    QSettings cfg;
-                    cfg.beginGroup("garmin/maps");
-                    cfg.beginGroup(name);
-                    selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
-                    cfg.endGroup();
-                    cfg.endGroup();
-
-                    comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
-
                 }
-
-                pid = typ.getPid();
-                fid = typ.getFid();
-                break;
-            }
-
-            default:
-            case 0x5B:
-            {
-                CGarminTyp typ(0);
-                typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
-
-                quint8 lang;
-                QSet<quint8> usedLanguages = typ.getLanguages();
-
-                if(!usedLanguages.isEmpty())
+                else
                 {
-                    comboLanguages = new QComboBox(theMainWindow->getCanvas());
-                    foreach(lang, usedLanguages)
-                    {
-                        comboLanguages->addItem(languages[lang],  lang);
-                    }
-                    connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
-                    theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
-
-                    QSettings cfg;
-                    cfg.beginGroup("garmin/maps");
-                    cfg.beginGroup(name);
-                    selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
-                    cfg.endGroup();
-                    cfg.endGroup();
-
-                    comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
-
+                    comboLanguages->clear();
                 }
-                pid = typ.getPid();
-                fid = typ.getFid();
 
-                break;
+                foreach(lang, usedLanguages)
+                {
+                    comboLanguages->addItem(languages[lang],  lang);
+                }
+
+                QSettings cfg;
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                cfg.endGroup();
+                cfg.endGroup();
+
+                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
             }
 
-            //         default:
-            //             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-            //             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
-            //             return;
+            pid = typ.getPid();
+            fid = typ.getFid();
+            break;
         }
 
-        file.close();
+        default:
+        case 0x5B:
+        {
+            CGarminTyp typ(0);
+            typ.decode(in, polygonProperties, polylineProperties, polygonDrawOrder, pointProperties);
 
-#ifdef DBG
+            quint8 lang;
+            QSet<quint8> usedLanguages = typ.getLanguages();
+
+            if(!usedLanguages.isEmpty())
+            {
+                if(comboLanguages == 0)
+                {
+                    comboLanguages = new QComboBox(theMainWindow->getCanvas());
+                    connect(comboLanguages, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLanguageChanged(int)));
+                    theMainWindow->statusBar()->insertPermanentWidget(0,comboLanguages);
+                }
+                else
+                {
+                    comboLanguages->clear();
+                }
+                foreach(lang, usedLanguages)
+                {
+                    comboLanguages->addItem(languages[lang],  lang);
+                }
+
+                QSettings cfg;
+                cfg.beginGroup("garmin/maps");
+                cfg.beginGroup(name);
+                selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
+                cfg.endGroup();
+                cfg.endGroup();
+
+                comboLanguages->setCurrentIndex(comboLanguages->findData(selectedLanguage));
+
+            }
+            pid = typ.getPid();
+            fid = typ.getFid();
+
+            break;
+        }
+
+        //         default:
+        //             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
+        //             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
+        //             return;
     }
-#endif
+
+    file.close();
+
 }
 
 
@@ -2623,6 +2703,7 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
 
 void CMapTDB::config()
 {
+
     CDlgMapTDBConfig dlg(this);
     dlg.exec();
 
