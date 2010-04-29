@@ -515,9 +515,10 @@ void CMapTDB::checkTypFiles()
             comboTypfiles->clear();
         }
 
-        foreach(typfile, typfiles)
+        QString tf;
+        foreach(tf, typfiles)
         {
-            comboTypfiles->addItem(QFileInfo(typfile).baseName(), typfile);
+            comboTypfiles->addItem(QFileInfo(tf).baseName(), tf);
         }
 
         int idx = comboTypfiles->findData(typfile);
