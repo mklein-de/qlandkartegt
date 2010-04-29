@@ -161,11 +161,6 @@ void CGPSDThread::run()
     gps_stream( gpsdata, WATCH_NEWSTYLE, NULL );
 
     fd_set fds;
-    int data;
-    struct timeval tv;
-
-    FD_ZERO(&fds);
-    FD_SET(gpsdata->gps_fd, &fds);
 
     while( true )
     {
@@ -174,7 +169,7 @@ void CGPSDThread::run()
         FD_SET(gpsdata->gps_fd, &fds);
         FD_SET(pipe_fd, &fds);
         int nfds = (pipe_fd > gpsdata->gps_fd ? pipe_fd : gpsdata->gps_fd) + 1;
-        data = select(nfds, &fds, NULL, NULL, NULL);
+        int data = select(nfds, &fds, NULL, NULL, NULL);
 
         if( data == -1 )
         {
@@ -210,7 +205,7 @@ bool CGPSDThread::decodeData()
         return true;
     static const gps_mask_t interesting_mask = TIME_SET | LATLON_SET
         | ALTITUDE_SET | SPEED_SET | TRACK_SET | STATUS_SET | MODE_SET
-        | HERR_SET | VERR_SET | PERR_SET | ONLINE_SET;
+        | HERR_SET | VERR_SET | ONLINE_SET;
 
     if( (gpsdata->set & interesting_mask) == 0 )
         return true;
