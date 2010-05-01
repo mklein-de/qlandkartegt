@@ -64,7 +64,7 @@ void CTrackUndoCommandPurgePts::undo()
         if(purgedList.contains(trkpt->idx))
         {
             trkpt->flags &= ~CTrack::pt_t::eDeleted;
-            trkpt->flags |= CTrack::pt_t::eSelected;
+//            trkpt->flags |= CTrack::pt_t::eSelected;
         }
         ++trkpt;
     }

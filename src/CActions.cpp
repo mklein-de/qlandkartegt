@@ -504,21 +504,22 @@ void CActions::funcDownloadTrack()
 
 void CActions::funcTrackPurgeSelection()
 {
+    qDebug() << "funcTrackPurgeSelection";
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
+    {
         CUndoStackModel::getInstance()->push(new CTrackUndoCommandPurgePts(track));
+    }
 }
 
 
 void CActions::funcDeleteTrackSelection()
 {
+    qDebug() << "funcDeleteTrackSelection";
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
     {
-        CUndoStackModel::getInstance()->beginMacro(tr("Delete Selection"));
         CUndoStackModel::getInstance()->push(new CTrackUndoCommandPurgePts(track));
-        CUndoStackModel::getInstance()->push(new CTrackUndoCommandDeletePts(track));
-        CUndoStackModel::getInstance()->endMacro();
     }
 }
 

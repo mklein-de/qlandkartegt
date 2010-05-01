@@ -672,7 +672,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
     {
         return;
     }
-    fprintf(stderr, "loadVisibleData(fast:%d, level:%d): %s (%d)\n", fast, level, qPrintable(filename), file.size());
+//    fprintf(stderr, "loadVisibleData(fast:%d, level:%d): %s (%d)\n", fast, level, qPrintable(filename), file.size());
 
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.constBegin();
     while(subfile != subfiles.constEnd())

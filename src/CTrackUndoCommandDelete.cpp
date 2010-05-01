@@ -34,7 +34,9 @@ CTrackUndoCommandDelete::~CTrackUndoCommandDelete()
 {
     qDebug() << Q_FUNC_INFO << track << track->ref;
     if (track->ref < 1)
+    {
         delete track;
+    }
 }
 
 
