@@ -365,6 +365,7 @@ SET(qlandkarte_RCS
     resources.qrc
 )
 
+SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -400,6 +401,10 @@ else(EXIF_FOUND)
     set(DMTX_INCLUDE_DIRS "")
     set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)
+
+IF(PRIVATE)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPRIVATE")
+ENDIF(PRIVATE)
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
