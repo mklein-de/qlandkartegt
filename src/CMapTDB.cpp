@@ -57,59 +57,59 @@
 CMapTDB::scale_t CMapTDB::scales[] =
 {
     {                            //0
-        QString("7000 km"), 70000.0, 8
+        QString("7000 km"), 70000.0, 2
     }
     ,                            //1
     {
-        QString("5000 km"), 50000.0, 8
+        QString("5000 km"), 50000.0, 3
     }
     ,                            //2
     {
-        QString("3000 km"), 30000.0, 9
+        QString("3000 km"), 30000.0, 4
     }
     ,                            //3
     {
-        QString("2000 km"), 20000.0, 9
+        QString("2000 km"), 20000.0, 5
     }
     ,                            //4
     {
-        QString("1500 km"), 15000.0, 10
+        QString("1500 km"), 15000.0, 6
     }
     ,                            //5
     {
-        QString("1000 km"), 10000.0, 10
+        QString("1000 km"), 10000.0,7
     }
     ,                            //6
     {
-        QString("700 km"), 7000.0, 11
+        QString("700 km"), 7000.0, 8
     }
     ,                            //7
     {
-        QString("500 km"), 5000.0, 11
+        QString("500 km"), 5000.0, 9
     }
     ,                            //8
     {
-        QString("300 km"), 3000.0, 13
+        QString("300 km"), 3000.0, 10
     }
     ,                            //9
     {
-        QString("200 km"), 2000.0, 13
+        QString("200 km"), 2000.0, 11
     }
     ,                            //10
     {
-        QString("150 km"), 1500.0, 14
+        QString("150 km"), 1500.0, 12
     }
     ,                            //11
     {
-        QString("100 km"), 1000.0, 15
+        QString("100 km"), 1000.0, 13
     }
     ,                            //12
     {
-        QString("70 km"), 700.0, 16
+        QString("70 km"), 700.0, 14
     }
     ,                            //13
     {
-        QString("50 km"), 500.0, 16
+        QString("50 km"), 500.0, 15
     }
     ,                            //14
     {
@@ -121,7 +121,7 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
     ,                            //16
     {
-        QString("15 km"), 150.0, 17
+        QString("15 km"), 150.0, 18
     }
     ,                            //17
     {
@@ -129,47 +129,47 @@ CMapTDB::scale_t CMapTDB::scales[] =
     }
     ,                            //18
     {
-        QString("7 km"), 70.0, 18
+        QString("7 km"), 70.0, 19
     }
     ,                            //19
     {
-        QString("5 km"), 50.0, 19
+        QString("5 km"), 50.0, 20
     }
     ,                            //20
     {
-        QString("3 km"), 30.0, 19
+        QString("3 km"), 30.0, 20
     }
     ,                            //21
     {
-        QString("2 km"), 20.0, 20
+        QString("2 km"), 20.0, 21
     }
     ,                            //22
     {
-        QString("1.5 km"), 15.0, 20
+        QString("1.5 km"), 15.0, 21
     }
     ,                            //23
     {
-        QString("1 km"), 10.0, 21
+        QString("1 km"), 10.0, 22
     }
     ,                            //24
     {
-        QString("700 m"), 7.0, 21
+        QString("700 m"), 7.0, 22
     }
     ,                            //25
     {
-        QString("500 m"), 5.0, 22
+        QString("500 m"), 5.0, 23
     }
     ,                            //26
     {
-        QString("300 m"), 3.0, 22
+        QString("300 m"), 3.0, 23
     }
     ,                            //27
     {
-        QString("200 m"), 2.0, 23
+        QString("200 m"), 2.0, 24
     }
     ,                            //28
     {
-        QString("150 m"), 1.5, 23
+        QString("150 m"), 1.5, 24
     }
     ,                            //29
     {

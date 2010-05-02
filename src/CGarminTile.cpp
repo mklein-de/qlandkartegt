@@ -828,6 +828,8 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
     const quint8 *  pData;
     const quint8 *  pEnd;
 
+    CGarminPolygon p;
+
     // decode points
     if(subdiv.hasPoints && !fast)
     {
@@ -888,7 +890,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd)
         {
-            CGarminPolygon p;
+//            CGarminPolygon p;
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
 
             // skip points outside our current viewport
@@ -919,7 +921,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
         while(pData < pEnd)
         {
-            CGarminPolygon p;
+//            CGarminPolygon p;
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
 
             // skip points outside our current viewport
@@ -958,7 +960,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd    = pData + subdiv.lengthPolygons2;
         while(pData < pEnd)
         {
-            CGarminPolygon p;
+//            CGarminPolygon p;
             //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
 
@@ -982,7 +984,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd    = pData + subdiv.lengthPolylines2;
         while(pData < pEnd)
         {
-            CGarminPolygon p;
+//            CGarminPolygon p;
             //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
 
