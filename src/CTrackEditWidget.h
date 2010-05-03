@@ -77,8 +77,9 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotSetColumns(bool checked);
         void slotSetColumnsExt(bool checked);
 
-		void slotGoogleMaps(); //TODO: Google Maps
-		void slotKillTab(int index); //TODO: Kill Tab
+        void slotGoogleMaps();   //TODO: Google Maps
+                                 //TODO: Kill Tab
+        void slotKillTab(int index);
 
     protected:
         void keyPressEvent(QKeyEvent * e);

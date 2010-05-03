@@ -126,6 +126,7 @@ void CTrackStatExtensionWidget::slotChanged()
         ++trkpt;
     }
 
+    plot->clear();
     plot->newLine(lineExt,focusExt, nam);
     plot->newMarks(marksExt);
 
