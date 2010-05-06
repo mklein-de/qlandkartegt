@@ -838,8 +838,6 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             t_paint.drawPolygon(arrow, 4);
             t_paint.end();
 
-            p.drawImage(100,100,arrow_pic);
-
 
             foreach(pt,line)
             {
