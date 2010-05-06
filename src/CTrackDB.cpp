@@ -735,7 +735,9 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
 
+    /// @todo it would be nice to use antialiasing here, but right now performance is bad
     p.setRenderHint(QPainter::Antialiasing, !map.getFastDrawFlag());
+    p.setRenderHint(QPainter::Antialiasing, false);
 
     //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
