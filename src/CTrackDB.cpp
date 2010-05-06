@@ -725,17 +725,17 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPointF arrow[4] =
     {
-        QPointF( 15.0, 5.0),     //front
+        QPointF( 20.0, 5.0),     //front
         QPointF( 0.0, 0.0),      //upper tail
-        QPointF( 5.0, 5.0),      //mid tail
-        QPointF( 0.0, 10.0)      //lower tail
+        QPointF( 5.0, 7.0),      //mid tail
+        QPointF( 0.0, 14.0)      //lower tail
     };
 
     QPoint focus(-1,-1);
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
 
-    p.setRenderHint(QPainter::Antialiasing,false);
+    p.setRenderHint(QPainter::Antialiasing, !map.getFastDrawFlag());
 
     //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
@@ -808,7 +808,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         else
         {
             // draw normal track
-            QPen pen((*track)->getColor(),3);
+            QPen pen((*track)->getColor(),5);
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::RoundJoin);
             p.setPen(pen);
@@ -824,17 +824,15 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             pen.setJoinStyle(Qt::MiterJoin);
 
             //generate arrow pic
-            // must be a little bigger or  createHeuristicMask won't work
-            QPixmap arrow_pic(16,11);
+            QImage arrow_pic(21,15, QImage::Format_ARGB32);
+            arrow_pic.fill( qRgba(0,0,0,0));
             QPainter t_paint(&arrow_pic);
             t_paint.setRenderHint(QPainter::Antialiasing, true);
-            t_paint.eraseRect(QRectF(0.,0.,16.,11.));
-            t_paint.setPen(Qt::black);
+            t_paint.setPen(QPen(Qt::black, 1));
             t_paint.setBrush((*track)->getColor());
             t_paint.drawPolygon(arrow, 4);
-            //t_paint.setRenderHint(QPainter::Antialiasing, false);
             t_paint.end();
-            arrow_pic.setMask(arrow_pic.createHeuristicMask());
+
 
             foreach(pt,line)
             {
@@ -856,7 +854,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                             // draw arrow between bullets
                             p.translate((pt.x() + pt1.x())/2,(pt.y() + pt1.y())/2);
                             p.rotate(heading);
-                            p.drawPixmap(-9, -5, arrow_pic);
+                            p.drawImage(-11, -7, arrow_pic);
                             p.restore();
                                  //remember last point
                             ptt = pt;
@@ -879,39 +877,39 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QPolygon& line = (*track)->getPolyline();
 
         // draw skunk line
-        QPen pen((*track)->getColor(),5);
-        pen.setCapStyle(Qt::RoundCap);
-        pen.setJoinStyle(Qt::RoundJoin);
-        p.setPen(pen);
+        QPen pen1(Qt::white,11);
+        pen1.setCapStyle(Qt::RoundCap);
+        pen1.setJoinStyle(Qt::RoundJoin);
+
+        QPen pen2((*track)->getColor(),7);
+        pen2.setCapStyle(Qt::RoundCap);
+        pen2.setJoinStyle(Qt::RoundJoin);
+
+        p.setPen(pen1);
         p.drawPolyline(line);
-        p.setPen(Qt::white);
+        p.setPen(pen2);
         p.drawPolyline(line);
 
         // draw bubbles and direction arrows
         QPoint  pt, pt1, ptt;
         bool    start = true;
         double  heading;
-        QPixmap bullet = (*track)->getBullet();
-        pen.setJoinStyle(Qt::MiterJoin);
-        pen.setColor((*track)->getColor());
-        pen.setWidth(3);
-        //p.setPen(pen);
 
         //generate arrow pic
-        QPixmap arrow_pic(16,11);
+        QImage arrow_pic(21,15, QImage::Format_ARGB32);
+        arrow_pic.fill( qRgba(0,0,0,0));
         QPainter t_paint(&arrow_pic);
         t_paint.setRenderHint(QPainter::Antialiasing, true);
-        t_paint.eraseRect(QRectF(0.,0.,16.,11.));
-        t_paint.setPen(Qt::black);
+        t_paint.setPen(QPen(Qt::white, 2));
         t_paint.setBrush((*track)->getColor());
         t_paint.drawPolygon(arrow, 4);
         t_paint.end();
-        arrow_pic.setMask(arrow_pic.createHeuristicMask());
+
 
         foreach(pt,line)
         {
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
-            p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
+            //p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
 
             if(start)            // no arrow on  the first loop
             {
@@ -929,7 +927,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                         // draw arrow between bullets
                         p.translate((pt.x() + pt1.x())/2, (pt.y() + pt1.y())/2);
                         p.rotate(heading);
-                        p.drawPixmap(-9, -5, arrow_pic);
+                        p.drawImage(-11, -7, arrow_pic);
                         p.restore();
                         ptt = pt;//remember last point
                     }
