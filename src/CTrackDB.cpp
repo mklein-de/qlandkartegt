@@ -954,6 +954,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
         }
     }
+
+    p.setRenderHint(QPainter::Antialiasing, false);
 }
 
 
