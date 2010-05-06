@@ -725,10 +725,10 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPointF arrow[4] =
     {
-        QPointF( 20.0, 5.0),     //front
+        QPointF( 20.0, 7.0),     //front
         QPointF( 0.0, 0.0),      //upper tail
         QPointF( 5.0, 7.0),      //mid tail
-        QPointF( 0.0, 14.0)      //lower tail
+        QPointF( 0.0, 15.0)      //lower tail
     };
 
     QPoint focus(-1,-1);
@@ -810,12 +810,17 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         else
         {
             // draw normal track
-            QPen pen((*track)->getColor(),5);
-            pen.setCapStyle(Qt::RoundCap);
-            pen.setJoinStyle(Qt::RoundJoin);
-            p.setPen(pen);
+            QPen pen1(Qt::white,5);
+            pen1.setCapStyle(Qt::RoundCap);
+            pen1.setJoinStyle(Qt::RoundJoin);
+
+            QPen pen2((*track)->getColor(),3);
+            pen2.setCapStyle(Qt::RoundCap);
+            pen2.setJoinStyle(Qt::RoundJoin);
+
+            p.setPen(pen1);
             p.drawPolyline(line);
-            p.setPen(Qt::white);
+            p.setPen(pen2);
             p.drawPolyline(line);
 
             // draw direction arrows
@@ -823,17 +828,17 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             bool    start = true;
             double  heading;
 
-            pen.setJoinStyle(Qt::MiterJoin);
-
             //generate arrow pic
-            QImage arrow_pic(21,15, QImage::Format_ARGB32);
+            QImage arrow_pic(21,16, QImage::Format_ARGB32);
             arrow_pic.fill( qRgba(0,0,0,0));
             QPainter t_paint(&arrow_pic);
             t_paint.setRenderHint(QPainter::Antialiasing, true);
-            t_paint.setPen(QPen(Qt::black, 1));
+            t_paint.setPen(QPen(Qt::white, 1));
             t_paint.setBrush((*track)->getColor());
             t_paint.drawPolygon(arrow, 4);
             t_paint.end();
+
+            p.drawImage(100,100,arrow_pic);
 
 
             foreach(pt,line)
