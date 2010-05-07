@@ -233,7 +233,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         }
         //-----------------------------------------------------------------------------------------------------------
         //TODO: HOVERTEXT FOR EXTENSIONS
-
+#ifdef GPX_EXTENSIONS
         if (!selTrkPt->gpx_exts.values.empty())
         {
             QList<QString> ext_list = selTrkPt->gpx_exts.values.keys();
@@ -249,7 +249,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
             }
 
         }
-
+#endif
         //-----------------------------------------------------------------------------------------------------------
         if (str != "")
         {

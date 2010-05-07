@@ -105,7 +105,6 @@ set(qlandkarte_SRCS
     CDlgConfig3D.cpp
     CQlb.cpp
     CGpx.cpp
-    CGpxExtension.cpp
     IDevice.cpp
     CDeviceQLandkarteM.cpp
     CDeviceGarmin.cpp
@@ -133,7 +132,6 @@ set(qlandkarte_SRCS
     CTrackStatProfileWidget.cpp
     CTrackStatSpeedWidget.cpp
     CTrackStatTraineeWidget.cpp
-    CTrackStatExtensionWidget.cpp
     CRoute.cpp
     CRouteDB.cpp
     CRouteToolWidget.cpp
@@ -252,7 +250,6 @@ set(qlandkarte_HDRS
     CDlgConfig3D.h
     CQlb.h
     CGpx.h
-    CGpxExtension.h
     IDevice.h
     CDeviceQLandkarteM.h
     CDeviceGarmin.h
@@ -277,7 +274,6 @@ set(qlandkarte_HDRS
     CTrackStatProfileWidget.h
     CTrackStatSpeedWidget.h
     CTrackStatTraineeWidget.h
-    CTrackStatExtensionWidget.h
     CRoute.h
     CRouteDB.h
     CRouteToolWidget.h
@@ -367,6 +363,8 @@ SET(qlandkarte_RCS
 
 SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
+SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
+
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
 
@@ -374,10 +372,18 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLOT_3D")
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3D.h CDlg3DHelp.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3D.cpp CDlg3DHelp.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS} IDlg3DHelp.ui)    
+    SET(qlandkarte_UIS ${qlandkarte_UIS} IDlg3DHelp.ui)
     SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
+
+
+if(GPX_EXTENSIONS)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGPX_EXTENSIONS")
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CTrackStatExtensionWidget.h CGpxExtension.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CTrackStatExtensionWidget.cpp CGpxExtension.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} )
+endif(GPX_EXTENSIONS)
 
 if(GPSD_FOUND)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAS_GPSD")

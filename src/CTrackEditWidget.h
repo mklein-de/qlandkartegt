@@ -32,8 +32,10 @@ class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
 
+#ifdef GPX_EXTENSIONS
 //TODO: Class Defininition
 class CTrackStatExtensionWidget;
+#endif
 
 class CTrackTreeWidgetItem : public QTreeWidgetItem
 {
@@ -70,12 +72,16 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleStatTime();
         void slotToggleTrainee();
 
+#ifdef GPX_EXTENSIONS
         //TODO: Deklaration der Methode fr die Extensions Graphen
         void slotToggleExtensionsGraph();
 
+
         //TODO: eigenes Methdchen
         void slotSetColumns(bool checked);
+
         void slotSetColumnsExt(bool checked);
+#endif
 
         void slotGoogleMaps();   //TODO: Google Maps
                                  //TODO: Kill Tab
@@ -110,6 +116,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatSpeedWidget> trackStatSpeedTime;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
 
+#ifdef GPX_EXTENSIONS
                                  //TODO: Namen der extensions
         QList<QString> names_of_ext;
         int num_of_ext;          //TODO: Anzahl der extensions
@@ -129,6 +136,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         int tabstat;
         int no_ext_info_stat;
         int count;
+#endif
 
 };
 #endif                           //CTRACKEDITWIDGET_H

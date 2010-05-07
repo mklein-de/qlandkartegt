@@ -22,7 +22,9 @@
 #include "CTrackStatSpeedWidget.h"
 #include "CTrackStatTraineeWidget.h"
                                  //Anfgen des Ext. Widgets
+#ifdef GPX_EXTENSIONS
 #include "CTrackStatExtensionWidget.h"
+#endif
 #include "CTrack.h"
 #include "CTrackDB.h"
 #include "CResources.h"
@@ -66,10 +68,21 @@ bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
 
 CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 : QWidget(parent)
-, originator(false), num_of_ext(0), Vspace(0), tabstat(0), no_ext_info_stat(0), count(0)
+, originator(false)
+#ifdef GPX_EXTENSIONS
+, num_of_ext(0)
+, Vspace(0)
+, tabstat(0)
+, no_ext_info_stat(0)
+, count(0)
+#endif
 {
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose,true);
+
+#ifndef GPX_EXTENSIONS
+    tabWidget->removeTab(1);
+#endif
 
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
@@ -82,19 +95,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
-
-    //------------------------------------
-    //TODO: Extra Icon fr Extension & Connect dazu
-
-    toolGraphExtensions->setIcon(QIcon(":/icons/iconExtensions16x16.png"));
-    connect(toolGraphExtensions, SIGNAL(clicked()), this, SLOT(slotToggleExtensionsGraph()));
-
-    //TODO: Icon for Google maps
-
-    toolGoogleMaps->setIcon(QIcon(":/icons/iconGoogleMaps16x16.png"));
-    connect(toolGoogleMaps, SIGNAL(clicked()), this, SLOT(slotGoogleMaps()));
-
-    //--------------------------------------
 
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i)
@@ -109,6 +109,21 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
     connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
 
+#ifdef GPX_EXTENSIONS
+    //------------------------------------
+    //TODO: Extra Icon fr Extension & Connect dazu
+
+    toolGraphExtensions->setIcon(QIcon(":/icons/iconExtensions16x16.png"));
+    connect(toolGraphExtensions, SIGNAL(clicked()), this, SLOT(slotToggleExtensionsGraph()));
+
+    //TODO: Icon for Google maps
+
+    toolGoogleMaps->setIcon(QIcon(":/icons/iconGoogleMaps16x16.png"));
+    connect(toolGoogleMaps, SIGNAL(clicked()), this, SLOT(slotGoogleMaps()));
+
+    //--------------------------------------
+
+
     //TODO: checkboxes to switch on/off standard columns
     connect(checkBox_num,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_tim,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
@@ -120,6 +135,12 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkBox_suu,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_sud,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+#else
+    toolGraphExtensions->hide();
+    toolGoogleMaps->hide();
+#endif
+
+
 
     treePoints->sortByColumn(eNum, Qt::AscendingOrder);
 
@@ -148,7 +169,7 @@ CTrackEditWidget::~CTrackEditWidget()
     {
         delete trackStatTrainee;
     }
-
+#ifdef GPX_EXTENSIONS
     num_of_ext  = track->tr_ext.set.toList().size();
     for(int i=0; i < num_of_ext; ++i)
     {
@@ -167,6 +188,7 @@ CTrackEditWidget::~CTrackEditWidget()
         }
 
     }
+#endif
 
 }
 
@@ -205,6 +227,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         }
         treePoints->clear();     // this also delete the items
 
+#ifdef GPX_EXTENSIONS
         //------------------------------------------------------------------------------------
         //TODO: delete checkboxes & spacer
         for(int i=0; i < c_boxes.size(); ++i)
@@ -221,6 +244,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         gridLayout_2->removeWidget(label);
 
         //------------------------------------------------------------------------------------
+#endif
     }
 
     track = t;
@@ -235,7 +259,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     //----------------------------------------------------------------------------------------------
 
     //TODO: create for every extension a checkbox and column and link them together
-
+#ifdef GPX_EXTENSIONS
                                  //Anzahl der Extensions
     num_of_ext      = track->tr_ext.set.toList().size();
                                  //Namen der Extensions
@@ -311,6 +335,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
+#endif
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -343,7 +368,12 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     }
 
     treePoints->setUpdatesEnabled(false);
+
+#ifdef GPX_EXTENSIONS
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
+#else
+    for(int i=0; i < eMaxColumn; ++i)
+#endif
     {
         treePoints->resizeColumnToContents(i);
     }
@@ -367,6 +397,7 @@ void CTrackEditWidget::slotUpdate()
             delete trackStatTrainee;
     }
 
+#ifdef GPX_EXTENSIONS
     //TODO: endable ext. sym. only when there are exts
     num_of_ext = track->tr_ext.set.toList().size();
     if (num_of_ext == 0)
@@ -377,6 +408,7 @@ void CTrackEditWidget::slotUpdate()
     {
         toolGraphExtensions->setEnabled(true);
     }
+#endif
 
     if(originator) return;
 
@@ -391,10 +423,12 @@ void CTrackEditWidget::slotUpdate()
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
+#ifdef GPX_EXTENSIONS
                                  //Anzahl der Extensions
     num_of_ext =  track->tr_ext.set.toList().size();
                                  //Namen der Extensions
     names_of_ext = track->tr_ext.set.toList();
+#endif
 
     //TODO: Declare Google maps parameter
     QString gmaps;
@@ -431,7 +465,11 @@ void CTrackEditWidget::slotUpdate()
         if(trkpt->flags & CTrack::pt_t::eDeleted)
         {
             //item->setFlags((item->flags() & ~Qt::ItemIsEnabled) | Qt::ItemIsTristate);
+#ifdef GPX_EXTENSIONS
             for(i = 0; i < eMaxColumn+num_of_ext; ++i)
+#else
+            for(i = 0; i < eMaxColumn; ++i)
+#endif
             {
                 item->setForeground(i,QBrush(Qt::gray));
             }
@@ -439,7 +477,11 @@ void CTrackEditWidget::slotUpdate()
         else
         {
             //item->setFlags(item->flags() | Qt::ItemIsEnabled | Qt::ItemIsTristate);
+#ifdef GPX_EXTENSIONS
             for(i = 0; i < eMaxColumn+num_of_ext; ++i)
+#else
+            for(i = 0; i < eMaxColumn; ++i)
+#endif
             {
                 item->setForeground(i,QBrush(Qt::black));
             }
@@ -563,6 +605,7 @@ void CTrackEditWidget::slotUpdate()
         //--------------------------------------------------------------------------------------------------
         // TODO: Ext. einfgen
 
+#ifdef GPX_EXTENSIONS
         //Trackliste Zellen fllen
         for(int i=0; i < num_of_ext; ++i)
         {
@@ -584,7 +627,7 @@ void CTrackEditWidget::slotUpdate()
             item->setTextAlignment(col,Qt::AlignRight);
 
         }
-
+#endif
         //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
@@ -822,6 +865,7 @@ void CTrackEditWidget::slotToggleTrainee()
 }
 
 
+#ifdef GPX_EXTENSIONS
 //TODO: method to show & hide the extensions graphs
 void CTrackEditWidget::slotToggleExtensionsGraph()
 {
@@ -884,8 +928,9 @@ void CTrackEditWidget::slotToggleExtensionsGraph()
     }
 
 }
+#endif
 
-
+#ifdef GPX_EXTENSIONS
 //TODO: method to switch on/off standard columns in track view
 void CTrackEditWidget::slotSetColumns(bool checked)
 {
@@ -957,8 +1002,9 @@ void CTrackEditWidget::slotSetColumns(bool checked)
     }
 
 }
+#endif
 
-
+#ifdef GPX_EXTENSIONS
 //TODO: switch extension columns on/off
 void CTrackEditWidget::slotSetColumnsExt(bool checked)
 {
@@ -971,6 +1017,7 @@ void CTrackEditWidget::slotSetColumnsExt(bool checked)
     else                {CTrackEditWidget::treePoints->hideColumn(col);}
 
 }
+#endif
 
 
 //TODO: Show Track in Google Maps

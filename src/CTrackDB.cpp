@@ -303,11 +303,13 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 tmpelem = trkptmap.value("extensions");
                 if(!tmpelem.isNull())
                 {
+#ifdef GPX_EXTENSIONS
                                  //TODO: Abholen der Extension
                     pt.gpx_exts.setValues(tmpelem);
 
                                  //TODO: Auslesen der Namen der Ext
                     track->tr_ext.addKey2List(tmpelem);
+#endif
 
                     QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 

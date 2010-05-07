@@ -27,7 +27,9 @@
 #include <QDateTime>
 #include "CWpt.h"
 
+#ifdef GPX_EXTENSIONS
 #include "CGpxExtension.h"       //TODO: include von gpx ext
+#endif
 
 #define MAX_TRACK_SIZE 10000
 
@@ -59,11 +61,13 @@ class CTrack : public QObject
     public:
         CTrack(QObject * parent);
 
-        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
-
         virtual ~CTrack();
         int ref;
         enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1};
+
+#ifdef GPX_EXTENSIONS
+        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
+#endif
 
         struct pt_t
         {
@@ -135,7 +139,9 @@ class CTrack : public QObject
             float   vy;          ///< [m/s] velocity
             float   vz;          ///< [m/s] velocity
 
+#ifdef GPX_EXTENSIONS
             CGpxExtPt gpx_exts;  //TODO: CGpxExtPt -> gpx_exts
+#endif
 
             /// display flags
             CFlags flags;
