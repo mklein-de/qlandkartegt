@@ -123,7 +123,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     //--------------------------------------
 
-
     //TODO: checkboxes to switch on/off standard columns
     connect(checkBox_num,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_tim,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
@@ -134,12 +133,13 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkBox_vel,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_suu,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_sud,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-    connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+	connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+
 #else
     toolGraphExtensions->hide();
     toolGoogleMaps->hide();
 #endif
-
+	
 
 
     treePoints->sortByColumn(eNum, Qt::AscendingOrder);
@@ -240,8 +240,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         c_boxes.clear();         //empty qlist
 
                                  //remove spacer
-        gridLayout_2->removeItem(Vspace);
-        gridLayout_2->removeWidget(label);
+        verticalLayout_Extensions->removeItem(Vspace);
+        gridLayout_Extensions->removeWidget(label);
 
         //------------------------------------------------------------------------------------
 #endif
@@ -268,7 +268,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     if (num_of_ext)
     {
 
-        gridLayout_2->removeWidget(label);
+        gridLayout_Extensions->removeWidget(label);
 
         //checkboxes setzten
         for(int i=0; i < num_of_ext; ++i)
@@ -286,7 +286,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
             CheckBoxMake->setObjectName(obj_name);
             //CheckBoxMake->setToolTip(obj_name);
             c_boxes.insert(i, CheckBoxMake);
-            gridLayout_2->addWidget(CheckBoxMake, i, 0, 1, 1);
+            verticalLayout_Extensions->addWidget(CheckBoxMake, i, 0);
+	
 
                                  // hier wird hochgezhlt
             int number_of_column = eMaxColumn + i;
@@ -302,7 +303,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
         //QSpacerItem *Vspace;
         Vspace = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
-        gridLayout_2->addItem(Vspace, num_of_ext+1, 0, 1, 1);
+        verticalLayout_Extensions->addItem(Vspace);
 
     }
     else
@@ -322,12 +323,12 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
             label->setAlignment(Qt::AlignCenter);
                                  //keine extensions Elemente in dieser Datei
             label->setText(tr("no extensions elements in this file"));
-            gridLayout_2->addWidget(label, 0, 0, 0, 0);
+            verticalLayout_Extensions->addWidget(label);
             no_ext_info_stat = 1;
         }
         else
         {
-            gridLayout_2->removeWidget(label);
+            verticalLayout_Extensions->removeWidget(label);
             no_ext_info_stat = 0;
         }
     }
