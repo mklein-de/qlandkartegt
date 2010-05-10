@@ -72,16 +72,12 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleStatTime();
         void slotToggleTrainee();
 
-#ifdef GPX_EXTENSIONS
+
         //TODO: Deklaration der Methode fr die Extensions Graphen
         void slotToggleExtensionsGraph();
-
-
         //TODO: eigenes Methdchen
         void slotSetColumns(bool checked);
-
         void slotSetColumnsExt(bool checked);
-#endif
 
         void slotGoogleMaps();   //TODO: Google Maps
                                  //TODO: Kill Tab
