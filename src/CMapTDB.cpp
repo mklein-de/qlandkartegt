@@ -34,6 +34,7 @@
 #include "CDlgMapTDBConfig.h"
 #include "CGarminTyp.h"
 #include "CGarminTypNT.h"
+#include "CSpline.h"
 
 #include <QtGui>
 #include <QSqlDatabase>
@@ -1913,10 +1914,10 @@ void CMapTDB::collectText(const CGarminPolygon& item, const QPolygonF& line, con
     if(str.isEmpty()) return;
 
     textpath_t tp;
-    tp.path.addPolygon(line);
-    tp.font = font;
-    tp.text = str;
-    tp.lineWidth = lineWidth;
+    tp.polyline     = line;
+    tp.font         = font;
+    tp.text         = str;
+    tp.lineWidth    = lineWidth;
 
     const int size = line.size();
     for(int i = 1; i < size; ++i)
@@ -1940,9 +1941,11 @@ void CMapTDB::drawText(QPainter& p)
     QVector<textpath_t>::const_iterator end      = textpaths.constEnd();
     while(textpath != end)
     {
-        QFont font          = textpath->font;
+        QPainterPath path;
+        QFont font = textpath->font;
         QFontMetricsF fm(font);
-        QPainterPath path   = textpath->path;
+
+        path.addPolygon(textpath->polyline);
 
         // get path length and string length
         qreal length        = fabs(path.length());
@@ -1995,9 +1998,16 @@ void CMapTDB::drawText(QPainter& p)
         qreal percent1  =  offset / length;
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
 
-        QPointF point1  = path.pointAtPercent(percent1);
-        QPointF point2  = path.pointAtPercent(percent2);
 
+//        CSpline spline;
+//        spline.setPoints(textpath->polyline);
+
+
+        QPointF point1  = path.pointAtPercent(percent1);
+//        point1.setY(spline.value(point1.x()));
+
+        QPointF point2  = path.pointAtPercent(percent2);
+//        point2.setY(spline.value(point2.x()));
 
         qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
@@ -2008,10 +2018,13 @@ void CMapTDB::drawText(QPainter& p)
             path    = path.toReversed();
         }
 
+
         // draw string letter by letter and adjust angle
         const int size = text.size();
         percent2 = offset / length;
         point2   = path.pointAtPercent(percent2);
+//        point2.setY(spline.value(point2.x()));
+
         for(int i = 0; i < size; ++i)
         {
 
@@ -2020,6 +2033,9 @@ void CMapTDB::drawText(QPainter& p)
 
             point1  = point2;
             point2  = path.pointAtPercent(percent2);
+//            point2.setY(spline.value(point2.x()));
+
+//            qDebug() << point1 << point2;
 
             angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
@@ -2045,6 +2061,14 @@ void CMapTDB::drawText(QPainter& p)
 
             offset += fm.width(text[i]);
         }
+
+//        qDebug() << "---";
+
+//        p.save();
+//        QPen pen(Qt::red,3);
+//        p.setPen(pen);
+//        p.drawPath(path);
+//        p.restore();
 
         ++textpath;
     }

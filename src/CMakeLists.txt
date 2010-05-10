@@ -171,6 +171,7 @@ set(qlandkarte_SRCS
     CGarminTypNT.cpp
     CMapTDB.cpp
     CHelpButton.cpp
+    CSpline.cpp
 )
 
 if (WIN32)
@@ -315,6 +316,7 @@ set(qlandkarte_HDRS
     CMapTDB.h
     CAppOpts.h
     CHelpButton.h
+    CSpline.h
 )
 
 SET(qlandkarte_UIS
