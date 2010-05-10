@@ -928,9 +928,6 @@ void CTrackEditWidget::slotToggleExtensionsGraph()
     }
 
 }
-#else
-void CTrackEditWidget::slotToggleExtensionsGraph()
-{}
 #endif
 
 #ifdef GPX_EXTENSIONS
@@ -1005,9 +1002,6 @@ void CTrackEditWidget::slotSetColumns(bool checked)
     }
 
 }
-#else
-void CTrackEditWidget::slotSetColumns(bool checked)
-{}
 #endif
 
 #ifdef GPX_EXTENSIONS
@@ -1023,9 +1017,6 @@ void CTrackEditWidget::slotSetColumnsExt(bool checked)
     else                {CTrackEditWidget::treePoints->hideColumn(col);}
 
 }
-#else
-void CTrackEditWidget::slotSetColumnsExt(bool checked)
-{}
 #endif
 
 
