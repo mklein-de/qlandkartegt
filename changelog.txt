@@ -1,3 +1,19 @@
+--- 2010.05.10 ---
+
+Request #167:
+Dutch translation
+
+Request #168:
+Add gpsd support
+
+Request #169:
+Optimize map rendering for Garmin maps
+
+Request #171:
+Add selection for typ file if there are several
+
+
+
 --- 2010.04.03 ---
 
 Bug     #157:
@@ -781,6 +797,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
