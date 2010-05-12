@@ -2512,6 +2512,10 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 {
     CMapSelectionGarmin& sel = (CMapSelectionGarmin&)ms;
 
+    QFileInfo fi(filename);
+    QDir path = fi.absoluteDir();
+
+
     double lon1 = rect.left();
     double lat1 = rect.top();
     convertPt2Rad(lon1, lat1);
@@ -2528,7 +2532,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
         CMapSelectionGarmin::map_t& m = sel.maps[key];
         m.unlockKey = mapkey;
         m.name      = name;
-        m.typfile   = typfile;
+        m.typfile   = path.absoluteFilePath(typfile);
         m.pid       = pid;
         m.fid       = fid;
     }

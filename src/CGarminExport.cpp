@@ -763,6 +763,7 @@ void CGarminExport::slotStart()
         {
             if(!map->typ.isEmpty())
             {
+                writeStdout(map->typ);
                 QFile file(map->typ);
                 file.open(QIODevice::ReadOnly);
                 QByteArray data = file.readAll();
