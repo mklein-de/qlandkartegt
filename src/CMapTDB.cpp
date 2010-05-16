@@ -1933,6 +1933,7 @@ void CMapTDB::collectText(const CGarminPolygon& item, const QPolygonF& line, con
 }
 
 
+#define D 80
 void CMapTDB::drawText(QPainter& p)
 {
     p.setPen(Qt::black);
@@ -1945,14 +1946,97 @@ void CMapTDB::drawText(QPainter& p)
         QFont font = textpath->font;
         QFontMetricsF fm(font);
 
+#ifdef BEZIER
+        if(textpath->polyline.size() > 2)
+        {
+            int i;
+            const int N = textpath->polyline.size();
+            const QPolygonF& polyline = textpath->polyline;
+
+            path.moveTo(polyline.first());
+            p.drawPixmap(polyline.first(), QPixmap(":/icons/small_bullet_black.png"));
+
+
+
+            QPointF p1 = polyline[0];
+
+            for(i = 2; i < N; i += 1)
+            {
+                qreal d, d_;
+
+                QPointF p2 = polyline[i-1];
+                QPointF p3 = polyline[i];
+
+                QPointF c1 = p2;
+                QPointF c2 = p2;
+
+                d = sqrt((p2.y() - p1.y()) * (p2.y() - p1.y()) + (p2.x() - p1.x()) * (p2.x() - p1.x()));
+
+                if(d > D)
+                {
+                    qreal angle     = atan((p2.y() - p1.y()) / (p2.x() - p1.x()));
+                    if(p2.x() - p1.x() < 0)
+                    {
+                        angle += PI;
+                    }
+
+                    p1 = QPointF(p2.x() - D*cos(angle), p2.y() - D*sin(angle));
+                }
+
+                path.lineTo(p1);
+                p.drawPixmap(p1, QPixmap(":/icons/small_bullet_green.png"));
+
+                d_ = sqrt((p3.y() - p2.y()) * (p3.y() - p2.y()) + (p3.x() - p2.x()) * (p3.x() - p2.x()));
+                while(((d + d_) < 2*D) && (i < (N - 1)))
+                {
+                    i++;
+                    p2 = polyline[i-1];
+                    p3 = polyline[i];
+
+                    d += d_;
+                    d_ = sqrt((p3.y() - p2.y()) * (p3.y() - p2.y()) + (p3.x() - p2.x()) * (p3.x() - p2.x()));
+                }
+
+                if(d_ > D)
+                {
+                    qreal angle     = atan((p3.y() - p2.y()) / (p3.x() - p2.x()));
+                    if(p3.x() - p2.x() < 0)
+                    {
+                        angle += PI;
+                    }
+
+                    p3 = QPointF(p2.x() + D*cos(angle), p2.y() + D*sin(angle));
+                }
+                c2 = p2;
+
+                path.cubicTo(c1,p2,p3);
+
+
+                p.drawPixmap(c1, QPixmap(":/icons/small_bullet_red.png"));
+                p.drawPixmap(c2, QPixmap(":/icons/small_bullet_red.png"));
+                p.drawPixmap(p3, QPixmap(":/icons/small_bullet_blue.png"));
+
+                p1 = p3;
+
+            }
+
+            path.lineTo(polyline.last());
+            p.drawPixmap(polyline.last(), QPixmap(":/icons/small_bullet_black.png"));
+        }
+        else
+        {
+            path.addPolygon(textpath->polyline);
+        }
+#else // BEZIER
         path.addPolygon(textpath->polyline);
+#endif // BEZIER
 
         // get path length and string length
         qreal length        = fabs(path.length());
         qreal width         = fm.width(textpath->text);
 
         // adjust font size until string fits into polyline
-        while(width > (length * 0.7))
+        while(width  > (length * 0.7))
         {
             font.setPixelSize(font.pixelSize() - 1);
             fm      = QFontMetricsF(font);
@@ -1999,15 +2083,9 @@ void CMapTDB::drawText(QPainter& p)
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
 
 
-//        CSpline spline;
-//        spline.setPoints(textpath->polyline);
-
-
         QPointF point1  = path.pointAtPercent(percent1);
-//        point1.setY(spline.value(point1.x()));
 
         QPointF point2  = path.pointAtPercent(percent2);
-//        point2.setY(spline.value(point2.x()));
 
         qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
@@ -2023,7 +2101,6 @@ void CMapTDB::drawText(QPainter& p)
         const int size = text.size();
         percent2 = offset / length;
         point2   = path.pointAtPercent(percent2);
-//        point2.setY(spline.value(point2.x()));
 
         for(int i = 0; i < size; ++i)
         {
@@ -2033,9 +2110,6 @@ void CMapTDB::drawText(QPainter& p)
 
             point1  = point2;
             point2  = path.pointAtPercent(percent2);
-//            point2.setY(spline.value(point2.x()));
-
-//            qDebug() << point1 << point2;
 
             angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
 
@@ -2048,28 +2122,42 @@ void CMapTDB::drawText(QPainter& p)
             p.translate(point1);
             p.rotate(angle);
 
-            if(textAboveLine)
-            {
-                p.translate(0, -(textpath->lineWidth + 2));
-            }
-            else
-            {
-                p.translate(0, fm.descent());
-            }
-            p.drawText(0,0,text.mid(i,1));
+//            if(textAboveLine)
+//            {
+//                p.translate(0, -(textpath->lineWidth + 2));
+//            }
+//            else
+//            {
+//                p.translate(0, fm.descent());
+//            }
+            p.translate(0, -(textpath->lineWidth + 2));
+
+            QString str = text.mid(i,1);
+            p.setPen(Qt::white);
+            p.drawText(-1,-1,str);
+            p.drawText( 0,-1,str);
+            p.drawText(+1,-1,str);
+            p.drawText(-1, 0,str);
+            p.drawText(+1, 0,str);
+            p.drawText(-1,+1,str);
+            p.drawText( 0,+1,str);
+            p.drawText(+1,+1,str);
+
+            p.setPen(Qt::black);
+            p.drawText( 0, 0,str);
+
             p.restore();
 
             offset += fm.width(text[i]);
         }
 
-//        qDebug() << "---";
-
-//        p.save();
-//        QPen pen(Qt::red,3);
-//        p.setPen(pen);
-//        p.drawPath(path);
-//        p.restore();
-
+#ifdef BEZIER
+        p.save();
+        QPen pen(Qt::red,3);
+        p.setPen(pen);
+        p.drawPath(path);
+        p.restore();
+#endif
         ++textpath;
     }
 

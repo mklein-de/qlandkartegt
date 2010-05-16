@@ -55,7 +55,7 @@ typedef unsigned __int64    uint64_t;
 #define _MKSTR(x)      _MKSTR_1(x)
 #endif
 
-#define INTERFACE_VERSION "01.17"
+#define INTERFACE_VERSION "01.18"
 
 namespace Garmin
 {
@@ -84,7 +84,8 @@ namespace Garmin
             , ete(0xFFFFFFFF)
             , temp(1.0e25f)
             , time(0xFFFFFFFF)
-        , wpt_cat(0) {
+            , wpt_cat(0)
+        {
             strncpy(state,"  ", 3);
             strncpy(cc,"  ",3);
 
@@ -204,7 +205,12 @@ namespace Garmin
             , lon(0.0)
             , time(0)
             , alt(1e25f)
-        , dpth(1e25f) {
+            , dpth(1e25f)
+            , distance(1e25f)
+            , heart_rate(0xFF)
+            , cadence(0xFF)
+            , sensor(0xFF)
+        {
 
         }
         /// the latitude as degrees
@@ -217,6 +223,12 @@ namespace Garmin
         float    alt;
         /// same as Garmin spec.
         float    dpth;
+
+        float    distance;
+        uint8_t  heart_rate;
+        uint8_t  cadence;
+        uint8_t sensor;
+
     };
 
     /// common track structure application side

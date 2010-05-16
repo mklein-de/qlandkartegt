@@ -862,6 +862,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
             QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
             t = t.addYears(20).addDays(-1);
 
+
             CTrack::pt_t trkpt;
             trkpt.lon       = gartrkpt->lon;
             trkpt.lat       = gartrkpt->lat;
