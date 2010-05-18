@@ -293,6 +293,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             points.insert(idx,pt);
 
             thePoint    = &points[idx];
+            savePoint.u = savePoint.v = OVL_NOFLOAT;
             doMove      = true;
             doFuncWheel = false;
 
@@ -313,6 +314,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             points.insert(idx,pt);
 
             thePoint    = &points[idx];
+            savePoint.u = savePoint.v = OVL_NOFLOAT;
             doMove      = true;
             doFuncWheel = false;
 
@@ -331,15 +333,18 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         {
             doMove      = false;
 
-            *thePoint   = savePoint;
-            thePoint    = 0;
+            if (savePoint.u != OVL_NOFLOAT && savePoint.v != OVL_NOFLOAT)
+            {
+                *thePoint   = savePoint;
+                thePoint    = 0;
 
-            calcDistance();
-            theMainWindow->getCanvas()->update();
+                calcDistance();
+                theMainWindow->getCanvas()->update();
+
+                emit sigChanged();
+            }
 
             QApplication::restoreOverrideCursor();
-
-            emit sigChanged();
             return;
         }
 

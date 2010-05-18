@@ -99,4 +99,7 @@ class COverlayDistance : public IOverlay
         double anglePrev;
         double angleNext;
 };
+
+#define OVL_NOFLOAT 1e25f
+
 #endif                           //COVERLAYDISTANCE_H
