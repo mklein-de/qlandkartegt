@@ -142,7 +142,7 @@ void COverlayTextBox::draw(QPainter& p)
 }
 
 
-bool COverlayTextBox::isCloseEnought(const QPoint& pt)
+bool COverlayTextBox::isCloseEnough(const QPoint& pt)
 {
     QPolygon box = polyline;
 

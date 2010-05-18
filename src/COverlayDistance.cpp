@@ -116,7 +116,7 @@ QString COverlayDistance::getInfo()
 }
 
 
-bool COverlayDistance::isCloseEnought(const QPoint& pt)
+bool COverlayDistance::isCloseEnough(const QPoint& pt)
 {
     IMap& map = CMapDB::self().getMap();
     QList<XY>::iterator p = points.begin();

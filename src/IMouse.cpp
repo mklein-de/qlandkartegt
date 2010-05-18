@@ -548,7 +548,7 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
         QMap<QString, IOverlay*>::const_iterator overlay = COverlayDB::self().begin();
         while(overlay != COverlayDB::self().end())
         {
-            if((*overlay)->isCloseEnought(e->pos())) break;
+            if((*overlay)->isCloseEnough(e->pos())) break;
             ++overlay;
         }
 

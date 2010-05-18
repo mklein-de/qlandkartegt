@@ -58,7 +58,7 @@ COverlayText::~COverlayText()
 }
 
 
-bool COverlayText::isCloseEnought(const QPoint& pt)
+bool COverlayText::isCloseEnough(const QPoint& pt)
 {
     return rectMouse.contains(pt);
 }

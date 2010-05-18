@@ -39,7 +39,7 @@ class COverlayDistance : public IOverlay
         /// returns name, comment and length
         QString getInfo();
         /// returns true if pt is close as 30px to a waypoint
-        bool isCloseEnought(const QPoint& pt);
+        bool isCloseEnough(const QPoint& pt);
 
         /// draw the ployline, waypoints and action icons
         void draw(QPainter& p);
