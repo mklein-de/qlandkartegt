@@ -81,8 +81,6 @@ class COverlayDistance : public IOverlay
         /// pointer to point of polyline if cursor is closer than 30px
         XY * thePoint;
 
-        XY savePoint;
-
         QString name;
         QString comment;
         double distance;

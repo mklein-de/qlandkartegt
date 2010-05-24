@@ -276,7 +276,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         else if(rectMove.contains(pos1))
         {
             QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0));
-            savePoint   = *thePoint;
             doMove      = true;
             doFuncWheel = false;
         }
@@ -293,7 +292,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             points.insert(idx,pt);
 
             thePoint    = &points[idx];
-            savePoint.u = savePoint.v = OVL_NOFLOAT;
             doMove      = true;
             doFuncWheel = false;
 
@@ -314,7 +312,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             points.insert(idx,pt);
 
             thePoint    = &points[idx];
-            savePoint.u = savePoint.v = OVL_NOFLOAT;
             doMove      = true;
             doFuncWheel = false;
 
@@ -333,16 +330,24 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         {
             doMove      = false;
 
-            if (savePoint.u != OVL_NOFLOAT && savePoint.v != OVL_NOFLOAT)
-            {
-                *thePoint   = savePoint;
-                thePoint    = 0;
+            points.removeOne(*thePoint);
+            thePoint = 0;
 
-                calcDistance();
-                theMainWindow->getCanvas()->update();
+            calcDistance();
+            theMainWindow->getCanvas()->update();
+            emit sigChanged();
 
-                emit sigChanged();
-            }
+
+//            if (savePoint.u != OVL_NOFLOAT && savePoint.v != OVL_NOFLOAT)
+//            {
+//                *thePoint   = savePoint;
+//                thePoint    = 0;
+//
+//                calcDistance();
+//                theMainWindow->getCanvas()->update();
+//
+//                emit sigChanged();
+//            }
 
             QApplication::restoreOverrideCursor();
             return;
