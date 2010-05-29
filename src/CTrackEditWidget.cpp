@@ -32,6 +32,8 @@
 #include "CMainWindow.h"
 #include "CTabWidget.h"
 #include "IUnit.h"
+#include "CMenus.h"
+#include "CActions.h"
 
 #include <QtGui>
 
@@ -133,17 +135,25 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkBox_vel,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_suu,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
     connect(checkBox_sud,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
-	connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
+    connect(checkBox_pos,SIGNAL(clicked(bool)),this,SLOT(slotSetColumns(bool)));
 
 #else
     toolGraphExtensions->hide();
     toolGoogleMaps->hide();
 #endif
-	
+
 
 
     treePoints->sortByColumn(eNum, Qt::AscendingOrder);
 
+
+    CActions * actions = theMainWindow->getActionGroupProvider()->getActions();
+
+
+    contextMenu = new QMenu(this);
+    contextMenu->addAction(actions->getAction("aDeleteTrackSelection"));
+    actSplit    = contextMenu->addAction(QPixmap(":/icons/iconEditCut16x16.png"),tr("Split"),this,SLOT(slotSplit()));
+    connect(treePoints,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
 
 
@@ -205,6 +215,37 @@ void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
     {
         QWidget::keyPressEvent(e);
     }
+}
+
+
+void CTrackEditWidget::slotContextMenu(const QPoint& pos)
+{
+    int cnt = treePoints->selectedItems().count();
+    if(cnt > 0)
+    {
+
+        actSplit->setEnabled(cnt == 1);
+
+
+        QPoint p = treePoints->mapToGlobal(pos);
+        contextMenu->exec(p);
+    }
+
+}
+
+
+void CTrackEditWidget::slotSplit()
+{
+    QList<QTreeWidgetItem *> items = treePoints->selectedItems();
+
+    if(items.isEmpty())
+    {
+        return;
+    }
+
+    int idx = items.first()->text(eNum).toInt();
+
+    CTrackDB::self().splitTrack(idx);
 }
 
 
@@ -287,7 +328,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
             //CheckBoxMake->setToolTip(obj_name);
             c_boxes.insert(i, CheckBoxMake);
             verticalLayout_Extensions->addWidget(CheckBoxMake, i, 0);
-	
+
 
                                  // hier wird hochgezhlt
             int number_of_column = eMaxColumn + i;
@@ -773,7 +814,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
 
 void CTrackEditWidget::slotPurge()
 {
-    QList<CTrack::pt_t>& trkpts                   = track->getTrackPoints();
+    QList<CTrack::pt_t>& trkpts                     = track->getTrackPoints();
     QList<QTreeWidgetItem*> items                   = treePoints->selectedItems();
     QList<QTreeWidgetItem*>::const_iterator item    = items.begin();
 
@@ -782,10 +823,12 @@ void CTrackEditWidget::slotPurge()
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
         if(trkpts[idxTrkPt].flags & CTrack::pt_t::eDeleted)
         {
+            qDebug() << "xx" << idxTrkPt;
             trkpts[idxTrkPt].flags &= ~CTrack::pt_t::eDeleted;
         }
         else
         {
+            qDebug() << "yy"<< idxTrkPt;
             trkpts[idxTrkPt].flags |= CTrack::pt_t::eDeleted;
         }
 

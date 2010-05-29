@@ -31,6 +31,7 @@ class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
+class QMenu;
 
 #ifdef GPX_EXTENSIONS
 //TODO: Class Defininition
@@ -83,8 +84,13 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
                                  //TODO: Kill Tab
         void slotKillTab(int index);
 
+    protected slots:
+        void slotContextMenu(const QPoint& pos);
+        void slotSplit();
+
     protected:
         void keyPressEvent(QKeyEvent * e);
+
 
     private:
         enum columns_e
@@ -134,5 +140,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         int count;
 #endif
 
+        QMenu * contextMenu;
+        QAction * actSplit;
 };
 #endif                           //CTRACKEDITWIDGET_H
