@@ -46,17 +46,21 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     connect(listTracks,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
     connect(listTracks,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 
-    contextMenu = new QMenu(this);
-    actEdit     = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    actFilter   = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
-    actRevert   = contextMenu->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
-    actDistance = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
-    actHide     = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
-    actZoomToFit = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
-    actDeSel    = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
-    actDel      = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+    contextMenu     = new QMenu(this);
+    actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
+    actRevert       = contextMenu->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
+    actDistance     = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+    actHide         = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
+    actShowBullets  = contextMenu->addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
+    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
+    actDeSel        = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
+    actDel          = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::Key_Delete);
+
 
     actHide->setCheckable(true);
+    actShowBullets->setCheckable(true);
+    actShowBullets->setChecked(CTrackDB::self().getShowBullets());
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -371,4 +375,11 @@ void CTrackToolWidget::slotRevert()
     };
 
     CTrackDB::self().revertTrack(item->data(Qt::UserRole).toString());
+}
+
+void CTrackToolWidget::slotShowBullets()
+{
+
+    CTrackDB::self().setShowBullets(!CTrackDB::self().getShowBullets());
+
 }

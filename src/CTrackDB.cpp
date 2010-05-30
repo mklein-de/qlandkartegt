@@ -49,16 +49,22 @@ CTrackDB * CTrackDB::m_self = 0;
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , cnt(0)
+, showBullets(true)
 {
     m_self      = this;
+
+    QSettings cfg;
+    showBullets = cfg.value("tracks/showBullets", showBullets).toBool();
     toolview    = new CTrackToolWidget(tb);
-    undoStack = CUndoStackModel::getInstance();
+    undoStack   = CUndoStackModel::getInstance();
+
 }
 
 
 CTrackDB::~CTrackDB()
 {
-
+    QSettings cfg;
+    cfg.setValue("tracks/showBullets", showBullets);
 }
 
 
@@ -881,6 +887,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     {
         track = highlighted;
 
+        QPixmap bullet = (*track)->getBullet();
+
         QPolygon& line = (*track)->getPolyline();
 
         // draw skunk line
@@ -916,7 +924,10 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         foreach(pt,line)
         {
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
-            //p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
+            if(showBullets)
+            {
+                p.drawPixmap(pt.x() - 3 ,pt.y() - 3, bullet);
+            }
 
             if(start)            // no arrow on  the first loop
             {

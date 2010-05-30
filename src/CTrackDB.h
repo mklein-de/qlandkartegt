@@ -87,6 +87,8 @@ class CTrackDB : public IDB
         void insert(const QString& key, CTrack *track, bool silent);
         void emitSigChanged();
         void emitSigModified();
+        void setShowBullets(bool on){showBullets = on; emit sigChanged();}
+        bool getShowBullets(){return showBullets;}
 
         signals:
         void sigHighlightTrack(CTrack * track);
@@ -103,5 +105,7 @@ class CTrackDB : public IDB
 
         QMap<QString,CTrack*> tracks;
         QUndoStack *undoStack;
+
+        bool showBullets;
 };
 #endif                           //CTRACKDB_H

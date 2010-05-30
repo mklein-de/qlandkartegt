@@ -54,6 +54,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotShow();
         void slotZoomToFit();
         void slotRevert();
+        void slotShowBullets();
 
     private:
         bool originator;
@@ -70,6 +71,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QAction * actDeSel;
         QAction * actDel;
         QAction * actRevert;
+        QAction * actShowBullets;
 
 };
 #endif                           //CTRACKTOOLWIDGET_H
