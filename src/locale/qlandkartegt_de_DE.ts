@@ -490,7 +490,7 @@
     <message>
         <location filename="../CActions.cpp" line="97"/>
         <source>Purge Selection</source>
-        <translation></translation>
+        <translation>&amp;Verstecke Auswahl</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="97"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../CActions.cpp" line="98"/>
         <source>Delete Selection</source>
-        <translation>&amp;Lösche Auswähl</translation>
+        <translation>&amp;Lösche Auswahl</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="98"/>
