@@ -74,7 +74,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="linePosition"/>
+      <widget class="QLineEdit" name="linePosition">
+       <property name="toolTip">
+        <string>Add position to sort waypoints by distance to that position.</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
