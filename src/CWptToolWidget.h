@@ -50,6 +50,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotProximity();
         void slotMakeRoute();
         void slotZoomToFit();
+        void slotPosTextChanged(const QString& text);
 
     private:
         QMenu * contextMenu;

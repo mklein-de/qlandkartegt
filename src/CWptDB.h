@@ -44,7 +44,7 @@ class CWptDB : public IDB
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
 
-        struct keys_t{QString key; QString name;};
+        struct keys_t{QString key; QString name; QString icon; qreal lon; qreal lat; qreal d;};
 
         /// get all keys in the database
         QList<keys_t> keys();

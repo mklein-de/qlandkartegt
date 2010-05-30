@@ -120,6 +120,10 @@ QList<CWptDB::keys_t> CWptDB::keys()
 
         k2.key  = k1;
         k2.name = wpts[k1]->name;
+        k2.icon = wpts[k1]->icon;
+        k2.lon  = wpts[k1]->lon;
+        k2.lat  = wpts[k1]->lat;
+        k2.d    = 0;
 
         k << k2;
     }

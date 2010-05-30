@@ -57,12 +57,33 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
+
+    toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
+    toolSortIcon->setIcon(QPixmap(":/icons/iconWaypoint16x16.png"));
+    toolSortPosition->setIcon(QPixmap(":/icons/iconLiveLog16x16.png"));
+
+    connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortIcon, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortPosition, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+
+    connect(linePosition, SIGNAL(textChanged(const QString&)), this, SLOT(slotPosTextChanged(const QString&)));
+
+    QSettings cfg;
+    toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
+    toolSortIcon->setChecked(cfg.value("waypoint/sortIcon", false).toBool());
+    toolSortPosition->setChecked(cfg.value("waypoint/sortPosition", false).toBool());
+    linePosition->setText(cfg.value("waypoint/position",tr("enter valid position")).toString());
+
 }
 
 
 CWptToolWidget::~CWptToolWidget()
 {
-
+    QSettings cfg;
+    cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("waypoint/sortIcon", toolSortIcon->isChecked());
+    cfg.setValue("waypoint/sortPosition", toolSortPosition->isChecked());
+    cfg.setValue("waypoint/position", linePosition->text());
 }
 
 
@@ -84,9 +105,19 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 }
 
 
-bool keyLessThan(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
     return s1.name.toLower() < s2.name.toLower();
+}
+
+bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.icon.toLower() < s2.icon.toLower();
+}
+
+bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.d < s2.d;
 }
 
 
@@ -96,7 +127,40 @@ void CWptToolWidget::slotDBChanged()
 
     CWptDB::keys_t key;
     QList<CWptDB::keys_t> keys = CWptDB::self().keys();
-    qSort(keys.begin(), keys.end(), keyLessThan);
+
+    if(toolSortAlpha->isChecked())
+    {
+        qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+    }
+    else if(toolSortIcon->isChecked())
+    {
+        qSort(keys.begin(), keys.end(), keyLessThanIcon);
+    }
+    else if(toolSortPosition->isChecked())
+    {
+        XY p1, p2;
+        float lon, lat;
+        GPS_Math_Str_To_Deg(linePosition->text(), lon, lat, true);
+        p1.u = lon * DEG_TO_RAD;
+        p1.v = lat * DEG_TO_RAD;
+
+        QList<CWptDB::keys_t>::iterator k = keys.begin();
+        while(k != keys.end())
+        {
+            double a1 = 0, a2 = 0;
+
+            p2.u = k->lon * DEG_TO_RAD;
+            p2.v = k->lat * DEG_TO_RAD;
+
+            k->d = distance(p1, p2, a1, a2);
+            ++k;
+        }
+        qSort(keys.begin(), keys.end(), keyLessThanDistance);
+    }
+    else
+    {
+        qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+    }
 
     foreach(key, keys)
     {
@@ -219,8 +283,6 @@ void CWptToolWidget::slotZoomToFit()
         ++item;
     }
 
-    qDebug() << "ggggggggggg" << r;
-
     CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
 }
 
@@ -292,4 +354,10 @@ void CWptToolWidget::slotMakeRoute()
     }
 
     CRouteDB::self().addRoute(route, false);
+}
+
+void CWptToolWidget::slotPosTextChanged(const QString& text)
+{
+    float lon = 0, lat = 0;
+    toolSortPosition->setEnabled(GPS_Math_Str_To_Deg(text, lon, lat, true));
 }
