@@ -50,7 +50,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 {
     filename = fn;
 
-    dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+    dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_Update);
     if(dataset == 0)
     {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
@@ -482,7 +482,7 @@ void CMapGeoTiff::select(const QRect& rect)
 
 
 void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
-{        
+{
 
     lon1 = xref1;
     lat1 = yref1;

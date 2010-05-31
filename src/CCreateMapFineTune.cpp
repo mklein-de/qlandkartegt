@@ -152,7 +152,7 @@ void CCreateMapFineTune::slotSave()
     GDALDataset * dstds = driver->CreateCopy(labelOutfile->text().toLocal8Bit(), srcds, false, papszOptions, ProgressFunc, this);
     if(dstds)
     {
-        srcds->SetGeoTransform( adfGeoTransform );
+        dstds->SetGeoTransform( adfGeoTransform );
         GDALClose(dstds);
     }
     CSLDestroy( papszOptions );
