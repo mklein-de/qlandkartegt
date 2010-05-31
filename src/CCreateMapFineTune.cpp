@@ -23,6 +23,7 @@
 #include "CMapRaster.h"
 
 #include <QtGui>
+#include <gdal_priv.h>
 
 CCreateMapFineTune::CCreateMapFineTune(QWidget * parent)
 : QWidget(parent)
@@ -39,6 +40,9 @@ CCreateMapFineTune::CCreateMapFineTune(QWidget * parent)
     connect(toolDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(toolLeft, SIGNAL(clicked()), this, SLOT(slotLeft()));
     connect(toolRight, SIGNAL(clicked()), this, SLOT(slotRight()));
+
+    connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSave()));
+    progressBar->hide();
 
 }
 
@@ -67,6 +71,10 @@ void CCreateMapFineTune::slotOpenFile()
         toolDown->setEnabled(false);
         toolLeft->setEnabled(false);
         toolRight->setEnabled(false);
+        pushSave->setEnabled(false);
+        labelInfile->setText("");
+        labelOutfile->setText("");
+
     }
     else
     {
@@ -74,6 +82,12 @@ void CCreateMapFineTune::slotOpenFile()
         toolDown->setEnabled(true);
         toolLeft->setEnabled(true);
         toolRight->setEnabled(true);
+        pushSave->setEnabled(true);
+        labelInfile->setText(filename);
+
+        QFileInfo fi(filename);
+
+        labelOutfile->setText(fi.dir().filePath(fi.baseName() + "_tuned." + fi.completeSuffix()));
     }
 
 }
@@ -103,7 +117,45 @@ void CCreateMapFineTune::slotRight()
 }
 
 
+int ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg)
+{
+    CCreateMapFineTune * parent = (CCreateMapFineTune*)pProgressArg;
+    parent->progressBar->setValue(dfComplete * 100);
+}
+
 void CCreateMapFineTune::slotSave()
 {
+    IMap& map = CMapDB::self().getMap();
+    GDALDataset * srcds = map.getDataset();
+    if(srcds == 0)
+    {
+        return;
+    }
 
+    double adfGeoTransform[6];
+    double u1, v1, u2, v2;
+    map.dimensions(u1, v1, u2, v2);
+    map.convertRad2M(u1, v1);
+    map.convertRad2M(u2, v2);
+
+    srcds->GetGeoTransform( adfGeoTransform );
+    adfGeoTransform[0] = u1;
+    adfGeoTransform[3] = v1;
+
+    progressBar->show();
+    GDALDriver * driver = srcds->GetDriver();
+
+    char **papszOptions = NULL;
+    papszOptions = CSLSetNameValue( papszOptions, "TILED", "YES" );
+    papszOptions = CSLSetNameValue( papszOptions, "COMPRESS", "DEFLATE" );
+
+    GDALDataset * dstds = driver->CreateCopy(labelOutfile->text().toLocal8Bit(), srcds, false, papszOptions, ProgressFunc, this);
+    if(dstds)
+    {
+        srcds->SetGeoTransform( adfGeoTransform );
+        GDALClose(dstds);
+    }
+    CSLDestroy( papszOptions );
+
+    progressBar->hide();
 }

@@ -77,6 +77,11 @@ IMap::~IMap()
 }
 
 
+GDALDataset * IMap::getDataset()
+{
+    return 0;
+}
+
 void IMap::resize(const QSize& s)
 {
     size = s;

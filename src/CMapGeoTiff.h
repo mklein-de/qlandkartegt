@@ -51,7 +51,7 @@ class CMapGeoTiff : public IMap
         void incYOffset(int i);
         void decYOffset(int i);
 
-
+        GDALDataset * getDataset();
 
     private:
         void zoom(qint32& level);
@@ -78,14 +78,14 @@ class CMapGeoTiff : public IMap
         /// reference point [m] (bottom of map)
         double yref2;
 
-        /// the longitude of the top left reference point [rad]
-        double lon1;
-        /// the latitude of the top left reference point [rad]
-        double lat1;
-        /// the longitude of the bottom right reference point [rad]
-        double lon2;
-        /// the latitude of the bottom right reference point [rad]
-        double lat2;
+//        /// the longitude of the top left reference point [rad]
+//        double lon1;
+//        /// the latitude of the top left reference point [rad]
+//        double lat1;
+//        /// the longitude of the bottom right reference point [rad]
+//        double lon2;
+//        /// the latitude of the bottom right reference point [rad]
+//        double lat2;
 
         /// QT representation of the GeoTiff's color table
         QVector<QRgb> colortable;

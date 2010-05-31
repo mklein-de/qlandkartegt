@@ -35,6 +35,7 @@ class QPainter;
 class CCanvas;
 class CMapDEM;
 class IMapSelection;
+class GDALDataset;
 
 /// base class to any map render object
 class IMap : public QObject
@@ -246,8 +247,16 @@ class IMap : public QObject
         virtual void fastDrawOn();
         virtual void fastDrawOff();
 
+        /// get access to the used GDAL dataset
+        /**
+            Not sure if that is a good idea. But for now there is no better.
+        */
+        virtual GDALDataset * getDataset();
+
         static double midU;
         static double midV;
+
+
 
         signals:
         void sigChanged();

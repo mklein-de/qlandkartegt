@@ -39,6 +39,7 @@ class CCreateMapFineTune : public QWidget, private Ui::ICreateMapFineTune
         void slotSave();
 
     private:
+        friend int ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg);
         QDir path;
 };
 

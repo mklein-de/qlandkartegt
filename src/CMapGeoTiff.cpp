@@ -38,10 +38,10 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 , yref1(0)
 , xref2(0)
 , yref2(0)
-, lon1(0)
-, lat1(0)
-, lon2(0)
-, lat2(0)
+//, lon1(0)
+//, lat1(0)
+//, lon2(0)
+//, lat2(0)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
@@ -150,13 +150,13 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
-    lon1 = xref1;
-    lat1 = yref1;
-    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
-
-    lon2 = xref2;
-    lat2 = yref2;
-    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
+//    lon1 = xref1;
+//    lat1 = yref1;
+//    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
+//
+//    lon2 = xref2;
+//    lat2 = yref2;
+//    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
     x = xref1 + (xref2 - xref1) / 2;
     y = yref1 - (yref1 - yref2) / 2;
@@ -482,17 +482,19 @@ void CMapGeoTiff::select(const QRect& rect)
 
 
 void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
-{
-    lon1 = this->lon1;
-    lat1 = this->lat1;
-    lon2 = this->lon2;
-    lat2 = this->lat2;
+{        
+
+    lon1 = xref1;
+    lat1 = yref1;
+    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
+
+    lon2 = xref2;
+    lat2 = yref2;
+    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 }
 
 void CMapGeoTiff::incXOffset(int i)
 {
-    qDebug() << xref1 << xref2 << xscale;
-
     xref1 += i * xscale;
     xref2 += i * xscale;
 
@@ -501,7 +503,6 @@ void CMapGeoTiff::incXOffset(int i)
 
 void CMapGeoTiff::decXOffset(int i)
 {
-    qDebug() << xref1 << xref2 << xscale;
     xref1 -= i * xscale;
     xref2 -= i * xscale;
 
@@ -510,7 +511,6 @@ void CMapGeoTiff::decXOffset(int i)
 
 void CMapGeoTiff::incYOffset(int i)
 {
-    qDebug() << yref1 << yref2 << yscale;
     yref1 -= i * yscale;
     yref2 -= i * yscale;
 
@@ -519,10 +519,13 @@ void CMapGeoTiff::incYOffset(int i)
 
 void CMapGeoTiff::decYOffset(int i)
 {
-    qDebug() << yref1 << yref2 << yscale;
     yref1 += i * yscale;
     yref2 += i * yscale;
 
     emit sigChanged();
 }
 
+GDALDataset * CMapGeoTiff::getDataset()
+{
+    return dataset;
+}
