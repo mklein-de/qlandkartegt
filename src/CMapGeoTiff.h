@@ -45,6 +45,14 @@ class CMapGeoTiff : public IMap
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         bool is32BitRgb();
+
+        void incXOffset(int i);
+        void decXOffset(int i);
+        void incYOffset(int i);
+        void decYOffset(int i);
+
+
+
     private:
         void zoom(qint32& level);
 

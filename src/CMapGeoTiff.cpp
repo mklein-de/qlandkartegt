@@ -488,3 +488,41 @@ void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& l
     lon2 = this->lon2;
     lat2 = this->lat2;
 }
+
+void CMapGeoTiff::incXOffset(int i)
+{
+    qDebug() << xref1 << xref2 << xscale;
+
+    xref1 += i * xscale;
+    xref2 += i * xscale;
+
+    emit sigChanged();
+}
+
+void CMapGeoTiff::decXOffset(int i)
+{
+    qDebug() << xref1 << xref2 << xscale;
+    xref1 -= i * xscale;
+    xref2 -= i * xscale;
+
+    emit sigChanged();
+}
+
+void CMapGeoTiff::incYOffset(int i)
+{
+    qDebug() << yref1 << yref2 << yscale;
+    yref1 -= i * yscale;
+    yref2 -= i * yscale;
+
+    emit sigChanged();
+}
+
+void CMapGeoTiff::decYOffset(int i)
+{
+    qDebug() << yref1 << yref2 << yscale;
+    yref1 += i * yscale;
+    yref2 += i * yscale;
+
+    emit sigChanged();
+}
+

@@ -237,6 +237,7 @@ class IMap : public QObject
         /// summon a configuration dialog, dafault does nothing
         virtual void config(){};
 
+        /// return true if the map uses 32 bit color
         virtual bool is32BitRgb(){return true;}
 
         /// return the angle of the true north compared to the vertical axis of the map []
@@ -259,6 +260,10 @@ class IMap : public QObject
         */
         virtual void resize(const QSize& size);
 
+        virtual void incXOffset(int i);
+        virtual void incYOffset(int i);
+        virtual void decXOffset(int i);
+        virtual void decYOffset(int i);
     protected slots:
         /// called by timerFastDraw to reset doFastDraw flag
         virtual void slotResetFastDraw();

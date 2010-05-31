@@ -338,3 +338,25 @@ void IMap::select(IMapSelection& ms, const QRect& rect)
 {
     throw tr("This map does not support this feature.");
 }
+
+
+void IMap::incXOffset(int i)
+{
+    QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
+}
+
+
+void IMap::decXOffset(int i)
+{
+    QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
+}
+
+void IMap::incYOffset(int i)
+{
+    QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
+}
+
+void IMap::decYOffset(int i)
+{
+    QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
+}

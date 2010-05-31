@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,35 +16,31 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-#ifndef CMAPEDITWIDGET_H
-#define CMAPEDITWIDGET_H
+#ifndef CCREATEMAPFINETUNE_H
+#define CCREATEMAPFINETUNE_H
 
 #include <QWidget>
+#include <QDir>
+#include <ui_ICreateMapFineTune.h>
 
-#include "ui_IMapEditWidget.h"
-
-class CCreateMapOSM;
-class CCreateMapQMAP;
-class CCreateMapGeoTiff;
-class CCreateMapFineTune;
-class CCreateMapWMS;
-
-class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
+class CCreateMapFineTune : public QWidget, private Ui::ICreateMapFineTune
 {
     Q_OBJECT;
     public:
-        CMapEditWidget(QWidget * parent);
-        virtual ~CMapEditWidget();
+        CCreateMapFineTune(QWidget * parent);
+        virtual ~CCreateMapFineTune();
+
+    private slots:
+        void slotOpenFile();
+        void slotUp();
+        void slotDown();
+        void slotLeft();
+        void slotRight();
+        void slotSave();
 
     private:
-        enum widget_e {eNone, eOSM, eQMAP, eGTIFF, eFineTune, eWMS};
-
-        CCreateMapOSM  * widgetOSM;
-        CCreateMapQMAP * widgetQMAP;
-        CCreateMapGeoTiff * widgetGeoTiff;
-        CCreateMapFineTune * widgetFineTune;
-#ifdef WMS_CLIENT
-        CCreateMapWMS * widgetWMS;
-#endif
+        QDir path;
 };
-#endif                           //CMAPEDITWIDGET_H
+
+#endif //CCREATEMAPFINETUNE_H
+

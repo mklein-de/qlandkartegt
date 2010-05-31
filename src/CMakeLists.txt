@@ -114,6 +114,7 @@ set(qlandkarte_SRCS
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
+    CCreateMapFineTune.cpp
     CMapUndoCommandMove.cpp
     CMapDB.cpp
     CMapToolWidget.cpp
@@ -260,6 +261,7 @@ set(qlandkarte_HDRS
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
     CCreateMapGridTool.h
+    CCreateMapFineTune.h
     CMapDB.h
     CMapToolWidget.h
     CMapEditWidget.h
@@ -349,6 +351,7 @@ SET(qlandkarte_UIS
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
+    ICreateMapFineTune.ui
     IRouteToolWidget.ui
     IStatusDEM.ui
     IDlgProjWizzard.ui

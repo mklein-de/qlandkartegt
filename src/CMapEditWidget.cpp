@@ -21,6 +21,7 @@
 #include "CCreateMapOSM.h"
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
+#include "CCreateMapFineTune.h"
 #ifdef WMS_CLIENT
 #include "CCreateMapWMS.h"
 #endif
@@ -55,6 +56,7 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     {
         widgetGeoTiff   = new CCreateMapGeoTiff(stackedWidget);
         stackedWidget->insertWidget(eGTIFF, widgetGeoTiff);
+
     }
     else
     {
@@ -63,6 +65,11 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
         label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));
         stackedWidget->insertWidget(eGTIFF, label);
     }
+
+    comboSource->insertItem(eFineTune,QIcon(":/icons/iconGlobe16x16.png"),tr("Fine tune offset of referenced file."));
+    widgetFineTune  = new CCreateMapFineTune(stackedWidget);
+    stackedWidget->insertWidget(eFineTune, widgetFineTune);
+
 
 #ifdef WMS_CLIENT
     comboSource->insertItem(eWMS,QIcon(":/icons/iconWMS16x16.png"),tr("Create a GDAL WMS definition file."));

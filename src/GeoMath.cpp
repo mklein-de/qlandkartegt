@@ -61,6 +61,18 @@ void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& de
     return;
 }
 
+void GPS_Math_DegMinSec_To_Deg(bool sign, const int32_t d, const int32_t m, const int32_t s, float& deg)
+{
+
+    deg = abs(d) + float(m) / 60.0 + float(s) / 3600;
+    if(sign)
+    {
+        deg = -deg;
+    }
+
+    return;
+}
+
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
@@ -69,6 +81,8 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
     QRegExp re2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
 
     QRegExp re3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
+
+    QRegExp re4("^\\s*([N|S]){1}\\s*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*([E|W]){1}\\W*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)''\\s*$");
 
     if(re2.exactMatch(str))
     {
@@ -99,6 +113,24 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
     {
         lat             = re3.cap(1).toDouble();
         lon             = re3.cap(2).toDouble();
+    }
+    else if(re4.exactMatch(str))
+    {
+        bool signLat    = re4.cap(1) == "S";
+        int degLat    = re4.cap(2).toInt();
+        int minLat    = re4.cap(3).toInt();
+        int secLat    = re4.cap(4).toInt();
+
+        GPS_Math_DegMinSec_To_Deg(signLat, degLat, minLat, secLat, lat);
+
+        bool signLon    = re4.cap(5) == "W";
+        int degLon    = re4.cap(6).toInt();
+        int minLon    = re4.cap(7).toInt();
+        int secLon    = re4.cap(8).toInt();
+
+        GPS_Math_DegMinSec_To_Deg(signLon, degLon, minLon, secLon, lon);
+
+
     }
     else
     {
