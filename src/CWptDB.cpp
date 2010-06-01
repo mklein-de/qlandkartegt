@@ -202,7 +202,7 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 }
 
 
-void CWptDB::addWpt(CWpt * wpt)
+void CWptDB::addWpt(CWpt * wpt, bool silent)
 {
     if(wpts.contains(wpt->key()))
     {
@@ -218,8 +218,11 @@ void CWptDB::addWpt(CWpt * wpt)
     }
     wpts[wpt->key()] = wpt;
 
-    emit sigChanged();
-    emit sigModified();
+    if(!silent)
+    {
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
@@ -319,7 +322,7 @@ void CWptDB::loadGPX(CGpx& gpx)
             continue;
         }
 
-        addWpt(wpt);
+        addWpt(wpt, true);
     }
 
     emit sigChanged();
@@ -418,7 +421,7 @@ void CWptDB::loadQLB(CQlb& qlb)
     {
         CWpt * wpt = new CWpt(this);
         stream >> *wpt;
-        addWpt(wpt);
+        addWpt(wpt,true);
     }
 
     emit sigChanged();
@@ -464,7 +467,7 @@ void CWptDB::download()
         CWpt * wpt;
         foreach(wpt,tmpwpts)
         {
-            addWpt(wpt);
+            addWpt(wpt,true);
         }
     }
 
@@ -702,9 +705,11 @@ void CWptDB::createWaypointsFromImages()
         image.pixmap    = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
         image.info      = file;
         wpt->images << image;
-        addWpt(wpt);
+        addWpt(wpt, true);
 
         f_exif_data_unref(exifData);
     }
+    emit sigChanged();
+    emit sigModified();
 }
 #endif

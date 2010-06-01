@@ -107,7 +107,7 @@ class CWptDB : public IDB
         friend class CMouseMoveWpt;
 
         CWptDB(QTabWidget * tb, QObject * parent);
-        void addWpt(CWpt * wpt);
+        void addWpt(CWpt * wpt, bool silent);
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;

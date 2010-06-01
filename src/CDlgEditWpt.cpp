@@ -163,7 +163,7 @@ void CDlgEditWpt::accept()
         wpt2->icon = wpt.icon;
         wpt2->name = wpt.name + tr("(proj.)");
 
-        CWptDB::self().addWpt(wpt2);
+        CWptDB::self().addWpt(wpt2,false);
     }
 
     emit CWptDB::self().sigChanged();
