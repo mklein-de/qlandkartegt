@@ -22,6 +22,7 @@
 #include <QWidget>
 #include <QDir>
 #include <ui_ICreateMapFineTune.h>
+#include <gdal_priv.h>
 
 class CCreateMapFineTune : public QWidget, private Ui::ICreateMapFineTune
 {
@@ -39,7 +40,7 @@ class CCreateMapFineTune : public QWidget, private Ui::ICreateMapFineTune
         void slotSave();
 
     private:
-        friend int ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg);
+        friend int CPL_STDCALL ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg);
         QDir path;
 };
 

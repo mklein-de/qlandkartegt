@@ -117,10 +117,11 @@ void CCreateMapFineTune::slotRight()
 }
 
 
-int ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg)
+int CPL_STDCALL ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg)
 {
     CCreateMapFineTune * parent = (CCreateMapFineTune*)pProgressArg;
     parent->progressBar->setValue(dfComplete * 100);
+	return TRUE;
 }
 
 void CCreateMapFineTune::slotSave()
