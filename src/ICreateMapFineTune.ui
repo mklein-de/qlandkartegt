@@ -171,7 +171,7 @@
    <item row="4" column="1">
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Load a referenced file together with waypoints or tracks. You can move the map until it fits best all overlay elements. Finally you can save a copy the file with the new offset.</string>
+      <string>Load a referenced file together with waypoints or tracks. You can move the map until it fits best all overlay elements. Finally you can save a copy of the file with the new offset.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
