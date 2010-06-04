@@ -212,6 +212,14 @@ void CMapGeoTiff::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
+    // render overlay
+    if(!ovlMap.isNull() && !doFastDraw)
+    {
+        qDebug() << size << needsRedraw;
+        ovlMap->draw(size, needsRedraw, p);
+    }
+
+
     p.setPen(Qt::white);
     p.setFont(QFont("Sans Serif",14,QFont::Black));
 
@@ -528,4 +536,25 @@ void CMapGeoTiff::decYOffset(int i)
 GDALDataset * CMapGeoTiff::getDataset()
 {
     return dataset;
+}
+
+void CMapGeoTiff::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+{
+
+    p1.u = x;
+    p1.v = y;
+    convertM2Rad(p1.u, p1.v);
+
+    p2.u = x;
+    p2.v = y;
+    convertM2Pt(p2.u, p2.v);
+
+    p2.u += xsize_px;
+    p2.v += ysize_px;
+
+    convertPt2Rad(p2.u, p2.v);
+
+
+    my_xscale   = xscale*zoomFactor;
+    my_yscale   = yscale*zoomFactor;
 }

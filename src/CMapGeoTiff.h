@@ -53,6 +53,9 @@ class CMapGeoTiff : public IMap
 
         GDALDataset * getDataset();
 
+    protected:
+        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
     private:
         void zoom(qint32& level);
 
