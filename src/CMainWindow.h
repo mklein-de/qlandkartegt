@@ -99,7 +99,7 @@ class CMainWindow : public QMainWindow
         void loadData(QString& filename, const QString& filter);
         void setTitleBar();
         bool maybeSave();
-        void saveData(const QString& filename, const QString& filter, bool exportFlag = false);
+        void saveData(QString& filename, const QString& filter, bool exportFlag = false);
         bool convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile);
 
         QMenu *setupMenu;

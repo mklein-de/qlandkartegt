@@ -921,7 +921,7 @@ void CMainWindow::slotExportData()
 }
 
 
-void CMainWindow::saveData(const QString& fn, const QString& filter, bool exportFlag)
+void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
 {
     QString filename = fn;
     QString ext = filename.right(4);
@@ -988,9 +988,12 @@ void CMainWindow::saveData(const QString& fn, const QString& filter, bool export
     {
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+        return;
     }
 
     setTitleBar();
+
+    fn = filename;
 }
 
 
@@ -1001,7 +1004,9 @@ void CMainWindow::slotPrint()
     QPrintDialog dialog(&printer, this);
     dialog.setWindowTitle(tr("Print Map"));
     if (dialog.exec() != QDialog::Accepted)
+    {
         return;
+    }
 
     canvas->print(printer);
 }
