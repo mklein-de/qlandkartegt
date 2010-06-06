@@ -1,3 +1,22 @@
+--- 2010.06.06 ---
+
+Bug     #172:
+Fixed: typ file not working on device.
+
+Request #173:
+Sort waypoints by name, icon or position
+
+Request #174:
+Make track bubbles an option
+
+Request #175:
+Fine tune reference offset for raster maps
+
+Bug     #176:
+Fix performance stall when loading large quantity (>2000) of waypoints
+
+
+
 --- 2010.05.10 ---
 
 Request #167:
@@ -797,6 +816,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
