@@ -38,6 +38,8 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
 {
     setupUi(this);
 
+    QSettings cfg;
+
     checkReduceDataset->setChecked(false);
     checkModifyTimestamps->setChecked(false);
 
@@ -54,6 +56,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         comboMeterFeet->setCurrentIndex((int)METER_INDEX);
         spinDistance->setSuffix("m");
     }
+    spinDistance->setValue(cfg.value("trackfilter/distance",10).toInt());
 
     if(trkpt->timestamp == 0x000000000 || trkpt->timestamp == 0xFFFFFFFF)
     {
@@ -74,6 +77,8 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         radioLocalTime->setChecked(true);
         radioUTC->setChecked(false);
     }
+
+    spinTimedelta->setValue(cfg.value("trackfilter/timedelta",5).toInt());
 
     // user-tunable elements on "Modify Timestamps" tab
     connect(buttonReset1stOfMonth, SIGNAL(clicked()), this, SLOT(slotReset1stOfMonth()));
@@ -238,6 +243,11 @@ void CDlgTrackFilter::accept()
     {
         track.rebuild(false);
     }
+
+    QSettings cfg;
+
+    cfg.setValue("trackfilter/distance",spinDistance->value());
+    cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
 
     QDialog::accept();
 }
