@@ -178,6 +178,7 @@ void CWptToolWidget::slotDBChanged()
 
         item->setIcon(getWptIconByName(wpt->icon));
         item->setData(Qt::UserRole, wpt->key());
+        item->setToolTip(wpt->comment);
     }
 
 }
