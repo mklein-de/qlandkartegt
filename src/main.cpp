@@ -50,6 +50,16 @@ static void usage(std::ostream &s)
 }
 
 
+static const QString text = QObject::tr(
+        "There is a problem with your Proj4 library and localization. The key issue is "
+        "that the floating point definition in your localization is different from what "
+        "Proj4 uses for it's correction tables ('1.2' vs '1,2'). That might cause an "
+        "offset when using raster maps. Vector maps are not affected, as they use a "
+        "projection that works without a textual table. "
+
+        "");
+
+
 static void myMessageOutput(QtMsgType type, const char *msg)
 {
     switch (type)
@@ -124,6 +134,7 @@ static void processOptions()
 
 int main(int argc, char ** argv)
 {
+    QString str1, str2;
 
     {
         PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
@@ -135,10 +146,10 @@ int main(int argc, char ** argv)
         double y = 0.855797;
         pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-        printf("------------ %f %f\n", x, y);
+//        printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
-        printf("------------ %s\n",ptr);
-        //         free(ptr);
+//        printf("------------ %s\n",ptr);
+        str1 = ptr;
 
         pj_free(pjWGS84);
         pj_free(pjGK);
@@ -203,10 +214,10 @@ int main(int argc, char ** argv)
         double y = 0.855797;
         pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-        printf("------------ %f %f\n", x, y);
+//        printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
-        printf("------------ %s\n",ptr);
-        //         free(ptr);
+//        printf("------------ %s\n",ptr);
+        str2 = ptr;
 
         pj_free(pjWGS84);
         pj_free(pjGK);
@@ -241,7 +252,10 @@ int main(int argc, char ** argv)
         delete splash;
     }
 
-    //     CGarminTyp typ("/home/oeichler/Desktop/teddy.typ",0);
+    if(str1 != str2)
+    {
+        QMessageBox::warning(0, "There is a problem....", text, QMessageBox::Ok, QMessageBox::Ok);
+    }
 
     int res  = theApp.exec();
 
