@@ -101,11 +101,8 @@ Section "QLandkarteGT" QLandkarteGT
   SetOutPath $INSTDIR
     File Files\qlandkartegt.exe
     File Files\Globe128x128.ico
-    File Files\qlandkartegt_de_DE.qm
-    File Files\qlandkartegt_fr_FR.qm
-    File Files\qlandkartegt_it_IT.qm
-    File Files\qlandkartegt_ru_RU.qm
-    File Files\qlandkartegt_es_ES.qm
+    File Files\qlandkartegt_*.qm
+
 
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
