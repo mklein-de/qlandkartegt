@@ -100,6 +100,27 @@ CWptDB::~CWptDB()
 }
 
 
+bool CWptDB::keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.name.toLower() < s2.name.toLower();
+}
+
+bool CWptDB::keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.comment.toLower() < s2.comment.toLower();
+}
+
+bool CWptDB::keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.icon.toLower() < s2.icon.toLower();
+}
+
+bool CWptDB::keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.d < s2.d;
+}
+
+
 void CWptDB::clear()
 {
     delWpt(wpts.keys());

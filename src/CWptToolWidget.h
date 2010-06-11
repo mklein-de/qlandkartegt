@@ -33,8 +33,17 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
     public:
         CWptToolWidget(QTabWidget * parent);
         virtual ~CWptToolWidget();
-
         void selWptByKey(const QString& key);
+
+        enum sortmode_e
+        {
+             eSortByName
+            ,eSortByComment
+            ,eSortByIcon
+            ,eSortByDistance
+        };
+
+        static sortmode_e  getSortMode(QString& pos){pos = sortpos; return sortmode;}
 
     protected:
         void keyPressEvent(QKeyEvent * e);
@@ -61,6 +70,9 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actZoomToFit;
         QAction * actDelete;
         QAction * actDeleteBy;
+
+        static sortmode_e sortmode;
+        static QString sortpos;
 
 };
 #endif                           //CWPTTOOLWIDGET_H

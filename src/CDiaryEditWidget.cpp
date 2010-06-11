@@ -56,12 +56,14 @@
 #include "CDiaryEditWidget.h"
 #include "CDiaryDB.h"
 #include "CWptDB.h"
+#include "CWptToolWidget.h"
 #include "CTrackDB.h"
 #include "CMainWindow.h"
 #include "CWpt.h"
 #include "CTrack.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -458,6 +460,10 @@ void CDiaryEditWidget::slotDocWizard()
 
     if(!wpts.isEmpty())
     {
+        QString pos;
+        CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
+
+
         str += "<h2>Waypoints</h2>";
         str += "<p>";
         str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
@@ -467,13 +473,57 @@ void CDiaryEditWidget::slotDocWizard()
         str += tr("<th align='left'>Pos.</th>");
         str += tr("<th align='left'>Name</th>");
         str += tr("<th align='left'>Elevation</th>");
+        if(sortmode == CWptToolWidget::eSortByDistance)
+        {
+            str += tr("<th align='left'>Distance</th>");
+        }
         str += tr("<th align='left'>Comment</th>");
         str += "</tr>";
-        keys = wpts.keys();
-        keys.sort();
-        foreach(key,keys)
+
+
+        CWptDB::keys_t key;
+        QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+
+        switch(sortmode)
         {
-            CWpt * wpt = wpts[key];
+            case CWptToolWidget::eSortByName:
+                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
+                break;
+            case CWptToolWidget::eSortByComment:
+                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanComment);
+                break;
+            case CWptToolWidget::eSortByIcon:
+                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanIcon);
+                break;
+            case CWptToolWidget::eSortByDistance:
+                {
+                    XY p1, p2;
+                    float lon, lat;
+                    GPS_Math_Str_To_Deg(pos, lon, lat, true);
+                    p1.u = lon * DEG_TO_RAD;
+                    p1.v = lat * DEG_TO_RAD;
+
+                    QList<CWptDB::keys_t>::iterator k = keys.begin();
+                    while(k != keys.end())
+                    {
+                        double a1 = 0, a2 = 0;
+
+                        p2.u = k->lon * DEG_TO_RAD;
+                        p2.v = k->lat * DEG_TO_RAD;
+
+                        k->d = distance(p1, p2, a1, a2);
+                        ++k;
+                    }
+                    qSort(keys.begin(), keys.end(), CWptDB::keyLessThanDistance);
+                }
+                break;
+        }
+
+        foreach(key, keys)
+        {
+            CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+
             if(wpt->sticky) continue;
 
             QString pos;
@@ -494,10 +544,19 @@ void CDiaryEditWidget::slotDocWizard()
                 str += QString("<td align='left' valign='top'>-</td>");
             }
 
+            if(sortmode == CWptToolWidget::eSortByDistance)
+            {
+                QString val, unit;
+                IUnit::self().meter2distance(key.d, val, unit);
+
+                str += QString("<td align='left' valign='top'>%1 %2</td>").arg(val).arg(unit);
+            }
+
             str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->comment);
             str += "</tr>";
 
         }
+
         str += "</table>";
         str += "</p>";
     }

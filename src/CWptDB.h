@@ -78,9 +78,7 @@ class CWptDB : public IDB
 
         void upload();
         void download();
-
         void clear();
-
         void selWptByKey(const QString& key);
 
         int count(){return wpts.count();}
@@ -100,6 +98,13 @@ class CWptDB : public IDB
             int timestamp;
         };
 #endif
+
+        static bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
+        static bool keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
+        static bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
+        static bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
+
+
 
     private:
         friend class CMainWindow;

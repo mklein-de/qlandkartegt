@@ -33,6 +33,9 @@
 
 #include <QtGui>
 
+CWptToolWidget::sortmode_e CWptToolWidget::sortmode = CWptToolWidget::eSortByName;
+QString CWptToolWidget::sortpos;
+
 CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 : QWidget(parent)
 {
@@ -109,25 +112,6 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 }
 
 
-static bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
-{
-    return s1.name.toLower() < s2.name.toLower();
-}
-
-static bool keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
-{
-    return s1.comment.toLower() < s2.comment.toLower();
-}
-
-static bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
-{
-    return s1.icon.toLower() < s2.icon.toLower();
-}
-
-static bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
-{
-    return s1.d < s2.d;
-}
 
 
 void CWptToolWidget::slotDBChanged()
@@ -139,15 +123,18 @@ void CWptToolWidget::slotDBChanged()
 
     if(toolSortAlpha->isChecked())
     {
-        qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
+        sortmode = eSortByName;
     }
     else if(toolSortComment->isChecked())
     {
-        qSort(keys.begin(), keys.end(), keyLessThanComment);
+        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanComment);
+        sortmode = eSortByComment;
     }
     else if(toolSortIcon->isChecked())
     {
-        qSort(keys.begin(), keys.end(), keyLessThanIcon);
+        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanIcon);
+        sortmode = eSortByIcon;
     }
     else if(toolSortPosition->isChecked())
     {
@@ -168,11 +155,14 @@ void CWptToolWidget::slotDBChanged()
             k->d = distance(p1, p2, a1, a2);
             ++k;
         }
-        qSort(keys.begin(), keys.end(), keyLessThanDistance);
+        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanDistance);
+        sortmode = eSortByDistance;
+        sortpos  = linePosition->text();
     }
     else
     {
-        qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
+        sortmode = eSortByName;
     }
 
     foreach(key, keys)
