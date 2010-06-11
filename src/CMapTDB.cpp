@@ -2243,6 +2243,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
 
         if(isCluttered(rectPois, QRect(pt->lon, pt->lat,16,16)))
         {
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
             ++pt;
             continue;
         }
@@ -2299,6 +2300,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 
         if(isCluttered(rectPois, QRect(pt->lon, pt->lat,16,16)))
         {
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
             ++pt;
             continue;
         }
