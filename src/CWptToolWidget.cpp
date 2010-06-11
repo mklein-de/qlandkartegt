@@ -177,23 +177,48 @@ void CWptToolWidget::slotDBChanged()
 
     foreach(key, keys)
     {
+        QString name;
         CWpt * wpt = CWptDB::self().getWptByKey(key.key);
 
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        if(wpt->sticky)
+        item->setIcon(getWptIconByName(wpt->icon));
+        item->setData(Qt::UserRole, wpt->key());
+
+        if(toolSortComment->isChecked())
         {
-            item->setText(wpt->name + tr(" (sticky)"));
+            name = key.comment;
+
+            if(name.isEmpty())
+            {
+                name = key.name;
+            }
+            else
+            {
+                item->setToolTip(key.name);
+            }
         }
         else
         {
-            item->setText(wpt->name);
+            name = key.name;
+            item->setToolTip(key.comment);
         }
 
-        item->setIcon(getWptIconByName(wpt->icon));
-        item->setData(Qt::UserRole, wpt->key());
-        item->setToolTip(wpt->comment);
-    }
+        if(wpt->sticky)
+        {
+            name += tr(" (sticky)");
+        }
 
+        if(toolSortPosition->isChecked())
+        {
+            QString val, unit;
+            IUnit::self().meter2distance(key.d, val, unit);
+            item->setText(QString("%1 (%2 %3)").arg(name, val, unit));
+        }
+        else
+        {
+            item->setText(name);
+        }
+    }
 }
 
 
