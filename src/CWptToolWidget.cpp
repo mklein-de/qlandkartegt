@@ -59,10 +59,12 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
 
     toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
+    toolSortComment->setIcon(QPixmap(":/icons/iconText16x16.png"));
     toolSortIcon->setIcon(QPixmap(":/icons/iconWaypoint16x16.png"));
     toolSortPosition->setIcon(QPixmap(":/icons/iconLiveLog16x16.png"));
 
     connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortComment, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
     connect(toolSortIcon, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
     connect(toolSortPosition, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
 
@@ -70,6 +72,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
     QSettings cfg;
     toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
+    toolSortComment->setChecked(cfg.value("waypoint/sortComment", true).toBool());
     toolSortIcon->setChecked(cfg.value("waypoint/sortIcon", false).toBool());
     toolSortPosition->setChecked(cfg.value("waypoint/sortPosition", false).toBool());
     linePosition->setText(cfg.value("waypoint/position",tr("enter valid position")).toString());
@@ -81,6 +84,7 @@ CWptToolWidget::~CWptToolWidget()
 {
     QSettings cfg;
     cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("waypoint/sortComment", toolSortComment->isChecked());
     cfg.setValue("waypoint/sortIcon", toolSortIcon->isChecked());
     cfg.setValue("waypoint/sortPosition", toolSortPosition->isChecked());
     cfg.setValue("waypoint/position", linePosition->text());
@@ -105,17 +109,22 @@ void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 }
 
 
-bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+static bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
     return s1.name.toLower() < s2.name.toLower();
 }
 
-bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+static bool keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.comment.toLower() < s2.comment.toLower();
+}
+
+static bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
     return s1.icon.toLower() < s2.icon.toLower();
 }
 
-bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+static bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
     return s1.d < s2.d;
 }
@@ -131,6 +140,10 @@ void CWptToolWidget::slotDBChanged()
     if(toolSortAlpha->isChecked())
     {
         qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+    }
+    else if(toolSortComment->isChecked())
+    {
+        qSort(keys.begin(), keys.end(), keyLessThanComment);
     }
     else if(toolSortIcon->isChecked())
     {

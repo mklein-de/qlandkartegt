@@ -82,7 +82,7 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
 
     QRegExp re3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
 
-    QRegExp re4("^\\s*([N|S]){1}\\s*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*([E|W]){1}\\W*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)''\\s*$");
+    QRegExp re4("^\\s*([N|S]){1}\\s*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*([E|W]){1}\\W*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*\\s*$");
 
     if(re2.exactMatch(str))
     {

@@ -39,6 +39,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="toolSortComment">
+       <property name="toolTip">
+        <string>Sort waypoints by comment.</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolSortIcon">
        <property name="toolTip">
         <string>Sort by icon</string>
