@@ -41,7 +41,11 @@ CResources::CResources(QObject * parent)
 , m_useHttpProxy(false)
 , m_httpProxyPort(8080)
 , m_eBrowser(eFirefox)
+#ifdef WIN32
+, cmdFirefox("start firefox \"%s\"")
+#else
 , cmdFirefox("firefox \"%s\" &")
+#endif
 , cmdKonqueror("kfmclient exec \"%s\"")
 , time_offset(0)
 , m_device(0)
