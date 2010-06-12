@@ -619,7 +619,11 @@ void CMainWindow::slotConfig()
 void CMainWindow::slotLoadData()
 {
 
-    bool haveGPSBabel = QProcess::execute(GPSBABEL " -V") == 0;
+    QProcess proc1;
+    proc1.start(GPSBABEL " -V");
+    proc1.waitForFinished();
+    bool haveGPSBabel = proc1.exitCode() == 0;
+
     QString formats;
     if(haveGPSBabel)
     {
@@ -674,7 +678,11 @@ void CMainWindow::slotLoadData()
 
 void CMainWindow::slotAddData()
 {
-    bool haveGPSBabel = QProcess::execute(GPSBABEL " -V") == 0;
+    QProcess proc1;
+    proc1.start(GPSBABEL " -V");
+    proc1.waitForFinished();
+    bool haveGPSBabel = proc1.exitCode() == 0;
+
     QString formats;
     if(haveGPSBabel)
     {

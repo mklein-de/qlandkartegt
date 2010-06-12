@@ -357,9 +357,21 @@ void CMapToolWidget::slotExportMap()
     const IMapSelection * ms = selectedMaps[key];
     if(ms->type == IMapSelection::eRaster)
     {
-        bool haveGDALWarp       = QProcess::execute(GDALWARP " --version") == 0;
-        bool haveGDALTranslate  = QProcess::execute(GDALTRANSLATE " --version") == 0;
+        QProcess proc1;
+        proc1.start(GDALWARP " --version");
+        proc1.waitForFinished();
+        qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
+        bool haveGDALWarp = proc1.exitCode() == 0;
+
+        proc1.start(GDALTRANSLATE " --version");
+        proc1.waitForFinished();
+        qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
+        bool haveGDALTranslate = proc1.exitCode() == 0;
+
         bool haveGDAL = haveGDALWarp && haveGDALTranslate;
+
+        qDebug() << haveGDALWarp << haveGDALTranslate << haveGDAL;
+
         if(!haveGDAL)
         {
             QMessageBox::critical(0,tr("Error export maps..."), tr("You need to have the GDAL toolchain installed in your path."), QMessageBox::Abort, QMessageBox::Abort);

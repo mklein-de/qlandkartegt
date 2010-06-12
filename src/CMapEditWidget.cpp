@@ -37,9 +37,20 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
     connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
 
-    bool haveGDALWarp       = QProcess::execute(GDALWARP " --version") == 0;
-    bool haveGDALTranslate  = QProcess::execute(GDALTRANSLATE " --version") == 0;
+    QProcess proc1;
+    proc1.start(GDALWARP " --version");
+    proc1.waitForFinished();
+    qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
+    bool haveGDALWarp = proc1.exitCode() == 0;
+
+    proc1.start(GDALTRANSLATE " --version");
+    proc1.waitForFinished();
+    qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
+    bool haveGDALTranslate = proc1.exitCode() == 0;
+
     bool haveGDAL = haveGDALWarp && haveGDALTranslate;
+
+    qDebug() << haveGDALWarp << haveGDALTranslate << haveGDAL;
 
     comboSource->insertItem(eNone,tr(""));
 
