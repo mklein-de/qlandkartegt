@@ -393,7 +393,7 @@ void CMainWindow::dropEvent(QDropEvent *event)
 
     foreach(url, urls)
     {
-        QString filename = url.path();
+        QString filename = url.toLocalFile();
         QString filter;
         loadData(filename, filter);
     }
