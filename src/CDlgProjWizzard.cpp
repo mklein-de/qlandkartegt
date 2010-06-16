@@ -55,6 +55,7 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
         comboDatum->addItem(entry.name, entry.idx);
     }
 
+    connect(radioLonLat, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioMercator, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioWorldMercator, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioUTM, SIGNAL(clicked()), this, SLOT(slotChange()));
@@ -74,7 +75,11 @@ CDlgProjWizzard::~CDlgProjWizzard()
 void CDlgProjWizzard::slotChange()
 {
     QString str;
-    if(radioMercator->isChecked())
+    if(radioLonLat->isChecked())
+    {
+        str += "+proj=longlat ";
+    }
+    else if(radioMercator->isChecked())
     {
         str += "+proj=merc ";
     }

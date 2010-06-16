@@ -52,18 +52,19 @@ extern bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool
     * easting / northing in meters / feet: EEEEEE.EEEEEE NNNNNN.NNNNNN
     * longitude / latitude in degrees: DDD.ddddd DD.dddddd
 
-    If a projection string is supplied the coordinate is transformed to the given projection.
+    The the coordinate is transformed from source to target projection
 
     On error a messagebox is raised.
 
     @param str input string
     @param lon reference to store the output longitude / easting []|[m]|[ft]
     @param lat reference to store the output latitude / northing []|[m]|[ft]
-    @param projstr a valid proj4 projection string
+    @param srcproj a valid proj4 projection string
+    @param tarproj a valid proj4 projection string
 
     @return Return true on success.
 */
-extern bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const QString& projstr);
+extern bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const QString& srcproj, const QString& tarproj);
 /// convert a longitude / latitude pair to a human readable string
 /**
     The output format will be [N|S] ddd mm.sss [W|E] ddd mm.sss

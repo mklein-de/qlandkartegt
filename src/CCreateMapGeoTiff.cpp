@@ -76,9 +76,11 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
     connect(pushClearAll, SIGNAL(clicked()), this, SLOT(slotClearAll()));
     connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
+    connect(toolGCPProjWizard, SIGNAL(clicked()), this, SLOT(slotGCPProjWizard()));
 
     QSettings cfg;
-    lineProjection->setText(cfg.value("create/def.proj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
+    lineMapProjection->setText(cfg.value("create/mapproj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
+    lineGCPProjection->setText(cfg.value("create/gcpproj","+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs").toString());
 
     comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), eSquare);
     comboMode->addItem(tr("linear (3 Ref. Pts.)"), eLinear);
@@ -87,6 +89,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     comboMode->setCurrentIndex(1);
 
     toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
+    toolGCPProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
@@ -192,7 +195,7 @@ void CCreateMapGeoTiff::slotOpenFile()
         OGRSpatialReference oSRS;
         oSRS.importFromWkt(&ptr);
         oSRS.exportToProj4(&ptr);
-        lineProjection->setText(ptr);
+        lineMapProjection->setText(ptr);
 
         gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
     }
@@ -238,7 +241,7 @@ void CCreateMapGeoTiff::slotReload()
         OGRSpatialReference oSRS;
         oSRS.importFromWkt(&ptr);
         oSRS.exportToProj4(&ptr);
-        lineProjection->setText(ptr);
+        lineMapProjection->setText(ptr);
 
         gdalGCP2RefPt(dataset->GetGCPs(), dataset->GetGCPCount());
     }
@@ -376,6 +379,8 @@ void CCreateMapGeoTiff::slotLoadRef()
 
 void CCreateMapGeoTiff::loadGCP(const QString& filename)
 {
+
+    /// @todo load gcp projection, too
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     QString line = QString::fromUtf8(file.readLine());
@@ -405,7 +410,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
             }
             else if(re2.exactMatch(line))
             {
-                lineProjection->setText(re2.cap(1).trimmed());
+                lineMapProjection->setText(re2.cap(1).trimmed());
             }
 
             if (file.atEnd()) break;
@@ -446,7 +451,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
             }
             else if(re2.exactMatch(line))
             {
-                lineProjection->setText(re2.cap(1).trimmed());
+                lineMapProjection->setText(re2.cap(1).trimmed());
             }
 
             if (file.atEnd()) break;
@@ -482,7 +487,7 @@ void CCreateMapGeoTiff::loadTAB(const QString& filename)
         oSRS.importFromWkt(&pszTabWKT);
         oSRS.exportToProj4(&ptr);
 
-        lineProjection->setText(ptr);
+        lineMapProjection->setText(ptr);
     }
 }
 
@@ -564,7 +569,9 @@ void CCreateMapGeoTiff::saveGCP(const QString& filename)
 
     file.write(QString("#V1.0\n").toUtf8());
 
-    QString projection = lineProjection->text().trimmed();
+    /// @todo save gcp projection, too
+
+    QString projection = lineMapProjection->text().trimmed();
     if(projection.isEmpty())
     {
         projection = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
@@ -640,18 +647,23 @@ void CCreateMapGeoTiff::slotGoOn()
     QStringList args;
     bool islonlat = false;
 
+    /// @todo convert gcp from own projection to map projection
+
     // get / store target projection
-    QString projection = lineProjection->text();
-    if(projection.isEmpty())
+    QString gcpproj = lineGCPProjection->text();
+    QString mapproj = lineMapProjection->text();
+    if(mapproj.isEmpty())
     {
-        projection = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
+        mapproj = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
     }
-    islonlat = projection.contains("longlat");
+    islonlat = mapproj.contains("longlat");
+
+
 
     QSettings cfg;
-    cfg.setValue("create/def.proj",projection);
+    cfg.setValue("create/mapproj",mapproj);
 
-    args << "-a_srs" << projection;
+    args << "-a_srs" << mapproj;
 
     // add gcps
     double x1, x2, y1, y2, u1, u2, v1, v2;
@@ -677,11 +689,13 @@ void CCreateMapGeoTiff::slotGoOn()
         }
         else
         {
-            if(!GPS_Math_Str_To_LongLat(refpt->item->text(eLonLat), lon, lat, projection))
+            if(!GPS_Math_Str_To_LongLat(refpt->item->text(eLonLat), lon, lat, gcpproj, mapproj))
             {
                 return;
             }
         }
+
+
 
         u1 = u2; u2 = lon;
         v1 = v2; v2 = lat;
@@ -881,7 +895,12 @@ void CCreateMapGeoTiff::slotClearAll()
 
 void CCreateMapGeoTiff::slotProjWizard()
 {
-    CDlgProjWizzard dlg(*lineProjection, this);
+    CDlgProjWizzard dlg(*lineMapProjection, this);
     dlg.exec();
+}
 
+void CCreateMapGeoTiff::slotGCPProjWizard()
+{
+    CDlgProjWizzard dlg(*lineGCPProjection, this);
+    dlg.exec();
 }
