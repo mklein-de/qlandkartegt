@@ -49,6 +49,7 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
 , distance(0)
 , doSpecialCursor(false)
 , doMove(false)
+, doAdd(false)
 , doFuncWheel(false)
 {
 
@@ -227,14 +228,43 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
     if(e->button() == Qt::LeftButton)
     {
+        IMap& map   = CMapDB::self().getMap();
         if(doMove)
         {
-            doMove      = false;
-            thePoint    = 0;
+            if(*thePoint == points.last() && doAdd)
+            {
+                XY pt;
+                pt.u = e->pos().x();
+                pt.v = e->pos().y();
+                map.convertPt2Rad(pt.u, pt.v);
+
+                points.push_back(pt);
+
+                thePoint = &points.last();
+
+            }
+            else if(*thePoint == points.first() && doAdd)
+            {
+                XY pt;
+                pt.u = e->pos().x();
+                pt.v = e->pos().y();
+                map.convertPt2Rad(pt.u, pt.v);
+
+                points.push_front(pt);
+
+                thePoint = &points.first();
+            }
+            else
+            {
+                doAdd       = false;
+                doMove      = false;
+                thePoint    = 0;
+                QApplication::restoreOverrideCursor();
+            }
             calcDistance();
             theMainWindow->getCanvas()->update();
 
-            QApplication::restoreOverrideCursor();
+
 
             emit sigChanged();
             return;
@@ -248,7 +278,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         }
 
         QPoint pos1 = e->pos();
-        IMap& map   = CMapDB::self().getMap();
+
 
         XY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
@@ -278,6 +308,8 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0));
             doMove      = true;
             doFuncWheel = false;
+
+            savePoint = *thePoint;
         }
         else if(rectAdd1.contains(pos1))
         {
@@ -293,6 +325,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             thePoint    = &points[idx];
             doMove      = true;
+            doAdd       = true;
             doFuncWheel = false;
 
             theMainWindow->getCanvas()->update();
@@ -313,6 +346,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             thePoint    = &points[idx];
             doMove      = true;
+            doAdd       = true;
             doFuncWheel = false;
 
             theMainWindow->getCanvas()->update();
@@ -328,26 +362,23 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
     {
         if(doMove)
         {
-            doMove      = false;
 
-            points.removeOne(*thePoint);
+            if(doAdd)
+            {
+                points.removeOne(*thePoint);
+            }
+            else
+            {
+                *thePoint = savePoint;
+            }
             thePoint = 0;
 
             calcDistance();
             theMainWindow->getCanvas()->update();
             emit sigChanged();
 
-
-//            if (savePoint.u != OVL_NOFLOAT && savePoint.v != OVL_NOFLOAT)
-//            {
-//                *thePoint   = savePoint;
-//                thePoint    = 0;
-//
-//                calcDistance();
-//                theMainWindow->getCanvas()->update();
-//
-//                emit sigChanged();
-//            }
+            doMove      = false;
+            doAdd       = false;
 
             QApplication::restoreOverrideCursor();
             return;

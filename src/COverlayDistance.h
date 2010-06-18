@@ -80,6 +80,8 @@ class COverlayDistance : public IOverlay
         QList<XY> points;
         /// pointer to point of polyline if cursor is closer than 30px
         XY * thePoint;
+        /// need to restore point if move command is aborted
+        XY savePoint;
 
         QString name;
         QString comment;
@@ -92,6 +94,7 @@ class COverlayDistance : public IOverlay
 
         bool doSpecialCursor;
         bool doMove;
+        bool doAdd;
         bool doFuncWheel;
 
         double anglePrev;
