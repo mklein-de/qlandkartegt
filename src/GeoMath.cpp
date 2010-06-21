@@ -410,12 +410,18 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
         {
             u = u * DEG_TO_RAD;
             v = v * DEG_TO_RAD;
-            pj_transform(pjSrc,pjTar,1,0,&u,&v,0);
         }
+    }
+
+    if(pjTar && pjSrc)
+    {
+        pj_transform(pjSrc,pjTar,1,0,&u,&v,0);
     }
 
     lon = u;
     lat = v;
+
+
 
     if(pjSrc) pj_free(pjSrc);
     if(pjTar) pj_free(pjTar);

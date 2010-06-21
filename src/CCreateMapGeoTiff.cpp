@@ -54,7 +54,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     helpStep1->setHelp(tr("Load Raster Map"),
         tr("This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning."));
     helpStep2->setHelp(tr("Add Reference Points"),
-        trUtf8("The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.\n\ncoordinate formats:\n\xe2\x80\xa2 \"N49\xc2\xb0 10.234 E12\xc2\xb0 01.456\"\n\xe2\x80\xa2 \"12.193172   46.575377\"\n\xe2\x80\xa2 \"285000 5162000\""));
+        trUtf8("The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.\n\ncoordinate formats:\n\xe2\x80\xa2 \"N49\xc2\xb0 10.234 E12\xc2\xb0 01.456\"\n\xe2\x80\xa2 \"46.575377   12.193172\"\n\xe2\x80\xa2 \"285000 5162000\""));
     helpStep3->setHelp(tr("Reference Map"),
         tr("Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser."));
 
@@ -93,7 +93,6 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
 }
-
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
@@ -252,6 +251,7 @@ void CCreateMapGeoTiff::slotReload()
 
 void CCreateMapGeoTiff::slotModeChanged(int)
 {
+    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
 }
 
@@ -282,6 +282,7 @@ void CCreateMapGeoTiff::slotAddRef()
         treeWidget->resizeColumnToContents(i);
     }
 
+    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
@@ -301,7 +302,7 @@ void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
     pt.item->setText(eLonLat,tr(""));
     pt.item->setText(eX,QString::number(pt.x));
     pt.item->setText(eY,QString::number(pt.y));
-    pt.item->setText(eLonLat,QString("%1 %2").arg(u,0,'f',6).arg(v,0,'f',6));
+    pt.item->setText(eLonLat,QString("%1 %2").arg(v,0,'f',6).arg(u,0,'f',6));
 
     treeWidget->addTopLevelItem(pt.item);
 
@@ -311,6 +312,7 @@ void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
         treeWidget->resizeColumnToContents(i);
     }
 
+    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 }
@@ -340,6 +342,7 @@ void CCreateMapGeoTiff::slotDelRef()
         refpts.remove(item->data(eLabel,Qt::UserRole).toUInt());
         delete item;
     }
+    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
@@ -369,6 +372,7 @@ void CCreateMapGeoTiff::slotLoadRef()
         treeWidget->resizeColumnToContents(i);
     }
 
+    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
@@ -381,6 +385,9 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
 {
 
     /// @todo load gcp projection, too
+
+    QString gcpproj("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     QString line = QString::fromUtf8(file.readLine());
@@ -388,6 +395,7 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
     {
         QRegExp re1("^-gcp\\s(-{0,1}[0-9]+)\\s(-{0,1}[0-9]+)\\s(.*)$");
         QRegExp re2("^-a_srs\\s(.*)$");
+        QRegExp re3("^#gcpproj:\\s(.*)$");
 
         while(1)
         {
@@ -411,6 +419,10 @@ void CCreateMapGeoTiff::loadGCP(const QString& filename)
             else if(re2.exactMatch(line))
             {
                 lineMapProjection->setText(re2.cap(1).trimmed());
+            }
+            else if(re3.exactMatch(line))
+            {
+                lineGCPProjection->setText(re3.cap(1).trimmed());
             }
 
             if (file.atEnd()) break;
@@ -569,17 +581,21 @@ void CCreateMapGeoTiff::saveGCP(const QString& filename)
 
     file.write(QString("#V1.0\n").toUtf8());
 
-    /// @todo save gcp projection, too
-
-    QString projection = lineMapProjection->text().trimmed();
-    if(projection.isEmpty())
+    QString gcpproj = lineGCPProjection->text().trimmed();
+    if(!gcpproj.isEmpty())
     {
-        projection = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
+        file.write(QString("#gcpproj: %1\n").arg(gcpproj).toUtf8());
+    }
+
+    QString mapproj = lineMapProjection->text().trimmed();
+    if(mapproj.isEmpty())
+    {
+        mapproj = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
     }
 
     QStringList args;
     args << "-a_srs";
-    args << projection;
+    args << mapproj;
     args << "\n";
     file.write(args.join(" ").toUtf8());
 
@@ -686,6 +702,7 @@ void CCreateMapGeoTiff::slotGoOn()
             {
                 return;
             }
+//            qDebug() << "islonlat" << lon << lat;
         }
         else
         {
@@ -693,6 +710,8 @@ void CCreateMapGeoTiff::slotGoOn()
             {
                 return;
             }
+
+//            qDebug() << "!islonlat" << lon << lat;
         }
 
 

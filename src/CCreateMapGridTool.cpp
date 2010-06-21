@@ -371,6 +371,7 @@ void CCreateMapGridTool::slotOk()
     if(pjWGS84) pj_free(pjWGS84);
     if(pjSrc) pj_free(pjSrc);
 
+    geotifftool->lineGCPProjection->setText("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
     geotifftool->comboMode->setCurrentIndex(geotifftool->comboMode->findData(CCreateMapGeoTiff::eQuadratic));
 
     theMainWindow->getCanvas()->update();
