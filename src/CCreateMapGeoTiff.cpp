@@ -384,8 +384,6 @@ void CCreateMapGeoTiff::slotLoadRef()
 void CCreateMapGeoTiff::loadGCP(const QString& filename)
 {
 
-    /// @todo load gcp projection, too
-
     QString gcpproj("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     QFile file(filename);
@@ -662,8 +660,6 @@ void CCreateMapGeoTiff::slotGoOn()
 {
     QStringList args;
     bool islonlat = false;
-
-    /// @todo convert gcp from own projection to map projection
 
     // get / store target projection
     QString gcpproj = lineGCPProjection->text();
