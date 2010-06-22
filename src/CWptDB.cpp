@@ -487,7 +487,6 @@ void CWptDB::upload(const QStringList& keys)
             QString key;
             foreach(key, keys)
             {
-                qDebug() << key;
                 tmpwpts << wpts[key];
             }
         }
