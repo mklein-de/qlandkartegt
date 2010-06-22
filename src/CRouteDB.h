@@ -52,7 +52,7 @@ class CRouteDB : public IDB
         /// save database data to QLandkarte binary
         void saveQLB(CQlb& qlb);
 
-        void upload();
+        void upload(const QStringList& keys);
         void download();
         void clear();
 

@@ -363,7 +363,8 @@ void CActions::funcSearchMap()
 
 void CActions::funcUploadMap()
 {
-    CMapDB::self().upload();
+    QStringList keys;
+    CMapDB::self().upload(keys);
 }
 
 
@@ -454,7 +455,8 @@ void CActions::funcImageWpt()
 
 void CActions::funcUploadWpt()
 {
-    CWptDB::self().upload();
+    QStringList keys;
+    CWptDB::self().upload(keys);
 }
 
 
@@ -492,7 +494,8 @@ void CActions::funcSelTrack()
 
 void CActions::funcUploadTrack()
 {
-    CTrackDB::self().upload();
+    QStringList keys;
+    CTrackDB::self().upload(keys);
 }
 
 
@@ -526,7 +529,8 @@ void CActions::funcDeleteTrackSelection()
 
 void CActions::funcUploadRoute()
 {
-    CRouteDB::self().upload();
+    QStringList keys;
+    CRouteDB::self().upload(keys);
 }
 
 

@@ -490,7 +490,7 @@ void CMapDB::saveQLB(CQlb& qlb)
 }
 
 
-void CMapDB::upload()
+void CMapDB::upload(const QStringList& keys)
 {
     if(selectedMaps.isEmpty()) return;
 

@@ -53,7 +53,7 @@ class IDB : public QObject
         /// save database data to QLandkarte binary
         virtual void saveQLB(CQlb& qlb) = 0;
 
-        virtual void upload() = 0;
+        virtual void upload(const QStringList& keys) = 0;
         virtual void download() = 0;
 
         virtual void clear() = 0;

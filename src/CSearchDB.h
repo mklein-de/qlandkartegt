@@ -61,7 +61,7 @@ class CSearchDB : public IDB
         void loadQLB(CQlb& qlb){};
         void saveQLB(CQlb& qlb){};
 
-        void upload(){};
+        void upload(const QStringList&){};
         void download(){};
 
         void clear();

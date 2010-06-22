@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,51 +16,37 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
+#ifndef CDLGEXPORT_H
+#define CDLGEXPORT_H
 
-#ifndef CDIARYDB_H
-#define CDIARYDB_H
+#include <QDialog>
+#include "ui_IDlgExport.h"
 
-#include "IDB.h"
-#include "CDiary.h"
+class QTreeWidgetItem;
+class QStringList;
 
-#include <QPointer>
-
-class CDiaryEditWidget;
-
-class CDiaryDB : public IDB
+class CDlgExport : public QDialog, private Ui::IDlgExport
 {
-    Q_OBJECT
-        public:
-        virtual ~CDiaryDB();
+    Q_OBJECT;
+    public:
+        CDlgExport(QWidget * parent, QStringList * wpt, QStringList * trk, QStringList * rte);
+        virtual ~CDlgExport();
 
-        static CDiaryDB& self(){return *m_self;}
+    public slots:
+        int exec();
+        void accept();
 
-        void openEditWidget();
-        const QString getDiary();
-
-        void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
-
-        void loadQLB(CQlb& qlb);
-        void saveQLB(CQlb& qlb);
-
-        void upload(const QStringList& ){};
-        void download(){};
-
-        void clear();
-
-        int count();
 
     private:
-        friend class CMainWindow;
-        friend class CDiaryEditWidget;
+        QTreeWidgetItem * itemWpt;
+        QTreeWidgetItem * itemTrk;
+        QTreeWidgetItem * itemRte;
 
-        CDiaryDB(QTabWidget * tb, QObject * parent);
+        QStringList * keysWpt;
+        QStringList * keysTrk;
+        QStringList * keysRte;
 
-        static CDiaryDB * m_self;
-
-        QPointer<CDiaryEditWidget> editWidget;
-
-        CDiary diary;
 };
-#endif                           //CDIARYDB_H
+
+#endif //CDLGEXPORT_H
+

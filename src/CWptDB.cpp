@@ -462,14 +462,27 @@ void CWptDB::saveQLB(CQlb& qlb)
 }
 
 
-void CWptDB::upload()
+void CWptDB::upload(const QStringList& keys)
 {
     if(wpts.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
     if(dev)
     {
-        QList<CWpt*> tmpwpts = wpts.values();
+        QList<CWpt*> tmpwpts;
+
+        if(keys.isEmpty())
+        {
+            tmpwpts = wpts.values();
+        }
+        else
+        {
+            QString key;
+            foreach(key, keys)
+            {
+                tmpwpts << wpts[key];
+            }
+        }
         dev->uploadWpts(tmpwpts);
     }
 

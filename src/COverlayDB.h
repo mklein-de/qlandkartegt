@@ -53,7 +53,7 @@ class COverlayDB : public IDB
         void saveGPX(CGpx& gpx);
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
-        void upload(){};
+        void upload(const QStringList&){};
         void download(){};
         void clear();
         int count(){return overlays.size();}

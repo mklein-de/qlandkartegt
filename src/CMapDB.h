@@ -80,7 +80,7 @@ class CMapDB : public IDB
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
 
-        void upload();
+        void upload(const QStringList& keys);
         void download();
 
         /// remove all selected map areas

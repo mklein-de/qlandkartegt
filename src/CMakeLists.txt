@@ -103,6 +103,7 @@ set(qlandkarte_SRCS
     CDlgTrackFilter.cpp
     CDlgSetupGarminIcons.cpp
     CDlgConfig3D.cpp
+    CDlgExport.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -250,6 +251,7 @@ set(qlandkarte_HDRS
     CDlgTrackFilter.h
     CDlgSetupGarminIcons.h
     CDlgConfig3D.h
+    CDlgExport.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -347,6 +349,7 @@ SET(qlandkarte_UIS
     IDlgTrackFilter.ui
     IDlgSetupGarminIcons.ui
     IDlgConfig3D.ui
+    IDlgExport.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui

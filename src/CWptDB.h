@@ -76,7 +76,7 @@ class CWptDB : public IDB
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
 
-        void upload();
+        void upload(const QStringList& keys);
         void download();
         void clear();
         void selWptByKey(const QString& key);

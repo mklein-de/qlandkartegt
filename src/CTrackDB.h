@@ -41,7 +41,7 @@ class CTrackDB : public IDB
         void loadQLB(CQlb& qlb, bool asDuplicat);
         void saveQLB(CQlb& qlb);
 
-        void upload();
+        void upload(const QStringList& keys);
         void download();
 
         void clear();

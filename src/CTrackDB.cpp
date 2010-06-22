@@ -655,14 +655,27 @@ CTrack* CTrackDB::highlightedTrack()
 }
 
 
-void CTrackDB::upload()
+void CTrackDB::upload(const QStringList& keys)
 {
     if(tracks.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
     if(dev)
     {
-        QList<CTrack*> tmptrks = tracks.values();
+        QList<CTrack*> tmptrks;
+
+        if(keys.isEmpty())
+        {
+            tmptrks = tracks.values();
+        }
+        else
+        {
+            QString key;
+            foreach(key, keys)
+            {
+                tmptrks << tracks[key];
+            }
+        }
         dev->uploadTracks(tmptrks);
     }
 }

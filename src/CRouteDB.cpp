@@ -302,14 +302,27 @@ void CRouteDB::saveQLB(CQlb& qlb)
 }
 
 
-void CRouteDB::upload()
+void CRouteDB::upload(const QStringList& keys)
 {
     if(routes.isEmpty()) return;
 
     IDevice * dev = CResources::self().device();
     if(dev)
     {
-        QList<CRoute*> tmprtes = routes.values();
+        QList<CRoute*> tmprtes;
+
+        if(keys.isEmpty())
+        {
+            tmprtes = routes.values();
+        }
+        else
+        {
+            QString key;
+            foreach(key, keys)
+            {
+                tmprtes << routes[key];
+            }
+        }
         dev->uploadRoutes(tmprtes);
     }
 }
