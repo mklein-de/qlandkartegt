@@ -159,7 +159,7 @@ int CDlgExport::exec()
             item->setCheckState(0, Qt::Checked);
             item->setIcon(0,key.icon);
             item->setData(0, Qt::UserRole, key.key);
-        }       
+        }
     }
     else
     {
@@ -167,7 +167,7 @@ int CDlgExport::exec()
     }
 
 
-    QDialog::exec();
+    return QDialog::exec();
 }
 
 void CDlgExport::accept()
