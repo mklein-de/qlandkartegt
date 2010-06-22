@@ -192,7 +192,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
 }
 
 
-void COverlayDB::saveGPX(CGpx& gpx)
+void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     if (gpx.getExportFlag())
     {

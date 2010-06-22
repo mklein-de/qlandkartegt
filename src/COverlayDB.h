@@ -50,7 +50,7 @@ class COverlayDB : public IDB
         void draw(QPainter& p, const QRect& r, bool& needsRedraw);
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
         void upload(const QStringList&){};

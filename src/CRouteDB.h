@@ -24,6 +24,8 @@
 
 #include <QMap>
 #include <QRectF>
+#include <QString>
+#include <QPixmap>
 
 class CRoute;
 
@@ -45,7 +47,7 @@ class CRouteDB : public IDB
         /// load database data from gpx
         void loadGPX(CGpx& gpx);
         /// save database data to gpx
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
 
         /// load database data from QLandkarte binary
         void loadQLB(CQlb& qlb);
@@ -66,6 +68,13 @@ class CRouteDB : public IDB
         CRoute* highlightedRoute();
 
         QRectF getBoundingRectF(const QString key);
+
+        struct keys_t{QString key; QString name; QPixmap icon;};
+        /// get all keys in the database
+        QList<keys_t> keys();
+
+        static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
+
 
         signals:
         void sigHighlightRoute(CRoute * route);

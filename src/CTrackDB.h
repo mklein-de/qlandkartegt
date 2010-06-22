@@ -22,6 +22,9 @@
 #include "IDB.h"
 #include <QRectF>
 #include <QMap>
+#include <QString>
+#include <QPixmap>
+
 class QToolBox;
 class CTrack;
 class CTrackToolWidget;
@@ -36,7 +39,7 @@ class CTrackDB : public IDB
         static CTrackDB& self(){return *m_self;}
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
         void loadQLB(CQlb& qlb);
         void loadQLB(CQlb& qlb, bool asDuplicat);
         void saveQLB(CQlb& qlb);
@@ -89,6 +92,12 @@ class CTrackDB : public IDB
         void emitSigModified();
         void setShowBullets(bool on){showBullets = on; emit sigChanged();}
         bool getShowBullets(){return showBullets;}
+
+        struct keys_t{QString key; QString name; QString comment; QPixmap icon;};
+        /// get all keys in the database
+        QList<keys_t> keys();
+
+        static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
 
         signals:
         void sigHighlightTrack(CTrack * track);

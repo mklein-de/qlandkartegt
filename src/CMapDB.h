@@ -75,7 +75,7 @@ class CMapDB : public IDB
         void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
 
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);

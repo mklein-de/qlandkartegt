@@ -72,7 +72,7 @@ class CWptDB : public IDB
         void setProxyDistance(const QStringList& keys, double dist);
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
 

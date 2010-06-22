@@ -41,6 +41,7 @@
 #ifdef PLOT_3D
 #include "CMap3D.h"
 #endif
+#include "CDlgExport.h"
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -456,6 +457,11 @@ void CActions::funcImageWpt()
 void CActions::funcUploadWpt()
 {
     QStringList keys;
+    CDlgExport dlg(0,&keys,0,0);
+    if( dlg.exec() == QDialog::Rejected)
+    {
+        return;
+    }
     CWptDB::self().upload(keys);
 }
 
@@ -495,6 +501,11 @@ void CActions::funcSelTrack()
 void CActions::funcUploadTrack()
 {
     QStringList keys;
+    CDlgExport dlg(0,0,&keys,0);
+    if( dlg.exec() == QDialog::Rejected)
+    {
+        return;
+    }
     CTrackDB::self().upload(keys);
 }
 
@@ -530,6 +541,11 @@ void CActions::funcDeleteTrackSelection()
 void CActions::funcUploadRoute()
 {
     QStringList keys;
+    CDlgExport dlg(0,0,0,&keys);
+    if( dlg.exec() == QDialog::Rejected)
+    {
+        return;
+    }
     CRouteDB::self().upload(keys);
 }
 

@@ -46,7 +46,7 @@ class IDB : public QObject
         /// load database data from gpx
         virtual void loadGPX(CGpx& gpx) = 0;
         /// save database data to gpx
-        virtual void saveGPX(CGpx& gpx) = 0;
+        virtual void saveGPX(CGpx& gpx, const QStringList& keys) = 0;
 
         /// load database data from QLandkarte binary
         virtual void loadQLB(CQlb& qlb) = 0;

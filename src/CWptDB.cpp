@@ -351,7 +351,7 @@ void CWptDB::loadGPX(CGpx& gpx)
 }
 
 
-void CWptDB::saveGPX(CGpx& gpx)
+void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     QString str;
     QDomElement root = gpx.documentElement();
@@ -363,6 +363,13 @@ void CWptDB::saveGPX(CGpx& gpx)
             ++wpt;
             continue;
         }
+
+        if(!keys.isEmpty() && !keys.contains((*wpt)->key()))
+        {
+            ++wpt;
+            continue;
+        }
+
         QDomElement waypoint = gpx.createElement("wpt");
         root.appendChild(waypoint);
         str.sprintf("%1.8f", (*wpt)->lat);

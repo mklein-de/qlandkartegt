@@ -46,6 +46,12 @@ typedef __int32 int32_t;
 
 CTrackDB * CTrackDB::m_self = 0;
 
+bool CTrackDB::keyLessThanAlpha(CTrackDB::keys_t&  s1, CTrackDB::keys_t&  s2)
+{
+    return s1.name.toLower() < s2.name.toLower();
+}
+
+
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , cnt(0)
@@ -414,13 +420,19 @@ void CTrackDB::loadGPX(CGpx& gpx)
 }
 
 
-void CTrackDB::saveGPX(CGpx& gpx)
+void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CTrack*>::iterator track = tracks.begin();
     while(track != tracks.end())
     {
+        if(!keys.isEmpty() && !keys.contains((*track)->key()))
+        {
+            ++track;
+            continue;
+        }
+
         QDomElement trk = gpx.createElement("trk");
         root.appendChild(trk);
 
@@ -1123,4 +1135,30 @@ void CTrackDB::revertTrack(const QString& key)
 
     addTrack(tnew, false);
 
+}
+
+QList<CTrackDB::keys_t> CTrackDB::keys()
+{
+    QList<keys_t> k;
+
+    QString k1;
+    QStringList ks = tracks.keys();
+
+    foreach(k1, ks)
+    {
+        QPixmap icon(16,16);
+        keys_t k2;
+        CTrack * track = tracks[k1];
+
+        k2.key      = k1;
+        k2.name     = track->name;
+        k2.comment  = track->comment.left(32);
+
+        icon.fill(track->getColor());
+        k2.icon     = icon;
+
+        k << k2;
+    }
+
+    return k;
 }

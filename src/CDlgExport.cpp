@@ -23,6 +23,10 @@
 #include "CWptDB.h"
 #include "CWpt.h"
 #include "CWptToolWidget.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
+#include "CRouteDB.h"
+#include "CRoute.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
 
@@ -59,7 +63,7 @@ int CDlgExport::exec()
     itemRte->setIcon(0,QIcon(":/icons/iconRoute16x16"));
     itemRte->setExpanded(true);
 
-    if(IDevice::m_UploadAllWpt && keysWpt)
+    if(keysWpt)
     {
         QString pos;
         CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
@@ -118,16 +122,44 @@ int CDlgExport::exec()
         itemWpt->setDisabled(true);
     }
 
-    if(IDevice::m_UploadAllTrk && keysTrk)
+    if(keysTrk)
     {
+        CTrackDB::keys_t key;
+        QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
+
+        qSort(keys.begin(), keys.end(), CTrackDB::keyLessThanAlpha);
+
+        foreach(key, keys)
+        {
+            QStringList str;
+            str << key.name << key.comment.left(32);
+            QTreeWidgetItem * item = new QTreeWidgetItem(itemTrk, str);
+            item->setCheckState(0, Qt::Checked);
+            item->setIcon(0,key.icon);
+            item->setData(0, Qt::UserRole, key.key);
+        }
     }
     else
     {
         itemTrk->setDisabled(true);
     }
 
-    if(IDevice::m_UploadAllRte && keysRte)
+    if(keysRte)
     {
+        CRouteDB::keys_t key;
+        QList<CRouteDB::keys_t> keys = CRouteDB::self().keys();
+
+        qSort(keys.begin(), keys.end(), CRouteDB::keyLessThanAlpha);
+
+        foreach(key, keys)
+        {
+            QStringList str;
+            str << key.name;
+            QTreeWidgetItem * item = new QTreeWidgetItem(itemRte, str);
+            item->setCheckState(0, Qt::Checked);
+            item->setIcon(0,key.icon);
+            item->setData(0, Qt::UserRole, key.key);
+        }       
     }
     else
     {
@@ -155,6 +187,11 @@ void CDlgExport::accept()
 
             delete item;
         }
+
+        if(keysWpt->isEmpty())
+        {
+            *keysWpt << "dummy";
+        }
     }
 
     if(keysTrk)
@@ -169,6 +206,10 @@ void CDlgExport::accept()
 
             delete item;
         }
+        if(keysTrk->isEmpty())
+        {
+            *keysTrk << "dummy";
+        }
     }
 
     if(keysRte)
@@ -182,6 +223,10 @@ void CDlgExport::accept()
             }
 
             delete item;
+        }
+        if(keysRte->isEmpty())
+        {
+            *keysRte << "dummy";
         }
     }
 

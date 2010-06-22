@@ -475,7 +475,7 @@ void CMapDB::loadGPX(CGpx& gpx)
 }
 
 
-void CMapDB::saveGPX(CGpx& gpx)
+void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
 }
 

@@ -31,6 +31,12 @@
 
 CRouteDB * CRouteDB::m_self = 0;
 
+bool CRouteDB::keyLessThanAlpha(CRouteDB::keys_t&  s1, CRouteDB::keys_t&  s2)
+{
+    return s1.name.toLower() < s2.name.toLower();
+}
+
+
 CRouteDB::CRouteDB(QTabWidget * tb, QObject * parent)
 : IDB(tb, parent)
 , cnt(0)
@@ -217,12 +223,19 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
 
 /// save database data to gpx
-void CRouteDB::saveGPX(CGpx& gpx)
+void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     QDomElement root = gpx.documentElement();
     QMap<QString,CRoute*>::iterator route = routes.begin();
     while(route != routes.end())
     {
+        if(!keys.isEmpty() && !keys.contains((*route)->key()))
+        {
+            ++route;
+            continue;
+        }
+
+
         QDomElement gpxRoute = gpx.createElement("rte");
         root.appendChild(gpxRoute);
 
@@ -450,4 +463,26 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
         }
     }
+}
+
+QList<CRouteDB::keys_t> CRouteDB::keys()
+{
+    QList<keys_t> k;
+
+    QString k1;
+    QStringList ks = routes.keys();
+
+    foreach(k1, ks)
+    {
+        keys_t k2;
+        CRoute * route = routes[k1];
+
+        k2.key      = k1;
+        k2.name     = route->name;
+        k2.icon     = route->getIcon();
+
+        k << k2;
+    }
+
+    return k;
 }

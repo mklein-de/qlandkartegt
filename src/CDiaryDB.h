@@ -39,7 +39,7 @@ class CDiaryDB : public IDB
         const QString getDiary();
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx);
+        void saveGPX(CGpx& gpx, const QStringList& keys);
 
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);

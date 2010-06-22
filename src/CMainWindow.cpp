@@ -44,6 +44,7 @@
 #include "WptIcons.h"
 #include "CAppOpts.h"
 #include "CMap3D.h"
+#include "CDlgExport.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -978,14 +979,26 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
         }
         else if(ext == "GPX")
         {
+            QStringList keysWpt, keysTrk, keysRte;
+
+            if(exportFlag)
+            {
+                CDlgExport dlg(0, &keysWpt, &keysTrk, &keysRte);
+
+                if( dlg.exec() == QDialog::Rejected)
+                {
+                    return;
+                }
+            }
+
             CGpx gpx(this, exportFlag);
-            CMapDB::self().saveGPX(gpx);
-            CWptDB::self().saveGPX(gpx);
-            CTrackDB::self().saveGPX(gpx);
-            CRouteDB::self().saveGPX(gpx);
+            CMapDB::self().saveGPX(gpx, QStringList());
+            CWptDB::self().saveGPX(gpx, keysWpt);
+            CTrackDB::self().saveGPX(gpx, keysTrk);
+            CRouteDB::self().saveGPX(gpx, keysRte);
             gpx.makeExtensions();
-            CDiaryDB::self().saveGPX(gpx);
-            COverlayDB::self().saveGPX(gpx);
+            CDiaryDB::self().saveGPX(gpx, QStringList());
+            COverlayDB::self().saveGPX(gpx, QStringList());
             gpx.save(filename);
         }
 
