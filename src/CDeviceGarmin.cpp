@@ -654,8 +654,8 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     std::list<Garmin::Wpt_t> garwpts;
     QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
 
-    QMap<QString,CWpt*>::iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end())
+    QList<CWpt*>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end())
     {
         Garmin::Wpt_t garwpt;
 
