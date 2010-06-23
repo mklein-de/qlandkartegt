@@ -559,25 +559,51 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             p.drawPixmap(u-7 , v-7, icon);
 
-            if((*wpt)->prx != WPT_NOFLOAT)
-            {
-                XY pt1, pt2;
-
-                pt1.u = (*wpt)->lon * DEG_TO_RAD;
-                pt1.v = (*wpt)->lat * DEG_TO_RAD;
-                pt2 = GPS_Math_Wpt_Projection(pt1, (*wpt)->prx, 90 * DEG_TO_RAD);
-                map.convertRad2Pt(pt2.u,pt2.v);
-                double r = pt2.u - u;
-
-                p.setBrush(Qt::NoBrush);
-                p.setPen(QPen(Qt::white,3));
-                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
-                p.setPen(QPen(Qt::red,1));
-                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
-            }
+//            if((*wpt)->prx != WPT_NOFLOAT)
+//            {
+//                XY pt1, pt2;
+//
+//                pt1.u = (*wpt)->lon * DEG_TO_RAD;
+//                pt1.v = (*wpt)->lat * DEG_TO_RAD;
+//                pt2 = GPS_Math_Wpt_Projection(pt1, (*wpt)->prx, 90 * DEG_TO_RAD);
+//                map.convertRad2Pt(pt2.u,pt2.v);
+//                double r = pt2.u - u;
+//
+//                p.setBrush(Qt::NoBrush);
+//                p.setPen(QPen(Qt::white,3));
+//                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
+//                p.setPen(QPen(Qt::red,1));
+//                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
+//            }
 
             CCanvas::drawText((*wpt)->name,p,QPoint(u,v - 10));
 
+        }
+        ++wpt;
+    }
+
+    wpt = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        if((*wpt)->prx != WPT_NOFLOAT)
+        {
+            XY pt1, pt2;
+
+            double u = (*wpt)->lon * DEG_TO_RAD;
+            double v = (*wpt)->lat * DEG_TO_RAD;
+            map.convertRad2Pt(u,v);
+
+            pt1.u = (*wpt)->lon * DEG_TO_RAD;
+            pt1.v = (*wpt)->lat * DEG_TO_RAD;
+            pt2 = GPS_Math_Wpt_Projection(pt1, (*wpt)->prx, 90 * DEG_TO_RAD);
+            map.convertRad2Pt(pt2.u,pt2.v);
+            double r = pt2.u - u;
+
+            p.setBrush(Qt::NoBrush);
+            p.setPen(QPen(Qt::white,3));
+            p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
+            p.setPen(QPen(Qt::red,1));
+            p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
         }
         ++wpt;
     }
