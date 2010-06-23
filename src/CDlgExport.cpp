@@ -41,6 +41,7 @@ CDlgExport::CDlgExport(QWidget * parent, QStringList * wpt, QStringList * trk, Q
 , keysRte(rte)
 {
     setupUi(this);
+    connect(checkAll, SIGNAL(toggled(bool)), this, SLOT(slotCheckAll(bool)));
 }
 
 CDlgExport::~CDlgExport()
@@ -231,4 +232,28 @@ void CDlgExport::accept()
     }
 
     QDialog::accept();
+}
+
+void CDlgExport::slotCheckAll(bool checked)
+{
+    int i;
+    int max;
+
+    max = itemWpt->childCount();
+    for(i = 0; i < max; i++)
+    {
+        itemWpt->child(i)->setCheckState(0, checked ? Qt::Checked : Qt::Unchecked);
+    }
+
+    max = itemTrk->childCount();
+    for(i = 0; i < max; i++)
+    {
+        itemTrk->child(i)->setCheckState(0, checked ? Qt::Checked : Qt::Unchecked);
+    }
+
+    max = itemRte->childCount();
+    for(i = 0; i < max; i++)
+    {
+        itemRte->child(i)->setCheckState(0, checked ? Qt::Checked : Qt::Unchecked);
+    }
 }

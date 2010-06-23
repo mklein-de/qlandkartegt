@@ -37,6 +37,9 @@ class CDlgExport : public QDialog, private Ui::IDlgExport
         void accept();
 
 
+    private slots:
+        void slotCheckAll(bool checked);
+
     private:
         QTreeWidgetItem * itemWpt;
         QTreeWidgetItem * itemTrk;
