@@ -10,13 +10,13 @@ del /s/q Files
 mkdir Files
 cd Files
 rem Section 2.1) Copy Qt files
-copy %QLGTI_QT_PATH%\bin\QtCore4.dll 
-copy %QLGTI_QT_PATH%\bin\QtGui4.dll 
-copy %QLGTI_QT_PATH%\bin\QtNetwork4.dll 
-copy %QLGTI_QT_PATH%\bin\QtOpenGL4.dll 
-copy %QLGTI_QT_PATH%\bin\QtSql4.dll 
-copy %QLGTI_QT_PATH%\bin\QtSvg4.dll 
-copy %QLGTI_QT_PATH%\bin\QtXml4.dll 
+copy %QLGTI_QT_PATH%\bin\QtCore4.dll
+copy %QLGTI_QT_PATH%\bin\QtGui4.dll
+copy %QLGTI_QT_PATH%\bin\QtNetwork4.dll
+copy %QLGTI_QT_PATH%\bin\QtOpenGL4.dll
+copy %QLGTI_QT_PATH%\bin\QtSql4.dll
+copy %QLGTI_QT_PATH%\bin\QtSvg4.dll
+copy %QLGTI_QT_PATH%\bin\QtXml4.dll
 mkdir imageformats
 cd imageformats
 copy %QLGTI_QT_PATH%\plugins\imageformats\qgif4.dll
@@ -28,8 +28,12 @@ mkdir sqldrivers
 cd sqldrivers
 copy %QLGTI_QT_PATH%\plugins\sqldrivers\qsqlite4.dll
 cd ..
+rem  The qt_??.qm files must have been created before by
+rem opening a qt shell, going to the translations directory and running
+rem for %f in (qt_??.ts) do lrelease %f
+copy %QLGTI_QT_PATH%\translations\qt_??.qm
 rem section 2.2) Copy MSVC Redist Files
-copy %QLGTI_VCREDIST_PATH%\*.* 
+copy %QLGTI_VCREDIST_PATH%\*.*
 rem section 2.3) Copy QLandkarte GT Files
 copy ..\..\build\bin\Release\qlandkartegt.exe
 copy ..\..\build\src\*.qm

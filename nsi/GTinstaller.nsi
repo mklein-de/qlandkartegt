@@ -102,6 +102,8 @@ Section "QLandkarteGT" QLandkarteGT
     File Files\qlandkartegt.exe
     File Files\Globe128x128.ico
     File Files\qlandkartegt_*.qm
+    File Files\qt_??.qm
+
 
 
   WriteUninstaller "$INSTDIR\Uninstall.exe"
