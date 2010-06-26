@@ -40,13 +40,14 @@ bool operator==(const XY& p1, const XY& p2)
 }
 
 
-COverlayDistance::COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent)
+COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts, QObject * parent)
 : IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
 , points(pts)
 , thePoint(0)
 , name(name)
 , comment(comment)
 , distance(0)
+, speed(speed)
 , doSpecialCursor(false)
 , doMove(false)
 , doAdd(false)
@@ -102,6 +103,8 @@ QString COverlayDistance::getInfo()
     QString info;
     QString val, unit;
 
+    IUnit::self().meter2distance(distance, val, unit);
+
     if(!name.isEmpty())
     {
         info += name + "\n";
@@ -111,8 +114,30 @@ QString COverlayDistance::getInfo()
         info += comment + "\n";
     }
 
-    IUnit::self().meter2distance(distance, val, unit);
     info += tr("Length: %1 %2").arg(val).arg(unit);
+
+    if(speed > 0)
+    {
+        info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " -> ";
+
+        double ttime = val.toDouble() * 3600 / (speed * IUnit::self().speedfactor);
+        quint32 days = ttime / 86400;
+
+        QTime time;
+        time = time.addSecs(ttime);
+        if(days)
+        {
+            info += tr("%1:").arg(days) + time.toString("HH:mm") + "h";
+        }
+        else
+        {
+            info += time.toString("HH:mm") + "h";
+        }
+
+    }
+
+
+
     return info;
 }
 

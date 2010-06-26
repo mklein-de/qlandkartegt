@@ -99,7 +99,7 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                         s1 >> pt.u >> pt.v;
                         points << pt;
                     }
-                    db.addDistance(name, comment, points);
+                    db.addDistance(name, comment, 0.0, points);
                 }
                 break;
             }

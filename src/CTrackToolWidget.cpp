@@ -317,7 +317,7 @@ void CTrackToolWidget::slotToOverlay()
             pts << pt;
         }
 
-        COverlayDB::self().addDistance(track->name, tr("created from track"), pts);
+        COverlayDB::self().addDistance(track->name, tr("created from track"), 0.0, pts);
     }
 
     CMegaMenu::self().switchByKeyWord("Overlay");

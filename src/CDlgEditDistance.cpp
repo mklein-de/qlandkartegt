@@ -19,6 +19,7 @@
 
 #include "CDlgEditDistance.h"
 #include "COverlayDistance.h"
+#include "IUnit.h"
 
 CDlgEditDistance::CDlgEditDistance(COverlayDistance &ovl, QWidget * parent)
 : QDialog(parent)
@@ -27,6 +28,9 @@ CDlgEditDistance::CDlgEditDistance(COverlayDistance &ovl, QWidget * parent)
     setupUi(this);
     lineName->setText(ovl.name);
     textComment->setText(ovl.comment);
+
+    labelUnit->setText(IUnit::self().speedunit);
+    lineSpeed->setText(QString::number(ovl.speed * IUnit::self().speedfactor));
 }
 
 
@@ -40,5 +44,6 @@ void CDlgEditDistance::accept()
 {
     ovl.name = lineName->text();
     ovl.comment = textComment->toPlainText();
+    ovl.speed = lineSpeed->text().toDouble() / IUnit::self().speedfactor;
     QDialog::accept();
 }

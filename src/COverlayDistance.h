@@ -31,7 +31,7 @@ class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
     public:
-        COverlayDistance(const QString& name, const QString& comment, const QList<XY>& pts, QObject * parent);
+        COverlayDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
         /// returns true while moving a waypoint
@@ -86,6 +86,7 @@ class COverlayDistance : public IOverlay
         QString name;
         QString comment;
         double distance;
+        double speed;
 
         QRect rectDel;
         QRect rectMove;

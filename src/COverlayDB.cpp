@@ -155,6 +155,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                 {
                     QString name;
                     QString comment;
+                    double speed = 0.0;
                     QList<XY> points;
                     QDomNodeList list;
                     QDomNode node;
@@ -172,6 +173,13 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         comment = node.toElement().text();
                     }
 
+                    list = element.elementsByTagName("speed");
+                    if(list.count() == 1)
+                    {
+                        node = list.item(0);
+                        speed = node.toElement().text().toDouble();
+                    }
+
                     list = element.elementsByTagName("point");
                     for(int i = 0; i < list.size(); ++i)
                     {
@@ -181,7 +189,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         points << pt;
                     }
 
-                    addDistance(name, comment, points);
+                    addDistance(name, comment, speed, points);
                 }
 
             }
@@ -267,6 +275,10 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
             QDomElement comment = gpx.createElement("ql:comment");
             elem.appendChild(comment);
             comment.appendChild(gpx.createTextNode(ovl->comment));
+
+            QDomElement speed = gpx.createElement("ql:speed");
+            elem.appendChild(speed);
+            speed.appendChild(gpx.createTextNode(QString("%1").arg(ovl->speed)));
 
             XY pt;
             foreach(pt, ovl->points)
@@ -356,9 +368,9 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 }
 
 
-COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, const QList<XY>& pts)
+COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts)
 {
-    IOverlay * overlay = new COverlayDistance(name, comment, pts, this);
+    IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
     overlays[overlay->key] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
