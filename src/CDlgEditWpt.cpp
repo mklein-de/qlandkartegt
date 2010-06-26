@@ -319,6 +319,10 @@ void CDlgEditWpt::slotUpdateBarcode()
 
         barcode += "    ";
         barcode = barcode.replace('\260',' ');
+        if(barcode.size() > 180)
+        {
+            barcode = barcode.left(177) + "...";
+        }
         dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toAscii().data() );
 
         QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
