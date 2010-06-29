@@ -119,51 +119,31 @@ void CWptToolWidget::slotDBChanged()
     listWpts->clear();
 
     CWptDB::keys_t key;
-    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+    sortpos  = linePosition->text();
 
     if(toolSortAlpha->isChecked())
     {
-        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
         sortmode = eSortByName;
     }
     else if(toolSortComment->isChecked())
     {
-        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanComment);
         sortmode = eSortByComment;
     }
     else if(toolSortIcon->isChecked())
     {
-        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanIcon);
         sortmode = eSortByIcon;
     }
     else if(toolSortPosition->isChecked())
     {
-        XY p1, p2;
-        float lon, lat;
-        GPS_Math_Str_To_Deg(linePosition->text(), lon, lat, true);
-        p1.u = lon * DEG_TO_RAD;
-        p1.v = lat * DEG_TO_RAD;
-
-        QList<CWptDB::keys_t>::iterator k = keys.begin();
-        while(k != keys.end())
-        {
-            double a1 = 0, a2 = 0;
-
-            p2.u = k->lon * DEG_TO_RAD;
-            p2.v = k->lat * DEG_TO_RAD;
-
-            k->d = distance(p1, p2, a1, a2);
-            ++k;
-        }
-        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanDistance);
         sortmode = eSortByDistance;
-        sortpos  = linePosition->text();
     }
     else
     {
-        qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
         sortmode = eSortByName;
     }
+
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
 
     foreach(key, keys)
     {

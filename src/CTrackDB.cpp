@@ -425,11 +425,18 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
     QString str;
     QDomElement root = gpx.documentElement();
     QMap<QString,CTrack*>::iterator track = tracks.begin();
-    while(track != tracks.end())
+
+
+    QList<keys_t> _keys = this->keys();
+    QList<keys_t>::const_iterator _key = _keys.begin();
+
+    while(_key != _keys.end())
     {
-        if(!keys.isEmpty() && !keys.contains((*track)->key()))
+        CTrack * track = tracks[_key->key];
+
+        if(!keys.isEmpty() && !keys.contains(track->key()))
         {
-            ++track;
+            ++_key;
             continue;
         }
 
@@ -438,7 +445,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         QDomElement name = gpx.createElement("name");
         trk.appendChild(name);
-        QDomText _name_ = gpx.createTextNode((*track)->getName());
+        QDomText _name_ = gpx.createTextNode(track->getName());
         name.appendChild(_name_);
 
         QDomElement ext = gpx.createElement("extensions");
@@ -450,14 +457,14 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QDomElement color = gpx.createElement("gpxx:DisplayColor");
         gpxx_ext.appendChild(color);
 
-        QString colname = gpx.getTrackColorMap().left((*track)->getColorIdx());
+        QString colname = gpx.getTrackColorMap().left(track->getColorIdx());
         QDomText _color_ = gpx.createTextNode(colname);
         color.appendChild(_color_);
 
         QDomElement trkseg = gpx.createElement("trkseg");
         trk.appendChild(trkseg);
 
-        QList<CTrack::pt_t>& pts = (*track)->getTrackPoints();
+        QList<CTrack::pt_t>& pts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator pt = pts.begin();
         while(pt != pts.end())
         {
@@ -566,7 +573,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
             ++pt;
         }
 
-        ++track;
+        ++_key;
     }
 
 }
@@ -1160,5 +1167,15 @@ QList<CTrackDB::keys_t> CTrackDB::keys()
         k << k2;
     }
 
+    qSort(k.begin(), k.end(), CTrackDB::keyLessThanAlpha);
+
     return k;
+}
+
+CTrack * CTrackDB::getTrackByKey(const QString& key)
+{
+    if(!tracks.contains(key)) return 0;
+
+    return tracks[key];
+
 }

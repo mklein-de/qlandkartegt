@@ -454,15 +454,11 @@ void CDiaryEditWidget::slotDocWizard()
 
     str += tr("<p>This is an automated diary.</p>");
 
-    QString key;
-    QStringList keys;
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
-
     if(!wpts.isEmpty())
     {
         QString pos;
         CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
-
 
         str += "<h2>Waypoints</h2>";
         str += "<p>";
@@ -483,42 +479,6 @@ void CDiaryEditWidget::slotDocWizard()
 
         CWptDB::keys_t key;
         QList<CWptDB::keys_t> keys = CWptDB::self().keys();
-
-
-        switch(sortmode)
-        {
-            case CWptToolWidget::eSortByName:
-                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanAlpha);
-                break;
-            case CWptToolWidget::eSortByComment:
-                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanComment);
-                break;
-            case CWptToolWidget::eSortByIcon:
-                qSort(keys.begin(), keys.end(), CWptDB::keyLessThanIcon);
-                break;
-            case CWptToolWidget::eSortByDistance:
-                {
-                    XY p1, p2;
-                    float lon, lat;
-                    GPS_Math_Str_To_Deg(pos, lon, lat, true);
-                    p1.u = lon * DEG_TO_RAD;
-                    p1.v = lat * DEG_TO_RAD;
-
-                    QList<CWptDB::keys_t>::iterator k = keys.begin();
-                    while(k != keys.end())
-                    {
-                        double a1 = 0, a2 = 0;
-
-                        p2.u = k->lon * DEG_TO_RAD;
-                        p2.v = k->lat * DEG_TO_RAD;
-
-                        k->d = distance(p1, p2, a1, a2);
-                        ++k;
-                    }
-                    qSort(keys.begin(), keys.end(), CWptDB::keyLessThanDistance);
-                }
-                break;
-        }
 
         foreach(key, keys)
         {
@@ -561,7 +521,7 @@ void CDiaryEditWidget::slotDocWizard()
         str += "</p>";
     }
 
-    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();       
     if(!tracks.isEmpty())
     {
         str += "<h2>Tracks</h2>";
@@ -577,11 +537,12 @@ void CDiaryEditWidget::slotDocWizard()
         str += tr("<th align='left'>Comment</th>");
         str += "</tr>";
 
-        keys = tracks.keys();
-        keys.sort();
+        CTrackDB::keys_t key;
+        QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
+
         foreach(key,keys)
         {
-            CTrack * track = tracks[key];
+            CTrack * track = tracks[key.key];
             str += "<tr bgcolor='#ffffff'>";
             str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());
             str += QString("<td align='left' valign='top'>%1</td>").arg(track->getStartTimestamp().toString());

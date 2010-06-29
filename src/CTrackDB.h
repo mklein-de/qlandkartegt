@@ -97,6 +97,8 @@ class CTrackDB : public IDB
         /// get all keys in the database
         QList<keys_t> keys();
 
+        CTrack * getTrackByKey(const QString& key);
+
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
 
         signals:

@@ -150,6 +150,44 @@ QList<CWptDB::keys_t> CWptDB::keys()
         k << k2;
     }
 
+    QString pos;
+    CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
+
+    switch(sortmode)
+    {
+        case CWptToolWidget::eSortByName:
+            qSort(k.begin(), k.end(), CWptDB::keyLessThanAlpha);
+            break;
+        case CWptToolWidget::eSortByComment:
+            qSort(k.begin(), k.end(), CWptDB::keyLessThanComment);
+            break;
+        case CWptToolWidget::eSortByIcon:
+            qSort(k.begin(), k.end(), CWptDB::keyLessThanIcon);
+            break;
+        case CWptToolWidget::eSortByDistance:
+            {
+                XY p1, p2;
+                float lon, lat;
+                GPS_Math_Str_To_Deg(pos, lon, lat, true);
+                p1.u = lon * DEG_TO_RAD;
+                p1.v = lat * DEG_TO_RAD;
+
+                QList<CWptDB::keys_t>::iterator _k = k.begin();
+                while(_k != k.end())
+                {
+                    double a1 = 0, a2 = 0;
+
+                    p2.u = _k->lon * DEG_TO_RAD;
+                    p2.v = _k->lat * DEG_TO_RAD;
+
+                    _k->d = distance(p1, p2, a1, a2);
+                    ++_k;
+                }
+                qSort(k.begin(), k.end(), CWptDB::keyLessThanDistance);
+            }
+            break;
+    }
+
     return k;
 }
 
@@ -355,37 +393,45 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     QString str;
     QDomElement root = gpx.documentElement();
-    QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
-    while(wpt != wpts.end())
+
+    QList<keys_t> _keys = this->keys();
+    QList<keys_t>::const_iterator _key = _keys.begin();
+
+    while(_key != _keys.end())
     {
-        if((*wpt)->sticky)
+        CWpt * wpt = wpts[_key->key];
+
+        // sticky waypoints are not saved
+        if(wpt->sticky)
         {
-            ++wpt;
+            ++_key;
             continue;
         }
 
-        if(!keys.isEmpty() && !keys.contains((*wpt)->key()))
+        // waypoint filtering
+        // if keys list is not empty the waypoints key has to be in the list
+        if(!keys.isEmpty() && !keys.contains(wpt->key()))
         {
-            ++wpt;
+            ++_key;
             continue;
         }
 
         QDomElement waypoint = gpx.createElement("wpt");
         root.appendChild(waypoint);
-        str.sprintf("%1.8f", (*wpt)->lat);
+        str.sprintf("%1.8f", wpt->lat);
         waypoint.setAttribute("lat",str);
-        str.sprintf("%1.8f", (*wpt)->lon);
+        str.sprintf("%1.8f", wpt->lon);
         waypoint.setAttribute("lon",str);
 
-        if((*wpt)->ele != 1e25f)
+        if(wpt->ele != 1e25f)
         {
             QDomElement ele = gpx.createElement("ele");
             waypoint.appendChild(ele);
-            QDomText _ele_ = gpx.createTextNode(QString::number((*wpt)->ele));
+            QDomText _ele_ = gpx.createTextNode(QString::number(wpt->ele));
             ele.appendChild(_ele_);
         }
 
-        QDateTime t = QDateTime::fromTime_t((*wpt)->timestamp);
+        QDateTime t = QDateTime::fromTime_t(wpt->timestamp);
         QDomElement time = gpx.createElement("time");
         waypoint.appendChild(time);
         QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
@@ -393,50 +439,50 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         QDomElement name = gpx.createElement("name");
         waypoint.appendChild(name);
-        QDomText _name_ = gpx.createTextNode((*wpt)->name);
+        QDomText _name_ = gpx.createTextNode(wpt->name);
         name.appendChild(_name_);
 
-        if(!(*wpt)->comment.isEmpty())
+        if(!wpt->comment.isEmpty())
         {
             QDomElement cmt = gpx.createElement("cmt");
             waypoint.appendChild(cmt);
-            QDomText _cmt_ = gpx.createTextNode((*wpt)->comment);
+            QDomText _cmt_ = gpx.createTextNode(wpt->comment);
             cmt.appendChild(_cmt_);
         }
 
-        if(!(*wpt)->link.isEmpty())
+        if(!wpt->link.isEmpty())
         {
             QDomElement link = gpx.createElement("link");
             waypoint.appendChild(link);
-            link.setAttribute("href",(*wpt)->link);
+            link.setAttribute("href",wpt->link);
             QDomElement text = gpx.createElement("text");
             link.appendChild(text);
-            QDomText _text_ = gpx.createTextNode((*wpt)->name);
+            QDomText _text_ = gpx.createTextNode(wpt->name);
             text.appendChild(_text_);
         }
 
         QDomElement sym = gpx.createElement("sym");
         waypoint.appendChild(sym);
-        QDomText _sym_ = gpx.createTextNode((*wpt)->icon);
+        QDomText _sym_ = gpx.createTextNode(wpt->icon);
         sym.appendChild(_sym_);
 
-        if((*wpt)->prx != 1e25f)
+        if(wpt->prx != 1e25f)
         {
             QDomElement extensions = gpx.createElement("extensions");
             waypoint.appendChild(extensions);
             QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");
             extensions.appendChild(gpxx_ext);
 
-            if((*wpt)->prx != 1e25f)
+            if(wpt->prx != 1e25f)
             {
                 QDomElement proximity = gpx.createElement("gpxx:Proximity");
                 gpxx_ext.appendChild(proximity);
-                QDomText _proximity_ = gpx.createTextNode(QString::number((*wpt)->prx));
+                QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
                 proximity.appendChild(_proximity_);
             }
         }
 
-        ++wpt;
+        ++_key;
     }
 }
 
@@ -558,23 +604,6 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawPixmap(u-6 , v-6, back);
 
             p.drawPixmap(u-7 , v-7, icon);
-
-//            if((*wpt)->prx != WPT_NOFLOAT)
-//            {
-//                XY pt1, pt2;
-//
-//                pt1.u = (*wpt)->lon * DEG_TO_RAD;
-//                pt1.v = (*wpt)->lat * DEG_TO_RAD;
-//                pt2 = GPS_Math_Wpt_Projection(pt1, (*wpt)->prx, 90 * DEG_TO_RAD);
-//                map.convertRad2Pt(pt2.u,pt2.v);
-//                double r = pt2.u - u;
-//
-//                p.setBrush(Qt::NoBrush);
-//                p.setPen(QPen(Qt::white,3));
-//                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
-//                p.setPen(QPen(Qt::red,1));
-//                p.drawEllipse(QRect(u - r - 1, v - r - 1, 2*r + 1, 2*r + 1));
-//            }
 
             CCanvas::drawText((*wpt)->name,p,QPoint(u,v - 10));
 
