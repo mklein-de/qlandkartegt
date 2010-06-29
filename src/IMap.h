@@ -266,7 +266,7 @@ class IMap : public QObject
 
 
         */
-        virtual void getClosePolyline(const QPoint& pt, qint32 threshold, QPolygon& line);
+        virtual void getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& line);
 
         static double midU;
         static double midV;

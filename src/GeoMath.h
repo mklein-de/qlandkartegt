@@ -24,6 +24,8 @@
 #undef LP
 #endif
 #include <QVector>
+#include <QPoint>
+#include <QPolygon>
 
 extern const double WGS84_a;
 extern const double WGS84_b;
@@ -110,4 +112,7 @@ extern double parallel_distance(const XY& p1, const XY& p2);
     @return The function will return the resulting point in [rad]
 */
 extern XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing);
+
+
+extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, const QPolygon& line1, QPolygon& line2);
 #endif                           //GEOMATH_H

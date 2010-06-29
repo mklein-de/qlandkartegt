@@ -531,6 +531,38 @@ void COverlayDistance::draw(QPainter& p)
             p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
         }
     }
+
+    if(thePoint && doMove)
+    {
+        IMap& map = CMapDB::self().getMap();
+
+        double u = thePoint->u;
+        double v = thePoint->v;
+
+        map.convertRad2Pt(u,v);
+        QPoint pt(u, v);
+
+        CMapDB::self().getMap().getClosePolyline(pt, 10, leadline);
+
+        if(!leadline.isEmpty())
+        {
+            XY p2 = *(points.end() - 2);
+            map.convertRad2Pt(p2.u,p2.v);
+
+            GPS_Math_SubPolyline(QPoint(u,v), pt, leadline, subline);
+
+            p.setPen(QPen(Qt::magenta, 5));
+            if(!subline.isEmpty())
+            {
+                p.drawPolyline(subline);
+            }
+            else
+            {
+                p.drawPolyline(leadline);
+            }
+
+        }
+    }
 }
 
 

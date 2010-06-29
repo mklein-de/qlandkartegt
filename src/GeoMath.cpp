@@ -444,3 +444,9 @@ XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing)
     pt2.v = lat2;
     return pt2;
 }
+
+
+extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, const QPolygon& line1, QPolygon& line2)
+{
+
+}

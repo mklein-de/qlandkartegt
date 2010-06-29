@@ -2544,6 +2544,100 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     pt = resPt.toPoint();
 }
 
+void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
+{
+    QPoint res;
+    int i = 0;                   // index into poly line
+    int len;                     // number of points in line
+    XY p1, p2;                   // the two points of the polyline close to pt
+    double dx,dy;                // delta x and y defined by p1 and p2
+    double d_p1_p2;              // distance between p1 and p2
+    double u;                    // ratio u the tangent point will divide d_p1_p2
+    double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
+    double distance;             // the distance to the polyline
+
+    polyline.clear();
+
+    const CGarminPolygon * pLine = 0;
+
+    polytype_t::const_iterator line = polylines.begin();
+    while(line != polylines.end())
+    {
+        len = line->u.count();
+        // need at least 2 points
+        if(len < 2)
+        {
+            ++line;
+            continue;
+        }
+
+        // see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
+        for(i=1; i<len; ++i)
+        {
+            p1.u = line->u[i-1];
+            p1.v = line->v[i-1];
+            p2.u = line->u[i];
+            p2.v = line->v[i];
+
+            dx = p2.u - p1.u;
+            dy = p2.v - p1.v;
+
+            d_p1_p2 = sqrt(dx * dx + dy * dy);
+
+            u = ((pt.x() - p1.u) * dx + (pt.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
+
+            if(u < 0.0 || u > 1.0) continue;
+
+            x = p1.u + u * dx;
+            y = p1.v + u * dy;
+
+            distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
+
+            if(distance < threshold)
+            {
+                switch(line->type)
+                {
+                            // "Minor depht contour"
+                    case 0x23:
+                            // "Minor land contour"
+                    case 0x20:
+                            // "Intermediate depth contour",
+                    case 0x24:
+                            // "Intermediate land contour",
+                    case 0x21:
+                            // "Major depth contour",
+                    case 0x25:
+                            // "Major land contour",
+                    case 0x22:
+                       break;
+
+                    default:
+                       res.setX(x);
+                       res.setY(y);
+
+                       pLine = &(*line);
+                       threshold = distance;
+                }
+            }
+        }
+        ++line;
+    }
+
+    if(pLine)
+    {
+        qDebug() << pLine;
+        const int size = pLine->u.size();
+        for(i = 0; i < size; i++)
+        {
+            qDebug() << pLine->u[i], pLine->v[i];
+            polyline << QPoint(pLine->u[i], pLine->v[i]);
+        }
+
+        pt = res;
+    }
+
+}
+
 
 void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dict)
 {

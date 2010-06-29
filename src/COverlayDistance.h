@@ -100,6 +100,10 @@ class COverlayDistance : public IOverlay
 
         double anglePrev;
         double angleNext;
+
+        QPolygon leadline;
+
+        QPolygon subline;
 };
 
 #define OVL_NOFLOAT 1e25f
