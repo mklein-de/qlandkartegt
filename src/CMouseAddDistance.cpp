@@ -40,16 +40,15 @@ CMouseAddDistance::~CMouseAddDistance()
 
 void CMouseAddDistance::mouseMoveEvent(QMouseEvent * e)
 {
-    if(overlay.isNull()) return;
-    pos = e->pos();
-    canvas->update();
 }
 
 
 void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 {
-    if(e->button() == Qt::LeftButton && overlay.isNull())
+    if(e->button() == Qt::LeftButton)
     {
+        canvas->setMouseMode(CCanvas::eMouseOverlay);
+
         pos      = e->pos();
         double x = e->pos().x();
         double y = e->pos().y();
@@ -59,23 +58,7 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         pt.v = y;
         QList<XY> pts;
         pts << pt;
-        overlay = COverlayDB::self().addDistance("", "", 0.0, pts);
-    }
-    else if(e->button() == Qt::LeftButton && !overlay.isNull())
-    {
-        double x = e->pos().x();
-        double y = e->pos().y();
-        CMapDB::self().getMap().convertPt2Rad(x,y);
-        XY pt;
-        pt.u = x;
-        pt.v = y;
-
-        overlay->addPoint(pt);
-    }
-    else if(e->button() == Qt::RightButton)
-    {
-        overlay = 0;
-        canvas->setMouseMode(CCanvas::eMouseMoveArea);
+        selOverlay = COverlayDB::self().addDistance("", "", 0.0, pts);
     }
 }
 
@@ -85,15 +68,3 @@ void CMouseAddDistance::mouseReleaseEvent(QMouseEvent * e)
 }
 
 
-void CMouseAddDistance::draw(QPainter& p)
-{
-    if(overlay.isNull()) return;
-
-    XY pt1 = overlay->getLast();
-    CMapDB::self().getMap().convertRad2Pt(pt1.u, pt1.v);
-
-    p.setPen(QPen(Qt::white, 3));
-    p.drawLine(pt1.u, pt1.v, pos.x(), pos.y());
-    p.setPen(QPen(Qt::red, 1));
-    p.drawLine(pt1.u, pt1.v, pos.x(), pos.y());
-}

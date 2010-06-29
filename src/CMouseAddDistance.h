@@ -35,10 +35,7 @@ class CMouseAddDistance : public IMouse
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
-        void draw(QPainter& p);
-
     private:
-        QPointer<COverlayDistance> overlay;
         QPoint pos;
 };
 #endif                           //CMOUSEADDDISTANCE_H

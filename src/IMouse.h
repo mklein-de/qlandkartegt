@@ -119,7 +119,7 @@ class IMouse : public QObject
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
         /// current selected overlay
-        QPointer<IOverlay> selOverlay;
+        static QPointer<IOverlay> selOverlay;
 
         QRect rectDelWpt;
         QRect rectMoveWpt;

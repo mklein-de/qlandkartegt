@@ -60,6 +60,15 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
     rectAdd2 = QRect(32,32,16,16);
 
     calcDistance();
+
+    if(pts.size() == 1)
+    {
+        points.append(points[0]);
+        thePoint    = &points[1];
+        doMove      = true;
+        doAdd       = true;
+        doFuncWheel = false;
+    }
 }
 
 
@@ -703,12 +712,15 @@ void COverlayDistance::makeVisible()
 
 void COverlayDistance::looseFocus()
 {
+    qDebug() << "void COverlayDistance::looseFocus()";
+
     if(doSpecialCursor)
     {
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;
     }
     doMove          = false;
+    doAdd           = false;
     doFuncWheel     = false;
 }
 

@@ -36,6 +36,8 @@
 #include "WptIcons.h"
 #include <QtGui>
 
+QPointer<IOverlay> IMouse::selOverlay;
+
 IMouse::IMouse(CCanvas * canvas)
 : QObject(canvas)
 , cursor(QPixmap(":/cursor/Arrow"))
