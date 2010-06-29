@@ -25,6 +25,7 @@
 #include <QSize>
 #include <QImage>
 #include <QPointer>
+#include <QPolygonF>
 
 #include <projects.h>
 #ifdef __MINGW32__
@@ -253,10 +254,22 @@ class IMap : public QObject
         */
         virtual GDALDataset * getDataset();
 
+        /// get the line object closest to the given point
+        /**
+          This will only make sense for vector maps. The default implementation
+          simply clears the line object.
+
+          @param pt         point in pixel coords
+          @param threshold  a maximum distance in pixel from point pt to the line.
+                            Every line outside that threshold will be ignored.
+          @param line       reference to a line object the data is copied to. Points will be pixel coords.
+
+
+        */
+        virtual void getClosePolyline(const QPoint& pt, qint32 threshold, QPolygon& line);
+
         static double midU;
         static double midV;
-
-
 
         signals:
         void sigChanged();

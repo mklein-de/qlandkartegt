@@ -712,8 +712,6 @@ void COverlayDistance::makeVisible()
 
 void COverlayDistance::looseFocus()
 {
-    qDebug() << "void COverlayDistance::looseFocus()";
-
     if(doSpecialCursor)
     {
         QApplication::restoreOverrideCursor();
