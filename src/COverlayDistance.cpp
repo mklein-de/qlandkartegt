@@ -267,13 +267,28 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         {
             if(*thePoint == points.last() && doAdd)
             {
-                XY pt;
-                pt.u = e->pos().x();
-                pt.v = e->pos().y();
-                map.convertPt2Rad(pt.u, pt.v);
+                const int size = subline.size();
+                if(size == 0)
+                {
+                    XY pt;
+                    pt.u = e->pos().x();
+                    pt.v = e->pos().y();
+                    map.convertPt2Rad(pt.u, pt.v);
 
-                points.push_back(pt);
+                    points.push_back(pt);
+                }
+                else
+                {
+                    for(int i = 0; i < size; i++)
+                    {
+                        XY pt;
+                        pt.u = subline[i].x();
+                        pt.v = subline[i].y();
+                        map.convertPt2Rad(pt.u, pt.v);
 
+                        points.push_back(pt);
+                    }
+                }
                 thePoint = &points.last();
 
             }
@@ -536,29 +551,41 @@ void COverlayDistance::draw(QPainter& p)
     {
         IMap& map = CMapDB::self().getMap();
 
-        double u = thePoint->u;
-        double v = thePoint->v;
+        double u1 = (points.end() - 2)->u;
+        double v1 = (points.end() - 2)->v;
 
-        map.convertRad2Pt(u,v);
-        QPoint pt(u, v);
+        map.convertRad2Pt(u1,v1);
+        QPoint pt1(u1, v1);
 
-        CMapDB::self().getMap().getClosePolyline(pt, 10, leadline);
+        double u2 = thePoint->u;
+        double v2 = thePoint->v;
+
+        map.convertRad2Pt(u2,v2);
+        QPoint pt2(u2, v2);
+
+
+//        CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
 
         if(!leadline.isEmpty())
         {
-            XY p2 = *(points.end() - 2);
-            map.convertRad2Pt(p2.u,p2.v);
 
-            GPS_Math_SubPolyline(QPoint(u,v), pt, leadline, subline);
+            GPS_Math_SubPolyline(pt1, pt2, 10, leadline, subline);
 
             p.setPen(QPen(Qt::magenta, 5));
             if(!subline.isEmpty())
             {
                 p.drawPolyline(subline);
+
+                p.setPen(Qt::black);
+                for(int i = 0; i < subline.size(); i++)
+                {
+                    p.drawText(subline[i],QString("%1").arg(i));
+                }
+
             }
             else
             {
-                p.drawPolyline(leadline);
+//                p.drawPolyline(leadline);
             }
 
         }

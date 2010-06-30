@@ -2625,15 +2625,13 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
 
     if(pLine)
     {
-        qDebug() << pLine;
         const int size = pLine->u.size();
         for(i = 0; i < size; i++)
         {
-            qDebug() << pLine->u[i], pLine->v[i];
             polyline << QPoint(pLine->u[i], pLine->v[i]);
         }
 
-        pt = res;
+//        pt = res;
     }
 
 }

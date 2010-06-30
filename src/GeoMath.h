@@ -114,5 +114,5 @@ extern double parallel_distance(const XY& p1, const XY& p2);
 extern XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing);
 
 
-extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, const QPolygon& line1, QPolygon& line2);
+extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int threshold, const QPolygon& line1, QPolygon& line2);
 #endif                           //GEOMATH_H

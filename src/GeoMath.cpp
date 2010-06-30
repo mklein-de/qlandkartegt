@@ -446,7 +446,100 @@ XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing)
 }
 
 
-extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, const QPolygon& line1, QPolygon& line2)
+extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, const QPolygon& line1, QPolygon& line2)
 {
+    int i, len;
+    XY p1, p2;
+    double dx,dy;                // delta x and y defined by p1 and p2
+    double d_p1_p2;              // distance between p1 and p2
+    double u;                    // ratio u the tangent point will divide d_p1_p2
+    double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
+    double distance;     // the distance to the polyline
+    double shortest1 = threshold;
+    double shortest2 = threshold;
+    int idx1 = -1, idx2 = -1;
 
+    QPoint pt11;
+    QPoint pt21;
+
+    line2.clear();
+
+    len = line1.size();
+
+    for(i=1; i<len; ++i)
+    {
+        p1.u = line1[i - 1].x();
+        p1.v = line1[i - 1].y();
+        p2.u = line1[i].x();
+        p2.v = line1[i].y();
+
+        dx = p2.u - p1.u;
+        dy = p2.v - p1.v;
+
+        d_p1_p2 = sqrt(dx * dx + dy * dy);
+
+
+        // find point on line closest to pt1
+        u = ((pt1.x() - p1.u) * dx + (pt1.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
+
+        if(u >= 0.0 && u <= 1.0)
+        {
+            x = p1.u + u * dx;
+            y = p1.v + u * dy;
+
+            distance = sqrt((x - pt1.x())*(x - pt1.x()) + (y - pt1.y())*(y - pt1.y()));
+
+            if(distance < shortest1)
+            {
+                idx1 = i;
+                pt11.setX(x);
+                pt11.setY(y);
+                shortest1 = distance;
+            }
+        }
+
+        // find point on line closest to pt2
+        u = ((pt2.x() - p1.u) * dx + (pt2.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
+
+        if(u >= 0.0 && u <= 1.0)
+        {
+
+            x = p1.u + u * dx;
+            y = p1.v + u * dy;
+
+            distance = sqrt((x - pt2.x())*(x - pt2.x()) + (y - pt2.y())*(y - pt2.y()));
+
+            if(distance < shortest2)
+            {
+                idx2 = i;
+                pt21.setX(x);
+                pt21.setY(y);
+                shortest2 = distance;
+            }
+        }
+    }
+
+    qDebug() << line1.size() << idx1 << idx2 << pt1 << pt2 << pt11 << pt21;
+
+    if(idx1 != -1 && idx2 != -1)
+    {
+        if(idx1 < idx2)
+        {
+            line2 << pt11;
+            for(i = idx1 + 1; i < idx2; i++)
+            {
+                line2 << line1[i];
+            }
+            line2 << pt21;
+        }
+        else
+        {
+            line2 << pt11;
+            for(i = idx1 - 1; i > idx2; i--)
+            {
+                line2 << line1[i];
+            }
+            line2 << pt21;
+        }
+    }
 }
