@@ -1065,7 +1065,7 @@ bool CMapTDB::processPrimaryMapData()
 
     qDebug() << "name:\t\t" << name;
     qDebug() << "basemap:\t" << basemap;
-    qDebug() << "dimensions:\t" << "N" << north << "E" << east << "S" << south << "W" << west;
+    qDebug() << "dimensions:\t" << "N" << (north*RAD_TO_DEG) << "E" << (east*RAD_TO_DEG) << "S" << (south*RAD_TO_DEG) << "W" << (west*RAD_TO_DEG);
 
     const QMap<QString,CGarminTile::subfile_desc_t>& subfiles            = baseimg->getSubFiles();
     QMap<QString,CGarminTile::subfile_desc_t>::const_iterator subfile    = subfiles.begin();
