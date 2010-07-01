@@ -498,6 +498,30 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
                 shortest1 = distance;
             }
         }
+        else
+        {
+            QPoint px = line1.first();
+            distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+            if(distance < (threshold<<1))
+            {
+                idx11 = 0;
+                idx12 = 1;
+                pt11 = px;
+            }
+            else
+            {
+                px = line1.last();
+                distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+                if(distance < (threshold<<1))
+                {
+                    idx11 = line1.size() - 2;
+                    idx12 = line1.size() - 1;
+                    pt11 = px;
+                }
+            }
+
+        }
+
 
         // find point on line closest to pt2
         u = ((pt2.x() - p1.u) * dx + (pt2.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
@@ -539,12 +563,12 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         else if(idx11 < idx21)
         {
             line2.push_back(pt11);
-            for(i = idx12; i < idx21; i++)
+            for(i = idx12; i <= idx21; i++)
             {
                 line2.push_back(line1[i]);
             }
             line2.push_back(pt21);
-        }        
+        }
         else if(idx11 > idx21)
         {
             line2.push_back(pt11);
