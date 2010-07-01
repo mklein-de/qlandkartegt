@@ -268,7 +268,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             if(*thePoint == points.last() && doAdd)
             {
                 const int size = subline.size();
-                if(size == 0)
+                if(size < 2)
                 {
                     XY pt;
                     pt.u = e->pos().x();
@@ -279,15 +279,24 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 }
                 else
                 {
-                    for(int i = 0; i < size; i++)
+                    XY pt;
+                    pt.u = subline[1].x();
+                    pt.v = subline[1].y();
+                    map.convertPt2Rad(pt.u, pt.v);
+
+                    *thePoint = pt;
+
+                    for(int i = 2; i < size; i++)
                     {
-                        XY pt;
                         pt.u = subline[i].x();
                         pt.v = subline[i].y();
                         map.convertPt2Rad(pt.u, pt.v);
 
                         points.push_back(pt);
                     }
+
+                    points.push_back(pt);
+
                 }
                 thePoint = &points.last();
 
@@ -439,10 +448,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
 void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 {
-    //     QPoint pos = e->pos();
-    //     IMap& map  = CMapDB::self().getMap();
-    //
-    //     emit sigChanged();
+
 }
 
 
@@ -469,10 +475,9 @@ void COverlayDistance::draw(QPainter& p)
         p.setPen(QPen(Qt::white, 1));
         p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
 
-        p.drawPixmap(pt2.u - 5, pt2.v - 5, icon);
-
         pt1 = pt2;
     }
+
 
     for(int i = 0; i < points.count(); i++)
     {
@@ -564,7 +569,7 @@ void COverlayDistance::draw(QPainter& p)
         QPoint pt2(u2, v2);
 
 
-//        CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
+        CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
 
         if(!leadline.isEmpty())
         {
@@ -593,12 +598,12 @@ void COverlayDistance::draw(QPainter& p)
 }
 
 
-void COverlayDistance::addPoint(XY& pt)
-{
-    points << pt;
-    calcDistance();
-    emit sigChanged();
-}
+//void COverlayDistance::addPoint(XY& pt)
+//{
+//    points << pt;
+//    calcDistance();
+//    emit sigChanged();
+//}
 
 
 void COverlayDistance::calcDistance()

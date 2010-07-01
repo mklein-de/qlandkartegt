@@ -457,7 +457,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     double distance;     // the distance to the polyline
     double shortest1 = threshold;
     double shortest2 = threshold;
-    int idx1 = -1, idx2 = -1;
+    int idx11 = -1, idx21 = -1, idx12 = -1, idx22 = -1;;
 
     QPoint pt11;
     QPoint pt21;
@@ -491,7 +491,8 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
 
             if(distance < shortest1)
             {
-                idx1 = i;
+                idx11 = i - 1;
+                idx12 = i;
                 pt11.setX(x);
                 pt11.setY(y);
                 shortest1 = distance;
@@ -511,7 +512,8 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
 
             if(distance < shortest2)
             {
-                idx2 = i;
+                idx21 = i - 1;
+                idx22 = i;
                 pt21.setX(x);
                 pt21.setY(y);
                 shortest2 = distance;
@@ -519,27 +521,39 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         }
     }
 
-    qDebug() << line1.size() << idx1 << idx2 << pt1 << pt2 << pt11 << pt21;
+    qDebug() << line1.size() << idx11 << idx12 << idx21 << idx22 << pt1 << pt2 << pt11 << pt21;
 
-    if(idx1 != -1 && idx2 != -1)
+    if(idx11 != -1 && idx21 != -1)
     {
-        if(idx1 < idx2)
+        if(idx11 == idx21)
         {
-            line2 << pt11;
-            for(i = idx1 + 1; i < idx2; i++)
-            {
-                line2 << line1[i];
-            }
-            line2 << pt21;
+            line2.push_back(pt11);
+            line2.push_back(pt21);
         }
-        else
+        else if(idx12 == idx21)
         {
-            line2 << pt11;
-            for(i = idx1 - 1; i > idx2; i--)
-            {
-                line2 << line1[i];
-            }
-            line2 << pt21;
+            line2.push_back(pt11);
+            line2.push_back(line1[idx12]);
+            line2.push_back(pt21);
         }
+        else if(idx11 < idx21)
+        {
+            line2.push_back(pt11);
+            for(i = idx12; i < idx21; i++)
+            {
+                line2.push_back(line1[i]);
+            }
+            line2.push_back(pt21);
+        }        
+        else if(idx11 > idx21)
+        {
+            line2.push_back(pt11);
+            for(i = idx11; i > idx21; i--)
+            {
+                line2.push_back(line1[i]);
+            }
+            line2.push_back(pt21);
+        }
+
     }
 }
