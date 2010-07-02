@@ -252,7 +252,51 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
                 doSpecialCursor = false;
             }
         }
+
+        if(doAdd)
+        {
+            double u1, v1, u2, v2;
+            IMap& map = CMapDB::self().getMap();
+
+            if(*thePoint == points.last())
+            {
+                u1 = (points.end() - 2)->u;
+                v1 = (points.end() - 2)->v;
+            }
+            else if(*thePoint == points.first())
+            {
+                u1 = (points.begin() + 1)->u;
+                v1 = (points.begin() + 1)->v;
+            }
+            else
+            {
+                subline.clear();
+                return;
+            }
+
+            map.convertRad2Pt(u1,v1);
+            QPoint pt1(u1, v1);
+
+            u2 = thePoint->u;
+            v2 = thePoint->v;
+
+            map.convertRad2Pt(u2,v2);
+            QPoint pt2(u2, v2);
+
+
+            CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
+
+            if(!leadline.isEmpty())
+            {
+                GPS_Math_SubPolyline(pt1, pt2, 10, leadline, subline);
+            }
+        }
+        else
+        {
+            subline.clear();
+        }
     }
+
 }
 
 
@@ -461,11 +505,11 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             doMove      = false;
             doAdd       = false;
+            subline.clear();
 
             QApplication::restoreOverrideCursor();
             return;
-        }
-
+        }        
     }
 }
 
@@ -576,57 +620,19 @@ void COverlayDistance::draw(QPainter& p)
         }
     }
 
-    if(thePoint && doAdd)
+
+
+    if(!subline.isEmpty())
     {
-        double u1, v1, u2, v2;
-        IMap& map = CMapDB::self().getMap();
+        QPixmap icon(":/icons/bullet_red.png");
+        p.setPen(QPen(Qt::magenta, 5));
+        p.drawPolyline(subline);
 
-        if(*thePoint == points.last())
+        p.setPen(Qt::black);
+        for(int i = 1; i < (subline.size() - 1); i++)
         {
-            u1 = (points.end() - 2)->u;
-            v1 = (points.end() - 2)->v;
-        }
-        else if(*thePoint == points.first())
-        {
-            u1 = (points.begin() + 1)->u;
-            v1 = (points.begin() + 1)->v;
-        }
-        else
-        {
-            subline.clear();
-            return;
-        }
-
-        map.convertRad2Pt(u1,v1);
-        QPoint pt1(u1, v1);
-
-        u2 = thePoint->u;
-        v2 = thePoint->v;
-
-        map.convertRad2Pt(u2,v2);
-        QPoint pt2(u2, v2);
-
-
-        CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
-
-        if(!leadline.isEmpty())
-        {
-
-            GPS_Math_SubPolyline(pt1, pt2, 10, leadline, subline);
-
-            p.setPen(QPen(Qt::magenta, 5));
-            if(!subline.isEmpty())
-            {
-                p.drawPolyline(subline);
-
-                p.setPen(Qt::black);
-                for(int i = 0; i < subline.size(); i++)
-                {
-//                    p.drawText(subline[i],QString("%1").arg(i));
-                    p.drawPixmap(subline[i] - QPoint(5,5), icon);
-                }
-
-            }
+//            p.drawText(subline[i],QString("%1").arg(i));
+            p.drawPixmap(subline[i] - QPoint(5,5), icon);
         }
     }
 }
