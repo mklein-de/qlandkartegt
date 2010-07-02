@@ -303,13 +303,37 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             }
             else if(*thePoint == points.first() && doAdd)
             {
-                XY pt;
-                pt.u = e->pos().x();
-                pt.v = e->pos().y();
-                map.convertPt2Rad(pt.u, pt.v);
+                const int size = subline.size();
+                if(size < 2)
+                {
 
-                points.push_front(pt);
+                    XY pt;
+                    pt.u = e->pos().x();
+                    pt.v = e->pos().y();
+                    map.convertPt2Rad(pt.u, pt.v);
 
+                    points.push_front(pt);
+                }
+                else
+                {
+                    XY pt;
+                    pt.u = subline[1].x();
+                    pt.v = subline[1].y();
+                    map.convertPt2Rad(pt.u, pt.v);
+
+                    *thePoint = pt;
+
+                    for(int i = 2; i < size; i++)
+                    {
+                        pt.u = subline[i].x();
+                        pt.v = subline[i].y();
+                        map.convertPt2Rad(pt.u, pt.v);
+
+                        points.push_front(pt);
+                    }
+
+                    points.push_front(pt);
+                }
                 thePoint = &points.first();
             }
             else
@@ -552,18 +576,32 @@ void COverlayDistance::draw(QPainter& p)
         }
     }
 
-    if(thePoint && doMove)
+    if(thePoint && doAdd)
     {
+        double u1, v1, u2, v2;
         IMap& map = CMapDB::self().getMap();
 
-        double u1 = (points.end() - 2)->u;
-        double v1 = (points.end() - 2)->v;
+        if(*thePoint == points.last())
+        {
+            u1 = (points.end() - 2)->u;
+            v1 = (points.end() - 2)->v;
+        }
+        else if(*thePoint == points.first())
+        {
+            u1 = (points.begin() + 1)->u;
+            v1 = (points.begin() + 1)->v;
+        }
+        else
+        {
+            subline.clear();
+            return;
+        }
 
         map.convertRad2Pt(u1,v1);
         QPoint pt1(u1, v1);
 
-        double u2 = thePoint->u;
-        double v2 = thePoint->v;
+        u2 = thePoint->u;
+        v2 = thePoint->v;
 
         map.convertRad2Pt(u2,v2);
         QPoint pt2(u2, v2);
@@ -584,26 +622,16 @@ void COverlayDistance::draw(QPainter& p)
                 p.setPen(Qt::black);
                 for(int i = 0; i < subline.size(); i++)
                 {
-                    p.drawText(subline[i],QString("%1").arg(i));
+//                    p.drawText(subline[i],QString("%1").arg(i));
+                    p.drawPixmap(subline[i] - QPoint(5,5), icon);
                 }
 
             }
-            else
-            {
-//                p.drawPolyline(leadline);
-            }
-
         }
     }
 }
 
 
-//void COverlayDistance::addPoint(XY& pt)
-//{
-//    points << pt;
-//    calcDistance();
-//    emit sigChanged();
-//}
 
 
 void COverlayDistance::calcDistance()

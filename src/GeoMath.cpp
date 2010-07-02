@@ -466,6 +466,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
 
     len = line1.size();
 
+    // find points on line closest to pt1 and pt2
     for(i=1; i<len; ++i)
     {
         p1.u = line1[i - 1].x();
@@ -475,7 +476,6 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
 
         dx = p2.u - p1.u;
         dy = p2.v - p1.v;
-
         d_p1_p2 = sqrt(dx * dx + dy * dy);
 
 
@@ -497,29 +497,6 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
                 pt11.setY(y);
                 shortest1 = distance;
             }
-        }
-        else
-        {
-            QPoint px = line1.first();
-            distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
-            if(distance < (threshold<<1))
-            {
-                idx11 = 0;
-                idx12 = 1;
-                pt11 = px;
-            }
-            else
-            {
-                px = line1.last();
-                distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
-                if(distance < (threshold<<1))
-                {
-                    idx11 = line1.size() - 2;
-                    idx12 = line1.size() - 1;
-                    pt11 = px;
-                }
-            }
-
         }
 
 
@@ -545,8 +522,57 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         }
     }
 
-    qDebug() << line1.size() << idx11 << idx12 << idx21 << idx22 << pt1 << pt2 << pt11 << pt21;
+    // if 1st point can't be found test for distance to both ends
+    if(idx11 == -1)
+    {
+        QPoint px = line1.first();
+        distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+        if(distance < (threshold<<1))
+        {
+            idx11 = 0;
+            idx12 = 1;
+            pt11 = px;
+        }
+        else
+        {
+            px = line1.last();
+            distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+            if(distance < (threshold<<1))
+            {
+                idx11 = line1.size() - 2;
+                idx12 = line1.size() - 1;
+                pt11 = px;
+            }
+        }
+    }
 
+    // if 2nd point can't be found test for distance to both ends
+    if(idx21 == -1)
+    {
+        QPoint px = line1.first();
+        distance = sqrt((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y()));
+        if(distance < (threshold<<1))
+        {
+            idx21 = 0;
+            idx22 = 1;
+            pt21 = px;
+        }
+        else
+        {
+            px = line1.last();
+            distance = sqrt((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y()));
+            if(distance < (threshold<<1))
+            {
+                idx21 = line1.size() - 2;
+                idx22 = line1.size() - 1;
+                pt21 = px;
+            }
+        }
+    }
+
+//    qDebug() << line1.size() << idx11 << idx12 << idx21 << idx22 << pt1 << pt2 << pt11 << pt21;
+
+    // copy segment of line 1 to line2
     if(idx11 != -1 && idx21 != -1)
     {
         if(idx11 == idx21)

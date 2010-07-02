@@ -2555,6 +2555,7 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
     double u;                    // ratio u the tangent point will divide d_p1_p2
     double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
     double distance;             // the distance to the polyline
+    quint32 th = threshold;
 
     polyline.clear();
 
@@ -2596,19 +2597,13 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
             if(distance < threshold)
             {
                 switch(line->type)
-                {
-                            // "Minor depht contour"
-                    case 0x23:
-                            // "Minor land contour"
-                    case 0x20:
-                            // "Intermediate depth contour",
-                    case 0x24:
-                            // "Intermediate land contour",
-                    case 0x21:
-                            // "Major depth contour",
-                    case 0x25:
-                            // "Major land contour",
-                    case 0x22:
+                {                            
+                    case 0x23: // "Minor depht contour"
+                    case 0x20: // "Minor land contour"
+                    case 0x24: // "Intermediate depth contour",
+                    case 0x21: // "Intermediate land contour",
+                    case 0x25: // "Major depth contour",
+                    case 0x22: // "Major land contour",
                        break;
 
                     default:
