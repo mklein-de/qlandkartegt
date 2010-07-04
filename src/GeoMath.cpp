@@ -526,7 +526,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     if(idx11 == -1)
     {
         QPoint px = line1.first();
-        distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+        distance = sqrt((double)((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y())));
         if(distance < (threshold<<1))
         {
             idx11 = 0;
@@ -536,7 +536,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         else
         {
             px = line1.last();
-            distance = sqrt((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y()));
+            distance = sqrt((double)((px.x() - pt1.x())*(px.x() - pt1.x()) + (px.y() - pt1.y())*(px.y() - pt1.y())));
             if(distance < (threshold<<1))
             {
                 idx11 = line1.size() - 2;
@@ -550,7 +550,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     if(idx21 == -1)
     {
         QPoint px = line1.first();
-        distance = sqrt((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y()));
+        distance = sqrt((double)((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y())));
         if(distance < (threshold<<1))
         {
             idx21 = 0;
@@ -560,7 +560,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         else
         {
             px = line1.last();
-            distance = sqrt((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y()));
+            distance = sqrt((double)((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y())));
             if(distance < (threshold<<1))
             {
                 idx21 = line1.size() - 2;

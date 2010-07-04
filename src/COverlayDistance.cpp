@@ -221,6 +221,8 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
     QPoint pos  = e->pos();
     QPoint pos1 = e->pos();
 
+    subline.clear();
+
     if(thePoint)
     {
         XY pt = *thePoint;
@@ -270,7 +272,6 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             }
             else
             {
-                subline.clear();
                 return;
             }
 
@@ -290,10 +291,6 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             {
                 GPS_Math_SubPolyline(pt1, pt2, 10, leadline, subline);
             }
-        }
-        else
-        {
-            subline.clear();
         }
     }
 
@@ -343,6 +340,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
                 }
                 thePoint = &points.last();
+                subline.clear();
 
             }
             else if(*thePoint == points.first() && doAdd)
@@ -379,6 +377,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                     points.push_front(pt);
                 }
                 thePoint = &points.first();
+                subline.clear();
             }
             else
             {
@@ -389,8 +388,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             }
             calcDistance();
             theMainWindow->getCanvas()->update();
-
-
 
             emit sigChanged();
             return;
@@ -509,7 +506,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             QApplication::restoreOverrideCursor();
             return;
-        }        
+        }
     }
 }
 
@@ -526,12 +523,32 @@ void COverlayDistance::draw(QPainter& p)
 
     IMap& map = CMapDB::self().getMap();
 
-    QPixmap icon(":/icons/bullet_blue.png");
+    QPixmap icon_blue(":/icons/small_bullet_blue.png");
+    QPixmap icon_red(":/icons/small_bullet_red.png");
     XY pt1, pt2;
-    pt1 = points.first();
+
+    int start   = 0;
+    int stop    = points.count();
+
+    // if there is an active subline fine tune start and stop index
+    // to make the subline replace the first of last line segment
+    if(thePoint && !subline.isEmpty())
+    {
+        if(*thePoint == points.last() )
+        {
+            stop -= 1;
+        }
+        else if(*thePoint == points.first())
+        {
+            start += 1;
+        }
+    }
+
+    pt1 = points[start];
     map.convertRad2Pt(pt1.u, pt1.v);
 
-    for(int i = 1; i < points.count(); i++)
+    // draw the lines
+    for(int i = start + 1; i < stop; i++)
     {
         pt2 = points[i];
         map.convertRad2Pt(pt2.u, pt2.v);
@@ -546,12 +563,39 @@ void COverlayDistance::draw(QPainter& p)
         pt1 = pt2;
     }
 
-
-    for(int i = 0; i < points.count(); i++)
+    // draw the points
+    for(int i = start; i < stop; i++)
     {
         pt2 = points[i];
+
         map.convertRad2Pt(pt2.u, pt2.v);
-        p.drawPixmap(pt2.u - 5, pt2.v - 5, icon);
+        p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_blue);
+    }
+
+    // overlay _the_ point with a red bullet
+    if(thePoint)
+    {
+        pt2 = *thePoint;
+        map.convertRad2Pt(pt2.u, pt2.v);
+        p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_red);
+    }
+
+    // if there is a subline draw it
+    if(!subline.isEmpty())
+    {
+
+        p.setPen(QPen(Qt::white, 5));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::darkBlue, 3));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::white, 1));
+        p.drawPolyline(subline);
+
+        p.setPen(Qt::black);
+        for(int i = 1; i < (subline.size() - 1); i++)
+        {
+            p.drawPixmap(subline[i] - QPoint(4,4), icon_red);
+        }
     }
 
     if(thePoint && !doMove)
@@ -617,22 +661,6 @@ void COverlayDistance::draw(QPainter& p)
             p.setPen(QColor(100,100,255,200));
             p.setBrush(QColor(255,255,255,200));
             p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
-        }
-    }
-
-
-
-    if(!subline.isEmpty())
-    {
-        QPixmap icon(":/icons/bullet_red.png");
-        p.setPen(QPen(Qt::magenta, 5));
-        p.drawPolyline(subline);
-
-        p.setPen(Qt::black);
-        for(int i = 1; i < (subline.size() - 1); i++)
-        {
-//            p.drawText(subline[i],QString("%1").arg(i));
-            p.drawPixmap(subline[i] - QPoint(5,5), icon);
         }
     }
 }
