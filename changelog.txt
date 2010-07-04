@@ -1,3 +1,28 @@
+--- 2010.07.04 ---
+
+Request #177:
+Keep on adding points when adding points to start or end of distance polyline
+
+Bug     #178:
+Fix: End points are deleted when moving around is aborted.
+
+Request #179:
+Add speed and estimated time to distance polyline
+
+Request #180:
+Select items for export/upload
+
+Bug     #181:
+Fix: Proximity circles are not drawn if waypoint leaves viewport
+
+Request #182:
+Make distance polyline follow lines in vector map
+
+Bug     #183:
+Change shortcut description from Del to Ctrl + Del in left hand tool widgets
+
+
+
 --- 2010.06.06 ---
 
 Bug     #172:
@@ -816,6 +841,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
