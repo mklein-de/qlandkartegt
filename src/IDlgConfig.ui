@@ -125,7 +125,7 @@
           <item>
            <widget class="QCheckBox" name="checkProxy">
             <property name="text">
-             <string>enable</string>
+             <string>manual configuration</string>
             </property>
            </widget>
           </item>
@@ -134,7 +134,7 @@
             <item>
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>URL</string>
+               <string>Host</string>
               </property>
              </widget>
             </item>

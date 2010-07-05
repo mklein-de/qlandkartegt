@@ -154,6 +154,23 @@ CResources::~CResources()
 
 bool CResources::getHttpProxy(QString& url, quint16& port)
 {
+
+    const char *proxy;
+
+    // unless a manual proxy is configured, use the environment settings "HTTP_PROXY" or "http_proxy"
+    if (!m_useHttpProxy && ((proxy = getenv("HTTP_PROXY")) || (proxy = getenv("http_proxy"))))
+    {
+        QString theProxy(proxy);
+        QRegExp re("^http://([^:]+):(\\d+)$", Qt::CaseInsensitive);
+        if (re.indexIn(theProxy) != -1)
+        {
+            qDebug() << "http proxy host" << re.cap(1) << "port" << re.cap(2);
+            url = re.cap(1);
+            port = re.cap(2).toInt();
+            return true;
+        }
+    }
+
     url  = m_httpProxy;
     port = m_httpProxyPort;
     return m_useHttpProxy;
