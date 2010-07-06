@@ -48,8 +48,6 @@ class COverlayDistance : public IOverlay
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
-//        /// add a point at the end of the polyline
-//        void addPoint(XY& pt);
         /// get last point of polyline
         XY getLast(){return points.last();}
 
@@ -95,8 +93,10 @@ class COverlayDistance : public IOverlay
 
         bool doSpecialCursor;
         bool doMove;
-        bool doAdd;
         bool doFuncWheel;
+
+        enum addType_e{eNone, eBefore, eAfter, eAtEnd};
+        addType_e addType;
 
         double anglePrev;
         double angleNext;
