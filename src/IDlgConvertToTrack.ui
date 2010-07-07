@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>207</height>
+    <width>463</width>
+    <height>267</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,30 @@
       </item>
       <item>
        <widget class="QComboBox" name="comboDelta"/>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioNoEle">
+        <property name="text">
+         <string>add no elevation data</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioEleFromLocal">
+        <property name="text">
+         <string>add elevation from loaded DEM data</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioEleFromRemote">
+        <property name="text">
+         <string>add elevation from www.geonames.org</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

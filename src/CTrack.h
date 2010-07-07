@@ -215,6 +215,9 @@ class CTrack : public QObject
         void hide(bool ok);
         bool isHidden(){return m_hide;}
 
+        void replaceElevationByRemote();
+        void replaceElevationByLocal();
+
         signals:
         void sigChanged();
 
@@ -277,6 +280,8 @@ class CTrack : public QObject
         bool m_hide;
 
         QHttp * geonames;
+
+        QMap<int,int> id2idx;
 
 };
 

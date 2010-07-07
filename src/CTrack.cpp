@@ -449,18 +449,6 @@ CTrack::CTrack(QObject * parent)
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
-
-
-//    QUrl url;
-//    url.setPath("/srtm3");
-//    url.addQueryItem("lats","50.01,50.01,50.01,50.01");
-//    url.addQueryItem("lngs","10.2,10.2,10.2,10.2");
-//
-//
-//    qDebug() << url;
-//    geonames->get(url.toEncoded( ));
-
-
 }
 
 
@@ -490,25 +478,83 @@ void CTrack::slotSetupLink()
 
 }
 
+void CTrack::replaceElevationByLocal()
+{
+    qDebug() << "CTrack::replaceElevationByLocal()";
+    IMap& map       = CMapDB::self().getDEM();
+    const int size = track.size();
+    for(int i = 0; i<size; i++)
+    {
+        track[i].ele = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
+    }
+    rebuild(false);
+}
+
+void CTrack::replaceElevationByRemote()
+{
+    int idx = 0, id;
+    const int size = track.size();
+
+    while(idx < size)
+    {
+        int s = (size - idx) > 20 ? 20 : (size - idx);
+
+        QStringList lats, lngs;
+        for(int i=0; i < s; i++)
+        {
+            lats << QString::number(track[idx + i].lat);
+            lngs << QString::number(track[idx + i].lon);
+        }
+
+        QUrl url;
+        url.setPath("/srtm3");
+        url.addQueryItem("lats",lats.join(","));
+        url.addQueryItem("lngs",lngs.join(","));
+        id = geonames->get(url.toEncoded( ));
+
+        id2idx[id] = idx;
+
+        idx += s;
+    }
+}
+
 void CTrack::slotRequestStarted(int id)
 {
-    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
+//    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
 }
 
 void CTrack::slotRequestFinished(int id, bool error)
 {
-    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
+//    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
 
     if(error)
     {
         qDebug() << geonames->errorString();
-
+        return;
     }
 
-    QString asw = geonames->readAll();
-    asw = asw.simplified();
+    QString asw = geonames->readAll().simplified();
 
-    qDebug() << asw;
+    if(asw.isEmpty())
+    {
+        return;
+    }
+
+    QString val;
+    QStringList vals = asw.split(" ", QString::SkipEmptyParts);
+
+    int idx = id2idx[id];
+    foreach(val, vals)
+    {
+        track[idx++].ele = val.toDouble();
+    }
+
+    id2idx.remove(id);
+    if(id2idx.isEmpty())
+    {
+        rebuild(false);
+        emit sigChanged();
+    }
 
 }
 

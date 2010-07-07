@@ -50,3 +50,20 @@ int CDlgConvertToTrack::getDelta()
 
     return comboDelta->itemData(comboDelta->currentIndex()).toInt();
 }
+
+CDlgConvertToTrack::EleMode_e CDlgConvertToTrack::getEleMode()
+{
+    if(radioNoEle->isChecked())
+    {
+        return eNone;
+    }
+    if(radioEleFromLocal->isChecked())
+    {
+        return eLocal;
+    }
+    if(radioEleFromRemote->isChecked())
+    {
+        return eRemote;
+    }
+
+}

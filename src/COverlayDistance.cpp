@@ -720,7 +720,7 @@ void COverlayDistance::slotToTrack()
 {
     if(points.isEmpty()) return;
 
-    IMap& map       = CMapDB::self().getDEM();
+//    IMap& map       = CMapDB::self().getDEM();
     CTrack * track  = new CTrack(&CTrackDB::self());
 
     track->name = name;
@@ -728,6 +728,7 @@ void COverlayDistance::slotToTrack()
     double dist, d, delta = 10.0, a1 , a2;
     XY pt1, pt2, ptx;
     CTrack::pt_t pt;
+    CDlgConvertToTrack::EleMode_e eleMode;
 
     CDlgConvertToTrack dlg(0);
     if(dlg.exec() == QDialog::Rejected)
@@ -735,7 +736,8 @@ void COverlayDistance::slotToTrack()
         return;
     }
 
-    delta = dlg.getDelta();
+    delta   = dlg.getDelta();
+    eleMode = dlg.getEleMode();
 
     if(delta == -1)
     {
@@ -745,7 +747,7 @@ void COverlayDistance::slotToTrack()
             pt2 = points[i];
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
-            pt.ele = map.getElevation(pt2.u, pt2.v);
+//            pt.ele = map.getElevation(pt2.u, pt2.v);
             *track << pt;
         }
     }
@@ -760,7 +762,7 @@ void COverlayDistance::slotToTrack()
         pt1 = points.first();
         pt.lon = pt1.u * RAD_TO_DEG;
         pt.lat = pt1.v * RAD_TO_DEG;
-        pt.ele = map.getElevation(pt1.u, pt1.v);
+//        pt.ele = map.getElevation(pt1.u, pt1.v);
         *track << pt;
 
         // all other points
@@ -778,7 +780,7 @@ void COverlayDistance::slotToTrack()
                 ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
                 pt.lon = ptx.u * RAD_TO_DEG;
                 pt.lat = ptx.v * RAD_TO_DEG;
-                pt.ele = map.getElevation(ptx.u, ptx.v);
+//                pt.ele = map.getElevation(ptx.u, ptx.v);
                 *track << pt;
 
                 d += delta;
@@ -787,14 +789,23 @@ void COverlayDistance::slotToTrack()
             // and finally the next point
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
-            pt.ele = map.getElevation(pt2.u, pt2.v);
+//            pt.ele = map.getElevation(pt2.u, pt2.v);
             *track << pt;
 
             pt1 = pt2;
         }
     }
-    CTrackDB::self().addTrack(track, false);
 
+    if(eleMode == CDlgConvertToTrack::eLocal)
+    {
+        track->replaceElevationByLocal();
+    }
+    else if(eleMode == CDlgConvertToTrack::eRemote)
+    {
+        track->replaceElevationByRemote();
+    }
+
+    CTrackDB::self().addTrack(track, false);
     CMegaMenu::self().switchByKeyWord("Tracks");
 }
 

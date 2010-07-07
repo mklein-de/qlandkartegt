@@ -30,6 +30,9 @@ class CDlgConvertToTrack : public QDialog, private Ui::IDlgConvertToTrack
         CDlgConvertToTrack(QWidget * parent);
         virtual ~CDlgConvertToTrack();
 
+        enum EleMode_e {eNone, eLocal, eRemote};
+
         int getDelta();
+        EleMode_e getEleMode();
 };
 #endif                           //CDLGCONVERTTOTRACK_H
