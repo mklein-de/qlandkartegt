@@ -48,6 +48,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     tileList << qMakePair(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"));
     tileList << qMakePair(QString("Outdooractive AU"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"));
     tileList << qMakePair(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"));
+    tileList << qMakePair(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"));
 #endif
 
     cb = new QComboBox(theMainWindow->getCanvas());

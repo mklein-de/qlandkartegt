@@ -33,6 +33,8 @@
 
 #define MAX_TRACK_SIZE 10000
 
+class QHttp;
+
 class CFlags
 {
     public:
@@ -216,6 +218,12 @@ class CTrack : public QObject
         signals:
         void sigChanged();
 
+    private slots:
+        void slotSetupLink();
+        void slotRequestStarted(int );
+        void slotRequestFinished(int , bool error);
+
+
     private:
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
@@ -267,6 +275,8 @@ class CTrack : public QObject
         bool firstTime;
 
         bool m_hide;
+
+        QHttp * geonames;
 
 };
 

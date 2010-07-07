@@ -20,8 +20,10 @@
 #include "CTrack.h"
 #include "GeoMath.h"
 #include "CMapDB.h"
+#include "CResources.h"
 
 #include <QtGui>
+#include <QtNetwork/QHttp>
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
@@ -441,8 +443,24 @@ CTrack::CTrack(QObject * parent)
 , ext1Data(false)
 , firstTime(true)
 , m_hide(false)
+, geonames(0)
 {
     ref = 1;
+
+    slotSetupLink();
+    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
+
+
+//    QUrl url;
+//    url.setPath("/srtm3");
+//    url.addQueryItem("lats","50.01,50.01,50.01,50.01");
+//    url.addQueryItem("lngs","10.2,10.2,10.2,10.2");
+//
+//
+//    qDebug() << url;
+//    geonames->get(url.toEncoded( ));
+
+
 }
 
 
@@ -450,6 +468,50 @@ CTrack::~CTrack()
 {
 
 }
+
+void CTrack::slotSetupLink()
+{
+    QString url;
+    quint16 port;
+    bool enableProxy;
+
+    enableProxy = CResources::self().getHttpProxy(url,port);
+
+    if(geonames) delete geonames;
+    geonames = new QHttp(this);
+    if(enableProxy)
+    {
+        geonames->setProxy(url,port);
+    }
+    geonames->setHost("ws.geonames.org");
+    connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
+    connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+
+
+}
+
+void CTrack::slotRequestStarted(int id)
+{
+    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
+}
+
+void CTrack::slotRequestFinished(int id, bool error)
+{
+    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
+
+    if(error)
+    {
+        qDebug() << geonames->errorString();
+
+    }
+
+    QString asw = geonames->readAll();
+    asw = asw.simplified();
+
+    qDebug() << asw;
+
+}
+
 
 
 QRectF CTrack::getBoundingRectF()
