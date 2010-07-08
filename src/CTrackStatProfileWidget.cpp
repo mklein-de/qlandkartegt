@@ -100,12 +100,25 @@ void CTrackStatProfileWidget::slotChanged()
         {
             ++trkpt; continue;
         }
+
         if(trkpt->dem != WPT_NOFLOAT)
         {
             lineDEM << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->dem * basefactor);
         }
 
-        lineElev    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
+        if(trkpt->ele != WPT_NOFLOAT)
+        {
+            lineElev << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
+        }
+        else
+        {
+            lineElev.clear();
+            lineDEM.clear();
+            marksElev.clear();
+            break;
+        }
+
+
         if(trkpt->flags & CTrack::pt_t::eSelected)
         {
             marksElev  << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);

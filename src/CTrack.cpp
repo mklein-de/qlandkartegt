@@ -488,12 +488,15 @@ void CTrack::replaceElevationByLocal()
         track[i].ele = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
     }
     rebuild(false);
+    emit sigChanged();
 }
 
 void CTrack::replaceElevationByRemote()
-{
+{    
     int idx = 0, id;
     const int size = track.size();
+
+    id2idx.clear();
 
     while(idx < size)
     {
@@ -502,8 +505,8 @@ void CTrack::replaceElevationByRemote()
         QStringList lats, lngs;
         for(int i=0; i < s; i++)
         {
-            lats << QString::number(track[idx + i].lat);
-            lngs << QString::number(track[idx + i].lon);
+            lats << QString::number(track[idx + i].lat,'f', 8);
+            lngs << QString::number(track[idx + i].lon,'f', 8);
         }
 
         QUrl url;
@@ -543,19 +546,21 @@ void CTrack::slotRequestFinished(int id, bool error)
     QString val;
     QStringList vals = asw.split(" ", QString::SkipEmptyParts);
 
-    int idx = id2idx[id];
-    foreach(val, vals)
+    if(id2idx.contains(id))
     {
-        track[idx++].ele = val.toDouble();
-    }
+        int idx = id2idx[id];
+        foreach(val, vals)
+        {
+            track[idx++].ele = val.toDouble();
+        }
 
-    id2idx.remove(id);
-    if(id2idx.isEmpty())
-    {
-        rebuild(false);
-        emit sigChanged();
+        id2idx.remove(id);
+        if(id2idx.isEmpty())
+        {
+            rebuild(false);
+            emit sigChanged();
+        }
     }
-
 }
 
 
