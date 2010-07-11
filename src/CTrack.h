@@ -25,6 +25,7 @@
 #include <QColor>
 #include <QPolygon>
 #include <QDateTime>
+#include <QMap>
 #include "CWpt.h"
 
 #ifdef GPX_EXTENSIONS
