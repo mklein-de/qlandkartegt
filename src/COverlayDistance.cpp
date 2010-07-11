@@ -385,7 +385,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 }
                 thePoint = &points.first();
             }
-            else
+            else if(addType != eNone)
             {
                 XY pt;
                 const int size = subline.size();
@@ -442,8 +442,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                     }
                 }
 
-                subline.clear();
-
                 if(addType == eAfter)
                 {
                     idx++;
@@ -457,6 +455,23 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
                 thePoint    = &points[idx];
             }
+            else
+            {
+                XY pt;
+                pt.u = e->pos().x();
+                pt.v = e->pos().y();
+                map.convertPt2Rad(pt.u, pt.v);
+
+                *thePoint = pt;
+
+                doMove      = false;
+                addType     = eNone;
+                thePoint    = 0;
+
+            }
+
+            subline.clear();
+
             calcDistance();
             theMainWindow->getCanvas()->update();
 
