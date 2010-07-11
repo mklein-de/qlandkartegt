@@ -142,11 +142,7 @@ QString COverlayDistance::getInfo()
         {
             info += time.toString("HH:mm") + "h";
         }
-
     }
-
-
-
     return info;
 }
 
@@ -257,6 +253,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 
         if(addType != eNone)
         {
+            // find subline between last steady point and current point
             double u1, v1, u2, v2;
             IMap& map = CMapDB::self().getMap();
 
@@ -272,7 +269,19 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             }
             else
             {
-                return;
+                int idx = points.indexOf(*thePoint);
+
+                if(addType == eAfter)
+                {
+                    idx--;
+                }
+                else
+                {
+                    idx++;
+                }
+
+                u1 = (points.begin() + idx)->u;
+                v1 = (points.begin() + idx)->v;
             }
 
             map.convertRad2Pt(u1,v1);
@@ -340,8 +349,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
                 }
                 thePoint = &points.last();
-                subline.clear();
-
             }
             else if(*thePoint == points.first() && addType == eAtEnd)
             {
@@ -377,29 +384,78 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                     points.push_front(pt);
                 }
                 thePoint = &points.first();
-                subline.clear();
             }
             else
             {
-
+                XY pt;
+                const int size = subline.size();
                 int idx = points.indexOf(*thePoint);
+
+                if(size > 2)
+                {
+                    if(addType == eAfter)
+                    {
+                        pt.u = subline[0].x();
+                        pt.v = subline[0].y();
+                        map.convertPt2Rad(pt.u, pt.v);
+
+                        points[idx - 1] = pt;
+
+                        pt.u = subline[size - 1].x();
+                        pt.v = subline[size - 1].y();
+                        map.convertPt2Rad(pt.u, pt.v);
+
+                        points[idx] = pt;
+
+                        for(int i = 1; i < size - 1; i++)
+                        {
+                            pt.u = subline[i].x();
+                            pt.v = subline[i].y();
+                            map.convertPt2Rad(pt.u, pt.v);
+
+                            points.insert(idx - 1 + i,pt);
+                        }
+                        idx += size - 2;
+                    }
+                    else
+                    {
+                        pt.u = subline[0].x();
+                        pt.v = subline[0].y();
+                        map.convertPt2Rad(pt.u, pt.v);
+
+                        points[idx + 1] = pt;
+
+                        pt.u = subline[size - 1].x();
+                        pt.v = subline[size - 1].y();
+                        map.convertPt2Rad(pt.u, pt.v);
+
+                        points[idx] = pt;
+
+                        for(int i = 1; i < size - 1; i++)
+                        {
+                            pt.u = subline[i].x();
+                            pt.v = subline[i].y();
+                            map.convertPt2Rad(pt.u, pt.v);
+
+                            points.insert(idx+1,pt);
+                        }
+                    }
+                }
+
+                subline.clear();
 
                 if(addType == eAfter)
                 {
                     idx++;
                 }
 
-                XY pt;
+
                 pt.u = e->pos().x();
                 pt.v = e->pos().y();
                 map.convertPt2Rad(pt.u, pt.v);
                 points.insert(idx,pt);
 
                 thePoint    = &points[idx];
-
-
-//                thePoint    = 0;
-//                QApplication::restoreOverrideCursor();
             }
             calcDistance();
             theMainWindow->getCanvas()->update();
@@ -544,6 +600,8 @@ void COverlayDistance::draw(QPainter& p)
 
     int start   = 0;
     int stop    = points.count();
+    int skip    = -1;
+
 
     // if there is an active subline fine tune start and stop index
     // to make the subline replace the first of last line segment
@@ -557,6 +615,20 @@ void COverlayDistance::draw(QPainter& p)
         {
             start += 1;
         }
+
+
+        int idx = points.indexOf(*thePoint);
+
+        if(addType == eAfter)
+        {
+            skip = idx;
+        }
+        else
+        {
+            skip = idx + 1;
+        }
+
+
     }
 
     pt1 = points[start];
@@ -565,16 +637,19 @@ void COverlayDistance::draw(QPainter& p)
     // draw the lines
     for(int i = start + 1; i < stop; i++)
     {
+
         pt2 = points[i];
         map.convertRad2Pt(pt2.u, pt2.v);
 
-        p.setPen(QPen(Qt::white, 5));
-        p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-        p.setPen(QPen(Qt::darkBlue, 3));
-        p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-        p.setPen(QPen(Qt::white, 1));
-        p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-
+        if(i != skip)
+        {
+            p.setPen(QPen(Qt::white, 5));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.setPen(QPen(Qt::darkBlue, 3));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.setPen(QPen(Qt::white, 1));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+        }
         pt1 = pt2;
     }
 
@@ -720,7 +795,6 @@ void COverlayDistance::slotToTrack()
 {
     if(points.isEmpty()) return;
 
-//    IMap& map       = CMapDB::self().getDEM();
     CTrack * track  = new CTrack(&CTrackDB::self());
 
     track->name = name;
@@ -747,7 +821,6 @@ void COverlayDistance::slotToTrack()
             pt2 = points[i];
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
-//            pt.ele = map.getElevation(pt2.u, pt2.v);
             *track << pt;
         }
     }
@@ -762,7 +835,6 @@ void COverlayDistance::slotToTrack()
         pt1 = points.first();
         pt.lon = pt1.u * RAD_TO_DEG;
         pt.lat = pt1.v * RAD_TO_DEG;
-//        pt.ele = map.getElevation(pt1.u, pt1.v);
         *track << pt;
 
         // all other points
@@ -780,7 +852,6 @@ void COverlayDistance::slotToTrack()
                 ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
                 pt.lon = ptx.u * RAD_TO_DEG;
                 pt.lat = ptx.v * RAD_TO_DEG;
-//                pt.ele = map.getElevation(ptx.u, ptx.v);
                 *track << pt;
 
                 d += delta;
@@ -789,7 +860,6 @@ void COverlayDistance::slotToTrack()
             // and finally the next point
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
-//            pt.ele = map.getElevation(pt2.u, pt2.v);
             *track << pt;
 
             pt1 = pt2;
