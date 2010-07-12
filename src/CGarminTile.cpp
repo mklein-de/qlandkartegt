@@ -899,6 +899,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
                 continue;
             }
 
+
             if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);

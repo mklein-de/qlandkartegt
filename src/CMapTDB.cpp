@@ -2449,6 +2449,8 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 
     shortest = 50;
 
+    bool found = false;
+
     polytype_t::const_iterator line = polylines.begin();
     while(line != polylines.end())
     {
@@ -2521,10 +2523,16 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
                 resPt.setX(x);
                 resPt.setY(y);
                 shortest = distance;
+                found = true;
             }
 
         }
         ++line;
+    }
+
+    if(!found)
+    {
+        return;
     }
 
     if(selectedLanguage != -1)
@@ -2538,7 +2546,14 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     }
     else
     {
-        dict.insert(tr("Unknown") + QString("(%1)").arg(type,2,16,QChar('0')),value);
+        if(polylineProperties[type].strings.isEmpty())
+        {
+            dict.insert(tr("Unknown") + QString("(%1)").arg(type,2,16,QChar('0')),value);
+        }
+        else
+        {
+            dict.insert(polylineProperties[type].strings[0] + QString("(%1)").arg(type,2,16,QChar('0')),value);
+        }
     }
 
     pt = resPt.toPoint();
@@ -2597,7 +2612,7 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
             if(distance < threshold)
             {
                 switch(line->type)
-                {                            
+                {
                     case 0x23: // "Minor depht contour"
                     case 0x20: // "Minor land contour"
                     case 0x24: // "Intermediate depth contour",
