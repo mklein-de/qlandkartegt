@@ -46,7 +46,8 @@ void CGarminStrTblUtf8::get(QFileExt& file, quint32 offset, type_e t, QStringLis
     }
 
     QByteArray data;
-    readFile(file, offsetLBL1 + offset, 200, data);
+    quint32 size = (sizeLBL1 - offset) < 200 ? (sizeLBL1 - offset) : 200;
+    readFile(file, offsetLBL1 + offset, size, data);
     char * lbl = data.data();
 
     char * pBuffer = buffer; *pBuffer = 0;
