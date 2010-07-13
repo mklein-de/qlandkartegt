@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "COverlayDistance.h"
+#include "COverlayDistanceEditWidget.h"
 #include "CMapDB.h"
 #include "IMap.h"
 #include "GeoMath.h"
@@ -28,7 +29,6 @@
 #include "CTrack.h"
 #include "CRouteDB.h"
 #include "CRoute.h"
-#include "CDlgEditDistance.h"
 #include "CMegaMenu.h"
 #include "CDlgConvertToTrack.h"
 
@@ -39,6 +39,7 @@ bool operator==(const XY& p1, const XY& p2)
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
+QPointer<COverlayDistanceEditWidget> COverlayDistance::editwidget;
 
 COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts, QObject * parent)
 : IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
@@ -921,10 +922,13 @@ void COverlayDistance::slotToRoute()
 
 void COverlayDistance::slotEdit()
 {
-    CDlgEditDistance dlg(*this, 0);
-    dlg.exec();
+    if(!editwidget.isNull()) delete editwidget;
+    editwidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), this);
+    theMainWindow->setTempWidget(editwidget);
+//    CDlgEditDistance dlg(*this, 0);
+//    dlg.exec();
 
-    emit sigChanged();
+//    emit sigChanged();
 }
 
 

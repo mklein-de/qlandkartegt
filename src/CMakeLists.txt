@@ -93,7 +93,6 @@ set(qlandkarte_SRCS
     CDlgCombineTracks.cpp
     CDlgProjWizzard.cpp
     CDlgEditText.cpp
-    CDlgEditDistance.cpp
     CDlgCreateWorldBasemap.cpp
     CDlgDelWpt.cpp
     CDlgConvertToTrack.cpp
@@ -155,6 +154,7 @@ set(qlandkarte_SRCS
     COverlayText.cpp
     COverlayTextBox.cpp
     COverlayDistance.cpp
+    COverlayDistanceEditWidget.cpp
     IUnit.cpp
     CUnitMetric.cpp
     CUnitImperial.cpp
@@ -241,7 +241,6 @@ set(qlandkarte_HDRS
     CDlgCombineTracks.h
     CDlgProjWizzard.h
     CDlgEditText.h
-    CDlgEditDistance.h
     CDlgDelWpt.h
     CDlgCreateWorldBasemap.h
     CDlgConvertToTrack.h
@@ -300,6 +299,7 @@ set(qlandkarte_HDRS
     COverlayText.h
     COverlayTextBox.h
     COverlayDistance.h
+    COverlayDistanceEditWidget.h
     IUnit.h
     CUnitMetric.h
     CUnitImperial.h
@@ -339,7 +339,6 @@ SET(qlandkarte_UIS
     IDlgWptIcon.ui
     IDlgEditMapLevel.ui
     IDlgCombineTracks.ui
-    IDlgEditDistance.ui
     IDlgDelWpt.ui
     IDlgCreateWorldBasemap.ui
     IDlgConvertToTrack.ui
@@ -361,6 +360,7 @@ SET(qlandkarte_UIS
     IDiaryEditWidget.ui
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
+    IOverlayDistanceEditWidget.ui
     IGarminExport.ui
     IHelpDlg.ui
 )

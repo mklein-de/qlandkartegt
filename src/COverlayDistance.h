@@ -27,6 +27,8 @@
 #undef LP
 #endif
 
+class COverlayDistanceEditWidget;
+
 class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
@@ -72,6 +74,7 @@ class COverlayDistance : public IOverlay
     private:
         friend class COverlayDB;
         friend class CDlgEditDistance;
+        friend class COverlayDistanceEditWidget;
         void calcDistance();
 
         /// the polyline as list of points [rad]
@@ -104,6 +107,8 @@ class COverlayDistance : public IOverlay
         QPolygon leadline;
 
         QPolygon subline;
+
+        static QPointer<COverlayDistanceEditWidget> editwidget;
 };
 
 #define OVL_NOFLOAT 1e25f

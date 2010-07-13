@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,33 +17,29 @@
 
 **********************************************************************************************/
 
-#include "CDlgEditDistance.h"
-#include "COverlayDistance.h"
-#include "IUnit.h"
+#ifndef COVERLAYDISTANCEEDITWIDGET_H
+#define COVERLAYDISTANCEEDITWIDGET_H
 
-CDlgEditDistance::CDlgEditDistance(COverlayDistance &ovl, QWidget * parent)
-: QDialog(parent)
-, ovl(ovl)
+#include "ui_IOverlayDistanceEditWidget.h"
+#include <QWidget>
+#include <QPointer>
+
+class COverlayDistance;
+
+class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceEditWidget
 {
-    setupUi(this);
-    lineName->setText(ovl.name);
-    textComment->setText(ovl.comment);
+    Q_OBJECT;
+    public:
+        COverlayDistanceEditWidget(QWidget * parent, COverlayDistance * ovl);
+        virtual ~COverlayDistanceEditWidget();
 
-    labelUnit->setText(IUnit::self().speedunit);
-    lineSpeed->setText(QString::number(ovl.speed * IUnit::self().speedfactor));
-}
-
-
-CDlgEditDistance::~CDlgEditDistance()
-{
-
-}
+    private slots:
+        void slotApply();
 
 
-void CDlgEditDistance::accept()
-{
-    ovl.name = lineName->text();
-    ovl.comment = textComment->toPlainText();
-    ovl.speed = lineSpeed->text().toDouble() / IUnit::self().speedfactor;
-    QDialog::accept();
-}
+    private:
+        QPointer<COverlayDistance> ovl;
+};
+
+#endif //COVERLAYDISTANCEEDITWIDGET_H
+

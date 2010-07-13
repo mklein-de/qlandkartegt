@@ -32,6 +32,7 @@
 
 #define N_LINES 6
 
+
 CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
