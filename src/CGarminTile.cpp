@@ -637,22 +637,22 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         {
             case 0x06:
                 subfile.strtbl = new CGarminStrTbl6(codepage, mask, this);
-                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
-                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                subfile.strtbl->registerLBL1(offsetLbl1, gar_load(uint32_t, pLblHdr->lbl1_length), pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, gar_load(uint32_t, pLblHdr->lbl6_length));
                 if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
                 break;
 
             case 0x09:
                 subfile.strtbl = new CGarminStrTbl8(codepage, mask, this);
-                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
-                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                subfile.strtbl->registerLBL1(offsetLbl1, gar_load(uint32_t, pLblHdr->lbl1_length), pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, gar_load(uint32_t, pLblHdr->lbl6_length));
                 if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
                 break;
 
             case 0x0A:
                 subfile.strtbl = new CGarminStrTblUtf8(codepage, mask, this);
-                subfile.strtbl->registerLBL1(offsetLbl1, pLblHdr->lbl1_length, pLblHdr->addr_shift);
-                subfile.strtbl->registerLBL6(offsetLbl6, pLblHdr->lbl6_length);
+                subfile.strtbl->registerLBL1(offsetLbl1, gar_load(uint32_t, pLblHdr->lbl1_length), pLblHdr->addr_shift);
+                subfile.strtbl->registerLBL6(offsetLbl6, gar_load(uint32_t, pLblHdr->lbl6_length));
                 if(pNetHdr) subfile.strtbl->registerNET1(offsetNet1, pNetHdr->net1_length, pNetHdr->net1_addr_shift);
                 break;
 
