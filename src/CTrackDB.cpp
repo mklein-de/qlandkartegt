@@ -1,5 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Joerg Wunsch <j@uriah.heep.sax.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -263,50 +264,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 if(!tmpelem.isNull())
                 {
                     QString timetext = tmpelem.text();
-                    const QRegExp tzRE("[-+]\\d\\d:\\d\\d$");
-                    int tzoffset = 0;
-                    int i;
-
-                    QString format = "yyyy-MM-dd'T'hh:mm:ss";
-                    if (timetext.indexOf(".") != -1) format += ".zzz";
-                    // trailing "Z" explicitly declares the timestamp to be UTC
-                    if (timetext.indexOf("Z") != -1)
-                    {
-                         format += "'Z'";
-                    }
-                    else if ((i = tzRE.indexIn(timetext)) != -1)
-                    {
-                         // trailing timezone offset [-+]HH:MM present
-                         // This does not match the original intentions of the GPX
-                         // file format but appears to be found occasionally in
-                         // the wild.  Try our best parsing it.
-
-                         // add the literal string to the format so fromString()
-                         // will succeed
-                         format += "'";
-                         format += timetext.right(6);
-                         format += "'";
-
-                         // calculate the offset
-                         unsigned int offsetHours(timetext.mid(i + 1, 2).toUInt());
-                         unsigned int offsetMinutes(timetext.mid(i + 4, 2).toUInt());
-                         if (timetext[i] == '-')
-                         {
-                              tzoffset = -(60 * offsetHours + offsetMinutes);
-                         }
-                         else
-                         {
-                              tzoffset = 60 * offsetHours + offsetMinutes;
-                         }
-                         tzoffset *= 60; // seconds
-                    }
-
-                    QDateTime datetime = QDateTime::fromString(timetext, format);
-                    datetime.setTimeSpec(Qt::UTC);
-
-                    pt.timestamp = datetime.toTime_t();
-                    pt.timestamp -= tzoffset;
-                    pt.timestamp_msec = datetime.time().msec();
+                    (void)parseTimestamp(timetext, pt.timestamp, pt.timestamp_msec);
                 }
 
                 tmpelem = trkptmap.value("fix");

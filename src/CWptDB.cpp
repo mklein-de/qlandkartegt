@@ -1,5 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Joerg Wunsch <j@uriah.heep.sax.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -343,10 +344,8 @@ void CWptDB::loadGPX(CGpx& gpx)
         }
         if(waypoint.namedItem("time").isElement())
         {
-            QDateTime time = QDateTime::fromString(waypoint.namedItem("time").toElement().text(),"yyyy-MM-dd'T'hh:mm:ss'Z'");
-            time.setTimeSpec(Qt::UTC);
-                                 // - gpResources->getUTCOffset();
-            wpt->timestamp = time.toTime_t();
+          QString timetext = waypoint.namedItem("time").toElement().text();
+          (void)parseTimestamp(timetext, wpt->timestamp);
         }
 
         if(waypoint.namedItem("extensions").isElement())

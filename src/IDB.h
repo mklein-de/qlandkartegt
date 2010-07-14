@@ -1,5 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2007 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2010 Joerg Wunsch <j@uriah.heep.sax.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +28,7 @@ class QPainter;
 class QRect;
 class CGpx;
 class CQlb;
+class QString;
 
 /// base class for all database objects
 class IDB : public QObject
@@ -42,6 +44,11 @@ class IDB : public QObject
             toolviews visible to the user.
         */
         virtual void gainFocus();
+
+        /// parse a GPX timestamp, including timezone calculations
+        virtual bool parseTimestamp(const QString &time, quint32 &tstamp);
+        virtual bool parseTimestamp(const QString &time, quint32 &tstamp,
+                                    quint32 &tstamp_msec);
 
         /// load database data from gpx
         virtual void loadGPX(CGpx& gpx) = 0;
