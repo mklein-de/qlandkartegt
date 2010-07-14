@@ -335,7 +335,7 @@ class CMapTDB : public IMap
 
         QComboBox * comboLanguages;
 
-        quint8 selectedLanguage;
+        qint8 selectedLanguage;
 
         QPixmap pixBuffer;
 

@@ -20,6 +20,7 @@
 #include "COverlayDistanceEditWidget.h"
 #include "COverlayDistance.h"
 #include "IUnit.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -37,6 +38,11 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
     connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(deleteLater()));
+
+    connect(ovl, SIGNAL(sigChanged()), this, SLOT(slotChanged()));
+    connect(ovl, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+
+    slotChanged();
 }
 
 COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
@@ -51,4 +57,27 @@ void COverlayDistanceEditWidget::slotApply()
     ovl->speed = lineSpeed->text().toDouble() / IUnit::self().speedfactor;
 
     emit ovl->sigChanged();
+}
+
+void COverlayDistanceEditWidget::slotChanged()
+{
+    QString pos;
+
+    int i;
+    const int size = ovl->points.size();
+
+    treeWidget->clear();
+
+    for(i = 0; i < size; i++)
+    {
+        XY pt = ovl->points[i];
+        GPS_Math_Deg_To_Str(pt.u * RAD_TO_DEG, pt.v * RAD_TO_DEG, pos);
+
+        QTreeWidgetItem * item = new QTreeWidgetItem(treeWidget);
+        item->setText(eNo, QString::number(i));
+        item->setText(ePos, pos);
+        item->setData(eNo,i);
+    }
+
+    treeWidget->header()->setResizeMode(eNo,QHeaderView::ResizeToContents);
 }

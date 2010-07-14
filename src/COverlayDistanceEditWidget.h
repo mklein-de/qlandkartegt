@@ -35,9 +35,11 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
 
     private slots:
         void slotApply();
-
+        void slotChanged();
 
     private:
+        enum columns_e {eNo, ePos};
+
         QPointer<COverlayDistance> ovl;
 };
 
