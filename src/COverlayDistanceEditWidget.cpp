@@ -76,7 +76,7 @@ void COverlayDistanceEditWidget::slotChanged()
         QTreeWidgetItem * item = new QTreeWidgetItem(treeWidget);
         item->setText(eNo, QString::number(i));
         item->setText(ePos, pos);
-        item->setData(eNo,i);
+        item->setData(eNo,Qt::UserRole, i);
     }
 
     treeWidget->header()->setResizeMode(eNo,QHeaderView::ResizeToContents);
