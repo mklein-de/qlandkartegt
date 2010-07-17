@@ -125,6 +125,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
 , trkPointIndex(-1)
 , targetZRotation(0)
 {
+    setObjectName("CMap3D");
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
     setAutoFillBackground(false);

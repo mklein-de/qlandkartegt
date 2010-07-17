@@ -42,6 +42,7 @@
 #include "CMap3D.h"
 #endif
 #include "CDlgExport.h"
+#include "CTabWidget.h"
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -205,7 +206,20 @@ void CActions::funcSwitchToMap()
     // qDebug() << Q_FUNC_INFO;
     setMenuTitle(tr("&Maps"));
     setMenuPixmap(QPixmap(":/icons/backMap128x128"));
+
+#ifdef PLOT_3D
+    if(theMainWindow->getCanvasTab()->currentWidget()->objectName() == "CMap3D")
+    {
+        actionGroup->switchToActionGroup(CMenus::Map3DMenu);
+    }
+    else
+    {
+        actionGroup->switchToActionGroup(CMenus::MapMenu);
+    }
+#else
     actionGroup->switchToActionGroup(CMenus::MapMenu);
+#endif
+
     CMapDB::self().gainFocus();
     funcMoveArea();
 }
