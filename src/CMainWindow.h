@@ -55,7 +55,7 @@ class CMainWindow : public QMainWindow
 
         CTabWidget * getCanvasTab(){return canvasTab;}
 
-        void setTempWidget(QWidget * w);
+        void setTempWidget(QWidget * w, const QString& label);
 
         void clear();
         void clearAll();
@@ -90,6 +90,8 @@ class CMainWindow : public QMainWindow
         void slotDeviceChanged();
         void slotScreenshot();
         void slotLoadRecent();
+        void slotItemDestroyed(QObject *);
+        void slotTabCloseRequest(int i);
 
     private:
         CMenus *actionGroupProvider;
@@ -162,6 +164,8 @@ class CMainWindow : public QMainWindow
         QMenu * menuMostRecent;
 
         QStringList mostRecent;
+
+        QTabWidget * tmpTabWidget;
 };
 
 extern CMainWindow * theMainWindow;

@@ -246,7 +246,7 @@ void CTrackToolWidget::slotEdit()
     {
         trackedit = new CTrackEditWidget(theMainWindow->getCanvas());
         connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), trackedit, SLOT(slotSetTrack(CTrack*)));
-        theMainWindow->setTempWidget(trackedit);
+        theMainWindow->setTempWidget(trackedit, tr("Track"));
         trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
     }
     else

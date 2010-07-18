@@ -972,7 +972,7 @@ void COverlayDistance::slotEdit()
 {
     if(!editwidget.isNull()) delete editwidget;
     editwidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), this);
-    theMainWindow->setTempWidget(editwidget);
+    theMainWindow->setTempWidget(editwidget, tr("Overlay"));
 
 }
 

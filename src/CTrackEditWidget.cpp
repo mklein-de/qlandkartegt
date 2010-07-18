@@ -86,9 +86,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     tabWidget->removeTab(1);
 #endif
 
-    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
-    connect(toolExit, SIGNAL(clicked()), this, SLOT(close()));
-
     toolGraphDistance->setIcon(QIcon(":/icons/iconGraph16x16.png"));
     connect(toolGraphDistance, SIGNAL(clicked()), this, SLOT(slotToggleStatDistance()));
 

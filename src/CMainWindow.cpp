@@ -91,6 +91,13 @@ CMainWindow::CMainWindow()
     megaMenu = new CMegaMenu(canvas);
     leftSplitter->addWidget(megaMenu);
 
+    tmpTabWidget = new QTabWidget(this);
+    tmpTabWidget->setTabsClosable(true);
+    tmpTabWidget->setTabPosition(QTabWidget::South);;
+    tmpTabWidget->hide();
+    rightSplitter->addWidget(tmpTabWidget);
+    connect(tmpTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(slotTabCloseRequest(int)));
+
     connect(leftSplitter, SIGNAL(splitterMoved(int, int)), megaMenu, SLOT(slotSplitterMoved(int, int)));
 
     CActions *actions = actionGroupProvider->getActions();
@@ -444,12 +451,6 @@ void CMainWindow::clear()
     modified = false;
     wksFile.clear();
     setTitleBar();
-}
-
-
-void CMainWindow::setTempWidget(QWidget * w)
-{
-    rightSplitter->addWidget(w);
 }
 
 
@@ -1278,4 +1279,31 @@ void CMainWindow::addRecent(const QString& filename)
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
 
+}
+
+void CMainWindow::setTempWidget(QWidget * w, const QString& label)
+{
+//    rightSplitter->addWidget(w);
+    tmpTabWidget->addTab(w, label);
+    tmpTabWidget->show();
+    tmpTabWidget->setCurrentWidget(w);
+
+    connect(w, SIGNAL(destroyed(QObject*)), this, SLOT(slotItemDestroyed(QObject*)));
+}
+
+void CMainWindow::slotItemDestroyed(QObject *)
+{
+    if(tmpTabWidget->count() < 2)
+    {
+        tmpTabWidget->hide();
+    }
+}
+
+void CMainWindow::slotTabCloseRequest(int i)
+{
+    QWidget * w = tmpTabWidget->widget(i);
+    if(w)
+    {
+        w->deleteLater();
+    }
 }

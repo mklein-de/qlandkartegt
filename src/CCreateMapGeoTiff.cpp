@@ -623,7 +623,7 @@ void CCreateMapGeoTiff::saveTAB(const QString& filename)
 void CCreateMapGeoTiff::slotGridTool()
 {
     CCreateMapGridTool * tool = new CCreateMapGridTool(this, parentWidget());
-    theMainWindow->setTempWidget(tool);
+    theMainWindow->setTempWidget(tool, tr("Grid Tool"));
 }
 
 

@@ -41,7 +41,6 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
     lineSpeed->setText(QString::number(ovl->speed * IUnit::self().speedfactor));
 
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
-    connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked()), this, SLOT(deleteLater()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 
     connect(ovl, SIGNAL(sigChanged()), this, SLOT(slotChanged()));

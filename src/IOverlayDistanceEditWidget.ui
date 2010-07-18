@@ -98,6 +98,9 @@
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
+       <property name="rootIsDecorated">
+        <bool>false</bool>
+       </property>
        <column>
         <property name="text">
          <string notr="true">#</string>
@@ -115,7 +118,7 @@
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close</set>
+      <set>QDialogButtonBox::Apply</set>
      </property>
     </widget>
    </item>

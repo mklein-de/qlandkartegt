@@ -542,7 +542,7 @@ void CMapDB::editMap()
     if(mapedit.isNull())
     {
         mapedit = new CMapEditWidget(theMainWindow->getCanvas());
-        theMainWindow->setTempWidget(mapedit);
+        theMainWindow->setTempWidget(mapedit, tr("Edit Map"));
     }
 }
 
@@ -567,7 +567,7 @@ void CMapDB::searchMap()
     if(mapsearch.isNull())
     {
         mapsearch = new CMapSearchWidget(theMainWindow->getCanvas());
-        theMainWindow->setTempWidget(mapsearch);
+        theMainWindow->setTempWidget(mapsearch, tr("Search Map"));
     }
     else
     {
