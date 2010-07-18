@@ -21,6 +21,7 @@
 #define COVERLAYDISTANCE_H
 
 #include "IOverlay.h"
+#include "GeoMath.h"
 
 #include <projects.h>
 #ifdef __MINGW32__
@@ -29,11 +30,13 @@
 
 class COverlayDistanceEditWidget;
 
+
 class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
     public:
-        COverlayDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts, QObject * parent);
+
+        COverlayDistance(const QString& name, const QString& comment, double speed, const QList<xy>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
         /// returns true while moving a waypoint
@@ -66,6 +69,13 @@ class COverlayDistance : public IOverlay
 
         QRectF getBoundingRectF();
 
+        void delPointsByIdx(const QList<int>& idx);
+
+        static bool isEditMode();
+
+    signals:
+        void sigSelectionChanged();
+
     private slots:
         void slotToTrack();
         void slotToRoute();
@@ -78,11 +88,13 @@ class COverlayDistance : public IOverlay
         void calcDistance();
 
         /// the polyline as list of points [rad]
-        QList<XY> points;
+        QList<xy> points;
+        /// indices of selected points
+        QList<int> selectedPoints;
         /// pointer to point of polyline if cursor is closer than 30px
-        XY * thePoint;
+        xy * thePoint;
         /// need to restore point if move command is aborted
-        XY savePoint;
+        xy savePoint;
 
         QString name;
         QString comment;
@@ -109,6 +121,8 @@ class COverlayDistance : public IOverlay
         QPolygon subline;
 
         static QPointer<COverlayDistanceEditWidget> editwidget;
+
+
 };
 
 #define OVL_NOFLOAT 1e25f

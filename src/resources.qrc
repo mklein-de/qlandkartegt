@@ -442,5 +442,6 @@
         <file>icons/iconExtensions16x16.png</file>
         <file>icons/iconExtensions22x22.png</file>
         <file>icons/iconGoogleMaps16x16.png</file>
+        <file>icons/backDistance128x128.png</file>
     </qresource>
 </RCC>

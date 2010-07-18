@@ -33,14 +33,24 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
         COverlayDistanceEditWidget(QWidget * parent, COverlayDistance * ovl);
         virtual ~COverlayDistanceEditWidget();
 
+        bool isAboutToClose(){return aboutToClose;}
+
     private slots:
         void slotApply();
         void slotChanged();
+        void slotSelectionChanged();
+        void slotItemSelectionChanged();
+        void slotContextMenu(const QPoint& pos);
+        void slotCopy();
+        void slotDelete();
+
 
     private:
         enum columns_e {eNo, ePos};
 
+        bool aboutToClose;
         QPointer<COverlayDistance> ovl;
+        QMenu * contextMenu;
 };
 
 #endif //COVERLAYDISTANCEEDITWIDGET_H

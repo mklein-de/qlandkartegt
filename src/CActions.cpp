@@ -43,6 +43,7 @@
 #endif
 #include "CDlgExport.h"
 #include "CTabWidget.h"
+#include "COverlayDistance.h"
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -279,9 +280,23 @@ void CActions::funcSwitchToLiveLog()
 
 void CActions::funcSwitchToOverlay()
 {
+    if(COverlayDistance::isEditMode())
+    {
+        funcSwitchToOverlayDistance();
+        return;
+    }
     setMenuTitle(tr("&Overlay"));
     setMenuPixmap(QPixmap(":/icons/backOverlay128x128"));
     actionGroup->switchToActionGroup(CMenus::OverlayMenu);
+    COverlayDB::self().gainFocus();
+    funcMoveArea();
+}
+
+void CActions::funcSwitchToOverlayDistance()
+{
+    setMenuTitle(tr("&Overlay Distance"));
+    setMenuPixmap(QPixmap(":/icons/backDistance128x128"));
+    actionGroup->switchToActionGroup(CMenus::OverlayDistanceMenu);
     COverlayDB::self().gainFocus();
     funcMoveArea();
 }

@@ -27,6 +27,7 @@
 #include "COverlayDB.h"
 #include "CMegaMenu.h"
 #include "CDlgTrackFilter.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -305,17 +306,19 @@ void CTrackToolWidget::slotToOverlay()
     {
         track = tracks[item->data(Qt::UserRole).toString()];
 
-        QList<XY> pts;
+        QList<xy> pts;
 
+        int idx = 0;
         CTrack::pt_t trkpt;
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         foreach(trkpt, trkpts)
         {
             if(trkpt.flags & CTrack::pt_t::eDeleted) continue;
 
-            XY pt;
+            xy pt;
             pt.u = trkpt.lon * DEG_TO_RAD;
             pt.v = trkpt.lat * DEG_TO_RAD;
+            pt.idx = idx++;
 
             pts << pt;
         }

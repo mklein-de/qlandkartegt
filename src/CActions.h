@@ -52,6 +52,7 @@ class CActions : public QObject
 
         void funcSwitchToLiveLog();
         void funcSwitchToOverlay();
+        void funcSwitchToOverlayDistance();
         void funcSwitchToMainMore();
         void funcClearAll();
         void funcUploadAll();

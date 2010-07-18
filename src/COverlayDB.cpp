@@ -156,7 +156,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     QString name;
                     QString comment;
                     double speed = 0.0;
-                    QList<XY> points;
+                    QList<xy> points;
                     QDomNodeList list;
                     QDomNode node;
 
@@ -183,9 +183,10 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     list = element.elementsByTagName("point");
                     for(int i = 0; i < list.size(); ++i)
                     {
-                        XY pt;
-                        pt.u = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
-                        pt.v = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
+                        xy pt;
+                        pt.u    = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
+                        pt.v    = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
+                        pt.idx  = i;
                         points << pt;
                     }
 
@@ -368,7 +369,7 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 }
 
 
-COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<XY>& pts)
+COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<xy>& pts)
 {
     IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
     overlays[overlay->key] = overlay;

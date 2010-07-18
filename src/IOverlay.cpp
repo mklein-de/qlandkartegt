@@ -19,6 +19,7 @@
 
 #include "IOverlay.h"
 #include "COverlayDB.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 struct ovl_head_entry_t
@@ -90,13 +91,14 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                 {
                     QString name;
                     QString comment;
-                    int size;
-                    XY pt;
-                    QList<XY> points;
+                    int size, idx = 0;
+                    xy pt;
+                    QList<xy> points;
                     s1 >> name >> comment >> size;
                     for(int i = 0; i < size; ++i)
                     {
                         s1 >> pt.u >> pt.v;
+                        pt.idx++;
                         points << pt;
                     }
                     db.addDistance(name, comment, 0.0, points);
