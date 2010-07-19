@@ -28,15 +28,24 @@
 #undef LP
 #endif
 
+#include <QPointer>
+
 class COverlayDistanceEditWidget;
 
+/// the one and only edit widget fo rdistance lines
+extern QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
 
 class COverlayDistance : public IOverlay
 {
     Q_OBJECT;
     public:
 
-        COverlayDistance(const QString& name, const QString& comment, double speed, const QList<xy>& pts, QObject * parent);
+        struct pt_t : public XY
+        {
+            int idx;
+        };
+
+        COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent);
         virtual ~COverlayDistance();
 
         /// returns true while moving a waypoint
@@ -71,7 +80,6 @@ class COverlayDistance : public IOverlay
 
         void delPointsByIdx(const QList<int>& idx);
 
-        static bool isEditMode();
 
     signals:
         void sigSelectionChanged();
@@ -83,44 +91,56 @@ class COverlayDistance : public IOverlay
 
     private:
         friend class COverlayDB;
-        friend class CDlgEditDistance;
         friend class COverlayDistanceEditWidget;
         void calcDistance();
 
         /// the polyline as list of points [rad]
-        QList<xy> points;
+        QList<pt_t> points;
         /// indices of selected points
         QList<int> selectedPoints;
         /// pointer to point of polyline if cursor is closer than 30px
-        xy * thePoint;
+        pt_t * thePoint;
         /// need to restore point if move command is aborted
-        xy savePoint;
+        pt_t savePoint;
 
+        /// line name
         QString name;
+        /// line comment
         QString comment;
+        /// the distance in [m]
         double distance;
+        /// optional speed in km/s, <=0 is no speed
         double speed;
 
+        /// rectangle in function wheel for del icon
         QRect rectDel;
+        /// rectangle in function wheel for move icon
         QRect rectMove;
+        /// rectangle in function wheel for add1 icon
         QRect rectAdd1;
+        /// rectangle in function wheel for add2 icon
         QRect rectAdd2;
 
+        /// to show special cursor over function wheel icon
         bool doSpecialCursor;
+        /// set true while moving a point
         bool doMove;
+        /// set true while showing the function wheeö
         bool doFuncWheel;
 
         enum addType_e{eNone, eBefore, eAfter, eAtEnd};
+        ///
         addType_e addType;
 
         double anglePrev;
         double angleNext;
 
+        /// the complete polyline close to the cursor from a vector map
         QPolygon leadline;
-
+        /// the subline of the leadline between the last point and the cursor
         QPolygon subline;
 
-        static QPointer<COverlayDistanceEditWidget> editwidget;
+        bool isEdit;
 
 
 };

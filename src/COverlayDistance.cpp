@@ -39,9 +39,9 @@ bool operator==(const XY& p1, const XY& p2)
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
-QPointer<COverlayDistanceEditWidget> COverlayDistance::editwidget;
+QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
 
-COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<xy>& pts, QObject * parent)
+COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent)
 : IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
 , points(pts)
 , thePoint(0)
@@ -53,6 +53,7 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
 , doMove(false)
 , doFuncWheel(false)
 , addType(eNone)
+, isEdit(false)
 {
 
     rectDel  = QRect(0,0,16,16);
@@ -79,15 +80,6 @@ COverlayDistance::~COverlayDistance()
 }
 
 
-bool COverlayDistance::isEditMode()
-{
-    if(!editwidget.isNull())
-    {
-        return !editwidget->isAboutToClose();
-    }
-    return false;
-}
-
 void COverlayDistance::save(QDataStream& s)
 {
     s << name << comment << points.size();
@@ -102,7 +94,7 @@ void COverlayDistance::save(QDataStream& s)
 
 void COverlayDistance::load(QDataStream& s)
 {
-    xy pt;
+    pt_t pt;
     int size;
 
     points.clear();
@@ -161,7 +153,7 @@ QString COverlayDistance::getInfo()
 bool COverlayDistance::isCloseEnough(const QPoint& pt)
 {
     IMap& map = CMapDB::self().getMap();
-    QList<xy>::iterator p = points.begin();
+    QList<pt_t>::iterator p = points.begin();
 
     if(doFuncWheel)
     {
@@ -238,7 +230,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 
         if(doMove)
         {
-            xy pt;
+            pt_t pt;
             pt.idx  = thePoint->idx;
             pt.u    = pos.x();
             pt.v    = pos.y();
@@ -333,7 +325,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 const int size = subline.size();
                 if(size < 2)
                 {
-                    xy pt;
+                    pt_t pt;
                     pt.u    = e->pos().x();
                     pt.v    = e->pos().y();
                     map.convertPt2Rad(pt.u, pt.v);
@@ -342,7 +334,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 }
                 else
                 {
-                    xy pt;
+                    pt_t pt;
                     pt.u = subline[1].x();
                     pt.v = subline[1].y();
                     map.convertPt2Rad(pt.u, pt.v);
@@ -369,7 +361,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 if(size < 2)
                 {
 
-                    xy pt;
+                    pt_t pt;
                     pt.u = e->pos().x();
                     pt.v = e->pos().y();
                     map.convertPt2Rad(pt.u, pt.v);
@@ -378,7 +370,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 }
                 else
                 {
-                    xy pt;
+                    pt_t pt;
                     pt.u = subline[1].x();
                     pt.v = subline[1].y();
                     map.convertPt2Rad(pt.u, pt.v);
@@ -400,7 +392,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             }
             else if(addType != eNone)
             {
-                xy pt;
+                pt_t pt;
                 const int size = subline.size();
                 int idx = points.indexOf(*thePoint);
 
@@ -470,7 +462,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             }
             else
             {
-                xy pt;
+                pt_t pt;
                 pt.u = e->pos().x();
                 pt.v = e->pos().y();
                 map.convertPt2Rad(pt.u, pt.v);
@@ -543,7 +535,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             if(idx == -1) return;
 
-            xy pt;
+            pt_t pt;
             pt.u = e->pos().x();
             pt.v = e->pos().y();
             map.convertPt2Rad(pt.u, pt.v);
@@ -564,7 +556,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             idx++;
 
-            xy pt;
+            pt_t pt;
             pt.u = e->pos().x();
             pt.v = e->pos().y();
             map.convertPt2Rad(pt.u, pt.v);
@@ -683,7 +675,7 @@ void COverlayDistance::draw(QPainter& p)
         {
             p.setPen(QPen(Qt::white, 5));
             p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-            if(isEditMode())
+            if(isEdit)
             {
                 p.setPen(QPen(Qt::magenta, 3));
             }
@@ -722,7 +714,7 @@ void COverlayDistance::draw(QPainter& p)
 
         p.setPen(QPen(Qt::white, 5));
         p.drawPolyline(subline);
-        if(isEditMode())
+        if(isEdit)
         {
             p.setPen(QPen(Qt::magenta, 3));
         }
@@ -831,7 +823,7 @@ void COverlayDistance::calcDistance()
     }
 
     double a1,a2;
-    xy pt1, pt2;
+    pt_t pt1, pt2;
     pt1 = points.first();
     points[0].idx = 0;
 
@@ -970,9 +962,9 @@ void COverlayDistance::slotToRoute()
 
 void COverlayDistance::slotEdit()
 {
-    if(!editwidget.isNull()) delete editwidget;
-    editwidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), this);
-    theMainWindow->setTempWidget(editwidget, tr("Overlay"));
+    if(!overlayDistanceEditWidget.isNull()) delete overlayDistanceEditWidget;
+    overlayDistanceEditWidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), this);
+    theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
 
 }
 
@@ -1035,7 +1027,7 @@ void COverlayDistance::delPointsByIdx(const QList<int>& idx)
 
     foreach(i, idx)
     {
-        QList<xy>::iterator pt = points.begin();
+        QList<pt_t>::iterator pt = points.begin();
         while(pt != points.end())
         {
             if(pt->idx == i)

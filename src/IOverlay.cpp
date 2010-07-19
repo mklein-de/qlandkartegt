@@ -19,6 +19,7 @@
 
 #include "IOverlay.h"
 #include "COverlayDB.h"
+#include "COverlayDistance.h"
 #include "GeoMath.h"
 
 #include <QtGui>
@@ -92,13 +93,13 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     QString name;
                     QString comment;
                     int size, idx = 0;
-                    xy pt;
-                    QList<xy> points;
+                    COverlayDistance::pt_t pt;
+                    QList<COverlayDistance::pt_t> points;
                     s1 >> name >> comment >> size;
                     for(int i = 0; i < size; ++i)
                     {
                         s1 >> pt.u >> pt.v;
-                        pt.idx++;
+                        pt.idx = idx++;
                         points << pt;
                     }
                     db.addDistance(name, comment, 0.0, points);

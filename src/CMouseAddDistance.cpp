@@ -53,11 +53,11 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
         double x = e->pos().x();
         double y = e->pos().y();
         CMapDB::self().getMap().convertPt2Rad(x,y);
-        xy pt;
+        COverlayDistance::pt_t pt;
         pt.u    = x;
         pt.v    = y;
         pt.idx  = 0;
-        QList<xy> pts;
+        QList<COverlayDistance::pt_t> pts;
         pts << pt;
         selOverlay = COverlayDB::self().addDistance("", "", 0.0, pts);
     }

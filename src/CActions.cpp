@@ -280,7 +280,7 @@ void CActions::funcSwitchToLiveLog()
 
 void CActions::funcSwitchToOverlay()
 {
-    if(COverlayDistance::isEditMode())
+    if(!overlayDistanceEditWidget.isNull())
     {
         funcSwitchToOverlayDistance();
         return;

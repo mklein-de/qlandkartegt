@@ -29,9 +29,10 @@
 
 COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverlayDistance * ovl)
 : QWidget(parent)
-, aboutToClose(false)
 , ovl(ovl)
 {
+    ovl->isEdit = true;
+
     setupUi(this);
 
     lineName->setText(ovl->name);
@@ -60,8 +61,13 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
 COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
 {
-    aboutToClose = true;
-    CMegaMenu::self().switchByKeyWord("Overlay");
+    ovl->isEdit = false;
+    CMegaMenu::self().switchByKeyWord("Overlay");    
+}
+
+bool COverlayDistanceEditWidget::isAboutToClose()
+{
+    return !ovl->isEdit;
 }
 
 void COverlayDistanceEditWidget::slotApply()
@@ -84,7 +90,7 @@ void COverlayDistanceEditWidget::slotChanged()
 
     for(i = 0; i < size; i++)
     {
-        xy pt = ovl->points[i];
+        COverlayDistance::pt_t pt = ovl->points[i];
         GPS_Math_Deg_To_Str(pt.u * RAD_TO_DEG, pt.v * RAD_TO_DEG, pos);
 
         QTreeWidgetItem * item = new QTreeWidgetItem(treeWidget);
