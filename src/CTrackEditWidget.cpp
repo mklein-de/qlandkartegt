@@ -148,7 +148,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
 
     contextMenu = new QMenu(this);
-    contextMenu->addAction(actions->getAction("aDeleteTrackSelection"));
+    contextMenu->addAction(actions->getAction("aTrackPurgeSelection"));
     actSplit    = contextMenu->addAction(QPixmap(":/icons/iconEditCut16x16.png"),tr("Split"),this,SLOT(slotSplit()));
     connect(treePoints,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
@@ -820,12 +820,10 @@ void CTrackEditWidget::slotPurge()
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
         if(trkpts[idxTrkPt].flags & CTrack::pt_t::eDeleted)
         {
-            qDebug() << "xx" << idxTrkPt;
             trkpts[idxTrkPt].flags &= ~CTrack::pt_t::eDeleted;
         }
         else
         {
-            qDebug() << "yy"<< idxTrkPt;
             trkpts[idxTrkPt].flags |= CTrack::pt_t::eDeleted;
         }
 

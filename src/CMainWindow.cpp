@@ -166,7 +166,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDownloadTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aDeleteTrackSelection");
+    actionGroupProvider->addAction(CMenus::TrackMenu, "aTrackPurgeSelection");
 
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aMoveArea");
@@ -184,7 +184,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aTextBox");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aDistance");
 
-    //actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aCenterMap");

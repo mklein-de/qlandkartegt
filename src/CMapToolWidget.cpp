@@ -62,9 +62,9 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(pushExportMap, SIGNAL(clicked()), this, SLOT(slotExportMap()));
 
     tabWidget->setTabIcon(0, QIcon(":/icons/iconRaster16x16"));
-    tabWidget->setTabText(0,"");
+    tabWidget->setTabText(0,tr("Raster"));
     tabWidget->setTabIcon(1, QIcon(":/icons/iconVector16x16"));
-    tabWidget->setTabText(1,"");
+    tabWidget->setTabText(1,tr("Vector"));
 
 }
 

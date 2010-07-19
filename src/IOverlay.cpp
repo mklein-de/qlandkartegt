@@ -90,6 +90,7 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                 }
                 else if(type == "Distance")
                 {
+                    float speed;
                     QString name;
                     QString comment;
                     int size, idx = 0;
@@ -102,7 +103,8 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                         pt.idx = idx++;
                         points << pt;
                     }
-                    db.addDistance(name, comment, 0.0, points);
+                    s1 >> speed;
+                    db.addDistance(name, comment, speed, points);
                 }
                 break;
             }

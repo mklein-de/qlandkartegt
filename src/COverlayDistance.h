@@ -80,7 +80,6 @@ class COverlayDistance : public IOverlay
 
         void delPointsByIdx(const QList<int>& idx);
 
-
     signals:
         void sigSelectionChanged();
 

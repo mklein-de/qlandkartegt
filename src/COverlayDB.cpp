@@ -389,3 +389,14 @@ void COverlayDB::customMenu(const QString& key, QMenu& menu)
     if(!overlays.contains(key)) return;
     overlays[key]->customMenu(menu);
 }
+
+
+void COverlayDB::copyToClipboard(bool deleteSelection)
+{
+
+}
+
+void COverlayDB::pasteFromClipboard()
+{
+
+}

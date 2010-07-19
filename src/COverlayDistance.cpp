@@ -88,7 +88,7 @@ void COverlayDistance::save(QDataStream& s)
     {
         s << pt.u << pt.v;
     }
-
+    s << (float)speed;
 }
 
 

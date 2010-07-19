@@ -56,8 +56,8 @@ class COverlayDB : public IDB
         void saveGPX(CGpx& gpx, const QStringList& keys);
         void loadQLB(CQlb& qlb);
         void saveQLB(CQlb& qlb);
-        void upload(const QStringList&){};
-        void download(){};
+        void upload(const QStringList&){}
+        void download(){}
         void clear();
         int count(){return overlays.size();}
 
@@ -78,6 +78,9 @@ class COverlayDB : public IDB
         void looseFocus();
 
         IOverlay * getOverlayByKey(const QString& key);
+
+        void copyToClipboard(bool deleteSelection = false);
+        void pasteFromClipboard();
 
     private:
         friend class CMainWindow;

@@ -131,14 +131,14 @@
      <item>
       <widget class="QCheckBox" name="checkRemoveDelTrkPt">
        <property name="text">
-        <string>remove purged track points</string>
+        <string>remove hidden track points</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QCheckBox" name="checkResetDelTrkPt">
        <property name="text">
-        <string>reset purged track points</string>
+        <string>show all hidden track points</string>
        </property>
       </widget>
      </item>
