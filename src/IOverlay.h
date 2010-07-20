@@ -59,26 +59,25 @@ class IOverlay : public QObject
         virtual bool mouseActionInProgress(){return false;}
 
         /// get mouse move event when selected
-        virtual void mouseMoveEvent(QMouseEvent * e){};
+        virtual void mouseMoveEvent(QMouseEvent * e){}
         /// get mouse press event when selected
-        virtual void mousePressEvent(QMouseEvent * e){};
+        virtual void mousePressEvent(QMouseEvent * e){}
         /// get mouse release event when selected
-        virtual void mouseReleaseEvent(QMouseEvent * e){};
+        virtual void mouseReleaseEvent(QMouseEvent * e){}
 
         /// save overlay data to datastream
-        virtual void save(QDataStream& s){};
+        virtual void save(QDataStream& s){}
         /// load overlay data from datastream
-        virtual void load(QDataStream& s){};
-
+        virtual void load(QDataStream& s){}
         /// set the static selected pointer
         static void select(IOverlay * s);
 
         /// move map to make overlay visible
-        virtual void makeVisible(){};
+        virtual void makeVisible(){}
 
         virtual void customMenu(QMenu& menu){}
 
-        virtual void looseFocus(){};
+        virtual void looseFocus(){}
 
         virtual QRectF getBoundingRectF(){return QRectF();}
 
@@ -89,14 +88,22 @@ class IOverlay : public QObject
         /// the unique overlay key used by the database
         const QString key;
 
+        void setHighlight(bool on){highlight = on;}
+        bool isHighlighted(){return highlight;}
+
         signals:
         void sigChanged();
 
     protected:
         static QPointer<IOverlay> selected;
 
+        /// set true to draw overlay highlighted
+        bool highlight;
+
     private:
         static int count;
+
+
 };
 
 QDataStream& operator >>(QDataStream& s, COverlayDB& db);

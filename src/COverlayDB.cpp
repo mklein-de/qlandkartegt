@@ -22,6 +22,9 @@
 #include "COverlayText.h"
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
+#include "COverlayDistanceEditWidget.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 #include "CQlb.h"
 #include "CGpx.h"
 
@@ -398,5 +401,37 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
 
 void COverlayDB::pasteFromClipboard()
 {
+
+}
+
+void COverlayDB::highlightOverlay(const QString& key)
+{
+    QMap<QString,IOverlay*>::iterator ovl = overlays.begin();
+    while(ovl != overlays.end())
+    {
+        (*ovl)->setHighlight(false);
+        ++ovl;
+    }
+
+    if(overlays.contains(key))
+    {
+        IOverlay * ovl = overlays[key];
+
+        if((ovl->type == "Distance") && overlayDistanceEditWidget)
+        {
+            delete overlayDistanceEditWidget;
+            overlayDistanceEditWidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), qobject_cast<COverlayDistance*>(ovl));
+            theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
+        }
+
+        ovl->setHighlight(true);
+//        emit sigHighlightTrack(tracks[key]);
+    }
+    else
+    {
+//        emit sigHighlightTrack(0);
+    }
+
+    emit sigChanged();
 
 }

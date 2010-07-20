@@ -673,19 +673,24 @@ void COverlayDistance::draw(QPainter& p)
 
         if(i != skip)
         {
-            p.setPen(QPen(Qt::white, 5));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-            if(isEdit)
+            if(highlight)
             {
-                p.setPen(QPen(Qt::magenta, 3));
+                p.setPen(QPen(Qt::white, 7));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+                p.setPen(QPen(Qt::blue, 5));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+                p.setPen(QPen(Qt::white, 1));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
             }
             else
             {
+                p.setPen(QPen(Qt::white, 5));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
                 p.setPen(QPen(Qt::darkBlue, 3));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+                p.setPen(QPen(Qt::white, 1));
+                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
             }
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-            p.setPen(QPen(Qt::white, 1));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
         }
         pt1 = pt2;
     }
@@ -712,19 +717,25 @@ void COverlayDistance::draw(QPainter& p)
     if(!subline.isEmpty())
     {
 
-        p.setPen(QPen(Qt::white, 5));
-        p.drawPolyline(subline);
-        if(isEdit)
+        if(highlight)
         {
-            p.setPen(QPen(Qt::magenta, 3));
+            p.setPen(QPen(Qt::white, 7));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.setPen(QPen(Qt::blue, 5));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.setPen(QPen(Qt::white, 1));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
         }
         else
         {
+            p.setPen(QPen(Qt::white, 5));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
             p.setPen(QPen(Qt::darkBlue, 3));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.setPen(QPen(Qt::white, 1));
+            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
         }
-        p.drawPolyline(subline);
-        p.setPen(QPen(Qt::white, 1));
-        p.drawPolyline(subline);
+
 
         p.setPen(Qt::black);
         for(i = 1; i < (subline.size() - 1); i++)

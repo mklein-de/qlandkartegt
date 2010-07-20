@@ -39,16 +39,16 @@ class QHttp;
 class CFlags
 {
     public:
-        CFlags(quint32 f=0) { flags = f; changed = true; };
-        virtual ~CFlags() {};
-        const quint32 flag() const { return flags; };
-        void setFlags( quint32 f ) { if ( flags != f ) changed = true; flags = f; };
-        quint32 operator  & (quint32 f) const { return flags&f; };
-        quint32 operator |= (quint32 f) { if ( flags != (flags|f) ) changed = true; flags|=f; return flags; };
-        quint32 operator &= (quint32 f) { if ( flags != (flags&f) ) changed = true; flags&=f; return flags; };
-        quint32 operator >> (quint32 & f) { if ( flags != f ) changed = true; flags = f; return flags; };
-        const bool isChanged() const { return changed; };
-        void setChanged(bool b) { changed = b; };
+        CFlags(quint32 f=0) { flags = f; changed = true; }
+        virtual ~CFlags() {}
+        const quint32 flag() const { return flags; }
+        void setFlags( quint32 f ) { if ( flags != f ) changed = true; flags = f; }
+        quint32 operator  & (quint32 f) const { return flags&f; }
+        quint32 operator |= (quint32 f) { if ( flags != (flags|f) ) changed = true; flags|=f; return flags; }
+        quint32 operator &= (quint32 f) { if ( flags != (flags&f) ) changed = true; flags&=f; return flags; }
+        quint32 operator >> (quint32 & f) { if ( flags != f ) changed = true; flags = f; return flags; }
+        const bool isChanged() const { return changed; }
+        void setChanged(bool b) { changed = b; }
     protected:
         /// display flags
         quint32 flags;
@@ -181,7 +181,7 @@ class CTrack : public QObject
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
         /// get list of track points
-        QList<pt_t>& getTrackPoints(){return track;};
+        QList<pt_t>& getTrackPoints(){return track;}
         /// get polyline representation of track
         QPolygon& getPolyline(){return polyline;}
         /// get the total distance of the track in [m]
@@ -208,10 +208,10 @@ class CTrack : public QObject
         /// track name
         QString name;
 
-        bool hasTraineeData() { return traineeData;};
-        void setTraineeData() { traineeData = true;};
-        bool hasExt1Data() { return ext1Data;};
-        void setExt1Data() { ext1Data = true;};
+        bool hasTraineeData() { return traineeData;}
+        void setTraineeData() { traineeData = true;}
+        bool hasExt1Data() { return ext1Data;}
+        void setExt1Data() { ext1Data = true;}
 
         void hide(bool ok);
         bool isHidden(){return m_hide;}

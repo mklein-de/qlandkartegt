@@ -44,6 +44,9 @@
 #include "CDlgExport.h"
 #include "CTabWidget.h"
 #include "COverlayDistance.h"
+#include "COverlayDistanceEditWidget.h"
+
+#include <QtGui>
 
 CActions::CActions(QObject *parent) :
 QObject(parent), parent(parent)
@@ -124,10 +127,10 @@ QObject(parent), parent(parent)
     createAction(QKeySequence (Qt::ALT + Qt::Key_Right).toString(), ":/icons/editcopy.png", tr("&Move right"), "aMoveRight", tr("Move to the right side."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Up).toString(), ":/icons/editcopy.png", tr("&Move up"), "aMoveUp", tr("Move up."));
     createAction(QKeySequence (Qt::ALT + Qt::Key_Down).toString(), ":/icons/editcopy.png", tr("&Move down"), "aMoveDown", tr("Move down."));
-    createAction(tr("ctrl+c"), ":/icons/editcopy.png", tr("&Copy"), "aCopyToClipboard", tr("Copy selected trackpoints to clipboard."));
-    createAction(tr("ctrl+v"), ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr("Paste Track."));
-    createAction(tr("ctrl+z"), ":/icons/editpaste.png", tr("&Undo"), "aUndo", tr("Undo a command."));
-    createAction(tr("ctrl+y"), ":/icons/editpaste.png", tr("&Redo"), "aRedo", tr("Redo a command."));
+    createAction("CTRL+c", ":/icons/editcopy.png", tr("&Copy"), "aCopyToClipboard", tr(""));
+    createAction("CTRL+v", ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr(""));
+    createAction("CTRL+z", ":/icons/editundo.png", tr("&Undo"), "aUndo", tr("Undo a command."));
+    createAction("SHIFT+CTRL+z", ":/icons/editredo.png", tr("&Redo"), "aRedo", tr("Redo a command."));
 }
 
 
@@ -673,7 +676,43 @@ void CActions::funcMoveDown()
 //    else if (e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier)
 void CActions::funcCopyToClipboard()
 {
-    CTrackDB::self().copyToClipboard();
+    COverlayDistance * ovl = 0;
+    CTrack *           trk = 0;
+
+    if(overlayDistanceEditWidget)
+    {
+        ovl = overlayDistanceEditWidget->getOverlay();
+    }
+
+    trk = CTrackDB::self().highlightedTrack();
+
+    if(trk && ovl)
+    {
+        bool ok;
+        QStringList items;
+        items << tr("Track") << tr("Distance");
+        QString res = QInputDialog::getItem(0, tr("What to do?"), tr("I do not know what to copy. Please select:"), items, 0, false, &ok);
+
+        if(res == tr("Track"))
+        {
+            CTrackDB::self().copyToClipboard();
+        }
+        else if(res == tr("Distance"))
+        {
+
+        }
+    }
+    else if(trk)
+    {
+        CTrackDB::self().copyToClipboard();
+    }
+    else if(ovl)
+    {
+
+    }
+
+
+
 }
 
 

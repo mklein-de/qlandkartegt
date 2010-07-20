@@ -253,7 +253,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     if(track)
     {
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
-        disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
+        disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
         // clean view
         QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
@@ -387,7 +387,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     }
 
     connect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
-    connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(close()));
+    connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
     slotUpdate();
 

@@ -46,7 +46,8 @@ class CMenus: public QObject
             TrackMenu,
             RouteMenu,
             MapMenu,
-            MainMenu
+            MainMenu,
+            EditMenu
         };
 
         enum MenuContextName

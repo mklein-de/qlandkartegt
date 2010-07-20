@@ -164,8 +164,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aSelTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aUploadTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aDownloadTrack");
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aCopyToClipboard");
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aPasteFromClipboard");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aTrackPurgeSelection");
 
     actionGroupProvider->addAction(CMenus::LiveLogMenu, "aSwitchToMain");
@@ -202,6 +200,8 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::RouteMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aUploadRoute");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aDownloadRoute");
+
+
 
     connect(actionGroupProvider, SIGNAL(stateChanged()),megaMenu , SLOT(switchState()));
 
@@ -506,6 +506,11 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
+    menuBar()->addMenu(menu);
+
+    menu = new QMenu(this);
+    actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::EditMenu);
+    menu->setTitle(tr("&Edit"));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);

@@ -79,6 +79,8 @@ class COverlayDB : public IDB
 
         IOverlay * getOverlayByKey(const QString& key);
 
+        void highlightOverlay(const QString& key);
+
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
 

@@ -25,6 +25,7 @@
 
 COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
 : QWidget(parent)
+, originator(false)
 {
     setupUi(this);
     setObjectName("Overlay");
@@ -34,6 +35,7 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
 
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listOverlays,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+    connect(listOverlays,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
     connect(listOverlays,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
@@ -47,6 +49,8 @@ COverlayToolWidget::~COverlayToolWidget()
 
 void COverlayToolWidget::slotDBChanged()
 {
+    if(originator) return;
+
     listOverlays->clear();
 
     QMap<QString, IOverlay*>& overlays                  = COverlayDB::self().overlays;
@@ -76,12 +80,23 @@ void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     overlays[key]->makeVisible();
 }
 
+void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)
+{
+    originator = true;
+    COverlayDB::self().highlightOverlay(item->data(Qt::UserRole).toString());
+    originator = false;
+}
+
 
 void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 {
     QListWidgetItem * item = listOverlays->currentItem();
     if(item)
     {
+        originator = true;
+        COverlayDB::self().highlightOverlay(item->data(Qt::UserRole).toString());
+        originator = false;
+
         QPoint p = listOverlays->mapToGlobal(pos);
 
         QMenu contextMenu;

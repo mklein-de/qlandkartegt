@@ -206,6 +206,7 @@ IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 , type(type)
 , icon(icon)
 , key(QString("%1_%2").arg(type).arg(count++))
+, highlight(false)
 {
 
 }

@@ -56,7 +56,9 @@ void CMenus::addAction(ActionGroupName groupName, const QString& actionName, boo
     QAction *action = actions->getAction(actionName);
 
     if (action)
+    {
         addAction(groupName,action,force);
+    }
 }
 
 
@@ -69,7 +71,9 @@ void CMenus::addAction(ActionGroupName groupName, QAction *action, bool force /*
         actionGroupHash.insert(groupName, actionGroup);
     }
     else
+    {
         actionGroup = actionGroupHash.value(groupName);
+    }
 
     actionGroup->append(action);
     controlledActions << action;
@@ -124,7 +128,9 @@ void CMenus::switchToActionGroup(ActionGroupName group)
         lqdebug(QString("Controlled Action with '%1' added").arg(a->text()));
         theMainWindow->addAction(a);
         if (actionsShortcuts.contains(a))
+        {
             a->setShortcuts(actionsShortcuts.value(a,QList<QKeySequence> ()));
+        }
         lqdebug(a->shortcuts());
     }
 
@@ -141,6 +147,13 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
     {
         menu->addAction(actions->getAction("aZoomIn"));
         menu->addAction(actions->getAction("aZoomOut"));
+    }
+    else if(groupName == EditMenu)
+    {
+        menu->addAction(actions->getAction("aUndo"));
+//        menu->addAction(actions->getAction("aRedo"));
+        menu->addAction(actions->getAction("aCopyToClipboard"));
+        menu->addAction(actions->getAction("aPasteFromClipboard"));
     }
     return true;
 }

@@ -61,8 +61,16 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
 COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
 {
-    ovl->isEdit = false;
-    CMegaMenu::self().switchByKeyWord("Overlay");    
+    if(ovl)
+    {
+        ovl->isEdit = false;
+    }
+    CMegaMenu::self().switchByKeyWord("Overlay");
+}
+
+COverlayDistance * COverlayDistanceEditWidget::getOverlay()
+{
+    return ovl;
 }
 
 bool COverlayDistanceEditWidget::isAboutToClose()
@@ -172,6 +180,4 @@ void COverlayDistanceEditWidget::slotDelete()
     }
 
     ovl->delPointsByIdx(idx);
-
-
 }
