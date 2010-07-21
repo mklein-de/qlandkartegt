@@ -85,8 +85,9 @@ class IOverlay : public QObject
         const QString type;
         /// the overlay icon
         const QPixmap icon;
-        /// the unique overlay key used by the database
-        const QString key;
+        /// get unique track key
+        const QString& key();
+
 
         void setHighlight(bool on){highlight = on;}
         bool isHighlighted(){return highlight;}
@@ -95,10 +96,16 @@ class IOverlay : public QObject
         void sigChanged();
 
     protected:
+        friend class COverlayDB;
+        void genKey();
+
         static QPointer<IOverlay> selected;
 
         /// set true to draw overlay highlighted
         bool highlight;
+
+        /// the unique overlay key used by the database
+        QString _key_;
 
     private:
         static int count;

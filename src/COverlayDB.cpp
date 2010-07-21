@@ -38,6 +38,7 @@ COverlayDB * COverlayDB::m_self = 0;
 
 COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
+, addOverlaysAsDuplicate(false)
 {
     m_self      = this;
     toolview    = new COverlayToolWidget(tb);
@@ -313,6 +314,7 @@ void COverlayDB::loadQLB(CQlb& qlb)
 }
 
 
+
 void COverlayDB::saveQLB(CQlb& qlb)
 {
     IOverlay * overlay;
@@ -342,10 +344,14 @@ void COverlayDB::delOverlays(const QStringList& keys)
 }
 
 
-COverlayText * COverlayDB::addText(const QString& text, const QRect& rect)
+COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key)
 {
     IOverlay * overlay = new COverlayText(text, rect, this);
-    overlays[overlay->key] = overlay;
+    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+    {
+        overlay->_key_ = key;
+    }
+    overlays[overlay->key()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -357,10 +363,14 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect)
 }
 
 
-COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect)
+COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key)
 {
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
-    overlays[overlay->key] = overlay;
+    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+    {
+        overlay->_key_ = key;
+    }
+    overlays[overlay->key()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -372,10 +382,14 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 }
 
 
-COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts)
+COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key)
 {
     IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
-    overlays[overlay->key] = overlay;
+    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+    {
+        overlay->_key_ = key;
+    }
+    overlays[overlay->key()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -396,12 +410,48 @@ void COverlayDB::customMenu(const QString& key, QMenu& menu)
 
 void COverlayDB::copyToClipboard(bool deleteSelection)
 {
+    IOverlay * ovl = highlightedOverlay();
+
+    if(ovl == 0)
+    {
+        return;
+    }
+
+    QClipboard *clipboard = QApplication::clipboard();
+    CQlb qlb(this);
+
+    qlb << *ovl;
+
+    QBuffer buffer;
+    qlb.save(&buffer);
+    QMimeData *md = new QMimeData;
+    buffer.open(QIODevice::ReadOnly);
+    md->setData("qlandkartegt/qlb",buffer.readAll());
+    buffer.close();
+    clipboard->clear();
+    clipboard->setMimeData(md);
 
 }
 
 void COverlayDB::pasteFromClipboard()
 {
+    QClipboard *clipboard = QApplication::clipboard();
+    qDebug() << clipboard->mimeData()->formats();
+    if (clipboard->mimeData()->hasFormat("qlandkartegt/qlb"))
+    {
+        QBuffer buffer;
+        buffer.open(QIODevice::WriteOnly);
+        buffer.write(clipboard->mimeData()->data("qlandkartegt/qlb"));
+        buffer.close();
+        CQlb qlb(this);
+        qlb.load(&buffer);
 
+        addOverlaysAsDuplicate = true;
+        loadQLB(qlb);
+        addOverlaysAsDuplicate = false;
+
+        emit sigModified();
+    }
 }
 
 void COverlayDB::highlightOverlay(const QString& key)
@@ -423,13 +473,12 @@ void COverlayDB::highlightOverlay(const QString& key)
             overlayDistanceEditWidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), qobject_cast<COverlayDistance*>(ovl));
             theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
         }
+        else if(overlayDistanceEditWidget)
+        {
+            delete overlayDistanceEditWidget;
+        }
 
         ovl->setHighlight(true);
-//        emit sigHighlightTrack(tracks[key]);
-    }
-    else
-    {
-//        emit sigHighlightTrack(0);
     }
 
     emit sigChanged();

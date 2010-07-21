@@ -88,7 +88,8 @@ void COverlayDistance::save(QDataStream& s)
     {
         s << pt.u << pt.v;
     }
-    s << (float)speed;
+    s << speed;
+    s << key();
 }
 
 
@@ -106,6 +107,8 @@ void COverlayDistance::load(QDataStream& s)
         pt.idx = i;
         points << pt;
     }
+    s >> speed;
+    s >> _key_;
 
 }
 
@@ -512,7 +515,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             if(points.isEmpty())
             {
-                QStringList keys(key);
+                QStringList keys(key());
                 COverlayDB::self().delOverlays(keys);
             }
             calcDistance();

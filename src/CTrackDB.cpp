@@ -1069,6 +1069,8 @@ void CTrackDB::pasteFromClipboard()
         CQlb qlb(this);
         qlb.load(&buffer);
         loadQLB(qlb, true);
+
+        emit sigModified();
     }
 }
 

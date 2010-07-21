@@ -69,15 +69,15 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
-                QString type;
+                QString type, key;
 
                 s1 >> type;
                 if(type == "Text")
                 {
                     QRect rect;
                     QString text;
-                    s1 >> rect >> text;
-                    db.addText(text,rect);
+                    s1 >> rect >> text >> key;
+                    db.addText(text,rect, key);
                 }
                 else if(type == "TextBox")
                 {
@@ -85,8 +85,8 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     QPoint pt;
                     QString text;
                     double lon, lat;
-                    s1 >> lon >> lat >> pt >> rect >> text;
-                    db.addTextBox(text, lon, lat, pt, rect);
+                    s1 >> lon >> lat >> pt >> rect >> text >> key;
+                    db.addTextBox(text, lon, lat, pt, rect, key);
                 }
                 else if(type == "Distance")
                 {
@@ -103,8 +103,8 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                         pt.idx = idx++;
                         points << pt;
                     }
-                    s1 >> speed;
-                    db.addDistance(name, comment, speed, points);
+                    s1 >> speed >> key;
+                    db.addDistance(name, comment, speed, points, key);
                 }
                 break;
             }
@@ -205,7 +205,6 @@ IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 : QObject(parent)
 , type(type)
 , icon(icon)
-, key(QString("%1_%2").arg(type).arg(count++))
 , highlight(false)
 {
 
@@ -221,4 +220,16 @@ IOverlay::~IOverlay()
 void IOverlay::select(IOverlay * s)
 {
     selected = s;
+}
+
+void IOverlay::genKey()
+{
+    _key_ = QString("%1%2%3").arg(type).arg(QDateTime::currentDateTime().toString()).arg(count++);
+}
+
+
+const QString& IOverlay::key()
+{
+    if(_key_.isEmpty()) genKey();
+    return _key_;
 }

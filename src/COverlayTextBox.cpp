@@ -127,8 +127,16 @@ void COverlayTextBox::draw(QPainter& p)
     }
     else
     {
-        p.setBrush(Qt::white);
-        p.setPen(Qt::black);
+        if(highlight)
+        {
+            p.setBrush(Qt::white);
+            p.setPen(QPen(Qt::blue,3));
+        }
+        else
+        {
+            p.setBrush(Qt::white);
+            p.setPen(Qt::black);
+        }
         p.drawPolygon(polyline);
     }
 
@@ -181,13 +189,13 @@ QString COverlayTextBox::getInfo()
 
 void COverlayTextBox::save(QDataStream& s)
 {
-    s << lon << lat << pt << rect << text;
+    s << lon << lat << pt << rect << text << _key_;
 }
 
 
 void COverlayTextBox::load(QDataStream& s)
 {
-    s >> lon >> lat >> pt >> rect >> text;
+    s >> lon >> lat >> pt >> rect >> text >> _key_;
 }
 
 
@@ -291,7 +299,7 @@ void COverlayTextBox::mousePressEvent(QMouseEvent * e)
     }
     else if(rectDel.contains(pos))
     {
-        QStringList keys(key);
+        QStringList keys(key());
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;

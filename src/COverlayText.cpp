@@ -84,8 +84,16 @@ QString COverlayText::getInfo()
 
 void COverlayText::draw(QPainter& p)
 {
-    p.setBrush(Qt::white);
-    p.setPen(Qt::black);
+    if(highlight)
+    {
+        p.setBrush(Qt::white);
+        p.setPen(QPen(Qt::blue,3));
+    }
+    else
+    {
+        p.setBrush(Qt::white);
+        p.setPen(Qt::black);
+    }
     p.drawRect(rect);
 
     if(selected == this)
@@ -183,7 +191,7 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
     }
     else if(rectDel.contains(e->pos()))
     {
-        QStringList keys(key);
+        QStringList keys(key());
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;
@@ -203,11 +211,11 @@ void COverlayText::mouseReleaseEvent(QMouseEvent * e)
 
 void COverlayText::save(QDataStream& s)
 {
-    s << rect << sometext;
+    s << rect << sometext << _key_;
 }
 
 
 void COverlayText::load(QDataStream& s)
 {
-    s >> rect >> sometext;
+    s >> rect >> sometext >> _key_;
 }

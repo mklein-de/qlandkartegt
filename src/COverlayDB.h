@@ -69,9 +69,9 @@ class COverlayDB : public IDB
         /// delete several overlays by their keys
         void delOverlays(const QStringList& keys);
 
-        COverlayText * addText(const QString& text, const QRect& rect);
-        COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect);
-        COverlayDistance * addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts);
+        COverlayText * addText(const QString& text, const QRect& rect, const QString& key = QString());
+        COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key = QString());
+        COverlayDistance * addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key = QString());
 
         void customMenu(const QString& key, QMenu& menu);
 
@@ -103,5 +103,7 @@ class COverlayDB : public IDB
         static COverlayDB * m_self;
 
         QMap<QString,IOverlay*> overlays;
+
+        bool addOverlaysAsDuplicate;
 };
 #endif                           //COVERLAYDB_H

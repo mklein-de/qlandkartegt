@@ -719,6 +719,7 @@ void CActions::funcCopyToClipboard()
 void CActions::funcPasteFromClipboard()
 {
     CTrackDB::self().pasteFromClipboard();
+    COverlayDB::self().pasteFromClipboard();
 }
 
 

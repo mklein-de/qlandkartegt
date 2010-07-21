@@ -109,7 +109,7 @@ class COverlayDistance : public IOverlay
         /// the distance in [m]
         double distance;
         /// optional speed in km/s, <=0 is no speed
-        double speed;
+        float speed;
 
         /// rectangle in function wheel for del icon
         QRect rectDel;
