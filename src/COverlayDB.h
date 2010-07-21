@@ -81,6 +81,18 @@ class COverlayDB : public IDB
 
         void highlightOverlay(const QString& key);
 
+        /// get highlighted Overlay
+        /**
+            <b>WARNING</b> The object referenced by the returned
+            pointer might be subject to destruction at any time.
+            Thus you must use it temporarily or store it by a
+            QPointer object.
+
+            @return A pointer to the current highlighted track or 0.
+        */
+        IOverlay * highlightedOverlay();
+
+
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
 
@@ -88,7 +100,6 @@ class COverlayDB : public IDB
         friend class CMainWindow;
         friend class COverlayToolWidget;
         COverlayDB(QTabWidget * tb, QObject * parent);
-
         static COverlayDB * m_self;
 
         QMap<QString,IOverlay*> overlays;

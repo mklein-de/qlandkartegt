@@ -435,3 +435,17 @@ void COverlayDB::highlightOverlay(const QString& key)
     emit sigChanged();
 
 }
+
+IOverlay* COverlayDB::highlightedOverlay()
+{
+
+    QMap<QString,IOverlay*>::iterator ovl = overlays.begin();
+    while(ovl != overlays.end())
+    {
+        if((*ovl)->isHighlighted()) return *ovl;
+        ++ovl;
+    }
+    return 0;
+
+}
+

@@ -34,9 +34,6 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
         virtual ~COverlayDistanceEditWidget();
 
         bool isAboutToClose();
-
-        COverlayDistance * getOverlay();
-
     private slots:
         void slotApply();
         void slotChanged();

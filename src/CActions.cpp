@@ -160,9 +160,13 @@ const QString& toolTip)
 
     QString slotName;
     if (actionName.startsWith('a'))
+    {
         slotName = "func" + actionName.mid(1);
+    }
     else
+    {
         slotName = actionName;
+    }
 
     connect(tmpAction, SIGNAL(triggered()), this, QString("1" + slotName + "()").toAscii().data());
 
@@ -173,7 +177,9 @@ QAction *CActions::getAction(const QString& actionObjectName)
 {
     QAction *tmpAction = findChild<QAction *> (actionObjectName);
     if (tmpAction)
+    {
         return tmpAction;
+    }
     else
     {
         qDebug()
@@ -676,30 +682,26 @@ void CActions::funcMoveDown()
 //    else if (e->key() == Qt::Key_C && e->modifiers() == Qt::ControlModifier)
 void CActions::funcCopyToClipboard()
 {
-    COverlayDistance * ovl = 0;
-    CTrack *           trk = 0;
+    IOverlay * ovl = 0;
+    CTrack *   trk = 0;
 
-    if(overlayDistanceEditWidget)
-    {
-        ovl = overlayDistanceEditWidget->getOverlay();
-    }
-
+    ovl = COverlayDB::self().highlightedOverlay();
     trk = CTrackDB::self().highlightedTrack();
 
     if(trk && ovl)
     {
         bool ok;
         QStringList items;
-        items << tr("Track") << tr("Distance");
+        items << tr("Track") << tr("Overlay");
         QString res = QInputDialog::getItem(0, tr("What to do?"), tr("I do not know what to copy. Please select:"), items, 0, false, &ok);
 
         if(res == tr("Track"))
         {
             CTrackDB::self().copyToClipboard();
         }
-        else if(res == tr("Distance"))
+        else if(res == tr("Overlay"))
         {
-
+            COverlayDB::self().copyToClipboard();
         }
     }
     else if(trk)
@@ -708,11 +710,8 @@ void CActions::funcCopyToClipboard()
     }
     else if(ovl)
     {
-
+        COverlayDB::self().copyToClipboard();
     }
-
-
-
 }
 
 

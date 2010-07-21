@@ -68,10 +68,6 @@ COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
     CMegaMenu::self().switchByKeyWord("Overlay");
 }
 
-COverlayDistance * COverlayDistanceEditWidget::getOverlay()
-{
-    return ovl;
-}
 
 bool COverlayDistanceEditWidget::isAboutToClose()
 {
