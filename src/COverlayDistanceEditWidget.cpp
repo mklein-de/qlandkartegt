@@ -24,6 +24,7 @@
 #include "CMegaMenu.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CActions.h"
 
 #include <QtGui>
 
@@ -49,8 +50,10 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
     connect(ovl, SIGNAL(sigSelectionChanged()), this, SLOT(slotSelectionChanged()));
     connect(treeWidget, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotContextMenu(const QPoint&)));
 
+    CActions * actions = theMainWindow->getActionGroupProvider()->getActions();
+
     contextMenu = new QMenu(this);
-    contextMenu->addAction(QIcon(":/icons/editcopy"), tr("Copy"), this, SLOT(slotCopy()));
+    contextMenu->addAction(actions->getAction("aCopyToClipboard"));
     contextMenu->addAction(QIcon(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelete()));
 
     slotChanged();
@@ -159,10 +162,6 @@ void COverlayDistanceEditWidget::slotContextMenu(const QPoint& pos)
     }
 }
 
-void COverlayDistanceEditWidget::slotCopy()
-{
-
-}
 
 void COverlayDistanceEditWidget::slotDelete()
 {

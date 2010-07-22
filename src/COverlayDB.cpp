@@ -417,10 +417,33 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
         return;
     }
 
+
     QClipboard *clipboard = QApplication::clipboard();
     CQlb qlb(this);
 
-    qlb << *ovl;
+
+    COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
+    if(dist && dist->selectedPoints.size())
+    {
+        int idx;
+        const QList<int>& selectedPoints = dist->selectedPoints;
+        QList<COverlayDistance::pt_t> pts;
+
+        foreach(idx,selectedPoints)
+        {
+            pts << dist->points[idx];
+        }
+
+
+        COverlayDistance dist2("", "", dist->speed, pts, this);
+
+        qlb << dist2;
+
+    }
+    else
+    {
+        qlb << *ovl;
+    }
 
     QBuffer buffer;
     qlb.save(&buffer);

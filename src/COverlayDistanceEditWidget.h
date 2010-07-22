@@ -40,7 +40,6 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
         void slotSelectionChanged();
         void slotItemSelectionChanged();
         void slotContextMenu(const QPoint& pos);
-        void slotCopy();
         void slotDelete();
 
 
