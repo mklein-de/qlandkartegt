@@ -91,7 +91,7 @@ void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)
 
 void COverlayToolWidget::slotSelectionChanged()
 {
-    if(listOverlays->selectedItems().isEmpty())
+    if(listOverlays->hasFocus() && listOverlays->selectedItems().isEmpty())
     {
         COverlayDB::self().highlightOverlay("");
         if(overlayDistanceEditWidget)

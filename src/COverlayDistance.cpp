@@ -723,20 +723,20 @@ void COverlayDistance::draw(QPainter& p)
         if(highlight)
         {
             p.setPen(QPen(Qt::white, 7));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
             p.setPen(QPen(Qt::blue, 5));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
             p.setPen(QPen(Qt::white, 1));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
         }
         else
         {
             p.setPen(QPen(Qt::white, 5));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
             p.setPen(QPen(Qt::darkBlue, 3));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
             p.setPen(QPen(Qt::white, 1));
-            p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
+            p.drawPolyline(subline);
         }
 
 
