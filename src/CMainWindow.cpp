@@ -180,12 +180,13 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aText");
     actionGroupProvider->addAction(CMenus::OverlayMenu, "aTextBox");
-    actionGroupProvider->addAction(CMenus::OverlayMenu, "aDistance");
+    actionGroupProvider->addAction(CMenus::OverlayMenu, "aSwitchToOverlayDistance");
 
-    actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aSwitchToMain");
+    actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aBackToOverlay");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aCenterMap");
+    actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aDistance");
 
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");

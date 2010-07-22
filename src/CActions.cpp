@@ -53,6 +53,8 @@ QObject(parent), parent(parent)
 {
     actionGroup = (CMenus*) parent;
     canvas = theMainWindow->getCanvas();
+
+
     createAction(tr("F1"), ":/icons/iconMap16x16", tr("&Map ..."), "aSwitchToMap", tr("Manage maps."));
     createAction(tr("F2"), ":/icons/iconWaypoint16x16", tr("&Waypoint ..."), "aSwitchToWpt", tr("Manage waypoints."));
     createAction(tr("F3"), ":/icons/iconTrack16x16", tr("&Track ..."), "aSwitchToTrack", tr("Manage tracks."));
@@ -108,9 +110,12 @@ QObject(parent), parent(parent)
     createAction(tr("F7"), ":/icons/iconAdd16x16", tr("Add &Waypoint"), "aAddWpt", tr("Add a waypoint at current position."));
     //
 
+    createAction(tr("ESC"), ":/icons/iconBack16x16", tr("&Back"), "aBackToOverlay", tr("Go back to overlay menu."));
     createAction(tr("F5"), ":/icons/iconText16x16", tr("Add Static &Text Box"), "aText", tr("Add text on the map."));
     createAction(tr("F6"), ":/icons/iconTextBox16x16", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
     createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
+    createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
+
     //
     createAction(tr("F5"), ":/icons/iconDiary16x16", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
     createAction(tr("F6"), ":/icons/iconColorChooser16x16", tr("&Pick Color"), "aColorPicker", tr("test only"));
@@ -131,6 +136,8 @@ QObject(parent), parent(parent)
     createAction("CTRL+v", ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr(""));
     createAction("CTRL+z", ":/icons/editundo.png", tr("&Undo"), "aUndo", tr("Undo a command."));
     createAction("SHIFT+CTRL+z", ":/icons/editredo.png", tr("&Redo"), "aRedo", tr("Redo a command."));
+
+
 }
 
 
@@ -289,11 +296,6 @@ void CActions::funcSwitchToLiveLog()
 
 void CActions::funcSwitchToOverlay()
 {
-    if(!overlayDistanceEditWidget.isNull())
-    {
-        funcSwitchToOverlayDistance();
-        return;
-    }
     setMenuTitle(tr("&Overlay"));
     setMenuPixmap(QPixmap(":/icons/backOverlay128x128"));
     actionGroup->switchToActionGroup(CMenus::OverlayMenu);
@@ -307,7 +309,7 @@ void CActions::funcSwitchToOverlayDistance()
     setMenuPixmap(QPixmap(":/icons/backDistance128x128"));
     actionGroup->switchToActionGroup(CMenus::OverlayDistanceMenu);
     COverlayDB::self().gainFocus();
-    funcMoveArea();
+    funcDistance();
 }
 
 
@@ -612,6 +614,11 @@ void CActions::funcAddWpt()
 }
 
 
+void CActions::funcBackToOverlay()
+{
+    funcSwitchToOverlay();
+}
+
 void CActions::funcText()
 {
     canvas->setMouseMode(CCanvas::eMouseAddText);
@@ -625,7 +632,7 @@ void CActions::funcTextBox()
 
 
 void CActions::funcDistance()
-{
+{    
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
 }
 

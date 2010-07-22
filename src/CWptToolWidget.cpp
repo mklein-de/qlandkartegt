@@ -246,7 +246,6 @@ void CWptToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete item;
     }
     CWptDB::self().delWpt(keys, false);
 }

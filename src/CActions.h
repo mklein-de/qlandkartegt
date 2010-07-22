@@ -97,6 +97,7 @@ class CActions : public QObject
         void funcLockMap();
         void funcAddWpt();
 
+        void funcBackToOverlay();
         void funcText();
         void funcTextBox();
         void funcDistance();

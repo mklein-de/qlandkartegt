@@ -46,8 +46,8 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
     private slots:
         void slotItemDoubleClicked(QListWidgetItem * item);
         void slotItemClicked(QListWidgetItem * item);
+        void slotSelectionChanged();
         void slotContextMenu(const QPoint& pos);
-        void slotDelSelect();
         void slotDelete();
         void slotToOverlay();
         void slotFilter();
@@ -68,7 +68,6 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QAction * actDistance;
         QAction * actHide;
         QAction * actZoomToFit;
-        QAction * actDeSel;
         QAction * actDel;
         QAction * actRevert;
         QAction * actShowBullets;

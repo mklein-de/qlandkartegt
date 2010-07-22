@@ -297,7 +297,6 @@ void CMapToolWidget::slotDeleteKnownMap()
                 wasSelected = true;
             }
             keys << item->data(eName, Qt::UserRole).toString();
-            delete item;
         }
         CMapDB::self().delKnownMap(keys);
     }
@@ -317,7 +316,6 @@ void CMapToolWidget::slotDeleteSelectedMap()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete item;
     }
     CMapDB::self().delSelectedMap(keys);
 

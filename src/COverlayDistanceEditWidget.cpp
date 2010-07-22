@@ -58,8 +58,6 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
     slotChanged();
     slotSelectionChanged();
-
-    CMegaMenu::self().switchByKeyWord("OverlayDistance");
 }
 
 COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
@@ -68,7 +66,6 @@ COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
     {
         ovl->isEdit = false;
     }
-    CMegaMenu::self().switchByKeyWord("Overlay");
 }
 
 

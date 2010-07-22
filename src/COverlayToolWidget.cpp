@@ -18,6 +18,7 @@
 **********************************************************************************************/
 #include "COverlayToolWidget.h"
 #include "COverlayDB.h"
+#include "COverlayDistanceEditWidget.h"
 #include "IOverlay.h"
 #include "CMapDB.h"
 
@@ -36,6 +37,7 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
     connect(listOverlays,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
     connect(listOverlays,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listOverlays,SIGNAL(itemSelectionChanged()),this,SLOT(slotSelectionChanged()));
 
     connect(listOverlays,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 }
@@ -85,6 +87,18 @@ void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)
     originator = true;
     COverlayDB::self().highlightOverlay(item->data(Qt::UserRole).toString());
     originator = false;
+}
+
+void COverlayToolWidget::slotSelectionChanged()
+{
+    if(listOverlays->selectedItems().isEmpty())
+    {
+        COverlayDB::self().highlightOverlay("");
+        if(overlayDistanceEditWidget)
+        {
+            delete overlayDistanceEditWidget;
+        }
+    }
 }
 
 
@@ -149,7 +163,6 @@ void COverlayToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete item;
     }
     COverlayDB::self().delOverlays(keys);
 }

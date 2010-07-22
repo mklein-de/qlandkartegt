@@ -124,7 +124,6 @@ void CSearchToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->text();
-        delete item;
     }
     CSearchDB::self().delResults(keys);
 }

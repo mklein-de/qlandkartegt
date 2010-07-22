@@ -48,6 +48,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     connect(listTracks,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
     connect(listTracks,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+    connect(listTracks,SIGNAL(itemSelectionChanged()),this,SLOT(slotSelectionChanged()));
 
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
@@ -57,7 +58,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     actHide         = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
     actShowBullets  = contextMenu->addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
-    actDeSel        = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Deselect"),this,SLOT(slotDelSelect()));
     actDel          = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
 
     actHide->setCheckable(true);
@@ -182,6 +182,14 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
     originator = false;
 }
 
+void CTrackToolWidget::slotSelectionChanged()
+{
+    if(listTracks->selectedItems().isEmpty())
+    {
+        CTrackDB::self().highlightTrack("");
+    }
+}
+
 
 void CTrackToolWidget::keyPressEvent(QKeyEvent * e)
 {
@@ -214,14 +222,12 @@ void CTrackToolWidget::slotContextMenu(const QPoint& pos)
             actEdit->setEnabled(false);
             actFilter->setEnabled(false);
             actRevert->setEnabled(false);
-            actDeSel->setEnabled(false);
         }
         else
         {
             actEdit->setEnabled(true);
             actFilter->setEnabled(true);
             actRevert->setEnabled(true);
-            actDeSel->setEnabled(true);
         }
 
         actHide->setChecked(!CTrackDB::self().highlightedTrack()->isHidden());
@@ -265,7 +271,6 @@ void CTrackToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete item;
     }
     CTrackDB::self().delTracks(keys);
 }
@@ -281,18 +286,6 @@ void CTrackToolWidget::slotShow()
         keys << item->data(Qt::UserRole).toString();
     }
     CTrackDB::self().hideTrack(keys, !actHide->isChecked());;
-}
-
-
-void CTrackToolWidget::slotDelSelect()
-{
-    const QListWidgetItem* item = listTracks->currentItem();
-    if(item == 0)
-    {
-        return;
-    }
-
-    CTrackDB::self().highlightTrack("");
 }
 
 

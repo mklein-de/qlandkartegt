@@ -423,7 +423,7 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
 
 
     COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
-    if(dist && dist->selectedPoints.size())
+    if(dist && dist->selectedPoints.size() > 1)
     {
         int idx;
         const QList<int>& selectedPoints = dist->selectedPoints;
