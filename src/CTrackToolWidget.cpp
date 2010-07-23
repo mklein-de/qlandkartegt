@@ -184,7 +184,7 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
 
 void CTrackToolWidget::slotSelectionChanged()
 {
-//    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
+    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
     if(listTracks->hasFocus() && listTracks->selectedItems().isEmpty())
     {
         CTrackDB::self().highlightTrack("");

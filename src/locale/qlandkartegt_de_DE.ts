@@ -7397,7 +7397,7 @@ DEM: %2</translation>
         <source>
 
 Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
-        <translation>
+        <translation type="unfinished">
 
 Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
     </message>

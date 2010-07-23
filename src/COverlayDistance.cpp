@@ -720,6 +720,9 @@ void COverlayDistance::draw(QPainter& p)
     if(!subline.isEmpty())
     {
 
+        p.setPen(QPen(Qt::magenta, 3));
+        p.drawPolyline(leadline);
+
         if(highlight)
         {
             p.setPen(QPen(Qt::white, 7));
@@ -745,6 +748,8 @@ void COverlayDistance::draw(QPainter& p)
         {
             p.drawPixmap(subline[i] - QPoint(4,4), icon_red);
         }
+
+
     }
 
     if(thePoint && !doMove)
@@ -758,8 +763,6 @@ void COverlayDistance::draw(QPainter& p)
             p.setPen(QColor(100,100,255,200));
             p.setBrush(QColor(255,255,255,200));
             p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
-
-            //p.drawPixmap(pt2.u - 5, pt2.v - 5, QPixmap(":/icons/bullet_red.png"));
 
             p.save();
             p.translate(pt2.u - 24, pt2.v - 24);
