@@ -78,8 +78,8 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
 
     QSettings cfg;
-    toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
-    toolSortTime->setChecked(cfg.value("waypoint/sortTime", true).toBool());
+    toolSortAlpha->setChecked(cfg.value("track/sortAlpha", true).toBool());
+    toolSortTime->setChecked(cfg.value("track/sortTime", true).toBool());
 
 }
 
@@ -87,8 +87,8 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 CTrackToolWidget::~CTrackToolWidget()
 {
     QSettings cfg;
-    cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
-    cfg.setValue("waypoint/sortName", toolSortTime->isChecked());
+    cfg.setValue("track/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("track/sortTime", toolSortTime->isChecked());
 
 }
 
