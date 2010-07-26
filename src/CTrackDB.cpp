@@ -52,6 +52,11 @@ bool CTrackDB::keyLessThanAlpha(CTrackDB::keys_t&  s1, CTrackDB::keys_t&  s2)
     return s1.name.toLower() < s2.name.toLower();
 }
 
+bool CTrackDB::keyLessThanTime(keys_t&  s1, keys_t&  s2)
+{
+    return s1.time < s2.time;
+}
+
 
 CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
@@ -1153,6 +1158,7 @@ QList<CTrackDB::keys_t> CTrackDB::keys()
         k2.key      = k1;
         k2.name     = track->name;
         k2.comment  = track->comment.left(32);
+        k2.time     = track->track.first().timestamp;
 
         icon.fill(track->getColor());
         k2.icon     = icon;
@@ -1160,7 +1166,17 @@ QList<CTrackDB::keys_t> CTrackDB::keys()
         k << k2;
     }
 
-    qSort(k.begin(), k.end(), CTrackDB::keyLessThanAlpha);
+    CTrackToolWidget::sortmode_e sortmode = CTrackToolWidget::getSortMode();
+
+    switch(sortmode)
+    {
+        case CTrackToolWidget::eSortByName:
+            qSort(k.begin(), k.end(), CTrackDB::keyLessThanAlpha);
+            break;
+        case CTrackToolWidget::eSortByTime:
+            qSort(k.begin(), k.end(), CTrackDB::keyLessThanTime);
+            break;
+    }
 
     return k;
 }

@@ -34,6 +34,7 @@
 
 #define N_LINES 6
 
+CTrackToolWidget::sortmode_e CTrackToolWidget::sortmode = eSortByName;
 
 CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -68,11 +69,26 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     QFontMetrics fm(listTracks->font());
     listTracks->setIconSize(QSize(15,N_LINES*fm.height()));
+
+    connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortTime, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+
+
+    toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
+    toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
+
+    QSettings cfg;
+    toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
+    toolSortTime->setChecked(cfg.value("waypoint/sortTime", true).toBool());
+
 }
 
 
 CTrackToolWidget::~CTrackToolWidget()
 {
+    QSettings cfg;
+    cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("waypoint/sortName", toolSortTime->isChecked());
 
 }
 
@@ -80,6 +96,16 @@ CTrackToolWidget::~CTrackToolWidget()
 void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
+
+    if(toolSortAlpha->isChecked())
+    {
+        sortmode = eSortByName;
+    }
+    else if(toolSortTime->isChecked())
+    {
+        sortmode = eSortByTime;
+    }
+
 
     QFontMetrics fm(listTracks->font());
     QPixmap icon(15,N_LINES*fm.height());

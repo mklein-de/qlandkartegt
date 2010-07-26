@@ -36,6 +36,14 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         CTrackToolWidget(QTabWidget * parent);
         virtual ~CTrackToolWidget();
 
+        enum sortmode_e
+        {
+             eSortByName
+            ,eSortByTime
+        };
+
+        static sortmode_e  getSortMode(){return sortmode;}
+
     public slots:
         void slotEdit();
         void slotDBChanged();
@@ -71,6 +79,8 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QAction * actDel;
         QAction * actRevert;
         QAction * actShowBullets;
+
+        static sortmode_e sortmode;
 
 };
 #endif                           //CTRACKTOOLWIDGET_H

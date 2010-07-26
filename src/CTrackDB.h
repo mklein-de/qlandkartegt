@@ -93,13 +93,14 @@ class CTrackDB : public IDB
         void setShowBullets(bool on){showBullets = on; emit sigChanged();}
         bool getShowBullets(){return showBullets;}
 
-        struct keys_t{QString key; QString name; QString comment; QPixmap icon;};
+        struct keys_t{QString key; QString name; QString comment; QPixmap icon; quint32 time;};
         /// get all keys in the database
         QList<keys_t> keys();
 
         CTrack * getTrackByKey(const QString& key);
 
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
+        static bool keyLessThanTime(keys_t&  s1, keys_t&  s2);
 
         signals:
         void sigHighlightTrack(CTrack * track);
