@@ -83,16 +83,20 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     // user-tunable elements on "Modify Timestamps" tab
     connect(buttonReset1stOfMonth, SIGNAL(clicked()), this, SLOT(slotReset1stOfMonth()));
     connect(buttonResetEpoch, SIGNAL(clicked()), this, SLOT(slotResetEpoch()));
-    connect(datetimeStartTime, SIGNAL(dateTimeChanged(const QDateTime &)), this,
-        SLOT(slotDateTimeChanged(const QDateTime &)));
+    connect(datetimeStartTime, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotDateTimeChanged(const QDateTime &)));
 
     // user-tunable elements on "Reduce Dataset" tab
     connect(radioDistance, SIGNAL(clicked()), this, SLOT(slotRadioDistance()));
     connect(radioTimedelta, SIGNAL(clicked()), this, SLOT(slotRadioTimedelta()));
     connect(spinDistance, SIGNAL(valueChanged(int)), this, SLOT(slotSpinDistance(int)));
     connect(spinTimedelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinTimedelta(int)));
-    connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this,
-        SLOT(slotComboMeterFeet(const QString &)));
+    connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
+
+    connect(radioSplitChunks, SIGNAL(clicked()), this, SLOT(slotRadioSplitChunks()));
+    connect(radioSplitPoints, SIGNAL(clicked()), this, SLOT(slotRadioSplitPoints()));
+    connect(spinSplitChunks, SIGNAL(valueChanged(int)), this, SLOT(slotSplitChunks(int)));
+    connect(spinSplitPoints, SIGNAL(valueChanged(int)), this, SLOT(slotSplitPoints(int)));
+
 }
 
 
@@ -238,6 +242,64 @@ void CDlgTrackFilter::accept()
         }
     }
 
+    if(checkSplitTrack->isChecked())
+    {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+        QList<CTrack::pt_t>& trkpts         = track.getTrackPoints();
+        QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+
+        int chunk;
+        if(radioSplitChunks->isChecked())
+        {
+            int n = spinSplitChunks->value();
+            chunk = (trkpts.size() + n) / n;
+        }
+        else
+        {
+            chunk = spinSplitPoints->value();
+        }
+
+
+        int totalCnt    = 0;
+        int trkptCnt    = 0;
+        int trkCnt      = 1;
+
+        CTrack * track1 = new CTrack(&CTrackDB::self());
+        track1->setName(track.getName() + QString("_%1").arg(trkCnt++));
+
+        while(trkpt != trkpts.end())
+        {
+
+            progress.setValue(totalCnt++);
+            qApp->processEvents(QEventLoop::AllEvents, 100);
+
+            *track1 << *trkpt;
+            if(++trkptCnt >= chunk)
+            {
+                CTrackDB::self().addTrack(track1, true);
+
+                trkptCnt = 0;
+                track1 = new CTrack(&CTrackDB::self());
+                track1->setName(track.getName() + QString("_%1").arg(trkCnt++));
+            }
+
+            trkpt++;
+        }
+
+        if(trkptCnt)
+        {
+            CTrackDB::self().addTrack(track1, false);
+        }
+        else
+        {
+            delete track1;
+        }
+
+
+        QApplication::restoreOverrideCursor();
+    }
+
     progress.setValue(npts);
     if(need_rebuild)
     {
@@ -250,15 +312,6 @@ void CDlgTrackFilter::accept()
     cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
 
     QDialog::accept();
-}
-
-
-void CDlgTrackFilter::reject()
-{
-
-    qDebug() << "Rejecting track filter";
-
-    QDialog::reject();
 }
 
 
@@ -339,4 +392,32 @@ void CDlgTrackFilter::slotSpinTimedelta(int i)
 void CDlgTrackFilter::slotComboMeterFeet(const QString &text)
 {
     spinDistance->setSuffix(text);
+}
+
+void CDlgTrackFilter::slotRadioSplitChunks()
+{
+
+    checkSplitTrack->setChecked(true);
+}
+
+void CDlgTrackFilter::slotRadioSplitPoints()
+{
+
+    checkSplitTrack->setChecked(true);
+}
+
+void CDlgTrackFilter::slotSplitChunks(int)
+{
+    radioSplitChunks->setChecked(true);
+    radioSplitPoints->setChecked(false);
+
+    checkSplitTrack->setChecked(true);
+}
+
+void CDlgTrackFilter:: slotSplitPoints(int)
+{
+    radioSplitChunks->setChecked(false);
+    radioSplitPoints->setChecked(true);
+
+    checkSplitTrack->setChecked(true);
 }

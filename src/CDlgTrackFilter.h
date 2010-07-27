@@ -36,7 +36,6 @@ class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
 
     public slots:
         void accept();
-        void reject();
 
     private slots:
         // "Modify Timestamp" tab slots
@@ -51,7 +50,13 @@ class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
         void slotSpinTimedelta(int i);
         void slotComboMeterFeet(const QString &text);
 
+        void slotRadioSplitChunks();
+        void slotRadioSplitPoints();
+        void slotSplitChunks(int);
+        void slotSplitPoints(int);
+
     private:
+
         CTrack &track;
 };
 #endif                           //CDLGTRACKFILTER_H
