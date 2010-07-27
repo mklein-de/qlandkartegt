@@ -96,6 +96,8 @@ class COverlayDB : public IDB
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
 
+        void combineDistOvl();
+
     private:
         friend class CMainWindow;
         friend class COverlayToolWidget;

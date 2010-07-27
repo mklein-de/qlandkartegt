@@ -27,6 +27,7 @@
 #include "CCanvas.h"
 #include "CQlb.h"
 #include "CGpx.h"
+#include "CDlgCombineDistOvl.h"
 
 #include <QtGui>
 #include <projects.h>
@@ -521,3 +522,9 @@ IOverlay* COverlayDB::highlightedOverlay()
 
 }
 
+void COverlayDB::combineDistOvl()
+{
+    CDlgCombineDistOvl dlg(0);
+    dlg.exec();
+
+}

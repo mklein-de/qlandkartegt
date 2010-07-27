@@ -101,6 +101,7 @@ class CActions : public QObject
         void funcText();
         void funcTextBox();
         void funcDistance();
+        void funcCombineDistOvl();
 
         void funcDiary();
         void funcColorPicker();

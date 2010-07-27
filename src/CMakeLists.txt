@@ -91,6 +91,7 @@ set(qlandkarte_SRCS
     CDlgWptIcon.cpp
     CDlgEditMapLevel.cpp
     CDlgCombineTracks.cpp
+    CDlgCombineDistOvl.cpp
     CDlgProjWizzard.cpp
     CDlgEditText.cpp
     CDlgCreateWorldBasemap.cpp
@@ -239,6 +240,7 @@ set(qlandkarte_HDRS
     CDlgWptIcon.h
     CDlgEditMapLevel.h
     CDlgCombineTracks.h
+    CDlgCombineDistOvl.h
     CDlgProjWizzard.h
     CDlgEditText.h
     CDlgDelWpt.h
@@ -339,6 +341,7 @@ SET(qlandkarte_UIS
     IDlgWptIcon.ui
     IDlgEditMapLevel.ui
     IDlgCombineTracks.ui
+    IDlgCombineDistOvl.ui
     IDlgDelWpt.ui
     IDlgCreateWorldBasemap.ui
     IDlgConvertToTrack.ui
@@ -445,17 +448,17 @@ IF(ENABLE_TRANSLATION)
     endif (UPDATE_TRANSLATIONS)
 
     if (UNIX AND NOT WIN32 AND NOT APPLE)
- 	 install(
-         	 FILES
+     install(
+             FILES
                    ${qlandkarte_QM_FILES}
-    	     DESTINATION
+             DESTINATION
                    ${DATA_INSTALL_PREFIX}/qlandkartegt/translations)
     endif (UNIX AND NOT WIN32 AND NOT APPLE)
     if (APPLE)
-  	  add_custom_target(locversion.plist ALL
-  		COMMAND
-  			${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
-  	  )
+      add_custom_target(locversion.plist ALL
+        COMMAND
+            ${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
+      )
     endif (APPLE)
 ENDIF(ENABLE_TRANSLATION)
 
@@ -493,12 +496,12 @@ set(qlandkarte_ALLINP
 
 if (APPLE)
   set(MAC_EXTRA_RES
-  	  ${CMAKE_SOURCE_DIR}/MacOSX/${MAC_ICON_FILE}
+      ${CMAKE_SOURCE_DIR}/MacOSX/${MAC_ICON_FILE}
   )
   set_source_files_properties(
-  	${MAC_EXTRA_RES} ${qlandkarte_QM_FILES}
+    ${MAC_EXTRA_RES} ${qlandkarte_QM_FILES}
   PROPERTIES
-  	MACOSX_PACKAGE_LOCATION Resources
+    MACOSX_PACKAGE_LOCATION Resources
   )
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
   add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}")

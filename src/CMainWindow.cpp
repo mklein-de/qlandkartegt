@@ -186,6 +186,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aCenterMap");
+    actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aCombineDistOvl");
     actionGroupProvider->addAction(CMenus::OverlayDistanceMenu, "aDistance");
 
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSwitchToMain");

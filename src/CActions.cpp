@@ -115,6 +115,7 @@ QObject(parent), parent(parent)
     createAction(tr("F6"), ":/icons/iconTextBox16x16", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
     createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
     createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
 
     //
     createAction(tr("F5"), ":/icons/iconDiary16x16", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
@@ -632,10 +633,14 @@ void CActions::funcTextBox()
 
 
 void CActions::funcDistance()
-{    
+{
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
 }
 
+void CActions::funcCombineDistOvl()
+{
+    COverlayDB::self().combineDistOvl();
+}
 
 void CActions::funcWorldBasemap()
 {
