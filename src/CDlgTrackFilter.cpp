@@ -108,24 +108,109 @@ CDlgTrackFilter::~CDlgTrackFilter()
 
 void CDlgTrackFilter::accept()
 {
-    qDebug() << "Accepting track filter";
-    bool need_rebuild = false;
-    QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
+    if(checkSplitTrack->isChecked())
+    {
+        splitTrack(&track);
+    }
+    else
+    {
+        modifyTimestamp(&track);
+        reduceDataset(&track);
+    }
+
+    QSettings cfg;
+    cfg.setValue("trackfilter/distance",spinDistance->value());
+    cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
+
+    QDialog::accept();
+}
+
+void CDlgTrackFilter::splitTrack(CTrack * trk)
+{
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    QList<CTrack::pt_t>& trkpts         = trk->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
     int npts = trkpts.count();
 
     QProgressDialog progress(tr("Filter track..."), tr("Abort filter"), 0, npts, this);
     progress.setWindowTitle("Filter Progress");
     progress.setWindowModality(Qt::WindowModal);
 
+    int chunk;
+    if(radioSplitChunks->isChecked())
+    {
+        int n = spinSplitChunks->value();
+        chunk = (trkpts.size() + n) / n;
+    }
+    else
+    {
+        chunk = spinSplitPoints->value();
+    }
+
+
+    int totalCnt    = 0;
+    int trkptCnt    = 0;
+    int trkCnt      = 1;
+
+    CTrack * track1 = new CTrack(&CTrackDB::self());
+    track1->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+
+    while(trkpt != trkpts.end())
+    {
+
+        progress.setValue(totalCnt++);
+        qApp->processEvents(QEventLoop::AllEvents, 100);
+
+        *track1 << *trkpt;
+        if(++trkptCnt >= chunk)
+        {
+            modifyTimestamp(track1);
+            reduceDataset(track1);
+
+            CTrackDB::self().addTrack(track1, true);
+
+            trkptCnt = 0;
+            track1 = new CTrack(&CTrackDB::self());
+            track1->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+        }
+
+        trkpt++;
+    }
+
+    if(trkptCnt)
+    {
+        modifyTimestamp(track1);
+        reduceDataset(track1);
+
+        CTrackDB::self().addTrack(track1, false);
+    }
+    else
+    {
+        delete track1;
+    }
+
+
+    QApplication::restoreOverrideCursor();
+
+}
+
+void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
+{
     if(tabTimestamp->isEnabled() && checkModifyTimestamps->isChecked())
     {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts = trkpts.count();
+
+        QProgressDialog progress(tr("Filter track..."), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle("Filter Progress");
+        progress.setWindowModality(Qt::WindowModal);
+
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
         if(trkpt->timestamp != 0x000000000 && trkpt->timestamp != 0xFFFFFFFF)
         {
-            qDebug() << "Modifying track timestamps";
-            need_rebuild = true;
-
             QDateTime t;
             if(radioLocalTime->isChecked())
             {
@@ -154,19 +239,33 @@ void CDlgTrackFilter::accept()
                 qApp->processEvents(QEventLoop::AllEvents, 100);
                 ++i;
                 if (progress.wasCanceled())
+                {
                     break;
+                }
             }
         }
+        progress.setValue(npts);
+        track.rebuild(false);
     }
+}
+
+void CDlgTrackFilter::reduceDataset(CTrack * trk)
+{
+
 
     if(checkReduceDataset->isChecked())
     {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts = trkpts.count();
+
+        QProgressDialog progress(tr("Filter track..."), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle("Filter Progress");
+        progress.setWindowModality(Qt::WindowModal);
+
         QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
         if(radioTimedelta->isEnabled() && radioTimedelta->isChecked())
         {
-            qDebug() << "Reducing track dataset by timedelta";
-            need_rebuild = true;
 
             quint32 timedelta = spinTimedelta->value();
             quint32 lasttime = trkpt->timestamp;
@@ -197,9 +296,6 @@ void CDlgTrackFilter::accept()
         }
         else if(radioDistance->isChecked())
         {
-            qDebug() << "Reducing track dataset by distance";
-            need_rebuild = true;
-
             float min_distance = spinDistance->value();
             if(spinDistance->suffix() == "ft")
             {
@@ -240,80 +336,10 @@ void CDlgTrackFilter::accept()
 
             QApplication::restoreOverrideCursor();
         }
-    }
-
-    if(checkSplitTrack->isChecked())
-    {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-        QList<CTrack::pt_t>& trkpts         = track.getTrackPoints();
-        QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-
-        int chunk;
-        if(radioSplitChunks->isChecked())
-        {
-            int n = spinSplitChunks->value();
-            chunk = (trkpts.size() + n) / n;
-        }
-        else
-        {
-            chunk = spinSplitPoints->value();
-        }
-
-
-        int totalCnt    = 0;
-        int trkptCnt    = 0;
-        int trkCnt      = 1;
-
-        CTrack * track1 = new CTrack(&CTrackDB::self());
-        track1->setName(track.getName() + QString("_%1").arg(trkCnt++));
-
-        while(trkpt != trkpts.end())
-        {
-
-            progress.setValue(totalCnt++);
-            qApp->processEvents(QEventLoop::AllEvents, 100);
-
-            *track1 << *trkpt;
-            if(++trkptCnt >= chunk)
-            {
-                CTrackDB::self().addTrack(track1, true);
-
-                trkptCnt = 0;
-                track1 = new CTrack(&CTrackDB::self());
-                track1->setName(track.getName() + QString("_%1").arg(trkCnt++));
-            }
-
-            trkpt++;
-        }
-
-        if(trkptCnt)
-        {
-            CTrackDB::self().addTrack(track1, false);
-        }
-        else
-        {
-            delete track1;
-        }
-
-
-        QApplication::restoreOverrideCursor();
-    }
-
-    progress.setValue(npts);
-    if(need_rebuild)
-    {
+        progress.setValue(npts);
         track.rebuild(false);
     }
-
-    QSettings cfg;
-
-    cfg.setValue("trackfilter/distance",spinDistance->value());
-    cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
-
-    QDialog::accept();
 }
-
 
 void CDlgTrackFilter::slotReset1stOfMonth()
 {
