@@ -163,8 +163,11 @@ void COverlayToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
+        delete listOverlays->takeItem(listOverlays->row(item));
     }
+    originator = true;
     COverlayDB::self().delOverlays(keys);
+    originator = false;
 }
 
 

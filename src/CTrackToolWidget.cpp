@@ -298,8 +298,11 @@ void CTrackToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
+        delete listTracks->takeItem(listTracks->row(item));
     }
+    originator = true;
     CTrackDB::self().delTracks(keys);
+    originator = false;
 }
 
 

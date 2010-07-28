@@ -163,6 +163,7 @@ void CRouteToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
+        delete listRoutes->takeItem(listRoutes->row(item));
     }
     originator = true;
     CRouteDB::self().delRoutes(keys);
