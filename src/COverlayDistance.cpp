@@ -1068,3 +1068,4 @@ void COverlayDistance::delPointsByIdx(const QList<int>& idx)
     calcDistance();
     emit sigChanged();
 }
+

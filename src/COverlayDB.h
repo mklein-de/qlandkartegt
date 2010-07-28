@@ -62,9 +62,9 @@ class COverlayDB : public IDB
         int count(){return overlays.size();}
 
         /// get iterator access to track point list
-        QMap<QString,IOverlay*> ::iterator begin(){return overlays.begin();}
+        QMap<QString,IOverlay*>::iterator begin(){return overlays.begin();}
         /// get iterator access to track point list
-        QMap<QString,IOverlay*> ::iterator end(){return overlays.end();}
+        QMap<QString,IOverlay*>::iterator end(){return overlays.end();}
 
         /// delete several overlays by their keys
         void delOverlays(const QStringList& keys);

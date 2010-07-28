@@ -80,6 +80,10 @@ class COverlayDistance : public IOverlay
 
         void delPointsByIdx(const QList<int>& idx);
 
+        const QString& getName(){return name;}
+
+        const QList<pt_t>& getPoints(){return points;}
+
     signals:
         void sigSelectionChanged();
 
@@ -91,6 +95,7 @@ class COverlayDistance : public IOverlay
     private:
         friend class COverlayDB;
         friend class COverlayDistanceEditWidget;
+
         void calcDistance();
 
         /// the polyline as list of points [rad]

@@ -18,6 +18,8 @@
 **********************************************************************************************/
 
 #include "CDlgCombineDistOvl.h"
+#include "COverlayDB.h"
+#include "IOverlay.h"
 
 #include <QtGui>
 
@@ -39,16 +41,19 @@ CDlgCombineDistOvl::CDlgCombineDistOvl(QWidget * parent)
 
     connect(listSelOverlays, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 
-//    CTrack * track;
-//    QList<CTrack*> tracks =  CTrackDB::self().getTracks().values();
+    QMap<QString, IOverlay*>::const_iterator ovl = COverlayDB::self().begin();
+    while(ovl != COverlayDB::self().end())
+    {
+        COverlayDistance * dist = qobject_cast<COverlayDistance*>(*ovl);
+        if(dist)
+        {
 
-//    foreach(track, tracks)
-//    {
-//        QListWidgetItem * item = new QListWidgetItem();
-//        item->setText(track->getName());
-//        item->setData(Qt::UserRole, track->key());
-//        listTracks->addItem(item);
-//    }
+            QListWidgetItem * item = new QListWidgetItem(listOverlays);
+            item->setText(dist->getName());
+            item->setData(Qt::UserRole, dist->key());
+        }
+        ovl++;
+    }
 
 }
 
@@ -59,97 +64,97 @@ CDlgCombineDistOvl::~CDlgCombineDistOvl()
 
 void CDlgCombineDistOvl::slotAdd()
 {
-//    QListWidgetItem * item;
-//    QList<QListWidgetItem*> items = listTracks->selectedItems();
+    QListWidgetItem * item;
+    QList<QListWidgetItem*> items = listOverlays->selectedItems();
 
-//    foreach(item, items)
-//    {
-//        listSelTracks->addItem(listTracks->takeItem(listTracks->row(item)));
-//    }
+    foreach(item, items)
+    {
+        listSelOverlays->addItem(listOverlays->takeItem(listOverlays->row(item)));
+    }
 }
 
 
 void CDlgCombineDistOvl::slotDel()
 {
-//    QListWidgetItem * item;
-//    QList<QListWidgetItem*> items = listSelTracks->selectedItems();
+    QListWidgetItem * item;
+    QList<QListWidgetItem*> items = listSelOverlays->selectedItems();
 
-//    foreach(item, items)
-//    {
-//        listTracks->addItem(listSelTracks->takeItem(listSelTracks->row(item)));
-//    }
+    foreach(item, items)
+    {
+        listOverlays->addItem(listSelOverlays->takeItem(listSelOverlays->row(item)));
+    }
 }
 
 
 void CDlgCombineDistOvl::accept()
 {
-//    const QMap<QString,CTrack*>& dict = CTrackDB::self().getTracks();
+    QListWidgetItem * item;
+    QList<QListWidgetItem*> items = listSelOverlays->findItems("*",Qt::MatchWildcard);
 
-//    CTrack* track;
-//    QList<CTrack*> tracks;
+    if(items.isEmpty() || lineOverlayName->text().isEmpty()) return;
 
-//    QListWidgetItem * item;
-//    QList<QListWidgetItem*> items = listSelTracks->findItems("*",Qt::MatchWildcard);
 
-//    foreach(item, items)
-//    {
-//        tracks << dict[item->data(Qt::UserRole).toString()];
-//    }
+    QList<COverlayDistance::pt_t> points;
+    foreach(item, items)
+    {
+        IOverlay * ovl          = COverlayDB::self().getOverlayByKey(item->data(Qt::UserRole).toString());
+        COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
 
-//    if(tracks.isEmpty() || lineTrackName->text().isEmpty()) return;
+        if(dist)
+        {
+            points += dist->getPoints();
+        }
 
-//    if(checkSortTimestamp->isChecked())
-//    {
-//        qSort(tracks.begin(), tracks.end(), trackLessThan);
-//    }
+    }
 
-//    CTrack * newtrack = new CTrack(&CTrackDB::self());
-//    newtrack->setName(lineTrackName->text());
+    COverlayDB::self().addDistance(lineOverlayName->text(), "", 0.0, points);
 
-//    foreach(track, tracks)
-//    {
-//        *newtrack += *track;
-//    }
-
-//    CTrackDB::self().addTrack(newtrack, false);
-
-//    QDialog::accept();
+    QDialog::accept();
 }
 
 
 
 void CDlgCombineDistOvl::slotItemSelectionChanged ()
 {
-//    slotSortTimestamp(checkSortTimestamp->isChecked());
+    if(listSelOverlays->currentItem() == 0)
+    {
+        toolUp->setEnabled(false);
+        toolDown->setEnabled(false);
+    }
+    else
+    {
+        toolUp->setEnabled(true);
+        toolDown->setEnabled(true);
+    }
 }
 
 
 void CDlgCombineDistOvl::slotUp()
 {
-//    QListWidgetItem * item = listSelTracks->currentItem();
-//    if(item)
-//    {
-//        int row = listSelTracks->row(item);
-//        if(row == 0) return;
-//        listSelTracks->takeItem(row);
-//        row = row - 1;
-//        listSelTracks->insertItem(row,item);
-//        listSelTracks->setCurrentItem(item);
-//    }
+    QListWidgetItem * item = listSelOverlays->currentItem();
+    if(item)
+    {
+        int row = listSelOverlays->row(item);
+        if(row == 0) return;
+        listSelOverlays->takeItem(row);
+        row = row - 1;
+        listSelOverlays->insertItem(row,item);
+        listSelOverlays->setCurrentItem(item);
+    }
 }
 
 
 void CDlgCombineDistOvl::slotDown()
 {
-//    QListWidgetItem * item = listSelTracks->currentItem();
-//    if(item)
-//    {
-//        int row = listSelTracks->row(item);
-//        if(row == (listSelTracks->count() - 1)) return;
-//        listSelTracks->takeItem(row);
-//        row = row + 1;
-//        listSelTracks->insertItem(row,item);
-//        listSelTracks->setCurrentItem(item);
-//    }
+    QListWidgetItem * item = listSelOverlays->currentItem();
+    if(item)
+    {
+        int row = listSelOverlays->row(item);
+        if(row == (listSelOverlays->count() - 1)) return;
+        listSelOverlays->takeItem(row);
+        row = row + 1;
+        listSelOverlays->insertItem(row,item);
+        listSelOverlays->setCurrentItem(item);
+    }
 }
 
