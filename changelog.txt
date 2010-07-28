@@ -1,3 +1,31 @@
+--- 2010.07.28 ---
+
+Request #184:
+Detect proxy from environment variable
+
+Request #185:
+Get elevation data for artificial tracks from www.geonames.org
+
+Request #186:
+Improove snap to line for distance polyline
+
+Bug     #187:
+Fix: endian bugs in Garmin label decoding
+
+Request #188:
+Split track in segements of size N
+
+Request #189:
+Sort tracks by name and time
+
+Request #190:
+Copy-n-paste for distance polyline.
+
+Request #191:
+Combine several distance polyline overlays
+
+
+
 --- 2010.07.04 ---
 
 Request #177:
@@ -841,6 +869,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
