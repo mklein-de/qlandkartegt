@@ -810,6 +810,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     QPixmap bullet_red(":/icons/bullet_red.png");
 
+    // extended vieport rectangle to cut line segments properly
     QRect extRect = rect.adjusted(-10, -10, 10, 10);
 
     while(track != tracks.end())

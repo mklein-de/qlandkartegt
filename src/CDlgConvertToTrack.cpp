@@ -57,13 +57,14 @@ CDlgConvertToTrack::EleMode_e CDlgConvertToTrack::getEleMode()
     {
         return eNone;
     }
-    if(radioEleFromLocal->isChecked())
+    else if(radioEleFromLocal->isChecked())
     {
         return eLocal;
     }
-    if(radioEleFromRemote->isChecked())
+    else if(radioEleFromRemote->isChecked())
     {
         return eRemote;
     }
 
+    return eNone;
 }
