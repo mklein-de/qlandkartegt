@@ -834,7 +834,7 @@ void CMapTDB::readTDB(const QString& filename)
     tdb_hdr_t * pRecord     = (tdb_hdr_t*)pRawData;
 
     quint32 basemapId   = 0;
-    bool    tainted     = false;
+//    bool    tainted     = false;
 
     while((quint8*)pRecord < pRawData + data.size())
     {
@@ -1737,7 +1737,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         if(property.hasPixmap)
         {
             const QImage &pixmap    = nightView ? property.imgNight : property.imgDay;
-            const double w          = pixmap.width();
             const double h          = pixmap.height();
 
             QList<quint32>::const_iterator it = dict[type].constBegin();
@@ -1808,7 +1807,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p2              = path.pointAtPercent((curLength + segLength) / totalLength);
                         double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
 
-                        double l = 0;
+
 
                         if(p2.x() - p1.x() < 0)
                         {
@@ -1819,6 +1818,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p.translate(p1);
                         p.rotate(angle);
 #if 0
+                        const double w          = pixmap.width();
+                        double l = 0;
                         p.translate(0,-h/2);
 
                         while(l < segLength)
@@ -2569,8 +2570,7 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
     double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
-    double distance;             // the distance to the polyline
-    quint32 th = threshold;
+    double distance;             // the distance to the polyline    
 
     polyline.clear();
 

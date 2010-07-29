@@ -112,7 +112,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     tileServer = tileUrl.left(index);
 
     tileUrlPart = tileUrl.right(tileUrl.size()-index);
-    COsmTilesHashCacheCleanup *cleanup = new COsmTilesHashCacheCleanup(this);
+    /*COsmTilesHashCacheCleanup *cleanup = */new COsmTilesHashCacheCleanup(this);
 
     getid = -1;
     requestInProgress =false;

@@ -55,7 +55,7 @@ sign_info_t::sign_info_t()
 
 
 quint32 CGarminPolygon::cnt = 0;
-quint32 CGarminPolygon::maxVecSize = 0;
+qint32 CGarminPolygon::maxVecSize = 0;
 
 CGarminPolygon::CGarminPolygon()
 : type(0)
