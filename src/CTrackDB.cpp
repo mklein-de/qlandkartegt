@@ -756,6 +756,35 @@ void CTrackDB::splitTrack(int idx)
     emit sigModified();
 }
 
+void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
+{
+    QPoint pt, ptt, pt1;
+    int i;
+    const int size = line.size();
+    pt = line[0];
+    for(i = 1; i < size; i++)
+    {
+        pt1 = line[i];
+
+        if(!extViewport.contains(pt1) && !extViewport.contains(pt))
+        {
+            pt = pt1;
+            continue;
+        }
+
+        ptt = pt1 - pt;
+        if(ptt.manhattanLength() < 5)
+        {
+            continue;
+        }
+
+        p.drawLine(pt, pt1);
+
+        pt = pt1;
+
+    }
+
+}
 
 void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
@@ -780,6 +809,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QMap<QString,CTrack*>::iterator highlighted = tracks.end();
 
     QPixmap bullet_red(":/icons/bullet_red.png");
+
+    QRect extRect = rect.adjusted(-10, -10, 10, 10);
 
     while(track != tracks.end())
     {
@@ -845,6 +876,9 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         }
         else
         {
+            QPoint  pt, pt1, ptt;
+
+
             // draw normal track
             QPen pen1(Qt::white,5);
             pen1.setCapStyle(Qt::RoundCap);
@@ -855,12 +889,11 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             pen2.setJoinStyle(Qt::RoundJoin);
 
             p.setPen(pen1);
-            p.drawPolyline(line);
+            drawLine(line, extRect, p);
             p.setPen(pen2);
-            p.drawPolyline(line);
+            drawLine(line, extRect, p);
 
-            // draw direction arrows
-            QPoint  pt, pt1, ptt;
+            // draw direction arrows            
             bool    start = true;
             double  heading;
 
@@ -883,7 +916,14 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                 }
                 else
                 {
-                    if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7) continue;
+                    if(!rect.contains(pt))
+                    {
+                        continue;
+                    }
+                    if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7)
+                    {
+                        continue;
+                    }
                                  // keep distance
                     if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50)
                     {
@@ -929,9 +969,9 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         pen2.setJoinStyle(Qt::RoundJoin);
 
         p.setPen(pen1);
-        p.drawPolyline(line);
+        drawLine(line, extRect, p);
         p.setPen(pen2);
-        p.drawPolyline(line);
+        drawLine(line, extRect, p);
 
         // draw bubbles and direction arrows
         QPoint  pt, pt1, ptt;

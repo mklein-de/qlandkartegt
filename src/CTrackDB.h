@@ -111,6 +111,8 @@ class CTrackDB : public IDB
         friend class CTrackEditWidget;
 
         CTrackDB(QTabWidget * tb, QObject * parent);
+        void drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p);
+
         quint32 cnt;
 
         static CTrackDB * m_self;
