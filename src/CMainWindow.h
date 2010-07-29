@@ -41,6 +41,7 @@ class CActions;
 class CMenus;
 class QSocketNotifier;
 class QAction;
+class CGeoDB;
 
 class CMainWindow : public QMainWindow
 {
@@ -149,6 +150,8 @@ class CMainWindow : public QMainWindow
 
         CRouteDB * routedb;
 
+        CGeoDB * geodb;
+
         /// the current loaded geo data (workspace) file
         QString wksFile;
         /// true if any data has been changed
@@ -166,6 +169,8 @@ class CMainWindow : public QMainWindow
         QStringList mostRecent;
 
         QTabWidget * tmpTabWidget;
+
+
 };
 
 extern CMainWindow * theMainWindow;

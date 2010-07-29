@@ -375,6 +375,7 @@ SET(qlandkarte_RCS
 SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
+SET (GEO_DB OFF CACHE BOOL "Enable Sqlite database for geo data")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -422,6 +423,14 @@ ENDIF(DMTX_FOUND)
 IF(PRIVATE)
     add_definitions(-DPRIVATE)
 ENDIF(PRIVATE)
+
+IF(GEO_DB)
+    add_definitions(-DGEO_DB)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui)
+ENDIF(GEO_DB)
+
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
 qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})

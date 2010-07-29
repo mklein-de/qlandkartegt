@@ -45,6 +45,7 @@
 #include "CAppOpts.h"
 #include "CMap3D.h"
 #include "CDlgExport.h"
+#include "CGeoDB.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -246,11 +247,15 @@ CMainWindow::CMainWindow()
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
-    routedb     = new CRouteDB(tabbar, this);
+    routedb     = new CRouteDB(tabbar, this);    
+    overlaydb   = new COverlayDB(tabbar, this);
+    livelogdb   = new CLiveLogDB(tabbar, this);
+
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
-    livelogdb   = new CLiveLogDB(tabbar, this);
-    overlaydb   = new COverlayDB(tabbar, this);
+#ifdef GEO_DB
+    geodb       = new CGeoDB(tabbar, this);
+#endif
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -268,7 +273,12 @@ CMainWindow::CMainWindow()
     connect(overlaydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
 
+
+#ifdef GEO_DB
+    geodb->gainFocus();
+#else
     searchdb->gainFocus();
+#endif
 
     // restore last session position and size of mainWidget
     {
