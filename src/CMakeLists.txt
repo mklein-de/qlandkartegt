@@ -109,7 +109,6 @@ set(qlandkarte_SRCS
     IDevice.cpp
     CDeviceQLandkarteM.cpp
     CDeviceGarmin.cpp
-    CDeviceMikrokopter.cpp
     CDeviceNMEA.cpp
     CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
@@ -257,8 +256,7 @@ set(qlandkarte_HDRS
     CGpx.h
     IDevice.h
     CDeviceQLandkarteM.h
-    CDeviceGarmin.h
-    CDeviceMikrokopter.h
+    CDeviceGarmin.h   
     CDeviceNMEA.h
     CCreateMapOSM.h
     CCreateMapQMAP.h
@@ -376,6 +374,7 @@ SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
 SET (GEO_DB OFF CACHE BOOL "Enable Sqlite database for geo data")
+SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -425,11 +424,18 @@ IF(PRIVATE)
 ENDIF(PRIVATE)
 
 IF(GEO_DB)
-    add_definitions(-DGEO_DB)
+    add_definitions(-DHAS_GEODB)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui)
 ENDIF(GEO_DB)
+
+IF(MIKROKOPTER)
+    add_definitions(-DHAS_MIKROKOPTER)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CDeviceMikrokopter.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CDeviceMikrokopter.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS})
+ENDIF(MIKROKOPTER)
 
 
 qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})

@@ -45,7 +45,7 @@
 #include "CAppOpts.h"
 #include "CMap3D.h"
 #include "CDlgExport.h"
-#ifdef GEO_DB
+#ifdef HAS_GEODB
 #include "CGeoDB.h"
 #endif
 
@@ -255,7 +255,7 @@ CMainWindow::CMainWindow()
 
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
-#ifdef GEO_DB
+#ifdef HAS_GEODB
     geodb       = new CGeoDB(tabbar, this);
 #endif
 
@@ -276,7 +276,7 @@ CMainWindow::CMainWindow()
     connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
 
 
-#ifdef GEO_DB
+#ifdef HAS_GEODB
     geodb->gainFocus();
 #else
     searchdb->gainFocus();
@@ -1228,7 +1228,9 @@ void CMainWindow::slotDeviceChanged()
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(resources->m_devType, "Garmin");
     comboDevice->addItem(tr("NMEA"), "NMEA");
+#ifdef HS_MIKROKOPTER
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
+#endif
 #ifdef HAS_GPSD
     comboDevice->addItem(tr("GPSD"), "GPSD");
 #endif

@@ -131,6 +131,12 @@ void CMegaMenu::switchByKeyWord(const QString& key)
         actions->funcSwitchToRoute();
         actions->funcMoveArea();
     }
+    else if (key == "GeoDB")
+    {
+        actions->funcSwitchToMain();
+        actions->funcMoveArea();
+    }
+
 
 }
 

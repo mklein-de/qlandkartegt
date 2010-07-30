@@ -79,7 +79,9 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(tr("Garmin"), "Garmin");
     comboDevice->addItem(tr("NMEA"), "NMEA");
+#ifdef HS_MIKROKOPTER
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
+#endif
 #ifdef HAS_GPSD
     comboDevice->addItem(tr("GPSD"), "GPSD");
 #endif
