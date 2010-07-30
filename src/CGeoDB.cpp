@@ -35,6 +35,13 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     tabbar->insertTab(0,this, QIcon(":/icons/iconGeoDB16x16"),"");
     tabbar->setTabToolTip(tabbar->indexOf(this), tr("Manage your Geo Data Base"));
 
+    itemWorkspace = new QTreeWidgetItem(treeWidget);
+    itemWorkspace->setText(0, tr("Workspace"));
+    itemWorkspace->setIcon(0, QIcon(":/icons/iconGlobe16x16"));
+
+    itemDatabase = new QTreeWidgetItem(treeWidget);
+    itemDatabase->setText(0, tr("Database"));
+    itemDatabase->setIcon(0, QIcon(":/icons/iconGeoDB16x16"));
 }
 
 CGeoDB::~CGeoDB()

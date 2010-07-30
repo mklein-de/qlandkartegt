@@ -27,6 +27,7 @@
 #include "ui_IGeoToolWidget.h"
 
 class QTabWidget;
+class QTreeWidgetItem;
 
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
@@ -39,6 +40,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
     private:
         QTabWidget * tabbar;
+        QTreeWidgetItem * itemDatabase;
+        QTreeWidgetItem * itemWorkspace;
 };
 
 #endif //CGEODB_H
