@@ -45,7 +45,9 @@
 #include "CAppOpts.h"
 #include "CMap3D.h"
 #include "CDlgExport.h"
+#ifdef GEO_DB
 #include "CGeoDB.h"
+#endif
 
 #include <QtGui>
 #ifdef WIN32
