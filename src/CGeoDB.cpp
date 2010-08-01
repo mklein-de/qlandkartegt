@@ -39,11 +39,19 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemWorkspace->setText(eName, tr("Workspace"));
     itemWorkspace->setIcon(eName, QIcon(":/icons/iconGlobe16x16"));
     itemWorkspace->setData(eName, eUserRoleKey, "NULL");
+    itemWorkspace->setToolTip(eName, tr("All items you see on the map."));
+
+    itemPaperbin = new QTreeWidgetItem(treeWidget,eDirectory);
+    itemPaperbin->setText(eName, tr("Lost items"));
+    itemPaperbin->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
+    itemPaperbin->setData(eName, eUserRoleKey, "NULL");
+    itemPaperbin->setToolTip(eName, tr("Items that are not attached to a folder anymore."));
 
     itemDatabase = new QTreeWidgetItem(treeWidget,eDirectory);
     itemDatabase->setText(eName, tr("Database"));
     itemDatabase->setIcon(eName, QIcon(":/icons/iconGeoDB16x16"));
     itemDatabase->setData(eName, eUserRoleKey, "NULL");
+    itemDatabase->setToolTip(eName, tr("All your data grouped by folders."));
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
     db.setDatabaseName(QDir::home().filePath(CONFIGDIR "qlgt.db"));
@@ -69,8 +77,10 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     }
 
     contextMenuDirectory = new QMenu(this);
+    actEditDirComment = contextMenuDirectory->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditDirComment()));
     actAddDir = contextMenuDirectory->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Directory"),this,SLOT(slotAddDir()));
     actDelDir = contextMenuDirectory->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Directory"),this,SLOT(slotDelDir()));
+
 
     setupTreeWidget();
 
@@ -216,14 +226,39 @@ void CGeoDB::slotDelDir()
         return;
     }
 
-//    QSqlQuery query(db);
-//    query.prepare("DELETE FROM directory WHERE id=:key");
-//    query.bindValue(":key", item->data(eName, eUserRoleKey).toULongLong());
+    QMessageBox::StandardButton but = QMessageBox::question(0, tr("Delete directory..."), tr("You are sure you want to delete '%1' and all items below?").arg(item->text(eName)), QMessageBox::Ok|QMessageBox::Abort);
 
-//    if(!query.exec())
-//    {
-//        qDebug() << "errmsg=" << query.lastError();
-//    }
+    if(but == QMessageBox::Ok)
+    {
+        delDirectory(item, true);
+    }
+}
+
+void CGeoDB::slotEditDirComment()
+{
+    QTreeWidgetItem * item = treeWidget->currentItem();
+    if(item == 0)
+    {
+        return;
+    }
+
+    QString comment = QInputDialog::getText(0, tr("Folder comment..."), tr("Edit comment?"), QLineEdit::Normal,item->toolTip(eName));
+    if(comment.isEmpty())
+    {
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("UPDATE directory SET comment=:comment WHERE id=:key");
+    query.bindValue(":comment", comment);
+    query.bindValue(":key", item->data(eName, eUserRoleKey).toULongLong());
+
+    if(!query.exec())
+    {
+        qDebug() << "errmsg=" << query.lastError().text();
+        return;
+    }
+    item->setToolTip(eName, comment);
 }
 
 void CGeoDB::slotContextMenu(const QPoint& pos)
@@ -233,16 +268,18 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
     if(item->type() == eDirectory)
     {
 
-        if(item == itemDatabase || item == itemWorkspace)
+        if(item == itemDatabase || item == itemWorkspace || item == itemPaperbin)
         {
             actDelDir->setEnabled(false);
+            actEditDirComment->setEnabled(false);
         }
         else
         {
             actDelDir->setEnabled(true);
+            actEditDirComment->setEnabled(true);
         }
 
-        if(item == itemWorkspace)
+        if(item == itemWorkspace || item == itemPaperbin)
         {
             actAddDir->setEnabled(false);
         }
@@ -344,4 +381,34 @@ void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const Q
     }
     item->setData(eName, eUserRoleKey, key);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
+}
+
+
+void CGeoDB::delDirectory(QTreeWidgetItem * item, bool isTopLevel)
+{
+    int i;
+    const int size = item->childCount();
+    quint64 key = item->data(eName, eUserRoleKey).toULongLong();
+
+
+    for(i = 0; i < size; i++)
+    {
+        delDirectory(item->child(i), false);
+    }
+
+
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM directory WHERE id=:key");
+    query.bindValue(":key", key);
+
+    if(!query.exec())
+    {
+        qDebug() << "errmsg=" << query.lastError();
+    }
+
+    if(isTopLevel)
+    {
+        item->parent()->removeChild(item);
+        delete item;
+    }
 }

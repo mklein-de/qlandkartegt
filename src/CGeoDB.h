@@ -39,6 +39,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
     private slots:
         void slotAddDir();
         void slotDelDir();
+        void slotEditDirComment();
         void slotContextMenu(const QPoint&);
 
         void slotItemExpanded(QTreeWidgetItem * item);
@@ -54,11 +55,14 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void initDB();
         void migrateDB(int version);
         void queryChildrenFromDB(QTreeWidgetItem * parent, int levels);
+
         void setupTreeWidget();
         void addDirectory(QTreeWidgetItem * parent, const QString& name, const QString& comment);
+        void delDirectory(QTreeWidgetItem * item, bool isTopLevel);
 
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
+        QTreeWidgetItem * itemPaperbin;
         QTreeWidgetItem * itemWorkspace;
 
         QSqlDatabase db;
@@ -66,6 +70,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QMenu * contextMenuDirectory;
         QAction * actAddDir;
         QAction * actDelDir;
+        QAction * actEditDirComment;
 };
 
 #endif //CGEODB_H
