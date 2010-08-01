@@ -444,5 +444,10 @@
         <file>icons/iconGoogleMaps16x16.png</file>
         <file>icons/backDistance128x128.png</file>
         <file>icons/iconGeoDB16x16.png</file>
+        <file>icons/iconFolderBlue16x16.png</file>
+        <file>icons/iconFolderBrown16x16.png</file>
+        <file>icons/iconFolderGreen16x16.png</file>
+        <file>icons/iconFolderOrange16x16.png</file>
+        <file>icons/iconFolderYellow16x16.png</file>
     </qresource>
 </RCC>

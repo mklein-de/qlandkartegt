@@ -256,7 +256,7 @@ set(qlandkarte_HDRS
     CGpx.h
     IDevice.h
     CDeviceQLandkarteM.h
-    CDeviceGarmin.h   
+    CDeviceGarmin.h
     CDeviceNMEA.h
     CCreateMapOSM.h
     CCreateMapQMAP.h
@@ -424,7 +424,7 @@ IF(PRIVATE)
 ENDIF(PRIVATE)
 
 IF(GEO_DB)
-    add_definitions(-DHAS_GEODB)
+    add_definitions(-DHAS_GEODB -DDB_VERSION=01)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui)
@@ -478,7 +478,7 @@ IF(ENABLE_TRANSLATION)
 ENDIF(ENABLE_TRANSLATION)
 
 if(UNIX)
-    add_definitions(-D_TTY_POSIX_ -Wall)
+    add_definitions(-D_TTY_POSIX_ -Wall -fno-strict-aliasing)
 endif(UNIX)
 
 include_directories(
