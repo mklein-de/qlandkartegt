@@ -66,10 +66,10 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     toolSortIcon->setIcon(QPixmap(":/icons/iconWaypoint16x16.png"));
     toolSortPosition->setIcon(QPixmap(":/icons/iconLiveLog16x16.png"));
 
-    connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
-    connect(toolSortComment, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
-    connect(toolSortIcon, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
-    connect(toolSortPosition, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortAlpha, SIGNAL(clicked()), SIGNAL(sigChanged()));
+    connect(toolSortComment, SIGNAL(clicked()), SIGNAL(sigChanged()));
+    connect(toolSortIcon, SIGNAL(clicked()),SIGNAL(sigChanged()));
+    connect(toolSortPosition, SIGNAL(clicked()), SIGNAL(sigChanged()));
 
     connect(linePosition, SIGNAL(textChanged(const QString&)), this, SLOT(slotPosTextChanged(const QString&)));
 
@@ -369,3 +369,4 @@ void CWptToolWidget::slotPosTextChanged(const QString& text)
     float lon = 0, lat = 0;
     toolSortPosition->setEnabled(GPS_Math_Str_To_Deg(text, lon, lat, true));
 }
+

@@ -95,8 +95,12 @@ class COverlayDB : public IDB
 
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
-
         void combineDistOvl();
+
+        struct keys_t{QString key; QString name; QString comment; QPixmap icon; quint32 time;};
+        /// get all keys in the database
+        QList<keys_t> keys();
+
 
     private:
         friend class CMainWindow;

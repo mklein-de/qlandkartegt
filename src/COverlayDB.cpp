@@ -528,3 +528,49 @@ void COverlayDB::combineDistOvl()
     dlg.exec();
 
 }
+
+QList<COverlayDB::keys_t> COverlayDB::keys()
+{
+    QList<keys_t> k;
+
+    QString k1;
+    QStringList ks = overlays.keys();
+
+    foreach(k1, ks)
+    {
+        keys_t k2;
+        IOverlay * ovl = overlays[k1];
+
+        if(ovl->type == "Text")
+        {
+            COverlayText * text = qobject_cast<COverlayText*>(ovl);
+
+            k2.key      = k1;
+            k2.name     = tr("Static text");
+            k2.comment  = text->sometext.left(32);
+            k2.icon     = text->icon;
+
+        }
+        else if(ovl->type == "TextBox")
+        {
+            COverlayTextBox * textbox = qobject_cast<COverlayTextBox*>(ovl);
+            k2.key      = k1;
+            k2.name     = tr("Geo ref. text");
+            k2.comment  = textbox->text.left(32);
+            k2.icon     = textbox->icon;
+        }
+        else if(ovl->type == "Distance")
+        {
+            COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
+            k2.key      = k1;
+            k2.name     = dist->name;
+            k2.comment  = dist->comment.left(32);
+            k2.icon     = dist->icon;
+        }
+
+
+        k << k2;
+    }
+
+    return k;
+}

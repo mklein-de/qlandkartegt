@@ -19,6 +19,12 @@
 
 #include "CGeoDB.h"
 #include "config.h"
+#include "WptIcons.h"
+
+#include "CWptDB.h"
+#include "CTrackDB.h"
+#include "CRouteDB.h"
+#include "COverlayDB.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -35,19 +41,42 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     tabbar->insertTab(eName,this, QIcon(":/icons/iconGeoDB16x16"),"");
     tabbar->setTabToolTip(tabbar->indexOf(this), tr("Manage your Geo Data Base"));
 
-    itemWorkspace = new QTreeWidgetItem(treeWidget,eDirectory);
+    itemWorkspace = new QTreeWidgetItem(treeWidget,eFolder);
     itemWorkspace->setText(eName, tr("Workspace"));
     itemWorkspace->setIcon(eName, QIcon(":/icons/iconGlobe16x16"));
     itemWorkspace->setData(eName, eUserRoleKey, "NULL");
     itemWorkspace->setToolTip(eName, tr("All items you see on the map."));
 
-    itemPaperbin = new QTreeWidgetItem(treeWidget,eDirectory);
+    itemWksWpt = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksWpt->setText(eName, tr("Waypoints"));
+    itemWksWpt->setIcon(eName, QIcon(":/icons/iconWaypoint16x16"));
+    itemWksWpt->setData(eName, eUserRoleKey, "NULL");
+    itemWksWpt->setHidden(true);
+
+    itemWksTrk = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksTrk->setText(eName, tr("Tracks"));
+    itemWksTrk->setIcon(eName, QIcon(":/icons/iconTrack16x16"));
+    itemWksTrk->setData(eName, eUserRoleKey, "NULL");
+    itemWksTrk->setHidden(true);
+
+    itemWksRte = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksRte->setText(eName, tr("Routes"));
+    itemWksRte->setIcon(eName, QIcon(":/icons/iconRoute16x16"));
+    itemWksRte->setData(eName, eUserRoleKey, "NULL");
+    itemWksRte->setHidden(true);
+
+    itemWksOvl = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksOvl->setText(eName, tr("Overlays"));
+    itemWksOvl->setIcon(eName, QIcon(":/icons/iconOverlay16x16"));
+    itemWksOvl->setData(eName, eUserRoleKey, "NULL");
+    itemWksOvl->setHidden(true);
+
+    itemPaperbin = new QTreeWidgetItem(treeWidget,eFolder);
     itemPaperbin->setText(eName, tr("Lost items"));
     itemPaperbin->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
     itemPaperbin->setData(eName, eUserRoleKey, "NULL");
-    itemPaperbin->setToolTip(eName, tr("Items that are not attached to a folder anymore."));
 
-    itemDatabase = new QTreeWidgetItem(treeWidget,eDirectory);
+    itemDatabase = new QTreeWidgetItem(treeWidget,eFolder);
     itemDatabase->setText(eName, tr("Database"));
     itemDatabase->setIcon(eName, QIcon(":/icons/iconGeoDB16x16"));
     itemDatabase->setData(eName, eUserRoleKey, "NULL");
@@ -88,6 +117,18 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(treeWidget,SIGNAL(itemExpanded(QTreeWidgetItem *)),this,SLOT(slotItemExpanded(QTreeWidgetItem *)));
     connect(treeWidget,SIGNAL(itemClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemClicked(QTreeWidgetItem *, int)));
     connect(treeWidget,SIGNAL(itemChanged(QTreeWidgetItem *, int)),this,SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptDBChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrkDBChanged()));
+    connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotRteDBChanged()));
+    connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotOvlDBChanged()));
+
+    slotWptDBChanged();
+    slotTrkDBChanged();
+    slotRteDBChanged();
+    slotOvlDBChanged();
+
+    itemWorkspace->setExpanded(true);
 }
 
 CGeoDB::~CGeoDB()
@@ -125,7 +166,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
     while(query.next())
     {
-        QTreeWidgetItem * item = new QTreeWidgetItem(parent, eDirectory);
+        QTreeWidgetItem * item = new QTreeWidgetItem(parent, eFolder);
         item->setData(eName, eUserRoleKey, query.value(0).toULongLong());
         item->setIcon(eName, QIcon(query.value(1).toString()));
         item->setText(eName, query.value(2).toString());
@@ -265,7 +306,7 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 {
     QTreeWidgetItem * item = treeWidget->currentItem();
 
-    if(item->type() == eDirectory)
+    if(item->type() == eFolder)
     {
 
         if(item == itemDatabase || item == itemWorkspace || item == itemPaperbin)
@@ -325,6 +366,95 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
     }
 }
 
+
+void CGeoDB::slotWptDBChanged()
+{
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem *> children = itemWksWpt->takeChildren();
+    foreach(item, children)
+    {
+        delete item;
+    }
+    children.clear();
+
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+    foreach(key, keys)
+    {
+        item = new QTreeWidgetItem(eWpt);
+        item->setText(eName, key.name);
+        item->setIcon(eName, getWptIconByName(key.icon));
+        item->setToolTip(eName, key.comment);
+        item->setData(eName, eUserRoleQlKey, key.key);
+        children << item;
+    }
+
+    itemWksWpt->addChildren(children);
+
+    itemWksWpt->setHidden(children.size() == 0);
+    itemWksWpt->setExpanded(children.size() != 0);
+}
+
+void CGeoDB::slotTrkDBChanged()
+{
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem *> children = itemWksTrk->takeChildren();
+    foreach(item, children)
+    {
+        delete item;
+    }
+    children.clear();
+
+    CTrackDB::keys_t key;
+    QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
+
+    foreach(key, keys)
+    {
+        item = new QTreeWidgetItem(eTrk);
+        item->setText(eName, key.name);
+        item->setIcon(eName, key.icon);
+        item->setToolTip(eName, key.comment);
+        item->setData(eName, eUserRoleQlKey, key.key);
+        children << item;
+    }
+    itemWksTrk->addChildren(children);
+    itemWksTrk->setHidden(children.size() == 0);
+    itemWksTrk->setExpanded(children.size() != 0);
+}
+
+void CGeoDB::slotRteDBChanged()
+{
+
+}
+
+void CGeoDB::slotOvlDBChanged()
+{
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem *> children = itemWksOvl->takeChildren();
+    foreach(item, children)
+    {
+        delete item;
+    }
+    children.clear();
+
+    COverlayDB::keys_t key;
+    QList<COverlayDB::keys_t> keys = COverlayDB::self().keys();
+
+    foreach(key, keys)
+    {
+        item = new QTreeWidgetItem(eOvl);
+        item->setText(eName, key.name);
+        item->setIcon(eName, key.icon);
+        item->setToolTip(eName, key.comment);
+        item->setData(eName, eUserRoleQlKey, key.key);
+        children << item;
+    }
+    itemWksOvl->addChildren(children);
+    itemWksOvl->setHidden(children.size() == 0);
+    itemWksOvl->setExpanded(children.size() != 0);
+}
+
+
 void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const QString& comment)
 {
     QSqlQuery query(db);
@@ -368,7 +498,7 @@ void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const Q
     }
 
 
-    QTreeWidgetItem * item = new QTreeWidgetItem(parent, eDirectory);
+    QTreeWidgetItem * item = new QTreeWidgetItem(parent, eFolder);
     item->setText(eName, name);
     item->setToolTip(eName ,comment);
     if(parentKey == "NULL")

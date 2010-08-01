@@ -92,19 +92,21 @@ void COverlayDistanceEditWidget::slotChanged()
 
     treeWidget->clear();
 
+    QList<QTreeWidgetItem*> items;
     for(i = 0; i < size; i++)
     {
         COverlayDistance::pt_t pt = ovl->points[i];
         GPS_Math_Deg_To_Str(pt.u * RAD_TO_DEG, pt.v * RAD_TO_DEG, pos);
 
-        QTreeWidgetItem * item = new QTreeWidgetItem(treeWidget);
+        QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setText(eNo, QString::number(pt.idx));
         item->setData(eNo,Qt::UserRole, pt.idx);
-
         item->setText(ePos, pos);
 
+        items << item;
     }
 
+    treeWidget->addTopLevelItems(items);
     treeWidget->header()->setResizeMode(eNo,QHeaderView::ResizeToContents);
 }
 

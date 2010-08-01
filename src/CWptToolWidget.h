@@ -45,6 +45,9 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 
         static sortmode_e  getSortMode(QString& pos){pos = sortpos; return sortmode;}
 
+    signals:
+        void sigChanged();
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 

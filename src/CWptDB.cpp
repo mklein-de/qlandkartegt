@@ -80,6 +80,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 #endif
 #endif
 
+    connect(toolview, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
 }
 
 
