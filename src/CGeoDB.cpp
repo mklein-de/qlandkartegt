@@ -233,7 +233,7 @@ void CGeoDB::initDB()
 
     if(!query.exec( "CREATE TABLE items ("
         "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "key            TEXT NOT NULL"
+        "key            TEXT NOT NULL,"
         "type           INTEGER,"
         "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
         "icon           TEXT NOT NULL,"
