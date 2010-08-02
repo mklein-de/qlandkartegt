@@ -40,8 +40,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotAddDir();
         void slotDelDir();
         void slotEditDirComment();
-        void slotContextMenu(const QPoint&);
 
+        void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
         void slotItemClicked(QTreeWidgetItem * item, int column);
         void slotItemChanged(QTreeWidgetItem * item, int column);
@@ -54,7 +54,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
     private:
         enum EntryType_e {eFolder, eTypFolder, eWpt, eTrk, eRte, eOvl};
         enum ColumnType_e {eName = 0};
-        enum UserRoles_e {eUserRoleKey = Qt::UserRole, eUserRoleQlKey = Qt::UserRole+1};
+        enum UserRoles_e {eUserRoleDBKey = Qt::UserRole, eUserRoleQLKey = Qt::UserRole+1};
 
         void initDB();
         void migrateDB(int version);
