@@ -234,6 +234,11 @@ void CMapRaster::draw()
     qint32 w    = (qint32)(pxx / zoomfactor) & 0xFFFFFFFC;
     qint32 h    = (qint32)(pxy / zoomfactor);
 
+    if((w*h) == 0)
+    {
+        return;
+    }
+
     CPLErr err = CE_Failure;
     if(rasterBandCount == 1)
     {

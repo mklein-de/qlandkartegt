@@ -643,7 +643,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     {
         map.convertPt2M(x,y);
         info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
-        qDebug() << "--" << info;
+//        qDebug() << "--" << info;
     }
     else
     {
