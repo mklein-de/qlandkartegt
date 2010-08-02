@@ -46,40 +46,47 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemWorkspace->setIcon(eName, QIcon(":/icons/iconGlobe16x16"));
     itemWorkspace->setData(eName, eUserRoleKey, "NULL");
     itemWorkspace->setToolTip(eName, tr("All items you see on the map."));
+    itemWorkspace->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
 
     itemWksWpt = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
     itemWksWpt->setText(eName, tr("Waypoints"));
     itemWksWpt->setIcon(eName, QIcon(":/icons/iconWaypoint16x16"));
     itemWksWpt->setData(eName, eUserRoleKey, "NULL");
+    itemWksWpt->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksWpt->setHidden(true);
 
     itemWksTrk = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
     itemWksTrk->setText(eName, tr("Tracks"));
     itemWksTrk->setIcon(eName, QIcon(":/icons/iconTrack16x16"));
     itemWksTrk->setData(eName, eUserRoleKey, "NULL");
+    itemWksTrk->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksTrk->setHidden(true);
 
     itemWksRte = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
     itemWksRte->setText(eName, tr("Routes"));
     itemWksRte->setIcon(eName, QIcon(":/icons/iconRoute16x16"));
     itemWksRte->setData(eName, eUserRoleKey, "NULL");
+    itemWksRte->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksRte->setHidden(true);
 
     itemWksOvl = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
     itemWksOvl->setText(eName, tr("Overlays"));
     itemWksOvl->setIcon(eName, QIcon(":/icons/iconOverlay16x16"));
     itemWksOvl->setData(eName, eUserRoleKey, "NULL");
+    itemWksOvl->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksOvl->setHidden(true);
 
     itemPaperbin = new QTreeWidgetItem(treeWidget,eFolder);
     itemPaperbin->setText(eName, tr("Lost items"));
     itemPaperbin->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
     itemPaperbin->setData(eName, eUserRoleKey, "NULL");
+    itemPaperbin->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
 
     itemDatabase = new QTreeWidgetItem(treeWidget,eFolder);
     itemDatabase->setText(eName, tr("Database"));
     itemDatabase->setIcon(eName, QIcon(":/icons/iconGeoDB16x16"));
     itemDatabase->setData(eName, eUserRoleKey, "NULL");
+    itemDatabase->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemDatabase->setToolTip(eName, tr("All your data grouped by folders."));
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
@@ -105,10 +112,10 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
         initDB();
     }
 
-    contextMenuDirectory = new QMenu(this);
-    actEditDirComment = contextMenuDirectory->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditDirComment()));
-    actAddDir = contextMenuDirectory->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Directory"),this,SLOT(slotAddDir()));
-    actDelDir = contextMenuDirectory->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Directory"),this,SLOT(slotDelDir()));
+        contextMenuFolder = new QMenu(this);
+    actEditDirComment = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditDirComment()));
+    actAddDir = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Folder"),this,SLOT(slotAddDir()));
+    actDelDir = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Folder"),this,SLOT(slotDelDir()));
 
 
     setupTreeWidget();
@@ -151,11 +158,11 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
     if(key == "NULL")
     {
-        cmd = "SELECT id, icon, name, comment FROM directory WHERE NOT parent";
+        cmd = "SELECT id, icon, name, comment FROM folders WHERE NOT parent";
     }
     else
     {
-        cmd = "SELECT id, icon, name, comment FROM directory WHERE parent = " + key;
+        cmd = "SELECT id, icon, name, comment FROM folders WHERE parent = " + key;
     }
 
     if(!query.exec(cmd))
@@ -210,18 +217,45 @@ void CGeoDB::initDB()
         }
     }
 
-    if(!query.exec( "CREATE TABLE directory ("
+    if(!query.exec( "CREATE TABLE folders ("
         "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
         "parent         INTEGER DEFAULT NULL,"
         "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
         "icon           TEXT NOT NULL,"
         "name           TEXT NOT NULL,"
         "comment        TEXT,"
-        "FOREIGN KEY(parent) REFERENCES directory(id)"
+        "FOREIGN KEY(parent) REFERENCES folders(id)"
     ")"))
     {
         qDebug() << query.lastError();
     }
+
+
+    if(!query.exec( "CREATE TABLE items ("
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "key            TEXT NOT NULL"
+        "type           INTEGER,"
+        "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
+        "icon           TEXT NOT NULL,"
+        "name           TEXT NOT NULL,"
+        "comment        TEXT,"
+        "data           BLOB"
+    ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
+    if(!query.exec( "CREATE TABLE relations ("
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "folders         INTEGER NOT NULL,"
+        "entry           INTEGER NOT NULL,"
+        "FOREIGN KEY(folders) REFERENCES folders(id),"
+        "FOREIGN KEY(entry) REFERENCES entries(id)"
+    ")"))
+    {
+        qDebug() << query.lastError();
+    }
+
 
 }
 
@@ -248,7 +282,7 @@ void CGeoDB::slotAddDir()
         return;
     }
 
-    QString name = QInputDialog::getText(0, tr("Folder name..."), tr("Name of new folder"));
+    QString name = QInputDialog::getText(0, tr("Folder name..."), tr("Name of new folders"));
     if(name.isEmpty())
     {
         return;
@@ -256,7 +290,7 @@ void CGeoDB::slotAddDir()
 
     QString comment = QInputDialog::getText(0, tr("Folder comment..."), tr("Would you like to add a comment?"));
 
-    addDirectory(item, name, comment);
+    addFolder(item, name, comment);
 }
 
 void CGeoDB::slotDelDir()
@@ -267,11 +301,11 @@ void CGeoDB::slotDelDir()
         return;
     }
 
-    QMessageBox::StandardButton but = QMessageBox::question(0, tr("Delete directory..."), tr("You are sure you want to delete '%1' and all items below?").arg(item->text(eName)), QMessageBox::Ok|QMessageBox::Abort);
+    QMessageBox::StandardButton but = QMessageBox::question(0, tr("Delete folders..."), tr("You are sure you want to delete '%1' and all items below?").arg(item->text(eName)), QMessageBox::Ok|QMessageBox::Abort);
 
     if(but == QMessageBox::Ok)
     {
-        delDirectory(item, true);
+        delFolder(item, true);
     }
 }
 
@@ -290,7 +324,7 @@ void CGeoDB::slotEditDirComment()
     }
 
     QSqlQuery query(db);
-    query.prepare("UPDATE directory SET comment=:comment WHERE id=:key");
+    query.prepare("UPDATE folders SET comment=:comment WHERE id=:key");
     query.bindValue(":comment", comment);
     query.bindValue(":key", item->data(eName, eUserRoleKey).toULongLong());
 
@@ -331,7 +365,7 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 
 
         QPoint p = treeWidget->mapToGlobal(pos);
-        contextMenuDirectory->exec(p);
+        contextMenuFolder->exec(p);
     }
 }
 
@@ -354,7 +388,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
     if(column == eName)
     {
         QSqlQuery query(db);
-        query.prepare("UPDATE directory SET name=:name WHERE id=:key");
+        query.prepare("UPDATE folders SET name=:name WHERE id=:key");
         query.bindValue(":name", item->text(eName));
         query.bindValue(":key", key);
 
@@ -390,7 +424,6 @@ void CGeoDB::slotWptDBChanged()
     }
 
     itemWksWpt->addChildren(children);
-
     itemWksWpt->setHidden(children.size() == 0);
     itemWksWpt->setExpanded(children.size() != 0);
 }
@@ -455,13 +488,13 @@ void CGeoDB::slotOvlDBChanged()
 }
 
 
-void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const QString& comment)
+void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment)
 {
     QSqlQuery query(db);
 
     QString parentKey = parent->data(eName, eUserRoleKey).toString();
 
-    query.prepare("INSERT INTO directory (parent, icon, name, comment) VALUES (:parent, :icon, :name, :comment)");
+    query.prepare("INSERT INTO folders (parent, icon, name, comment) VALUES (:parent, :icon, :name, :comment)");
     query.bindValue(":parent", parentKey);
     if(parentKey == "NULL")
     {
@@ -480,7 +513,7 @@ void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const Q
         return;
     }
 
-    if(!query.exec("SELECT last_insert_rowid() from directory"))
+    if(!query.exec("SELECT last_insert_rowid() from folders"))
     {
         qDebug() << "errmsg=" << query.lastError().text();
         return;
@@ -508,13 +541,14 @@ void CGeoDB::addDirectory(QTreeWidgetItem * parent, const QString& name, const Q
     else
     {
         item->setIcon(eName, QIcon(":/icons/iconFolderGreen16x16"));
+        item->setCheckState(0, Qt::Unchecked);
     }
     item->setData(eName, eUserRoleKey, key);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
 }
 
 
-void CGeoDB::delDirectory(QTreeWidgetItem * item, bool isTopLevel)
+void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
 {
     int i;
     const int size = item->childCount();
@@ -523,12 +557,12 @@ void CGeoDB::delDirectory(QTreeWidgetItem * item, bool isTopLevel)
 
     for(i = 0; i < size; i++)
     {
-        delDirectory(item->child(i), false);
+        delFolder(item->child(i), false);
     }
 
 
     QSqlQuery query(db);
-    query.prepare("DELETE FROM directory WHERE id=:key");
+    query.prepare("DELETE FROM folders WHERE id=:key");
     query.bindValue(":key", key);
 
     if(!query.exec())

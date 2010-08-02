@@ -547,7 +547,7 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
 
             k2.key      = k1;
             k2.name     = tr("Static text");
-            k2.comment  = text->sometext.left(32);
+            k2.comment  = text->getInfo();
             k2.icon     = text->icon;
 
         }
@@ -556,7 +556,7 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             COverlayTextBox * textbox = qobject_cast<COverlayTextBox*>(ovl);
             k2.key      = k1;
             k2.name     = tr("Geo ref. text");
-            k2.comment  = textbox->text.left(32);
+            k2.comment  = textbox->getInfo();
             k2.icon     = textbox->icon;
         }
         else if(ovl->type == "Distance")

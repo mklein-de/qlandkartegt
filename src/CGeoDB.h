@@ -52,7 +52,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotOvlDBChanged();
 
     private:
-        enum EntryType_e {eFolder, eTypFolder, eWpt, eTrk, eOvl};
+        enum EntryType_e {eFolder, eTypFolder, eWpt, eTrk, eRte, eOvl};
         enum ColumnType_e {eName = 0};
         enum UserRoles_e {eUserRoleKey = Qt::UserRole, eUserRoleQlKey = Qt::UserRole+1};
 
@@ -61,8 +61,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void queryChildrenFromDB(QTreeWidgetItem * parent, int levels);
 
         void setupTreeWidget();
-        void addDirectory(QTreeWidgetItem * parent, const QString& name, const QString& comment);
-        void delDirectory(QTreeWidgetItem * item, bool isTopLevel);
+        void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment);
+        void delFolder(QTreeWidgetItem * item, bool isTopLevel);
 
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
@@ -76,7 +76,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         QSqlDatabase db;
 
-        QMenu * contextMenuDirectory;
+        QMenu * contextMenuFolder;
         QAction * actAddDir;
         QAction * actDelDir;
         QAction * actEditDirComment;
