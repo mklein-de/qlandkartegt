@@ -55,15 +55,20 @@ void COverlayToolWidget::slotDBChanged()
 
     listOverlays->clear();
 
-    QMap<QString, IOverlay*>& overlays                  = COverlayDB::self().overlays;
-    QMap<QString, IOverlay*>::const_iterator overlay    = overlays.begin();
-    while(overlay != overlays.end())
+    QMap<QString, IOverlay*>& overlays  = COverlayDB::self().overlays;
+    QList<COverlayDB::keys_t> keys      = COverlayDB::self().keys();
+
+    COverlayDB::keys_t key;
+
+    foreach(key, keys)
     {
+        IOverlay * ovl = overlays[key.key];
+
         QListWidgetItem * item = new QListWidgetItem(listOverlays);
-        item->setIcon((*overlay)->icon);
-        item->setText((*overlay)->getInfo());
-        item->setData(Qt::UserRole, overlay.key());
-        ++overlay;
+        item->setIcon(ovl->icon);
+        item->setText(ovl->getInfo());
+        item->setData(Qt::UserRole, ovl->key());
+
     }
 
     listOverlays->sortItems();
