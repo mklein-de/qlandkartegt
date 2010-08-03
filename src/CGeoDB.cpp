@@ -22,6 +22,7 @@
 #include "WptIcons.h"
 
 #include "CWptDB.h"
+#include "CWpt.h"
 #include "CTrackDB.h"
 #include "CRouteDB.h"
 #include "COverlayDB.h"
@@ -263,6 +264,50 @@ void CGeoDB::setupTreeWidget()
 
 void CGeoDB::slotWptDBChanged()
 {
+    CGeoDBInternalEditLock lock(this);
+
+    QSqlQuery query(db);
+    qDeleteAll(itemWksWpt->takeChildren());
+
+    CWptDB& wptdb = CWptDB::self();
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = wptdb.keys();
+
+    foreach(key, keys)
+    {
+
+        CWpt * wpt = wptdb.getWptByKey(key.key);
+        if(!wpt || wpt->sticky)
+        {
+
+            continue;
+        }
+
+                qDebug() << key.key << key.name << wpt->sticky;
+
+        query.prepare("SELECT id FROM items WHERE key=:key");
+        query.bindValue(":key", key.key);
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+        }
+
+
+        QTreeWidgetItem * item = new QTreeWidgetItem(itemWksWpt, eWpt);
+        if(query.size() > 0)
+        {
+            query.next();
+            item->setData(eName, eUserRoleDBKey, query.value(0));
+            item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
+        }
+        item->setData(eName, eUserRoleQLKey, key.key);
+        item->setIcon(eName, getWptIconByName(key.icon));
+        item->setText(eName, key.name);
+        item->setToolTip(eName, key.comment);
+    }
+
+    itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
 
 }
 
@@ -428,7 +473,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         return;
     }
 
-    query.prepare("SELECT child FROM folder2folder WHERE parent = :id");
+    query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
     query.bindValue(":id", parentId);
     if(!query.exec())
     {
@@ -469,6 +514,8 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
             queryChildrenFromDB(item, levels - 1);
         }
     }
+
+    treeWidget->header()->setResizeMode(eName,QHeaderView::ResizeToContents);
 }
 
 void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment)

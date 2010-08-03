@@ -63,7 +63,10 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
             eOvl = QTreeWidgetItem::UserType + 6
         };
 
-        enum ColumnType_e {eName = 0};
+        enum ColumnType_e {
+            eName = 0,
+            eDBState = 1
+        };
         enum UserRoles_e {
             eUserRoleDBKey = Qt::UserRole,
             eUserRoleQLKey = Qt::UserRole + 1
