@@ -52,9 +52,22 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotOvlDBChanged();
 
     private:
-        enum EntryType_e {eFolder, eTypFolder, eWpt, eTrk, eRte, eOvl};
+        friend class CGeoDBInternalEditLock;
+
+        enum EntryType_e {
+            eFolder = QTreeWidgetItem::UserType + 1,
+            eTypFolder = QTreeWidgetItem::UserType + 2,
+            eWpt = QTreeWidgetItem::UserType + 3,
+            eTrk = QTreeWidgetItem::UserType + 4,
+            eRte = QTreeWidgetItem::UserType + 5,
+            eOvl = QTreeWidgetItem::UserType + 6
+        };
+
         enum ColumnType_e {eName = 0};
-        enum UserRoles_e {eUserRoleDBKey = Qt::UserRole, eUserRoleQLKey = Qt::UserRole+1};
+        enum UserRoles_e {
+            eUserRoleDBKey = Qt::UserRole,
+            eUserRoleQLKey = Qt::UserRole + 1
+        };
 
         void initDB();
         void migrateDB(int version);
@@ -62,7 +75,14 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void setupTreeWidget();
         void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment);
-        void delFolder(QTreeWidgetItem * item, bool isTopLevel);
+        void delFolder(QTreeWidgetItem * item, bool isTopLevel);        
+
+        /// search treeWidget for items with id and update their content from database
+        void updateFolderById(quint64 id);
+        /// search treeWidget for items with id  and add copy of item as child
+        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
+        /// search treeWidget for items with parentId and delete items including all their children with childId
+        void delFolderById(quint64 parentId, quint64 childId);
 
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
@@ -80,6 +100,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actAddDir;
         QAction * actDelDir;
         QAction * actEditDirComment;
+
+        bool isInternalEdit;
 };
 
 #endif //CGEODB_H
