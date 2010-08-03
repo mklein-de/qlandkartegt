@@ -41,6 +41,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelDir();
         void slotEditDirComment();
 
+        void slotAddItems();
+
         void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
         void slotItemClicked(QTreeWidgetItem * item, int column);
@@ -53,6 +55,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
     private:
         friend class CGeoDBInternalEditLock;
+        friend class CDlgSelGeoDBFolder;
 
         enum EntryType_e {
             eFolder = QTreeWidgetItem::UserType + 1,
@@ -78,7 +81,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void setupTreeWidget();
         void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment);
-        void delFolder(QTreeWidgetItem * item, bool isTopLevel);        
+        void delFolder(QTreeWidgetItem * item, bool isTopLevel);
 
         /// search treeWidget for items with id and update their content from database
         void updateFolderById(quint64 id);
@@ -103,8 +106,13 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actAddDir;
         QAction * actDelDir;
         QAction * actEditDirComment;
+        QAction * actMove;
+        QAction * actCopy;
 
-        bool isInternalEdit;
+        QMenu * contextMenuWks;
+        QAction * actAddToDB;
+
+        quint32 isInternalEdit;
 };
 
 #endif //CGEODB_H

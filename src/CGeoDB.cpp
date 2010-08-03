@@ -26,6 +26,9 @@
 #include "CTrackDB.h"
 #include "CRouteDB.h"
 #include "COverlayDB.h"
+#include "CDlgSelGeoDBFolder.h"
+
+#include "CQlb.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -34,8 +37,8 @@
 class CGeoDBInternalEditLock
 {
     public:
-    CGeoDBInternalEditLock(CGeoDB * db) : db(db){db->isInternalEdit = true;}
-        ~CGeoDBInternalEditLock(){db->isInternalEdit = false;}
+    CGeoDBInternalEditLock(CGeoDB * db) : db(db){db->isInternalEdit += 1;}
+        ~CGeoDBInternalEditLock(){db->isInternalEdit -= 1;}
     private:
         CGeoDB * db;
 };
@@ -43,7 +46,7 @@ class CGeoDBInternalEditLock
 CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     : QWidget(parent)
     , tabbar(tb)
-    , isInternalEdit(false)
+    , isInternalEdit(0)
 {
     setupUi(this);
     setObjectName("GeoDB");
@@ -121,6 +124,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actAddDir = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Folder"),this,SLOT(slotAddDir()));
     actDelDir = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Folder"),this,SLOT(slotDelDir()));
 
+    contextMenuWks = new QMenu(this);
+    actAddToDB = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
 
     setupTreeWidget();
 
@@ -194,7 +199,7 @@ void CGeoDB::initDB()
         "icon           TEXT NOT NULL,"
         "name           TEXT NOT NULL,"
         "comment        TEXT,"
-        "data           BLOB"
+        "data           BLOB NOT NULL"
     ")"))
     {
         qDebug() << query.lastQuery();
@@ -390,7 +395,8 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 
     if(top == itemWorkspace)
     {
-
+        QPoint p = treeWidget->mapToGlobal(pos);
+        contextMenuWks->exec(p);
     }
     else if(top == itemPaperbin)
     {
@@ -432,7 +438,7 @@ void CGeoDB::slotItemClicked(QTreeWidgetItem * item, int column)
 
 void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    if(isInternalEdit)
+    if(isInternalEdit != 0)
     {
         return;
     }
@@ -473,6 +479,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         return;
     }
 
+    // folders 1st
     query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
     query.bindValue(":id", parentId);
     if(!query.exec())
@@ -512,6 +519,51 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         if(levels)
         {
             queryChildrenFromDB(item, levels - 1);
+        }
+    }
+
+    // items 2nd
+    query.prepare("SELECT t1.child FROM folder2item AS t1, items AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
+    query.bindValue(":id", parentId);
+    if(!query.exec())
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+        return;
+    }
+
+    while(query.next())
+    {
+        quint64 childId = query.value(0).toULongLong();
+
+        QSqlQuery query2(db);
+        query2.prepare("SELECT type, icon, name, comment FROM items WHERE id = :id");
+        query2.bindValue(":id", childId);
+        if(!query2.exec())
+        {
+            qDebug() << query2.lastQuery();
+            qDebug() << query2.lastError();
+            continue;
+        }
+        query2.next();
+
+        QTreeWidgetItem * item = new QTreeWidgetItem(parent, query2.value(0).toInt());
+        item->setData(eName, eUserRoleDBKey, childId);
+        if(query2.value(0).toInt() == eWpt)
+        {
+            item->setIcon(eName, getWptIconByName(query2.value(1).toString()));
+        }
+        else
+        {
+            item->setIcon(eName, QIcon(query2.value(1).toString()));
+        }
+        item->setText(eName, query2.value(2).toString());
+        item->setToolTip(eName, query2.value(3).toString());
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        if(parentId != 1)
+        {
+            item->setCheckState(0, Qt::Unchecked);
         }
     }
 
@@ -657,6 +709,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             QTreeWidgetItem * clone = new QTreeWidgetItem(child->type());
             clone->setIcon(eName, child->icon(eName));
             clone->setData(eName, eUserRoleDBKey, child->data(eName, eUserRoleDBKey));
+            clone->setData(eName, eUserRoleQLKey, child->data(eName, eUserRoleQLKey));
             clone->setText(eName, child->text(eName));
             clone->setToolTip(eName, child->toolTip(eName));
 
@@ -691,6 +744,7 @@ void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
             {
                 if(item->child(i)->data(eName, eUserRoleDBKey).toULongLong() == childId)
                 {
+                    // just collect the items, do not delete now to prevent crash
                     itemsToDelete << item->takeChild(i);
                     break;
                 }
@@ -698,6 +752,7 @@ void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
         }
     }
 
+    // now it's save to delete all items
     qDeleteAll(itemsToDelete);
 }
 
@@ -732,3 +787,115 @@ void CGeoDB::updateFolderById(quint64 id)
     }
 }
 
+
+void CGeoDB::slotAddItems()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+    quint64 parentId, childId = 0;
+    CDlgSelGeoDBFolder dlg(db, parentId);
+
+    dlg.exec();
+
+    if(parentId == 0)
+    {
+        return;
+    }
+
+    int i;
+    int size;
+    QTreeWidgetItem * item;
+
+    size = itemWksWpt->childCount();
+    for(i = 0; i < size; i++)
+    {
+        item = itemWksWpt->child(i);
+        if(!item->isSelected())
+        {
+            continue;
+        }
+
+        // test for item with qlandkarte key
+        QString key = item->data(eName, eUserRoleQLKey).toString();
+        query.prepare("SELECT id FROM items WHERE key=:key");
+        query.bindValue(":key", key);
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+        }
+        if(query.next())
+        {
+            childId = query.value(0).toULongLong();
+        }
+        else
+        {
+            // insert item
+            QString key = item->data(eName, eUserRoleQLKey).toString();
+            CWpt * wpt  = CWptDB::self().getWptByKey(key);
+            CQlb qlb(this);
+            qlb << *wpt;
+            QBuffer buffer;
+            qlb.save(&buffer);
+
+            // add item to database
+            query.prepare("INSERT INTO items (type, key, date, icon, name, comment, data) "
+                          "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
+
+            query.bindValue(":type", eWpt);
+            query.bindValue(":key", wpt->key());
+            query.bindValue(":date", QDateTime::fromTime_t(wpt->timestamp).toString("yyyy-MM-dd hh-mm-ss"));
+            query.bindValue(":icon", wpt->icon);
+            query.bindValue(":name", wpt->name);
+            query.bindValue(":comment", wpt->comment);
+            query.bindValue(":data", buffer.data());
+            if(!query.exec())
+            {
+                qDebug() << query.lastQuery();
+                qDebug() << query.lastError();
+            }
+
+            if(!query.exec("SELECT last_insert_rowid() from items"))
+            {
+                qDebug() << query.lastQuery();
+                qDebug() << query.lastError();
+                return;
+            }
+            query.next();
+            childId = query.value(0).toULongLong();
+            if(childId == 0)
+            {
+                qDebug() << "childId equals 0. bad.";
+                return;
+            }
+        }
+        item->setData(eName, eUserRoleDBKey, childId);
+        // create link folder <-> item
+        query.prepare("SELECT id FROM folder2item WHERE parent=:parent AND child=:child");
+        query.bindValue(":parent", parentId);
+        query.bindValue(":child", childId);
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+        }
+
+
+        if(!query.next())
+        {
+            query.prepare("INSERT INTO folder2item (parent, child) VALUES (:parent, :child)");
+            query.bindValue(":parent", parentId);
+            query.bindValue(":child", childId);
+            if(!query.exec())
+            {
+                qDebug() << query.lastQuery();
+                qDebug() << query.lastError();
+                return;
+            }
+        }
+
+        // update tree widget
+        addFolderById(parentId, item);
+    }
+
+}

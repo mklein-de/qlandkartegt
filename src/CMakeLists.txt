@@ -425,9 +425,9 @@ ENDIF(PRIVATE)
 
 IF(GEO_DB)
     add_definitions(-DHAS_GEODB -DDB_VERSION=01)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui)
 ENDIF(GEO_DB)
 
 IF(MIKROKOPTER)
