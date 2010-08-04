@@ -102,6 +102,23 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
     QSqlQuery query(db);
 
+    if(!query.exec("PRAGMA locking_mode=EXCLUSIVE")) {
+      return;
+    }
+
+    if(!query.exec("PRAGMA temp_store=MEMORY")) {
+      return;
+    }
+
+    if(!query.exec("PRAGMA default_cache_size=50")) {
+      return;
+    }
+
+    if(!query.exec("PRAGMA page_size=8192")) {
+      return;
+    }
+
+
     if(!query.exec("SELECT version FROM versioninfo"))
     {
         initDB();
@@ -256,6 +273,8 @@ void CGeoDB::migrateDB(int version)
 
 void CGeoDB::setupTreeWidget()
 {
+    CGeoDBInternalEditLock lock(this);
+
     QList<QTreeWidgetItem*> children = itemDatabase->takeChildren();
     QTreeWidgetItem * child;
     foreach(child, children)
@@ -288,8 +307,6 @@ void CGeoDB::slotWptDBChanged()
             continue;
         }
 
-                qDebug() << key.key << key.name << wpt->sticky;
-
         query.prepare("SELECT id FROM items WHERE key=:key");
         query.bindValue(":key", key.key);
         if(!query.exec())
@@ -300,9 +317,8 @@ void CGeoDB::slotWptDBChanged()
 
 
         QTreeWidgetItem * item = new QTreeWidgetItem(itemWksWpt, eWpt);
-        if(query.size() > 0)
+        if(query.next())
         {
-            query.next();
             item->setData(eName, eUserRoleDBKey, query.value(0));
             item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
         }
@@ -318,21 +334,23 @@ void CGeoDB::slotWptDBChanged()
 
 void CGeoDB::slotTrkDBChanged()
 {
-
+    CGeoDBInternalEditLock lock(this);
 }
 
 void CGeoDB::slotRteDBChanged()
 {
-
+    CGeoDBInternalEditLock lock(this);
 }
 
 void CGeoDB::slotOvlDBChanged()
 {
-
+    CGeoDBInternalEditLock lock(this);
 }
 
 void CGeoDB::slotAddDir()
 {
+    CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item = treeWidget->currentItem();
     if(item == 0)
     {
@@ -352,6 +370,8 @@ void CGeoDB::slotAddDir()
 
 void CGeoDB::slotDelDir()
 {
+    CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item = treeWidget->currentItem();
     QMessageBox::StandardButton but = QMessageBox::question(0, tr("Delete folders..."), tr("You are sure you want to delete '%1' and all items below?").arg(item->text(eName)), QMessageBox::Ok|QMessageBox::Abort);
     if(but == QMessageBox::Ok)
@@ -362,6 +382,8 @@ void CGeoDB::slotDelDir()
 
 void CGeoDB::slotEditDirComment()
 {
+    CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item = treeWidget->currentItem();
     quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
 
@@ -425,9 +447,23 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 
 void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
 {
-    if(item->childCount() == 0)
+    CGeoDBInternalEditLock lock(this);
+
+    const int size = item->childCount();
+    if(size == 0)
     {
         queryChildrenFromDB(item, 2);
+    }
+    else
+    {
+        for(int i; i< size; i++)
+        {
+            QTreeWidgetItem  * child = item->child(i);
+            if(child->type() == eFolder && child->childCount() == 0)
+            {
+                queryChildrenFromDB(child, 1);
+            }
+        }
     }
 }
 
@@ -471,8 +507,10 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 
 void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 {
+    CGeoDBInternalEditLock lock(this);
+
     QSqlQuery query(db);
-    quint64 parentId = parent->data(eName, eUserRoleDBKey).toULongLong();
+    const quint64 parentId = parent->data(eName, eUserRoleDBKey).toULongLong();
 
     if(parentId == 0)
     {
@@ -523,6 +561,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
     }
 
     // items 2nd
+    qDebug() << "parent id" << parentId;
     query.prepare("SELECT t1.child FROM folder2item AS t1, items AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
     query.bindValue(":id", parentId);
     if(!query.exec())
@@ -572,6 +611,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
 void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment)
 {
+    CGeoDBInternalEditLock lock(this);
 
     QSqlQuery query(db);
     quint64 parentId = parent->data(eName, eUserRoleDBKey).toULongLong();
@@ -644,6 +684,8 @@ void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QStr
 
 void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
 {
+    CGeoDBInternalEditLock lock(this);
+
     int i;
     const int size   = item->childCount();
     quint64 itemId   = item->data(eName, eUserRoleDBKey).toULongLong();
@@ -677,6 +719,16 @@ void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
             delFolder(item->child(i), false);
         }
 
+        // remove the child items relations
+        query.prepare("DELETE FROM folder2item WHERE parent=:id");
+        query.bindValue(":id", itemId);
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+        }
+
+
         // and remove the folder
         query.prepare("DELETE FROM folders WHERE id=:id");
         query.bindValue(":id", itemId);
@@ -687,13 +739,17 @@ void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
         }
     }
 
-    delFolderById(parentId, itemId);
+    if(isTopLevel)
+    {
+        delFolderById(parentId, itemId);
+    }
 
 }
 
 void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
 {
     CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item;
     QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
 
@@ -707,6 +763,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
         if(item->data(eName, eUserRoleDBKey).toULongLong() == parentId)
         {
             QTreeWidgetItem * clone = new QTreeWidgetItem(child->type());
+            clone->setIcon(eName, child->icon(eName));
             clone->setIcon(eName, child->icon(eName));
             clone->setData(eName, eUserRoleDBKey, child->data(eName, eUserRoleDBKey));
             clone->setData(eName, eUserRoleQLKey, child->data(eName, eUserRoleQLKey));
@@ -726,6 +783,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
 void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
 {
     CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item;
     QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
     QList<QTreeWidgetItem*> itemsToDelete;
@@ -759,6 +817,7 @@ void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
 void CGeoDB::updateFolderById(quint64 id)
 {
     CGeoDBInternalEditLock lock(this);
+
     QTreeWidgetItem * item;
     QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
 
@@ -791,6 +850,7 @@ void CGeoDB::updateFolderById(quint64 id)
 void CGeoDB::slotAddItems()
 {
     CGeoDBInternalEditLock lock(this);
+
     QSqlQuery query(db);
     quint64 parentId, childId = 0;
     CDlgSelGeoDBFolder dlg(db, parentId);
@@ -838,7 +898,6 @@ void CGeoDB::slotAddItems()
             stream.setVersion(QDataStream::Qt_4_5);
             stream << *wpt;
 
-            qDebug() << buffer.size() << buffer;
             // add item to database
             query.prepare("INSERT INTO items (type, key, date, icon, name, comment, data) "
                           "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
@@ -871,6 +930,7 @@ void CGeoDB::slotAddItems()
             }
         }
         item->setData(eName, eUserRoleDBKey, childId);
+        item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
         // create link folder <-> item
         query.prepare("SELECT id FROM folder2item WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId);
@@ -897,5 +957,4 @@ void CGeoDB::slotAddItems()
             addFolderById(parentId, item);
         }
     }
-
 }
