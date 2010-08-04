@@ -833,11 +833,12 @@ void CGeoDB::slotAddItems()
             // insert item
             QString key = item->data(eName, eUserRoleQLKey).toString();
             CWpt * wpt  = CWptDB::self().getWptByKey(key);
-            CQlb qlb(this);
-            qlb << *wpt;
-            QBuffer buffer;
-            qlb.save(&buffer);
+            QByteArray buffer;
+            QDataStream stream(&buffer, QIODevice::WriteOnly);
+            stream.setVersion(QDataStream::Qt_4_5);
+            stream << *wpt;
 
+            qDebug() << buffer.size() << buffer;
             // add item to database
             query.prepare("INSERT INTO items (type, key, date, icon, name, comment, data) "
                           "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
@@ -848,7 +849,7 @@ void CGeoDB::slotAddItems()
             query.bindValue(":icon", wpt->icon);
             query.bindValue(":name", wpt->name);
             query.bindValue(":comment", wpt->comment);
-            query.bindValue(":data", buffer.data());
+            query.bindValue(":data", buffer);
             if(!query.exec())
             {
                 qDebug() << query.lastQuery();
@@ -892,10 +893,9 @@ void CGeoDB::slotAddItems()
                 qDebug() << query.lastError();
                 return;
             }
+            // update tree widget
+            addFolderById(parentId, item);
         }
-
-        // update tree widget
-        addFolderById(parentId, item);
     }
 
 }

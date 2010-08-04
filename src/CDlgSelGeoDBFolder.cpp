@@ -35,8 +35,9 @@ CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result)
     item.setData(CGeoDB::eName, CGeoDB::eUserRoleDBKey, 1);
     queryChildrenFromDB(&item);
 
-    treeWidget->addTopLevelItems(item.takeChildren());
 
+    treeWidget->addTopLevelItems(item.takeChildren());
+    treeWidget->expandAll();
 }
 
 CDlgSelGeoDBFolder::~CDlgSelGeoDBFolder()
