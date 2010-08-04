@@ -26,6 +26,7 @@
 class QTabWidget;
 class QTreeWidgetItem;
 class QMenu;
+class QTimer;
 
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
@@ -37,9 +38,9 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void gainFocus();
 
     private slots:
-        void slotAddDir();
-        void slotDelDir();
-        void slotEditDirComment();
+        void slotAddFolder();
+        void slotDelFolder();
+        void slotEditFolder();
 
         void slotAddItems();
 
@@ -53,22 +54,27 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotRteDBChanged();
         void slotOvlDBChanged();
 
+        void slotMoveLost();
+        void slotDelLost();
+
+        void slotTimeoutCheckState();
+
     private:
         friend class CGeoDBInternalEditLock;
         friend class CDlgSelGeoDBFolder;
 
         enum EntryType_e {
-            eFolder = QTreeWidgetItem::UserType + 1,
-            eTypFolder = QTreeWidgetItem::UserType + 2,
-            eWpt = QTreeWidgetItem::UserType + 3,
-            eTrk = QTreeWidgetItem::UserType + 4,
-            eRte = QTreeWidgetItem::UserType + 5,
-            eOvl = QTreeWidgetItem::UserType + 6
+            eFolder     = QTreeWidgetItem::UserType + 1,
+            eTypFolder  = QTreeWidgetItem::UserType + 2,
+            eWpt        = QTreeWidgetItem::UserType + 3,
+            eTrk        = QTreeWidgetItem::UserType + 4,
+            eRte        = QTreeWidgetItem::UserType + 5,
+            eOvl        = QTreeWidgetItem::UserType + 6
         };
 
         enum ColumnType_e {
-            eName = 0,
-            eDBState = 1
+            eName       = 0,
+            eDBState    = 1
         };
         enum UserRoles_e {
             eUserRoleDBKey = Qt::UserRole,
@@ -90,9 +96,11 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// search treeWidget for items with parentId and delete items including all their children with childId
         void delFolderById(quint64 parentId, quint64 childId);
 
+        void updateLostFound();
+
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
-        QTreeWidgetItem * itemPaperbin;
+        QTreeWidgetItem * itemLostFound;
         QTreeWidgetItem * itemWorkspace;
 
         QTreeWidgetItem * itemWksWpt;
@@ -111,6 +119,12 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         QMenu * contextMenuWks;
         QAction * actAddToDB;
+
+        QMenu * contextMenuLost;
+        QAction * actMoveLost;
+        QAction * actDelLost;
+
+        QTimer * timeoutCheckState;
 
         quint32 isInternalEdit;
 };

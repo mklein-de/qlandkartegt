@@ -37,7 +37,7 @@
 class CGeoDBInternalEditLock
 {
     public:
-    CGeoDBInternalEditLock(CGeoDB * db) : db(db){db->isInternalEdit += 1;}
+        CGeoDBInternalEditLock(CGeoDB * db) : db(db){db->isInternalEdit += 1;}
         ~CGeoDBInternalEditLock(){db->isInternalEdit -= 1;}
     private:
         CGeoDB * db;
@@ -84,10 +84,11 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemWksOvl->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksOvl->setHidden(true);
 
-    itemPaperbin = new QTreeWidgetItem(treeWidget,eFolder);
-    itemPaperbin->setText(eName, tr("Lost items"));
-    itemPaperbin->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
-    itemPaperbin->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
+    itemLostFound = new QTreeWidgetItem(treeWidget,eFolder);
+    itemLostFound->setText(eName, tr("Lost & Found"));
+    itemLostFound->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
+    itemLostFound->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
+    itemLostFound->setToolTip(eName, tr("All items that lost their parent folder as you deleted it."));
 
     itemDatabase = new QTreeWidgetItem(treeWidget,eFolder);
     itemDatabase->setText(eName, tr("Database"));
@@ -95,6 +96,10 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemDatabase->setData(eName, eUserRoleDBKey, 1);
     itemDatabase->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemDatabase->setToolTip(eName, tr("All your data grouped by folders."));
+
+    timeoutCheckState = new QTimer(this);
+    timeoutCheckState->setSingleShot(true);
+    connect(timeoutCheckState, SIGNAL(timeout()), this, SLOT(slotTimeoutCheckState()));
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
     db.setDatabaseName(QDir::home().filePath(CONFIGDIR "qlgt.db"));
@@ -137,12 +142,16 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     }
 
     contextMenuFolder = new QMenu(this);
-    actEditDirComment = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditDirComment()));
-    actAddDir = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Folder"),this,SLOT(slotAddDir()));
-    actDelDir = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Folder"),this,SLOT(slotDelDir()));
+    actEditDirComment = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditFolder()));
+    actAddDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Folder"),this,SLOT(slotAddFolder()));
+    actDelDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Folder"),this,SLOT(slotDelFolder()));
 
-    contextMenuWks = new QMenu(this);
-    actAddToDB = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
+    contextMenuWks  = new QMenu(this);
+    actAddToDB      = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
+
+    contextMenuLost = new QMenu(this);
+    actMoveLost     = contextMenuLost->addAction(QPixmap(":/icons/iconMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
+    actDelLost      = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelLost()));
 
     setupTreeWidget();
 
@@ -284,6 +293,8 @@ void CGeoDB::setupTreeWidget()
 
     queryChildrenFromDB(itemDatabase, 2);
     itemDatabase->setExpanded(true);
+
+    updateLostFound();
 }
 
 void CGeoDB::slotWptDBChanged()
@@ -314,7 +325,6 @@ void CGeoDB::slotWptDBChanged()
             qDebug() << query.lastQuery();
             qDebug() << query.lastError();
         }
-
 
         QTreeWidgetItem * item = new QTreeWidgetItem(itemWksWpt, eWpt);
         if(query.next())
@@ -347,7 +357,7 @@ void CGeoDB::slotOvlDBChanged()
     CGeoDBInternalEditLock lock(this);
 }
 
-void CGeoDB::slotAddDir()
+void CGeoDB::slotAddFolder()
 {
     CGeoDBInternalEditLock lock(this);
 
@@ -368,7 +378,7 @@ void CGeoDB::slotAddDir()
     addFolder(item, name, comment);
 }
 
-void CGeoDB::slotDelDir()
+void CGeoDB::slotDelFolder()
 {
     CGeoDBInternalEditLock lock(this);
 
@@ -378,9 +388,11 @@ void CGeoDB::slotDelDir()
     {
         delFolder(item, true);
     }
+
+    updateLostFound();
 }
 
-void CGeoDB::slotEditDirComment()
+void CGeoDB::slotEditFolder()
 {
     CGeoDBInternalEditLock lock(this);
 
@@ -420,9 +432,10 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
         QPoint p = treeWidget->mapToGlobal(pos);
         contextMenuWks->exec(p);
     }
-    else if(top == itemPaperbin)
+    else if(top == itemLostFound)
     {
-
+        QPoint p = treeWidget->mapToGlobal(pos);
+        contextMenuLost->exec(p);
     }
     else if(top == itemDatabase)
     {
@@ -456,7 +469,7 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
     }
     else
     {
-        for(int i; i< size; i++)
+        for(int i = 0; i< size; i++)
         {
             QTreeWidgetItem  * child = item->child(i);
             if(child->type() == eFolder && child->childCount() == 0)
@@ -479,30 +492,40 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         return;
     }
 
-    quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
-    QString itemText = item->text(eName);
+    qDebug() << "void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)" << column;
 
-    if(itemText.isEmpty())
+    if(item->checkState(eName) == Qt::Checked)
     {
-        return;
+
+        timeoutCheckState->start(1000);
     }
-
-    if(column == eName)
+    else
     {
-        QSqlQuery query(db);
-        query.prepare("UPDATE folders SET name=:name WHERE id=:id");
-        query.bindValue(":name", itemText);
-        query.bindValue(":id", itemId);
+        quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
+        QString itemText = item->text(eName);
 
-        if(!query.exec())
+        if(itemText.isEmpty())
         {
-            qDebug() << query.lastQuery();
-            qDebug() << query.lastError();
             return;
         }
-    }
 
-    updateFolderById(itemId);
+        if(column == eName)
+        {
+            QSqlQuery query(db);
+            query.prepare("UPDATE folders SET name=:name WHERE id=:id");
+            query.bindValue(":name", itemText);
+            query.bindValue(":id", itemId);
+
+            if(!query.exec())
+            {
+                qDebug() << query.lastQuery();
+                qDebug() << query.lastError();
+                return;
+            }
+        }
+
+        updateFolderById(itemId);
+    }
 }
 
 void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
@@ -532,7 +555,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         quint64 childId = query.value(0).toULongLong();
 
         QSqlQuery query2(db);
-        query2.prepare("SELECT icon, name, comment FROM folders WHERE id = :id");
+        query2.prepare("SELECT icon, name, comment FROM folders WHERE id = :id ORDER BY name");
         query2.bindValue(":id", childId);
         if(!query2.exec())
         {
@@ -561,8 +584,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
     }
 
     // items 2nd
-    qDebug() << "parent id" << parentId;
-    query.prepare("SELECT t1.child FROM folder2item AS t1, items AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
+    query.prepare("SELECT t1.child FROM folder2item AS t1, items AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.type, t2.name");
     query.bindValue(":id", parentId);
     if(!query.exec())
     {
@@ -775,7 +797,13 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
                 clone->setCheckState(0, Qt::Unchecked);
             }
 
-            item->addChild(clone);
+            if(clone->type() == eFolder)
+            {
+                item->insertChild(0,clone);
+            }
+            else{
+                item->addChild(clone);
+            }
         }
     }
 }
@@ -955,6 +983,133 @@ void CGeoDB::slotAddItems()
             }
             // update tree widget
             addFolderById(parentId, item);
+        }
+    }
+}
+
+
+void CGeoDB::updateLostFound()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    qDeleteAll(itemLostFound->takeChildren());
+
+    query.prepare("SELECT type, id, icon, name, comment FROM items AS t1 WHERE NOT EXISTS(SELECT * FROM folder2item WHERE child=t1.id) ORDER BY t1.name");
+    if(!query.exec())
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+        return;
+    }
+    QList<QTreeWidgetItem*> items;
+    while(query.next())
+    {
+        QTreeWidgetItem * item = new QTreeWidgetItem(query.value(0).toInt());
+        item->setData(eName, eUserRoleDBKey, query.value(1).toULongLong());
+        item->setIcon(eName, getWptIconByName(query.value(2).toString()));
+        item->setText(eName, query.value(3).toString());
+        item->setToolTip(eName, query.value(4).toString());
+
+        items << item;
+    }
+    if(items.size())
+    {
+        itemLostFound->setText(eName, tr("Lost & Found (%1)").arg(items.size()));
+    }
+    else
+    {
+        itemLostFound->setText(eName, tr("Lost & Found"));
+    }
+
+    itemLostFound->addChildren(items);
+
+}
+
+void CGeoDB::slotMoveLost()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    quint64 parentId, childId = 0;
+    CDlgSelGeoDBFolder dlg(db, parentId);
+
+    dlg.exec();
+
+    if(parentId == 0)
+    {
+        return;
+    }
+
+    QTreeWidgetItem * item;
+    const int size = itemLostFound->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        item = itemLostFound->child(i);
+        if(!item->isSelected())
+        {
+            continue;
+        }
+
+        childId = item->data(eName, eUserRoleDBKey).toULongLong();
+
+        query.prepare("INSERT INTO folder2item (parent, child) VALUES (:parent, :child)");
+        query.bindValue(":parent", parentId);
+        query.bindValue(":child", childId);
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+            return;
+        }
+        // update tree widget
+        addFolderById(parentId, item);
+
+    }
+
+    updateLostFound();
+}
+
+void CGeoDB::slotDelLost()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    QTreeWidgetItem * item;
+    const int size = itemLostFound->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        item = itemLostFound->child(i);
+        if(!item->isSelected())
+        {
+            continue;
+        }
+
+        query.prepare("DELETE FROM items WHERE id=:id");
+        query.bindValue(":id",item->data(eName, eUserRoleDBKey));
+        if(!query.exec())
+        {
+            qDebug() << query.lastQuery();
+            qDebug() << query.lastError();
+            continue;
+        }
+    }
+
+    updateLostFound();
+}
+
+void CGeoDB::slotTimeoutCheckState()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
+
+    foreach(item, items)
+    {
+        if(item->checkState(eName) == Qt::Checked)
+        {
+            item->setCheckState(eName, Qt::Unchecked);
         }
     }
 }

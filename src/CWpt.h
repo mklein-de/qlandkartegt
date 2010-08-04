@@ -85,6 +85,8 @@ class CWpt : public QObject
         const QString filename(const QDir& dir = CWpt::path);
         enum type_e {eEnd,eBase,eImage};
         static QDir& getWptPath(){return path;}
+        static void resetKeyCnt(){keycnt = 0;}
+
 
     private:
         void genKey();

@@ -126,6 +126,7 @@ bool CWptDB::keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 void CWptDB::clear()
 {
     delWpt(wpts.keys());
+    CWpt::resetKeyCnt();
     emit sigChanged();
 }
 
@@ -385,6 +386,7 @@ void CWptDB::loadGPX(CGpx& gpx)
         addWpt(wpt, true);
     }
 
+    CWpt::resetKeyCnt();
     emit sigChanged();
 }
 
