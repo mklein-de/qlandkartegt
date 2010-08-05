@@ -98,6 +98,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void addFolderById(quint64 parentId, QTreeWidgetItem * child);
         /// search treeWidget for items with parentId and delete items including all their children with childId
         void delFolderById(quint64 parentId, quint64 childId);
+        void delItemById(quint64 parentId, quint64 childId);
 
         void updateLostFound();
         void moveChildrenToWks(quint64 parentId);
