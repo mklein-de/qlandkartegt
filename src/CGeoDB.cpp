@@ -143,14 +143,19 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
     contextMenuFolder = new QMenu(this);
     actEditDirComment = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditFolder()));
-    actAddDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add Folder"),this,SLOT(slotAddFolder()));
-    actDelDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Del. Folder"),this,SLOT(slotDelFolder()));
+    actAddDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New folder"),this,SLOT(slotAddFolder()));
+    actDelDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
+
+    contextMenuItem = new QMenu(this);
+    actCopyItem      = contextMenuItem->addAction(QPixmap(":/icons/editcopy"), tr("Copy..."), this, SLOT(slotCopyItems()));
+    actMoveItem     = contextMenuItem->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveItems()));
+    actDelItem      = contextMenuItem->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelItems()));
 
     contextMenuWks  = new QMenu(this);
     actAddToDB      = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
 
     contextMenuLost = new QMenu(this);
-    actMoveLost     = contextMenuLost->addAction(QPixmap(":/icons/iconMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
+    actMoveLost     = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
     actDelLost      = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelLost()));
 
     setupTreeWidget();
@@ -455,6 +460,11 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
             QPoint p = treeWidget->mapToGlobal(pos);
             contextMenuFolder->exec(p);
         }
+        else
+        {
+            QPoint p = treeWidget->mapToGlobal(pos);
+            contextMenuItem->exec(p);
+        }
     }
 }
 
@@ -492,10 +502,42 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         return;
     }
 
+
+    CGeoDBInternalEditLock lock(this);
     qDebug() << "void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)" << column;
+
+    QSqlQuery query(db);
 
     if(item->checkState(eName) == Qt::Checked)
     {
+        if(item->type() == eFolder)
+        {
+            moveChildrenToWks(item->data(eName, eUserRoleDBKey).toULongLong());
+        }
+        else
+        {
+            query.prepare("SELECT data FROM items WHERE id=:id");
+            query.bindValue(":id", item->data(eName, eUserRoleDBKey));
+            if(!query.exec())
+            {
+                qDebug() << query.lastQuery();
+                qDebug() << query.lastError();
+                return;
+            }
+            if(query.next())
+            {
+                QByteArray array = query.value(0).toByteArray();
+                QBuffer buffer(&array);
+                CQlb qlb(this);
+                qlb.load(&buffer);
+
+                CWptDB::self().loadQLB(qlb);
+                CTrackDB::self().loadQLB(qlb);
+                CRouteDB::self().loadQLB(qlb);
+                COverlayDB::self().loadQLB(qlb);
+
+            }
+        }
 
         timeoutCheckState->start(1000);
     }
@@ -510,8 +552,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         }
 
         if(column == eName)
-        {
-            QSqlQuery query(db);
+        {            
             query.prepare("UPDATE folders SET name=:name WHERE id=:id");
             query.bindValue(":name", itemText);
             query.bindValue(":id", itemId);
@@ -525,6 +566,48 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         }
 
         updateFolderById(itemId);
+    }
+}
+
+void CGeoDB::moveChildrenToWks(quint64 parentId)
+{
+    QSqlQuery query(db);
+
+    query.prepare("SELECT data FROM items AS t1, folder2item AS t2 WHERE t2.parent=:parent AND t1.id = t2.child");
+    query.bindValue(":parent", parentId);
+
+    if(!query.exec())
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+        return;
+    }
+
+    while(query.next())
+    {
+        QByteArray array = query.value(0).toByteArray();
+        QBuffer buffer(&array);
+        CQlb qlb(this);
+        qlb.load(&buffer);
+
+        CWptDB::self().loadQLB(qlb);
+        CTrackDB::self().loadQLB(qlb);
+        CRouteDB::self().loadQLB(qlb);
+        COverlayDB::self().loadQLB(qlb);
+    }
+
+    query.prepare("SELECT child FROM folder2folder WHERE parent=:parent");
+    query.bindValue(":parent", parentId);
+
+    if(!query.exec())
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+        return;
+    }
+    while(query.next())
+    {
+        moveChildrenToWks(query.value(0).toULongLong());
     }
 }
 
@@ -921,10 +1004,12 @@ void CGeoDB::slotAddItems()
             // insert item
             QString key = item->data(eName, eUserRoleQLKey).toString();
             CWpt * wpt  = CWptDB::self().getWptByKey(key);
-            QByteArray buffer;
-            QDataStream stream(&buffer, QIODevice::WriteOnly);
-            stream.setVersion(QDataStream::Qt_4_5);
-            stream << *wpt;
+
+
+            QBuffer buffer;
+            CQlb qlb(this);
+            qlb << *wpt;
+            qlb.save(&buffer);
 
             // add item to database
             query.prepare("INSERT INTO items (type, key, date, icon, name, comment, data) "
@@ -936,7 +1021,7 @@ void CGeoDB::slotAddItems()
             query.bindValue(":icon", wpt->icon);
             query.bindValue(":name", wpt->name);
             query.bindValue(":comment", wpt->comment);
-            query.bindValue(":data", buffer);
+            query.bindValue(":data", buffer.data());
             if(!query.exec())
             {
                 qDebug() << query.lastQuery();
@@ -1112,4 +1197,19 @@ void CGeoDB::slotTimeoutCheckState()
             item->setCheckState(eName, Qt::Unchecked);
         }
     }
+}
+
+void CGeoDB::slotDelItems()
+{
+
+}
+
+void CGeoDB::slotMoveItems()
+{
+
+}
+
+void CGeoDB::slotCopyItems()
+{
+
 }
