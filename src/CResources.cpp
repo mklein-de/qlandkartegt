@@ -53,6 +53,10 @@ CResources::CResources(QObject * parent)
 , m_device(0)
 , m_devIPPort(4242)
 , m_flipMouseWheel(false)
+#ifdef HAS_GEODB
+, m_UseGeoDB(false)
+#endif
+
 {
     m_self = this;
 
@@ -68,6 +72,9 @@ CResources::CResources(QObject * parent)
 
     //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
     m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
+#ifdef HAS_GEODB
+    m_UseGeoDB  = cfg.value("environment/GeoDB",m_UseGeoDB).toBool();
+#endif
 
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
     m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
@@ -126,7 +133,9 @@ CResources::~CResources()
     cfg.setValue("environment/mapfont/italic",m_mapfont.italic());
 
     cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
-
+#ifdef HAS_GEODB
+    cfg.setValue("environment/GeoDB",m_UseGeoDB);
+#endif
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);
     cfg.setValue("network/proxy/port",m_httpProxyPort);

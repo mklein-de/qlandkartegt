@@ -37,6 +37,10 @@ CDlgConfig::CDlgConfig(QWidget * parent)
     setupUi(this);
     connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
     fillTypeCombo();
+
+#ifndef HAS_GEODB
+    groupBoxGeoDB->hide();
+#endif
 }
 
 
@@ -70,7 +74,9 @@ void CDlgConfig::exec()
 
     checkPlaySound->setChecked(resources.m_playSound);
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
-
+#ifdef HAS_GEODB
+    checkUseGeoDB->setChecked(resources.m_UseGeoDB);
+#endif
     connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
     comboBrowser->setCurrentIndex(resources.m_eBrowser);
     lineBrowserCmd->setText(resources.cmdOther);
@@ -133,6 +139,10 @@ void CDlgConfig::accept()
 
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
+
+#ifdef HAS_GEODB
+    resources.m_UseGeoDB        = checkUseGeoDB->isChecked();
+#endif
 
     resources.m_eBrowser        = (CResources::browser_e)comboBrowser->currentIndex();
     resources.cmdOther          = lineBrowserCmd->text();

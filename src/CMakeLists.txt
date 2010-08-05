@@ -373,7 +373,7 @@ SET(qlandkarte_RCS
 SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
-SET (GEO_DB OFF CACHE BOOL "Enable Sqlite database for geo data")
+SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
@@ -387,7 +387,6 @@ IF(PLOT_3D AND OPENGL_FOUND)
     SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
 ENDIF(PLOT_3D AND OPENGL_FOUND)
-
 
 if(GPX_EXTENSIONS)
     add_definitions(-DGPX_EXTENSIONS)

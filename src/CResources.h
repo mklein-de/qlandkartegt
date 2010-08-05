@@ -57,6 +57,9 @@ class CResources : public QObject
         /// root path of all maps
         QString pathMaps;
 
+#ifdef HAS_GEODB
+        bool useGeoDB(){return m_UseGeoDB;}
+#endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
         bool playSound(){return m_playSound;}
 
@@ -121,6 +124,10 @@ class CResources : public QObject
 
         /// play sound after finishing transfers
         bool m_playSound;
+
+#ifdef HAS_GEODB
+        bool m_UseGeoDB;
+#endif
 
         /// unit translator object
         QPointer<IUnit> unit;

@@ -97,6 +97,43 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="groupBoxGeoDB">
+         <property name="title">
+          <string>Geo Database</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="checkUseGeoDB">
+              <property name="text">
+               <string>Use database</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkGeoDBSaveOnExit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Save workspace on exit</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>You have to restart QLandkarte GT to make the change taking effect.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer>
          <property name="orientation">
           <enum>Qt::Vertical</enum>

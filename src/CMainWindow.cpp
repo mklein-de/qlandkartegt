@@ -57,7 +57,13 @@
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
-: modified(false)
+#ifdef HAS_GEODB
+    : geodb(0)
+    , modified(false)
+#else
+    : modified(false)
+#endif
+
 {
     theMainWindow = this;
     groupProvidedMenu = 0;
@@ -249,14 +255,17 @@ CMainWindow::CMainWindow()
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
-    routedb     = new CRouteDB(tabbar, this);    
+    routedb     = new CRouteDB(tabbar, this);
     overlaydb   = new COverlayDB(tabbar, this);
     livelogdb   = new CLiveLogDB(tabbar, this);
 
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
 #ifdef HAS_GEODB
-    geodb       = new CGeoDB(tabbar, this);
+    if(resources->useGeoDB())
+    {
+        geodb       = new CGeoDB(tabbar, this);
+    }
 #endif
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -277,7 +286,14 @@ CMainWindow::CMainWindow()
 
 
 #ifdef HAS_GEODB
-    geodb->gainFocus();
+    if(geodb)
+    {
+        geodb->gainFocus();
+    }
+    else
+    {
+        searchdb->gainFocus();
+    }
 #else
     searchdb->gainFocus();
 #endif
