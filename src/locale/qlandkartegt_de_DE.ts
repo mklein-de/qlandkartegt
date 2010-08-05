@@ -2363,132 +2363,132 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="64"/>
         <source>Manage your Geo Data Base</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwalte deine Geodatenbank</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="67"/>
         <source>Workspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeitsplatz</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="69"/>
         <source>All items you see on the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Elemente, die Du auf der Karte siehst.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="73"/>
         <source>Waypoints</source>
-        <translation type="unfinished">Wegpunkte</translation>
+        <translation>Wegpunkte</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="79"/>
         <source>Tracks</source>
-        <translation type="unfinished">Tracks</translation>
+        <translation>Tracks</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="85"/>
         <source>Routes</source>
-        <translation type="unfinished">Routen</translation>
+        <translation>Routen</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="91"/>
         <source>Overlays</source>
-        <translation type="unfinished"></translation>
+        <translation>Overlays</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="97"/>
         <location filename="../CGeoDB.cpp" line="1047"/>
         <source>Lost &amp; Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Verloren &amp; Gefunden</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="100"/>
         <source>All items that lost their parent folder as you deleted it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Elemente die ihren Ordner verloren haben, weil Du ihn gelöscht hast.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="103"/>
         <source>Database</source>
-        <translation type="unfinished">Datenbasis</translation>
+        <translation>Datenbank</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="107"/>
         <source>All your data grouped by folders.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle deine Daten in Ordnern gruppiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="154"/>
         <source>Edit comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar ändern</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="155"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuer Ordner</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="156"/>
         <location filename="../CGeoDB.cpp" line="161"/>
         <location filename="../CGeoDB.cpp" line="168"/>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="159"/>
         <source>Copy...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="160"/>
         <location filename="../CGeoDB.cpp" line="167"/>
         <source>Move...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschiebe...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="164"/>
         <source>Add to database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Datenbank hinzufügen...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="370"/>
         <source>Folder name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordnername...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="370"/>
         <source>Name of new folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Name des neuen Ordners</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="376"/>
         <location filename="../CGeoDB.cpp" line="402"/>
         <source>Folder comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordnerkommentar</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="376"/>
         <source>Would you like to add a comment?</source>
-        <translation type="unfinished"></translation>
+        <translation>Willst Du einen Kommentar hinzufügen?</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="386"/>
         <source>Delete folders...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordner löschen...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="386"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sicher dass Du &apos;%1&apos; löschen willst?</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="402"/>
         <source>Edit comment?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar ändern?</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="1043"/>
         <source>Lost &amp; Found (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Verloren &amp; Gefunden (%1)</translation>
     </message>
 </context>
 <context>
@@ -4474,12 +4474,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../COverlayDB.cpp" line="549"/>
         <source>Static text</source>
-        <translation type="unfinished"></translation>
+        <translation>Statischer Text</translation>
     </message>
     <message>
         <location filename="../COverlayDB.cpp" line="558"/>
         <source>Geo ref. text</source>
-        <translation type="unfinished"></translation>
+        <translation>Georeferenzierter Text</translation>
     </message>
 </context>
 <context>
@@ -5993,22 +5993,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="102"/>
         <source>Geo Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Geodatenbank</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="110"/>
         <source>Use database</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze die Datenbank</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
         <source>Save workspace on exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sicher den Arbeitsplatz beim Verlassen</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="129"/>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du musst QLandkarte GT neu starten damit die Änderungen zum Tragen kommen.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="153"/>
@@ -6707,7 +6707,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgSelGeoDBFolder.ui" line="14"/>
         <source>Select folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle einen Ordner...</translation>
     </message>
 </context>
 <context>
@@ -6934,7 +6934,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IGeoToolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
