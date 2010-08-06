@@ -203,6 +203,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
         }
         extensions = extensions.nextSiblingElement("extensions");
     }
+    IOverlay::resetKeyCnt();
 }
 
 
@@ -329,6 +330,7 @@ void COverlayDB::saveQLB(CQlb& qlb)
 void COverlayDB::clear()
 {
     delOverlays(overlays.keys());
+    IOverlay::resetKeyCnt();
 }
 
 

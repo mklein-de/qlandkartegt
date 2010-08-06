@@ -678,6 +678,11 @@ void CTrack::rebuild(bool reindex)
         pt1 = track.begin();
     }
 
+    if(!track.isEmpty())
+    {
+        timestamp = track.first().timestamp;
+    }
+
     // skip leading deleted points
     while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted))
     {

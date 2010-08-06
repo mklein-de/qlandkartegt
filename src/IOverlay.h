@@ -92,6 +92,8 @@ class IOverlay : public QObject
         void setHighlight(bool on){highlight = on;}
         bool isHighlighted(){return highlight;}
 
+        static void resetKeyCnt(){keycnt = 0;}
+
         signals:
         void sigChanged();
 
@@ -108,7 +110,7 @@ class IOverlay : public QObject
         QString _key_;
 
     private:
-        static int count;
+        static int keycnt;
 
 
 };

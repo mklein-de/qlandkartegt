@@ -84,6 +84,7 @@ void CTrackDB::clear()
 {
     cnt = 0;
     delTracks(tracks.keys());
+    CTrack::resetKeyCnt();
     emit sigChanged();
 }
 
@@ -412,6 +413,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
         trk = trk.nextSiblingElement("trk");
     }
 
+    CTrack::resetKeyCnt();
     emit sigChanged();
 }
 

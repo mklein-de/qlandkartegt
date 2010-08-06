@@ -168,6 +168,8 @@ class CTrack : public QObject
         void setName(const QString& n){name = n;}
         /// get track name
         const QString& getName(){return name;}
+        /// get track comment
+        const QString& getComment(){return comment;}
         /// get unique track key
         const QString& key();
 
@@ -218,6 +220,8 @@ class CTrack : public QObject
 
         void replaceElevationByRemote();
         void replaceElevationByLocal();
+
+        static void resetKeyCnt(){keycnt = 0;}
 
         signals:
         void sigChanged();

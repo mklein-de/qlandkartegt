@@ -97,6 +97,8 @@ void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
 
+    qDebug() << "void CTrackToolWidget::slotDBChanged()";
+
     if(toolSortAlpha->isChecked())
     {
         sortmode = eSortByName;
@@ -210,6 +212,10 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
 
 void CTrackToolWidget::slotSelectionChanged()
 {
+    if(originator)
+    {
+        return;
+    }
     qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
     if(listTracks->hasFocus() && listTracks->selectedItems().isEmpty())
     {
@@ -294,15 +300,16 @@ void CTrackToolWidget::slotDelete()
 {
     QStringList keys;
     QListWidgetItem * item;
-    const QList<QListWidgetItem*>& items = listTracks->selectedItems();
+    QList<QListWidgetItem*> items = listTracks->selectedItems();
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete listTracks->takeItem(listTracks->row(item));
     }
     originator = true;
     CTrackDB::self().delTracks(keys);
+    qDeleteAll(items);
     originator = false;
+
 }
 
 

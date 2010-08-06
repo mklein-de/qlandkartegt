@@ -49,7 +49,6 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
-        void slotItemClicked(QTreeWidgetItem * item, int column);
         void slotItemChanged(QTreeWidgetItem * item, int column);
 
         void slotWptDBChanged();
@@ -96,9 +95,12 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void updateFolderById(quint64 id);
         /// search treeWidget for items with id  and add copy of item as child
         void addFolderById(quint64 parentId, QTreeWidgetItem * child);
-        /// search treeWidget for items with parentId and delete items including all their children with childId
+        /// search treeWidget for folders with parentId and delete items including all their children with childId
         void delFolderById(quint64 parentId, quint64 childId);
+        /// search treeWidget for items with parentId and delete items
         void delItemById(quint64 parentId, quint64 childId);
+
+        void checkItemByid(quint64 id);
 
         void updateLostFound();
         void moveChildrenToWks(quint64 parentId);

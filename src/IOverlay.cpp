@@ -199,7 +199,7 @@ void operator <<(QFile& f, IOverlay& ovl)
 
 
 QPointer<IOverlay> IOverlay::selected = 0;
-int IOverlay::count = 0;
+int IOverlay::keycnt = 0;
 
 IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
 : QObject(parent)
@@ -224,7 +224,7 @@ void IOverlay::select(IOverlay * s)
 
 void IOverlay::genKey()
 {
-    _key_ = QString("%1%2%3").arg(type).arg(QDateTime::currentDateTime().toString()).arg(count++);
+    _key_ = QString("%1%2%3").arg(type).arg(QDateTime::currentDateTime().toString()).arg(keycnt++);
 }
 
 
