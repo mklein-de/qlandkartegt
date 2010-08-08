@@ -46,6 +46,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelItems();
         void slotMoveItems();
         void slotCopyItems();
+        void slotSaveItems();
 
         void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
@@ -60,6 +61,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelLost();
 
         void slotTimeoutCheckState();
+        void slotModified();
 
     private:
         friend class CGeoDBInternalEditLock;
@@ -93,6 +95,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         /// search treeWidget for items with id and update their content from database
         void updateFolderById(quint64 id);
+        /// search treeWidget for items with id and update their content from database
+        void updateItemById(quint64 id);
         /// search treeWidget for items with id  and add copy of item as child
         void addFolderById(quint64 parentId, QTreeWidgetItem * child);
         /// search treeWidget for folders with parentId and delete items including all their children with childId
@@ -104,6 +108,11 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void updateLostFound();
         void moveChildrenToWks(quint64 parentId);
+
+        void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
+        void addTrkToDB(quint64 parentId, QTreeWidgetItem * item);
+//        void addRteToDB(quint64 parentId, QTreeWidgetItem * item);
+        void addOvlToDB(quint64 parentId, QTreeWidgetItem * item);
 
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
@@ -132,6 +141,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         QMenu * contextMenuWks;
         QAction * actAddToDB;
+        QAction * actSaveToDB;
 
         QMenu * contextMenuLost;
         QAction * actMoveLost;
