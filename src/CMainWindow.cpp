@@ -48,6 +48,7 @@
 #ifdef HAS_GEODB
 #include "CGeoDB.h"
 #endif
+#include "CDBus.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -370,6 +371,8 @@ CMainWindow::CMainWindow()
 
     megaMenu->slotSplitterMoved(leftSplitter->sizes()[0], 1);
 
+    dbus = new CDBus(qApp);
+
 }
 
 
@@ -398,6 +401,7 @@ void CMainWindow::slotReloadArgs()
     {
         loadData(arg, QString());
     }
+
 }
 
 
@@ -766,7 +770,7 @@ void CMainWindow::slotAddData()
 }
 
 
-void CMainWindow::loadData(QString& filename, const QString& filter)
+void CMainWindow::loadData(const QString& filename, const QString& filter)
 {
     QTemporaryFile tmpfile;
     bool loadGPXData = false;

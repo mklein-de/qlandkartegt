@@ -174,6 +174,7 @@ set(qlandkarte_SRCS
     CMapTDB.cpp
     CHelpButton.cpp
     CSpline.cpp
+    CDBus.cpp
 )
 
 if (WIN32)
@@ -321,6 +322,7 @@ set(qlandkarte_HDRS
     CAppOpts.h
     CHelpButton.h
     CSpline.h
+    CDBus.h
 )
 
 SET(qlandkarte_UIS
@@ -489,6 +491,7 @@ include_directories(
   ${QT_QTSQL_INCLUDE_DIR}
   ${QT_QTOPENGL_INCLUDE_DIR}
   ${QT_QTNETWORK_INCLUDE_DIR}
+  ${QT_QTDBUS_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
@@ -534,6 +537,7 @@ target_link_libraries(
       ${QT_QTNETWORK_LIBRARIES}
       ${QT_QTXML_LIBRARIES}
       ${QT_QTSQL_LIBRARIES}
+      ${QT_QTDBUS_LIBRARIES}
       ${QT_QTMAIN_LIBRARIES}
       ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}

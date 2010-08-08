@@ -42,6 +42,7 @@ class CMenus;
 class QSocketNotifier;
 class QAction;
 class CGeoDB;
+class CDBus;
 
 class CMainWindow : public QMainWindow
 {
@@ -95,11 +96,12 @@ class CMainWindow : public QMainWindow
         void slotTabCloseRequest(int i);
 
     private:
+        friend class CDBus;
         CMenus *actionGroupProvider;
         void setupMenuBar();
         void addRecent(const QString& filename);
 
-        void loadData(QString& filename, const QString& filter);
+        void loadData(const QString& filename, const QString& filter);
         void setTitleBar();
         bool maybeSave();
         void saveData(QString& filename, const QString& filter, bool exportFlag = false);
@@ -170,6 +172,7 @@ class CMainWindow : public QMainWindow
 
         QTabWidget * tmpTabWidget;
 
+        CDBus * dbus;
 
 };
 
