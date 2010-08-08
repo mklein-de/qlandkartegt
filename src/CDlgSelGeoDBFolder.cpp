@@ -24,9 +24,10 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result)
+CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result, bool topLevelToo)
     : db(db)
     , result(result)
+    , topLevelToo(topLevelToo)
 {
     result = 0;
     setupUi(this);
@@ -100,7 +101,7 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         item->setText(CGeoDB::eName, query2.value(1).toString());
         item->setToolTip(CGeoDB::eName, query2.value(2).toString());
 
-        if(parentId == 1)
+        if(parentId == 1 && !topLevelToo)
         {
             item->setFlags(item->flags()&~Qt::ItemIsSelectable);
         }

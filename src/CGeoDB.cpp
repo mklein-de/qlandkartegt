@@ -154,23 +154,25 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
         initDB();
     }
 
-    contextMenuFolder = new QMenu(this);
-    actEditDirComment = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditFolder()));
-    actAddDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New folder"),this,SLOT(slotAddFolder()));
-    actDelDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
+    contextMenuFolder   = new QMenu(this);
+    actEditDirComment   = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditFolder()));
+    actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New folder"),this,SLOT(slotAddFolder()));
+    actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
+    actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy"), tr("Copy..."), this, SLOT(slotCopyFolder()));
+    actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveFolder()));
 
-    contextMenuItem = new QMenu(this);
-    actCopyItem      = contextMenuItem->addAction(QPixmap(":/icons/editcopy"), tr("Copy..."), this, SLOT(slotCopyItems()));
-    actMoveItem     = contextMenuItem->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveItems()));
-    actDelItem      = contextMenuItem->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelItems()));
+    contextMenuItem     = new QMenu(this);
+    actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy"), tr("Copy..."), this, SLOT(slotCopyItems()));
+    actMoveItem         = contextMenuItem->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveItems()));
+    actDelItem          = contextMenuItem->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelItems()));
 
-    contextMenuWks  = new QMenu(this);
-    actAddToDB      = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
-    actSaveToDB     = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save to database..."), this, SLOT(slotSaveItems()));
+    contextMenuWks      = new QMenu(this);
+    actAddToDB          = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
+    actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save to database..."), this, SLOT(slotSaveItems()));
 
-    contextMenuLost = new QMenu(this);
-    actMoveLost     = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
-    actDelLost      = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelLost()));
+    contextMenuLost     = new QMenu(this);
+    actMoveLost         = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
+    actDelLost          = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelLost()));
 
     setupTreeWidget();
 
@@ -476,6 +478,84 @@ void CGeoDB::slotEditFolder()
     updateFolderById(itemId);
 }
 
+void CGeoDB::slotMoveFolder()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    quint64 parentId1 = 0, parentId2 = 0, childId = 0;
+    CDlgSelGeoDBFolder dlg(db, parentId2, true);
+
+    dlg.exec();
+
+    if(parentId2 == 0)
+    {
+        return;
+    }
+
+    QTreeWidgetItem * item  = treeWidget->currentItem();;
+    childId     = item->data(eName, eUserRoleDBKey).toULongLong();
+    parentId1   = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
+
+    query.prepare("DELETE FROM folder2folder WHERE parent=:parent AND child=:child");
+    query.bindValue(":parent", parentId1);
+    query.bindValue(":child", childId);
+    QUERY_EXEC(return);
+
+    // create link folder <-> item
+    query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
+    query.bindValue(":parent", parentId2);
+    query.bindValue(":child", childId);
+    QUERY_EXEC();
+
+    if(!query.next())
+    {
+        query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
+        query.bindValue(":parent", parentId2);
+        query.bindValue(":child", childId);
+        QUERY_EXEC(return);
+        // update tree widget
+        addFolderById(parentId2, item);
+    }
+
+    delFolderById(parentId1, childId);
+}
+
+void CGeoDB::slotCopyFolder()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    quint64 parentId = 0, childId = 0;
+    CDlgSelGeoDBFolder dlg(db, parentId, true);
+
+    dlg.exec();
+
+    if(parentId == 0)
+    {
+        return;
+    }
+
+    QTreeWidgetItem * item = treeWidget->currentItem();
+    childId = item->data(eName, eUserRoleDBKey).toULongLong();
+
+    // create link folder <-> item
+    query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
+    query.bindValue(":parent", parentId);
+    query.bindValue(":child", childId);
+    QUERY_EXEC();
+
+    if(!query.next())
+    {
+        query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
+        query.bindValue(":parent", parentId);
+        query.bindValue(":child", childId);
+        QUERY_EXEC(return);
+        // update tree widget
+        addFolderById(parentId, item);
+    }
+}
+
 void CGeoDB::slotContextMenu(const QPoint& pos)
 {
     QTreeWidgetItem * item = treeWidget->currentItem();
@@ -499,13 +579,28 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
         {
             if(item == itemDatabase)
             {
-                actDelDir->setEnabled(false);
-                actEditDirComment->setEnabled(false);
+                actDelDir->setVisible(false);
+                actEditDirComment->setVisible(false);
+                actMoveDir->setVisible(false);
+                actCopyDir->setVisible(false);
             }
             else
             {
-                actDelDir->setEnabled(true);
-                actEditDirComment->setEnabled(true);
+                actDelDir->setVisible(true);
+                actEditDirComment->setVisible(true);
+
+                quint64 parentId = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
+                if(parentId == 1)
+                {
+                    actMoveDir->setVisible(false);
+                    actCopyDir->setVisible(false);
+                }
+                else
+                {
+                    actMoveDir->setVisible(true);
+                    actCopyDir->setVisible(true);
+
+                }
             }
 
             QPoint p = treeWidget->mapToGlobal(pos);
@@ -588,7 +683,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
         QString itemText = item->text(eName);
 
-        if(itemText.isEmpty())
+        if(itemText.isEmpty() || item->type() != eFolder)
         {
             return;
         }
@@ -724,7 +819,6 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         }
         item->setText(eName, query2.value(2).toString());
         item->setToolTip(eName, query2.value(3).toString());
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
 
         if(parentId != 1)
         {
@@ -878,6 +972,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
                 item->addChild(clone);
             }
 
+            queryChildrenFromDB(clone,1);
             item->sortChildren(eName, Qt::AscendingOrder);
         }
     }
@@ -1795,5 +1890,5 @@ void CGeoDB::slotCopyItems()
 void CGeoDB::slotModified()
 {
     CGeoDBInternalEditLock lock(this);
-    itemWorkspace->setText(eName, tr("Workspace (*)"));
+//    itemWorkspace->setText(eName, tr("Workspace (*)"));
 }

@@ -41,6 +41,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotAddFolder();
         void slotDelFolder();
         void slotEditFolder();
+        void slotMoveFolder();
+        void slotCopyFolder();
 
         void slotAddItems();
         void slotDelItems();
@@ -130,8 +132,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actAddDir;
         QAction * actDelDir;
         QAction * actEditDirComment;
-        QAction * actMove;
-        QAction * actCopy;
+        QAction * actMoveDir;
+        QAction * actCopyDir;
 
 
         QMenu * contextMenuItem;

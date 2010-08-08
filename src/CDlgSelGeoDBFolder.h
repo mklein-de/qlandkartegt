@@ -28,7 +28,7 @@ class CDlgSelGeoDBFolder : public QDialog, private Ui::IDlgSelGeoDBFolder
 {
     Q_OBJECT;
     public:
-        CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result);
+        CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result, bool topLevelToo = false);
         virtual ~CDlgSelGeoDBFolder();
 
     public slots:
@@ -38,6 +38,7 @@ class CDlgSelGeoDBFolder : public QDialog, private Ui::IDlgSelGeoDBFolder
         void queryChildrenFromDB(QTreeWidgetItem * parent);
         QSqlDatabase& db;
         quint64& result;
+        bool topLevelToo;
 };
 
 #endif //CDLGSELGEODBFOLDER_H
