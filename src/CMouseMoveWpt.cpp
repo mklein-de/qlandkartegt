@@ -80,6 +80,7 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
 
             emit CWptDB::self().sigChanged();
             emit CWptDB::self().sigModified();
+            emit CWptDB::self().sigModified(selWpt->key());
 
             moveWpt = false;
             canvas->setMouseMode(CCanvas::eMouseMoveArea);

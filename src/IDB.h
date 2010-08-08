@@ -72,6 +72,7 @@ class IDB : public QObject
     signals:
         void sigChanged();
         void sigModified();
+        void sigModified(const QString&);
 
     protected:
         QTabWidget *  tabbar;

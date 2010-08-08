@@ -168,6 +168,7 @@ void CDlgEditWpt::accept()
 
     emit CWptDB::self().sigChanged();
     emit CWptDB::self().sigModified();
+    emit CWptDB::self().sigModified(wpt.key());
 
     QDialog::accept();
 }

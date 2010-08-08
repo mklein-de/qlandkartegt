@@ -190,11 +190,10 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     slotRteDBChanged();
     slotOvlDBChanged();
 
-    connect(&CWptDB::self(), SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(&CTrackDB::self(), SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(&CRouteDB::self(), SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(&COverlayDB::self(), SIGNAL(sigModified()), this, SLOT(slotModified()));
-
+    connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedWpt(const QString&)));
+    connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedTrk(const QString&)));
+    connect(&CRouteDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedRte(const QString&)));
+    connect(&COverlayDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedOvl(const QString&)));
     itemWorkspace->setExpanded(true);
 }
 
@@ -1621,6 +1620,7 @@ void CGeoDB::slotSaveItems()
             query.bindValue(":id", childId);
             QUERY_EXEC(continue);
 
+            item->setText(eDBState,"");
             updateItemById(childId);
 
         }
@@ -1887,8 +1887,54 @@ void CGeoDB::slotCopyItems()
     }
 }
 
-void CGeoDB::slotModified()
+
+void CGeoDB::slotModifiedWpt(const QString& key)
 {
-    CGeoDBInternalEditLock lock(this);
-//    itemWorkspace->setText(eName, tr("Workspace (*)"));
+    const int size = itemWksWpt->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        if(itemWksWpt->child(i)->data(eName, eUserRoleQLKey).toString() == key)
+        {
+            itemWksWpt->child(i)->setText(eDBState,"*");
+        }
+    }
+}
+
+void CGeoDB::slotModifiedTrk(const QString& key)
+{
+    qDebug() << "void CGeoDB::slotModifiedTrk(const QString& key)" << key;
+    const int size = itemWksTrk->childCount();
+    for(int i = 0; i < size; i++)
+    {
+
+        if(itemWksTrk->child(i)->data(eName, eUserRoleQLKey).toString() == key)
+        {
+            itemWksTrk->child(i)->setText(eDBState,"*");
+        }
+    }
+}
+
+void CGeoDB::slotModifiedRte(const QString& key)
+{
+    const int size = itemWksRte->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        if(itemWksRte->child(i)->data(eName, eUserRoleQLKey).toString() == key)
+        {
+            itemWksRte->child(i)->setText(eDBState,"*");
+        }
+    }
+}
+
+void CGeoDB::slotModifiedOvl(const QString& key)
+{
+
+    const int size = itemWksOvl->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        if(itemWksOvl->child(i)->data(eName, eUserRoleQLKey).toString() == key)
+        {
+            itemWksOvl->child(i)->setText(eDBState,"*");
+        }
+    }
 }

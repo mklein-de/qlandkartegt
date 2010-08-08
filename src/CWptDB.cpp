@@ -295,9 +295,11 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
     foreach(key,keys)
     {
         wpts[key]->prx = dist;
+        emit sigModified(key);
     }
     emit sigChanged();
     emit sigModified();
+
 }
 
 

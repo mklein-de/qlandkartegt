@@ -896,7 +896,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.setPen(pen2);
             drawLine(line, extRect, p);
 
-            // draw direction arrows            
+            // draw direction arrows
             bool    start = true;
             double  heading;
 
@@ -1156,6 +1156,7 @@ void CTrackDB::emitSigChanged()
 void CTrackDB::emitSigModified()
 {
     emit sigModified();
+    emit sigModified(highlightedTrack()->key());
 }
 
 

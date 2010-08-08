@@ -63,7 +63,11 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelLost();
 
         void slotTimeoutCheckState();
-        void slotModified();
+
+        void slotModifiedWpt(const QString&);
+        void slotModifiedTrk(const QString&);
+        void slotModifiedRte(const QString&);
+        void slotModifiedOvl(const QString&);
 
     private:
         friend class CGeoDBInternalEditLock;
