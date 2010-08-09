@@ -77,14 +77,7 @@ void COverlayToolWidget::slotDBChanged()
 
 void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
-    QString key = item->data(Qt::UserRole).toString();
-    QMap<QString,IOverlay*>& overlays = COverlayDB::self().overlays;
-    if(!overlays.contains(key))
-    {
-        return;
-    }
-
-    overlays[key]->makeVisible();
+    COverlayDB::self().makeVisible(item->data(Qt::UserRole).toString());
 }
 
 void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)

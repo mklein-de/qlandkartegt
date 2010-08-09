@@ -32,6 +32,10 @@
 #include "COverlayDistance.h"
 #include "CDlgSelGeoDBFolder.h"
 #include "CResources.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
+#include "CMapDB.h"
+#include "IMap.h"
 
 #include "CQlb.h"
 
@@ -182,6 +186,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(treeWidget,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
     connect(treeWidget,SIGNAL(itemExpanded(QTreeWidgetItem *)),this,SLOT(slotItemExpanded(QTreeWidgetItem *)));
     connect(treeWidget,SIGNAL(itemChanged(QTreeWidgetItem *, int)),this,SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+    connect(treeWidget,SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemDoubleClicked(QTreeWidgetItem *, int)));
+
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptDBChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrkDBChanged()));
@@ -704,6 +710,41 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         }
 
         updateFolderById(itemId);
+    }
+}
+
+void CGeoDB::slotItemDoubleClicked(QTreeWidgetItem * item, int column)
+{
+    /// @todo implement makeVisible() for all items
+    switch(item->type())
+    {
+        case eWpt:
+        {
+            CWpt * wpt = CWptDB::self().getWptByKey(item->data(eName, eUserRoleQLKey).toString());
+            if(wpt)
+            {
+                theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
+            }
+            break;
+        }
+        case eTrk:
+        {
+            QRectF r = CTrackDB::self().getBoundingRectF(item->data(eName, eUserRoleQLKey).toString());
+            if (!r.isNull ())
+            {
+                CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+            }
+            break;
+        }
+        case eRte:
+        {
+            break;
+        }
+        case eOvl:
+        {
+            COverlayDB::self().makeVisible(item->data(eName, eUserRoleQLKey).toString());
+            break;
+        }
     }
 }
 
@@ -1599,6 +1640,7 @@ void CGeoDB::slotSaveItems()
                 {
                     keysWksModified = &keysOvlModified;
 
+                    /// @todo make that stuff common to all overlays via IOverlay
                     IOverlay * ovl = COverlayDB::self().getOverlayByKey(key);
                     if(ovl->type == "Text")
                     {

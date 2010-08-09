@@ -585,3 +585,13 @@ void COverlayDB::slotModified()
         emit sigModified(ovl->key());
     }
 }
+
+void COverlayDB::makeVisible(const QString& key)
+{
+    if(!overlays.contains(key))
+    {
+        return;
+    }
+
+    overlays[key]->makeVisible();
+}

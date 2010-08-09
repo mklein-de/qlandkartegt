@@ -53,6 +53,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
         void slotItemChanged(QTreeWidgetItem * item, int column);
+        void slotItemDoubleClicked(QTreeWidgetItem * item, int column);
 
         void slotWptDBChanged();
         void slotTrkDBChanged();
