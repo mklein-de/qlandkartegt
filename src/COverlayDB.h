@@ -101,6 +101,8 @@ class COverlayDB : public IDB
         /// get all keys in the database
         QList<keys_t> keys();
 
+    private slots:
+        void slotModified();
 
     private:
         friend class CMainWindow;

@@ -358,9 +358,9 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
+    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     emit sigChanged();
-    emit sigModified();
 
     return qobject_cast<COverlayText*>(overlay);
 }
@@ -377,9 +377,9 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
+    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     emit sigChanged();
-    emit sigModified();
 
     return qobject_cast<COverlayTextBox*>(overlay);
 }
@@ -396,9 +396,9 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
+    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     emit sigChanged();
-    emit sigModified();
 
     return qobject_cast<COverlayDistance*>(overlay);
 }
@@ -575,4 +575,13 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
     }
 
     return k;
+}
+
+void COverlayDB::slotModified()
+{
+    IOverlay * ovl = qobject_cast<IOverlay*>(sender());
+    if(ovl)
+    {
+        emit sigModified(ovl->key());
+    }
 }

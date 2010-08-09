@@ -97,7 +97,7 @@ void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
 
-    qDebug() << "void CTrackToolWidget::slotDBChanged()";
+//    qDebug() << "void CTrackToolWidget::slotDBChanged()";
 
     if(toolSortAlpha->isChecked())
     {
@@ -216,7 +216,7 @@ void CTrackToolWidget::slotSelectionChanged()
     {
         return;
     }
-    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
+//    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
     if(listTracks->hasFocus() && listTracks->selectedItems().isEmpty())
     {
         CTrackDB::self().highlightTrack("");

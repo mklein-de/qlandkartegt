@@ -246,6 +246,8 @@ void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
         }
         progress.setValue(npts);
         track.rebuild(false);
+
+        CTrackDB::self().emitSigModified();
     }
 }
 
@@ -338,6 +340,8 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
         }
         progress.setValue(npts);
         track.rebuild(false);
+
+        CTrackDB::self().emitSigModified();
     }
 }
 

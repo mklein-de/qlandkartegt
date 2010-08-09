@@ -110,9 +110,11 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// search treeWidget for items with parentId and delete items
         void delItemById(quint64 parentId, quint64 childId);
 
-        void checkItemByid(quint64 id);
+        void checkItemById(quint64 id);
 
         void updateLostFound();
+        void updateModifyMarker();
+        void updateModifyMarker(QTreeWidgetItem * item, QSet<QString>& keys, const QString& label);
         void moveChildrenToWks(quint64 parentId);
 
         void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
@@ -156,6 +158,12 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QTimer * timeoutCheckState;
 
         quint32 isInternalEdit;
+
+        QSet<QString> keysWptModified;
+        QSet<QString> keysTrkModified;
+        QSet<QString> keysRteModified;
+        QSet<QString> keysOvlModified;
+
 };
 
 #endif //CGEODB_H

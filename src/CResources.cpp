@@ -54,7 +54,8 @@ CResources::CResources(QObject * parent)
 , m_devIPPort(4242)
 , m_flipMouseWheel(false)
 #ifdef HAS_GEODB
-, m_UseGeoDB(false)
+, m_UseGeoDB(true)
+, m_pathGeoDB(QDir::homePath())
 #endif
 
 {
@@ -74,6 +75,7 @@ CResources::CResources(QObject * parent)
     m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
 #ifdef HAS_GEODB
     m_UseGeoDB  = cfg.value("environment/GeoDB",m_UseGeoDB).toBool();
+    m_pathGeoDB = QDir(cfg.value("environment/pathGeoDB", m_pathGeoDB.absolutePath()).toString());
 #endif
 
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
@@ -135,6 +137,7 @@ CResources::~CResources()
     cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
 #ifdef HAS_GEODB
     cfg.setValue("environment/GeoDB",m_UseGeoDB);
+    cfg.setValue("environment/pathGeoDB",m_pathGeoDB.absolutePath());
 #endif
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);

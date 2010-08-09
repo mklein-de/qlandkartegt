@@ -41,6 +41,8 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 #ifndef HAS_GEODB
     groupBoxGeoDB->hide();
 #endif
+
+    connect(toolPathGeoDB, SIGNAL(clicked()),this,SLOT(slotSelectPathGeoDB()));
 }
 
 
@@ -76,6 +78,7 @@ void CDlgConfig::exec()
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
 #ifdef HAS_GEODB
     checkUseGeoDB->setChecked(resources.m_UseGeoDB);
+    labelPathGeoDB->setText(resources.m_pathGeoDB.absolutePath());
 #endif
     connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
     comboBrowser->setCurrentIndex(resources.m_eBrowser);
@@ -142,6 +145,7 @@ void CDlgConfig::accept()
 
 #ifdef HAS_GEODB
     resources.m_UseGeoDB        = checkUseGeoDB->isChecked();
+    resources.m_pathGeoDB       = QDir(labelPathGeoDB->text());
 #endif
 
     resources.m_eBrowser        = (CResources::browser_e)comboBrowser->currentIndex();
@@ -308,4 +312,13 @@ void CDlgConfig::slotSetupGarminIcons()
 {
     CDlgSetupGarminIcons dlg;
     dlg.exec();
+}
+
+void CDlgConfig::slotSelectPathGeoDB()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"), labelPathGeoDB->text(), QFileDialog::ShowDirsOnly);
+    if(!path.isEmpty())
+    {
+        labelPathGeoDB->setText(path);
+    }
 }

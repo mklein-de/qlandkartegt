@@ -31,6 +31,7 @@
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
 #include "CDlgSelGeoDBFolder.h"
+#include "CResources.h"
 
 #include "CQlb.h"
 
@@ -115,7 +116,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(timeoutCheckState, SIGNAL(timeout()), this, SLOT(slotTimeoutCheckState()));
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
-    db.setDatabaseName(QDir::home().filePath(CONFIGDIR "qlgt.db"));
+    //db.setDatabaseName(QDir::home().filePath(CONFIGDIR "qlgt.db"));
+    db.setDatabaseName(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
     db.open();
 
     QSqlQuery query(db);
@@ -124,17 +126,18 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
       return;
     }
 
-    if(!query.exec("PRAGMA temp_store=MEMORY")) {
-      return;
-    }
 
-    if(!query.exec("PRAGMA default_cache_size=50")) {
-      return;
-    }
+//    if(!query.exec("PRAGMA temp_store=MEMORY")) {
+//      return;
+//    }
 
-    if(!query.exec("PRAGMA page_size=8192")) {
-      return;
-    }
+//    if(!query.exec("PRAGMA default_cache_size=50")) {
+//      return;
+//    }
+
+//    if(!query.exec("PRAGMA page_size=8192")) {
+//      return;
+//    }
 
 
     if(!query.exec("SELECT version FROM versioninfo"))
@@ -349,6 +352,7 @@ void CGeoDB::slotWptDBChanged()
 
     itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
 
+    updateModifyMarker();
 }
 
 void CGeoDB::slotTrkDBChanged()
@@ -381,11 +385,14 @@ void CGeoDB::slotTrkDBChanged()
 
     itemWksTrk->setHidden(itemWksTrk->childCount() == 0);
 
+    updateModifyMarker();
 }
 
 void CGeoDB::slotRteDBChanged()
 {
     CGeoDBInternalEditLock lock(this);
+
+    updateModifyMarker();
 }
 
 void CGeoDB::slotOvlDBChanged()
@@ -404,7 +411,7 @@ void CGeoDB::slotOvlDBChanged()
         query.bindValue(":key", key.key);
         QUERY_EXEC();
 
-        QTreeWidgetItem * item = new QTreeWidgetItem(itemWksOvl, eTrk);
+        QTreeWidgetItem * item = new QTreeWidgetItem(itemWksOvl, eOvl);
         if(query.next())
         {
             item->setData(eName, eUserRoleDBKey, query.value(0));
@@ -418,6 +425,7 @@ void CGeoDB::slotOvlDBChanged()
 
     itemWksOvl->setHidden(itemWksOvl->childCount() == 0);
 
+    updateModifyMarker();
 }
 
 void CGeoDB::slotAddFolder()
@@ -708,7 +716,7 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
     QUERY_EXEC(return);
     while(query.next())
     {
-        checkItemByid(query.value(1).toULongLong());
+        checkItemById(query.value(1).toULongLong());
 
         QByteArray array = query.value(0).toByteArray();
         QBuffer buffer(&array);
@@ -727,7 +735,7 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
     while(query.next())
     {
         quint64 childId = query.value(0).toULongLong();
-        checkItemByid(childId);
+        checkItemById(childId);
         moveChildrenToWks(childId);
     }
 }
@@ -1136,7 +1144,7 @@ void CGeoDB::delItemById(quint64 parentId, quint64 childId)
     qDeleteAll(itemsToDelete);
 }
 
-void CGeoDB::checkItemByid(quint64 id)
+void CGeoDB::checkItemById(quint64 id)
 {
     CGeoDBInternalEditLock lock(this);
 
@@ -1552,6 +1560,7 @@ void CGeoDB::slotSaveItems()
         }
         else
         {
+            QSet<QString> * keysWksModified = 0;
             // update database
             QString key = item->data(eName, eUserRoleQLKey).toString();
             QBuffer buffer;
@@ -1561,6 +1570,8 @@ void CGeoDB::slotSaveItems()
             {
                 case eWpt:
                 {
+                    keysWksModified = &keysWptModified;
+
                     CWpt * wpt = CWptDB::self().getWptByKey(key);
                     icon = wpt->icon;
                     name = wpt->name;
@@ -1570,6 +1581,8 @@ void CGeoDB::slotSaveItems()
                 }
                 case eTrk:
                 {
+                    keysWksModified = &keysTrkModified;
+
                     CTrack * trk = CTrackDB::self().getTrackByKey(key);
                     icon = trk->getColor().name();
                     name = trk->getName();
@@ -1579,11 +1592,13 @@ void CGeoDB::slotSaveItems()
                 }
                 case eRte:
                 {
-
+                    keysWksModified = &keysRteModified;
                     break;
                 }
                 case eOvl:
                 {
+                    keysWksModified = &keysOvlModified;
+
                     IOverlay * ovl = COverlayDB::self().getOverlayByKey(key);
                     if(ovl->type == "Text")
                     {
@@ -1620,6 +1635,7 @@ void CGeoDB::slotSaveItems()
             query.bindValue(":id", childId);
             QUERY_EXEC(continue);
 
+            keysWksModified->remove(item->data(eName, eUserRoleQLKey).toString());
             item->setText(eDBState,"");
             updateItemById(childId);
 
@@ -1627,11 +1643,7 @@ void CGeoDB::slotSaveItems()
 
     }
 
-    if(savedAll || saveAll)
-    {
-        itemWorkspace->setText(eName, tr("Workspace"));
-    }
-
+    updateModifyMarker();
     updateLostFound();
 }
 
@@ -1890,51 +1902,71 @@ void CGeoDB::slotCopyItems()
 
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
-    const int size = itemWksWpt->childCount();
-    for(int i = 0; i < size; i++)
-    {
-        if(itemWksWpt->child(i)->data(eName, eUserRoleQLKey).toString() == key)
-        {
-            itemWksWpt->child(i)->setText(eDBState,"*");
-        }
-    }
+    keysWptModified << key;
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedTrk(const QString& key)
 {
-    qDebug() << "void CGeoDB::slotModifiedTrk(const QString& key)" << key;
-    const int size = itemWksTrk->childCount();
-    for(int i = 0; i < size; i++)
-    {
-
-        if(itemWksTrk->child(i)->data(eName, eUserRoleQLKey).toString() == key)
-        {
-            itemWksTrk->child(i)->setText(eDBState,"*");
-        }
-    }
+    keysTrkModified << key;
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedRte(const QString& key)
 {
-    const int size = itemWksRte->childCount();
-    for(int i = 0; i < size; i++)
-    {
-        if(itemWksRte->child(i)->data(eName, eUserRoleQLKey).toString() == key)
-        {
-            itemWksRte->child(i)->setText(eDBState,"*");
-        }
-    }
+    keysRteModified << key;
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
+    keysOvlModified << key;
+    updateModifyMarker();
+}
 
-    const int size = itemWksOvl->childCount();
-    for(int i = 0; i < size; i++)
+void CGeoDB::updateModifyMarker()
+{
+    CGeoDBInternalEditLock lock(this);
+    itemWorkspace->setText(eName, tr("Workspace"));
+    updateModifyMarker(itemWksWpt, keysWptModified, tr("Waypoints"));
+    updateModifyMarker(itemWksTrk, keysTrkModified, tr("Tracks"));
+    updateModifyMarker(itemWksRte, keysRteModified, tr("Routes"));
+    updateModifyMarker(itemWksOvl, keysOvlModified, tr("Overlays"));
+
+}
+
+void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, const QString& label)
+{
+    CGeoDBInternalEditLock lock(this);
+    QTreeWidgetItem * item;
+    bool modified = false;
+
+    if(!keys.isEmpty())
     {
-        if(itemWksOvl->child(i)->data(eName, eUserRoleQLKey).toString() == key)
+        const int size = itemWks->childCount();
+        for(int i = 0; i < size; i++)
         {
-            itemWksOvl->child(i)->setText(eDBState,"*");
+            item = itemWks->child(i);
+            if(keys.contains(item->data(eName, eUserRoleQLKey).toString()))
+            {
+                item->setText(eDBState,"*");
+                modified = true;
+            }
+        }
+
+        if(modified)
+        {
+            itemWorkspace->setText(eName, tr("Workspace") + " *");
+            itemWks->setText(eName, label + " *");
+        }
+        else
+        {
+            itemWks->setText(eName, label);
         }
     }
+    else
+    {
+        itemWks->setText(eName, label);
+    }
+
 }

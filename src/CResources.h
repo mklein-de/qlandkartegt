@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QFont>
 #include <QPointer>
+#include <QDir>
 
 class IDevice;
 class IUnit;
@@ -59,6 +60,7 @@ class CResources : public QObject
 
 #ifdef HAS_GEODB
         bool useGeoDB(){return m_UseGeoDB;}
+        QDir pathGeoDB(){return m_pathGeoDB;}
 #endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
         bool playSound(){return m_playSound;}
@@ -127,7 +129,10 @@ class CResources : public QObject
 
 #ifdef HAS_GEODB
         bool m_UseGeoDB;
+        QDir m_pathGeoDB;
 #endif
+
+
 
         /// unit translator object
         QPointer<IUnit> unit;
