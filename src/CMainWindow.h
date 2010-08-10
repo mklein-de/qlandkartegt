@@ -42,7 +42,9 @@ class CMenus;
 class QSocketNotifier;
 class QAction;
 class CGeoDB;
+#ifdef HAS_DBUS
 class CDBus;
+#endif
 
 class CMainWindow : public QMainWindow
 {
@@ -64,7 +66,7 @@ class CMainWindow : public QMainWindow
 
         const QString& getCurrentFilename(){return wksFile;}
 
-        CMenus *getActionGroupProvider() { return actionGroupProvider;};
+        CMenus *getActionGroupProvider() { return actionGroupProvider;}
 
     protected:
         void closeEvent(QCloseEvent * e);
@@ -171,8 +173,9 @@ class CMainWindow : public QMainWindow
         QStringList mostRecent;
 
         QTabWidget * tmpTabWidget;
-
+#ifdef HAS_DBUS
         CDBus * dbus;
+#endif
 
 };
 

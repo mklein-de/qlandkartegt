@@ -48,7 +48,9 @@
 #ifdef HAS_GEODB
 #include "CGeoDB.h"
 #endif
+#ifdef HAS_DBUS
 #include "CDBus.h"
+#endif
 
 #include <QtGui>
 #ifdef WIN32
@@ -371,7 +373,9 @@ CMainWindow::CMainWindow()
 
     megaMenu->slotSplitterMoved(leftSplitter->sizes()[0], 1);
 
+#ifdef HAS_DBUS
     dbus = new CDBus(qApp);
+#endif
 
 }
 

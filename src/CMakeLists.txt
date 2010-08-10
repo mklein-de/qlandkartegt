@@ -174,7 +174,6 @@ set(qlandkarte_SRCS
     CMapTDB.cpp
     CHelpButton.cpp
     CSpline.cpp
-    CDBus.cpp
 )
 
 if (WIN32)
@@ -322,7 +321,6 @@ set(qlandkarte_HDRS
     CAppOpts.h
     CHelpButton.h
     CSpline.h
-    CDBus.h
 )
 
 SET(qlandkarte_UIS
@@ -377,6 +375,7 @@ SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
+SET (DBUS ON CACHE BOOL "Enable DBus control.")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -430,6 +429,14 @@ IF(GEO_DB)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui)
 ENDIF(GEO_DB)
+
+IF(DBUS)
+    add_definitions(-DHAS_DBUS)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CDBus.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CDBus.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS})
+ENDIF(DBUS)
+
 
 IF(MIKROKOPTER)
     add_definitions(-DHAS_MIKROKOPTER)
