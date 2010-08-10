@@ -261,6 +261,20 @@ void CGeoDB::initDB()
         qDebug() << query.lastError();
     }
 
+    if(!query.exec( "CREATE TABLE workspace ("
+        "id             INTEGER PRIMARY KEY NOT NULL,"
+        "type           INTEGER,"
+        "key            TEXT NOT NULL,"
+        "icon           TEXT NOT NULL,"
+        "name           TEXT NOT NULL,"
+        "comment        TEXT,"
+        "data           BLOB NOT NULL"
+    ")"))
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+    }
+
     if(!query.exec("INSERT INTO folders (icon, name, comment) VALUES ('', 'database', '')"))
     {
         qDebug() << query.lastQuery();
@@ -298,8 +312,37 @@ void CGeoDB::migrateDB(int version)
     qDebug() << "void CGeoDB::migrateDB(int version)" << version;
     QSqlQuery query(db);
 
+
+
+    for(version++; version <= DB_VERSION; version++)
+    {
+
+        switch(version)
+        {
+            case 1:
+                break;
+
+            case 2:
+            {
+                if(!query.exec( "CREATE TABLE workspace ("
+                    "id             INTEGER PRIMARY KEY NOT NULL,"
+                    "type           INTEGER,"
+                    "key            TEXT NOT NULL,"
+                    "icon           TEXT NOT NULL,"
+                    "name           TEXT NOT NULL,"
+                    "comment        TEXT,"
+                    "data           BLOB NOT NULL"
+                ")"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                }
+                break;
+            }
+        }
+    }
     query.prepare( "UPDATE versioninfo set version=:version");
-    query.bindValue(":version", version);
+    query.bindValue(":version", version - 1);
     QUERY_EXEC();
 }
 

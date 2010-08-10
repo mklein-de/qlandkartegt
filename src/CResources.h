@@ -59,7 +59,8 @@ class CResources : public QObject
         QString pathMaps;
 
 #ifdef HAS_GEODB
-        bool useGeoDB(){return m_UseGeoDB;}
+        bool useGeoDB(){return m_useGeoDB;}
+        bool saveGeoDBOnExit(){return m_saveGeoDBOnExit;}
         QDir pathGeoDB(){return m_pathGeoDB;}
 #endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
@@ -128,7 +129,8 @@ class CResources : public QObject
         bool m_playSound;
 
 #ifdef HAS_GEODB
-        bool m_UseGeoDB;
+        bool m_useGeoDB;
+        bool m_saveGeoDBOnExit;
         QDir m_pathGeoDB;
 #endif
 

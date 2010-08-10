@@ -43,6 +43,7 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 #endif
 
     connect(toolPathGeoDB, SIGNAL(clicked()),this,SLOT(slotSelectPathGeoDB()));
+    connect(checkUseGeoDB, SIGNAL(clicked(bool)), checkGeoDBSaveOnExit, SLOT(setEnabled(bool)));
 }
 
 
@@ -77,7 +78,9 @@ void CDlgConfig::exec()
     checkPlaySound->setChecked(resources.m_playSound);
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
 #ifdef HAS_GEODB
-    checkUseGeoDB->setChecked(resources.m_UseGeoDB);
+    checkUseGeoDB->setChecked(resources.m_useGeoDB);
+    checkGeoDBSaveOnExit->setEnabled(resources.m_useGeoDB);
+    checkGeoDBSaveOnExit->setChecked(resources.m_saveGeoDBOnExit);
     labelPathGeoDB->setText(resources.m_pathGeoDB.absolutePath());
 #endif
     connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
@@ -144,7 +147,8 @@ void CDlgConfig::accept()
     resources.m_playSound       = checkPlaySound->isChecked();
 
 #ifdef HAS_GEODB
-    resources.m_UseGeoDB        = checkUseGeoDB->isChecked();
+    resources.m_useGeoDB        = checkUseGeoDB->isChecked();
+    resources.m_saveGeoDBOnExit = checkGeoDBSaveOnExit->isChecked();
     resources.m_pathGeoDB       = QDir(labelPathGeoDB->text());
 #endif
 
