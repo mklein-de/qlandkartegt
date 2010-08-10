@@ -175,7 +175,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
     contextMenuWks      = new QMenu(this);
     actAddToDB          = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
-    actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save to database..."), this, SLOT(slotSaveItems()));
+    actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save changes..."), this, SLOT(slotSaveItems()));
 
     contextMenuLost     = new QMenu(this);
     actMoveLost         = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
@@ -1263,7 +1263,7 @@ void CGeoDB::slotAddItems()
 void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
 {
     quint64 childId;
-    QSqlQuery query;
+    QSqlQuery query(db);
     // test for item with qlandkarte key
     QString key = item->data(eName, eUserRoleQLKey).toString();
     query.prepare("SELECT id FROM items WHERE key=:key");
@@ -1336,7 +1336,7 @@ void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
 void CGeoDB::addTrkToDB(quint64 parentId, QTreeWidgetItem * item)
 {
     quint64 childId;
-    QSqlQuery query;
+    QSqlQuery query(db);
     // test for item with qlandkarte key
     QString key = item->data(eName, eUserRoleQLKey).toString();
     query.prepare("SELECT id FROM items WHERE key=:key");
@@ -1408,7 +1408,7 @@ void CGeoDB::addTrkToDB(quint64 parentId, QTreeWidgetItem * item)
 void CGeoDB::addOvlToDB(quint64 parentId, QTreeWidgetItem * item)
 {
     quint64 childId;
-    QSqlQuery query;
+    QSqlQuery query(db);
     // test for item with qlandkarte key
     QString key = item->data(eName, eUserRoleQLKey).toString();
     query.prepare("SELECT id FROM items WHERE key=:key");
