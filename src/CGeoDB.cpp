@@ -199,15 +199,118 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     slotRteDBChanged();
     slotOvlDBChanged();
 
+    loadWorkspace();
+
     connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedWpt(const QString&)));
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedTrk(const QString&)));
     connect(&CRouteDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedRte(const QString&)));
     connect(&COverlayDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedOvl(const QString&)));
     itemWorkspace->setExpanded(true);
+
+    saveOnExit = CResources::self().saveGeoDBOnExit();
 }
 
 CGeoDB::~CGeoDB()
 {
+    saveWorkspace();
+}
+
+void CGeoDB::saveWorkspace()
+{
+    int i, size;
+    QSqlQuery query(db);
+    QTreeWidgetItem * item;
+
+
+    if(!query.exec("DELETE FROM workspace"))
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+    }
+
+    if(!saveOnExit)
+    {
+        return;
+    }
+
+    size = itemWksWpt->childCount();
+    for(i=0; i<size; i++)
+    {
+        item        = itemWksWpt->child(i);
+        CWpt * wpt  = CWptDB::self().getWptByKey(item->data(eName, eUserRoleQLKey).toString());
+
+        QBuffer data;
+        CQlb qlb(this);
+        qlb << *wpt;
+        qlb.save(&data);
+
+        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":data", data.data());
+        QUERY_EXEC(continue);
+    }
+
+    size = itemWksTrk->childCount();
+    for(i=0; i<size; i++)
+    {
+        item         = itemWksTrk->child(i);
+        CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eName, eUserRoleQLKey).toString());
+
+        QBuffer data;
+        CQlb qlb(this);
+        qlb << *trk;
+        qlb.save(&data);
+
+        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":data", data.data());
+        QUERY_EXEC(continue);
+    }
+
+    size = itemWksRte->childCount();
+    for(i=0; i<size; i++)
+    {
+        item = itemWksRte->child(i);
+    }
+
+    size = itemWksOvl->childCount();
+    for(i=0; i<size; i++)
+    {
+        item = itemWksOvl->child(i);
+        IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eName, eUserRoleQLKey).toString());
+
+        QBuffer data;
+        CQlb qlb(this);
+        qlb << *ovl;
+        qlb.save(&data);
+
+        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":data", data.data());
+        QUERY_EXEC(continue);
+    }
+}
+
+void CGeoDB::loadWorkspace()
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    query.prepare("SELECT data FROM workspace");
+    QUERY_EXEC(return);
+
+    while(query.next())
+    {
+        QByteArray array = query.value(0).toByteArray();
+        QBuffer buffer(&array);
+        CQlb qlb(this);
+        qlb.load(&buffer);
+
+        CWptDB::self().loadQLB(qlb);
+        CTrackDB::self().loadQLB(qlb);
+        CRouteDB::self().loadQLB(qlb);
+        COverlayDB::self().loadQLB(qlb);
+    }
 
 }
 
@@ -262,12 +365,8 @@ void CGeoDB::initDB()
     }
 
     if(!query.exec( "CREATE TABLE workspace ("
-        "id             INTEGER PRIMARY KEY NOT NULL,"
-        "type           INTEGER,"
-        "key            TEXT NOT NULL,"
-        "icon           TEXT NOT NULL,"
-        "name           TEXT NOT NULL,"
-        "comment        TEXT,"
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "changed        BOOLEAN DEFAULT FALSE,"
         "data           BLOB NOT NULL"
     ")"))
     {
@@ -326,11 +425,7 @@ void CGeoDB::migrateDB(int version)
             {
                 if(!query.exec( "CREATE TABLE workspace ("
                     "id             INTEGER PRIMARY KEY NOT NULL,"
-                    "type           INTEGER,"
-                    "key            TEXT NOT NULL,"
-                    "icon           TEXT NOT NULL,"
-                    "name           TEXT NOT NULL,"
-                    "comment        TEXT,"
+                    "changed        BOOLEAN DEFAULT FALSE,"
                     "data           BLOB NOT NULL"
                 ")"))
                 {

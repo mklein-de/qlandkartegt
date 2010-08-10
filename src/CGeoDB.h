@@ -123,6 +123,9 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 //        void addRteToDB(quint64 parentId, QTreeWidgetItem * item);
         void addOvlToDB(quint64 parentId, QTreeWidgetItem * item);
 
+        void saveWorkspace();
+        void loadWorkspace();
+
         QTabWidget * tabbar;
         QTreeWidgetItem * itemDatabase;
         QTreeWidgetItem * itemLostFound;
@@ -165,6 +168,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QSet<QString> keysRteModified;
         QSet<QString> keysOvlModified;
 
+        bool saveOnExit;
 };
 
 #endif //CGEODB_H

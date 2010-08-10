@@ -166,6 +166,7 @@ CResources::~CResources()
     cfg.setValue("device/playSound",m_playSound);
 
     cfg.setValue("environment/unittype",unit->type);
+
 }
 
 
