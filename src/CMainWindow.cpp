@@ -610,13 +610,20 @@ void CMainWindow::closeEvent(QCloseEvent * e)
         return;
     }
 
-    if (maybeSave())
+    if(!(CResources::self().useGeoDB() && CResources::self().saveGeoDBOnExit()))
     {
-        e->accept();
+        if (maybeSave())
+        {
+            e->accept();
+        }
+        else
+        {
+            e->ignore();
+        }
     }
     else
     {
-        e->ignore();
+        e->accept();
     }
 }
 

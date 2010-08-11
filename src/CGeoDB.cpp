@@ -244,8 +244,10 @@ void CGeoDB::saveWorkspace()
         qlb << *wpt;
         qlb.save(&data);
 
-        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":type", eWpt);
+        query.bindValue(":key", wpt->key());
         query.bindValue(":data", data.data());
         QUERY_EXEC(continue);
     }
@@ -261,8 +263,10 @@ void CGeoDB::saveWorkspace()
         qlb << *trk;
         qlb.save(&data);
 
-        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":type", eTrk);
+        query.bindValue(":key", trk->key());
         query.bindValue(":data", data.data());
         QUERY_EXEC(continue);
     }
@@ -284,8 +288,10 @@ void CGeoDB::saveWorkspace()
         qlb << *ovl;
         qlb.save(&data);
 
-        query.prepare("INSERT INTO workspace (changed, data) VALUES (:changed, :data)");
+        query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
+        query.bindValue(":type", eOvl);
+        query.bindValue(":key", ovl->key());
         query.bindValue(":data", data.data());
         QUERY_EXEC(continue);
     }
@@ -296,12 +302,12 @@ void CGeoDB::loadWorkspace()
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
 
-    query.prepare("SELECT data FROM workspace");
+    query.prepare("SELECT changed, type, key, data FROM workspace");
     QUERY_EXEC(return);
 
     while(query.next())
     {
-        QByteArray array = query.value(0).toByteArray();
+        QByteArray array = query.value(3).toByteArray();
         QBuffer buffer(&array);
         CQlb qlb(this);
         qlb.load(&buffer);
@@ -310,8 +316,28 @@ void CGeoDB::loadWorkspace()
         CTrackDB::self().loadQLB(qlb);
         CRouteDB::self().loadQLB(qlb);
         COverlayDB::self().loadQLB(qlb);
+
+        if(query.value(0).toBool())
+        {
+            switch(query.value(1).toInt())
+            {
+                case eWpt:
+                    keysWptModified << query.value(2).toString();
+                    break;
+                case eTrk:
+                    keysTrkModified << query.value(2).toString();
+                    break;
+                case eRte:
+                    keysRteModified << query.value(2).toString();
+                    break;
+                case eOvl:
+                    keysOvlModified << query.value(2).toString();
+                    break;
+            }
+        }
     }
 
+    updateModifyMarker();
 }
 
 
@@ -365,9 +391,11 @@ void CGeoDB::initDB()
     }
 
     if(!query.exec( "CREATE TABLE workspace ("
-        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"        
+        "type           INTEGER NOT NULL,"
         "changed        BOOLEAN DEFAULT FALSE,"
-        "data           BLOB NOT NULL"
+        "data           BLOB NOT NULL,"
+        "key            TEXT NOT NULL"
     ")"))
     {
         qDebug() << query.lastQuery();
@@ -431,6 +459,25 @@ void CGeoDB::migrateDB(int version)
                 {
                     qDebug() << query.lastQuery();
                     qDebug() << query.lastError();
+                    return;
+                }
+
+                break;
+            }
+
+            case 3:
+            {
+                if(!query.exec("ALTER TABLE workspace ADD COLUMN key TEXT"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+                if(!query.exec("ALTER TABLE workspace ADD COLUMN type INTEGER"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
                 }
                 break;
             }
