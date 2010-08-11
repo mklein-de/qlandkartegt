@@ -1206,7 +1206,8 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             }
 
             queryChildrenFromDB(clone,1);
-            item->sortChildren(eName, Qt::AscendingOrder);
+
+            sortItems(item);
         }
     }
 }
@@ -1443,6 +1444,7 @@ void CGeoDB::slotAddItems()
 
         addOvlToDB(parentId, item);
     }
+
 }
 
 void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
@@ -2196,4 +2198,30 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
         itemWks->setText(eName, label);
     }
 
+}
+
+
+bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2)
+{
+
+    if(item1->type() != item2->type())
+    {
+        return item1->type() < item2->type();
+    }
+    else
+    {
+        return item1->text(CGeoDB::eName) < item2->text(CGeoDB::eName);
+    }
+
+    return true;
+}
+
+void CGeoDB::sortItems(QTreeWidgetItem * item)
+{
+    CGeoDBInternalEditLock lock(this);
+    QList<QTreeWidgetItem*> items = item->takeChildren();
+
+    qSort(items.begin(), items.end(), sortItemsLessThan);
+
+    item->addChildren(items);
 }
