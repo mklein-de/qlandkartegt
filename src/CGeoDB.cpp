@@ -239,16 +239,16 @@ void CGeoDB::saveWorkspace()
         item        = itemWksWpt->child(i);
         CWpt * wpt  = CWptDB::self().getWptByKey(item->data(eName, eUserRoleQLKey).toString());
 
-        QBuffer data;
-        CQlb qlb(this);
-        qlb << *wpt;
-        qlb.save(&data);
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_5);
+        stream << *wpt;
 
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eWpt);
         query.bindValue(":key", wpt->key());
-        query.bindValue(":data", data.data());
+        query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
 
@@ -258,16 +258,16 @@ void CGeoDB::saveWorkspace()
         item         = itemWksTrk->child(i);
         CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eName, eUserRoleQLKey).toString());
 
-        QBuffer data;
-        CQlb qlb(this);
-        qlb << *trk;
-        qlb.save(&data);
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_5);
+        stream << *trk;
 
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eTrk);
         query.bindValue(":key", trk->key());
-        query.bindValue(":data", data.data());
+        query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
 
@@ -283,16 +283,16 @@ void CGeoDB::saveWorkspace()
         item = itemWksOvl->child(i);
         IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eName, eUserRoleQLKey).toString());
 
-        QBuffer data;
-        CQlb qlb(this);
-        qlb << *ovl;
-        qlb.save(&data);
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_5);
+        stream << *ovl;
 
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eOvl);
         query.bindValue(":key", ovl->key());
-        query.bindValue(":data", data.data());
+        query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
 }
@@ -305,37 +305,49 @@ void CGeoDB::loadWorkspace()
     query.prepare("SELECT changed, type, key, data FROM workspace");
     QUERY_EXEC(return);
 
+    CQlb qlb(this);
+    QByteArray& wpts = qlb.waypoints();
+    QByteArray& trks = qlb.tracks();
+    QByteArray& rtes = qlb.routes();
+    QByteArray& ovls = qlb.overlays();
+
     while(query.next())
     {
-        QByteArray array = query.value(3).toByteArray();
-        QBuffer buffer(&array);
-        CQlb qlb(this);
-        qlb.load(&buffer);
 
-        CWptDB::self().loadQLB(qlb);
-        CTrackDB::self().loadQLB(qlb);
-        CRouteDB::self().loadQLB(qlb);
-        COverlayDB::self().loadQLB(qlb);
-
-        if(query.value(0).toBool())
+        switch(query.value(1).toInt())
         {
-            switch(query.value(1).toInt())
-            {
-                case eWpt:
+            case eWpt:
+                wpts += query.value(3).toByteArray();
+                if(query.value(0).toBool()){
                     keysWptModified << query.value(2).toString();
-                    break;
-                case eTrk:
+                }
+                break;
+            case eTrk:
+                trks += query.value(3).toByteArray();
+                if(query.value(0).toBool()){
                     keysTrkModified << query.value(2).toString();
-                    break;
-                case eRte:
+                }
+                break;
+            case eRte:
+                rtes += query.value(3).toByteArray();
+                if(query.value(0).toBool()){
                     keysRteModified << query.value(2).toString();
-                    break;
-                case eOvl:
+                }
+                break;
+            case eOvl:
+                ovls += query.value(3).toByteArray();
+                if(query.value(0).toBool()){
                     keysOvlModified << query.value(2).toString();
-                    break;
-            }
+                }
+                break;
         }
+
     }
+
+    CWptDB::self().loadQLB(qlb);
+    CTrackDB::self().loadQLB(qlb);
+    CRouteDB::self().loadQLB(qlb);
+    COverlayDB::self().loadQLB(qlb);
 
     updateModifyMarker();
 }
