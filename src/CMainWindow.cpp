@@ -610,6 +610,7 @@ void CMainWindow::closeEvent(QCloseEvent * e)
         return;
     }
 
+#ifdef HAS_GEODB
     if(!(CResources::self().useGeoDB() && CResources::self().saveGeoDBOnExit()))
     {
         if (maybeSave())
@@ -625,6 +626,16 @@ void CMainWindow::closeEvent(QCloseEvent * e)
     {
         e->accept();
     }
+#else
+    if (maybeSave())
+    {
+        e->accept();
+    }
+    else
+    {
+        e->ignore();
+    }
+#endif
 }
 
 
