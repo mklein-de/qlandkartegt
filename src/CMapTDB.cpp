@@ -1744,6 +1744,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             {
                 CGarminPolygon &item = lines[*it];
                 {
+
                     pixmapCount++;
 
                     double * u      = item.u.data();
@@ -2570,7 +2571,7 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
     double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
-    double distance;             // the distance to the polyline    
+    double distance;             // the distance to the polyline
 
     polyline.clear();
 

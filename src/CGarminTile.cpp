@@ -745,10 +745,20 @@ static inline bool isCompletlyOutside(const QVector<double> &u, const QVector<do
 
     QRectF ref(west, north,  east - west, south - north);
 
+    if(ref.width() == 0)
+    {
+        ref.setWidth(0.00001);
+    }
+    if(ref.height() == 0)
+    {
+        ref.setHeight(0.00001);
+    }
+
     if(viewport.intersects(ref))
     {
         return false;
     }
+
 
     return true;
 }
