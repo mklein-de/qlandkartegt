@@ -117,6 +117,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void updateCheckmarks(QTreeWidgetItem * item);
 
         void moveChildrenToWks(quint64 parentId);
+        void delChildrenFromWks(quint64 parentId);
 
         void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
         void addTrkToDB(quint64 parentId, QTreeWidgetItem * item);

@@ -870,33 +870,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 
     QSqlQuery query(db);
 
-    if(item->checkState(eName) == Qt::Checked)
-    {
-        if(item->type() == eFolder)
-        {
-            moveChildrenToWks(item->data(eName, eUserRoleDBKey).toULongLong());
-        }
-        else
-        {
-            query.prepare("SELECT data FROM items WHERE id=:id");
-            query.bindValue(":id", item->data(eName, eUserRoleDBKey));
-            QUERY_EXEC(return);
-            if(query.next())
-            {
-                QByteArray array = query.value(0).toByteArray();
-                QBuffer buffer(&array);
-                CQlb qlb(this);
-                qlb.load(&buffer);
-
-                CWptDB::self().loadQLB(qlb);
-                CTrackDB::self().loadQLB(qlb);
-                CRouteDB::self().loadQLB(qlb);
-                COverlayDB::self().loadQLB(qlb);
-
-            }
-        }
-    }
-    else
+    if(column == eName)
     {
         quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
         QString itemText = item->text(eName);
@@ -915,6 +889,70 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         }
 
         updateFolderById(itemId);
+    }
+
+
+    if(column == eDBState)
+    {
+        if(item->checkState(eDBState) == Qt::Checked)
+        {
+            if(item->type() == eFolder)
+            {
+                moveChildrenToWks(item->data(eName, eUserRoleDBKey).toULongLong());
+            }
+            else
+            {
+                query.prepare("SELECT data FROM items WHERE id=:id");
+                query.bindValue(":id", item->data(eName, eUserRoleDBKey));
+                QUERY_EXEC(return);
+                if(query.next())
+                {
+                    QByteArray array = query.value(0).toByteArray();
+                    QBuffer buffer(&array);
+                    CQlb qlb(this);
+                    qlb.load(&buffer);
+
+                    CWptDB::self().loadQLB(qlb);
+                    CTrackDB::self().loadQLB(qlb);
+                    CRouteDB::self().loadQLB(qlb);
+                    COverlayDB::self().loadQLB(qlb);
+
+                }
+            }
+        }
+        else
+        {
+            if(item->type() == eFolder)
+            {
+                delChildrenFromWks(item->data(eName, eUserRoleDBKey).toULongLong());
+            }
+            else
+            {
+                query.prepare("SELECT key FROM items WHERE id=:id");
+                query.bindValue(":id", item->data(eName, eUserRoleDBKey));
+                QUERY_EXEC(return);
+                if(query.next())
+                {
+                    QString key = query.value(0).toString();
+
+                    switch(item->type())
+                    {
+                        case eWpt:
+                            CWptDB::self().delWpt(key, false);
+                            break;
+                        case eTrk:
+                            CTrackDB::self().delTrack(key, false);
+                            break;
+                        case eRte:
+                            CRouteDB::self().delRoute(key, false);
+                            break;
+                        case eOvl:
+                            COverlayDB::self().delOverlay(key,false);
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -983,6 +1021,55 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
     }
 }
 
+void CGeoDB::delChildrenFromWks(quint64 parentId)
+{
+    QStringList keysWpt;
+    QStringList keysTrk;
+    QStringList keysRte;
+    QStringList keysOvl;
+
+    QSqlQuery query(db);
+
+    query.prepare("SELECT t1.key, t1.type FROM items AS t1, folder2item AS t2 WHERE t2.parent=:parent AND t1.id = t2.child");
+    query.bindValue(":parent", parentId);
+    QUERY_EXEC(return);
+    while(query.next())
+    {
+
+        QString key = query.value(0).toString();
+        int type    = query.value(1).toInt();
+        switch(type)
+        {
+            case eWpt:
+                keysWpt << key;
+                break;
+            case eTrk:
+                keysTrk << key;
+                break;
+            case eRte:
+                keysRte << key;
+                break;
+            case eOvl:
+                keysOvl << key;
+                break;
+        }
+    }
+
+    CWptDB::self().delWpt(keysWpt);
+    CTrackDB::self().delTracks(keysTrk);
+    CRouteDB::self().delRoutes(keysRte);
+    COverlayDB::self().delOverlays(keysOvl);
+
+    query.prepare("SELECT child FROM folder2folder WHERE parent=:parent");
+    query.bindValue(":parent", parentId);
+    QUERY_EXEC(return);
+    while(query.next())
+    {
+        quint64 childId = query.value(0).toULongLong();
+        delChildrenFromWks(childId);
+    }
+}
+
 void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 {
     CGeoDBInternalEditLock lock(this);
@@ -1023,7 +1110,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
         if(parentId > 1)
         {
-            item->setCheckState(0, Qt::Unchecked);
+            item->setCheckState(eDBState, Qt::Unchecked);
         }
 
         if(levels)
@@ -1072,7 +1159,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
         if(parentId > 1)
         {
-            item->setCheckState(0, Qt::Unchecked);
+            item->setCheckState(eDBState, Qt::Unchecked);
         }
     }
 
@@ -1127,7 +1214,7 @@ void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QStr
     else
     {
         item->setIcon(eName, QIcon(":/icons/iconFolderGreen16x16"));
-        item->setCheckState(0, Qt::Unchecked);
+        item->setCheckState(eDBState, Qt::Unchecked);
     }
     item->setText(eName, name);
     item->setToolTip(eName, comment);
@@ -1211,7 +1298,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
 
             if(parentId > 1)
             {
-                clone->setCheckState(0, Qt::Unchecked);
+                clone->setCheckState(eDBState, Qt::Unchecked);
             }
 
             if(clone->type() == eFolder)
@@ -2214,7 +2301,7 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
         if(item->type() < eWpt)
         {
             updateCheckmarks(item);
-            if(item->checkState(eName) == Qt::Unchecked)
+            if(item->checkState(eDBState) == Qt::Unchecked)
             {
                 selectedAll = false;
             }
@@ -2245,13 +2332,13 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
         }
 
         qDebug() << item->text(eName) << selected;
-        item->setCheckState(eName, selected ? Qt::Checked : Qt::Unchecked);
+        item->setCheckState(eDBState, selected ? Qt::Checked : Qt::Unchecked);
 
     }
 
     if(parent != itemDatabase && parent->parent()->data(eName, eUserRoleDBKey).toULongLong() != 1)
     {
-        parent->setCheckState(eName, selectedAll ? Qt::Checked : Qt::Unchecked);
+        parent->setCheckState(eDBState, selectedAll ? Qt::Checked : Qt::Unchecked);
     }
 
 }

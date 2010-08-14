@@ -339,13 +339,26 @@ void COverlayDB::delOverlays(const QStringList& keys)
     QString key;
     foreach(key, keys)
     {
-        IOverlay * overlay = overlays.take(key);
-        overlay->deleteLater();
+        delOverlay(key, true);
     }
     emit sigChanged();
     emit sigModified();
 }
 
+void COverlayDB::delOverlay(const QString& key, bool silent)
+{
+    if(overlays.contains(key))
+    {
+        IOverlay * overlay = overlays.take(key);
+        overlay->deleteLater();
+
+        if(!silent)
+        {
+            emit sigChanged();
+            emit sigModified();
+        }
+    }
+}
 
 COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key)
 {
