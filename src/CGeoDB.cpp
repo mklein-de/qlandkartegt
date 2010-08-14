@@ -392,7 +392,7 @@ void CGeoDB::initDB()
     }
 
     if(!query.exec( "CREATE TABLE workspace ("
-        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"        
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
         "type           INTEGER NOT NULL,"
         "changed        BOOLEAN DEFAULT FALSE,"
         "data           BLOB NOT NULL,"
@@ -838,7 +838,7 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
     const int size = item->childCount();
     if(size == 0)
     {
-        queryChildrenFromDB(item, 2);        
+        queryChildrenFromDB(item, 2);
     }
     else
     {
@@ -2198,47 +2198,60 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
     CGeoDBInternalEditLock lock(this);
     QTreeWidgetItem * item;
     quint64 id;
-    bool selected;
+    bool selected, selectedAll;
 
     if(parent == itemWorkspace || parent == itemLostFound)
     {
         return;
     }
 
-    const int size = parent->childCount();
+    selectedAll     = true;
+    const int size  = parent->childCount();
     for(int i = 0; i < size; i++)
     {
         item    = parent->child(i);
 
         if(item->type() < eWpt)
         {
-            item->setCheckState(eName, Qt::Unchecked);
             updateCheckmarks(item);
+            if(item->checkState(eName) == Qt::Unchecked)
+            {
+                selectedAll = false;
+            }
             continue;
         }
 
-        id       = item->data(eName, eUserRoleDBKey).toULongLong();
-        selected = false;
+        id = item->data(eName, eUserRoleDBKey).toULongLong();
         if(keysWksWpt.contains(id))
         {
             selected = true;
         }
-        if(keysWksTrk.contains(id))
+        else if(keysWksTrk.contains(id))
         {
             selected = true;
         }
-        if(keysWksRte.contains(id))
+        else if(keysWksRte.contains(id))
         {
             selected = true;
         }
-        if(keysWksOvl.contains(id))
+        else if(keysWksOvl.contains(id))
         {
             selected = true;
+        }
+        else
+        {
+            selected    = false;
+            selectedAll = false;
         }
 
+        qDebug() << item->text(eName) << selected;
         item->setCheckState(eName, selected ? Qt::Checked : Qt::Unchecked);
 
-        updateCheckmarks(item);
+    }
+
+    if(parent != itemDatabase && parent->parent()->data(eName, eUserRoleDBKey).toULongLong() != 1)
+    {
+        parent->setCheckState(eName, selectedAll ? Qt::Checked : Qt::Unchecked);
     }
 
 }
