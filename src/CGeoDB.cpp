@@ -1535,6 +1535,7 @@ void CGeoDB::slotAddItems()
         addOvlToDB(parentId, item);
     }
 
+    updateCheckmarks();
 }
 
 void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
@@ -1589,6 +1590,8 @@ void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
             qDebug() << "childId equals 0. bad.";
             return;
         }
+
+        keysWksWpt << childId;
     }
     item->setData(eName, eUserRoleDBKey, childId);
     item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
@@ -1662,6 +1665,8 @@ void CGeoDB::addTrkToDB(quint64 parentId, QTreeWidgetItem * item)
             qDebug() << "childId equals 0. bad.";
             return;
         }
+
+        keysWksTrk << childId;
     }
     item->setData(eName, eUserRoleDBKey, childId);
     item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
@@ -1757,6 +1762,8 @@ void CGeoDB::addOvlToDB(quint64 parentId, QTreeWidgetItem * item)
             qDebug() << "childId equals 0. bad.";
             return;
         }
+
+        keysWksOvl << childId;
     }
     item->setData(eName, eUserRoleDBKey, childId);
     item->setIcon(eDBState, QIcon(":/icons/iconGeoDB16x16"));
@@ -2292,8 +2299,9 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
         return;
     }
 
-    selectedAll     = true;
+
     const int size  = parent->childCount();
+    selectedAll     = size != 0;
     for(int i = 0; i < size; i++)
     {
         item    = parent->child(i);
@@ -2331,7 +2339,6 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
             selectedAll = false;
         }
 
-        qDebug() << item->text(eName) << selected;
         item->setCheckState(eDBState, selected ? Qt::Checked : Qt::Unchecked);
 
     }
