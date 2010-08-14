@@ -115,12 +115,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemDatabase->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemDatabase->setToolTip(eName, tr("All your data grouped by folders."));
 
-    timeoutCheckState = new QTimer(this);
-    timeoutCheckState->setSingleShot(true);
-    connect(timeoutCheckState, SIGNAL(timeout()), this, SLOT(slotTimeoutCheckState()));
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
-    //db.setDatabaseName(QDir::home().filePath(CONFIGDIR "qlgt.db"));
     db.setDatabaseName(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
     db.open();
 
@@ -194,17 +190,12 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotRteDBChanged()));
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotOvlDBChanged()));
 
-    slotWptDBChanged();
-    slotTrkDBChanged();
-    slotRteDBChanged();
-    slotOvlDBChanged();
-
-    loadWorkspace();
-
     connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedWpt(const QString&)));
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedTrk(const QString&)));
     connect(&CRouteDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedRte(const QString&)));
     connect(&COverlayDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedOvl(const QString&)));
+
+    loadWorkspace();
     itemWorkspace->setExpanded(true);
 
     saveOnExit = CResources::self().saveGeoDBOnExit();
@@ -348,8 +339,6 @@ void CGeoDB::loadWorkspace()
     CTrackDB::self().loadQLB(qlb);
     CRouteDB::self().loadQLB(qlb);
     COverlayDB::self().loadQLB(qlb);
-
-    updateModifyMarker();
 }
 
 
@@ -515,6 +504,7 @@ void CGeoDB::setupTreeWidget()
     itemDatabase->setExpanded(true);
 
     updateLostFound();
+    updateCheckmarks();
 }
 
 void CGeoDB::slotWptDBChanged()
@@ -523,6 +513,7 @@ void CGeoDB::slotWptDBChanged()
 
     QSqlQuery query(db);
     qDeleteAll(itemWksWpt->takeChildren());
+    keysWksWpt.clear();
 
     CWptDB& wptdb = CWptDB::self();
     CWptDB::keys_t key;
@@ -551,11 +542,14 @@ void CGeoDB::slotWptDBChanged()
         item->setIcon(eName, getWptIconByName(key.icon));
         item->setText(eName, key.name);
         item->setToolTip(eName, key.comment);
+
+        keysWksWpt << query.value(0).toULongLong();
     }
 
-    itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
-
     updateModifyMarker();
+    updateCheckmarks();
+
+    itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
 }
 
 void CGeoDB::slotTrkDBChanged()
@@ -563,6 +557,7 @@ void CGeoDB::slotTrkDBChanged()
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
     qDeleteAll(itemWksTrk->takeChildren());
+    keysWksTrk.clear();
 
     CTrackDB& trkdb = CTrackDB::self();
     CTrackDB::keys_t key;
@@ -584,11 +579,13 @@ void CGeoDB::slotTrkDBChanged()
         item->setIcon(eName, key.icon);
         item->setText(eName, key.name);
         item->setToolTip(eName, key.comment);
+        keysWksTrk << query.value(0).toULongLong();
     }
 
     itemWksTrk->setHidden(itemWksTrk->childCount() == 0);
 
     updateModifyMarker();
+    updateCheckmarks();
 }
 
 void CGeoDB::slotRteDBChanged()
@@ -596,6 +593,7 @@ void CGeoDB::slotRteDBChanged()
     CGeoDBInternalEditLock lock(this);
 
     updateModifyMarker();
+    updateCheckmarks();
 }
 
 void CGeoDB::slotOvlDBChanged()
@@ -603,6 +601,7 @@ void CGeoDB::slotOvlDBChanged()
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
     qDeleteAll(itemWksOvl->takeChildren());
+    keysWksOvl.clear();
 
     COverlayDB& ovldb = COverlayDB::self();
     COverlayDB::keys_t key;
@@ -624,11 +623,14 @@ void CGeoDB::slotOvlDBChanged()
         item->setIcon(eName, key.icon);
         item->setText(eName, key.name);
         item->setToolTip(eName, key.comment);
+
+        keysWksOvl << query.value(0).toULongLong();
     }
 
     itemWksOvl->setHidden(itemWksOvl->childCount() == 0);
 
     updateModifyMarker();
+    updateCheckmarks();
 }
 
 void CGeoDB::slotAddFolder()
@@ -828,10 +830,15 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
 {
     CGeoDBInternalEditLock lock(this);
 
+    if(item->type() == eTypFolder || (item->parent() && item->parent()->data(eName, eUserRoleDBKey) == 1))
+    {
+        return;
+    }
+
     const int size = item->childCount();
     if(size == 0)
     {
-        queryChildrenFromDB(item, 2);
+        queryChildrenFromDB(item, 2);        
     }
     else
     {
@@ -844,6 +851,9 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
             }
         }
     }
+
+    updateCheckmarks(item);
+
 }
 
 
@@ -885,8 +895,6 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 
             }
         }
-
-        timeoutCheckState->start(1000);
     }
     else
     {
@@ -954,8 +962,6 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
     QUERY_EXEC(return);
     while(query.next())
     {
-        checkItemById(query.value(1).toULongLong());
-
         QByteArray array = query.value(0).toByteArray();
         QBuffer buffer(&array);
         CQlb qlb(this);
@@ -973,7 +979,6 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
     while(query.next())
     {
         quint64 childId = query.value(0).toULongLong();
-        checkItemById(childId);
         moveChildrenToWks(childId);
     }
 }
@@ -1016,7 +1021,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         item->setToolTip(eName, query2.value(2).toString());
         item->setFlags(item->flags() | Qt::ItemIsEditable);
 
-        if(parentId != 1)
+        if(parentId > 1)
         {
             item->setCheckState(0, Qt::Unchecked);
         }
@@ -1065,7 +1070,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         item->setText(eName, query2.value(2).toString());
         item->setToolTip(eName, query2.value(3).toString());
 
-        if(parentId != 1)
+        if(parentId > 1)
         {
             item->setCheckState(0, Qt::Unchecked);
         }
@@ -1204,7 +1209,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             clone->setText(eName, child->text(eName));
             clone->setToolTip(eName, child->toolTip(eName));
 
-            if(parentId != 1)
+            if(parentId > 1)
             {
                 clone->setCheckState(0, Qt::Unchecked);
             }
@@ -1218,6 +1223,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             }
 
             queryChildrenFromDB(clone,1);
+            updateCheckmarks(clone);
 
             sortItems(item);
         }
@@ -1383,21 +1389,6 @@ void CGeoDB::delItemById(quint64 parentId, quint64 childId)
     qDeleteAll(itemsToDelete);
 }
 
-void CGeoDB::checkItemById(quint64 id)
-{
-    CGeoDBInternalEditLock lock(this);
-
-    QTreeWidgetItem * item;
-    QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
-
-    foreach(item, items)
-    {
-        if(item->data(eName, eUserRoleDBKey).toULongLong() == id)
-        {
-            item->setCheckState(eName, Qt::Checked);
-        }
-    }
-}
 
 void CGeoDB::slotAddItems()
 {
@@ -1999,22 +1990,6 @@ void CGeoDB::slotDelLost()
     updateLostFound();
 }
 
-void CGeoDB::slotTimeoutCheckState()
-{
-    CGeoDBInternalEditLock lock(this);
-
-    QTreeWidgetItem * item;
-    QList<QTreeWidgetItem*> items = treeWidget->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eName);
-
-    foreach(item, items)
-    {
-        if(item->checkState(eName) == Qt::Checked)
-        {
-            item->setCheckState(eName, Qt::Unchecked);
-        }
-    }
-}
-
 void CGeoDB::slotDelItems()
 {
     CGeoDBInternalEditLock lock(this);
@@ -2212,6 +2187,61 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
 
 }
 
+void CGeoDB::updateCheckmarks()
+{
+    CGeoDBInternalEditLock lock(this);
+    updateCheckmarks(itemDatabase);
+}
+
+void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
+{
+    CGeoDBInternalEditLock lock(this);
+    QTreeWidgetItem * item;
+    quint64 id;
+    bool selected;
+
+    if(parent == itemWorkspace || parent == itemLostFound)
+    {
+        return;
+    }
+
+    const int size = parent->childCount();
+    for(int i = 0; i < size; i++)
+    {
+        item    = parent->child(i);
+
+        if(item->type() < eWpt)
+        {
+            item->setCheckState(eName, Qt::Unchecked);
+            updateCheckmarks(item);
+            continue;
+        }
+
+        id       = item->data(eName, eUserRoleDBKey).toULongLong();
+        selected = false;
+        if(keysWksWpt.contains(id))
+        {
+            selected = true;
+        }
+        if(keysWksTrk.contains(id))
+        {
+            selected = true;
+        }
+        if(keysWksRte.contains(id))
+        {
+            selected = true;
+        }
+        if(keysWksOvl.contains(id))
+        {
+            selected = true;
+        }
+
+        item->setCheckState(eName, selected ? Qt::Checked : Qt::Unchecked);
+
+        updateCheckmarks(item);
+    }
+
+}
 
 bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2)
 {
