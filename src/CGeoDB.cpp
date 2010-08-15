@@ -705,32 +705,42 @@ void CGeoDB::slotMoveFolder()
         return;
     }
 
-    QTreeWidgetItem * item  = treeWidget->currentItem();;
-    childId     = item->data(eName, eUserRoleDBKey).toULongLong();
-    parentId1   = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeWidget->selectedItems();
 
-    query.prepare("DELETE FROM folder2folder WHERE parent=:parent AND child=:child");
-    query.bindValue(":parent", parentId1);
-    query.bindValue(":child", childId);
-    QUERY_EXEC(return);
-
-    // create link folder <-> item
-    query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
-    query.bindValue(":parent", parentId2);
-    query.bindValue(":child", childId);
-    QUERY_EXEC();
-
-    if(!query.next())
+    foreach(item, items)
     {
-        query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
-        query.bindValue(":parent", parentId2);
+        if(item->type() != eFolder)
+        {
+            continue;
+        }
+
+        childId     = item->data(eName, eUserRoleDBKey).toULongLong();
+        parentId1   = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
+
+        query.prepare("DELETE FROM folder2folder WHERE parent=:parent AND child=:child");
+        query.bindValue(":parent", parentId1);
         query.bindValue(":child", childId);
         QUERY_EXEC(return);
-        // update tree widget
-        addFolderById(parentId2, item);
-    }
 
-    delFolderById(parentId1, childId);
+        // create link folder <-> item
+        query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
+        query.bindValue(":parent", parentId2);
+        query.bindValue(":child", childId);
+        QUERY_EXEC();
+
+        if(!query.next())
+        {
+            query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
+            query.bindValue(":parent", parentId2);
+            query.bindValue(":child", childId);
+            QUERY_EXEC(return);
+            // update tree widget
+            addFolderById(parentId2, item);
+        }
+
+        delFolderById(parentId1, childId);
+    }
 }
 
 void CGeoDB::slotCopyFolder()
@@ -748,23 +758,33 @@ void CGeoDB::slotCopyFolder()
         return;
     }
 
-    QTreeWidgetItem * item = treeWidget->currentItem();
-    childId = item->data(eName, eUserRoleDBKey).toULongLong();
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeWidget->selectedItems();
 
-    // create link folder <-> item
-    query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
-    query.bindValue(":parent", parentId);
-    query.bindValue(":child", childId);
-    QUERY_EXEC();
-
-    if(!query.next())
+    foreach(item, items)
     {
-        query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
+        if(item->type() != eFolder)
+        {
+            continue;
+        }
+
+        childId = item->data(eName, eUserRoleDBKey).toULongLong();
+
+        // create link folder <-> item
+        query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId);
         query.bindValue(":child", childId);
-        QUERY_EXEC(return);
-        // update tree widget
-        addFolderById(parentId, item);
+        QUERY_EXEC();
+
+        if(!query.next())
+        {
+            query.prepare("INSERT INTO folder2folder (parent, child) VALUES (:parent, :child)");
+            query.bindValue(":parent", parentId);
+            query.bindValue(":child", childId);
+            QUERY_EXEC(return);
+            // update tree widget
+            addFolderById(parentId, item);
+        }
     }
 }
 
