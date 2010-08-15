@@ -1,3 +1,16 @@
+--- 2010.08.15 ---
+
+Bug     #192:
+Fixed Garmin map: Small vertical or horizontal lines are not drawn
+
+Request #193:
+Use SQLite database for user data
+
+Request #194:
+Add project explorer for the database
+
+
+
 --- 2010.07.28 ---
 
 Request #184:
@@ -869,6 +882,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
