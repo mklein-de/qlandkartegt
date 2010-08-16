@@ -28,7 +28,7 @@
 CGarminExport::CGarminExport(QWidget * parent)
 : QDialog(parent)
 , e1(9)
-, e2(5)
+, e2(6)
 , blocksize(pow(2.0f, e1 + e2))
 , errors(false)
 , isDialog(true)
