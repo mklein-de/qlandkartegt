@@ -503,6 +503,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
   ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
+  ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
@@ -552,6 +553,7 @@ target_link_libraries(
       ${GPSD_LIBRARIES}
       SerialPort
       QMKToolBox
+      qzip
       getopt
   )
 
