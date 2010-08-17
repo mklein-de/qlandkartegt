@@ -649,3 +649,9 @@ void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
 
     sel.description += "\n" + pos1 + "\n" + pos2;
 }
+
+quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)
+{
+
+    return quint32(double(nPixel)/zoomFactor + 0.5);
+}

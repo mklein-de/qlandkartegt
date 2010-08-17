@@ -218,7 +218,7 @@ class IMap : public QObject
          * \param h - matrix height
          * @return - return new buffer with size w * h
          */
-        virtual bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& width, int& height) { return false; };
+        virtual bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& width, int& height) { return false; }
         /**
          * get values for the defined region.
          * \param buffer - elevation matrix. It must has size w * h.
@@ -233,11 +233,11 @@ class IMap : public QObject
         /// the map type, hast to be set during construction
         const maptype_e maptype;
         /// return the state of the doFastDraw flag
-        virtual bool getFastDrawFlag() { return doFastDraw; };
+        virtual bool getFastDrawFlag() { return doFastDraw; }
         /// return true if the map projection is og long/lat type
         virtual bool isLonLat();
         /// summon a configuration dialog, dafault does nothing
-        virtual void config(){};
+        virtual void config(){}
 
         /// return true if the map uses 32 bit color
         virtual bool is32BitRgb(){return true;}
@@ -245,7 +245,9 @@ class IMap : public QObject
         /// return the angle of the true north compared to the vertical axis of the map []
         virtual double getAngleNorth(){return angleNorth;}
 
+        /// enable fast draw option (less detail)
         virtual void fastDrawOn();
+        /// disable fast draw option (more detail)
         virtual void fastDrawOff();
 
         /// get access to the used GDAL dataset
@@ -267,6 +269,12 @@ class IMap : public QObject
 
         */
         virtual void getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& line);
+
+        /// converts N pixel on the original unscaled image to N pixels on the viewport.
+        /**
+            This does not make sense to vector maps. Return 0 to disable.
+        */
+        virtual quint32 scalePixelGrid(quint32 nPixel){return 0;}
 
         static double midU;
         static double midV;
@@ -293,7 +301,7 @@ class IMap : public QObject
         virtual void slotOvlChanged();
 
     protected:
-        virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){};
+        virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){}
         virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         virtual void setFastDrawTimer();
 

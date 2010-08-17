@@ -41,6 +41,20 @@ void CMouseSelMap::draw(QPainter& p)
 {
     if(!selMap) return;
     drawRect(p);
+
+    int i;
+    IMap& map = CMapDB::self().getMap();
+    quint32 gridspace = map.scalePixelGrid(1024);
+
+    for(i = rect.left(); i < rect.right(); i+= gridspace)
+    {
+        p.drawLine(i, rect.top(), i, rect.bottom());
+    }
+
+    for(i = rect.top(); i < rect.bottom(); i+= gridspace)
+    {
+        p.drawLine(rect.left(), i, rect.right(), i);
+    }
 }
 
 

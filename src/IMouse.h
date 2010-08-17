@@ -70,10 +70,10 @@ class IMouse : public QObject
         virtual void draw(QPainter& ){}
 
         /// append a context menu by own actions
-        virtual void contextMenu(QMenu& ){};
+        virtual void contextMenu(QMenu& ){}
 
         /// called by CCanvas right befor a new mouse handler is selected.
-        virtual void looseFocus(){};
+        virtual void looseFocus(){}
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext

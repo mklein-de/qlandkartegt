@@ -22,9 +22,11 @@
 #include <QDialog>
 #include <QProcess>
 #include "ui_IMapQMAPExport.h"
+#include <projects.h>
 
 class CMapSelectionRaster;
 class QTemporaryFile;
+
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
@@ -42,24 +44,39 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished2( int exitCode, QProcess::ExitStatus status);
         void slotFinished3( int exitCode, QProcess::ExitStatus status);
 
+        void slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status);
+        void slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status);
+        void slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status);
+
     private:
+        void startQLM();
+        void startGE();
+        void startGCM();
         const CMapSelectionRaster& mapsel;
 
         QProcess cmd1;
         QProcess cmd2;
         QProcess cmd3;
 
+        QProcess cmdKMZ1;
+        QProcess cmdKMZ2;
+
         QTemporaryFile * file1;
         QTemporaryFile * file2;
 
         struct job_t
         {
+            QString name;
             QString srcFilename;
             QString tarFilename;
             quint32 xoff;
             quint32 yoff;
             quint32 width;
             quint32 height;
+
+            XY p1;
+            XY p2;
+
             int idx;
         };
 
