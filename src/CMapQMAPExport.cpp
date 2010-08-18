@@ -68,12 +68,18 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmdKMZ2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmdKMZ2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ3(int,QProcess::ExitStatus)));
 
+    radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
+    radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
+    radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 }
 
 
 CMapQMAPExport::~CMapQMAPExport()
 {
-
+    QSettings cfg;
+    cfg.setValue("map/export/qlm", radioQLM->isChecked());
+    cfg.setValue("map/export/ge", radioGE->isChecked());
+    cfg.setValue("map/export/gcm", radioGCM->isChecked());
 }
 
 
@@ -331,7 +337,6 @@ void CMapQMAPExport::startGE()
     int idx = 0;
     int level = 1;
 
-    QStringList outfiles;
     QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
     QString filename;
     foreach(filename, filenames)
@@ -379,7 +384,6 @@ void CMapQMAPExport::startGE()
             job.p2.v    = mapsel.lat2;
 
             jobs        << job;
-            outfiles    << tarPath.relativeFilePath(job.tarFilename);
         }
         delete mapfile;
     }
@@ -458,7 +462,7 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
 
     QDomElement name = doc.createElement("name");
     overlay.appendChild(name);
-    name.appendChild(doc.createTextNode(job.tarFilename));
+    name.appendChild(doc.createTextNode(job.name));
 
     QDomElement icon = doc.createElement("Icon");
     overlay.appendChild(icon);
@@ -527,7 +531,6 @@ void CMapQMAPExport::startGCM()
     int idx = 0;
     int level = 1;
 
-    QStringList outfiles;
     QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
     QString filename;
     foreach(filename, filenames)
@@ -552,14 +555,18 @@ void CMapQMAPExport::startGCM()
         double dU = 1024 * mapfile->xscale;
         double dV = 1024 * mapfile->yscale;
 
-        for(double u = p1.u; u < p2.u; u += dU)
+        for(double v = p1.v; v >= p2.v; v += dV)
         {
-            for(double v = p1.v; v >= p2.v; v += dV)
+            for(double u = p1.u; u < p2.u; u += dU)
             {
 
+                double dU1 = dU;
+                double dV1 = dV;
+                if(abs(p2.u - u) < abs(dU)) dU1 = (p2.u - u);
+                if(abs(p2.v - v) < abs(dV)) dV1 = (p2.v - v);
 
                 QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
-                QRectF selarea(QPointF(u, v), QPointF(u + dU, v + dV));
+                QRectF selarea(QPointF(u, v), QPointF(u + dU1, v + dV1));
                 QRect  intersect = selarea.intersected(maparea).toRect();
 
                 //             qDebug() << maparea << selarea << intersect;
@@ -577,14 +584,13 @@ void CMapQMAPExport::startGCM()
 
                     job.p1.u    = u;
                     job.p1.v    = v;
-                    job.p2.u    = u + dU;
-                    job.p2.v    = v + dV;
+                    job.p2.u    = u + dU1;
+                    job.p2.v    = v + dV1;
 
                     pj_transform(mapfile->pj,pjWGS84,1,0,&job.p1.u,&job.p1.v,0);
                     pj_transform(mapfile->pj,pjWGS84,1,0,&job.p2.u,&job.p2.v,0);
 
                     jobs        << job;
-                    outfiles    << tarPath.relativeFilePath(job.tarFilename);
                 }
             }
         }
