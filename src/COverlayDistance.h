@@ -84,6 +84,8 @@ class COverlayDistance : public IOverlay
 
         const QList<pt_t>& getPoints(){return points;}
 
+        const QString& getComment(){return comment;}
+
     signals:
         void sigSelectionChanged();
 

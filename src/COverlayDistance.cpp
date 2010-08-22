@@ -126,8 +126,16 @@ QString COverlayDistance::getInfo()
     }
     if(!comment.isEmpty())
     {
-        info += comment + "\n";
+        if(comment.length() < 60)
+        {
+            info += comment + "\n";
+        }
+        else
+        {
+            info += comment.left(57) + "...\n";
+        }
     }
+
 
     info += tr("Length: %1 %2").arg(val).arg(unit);
 

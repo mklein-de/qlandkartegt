@@ -67,6 +67,7 @@ void COverlayToolWidget::slotDBChanged()
         QListWidgetItem * item = new QListWidgetItem(listOverlays);
         item->setIcon(ovl->icon);
         item->setText(ovl->getInfo());
+        item->setToolTip(ovl->getComment());
         item->setData(Qt::UserRole, ovl->key());
 
     }

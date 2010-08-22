@@ -48,6 +48,9 @@ class IOverlay : public QObject
         virtual void draw(QPainter& p) = 0;
         /// return a short string to be displayed in a list widget
         virtual QString getInfo(){return tr("No info set");}
+
+        virtual const QString& getComment() = 0;
+
         /// return true if coursor is close to the overlay to redirect mouse events into the overlay
         virtual bool isCloseEnough(const QPoint& pt) = 0;
         /// return true if some mouse action is in progress

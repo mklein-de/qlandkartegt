@@ -1156,7 +1156,10 @@ void CTrackDB::emitSigChanged()
 void CTrackDB::emitSigModified()
 {
     emit sigModified();
-    emit sigModified(highlightedTrack()->key());
+    if(highlightedTrack())
+    {
+        emit sigModified(highlightedTrack()->key());
+    }
 }
 
 

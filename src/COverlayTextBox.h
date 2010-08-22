@@ -49,6 +49,7 @@ class COverlayTextBox : public IOverlay
         bool mouseActionInProgress(){return doMove || doSize || doPos;}
 
         QString getInfo();
+        const QString& getComment(){return text;}
 
         void makeVisible();
 

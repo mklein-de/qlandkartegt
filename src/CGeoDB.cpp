@@ -665,7 +665,7 @@ void CGeoDB::slotDelFolder()
         delFolder(item, true);
     }
 
-    updateLostFound();
+    updateWorkspace();
 }
 
 void CGeoDB::slotEditFolder()
@@ -1315,6 +1315,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             clone->setData(eName, eUserRoleQLKey, child->data(eName, eUserRoleQLKey));
             clone->setText(eName, child->text(eName));
             clone->setToolTip(eName, child->toolTip(eName));
+            clone->setFlags(child->flags());
 
             if(parentId > 1)
             {
@@ -2101,7 +2102,7 @@ void CGeoDB::slotDelLost()
         QUERY_EXEC(continue);
     }
 
-    updateLostFound();
+    updateWorkspace();
 }
 
 void CGeoDB::slotDelItems()
@@ -2129,7 +2130,7 @@ void CGeoDB::slotDelItems()
         delItemById(parentId, childId);
     }
 
-    updateLostFound();
+    updateWorkspace();
 }
 
 void CGeoDB::slotMoveItems()
@@ -2393,4 +2394,16 @@ void CGeoDB::sortItems(QTreeWidgetItem * item)
     qSort(items.begin(), items.end(), sortItemsLessThan);
 
     item->addChildren(items);
+}
+
+void CGeoDB::updateWorkspace()
+{
+    slotWptDBChanged();
+    slotTrkDBChanged();
+    slotRteDBChanged();
+    slotOvlDBChanged();
+
+    updateLostFound();
+    updateCheckmarks();
+    updateModifyMarker();
 }

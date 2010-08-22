@@ -126,11 +126,12 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void saveWorkspace();
         void loadWorkspace();
+        void updateWorkspace();
 
         void sortItems(QTreeWidgetItem * item);
 
         QTabWidget * tabbar;
-            QTreeWidgetItem * itemDatabase;
+        QTreeWidgetItem * itemDatabase;
         QTreeWidgetItem * itemLostFound;
         QTreeWidgetItem * itemWorkspace;
 
