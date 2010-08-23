@@ -32,6 +32,7 @@
 #include "CUnitNautic.h"
 #include "CUnitImperial.h"
 #include "CMapTDB.h"
+#include "config.h"
 
 #include <QtGui>
 
@@ -56,7 +57,11 @@ CResources::CResources(QObject * parent)
 #ifdef HAS_GEODB
 , m_useGeoDB(true)
 , m_saveGeoDBOnExit(false)
+#ifndef Q_WS_MAC
 , m_pathGeoDB(QDir::homePath())
+#else
+, m_pathGeoDB(QDir::home().filePath(CONFIGDIR))
+#endif
 #endif
 
 {
