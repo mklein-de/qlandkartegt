@@ -310,7 +310,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             QPoint pt2(u2, v2);
 
 
-            CMapDB::self().getMap().getClosePolyline(pt2, 10, leadline);
+            CMapDB::self().getMap().getClosePolyline(pt1, pt2, 10, leadline);
 
             if(!leadline.isEmpty())
             {
@@ -728,7 +728,13 @@ void COverlayDistance::draw(QPainter& p)
     if(!subline.isEmpty())
     {
 
-        p.setPen(QPen(Qt::magenta, 3));
+        QPen pen;
+        pen.setBrush(QBrush(QColor(255,0,255,150)));
+        pen.setWidth(20);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+
+        p.setPen(pen);
         p.drawPolyline(leadline);
 
         if(highlight)

@@ -2561,9 +2561,9 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
     pt = resPt.toPoint();
 }
 
-void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
+
+static double getDistance(polytype_t::const_iterator& line, QPoint& pt, double threshold)
 {
-    QPoint res;
     int i = 0;                   // index into poly line
     int len;                     // number of points in line
     XY p1, p2;                   // the two points of the polyline close to pt
@@ -2573,6 +2573,61 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
     double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
     double distance;             // the distance to the polyline
 
+    double d = threshold + 1;
+
+    len = line->u.count();
+    // see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
+    for(i=1; i<len; ++i)
+    {
+        p1.u = line->u[i-1];
+        p1.v = line->v[i-1];
+        p2.u = line->u[i];
+        p2.v = line->v[i];
+
+        dx = p2.u - p1.u;
+        dy = p2.v - p1.v;
+
+        d_p1_p2 = sqrt(dx * dx + dy * dy);
+
+        u = ((pt.x() - p1.u) * dx + (pt.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
+
+        if(u < 0.0 || u > 1.0)
+        {
+            distance = sqrt((p1.u - pt.x())*(p1.u - pt.x()) + (p1.v - pt.y())*(p1.v - pt.y()));
+            if(distance < threshold)
+            {
+                d = threshold = distance;
+            }
+
+            distance = sqrt((p2.u - pt.x())*(p2.u - pt.x()) + (p2.v - pt.y())*(p2.v - pt.y()));
+            if(distance < threshold)
+            {
+                d = threshold = distance;
+            }
+
+            continue;
+        }
+
+        x = p1.u + u * dx;
+        y = p1.v + u * dy;
+
+        distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
+
+        if(distance < threshold)
+        {
+            d = threshold = distance;
+        }
+    }
+
+    return d;
+}
+
+void CMapTDB::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& polyline)
+{
+
+    int i;
+    double dist1 = 0, dist2 = 0;
+
     polyline.clear();
 
     const CGarminPolygon * pLine = 0;
@@ -2580,57 +2635,28 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
     polytype_t::const_iterator line = polylines.begin();
     while(line != polylines.end())
     {
-        len = line->u.count();
+
         // need at least 2 points
-        if(len < 2)
+        if(line->u.count() < 2)
+        {
+            ++line;
+            continue;
+        }
+        if(0x20 <= line->type && line->type <= 25)
         {
             ++line;
             continue;
         }
 
-        // see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
-        for(i=1; i<len; ++i)
+        dist1 = ::getDistance(line, pt1, threshold);
+        dist2 = ::getDistance(line, pt2, threshold);
+
+        if(dist1 < threshold && dist2 < threshold)
         {
-            p1.u = line->u[i-1];
-            p1.v = line->v[i-1];
-            p2.u = line->u[i];
-            p2.v = line->v[i];
-
-            dx = p2.u - p1.u;
-            dy = p2.v - p1.v;
-
-            d_p1_p2 = sqrt(dx * dx + dy * dy);
-
-            u = ((pt.x() - p1.u) * dx + (pt.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
-
-            if(u < 0.0 || u > 1.0) continue;
-
-            x = p1.u + u * dx;
-            y = p1.v + u * dy;
-
-            distance = sqrt((x - pt.x())*(x - pt.x()) + (y - pt.y())*(y - pt.y()));
-
-            if(distance < threshold)
-            {
-                switch(line->type)
-                {
-                    case 0x23: // "Minor depht contour"
-                    case 0x20: // "Minor land contour"
-                    case 0x24: // "Intermediate depth contour",
-                    case 0x21: // "Intermediate land contour",
-                    case 0x25: // "Major depth contour",
-                    case 0x22: // "Major land contour",
-                       break;
-
-                    default:
-                       res.setX(x);
-                       res.setY(y);
-
-                       pLine = &(*line);
-                       threshold = distance;
-                }
-            }
+            pLine = &(*line);
+            threshold = dist1 < dist2 ? dist1 : dist2;
         }
+
         ++line;
     }
 
@@ -2641,8 +2667,6 @@ void CMapTDB::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& polyline)
         {
             polyline << QPoint(pLine->u[i], pLine->v[i]);
         }
-
-//        pt = res;
     }
 
 }

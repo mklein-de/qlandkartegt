@@ -366,7 +366,7 @@ void IMap::decYOffset(int i)
     QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
-void IMap::getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& line)
+void IMap::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line)
 {
     line.clear();
 }

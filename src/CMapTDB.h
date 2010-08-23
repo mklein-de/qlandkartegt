@@ -62,7 +62,7 @@ class CMapTDB : public IMap
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void registerDEM(CMapDEM& dem);
         void select(IMapSelection& ms, const QRect& rect);
-        void getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& line);
+        void getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line);
 
 #ifdef SQL_SEARCH_GARMIN
         void createSearchIndex(QObject * reveiver, const char * slot);

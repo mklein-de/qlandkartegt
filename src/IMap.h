@@ -268,7 +268,7 @@ class IMap : public QObject
 
 
         */
-        virtual void getClosePolyline(QPoint& pt, qint32 threshold, QPolygon& line);
+        virtual void getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line);
 
         /// converts N pixel on the original unscaled image to N pixels on the viewport.
         /**

@@ -551,6 +551,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     {
         QPoint px = line1.first();
         distance = sqrt((double)((px.x() - pt2.x())*(px.x() - pt2.x()) + (px.y() - pt2.y())*(px.y() - pt2.y())));
+
         if(distance < (threshold<<1))
         {
             idx21 = 0;
