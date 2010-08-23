@@ -138,6 +138,19 @@
    <item row="3" column="0">
     <layout class="QHBoxLayout" name="_3">
      <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Apply</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="comboColor"/>
      </item>
      <item>
@@ -154,13 +167,6 @@
       <widget class="QCheckBox" name="checkResetDelTrkPt">
        <property name="text">
         <string>show all hidden track points</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Apply</set>
        </property>
       </widget>
      </item>
@@ -690,8 +696,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>434</width>
-                 <height>234</height>
+                 <width>24</width>
+                 <height>16</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>
