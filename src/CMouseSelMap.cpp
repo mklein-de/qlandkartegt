@@ -45,38 +45,40 @@ void CMouseSelMap::draw(QPainter& p)
     IMap& map = CMapDB::self().getMap();
     quint32 gridspace = map.scalePixelGrid(1024);
 
-    // snap grid if parts are too small
-    int w = rect.width() % gridspace;
-    int h = rect.height() % gridspace;
+    if(gridspace != 0)
+    {
+        // snap grid if parts are too small
+        int w = rect.width() % gridspace;
+        int h = rect.height() % gridspace;
 
-    if(w < (gridspace * 0.20))
-    {
-        w = - w;
-    }
-    else if(w > (gridspace * 0.80))
-    {
-        w = gridspace - w;
-    }
-    else
-    {
-        w = 0;
-    }
+        if(w < (gridspace * 0.20))
+        {
+            w = - w;
+        }
+        else if(w > (gridspace * 0.80))
+        {
+            w = gridspace - w;
+        }
+        else
+        {
+            w = 0;
+        }
 
-    if(h < (gridspace * 0.20))
-    {
-        h = - h;
-    }
-    else if(h > (gridspace * 0.80))
-    {
-        h = gridspace - h;
-    }
-    else
-    {
-        h = 0;
-    }
+        if(h < (gridspace * 0.20))
+        {
+            h = - h;
+        }
+        else if(h > (gridspace * 0.80))
+        {
+            h = gridspace - h;
+        }
+        else
+        {
+            h = 0;
+        }
 
-    rect.adjust(0,0,w,h);
-
+        rect.adjust(0,0,w,h);
+    }
     // draw area
     drawRect(p);
 
@@ -137,36 +139,39 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
         IMap& map = CMapDB::self().getMap();
         quint32 gridspace = map.scalePixelGrid(1024);
 
-        int w = rect.width() % gridspace;
-        int h = rect.height() % gridspace;
+        if(gridspace != 0)
+        {
+            int w = rect.width() % gridspace;
+            int h = rect.height() % gridspace;
 
-        if(w < (gridspace * 0.20))
-        {
-            w = - w;
-        }
-        else if(w > (gridspace * 0.80))
-        {
-            w = gridspace - w;
-        }
-        else
-        {
-            w = 0;
+            if(w < (gridspace * 0.20))
+            {
+                w = - w;
+            }
+            else if(w > (gridspace * 0.80))
+            {
+                w = gridspace - w;
+            }
+            else
+            {
+                w = 0;
+            }
+
+            if(h < (gridspace * 0.20))
+            {
+                h = - h;
+            }
+            else if(h > (gridspace * 0.80))
+            {
+                h = gridspace - h;
+            }
+            else
+            {
+                h = 0;
+            }
+            rect.adjust(0,0,w,h);
         }
 
-        if(h < (gridspace * 0.20))
-        {
-            h = - h;
-        }
-        else if(h > (gridspace * 0.80))
-        {
-            h = gridspace - h;
-        }
-        else
-        {
-            h = 0;
-        }
-
-        rect.adjust(0,0,w,h);
 
         CMapDB::self().select(rect);
         canvas->setMouseMode(CCanvas::eMouseMoveArea);

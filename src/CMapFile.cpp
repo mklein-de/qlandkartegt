@@ -120,6 +120,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 
         if(success)
         {
+            qDebug() << "set transparent color for index" << idx;
             QColor tmp(colortable[idx]);
             tmp.setAlpha(0);
             colortable[idx] = tmp.rgba();
