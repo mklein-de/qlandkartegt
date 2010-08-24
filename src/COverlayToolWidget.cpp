@@ -114,10 +114,6 @@ void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 
         QMenu contextMenu;
         COverlayDB::self().customMenu(item->data(Qt::UserRole).toString(), contextMenu);
-        //        if(contextMenu.isEmpty())
-        //        {
-        //            contextMenu.addAction(QPixmap(),tr("<---->"));
-        //        }
         contextMenu.addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
 
@@ -162,11 +158,8 @@ void COverlayToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete listOverlays->takeItem(listOverlays->row(item));
     }
-    originator = true;
     COverlayDB::self().delOverlays(keys);
-    originator = false;
 }
 
 

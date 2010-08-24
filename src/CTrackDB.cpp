@@ -611,6 +611,7 @@ void CTrackDB::delTracks(const QStringList& keys)
         delTrack(key,false);
     }
     undoStack->endMacro();
+    emit sigChanged();
 }
 
 

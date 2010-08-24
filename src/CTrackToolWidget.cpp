@@ -305,11 +305,8 @@ void CTrackToolWidget::slotDelete()
     {
         keys << item->data(Qt::UserRole).toString();
     }
-    originator = true;
-    CTrackDB::self().delTracks(keys);
-    qDeleteAll(items);
-    originator = false;
 
+    CTrackDB::self().delTracks(keys);
 }
 
 
