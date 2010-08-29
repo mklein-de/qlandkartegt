@@ -97,6 +97,7 @@ class CWpt : public QObject
         friend QDataStream& operator <<(QDataStream& s, CWpt& wpt);
         friend class CDlgEditWpt;
         friend class CDlgWptEdit;
+        friend class CWptDB;
         static QDir path;
         static quint32 keycnt;
         QString _key_;

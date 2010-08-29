@@ -172,6 +172,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     contextMenuWks      = new QMenu(this);
     actAddToDB          = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database..."), this, SLOT(slotAddItems()));
     actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save changes..."), this, SLOT(slotSaveItems()));
+    actHardCopy         = contextMenuWks->addAction(QPixmap(":/icons/editcopy"), tr("Check-out as copy"), this, SLOT(slotHardCopyItem()));
 
     contextMenuLost     = new QMenu(this);
     actMoveLost         = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move..."), this, SLOT(slotMoveLost()));
@@ -302,6 +303,7 @@ void CGeoDB::loadWorkspace()
     QByteArray& rtes = qlb.routes();
     QByteArray& ovls = qlb.overlays();
 
+
     while(query.next())
     {
 
@@ -335,10 +337,10 @@ void CGeoDB::loadWorkspace()
 
     }
 
-    CWptDB::self().loadQLB(qlb);
-    CTrackDB::self().loadQLB(qlb);
-    CRouteDB::self().loadQLB(qlb);
-    COverlayDB::self().loadQLB(qlb);
+    CWptDB::self().loadQLB(qlb, false);
+    CTrackDB::self().loadQLB(qlb, false);
+    CRouteDB::self().loadQLB(qlb, false);
+    COverlayDB::self().loadQLB(qlb, false);
 }
 
 
@@ -797,6 +799,24 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 
     if(top == itemWorkspace)
     {
+        if(item->type() < eWpt)
+        {
+            actHardCopy->setVisible(false);
+        }
+        else
+        {
+            if(item->data(eName,eUserRoleDBKey).toULongLong() == 0)
+            {
+                actHardCopy->setVisible(false);
+            }
+            else
+            {
+                actHardCopy->setVisible(true);
+            }
+
+        }
+
+
         QPoint p = treeWidget->mapToGlobal(pos);
         contextMenuWks->exec(p);
     }
@@ -932,10 +952,10 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                     CQlb qlb(this);
                     qlb.load(&buffer);
 
-                    CWptDB::self().loadQLB(qlb);
-                    CTrackDB::self().loadQLB(qlb);
-                    CRouteDB::self().loadQLB(qlb);
-                    COverlayDB::self().loadQLB(qlb);
+                    CWptDB::self().loadQLB(qlb, false);
+                    CTrackDB::self().loadQLB(qlb, false);
+                    CRouteDB::self().loadQLB(qlb, false);
+                    COverlayDB::self().loadQLB(qlb, false);
 
                 }
             }
@@ -959,15 +979,19 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                     {
                         case eWpt:
                             CWptDB::self().delWpt(key, false);
+                            keysWptModified.remove(key);
                             break;
                         case eTrk:
                             CTrackDB::self().delTrack(key, false);
+                            keysTrkModified.remove(key);
                             break;
                         case eRte:
                             CRouteDB::self().delRoute(key, false);
+                            keysRteModified.remove(key);
                             break;
                         case eOvl:
                             COverlayDB::self().delOverlay(key,false);
+                            keysOvlModified.remove(key);
                             break;
                     }
                 }
@@ -1025,10 +1049,10 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
         CQlb qlb(this);
         qlb.load(&buffer);
 
-        CWptDB::self().loadQLB(qlb);
-        CTrackDB::self().loadQLB(qlb);
-        CRouteDB::self().loadQLB(qlb);
-        COverlayDB::self().loadQLB(qlb);
+        CWptDB::self().loadQLB(qlb, false);
+        CTrackDB::self().loadQLB(qlb, false);
+        CRouteDB::self().loadQLB(qlb, false);
+        COverlayDB::self().loadQLB(qlb, false);
     }
 
     query.prepare("SELECT child FROM folder2folder WHERE parent=:parent");
@@ -1062,15 +1086,19 @@ void CGeoDB::delChildrenFromWks(quint64 parentId)
         {
             case eWpt:
                 keysWpt << key;
+                keysWptModified.remove(key);
                 break;
             case eTrk:
                 keysTrk << key;
+                keysTrkModified.remove(key);
                 break;
             case eRte:
                 keysRte << key;
+                keysRteModified.remove(key);
                 break;
             case eOvl:
                 keysOvl << key;
+                keysOvlModified.remove(key);
                 break;
         }
     }
@@ -2230,6 +2258,67 @@ void CGeoDB::slotCopyItems()
     }
 }
 
+void CGeoDB::slotHardCopyItem()
+{
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeWidget->selectedItems();
+
+    CQlb qlb(this);
+
+    QStringList keysWpt;
+    QStringList keysTrk;
+//    QStringList keysRte;
+    QStringList keysOvl;
+
+    foreach(item, items)
+    {
+        switch(item->type())
+        {
+            case eWpt:
+            {
+                CWpt * wpt = CWptDB::self().getWptByKey(item->data(eName,eUserRoleQLKey).toString());
+                qlb     << *wpt;
+                keysWpt << wpt->key();
+                break;
+            }
+            case eTrk:
+            {
+                CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eName,eUserRoleQLKey).toString());
+                qlb     << *trk;
+                keysTrk << trk->key();
+                break;
+            }
+            case eRte:
+            {
+//                CRoute * rte = CRouteDB::self().getRouteByKey(item->data(eName,eUserRoleQLKey).toString());
+//                iortes << rte;
+
+                break;
+            }
+            case eOvl:
+            {
+                IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eName,eUserRoleQLKey).toString());
+                qlb     << *ovl;
+                keysOvl << ovl->key();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    CWptDB::self().delWpt(keysWpt);
+    CTrackDB::self().delTracks(keysTrk);
+//    CRouteDB::self().delRoutes(keysRte);
+    COverlayDB::self().delOverlays(keysOvl);
+
+    CWptDB::self().loadQLB(qlb, true);
+    CTrackDB::self().loadQLB(qlb, true);
+    CRouteDB::self().loadQLB(qlb, true);
+    COverlayDB::self().loadQLB(qlb, true);
+
+}
+
 
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
@@ -2407,3 +2496,4 @@ void CGeoDB::updateWorkspace()
     updateCheckmarks();
     updateModifyMarker();
 }
+

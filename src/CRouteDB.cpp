@@ -286,7 +286,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
 
 /// load database data from QLandkarte binary
-void CRouteDB::loadQLB(CQlb& qlb)
+void CRouteDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.routes(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
@@ -295,6 +295,10 @@ void CRouteDB::loadQLB(CQlb& qlb)
     {
         CRoute * route = new CRoute(this);
         stream >> *route;
+        if(newKey)
+        {
+            route->_key_.clear();
+        }
         route->calcDistance();
         addRoute(route, true);
     }

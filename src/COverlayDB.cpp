@@ -302,15 +302,17 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
 }
 
 
-void COverlayDB::loadQLB(CQlb& qlb)
+void COverlayDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.overlays(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
 
+    addOverlaysAsDuplicate = newKey;
     while(!stream.atEnd())
     {
         stream >> *this;
     }
+    addOverlaysAsDuplicate = false;
 
     emit sigChanged();
 }
@@ -485,9 +487,7 @@ void COverlayDB::pasteFromClipboard()
         CQlb qlb(this);
         qlb.load(&buffer);
 
-        addOverlaysAsDuplicate = true;
-        loadQLB(qlb);
-        addOverlaysAsDuplicate = false;
+        loadQLB(qlb, true);
 
         emit sigModified();
     }

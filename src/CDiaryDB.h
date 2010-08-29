@@ -41,11 +41,11 @@ class CDiaryDB : public IDB
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx, const QStringList& keys);
 
-        void loadQLB(CQlb& qlb);
+        void loadQLB(CQlb& qlb, bool newKey);
         void saveQLB(CQlb& qlb);
 
-        void upload(const QStringList& ){};
-        void download(){};
+        void upload(const QStringList& ){}
+        void download(){}
 
         void clear();
 

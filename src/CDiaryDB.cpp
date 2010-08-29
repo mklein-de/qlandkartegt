@@ -62,7 +62,7 @@ void CDiaryDB::openEditWidget()
 }
 
 
-void CDiaryDB::loadQLB(CQlb& qlb)
+void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);

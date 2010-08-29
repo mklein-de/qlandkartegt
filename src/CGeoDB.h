@@ -49,6 +49,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotMoveItems();
         void slotCopyItems();
         void slotSaveItems();
+        void slotHardCopyItem();
 
         void slotContextMenu(const QPoint&);
         void slotItemExpanded(QTreeWidgetItem * item);
@@ -158,6 +159,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QMenu * contextMenuWks;
         QAction * actAddToDB;
         QAction * actSaveToDB;
+        QAction * actHardCopy;
 
         QMenu * contextMenuLost;
         QAction * actMoveLost;

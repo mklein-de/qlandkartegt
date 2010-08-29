@@ -50,7 +50,7 @@ class CRouteDB : public IDB
         void saveGPX(CGpx& gpx, const QStringList& keys);
 
         /// load database data from QLandkarte binary
-        void loadQLB(CQlb& qlb);
+        void loadQLB(CQlb& qlb, bool newKey);
         /// save database data to QLandkarte binary
         void saveQLB(CQlb& qlb);
 

@@ -1,8 +1,7 @@
 To compile the code make sure you meet the following dependencies:
 
     * cmake - a make file generator  (>= Version 2.6)
-    * QT 4 / Qtopia 4 - the famous GUI tool kit, (>= Version 4.4; >= Version 4.5 on
-      Mac OS X)
+    * QT 4 / Qtopia 4 - the famous GUI tool kit, (>= Version 4.6)
     * GDAL - Geospatial Data Abstraction Library (> Version 1.5.0, 1.5.0 is
 	  buggy)
     * Proj4 - Cartographic Projections Library (>= Version 4.6)
@@ -11,6 +10,7 @@ Optional you might want to use:
 
     * libexif - to create wayoints from geotagged images
     * libdmtx - to summarize waypoints as  2D barcode
+    * libgpsd - to use gpsd support
 
 
 You can download the latest release as source code on SourceForge.There will be

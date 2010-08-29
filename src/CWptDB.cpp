@@ -62,7 +62,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 
     CQlb qlb(this);
     qlb.load(QDir::home().filePath(CONFIGDIR "sticky.qlb"));
-    loadQLB(qlb);
+    loadQLB(qlb, false);
 
 #ifdef HAS_EXIF
 #ifdef WIN32
@@ -491,7 +491,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 }
 
 
-void CWptDB::loadQLB(CQlb& qlb)
+void CWptDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.waypoints(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
@@ -500,6 +500,12 @@ void CWptDB::loadQLB(CQlb& qlb)
     {
         CWpt * wpt = new CWpt(this);
         stream >> *wpt;
+
+        if(newKey)
+        {
+            wpt->_key_.clear();
+        }
+
         addWpt(wpt,true);
     }
 

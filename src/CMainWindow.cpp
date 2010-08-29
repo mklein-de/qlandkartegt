@@ -807,12 +807,12 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
         {
             CQlb qlb(this);
             qlb.load(filename);
-            CMapDB::self().loadQLB(qlb);
-            CWptDB::self().loadQLB(qlb);
-            CTrackDB::self().loadQLB(qlb);
-            CRouteDB::self().loadQLB(qlb);
-            CDiaryDB::self().loadQLB(qlb);
-            COverlayDB::self().loadQLB(qlb);
+            CMapDB::self().loadQLB(qlb, false);
+            CWptDB::self().loadQLB(qlb, false);
+            CTrackDB::self().loadQLB(qlb, false);
+            CRouteDB::self().loadQLB(qlb, false);
+            CDiaryDB::self().loadQLB(qlb, false);
+            COverlayDB::self().loadQLB(qlb, false);
         }
         else if(ext == "GPX")
         {

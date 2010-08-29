@@ -480,7 +480,7 @@ void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 }
 
 
-void CMapDB::loadQLB(CQlb& qlb)
+void CMapDB::loadQLB(CQlb& qlb, bool newKey)
 {
 }
 
