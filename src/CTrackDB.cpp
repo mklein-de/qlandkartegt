@@ -929,7 +929,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                         continue;
                     }
                                  // keep distance
-                    if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50)
+                    if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
                     {
                         if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
                         {
@@ -1008,7 +1008,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             else
             {
                                  // keep distance
-                if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 50)
+                if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
                 {
                     if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
                     {
