@@ -873,16 +873,15 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
                 actDelDir->setVisible(true);
                 actEditDirComment->setVisible(true);
 
-//                quint64 parentId = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
-                if(item->type() == eFolder1)
-                {
-                    actMoveDir->setVisible(false);
-                    actCopyDir->setVisible(false);
-                }
-                else
+                if(item->type() == eFolder2)
                 {
                     actMoveDir->setVisible(true);
                     actCopyDir->setVisible(true);
+                }
+                else
+                {
+                    actMoveDir->setVisible(false);
+                    actCopyDir->setVisible(false);
 
                 }
             }
@@ -1087,8 +1086,9 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
         COverlayDB::self().loadQLB(qlb, false);
     }
 
-    query.prepare("SELECT child FROM folder2folder WHERE parent=:parent");
+    query.prepare("SELECT child FROM folder2folder WHERE parent=:parent AND type=:type");
     query.bindValue(":parent", parentId);
+    query.bindValue(":type", eFolder2);
     QUERY_EXEC(return);
     while(query.next())
     {
@@ -2469,7 +2469,10 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
             updateCheckmarks(item);
             if(item->checkState(eDBState) == Qt::Unchecked)
             {
-                selectedAll = false;
+                if(item->type() == eFolder2)
+                {
+                    selectedAll = false;
+                }
             }
             continue;
         }
