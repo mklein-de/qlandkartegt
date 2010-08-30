@@ -72,43 +72,43 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     tabbar->insertTab(eName,this, QIcon(":/icons/iconGeoDB16x16"),"");
     tabbar->setTabToolTip(tabbar->indexOf(this), tr("Manage your Geo Data Base"));
 
-    itemWorkspace = new QTreeWidgetItem(treeWidget,eFolder);
+    itemWorkspace = new QTreeWidgetItem(treeWidget,eFolder0);
     itemWorkspace->setText(eName, tr("Workspace"));
     itemWorkspace->setIcon(eName, QIcon(":/icons/iconGlobe16x16"));
     itemWorkspace->setToolTip(eName, tr("All items you see on the map."));
     itemWorkspace->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
 
-    itemWksWpt = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksWpt = new  QTreeWidgetItem(itemWorkspace, eFolderT);
     itemWksWpt->setText(eName, tr("Waypoints"));
     itemWksWpt->setIcon(eName, QIcon(":/icons/iconWaypoint16x16"));
     itemWksWpt->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksWpt->setHidden(true);
 
-    itemWksTrk = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksTrk = new  QTreeWidgetItem(itemWorkspace, eFolderT);
     itemWksTrk->setText(eName, tr("Tracks"));
     itemWksTrk->setIcon(eName, QIcon(":/icons/iconTrack16x16"));
     itemWksTrk->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksTrk->setHidden(true);
 
-    itemWksRte = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksRte = new  QTreeWidgetItem(itemWorkspace, eFolderT);
     itemWksRte->setText(eName, tr("Routes"));
     itemWksRte->setIcon(eName, QIcon(":/icons/iconRoute16x16"));
     itemWksRte->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksRte->setHidden(true);
 
-    itemWksOvl = new  QTreeWidgetItem(itemWorkspace, eTypFolder);
+    itemWksOvl = new  QTreeWidgetItem(itemWorkspace, eFolderT);
     itemWksOvl->setText(eName, tr("Overlays"));
     itemWksOvl->setIcon(eName, QIcon(":/icons/iconOverlay16x16"));
     itemWksOvl->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemWksOvl->setHidden(true);
 
-    itemLostFound = new QTreeWidgetItem(treeWidget,eFolder);
+    itemLostFound = new QTreeWidgetItem(treeWidget,eFolder0);
     itemLostFound->setText(eName, tr("Lost & Found"));
     itemLostFound->setIcon(eName, QIcon(":/icons/iconDelete16x16"));
     itemLostFound->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
     itemLostFound->setToolTip(eName, tr("All items that lost their parent folder as you deleted it."));
 
-    itemDatabase = new QTreeWidgetItem(treeWidget,eFolder);
+    itemDatabase = new QTreeWidgetItem(treeWidget,eFolder0);
     itemDatabase->setText(eName, tr("Database"));
     itemDatabase->setIcon(eName, QIcon(":/icons/iconGeoDB16x16"));
     itemDatabase->setData(eName, eUserRoleDBKey, 1);
@@ -367,6 +367,7 @@ void CGeoDB::initDB()
 
     if(!query.exec( "CREATE TABLE folders ("
         "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "type           INTEGER,"
         "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
         "icon           TEXT NOT NULL,"
         "name           TEXT NOT NULL,"
@@ -482,6 +483,37 @@ void CGeoDB::migrateDB(int version)
                     qDebug() << query.lastError();
                     return;
                 }
+                break;
+            }
+            case 4:
+            {
+                if(!query.exec("ALTER TABLE folders ADD COLUMN type INTEGER"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
+                query.prepare("UPDATE folders SET type=:type WHERE icon=:icon");
+                query.bindValue("type", eFolder1);
+                query.bindValue("icon", ":/icons/iconFolderBlue16x16");
+                if(!query.exec())
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
+                query.prepare("UPDATE folders SET type=:type WHERE icon=:icon");
+                query.bindValue(":type", eFolder2);
+                query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+                if(!query.exec())
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
                 break;
             }
         }
@@ -712,7 +744,7 @@ void CGeoDB::slotMoveFolder()
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder2)
         {
             continue;
         }
@@ -765,7 +797,7 @@ void CGeoDB::slotCopyFolder()
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder2)
         {
             continue;
         }
@@ -799,7 +831,7 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
 
     if(top == itemWorkspace)
     {
-        if(item->type() < eWpt)
+        if(item->type() >= eFolder0)
         {
             actHardCopy->setVisible(false);
         }
@@ -827,7 +859,7 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
     }
     else if(top == itemDatabase)
     {
-        if(item->type() == eFolder)
+        if(item->type() >= eFolder0)
         {
             if(item == itemDatabase)
             {
@@ -841,8 +873,8 @@ void CGeoDB::slotContextMenu(const QPoint& pos)
                 actDelDir->setVisible(true);
                 actEditDirComment->setVisible(true);
 
-                quint64 parentId = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
-                if(parentId == 1)
+//                quint64 parentId = item->parent()->data(eName, eUserRoleDBKey).toULongLong();
+                if(item->type() == eFolder1)
                 {
                     actMoveDir->setVisible(false);
                     actCopyDir->setVisible(false);
@@ -870,7 +902,7 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
 {
     CGeoDBInternalEditLock lock(this);
 
-    if(item->type() == eTypFolder || (item->parent() && item->parent()->data(eName, eUserRoleDBKey) == 1))
+    if(item->type() == eFolderT || (item->parent() && item->parent()->data(eName, eUserRoleDBKey) == 1))
     {
         return;
     }
@@ -885,7 +917,7 @@ void CGeoDB::slotItemExpanded(QTreeWidgetItem * item)
         for(int i = 0; i< size; i++)
         {
             QTreeWidgetItem  * child = item->child(i);
-            if(child->type() == eFolder && child->childCount() == 0)
+            if(child->type() >= eFolder0 && child->childCount() == 0)
             {
                 queryChildrenFromDB(child, 1);
             }
@@ -915,7 +947,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
         QString itemText = item->text(eName);
 
-        if(itemText.isEmpty() || item->type() != eFolder)
+        if(itemText.isEmpty() || item->type() < eFolder0)
         {
             return;
         }
@@ -936,7 +968,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
     {
         if(item->checkState(eDBState) == Qt::Checked)
         {
-            if(item->type() == eFolder)
+            if(item->type() >= eFolder0)
             {
                 moveChildrenToWks(item->data(eName, eUserRoleDBKey).toULongLong());
             }
@@ -962,7 +994,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         }
         else
         {
-            if(item->type() == eFolder)
+            if(item->type() >= eFolder0)
             {
                 delChildrenFromWks(item->data(eName, eUserRoleDBKey).toULongLong());
             }
@@ -1139,7 +1171,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         quint64 childId = query.value(0).toULongLong();
 
         QSqlQuery query2(db);
-        query2.prepare("SELECT icon, name, comment FROM folders WHERE id = :id ORDER BY name");
+        query2.prepare("SELECT icon, name, comment, type FROM folders WHERE id = :id ORDER BY name");
         query2.bindValue(":id", childId);
         if(!query2.exec())
         {
@@ -1149,12 +1181,14 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         }
         query2.next();
 
-        QTreeWidgetItem * item = new QTreeWidgetItem(parent, eFolder);
+        QTreeWidgetItem * item = new QTreeWidgetItem(parent, query2.value(3).toInt());
         item->setData(eName, eUserRoleDBKey, childId);
         item->setIcon(eName, QIcon(query2.value(0).toString()));
         item->setText(eName, query2.value(1).toString());
         item->setToolTip(eName, query2.value(2).toString());
         item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+
 
         if(parentId > 1)
         {
@@ -1221,18 +1255,27 @@ void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QStr
     QSqlQuery query(db);
     quint64 parentId = parent->data(eName, eUserRoleDBKey).toULongLong();
     quint64 childId = 0;
+    qint32  type;
 
-    query.prepare("INSERT INTO folders (icon, name, comment) VALUES (:icon, :name, :comment)");
-    if(parentId == 1)
+    query.prepare("INSERT INTO folders (icon, name, comment, type) VALUES (:icon, :name, :comment, :type)");
+    if(parent->type() == eFolder0)
     {
         query.bindValue(":icon", ":/icons/iconFolderBlue16x16");
+        type = eFolder1;
+    }
+    else if(parent->type() == eFolder1)
+    {
+        query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+        type = eFolder2;
     }
     else
     {
-        query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+        query.bindValue(":icon", ":/icons/iconFolderOrange16x16");
+        type = eFolderN;
     }
     query.bindValue(":name", name);
     query.bindValue(":comment", comment);
+    query.bindValue(":type", type);
     QUERY_EXEC(return);
     if(!query.exec("SELECT last_insert_rowid() from folders"))
     {
@@ -1253,15 +1296,20 @@ void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QStr
     query.bindValue(":child", childId);
     QUERY_EXEC(return);
 
-    QTreeWidgetItem * item = new QTreeWidgetItem(eFolder);
+    QTreeWidgetItem * item = new QTreeWidgetItem(type);
     item->setData(eName, eUserRoleDBKey, childId);
-    if(parentId == 1)
+    if(type == eFolder1)
     {
         item->setIcon(eName, QIcon(":/icons/iconFolderBlue16x16"));
     }
-    else
+    else if(type == eFolder2)
     {
         item->setIcon(eName, QIcon(":/icons/iconFolderGreen16x16"));
+        item->setCheckState(eDBState, Qt::Unchecked);
+    }
+    else
+    {
+        item->setIcon(eName, QIcon(":/icons/iconFolderOrange16x16"));
         item->setCheckState(eDBState, Qt::Unchecked);
     }
     item->setText(eName, name);
@@ -1329,7 +1377,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder0)
         {
             continue;
         }
@@ -1350,7 +1398,7 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
                 clone->setCheckState(eDBState, Qt::Unchecked);
             }
 
-            if(clone->type() == eFolder)
+            if(clone->type() >= eFolder0)
             {
                 item->insertChild(0,clone);
             }
@@ -1376,7 +1424,7 @@ void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder0)
         {
             continue;
         }
@@ -1386,7 +1434,7 @@ void CGeoDB::delFolderById(quint64 parentId, quint64 childId)
             const int size = item->childCount();
             for(i = 0; i < size; i++)
             {
-                if(item->child(i)->type() != eFolder)
+                if(item->child(i)->type() < eFolder0)
                 {
                     continue;
                 }
@@ -1419,7 +1467,7 @@ void CGeoDB::updateFolderById(quint64 id)
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder0)
         {
             continue;
         }
@@ -1447,7 +1495,7 @@ void CGeoDB::updateItemById(quint64 id)
 
     foreach(item, items)
     {
-        if(item->type() == eFolder)
+        if(item->type() >= eFolder0)
         {
             continue;
         }
@@ -1497,7 +1545,7 @@ void CGeoDB::delItemById(quint64 parentId, quint64 childId)
 
     foreach(item, items)
     {
-        if(item->type() != eFolder)
+        if(item->type() < eFolder0)
         {
             continue;
         }
@@ -1507,7 +1555,7 @@ void CGeoDB::delItemById(quint64 parentId, quint64 childId)
             const int size = item->childCount();
             for(i = 0; i < size; i++)
             {
-                if(item->child(i)->type() == eFolder)
+                if(item->child(i)->type() >= eFolder0)
                 {
                     continue;
                 }
@@ -2144,7 +2192,7 @@ void CGeoDB::slotDelItems()
 
     foreach(item, items)
     {
-        if(item->type() == eFolder)
+        if(item->type() >= eFolder0)
         {
             continue;
         }
@@ -2183,7 +2231,7 @@ void CGeoDB::slotMoveItems()
 
     foreach(item, items)
     {
-        if(item->type() == eFolder)
+        if(item->type() >= eFolder0)
         {
             continue;
         }
@@ -2234,7 +2282,7 @@ void CGeoDB::slotCopyItems()
 
     foreach(item, items)
     {
-        if(item->type() == eFolder)
+        if(item->type() >= eFolder0)
         {
             continue;
         }
@@ -2416,7 +2464,7 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
     {
         item    = parent->child(i);
 
-        if(item->type() < eWpt)
+        if(item->type() >= eFolder0)
         {
             updateCheckmarks(item);
             if(item->checkState(eDBState) == Qt::Unchecked)

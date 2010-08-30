@@ -85,7 +85,7 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         quint64 childId = query.value(0).toULongLong();
 
         QSqlQuery query2(db);
-        query2.prepare("SELECT icon, name, comment FROM folders WHERE id = :id");
+        query2.prepare("SELECT icon, name, comment, type FROM folders WHERE id = :id");
         query2.bindValue(":id", childId);
         if(!query2.exec())
         {
@@ -95,7 +95,7 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         }
         query2.next();
 
-        QTreeWidgetItem * item = new QTreeWidgetItem(parent, CGeoDB::eFolder);
+        QTreeWidgetItem * item = new QTreeWidgetItem(parent, query2.value(3).toInt());
         item->setData(CGeoDB::eName, CGeoDB::eUserRoleDBKey, childId);
         item->setIcon(CGeoDB::eName, QIcon(query2.value(0).toString()));
         item->setText(CGeoDB::eName, query2.value(1).toString());

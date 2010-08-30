@@ -75,21 +75,28 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         friend bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2);
 
         enum EntryType_e {
-            eFolder     = QTreeWidgetItem::UserType + 1,
-            eTypFolder  = QTreeWidgetItem::UserType + 2,
+            //eFolder     = QTreeWidgetItem::UserType + 1,
+            //eTypFolder  = QTreeWidgetItem::UserType + 2,
             eWpt        = QTreeWidgetItem::UserType + 3,
             eTrk        = QTreeWidgetItem::UserType + 4,
             eRte        = QTreeWidgetItem::UserType + 5,
-            eOvl        = QTreeWidgetItem::UserType + 6
+            eOvl        = QTreeWidgetItem::UserType + 6,
+
+            eFolder0    = QTreeWidgetItem::UserType + 100,
+            eFolderT    = QTreeWidgetItem::UserType + 101,
+            eFolder1    = QTreeWidgetItem::UserType + 102,
+            eFolder2    = QTreeWidgetItem::UserType + 103,
+            eFolderN    = QTreeWidgetItem::UserType + 104,
         };
 
         enum ColumnType_e {
             eName       = 0,
-            eDBState    = 1
+            eDBState    = 1,
         };
         enum UserRoles_e {
-            eUserRoleDBKey = Qt::UserRole,
-            eUserRoleQLKey = Qt::UserRole + 1
+            eUserRoleDBKey  = Qt::UserRole,
+            eUserRoleQLKey  = Qt::UserRole + 1,
+            eUserRoleFolder = Qt::UserRole + 2
         };
 
         void initDB();
