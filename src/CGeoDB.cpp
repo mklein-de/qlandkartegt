@@ -678,15 +678,17 @@ void CGeoDB::slotAddFolder()
         return;
     }
 
-    QString name = QInputDialog::getText(0, tr("Folder name..."), tr("Name of new folders"));
-    if(name.isEmpty())
+    QString name;
+    QString comment;
+    int type = eFolder2;
+
+    CDlgEditFolder dlg(name, comment, type);
+    if(dlg.exec() == QDialog::Rejected)
     {
         return;
     }
 
-    QString comment = QInputDialog::getText(0, tr("Folder comment..."), tr("Would you like to add a comment?"));
-
-    addFolder(item, name, comment);
+    addFolder(item, name, comment, type);
 }
 
 void CGeoDB::slotDelFolder()
@@ -1206,10 +1208,9 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         item->setToolTip(eName, query2.value(2).toString());
         item->setFlags(item->flags() | Qt::ItemIsEditable);
 
-
-
-        if(parentId > 1)
+        if(query2.value(3).toInt() > eFolder1)
         {
+
             item->setCheckState(eDBState, Qt::Unchecked);
         }
 
@@ -1256,40 +1257,34 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         }
         item->setText(eName, query2.value(2).toString());
         item->setToolTip(eName, query2.value(3).toString());
+        item->setCheckState(eDBState, Qt::Unchecked);
 
-        if(parentId > 1)
-        {
-            item->setCheckState(eDBState, Qt::Unchecked);
-        }
     }
 
     treeWidget->header()->setResizeMode(eName,QHeaderView::ResizeToContents);
 }
 
-void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment)
+void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment, qint32 type)
 {
     CGeoDBInternalEditLock lock(this);
 
     QSqlQuery query(db);
     quint64 parentId = parent->data(eName, eUserRoleDBKey).toULongLong();
     quint64 childId = 0;
-    qint32  type;
 
     query.prepare("INSERT INTO folders (icon, name, comment, type) VALUES (:icon, :name, :comment, :type)");
-    if(parent->type() == eFolder0)
+
+    switch(type)
     {
+    case eFolder1:
         query.bindValue(":icon", ":/icons/iconFolderBlue16x16");
-        type = eFolder1;
-    }
-    else if(parent->type() == eFolder1)
-    {
+        break;
+    case eFolder2:
         query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
-        type = eFolder2;
-    }
-    else
-    {
+        break;
+    case eFolderN:
         query.bindValue(":icon", ":/icons/iconFolderOrange16x16");
-        type = eFolderN;
+        break;
     }
     query.bindValue(":name", name);
     query.bindValue(":comment", comment);
@@ -1411,7 +1406,8 @@ void CGeoDB::addFolderById(quint64 parentId, QTreeWidgetItem * child)
             clone->setToolTip(eName, child->toolTip(eName));
             clone->setFlags(child->flags());
 
-            if(parentId > 1)
+
+            if(child->type() > eFolder1)
             {
                 clone->setCheckState(eDBState, Qt::Unchecked);
             }
@@ -2523,7 +2519,8 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
 
     }
 
-    if(parent != itemDatabase && parent->parent()->data(eName, eUserRoleDBKey).toULongLong() != 1)
+    //if(parent != itemDatabase && parent->parent()->data(eName, eUserRoleDBKey).toULongLong() != 1)
+    if(parent->type() > eFolder1)
     {
         parent->setCheckState(eDBState, selectedAll ? Qt::Checked : Qt::Unchecked);
     }

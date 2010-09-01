@@ -101,7 +101,7 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         item->setText(CGeoDB::eName, query2.value(1).toString());
         item->setToolTip(CGeoDB::eName, query2.value(2).toString());
 
-        if(parentId == 1 && !topLevelToo)
+        if(item->type() < CGeoDB::eFolder2)
         {
             item->setFlags(item->flags()&~Qt::ItemIsSelectable);
         }

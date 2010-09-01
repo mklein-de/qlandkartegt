@@ -105,7 +105,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void queryChildrenFromDB(QTreeWidgetItem * parent, int levels);
 
         void setupTreeWidget();
-        void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment);
+        void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment, qint32 type);
         void delFolder(QTreeWidgetItem * item, bool isTopLevel);
 
         /// search treeWidget for items with id and update their content from database
