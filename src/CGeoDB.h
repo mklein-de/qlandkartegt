@@ -72,6 +72,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
     private:
         friend class CGeoDBInternalEditLock;
         friend class CDlgSelGeoDBFolder;
+        friend class CDlgEditFolder;
         friend bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2);
 
         enum EntryType_e {

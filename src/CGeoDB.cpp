@@ -36,6 +36,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "CDlgEditFolder.h"
 
 #include "CQlb.h"
 
@@ -158,7 +159,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     }
 
     contextMenuFolder   = new QMenu(this);
-    actEditDirComment   = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit comment"),this,SLOT(slotEditFolder()));
+    actEditDirComment   = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEditFolder()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New folder"),this,SLOT(slotAddFolder()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy"), tr("Copy..."), this, SLOT(slotCopyFolder()));
@@ -709,16 +710,33 @@ void CGeoDB::slotEditFolder()
     QTreeWidgetItem * item = treeWidget->currentItem();
     quint64 itemId = item->data(eName, eUserRoleDBKey).toULongLong();
 
-    QString comment = QInputDialog::getText(0, tr("Folder comment..."), tr("Edit comment?"), QLineEdit::Normal,item->toolTip(eName));
-    if(comment.isEmpty())
-    {
-        return;
-    }
+    QString name    = item->text(eName);
+    QString comment = item->toolTip(eName);
+    int type        = item->type();
+
+    CDlgEditFolder dlg(name,comment,type);
+    dlg.exec();
 
     QSqlQuery query(db);
-    query.prepare("UPDATE folders SET comment=:comment WHERE id=:id");
+    query.prepare("UPDATE folders SET name=:name, comment=:comment, type=:type, icon=:icon WHERE id=:id");
+    query.bindValue(":name", name);
     query.bindValue(":comment", comment);
+    query.bindValue(":type", type);
     query.bindValue(":id", itemId);
+    switch(type)
+    {
+
+    case eFolder1:
+        query.bindValue(":icon", ":/icons/iconFolderBlue16x16");
+        break;
+    case eFolder2:
+        query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+        break;
+    case eFolderN:
+        query.bindValue(":icon", ":/icons/iconFolderOrange16x16");
+        break;
+    }
+
     QUERY_EXEC(return);
 
     updateFolderById(itemId);
@@ -1086,7 +1104,7 @@ void CGeoDB::moveChildrenToWks(quint64 parentId)
         COverlayDB::self().loadQLB(qlb, false);
     }
 
-    query.prepare("SELECT child FROM folder2folder WHERE parent=:parent AND type=:type");
+    query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent=:parent AND t1.child=t2.id AND t2.type=:type");
     query.bindValue(":parent", parentId);
     query.bindValue(":type", eFolder2);
     QUERY_EXEC(return);
@@ -1473,6 +1491,7 @@ void CGeoDB::updateFolderById(quint64 id)
         }
         if(item->data(eName, eUserRoleDBKey).toULongLong() == id)
         {
+            // need to edit type(), bad, bad
             item->setIcon(eName, QIcon(query.value(0).toString()));
             item->setText(eName, query.value(1).toString());
             item->setToolTip(eName, query.value(2).toString());
