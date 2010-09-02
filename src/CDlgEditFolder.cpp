@@ -34,7 +34,7 @@ CDlgEditFolder::CDlgEditFolder(QString& name, QString& comment, int& type)
 
     comboType->addItem(QIcon(":/icons/iconFolderBlue16x16"), tr("Group"), CGeoDB::eFolder1);
     comboType->addItem(QIcon(":/icons/iconFolderGreen16x16"), tr("Project"), CGeoDB::eFolder2);
-    comboType->addItem(QIcon(":/icons/iconFolderOrange16x16"), tr("Ext. Data"), CGeoDB::eFolderN);
+    comboType->addItem(QIcon(":/icons/iconFolderOrange16x16"), tr("Other data"), CGeoDB::eFolderN);
 
     comboType->setCurrentIndex(comboType->findData(type));
 }

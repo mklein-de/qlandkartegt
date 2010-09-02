@@ -2168,7 +2168,7 @@ void CGeoDB::slotMoveLost()
         addFolderById(parentId, item);
     }
 
-    updateLostFound();
+    updateWorkspace();
 }
 
 void CGeoDB::slotDelLost()
