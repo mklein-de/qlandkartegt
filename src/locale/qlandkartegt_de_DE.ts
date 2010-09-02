@@ -2052,7 +2052,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgEditFolder.cpp" line="37"/>
         <source>Other data</source>
-        <translation>Ander Daten</translation>
+        <translation type="unfinished">Andere Daten</translation>
     </message>
 </context>
 <context>
