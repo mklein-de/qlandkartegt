@@ -28,6 +28,7 @@ const QString CGpx::gpx_ns = "http://www.topografix.com/GPX/1/1";
 const QString CGpx::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
 const QString CGpx::gpxx_ns = "http://www.garmin.com/xmlschemas/GpxExtensions/v3";
 const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
+const QString CGpx::gpxwpx_ns = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
 const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
 const QString CGpx::ql_ns = "http://www.qlandkarte.org/xmlschemas/v1.1";
 
@@ -266,6 +267,7 @@ QMap<QString,QDomElement> CGpx::mapChildElements(const QDomNode& parent)
             else
             {
                 map.insert(child.namespaceURI()+":"+child.localName(), child.toElement());
+                qDebug() << (child.namespaceURI()+":"+child.localName());
             }
         }
         child = child.nextSibling();

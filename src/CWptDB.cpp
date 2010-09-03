@@ -354,15 +354,31 @@ void CWptDB::loadGPX(CGpx& gpx)
 
         if(waypoint.namedItem("extensions").isElement())
         {
+            QDomElement tmpelem;
             const QDomNode& ext = waypoint.namedItem("extensions");
             QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(ext);
-            QDomElement tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "WaypointExtension");
 
+
+            // old garmin proximity format namespace
+            tmpelem = extensionsmap.value(CGpx::gpxx_ns + ":" + "WaypointExtension");
             if(!tmpelem.isNull())
             {
                 QMap<QString,QDomElement> waypointextensionmap = CGpx::mapChildElements(tmpelem);
 
                 tmpelem = waypointextensionmap.value(CGpx::gpxx_ns + ":" + "Proximity");
+                if(!tmpelem.isNull())
+                {
+                    wpt->prx = tmpelem.text().toDouble();
+                }
+            }
+
+            // new garmin proximity format namespace
+            tmpelem = extensionsmap.value(CGpx::gpxwpx_ns + ":" + "WaypointExtension");
+            if(!tmpelem.isNull())
+            {
+                QMap<QString,QDomElement> waypointextensionmap = CGpx::mapChildElements(tmpelem);
+
+                tmpelem = waypointextensionmap.value(CGpx::gpxwpx_ns + ":" + "Proximity");
                 if(!tmpelem.isNull())
                 {
                     wpt->prx = tmpelem.text().toDouble();
