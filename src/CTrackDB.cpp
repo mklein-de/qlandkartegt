@@ -144,7 +144,7 @@ void CTrackDB::loadQLB(CQlb& qlb, bool asDuplicat)
         stream >> *track;
         if(asDuplicat)
         {
-            track->genKey();
+            track->setKey("");
         }
         addTrack(track, true);
     }
@@ -432,7 +432,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
     {
         CTrack * track = tracks[_key->key];
 
-        if(!keys.isEmpty() && !keys.contains(track->key()))
+        if(!keys.isEmpty() && !keys.contains(track->getKey()))
         {
             ++_key;
             continue;
@@ -584,8 +584,8 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
         track->setName(tr("Track%1").arg(cnt++));
     }
     track->rebuild(false);
-    delTrack(track->key(), silent);
-    tracks[track->key()] = track;
+    delTrack(track->getKey(), silent);
+    tracks[track->getKey()] = track;
 
     connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     if(!silent)
@@ -753,7 +753,7 @@ void CTrackDB::splitTrack(int idx)
 
     addTrack(track1, true);
     addTrack(track2, true);
-    delTrack(theTrack->key(), true);
+    delTrack(theTrack->getKey(), true);
 
     emit sigChanged();
     emit sigModified();
@@ -1159,7 +1159,7 @@ void CTrackDB::emitSigModified()
     emit sigModified();
     if(highlightedTrack())
     {
-        emit sigModified(highlightedTrack()->key());
+        emit sigModified(highlightedTrack()->getKey());
     }
 }
 

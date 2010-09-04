@@ -885,7 +885,7 @@ void COverlayDistance::slotToTrack()
 
     CTrack * track  = new CTrack(&CTrackDB::self());
 
-    track->name = name;
+    track->setName(name);
 
     double dist, d, delta = 10.0, a1 , a2;
     XY pt1, pt2, ptx;

@@ -27,6 +27,7 @@
 #include <QDateTime>
 #include <QMap>
 #include "CWpt.h"
+#include "IItem.h"
 
 #ifdef GPX_EXTENSIONS
 #include "CGpxExtension.h"       //TODO: include von gpx ext
@@ -58,7 +59,7 @@ class CFlags
 QDataStream& operator >>(QDataStream& s, CFlags& flag);
 QDataStream& operator <<(QDataStream& s, CFlags& flag);
 
-class CTrack : public QObject
+class CTrack : public IItem
 {
     Q_OBJECT;
     public:
@@ -164,14 +165,6 @@ class CTrack : public QObject
         const QColor& getColor(){return color;}
         const QPixmap& getBullet(){return bullet;}
         unsigned getColorIdx(){return colorIdx;}
-        /// set track name
-        void setName(const QString& n){name = n;}
-        /// get track name
-        const QString& getName(){return name;}
-        /// get track comment
-        const QString& getComment(){return comment;}
-        /// get unique track key
-        const QString& key();
 
         /// set the highlight flag
         void setHighlight(bool yes){highlight = yes;}
@@ -207,9 +200,6 @@ class CTrack : public QObject
         static const QColor lineColors[];
         static const QString bulletColors[];
 
-        /// track name
-        QString name;
-
         bool hasTraineeData() { return traineeData;}
         void setTraineeData() { traineeData = true;}
         bool hasExt1Data() { return ext1Data;}
@@ -221,7 +211,11 @@ class CTrack : public QObject
         void replaceElevationByRemote();
         void replaceElevationByLocal();
 
-        static void resetKeyCnt(){keycnt = 0;}
+        /// get a summary of item's data to display on screen or in the toolview
+        QString getInfo();
+        /// set the icon defined by a string
+        void setIcon(const QString& str);
+
 
         signals:
         void sigChanged();
@@ -236,17 +230,9 @@ class CTrack : public QObject
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
-        void genKey();
 
         static QDir path;
-        static quint32 keycnt;
 
-        /// unique key to address tarck
-        QString _key_;
-        /// creation timestamp
-        quint32 timestamp;
-        /// a comment string
-        QString comment;
         /// a track URL
         QString url;
         /// the track line color

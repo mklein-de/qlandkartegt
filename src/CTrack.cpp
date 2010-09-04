@@ -21,6 +21,7 @@
 #include "GeoMath.h"
 #include "CMapDB.h"
 #include "CResources.h"
+#include "IUnit.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -31,7 +32,6 @@
 #endif
 
 QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
-quint32 CTrack::keycnt = 0;
 
 struct trk_head_entry_t
 {
@@ -78,16 +78,19 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
             case CTrack::eBase:
             {
 
+                QString key;
+
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
-                s1 >> track._key_;
+                s1 >> key;
                 s1 >> track.timestamp;
                 s1 >> track.name;
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
 
                 track.setColor(track.colorIdx);
+                track.setKey(key);
 
                 break;
             }
@@ -208,7 +211,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
     s1.setVersion(QDataStream::Qt_4_5);
 
-    s1 << track.key();
+    s1 << track.getKey();
     s1 << track.timestamp;
     s1 << track.name;
     s1 << track.comment;
@@ -433,8 +436,7 @@ bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
 
 
 CTrack::CTrack(QObject * parent)
-: QObject(parent)
-, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+: IItem(parent)
 , color(Qt::darkBlue)
 , bullet(":/icons/small_bullet_darkblue.png")
 , colorIdx(4)
@@ -492,7 +494,7 @@ void CTrack::replaceElevationByLocal()
 }
 
 void CTrack::replaceElevationByRemote()
-{    
+{
     int idx = 0, id;
     const int size = track.size();
 
@@ -598,20 +600,10 @@ void CTrack::setColor(unsigned i)
     colorIdx    = i;
     color       = lineColors[i];
     bullet      = QPixmap(bulletColors[i]);
+
+    setIcon(color.name());
 }
 
-
-void CTrack::genKey()
-{
-    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
-}
-
-
-const QString& CTrack::key()
-{
-    if(_key_.isEmpty()) genKey();
-    return _key_;
-}
 
 
 CTrack& CTrack::operator<<(pt_t& pt)
@@ -845,6 +837,55 @@ QDateTime CTrack::getEndTimestamp()
     return QDateTime();
 }
 
+/// get a summary of item's data to display on screen or in the toolview
+QString CTrack::getInfo()
+{
+    QString val1, unit1, val2, unit2;
+    QString str     = getName();
+    double distance = getTotalDistance();
+
+    IUnit::self().meter2distance(getTotalDistance(), val1, unit1);
+    str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
+    str += tr(", points: %1").arg(getTrackPoints().count());
+
+    quint32 ttime = getTotalTime();
+    quint32 days  = ttime / 86400;
+
+    QTime time;
+    time = time.addSecs(ttime);
+    if(days)
+    {
+        str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
+    }
+    else
+    {
+        str += tr("\ntime: ") + time.toString("HH:mm:ss");
+    }
+
+    IUnit::self().meter2speed(distance / ttime, val1, unit1);
+    str += tr(", speed: %1 %2").arg(val1).arg(unit1);
+
+    str += tr("\nstart: %1").arg(getStartTimestamp().isNull() ? tr("-") : getStartTimestamp().toString());
+    str += tr("\nend: %1").arg(getEndTimestamp().isNull() ? tr("-") : getEndTimestamp().toString());
+
+    IUnit::self().meter2elevation(getAscend(), val1, unit1);
+    IUnit::self().meter2elevation(getDescend(), val2, unit2);
+
+    str += tr("\n%1%2 %3, %4%5 %6").arg(QChar(0x2191)).arg(val1).arg(unit1).arg(QChar(0x2193)).arg(val2).arg(unit2);
+
+    return str;
+}
+
+/// set the icon defined by a string
+void CTrack::setIcon(const QString& str)
+{
+    iconPixmap = QPixmap(16,16);
+    iconPixmap.fill(str);
+
+    iconString = str;
+}
+
+
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)
 {
@@ -861,3 +902,4 @@ QDataStream& operator <<(QDataStream& s, CFlags& flag)
     s << flag.flag();
     return s;
 }
+

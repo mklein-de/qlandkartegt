@@ -290,7 +290,7 @@ void CDeviceQLandkarteM::uploadTracks(const QList<CTrack*>& trks)
         QDataStream s(&data,QIODevice::WriteOnly);
         s.setVersion(QDataStream::Qt_4_5);
 
-        progress->setLabelText(tr("%1\n%2 of %3").arg((*trk)->name).arg(++cnt).arg(trks.count()));
+        progress->setLabelText(tr("%1\n%2 of %3").arg((*trk)->getName()).arg(++cnt).arg(trks.count()));
         progress->setValue(cnt - 1);
         qApp->processEvents();
 

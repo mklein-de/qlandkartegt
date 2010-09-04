@@ -259,7 +259,7 @@ void CGeoDB::saveWorkspace()
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eTrk);
-        query.bindValue(":key", trk->key());
+        query.bindValue(":key", trk->getKey());
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
@@ -1756,10 +1756,10 @@ void CGeoDB::addTrkToDB(quint64 parentId, QTreeWidgetItem * item)
                       "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
 
         query.bindValue(":type", eTrk);
-        query.bindValue(":key", trk->key());
+        query.bindValue(":key", trk->getKey());
         query.bindValue(":date", trk->getStartTimestamp().toString("yyyy-MM-dd hh-mm-ss"));
         query.bindValue(":icon", trk->getColor());
-        query.bindValue(":name", trk->name);
+        query.bindValue(":name", trk->getName());
         query.bindValue(":comment", trk->getComment());
         query.bindValue(":data", buffer.data());
         QUERY_EXEC();
@@ -2348,7 +2348,7 @@ void CGeoDB::slotHardCopyItem()
             {
                 CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eName,eUserRoleQLKey).toString());
                 qlb     << *trk;
-                keysTrk << trk->key();
+                keysTrk << trk->getKey();
                 break;
             }
             case eRte:

@@ -764,7 +764,7 @@ void CTrackEditWidget::slotApply()
     originator = false;
 
     emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->key());
+    emit CTrackDB::self().sigModified(track->getKey());
 }
 
 
@@ -832,7 +832,7 @@ void CTrackEditWidget::slotPurge()
     }
     track->rebuild(false);
     emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->key());
+    emit CTrackDB::self().sigModified(track->getKey());
 }
 
 

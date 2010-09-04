@@ -54,7 +54,7 @@ CDlgCombineTracks::CDlgCombineTracks(QWidget * parent)
     {
         QListWidgetItem * item = new QListWidgetItem();
         item->setText(track->getName());
-        item->setData(Qt::UserRole, track->key());
+        item->setData(Qt::UserRole, track->getKey());
         listTracks->addItem(item);
     }
 
