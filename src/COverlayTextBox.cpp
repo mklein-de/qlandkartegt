@@ -28,12 +28,11 @@
 #include <QtGui>
 
 COverlayTextBox::COverlayTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& r, QObject * parent)
-: IOverlay(parent, "TextBox", QPixmap(":/icons/iconTextBox16x16"))
+: IOverlay(parent, "TextBox", ":/icons/iconTextBox16x16")
 , lon(lon)
 , lat(lat)
 , rect(r)
 , pt(anchor)
-, text(text)
 , doMove(false)
 , doSize(false)
 , doPos(false)
@@ -51,8 +50,10 @@ COverlayTextBox::COverlayTextBox(const QString& text, double lon, double lat, co
     rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
     rectAnchor  = QRect(QPoint(-7,-7), QSize(16, 16));
 
+    comment = text;
+
     doc = new QTextDocument(this);
-    doc->setHtml(text);
+    doc->setHtml(comment);
     doc->setPageSize(rectDoc.size());
 
 }
@@ -189,13 +190,15 @@ QString COverlayTextBox::getInfo()
 
 void COverlayTextBox::save(QDataStream& s)
 {
-    s << lon << lat << pt << rect << text << _key_;
+    s << lon << lat << pt << rect << comment << getKey();
 }
 
 
 void COverlayTextBox::load(QDataStream& s)
 {
-    s >> lon >> lat >> pt >> rect >> text >> _key_;
+    QString key;
+    s >> lon >> lat >> pt >> rect >> comment >> key;
+    setKey(key);
 }
 
 
@@ -291,15 +294,15 @@ void COverlayTextBox::mousePressEvent(QMouseEvent * e)
     }
     else if(rectEdit.contains(pos))
     {
-        CDlgEditText dlg(text, theMainWindow->getCanvas());
+        CDlgEditText dlg(comment, theMainWindow->getCanvas());
         dlg.exec();
-        doc->setHtml(text);
+        doc->setHtml(comment);
         theMainWindow->getCanvas()->update();
         emit sigChanged();
     }
     else if(rectDel.contains(pos))
     {
-        QStringList keys(key());
+        QStringList keys(getKey());
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;

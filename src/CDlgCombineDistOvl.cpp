@@ -50,7 +50,7 @@ CDlgCombineDistOvl::CDlgCombineDistOvl(QWidget * parent)
 
             QListWidgetItem * item = new QListWidgetItem(listOverlays);
             item->setText(dist->getName());
-            item->setData(Qt::UserRole, dist->key());
+            item->setData(Qt::UserRole, dist->getKey());
         }
         ovl++;
     }

@@ -42,11 +42,9 @@ bool operator==(const XY& p1, const XY& p2)
 QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
 
 COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent)
-: IOverlay(parent, "Distance", QPixmap(":/icons/iconDistance16x16"))
+: IOverlay(parent, "Distance", ":/icons/iconDistance16x16")
 , points(pts)
 , thePoint(0)
-, name(name)
-, comment(comment)
 , distance(0)
 , speed(speed)
 , doSpecialCursor(false)
@@ -55,6 +53,9 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
 , addType(eNone)
 , isEdit(false)
 {
+
+    setName(name);
+    setComment(comment);
 
     rectDel  = QRect(0,0,16,16);
     rectMove = QRect(32,0,16,16);
@@ -89,7 +90,7 @@ void COverlayDistance::save(QDataStream& s)
         s << pt.u << pt.v;
     }
     s << speed;
-    s << key();
+    s << getKey();
 }
 
 
@@ -97,6 +98,7 @@ void COverlayDistance::load(QDataStream& s)
 {
     pt_t pt;
     int size;
+    QString key;
 
     points.clear();
 
@@ -108,7 +110,9 @@ void COverlayDistance::load(QDataStream& s)
         points << pt;
     }
     s >> speed;
-    s >> _key_;
+    s >> key;
+
+    setKey(key);
 
 }
 
@@ -523,7 +527,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             if(points.isEmpty())
             {
-                QStringList keys(key());
+                QStringList keys(getKey());
                 COverlayDB::self().delOverlays(keys);
             }
             calcDistance();

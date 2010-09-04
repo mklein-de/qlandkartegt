@@ -49,7 +49,6 @@ class COverlayTextBox : public IOverlay
         bool mouseActionInProgress(){return doMove || doSize || doPos;}
 
         QString getInfo();
-        const QString& getComment(){return text;}
 
         void makeVisible();
 
@@ -76,7 +75,6 @@ class COverlayTextBox : public IOverlay
 
         QRect rectDoc;
 
-        QString text;
         QTextDocument * doc;
 
         bool doMove;

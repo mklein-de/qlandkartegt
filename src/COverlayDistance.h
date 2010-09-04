@@ -80,11 +80,7 @@ class COverlayDistance : public IOverlay
 
         void delPointsByIdx(const QList<int>& idx);
 
-        const QString& getName(){return name;}
-
         const QList<pt_t>& getPoints(){return points;}
-
-        const QString& getComment(){return comment;}
 
     signals:
         void sigSelectionChanged();
@@ -109,10 +105,6 @@ class COverlayDistance : public IOverlay
         /// need to restore point if move command is aborted
         pt_t savePoint;
 
-        /// line name
-        QString name;
-        /// line comment
-        QString comment;
         /// the distance in [m]
         double distance;
         /// optional speed in km/s, <=0 is no speed
@@ -147,8 +139,6 @@ class COverlayDistance : public IOverlay
         QPolygon subline;
 
         bool isEdit;
-
-
 };
 
 #define OVL_NOFLOAT 1e25f

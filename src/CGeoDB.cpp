@@ -284,7 +284,7 @@ void CGeoDB::saveWorkspace()
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eOvl);
-        query.bindValue(":key", ovl->key());
+        query.bindValue(":key", ovl->getKey());
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
@@ -1830,7 +1830,7 @@ void CGeoDB::addOvlToDB(quint64 parentId, QTreeWidgetItem * item)
                       "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
 
         query.bindValue(":type", eOvl);
-        query.bindValue(":key", ovl->key());
+        query.bindValue(":key", ovl->getKey());
 
         qDebug() <<"type" << ovl->type;
         if(ovl->type == "Text")
@@ -2362,7 +2362,7 @@ void CGeoDB::slotHardCopyItem()
             {
                 IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eName,eUserRoleQLKey).toString());
                 qlb     << *ovl;
-                keysOvl << ovl->key();
+                keysOvl << ovl->getKey();
                 break;
             }
             default:

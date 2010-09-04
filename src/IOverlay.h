@@ -19,6 +19,8 @@
 #ifndef IOVERLAY_H
 #define IOVERLAY_H
 
+#include "IItem.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QPointer>
@@ -30,7 +32,7 @@ class COverlayDB;
 class QMenu;
 
 /// base class for any kind of overlays other than waypoints, tracks or routes
-class IOverlay : public QObject
+class IOverlay : public IItem
 {
     Q_OBJECT;
     public:
@@ -39,7 +41,7 @@ class IOverlay : public QObject
             @param type a type string to identify the subclass
             @param icon an icon to display in a list widget
         */
-        IOverlay(QObject * parent, const QString& type, const QPixmap& icon);
+        IOverlay(QObject * parent, const QString& type, const QString& iconString);
         virtual ~IOverlay();
 
         enum type_e {eEnd,eBase};
@@ -48,8 +50,6 @@ class IOverlay : public QObject
         virtual void draw(QPainter& p) = 0;
         /// return a short string to be displayed in a list widget
         virtual QString getInfo(){return tr("No info set");}
-
-        virtual const QString& getComment() = 0;
 
         /// return true if coursor is close to the overlay to redirect mouse events into the overlay
         virtual bool isCloseEnough(const QPoint& pt) = 0;
@@ -86,35 +86,23 @@ class IOverlay : public QObject
 
         /// the overlay type as string
         const QString type;
-        /// the overlay icon
-        const QPixmap icon;
-        /// get unique track key
-        const QString& key();
 
 
         void setHighlight(bool on){highlight = on;}
         bool isHighlighted(){return highlight;}
 
-        static void resetKeyCnt(){keycnt = 0;}
+        void setIcon(const QString& str);
 
         signals:
         void sigChanged();
 
     protected:
         friend class COverlayDB;
-        void genKey();
 
         static QPointer<IOverlay> selected;
 
         /// set true to draw overlay highlighted
         bool highlight;
-
-        /// the unique overlay key used by the database
-        QString _key_;
-
-    private:
-        static int keycnt;
-
 
 };
 

@@ -242,7 +242,7 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
             text.setAttribute("width", overlaytext->rect.width());
             text.setAttribute("height", overlaytext->rect.height());
 
-            QDomText _text_ = gpx.createTextNode(overlaytext->sometext);
+            QDomText _text_ = gpx.createTextNode(overlaytext->comment);
             text.appendChild(_text_);
         }
         else if(overlay->type == "TextBox")
@@ -264,7 +264,7 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
             str.sprintf("%1.8f",ovl->lat * RAD_TO_DEG);
             text.setAttribute("lat", str);
 
-            QDomText _text_ = gpx.createTextNode(ovl->text);
+            QDomText _text_ = gpx.createTextNode(ovl->comment);
             text.appendChild(_text_);
         }
         else if(overlay->type == "Distance")
@@ -367,9 +367,9 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
     IOverlay * overlay = new COverlayText(text, rect, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
     {
-        overlay->_key_ = key;
+        overlay->setKey(key);
     }
-    overlays[overlay->key()] = overlay;
+    overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -386,9 +386,9 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
     {
-        overlay->_key_ = key;
+        overlay->setKey(key);
     }
-    overlays[overlay->key()] = overlay;
+    overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -405,9 +405,9 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
     IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
     {
-        overlay->_key_ = key;
+        overlay->setKey(key);
     }
-    overlays[overlay->key()] = overlay;
+    overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
@@ -563,7 +563,7 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             k2.key      = k1;
             k2.name     = tr("Static text");
             k2.comment  = text->getInfo();
-            k2.icon     = text->icon;
+            k2.icon     = text->getIcon();
 
         }
         else if(ovl->type == "TextBox")
@@ -572,7 +572,7 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             k2.key      = k1;
             k2.name     = tr("Geo ref. text");
             k2.comment  = textbox->getInfo();
-            k2.icon     = textbox->icon;
+            k2.icon     = textbox->getIcon();
         }
         else if(ovl->type == "Distance")
         {
@@ -580,7 +580,7 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             k2.key      = k1;
             k2.name     = dist->name;
             k2.comment  = dist->comment.left(32);
-            k2.icon     = dist->icon;
+            k2.icon     = dist->getIcon();
         }
 
 
@@ -595,7 +595,7 @@ void COverlayDB::slotModified()
     IOverlay * ovl = qobject_cast<IOverlay*>(sender());
     if(ovl)
     {
-        emit sigModified(ovl->key());
+        emit sigModified(ovl->getKey());
     }
 }
 

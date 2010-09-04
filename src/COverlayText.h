@@ -45,7 +45,6 @@ class COverlayText : public IOverlay
         bool mouseActionInProgress(){return doMove || doSize;}
 
         QString getInfo();
-        const QString& getComment(){return sometext;}
 
     private:
         friend class COverlayDB;
@@ -63,8 +62,6 @@ class COverlayText : public IOverlay
         bool doSize;
 
         bool doSpecialCursor;
-
-        QString sometext;
         QTextDocument * doc;
 };
 #endif                           //COVERLAYTEXT_H

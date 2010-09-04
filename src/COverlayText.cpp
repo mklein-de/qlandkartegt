@@ -26,13 +26,11 @@
 #include <QtGui>
 
 COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * parent)
-: IOverlay(parent, "Text", QPixmap(":/icons/iconText16x16"))
+: IOverlay(parent, "Text", ":/icons/iconText16x16")
 , rect(rect)
 , doMove(false)
 , doSize(false)
 , doSpecialCursor(false)
-, sometext(text)
-
 {
     rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
     rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
@@ -45,8 +43,10 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
     rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
     rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
 
+    comment = text;
+
     doc = new QTextDocument(this);
-    doc->setHtml(sometext);
+    doc->setHtml(comment);
     doc->setPageSize(rectDoc.size());
 
 }
@@ -183,15 +183,15 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
     }
     else if(rectEdit.contains(e->pos()))
     {
-        CDlgEditText dlg(sometext, theMainWindow->getCanvas());
+        CDlgEditText dlg(comment, theMainWindow->getCanvas());
         dlg.exec();
-        doc->setHtml(sometext);
+        doc->setHtml(comment);
         theMainWindow->getCanvas()->update();
         emit sigChanged();
     }
     else if(rectDel.contains(e->pos()))
     {
-        QStringList keys(key());
+        QStringList keys(getKey());
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;
@@ -211,11 +211,13 @@ void COverlayText::mouseReleaseEvent(QMouseEvent * e)
 
 void COverlayText::save(QDataStream& s)
 {
-    s << rect << sometext << _key_;
+    s << rect << comment << getKey();
 }
 
 
 void COverlayText::load(QDataStream& s)
 {
-    s >> rect >> sometext >> _key_;
+    QString key;
+    s >> rect >> comment >> key;
+    setKey(key);
 }

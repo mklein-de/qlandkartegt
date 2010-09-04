@@ -199,15 +199,13 @@ void operator <<(QFile& f, IOverlay& ovl)
 
 
 QPointer<IOverlay> IOverlay::selected = 0;
-int IOverlay::keycnt = 0;
 
-IOverlay::IOverlay(QObject * parent, const QString& type, const QPixmap& icon)
-: QObject(parent)
+IOverlay::IOverlay(QObject * parent, const QString& type, const QString& iconString)
+: IItem(parent)
 , type(type)
-, icon(icon)
 , highlight(false)
 {
-
+    setIcon(iconString);
 }
 
 
@@ -222,14 +220,8 @@ void IOverlay::select(IOverlay * s)
     selected = s;
 }
 
-void IOverlay::genKey()
+void IOverlay::setIcon(const QString& str)
 {
-    _key_ = QString("%1%2%3").arg(type).arg(QDateTime::currentDateTime().toString()).arg(keycnt++);
-}
-
-
-const QString& IOverlay::key()
-{
-    if(_key_.isEmpty()) genKey();
-    return _key_;
+    iconPixmap = QPixmap(str);
+    iconString = str;
 }
