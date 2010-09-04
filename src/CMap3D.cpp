@@ -1129,7 +1129,7 @@ void CMap3D::drawWaypoints()
     while(wpt != wpts.end())
     {
         double u,v, u1, v1, ele = 0;
-        QPixmap icon = getWptIconByName((*wpt)->icon);
+        QPixmap icon = (*wpt)->getIcon();
 
         u1 = u = (*wpt)->lon * DEG_TO_RAD;
         v1 = v = (*wpt)->lat * DEG_TO_RAD;
@@ -1162,11 +1162,11 @@ void CMap3D::drawWaypoints()
 
         QFont f = CResources::self().getMapFont();
         QFontMetrics fm(f);
-        QRect r = fm.boundingRect((*wpt)->name);
+        QRect r = fm.boundingRect((*wpt)->getName());
         QPixmap text(r.width() + 4, r.height() + 2);
         text.fill(Qt::transparent);
         QPainter p(&text);
-        CCanvas::drawText((*wpt)->name,p,text.rect().adjusted(2,1,-1,-1));
+        CCanvas::drawText((*wpt)->getName(),p,text.rect().adjusted(2,1,-1,-1));
         p.end();
 
         text.save("text.png");

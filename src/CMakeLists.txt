@@ -174,6 +174,7 @@ set(qlandkarte_SRCS
     CMapTDB.cpp
     CHelpButton.cpp
     CSpline.cpp
+    IItem.cpp
 )
 
 if (WIN32)
@@ -321,6 +322,7 @@ set(qlandkarte_HDRS
     CAppOpts.h
     CHelpButton.h
     CSpline.h
+    IItem.h
 )
 
 SET(qlandkarte_UIS

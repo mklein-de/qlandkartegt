@@ -19,6 +19,8 @@
 
 #include "CWpt.h"
 #include "CWptDB.h"
+#include "WptIcons.h"
+#include "IUnit.h"
 
 #include <QtCore>
 
@@ -28,7 +30,6 @@
 #endif
 
 QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
-quint32 CWpt::keycnt = 0;
 
 struct wpt_head_entry_t
 {
@@ -74,14 +75,16 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
         {
             case CWpt::eBase:
             {
+                QString icon;
+                QString key;
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
-                s1 >> wpt._key_;
+                s1 >> key;
                 s1 >> wpt.sticky;
                 s1 >> wpt.timestamp;
-                s1 >> wpt.icon;
+                s1 >> icon;
                 s1 >> wpt.name;
                 s1 >> wpt.comment;
                 s1 >> wpt.lat;
@@ -90,6 +93,8 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.prx;
                 s1 >> wpt.link;
 
+                wpt.setIcon(icon);
+                wpt.setKey(key);
                 break;
             }
 
@@ -141,10 +146,10 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
     s1.setVersion(QDataStream::Qt_4_5);
 
-    s1 << wpt._key_;
+    s1 << wpt.getKey();
     s1 << wpt.sticky;
     s1 << wpt.timestamp;
-    s1 << wpt.icon;
+    s1 << wpt.iconString;
     s1 << wpt.name;
     s1 << wpt.comment;
     s1 << wpt.lat;
@@ -262,10 +267,10 @@ void operator <<(QFile& f, CWpt& wpt)
 
 
 CWpt::CWpt(CWptDB * parent)
-: QObject(parent)
+: IItem(parent)
 , sticky(false)
-, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-, icon("")
+//, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+//, icon("")
 , lat(1000)
 , lon(1000)
 , ele(WPT_NOFLOAT)
@@ -280,18 +285,48 @@ CWpt::~CWpt()
     qDebug() << "CWpt::~CWpt()";
 }
 
-
-void CWpt::genKey()
+void CWpt::setIcon(const QString& str)
 {
-    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
+    iconString = str;
+    iconPixmap = getWptIconByName(str);
+}
+
+QString CWpt::getInfo()
+{
+    QString str;
+    if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
+    {
+        QDateTime time = QDateTime::fromTime_t(timestamp);
+        time.setTimeSpec(Qt::LocalTime);
+        str = time.toString();
+    }
+
+    if(ele != WPT_NOFLOAT)
+    {
+        if(str.count()) str += "\n";
+        QString val, unit;
+        IUnit::self().meter2elevation(ele, val, unit);
+        str += tr("elevation: %1 %2").arg(val).arg(unit);
+    }
+
+    if(comment.count())
+    {
+        if(str.count()) str += "\n";
+
+        if(comment.count() < 200)
+        {
+            str += comment;
+        }
+        else
+        {
+            str += comment.left(197) + "...";
+        }
+
+    }
+    return str;
 }
 
 
-const QString& CWpt::key()
-{
-    if(_key_.isEmpty()) genKey();
-    return _key_;
-}
 
 
 const QString CWpt::filename(const QDir& dir)

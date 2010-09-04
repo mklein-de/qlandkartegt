@@ -144,8 +144,8 @@ void CTrackStatProfileWidget::slotChanged()
         {
             CPlotData::point_t tag;
             tag.point = QPointF(type == eOverDistance ? wpt->trkpt.distance :  (double)wpt->trkpt.timestamp, wpt->trkpt.ele);
-            tag.icon  = getWptIconByName(wpt->wpt->icon);
-            tag.label = wpt->wpt->name;
+            tag.icon  = wpt->wpt->getIcon();
+            tag.label = wpt->wpt->getName();
             plot->addTag(tag);
 
         }

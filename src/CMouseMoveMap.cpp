@@ -72,7 +72,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         if(!selWpt.isNull())
         {
-            CWptDB::self().selWptByKey(selWpt->key());
+            CWptDB::self().selWptByKey(selWpt->getKey());
             mousePressEventWpt(e);
         }
         else if(track && selTrkPt)
@@ -180,7 +180,7 @@ void CMouseMoveMap::slotDeleteWpt()
 {
     if(selWpt.isNull()) return;
 
-    QString key = selWpt->key();
+    QString key = selWpt->getKey();
     CWptDB::self().delWpt(key);
 }
 

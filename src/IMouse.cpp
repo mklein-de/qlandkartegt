@@ -33,7 +33,6 @@
 #include "GeoMath.h"
 #include "CSearch.h"
 #include "CSearchDB.h"
-#include "WptIcons.h"
 #include <QtGui>
 
 QPointer<IOverlay> IMouse::selOverlay;
@@ -99,7 +98,7 @@ void IMouse::drawSelWpt(QPainter& p)
         p.setPen(QColor(100,100,255,200));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(u - 35, v - 35, 70, 70);
-        p.drawPixmap(u-7 , v-7, getWptIconByName(selWpt->icon));
+        p.drawPixmap(u-7 , v-7, selWpt->getIcon());
 
         p.save();
         p.translate(u - 24, v - 24);
@@ -116,40 +115,10 @@ void IMouse::drawSelWpt(QPainter& p)
         }
         p.restore();
 
-        QString str;
-        if(selWpt->timestamp != 0x00000000 && selWpt->timestamp != 0xFFFFFFFF)
-        {
-            QDateTime time = QDateTime::fromTime_t(selWpt->timestamp);
-            time.setTimeSpec(Qt::LocalTime);
-            str = time.toString();
-        }
-
-        if(selWpt->ele != WPT_NOFLOAT)
-        {
-            if(str.count()) str += "\n";
-            QString val, unit;
-            IUnit::self().meter2elevation(selWpt->ele, val, unit);
-            str += tr("elevation: %1 %2").arg(val).arg(unit);
-        }
-
-        if(selWpt->comment.count())
-        {
-            if(str.count()) str += "\n";
-
-            if(selWpt->comment.count() < 200)
-            {
-                str += selWpt->comment;
-            }
-            else
-            {
-                str += selWpt->comment.left(197) + "...";
-            }
-
-        }
-
-        QFont           f = CResources::self().getMapFont();
+        QString         str = selWpt->getInfo();
+        QFont           f   = CResources::self().getMapFont();
         QFontMetrics    fm(f);
-        QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+        QRect           r1  = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
         r1.moveTopLeft(QPoint(u + 45, v));
 
         QRect           r2 = r1;
@@ -421,7 +390,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     QPoint pt = pos - QPoint(u - 24, v - 24);
     if(rectDelWpt.contains(pt) && !selWpt->sticky)
     {
-        CWptDB::self().delWpt(selWpt->key(), false, true);
+        CWptDB::self().delWpt(selWpt->getKey(), false, true);
     }
     else if(rectMoveWpt.contains(pt) && !selWpt->sticky)
     {

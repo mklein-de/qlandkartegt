@@ -490,10 +490,10 @@ void CDiaryEditWidget::slotDocWizard()
             GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
 
             str += "<tr  bgcolor='#ffffff'>";
-            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(getWptResourceByName(wpt->icon));
-            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->timestamp).toString());
+            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(wpt->getIconString());
+            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->getTimestamp()).toString());
             str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(pos);
-            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->name);
+            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getName());
 
             if(wpt->ele != WPT_NOFLOAT)
             {
@@ -512,7 +512,7 @@ void CDiaryEditWidget::slotDocWizard()
                 str += QString("<td align='left' valign='top'>%1 %2</td>").arg(val).arg(unit);
             }
 
-            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->comment);
+            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getComment());
             str += "</tr>";
 
         }
@@ -521,7 +521,7 @@ void CDiaryEditWidget::slotDocWizard()
         str += "</p>";
     }
 
-    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();       
+    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
     if(!tracks.isEmpty())
     {
         str += "<h2>Tracks</h2>";

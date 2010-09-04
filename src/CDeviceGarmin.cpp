@@ -662,7 +662,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         garmin_icon_t * icon = GarminIcons;
         while(icon->name != 0)
         {
-            if((*wpt)->icon == icon->name)
+            if((*wpt)->getIconString() == icon->name)
             {
                 garwpt.smbl = icon->id;
                 break;
@@ -674,8 +674,8 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         garwpt.lon      = (*wpt)->lon;
         garwpt.alt      = (*wpt)->ele;
         garwpt.dist     = (*wpt)->prx;
-        garwpt.ident    = codec->fromUnicode((*wpt)->name).data();
-        garwpt.comment  = codec->fromUnicode((*wpt)->comment).data();
+        garwpt.ident    = codec->fromUnicode((*wpt)->getName()).data();
+        garwpt.comment  = codec->fromUnicode((*wpt)->getComment()).data();
 
         garwpts.push_back(garwpt);
 
@@ -735,8 +735,8 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
     {
         CWpt * wpt = new CWpt(&CWptDB::self());
 
-        wpt->name       = codec->toUnicode(garwpt->ident.c_str());
-        wpt->comment    = codec->toUnicode(garwpt->comment.c_str());
+        wpt->setName(codec->toUnicode(garwpt->ident.c_str()));
+        wpt->setComment(codec->toUnicode(garwpt->comment.c_str()));
         wpt->lon        = garwpt->lon;
         wpt->lat        = garwpt->lat;
         wpt->ele        = garwpt->alt;
@@ -747,7 +747,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
         {
             if(garwpt->smbl == icon->id)
             {
-                wpt->icon = icon->name;
+                wpt->setIcon(icon->name);
                 break;
             }
             ++icon;

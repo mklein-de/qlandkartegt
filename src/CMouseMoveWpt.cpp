@@ -80,7 +80,7 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
 
             emit CWptDB::self().sigChanged();
             emit CWptDB::self().sigModified();
-            emit CWptDB::self().sigModified(selWpt->key());
+            emit CWptDB::self().sigModified(selWpt->getKey());
 
             moveWpt = false;
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
@@ -130,7 +130,7 @@ void CMouseMoveWpt::draw(QPainter& p)
         p.drawLine(x1, y1, x2, y2);
 
         // draw waypoint icon
-        QPixmap icon = getWptIconByName(selWpt->icon);
+        QPixmap icon = selWpt->getIcon();
         QPixmap back = QPixmap(icon.size());
         back.fill(Qt::white);
         back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));

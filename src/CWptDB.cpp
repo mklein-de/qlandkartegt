@@ -145,7 +145,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
         k2.key      = k1;
         k2.name     = wpts[k1]->name;
         k2.comment  = wpts[k1]->comment.left(32);
-        k2.icon     = wpts[k1]->icon;
+        k2.icon     = wpts[k1]->iconString;
         k2.lon      = wpts[k1]->lon;
         k2.lat      = wpts[k1]->lat;
         k2.d        = 0;
@@ -203,7 +203,7 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele)
     wpt->ele = ele;
 
     QSettings cfg;
-    wpt->icon = cfg.value("waypoint/lastSymbol","").toString();
+    wpt->setIcon(cfg.value("waypoint/lastSymbol","").toString());
 
     CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
     if(dlg.exec() == QDialog::Rejected)
@@ -211,9 +211,9 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele)
         delete wpt;
         return 0;
     }
-    wpts[wpt->key()] = wpt;
+    wpts[wpt->getKey()] = wpt;
 
-    cfg.setValue("waypoint/lastSymbol",wpt->icon);
+    cfg.setValue("waypoint/lastSymbol",wpt->iconString);
 
     emit sigChanged();
     emit sigModified();
@@ -267,19 +267,19 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 
 void CWptDB::addWpt(CWpt * wpt, bool silent)
 {
-    if(wpts.contains(wpt->key()))
+    if(wpts.contains(wpt->getKey()))
     {
-        if(wpts[wpt->key()]->sticky)
+        if(wpts[wpt->getKey()]->sticky)
         {
             delete wpt;
             return;
         }
         else
         {
-            delWpt(wpt->key(), true);
+            delWpt(wpt->getKey(), true);
         }
     }
-    wpts[wpt->key()] = wpt;
+    wpts[wpt->getKey()] = wpt;
 
     if(!silent)
     {
@@ -340,7 +340,7 @@ void CWptDB::loadGPX(CGpx& gpx)
         }
         if(waypoint.namedItem("sym").isElement())
         {
-            wpt->icon =  waypoint.namedItem("sym").toElement().text();
+            wpt->setIcon(waypoint.namedItem("sym").toElement().text());
         }
         if(waypoint.namedItem("ele").isElement())
         {
@@ -430,7 +430,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         // waypoint filtering
         // if keys list is not empty the waypoints key has to be in the list
-        if(!keys.isEmpty() && !keys.contains(wpt->key()))
+        if(!keys.isEmpty() && !keys.contains(wpt->getKey()))
         {
             ++_key;
             continue;
@@ -483,7 +483,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         QDomElement sym = gpx.createElement("sym");
         waypoint.appendChild(sym);
-        QDomText _sym_ = gpx.createTextNode(wpt->icon);
+        QDomText _sym_ = gpx.createTextNode(wpt->iconString);
         sym.appendChild(_sym_);
 
         if(wpt->prx != 1e25f)
@@ -519,7 +519,7 @@ void CWptDB::loadQLB(CQlb& qlb, bool newKey)
 
         if(newKey)
         {
-            wpt->_key_.clear();
+            wpt->setKey("");
         }
 
         addWpt(wpt,true);
@@ -614,7 +614,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         if(rect.contains(QPoint(u,v)))
         {
-            QPixmap icon = getWptIconByName((*wpt)->icon);
+            QPixmap icon = (*wpt)->getIcon();
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);
             back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));
@@ -803,7 +803,7 @@ void CWptDB::createWaypointsFromImages()
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
         wpt->lat        = exifGPS.lat * exifGPS.lon_sign;
         wpt->timestamp  = exifGPS.timestamp;
-        wpt->icon       = "Flag, Red";
+        wpt->setIcon("Flag, Red");
         wpt->name       = file;
 
         qDebug() << wpt->name << wpt->lon << wpt->lat;

@@ -35,7 +35,7 @@ CDlgDelWpt::CDlgDelWpt(QWidget * parent)
 
     while(wpt != wpts.end())
     {
-        types << (*wpt)->icon;
+        types << (*wpt)->getIconString();
         ++wpt;
     }
 
@@ -72,9 +72,9 @@ void CDlgDelWpt::accept()
 
     while(wpt != wpts.end())
     {
-        if(types.contains((*wpt)->icon))
+        if(types.contains((*wpt)->getIconString()))
         {
-            keys << (*wpt)->key();
+            keys << (*wpt)->getKey();
         }
         ++wpt;
     }

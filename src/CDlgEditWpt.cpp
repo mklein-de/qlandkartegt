@@ -63,10 +63,9 @@ CDlgEditWpt::~CDlgEditWpt()
 int CDlgEditWpt::exec()
 {
 
-    QString barcode;
     QString val, unit;
-    toolIcon->setIcon(getWptIconByName(wpt.icon));
-    toolIcon->setObjectName(wpt.icon);
+    toolIcon->setIcon(wpt.getIcon());
+    toolIcon->setObjectName(wpt.getIconString());
 
     lineName->setText(wpt.name);
 
@@ -130,8 +129,9 @@ void CDlgEditWpt::accept()
     {
         return;
     }
-    wpt.icon        = toolIcon->objectName();
-    wpt.name        = lineName->text();
+    wpt.setIcon(toolIcon->objectName());
+    wpt.setName(lineName->text());
+    wpt.setComment(textComment->toPlainText());
     wpt.sticky      = checkSticky->isChecked();
 
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineAltitude->text());
@@ -144,7 +144,6 @@ void CDlgEditWpt::accept()
     }
 
     wpt.prx         = lineProximity->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineProximity->text());
-    wpt.comment     = textComment->toPlainText();
     wpt.link        = link;
 
     if(!lineDistance->text().isEmpty() && !lineBearing->text().isEmpty())
@@ -158,17 +157,17 @@ void CDlgEditWpt::accept()
         pt2     = GPS_Math_Wpt_Projection(pt1, distance, bearing);
 
         CWpt * wpt2 = new CWpt(&CWptDB::self());
-        wpt2->lon = pt2.u * RAD_TO_DEG;
-        wpt2->lat = pt2.v * RAD_TO_DEG;
-        wpt2->icon = wpt.icon;
-        wpt2->name = wpt.name + tr("(proj.)");
+        wpt2->lon           = pt2.u * RAD_TO_DEG;
+        wpt2->lat           = pt2.v * RAD_TO_DEG;
+        wpt2->setName(wpt.name + tr("(proj.)"));
+        wpt2->setIcon(wpt.iconString);
 
         CWptDB::self().addWpt(wpt2,false);
     }
 
     emit CWptDB::self().sigChanged();
     emit CWptDB::self().sigModified();
-    emit CWptDB::self().sigModified(wpt.key());
+    emit CWptDB::self().sigModified(wpt.getKey());
 
     QDialog::accept();
 }

@@ -144,7 +144,7 @@ void CDeviceQLandkarteM::uploadWpts(const QList<CWpt*>& wpts)
         QDataStream s(&data,QIODevice::WriteOnly);
         s.setVersion(QDataStream::Qt_4_5);
 
-        progress->setLabelText(tr("%1\n%2 of %3").arg((*wpt)->name).arg(++cnt).arg(wpts.count()));
+        progress->setLabelText(tr("%1\n%2 of %3").arg((*wpt)->getName()).arg(++cnt).arg(wpts.count()));
         progress->setValue(cnt);
         qApp->processEvents();
 

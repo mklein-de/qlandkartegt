@@ -240,7 +240,7 @@ void CGeoDB::saveWorkspace()
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
         query.bindValue(":changed", item->text(eDBState) == "*");
         query.bindValue(":type", eWpt);
-        query.bindValue(":key", wpt->key());
+        query.bindValue(":key", wpt->getKey());
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
@@ -1681,11 +1681,11 @@ void CGeoDB::addWptToDB(quint64 parentId, QTreeWidgetItem * item)
                       "VALUES (:type, :key, :date, :icon, :name, :comment, :data)");
 
         query.bindValue(":type", eWpt);
-        query.bindValue(":key", wpt->key());
-        query.bindValue(":date", QDateTime::fromTime_t(wpt->timestamp).toString("yyyy-MM-dd hh-mm-ss"));
-        query.bindValue(":icon", wpt->icon);
-        query.bindValue(":name", wpt->name);
-        query.bindValue(":comment", wpt->comment);
+        query.bindValue(":key", wpt->getKey());
+        query.bindValue(":date", QDateTime::fromTime_t(wpt->getTimestamp()).toString("yyyy-MM-dd hh-mm-ss"));
+        query.bindValue(":icon", wpt->getIconString());
+        query.bindValue(":name", wpt->getName());
+        query.bindValue(":comment", wpt->getComment());
         query.bindValue(":data", buffer.data());
         QUERY_EXEC();
 
@@ -2010,9 +2010,9 @@ void CGeoDB::slotSaveItems()
                     keysWksModified = &keysWptModified;
 
                     CWpt * wpt = CWptDB::self().getWptByKey(key);
-                    icon = wpt->icon;
-                    name = wpt->name;
-                    comment = wpt->comment;
+                    icon = wpt->getIconString();
+                    name = wpt->getName();
+                    comment = wpt->getComment();
                     qlb << *wpt;
                     break;
                 }
@@ -2341,7 +2341,7 @@ void CGeoDB::slotHardCopyItem()
             {
                 CWpt * wpt = CWptDB::self().getWptByKey(item->data(eName,eUserRoleQLKey).toString());
                 qlb     << *wpt;
-                keysWpt << wpt->key();
+                keysWpt << wpt->getKey();
                 break;
             }
             case eTrk:

@@ -19,6 +19,9 @@
 #ifndef CWPT_H
 #define CWPT_H
 
+
+#include "IItem.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QString>
@@ -74,22 +77,19 @@ class CWptDB;
 
 </pre>
 */
-class CWpt : public QObject
+class CWpt : public IItem
 {
     Q_OBJECT;
     public:
         CWpt(CWptDB * parent);
         virtual ~CWpt();
 
-        const QString& key();
         const QString filename(const QDir& dir = CWpt::path);
         enum type_e {eEnd,eBase,eImage};
         static QDir& getWptPath(){return path;}
-        static void resetKeyCnt(){keycnt = 0;}
 
-
-    private:
-        void genKey();
+        void setIcon(const QString& str);
+        QString getInfo();
 
         // eBase: base information
     private:
@@ -99,15 +99,9 @@ class CWpt : public QObject
         friend class CDlgWptEdit;
         friend class CWptDB;
         static QDir path;
-        static quint32 keycnt;
-        QString _key_;
 
     public:
         quint32 sticky;
-        quint32 timestamp;
-        QString icon;
-        QString name;
-        QString comment;
         float   lat;             ///< [deg]
         float   lon;             ///< [deg]
         float   ele;             ///< [m]
