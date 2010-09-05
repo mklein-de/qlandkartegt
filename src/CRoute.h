@@ -19,6 +19,8 @@
 #ifndef CROUTE_H
 #define CROUTE_H
 
+#include "IItem.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QList>
@@ -27,7 +29,7 @@
 #include <QFile>
 #include <projects.h>
 
-class CRoute : public QObject
+class CRoute : public IItem
 {
     Q_OBJECT;
     public:
@@ -36,20 +38,6 @@ class CRoute : public QObject
 
         enum type_e {eEnd, eBase, eRtePts};
 
-        /// set route name
-        void setName(const QString& n){name = n; emit sigChanged();}
-        /// get route name
-        const QString& getName(){return name;}
-        /// get unique track key
-        const QString& key();
-
-        double getDistance(){return dist;}
-
-        const QPixmap& getIcon(){return icon;}
-
-        const QString& getIconName(){return iconname;}
-
-        void setIcon(const QString& symname);
 
         /// set the highlight flag
         void setHighlight(bool yes){highlight = yes;}
@@ -68,6 +56,14 @@ class CRoute : public QObject
 
         QRectF getBoundingRectF();
 
+        /// get a summary of item's data to display on screen or in the toolview
+        QString getInfo();
+
+        double getDistance(){return dist;}
+
+        /// set the icon defined by a string
+        void setIcon(const QString& str);
+
         signals:
         void sigChanged();
 
@@ -76,27 +72,12 @@ class CRoute : public QObject
         friend QDataStream& operator >>(QDataStream& s, CRoute& route);
         friend QDataStream& operator <<(QDataStream& s, CRoute& route);
 
-        void genKey();
         void calcDistance();
 
-        static quint32 keycnt;
-
-        /// unique key to address tarck
-        QString _key_;
-        /// creation timestamp
-        quint32 timestamp;
-
-        /// route name (used as lookup key, too)
-        QString name;
         /// the route as position points
         QList<XY> routeDegree;
         /// the actual route distance
         double dist;
-
-        QString iconname;
-
-        /// the icon used to draw a route
-        QPixmap icon;
 
         bool highlight;
 

@@ -967,7 +967,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         garmin_icon_t * icon = GarminIcons;
         while(icon->name != 0)
         {
-            if((*rte)->getIconName() == icon->name)
+            if((*rte)->getIconString() == icon->name)
             {
                 smbl = icon->id;
                 break;

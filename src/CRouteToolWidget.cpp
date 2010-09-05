@@ -72,7 +72,7 @@ void CRouteToolWidget::slotDBChanged()
         str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
 
         item->setText(str);
-        item->setData(Qt::UserRole, (*route)->key());
+        item->setData(Qt::UserRole, (*route)->getKey());
         item->setIcon((*route)->getIcon());
 
         if((*route)->isHighlighted())

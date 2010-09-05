@@ -32,8 +32,8 @@ CDlgEditRoute::CDlgEditRoute(CRoute& rte, QWidget * parent)
     connect(toolIcon,SIGNAL(pressed()),this,SLOT(slotSelectIcon()));
 
     toolIcon->setIcon(rte.getIcon());
-    toolIcon->setToolTip(rte.getIconName());
-    toolIcon->setObjectName(rte.getIconName());
+    toolIcon->setToolTip(rte.getIconString());
+    toolIcon->setObjectName(rte.getIconString());
 
     lineName->setText(rte.getName());
 }

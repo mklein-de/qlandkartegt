@@ -59,8 +59,8 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
         route->setName(tr("Route%1").arg(cnt++));
     }
 
-    delRoute(route->key(), silent);
-    routes[route->key()] = route;
+    delRoute(route->getKey(), silent);
+    routes[route->getKey()] = route;
 
     connect(route,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     if(!silent)
@@ -206,13 +206,13 @@ void CRouteDB::loadGPX(CGpx& gpx)
             rtept = rtept.nextSiblingElement("rtept");
         }
 
-        if(routes.contains(r->key()))
+        if(routes.contains(r->getKey()))
         {
-            delete routes.take(r->key());
+            delete routes.take(r->getKey());
         }
 
         r->calcDistance();
-        routes[r->key()] = r;
+        routes[r->getKey()] = r;
 
         connect(r,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
 
@@ -229,7 +229,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
     QMap<QString,CRoute*>::iterator route = routes.begin();
     while(route != routes.end())
     {
-        if(!keys.isEmpty() && !keys.contains((*route)->key()))
+        if(!keys.isEmpty() && !keys.contains((*route)->getKey()))
         {
             ++route;
             continue;
@@ -274,7 +274,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
             QDomElement sym = gpx.createElement("sym");
             gpxRtept.appendChild(sym);
-            QDomText _sym_ = gpx.createTextNode((*route)->getIconName());
+            QDomText _sym_ = gpx.createTextNode((*route)->getIconString());
             sym.appendChild(_sym_);
 
             ++rtept;
@@ -297,7 +297,7 @@ void CRouteDB::loadQLB(CQlb& qlb, bool newKey)
         stream >> *route;
         if(newKey)
         {
-            route->_key_.clear();
+            route->setKey("");
         }
         route->calcDistance();
         addRoute(route, true);

@@ -23,8 +23,6 @@
 
 #include <QtGui>
 
-quint32 CRoute::keycnt = 0;
-
 struct rte_head_entry_t
 {
     rte_head_entry_t() : type(CRoute::eEnd), offset(0) {}
@@ -69,15 +67,20 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
         {
             case CRoute::eBase:
             {
+                QString key;
+                QString icon;
 
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
-                s1 >> route._key_;
+                s1 >> key;
                 s1 >> route.timestamp;
                 s1 >> route.name;
-                s1 >> route.iconname;
-                route.icon = getWptIconByName(route.iconname);
+                s1 >> icon;
+
+                route.setIcon(icon);
+                route.setKey(key);
+
                 break;
             }
 
@@ -126,10 +129,10 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
     s1.setVersion(QDataStream::Qt_4_5);
 
-    s1 << route.key();
-    s1 << route.timestamp;
-    s1 << route.name;
-    s1 << route.iconname;
+    s1 << route.getKey();
+    s1 << route.getTimestamp();
+    s1 << route.getName();
+    s1 << route.getIconString();
 
     entries << entryBase;
 
@@ -221,16 +224,13 @@ void operator <<(QFile& f, CRoute& route)
 
 
 CRoute::CRoute(QObject * parent)
-: QObject(parent)
-, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-, name(tr("Route"))
+: IItem(parent)
 , dist(0.0)
-, iconname("Small City")
-, icon(getWptIconByName(iconname))
 , highlight(false)
 , firstTime(true)
 {
-
+    setName(tr("Route"));
+    setIcon("Small City");
 }
 
 
@@ -238,20 +238,6 @@ CRoute::~CRoute()
 {
 
 }
-
-
-void CRoute::genKey()
-{
-    _key_ = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
-}
-
-
-const QString& CRoute::key()
-{
-    if(_key_.isEmpty()) genKey();
-    return _key_;
-}
-
 
 void CRoute::addPosition(const double lon, const double lat)
 {
@@ -315,8 +301,15 @@ QRectF CRoute::getBoundingRectF()
 
 void CRoute::setIcon(const QString& symname)
 {
-    iconname = symname;
-    icon     = getWptIconByName(iconname);
+    iconString = symname;
+    iconPixmap = getWptIconByName(symname);
 
     emit sigChanged();
+}
+
+QString CRoute::getInfo()
+{
+    QString str = name;
+
+    return str;
 }
