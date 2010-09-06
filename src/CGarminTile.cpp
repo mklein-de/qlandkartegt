@@ -506,11 +506,9 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         subdiv_prev = subdiv;
         ++pSubDivL; ++subdiv;
     }
-    subdivs.last().rgn_end = gar_load(uint32_t, pRgnHdr->hdr_rgn_t::length);
+    subdivs.last().rgn_end = gar_load(uint32_t, pRgnHdr->hdr_rgn_t::offset) + gar_load(uint32_t, pRgnHdr->hdr_rgn_t::length);
 
     // read extended NT elements
-
-    //     qDebug() << "yyy" << gar_load(uint32_t, pTreHdr->tre7_rec_size);
     if((gar_load(uint16_t, pTreHdr->hdr_subfile_part_t::length) >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t)))
     {
 
