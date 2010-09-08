@@ -276,7 +276,7 @@ CWpt::CWpt(CWptDB * parent)
 , ele(WPT_NOFLOAT)
 , prx(WPT_NOFLOAT)
 {
-
+    setIcon("Small City");
 }
 
 

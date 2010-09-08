@@ -80,6 +80,7 @@ class CWptDB : public IDB
         void download();
         void clear();
         void selWptByKey(const QString& key);
+        void makeVisible(const QStringList& keys);
 
         int count(){return wpts.count();}
 

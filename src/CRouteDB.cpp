@@ -75,7 +75,8 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
 void CRouteDB::delRoute(const QString& key, bool silent)
 {
     if(!routes.contains(key)) return;
-    delete routes.take(key);
+    CRoute * rte = routes.take(key);
+    rte->deleteLater();
     if(!silent)
     {
         emit sigChanged();
@@ -89,15 +90,17 @@ void CRouteDB::delRoutes(const QStringList& keys)
     QString key;
     foreach(key,keys)
     {
-        if(!routes.contains(key)) continue;
-        delete routes.take(key);
+        delRoute(key, true);
     }
-    emit sigChanged();
-    emit sigModified();
+    if(!keys.isEmpty())
+    {
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
-CRoute * CRouteDB::getRoute(const QString& key)
+CRoute * CRouteDB::getRouteByKey(const QString& key)
 {
     if(routes.contains(key))
     {
@@ -157,10 +160,12 @@ QRectF CRouteDB::getBoundingRectF(const QString key)
 /// load database data from gpx
 void CRouteDB::loadGPX(CGpx& gpx)
 {
+    bool hasItems = false;
     const QDomNodeList& rtes = gpx.elementsByTagName("rte");
     uint N = rtes.count();
     for(uint n = 0; n < N; ++n)
     {
+        hasItems = true;
         const QDomNode& rte = rtes.item(n);
 
         CRoute * r = 0;
@@ -218,7 +223,10 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
     }
 
-    emit sigChanged();
+    if(hasItems)
+    {
+        emit sigChanged();
+    }
 }
 
 
@@ -303,7 +311,10 @@ void CRouteDB::loadQLB(CQlb& qlb, bool newKey)
         addRoute(route, true);
     }
 
-    emit sigChanged();
+    if(qlb.routes().size())
+    {
+        emit sigChanged();
+    }
 }
 
 
@@ -489,4 +500,31 @@ QList<CRouteDB::keys_t> CRouteDB::keys()
     }
 
     return k;
+}
+
+void CRouteDB::makeVisible(const QStringList& keys)
+{
+    QRectF r;
+    QString key;
+    foreach(key, keys)
+    {
+
+        CRoute * rte =  routes[key];
+
+        if(r.isNull())
+        {
+            r = rte->getBoundingRectF();
+        }
+        else
+        {
+            r |= rte->getBoundingRectF();
+        }
+
+    }
+
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
+
 }

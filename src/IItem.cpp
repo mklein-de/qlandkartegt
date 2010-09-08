@@ -28,8 +28,8 @@
 quint32 IItem::keycnt = 0;
 
 IItem::IItem(QObject * parent)
-    : QObject(parent)
-    , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+: QObject(parent)
+, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
 {
 
 }

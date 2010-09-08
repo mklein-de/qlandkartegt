@@ -277,21 +277,14 @@ void CWptToolWidget::slotCopyPosition()
 void CWptToolWidget::slotZoomToFit()
 {
 
-    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-    QList<QListWidgetItem*>::const_iterator item = items.begin();
-
-    CWpt * wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
-
-    QRectF r(wpt->lon, wpt->lat, 0.001, 0.001);
-
-    while(item != items.end())
+    QStringList keys;
+    QList<QListWidgetItem*> items = listWpts->selectedItems();
+    QListWidgetItem* item;
+    foreach(item, items)
     {
-        wpt = CWptDB::self().getWptByKey((*item)->data(Qt::UserRole).toString());
-        r |= QRectF(wpt->lon, wpt->lat, 0.001, 0.001);
-        ++item;
+        keys << item->data(Qt::UserRole).toString();
     }
-
-    CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    CWptDB::self().makeVisible(keys);
 }
 
 

@@ -78,7 +78,9 @@ void COverlayToolWidget::slotDBChanged()
 
 void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
 {
-    COverlayDB::self().makeVisible(item->data(Qt::UserRole).toString());
+    QStringList keys;
+    keys << item->data(Qt::UserRole).toString();
+    COverlayDB::self().makeVisible(keys);
 }
 
 void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)
@@ -124,29 +126,14 @@ void COverlayToolWidget::slotContextMenu(const QPoint& pos)
 
 void COverlayToolWidget::slotZoomToFit()
 {
-    QRectF r;
+    QStringList keys;
     QListWidgetItem * item;
     const QList<QListWidgetItem*>& items = listOverlays->selectedItems();
     foreach(item,items)
     {
-        IOverlay * ovl =  COverlayDB::self().getOverlayByKey(item->data(Qt::UserRole).toString());
-
-        if(r.isNull() && !ovl->getBoundingRectF().isNull())
-        {
-            r = ovl->getBoundingRectF();
-        }
-        else if(!ovl->getBoundingRectF().isNull())
-        {
-            r |= ovl->getBoundingRectF();
-        }
-
+        keys << item->data(Qt::UserRole).toString();
     }
-
-    if (!r.isNull ())
-    {
-        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
-    }
-
+    COverlayDB::self().makeVisible(keys);
 }
 
 

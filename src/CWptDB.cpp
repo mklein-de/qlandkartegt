@@ -246,9 +246,13 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
             return;
         }
     }
-    delete wpts.take(key);
-    if(!silent) emit sigChanged();
-    emit sigModified();
+    CWpt * wpt =  wpts.take(key);
+    wpt->deleteLater();
+    if(!silent)
+    {
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
@@ -260,8 +264,11 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
         delWpt(key,true, saveSticky);
     }
 
-    emit sigChanged();
-    emit sigModified();
+    if(!keys.isEmpty())
+    {
+        emit sigChanged();
+        emit sigModified();
+    }
 }
 
 
@@ -305,10 +312,13 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
 
 void CWptDB::loadGPX(CGpx& gpx)
 {
+    bool hasItems = false;
     const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
-    uint N = waypoints.count();
+    uint N = waypoints.count();    
+
     for(uint n = 0; n < N; ++n)
     {
+        hasItems = true;
         const QDomNode& waypoint = waypoints.item(n);
 
         CWpt * wpt = new CWpt(this);
@@ -405,7 +415,11 @@ void CWptDB::loadGPX(CGpx& gpx)
     }
 
     CWpt::resetKeyCnt();
-    emit sigChanged();
+
+    if(hasItems)
+    {
+        emit sigChanged();
+    }
 }
 
 
@@ -525,7 +539,10 @@ void CWptDB::loadQLB(CQlb& qlb, bool newKey)
         addWpt(wpt,true);
     }
 
-    emit sigChanged();
+    if(qlb.waypoints().size())
+    {
+        emit sigChanged();
+    }
 
 }
 
@@ -837,3 +854,38 @@ void CWptDB::createWaypointsFromImages()
     emit sigModified();
 }
 #endif
+
+void CWptDB::makeVisible(const QStringList& keys)
+{
+
+
+    if(keys.isEmpty())
+    {
+        return;
+    }
+
+    QRectF r;
+    QString key;
+    foreach(key, keys)
+    {
+
+        CWpt * wpt =  wpts[key];
+
+        if(r.isNull())
+        {
+            r = QRectF(wpt->lon, wpt->lat, 0.0001, 0.0001);
+        }
+        else
+        {
+            r |= QRectF(wpt->lon, wpt->lat, 0.0001, 0.0001);
+        }
+
+    }
+
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
+
+
+}

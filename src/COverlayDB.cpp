@@ -28,6 +28,7 @@
 #include "CQlb.h"
 #include "CGpx.h"
 #include "CDlgCombineDistOvl.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 #include <projects.h>
@@ -86,6 +87,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
     if (gpx.version() == CGpx::qlVer_foreign)
         return;
 
+    bool hasItems = false;
     // QLandkarteGT file format v1.0 had more than one extensions
     // tags, so we have to scan all of them.  We can stop once we
     // found an overlay tag below it.
@@ -102,6 +104,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
             uint i;
             for(i = 0; i < ovllist.length(); i++)
             {
+                hasItems = true;
                 QDomNode child = ovllist.item(i);
                 QString type;
                 if (child.isNull() || !child.isElement())
@@ -131,7 +134,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     if(rect.isValid())
                     {
                         QString text = element.text();
-                        addText(text,rect);
+                        addText(text,rect, "", true);
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
@@ -151,7 +154,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                     if(rect.isValid())
                     {
                         QString text = element.text();
-                        addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect);
+                        addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect, "", true);
                     }
                 }
                 else if(type == (gpx.version() == CGpx::qlVer_1_0?
@@ -195,7 +198,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         points << pt;
                     }
 
-                    addDistance(name, comment, speed, points);
+                    addDistance(name, comment, speed, points, "", true);
                 }
 
             }
@@ -204,6 +207,11 @@ void COverlayDB::loadGPX(CGpx& gpx)
         extensions = extensions.nextSiblingElement("extensions");
     }
     IOverlay::resetKeyCnt();
+
+    if(hasItems)
+    {
+        emit sigChanged();
+    }
 }
 
 
@@ -314,7 +322,10 @@ void COverlayDB::loadQLB(CQlb& qlb, bool newKey)
     }
     addOverlaysAsDuplicate = false;
 
-    emit sigChanged();
+    if(qlb.overlays().size())
+    {
+        emit sigChanged();
+    }
 }
 
 
@@ -343,8 +354,12 @@ void COverlayDB::delOverlays(const QStringList& keys)
     {
         delOverlay(key, true);
     }
-    emit sigChanged();
-    emit sigModified();
+    if(!keys.isEmpty())
+    {
+        emit sigChanged();
+        emit sigModified();
+    }
+
 }
 
 void COverlayDB::delOverlay(const QString& key, bool silent)
@@ -362,7 +377,7 @@ void COverlayDB::delOverlay(const QString& key, bool silent)
     }
 }
 
-COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key)
+COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayText(text, rect, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
@@ -375,13 +390,16 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
-    emit sigChanged();
+    if(!silent)
+    {
+        emit sigChanged();
+    }
 
     return qobject_cast<COverlayText*>(overlay);
 }
 
 
-COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key)
+COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
@@ -394,13 +412,16 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
-    emit sigChanged();
+    if(!silent)
+    {
+        emit sigChanged();
+    }
 
     return qobject_cast<COverlayTextBox*>(overlay);
 }
 
 
-COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key)
+COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
     if(!key.isEmpty() && !addOverlaysAsDuplicate)
@@ -413,7 +434,10 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
-    emit sigChanged();
+    if(!silent)
+    {
+        emit sigChanged();
+    }
 
     return qobject_cast<COverlayDistance*>(overlay);
 }
@@ -599,12 +623,30 @@ void COverlayDB::slotModified()
     }
 }
 
-void COverlayDB::makeVisible(const QString& key)
+
+void COverlayDB::makeVisible(const QStringList& keys)
 {
-    if(!overlays.contains(key))
+    QRectF r;
+    QString key;
+    foreach(key, keys)
     {
-        return;
+
+        IOverlay * ovl =  overlays[key];
+
+        if(r.isNull() && !ovl->getBoundingRectF().isNull())
+        {
+            r = ovl->getBoundingRectF();
+        }
+        else if(!ovl->getBoundingRectF().isNull())
+        {
+            r |= ovl->getBoundingRectF();
+        }
+
     }
 
-    overlays[key]->makeVisible();
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
+
 }

@@ -887,10 +887,6 @@ void COverlayDistance::slotToTrack()
 {
     if(points.isEmpty()) return;
 
-    CTrack * track  = new CTrack(&CTrackDB::self());
-
-    track->setName(name);
-
     double dist, d, delta = 10.0, a1 , a2;
     XY pt1, pt2, ptx;
     CTrack::pt_t pt;
@@ -902,8 +898,12 @@ void COverlayDistance::slotToTrack()
         return;
     }
 
+    CTrack * track  = new CTrack(&CTrackDB::self());
+    track->setName(name);
+
     delta   = dlg.getDelta();
     eleMode = dlg.getEleMode();
+
 
     if(delta == -1)
     {

@@ -71,9 +71,9 @@ class COverlayDB : public IDB
 
         void delOverlay(const QString& key, bool silent);
 
-        COverlayText * addText(const QString& text, const QRect& rect, const QString& key = QString());
-        COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key = QString());
-        COverlayDistance * addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key = QString());
+        COverlayText * addText(const QString& text, const QRect& rect, const QString& key = QString(), bool silent = false);
+        COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key = QString(), bool silent = false);
+        COverlayDistance * addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key = QString(), bool silent = false);
 
         void customMenu(const QString& key, QMenu& menu);
 
@@ -103,7 +103,8 @@ class COverlayDB : public IDB
         /// get all keys in the database
         QList<keys_t> keys();
 
-        void makeVisible(const QString& key);
+
+        void makeVisible(const QStringList& keys);
 
     private slots:
         void slotModified();

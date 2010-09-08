@@ -26,7 +26,6 @@
 class QTabWidget;
 class QTreeWidgetItem;
 class QMenu;
-class QTimer;
 
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
@@ -35,39 +34,65 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         CGeoDB(QTabWidget * tb, QWidget * parent);
         virtual ~CGeoDB();
 
+        /// switch tabbar if project manager gains focus
         void gainFocus();
 
     private slots:
-        void slotAddFolder();
-        void slotDelFolder();
-        void slotEditFolder();
-        void slotMoveFolder();
-        void slotCopyFolder();
+        void loadWorkspace();
+        /// save all elements in the workspace branch to be restored in next application start
+        void saveWorkspace();
 
-        void slotAddItems();
-        void slotDelItems();
-        void slotMoveItems();
-        void slotCopyItems();
-        void slotSaveItems();
-        void slotHardCopyItem();
-
-        void slotContextMenu(const QPoint&);
-        void slotItemExpanded(QTreeWidgetItem * item);
-        void slotItemChanged(QTreeWidgetItem * item, int column);
-        void slotItemDoubleClicked(QTreeWidgetItem * item, int column);
-
+        /// this slot is called each time CWptDB signales a change
         void slotWptDBChanged();
+        /// this slot is called each time CTrackDB signales a change
         void slotTrkDBChanged();
+        /// this slot is called each time CRouteDB signales a change
         void slotRteDBChanged();
+        /// this slot is called each time COverlayDB signales a change
         void slotOvlDBChanged();
 
-        void slotMoveLost();
-        void slotDelLost();
-
+        /// this slot is called when a waypoint is modified
         void slotModifiedWpt(const QString&);
+        /// this slot is called when a track is modified
         void slotModifiedTrk(const QString&);
+        /// this slot is called when a route is modified
         void slotModifiedRte(const QString&);
+        /// this slot is called when an overlay is modified
         void slotModifiedOvl(const QString&);
+
+        /// query children when folder is expanded
+        void slotItemExpanded(QTreeWidgetItem * item);
+        /// make clicked item visible
+        void slotItemDoubleClicked(QTreeWidgetItem * item, int column);
+        /// test for name change on folders or checkstate change
+        void slotItemChanged(QTreeWidgetItem * item, int column);
+        /// display context menu for current item in the treeWidget
+        void slotContextMenuDatabase(const QPoint&);
+        /// display context menu for current item in the treeWorkspace
+        void slotContextMenuWorkspace(const QPoint&);
+        /// add folder to database
+        void slotAddFolder();
+        /// delete folder and all it's content from database
+        void slotDelFolder();
+        /// edit folder properties
+        void slotEditFolder();
+        /// add a new relation for a folder
+        void slotCopyFolder();
+        /// delete current relation and add new one
+        void slotMoveFolder();
+        /// remove item/folder relation
+        void slotDelItems();
+        /// add new folder relation for selected items
+        void slotCopyItems();
+        /// delete current relation and add new one
+        void slotMoveItems();
+        /// add new relation to item without relations
+        void slotMoveLost();
+        /// remove item from database
+        void slotDelLost();
+        /// add items to database
+        void slotAddItems();
+
 
     private:
         friend class CGeoDBInternalEditLock;
@@ -75,9 +100,54 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         friend class CDlgEditFolder;
         friend bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2);
 
+        /// sort all items below an item
+        void sortItems(QTreeWidgetItem * item);
+        /// initialize database from scratch
+        void initDB();
+        /// move database from one version to most resent version
+        void migrateDB(int version);
+        /// call each time the workspace changed
+        void changedWorkspace();
+        /// update the item text in workspace with a "*" for chnaged items
+        void updateModifyMarker();
+        /// update the item text in workspace with a "*" for chnaged items
+        void updateModifyMarker(QTreeWidgetItem * item, QSet<QString>& keys, const QString& label);
+        /// update "in database" icon
+        void updateDatabaseMarker();
+        /// update "in database" icon
+        void updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keysWks);
+        /// initialize database treewidget on startup
+        void initTreeWidget();
+        /// build up the treewidget from a given parent item up to a given depth of levels
+        void queryChildrenFromDB(QTreeWidgetItem * parent, int levels);
+        /// parse database for items with no relation to a folder
+        void updateLostFound();
+        /// update checkmarks according to loaded items
+        void updateCheckmarks();
+        /// update checkmarks according to loaded items
+        void updateCheckmarks(QTreeWidgetItem * item);
+        /// update all folders with same ID
+        void updateFolderById(quint64 id);
+        /// load all items attached to given parent id into the workspace
+        void addChildrenToWks(quint64 parentId);
+        /// remove all items attached to given parent id from the workspace
+        void delChildrenFromWks(quint64 parentId);
+        /// add a new folder to the tree widget and the database
+        void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment, qint32 type);
+        /// serach tree widget for the parent id and add folder as clone
+        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
+        /// delete a folder and all sub items recursively from database and tree widget
+        void delFolder(QTreeWidgetItem * item, bool isTopLevel);
+        /// delete folder items from treewidget with given parent/child relation
+        void delFolderById(quint64 parentId, quint64 childId);
+        /// search tree widget for the parent id and add item as clone
+        void addItemById(quint64 parentId, QTreeWidgetItem * child);
+        /// remove items from tree widget with geven parent / item relation
+        void delItemById(quint64 parentId, quint64 childId);
+        /// write item data to database
+        void addItemToDB(quint64 parentId, QTreeWidgetItem * item);
+
         enum EntryType_e {
-            //eFolder     = QTreeWidgetItem::UserType + 1,
-            //eTypFolder  = QTreeWidgetItem::UserType + 2,
             eWpt        = QTreeWidgetItem::UserType + 3,
             eTrk        = QTreeWidgetItem::UserType + 4,
             eRte        = QTreeWidgetItem::UserType + 5,
@@ -91,55 +161,25 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         };
 
         enum ColumnType_e {
-            eName       = 0,
-            eDBState    = 1,
+            eCoName     = 0,
+            eCoState    = 1,
         };
         enum UserRoles_e {
-            eUserRoleDBKey  = Qt::UserRole,
-            eUserRoleQLKey  = Qt::UserRole + 1,
-            eUserRoleFolder = Qt::UserRole + 2
+            eUrDBKey  = Qt::UserRole,
+            eUrQLKey  = Qt::UserRole + 1,
+            eUrType   = Qt::UserRole + 2
         };
 
-        void initDB();
-        void migrateDB(int version);
-        void queryChildrenFromDB(QTreeWidgetItem * parent, int levels);
 
-        void setupTreeWidget();
-        void addFolder(QTreeWidgetItem * parent, const QString& name, const QString& comment, qint32 type);
-        void delFolder(QTreeWidgetItem * item, bool isTopLevel);
-
-        /// search treeWidget for items with id and update their content from database
-        void updateFolderById(quint64 id);
-        /// search treeWidget for items with id and update their content from database
-        void updateItemById(quint64 id);
-        /// search treeWidget for items with id  and add copy of item as child
-        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
-        /// search treeWidget for folders with parentId and delete items including all their children with childId
-        void delFolderById(quint64 parentId, quint64 childId);
-        /// search treeWidget for items with parentId and delete items
-        void delItemById(quint64 parentId, quint64 childId);
-
-        void updateLostFound();
-        void updateModifyMarker();
-        void updateModifyMarker(QTreeWidgetItem * item, QSet<QString>& keys, const QString& label);
-        void updateCheckmarks();
-        void updateCheckmarks(QTreeWidgetItem * item);
-
-        void moveChildrenToWks(quint64 parentId);
-        void delChildrenFromWks(quint64 parentId);
-
-        void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
-        void addTrkToDB(quint64 parentId, QTreeWidgetItem * item);
-//        void addRteToDB(quint64 parentId, QTreeWidgetItem * item);
-        void addOvlToDB(quint64 parentId, QTreeWidgetItem * item);
-
-        void saveWorkspace();
-        void loadWorkspace();
-        void updateWorkspace();
-
-        void sortItems(QTreeWidgetItem * item);
-
+        /// left hand tool widget tabbar
         QTabWidget * tabbar;
+        /// a counter that is used by CGeoDBInternalEditLock to block slotItemChanged() on internal item edits
+        quint32 isInternalEdit;
+        /// a copy from CResources::saveOnExit;
+        bool saveOnExit;
+        /// the database object
+        QSqlDatabase db;
+
         QTreeWidgetItem * itemDatabase;
         QTreeWidgetItem * itemLostFound;
         QTreeWidgetItem * itemWorkspace;
@@ -148,32 +188,6 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QTreeWidgetItem * itemWksTrk;
         QTreeWidgetItem * itemWksRte;
         QTreeWidgetItem * itemWksOvl;
-
-        QSqlDatabase db;
-
-        QMenu * contextMenuFolder;
-        QAction * actAddDir;
-        QAction * actDelDir;
-        QAction * actEditDirComment;
-        QAction * actMoveDir;
-        QAction * actCopyDir;
-
-
-        QMenu * contextMenuItem;
-        QAction * actMoveItem;
-        QAction * actCopyItem;
-        QAction * actDelItem;
-
-        QMenu * contextMenuWks;
-        QAction * actAddToDB;
-        QAction * actSaveToDB;
-        QAction * actHardCopy;
-
-        QMenu * contextMenuLost;
-        QAction * actMoveLost;
-        QAction * actDelLost;
-
-        quint32 isInternalEdit;
 
         QSet<QString> keysWptModified;
         QSet<QString> keysTrkModified;
@@ -185,7 +199,60 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QSet<quint64> keysWksRte;
         QSet<quint64> keysWksOvl;
 
-        bool saveOnExit;
+        QMenu * contextMenuFolder;
+        QAction * actAddDir;
+        QAction * actDelDir;
+        QAction * actEditDir;
+        QAction * actMoveDir;
+        QAction * actCopyDir;
+
+        QMenu * contextMenuItem;
+        QAction * actMoveItem;
+        QAction * actCopyItem;
+        QAction * actDelItem;
+
+        QMenu * contextMenuLost;
+        QAction * actMoveLost;
+        QAction * actDelLost;
+
+        QMenu * contextMenuWks;
+        QAction * actAddToDB;
+        QAction * actSaveToDB;
+        QAction * actHardCopy;
+
+//    private slots:
+
+
+
+//        void slotSaveItems();
+//        void slotHardCopyItem();
+
+
+
+//    private:
+
+
+
+//        /// search treeWidget for items with id and update their content from database
+//        void updateFolderById(quint64 id);
+//        /// search treeWidget for items with id and update their content from database
+//        void updateItemById(quint64 id);
+//        /// search treeWidget for items with id  and add copy of item as child
+//        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
+//        /// search treeWidget for folders with parentId and delete items including all their children with childId
+//        void delFolderById(quint64 parentId, quint64 childId);
+//        /// search treeWidget for items with parentId and delete items
+//        void delItemById(quint64 parentId, quint64 childId);
+
+
+//        void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
+//        void addTrkToDB(quint64 parentId, QTreeWidgetItem * item);
+////        void addRteToDB(quint64 parentId, QTreeWidgetItem * item);
+//        void addOvlToDB(quint64 parentId, QTreeWidgetItem * item);
+
+
+
+
 };
 
 #endif //CGEODB_H

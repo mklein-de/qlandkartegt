@@ -426,7 +426,7 @@ IF(PRIVATE)
 ENDIF(PRIVATE)
 
 IF(GEO_DB)
-    add_definitions(-DHAS_GEODB -DDB_VERSION=4)
+    add_definitions(-DHAS_GEODB -DDB_VERSION=6)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h CDlgEditFolder.h)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp CDlgEditFolder.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui IDlgEditFolder.ui)

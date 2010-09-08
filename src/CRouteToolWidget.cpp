@@ -147,7 +147,7 @@ void CRouteToolWidget::slotEdit()
     if(item == 0) return;
 
     QString key     = item->data(Qt::UserRole).toString();
-    CRoute* route   = CRouteDB::self().getRoute(key);
+    CRoute* route   = CRouteDB::self().getRouteByKey(key);
     if(route == 0) return;
 
     CDlgEditRoute dlg(*route, this);

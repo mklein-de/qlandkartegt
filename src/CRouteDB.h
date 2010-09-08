@@ -41,7 +41,8 @@ class CRouteDB : public IDB
 
         void delRoute(const QString& key, bool silent);
 
-        CRoute * getRoute(const QString& key);
+        CRoute * getRouteByKey(const QString& key);
+
 
         void delRoutes(const QStringList& keys);
         /// load database data from gpx
@@ -75,6 +76,7 @@ class CRouteDB : public IDB
 
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
 
+        void makeVisible(const QStringList& keys);
 
         signals:
         void sigHighlightRoute(CRoute * route);

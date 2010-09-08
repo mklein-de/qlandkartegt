@@ -102,6 +102,8 @@ class CTrackDB : public IDB
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
         static bool keyLessThanTime(keys_t&  s1, keys_t&  s2);
 
+        void makeVisible(const QStringList& keys);
+
         signals:
         void sigHighlightTrack(CTrack * track);
 

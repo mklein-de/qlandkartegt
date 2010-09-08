@@ -69,6 +69,8 @@ class IDB : public QObject
 
         virtual void draw(QPainter& p, const QRect& rect, bool& needsRedraw){}
 
+        virtual void makeVisible(const QStringList& keys){}
+
     signals:
         void sigChanged();
         void sigModified();

@@ -449,6 +449,8 @@ CTrack::CTrack(QObject * parent)
 {
     ref = 1;
 
+    setColor(4);
+
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 }

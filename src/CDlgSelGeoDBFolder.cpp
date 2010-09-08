@@ -33,7 +33,7 @@ CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result, bool t
     setupUi(this);
 
     QTreeWidgetItem item;
-    item.setData(CGeoDB::eName, CGeoDB::eUserRoleDBKey, 1);
+    item.setData(CGeoDB::eCoName, CGeoDB::eUrDBKey, 1);
     queryChildrenFromDB(&item);
 
 
@@ -55,7 +55,7 @@ void CDlgSelGeoDBFolder::accept()
         return;
     }
 
-    result = item->data(CGeoDB::eName, CGeoDB::eUserRoleDBKey).toULongLong();
+    result = item->data(CGeoDB::eCoName, CGeoDB::eUrDBKey).toULongLong();
 
     QDialog::accept();
 }
@@ -64,7 +64,7 @@ void CDlgSelGeoDBFolder::accept()
 void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
 {
     QSqlQuery query(db);
-    quint64 parentId = parent ? parent->data(CGeoDB::eName, CGeoDB::eUserRoleDBKey).toULongLong() : 1;
+    quint64 parentId = parent ? parent->data(CGeoDB::eCoName, CGeoDB::eUrDBKey).toULongLong() : 1;
 
     if(parentId == 0)
     {
@@ -96,10 +96,10 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         query2.next();
 
         QTreeWidgetItem * item = new QTreeWidgetItem(parent, query2.value(3).toInt());
-        item->setData(CGeoDB::eName, CGeoDB::eUserRoleDBKey, childId);
-        item->setIcon(CGeoDB::eName, QIcon(query2.value(0).toString()));
-        item->setText(CGeoDB::eName, query2.value(1).toString());
-        item->setToolTip(CGeoDB::eName, query2.value(2).toString());
+        item->setData(CGeoDB::eCoName, CGeoDB::eUrDBKey, childId);
+        item->setIcon(CGeoDB::eCoName, QIcon(query2.value(0).toString()));
+        item->setText(CGeoDB::eCoName, query2.value(1).toString());
+        item->setToolTip(CGeoDB::eCoName, query2.value(2).toString());
 
         if(item->type() < CGeoDB::eFolder1)
         {
@@ -109,5 +109,5 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         queryChildrenFromDB(item);
     }
 
-    treeWidget->header()->setResizeMode(CGeoDB::eName,QHeaderView::ResizeToContents);
+    treeWidget->header()->setResizeMode(CGeoDB::eCoName,QHeaderView::ResizeToContents);
 }
