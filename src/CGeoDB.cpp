@@ -135,7 +135,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
 
     db = QSqlDatabase::addDatabase("QSQLITE","qlandkarte");
-    db.setDatabaseName(CResources::self().pathGeoDB().absoluteFilePath("qlgt_new.db"));
+    db.setDatabaseName(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
     db.open();
 
     QSqlQuery query(db);
@@ -390,6 +390,9 @@ void CGeoDB::migrateDB(int version)
             }
             case 5:
             {
+                QFSFileEngine fse(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
+                fse.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db"));
+
                 QSqlQuery query2(db);
 
                 if(!query.exec("SELECT id, type, icon FROM items"))
