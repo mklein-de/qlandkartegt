@@ -61,7 +61,7 @@ class CQlb : public QObject
 
         CQlb& operator <<(IOverlay& ovl);
 
-        CQlb& operator <<(CRoute& ovl);
+        CQlb& operator <<(CRoute& rte);
 
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}

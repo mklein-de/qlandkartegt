@@ -609,7 +609,7 @@ void CGeoDB::updateModifyMarker()
 }
 
 void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, const QString& label)
-{    
+{
     QTreeWidgetItem * item;
     bool modified = false;
 
@@ -1427,6 +1427,37 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
     }
 }
 
+void CGeoDB::updateItemById(quint64 id)
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeDatabase->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eCoName);
+
+    QSqlQuery query(db);
+    query.prepare("SELECT icon, name, comment FROM items WHERE id=:id");
+    query.bindValue(":id", id);
+    QUERY_EXEC();
+    query.next();
+
+    foreach(item, items)
+    {
+        if(item->data(eCoName, eUrType).toInt() >= eFolder0)
+        {
+            continue;
+        }
+
+        if(item->data(eCoName, eUrDBKey).toULongLong() == id)
+        {
+            QPixmap icon;
+            icon.loadFromData(query.value(0).toByteArray());
+            item->setIcon(eCoName, icon);
+            item->setText(eCoName, query.value(1).toString());
+            item->setToolTip(eCoName, query.value(2).toString());
+        }
+    }
+}
+
 
 // /////////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////////
@@ -1542,10 +1573,6 @@ void CGeoDB::saveWorkspace()
 
 void CGeoDB::slotWptDBChanged()
 {
-    CGeoDBInternalEditLock lock(this);
-
-    qDeleteAll(itemWksWpt->takeChildren());
-
     CWptDB& wptdb = CWptDB::self();
     CWptDB::keys_t key;
     QList<CWptDB::keys_t> keys = wptdb.keys();
@@ -1568,11 +1595,15 @@ void CGeoDB::slotWptDBChanged()
         item->setText(eCoName, wpt->getName());
         item->setToolTip(eCoName, wpt->getInfo());
 
-        items << item;        
+        items << item;
     }
 
-    itemWksWpt->addChildren(items);
-    itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
+    {
+        CGeoDBInternalEditLock lock(this);
+        qDeleteAll(itemWksWpt->takeChildren());
+        itemWksWpt->addChildren(items);
+        itemWksWpt->setHidden(itemWksWpt->childCount() == 0);
+    }
 
     if(!isInternalEdit)
     {
@@ -1582,10 +1613,6 @@ void CGeoDB::slotWptDBChanged()
 
 void CGeoDB::slotTrkDBChanged()
 {
-    CGeoDBInternalEditLock lock(this);
-
-    qDeleteAll(itemWksTrk->takeChildren());
-
     CTrackDB& trkdb = CTrackDB::self();
     CTrackDB::keys_t key;
     QList<CTrackDB::keys_t> keys = trkdb.keys();
@@ -1606,8 +1633,12 @@ void CGeoDB::slotTrkDBChanged()
         items << item;
     }
 
-    itemWksTrk->addChildren(items);
-    itemWksTrk->setHidden(itemWksTrk->childCount() == 0);
+    {
+        CGeoDBInternalEditLock lock(this);
+        qDeleteAll(itemWksTrk->takeChildren());
+        itemWksTrk->addChildren(items);
+        itemWksTrk->setHidden(itemWksTrk->childCount() == 0);
+    }
 
     if(!isInternalEdit)
     {
@@ -1617,10 +1648,6 @@ void CGeoDB::slotTrkDBChanged()
 
 void CGeoDB::slotRteDBChanged()
 {
-    CGeoDBInternalEditLock lock(this);
-
-    qDeleteAll(itemWksRte->takeChildren());
-
     CRouteDB& rtedb = CRouteDB::self();
     CRouteDB::keys_t key;
     QList<CRouteDB::keys_t> keys = rtedb.keys();
@@ -1641,8 +1668,12 @@ void CGeoDB::slotRteDBChanged()
         items << item;
     }
 
-    itemWksRte->addChildren(items);
-    itemWksRte->setHidden(itemWksRte->childCount() == 0);
+    {
+        CGeoDBInternalEditLock lock(this);
+        qDeleteAll(itemWksRte->takeChildren());
+        itemWksRte->addChildren(items);
+        itemWksRte->setHidden(itemWksRte->childCount() == 0);
+    }
 
     if(!isInternalEdit)
     {
@@ -1652,10 +1683,6 @@ void CGeoDB::slotRteDBChanged()
 
 void CGeoDB::slotOvlDBChanged()
 {
-    CGeoDBInternalEditLock lock(this);
-
-    qDeleteAll(itemWksOvl->takeChildren());
-
     COverlayDB& ovldb = COverlayDB::self();
     COverlayDB::keys_t key;
     QList<COverlayDB::keys_t> keys = ovldb.keys();
@@ -1676,8 +1703,12 @@ void CGeoDB::slotOvlDBChanged()
         items << item;
     }
 
-    itemWksOvl->addChildren(items);
-    itemWksOvl->setHidden(itemWksOvl->childCount() == 0);
+    {
+        CGeoDBInternalEditLock lock(this);
+        qDeleteAll(itemWksOvl->takeChildren());
+        itemWksOvl->addChildren(items);
+        itemWksOvl->setHidden(itemWksOvl->childCount() == 0);
+    }
 
     if(!isInternalEdit)
     {
@@ -1688,25 +1719,26 @@ void CGeoDB::slotOvlDBChanged()
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
     keysWptModified << key;
-    updateModifyMarker();
+    changedWorkspace();
+
 }
 
 void CGeoDB::slotModifiedTrk(const QString& key)
 {
     keysTrkModified << key;
-    updateModifyMarker();
+    changedWorkspace();
 }
 
 void CGeoDB::slotModifiedRte(const QString& key)
 {
     keysRteModified << key;
-    updateModifyMarker();
+    changedWorkspace();
 }
 
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
     keysOvlModified << key;
-    updateModifyMarker();
+    changedWorkspace();
 }
 
 
@@ -2450,315 +2482,201 @@ void CGeoDB::slotAddItems()
     changedWorkspace();
 }
 
+void CGeoDB::slotSaveItems()
+{
+    int i;
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    QTreeWidgetItem * item = treeWorkspace->currentItem();
+    bool saveAll    = item == itemWorkspace;
+    bool saveAllWpt = item == itemWksWpt;
+    bool saveAllTrk = item == itemWksTrk;
+    bool saveAllRte = item == itemWksRte;
+    bool saveAllOvl = item == itemWksOvl;
 
 
-//void CGeoDB::updateItemById(quint64 id)
-//{
-//    CGeoDBInternalEditLock lock(this);
+    QList<QTreeWidgetItem*> items;
 
-//    QTreeWidgetItem * item;
-//    QList<QTreeWidgetItem*> items = treeDatabase->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eCoName);
-
-//    QSqlQuery query(db);
-//    query.prepare("SELECT icon, name, comment FROM items WHERE id=:id");
-//    query.bindValue(":id", id);
-//    QUERY_EXEC();
-//    query.next();
-
-//    foreach(item, items)
-//    {
-//        if(item->data(eCoName, eUrType).toInt() >= eFolder0)
-//        {
-//            continue;
-//        }
-//        if(item->data(eCoName, eUrDBKey).toULongLong() == id)
-//        {
-//            switch(item->data(eCoName, eUrType).toInt())
-//            {
-//                case eWpt:
-//                {
-//                    item->setIcon(eCoName, getWptIconByName(query.value(0).toString()));
-//                    break;
-//                }
-//                case eTrk:
-//                {
-//                    QPixmap pixmap(16,16);
-//                    pixmap.fill(query.value(0).toString());
-//                    item->setIcon(eCoName, pixmap);
-//                    break;
-//                }
-//                case eRte:
-//                {
-
-//                    break;
-//                }
-//                case eOvl:
-//                {
-//                    item->setIcon(eCoName, QIcon(query.value(0).toString()));
-//                    break;
-//                }
-//            }
+    for(i = 0; i < itemWksWpt->childCount(); i++)
+    {
+        items << itemWksWpt->child(i);
+    }
+    for(i = 0; i < itemWksTrk->childCount(); i++)
+    {
+        items << itemWksTrk->child(i);
+    }
+    for(i = 0; i < itemWksRte->childCount(); i++)
+    {
+        items << itemWksRte->child(i);
+    }
+    for(i = 0; i < itemWksOvl->childCount(); i++)
+    {
+        items << itemWksOvl->child(i);
+    }
 
 
-//            item->setText(eCoName, query.value(1).toString());
-//            item->setToolTip(eCoName, query.value(2).toString());
-//        }
-//    }
-//}
+    const int size = items.size();
+    PROGRESS_SETUP(tr("Save items."), size);
+
+    for(i = 0; i < size; i++)
+    {
+        PROGRESS(i, break);
+
+        item = items[i];
+
+        qint32 type = item->data(eCoName, eUrType).toInt();
+
+        if(!item->isSelected() && !saveAll)
+        {
+            switch(type)
+            {
+                case eWpt:
+                    if(!saveAllWpt) continue;
+                    break;
+                case eTrk:
+                    if(!saveAllTrk) continue;
+                    break;
+                case eRte:
+                    if(!saveAllRte) continue;
+                    break;
+                case eOvl:
+                    if(!saveAllOvl) continue;
+                    break;
+                default:
+                    continue;
+            }
+        }
 
 
+        QString key = item->data(eCoName, eUrQLKey).toString();
+        QSet<QString> * keysWksModified = 0;
+        IItem * qlItem = 0;
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+
+        switch(item->data(eCoName, eUrType).toInt())
+        {
+            case eWpt:
+            {
+                keysWksModified = &keysWptModified;
+                CWpt * wpt = CWptDB::self().getWptByKey(key);
+                stream << *wpt;
+                qlItem = wpt;
+                break;
+            }
+            case eTrk:
+            {
+                keysWksModified = &keysTrkModified;
+                CTrack * trk = CTrackDB::self().getTrackByKey(key);
+                stream << *trk;
+                qlItem = trk;
+                break;
+            }
+            case eRte:
+            {
+                keysWksModified = &keysRteModified;
+                CRoute * rte = CRouteDB::self().getRouteByKey(key);
+                stream << *rte;
+                qlItem = rte;
+                break;
+            }
+            case eOvl:
+            {
+                keysWksModified = &keysOvlModified;
+                IOverlay * ovl = COverlayDB::self().getOverlayByKey(key);
+                stream << *ovl;
+                qlItem = ovl;
+                break;
+            }
+        }
+
+        QByteArray icon;
+        QBuffer buffer(&icon);
+        QPixmap pixmap = qlItem->getIcon();
+        pixmap.save(&buffer, "XPM");
+
+        quint64 childId = item->data(eCoName, eUrDBKey).toULongLong();
+
+        query.prepare("UPDATE items SET icon=:icon, name=:name, comment=:comment, data=:data WHERE id=:id");
+        query.bindValue(":icon", icon);
+        query.bindValue(":name", qlItem->getName());
+        query.bindValue(":comment", qlItem->getComment());
+        query.bindValue(":data", data);
+        query.bindValue(":id", childId);
+        QUERY_EXEC(continue);
+
+        keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());
+        item->setText(eCoState,"");
+        updateItemById(childId);
+    }
+
+    updateModifyMarker();
+}
 
 
+void CGeoDB::slotHardCopyItem()
+{
+    QTreeWidgetItem * item;
+    QList<QTreeWidgetItem*> items = treeWorkspace->selectedItems();
 
+    CQlb qlb(this);
 
+    QStringList keysWpt;
+    QStringList keysTrk;
+    QStringList keysRte;
+    QStringList keysOvl;
 
-//void CGeoDB::slotSaveItems()
-//{
-//    int i;
-//    CGeoDBInternalEditLock lock(this);
-//    QSqlQuery query(db);
+    foreach(item, items)
+    {
+        switch(item->data(eCoName, eUrType).toInt())
+        {
+            case eWpt:
+            {
+                CWpt * wpt = CWptDB::self().getWptByKey(item->data(eCoName,eUrQLKey).toString());
+                qlb     << *wpt;
+                keysWpt << wpt->getKey();
+                break;
+            }
+            case eTrk:
+            {
+                CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eCoName,eUrQLKey).toString());
+                qlb     << *trk;
+                keysTrk << trk->getKey();
+                break;
+            }
+            case eRte:
+            {
+                CRoute * rte = CRouteDB::self().getRouteByKey(item->data(eCoName,eUrQLKey).toString());
+                qlb     << *rte;
+                keysRte << rte->getKey();
+                break;
+            }
+            case eOvl:
+            {
+                IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eCoName,eUrQLKey).toString());
+                qlb     << *ovl;
+                keysOvl << ovl->getKey();
+                break;
+            }
+            default:
+                break;
+        }
+    }
 
-//    bool saveAll = treeDatabase->currentItem() == itemWorkspace;
-//    bool savedAll = true;
-//    bool addUnknownItems = false;
+    CWptDB::self().delWpt(keysWpt);
+    CTrackDB::self().delTracks(keysTrk);
+    CRouteDB::self().delRoutes(keysRte);
+    COverlayDB::self().delOverlays(keysOvl);
 
-//    QList<QTreeWidgetItem*> items;
-//    for(i = 0; i < itemWksWpt->childCount(); i++)
-//    {
-//        items << itemWksWpt->child(i);
-//    }
-//    for(i = 0; i < itemWksTrk->childCount(); i++)
-//    {
-//        items << itemWksTrk->child(i);
-//    }
-//    for(i = 0; i < itemWksRte->childCount(); i++)
-//    {
-//        items << itemWksRte->child(i);
-//    }
-//    for(i = 0; i < itemWksOvl->childCount(); i++)
-//    {
-//        items << itemWksOvl->child(i);
-//    }
+    qApp->processEvents();
 
+    CWptDB::self().loadQLB(qlb, true);
+    CTrackDB::self().loadQLB(qlb, true);
+    CRouteDB::self().loadQLB(qlb, true);
+    COverlayDB::self().loadQLB(qlb, true);
 
-//    const int size = items.size();
-//    QTreeWidgetItem * item;
-//    for(i = 0; i < size; i++)
-//    {
-//        item = items[i];
-//        if(item->data(eCoName, eUrDBKey).toULongLong() == 0)
-//        {
-
-//            addUnknownItems = (item->isSelected()||saveAll);
-
-//        }
-//        else
-//        {
-//            if(!item->isSelected())
-//            {
-//                savedAll = false;
-//            }
-//        }
-//    }
-
-//    if(addUnknownItems)
-//    {
-//        QMessageBox::Button res = QMessageBox::question(0, tr("Unknown items..."),
-//                                                        tr("There are items that haven't been added to the database. Add them to Lost & Found?"),
-//                                                        QMessageBox::Ok|QMessageBox::Ignore, QMessageBox::Ignore
-//                                                        );
-//        addUnknownItems = res == QMessageBox::Ok;
-//    }
-
-//    for(i = 0; i < size; i++)
-//    {
-//        QString icon, name, comment;
-
-//        item = items[i];
-//        if(!item->isSelected() && !saveAll)
-//        {
-//            continue;
-//        }
-
-//        quint64 childId = item->data(eCoName, eUrDBKey).toULongLong();
-//        if(childId == 0 && addUnknownItems)
-//        {
-//            // add to database
-//            switch(item->data(eCoName, eUrType).toInt())
-//            {
-//                case eWpt:
-//                {
-//                    addWptToDB(0, item);
-//                    break;
-//                }
-//                case eTrk:
-//                {
-//                    addTrkToDB(0, item);
-//                    break;
-//                }
-//                case eRte:
-//                {
-
-//                    break;
-//                }
-//                case eOvl:
-//                {
-//                    addOvlToDB(0, item);
-//                    break;
-//                }
-//            }
-
-//        }
-//        else
-//        {
-//            QSet<QString> * keysWksModified = 0;
-//            // update database
-//            QString key = item->data(eCoName, eUrQLKey).toString();
-//            QBuffer buffer;
-//            CQlb qlb(this);
-
-//            switch(item->data(eCoName, eUrType).toInt())
-//            {
-//                case eWpt:
-//                {
-//                    keysWksModified = &keysWptModified;
-
-//                    CWpt * wpt = CWptDB::self().getWptByKey(key);
-//                    icon = wpt->getIconString();
-//                    name = wpt->getName();
-//                    comment = wpt->getComment();
-//                    qlb << *wpt;
-//                    break;
-//                }
-//                case eTrk:
-//                {
-//                    keysWksModified = &keysTrkModified;
-
-//                    CTrack * trk = CTrackDB::self().getTrackByKey(key);
-//                    icon = trk->getColor().name();
-//                    name = trk->getName();
-//                    comment = trk->getComment();
-//                    qlb << *trk;
-//                    break;
-//                }
-//                case eRte:
-//                {
-//                    keysWksModified = &keysRteModified;
-//                    break;
-//                }
-//                case eOvl:
-//                {
-//                    keysWksModified = &keysOvlModified;
-
-//                    /// @todo make that stuff common to all overlays via IOverlay
-//                    IOverlay * ovl = COverlayDB::self().getOverlayByKey(key);
-//                    if(ovl->type == "Text")
-//                    {
-//                        COverlayText * _ovl_ = qobject_cast<COverlayText*>(ovl);
-//                        icon = ":/icons/iconText16x16";
-//                        name = tr("Static text");
-//                        comment = _ovl_->getInfo();
-//                    }
-//                    else if(ovl->type == "TextBox")
-//                    {
-//                        COverlayTextBox * _ovl_ = qobject_cast<COverlayTextBox*>(ovl);
-//                        icon = ":/icons/iconTextBox16x16";
-//                        name = tr("Geo ref. text");
-//                        comment = _ovl_->getInfo();
-//                    }
-//                    else if(ovl->type == "Distance")
-//                    {
-//                        COverlayDistance * _ovl_ = qobject_cast<COverlayDistance*>(ovl);
-//                        icon = ":/icons/iconDistance16x16";
-//                        name = _ovl_->getName();
-//                        comment = _ovl_->getInfo();
-//                    }
-//                    qlb << *ovl;
-//                    break;
-//                }
-//            }
-//            qlb.save(&buffer);
-
-//            query.prepare("UPDATE items SET icon=:icon, name=:name, comment=:comment, data=:data WHERE id=:id");
-//            query.bindValue(":icon", icon);
-//            query.bindValue(":name", name);
-//            query.bindValue(":comment", comment);
-//            query.bindValue(":data", buffer.data());
-//            query.bindValue(":id", childId);
-//            QUERY_EXEC(continue);
-
-//            keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());
-//            item->setText(eCoState,"");
-//            updateItemById(childId);
-
-//        }
-
-//    }
-
-//    updateModifyMarker();
-//    updateLostFound();
-//}
-
-//void CGeoDB::slotHardCopyItem()
-//{
-//    QTreeWidgetItem * item;
-//    QList<QTreeWidgetItem*> items = treeDatabase->selectedItems();
-
-//    CQlb qlb(this);
-
-//    QStringList keysWpt;
-//    QStringList keysTrk;
-////    QStringList keysRte;
-//    QStringList keysOvl;
-
-//    foreach(item, items)
-//    {
-//        switch(item->data(eCoName, eUrType).toInt())
-//        {
-//            case eWpt:
-//            {
-//                CWpt * wpt = CWptDB::self().getWptByKey(item->data(eCoName,eUrQLKey).toString());
-//                qlb     << *wpt;
-//                keysWpt << wpt->getKey();
-//                break;
-//            }
-//            case eTrk:
-//            {
-//                CTrack * trk = CTrackDB::self().getTrackByKey(item->data(eCoName,eUrQLKey).toString());
-//                qlb     << *trk;
-//                keysTrk << trk->getKey();
-//                break;
-//            }
-//            case eRte:
-//            {
-////                CRoute * rte = CRouteDB::self().getRouteByKey(item->data(eCoName,eUrQLKey).toString());
-////                iortes << rte;
-
-//                break;
-//            }
-//            case eOvl:
-//            {
-//                IOverlay * ovl = COverlayDB::self().getOverlayByKey(item->data(eCoName,eUrQLKey).toString());
-//                qlb     << *ovl;
-//                keysOvl << ovl->getKey();
-//                break;
-//            }
-//            default:
-//                break;
-//        }
-//    }
-
-//    CWptDB::self().delWpt(keysWpt);
-//    CTrackDB::self().delTracks(keysTrk);
-////    CRouteDB::self().delRoutes(keysRte);
-//    COverlayDB::self().delOverlays(keysOvl);
-
-//    CWptDB::self().loadQLB(qlb, true);
-//    CTrackDB::self().loadQLB(qlb, true);
-//    CRouteDB::self().loadQLB(qlb, true);
-//    COverlayDB::self().loadQLB(qlb, true);
-
-//}
+}
 
 
 

@@ -92,7 +92,10 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelLost();
         /// add items to database
         void slotAddItems();
-
+        /// update items in database with changed data in the workspace
+        void slotSaveItems();
+        /// create a real copy from item with own unique key
+        void slotHardCopyItem();
 
     private:
         friend class CGeoDBInternalEditLock;
@@ -146,6 +149,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void delItemById(quint64 parentId, quint64 childId);
         /// write item data to database
         void addItemToDB(quint64 parentId, QTreeWidgetItem * item);
+        /// search treeWidget for items with id and update their content from database
+        void updateItemById(quint64 id);
 
         enum EntryType_e {
             eWpt        = QTreeWidgetItem::UserType + 3,
@@ -224,8 +229,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
 
 
-//        void slotSaveItems();
-//        void slotHardCopyItem();
+
 
 
 
@@ -235,8 +239,6 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
 //        /// search treeWidget for items with id and update their content from database
 //        void updateFolderById(quint64 id);
-//        /// search treeWidget for items with id and update their content from database
-//        void updateItemById(quint64 id);
 //        /// search treeWidget for items with id  and add copy of item as child
 //        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
 //        /// search treeWidget for folders with parentId and delete items including all their children with childId
