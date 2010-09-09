@@ -225,36 +225,6 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actSaveToDB;
         QAction * actHardCopy;
 
-//    private slots:
-
-
-
-
-
-
-
-//    private:
-
-
-
-//        /// search treeWidget for items with id and update their content from database
-//        void updateFolderById(quint64 id);
-//        /// search treeWidget for items with id  and add copy of item as child
-//        void addFolderById(quint64 parentId, QTreeWidgetItem * child);
-//        /// search treeWidget for folders with parentId and delete items including all their children with childId
-//        void delFolderById(quint64 parentId, quint64 childId);
-//        /// search treeWidget for items with parentId and delete items
-//        void delItemById(quint64 parentId, quint64 childId);
-
-
-//        void addWptToDB(quint64 parentId, QTreeWidgetItem * item);
-//        void addTrkToDB(quint64 parentId, QTreeWidgetItem * item);
-////        void addRteToDB(quint64 parentId, QTreeWidgetItem * item);
-//        void addOvlToDB(quint64 parentId, QTreeWidgetItem * item);
-
-
-
-
 };
 
 #endif //CGEODB_H

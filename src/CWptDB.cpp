@@ -533,7 +533,7 @@ void CWptDB::loadQLB(CQlb& qlb, bool newKey)
 
         if(newKey)
         {
-            wpt->setKey("");
+            wpt->setKey(wpt->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
         }
 
         addWpt(wpt,true);

@@ -116,7 +116,9 @@ QRectF CTrackDB::getBoundingRectF()
 }
 
 
-void CTrackDB::loadQLB(CQlb& qlb)
+
+
+void CTrackDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
@@ -125,29 +127,9 @@ void CTrackDB::loadQLB(CQlb& qlb)
     {
         CTrack * track = new CTrack(this);
         stream >> *track;
-        addTrack(track, true);
-    }
-
-    if(qlb.tracks().size())
-    {
-        emit sigChanged();
-    }
-
-}
-
-
-void CTrackDB::loadQLB(CQlb& qlb, bool asDuplicat)
-{
-    QDataStream stream(&qlb.tracks(),QIODevice::ReadOnly);
-    stream.setVersion(QDataStream::Qt_4_5);
-
-    while(!stream.atEnd())
-    {
-        CTrack * track = new CTrack(this);
-        stream >> *track;
-        if(asDuplicat)
+        if(newKey)
         {
-            track->setKey("");
+            track->setKey(track->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
         }
         addTrack(track, true);
     }

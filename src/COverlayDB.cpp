@@ -380,10 +380,19 @@ void COverlayDB::delOverlay(const QString& key, bool silent)
 COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayText(text, rect, this);
-    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+
+    if(addOverlaysAsDuplicate)
+    {
+        if(key.isEmpty())
+        {
+            overlay->setKey(key + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
+        }
+    }
+    else
     {
         overlay->setKey(key);
     }
+
     overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
@@ -402,10 +411,19 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
 COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayTextBox(text, lon, lat, anchor, rect, this);
-    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+
+    if(addOverlaysAsDuplicate)
+    {
+        if(key.isEmpty())
+        {
+            overlay->setKey(key + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
+        }
+    }
+    else
     {
         overlay->setKey(key);
     }
+
     overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
@@ -424,10 +442,19 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayDistance(name, comment, speed, pts, this);
-    if(!key.isEmpty() && !addOverlaysAsDuplicate)
+
+    if(addOverlaysAsDuplicate)
+    {
+        if(key.isEmpty())
+        {
+            overlay->setKey(key + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
+        }
+    }
+    else
     {
         overlay->setKey(key);
     }
+
     overlays[overlay->getKey()] = overlay;
 
     connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));

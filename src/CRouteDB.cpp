@@ -305,7 +305,7 @@ void CRouteDB::loadQLB(CQlb& qlb, bool newKey)
         stream >> *route;
         if(newKey)
         {
-            route->setKey("");
+            route->setKey(route->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
         }
         route->calcDistance();
         addRoute(route, true);

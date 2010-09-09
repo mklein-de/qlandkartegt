@@ -620,7 +620,7 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
         for(int i = 0; i < size; i++)
         {
             item = itemWks->child(i);
-            if(keys.contains(item->data(eCoName, eUrQLKey).toString()))
+            if(keys.contains(item->data(eCoName, eUrQLKey).toString()) && (item->data(eCoName, eUrDBKey) != 0))
             {
                 item->setText(eCoState,"*");
                 modified = true;
@@ -1353,6 +1353,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 CWpt * wpt = CWptDB::self().getWptByKey(key);
                 stream << *wpt;
                 qlItem = wpt;
+                keysWptModified.remove(key);
                 break;
             }
             case eTrk:
@@ -1360,6 +1361,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 CTrack * trk = CTrackDB::self().getTrackByKey(key);
                 stream << *trk;
                 qlItem = trk;
+                keysTrkModified.remove(key);
                 break;
             }
             case eRte:
@@ -1367,6 +1369,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 CRoute * rte = CRouteDB::self().getRouteByKey(key);
                 stream << *rte;
                 qlItem = rte;
+                keysRteModified.remove(key);
                 break;
             }
             case eOvl:
@@ -1374,6 +1377,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 IOverlay * ovl = COverlayDB::self().getOverlayByKey(key);
                 stream << *ovl;
                 qlItem = ovl;
+                keysOvlModified.remove(key);
                 break;
             }
         }
@@ -2606,8 +2610,7 @@ void CGeoDB::slotSaveItems()
         query.bindValue(":id", childId);
         QUERY_EXEC(continue);
 
-        keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());
-        item->setText(eCoState,"");
+        keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());       
         updateItemById(childId);
     }
 
@@ -2668,8 +2671,6 @@ void CGeoDB::slotHardCopyItem()
     CTrackDB::self().delTracks(keysTrk);
     CRouteDB::self().delRoutes(keysRte);
     COverlayDB::self().delOverlays(keysOvl);
-
-    qApp->processEvents();
 
     CWptDB::self().loadQLB(qlb, true);
     CTrackDB::self().loadQLB(qlb, true);

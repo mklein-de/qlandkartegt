@@ -39,8 +39,7 @@ class CTrackDB : public IDB
         static CTrackDB& self(){return *m_self;}
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx, const QStringList& keys);
-        void loadQLB(CQlb& qlb);
+        void saveGPX(CGpx& gpx, const QStringList& keys);        
         void loadQLB(CQlb& qlb, bool asDuplicat);
         void saveQLB(CQlb& qlb);
 
