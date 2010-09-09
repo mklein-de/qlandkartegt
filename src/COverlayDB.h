@@ -104,7 +104,7 @@ class COverlayDB : public IDB
         QList<keys_t> keys();
 
 
-        void makeVisible(const QStringList& keys);
+        void makeVisible(const QStringList& keys);                
 
     private slots:
         void slotModified();

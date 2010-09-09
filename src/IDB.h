@@ -71,6 +71,7 @@ class IDB : public QObject
 
         virtual void makeVisible(const QStringList& keys){}
 
+        void emitSigChanged(){emit sigChanged();}
     signals:
         void sigChanged();
         void sigModified();

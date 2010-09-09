@@ -25,6 +25,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CActions.h"
+#include "COverlayDB.h"
 
 #include <QtGui>
 
@@ -81,6 +82,7 @@ void COverlayDistanceEditWidget::slotApply()
     ovl->speed = lineSpeed->text().toDouble() / IUnit::self().speedfactor;
 
     emit ovl->sigChanged();
+    COverlayDB::self().emitSigChanged();
 }
 
 void COverlayDistanceEditWidget::slotChanged()

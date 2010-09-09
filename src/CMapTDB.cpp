@@ -2642,7 +2642,7 @@ void CMapTDB::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPoly
             ++line;
             continue;
         }
-        if(0x20 <= line->type && line->type <= 25)
+        if(0x20 <= line->type && line->type <= 0x25)
         {
             ++line;
             continue;

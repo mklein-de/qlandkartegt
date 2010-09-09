@@ -613,30 +613,27 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
     QTreeWidgetItem * item;
     bool modified = false;
 
-    if(!keys.isEmpty())
+    // iterate over all children and test agains the keys of known modified items
+    const int size = itemWks->childCount();
+    for(int i = 0; i < size; i++)
     {
-        // iterate over all children and test agains the keys of known modified items
-        const int size = itemWks->childCount();
-        for(int i = 0; i < size; i++)
+        item = itemWks->child(i);
+        if(keys.contains(item->data(eCoName, eUrQLKey).toString()) && (item->data(eCoName, eUrDBKey) != 0))
         {
-            item = itemWks->child(i);
-            if(keys.contains(item->data(eCoName, eUrQLKey).toString()) && (item->data(eCoName, eUrDBKey) != 0))
-            {
-                item->setText(eCoState,"*");
-                modified = true;
-            }
-        }
-
-        // if there are modified elements update the global folders, too
-        if(modified)
-        {
-            itemWorkspace->setText(eCoName, tr("Workspace") + " *");
-            itemWks->setText(eCoName, label + " *");
+            item->setText(eCoState,"*");
+            modified = true;
         }
         else
         {
-            itemWks->setText(eCoName, label);
+            item->setText(eCoState,"");
         }
+    }
+
+    // if there are modified elements update the global folders, too
+    if(modified)
+    {
+        itemWorkspace->setText(eCoName, tr("Workspace") + " *");
+        itemWks->setText(eCoName, label + " *");
     }
     else
     {
@@ -1723,26 +1720,25 @@ void CGeoDB::slotOvlDBChanged()
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
     keysWptModified << key;
-    changedWorkspace();
-
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedTrk(const QString& key)
 {
     keysTrkModified << key;
-    changedWorkspace();
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedRte(const QString& key)
 {
     keysRteModified << key;
-    changedWorkspace();
+    updateModifyMarker();
 }
 
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
     keysOvlModified << key;
-    changedWorkspace();
+    updateModifyMarker();
 }
 
 
