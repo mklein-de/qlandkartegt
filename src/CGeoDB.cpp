@@ -2591,6 +2591,11 @@ void CGeoDB::slotSaveItems()
             }
         }
 
+        if(!keysWksModified->contains(key))
+        {
+            continue;
+        }
+
         QByteArray icon;
         QBuffer buffer(&icon);
         QPixmap pixmap = qlItem->getIcon();
