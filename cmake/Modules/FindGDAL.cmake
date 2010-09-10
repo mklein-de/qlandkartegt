@@ -30,7 +30,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         /usr/local/include/gdal
         /opt/local/include/gdal
         /sw/include/gdal
-        C:/Progra~1/FWTools2.4.2/include
+        C:/Programme/FWTools2.4.7/include
     PATH_SUFFIXES
         gdal
   )
@@ -51,7 +51,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
       /usr/local/lib
       /opt/local/lib
       /sw/lib
-      C:/Progra~1/FWTools2.4.2/lib
+      C:/Programme/FWTools2.4.7/lib
   )
 
   set(GDAL_INCLUDE_DIRS
