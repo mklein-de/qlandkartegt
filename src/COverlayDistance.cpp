@@ -54,7 +54,15 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
 , isEdit(false)
 {
 
-    setName(name);
+    if(name.isEmpty())
+    {
+        setName(tr("Tour %1").arg(keycnt));
+    }
+    else
+    {
+        setName(name);
+    }
+
     setComment(comment);
 
     rectDel  = QRect(0,0,16,16);
@@ -613,6 +621,8 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             doMove      = false;
             addType     = eNone;
             subline.clear();
+
+            COverlayDB::self().emitSigChanged();
 
             QApplication::restoreOverrideCursor();
             return;
