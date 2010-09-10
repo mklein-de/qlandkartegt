@@ -75,9 +75,9 @@ class IItem : public QObject
         QPixmap iconPixmap;
         QString iconString;
 
+        static quint32 keycnt;
     private:
         virtual void genKey();
-        static quint32 keycnt;
         QString key;
 
 };
