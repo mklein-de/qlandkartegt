@@ -77,7 +77,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         }
         else if(track && selTrkPt)
         {
-            track->setPointOfFocus(selTrkPt->idx);
+            track->setPointOfFocus(selTrkPt->idx, true);
         }
         else if(!selSearch.isNull())
         {
@@ -239,9 +239,10 @@ void CMouseMoveMap::slotEditTrack()
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track)
     {
-        track->setPointOfFocus(selTrkPt->idx);
+        track->setPointOfFocus(selTrkPt->idx, true);
     }
 }
+
 void CMouseMoveMap::slotOpenGoogleMaps()	//TODO: Open Google Maps
 {
         QString position;

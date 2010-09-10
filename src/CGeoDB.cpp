@@ -234,7 +234,7 @@ void CGeoDB::initDB()
     {
         query.prepare( "INSERT INTO versioninfo (version) VALUES(:version)");
         query.bindValue(":version", DB_VERSION);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
     }
 
     if(!query.exec( "CREATE TABLE folders ("

@@ -805,7 +805,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
     if(track.isNull()) return;
 
     originator = true;
-    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt());
+    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt(), false);
     originator = false;
 }
 

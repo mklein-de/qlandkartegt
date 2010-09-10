@@ -787,7 +787,7 @@ void CTrack::rebuild(bool reindex)
 }
 
 
-void CTrack::setPointOfFocus(int idx)
+void CTrack::setPointOfFocus(int idx, bool eraseSelection)
 {
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track;
@@ -795,6 +795,10 @@ void CTrack::setPointOfFocus(int idx)
     while(trkpt != trkpts.end())
     {
         trkpt->flags &= ~CTrack::pt_t::eFocus;
+        if(eraseSelection)
+        {
+            trkpt->flags &= ~CTrack::pt_t::eSelected;
+        }
         ++trkpt;
     }
     if(idx < track.count())

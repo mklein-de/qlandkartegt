@@ -184,7 +184,7 @@ class CTrack : public IItem
         /// get the total time covered by the track in seconds
         int getTotalTime(){return totalTime;}
         /// select tarckpoint by index
-        void setPointOfFocus(int idx);
+        void setPointOfFocus(int idx, bool eraseSelection);
         ///
         QDateTime getStartTimestamp();
         QDateTime getEndTimestamp();
