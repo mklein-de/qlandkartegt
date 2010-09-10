@@ -50,6 +50,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 
     protected:
         void keyPressEvent(QKeyEvent * e);
+        bool eventFilter(QObject *obj, QEvent *event);
 
     private slots:
         void slotItemDoubleClicked(QListWidgetItem * item);

@@ -81,6 +81,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     toolSortAlpha->setChecked(cfg.value("track/sortAlpha", true).toBool());
     toolSortTime->setChecked(cfg.value("track/sortTime", true).toBool());
 
+    listTracks->installEventFilter(this);
 }
 
 
@@ -140,38 +141,6 @@ void CTrackToolWidget::slotDBChanged()
         }
         p.end();
 
-//        QString val1, unit1, val2, unit2;
-//        QString str     = track->getName();
-//        double distance = track->getTotalDistance();
-
-//        IUnit::self().meter2distance(track->getTotalDistance(), val1, unit1);
-//        str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
-//        str += tr(", points: %1").arg(track->getTrackPoints().count());
-
-//        quint32 ttime = track->getTotalTime();
-//        quint32 days  = ttime / 86400;
-
-//        QTime time;
-//        time = time.addSecs(ttime);
-//        if(days)
-//        {
-//            str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
-//        }
-//        else
-//        {
-//            str += tr("\ntime: ") + time.toString("HH:mm:ss");
-//        }
-
-//        IUnit::self().meter2speed(distance / ttime, val1, unit1);
-//        str += tr(", speed: %1 %2").arg(val1).arg(unit1);
-
-//        str += tr("\nstart: %1").arg(track->getStartTimestamp().isNull() ? tr("-") : track->getStartTimestamp().toString());
-//        str += tr("\nend: %1").arg(track->getEndTimestamp().isNull() ? tr("-") : track->getEndTimestamp().toString());
-
-//        IUnit::self().meter2elevation(track->getAscend(), val1, unit1);
-//        IUnit::self().meter2elevation(track->getDescend(), val2, unit2);
-
-//        str += tr("\n%1%2 %3, %4%5 %6").arg(QChar(0x2191)).arg(val1).arg(unit1).arg(QChar(0x2193)).arg(val2).arg(unit2);
 
         item->setText(track->getInfo());
         item->setData(Qt::UserRole, track->getKey());
@@ -415,4 +384,15 @@ void CTrackToolWidget::slotShowBullets()
 
     CTrackDB::self().setShowBullets(!CTrackDB::self().getShowBullets());
 
+}
+
+bool CTrackToolWidget::eventFilter(QObject *obj, QEvent *event)
+{
+
+    if(event->type() == QEvent::Leave)
+    {
+        listTracks->clearFocus();
+    }
+
+    return QObject::eventFilter(obj, event);
 }
