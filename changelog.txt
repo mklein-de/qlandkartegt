@@ -1,3 +1,28 @@
+--- 2010.09.11 ---
+
+Request #195:
+Export raster maps to KMZ
+
+Request #196:
+Export raster maps as Garmin Custom Map tiles
+
+Request #197:
+Make folder system of geo database a bit more flexible
+
+Bug     #198:
+Optimize geo database access and fix many glitches.
+
+Bug     #199:
+Some tiles on OSM maps are not selectable
+
+Bug     #200:
+Fix glitches in track profile/ edit/ toolview interaction
+
+Request #201:
+Enhance guideline and snap algorithm for drawing distance polylines
+
+
+
 --- 2010.08.15 ---
 
 Bug     #192:
@@ -882,6 +907,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
