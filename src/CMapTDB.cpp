@@ -1455,10 +1455,12 @@ void CMapTDB::draw(QPainter& p)
         rectInfo.adjust(0,0,4,4);
         rectInfo.moveTopLeft(QPointF(-2,-2));
 
-        p.setPen(Qt::black);
+        p.setRenderHint(QPainter::Antialiasing,true);
+        p.setPen(QPen(QColor(0,0,0,128),3));
         p.setBrush(QColor(0xff, 0xff, 0xcc, 0xE0));
-        p.drawRect(rectInfo);
+        p.drawRoundedRect(rectInfo,10,10);
         info->drawContents(&p);
+        p.setRenderHint(QPainter::Antialiasing,false);
 
         p.restore();
     }
