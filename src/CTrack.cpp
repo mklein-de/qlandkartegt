@@ -705,6 +705,7 @@ void CTrack::rebuild(bool reindex)
     pt1->dem        = dem.getElevation(pt1->lon * DEG_TO_RAD, pt1->lat * DEG_TO_RAD);
     pt1->slope      = 0.0;
     t1              = pt1->timestamp;
+    t2              = t1;   //for the case that the track has only 1 point
 
     // process track
     while(++pt2 != track.end())
