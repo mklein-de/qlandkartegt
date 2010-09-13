@@ -95,7 +95,7 @@ void IMouse::drawSelWpt(QPainter& p)
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QColor(100,100,255,200));
+        p.setPen(QPen(QColor(100,100,255,200),3));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(u - 35, v - 35, 70, 70);
         p.drawPixmap(u-7 , v-7, selWpt->getIcon());
@@ -160,7 +160,7 @@ void IMouse::drawSelSearch(QPainter& p)
         double v = selSearch->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QColor(100,100,255,200));
+        p.setPen(QPen(QColor(100,100,255,200),3));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(u - 35, v - 35, 70, 70);
         p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
@@ -185,7 +185,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QColor(100,100,255,200));
+        p.setPen(QPen(QColor(100,100,255,200),3));
         p.setBrush(QColor(255,255,255,200));
         p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
 
