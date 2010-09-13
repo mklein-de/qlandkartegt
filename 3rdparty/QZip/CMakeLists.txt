@@ -69,4 +69,5 @@ add_library(qzip
 
 target_link_libraries( qzip
       ${QT_LIBRARIES}
+      z
 )
