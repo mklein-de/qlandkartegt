@@ -119,15 +119,17 @@ void IMouse::drawSelWpt(QPainter& p)
         QFont           f   = CResources::self().getMapFont();
         QFontMetrics    fm(f);
         QRect           r1  = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
-        r1.moveTopLeft(QPoint(u + 45, v));
+        r1.moveTopLeft(QPoint(u + 55, v));
 
         QRect           r2 = r1;
-        r2.setWidth(r1.width() + 4);
-        r2.moveLeft(r1.left() - 2);
+        r2.setWidth(r1.width() + 20);
+        r2.moveLeft(r1.left() - 10);
+        r2.setHeight(r1.height() + 20);
+        r2.moveTop(r1.top() - 10);
 
-        p.setPen(QColor(100,100,255,200));
+        p.setPen(QPen(QColor(100,100,255,200),3));
         p.setBrush(QColor(255,255,255,200));
-        p.drawRect(r2);
+        p.drawRoundedRect(r2, 10, 10);
 
         p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
@@ -230,12 +232,14 @@ void IMouse::drawSelTrkPt(QPainter& p)
             r1.moveTopLeft(QPoint(u + 45, v));
 
             QRect           r2 = r1;
-            r2.setWidth(r1.width() + 4);
-            r2.moveLeft(r1.left() - 2);
+            r2.setWidth(r1.width() + 20);
+            r2.moveLeft(r1.left() - 10);
+            r2.setHeight(r1.height() + 20);
+            r2.moveTop(r1.top() - 10);
 
-            p.setPen(QColor(100,100,255,200));
+            p.setPen(QPen(QColor(100,100,255,200),3));
             p.setBrush(QColor(255,255,255,200));
-            p.drawRect(r2);
+            p.drawRoundedRect(r2, 10, 10);
 
             p.setFont(CResources::self().getMapFont());
             p.setPen(Qt::darkBlue);
