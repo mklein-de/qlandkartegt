@@ -24,13 +24,11 @@
 #include "ITrackStat.h"
 #include "CTrackEditWidget.h"
 
-extern int ext_handler;          //TODO: Extension handler
-
 class CTrackStatExtensionWidget : public ITrackStat
 {
     Q_OBJECT;
     public:
-        CTrackStatExtensionWidget(type_e type, QWidget * parent);
+        CTrackStatExtensionWidget(type_e type, QWidget * parent, QString name);
         virtual ~CTrackStatExtensionWidget();
 
     private slots:
@@ -38,10 +36,7 @@ class CTrackStatExtensionWidget : public ITrackStat
         void slotSetTrack(CTrack* track);
 
     private:
+        QString myName;
         bool needResetZoom;
-        int num_of_ext;          //TODO: Anzahl der extensions
-                                 //TODO: Namen der extensions
-        QList<QString> names_of_ext;
-
 };
-#endif                           //CTRACKSTATEXTENSIONWIDGET_H
+#endif //CTRACKSTATEXTENSIONWIDGET_H

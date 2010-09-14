@@ -26,13 +26,16 @@
 
 #include <QtGui>
 
-int ext_handler = 0;             //TODO: handler ext
 
-CTrackStatExtensionWidget::CTrackStatExtensionWidget(type_e type, QWidget * parent)
+CTrackStatExtensionWidget::CTrackStatExtensionWidget(type_e type, QWidget * parent,  QString name)
 : ITrackStat(type, parent)
 , needResetZoom(true)
 {
 
+    myName = name;
+    setObjectName(name);
+    setToolTip(name);
+    
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
@@ -48,7 +51,7 @@ CTrackStatExtensionWidget::~CTrackStatExtensionWidget()
 }
 
 
-                                 //TODO: hier wird gezeichnet
+//This method plots the diagram
 void CTrackStatExtensionWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
@@ -61,54 +64,28 @@ void CTrackStatExtensionWidget::slotChanged()
     QPolygonF lineExt;
     QPolygonF marksExt;
     QPointF   focusExt;
-
-    //QPointF(if type = eDist => distanz else timestamp (x-wert),	 speed * factor (y-wert) )
-    //lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
-    //lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->avgspeed * speedfactor);
+    double val = 0;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-
-    double val = 0;
-                                 //Anzahl der Extensions
-    num_of_ext =  track->tr_ext.set.toList().size();
-    QString nam;
-
-    if (num_of_ext != 0)
-    {
-
-                                 //Namen der Extensions
-        names_of_ext = track->tr_ext.set.toList();
-
-        //--- extensions den tabs zuordnen
-        int e = ext_handler;
-        if (e <= 0)              //sicherheit
-        {
-            e = 0;
-        }
-        else if (e > num_of_ext) {e = num_of_ext;}
-
-        nam = names_of_ext[e];   //TODO: nam is name of extension nr e
-
-        if (ext_handler == num_of_ext-1)    {ext_handler = 0;}
-        else                                {ext_handler++;}
-        //--- extensions den tabs zuordnen ^^
-
-        plot->setXLabel(tr("time [h]"));
-        plot->setYLabel(nam);
-
-    }
-
+    
     while(trkpt != trkpts.end())
     {
                                  //Wert einfgen
-        QString val1 = trkpt->gpx_exts.getValue(nam);
-        if (val1 == "")     {val = 0;}
-        else                {val = val1.toDouble();}
+        QString val1 = trkpt->gpx_exts.getValue(myName);
+        if (val1 == "")     
+        {
+            val = 0;
+        }
+        else
+        {
+            val = val1.toDouble();
+        }
 
         if(trkpt->flags & CTrack::pt_t::eDeleted)
         {
-            ++trkpt; continue;
+            ++trkpt; 
+            continue;
         }
 
         lineExt << QPointF((double)trkpt->timestamp, val);
@@ -126,8 +103,10 @@ void CTrackStatExtensionWidget::slotChanged()
         ++trkpt;
     }
 
+    plot->setXLabel(tr("time [h]"));
+    plot->setYLabel(myName);
     plot->clear();
-    plot->newLine(lineExt,focusExt, nam);
+    plot->newLine(lineExt,focusExt, myName);
     plot->newMarks(marksExt);
 
     plot->setLimits();

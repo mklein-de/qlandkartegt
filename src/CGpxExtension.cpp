@@ -38,13 +38,6 @@ int CGpxExtPt::getSize()
     return values.size();
 }
 
-
-QString CGpxExtPt::getName(const QString& val)
-{
-    return values.key(val);
-}
-
-
 //TODO: Methode um den Wert der Extension X zu erhalten
 QString CGpxExtPt::getValue (const QString& name)
 {

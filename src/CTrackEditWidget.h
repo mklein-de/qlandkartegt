@@ -119,25 +119,15 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
 
 #ifdef GPX_EXTENSIONS
-                                 //TODO: Namen der extensions
-        QList<QString> names_of_ext;
-        int num_of_ext;          //TODO: Anzahl der extensions
-
         QList<QCheckBox *> c_boxes;
 
-                                 //TODO: QPointer for tabs to be handled
-        QPointer<CTrackStatExtensionWidget> tab;
-
-                                 //TODO: QList with all extension tabs made for further handling
-        QList<CTrackStatExtensionWidget *> tabs;
+        //QList with all extension tabs made for further handling
+        QList<CTrackStatExtensionWidget *> trackStatExtensions;
 
         QSpacerItem *Vspace;     //TODO: Spacer Item
 
-        QLabel *label;
-
         int tabstat;
         int no_ext_info_stat;
-        int count;
 #endif
 
         QMenu * contextMenu;
