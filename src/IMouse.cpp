@@ -95,8 +95,8 @@ void IMouse::drawSelWpt(QPainter& p)
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QPen(QColor(100,100,255,200),3));
-        p.setBrush(QColor(255,255,255,200));
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(u - 35, v - 35, 70, 70);
         p.drawPixmap(u-7 , v-7, selWpt->getIcon());
 
@@ -127,9 +127,10 @@ void IMouse::drawSelWpt(QPainter& p)
         r2.setHeight(r1.height() + 20);
         r2.moveTop(r1.top() - 10);
 
-        p.setPen(QPen(QColor(100,100,255,200),3));
-        p.setBrush(QColor(255,255,255,200));
-        p.drawRoundedRect(r2, 10, 10);
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
+        PAINT_ROUNDED_RECT(p,r2);
+
 
         p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
@@ -160,8 +161,8 @@ void IMouse::drawSelSearch(QPainter& p)
         double v = selSearch->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QPen(QColor(100,100,255,200),3));
-        p.setBrush(QColor(255,255,255,200));
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(u - 35, v - 35, 70, 70);
         p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
 
@@ -185,8 +186,8 @@ void IMouse::drawSelTrkPt(QPainter& p)
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        p.setPen(QPen(QColor(100,100,255,200),3));
-        p.setBrush(QColor(255,255,255,200));
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
 
         QString str;
@@ -237,9 +238,10 @@ void IMouse::drawSelTrkPt(QPainter& p)
             r2.setHeight(r1.height() + 20);
             r2.moveTop(r1.top() - 10);
 
-            p.setPen(QPen(QColor(100,100,255,200),3));
-            p.setBrush(QColor(255,255,255,200));
-            p.drawRoundedRect(r2, 10, 10);
+
+            p.setPen(QPen(CCanvas::penBorderBlue));
+            p.setBrush(CCanvas::brushBackWhite);
+            PAINT_ROUNDED_RECT(p,r2);
 
             p.setFont(CResources::self().getMapFont());
             p.setPen(Qt::darkBlue);

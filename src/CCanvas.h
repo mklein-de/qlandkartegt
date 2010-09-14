@@ -47,6 +47,8 @@ class CMouseCutTrack;
 class CMouseSelTrack;
 class QFont;
 
+#define PAINT_ROUNDED_RECT(p,r) p.drawRoundedRect(r,5,5)
+
 /// the map canvas area
 class CCanvas : public QWidget
 {
@@ -111,6 +113,11 @@ class CCanvas : public QWidget
 
         /// get selected color from color picker cursor
         QColor getSelectedColor();
+
+        static QPen penBorderBlue;
+        static QPen penBorderBlack;
+        static QBrush brushBackWhite;
+        static QBrush brushBackYellow;
 
         signals:
         void sigResize(const QSize& size);

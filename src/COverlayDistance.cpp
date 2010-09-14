@@ -155,7 +155,7 @@ QString COverlayDistance::getInfo()
     {
         info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " -> ";
 
-        double ttime = val.toDouble() * 3600 / (speed * IUnit::self().speedfactor);
+        double ttime = val.toDouble() * 3.6/ (speed * IUnit::self().speedfactor);
         quint32 days = ttime / 86400;
 
         QTime time;
@@ -788,8 +788,8 @@ void COverlayDistance::draw(QPainter& p)
         if(doFuncWheel)
         {
 
-            p.setPen(QColor(100,100,255,200));
-            p.setBrush(QColor(255,255,255,200));
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
             p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
 
             p.save();
@@ -838,8 +838,8 @@ void COverlayDistance::draw(QPainter& p)
         }
         else
         {
-            p.setPen(QColor(100,100,255,200));
-            p.setBrush(QColor(255,255,255,200));
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
             p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
         }
     }
