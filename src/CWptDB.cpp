@@ -806,9 +806,18 @@ void CWptDB::createWaypointsFromImages()
     QStringList files = dir.entryList(filter, QDir::Files);
     QString file;
 
+    quint32 progCnt = 0;
+    QProgressDialog progress(tr("Read EXIF tags from pictures."), tr("Abort"), 0, files.size());
+
+
     foreach(file, files)
     {
         //         qDebug() << "---------------" << file << "---------------";
+
+        progress.setValue(progCnt++);
+        if (progress.wasCanceled()) break;
+        qApp->processEvents();
+
 
         ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
