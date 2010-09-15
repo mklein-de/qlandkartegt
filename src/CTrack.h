@@ -67,7 +67,7 @@ class CTrack : public IItem
 
         virtual ~CTrack();
         int ref;
-        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt};
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext

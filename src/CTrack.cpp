@@ -189,6 +189,33 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 track.setExt1Data();
                 break;
             }
+#ifdef GPX_EXTENSIONS
+            case CTrack::eTrkGpxExt:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+                quint32 nTrkPts1 = 0;
+
+                s1 >> nTrkPts1;
+                if(nTrkPts1 != nTrkPts)
+                {
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of extended data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    break;
+                }
+
+                track.tr_ext.set.clear();
+                s1 >> track.tr_ext.set;
+
+                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
+                while (pt1 != track.track.end())
+                {
+                    pt1->gpx_exts.values.clear();
+                    s1 >> pt1->gpx_exts.values;
+                    pt1++;
+                }
+                break;
+            }
+#endif
             default:;
         }
 
@@ -304,6 +331,32 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
         entries << entryTrkExt1;
     }
+#ifdef GPX_EXTENSIONS
+    //---------------------------------------
+    // prepare extended gpx trackpoint data
+    //---------------------------------------
+    if(track.tr_ext.set.size())
+    {
+        trk_head_entry_t entryTrkGpxExt;
+        entryTrkGpxExt.type = CTrack::eTrkGpxExt;
+        QDataStream s5(&entryTrkGpxExt.data, QIODevice::WriteOnly);
+        s5.setVersion(QDataStream::Qt_4_5);
+
+        trkpt = trkpts.begin();
+
+        s5 << (quint32)trkpts.size();
+        s5 << track.tr_ext.set;
+
+
+        while(trkpt != trkpts.end())
+        {
+            s5 << trkpt->gpx_exts.values;
+            ++trkpt;
+        }
+
+        entries << entryTrkGpxExt;
+    }
+#endif
     //---------------------------------------
     // prepare terminator
     //---------------------------------------
