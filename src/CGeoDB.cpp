@@ -144,6 +144,10 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
       return;
     }
 
+    if(!query.exec("PRAGMA synchronous=OFF")) {
+      return;
+    }
+
     if(!query.exec("SELECT version FROM versioninfo"))
     {
         initDB();
