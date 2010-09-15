@@ -60,13 +60,24 @@ void CDlgScreenshot::slotSave()
     QString filter;
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"Bitmap (*.bmp);;"
+        ,"Bitmap (*.png);;"
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
 
     if(filename.isEmpty()) return;
 
+    QFileInfo fi(filename);
+
+    if(fi.suffix().toLower() != "png")
+    {
+        filename += ".png";
+    }
+
+
     image.save(filename);
 
+
+    pathData = fi.absolutePath();
+    cfg.setValue("path/data", pathData);
 }

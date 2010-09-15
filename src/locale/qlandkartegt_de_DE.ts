@@ -6152,12 +6152,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="110"/>
         <source>Use database</source>
-        <translation>Benutze die Datenbank</translation>
+        <translation type="unfinished">Datenbank benutzen</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
         <source>Save workspace on exit</source>
-        <translation>Sicher den Arbeitsplatz beim Verlassen</translation>
+        <translation type="unfinished">Arbeitsplatz beim Verlassen speichern</translation>
     </message>
     <message>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
