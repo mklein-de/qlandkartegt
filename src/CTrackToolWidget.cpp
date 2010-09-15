@@ -276,6 +276,11 @@ void CTrackToolWidget::slotDelete()
     }
 
     CTrackDB::self().delTracks(keys);
+
+    if(!trackedit.isNull())
+    {
+        trackedit->deleteLater();
+    }
 }
 
 
