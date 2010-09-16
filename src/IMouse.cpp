@@ -141,10 +141,15 @@ void IMouse::drawSelWpt(QPainter& p)
             QRect r = selWpt->images[0].pixmap.rect();
 
             p.save();
-            p.translate(u - (r.width() + 40), v);
-            p.setPen(QPen(Qt::white,3));
-            p.drawRect(r);
+            p.translate(u - (r.width() + 45), v);
+            r.adjust(-1,-1,+1,+1);
+
             p.drawPixmap(0,0,selWpt->images[0].pixmap);
+
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(Qt::NoBrush);
+            PAINT_ROUNDED_RECT(p,r);
+
             p.restore();
         }
 

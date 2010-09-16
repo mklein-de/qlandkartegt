@@ -64,9 +64,9 @@
 #include "CMapUndoCommandMove.h"
 
 
-QPen CCanvas::penBorderBlue(QColor(100,100,255,200),3);
+QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
 QPen CCanvas::penBorderBlack(QColor(0,0,0,200),3);
-QBrush CCanvas::brushBackWhite(QColor(255,255,255,200));
+QBrush CCanvas::brushBackWhite(QColor(255,255,255,210));
 QBrush CCanvas::brushBackYellow(QColor(0xff, 0xff, 0xcc, 0xE0));
 
 
