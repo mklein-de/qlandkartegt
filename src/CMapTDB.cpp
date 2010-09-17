@@ -938,7 +938,8 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.memSize = 0;
                 tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
-                for(quint16 i=0; i < s->count; ++i)
+                quint16 count = gar_load(uint16_t,s->count);
+                for(quint16 i=0; i < count; ++i)
                 {
                     tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }
