@@ -57,10 +57,11 @@ void CDlgScreenshot::slotSave()
     QSettings cfg;
     QString pathData = cfg.value("path/data","./").toString();
 
-    QString filter;
+    QString filter = cfg.value("screenshot/imagetype","Bitmap (*.png)").toString();
+    
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"Bitmap (*.png);;"
+        ,"Bitmap (*.png);;All (*.*)"
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
@@ -80,4 +81,5 @@ void CDlgScreenshot::slotSave()
 
     pathData = fi.absolutePath();
     cfg.setValue("path/data", pathData);
+    cfg.setValue("screenshot/imagetype", filter);
 }
