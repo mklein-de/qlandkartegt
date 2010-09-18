@@ -28,7 +28,7 @@
 #include <QtGui>
 
 COverlayTextBox::COverlayTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& r, QObject * parent)
-: IOverlay(parent, "TextBox", ":/icons/iconTextBox16x16")
+: IOverlay(parent, "TextBox", ":/icons/iconTextBox16x16.png")
 , lon(lon)
 , lat(lat)
 , rect(r)

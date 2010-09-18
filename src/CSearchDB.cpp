@@ -197,7 +197,7 @@ void CSearchDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         if(rect.contains(QPoint(u,v)))
         {
-            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
+            p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16.png"));
             CCanvas::drawText((*result)->query, p, QPoint(u, v - 10));
         }
 

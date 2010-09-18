@@ -80,55 +80,55 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     setupUi(this);
     setObjectName("GeoDB");
 
-    tabbar->insertTab(0,this, QIcon(":/icons/iconGeoDB16x16"),"");
+    tabbar->insertTab(0,this, QIcon(":/icons/iconGeoDB16x16.png"),"");
     tabbar->setTabToolTip(tabbar->indexOf(this), tr("Manage your Geo Data Base"));
 
     itemWorkspace = new QTreeWidgetItem(treeWorkspace);
     itemWorkspace->setData(eCoName, eUrType, eFolder0);
     itemWorkspace->setText(eCoName, tr("Workspace"));
-    itemWorkspace->setIcon(eCoName, QIcon(":/icons/iconGlobe16x16"));
+    itemWorkspace->setIcon(eCoName, QIcon(":/icons/iconGlobe16x16.png"));
     itemWorkspace->setToolTip(eCoName, tr("All items you see on the map."));
     itemWorkspace->setFlags(itemWorkspace->flags() & ~Qt::ItemIsDragEnabled);
 
     itemWksWpt = new  QTreeWidgetItem(itemWorkspace);
     itemWksWpt->setData(eCoName, eUrType, eFolderT);
     itemWksWpt->setText(eCoName, tr("Waypoints"));
-    itemWksWpt->setIcon(eCoName, QIcon(":/icons/iconWaypoint16x16"));
+    itemWksWpt->setIcon(eCoName, QIcon(":/icons/iconWaypoint16x16.png"));
     itemWksWpt->setFlags(itemWksWpt->flags() & ~Qt::ItemIsDragEnabled);
     itemWksWpt->setHidden(true);
 
     itemWksTrk = new  QTreeWidgetItem(itemWorkspace);
     itemWksTrk->setData(eCoName, eUrType, eFolderT);
     itemWksTrk->setText(eCoName, tr("Tracks"));
-    itemWksTrk->setIcon(eCoName, QIcon(":/icons/iconTrack16x16"));
+    itemWksTrk->setIcon(eCoName, QIcon(":/icons/iconTrack16x16.png"));
     itemWksTrk->setFlags(itemWksTrk->flags() & ~Qt::ItemIsDragEnabled);
     itemWksTrk->setHidden(true);
 
     itemWksRte = new  QTreeWidgetItem(itemWorkspace);
     itemWksRte->setData(eCoName, eUrType, eFolderT);
     itemWksRte->setText(eCoName, tr("Routes"));
-    itemWksRte->setIcon(eCoName, QIcon(":/icons/iconRoute16x16"));
+    itemWksRte->setIcon(eCoName, QIcon(":/icons/iconRoute16x16.png"));
     itemWksRte->setFlags(itemWksRte->flags() & ~Qt::ItemIsDragEnabled);
     itemWksRte->setHidden(true);
 
     itemWksOvl = new  QTreeWidgetItem(itemWorkspace);
     itemWksOvl->setData(eCoName, eUrType, eFolderT);
     itemWksOvl->setText(eCoName, tr("Overlays"));
-    itemWksOvl->setIcon(eCoName, QIcon(":/icons/iconOverlay16x16"));
+    itemWksOvl->setIcon(eCoName, QIcon(":/icons/iconOverlay16x16.png"));
     itemWksOvl->setFlags(itemWksOvl->flags() & ~Qt::ItemIsDragEnabled);
     itemWksOvl->setHidden(true);
 
     itemLostFound = new QTreeWidgetItem(treeDatabase);
     itemLostFound->setData(eCoName, eUrType, eFolder0);
     itemLostFound->setText(eCoName, tr("Lost & Found"));
-    itemLostFound->setIcon(eCoName, QIcon(":/icons/iconDelete16x16"));
+    itemLostFound->setIcon(eCoName, QIcon(":/icons/iconDelete16x16.png"));
     itemLostFound->setFlags(itemLostFound->flags() & ~Qt::ItemIsDragEnabled);
     itemLostFound->setToolTip(eCoName, tr("All items that lost their parent folder as you deleted it."));
 
     itemDatabase = new QTreeWidgetItem(treeDatabase);
     itemDatabase->setData(eCoName, eUrType, eFolder0);
     itemDatabase->setText(eCoName, tr("Database"));
-    itemDatabase->setIcon(eCoName, QIcon(":/icons/iconGeoDB16x16"));
+    itemDatabase->setIcon(eCoName, QIcon(":/icons/iconGeoDB16x16.png"));
     itemDatabase->setData(eCoName, eUrDBKey, 1);
     itemDatabase->setFlags(itemDatabase->flags() & ~Qt::ItemIsDragEnabled);
     itemDatabase->setToolTip(eCoName, tr("All your data grouped by folders."));
@@ -169,22 +169,22 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
-    actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy"), tr("Copy"), this, SLOT(slotCopyFolder()));
-    actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move"), this, SLOT(slotMoveFolder()));
+    actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
+    actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveFolder()));
 
     contextMenuItem     = new QMenu(this);
-    actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy"), tr("Copy"), this, SLOT(slotCopyItems()));
-    actMoveItem         = contextMenuItem->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move"), this, SLOT(slotMoveItems()));
-    actDelItem          = contextMenuItem->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelItems()));
+    actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyItems()));
+    actMoveItem         = contextMenuItem->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveItems()));
+    actDelItem          = contextMenuItem->addAction(QPixmap(":/icons/iconDelete16x16.png"), tr("Delete"), this, SLOT(slotDelItems()));
 
     contextMenuLost     = new QMenu(this);
-    actMoveLost         = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16"), tr("Move"), this, SLOT(slotMoveLost()));
-    actDelLost          = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelLost()));
+    actMoveLost         = contextMenuLost->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveLost()));
+    actDelLost          = contextMenuLost->addAction(QPixmap(":/icons/iconDelete16x16.png"), tr("Delete"), this, SLOT(slotDelLost()));
 
     contextMenuWks      = new QMenu(this);
-    actAddToDB          = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16"), tr("Add to database"), this, SLOT(slotAddItems()));
-    actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16"), tr("Save changes"), this, SLOT(slotSaveItems()));
-    actHardCopy         = contextMenuWks->addAction(QPixmap(":/icons/editcopy"), tr("Check-out as copy"), this, SLOT(slotHardCopyItem()));
+    actAddToDB          = contextMenuWks->addAction(QPixmap(":/icons/iconAdd16x16.png"), tr("Add to database"), this, SLOT(slotAddItems()));
+    actSaveToDB         = contextMenuWks->addAction(QPixmap(":/icons/iconFileSave16x16.png"), tr("Save changes"), this, SLOT(slotSaveItems()));
+    actHardCopy         = contextMenuWks->addAction(QPixmap(":/icons/editcopy.png"), tr("Check-out as copy"), this, SLOT(slotHardCopyItem()));
 
 
     connect(treeDatabase,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuDatabase(const QPoint&)));
@@ -372,7 +372,7 @@ void CGeoDB::migrateDB(int version)
 
                 query.prepare("UPDATE folders SET type=:type WHERE icon=:icon");
                 query.bindValue("type", eFolder1);
-                query.bindValue("icon", ":/icons/iconFolderBlue16x16");
+                query.bindValue("icon", ":/icons/iconFolderBlue16x16.png");
                 if(!query.exec())
                 {
                     qDebug() << query.lastQuery();
@@ -382,7 +382,7 @@ void CGeoDB::migrateDB(int version)
 
                 query.prepare("UPDATE folders SET type=:type WHERE icon=:icon");
                 query.bindValue(":type", eFolder2);
-                query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+                query.bindValue(":icon", ":/icons/iconFolderGreen16x16.png");
                 if(!query.exec())
                 {
                     qDebug() << query.lastQuery();
@@ -678,7 +678,7 @@ void CGeoDB::updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keys
         if(query.next())
         {
             item->setData(eCoName, eUrDBKey, query.value(0));
-            item->setIcon(eCoState, QIcon(":/icons/iconGeoDB16x16"));
+            item->setIcon(eCoState, QIcon(":/icons/iconGeoDB16x16.png"));
             keysWks << query.value(0).toULongLong();
         }
         else
@@ -1059,13 +1059,13 @@ void CGeoDB::addFolder(QTreeWidgetItem * parent, const QString& name, const QStr
     switch(type)
     {
     case eFolder1:
-        icon = ":/icons/iconFolderBlue16x16";
+        icon = ":/icons/iconFolderBlue16x16.png";
         break;
     case eFolder2:
-        icon = ":/icons/iconFolderGreen16x16";
+        icon = ":/icons/iconFolderGreen16x16.png";
         break;
     case eFolderN:
-        icon = ":/icons/iconFolderOrange16x16";
+        icon = ":/icons/iconFolderOrange16x16.png";
         break;
     }
 
@@ -2057,13 +2057,13 @@ void CGeoDB::slotEditFolder()
     {
 
     case eFolder1:
-        query.bindValue(":icon", ":/icons/iconFolderBlue16x16");
+        query.bindValue(":icon", ":/icons/iconFolderBlue16x16.png");
         break;
     case eFolder2:
-        query.bindValue(":icon", ":/icons/iconFolderGreen16x16");
+        query.bindValue(":icon", ":/icons/iconFolderGreen16x16.png");
         break;
     case eFolderN:
-        query.bindValue(":icon", ":/icons/iconFolderOrange16x16");
+        query.bindValue(":icon", ":/icons/iconFolderOrange16x16.png");
         break;
     }
 

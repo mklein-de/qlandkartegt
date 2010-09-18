@@ -55,7 +55,7 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
     contextMenu = new QMenu(this);
     contextMenu->addAction(actions->getAction("aCopyToClipboard"));
-    contextMenu->addAction(QIcon(":/icons/iconDelete16x16"), tr("Delete"), this, SLOT(slotDelete()));
+    contextMenu->addAction(QIcon(":/icons/iconDelete16x16.png"), tr("Delete"), this, SLOT(slotDelete()));
 
     slotChanged();
     slotSelectionChanged();

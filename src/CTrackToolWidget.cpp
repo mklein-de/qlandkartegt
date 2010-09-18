@@ -42,7 +42,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 {
     setupUi(this);
     setObjectName("Tracks");
-    parent->addTab(this,QIcon(":/icons/iconTrack16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconTrack16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Tracks"));
 
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));

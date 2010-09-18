@@ -41,7 +41,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 {
     setupUi(this);
     setObjectName("Waypoints");
-    parent->addTab(this,QIcon(":/icons/iconWaypoint16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconWaypoint16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Waypoints"));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));

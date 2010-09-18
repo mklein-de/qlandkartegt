@@ -31,7 +31,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 {
     setupUi(this);
     setObjectName("Routes");
-    parent->addTab(this,QIcon(":/icons/iconRoute16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconRoute16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Routes"));
 
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));

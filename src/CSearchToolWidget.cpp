@@ -41,7 +41,7 @@ CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
 
     connect(listResults,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
-    parent->insertTab(0,this,QIcon(":/icons/iconSearch16x16"),"");
+    parent->insertTab(0,this,QIcon(":/icons/iconSearch16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Search"));
 
     contextMenu = new QMenu(this);

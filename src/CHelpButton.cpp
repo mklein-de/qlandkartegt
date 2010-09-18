@@ -24,7 +24,7 @@ CHelpDialog::CHelpDialog(QWidget * parent)
 : QDialog(parent)
 {
     setupUi(this);
-    helpIcn->setPixmap(QPixmap(":/icons/iconHelp48x48"));
+    helpIcn->setPixmap(QPixmap(":/icons/iconHelp48x48.png"));
 
     setWindowFlags(windowFlags()|Qt::WindowStaysOnTopHint);
 }
@@ -35,7 +35,7 @@ static CHelpDialog *helpPopup = 0;
 CHelpButton::CHelpButton(QWidget * parent)
 : QToolButton(parent)
 {
-    this->setIcon(QPixmap(":/icons/iconHelp16x16"));
+    this->setIcon(QPixmap(":/icons/iconHelp16x16.png"));
     connect(this, SIGNAL(clicked()), this, SLOT(slotClicked()));
 }
 

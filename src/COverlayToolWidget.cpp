@@ -31,7 +31,7 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
     setupUi(this);
     setObjectName("Overlay");
 
-    parent->addTab(this,QIcon(":/icons/iconOverlay16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconOverlay16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Draw"));
 
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));

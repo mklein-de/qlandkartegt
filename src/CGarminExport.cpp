@@ -34,7 +34,7 @@ CGarminExport::CGarminExport(QWidget * parent)
 , isDialog(true)
 {
     setupUi(this);
-    toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16"));
+    toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
 
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());

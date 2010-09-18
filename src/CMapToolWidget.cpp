@@ -34,7 +34,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 {
     setupUi(this);
     setObjectName("Maps");
-    parent->addTab(this,QIcon(":/icons/iconMap16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconMap16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Maps"));
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
@@ -61,9 +61,9 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 
     connect(pushExportMap, SIGNAL(clicked()), this, SLOT(slotExportMap()));
 
-    tabWidget->setTabIcon(0, QIcon(":/icons/iconRaster16x16"));
+    tabWidget->setTabIcon(0, QIcon(":/icons/iconRaster16x16.png"));
     tabWidget->setTabText(0,tr("Raster"));
-    tabWidget->setTabIcon(1, QIcon(":/icons/iconVector16x16"));
+    tabWidget->setTabIcon(1, QIcon(":/icons/iconVector16x16.png"));
     tabWidget->setTabText(1,tr("Vector"));
 
 }
@@ -101,23 +101,23 @@ void CMapToolWidget::slotDBChanged()
             item->setText(eName, map->description);
             item->setToolTip(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
-            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16") : map->type == IMap::eTile ? QIcon(":/icons/iconTile16x16") : QIcon(":/icons/iconUnknown16x16"));
+            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16.png") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16.png") : map->type == IMap::eTile ? QIcon(":/icons/iconTile16x16.png") : QIcon(":/icons/iconUnknown16x16.png"));
             item->setData(eType, Qt::UserRole, map->type);
 
             if(map.key() == key)
             {
                 selected = item;
-                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16")));
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16.png")));
                 item->setData(eMode, Qt::UserRole, eSelected);
             }
             else if(basemap.hasOverlayMap(map.key()))
             {
-                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16")));
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16.png")));
                 item->setData(eMode, Qt::UserRole, eOverlayActive);
             }
             else if(map->type == IMap::eGarmin)
             {
-                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16")));
+                item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16.png")));
                 item->setData(eMode, Qt::UserRole, eOverlay);
             }
             else

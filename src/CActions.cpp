@@ -55,29 +55,29 @@ QObject(parent), parent(parent)
     canvas = theMainWindow->getCanvas();
 
 
-    createAction(tr("F1"), ":/icons/iconMap16x16", tr("&Map ..."), "aSwitchToMap", tr("Manage maps."));
-    createAction(tr("F2"), ":/icons/iconWaypoint16x16", tr("&Waypoint ..."), "aSwitchToWpt", tr("Manage waypoints."));
-    createAction(tr("F3"), ":/icons/iconTrack16x16", tr("&Track ..."), "aSwitchToTrack", tr("Manage tracks."));
-    createAction(tr("F4"), ":/icons/iconRoute16x16", tr("&Route ..."), "aSwitchToRoute", tr(""));
-    createAction(tr("F5"), ":/icons/iconLiveLog16x16", tr("Live &Log ..."), "aSwitchToLiveLog", tr("Toggle live log recording."));
-    createAction(tr("F6"), ":/icons/iconOverlay16x16", tr("&Overlay ..."), "aSwitchToOverlay", tr("Manage overlays, such as textboxes"));
-    createAction(tr("F7"), ":/icons/iconGlobe+16x16", tr("Mor&e ..."), "aSwitchToMainMore", tr("Extended functions."));
-    createAction(tr("F8"), ":/icons/iconClear16x16", tr("&Clear all"), "aClearAll", tr("Remove all waypoints, tracks, ..."));
-    createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload all"), "aUploadAll", tr("Upload all data to device."));
-    createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load all"), "aDownloadAll", tr("Download all data from device."));
+    createAction(tr("F1"), ":/icons/iconMap16x16.png", tr("&Map ..."), "aSwitchToMap", tr("Manage maps."));
+    createAction(tr("F2"), ":/icons/iconWaypoint16x16.png", tr("&Waypoint ..."), "aSwitchToWpt", tr("Manage waypoints."));
+    createAction(tr("F3"), ":/icons/iconTrack16x16.png", tr("&Track ..."), "aSwitchToTrack", tr("Manage tracks."));
+    createAction(tr("F4"), ":/icons/iconRoute16x16.png", tr("&Route ..."), "aSwitchToRoute", tr(""));
+    createAction(tr("F5"), ":/icons/iconLiveLog16x16.png", tr("Live &Log ..."), "aSwitchToLiveLog", tr("Toggle live log recording."));
+    createAction(tr("F6"), ":/icons/iconOverlay16x16.png", tr("&Overlay ..."), "aSwitchToOverlay", tr("Manage overlays, such as textboxes"));
+    createAction(tr("F7"), ":/icons/iconGlobe+16x16.png", tr("Mor&e ..."), "aSwitchToMainMore", tr("Extended functions."));
+    createAction(tr("F8"), ":/icons/iconClear16x16.png", tr("&Clear all"), "aClearAll", tr("Remove all waypoints, tracks, ..."));
+    createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload all"), "aUploadAll", tr("Upload all data to device."));
+    createAction(tr("F10"), ":/icons/iconDownload16x16.png", tr("Down&load all"), "aDownloadAll", tr("Download all data from device."));
 
-    createAction(tr("ESC"), ":/icons/iconBack16x16", tr("&Back"), "aSwitchToMain", tr("Go back to main menu."));
-    createAction(tr("F1"), ":/icons/iconMoveMap16x16", tr("Mo&ve Map"), "aMoveArea", tr("Move the map. Press down the left mouse button and move the mouse."));
-    createAction(tr("F2"), ":/icons/iconZoomArea16x16", tr("&Zoom Map"), "aZoomArea", tr("Select area for zoom."));
-    createAction(tr("F3"), ":/icons/iconCenter16x16", tr("&Center Map"), "aCenterMap", tr("Find your map by jumping to it's center."));
+    createAction(tr("ESC"), ":/icons/iconBack16x16.png", tr("&Back"), "aSwitchToMain", tr("Go back to main menu."));
+    createAction(tr("F1"), ":/icons/iconMoveMap16x16.png", tr("Mo&ve Map"), "aMoveArea", tr("Move the map. Press down the left mouse button and move the mouse."));
+    createAction(tr("F2"), ":/icons/iconZoomArea16x16.png", tr("&Zoom Map"), "aZoomArea", tr("Select area for zoom."));
+    createAction(tr("F3"), ":/icons/iconCenter16x16.png", tr("&Center Map"), "aCenterMap", tr("Find your map by jumping to it's center."));
 
-    createAction(tr("F5"), ":/icons/iconSelect16x16", tr("Select &Sub Map"), "aSelectArea", tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse."));
-    createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit / Create Map"), "aEditMap", tr(""));
-    createAction(tr("F7"), ":/icons/iconFind16x16", tr("&Search Map"), "aSearchMap", tr("Find symbols on a map via image recognition."));
+    createAction(tr("F5"), ":/icons/iconSelect16x16.png", tr("Select &Sub Map"), "aSelectArea", tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse."));
+    createAction(tr("F6"), ":/icons/iconEdit16x16.png", tr("&Edit / Create Map"), "aEditMap", tr(""));
+    createAction(tr("F7"), ":/icons/iconFind16x16.png", tr("&Search Map"), "aSearchMap", tr("Find symbols on a map via image recognition."));
 #ifdef PLOT_3D
     createAction(tr("F8"),":/icons/icon3D16x16.png",tr("3&D Map..."), "aSwitchToMap3D", tr("Show 3D map"));
 #endif
-    createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadMap", tr("Upload map selection to device."));
+    createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadMap", tr("Upload map selection to device."));
 
 #ifdef PLOT_3D
     createAction(tr("ESC"),":/icons/iconBack16x16",tr("&Close"),"aCloseMap3D",tr("Close 3D view."));
@@ -87,44 +87,44 @@ QObject(parent), parent(parent)
     createAction(tr("F4"),":/icons/iconTrack16x16",tr("Trackmode"), "aMap3DTrackMode",tr("Glue point of view to track."));
 #endif
     //
-    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
-    createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Waypoint"), "aEditWpt", tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
-    createAction(tr("F7"), ":/icons/iconMove16x16", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
+    createAction(tr("F6"), ":/icons/iconEdit16x16.png", tr("&Edit Waypoint"), "aEditWpt", tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
+    createAction(tr("F7"), ":/icons/iconMove16x16.png", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
 #ifdef HAS_EXIF
-    createAction(tr("F8"),":/icons/iconRaster16x16",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
+    createAction(tr("F8"),":/icons/iconRaster16x16.png",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
 #endif
-    createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadWpt", tr("Upload waypoints to device."));
-    createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadWpt", tr("Download waypoints from device."));
+    createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadWpt", tr("Upload waypoints to device."));
+    createAction(tr("F10"), ":/icons/iconDownload16x16.png", tr("Down&load"), "aDownloadWpt", tr("Download waypoints from device."));
     //
-    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Join &Tracks"), "aCombineTrack", tr("Join multiple selected tracks to one."));
-    createAction(tr("F6"), ":/icons/iconEdit16x16", tr("&Edit Track"), "aEditTrack", tr("Toggle track edit dialog."));
-    createAction(tr("F7"), ":/icons/iconEditCut16x16", tr("&Split Track"), "aCutTrack", tr("Split a track into pieces."));
-    createAction(tr("F8"), ":/icons/iconSelect16x16", tr("&Select Points"), "aSelTrack", tr("Select track points by rectangle."));
-    createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadTrack", tr("Upload tracks to device."));
-    createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadTrack", tr("Download tracks from device."));
-    createAction(tr("ctrl+Del"), ":/icons/iconClear16x16", tr("Hide/Show Selection"), "aTrackPurgeSelection", tr("Toggle visibility of the selected track points."));
-//    createAction(tr("ctrl+Del"), ":/icons/iconClear16x16", tr("Delete Selection"), "aDeleteTrackSelection", tr("Deletes the selected points of the track."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join &Tracks"), "aCombineTrack", tr("Join multiple selected tracks to one."));
+    createAction(tr("F6"), ":/icons/iconEdit16x16.png", tr("&Edit Track"), "aEditTrack", tr("Toggle track edit dialog."));
+    createAction(tr("F7"), ":/icons/iconEditCut16x16.png", tr("&Split Track"), "aCutTrack", tr("Split a track into pieces."));
+    createAction(tr("F8"), ":/icons/iconSelect16x16.png", tr("&Select Points"), "aSelTrack", tr("Select track points by rectangle."));
+    createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadTrack", tr("Upload tracks to device."));
+    createAction(tr("F10"), ":/icons/iconDownload16x16.png", tr("Down&load"), "aDownloadTrack", tr("Download tracks from device."));
+    createAction(tr("ctrl+Del"), ":/icons/iconClear16x16.png", tr("Hide/Show Selection"), "aTrackPurgeSelection", tr("Toggle visibility of the selected track points."));
+//    createAction(tr("ctrl+Del"), ":/icons/iconClear16x16.png", tr("Delete Selection"), "aDeleteTrackSelection", tr("Deletes the selected points of the track."));
     //
-    createAction(tr("F5"), ":/icons/iconPlayPause16x16", tr("&Start / Stop"), "aLiveLog", tr("Start / stop live log recording."));
-    createAction(tr("F6"), ":/icons/iconLock16x16", tr("Move Map to &Pos."), "aLockMap", tr("Move the map to keep the positon cursor centered."));
-    createAction(tr("F7"), ":/icons/iconAdd16x16", tr("Add &Waypoint"), "aAddWpt", tr("Add a waypoint at current position."));
+    createAction(tr("F5"), ":/icons/iconPlayPause16x16.png", tr("&Start / Stop"), "aLiveLog", tr("Start / stop live log recording."));
+    createAction(tr("F6"), ":/icons/iconLock16x16.png", tr("Move Map to &Pos."), "aLockMap", tr("Move the map to keep the positon cursor centered."));
+    createAction(tr("F7"), ":/icons/iconAdd16x16.png", tr("Add &Waypoint"), "aAddWpt", tr("Add a waypoint at current position."));
     //
 
-    createAction(tr("ESC"), ":/icons/iconBack16x16", tr("&Back"), "aBackToOverlay", tr("Go back to overlay menu."));
-    createAction(tr("F5"), ":/icons/iconText16x16", tr("Add Static &Text Box"), "aText", tr("Add text on the map."));
-    createAction(tr("F6"), ":/icons/iconTextBox16x16", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
-    createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
-    createAction(tr("F7"), ":/icons/iconDistance16x16", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
-    createAction(tr("F5"), ":/icons/iconAdd16x16", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
+    createAction(tr("ESC"), ":/icons/iconBack16x16.png", tr("&Back"), "aBackToOverlay", tr("Go back to overlay menu."));
+    createAction(tr("F5"), ":/icons/iconText16x16.png", tr("Add Static &Text Box"), "aText", tr("Add text on the map."));
+    createAction(tr("F6"), ":/icons/iconTextBox16x16.png", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
+    createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
+    createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
 
     //
-    createAction(tr("F5"), ":/icons/iconDiary16x16", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
-    createAction(tr("F6"), ":/icons/iconColorChooser16x16", tr("&Pick Color"), "aColorPicker", tr("test only"));
+    createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
+    createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
     createAction(tr("F7"), 0, tr("Create World &Basemap"), "aWorldBasemap", tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
 
     //
-    createAction(tr("F9"), ":/icons/iconUpload16x16", tr("U&pload"), "aUploadRoute", tr("Upload routes to device."));
-    createAction(tr("F10"), ":/icons/iconDownload16x16", tr("Down&load"), "aDownloadRoute", tr("Download routes from device."));
+    createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadRoute", tr("Upload routes to device."));
+    createAction(tr("F10"), ":/icons/iconDownload16x16.png", tr("Down&load"), "aDownloadRoute", tr("Download routes from device."));
     //
 
     createAction(tr("+"), ":/icons/zoomin.png", tr("&Zoom in"), "aZoomIn", tr("Zoom's into the Map."));
@@ -213,7 +213,7 @@ void CActions::funcSwitchToMain()
 {
     // qDebug() << Q_FUNC_INFO;
     setMenuTitle(tr("&Main"));
-    setMenuPixmap(QPixmap(":/icons/backGlobe128x128"));
+    setMenuPixmap(QPixmap(":/icons/backGlobe128x128.png"));
     actionGroup->switchToActionGroup(CMenus::MainMenu);
     funcMoveArea();
 }
@@ -223,7 +223,7 @@ void CActions::funcSwitchToMap()
 {
     // qDebug() << Q_FUNC_INFO;
     setMenuTitle(tr("&Maps"));
-    setMenuPixmap(QPixmap(":/icons/backMap128x128"));
+    setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
 
 #ifdef PLOT_3D
     if(theMainWindow->getCanvasTab()->currentWidget()->objectName() == "CMap3D")
@@ -247,7 +247,7 @@ void CActions::funcSwitchToMap3D()
 {
 #ifdef PLOT_3D
     setMenuTitle(tr("&Maps"));
-    setMenuPixmap(QPixmap(":/icons/backMap128x128"));
+    setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
     actionGroup->switchToActionGroup(CMenus::Map3DMenu);
     CMapDB::self().gainFocus();
     CMapDB::self().show3DMap(true);
@@ -258,7 +258,7 @@ void CActions::funcSwitchToMap3D()
 void CActions::funcSwitchToWpt()
 {
     setMenuTitle(tr("&Waypoints"));
-    setMenuPixmap(QPixmap(":/icons/backWaypoint128x128"));
+    setMenuPixmap(QPixmap(":/icons/backWaypoint128x128.png"));
     actionGroup->switchToActionGroup(CMenus::WptMenu);
     CWptDB::self().gainFocus();
     funcMoveArea();
@@ -268,7 +268,7 @@ void CActions::funcSwitchToWpt()
 void CActions::funcSwitchToTrack()
 {
     setMenuTitle(tr("&Tracks"));
-    setMenuPixmap(QPixmap(":/icons/backTrack128x128"));
+    setMenuPixmap(QPixmap(":/icons/backTrack128x128.png"));
     actionGroup->switchToActionGroup(CMenus::TrackMenu);
     CTrackDB::self().gainFocus();
     funcMoveArea();
@@ -278,7 +278,7 @@ void CActions::funcSwitchToTrack()
 void CActions::funcSwitchToRoute()
 {
     setMenuTitle(tr("&Routes"));
-    setMenuPixmap(QPixmap(":/icons/backRoute128x128"));
+    setMenuPixmap(QPixmap(":/icons/backRoute128x128.png"));
     actionGroup->switchToActionGroup(CMenus::RouteMenu);
     CRouteDB::self().gainFocus();
     funcMoveArea();
@@ -288,7 +288,7 @@ void CActions::funcSwitchToRoute()
 void CActions::funcSwitchToLiveLog()
 {
     setMenuTitle(tr("&Live Log"));
-    setMenuPixmap(QPixmap(":/icons/backLiveLog128x128"));
+    setMenuPixmap(QPixmap(":/icons/backLiveLog128x128.png"));
     actionGroup->switchToActionGroup(CMenus::LiveLogMenu);
     CLiveLogDB::self().gainFocus();
     funcMoveArea();
@@ -298,7 +298,7 @@ void CActions::funcSwitchToLiveLog()
 void CActions::funcSwitchToOverlay()
 {
     setMenuTitle(tr("&Overlay"));
-    setMenuPixmap(QPixmap(":/icons/backOverlay128x128"));
+    setMenuPixmap(QPixmap(":/icons/backOverlay128x128.png"));
     actionGroup->switchToActionGroup(CMenus::OverlayMenu);
     COverlayDB::self().gainFocus();
     funcMoveArea();
@@ -307,7 +307,7 @@ void CActions::funcSwitchToOverlay()
 void CActions::funcSwitchToOverlayDistance()
 {
     setMenuTitle(tr("&Overlay Distance"));
-    setMenuPixmap(QPixmap(":/icons/backDistance128x128"));
+    setMenuPixmap(QPixmap(":/icons/backDistance128x128.png"));
     actionGroup->switchToActionGroup(CMenus::OverlayDistanceMenu);
     COverlayDB::self().gainFocus();
     funcDistance();
@@ -317,7 +317,7 @@ void CActions::funcSwitchToOverlayDistance()
 void CActions::funcSwitchToMainMore()
 {
     setMenuTitle(tr("&Main (More)"));
-    setMenuPixmap(QPixmap(":/icons/backGlobe+128x128"));
+    setMenuPixmap(QPixmap(":/icons/backGlobe+128x128.png"));
     actionGroup->switchToActionGroup(CMenus::MainMoreMenu);
     funcMoveArea();
 }
@@ -422,7 +422,7 @@ void CActions::funcCloseMap3D()
     //qDebug() << Q_FUNC_INFO;
     CMapDB::self().show3DMap(false);
     setMenuTitle(tr("Maps ..."));
-    setMenuPixmap(QPixmap(":/icons/backMap128x128"));
+    setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
     actionGroup->switchToActionGroup(CMenus::MapMenu);
     CMapDB::self().gainFocus();
     funcMoveArea();

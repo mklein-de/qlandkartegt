@@ -30,10 +30,10 @@ CCreateMapFineTune::CCreateMapFineTune(QWidget * parent)
 {
     setupUi(this);
 
-    toolUp->setIcon(QIcon(":/icons/iconUpload16x16"));
-    toolDown->setIcon(QIcon(":/icons/iconDownload16x16"));
-    toolLeft->setIcon(QIcon(":/icons/iconLeft16x16"));
-    toolRight->setIcon(QIcon(":/icons/iconRight16x16"));
+    toolUp->setIcon(QIcon(":/icons/iconUpload16x16.png"));
+    toolDown->setIcon(QIcon(":/icons/iconDownload16x16.png"));
+    toolLeft->setIcon(QIcon(":/icons/iconLeft16x16.png"));
+    toolRight->setIcon(QIcon(":/icons/iconRight16x16.png"));
 
     connect(pushOpenFile, SIGNAL(clicked()), this, SLOT(slotOpenFile()));
     connect(toolUp, SIGNAL(clicked()), this, SLOT(slotUp()));

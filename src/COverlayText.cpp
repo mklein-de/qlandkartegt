@@ -26,7 +26,7 @@
 #include <QtGui>
 
 COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * parent)
-: IOverlay(parent, "Text", ":/icons/iconText16x16")
+: IOverlay(parent, "Text", ":/icons/iconText16x16.png")
 , rect(rect)
 , doMove(false)
 , doSize(false)

@@ -365,7 +365,7 @@ void CCanvas::drawRefPoints(QPainter& p)
 
         if(rect().contains(x,y))
         {
-            p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPoint31x31"));
+            p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPoint31x31.png"));
             drawText(refpt->item->text(CCreateMapGeoTiff::eLabel),p,QPoint(x, y - 35));
         }
 

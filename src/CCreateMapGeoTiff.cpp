@@ -48,7 +48,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     labelStep2->setPixmap(QPixmap(":/pics/Step2"));
     labelStep3->setPixmap(QPixmap(":/pics/Step3"));
 
-    toolReload->setIcon(QPixmap(":/icons/iconReload16x16"));
+    toolReload->setIcon(QPixmap(":/icons/iconReload16x16.png"));
     toolOutFile->setIcon(QPixmap(":/icons/iconFileSave16x16.png"));
 
     helpStep1->setHelp(tr("Load Raster Map"),

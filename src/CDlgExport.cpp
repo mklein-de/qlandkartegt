@@ -53,15 +53,15 @@ int CDlgExport::exec()
 {
 
     itemWpt = new QTreeWidgetItem(treeWidget, QStringList(tr("Waypoints")));
-    itemWpt->setIcon(0,QIcon(":/icons/iconWaypoint16x16"));
+    itemWpt->setIcon(0,QIcon(":/icons/iconWaypoint16x16.png"));
     itemWpt->setExpanded(true);
 
     itemTrk = new QTreeWidgetItem(treeWidget, QStringList(tr("Tracks")));
-    itemTrk->setIcon(0,QIcon(":/icons/iconTrack16x16"));
+    itemTrk->setIcon(0,QIcon(":/icons/iconTrack16x16.png"));
     itemTrk->setExpanded(true);
 
     itemRte = new QTreeWidgetItem(treeWidget, QStringList(tr("Routes")));
-    itemRte->setIcon(0,QIcon(":/icons/iconRoute16x16"));
+    itemRte->setIcon(0,QIcon(":/icons/iconRoute16x16.png"));
     itemRte->setExpanded(true);
 
     if(keysWpt)

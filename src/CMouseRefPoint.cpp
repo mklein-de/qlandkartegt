@@ -49,7 +49,7 @@ void CMouseRefPoint::draw(QPainter& p)
         double y = selRefPt->y;
         map.convertM2Pt(x,y);
 
-        p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPointHL31x31"));
+        p.drawPixmap(x - 15,y - 31,QPixmap(":/icons/iconRefPointHL31x31.png"));
 
     }
 }

@@ -28,12 +28,12 @@ CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
     setupUi(this);
 
     setObjectName("LiveLog");
-    parent->addTab(this,QIcon(":/icons/iconLiveLog16x16"),"");
+    parent->addTab(this,QIcon(":/icons/iconLiveLog16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Live Log"));
 
     connect(&CLiveLogDB::self(), SIGNAL(sigChanged()), this, SLOT(slotChanged()));
 
-    labelCenter->setPixmap(QPixmap(":/icons/iconLock16x16"));
+    labelCenter->setPixmap(QPixmap(":/icons/iconLock16x16.png"));
     labelCenter->hide();
 }
 

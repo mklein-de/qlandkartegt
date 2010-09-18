@@ -42,7 +42,7 @@ bool operator==(const XY& p1, const XY& p2)
 QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
 
 COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent)
-: IOverlay(parent, "Distance", ":/icons/iconDistance16x16")
+: IOverlay(parent, "Distance", ":/icons/iconDistance16x16.png")
 , points(pts)
 , thePoint(0)
 , distance(0)
