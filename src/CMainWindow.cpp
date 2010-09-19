@@ -1113,6 +1113,7 @@ void CMainWindow::slotSaveImage()
 
     if(filename.isEmpty()) return;
 
+#ifdef PLOT_3D
     CMap3D * map3d = qobject_cast<CMap3D*>(canvasTab->currentWidget());
 
     if(map3d)
@@ -1120,6 +1121,7 @@ void CMainWindow::slotSaveImage()
         map3d->slotSaveImage(filename);
     }
     else
+#endif
     {
         QImage img(canvas->size(), QImage::Format_ARGB32);
         canvas->print(img);

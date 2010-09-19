@@ -967,7 +967,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 copyright += str;
 
-                //                 qDebug() << "copyright:" << copyright;
+                                 qDebug() << "copyright:" << copyright;
             }
             break;
         }

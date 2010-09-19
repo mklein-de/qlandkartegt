@@ -137,11 +137,12 @@ CMapDB::~CMapDB()
 }
 
 
+#ifdef PLOT_3D
 CMap3D * CMapDB::getMap3D()
 {
     return map3D;
 }
-
+#endif
 
 void CMapDB::clear()
 {
