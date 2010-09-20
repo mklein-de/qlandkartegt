@@ -4954,7 +4954,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrackDB.cpp" line="1079"/>
         <source>Vmax=%1%2</source>
-        <translation>Vmax=%1%1</translation>
+        <translation type="unfinished">Vmax=%1%2</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="1103"/>
