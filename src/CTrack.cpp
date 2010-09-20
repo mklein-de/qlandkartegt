@@ -711,6 +711,10 @@ void CTrack::rebuild(bool reindex)
     totalDescend    = 0;
     avgspeed0       = 0;
     avgspeed1       = 0;
+    float maxEle    = -WPT_NOFLOAT;
+    float minEle    =  WPT_NOFLOAT;
+    float maxSpeed  = -WPT_NOFLOAT;
+    float minSpeed  =  WPT_NOFLOAT;
 
     // reindex track if desired
     if(reindex)
@@ -759,6 +763,11 @@ void CTrack::rebuild(bool reindex)
     pt1->slope      = 0.0;
     t1              = pt1->timestamp;
     t2              = t1;   //for the case that the track has only 1 point
+
+    if(pt1->ele   > maxEle)   {maxEle   = pt1->ele;   ptMaxEle   = *pt1;}
+    if(pt1->ele   < minEle)   {minEle   = pt1->ele;   ptMinEle   = *pt1;}
+    if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
+    if(pt1->speed < minSpeed) {minSpeed = pt1->speed; ptMinSpeed = *pt1;}
 
     // process track
     while(++pt2 != track.end())
@@ -830,6 +839,12 @@ void CTrack::rebuild(bool reindex)
         avgspeed0       = A * pt2->speed + (1.0 - A) * avgspeed1;
         avgspeed1       = avgspeed0;
         pt2->avgspeed   = avgspeed0;
+
+        if(pt2->ele   > maxEle)   {maxEle   = pt2->ele;   ptMaxEle   = *pt2;}
+        if(pt2->ele   < minEle)   {minEle   = pt2->ele;   ptMinEle   = *pt2;}
+        if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
+        if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
+
 
         pt1 = pt2;
     }

@@ -29,6 +29,7 @@
 #include "CDlgCombineTracks.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "IUnit.h"
 
 #include <QtGui>
 #include "CUndoStackModel.h"
@@ -786,6 +787,33 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
 
 }
 
+static void drawMarker(QPainter& p, const QString& text, CTrack::pt_t& pt)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = pt.lon * DEG_TO_RAD;
+    double v = pt.lat * DEG_TO_RAD;
+
+    map.convertRad2Pt(u,v);
+
+    QPen pen1(Qt::white,5);
+    pen1.setCapStyle(Qt::RoundCap);
+    pen1.setJoinStyle(Qt::RoundJoin);
+
+    QPen pen2(Qt::darkGreen,2);
+    pen2.setCapStyle(Qt::RoundCap);
+    pen2.setJoinStyle(Qt::RoundJoin);
+
+    p.setPen(pen1);
+    p.drawLine(u,v, u + 10, v - 10);
+    p.drawLine(u + 10, v - 10, u + 80, v - 10);
+    p.setPen(pen2);
+    p.drawLine(u,v, u + 10, v - 10);
+    p.drawLine(u + 10, v - 10, u + 80, v - 10);
+    CCanvas::drawText(text, p, QPoint(u + 45, v - 10),Qt::darkGreen );
+
+}
+
 void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     QPointF arrow[4] =
@@ -802,7 +830,6 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     /// @todo it would be nice to use antialiasing here, but right now performance is bad
     p.setRenderHint(QPainter::Antialiasing, !map.getFastDrawFlag());
-    p.setRenderHint(QPainter::Antialiasing, false);
 
     //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
@@ -1040,6 +1067,19 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawLine(focus + QPoint(0,-20),focus + QPoint(0,20));
             p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
         }
+
+        {
+            QString val, unit;
+
+            IUnit::self().meter2elevation((*track)->ptMaxEle.ele, val, unit);
+            drawMarker(p, tr("Hmax=%1%2").arg(val).arg(unit), (*track)->ptMaxEle);
+            IUnit::self().meter2elevation((*track)->ptMinEle.ele, val, unit);
+            drawMarker(p, tr("Hmin=%1%2").arg(val).arg(unit), (*track)->ptMinEle);
+            IUnit::self().meter2speed((*track)->ptMaxSpeed.speed, val, unit);
+            drawMarker(p, tr("Vmax=%1%2").arg(val).arg(unit), (*track)->ptMaxSpeed);
+        }
+
+
     }
 
     p.setRenderHint(QPainter::Antialiasing, false);

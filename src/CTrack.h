@@ -26,6 +26,7 @@
 #include <QPolygon>
 #include <QDateTime>
 #include <QMap>
+#include <QList>
 #include "CWpt.h"
 #include "IItem.h"
 
@@ -262,6 +263,11 @@ class CTrack : public IItem
 
         float avgspeed0;
         float avgspeed1;
+
+        pt_t ptMaxEle;
+        pt_t ptMinEle;
+        pt_t ptMaxSpeed;
+        pt_t ptMinSpeed;
 
         bool traineeData;
         bool ext1Data;
