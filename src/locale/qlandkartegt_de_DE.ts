@@ -4662,7 +4662,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../COverlayDistance.cpp" line="59"/>
         <source>Tour %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tour %1</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="1013"/>
@@ -4944,17 +4944,17 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrackDB.cpp" line="1075"/>
         <source>Hmax=%1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Hmax=%1%2</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="1077"/>
         <source>Hmin=%1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Hmin=%1%2</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="1079"/>
         <source>Vmax=%1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Vmax=%1%1</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="1103"/>
@@ -5287,12 +5287,12 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptDB.cpp" line="810"/>
         <source>Read EXIF tags from pictures.</source>
-        <translation type="unfinished"></translation>
+        <translation>Extrahiere EXIF Information aus den Bildern.</translation>
     </message>
     <message>
         <location filename="../CWptDB.cpp" line="810"/>
         <source>Abort</source>
-        <translation type="unfinished">Abbruch</translation>
+        <translation>Abbruch</translation>
     </message>
 </context>
 <context>
@@ -6255,12 +6255,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="110"/>
         <source>Use database</source>
-        <translation type="unfinished">Datenbank benutzen</translation>
+        <translation>Datenbank benutzen</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
         <source>Save workspace on exit</source>
-        <translation type="unfinished">Arbeitsplatz beim Verlassen speichern</translation>
+        <translation>Arbeitsplatz beim Verlassen speichern</translation>
     </message>
     <message>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
