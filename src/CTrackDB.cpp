@@ -800,7 +800,7 @@ static void drawMarker(QPainter& p, const QString& text, CTrack::pt_t& pt)
     pen1.setCapStyle(Qt::RoundCap);
     pen1.setJoinStyle(Qt::RoundJoin);
 
-    QPen pen2(Qt::darkGreen,2);
+    QPen pen2(Qt::black,2);
     pen2.setCapStyle(Qt::RoundCap);
     pen2.setJoinStyle(Qt::RoundJoin);
 
@@ -810,7 +810,7 @@ static void drawMarker(QPainter& p, const QString& text, CTrack::pt_t& pt)
     p.setPen(pen2);
     p.drawLine(u,v, u + 10, v - 10);
     p.drawLine(u + 10, v - 10, u + 80, v - 10);
-    CCanvas::drawText(text, p, QPoint(u + 45, v - 10),Qt::darkGreen );
+    CCanvas::drawText(text, p, QPoint(u + 45, v - 10),Qt::black );
 
 }
 
@@ -1068,17 +1068,24 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawLine(focus + QPoint(-20,0),focus + QPoint(20,0));
         }
 
-        {
-            QString val, unit;
 
+        QString val, unit;
+
+        if((*track)->ptMaxEle.ele != WPT_NOFLOAT)
+        {
             IUnit::self().meter2elevation((*track)->ptMaxEle.ele, val, unit);
             drawMarker(p, tr("Hmax=%1%2").arg(val).arg(unit), (*track)->ptMaxEle);
+        }
+        if((*track)->ptMinEle.ele != WPT_NOFLOAT)
+        {
             IUnit::self().meter2elevation((*track)->ptMinEle.ele, val, unit);
             drawMarker(p, tr("Hmin=%1%2").arg(val).arg(unit), (*track)->ptMinEle);
+        }
+        if((*track)->ptMaxSpeed.speed != WPT_NOFLOAT)
+        {
             IUnit::self().meter2speed((*track)->ptMaxSpeed.speed, val, unit);
             drawMarker(p, tr("Vmax=%1%2").arg(val).arg(unit), (*track)->ptMaxSpeed);
         }
-
 
     }
 
