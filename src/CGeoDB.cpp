@@ -501,6 +501,82 @@ void CGeoDB::migrateDB(int version)
                     PROGRESS(progCnt++, continue);
                 }
 
+                break;
+            }
+            case 7:
+            {
+                QSqlQuery query2(db);
+
+                if(!query.exec("SELECT id, data, type FROM items"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
+                quint32 progCnt = 0;
+                PROGRESS_SETUP(tr("Mirgrating database from version 6 to 7."), query.size());
+
+                while(query.next())
+                {
+
+                    QString comment;
+                    QByteArray array = query.value(1).toByteArray();
+                    QDataStream stream(&array, QIODevice::ReadOnly);
+                    stream.setVersion(QDataStream::Qt_4_5);
+
+                    switch(query.value(2).toInt())
+                    {
+                    case eWpt:
+                        {
+                            CWpt wpt(0);
+                            stream >> wpt;
+                            comment = wpt.getInfo();
+                        }
+                        break;
+
+                    case eTrk:
+                        {
+                            CTrack trk(0);
+                            stream >> trk;
+                            trk.rebuild(true);
+                            comment = trk.getInfo();
+                        }
+                        break;
+
+                    case eRte:
+                        {
+                            CRoute rte(0);
+                            stream >> rte;
+                            comment = rte.getInfo();
+                        }
+                        break;
+
+                    case eOvl:
+                        {
+//                            IOverlay ovl(0);
+//                            stream >> ovl;
+//                            comment = ovl.getInfo();
+                            continue;
+                        }
+                        break;
+                    }
+
+                    query2.prepare("UPDATE items SET comment=:comment WHERE id=:id");
+                    query2.bindValue(":comment", comment);
+                    query2.bindValue(":id", query.value(0));
+
+                    if(!query2.exec())
+                    {
+                        qDebug() << query.lastQuery();
+                        qDebug() << query.lastError();
+                        return;
+                    }
+
+                    PROGRESS(progCnt++, continue);
+                }
+
+                break;
             }
         }
     }
@@ -1395,7 +1471,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
         query.bindValue(":date", QDateTime::fromTime_t(qlItem->getTimestamp()).toString("yyyy-MM-dd hh-mm-ss"));
         query.bindValue(":icon", icon);
         query.bindValue(":name", qlItem->getName());
-        query.bindValue(":comment", qlItem->getComment());
+        query.bindValue(":comment", qlItem->getInfo());
         query.bindValue(":data", data);
         QUERY_EXEC();
 
@@ -2610,12 +2686,12 @@ void CGeoDB::slotSaveItems()
         query.prepare("UPDATE items SET icon=:icon, name=:name, comment=:comment, data=:data WHERE id=:id");
         query.bindValue(":icon", icon);
         query.bindValue(":name", qlItem->getName());
-        query.bindValue(":comment", qlItem->getComment());
+        query.bindValue(":comment", qlItem->getInfo());
         query.bindValue(":data", data);
         query.bindValue(":id", childId);
         QUERY_EXEC(continue);
 
-        keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());       
+        keysWksModified->remove(item->data(eCoName, eUrQLKey).toString());
         updateItemById(childId);
     }
 
