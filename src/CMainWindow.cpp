@@ -1103,15 +1103,24 @@ void CMainWindow::slotPrint()
 void CMainWindow::slotSaveImage()
 {
 
-    QString filter;
+    QSettings cfg;
+    QString pathData = cfg.value("path/data","./").toString();
+    QString filter   = cfg.value("canvas/imagetype","Bitmap (*.png)").toString();
+
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"Bitmap (*.png *.jpg *.jpeg);;"
+        ,"Bitmap (*.png)"
         ,&filter
         , QFileDialog::DontUseNativeDialog
         );
 
     if(filename.isEmpty()) return;
+
+    QFileInfo fi(filename);
+    if(fi.suffix().toLower() != "png")
+    {
+        filename += ".png";
+    }
 
 #ifdef PLOT_3D
     CMap3D * map3d = qobject_cast<CMap3D*>(canvasTab->currentWidget());
@@ -1127,6 +1136,10 @@ void CMainWindow::slotSaveImage()
         canvas->print(img);
         img.save(filename);
     }
+    pathData = fi.absolutePath();
+    cfg.setValue("path/data", pathData);
+    cfg.setValue("canvas/imagetype", filter);
+
 }
 
 
