@@ -31,6 +31,7 @@ class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
     public:
         CSearchToolWidget(QTabWidget * parent);
         virtual ~CSearchToolWidget();
+        void selSearchByKey(const QString& key);
 
     protected:
         void keyPressEvent(QKeyEvent * e);

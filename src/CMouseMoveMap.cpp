@@ -21,6 +21,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "CWptDB.h"
+#include "CSearchDB.h"
 #include "CTrackDB.h"
 #include "CDlgEditWpt.h"
 #include "GeoMath.h"
@@ -81,6 +82,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         }
         else if(!selSearch.isNull())
         {
+            CSearchDB::self().selSearchByKey(selSearch->getKey());
             mousePressEventSearch(e);
         }
         else

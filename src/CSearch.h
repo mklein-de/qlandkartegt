@@ -28,6 +28,8 @@ class CSearch : public QObject
         CSearch(QObject * parent);
         virtual ~CSearch();
 
+        const QString& getKey(){return query;}
+
         qreal   lon;
         qreal   lat;
         QString query;

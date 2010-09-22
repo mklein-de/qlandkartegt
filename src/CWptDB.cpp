@@ -314,7 +314,7 @@ void CWptDB::loadGPX(CGpx& gpx)
 {
     bool hasItems = false;
     const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
-    uint N = waypoints.count();    
+    uint N = waypoints.count();
 
     for(uint n = 0; n < N; ++n)
     {
@@ -614,6 +614,7 @@ void CWptDB::selWptByKey(const QString& key)
     if(t)
     {
         t->selWptByKey(key);
+        gainFocus();
     }
 }
 

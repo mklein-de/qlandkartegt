@@ -231,3 +231,13 @@ void CSearchDB::add(const QString& label, double lon, double lat)
 
     emit sigChanged();
 }
+
+void CSearchDB::selSearchByKey(const QString& key)
+{
+    CSearchToolWidget * t = qobject_cast<CSearchToolWidget*>(toolview);
+    if(t)
+    {
+        t->selSearchByKey(key);
+        gainFocus();
+    }
+}

@@ -59,6 +59,18 @@ CSearchToolWidget::~CSearchToolWidget()
 
 }
 
+void CSearchToolWidget::selSearchByKey(const QString& key)
+{
+    for(int i=0; i<listResults->count(); ++i)
+    {
+        QListWidgetItem * item = listResults->item(i);
+        if(item && item->data(Qt::UserRole) == key)
+        {
+            listResults->setCurrentItem(item);
+        }
+    }
+
+}
 
 void CSearchToolWidget::slotReturnPressed()
 {
@@ -87,6 +99,7 @@ void CSearchToolWidget::slotDBChanged()
     {
         QListWidgetItem * item = new QListWidgetItem(listResults);
         item->setText((*result)->query);
+        item->setData(Qt::UserRole, (*result)->query);
 
         ++result;
     }
