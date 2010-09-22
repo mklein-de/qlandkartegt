@@ -1306,4 +1306,8 @@ void CTrackDB::makeVisible(const QStringList& keys)
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
 
+    if(keys.size() == 1)
+    {
+        highlightTrack(keys[0]);
+    }
 }
