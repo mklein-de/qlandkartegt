@@ -63,7 +63,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// query children when folder is expanded
         void slotItemExpanded(QTreeWidgetItem * item);
         /// make clicked item visible
-        void slotItemDoubleClicked(QTreeWidgetItem * item, int column);
+        void slotItemDoubleClickedWks(QTreeWidgetItem * item, int column);
+        void slotItemDoubleClickedDb(QTreeWidgetItem * item, int column);
         /// test for name change on folders or checkstate change
         void slotItemChanged(QTreeWidgetItem * item, int column);
         /// display context menu for current item in the treeWidget
