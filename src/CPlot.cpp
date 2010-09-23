@@ -36,6 +36,7 @@ CPlot::CPlot(CPlotData::axis_type_e type, QWidget * parent)
 , fm(QFont())
 , initialYMax(0)
 , initialYMin(0)
+, showScale(true)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     m_pData = new CPlotData(type, this);
@@ -171,8 +172,8 @@ void CPlot::setSizes()
     fm = QFontMetrics(CResources::self().getMapFont());
     left = 0;
 
-    scaleWidthX1    = m_pData->x().getScaleWidth( fm );
-    scaleWidthY1    = m_pData->y().getScaleWidth( fm );
+    scaleWidthX1    = showScale ? m_pData->x().getScaleWidth( fm ) : 0;
+    scaleWidthY1    = showScale ? m_pData->y().getScaleWidth( fm ) : 0;
 
     scaleWidthY1    = scaleWidthX1 > scaleWidthY1 ? scaleWidthX1 : scaleWidthY1;
 
@@ -283,7 +284,7 @@ void CPlot::setSizeDrawArea()
 
 void CPlot::draw(QPainter& p)
 {
-    p.fillRect(rect(),Qt::white);
+    p.fillRect(rect(),QColor(255,255,255,180));
 
     if(m_pData->lines.isEmpty() || m_pData->badData)
     {
@@ -297,8 +298,11 @@ void CPlot::draw(QPainter& p)
     drawData(p);
     p.setClipping(false);
     drawLabels(p);
-    drawXScale(p);
-    drawYScale(p);
+    if(showScale)
+    {
+        drawXScale(p);
+        drawYScale(p);
+    }
     drawGridX(p);
     drawGridY(p);
     drawXTic(p);
@@ -520,6 +524,15 @@ QPen pens[] =
 
 };
 
+QPen pensThin[] =
+{
+    QPen(Qt::blue,2)
+    , QPen(Qt::red,1)
+    , QPen(Qt::darkYellow,1)
+    , QPen(Qt::darkGreen,1)
+
+};
+
 QColor colors[] =
 {
     QColor(0,0,255)
@@ -577,7 +590,7 @@ void CPlot::drawData(QPainter& p)
         p.setBrush(gradient);
         p.drawPolygon(background);
 
-        p.setPen(pens[penIdx++]);
+        p.setPen(thinLine ? pensThin[penIdx++] : pens[penIdx++]);
         p.setBrush(Qt::NoBrush);
         p.drawPolyline(foreground);
 
@@ -587,7 +600,7 @@ void CPlot::drawData(QPainter& p)
     {
         QPolygonF& marks                = m_pData->marks.points;
         QPolygonF::const_iterator point = marks.begin();
-        p.setPen(QPen(Qt::red,2));
+        p.setPen(QPen(Qt::darkRed,2));
 
         while(point != marks.end())
         {
@@ -603,7 +616,7 @@ void CPlot::drawData(QPainter& p)
 
     if(!m_pData->point1.point.isNull())
     {
-        p.setPen(QPen(Qt::darkGreen));
+        p.setPen(QPen(Qt::red));
         ptx = left   + xaxis.val2pt( m_pData->point1.point.x() );
         pty = bottom - yaxis.val2pt( m_pData->point1.point.y() );
 

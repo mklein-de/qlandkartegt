@@ -46,6 +46,8 @@ class QMenu;
 class CMouseCutTrack;
 class CMouseSelTrack;
 class QFont;
+class CPlot;
+class CTrack;
 
 #define PAINT_ROUNDED_RECT(p,r) p.drawRoundedRect(r,5,5)
 
@@ -124,6 +126,8 @@ class CCanvas : public QWidget
 
     private slots:
         void slotCopyPosition();
+        void slotHighlightTrack(CTrack * track);
+        void slotTrackChanged();
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -173,5 +177,7 @@ class CCanvas : public QWidget
         QPoint posMouse;
 
         QLabel * info;
+
+        CPlot * profile;
 };
 #endif                           //CCANVAS_H

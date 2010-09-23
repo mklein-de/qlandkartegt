@@ -22,7 +22,6 @@
 #include "CMapQMAP.h"
 #include "CMainWindow.h"
 #include "CCreateMapGeoTiff.h"
-
 #include "CMouseMoveMap.h"
 #include "CMouseZoomMap.h"
 #include "CMouseSelMap.h"
@@ -37,7 +36,6 @@
 #include "CMouseAddDistance.h"
 #include "CMouseOverlay.h"
 #include "CMouseColorPicker.h"
-
 #include "CWpt.h"
 #include "CTrack.h"
 #include "CSearchDB.h"
@@ -47,22 +45,18 @@
 #include "CRouteDB.h"
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
-
 #include "CMegaMenu.h"
-
 #include "GeoMath.h"
 #include "WptIcons.h"
-
 #include "Platform.h"
-
 #include "IUnit.h"
-
-#include <QtGui>
 #include "CMenus.h"
 #include "CUndoStackView.h"
 #include "CCanvasUndoCommandZoom.h"
 #include "CMapUndoCommandMove.h"
+#include "CPlot.h"
 
+#include <QtGui>
 
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
 QPen CCanvas::penBorderBlack(QColor(0,0,0,200),3);
@@ -94,6 +88,13 @@ CCanvas::CCanvas(QWidget * parent)
     mouseColorPicker = new CMouseColorPicker(this);
 
     cursorFocus = false;
+
+    profile = new CPlot(CPlotData::eLinear,this);
+    profile->setShowScale(false);
+    profile->setThinLine(true);
+    profile->resize(300,150);
+    profile->hide();
+
 }
 
 
@@ -207,6 +208,12 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 void CCanvas::resizeEvent(QResizeEvent * e)
 {
     QWidget::resizeEvent(e);
+
+    QSize s = e->size();
+
+    profile->move(20, s.height() - profile->height() - 20);
+
+
     emit sigResize(e->size());
 }
 
@@ -704,4 +711,55 @@ void CCanvas::showEvent ( QShowEvent * event )
 {
     IMap& map = CMapDB::self().getMap();
     map.resize(size());
+}
+
+void CCanvas::slotTrackChanged()
+{
+    CTrack * trk = CTrackDB::self().highlightedTrack();
+    slotHighlightTrack(trk);
+}
+
+void CCanvas::slotHighlightTrack(CTrack * track)
+{
+    if(track)
+    {
+        QPolygonF lineElev;
+        QPointF   focusElev;
+        float basefactor = IUnit::self().basefactor;
+
+        profile->clear();
+
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++trkpt; continue;
+            }
+
+            if(trkpt->ele != WPT_NOFLOAT)
+            {
+                lineElev << QPointF(trkpt->distance, trkpt->ele * basefactor);
+            }
+
+            if(trkpt->flags & CTrack::pt_t::eFocus)
+            {
+                focusElev  = QPointF(trkpt->distance, trkpt->ele * basefactor);
+            }
+
+            trkpt++;
+        }
+
+        profile->newLine(lineElev,focusElev, "GPS");
+        profile->setLimits();
+        profile->resetZoom();
+        profile->show();
+
+    }
+    else
+    {
+        profile->clear();
+        profile->hide();
+    }
 }

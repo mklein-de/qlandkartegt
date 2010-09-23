@@ -31,6 +31,8 @@ class CPlot : public QWidget
         CPlot(CPlotData::axis_type_e type, QWidget * parent);
         virtual ~CPlot();
 
+        void setShowScale(bool show){showScale = show;}
+        void setThinLine(bool thin){thinLine = thin;}
         void setYLabel(const QString& str);
         void setXLabel(const QString& str);
 
@@ -117,6 +119,9 @@ class CPlot : public QWidget
 
         double initialYMax;
         double initialYMin;
+
+        bool showScale;
+        bool thinLine;
     public slots:
         void resetZoom();
 };

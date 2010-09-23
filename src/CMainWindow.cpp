@@ -377,6 +377,8 @@ CMainWindow::CMainWindow()
     dbus = new CDBus(qApp);
 #endif
 
+    connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), canvas, SLOT(slotHighlightTrack(CTrack*)));
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
 }
 
 
