@@ -264,6 +264,15 @@ void CTrackToolWidget::slotEdit()
     }
 }
 
+void CTrackToolWidget::slotShowProfile()
+{
+    slotEdit();
+    if(trackedit)
+    {
+        trackedit->slotToggleStatDistance();
+    }
+}
+
 
 void CTrackToolWidget::slotDelete()
 {

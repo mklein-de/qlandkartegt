@@ -46,6 +46,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 
     public slots:
         void slotEdit();
+        void slotShowProfile();
         void slotDBChanged();
 
     protected:

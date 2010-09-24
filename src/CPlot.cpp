@@ -657,7 +657,7 @@ void CPlot::drawData(QPainter& p)
 
     if(!m_pData->point1.point.isNull())
     {
-        p.setPen(QPen(Qt::red));
+        p.setPen(QPen(Qt::red,2));
         ptx = left   + xaxis.val2pt( m_pData->point1.point.x() );
         pty = bottom - yaxis.val2pt( m_pData->point1.point.y() );
 
@@ -741,6 +741,10 @@ void CPlot::drawTags(QPainter& p)
 
 void CPlot::contextMenuEvent(QContextMenuEvent *event)
 {
+    if(mode != eNormal)
+    {
+        return ;
+    }
     QMenu menu(this);
     menu.addAction(hZoomAct);
     menu.addAction(vZoomAct);
@@ -860,38 +864,51 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
 void CPlot::mouseReleaseEvent(QMouseEvent * e)
 {
-    if (e->button() == Qt::LeftButton)
+    if(mode == eNormal)
     {
-        QApplication::restoreOverrideCursor();
+        if (e->button() == Qt::LeftButton)
+        {
+            QApplication::restoreOverrideCursor();
+        }
+        if (checkClick && e->button() == Qt::LeftButton)
+        {
+            QPoint pos = e->pos();
+            double dist = getXValByPixel(pos.x());
+            emit activePointSignal(dist);
+        }
     }
-    if (checkClick && e->button() == Qt::LeftButton)
+    else
     {
-        QPoint pos = e->pos();
-        double dist = getXValByPixel(pos.x());
-        emit activePointSignal(dist);
+        emit sigClicked();
     }
 }
 
 
 void CPlot::mousePressEvent(QMouseEvent * e)
 {
-    if (e->button() == Qt::LeftButton)
+    if(mode == eNormal)
     {
-        QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
-        startMovePos = e->pos();
-        checkClick = true;
+        if (e->button() == Qt::LeftButton)
+        {
+            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
+            startMovePos = e->pos();
+            checkClick = true;
+        }
     }
+
 }
 
 void CPlot::leaveEvent(QEvent * event)
 {
-    cursorFocus = false;
+    cursorFocus = false;    
+    QApplication::restoreOverrideCursor();
     update();
 }
 
 void CPlot::enterEvent(QEvent * event)
 {
     cursorFocus = true;
+    QApplication::setOverrideCursor(Qt::PointingHandCursor);
     update();
 }
 

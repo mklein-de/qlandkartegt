@@ -42,6 +42,7 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CTrackToolWidget.h"
 #include "CRouteDB.h"
 #include "CLiveLogDB.h"
 #include "COverlayDB.h"
@@ -92,6 +93,7 @@ CCanvas::CCanvas(QWidget * parent)
     profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
     profile->resize(300,150);
     profile->hide();
+    profile->setToolTip(tr("Click to edit track and to see large profile"));
 
 }
 
@@ -753,12 +755,15 @@ void CCanvas::slotHighlightTrack(CTrack * track)
         profile->setXLabel(track->getName());
         profile->setLimits();
         profile->resetZoom();
-        profile->show();
+        profile->show();        
+        disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
+        connect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
 
     }
     else
     {
         profile->clear();
         profile->hide();
+        disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
     }
 }
