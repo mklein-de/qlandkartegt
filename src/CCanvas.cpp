@@ -91,7 +91,7 @@ CCanvas::CCanvas(QWidget * parent)
     cursorFocus = false;
 
     profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
-    profile->resize(300,150);
+    profile->resize(300,120);
     profile->hide();
     profile->setToolTip(tr("Click to edit track and to see large profile"));
 
