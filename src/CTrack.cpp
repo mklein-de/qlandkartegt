@@ -580,12 +580,12 @@ void CTrack::replaceElevationByRemote()
 
 void CTrack::slotRequestStarted(int id)
 {
-//    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
+    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
 }
 
 void CTrack::slotRequestFinished(int id, bool error)
 {
-//    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
+    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
 
     if(error)
     {
@@ -594,6 +594,8 @@ void CTrack::slotRequestFinished(int id, bool error)
     }
 
     QString asw = geonames->readAll().simplified();
+
+    qDebug() << asw;
 
     if(asw.isEmpty())
     {

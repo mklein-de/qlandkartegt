@@ -40,11 +40,11 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
 
     if(type == eOverDistance)
     {
-        plot = new CPlot(CPlotData::eLinear,this);
+        plot = new CPlot(CPlotData::eLinear, CPlot::eNormal, this);
     }
     else
     {
-        plot = new CPlot(CPlotData::eTime,this);
+        plot = new CPlot(CPlotData::eTime, CPlot::eNormal, this);
     }
     layout()->addWidget(plot);
     QObject::connect(plot, SIGNAL(activePointSignal(double)), this, SLOT(activePointEvent(double)));

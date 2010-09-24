@@ -28,8 +28,12 @@ class CPlot : public QWidget
 {
     Q_OBJECT
         public:
-        CPlot(CPlotData::axis_type_e type, QWidget * parent);
+
+        enum mode_e {eNormal, eIcon};
+
+        CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent);
         virtual ~CPlot();
+
 
         void setShowScale(bool show){showScale = show;}
         void setThinLine(bool thin){thinLine = thin;}
@@ -60,6 +64,8 @@ class CPlot : public QWidget
         void wheelEvent ( QWheelEvent * e );
         void paintEvent(QPaintEvent * e);
         void resizeEvent(QResizeEvent * e);
+        void leaveEvent(QEvent * event);
+        void enterEvent(QEvent * event);
 
         /// draw the actual plot
         void draw(QPainter& p);
@@ -120,8 +126,11 @@ class CPlot : public QWidget
         double initialYMax;
         double initialYMin;
 
+        mode_e mode;
         bool showScale;
         bool thinLine;
+
+        bool cursorFocus;
     public slots:
         void resetZoom();
 };

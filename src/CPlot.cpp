@@ -20,10 +20,11 @@
 #include "CPlot.h"
 #include "CPlotAxis.h"
 #include "CResources.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
-CPlot::CPlot(CPlotData::axis_type_e type, QWidget * parent)
+CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 : QWidget(parent)
 , fontWidth(0)
 , fontHeight(0)
@@ -36,9 +37,19 @@ CPlot::CPlot(CPlotData::axis_type_e type, QWidget * parent)
 , fm(QFont())
 , initialYMax(0)
 , initialYMin(0)
+, mode(mode)
 , showScale(true)
+, thinLine(false)
+, cursorFocus(false)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+
+    if(mode == eIcon)
+    {
+        showScale = false;
+        thinLine = true;
+    }
+
     m_pData = new CPlotData(type, this);
     createActions();
 }
@@ -214,8 +225,16 @@ void CPlot::setLRTB()
     bottom = size().height();
     bottom -= m_pData->xlabel.isEmpty() ? 0 : fontHeight;
     // tick marks
-    bottom -= fontHeight;
+    if(scaleWidthX1)
+    {
+        bottom -= fontHeight;
+    }
     bottom -= deadAreaY;
+
+    if(!m_pData->xlabel.isEmpty())
+    {
+        bottom -= deadAreaY;
+    }
 }
 
 
@@ -242,7 +261,7 @@ void CPlot::setSizeXLabel()
     {
         rectX1Label.setWidth( right - left );
         rectX1Label.setHeight( fontHeight );
-        y = ( size().height() - rectX1Label.height());
+        y = ( size().height() - rectX1Label.height()) - deadAreaY;
         rectX1Label.moveTopLeft( QPoint( left, y ) );
     }
 }
@@ -284,7 +303,29 @@ void CPlot::setSizeDrawArea()
 
 void CPlot::draw(QPainter& p)
 {
-    p.fillRect(rect(),QColor(255,255,255,180));
+    if(mode == eNormal)
+    {
+        p.fillRect(rect(),Qt::white);
+    }
+    else if(mode == eIcon)
+    {
+        QRect r = rect();
+        r.adjust(2,2,-2,-2);
+        if(cursorFocus)
+        {
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(QColor(255,255,255,255));
+        }
+        else
+        {
+            p.setPen(CCanvas::penBorderBlack);
+            p.setBrush(QColor(255,255,255,180));
+        }
+
+
+        PAINT_ROUNDED_RECT(p,r);
+
+    }
 
     if(m_pData->lines.isEmpty() || m_pData->badData)
     {
@@ -841,3 +882,16 @@ void CPlot::mousePressEvent(QMouseEvent * e)
         checkClick = true;
     }
 }
+
+void CPlot::leaveEvent(QEvent * event)
+{
+    cursorFocus = false;
+    update();
+}
+
+void CPlot::enterEvent(QEvent * event)
+{
+    cursorFocus = true;
+    update();
+}
+

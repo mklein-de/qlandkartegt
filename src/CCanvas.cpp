@@ -89,9 +89,7 @@ CCanvas::CCanvas(QWidget * parent)
 
     cursorFocus = false;
 
-    profile = new CPlot(CPlotData::eLinear,this);
-    profile->setShowScale(false);
-    profile->setThinLine(true);
+    profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
     profile->resize(300,150);
     profile->hide();
 
@@ -751,7 +749,8 @@ void CCanvas::slotHighlightTrack(CTrack * track)
             trkpt++;
         }
 
-        profile->newLine(lineElev,focusElev, "GPS");
+        profile->newLine(lineElev,focusElev, "GPS");        
+        profile->setXLabel(track->getName());
         profile->setLimits();
         profile->resetZoom();
         profile->show();
