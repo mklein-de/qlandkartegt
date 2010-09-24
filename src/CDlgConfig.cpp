@@ -77,6 +77,7 @@ void CDlgConfig::exec()
 
     checkPlaySound->setChecked(resources.m_playSound);
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
+    checkTrackProfilePreview->setChecked(resources.m_showTrackProfile);
 #ifdef HAS_GEODB
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setEnabled(resources.m_useGeoDB);
@@ -144,6 +145,7 @@ void CDlgConfig::accept()
     }
 
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
+    resources.m_showTrackProfile  = checkTrackProfilePreview->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
 
 #ifdef HAS_GEODB

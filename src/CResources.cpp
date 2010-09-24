@@ -63,6 +63,7 @@ CResources::CResources(QObject * parent)
 , m_pathGeoDB(QDir::home().filePath(CONFIGDIR))
 #endif
 #endif
+, m_showTrackProfile(true)
 
 {
     m_self = this;
@@ -129,6 +130,8 @@ CResources::CResources(QObject * parent)
         qWarning("Unknown unit type. Using 'metric'");
         unit = new CUnitMetric(this);
     }
+
+    m_showTrackProfile  = cfg.value("environment/showTrackProfile",m_showTrackProfile).toBool();
 }
 
 
@@ -171,7 +174,7 @@ CResources::~CResources()
     cfg.setValue("device/playSound",m_playSound);
 
     cfg.setValue("environment/unittype",unit->type);
-
+    cfg.setValue("environment/showTrackProfile",m_showTrackProfile);
 }
 
 

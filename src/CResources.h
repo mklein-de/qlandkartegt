@@ -64,6 +64,7 @@ class CResources : public QObject
         QDir pathGeoDB(){return m_pathGeoDB;}
 #endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
+        bool showTrackProfilePreview(){return m_showTrackProfile;}
         bool playSound(){return m_playSound;}
 
         signals:
@@ -135,6 +136,7 @@ class CResources : public QObject
 #endif
 
 
+        bool m_showTrackProfile;
 
         /// unit translator object
         QPointer<IUnit> unit;

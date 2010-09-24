@@ -319,7 +319,7 @@ void CPlot::draw(QPainter& p)
         else
         {
             p.setPen(CCanvas::penBorderBlack);
-            p.setBrush(QColor(255,255,255,180));
+            p.setBrush(QColor(255,255,255,150));
         }
 
 
@@ -900,7 +900,7 @@ void CPlot::mousePressEvent(QMouseEvent * e)
 
 void CPlot::leaveEvent(QEvent * event)
 {
-    cursorFocus = false;    
+    cursorFocus = false;
     QApplication::restoreOverrideCursor();
     update();
 }

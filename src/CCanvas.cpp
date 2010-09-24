@@ -721,7 +721,7 @@ void CCanvas::slotTrackChanged()
 
 void CCanvas::slotHighlightTrack(CTrack * track)
 {
-    if(track)
+    if(track && CResources::self().showTrackProfilePreview())
     {
         QPolygonF lineElev;
         QPointF   focusElev;
@@ -751,11 +751,11 @@ void CCanvas::slotHighlightTrack(CTrack * track)
             trkpt++;
         }
 
-        profile->newLine(lineElev,focusElev, "GPS");        
+        profile->newLine(lineElev,focusElev, "GPS");
         profile->setXLabel(track->getName());
         profile->setLimits();
         profile->resetZoom();
-        profile->show();        
+        profile->show();
         disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
         connect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
 

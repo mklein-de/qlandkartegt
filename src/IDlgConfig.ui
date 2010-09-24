@@ -23,7 +23,7 @@
       <attribute name="title">
        <string>Environment</string>
       </attribute>
-      <layout class="QVBoxLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -81,20 +81,40 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Mouse Wheel</string>
-         </property>
-         <layout class="QHBoxLayout">
-          <item>
-           <widget class="QCheckBox" name="checkFlipMouseWheel">
-            <property name="text">
-             <string>Flip</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>Mouse Wheel</string>
+           </property>
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QCheckBox" name="checkFlipMouseWheel">
+              <property name="text">
+               <string>Flip</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_9">
+           <property name="title">
+            <string>Track</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QCheckBox" name="checkTrackProfilePreview">
+              <property name="text">
+               <string>Show profile preview</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBoxGeoDB">
