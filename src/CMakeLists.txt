@@ -374,7 +374,7 @@ SET(qlandkarte_RCS
 
 SET (PRIVATE OFF CACHE BOOL "Features for private use only")
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
-SET (GPX_EXTENSIONS OFF CACHE BOOL "Read <extensions> data from tracks in GPX files.")
+SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX files.")
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
