@@ -81,40 +81,50 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QGroupBox" name="groupBox_3">
-           <property name="title">
-            <string>Mouse Wheel</string>
-           </property>
-           <layout class="QHBoxLayout">
-            <item>
-             <widget class="QCheckBox" name="checkFlipMouseWheel">
-              <property name="text">
-               <string>Flip</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_9">
-           <property name="title">
-            <string>Track</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QCheckBox" name="checkTrackProfilePreview">
-              <property name="text">
-               <string>Show profile preview</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Mouse Wheel</string>
+         </property>
+         <layout class="QHBoxLayout">
+          <item>
+           <widget class="QCheckBox" name="checkFlipMouseWheel">
+            <property name="text">
+             <string>Flip</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Map Canvas</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="checkShowScale">
+            <property name="text">
+             <string>Show scale</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkShowNorth">
+            <property name="text">
+             <string>Show north</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkShowProfilePreview">
+            <property name="text">
+             <string>Show track profile preview</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBoxGeoDB">

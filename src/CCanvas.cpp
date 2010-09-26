@@ -383,6 +383,11 @@ void CCanvas::drawRefPoints(QPainter& p)
 
 void CCanvas::drawScale(QPainter& p)
 {
+    if(!CResources::self().showScale())
+    {
+        return;
+    }
+
     IMap& map = CMapDB::self().getMap();
 
     double a,b,d;
@@ -479,6 +484,10 @@ void CCanvas::drawScale(QPainter& p)
 
 void CCanvas::drawCompass(QPainter& p)
 {
+    if(!CResources::self().showNorthIndicator())
+    {
+        return;
+    }
     QPolygon arrow;
 
 #define H 60
