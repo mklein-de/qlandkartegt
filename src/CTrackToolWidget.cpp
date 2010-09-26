@@ -266,11 +266,24 @@ void CTrackToolWidget::slotEdit()
 
 void CTrackToolWidget::slotShowProfile()
 {
-    slotEdit();
-    if(trackedit)
+    const QListWidgetItem* item = listTracks->currentItem();
+
+    if(item == 0)
     {
-        trackedit->slotToggleStatDistance();
+        QMessageBox::information(0,tr("Edit track ..."), tr("You have to select a track first."),QMessageBox::Ok,QMessageBox::Ok);
+        return;
+    };
+
+    if(trackedit.isNull())
+    {
+        trackedit = new CTrackEditWidget(theMainWindow->getCanvas());
+        connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), trackedit, SLOT(slotSetTrack(CTrack*)));
+        theMainWindow->setTempWidget(trackedit, tr("Track"));
+        trackedit->slotSetTrack(CTrackDB::self().highlightedTrack());
     }
+    trackedit->slotShowProfile();
+
+
 }
 
 

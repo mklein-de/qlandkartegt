@@ -72,6 +72,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleStatDistance();
         void slotToggleStatTime();
         void slotToggleTrainee();
+        void slotShowProfile();
 
 #ifdef GPX_EXTENSIONS
         //TODO: Deklaration der Methode fr die Extensions Graphen

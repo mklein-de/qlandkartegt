@@ -64,6 +64,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotItemExpanded(QTreeWidgetItem * item);
         /// make clicked item visible
         void slotItemDoubleClickedWks(QTreeWidgetItem * item, int column);
+        void slotItemClickedWks(QTreeWidgetItem * item, int column);
         void slotItemDoubleClickedDb(QTreeWidgetItem * item, int column);
         /// test for name change on folders or checkstate change
         void slotItemChanged(QTreeWidgetItem * item, int column);

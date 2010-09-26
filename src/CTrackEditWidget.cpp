@@ -265,14 +265,14 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         //delete extensions columns in table
         //get names and number of extensions
         QList<QString> names_of_ext = track->tr_ext.set.toList();                                 //Anzahl der Extensions
-        int num_of_ext              = names_of_ext.size();        
+        int num_of_ext              = names_of_ext.size();
         for(int i=0; i < num_of_ext; ++i)
         {
-            int number_of_column = eMaxColumn + i;            
+            int number_of_column = eMaxColumn + i;
             //remove extensions columns - removeItemWidget is not sufficient ...
             treePoints->hideColumn(number_of_column);
             treePoints->removeItemWidget(treePoints->headerItem(), number_of_column);
-        }        
+        }
 
         //delete checkboxes & spacer
         for(int i=0; i < c_boxes.size(); ++i)
@@ -317,7 +317,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
             //Namen der Extentions pro i in Variable
             QString name        = names_of_ext[i];
             //column number
-            int number_of_column = eMaxColumn + i;            
+            int number_of_column = eMaxColumn + i;
             //Name des objects
             QString obj_name    = QString("%1").arg(number_of_column);
 
@@ -440,8 +440,8 @@ void CTrackEditWidget::slotUpdate()
 
     //get names and number of extensions
     QList<QString> names_of_ext = track->tr_ext.set.toList();                                 //Anzahl der Extensions
-    int num_of_ext              = names_of_ext.size();    
-    
+    int num_of_ext              = names_of_ext.size();
+
     if (num_of_ext == 0)
     {
         toolGraphExtensions->setEnabled(false);
@@ -618,7 +618,7 @@ void CTrackEditWidget::slotUpdate()
             //value of the extension
             QString val = trkpt->gpx_exts.getValue(nam);
 
-            if (val == "")  
+            if (val == "")
             {
                 val = "-";;
             }
@@ -798,6 +798,26 @@ void CTrackEditWidget::slotPurge()
     emit CTrackDB::self().sigModified(track->getKey());
 }
 
+
+void CTrackEditWidget::slotShowProfile()
+{
+    if(trackStatProfileDist.isNull())
+    {
+        if(trackStatSpeedDist.isNull())
+        {
+            trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
+            theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+            theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
+        }
+
+        trackStatProfileDist = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+        theMainWindow->getCanvasTab()->addTab(trackStatProfileDist, tr("Profile/Dist."));
+        toolGraphDistance->toggle();
+    }
+
+    theMainWindow->getCanvasTab()->setCurrentWidget(trackStatProfileDist);
+}
 
 void CTrackEditWidget::slotToggleStatDistance()
 {
