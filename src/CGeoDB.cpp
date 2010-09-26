@@ -193,7 +193,6 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(treeDatabase,SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemDoubleClickedDb(QTreeWidgetItem *, int)));
 
     connect(treeWorkspace,SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemDoubleClickedWks(QTreeWidgetItem *, int)));
-    connect(treeWorkspace,SIGNAL(itemClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemClickedWks(QTreeWidgetItem *, int)));
     connect(treeWorkspace,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuWorkspace(const QPoint&)));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptDBChanged()));
@@ -1885,17 +1884,6 @@ void CGeoDB::slotItemDoubleClickedWks(QTreeWidgetItem * item, int column)
     }
 }
 
-void CGeoDB::slotItemClickedWks(QTreeWidgetItem * item, int column)
-{
-    if(item->data(eCoName, eUrType).toInt() == eTrk)
-    {
-        QString key;
-        key = item->data(eCoName, eUrQLKey).toString();
-        CTrackDB::self().highlightTrack(key);
-    }
-
-
-}
 
 void CGeoDB::slotItemDoubleClickedDb(QTreeWidgetItem * item, int column)
 {
