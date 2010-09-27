@@ -237,8 +237,11 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
     QLabel::paintEvent(e);
 
     QPainter p(this);
+
     QPalette palette = QMenu().palette();
     p.fillRect(rect(), palette.brush(QPalette::Normal, QPalette::Window));
+    QPixmap pix = *pixmap();
+    p.drawPixmap(0,0, pix.scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
 
     QFont f = font();
