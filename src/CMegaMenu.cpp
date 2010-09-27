@@ -157,6 +157,7 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
 
     option->initFrom(this);
     option->palette = palette();
+    option->palette.setBrush(QPalette::Normal, QPalette::Window, QColor(0,0,0,0));
     option->palette.setBrush(QPalette::Normal, QPalette::Button, Qt::NoBrush);
     option->palette.setBrush(QPalette::Inactive, QPalette::Button, Qt::NoBrush);
     option->state = QStyle::State_None;
