@@ -242,7 +242,7 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
 
     QPainter p(this);
 
-    QPalette palette = QMenu().palette();
+    QPalette palette = theMainWindow->menuBar()->palette();
     p.fillRect(rect(), palette.brush(QPalette::Normal, QPalette::Window));
     QPixmap pix = *pixmap();
     p.drawPixmap(0,0, pix.scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
