@@ -160,8 +160,7 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     option->palette = palette();
     option->palette.setCurrentColorGroup(QPalette::Normal);
 
-    option->palette.setBrush(QPalette::Normal, QPalette::Window, QColor(0,0,0,0));
-    option->palette.setBrush(QPalette::Normal, QPalette::Button, Qt::NoBrush);    
+    option->palette.setBrush(QPalette::Normal, QPalette::Button, Qt::NoBrush);
     option->palette.setBrush(QPalette::Inactive, QPalette::Button, Qt::NoBrush);
 
     option->state = QStyle::State_None;
@@ -170,13 +169,18 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     {
         option->state |= QStyle::State_Active;
     }
+    if(!isCurrent)
+    {
+        option->palette.setBrush(QPalette::Normal, QPalette::Window, QColor(0,0,0,0));
+    }
+
     if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled()))
     {
         option->state |= QStyle::State_Enabled;
     }
     else
     {
-        //option->palette.setCurrentColorGroup(QPalette::Disabled);
+        option->palette.setCurrentColorGroup(QPalette::Disabled);
     }
 
     option->font = action->font();
