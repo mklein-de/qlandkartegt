@@ -247,12 +247,12 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
     QPixmap pix = *pixmap();
     p.drawPixmap(0,0, pix.scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-
     QFont f = font();
     f.setBold(true);
     p.setFont(f);
 
     p.setClipRegion(rectTitle);
+    p.setPen(palette.brush(QPalette::Normal, QPalette::WindowText).color());
     p.drawText(rectTitle, Qt::AlignCenter, title);
 
     p.setFont(font());
