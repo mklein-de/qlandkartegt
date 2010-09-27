@@ -58,7 +58,7 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     actionGroup = theMainWindow->getActionGroupProvider();
     actions     = actionGroup->getActions();
 
-    setPalette(QMenu().palette());
+
 }
 
 
@@ -237,6 +237,9 @@ void CMegaMenu::paintEvent(QPaintEvent *e)
     QLabel::paintEvent(e);
 
     QPainter p(this);
+    QPalette palette = QMenu().palette();
+    p.fillRect(rect(), palette.brush(QPalette::Normal, QPalette::Window));
+
 
     QFont f = font();
     f.setBold(true);
