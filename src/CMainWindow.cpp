@@ -541,7 +541,7 @@ void CMainWindow::setupMenuBar()
     menu->addMenu(menuMostRecent);
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconScreenshot16x16.png"),tr("Device Screenshot ..."),this,SLOT(slotScreenshot()));
-    menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save as image ..."),this,SLOT(slotSaveImage()));
+    menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save map as image ..."),this,SLOT(slotSaveImage()));
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
@@ -844,65 +844,42 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
                 }
             }
         }
-        else if(ext == "LOC")
+        else
         {
+
             tmpfile.open();
-            loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
+            loadGPXData = false;
+
+            if(ext == "LOC")
+            {
+                loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
+            }
+            else if(ext == "GDB")
+            {
+
+                loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
+            }
+            else if(ext == "KML")
+            {
+                loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
+            }
+
+
             if (!loadGPXData)
             {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
-            else
-            {
-                CGpx gpx(this);
-                gpx.load(tmpfile.fileName());
-                CMapDB::self().loadGPX(gpx);
-                CWptDB::self().loadGPX(gpx);
-                CTrackDB::self().loadGPX(gpx);
-                CRouteDB::self().loadGPX(gpx);
-                CDiaryDB::self().loadGPX(gpx);
-                COverlayDB::self().loadGPX(gpx);
-            }
-        }
-        else if(ext == "GDB")
-        {
-            tmpfile.open();
-            loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData)
-            {
-                QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
-            }
-            else
-            {
-                CGpx gpx(this);
-                gpx.load(tmpfile.fileName());
-                CMapDB::self().loadGPX(gpx);
-                CWptDB::self().loadGPX(gpx);
-                CTrackDB::self().loadGPX(gpx);
-                CRouteDB::self().loadGPX(gpx);
-                CDiaryDB::self().loadGPX(gpx);
-                COverlayDB::self().loadGPX(gpx);
-            }
-        }
-        else if(ext == "KML")
-        {
-            tmpfile.open();
-            loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
-            if (!loadGPXData)
-            {
-                QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
-            }
-            else
-            {
-                CGpx gpx(this);
-                gpx.load(tmpfile.fileName());
-                CMapDB::self().loadGPX(gpx);
-                CWptDB::self().loadGPX(gpx);
-                CTrackDB::self().loadGPX(gpx);
-                CRouteDB::self().loadGPX(gpx);
-                CDiaryDB::self().loadGPX(gpx);
-                COverlayDB::self().loadGPX(gpx);
-            }
+
+            CGpx gpx(this);
+            gpx.load(tmpfile.fileName());
+            CMapDB::self().loadGPX(gpx);
+            CWptDB::self().loadGPX(gpx);
+            CTrackDB::self().loadGPX(gpx);
+            CRouteDB::self().loadGPX(gpx);
+            CDiaryDB::self().loadGPX(gpx);
+            COverlayDB::self().loadGPX(gpx);
+
+
         }
         wksFile = filename;
     }
