@@ -478,6 +478,11 @@ void CMapTDB::slotToolTip()
 
     foreach(value, values)
     {
+        if(value == "-")
+        {
+            continue;
+        }
+
         if(first)
         {
             first = false;
