@@ -80,6 +80,7 @@ void CDlgConfig::exec()
     checkShowProfilePreview->setChecked(resources.m_showTrackProfile);
     checkShowNorth->setChecked(resources.m_showNorth);
     checkShowScale->setChecked(resources.m_showScale);
+    checkTooltip->setChecked(resources.m_showToolTip);
 #ifdef HAS_GEODB
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setEnabled(resources.m_useGeoDB);
@@ -150,6 +151,7 @@ void CDlgConfig::accept()
     resources.m_showTrackProfile  = checkShowProfilePreview->isChecked();
     resources.m_showNorth       = checkShowNorth->isChecked();
     resources.m_showScale       = checkShowScale->isChecked();
+    resources.m_showToolTip     = checkTooltip->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
 
 #ifdef HAS_GEODB

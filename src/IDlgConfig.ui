@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -120,6 +120,16 @@
            <widget class="QCheckBox" name="checkShowProfilePreview">
             <property name="text">
              <string>Show track profile preview</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkTooltip">
+            <property name="toolTip">
+             <string>Show information as tooltip for items under cursor in vector maps.</string>
+            </property>
+            <property name="text">
+             <string>Tooltips</string>
             </property>
            </widget>
           </item>

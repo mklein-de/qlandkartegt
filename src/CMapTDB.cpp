@@ -315,6 +315,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     connect(comboDetails, SIGNAL(currentIndexChanged(int)), this, SLOT(slotDetailChanged(int)));
     theMainWindow->statusBar()->insertPermanentWidget(0,comboDetails);
 
+    toolTipTimer = new QTimer(this);
+    toolTipTimer->setSingleShot(true);
+    connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
+
     qDebug() << "CMapTDB::CMapTDB()";
 
 }
@@ -386,6 +390,12 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     index->setDBName(name);
 #endif                       //SQL_SEARCH_GARMIN
 
+
+    toolTipTimer = new QTimer(this);
+    toolTipTimer->setSingleShot(true);
+    connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
+
+
     qDebug() << "CMapTDB::CMapTDB()";
 }
 
@@ -444,6 +454,45 @@ CMapTDB::~CMapTDB()
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
+
+void CMapTDB::slotToolTip()
+{
+
+    if(!CResources::self().showToolTip())
+    {
+        return;
+    }
+
+    bool first = true;
+    QString str, value;
+    QMultiMap<QString,QString> dict;
+
+    QPoint p = pointMouse;
+
+    getInfoPoints(p, dict);
+    getInfoPois(p, dict);
+
+    getInfoPolylines(p, dict);
+
+    QList<QString> values = dict.values();
+
+    foreach(value, values)
+    {
+        if(first)
+        {
+            first = false;
+        }
+        else
+        {
+            str += "\n";
+        }
+        str += value;
+    }
+
+    p = theMainWindow->getCanvas()->mapToGlobal(pointMouse + QPoint(32,0));
+
+    QToolTip::showText(p,str);
+}
 
 void CMapTDB::slotPoiLabels(bool checked)
 {
@@ -791,6 +840,7 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
     {
         QMouseEvent * e = (QMouseEvent*)event;
 
+        pointMouse = e->pos();
         pointFocus = e->pos();
 
         QMultiMap<QString, QString> dict;
@@ -812,7 +862,14 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
             infotext += "<br/>";
         }
 
-        if(!doFastDraw) emit sigChanged();
+        if(!doFastDraw)
+        {
+            toolTipTimer->stop();
+            toolTipTimer->start(1000);
+            emit sigChanged();
+
+            QToolTip::hideText();
+        }
 
     }
 
@@ -2973,3 +3030,4 @@ void CMapTDB::config()
     }
     emit sigChanged();
 }
+

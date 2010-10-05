@@ -67,6 +67,7 @@ class CResources : public QObject
         bool showTrackProfilePreview(){return m_showTrackProfile;}
         bool showNorthIndicator(){return m_showNorth;}
         bool showScale(){return m_showScale;}
+        bool showToolTip(){return m_showToolTip;}
         bool playSound(){return m_playSound;}
 
         signals:
@@ -141,6 +142,7 @@ class CResources : public QObject
         bool m_showTrackProfile;
         bool m_showNorth;
         bool m_showScale;
+        bool m_showToolTip;
 
         /// unit translator object
         QPointer<IUnit> unit;

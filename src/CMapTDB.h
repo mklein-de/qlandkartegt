@@ -84,6 +84,7 @@ class CMapTDB : public IMap
         void slotDetailChanged(int idx);
         void slotLanguageChanged(int idx);
         void slotTypfileChanged(int idx);
+        void slotToolTip();
 
     private:
         friend class CDlgMapTDBConfig;
@@ -293,6 +294,7 @@ class CMapTDB : public IMap
         QPoint          topLeftInfo;
 
         QPoint          pointFocus;
+        QPoint          pointMouse;
 
         int detailsFineTune;
 
@@ -340,6 +342,8 @@ class CMapTDB : public IMap
         QPixmap pixBuffer;
 
         QComboBox * comboTypfiles;
+
+        QTimer * toolTipTimer;
 
 };
 #endif                           //CMAPTDB_H

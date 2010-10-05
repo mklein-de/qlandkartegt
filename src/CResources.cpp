@@ -66,6 +66,7 @@ CResources::CResources(QObject * parent)
 , m_showTrackProfile(true)
 , m_showNorth(true)
 , m_showScale(true)
+, m_showToolTip(true)
 
 {
     m_self = this;
@@ -134,8 +135,9 @@ CResources::CResources(QObject * parent)
     }
 
     m_showTrackProfile  = cfg.value("environment/showTrackProfile",m_showTrackProfile).toBool();
-    m_showNorth  = cfg.value("environment/showNorth",m_showNorth).toBool();
-    m_showScale  = cfg.value("environment/showScale",m_showScale).toBool();
+    m_showNorth     = cfg.value("environment/showNorth",m_showNorth).toBool();
+    m_showScale     = cfg.value("environment/showScale",m_showScale).toBool();
+    m_showToolTip   = cfg.value("environment/showToolTip",m_showToolTip).toBool();
 }
 
 
@@ -181,6 +183,7 @@ CResources::~CResources()
     cfg.setValue("environment/showTrackProfile",m_showTrackProfile);
     cfg.setValue("environment/showNorth",m_showNorth);
     cfg.setValue("environment/showScale",m_showScale);
+    cfg.setValue("environment/showToolTip",m_showToolTip);
 }
 
 
