@@ -254,11 +254,11 @@ void CGarminTile::readBasics(const QString& fn)
         QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.begin();
         while(subfile != subfiles.end())
         {
-            //             qDebug() << "--- subfile" << subfile->name << "---";
+            qDebug() << "--- subfile" << subfile->name << "---";
             QMap<QString,subfile_part_t>::const_iterator part = subfile->parts.begin();
             while(part != subfile->parts.end())
             {
-                //                 qDebug() << part.key() << hex << part->offset << part->size;
+                qDebug() << part.key() << hex << part->offset << part->size;
                 ++part;
             }
             ++subfile;
@@ -274,10 +274,63 @@ void CGarminTile::readBasics(const QString& fn)
         if((*subfile).parts.contains("GMP")) throw exce_t(errFormat,tr("File is NT format. QLandkarte GT is unable to read map files with NT format: ") + filename);
 
         readSubfileBasics(*subfile, file);
+
+// dem test code ----- start
+        if((*subfile).parts.contains("DEM"))
+        {
+            readDEM(*subfile, file);
+        }
+// dem test code ----- end
         ++subfile;
     }
 }
 
+
+void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
+{
+    quint32 i;
+
+    QByteArray demhdr;
+    readFile(file, subfile.parts["DEM"].offset, sizeof(hdr_dem_t), demhdr);
+    hdr_dem_t * pDemHdr = (hdr_dem_t * )demhdr.data();
+
+    qDebug() << "flags " << hex << pDemHdr->dem_flags;
+    qDebug() << "levels" << hex << pDemHdr->levels;
+    qDebug() << "length" << hex << pDemHdr->blk3_size;
+    qDebug() << "offset" << hex << pDemHdr->blk3_offset;
+
+    quint16 levels  = gar_load(uint16_t,pDemHdr->levels);
+    quint32 size    = gar_load(uint32_t, pDemHdr->blk3_size);
+    quint32 offset  = gar_load(uint32_t, pDemHdr->blk3_size);
+
+    for(i = 0; i < levels; i++)
+    {
+        QByteArray demlevel;
+        readFile(file, subfile.parts["DEM"].offset + offset + i * size, size, demlevel);
+        const dem_level_t * pDemLevel = (const dem_level_t * )demlevel.data();
+
+        qDebug() << "---------------------------------------------";
+        qDebug() << "index              " << hex << pDemLevel->index;
+        qDebug() << "nPixelPerTileX     " << hex << pDemLevel->nPixelPerTileX;
+        qDebug() << "nPixelPerTileY     " << hex << pDemLevel->nPixelPerTileY;
+        qDebug() << "Unknown1           " << hex << pDemLevel->Unknown1;
+        qDebug() << "Unknown2           " << hex << pDemLevel->Unknown2;
+        qDebug() << "Unknown3           " << hex << pDemLevel->Unknown3;
+        qDebug() << "nTilesX            " << hex << pDemLevel->nTilesX;
+        qDebug() << "nTilesY            " << hex << pDemLevel->nTilesY;
+        qDebug() << "format             " << hex << pDemLevel->format;
+        qDebug() << "blk1_size          " << hex << pDemLevel->blk1_size;
+        qDebug() << "blk1_offset        " << hex << pDemLevel->blk1_offset;
+        qDebug() << "blk2_offset        " << hex << pDemLevel->blk2_offset;
+        qDebug() << "westernBound       " << hex << pDemLevel->westernBound;
+        qDebug() << "northernBound      " << hex << pDemLevel->northernBound;
+        qDebug() << "PixelPerMeterX     " << hex << pDemLevel->PixelPerMeterX;
+        qDebug() << "PixelPerMeterY     " << hex << pDemLevel->PixelPerMeterY;
+        qDebug() << "minHeight          " << hex << pDemLevel->minHeight;
+        qDebug() << "maxHeight          " << hex << pDemLevel->maxHeight;
+    }
+
+}
 
 //static quint32 rgnoff = 0;
 void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
