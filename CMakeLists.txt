@@ -47,6 +47,14 @@ include(DefineOptions.cmake)
 include(CPackConfig.cmake)
 
 # config.h generation
+SET (NATIVE_FILE_DIALOG ON CACHE BOOL "Use OS native file dialog")
+
+if(NATIVE_FILE_DIALOG)
+    set(FILEDIALOGFLAGS "0")
+else(NATIVE_FILE_DIALOG)
+    set(FILEDIALOGFLAGS "QFileDialog::DontUseNativeDialog")
+endif(NATIVE_FILE_DIALOG)
+
 include(ConfigureChecks.cmake)
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 

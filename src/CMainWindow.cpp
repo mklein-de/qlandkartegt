@@ -57,6 +57,8 @@
 #include <io.h>
 #endif
 
+#include "config.h"
+
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
@@ -654,7 +656,7 @@ void CMainWindow::slotLoadMapSet()
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb)"
     #endif
         , &filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
     if(filename.isEmpty()) return;
 
@@ -710,7 +712,7 @@ void CMainWindow::slotLoadData()
         ,pathData
         ,formats
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filenames.isEmpty()) return;
@@ -771,7 +773,7 @@ void CMainWindow::slotAddData()
         ,pathData
         ,formats
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     for (i = 0; i < filenames.size(); ++i)
@@ -949,7 +951,7 @@ void CMainWindow::slotSaveData()
         ,pathData
         ,"QLandkarte (*.qlb);;GPS Exchange (*.gpx)"
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;
@@ -966,7 +968,7 @@ void CMainWindow::slotExportData()
         ,pathData
         ,"GPS Exchange (*.gpx)"
         ,0
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;
@@ -1090,7 +1092,7 @@ void CMainWindow::slotSaveImage()
         ,pathData
         ,"Bitmap (*.png)"
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;

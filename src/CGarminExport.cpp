@@ -55,7 +55,7 @@ CGarminExport::~CGarminExport()
 
 void CGarminExport::slotOutputPath()
 {
-    QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), QFileDialog::DontUseNativeDialog);
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(path.isEmpty()) return;
 
     QSettings cfg;

@@ -21,6 +21,8 @@
 #include "CResources.h"
 #include "IDevice.h"
 
+#include "config.h"
+
 #include <QtGui>
 
 CDlgScreenshot::CDlgScreenshot(QWidget * parent)
@@ -62,7 +64,7 @@ void CDlgScreenshot::slotSave()
         ,pathData
         ,"Bitmap (*.png)"
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;

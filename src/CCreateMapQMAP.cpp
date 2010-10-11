@@ -24,6 +24,8 @@
 #include "CMainWindow.h"
 #include "CMapDB.h"
 
+#include "config.h"
+
 #include <QtGui>
 
 CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
@@ -69,7 +71,7 @@ CCreateMapQMAP::~CCreateMapQMAP()
 
 void CCreateMapQMAP::slotOpenMap()
 {
-    QString filename = QFileDialog::getOpenFileName(0,tr("Select map definition file..."), mapPath,"QLandkarte map (*.qmap)", 0, QFileDialog::DontUseNativeDialog);
+    QString filename = QFileDialog::getOpenFileName(0,tr("Select map definition file..."), mapPath,"QLandkarte map (*.qmap)", 0, FILE_DIALOG_FLAGS);
 
     if(filename.isEmpty()) return;
     mapPath = QFileInfo(filename).path();
@@ -83,7 +85,7 @@ void CCreateMapQMAP::slotNewMap()
 {
     QString filename;
 
-    filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)", 0, QFileDialog::DontUseNativeDialog);
+    filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)", 0, FILE_DIALOG_FLAGS);
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);
@@ -107,7 +109,7 @@ void CCreateMapQMAP::slotSaveMap()
     QString filename = labelCurrentMap->text();
     if(filename.isEmpty())
     {
-        filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)", 0, QFileDialog::DontUseNativeDialog);
+        filename = QFileDialog::getSaveFileName(0,tr("Define a map collection file..."), mapPath,"QLandkarte map (*.qmap)", 0, FILE_DIALOG_FLAGS);
         if(filename.isEmpty()) return;
     }
 

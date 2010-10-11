@@ -942,7 +942,7 @@ void CMapTDB::readTDB(const QString& filename)
                         ,finfo.dir().path()
                         ,"Map File (*.img)"
                         ,0
-                        , QFileDialog::DontUseNativeDialog
+                        , FILE_DIALOG_FLAGS
                         );
                     qApp->restoreOverrideCursor();
 
@@ -1648,7 +1648,8 @@ void CMapTDB::draw()
     //    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
     //  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
 
-    p.setRenderHint(QPainter::Antialiasing,!doFastDraw);
+//    p.setRenderHints(QPainter::TextAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing,!doFastDraw);
+    p.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform,!doFastDraw);
 
     if(!isTransparent)
     {
@@ -1673,7 +1674,8 @@ void CMapTDB::draw()
     //    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
     //  fprintf(stderr, "draw complete: %d\n", diff);
 
-    p.setRenderHint(QPainter::Antialiasing,false);
+//    p.setRenderHint(QPainter::Antialiasing,false);
+    p.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform,false);
 }
 
 

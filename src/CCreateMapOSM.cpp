@@ -24,6 +24,8 @@
 #include "CTrackDB.h"
 #include "CMainWindow.h"
 
+#include "config.h"
+
 #include <QtGui>
 #include <QtNetwork/QHttp>
 #include <math.h>
@@ -629,7 +631,7 @@ void CCreateMapOSM::slotRequestFinished(int id, bool error)
 
 void CCreateMapOSM::slotSelectPath()
 {
-    QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text(), QFileDialog::DontUseNativeDialog);
+    QString path = QFileDialog::getExistingDirectory(this,tr("Select output path ..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(!path.isEmpty())
     {
         labelPath->setText(path);

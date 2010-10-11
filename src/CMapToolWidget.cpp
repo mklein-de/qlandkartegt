@@ -26,6 +26,8 @@
 #include "CGarminExport.h"
 #include "CMapSelectionGarmin.h"
 
+#include "config.h"
+
 #include <QtGui>
 
 CMapToolWidget::CMapToolWidget(QTabWidget * parent)
@@ -392,7 +394,7 @@ void CMapToolWidget::slotAddDEM()
     QSettings cfg;
     path = QDir(cfg.value("path/DEM",path.path()).toString());
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit Srtm Data (*.tif *.tiff *.hgt)"), 0, QFileDialog::DontUseNativeDialog);
+    QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit Srtm Data (*.tif *.tiff *.hgt)"), 0, FILE_DIALOG_FLAGS);
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);

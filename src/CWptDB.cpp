@@ -795,7 +795,7 @@ void CWptDB::createWaypointsFromImages()
 
     QSettings cfg;
     QString path = cfg.value("path/images", "./").toString();
-    path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, QFileDialog::DontUseNativeDialog);
+    path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, FILE_DIALOG_FLAGS);
 
     if(path.isEmpty()) return;
 

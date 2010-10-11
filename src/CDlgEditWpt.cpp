@@ -28,6 +28,8 @@
 #include "IMap.h"
 #include "IUnit.h"
 
+#include "config.h"
+
 #include <QtGui>
 #ifdef HAS_DMTX
 #include <dmtx.h>
@@ -186,7 +188,7 @@ void CDlgEditWpt::slotAddImage()
         ,"./"
         ,"Image (*)"
         ,0
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
     if(filename.isEmpty()) return;
 
@@ -283,7 +285,7 @@ void CDlgEditWpt::slotSaveBarcode()
         ,QDir::home().path()
         ,"Bitmap (*.png);;"
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;

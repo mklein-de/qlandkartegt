@@ -22,6 +22,8 @@
 #include "CResources.h"
 #include "CCanvas.h"
 
+#include "config.h"
+
 #include <QtGui>
 
 CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
@@ -798,7 +800,7 @@ void CPlot::slotSave()
         ,pathData
         ,"Bitmap (*.png)"
         ,&filter
-        , QFileDialog::DontUseNativeDialog
+        , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;

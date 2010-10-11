@@ -19,6 +19,9 @@
 
 #cmakedefine HAVE_BIGENDIAN 1
 
+/* build with native file dialogs */
+#define FILE_DIALOG_FLAGS ${FILEDIALOGFLAGS}
+
 /* TODO add a check */
 #define CAN_UNALIGNED 1
 
