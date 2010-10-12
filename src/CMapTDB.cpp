@@ -254,6 +254,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
     nightView       = cfg.value("nightView",nightView).toBool();
     typfile         = cfg.value("typfile","").toString();
+    mdrfile         = cfg.value("mdrfile","").toString();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -319,6 +320,9 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     toolTipTimer->setSingleShot(true);
     connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
 
+    checkMdrFile();
+    qDebug() << "mdrfile:" << mdrfile;
+
     qDebug() << "CMapTDB::CMapTDB()";
 
 }
@@ -376,6 +380,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     useTyp          = cfg.value("useTyp",useTyp).toBool();
     poiLabels       = cfg.value("poiLabels",poiLabels).toBool();
     typfile         = cfg.value("typfile","").toString();
+    mdrfile         = cfg.value("mdrfile","").toString();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -395,6 +400,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     toolTipTimer->setSingleShot(true);
     connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
 
+    checkMdrFile();
+    qDebug() << "mdrfile:" << mdrfile;
 
     qDebug() << "CMapTDB::CMapTDB()";
 }
@@ -417,6 +424,7 @@ CMapTDB::~CMapTDB()
     cfg.setValue("nightView",nightView);
     cfg.setValue("selectedLanguage",selectedLanguage);
     cfg.setValue("typfile",typfile);
+    cfg.setValue("mdrfile",mdrfile);
     cfg.endGroup();
     cfg.endGroup();
 
@@ -533,8 +541,6 @@ void CMapTDB::slotLanguageChanged(int idx)
 
 void CMapTDB::slotTypfileChanged(int idx)
 {
-
-    qDebug() << "nnnn";
     typfile = comboTypfiles->itemData(idx).toString();
     setup();
     needsRedraw = true;
@@ -542,6 +548,26 @@ void CMapTDB::slotTypfileChanged(int idx)
 
 }
 
+void CMapTDB::checkMdrFile()
+{
+    if(!mdrfile.isEmpty())
+    {
+        return;
+    }
+
+    // get list of mdr files
+    QFileInfo fi(filename);
+    QDir path = fi.absoluteDir();
+    QStringList filters;
+    filters << "*mdr*" << "*MDR*";
+    QStringList mdrfiles = path.entryList(filters, QDir::Files);
+
+    if(mdrfiles.size() == 1)
+    {
+        mdrfile = mdrfiles.first();
+    }
+
+}
 
 void CMapTDB::checkTypFiles()
 {
@@ -2817,6 +2843,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
         m.unlockKey = mapkey;
         m.name      = name;
         m.typfile   = path.absoluteFilePath(typfile);
+        m.mdrfile   = path.absoluteFilePath(mdrfile);
         m.pid       = pid;
         m.fid       = fid;
     }

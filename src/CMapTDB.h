@@ -90,6 +90,7 @@ class CMapTDB : public IMap
         friend class CDlgMapTDBConfig;
         void setup();
         void checkTypFiles();
+        void checkMdrFile();
 
         struct strlbl_t
         {
@@ -240,6 +241,8 @@ class CMapTDB : public IMap
         QString filename;
         /// typ filename
         QString typfile;
+        /// mdr filename
+        QString mdrfile;
         /// copyright string
         QString copyright;
         /// map collection name

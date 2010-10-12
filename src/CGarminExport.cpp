@@ -109,6 +109,13 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
             writeStdout(tr("    %1 (%2 MB)").arg(myTile.name).arg(double(myTile.memsize) / (1024 * 1024), 0, 'f', 2));
             ++tile;
         }
+
+        if(!map->mdrfile.isEmpty())
+        {
+            tile_t mdrTile;
+
+        }
+
         writeStdout(" ");
         ++map;
     }

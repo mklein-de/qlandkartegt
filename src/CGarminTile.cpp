@@ -278,7 +278,8 @@ void CGarminTile::readBasics(const QString& fn)
 // dem test code ----- start
         if((*subfile).parts.contains("DEM"))
         {
-            readDEM(*subfile, file);
+//            qDebug() <<   fn;
+//            readDEM(*subfile, file);
         }
 // dem test code ----- end
         ++subfile;
@@ -294,14 +295,16 @@ void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
     readFile(file, subfile.parts["DEM"].offset, sizeof(hdr_dem_t), demhdr);
     hdr_dem_t * pDemHdr = (hdr_dem_t * )demhdr.data();
 
-    qDebug() << "flags " << hex << pDemHdr->dem_flags;
-    qDebug() << "levels" << hex << pDemHdr->levels;
-    qDebug() << "length" << hex << pDemHdr->blk3_size;
-    qDebug() << "offset" << hex << pDemHdr->blk3_offset;
 
     quint16 levels  = gar_load(uint16_t,pDemHdr->levels);
     quint32 size    = gar_load(uint32_t, pDemHdr->blk3_size);
-    quint32 offset  = gar_load(uint32_t, pDemHdr->blk3_size);
+    quint32 offset  = gar_load(uint32_t, pDemHdr->blk3_offset);
+
+    qDebug() << "flags " << hex << pDemHdr->dem_flags;
+    qDebug() << "levels" << hex << levels;
+    qDebug() << "length" << hex << size;
+    qDebug() << "offset" << hex << offset;
+
 
     for(i = 0; i < levels; i++)
     {
@@ -322,12 +325,12 @@ void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
         qDebug() << "blk1_size          " << hex << pDemLevel->blk1_size;
         qDebug() << "blk1_offset        " << hex << pDemLevel->blk1_offset;
         qDebug() << "blk2_offset        " << hex << pDemLevel->blk2_offset;
-        qDebug() << "westernBound       " << hex << pDemLevel->westernBound;
-        qDebug() << "northernBound      " << hex << pDemLevel->northernBound;
-        qDebug() << "PixelPerMeterX     " << hex << pDemLevel->PixelPerMeterX;
-        qDebug() << "PixelPerMeterY     " << hex << pDemLevel->PixelPerMeterY;
-        qDebug() << "minHeight          " << hex << pDemLevel->minHeight;
-        qDebug() << "maxHeight          " << hex << pDemLevel->maxHeight;
+        qDebug() << "westernBound       " << hex << pDemLevel->westernBound  << dec << pDemLevel->westernBound * 180.0 / 0x7FFFFFFF;
+        qDebug() << "northernBound      " << hex << pDemLevel->northernBound << dec << pDemLevel->northernBound * 180.0 / 0x7FFFFFFF;
+        qDebug() << "PixelPerMeterX     " << hex << pDemLevel->PixelPerMeterX << dec << pDemLevel->PixelPerMeterX;
+        qDebug() << "PixelPerMeterY     " << hex << pDemLevel->PixelPerMeterY << dec << pDemLevel->PixelPerMeterY;
+        qDebug() << "minHeight          " << hex << pDemLevel->minHeight << dec << pDemLevel->minHeight;
+        qDebug() << "maxHeight          " << hex << pDemLevel->maxHeight << dec << pDemLevel->maxHeight;
     }
 
 }
