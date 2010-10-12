@@ -139,7 +139,7 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
         struct tile_t
         {
-            tile_t() : pid(0x0320), fid(0x0001) {}
+            tile_t() : pid(0x0320), fid(0x0001), isMdr(false) {}
             quint32 id;
             QString map;
             QString name;
@@ -149,6 +149,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
 
             quint16 pid;
             quint16 fid;
+
+            bool isMdr;
         };
 
         void writeStdout(const QString& msg);
@@ -171,6 +173,7 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         bool errors;
 
         bool isDialog;
+
 
 };
 #endif                           //CGARMINEXPORT_H

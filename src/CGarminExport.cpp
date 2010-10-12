@@ -110,10 +110,34 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
             ++tile;
         }
 
+
         if(!map->mdrfile.isEmpty())
         {
-            tile_t mdrTile;
+            tile_t  mdrTile;
+            quint32 total = 0;
 
+            mdrTile.filename = map->mdrfile;
+            mdrTile.name     = "MDR file";
+            readTileInfo(mdrTile);
+
+            QMap<QString,gmapsupp_subfile_desc_t>::const_iterator subfile = mdrTile.subfiles.begin();
+            while(subfile != mdrTile.subfiles.end())
+            {
+                const QList<gmapsupp_subfile_part_t>& parts = subfile->parts.values();
+                QList<gmapsupp_subfile_part_t>::const_iterator part = parts.begin();
+                while(part != parts.end())
+                {
+                    total += part->size;
+                    ++part;
+                }
+                ++subfile;
+            }
+
+            mdrTile.memsize = total;
+            mdrTile.isMdr   = true;
+            writeStdout(tr("    %1 (%2 MB)").arg(mdrTile.name).arg(double(mdrTile.memsize) / (1024 * 1024), 0, 'f', 2));
+
+            tiles << mdrTile;
         }
 
         writeStdout(" ");
@@ -377,6 +401,7 @@ void CGarminExport::readTileInfo(tile_t& t)
 
 #ifdef DEBUG_SHOW_SECT_DESC
     {
+        quint32 total = 0;
         QMap<QString,gmapsupp_subfile_desc_t>::const_iterator subfile = subfiles.begin();
         while(subfile != subfiles.end())
         {
@@ -387,10 +412,12 @@ void CGarminExport::readTileInfo(tile_t& t)
             while(part != parts.end())
             {
                 qDebug() << part->key << hex << part->offset << part->size;
+                total += part->size;
                 ++part;
             }
             ++subfile;
         }
+        qDebug() << "total" << total;
     }
 #endif                       //DEBUG_SHOW_SECT_DESC
 
@@ -477,7 +504,10 @@ void CGarminExport::slotStart()
             }
 
             // add tile to mapsource.mps section
-            addTileToMPS(*tile, mps);
+            if(!tile->isMdr)
+            {
+                addTileToMPS(*tile, mps);
+            }
 
             ++tile;
         }
