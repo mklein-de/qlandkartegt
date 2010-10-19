@@ -1071,22 +1071,24 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         QString val, unit;
 
-        if((*track)->ptMaxEle.ele != WPT_NOFLOAT)
+        if(CResources::self().showTrackMax())
         {
-            IUnit::self().meter2elevation((*track)->ptMaxEle.ele, val, unit);
-            drawMarker(p, tr("Hmax=%1%2").arg(val).arg(unit), (*track)->ptMaxEle);
+            if((*track)->ptMaxEle.ele != WPT_NOFLOAT)
+            {
+                IUnit::self().meter2elevation((*track)->ptMaxEle.ele, val, unit);
+                drawMarker(p, tr("Hmax=%1%2").arg(val).arg(unit), (*track)->ptMaxEle);
+            }
+            if((*track)->ptMinEle.ele != WPT_NOFLOAT)
+            {
+                IUnit::self().meter2elevation((*track)->ptMinEle.ele, val, unit);
+                drawMarker(p, tr("Hmin=%1%2").arg(val).arg(unit), (*track)->ptMinEle);
+            }
+            if((*track)->ptMaxSpeed.speed != WPT_NOFLOAT)
+            {
+                IUnit::self().meter2speed((*track)->ptMaxSpeed.speed, val, unit);
+                drawMarker(p, tr("Vmax=%1%2").arg(val).arg(unit), (*track)->ptMaxSpeed);
+            }
         }
-        if((*track)->ptMinEle.ele != WPT_NOFLOAT)
-        {
-            IUnit::self().meter2elevation((*track)->ptMinEle.ele, val, unit);
-            drawMarker(p, tr("Hmin=%1%2").arg(val).arg(unit), (*track)->ptMinEle);
-        }
-        if((*track)->ptMaxSpeed.speed != WPT_NOFLOAT)
-        {
-            IUnit::self().meter2speed((*track)->ptMaxSpeed.speed, val, unit);
-            drawMarker(p, tr("Vmax=%1%2").arg(val).arg(unit), (*track)->ptMaxSpeed);
-        }
-
     }
 
     p.setRenderHint(QPainter::Antialiasing, false);

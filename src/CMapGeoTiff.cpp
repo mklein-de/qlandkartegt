@@ -20,6 +20,7 @@
 #include "CMapGeoTiff.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CResources.h"
 
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
@@ -200,15 +201,6 @@ void CMapGeoTiff::draw(QPainter& p)
 
     draw();
 
-    QString str;
-    if(zoomFactor < 1.0)
-    {
-        str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
-    }
-    else
-    {
-        str = tr("Zoom level x%1").arg(zoomidx);
-    }
 
     p.drawImage(0,0,buffer);
 
@@ -219,22 +211,35 @@ void CMapGeoTiff::draw(QPainter& p)
         ovlMap->draw(size, needsRedraw, p);
     }
 
+    if(CResources::self().showZoomLevel())
+    {
 
-    p.setPen(Qt::white);
-    p.setFont(QFont("Sans Serif",14,QFont::Black));
+        QString str;
+        if(zoomFactor < 1.0)
+        {
+            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+        }
+        else
+        {
+            str = tr("Zoom level x%1").arg(zoomidx);
+        }
 
-    p.drawText(9  ,23, str);
-    p.drawText(10 ,23, str);
-    p.drawText(11 ,23, str);
-    p.drawText(9  ,24, str);
-    p.drawText(11 ,24, str);
-    p.drawText(9  ,25, str);
-    p.drawText(10 ,25, str);
-    p.drawText(11 ,25, str);
 
-    p.setPen(Qt::darkBlue);
-    p.drawText(10,24,str);
+        p.setPen(Qt::white);
+        p.setFont(QFont("Sans Serif",14,QFont::Black));
 
+        p.drawText(9  ,23, str);
+        p.drawText(10 ,23, str);
+        p.drawText(11 ,23, str);
+        p.drawText(9  ,24, str);
+        p.drawText(11 ,24, str);
+        p.drawText(9  ,25, str);
+        p.drawText(10 ,25, str);
+        p.drawText(11 ,25, str);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(10,24,str);
+    }
 }
 
 

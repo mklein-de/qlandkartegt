@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -101,35 +101,64 @@
          <property name="title">
           <string>Map Canvas</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0" rowspan="2">
            <widget class="QCheckBox" name="checkShowScale">
+            <property name="toolTip">
+             <string>The scale bar in the bottom right corner</string>
+            </property>
             <property name="text">
              <string>Show scale</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="2" rowspan="2">
            <widget class="QCheckBox" name="checkShowNorth">
+            <property name="toolTip">
+             <string>The compass rose in the bottom right corner</string>
+            </property>
             <property name="text">
              <string>Show north</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="3" rowspan="2">
            <widget class="QCheckBox" name="checkShowProfilePreview">
+            <property name="toolTip">
+             <string>The profile graph for the active track in the bottom left corner</string>
+            </property>
             <property name="text">
              <string>Show track profile preview</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="checkShowTrackMax">
+            <property name="toolTip">
+             <string>Show Hmin, Hmax and Vmax on the active track</string>
+            </property>
+            <property name="text">
+             <string>Show track maxima</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
            <widget class="QCheckBox" name="checkTooltip">
             <property name="toolTip">
              <string>Show information as tooltip for items under cursor in vector maps.</string>
             </property>
             <property name="text">
-             <string>Tooltips</string>
+             <string>Tooltips (vector maps)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="checkShowZoomLevel">
+            <property name="toolTip">
+             <string>Show zoom level in the top left corner</string>
+            </property>
+            <property name="text">
+             <string>Show zoom level</string>
             </property>
            </widget>
           </item>

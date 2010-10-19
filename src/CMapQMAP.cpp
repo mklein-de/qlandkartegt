@@ -24,6 +24,7 @@
 #include "GeoMath.h"
 #include "CCanvas.h"
 #include "CMapSelectionRaster.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -163,31 +164,33 @@ void CMapQMAP::draw(QPainter& p)
 
     needsRedraw = !foundMap;
 
-    QString str;
-    if(zoomFactor < 1.0)
+    if(CResources::self().showZoomLevel())
     {
-        str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+        QString str;
+        if(zoomFactor < 1.0)
+        {
+            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+        }
+        else
+        {
+            str = tr("Zoom level x%1").arg(zoomidx);
+        }
+
+        p.setPen(Qt::white);
+        p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+        p.drawText(9  ,23, str);
+        p.drawText(10 ,23, str);
+        p.drawText(11 ,23, str);
+        p.drawText(9  ,24, str);
+        p.drawText(11 ,24, str);
+        p.drawText(9  ,25, str);
+        p.drawText(10 ,25, str);
+        p.drawText(11 ,25, str);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(10,24,str);
     }
-    else
-    {
-        str = tr("Zoom level x%1").arg(zoomidx);
-    }
-
-    p.setPen(Qt::white);
-    p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-    p.drawText(9  ,23, str);
-    p.drawText(10 ,23, str);
-    p.drawText(11 ,23, str);
-    p.drawText(9  ,24, str);
-    p.drawText(11 ,24, str);
-    p.drawText(9  ,25, str);
-    p.drawText(10 ,25, str);
-    p.drawText(11 ,25, str);
-
-    p.setPen(Qt::darkBlue);
-    p.drawText(10,24,str);
-
 }
 
 

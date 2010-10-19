@@ -24,6 +24,7 @@
 #include <QtGui>
 #include "CMainWindow.h"
 #include "COsmTilesHash.h"
+#include "CResources.h"
 #include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
@@ -324,40 +325,43 @@ void CMapOSM::draw(QPainter& p)
 
     needsRedraw = false;
 
-    QString str;
-    if(zoomFactor < 1.0)
+    if(CResources::self().showZoomLevel())
     {
-        str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+
+        QString str;
+        if(zoomFactor < 1.0)
+        {
+            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+        }
+        else
+        {
+            str = tr("Zoom level x%1").arg(zoomFactor);
+        }
+
+        p.setPen(Qt::white);
+        p.setFont(QFont("Sans Serif",14,QFont::Black));
+
+        p.drawText(9  ,23, str);
+        p.drawText(10 ,23, str);
+        p.drawText(11 ,23, str);
+        p.drawText(9  ,24, str);
+        p.drawText(11 ,24, str);
+        p.drawText(9  ,25, str);
+        p.drawText(10 ,25, str);
+        p.drawText(11 ,25, str);
+
+        p.setPen(Qt::darkBlue);
+        p.drawText(10,24,str);
+
+        p.setFont(QFont("Sans Serif",8,QFont::Black));
+
+        if(currentTileListIndex < 3)
+        {
+            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).first), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).second).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
+        }
+
     }
-    else
-    {
-        str = tr("Zoom level x%1").arg(zoomFactor);
-    }
-
-    p.setPen(Qt::white);
-    p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-    p.drawText(9  ,23, str);
-    p.drawText(10 ,23, str);
-    p.drawText(11 ,23, str);
-    p.drawText(9  ,24, str);
-    p.drawText(11 ,24, str);
-    p.drawText(9  ,25, str);
-    p.drawText(10 ,25, str);
-    p.drawText(11 ,25, str);
-
-    p.setPen(Qt::darkBlue);
-    p.drawText(10,24,str);
-
-    p.setFont(QFont("Sans Serif",8,QFont::Black));
-
-    if(currentTileListIndex < 3)
-    {
-        CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).first), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
-        CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).second).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
-    }
-
-
 }
 
 
