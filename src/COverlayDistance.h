@@ -89,6 +89,7 @@ class COverlayDistance : public IOverlay
         void slotToTrack();
         void slotToRoute();
         void slotEdit();
+        void slotRevert();
 
     private:
         friend class COverlayDB;

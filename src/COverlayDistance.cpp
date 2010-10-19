@@ -887,6 +887,7 @@ void COverlayDistance::calcDistance()
 void COverlayDistance::customMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    menu.addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
     menu.addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route"),this,SLOT(slotToRoute()));
 
@@ -1013,6 +1014,18 @@ void COverlayDistance::slotEdit()
     theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
 }
 
+void COverlayDistance::slotRevert()
+{
+    QList<pt_t> rev;
+    QList<pt_t> pts = points;
+
+    while(pts.size())
+    {
+        rev << pts.takeLast();
+    }
+
+    COverlayDB::self().addDistance(name + "_rev", comment, speed, rev);
+}
 
 void COverlayDistance::makeVisible()
 {
