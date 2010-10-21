@@ -24,6 +24,7 @@
 #include "CDlgEditRoute.h"
 
 #include <QtGui>
+#include <QtXml>
 
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -40,6 +41,11 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     connect(listRoutes,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
 
     connect(listRoutes,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
+
+    tabWidget->setTabIcon(eTabRoute, QIcon(":/icons/iconRoute16x16.png"));
+    tabWidget->setTabIcon(eTabSetup, QIcon(":/icons/iconConfig16x16.png"));
+
+    comboService->addItem("OpenRouteService", eOpenRouteService);
 }
 
 
@@ -135,6 +141,7 @@ void CRouteToolWidget::slotContextMenu(const QPoint& pos)
 
         QMenu contextMenu;
         contextMenu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEdit()));
+        contextMenu.addAction(QPixmap(":/icons/iconWizzard16x16.png"),tr("Calc. route"),this,SLOT(slotCalcRoute()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
         contextMenu.exec(p);
     }
@@ -169,3 +176,97 @@ void CRouteToolWidget::slotDelete()
     CRouteDB::self().delRoutes(keys);
     originator = false;
 }
+
+void CRouteToolWidget::slotCalcRoute()
+{
+    QListWidgetItem * item = listRoutes->currentItem();
+    if(item == 0) return;
+
+    QString key     = item->data(Qt::UserRole).toString();
+    CRoute* route   = CRouteDB::self().getRouteByKey(key);
+    if(route == 0) return;
+
+    qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
+
+    if(service == eOpenRouteService)
+    {
+        startOpenRouteService(*route);
+    }
+
+}
+
+const QString CRouteToolWidget::gml_ns = "http://www.opengis.net/gml";
+const QString CRouteToolWidget::xls_ns = "http://www.opengis.net/xls";
+const QString CRouteToolWidget::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
+const QString CRouteToolWidget::sch_ns = "http://www.ascc.net/xml/schematron";
+const QString CRouteToolWidget::xlink_ns = "http://www.w3.org/1999/xlink";
+const QString CRouteToolWidget::schemaLocation = "http://www.opengis.net/xls http://schemas.opengis.net/ols/1.1.0/RouteService.xsd";
+
+
+void CRouteToolWidget::startOpenRouteService(CRoute& rte)
+{
+    QDomDocument xml;
+    QDomElement root = xml.createElement("xls:XLS");
+    xml.appendChild(root);
+
+    root.setAttribute("xmlns:xls",xls_ns);
+    root.setAttribute("xmlns:sch",sch_ns);
+    root.setAttribute("xmlns:gml",gml_ns);
+    root.setAttribute("xmlns:xlink",xlink_ns);
+    root.setAttribute("xmlns:xsi",xsi_ns);
+    root.setAttribute("xsi:schemaLocation",schemaLocation);
+    root.setAttribute("version","1.1");
+    root.setAttribute("xls:lang","en");
+
+    QDomElement requestHeader = xml.createElement("xls:RequestHeader");
+    root.appendChild(requestHeader);
+
+    QDomElement Request = xml.createElement("xls:Request");
+    root.appendChild(Request);
+
+    Request.setAttribute("methodName", "RouteRequest");
+    Request.setAttribute("requestID", "123456789");
+    Request.setAttribute("version", "1.1");
+
+    QDomElement DetermineRouteRequest = xml.createElement("xls:DetermineRouteRequest");
+    Request.appendChild(DetermineRouteRequest);
+
+    DetermineRouteRequest.setAttribute("distanceUnit", "KM");
+
+    qDebug() << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    qDebug() << xml.toString();
+}
+/*
+<?xml version="1.0" encoding="UTF-8"?>
+<xls:XLS xmlns:xls="http://www.opengis.net/xls" xmlns:sch="http://www.ascc.net/xml/schematron"
+xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/xls
+http://schemas.opengis.net/ols/1.1.0/RouteService.xsd" version="1.1" xls:lang="en">
+    <xls:RequestHeader/>
+    <xls:Request methodName="RouteRequest" requestID="123456789" version="1.1">
+        <xls:DetermineRouteRequest distanceUnit="KM">
+            <xls:RoutePlan>
+                <xls:RoutePreference>Fastest</xls:RoutePreference>
+                <xls:WayPointList>
+                    <xls:StartPoint>
+                        <xls:Position>
+                            <gml:Point srsName="EPSG:4326">
+                                <gml:pos>7.092284405229747 50.741860376360336</gml:pos>
+                            </gml:Point>
+                        </xls:Position>
+                    </xls:StartPoint>
+                    <xls:EndPoint>
+                        <xls:Position>
+                            <gml:Point srsName="EPSG:4326">
+                                <gml:pos>7.092355256197099 50.73950812424425</gml:pos>
+                            </gml:Point>
+                        </xls:Position>
+                    </xls:EndPoint>
+                </xls:WayPointList>
+            </xls:RoutePlan>
+            <xls:RouteInstructionsRequest/>
+            <xls:RouteGeometryRequest/>
+        </xls:DetermineRouteRequest>
+    </xls:Request>
+</xls:XLS>
+*/

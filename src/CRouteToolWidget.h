@@ -22,6 +22,8 @@
 #include <QWidget>
 #include "ui_IRouteToolWidget.h"
 
+class CRoute;
+
 class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
     Q_OBJECT;
@@ -39,8 +41,29 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotContextMenu(const QPoint& pos);
         void slotEdit();
         void slotDelete();
+        void slotCalcRoute();
 
     private:
+        void startOpenRouteService(CRoute& rte);
+
         bool originator;
+
+        enum tab_e {
+            eTabRoute = 0
+            ,eTabSetup = 1
+        };
+
+        enum service_e
+        {
+            eOpenRouteService
+        };
+
+        static const QString gml_ns;
+        static const QString xls_ns;
+        static const QString xsi_ns;
+        static const QString sch_ns;
+        static const QString xlink_ns;
+        static const QString schemaLocation;
+
 };
 #endif                           //CROUTETOOLWIDGET_H
