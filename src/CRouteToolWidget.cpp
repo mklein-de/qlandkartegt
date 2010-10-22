@@ -233,9 +233,70 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 
     DetermineRouteRequest.setAttribute("distanceUnit", "KM");
 
+    QDomElement RoutePlan = xml.createElement("xls:RoutePlan");
+    DetermineRouteRequest.appendChild(RoutePlan);
+
+    QDomElement RoutePreference = xml.createElement("xls:RoutePreference");
+    RoutePlan.appendChild(RoutePreference);
+
+    QDomText _RoutePreference_ = xml.createTextNode("Fastest");
+    RoutePreference.appendChild(_RoutePreference_);
+
+    QDomElement WayPointList = xml.createElement("xls:WayPointList");
+    RoutePlan.appendChild(WayPointList);
+
+
+    addOpenLSWptList(xml, WayPointList, rte);
+
+
+    QDomElement RouteInstructionsRequest = xml.createElement("xls:RouteInstructionsRequest");
+    RouteInstructionsRequest.setAttribute("provideGeometry", "1");
+    DetermineRouteRequest.appendChild(RouteInstructionsRequest);
+
+//    QDomElement RouteGeometryRequest = xml.createElement("xls:RouteGeometryRequest");
+//    DetermineRouteRequest.appendChild(RouteGeometryRequest);
+
     qDebug() << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     qDebug() << xml.toString();
 }
+
+void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte)
+{
+
+    QList<XY> wpts = rte.getRoutePoints();
+
+    QDomElement StartPoint = xml.createElement("xls:StartPoint");
+    WayPointList.appendChild(StartPoint);
+    addOpenLSPos(xml, StartPoint, wpts.first());
+
+
+    QDomElement EndPoint = xml.createElement("xls:EndPoint");
+    WayPointList.appendChild(EndPoint);
+    addOpenLSPos(xml, EndPoint, wpts.last());
+}
+
+void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, XY& pt)
+{
+    QString lon, lat;
+    QDomElement Position = xml.createElement("xls:Position");
+    Parent.appendChild(Position);
+
+    QDomElement Point = xml.createElement("gml:Point");
+    Point.setAttribute("srsName", "EPSG:4326");
+    Position.appendChild(Point);
+
+    QDomElement Pos = xml.createElement("gml:pos");
+    Point.appendChild(Pos);
+
+    lon.sprintf("%1.8f", pt.u);
+    lat.sprintf("%1.8f", pt.v);
+
+    QDomText _Pos_ = xml.createTextNode(QString("%1 %2").arg(lon).arg(lat));
+    Pos.appendChild(_Pos_);
+}
+
+
+
 /*
 <?xml version="1.0" encoding="UTF-8"?>
 <xls:XLS xmlns:xls="http://www.opengis.net/xls" xmlns:sch="http://www.ascc.net/xml/schematron"
