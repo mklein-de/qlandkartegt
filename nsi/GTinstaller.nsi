@@ -1,3 +1,15 @@
+;NSIS Installer Script for QLandkarte GT
+
+;NSIS References/Documentation 
+;http://nsis.sourceforge.net/Docs/Modern%20UI%202/Readme.html
+;http://nsis.sourceforge.net/Docs/Modern%20UI/Readme.html
+
+;Revision Log
+; 01-Jun-2010 Rework Installer - create batch file to set FWTools environment correctly
+; 24-Jun-2010 Copy all transölation files
+; 23-Oct-2010 Rework installation of Microsoft Runtime Libraries, pass through parameters in start script, add german translation
+
+;=================== BEGIN SCRIPT ====================
 ; Include for nice Setup UI
 !include MUI2.nsh
 
@@ -21,9 +33,9 @@ RequestExecutionLevel admin
 OutFile "QLandkarteGT.exe"
 
 ;------------------------------------------------------------------------
-; Moder UI definition   	   					                                  -
+; Modern UI definition   	   					                                  -
 ;------------------------------------------------------------------------
-!define MUI_COMPONENTSPAGE_SMALLDESC ;No value
+;!define MUI_COMPONENTSPAGE_SMALLDESC ;No value
 !define MUI_INSTFILESPAGE_COLORS "FFFFFF 000000" ;Two colors
 
 !define MUI_HEADERIMAGE
@@ -58,6 +70,7 @@ Var StartMenuFolder
 
 ; Language settings
 !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "German"
 
 
 ;------------------------------------------------------------------------
@@ -81,19 +94,21 @@ Section "FWTools 2.4.7" FWTools
  	ExecWait '"$TEMP\FWTools247.exe"'
 
 SectionEnd
-LangString DESC_FWTools ${LANG_ENGLISH} "FWTools includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI as well as some supporting components."
+LangString DESC_FWTools ${LANG_ENGLISH} "Required Libraries for MAP and coordinate system transformation. This package will be downloaded from the internet. It needs to be installed only once - for the first QLandkarteGT installation."
+LangString DESC_FWTools ${LANG_GERMAN}  "Benötigte Bibliotheken für Karten- und Koordinatentransformationen. Wird aus dem Internet heruntergeladen. Muss nur einmal installiert werden - bei der ersten QLandkarteGT Installation."
 
-Section "MSVC 9.0" MSVC
+Section "MSVC++ 2008 SP1 Runtime" MSVC
 
   SetOutPath $INSTDIR
-    File Files\msvcm90.dll
-    File Files\msvcp90.dll
-    File Files\msvcr90.dll
-
+  File Files\vcredist_x86.exe
+  ExecWait '"$INSTDIR\vcredist_x86.exe"'
+  Delete "$INSTDIR\vcredist_x86.exe"
+  
 SectionEnd
-LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C Runtime Libraries."
+LangString DESC_MSVC ${LANG_ENGLISH} "Microsoft Visual C++ 2008 SP1 Runtime Libraries. Typically already installed on your PC. You only need to install them if it doesn't work without ;-)."
+LangString DESC_MSVC ${LANG_GERMAN} "Microsoft Visual C++ 2008 SP1 Laufzeitbibliotheken. Diese sind meist bereits auf dem Rechner installiert. Versuchen Sie die Installation zunächst einmal ohne dies."
 
-Section "QLandkarteGT" QLandkarteGT
+Section "QLandkarte GT" QLandkarteGT
 
   ;Install for all users
   SetShellVarContext all
@@ -104,34 +119,7 @@ Section "QLandkarteGT" QLandkarteGT
     File Files\qlandkartegt_*.qm
     File Files\qt_??.qm
 
-
-
-  WriteUninstaller "$INSTDIR\Uninstall.exe"
-
-  ;create batch file to run qlandkartegt.exe
-  ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
-  StrCpy $1 "call $\"$0\setfw.bat$\"$\r$\n"
-  fileOpen $0 "$INSTDIR\QLandkarteGT.bat" w
-  fileWrite $0 $1
-  fileWrite $0 "start qlandkartegt.exe"
-  fileClose $0
-
-  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-   	;Create shortcuts
-  	CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\QLandkarteGT.bat" "" "$INSTDIR\Globe128x128.ico"
- 	!insertmacro MUI_STARTMENU_WRITE_END
-
-  ;Create registry entries
-	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "DisplayName" "QLandkarte GT (remove only)"
-	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "UninstallString" "$INSTDIR\Uninstall.exe"
-
-SectionEnd
-LangString DESC_QLandkarteGT ${LANG_ENGLISH} "This is a GeoTiff viewer for the PC"
-
-Section "QT 4.6" QT
-
+  ;BEGIN Qt Files
 	SetOutPath $INSTDIR
   	File Files\QtCore4.dll
   	File Files\QtGui4.dll
@@ -149,15 +137,41 @@ Section "QT 4.6" QT
 
 	SetOutPath "$INSTDIR\sqldrivers\"
     File Files\sqldrivers\qsqlite4.dll
+    
+  ;the last "SetOutPath" will be the default directory
+  SetOutPath $INSTDIR    
+    
+  ;END Qt Files
+
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+
+  ;create batch file to run qlandkartegt.exe
+  ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
+  StrCpy $1 "call $\"$0\setfw.bat$\"$\r$\n"
+  fileOpen $0 "$INSTDIR\QLandkarteGT.bat" w
+  fileWrite $0 $1
+  fileWrite $0 "start qlandkartegt.exe %*"
+  fileClose $0
+
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+   	;Create shortcuts
+  	CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\QLandkarteGT.bat" "" "$INSTDIR\Globe128x128.ico"
+ 	!insertmacro MUI_STARTMENU_WRITE_END
+
+  ;Create registry entries
+	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "DisplayName" "QLandkarte GT (remove only)"
+	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "UninstallString" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
-LangString DESC_QT ${LANG_ENGLISH} "QT required dependencies."
+LangString DESC_QLandkarteGT ${LANG_ENGLISH} "View GeoTiff and Garmin Maps. Visualize and analyze GPX files and much more!"
+LangString DESC_QLandkarteGT ${LANG_GERMAN}  "Landkarten im GeoTiff und Garmin Format betrachten. GPX Dateien visualisieren und analysieren und vieles mehr!"
 
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${QLandkarteGT} $(DESC_QLandkarteGT)
    !insertmacro MUI_DESCRIPTION_TEXT ${FWTools} $(DESC_FWTools)
-   !insertmacro MUI_DESCRIPTION_TEXT ${QT} $(DESC_QT)
    !insertmacro MUI_DESCRIPTION_TEXT ${MSVC} $(DESC_MSVC)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 

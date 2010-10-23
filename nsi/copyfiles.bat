@@ -2,8 +2,8 @@ rem Batch file to copy the necessary files for the Windows Installer
 rem Please adapt environment variables in section 1) to your system
 
 rem Section 1.) Define path to Qt, MSVC, .... installations
-set QLGTI_QT_PATH=C:\Qt\4.6.2
-set QLGTI_VCREDIST_PATH="C:\Programme\Microsoft Visual Studio 9.0\VC\redist\x86\Microsoft.VC90.CRT"
+set QLGTI_QT_PATH=C:\Qt\4.7.0
+set QLGTI_VCREDIST_PATH="E:\qlgt\tools\vcredist_VS2008SP1"
 
 rem Section 2.) Copy Files
 del /s/q Files
@@ -33,7 +33,7 @@ rem opening a qt shell, going to the translations directory and running
 rem for %f in (qt_??.ts) do lrelease %f
 copy %QLGTI_QT_PATH%\translations\qt_??.qm
 rem section 2.2) Copy MSVC Redist Files
-copy %QLGTI_VCREDIST_PATH%\*.*
+copy %QLGTI_VCREDIST_PATH%\vcredist_x86.exe
 rem section 2.3) Copy QLandkarte GT Files
 copy ..\..\build\bin\Release\qlandkartegt.exe
 copy ..\..\build\src\*.qm
