@@ -253,15 +253,15 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         name.appendChild(_name_);
 
         unsigned cnt = 0;
-        QList<XY>& rtepts = (*route)->getRoutePoints();
-        QList<XY>::const_iterator rtept = rtepts.begin();
+        QVector<CRoute::rtept_t>& rtepts = (*route)->getPriRtePoints();
+        QVector<CRoute::rtept_t>::const_iterator rtept = rtepts.begin();
         while(rtept != rtepts.end())
         {
             QDomElement gpxRtept = gpx.createElement("rtept");
             gpxRoute.appendChild(gpxRtept);
 
-            gpxRtept.setAttribute("lat",QString::number(rtept->v,'f',6));
-            gpxRtept.setAttribute("lon",QString::number(rtept->u,'f',6));
+            gpxRtept.setAttribute("lat",QString::number(rtept->lat,'f',6));
+            gpxRtept.setAttribute("lon",QString::number(rtept->lon,'f',6));
 
             QString str = QString("%1").arg(++cnt,3,10,QChar('0'));
 
@@ -398,25 +398,35 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     while(route != routes.end())
     {
-        QPolygon& line = (*route)->getPolyline();
+        QPolygon& line      = (*route)->getPolyline();
+        QPolygon& points    = (*route)->getPoints();
+        bool firstTime      = (*route)->firstTime;
 
-        bool firstTime = (*route)->firstTime;
 
-        QList<XY>& rtepts         = (*route)->getRoutePoints();
-        QList<XY>::iterator rtept = rtepts.begin();
 
         if ( needsRedraw || firstTime)
         {
+            bool isPriRoute = (*route)->secRoute.isEmpty();
+
             line.clear();
+            points.clear();
+            QVector<CRoute::rtept_t>& rtepts = isPriRoute ? (*route)->getPriRtePoints() : (*route)->getSecRtePoints();
+            QVector<CRoute::rtept_t>::iterator rtept = rtepts.begin();
             while(rtept != rtepts.end())
             {
-                double u = rtept->u * DEG_TO_RAD;
-                double v = rtept->v * DEG_TO_RAD;
+                double u = rtept->lon * DEG_TO_RAD;
+                double v = rtept->lat * DEG_TO_RAD;
 
                 map.convertRad2Pt(u,v);
-                line << QPoint(u,v);;
+                line << QPoint(u,v);
+                if(!rtept->action.isEmpty() || isPriRoute)
+                {
+                    points << QPoint(u,v);
+                }
+
                 ++rtept;
             }
+
         }
 
         if(!rect.intersects(line.boundingRect()))
@@ -444,7 +454,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             // draw bubbles
             QPoint pt;
             QPixmap bullet = (*route)->getIcon();
-            foreach(pt,line)
+            foreach(pt,points)
             {
                 p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
             }
@@ -460,6 +470,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         route = highlighted;
 
         QPolygon& line = (*route)->getPolyline();
+        QPolygon& points = (*route)->getPoints();
 
         // draw skunk line
         QPen pen(Qt::magenta,7);
@@ -473,11 +484,13 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         // draw bubbles
         QPoint pt;
         QPixmap bullet = (*route)->getIcon();
-        foreach(pt,line)
+        foreach(pt,points)
         {
             p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
         }
     }
+
+    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 QList<CRouteDB::keys_t> CRouteDB::keys()

@@ -91,20 +91,20 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 s1.setVersion(QDataStream::Qt_4_5);
                 quint32 n;
 
-                route.routeDegree.clear();
+                route.priRoute.clear();
                 s1 >> nRtePts;
 
                 for(n = 0; n < nRtePts; ++n)
                 {
-                    XY rtept;
+                    CRoute::rtept_t rtept;
                     float u, v;
 
                     s1 >> u;
                     s1 >> v;
 
-                    rtept.u = u;
-                    rtept.v = v;
-                    route.routeDegree << rtept;
+                    rtept.lon = u;
+                    rtept.lat = v;
+                    route.priRoute << rtept;
                 }
                 break;
             }
@@ -145,14 +145,14 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     QDataStream s2(&entryRtePts.data, QIODevice::WriteOnly);
     s2.setVersion(QDataStream::Qt_4_5);
 
-    QList<XY>& rtepts           = route.getRoutePoints();
-    QList<XY>::iterator rtept   = rtepts.begin();
+    QVector<CRoute::rtept_t>& rtepts           = route.getPriRtePoints();
+    QVector<CRoute::rtept_t>::iterator rtept   = rtepts.begin();
 
     s2 << (quint32)rtepts.size();
     while(rtept != rtepts.end())
     {
-        s2 << (float)rtept->u;
-        s2 << (float)rtept->v;
+        s2 << (float)rtept->lon;
+        s2 << (float)rtept->lat;
         ++rtept;
     }
 
@@ -242,10 +242,10 @@ CRoute::~CRoute()
 
 void CRoute::addPosition(const double lon, const double lat)
 {
-    XY pt;
-    pt.u = lon;
-    pt.v = lat;
-    routeDegree << pt;
+    rtept_t pt;
+    pt.lon = lon;
+    pt.lat = lat;
+    priRoute << pt;
 
     calcDistance();
 
@@ -256,17 +256,17 @@ void CRoute::addPosition(const double lon, const double lat)
 void CRoute::calcDistance()
 {
     dist = 0.0;
-    if(routeDegree.size() < 2) return;
+    if(priRoute.size() < 2) return;
 
     XY pt1,pt2;
     double a1,a2;
 
-    QList<XY>::const_iterator p1 = routeDegree.begin();
-    QList<XY>::const_iterator p2 = routeDegree.begin() + 1;
-    while(p2 != routeDegree.end())
+    QVector<rtept_t>::const_iterator p1 = priRoute.begin();
+    QVector<rtept_t>::const_iterator p2 = priRoute.begin() + 1;
+    while(p2 != priRoute.end())
     {
-        pt1.u = p1->u * DEG_TO_RAD; pt1.v = p1->v * DEG_TO_RAD;
-        pt2.u = p2->u * DEG_TO_RAD; pt2.v = p2->v * DEG_TO_RAD;
+        pt1.u = p1->lon * DEG_TO_RAD; pt1.v = p1->lat * DEG_TO_RAD;
+        pt2.u = p2->lon * DEG_TO_RAD; pt2.v = p2->lat * DEG_TO_RAD;
         dist += distance(pt1,pt2,a1,a2);
         ++p2; ++p1;
     }
@@ -283,15 +283,15 @@ QRectF CRoute::getBoundingRectF()
     double east  = -180.0;
 
     //CRoute * route = routes[key];
-    QList<XY>& rtepts = getRoutePoints();
-    QList<XY>::const_iterator rtept = rtepts.begin();
+    QVector<rtept_t>& rtepts = getPriRtePoints();
+    QVector<rtept_t>::const_iterator rtept = rtepts.begin();
     while(rtept != rtepts.end())
     {
 
-        if(rtept->u < west)  west  = rtept->u;
-        if(rtept->u > east)  east  = rtept->u;
-        if(rtept->v < south) south = rtept->v;
-        if(rtept->v > north) north = rtept->v;
+        if(rtept->lon < west)  west  = rtept->lon;
+        if(rtept->lon > east)  east  = rtept->lon;
+        if(rtept->lat < south) south = rtept->lat;
+        if(rtept->lat > north) north = rtept->lat;
 
         ++rtept;
     }
@@ -319,8 +319,44 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
 {
     qDebug() << xml.toString();
 
+    secRoute.clear();
+    firstTime = true;
+
     QDomElement root = xml.documentElement();
 
 
+    QDomNodeList instructions = root.elementsByTagName("xls:RouteInstruction");
 
+    const qint32 N = instructions.size();
+    for(int i = 0; i < N; i++)
+    {
+        QDomElement instr = instructions.item(i).toElement();
+        QString text = instr.firstChildElement("xls:Instruction").text();
+
+        QDomNodeList points = instr.elementsByTagName("gml:pos");
+        if(points.size())
+        {
+            rtept_t rtept;
+            rtept.action = text;
+
+            QString strpos = points.item(0).toElement().text();
+            rtept.lon = strpos.section(" ", 0, 0).toFloat();
+            rtept.lat = strpos.section(" ", 1, 1).toFloat();
+
+            secRoute << rtept;
+
+            const qint32 M = points.size();
+            for(int j = 0; j < M; j++)
+            {
+                rtept_t rtept;
+                QString strpos = points.item(j).toElement().text();
+                rtept.lon = strpos.section(" ", 0, 0).toFloat();
+                rtept.lat = strpos.section(" ", 1, 1).toFloat();
+
+                secRoute << rtept;
+            }
+        }
+    }
+
+    emit sigChanged();
 }

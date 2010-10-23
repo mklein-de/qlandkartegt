@@ -39,6 +39,13 @@ class CRoute : public IItem
         virtual ~CRoute();
 
         enum type_e {eEnd, eBase, eRtePts};
+        struct rtept_t
+        {
+            float lon;
+            float lat;
+
+            QString action;
+        };
 
 
         /// set the highlight flag
@@ -53,8 +60,11 @@ class CRoute : public IItem
         void addPosition(const double lon, const double lat);
 
         QPolygon& getPolyline(){return polyline;}
+        QPolygon& getPoints(){return points;}
 
-        QList<XY>& getRoutePoints(){return routeDegree;}
+
+        QVector<rtept_t>& getPriRtePoints(){return priRoute;}
+        QVector<rtept_t>& getSecRtePoints(){return secRoute;}
 
         QRectF getBoundingRectF();
 
@@ -78,8 +88,8 @@ class CRoute : public IItem
 
         void calcDistance();
 
-        /// the route as position points
-        QList<XY> routeDegree;
+        /// primary route, just the basic points like A to B via C
+        QVector<rtept_t> priRoute;
         /// the actual route distance
         double dist;
 
@@ -88,7 +98,14 @@ class CRoute : public IItem
         /// the Qt polyline for faster processing
         QPolygon polyline;
 
+        QPolygon points;
+
         bool firstTime;
+
+        /// secondary route with all intermediate points from auto routing
+        QVector<rtept_t> secRoute;
+
+
 
 };
 

@@ -979,14 +979,14 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         garrte.ident = codec->fromUnicode(name).data();
 
         unsigned cnt = 0;
-        const QList<XY>& rtepts         = (*rte)->getRoutePoints();
-        QList<XY>::const_iterator rtept =  rtepts.begin();
+        const QVector<CRoute::rtept_t>& rtepts         = (*rte)->getPriRtePoints();
+        QVector<CRoute::rtept_t>::const_iterator rtept =  rtepts.begin();
         while(rtept != rtepts.end())
         {
             Garmin::RtePt_t garrtept;
 
-            garrtept.lon            = rtept->u;
-            garrtept.lat            = rtept->v;
+            garrtept.lon            = rtept->lon;
+            garrtept.lat            = rtept->lat;
             garrtept.Wpt_t::ident   = QString("%1.%2").arg(id).arg(++cnt,3,10,QChar('0')).toAscii().data();
             garrtept.Wpt_t::comment = codec->fromUnicode(name).data();
             garrtept.Wpt_t::smbl    = smbl;
@@ -1062,7 +1062,7 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
             ++garrtept;
         }
 
-        if(rte->getRoutePoints().count() > 0)
+        if(rte->getPriRtePoints().count() > 0)
         {
             rtes << rte;
         }

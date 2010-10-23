@@ -20,7 +20,7 @@
 #define CROUTETOOLWIDGET_H
 
 #include <QWidget>
-#include <projects.h>
+#include "CRoute.h"
 #include "ui_IRouteToolWidget.h"
 
 class CRoute;
@@ -55,7 +55,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
     private:
         void startOpenRouteService(CRoute& rte);
         void addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte);
-        void addOpenLSPos(QDomDocument& xml, QDomElement& Point, XY& pos);
+        void addOpenLSPos(QDomDocument& xml, QDomElement& Point, CRoute::rtept_t& pos);
 
         bool originator;
 

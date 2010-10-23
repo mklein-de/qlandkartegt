@@ -308,7 +308,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte)
 {
 
-    QList<XY> wpts = rte.getRoutePoints();
+    QVector<CRoute::rtept_t> wpts = rte.getPriRtePoints();
 
     QDomElement StartPoint = xml.createElement("xls:StartPoint");
     WayPointList.appendChild(StartPoint);
@@ -331,7 +331,7 @@ void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPoint
     addOpenLSPos(xml, EndPoint, wpts.last());
 }
 
-void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, XY& pt)
+void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRoute::rtept_t& pt)
 {
     QString lon, lat;
     QDomElement Position = xml.createElement("xls:Position");
@@ -344,8 +344,8 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, XY& 
     QDomElement Pos = xml.createElement("gml:pos");
     Point.appendChild(Pos);
 
-    lon.sprintf("%1.8f", pt.u);
-    lat.sprintf("%1.8f", pt.v);
+    lon.sprintf("%1.8f", pt.lon);
+    lat.sprintf("%1.8f", pt.lat);
 
     QDomText _Pos_ = xml.createTextNode(QString("%1 %2").arg(lon).arg(lat));
     Pos.appendChild(_Pos_);
