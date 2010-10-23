@@ -29,7 +29,7 @@ CMouseCutTrack::CMouseCutTrack(CCanvas * canvas)
 : IMouse(canvas)
 , nextTrkPt(0)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorCutTrack"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorCutTrack.png"),0,0);
 }
 
 

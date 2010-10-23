@@ -29,6 +29,8 @@
 #include <QFile>
 #include <projects.h>
 
+class QDomDocument;
+
 class CRoute : public IItem
 {
     Q_OBJECT;
@@ -63,6 +65,8 @@ class CRoute : public IItem
 
         /// set the icon defined by a string
         void setIcon(const QString& str);
+
+        void loadSecondaryRoute(QDomDocument& xml);
 
         signals:
         void sigChanged();

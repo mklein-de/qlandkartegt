@@ -546,7 +546,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         }
         else if(rectMove.contains(pos1))
         {
-            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0));
+            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMoveWpt.png"),0,0));
             doMove      = true;
             doFuncWheel = false;
 

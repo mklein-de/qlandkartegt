@@ -27,7 +27,7 @@
 CMouseEditWpt::CMouseEditWpt(CCanvas * canvas)
 : IMouse(canvas)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorEdit"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorEdit.png"),0,0);
 }
 
 

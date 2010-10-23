@@ -22,13 +22,16 @@
 #include "IUnit.h"
 #include "CMapDB.h"
 #include "CDlgEditRoute.h"
+#include "CResources.h"
 
 #include <QtGui>
 #include <QtXml>
+#include <QHttp>
 
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
+, http(0)
 {
     setupUi(this);
     setObjectName("Routes");
@@ -46,6 +49,10 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     tabWidget->setTabIcon(eTabSetup, QIcon(":/icons/iconConfig16x16.png"));
 
     comboService->addItem("OpenRouteService", eOpenRouteService);
+
+    slotSetupLink();
+    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
+
 }
 
 
@@ -177,6 +184,26 @@ void CRouteToolWidget::slotDelete()
     originator = false;
 }
 
+
+void CRouteToolWidget::slotSetupLink()
+{
+    QString url;
+    quint16 port;
+    bool enableProxy;
+
+    enableProxy = CResources::self().getHttpProxy(url,port);
+
+    if(http) delete http;
+    http = new QHttp(this);
+    if(enableProxy)
+    {
+        http->setProxy(url,port);
+    }
+
+    connect(http,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
+    connect(http,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+}
+
 void CRouteToolWidget::slotCalcRoute()
 {
     QListWidgetItem * item = listRoutes->currentItem();
@@ -195,6 +222,9 @@ void CRouteToolWidget::slotCalcRoute()
 
 }
 
+
+
+
 const QString CRouteToolWidget::gml_ns = "http://www.opengis.net/gml";
 const QString CRouteToolWidget::xls_ns = "http://www.opengis.net/xls";
 const QString CRouteToolWidget::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
@@ -205,6 +235,8 @@ const QString CRouteToolWidget::schemaLocation = "http://www.opengis.net/xls htt
 
 void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 {
+    if(http == 0) return;
+
     QDomDocument xml;
     QDomElement root = xml.createElement("xls:XLS");
     xml.appendChild(root);
@@ -225,7 +257,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     root.appendChild(Request);
 
     Request.setAttribute("methodName", "RouteRequest");
-    Request.setAttribute("requestID", "123456789");
+    Request.setAttribute("requestID", rte.getKey());
     Request.setAttribute("version", "1.1");
 
     QDomElement DetermineRouteRequest = xml.createElement("xls:DetermineRouteRequest");
@@ -256,8 +288,21 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 //    QDomElement RouteGeometryRequest = xml.createElement("xls:RouteGeometryRequest");
 //    DetermineRouteRequest.appendChild(RouteGeometryRequest);
 
-    qDebug() << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    qDebug() << xml.toString();
+    QByteArray array;
+    QTextStream out(&array, QIODevice::WriteOnly);
+    out.setCodec("UTF-8");
+    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    out << xml.toString() << endl;
+
+//    qDebug() << array;
+
+    http->setHost("openls.geog.uni-heidelberg.de");
+
+    QUrl url;
+    url.setPath("/qlandkarte/route");
+
+    http->post(url.toEncoded(), array);
+
 }
 
 void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte)
@@ -269,6 +314,17 @@ void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPoint
     WayPointList.appendChild(StartPoint);
     addOpenLSPos(xml, StartPoint, wpts.first());
 
+    if(wpts.size() > 2)
+    {
+        const int size = wpts.size() - 1;
+        for(int i = 1; i < size; i++)
+        {
+
+            QDomElement ViaPoint = xml.createElement("xls:ViaPoint");
+            WayPointList.appendChild(ViaPoint);
+            addOpenLSPos(xml, ViaPoint, wpts[i]);
+        }
+    }
 
     QDomElement EndPoint = xml.createElement("xls:EndPoint");
     WayPointList.appendChild(EndPoint);
@@ -293,6 +349,52 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, XY& 
 
     QDomText _Pos_ = xml.createTextNode(QString("%1 %2").arg(lon).arg(lat));
     Pos.appendChild(_Pos_);
+}
+
+void CRouteToolWidget::slotRequestStarted(int )
+{
+
+}
+
+
+void CRouteToolWidget::slotRequestFinished(int , bool error)
+{
+    if(error)
+    {
+        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(http->errorString()), QMessageBox::Abort);
+        return;
+    }
+
+    QString res = http->readAll().simplified();
+    if(res.isEmpty())
+    {
+        return;
+    }
+
+    QDomDocument xml;
+    xml.setContent(res);
+
+
+    QDomElement root     = xml.documentElement();
+    QDomElement response = root.firstChildElement("xls:Response");
+
+    if(response.isNull())
+    {
+        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
+        return;
+    }
+
+    QString key = response.attribute("requestID","");
+    CRoute * rte = CRouteDB::self().getRouteByKey(key);
+    if(rte)
+    {
+        rte->loadSecondaryRoute(xml);
+    }
+
+
+
+
+
 }
 
 

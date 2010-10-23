@@ -28,7 +28,7 @@
 CMouseAddDistance::CMouseAddDistance(CCanvas * canvas)
 : IMouse(canvas)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorDistance"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorDistance.png"),0,0);
 }
 
 

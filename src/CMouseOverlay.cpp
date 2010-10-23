@@ -25,7 +25,7 @@
 CMouseOverlay::CMouseOverlay(CCanvas * canvas)
 : IMouse(canvas)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorArrow"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorArrow.png"),0,0);
 }
 
 

@@ -29,7 +29,7 @@ CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 , moveRef(false)
 , selRefPt(0)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
 }
 
 
@@ -135,7 +135,7 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
         }
         else
         {
-            cursor = QCursor(QPixmap(":/cursors/cursorMove"));
+            cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
             oldPoint    = e->pos();
@@ -153,7 +153,7 @@ void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
         if(moveMap)
         {
             moveMap = false;
-            cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint"),0,0);
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
             QApplication::restoreOverrideCursor();
             canvas->update();
         }

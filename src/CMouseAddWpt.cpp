@@ -27,7 +27,7 @@
 CMouseAddWpt::CMouseAddWpt(CCanvas * canvas)
 : IMouse(canvas)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorAdd"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorAdd.png"),0,0);
 }
 
 

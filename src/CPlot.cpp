@@ -892,7 +892,7 @@ void CPlot::mousePressEvent(QMouseEvent * e)
     {
         if (e->button() == Qt::LeftButton)
         {
-            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove")));
+            QApplication::setOverrideCursor(QCursor(QPixmap(":/cursors/cursorMove.png")));
             startMovePos = e->pos();
             checkClick = true;
         }

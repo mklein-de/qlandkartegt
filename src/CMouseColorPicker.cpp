@@ -28,7 +28,7 @@ CMouseColorPicker::CMouseColorPicker(CCanvas * canvas)
 , color(Qt::NoPen)
 , selected(Qt::NoPen)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorColorChooser"),3,30);
+    cursor = QCursor(QPixmap(":/cursors/cursorColorChooser.png"),3,30);
 }
 
 

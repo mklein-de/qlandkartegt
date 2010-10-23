@@ -33,7 +33,7 @@ CMouseMoveWpt::CMouseMoveWpt(CCanvas * canvas)
 : IMouse(canvas)
 , moveWpt(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorMoveWpt"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorMoveWpt.png"),0,0);
 }
 
 

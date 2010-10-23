@@ -29,7 +29,7 @@ CMouseAddTextBox::CMouseAddTextBox(CCanvas * canvas)
 , selArea(false)
 , selAnchor(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorTextBox"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorTextBox.png"),0,0);
 
 }
 

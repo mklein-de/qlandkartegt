@@ -35,7 +35,7 @@ CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 : IMouse(parent)
 , moveMap(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
 }
 
 
@@ -88,7 +88,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         else
         {
             CUndoStackView::getInstance()->beginMacro(tr("Move map"));
-            cursor = QCursor(QPixmap(":/cursors/cursorMove"));
+            cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
             QApplication::setOverrideCursor(cursor);
             moveMap     = true;
             oldPoint    = e->pos();
@@ -111,7 +111,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
         moveMap = false;
         CMapDB::self().getMap().fastDrawOff();
 
-        cursor = QCursor(QPixmap(":/cursors/cursorMoveMap"),0,0);
+        cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
         QApplication::restoreOverrideCursor();
         canvas->update();
     }

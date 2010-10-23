@@ -22,6 +22,7 @@
 #include "GeoMath.h"
 
 #include <QtGui>
+#include <QtXml>
 
 struct rte_head_entry_t
 {
@@ -312,4 +313,14 @@ QString CRoute::getInfo()
     QString str = name;
 
     return str;
+}
+
+void CRoute::loadSecondaryRoute(QDomDocument& xml)
+{
+    qDebug() << xml.toString();
+
+    QDomElement root = xml.documentElement();
+
+
+
 }

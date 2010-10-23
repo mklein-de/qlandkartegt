@@ -290,12 +290,12 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.save();
             p.translate(u,v);
             p.rotate(heading);
-            p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1"));
+            p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1.png"));
             p.restore();
         }
         else
         {
-            p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2"));
+            p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2.png"));
         }
 
     }

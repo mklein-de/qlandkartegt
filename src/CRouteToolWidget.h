@@ -26,7 +26,7 @@
 class CRoute;
 class QDomDocument;
 class QDomElement;
-
+class QHttp;
 
 class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
@@ -46,6 +46,11 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotEdit();
         void slotDelete();
         void slotCalcRoute();
+
+        void slotSetupLink();
+        void slotRequestStarted(int );
+        void slotRequestFinished(int , bool error);
+
 
     private:
         void startOpenRouteService(CRoute& rte);
@@ -70,6 +75,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static const QString sch_ns;
         static const QString xlink_ns;
         static const QString schemaLocation;
+
+        QHttp * http;
 
 };
 #endif                           //CROUTETOOLWIDGET_H

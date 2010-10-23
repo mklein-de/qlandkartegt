@@ -27,7 +27,7 @@ CMouseSelMap::CMouseSelMap(CCanvas * canvas)
 : IMouse(canvas)
 , selMap(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorSelMap"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorSelMap.png"),0,0);
 }
 
 

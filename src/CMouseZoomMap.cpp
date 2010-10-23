@@ -28,7 +28,7 @@ CMouseZoomMap::CMouseZoomMap(CCanvas * parent)
 : IMouse(parent)
 , zoomMap(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorZoom"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorZoom.png"),0,0);
 }
 
 

@@ -27,7 +27,7 @@ CMouseSelTrack::CMouseSelTrack(CCanvas * canvas)
 : IMouse(canvas)
 , selTrack(false), unselectTrack(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorArrow"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorArrow.png"),0,0);
 }
 
 

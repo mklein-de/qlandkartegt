@@ -28,7 +28,7 @@ CMouseAddText::CMouseAddText(CCanvas * canvas)
 : IMouse(canvas)
 , selArea(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorText"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorText.png"),0,0);
 }
 
 
