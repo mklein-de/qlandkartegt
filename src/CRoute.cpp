@@ -20,6 +20,7 @@
 #include "CRoute.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
+#include "CRouteDB.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -108,6 +109,32 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 }
                 break;
             }
+            case CRoute::eRteSec:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+                quint32 n;
+
+                route.secRoute.clear();
+                s1 >> nRtePts;
+
+                for(n = 0; n < nRtePts; ++n)
+                {
+                    CRoute::rtept_t rtept;
+                    float u, v;
+                    QString action;
+
+                    s1 >> u;
+                    s1 >> v;
+                    s1 >> action;
+
+                    rtept.lon = u;
+                    rtept.lat = v;
+                    rtept.action = action;
+                    route.secRoute << rtept;
+                }
+                break;
+            }
             default:;
         }
 
@@ -138,25 +165,53 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     entries << entryBase;
 
     //---------------------------------------
-    // prepare routepoint data
+    // prepare primary routepoint data
     //---------------------------------------
-    rte_head_entry_t entryRtePts;
-    entryRtePts.type = CRoute::eRtePts;
-    QDataStream s2(&entryRtePts.data, QIODevice::WriteOnly);
+    rte_head_entry_t entryPriRtePts;
+    entryPriRtePts.type = CRoute::eRtePts;
+    QDataStream s2(&entryPriRtePts.data, QIODevice::WriteOnly);
     s2.setVersion(QDataStream::Qt_4_5);
 
-    QVector<CRoute::rtept_t>& rtepts           = route.getPriRtePoints();
-    QVector<CRoute::rtept_t>::iterator rtept   = rtepts.begin();
-
-    s2 << (quint32)rtepts.size();
-    while(rtept != rtepts.end())
     {
-        s2 << (float)rtept->lon;
-        s2 << (float)rtept->lat;
-        ++rtept;
-    }
+        QVector<CRoute::rtept_t>& rtepts           = route.getPriRtePoints();
+        QVector<CRoute::rtept_t>::iterator rtept   = rtepts.begin();
 
-    entries << entryRtePts;
+        s2 << (quint32)rtepts.size();
+        while(rtept != rtepts.end())
+        {
+            s2 << (float)rtept->lon;
+            s2 << (float)rtept->lat;
+            ++rtept;
+        }
+    }
+    entries << entryPriRtePts;
+
+    //---------------------------------------
+    // prepare secondary routepoint data
+    //---------------------------------------
+    rte_head_entry_t entrySecRtePts;
+    entrySecRtePts.type = CRoute::eRteSec;
+    QDataStream s3(&entrySecRtePts.data, QIODevice::WriteOnly);
+    s3.setVersion(QDataStream::Qt_4_5);
+
+    {
+        QVector<CRoute::rtept_t>& rtepts           = route.getSecRtePoints();
+        QVector<CRoute::rtept_t>::iterator rtept   = rtepts.begin();
+
+        if(!rtepts.isEmpty())
+        {
+            s3 << (quint32)rtepts.size();
+            while(rtept != rtepts.end())
+            {
+                s3 << (float)rtept->lon;
+                s3 << (float)rtept->lat;
+                s3 << rtept->action;
+                ++rtept;
+            }
+            entries << entrySecRtePts;
+        }
+
+    }
 
     //---------------------------------------
     // prepare terminator
@@ -247,6 +302,8 @@ void CRoute::addPosition(const double lon, const double lat)
     pt.lat = lat;
     priRoute << pt;
 
+    secRoute.clear();
+
     calcDistance();
 
     emit sigChanged();
@@ -261,9 +318,23 @@ void CRoute::calcDistance()
     XY pt1,pt2;
     double a1,a2;
 
-    QVector<rtept_t>::const_iterator p1 = priRoute.begin();
-    QVector<rtept_t>::const_iterator p2 = priRoute.begin() + 1;
-    while(p2 != priRoute.end())
+    QVector<rtept_t>::const_iterator p1;
+    QVector<rtept_t>::const_iterator p2;
+    QVector<rtept_t>::const_iterator end;
+    if(secRoute.isEmpty())
+    {
+        p1 = priRoute.begin();
+        p2 = priRoute.begin() + 1;
+        end = priRoute.end();
+    }
+    else
+    {
+        p1 = secRoute.begin();
+        p2 = secRoute.begin() + 1;
+        end = secRoute.end();
+    }
+
+    while(p2 != end)
     {
         pt1.u = p1->lon * DEG_TO_RAD; pt1.v = p1->lat * DEG_TO_RAD;
         pt2.u = p2->lon * DEG_TO_RAD; pt2.v = p2->lat * DEG_TO_RAD;
@@ -283,7 +354,7 @@ QRectF CRoute::getBoundingRectF()
     double east  = -180.0;
 
     //CRoute * route = routes[key];
-    QVector<rtept_t>& rtepts = getPriRtePoints();
+    QVector<rtept_t>& rtepts = secRoute.isEmpty() ? getPriRtePoints() : getSecRtePoints();
     QVector<rtept_t>::const_iterator rtept = rtepts.begin();
     while(rtept != rtepts.end())
     {
@@ -317,14 +388,12 @@ QString CRoute::getInfo()
 
 void CRoute::loadSecondaryRoute(QDomDocument& xml)
 {
-    qDebug() << xml.toString();
+//    qDebug() << xml.toString();
 
     secRoute.clear();
     firstTime = true;
 
     QDomElement root = xml.documentElement();
-
-
     QDomNodeList instructions = root.elementsByTagName("xls:RouteInstruction");
 
     const qint32 N = instructions.size();
@@ -357,6 +426,19 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
             }
         }
     }
+
+    calcDistance();
+
+    emit sigChanged();
+
+}
+
+void CRoute::reset()
+{
+    secRoute.clear();
+    calcDistance();
+
+    firstTime = true;
 
     emit sigChanged();
 }

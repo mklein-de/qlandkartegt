@@ -541,3 +541,25 @@ void CRouteDB::makeVisible(const QStringList& keys)
     }
 
 }
+
+void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml)
+{
+    if(routes.contains(key))
+    {
+        routes[key]->loadSecondaryRoute(xml);
+        emit sigChanged();
+        emit sigModified();
+        emit sigModified(key);
+    }
+}
+
+void CRouteDB::reset(const QString& key)
+{
+    if(routes.contains(key))
+    {
+        routes[key]->reset();
+        emit sigChanged();
+        emit sigModified();
+        emit sigModified(key);
+    }
+}

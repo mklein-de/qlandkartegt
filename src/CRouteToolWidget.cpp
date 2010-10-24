@@ -149,6 +149,7 @@ void CRouteToolWidget::slotContextMenu(const QPoint& pos)
         QMenu contextMenu;
         contextMenu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEdit()));
         contextMenu.addAction(QPixmap(":/icons/iconWizzard16x16.png"),tr("Calc. route"),this,SLOT(slotCalcRoute()));
+        contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Reset"),this,SLOT(slotResetRoute()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
         contextMenu.exec(p);
     }
@@ -206,20 +207,23 @@ void CRouteToolWidget::slotSetupLink()
 
 void CRouteToolWidget::slotCalcRoute()
 {
-    QListWidgetItem * item = listRoutes->currentItem();
-    if(item == 0) return;
+    QListWidgetItem * item;
+    QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
-    QString key     = item->data(Qt::UserRole).toString();
-    CRoute* route   = CRouteDB::self().getRouteByKey(key);
-    if(route == 0) return;
-
-    qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
-
-    if(service == eOpenRouteService)
+    foreach(item, items)
     {
-        startOpenRouteService(*route);
-    }
 
+        QString key     = item->data(Qt::UserRole).toString();
+        CRoute* route   = CRouteDB::self().getRouteByKey(key);
+        if(route == 0) return;
+
+        qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
+
+        if(service == eOpenRouteService)
+        {
+            startOpenRouteService(*route);
+        }
+    }
 }
 
 
@@ -277,24 +281,17 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     QDomElement WayPointList = xml.createElement("xls:WayPointList");
     RoutePlan.appendChild(WayPointList);
 
-
     addOpenLSWptList(xml, WayPointList, rte);
-
 
     QDomElement RouteInstructionsRequest = xml.createElement("xls:RouteInstructionsRequest");
     RouteInstructionsRequest.setAttribute("provideGeometry", "1");
     DetermineRouteRequest.appendChild(RouteInstructionsRequest);
-
-//    QDomElement RouteGeometryRequest = xml.createElement("xls:RouteGeometryRequest");
-//    DetermineRouteRequest.appendChild(RouteGeometryRequest);
 
     QByteArray array;
     QTextStream out(&array, QIODevice::WriteOnly);
     out.setCodec("UTF-8");
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     out << xml.toString() << endl;
-
-//    qDebug() << array;
 
     http->setHost("openls.geog.uni-heidelberg.de");
 
@@ -385,51 +382,18 @@ void CRouteToolWidget::slotRequestFinished(int , bool error)
     }
 
     QString key = response.attribute("requestID","");
-    CRoute * rte = CRouteDB::self().getRouteByKey(key);
-    if(rte)
-    {
-        rte->loadSecondaryRoute(xml);
-    }
-
-
-
-
-
+    CRouteDB::self().loadSecondaryRoute(key, xml);
 }
 
+void CRouteToolWidget::slotResetRoute()
+{
+    QListWidgetItem * item;
+    QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
+    foreach(item, items)
+    {
+        QString key     = item->data(Qt::UserRole).toString();
+        CRouteDB::self().reset(key);
+    }
+}
 
-/*
-<?xml version="1.0" encoding="UTF-8"?>
-<xls:XLS xmlns:xls="http://www.opengis.net/xls" xmlns:sch="http://www.ascc.net/xml/schematron"
-xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/xls
-http://schemas.opengis.net/ols/1.1.0/RouteService.xsd" version="1.1" xls:lang="en">
-    <xls:RequestHeader/>
-    <xls:Request methodName="RouteRequest" requestID="123456789" version="1.1">
-        <xls:DetermineRouteRequest distanceUnit="KM">
-            <xls:RoutePlan>
-                <xls:RoutePreference>Fastest</xls:RoutePreference>
-                <xls:WayPointList>
-                    <xls:StartPoint>
-                        <xls:Position>
-                            <gml:Point srsName="EPSG:4326">
-                                <gml:pos>7.092284405229747 50.741860376360336</gml:pos>
-                            </gml:Point>
-                        </xls:Position>
-                    </xls:StartPoint>
-                    <xls:EndPoint>
-                        <xls:Position>
-                            <gml:Point srsName="EPSG:4326">
-                                <gml:pos>7.092355256197099 50.73950812424425</gml:pos>
-                            </gml:Point>
-                        </xls:Position>
-                    </xls:EndPoint>
-                </xls:WayPointList>
-            </xls:RoutePlan>
-            <xls:RouteInstructionsRequest/>
-            <xls:RouteGeometryRequest/>
-        </xls:DetermineRouteRequest>
-    </xls:Request>
-</xls:XLS>
-*/

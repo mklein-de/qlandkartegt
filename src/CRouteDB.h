@@ -28,6 +28,7 @@
 #include <QPixmap>
 
 class CRoute;
+class QDomDocument;
 
 class CRouteDB : public IDB
 {
@@ -77,6 +78,10 @@ class CRouteDB : public IDB
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
 
         void makeVisible(const QStringList& keys);
+
+        void loadSecondaryRoute(const QString& key, QDomDocument& xml);
+
+        void reset(const QString& key);
 
         signals:
         void sigHighlightRoute(CRoute * route);

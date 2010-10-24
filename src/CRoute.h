@@ -38,7 +38,7 @@ class CRoute : public IItem
         CRoute(QObject * parent);
         virtual ~CRoute();
 
-        enum type_e {eEnd, eBase, eRtePts};
+        enum type_e {eEnd, eBase, eRtePts, eRteSec};
         struct rtept_t
         {
             float lon;
@@ -77,6 +77,8 @@ class CRoute : public IItem
         void setIcon(const QString& str);
 
         void loadSecondaryRoute(QDomDocument& xml);
+
+        void reset();
 
         signals:
         void sigChanged();

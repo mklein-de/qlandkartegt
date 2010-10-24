@@ -46,6 +46,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotEdit();
         void slotDelete();
         void slotCalcRoute();
+        void slotResetRoute();
 
         void slotSetupLink();
         void slotRequestStarted(int );
