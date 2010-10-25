@@ -63,6 +63,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         enum tab_e {
             eTabRoute = 0
             ,eTabSetup = 1
+            ,eTabHelp = 2
         };
 
         enum service_e

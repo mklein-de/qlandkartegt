@@ -47,8 +47,21 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     tabWidget->setTabIcon(eTabRoute, QIcon(":/icons/iconRoute16x16.png"));
     tabWidget->setTabIcon(eTabSetup, QIcon(":/icons/iconConfig16x16.png"));
+    tabWidget->setTabIcon(eTabHelp, QIcon(":/icons/iconHelp16x16.png"));
 
     comboService->addItem("OpenRouteService", eOpenRouteService);
+
+    comboPreference->addItem(tr("fastest"), "Fastest");
+    comboPreference->addItem(tr("shortest"), "Shortest");
+    comboPreference->addItem(tr("pedestrian"), "Pedestrian");
+
+    QSettings cfg;
+    cfg.beginGroup("routing");
+    comboService->setCurrentIndex(cfg.value("service", 0).toInt());
+    comboPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
+    checkAvoidHighways->setChecked(cfg.value("avoidHighways", false).toBool());
+    checkAvoidTollways->setChecked(cfg.value("avoidTollways", false).toBool());
+    cfg.endGroup();
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
@@ -210,6 +223,15 @@ void CRouteToolWidget::slotCalcRoute()
     QListWidgetItem * item;
     QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
+    QSettings cfg;
+    cfg.beginGroup("routing");
+    cfg.setValue("service", comboService->currentIndex());
+    cfg.setValue("preference", comboPreference->currentIndex());
+    cfg.setValue("avoidHighways", checkAvoidHighways->isChecked());
+    cfg.setValue("avoidTollways", checkAvoidTollways->isChecked());
+    cfg.endGroup();
+
+
     foreach(item, items)
     {
 
@@ -275,13 +297,35 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     QDomElement RoutePreference = xml.createElement("xls:RoutePreference");
     RoutePlan.appendChild(RoutePreference);
 
-    QDomText _RoutePreference_ = xml.createTextNode("Fastest");
+    QDomText _RoutePreference_ = xml.createTextNode(comboPreference->itemData(comboPreference->currentIndex()).toString());
     RoutePreference.appendChild(_RoutePreference_);
 
     QDomElement WayPointList = xml.createElement("xls:WayPointList");
     RoutePlan.appendChild(WayPointList);
 
     addOpenLSWptList(xml, WayPointList, rte);
+
+    QDomElement AvoidList = xml.createElement("xls:AvoidList");
+    RoutePlan.appendChild(AvoidList);
+    if(checkAvoidHighways->isChecked())
+    {
+        QDomElement AvoidFeature = xml.createElement("xls:AvoidFeature");
+        AvoidList.appendChild(AvoidFeature);
+
+        QDomText _AvoidFeature_ = xml.createTextNode("Highway");
+        AvoidFeature.appendChild(_AvoidFeature_);
+    }
+
+    if(checkAvoidTollways->isChecked())
+    {
+        QDomElement AvoidFeature = xml.createElement("xls:AvoidFeature");
+        AvoidList.appendChild(AvoidFeature);
+
+        QDomText _AvoidFeature_ = xml.createTextNode("Tollway");
+        AvoidFeature.appendChild(_AvoidFeature_);
+    }
+
+
 
     QDomElement RouteInstructionsRequest = xml.createElement("xls:RouteInstructionsRequest");
     RouteInstructionsRequest.setAttribute("provideGeometry", "1");
