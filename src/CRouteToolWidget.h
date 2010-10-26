@@ -51,6 +51,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotSetupLink();
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
+        void slotSelectionChanged();
 
 
     private:

@@ -42,7 +42,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     connect(listRoutes,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));
     connect(listRoutes,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
-
+    connect(listRoutes,SIGNAL(itemSelectionChanged()),this,SLOT(slotSelectionChanged()));
     connect(listRoutes,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     tabWidget->setTabIcon(eTabRoute, QIcon(":/icons/iconRoute16x16.png"));
@@ -274,7 +274,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xsi:schemaLocation",schemaLocation);
     root.setAttribute("version","1.1");
-    root.setAttribute("xls:lang","en");
+    root.setAttribute("xls:lang",QLocale::system().name().left(2));
 
     QDomElement requestHeader = xml.createElement("xls:RequestHeader");
     root.appendChild(requestHeader);
@@ -285,6 +285,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     Request.setAttribute("methodName", "RouteRequest");
     Request.setAttribute("requestID", rte.getKey());
     Request.setAttribute("version", "1.1");
+
 
     QDomElement DetermineRouteRequest = xml.createElement("xls:DetermineRouteRequest");
     Request.appendChild(DetermineRouteRequest);
@@ -413,7 +414,7 @@ void CRouteToolWidget::slotRequestFinished(int , bool error)
     }
 
     QDomDocument xml;
-    xml.setContent(res);    
+    xml.setContent(res);
 
     QDomElement root     = xml.documentElement();
     QDomElement response = root.firstChildElement("xls:Response");
@@ -437,6 +438,18 @@ void CRouteToolWidget::slotResetRoute()
     {
         QString key     = item->data(Qt::UserRole).toString();
         CRouteDB::self().reset(key);
+    }
+}
+
+void CRouteToolWidget::slotSelectionChanged()
+{
+    if(originator)
+    {
+        return;
+    }
+    if(listRoutes->hasFocus() && listRoutes->selectedItems().isEmpty())
+    {
+        CRouteDB::self().highlightRoute("");
     }
 }
 

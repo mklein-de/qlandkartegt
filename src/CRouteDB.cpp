@@ -125,9 +125,10 @@ void CRouteDB::highlightRoute(const QString& key)
     if(routes.contains(key))
     {
         routes[key]->setHighlight(true);
+        emit sigHighlightRoute(routes[key]);
+
     }
 
-    emit sigHighlightRoute(routes[key]);
     emit sigChanged();
 
 }
