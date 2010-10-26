@@ -22,13 +22,14 @@
 #include "CWptDB.h"
 #include "CMapDB.h"
 #include "CTrackDB.h"
+#include "CRouteDB.h"
 #include "COverlayDB.h"
 #include "CWpt.h"
-#include "CTrack.h"
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "IOverlay.h"
 #include "IUnit.h"
+#include "IMap.h"
 #include "CDlgEditWpt.h"
 #include "GeoMath.h"
 #include "CSearch.h"
@@ -42,6 +43,7 @@ IMouse::IMouse(CCanvas * canvas)
 , cursor(QPixmap(":/cursor/Arrow"))
 , canvas(canvas)
 , selTrkPt(0)
+, selRtePt(0)
 , doSpecialCursorWpt(false)
 , doSpecialCursorSearch(false)
 {
@@ -252,6 +254,42 @@ void IMouse::drawSelTrkPt(QPainter& p)
             p.setPen(Qt::darkBlue);
             p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
         }
+    }
+}
+
+void IMouse::drawSelRtePt(QPainter& p)
+{
+    IMap& map = CMapDB::self().getMap();
+    if(selRtePt && !selWpt)
+    {
+        double u = selRtePt->lon * DEG_TO_RAD;
+        double v = selRtePt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
+        p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
+
+        QString         str = selRtePt->action;
+        QFont           f = CResources::self().getMapFont();
+        QFontMetrics    fm(f);
+        QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+        r1.moveTopLeft(QPoint(u + 45, v));
+
+        QRect           r2 = r1;
+        r2.setWidth(r1.width() + 20);
+        r2.moveLeft(r1.left() - 10);
+        r2.setHeight(r1.height() + 20);
+        r2.moveTop(r1.top() - 10);
+
+
+        p.setPen(QPen(CCanvas::penBorderBlue));
+        p.setBrush(CCanvas::brushBackWhite);
+        PAINT_ROUNDED_RECT(p,r2);
+
+        p.setFont(CResources::self().getMapFont());
+        p.setPen(Qt::darkBlue);
+        p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
     }
 }
 
@@ -515,6 +553,49 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     }
 
     if(oldTrackPt != selTrkPt)
+    {
+        canvas->update();
+    }
+
+}
+
+void IMouse::mouseMoveEventRoute(QMouseEvent * e)
+{
+    CRoute * route = CRouteDB::self().highlightedRoute();
+    if(route == 0) return;
+
+    IMap& map = CMapDB::self().getMap();
+    double u,v;
+
+    CRoute::pt_t * oldRoutePt = selRtePt;
+    int d1      = 20;
+    selRtePt    = 0;
+
+    QVector<CRoute::pt_t>& pts          = route->getSecRtePoints().isEmpty() ? route->getPriRtePoints() : route->getSecRtePoints();
+    QVector<CRoute::pt_t>::iterator pt  = pts.begin();
+    while(pt != pts.end())
+    {
+        if(pt->action.isEmpty())
+        {
+            ++pt; continue;
+        }
+
+        u = pt->lon * DEG_TO_RAD;
+        v = pt->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        int d2 = abs(e->pos().x() - u) + abs(e->pos().y() - v);
+
+        if(d2 < d1)
+        {
+            selRtePt = &(*pt);
+            d1 = d2;
+        }
+
+        ++pt;
+    }
+
+    if(oldRoutePt != selRtePt)
     {
         canvas->update();
     }

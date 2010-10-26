@@ -56,7 +56,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
     private:
         void startOpenRouteService(CRoute& rte);
         void addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte);
-        void addOpenLSPos(QDomDocument& xml, QDomElement& Point, CRoute::rtept_t& pos);
+        void addOpenLSPos(QDomDocument& xml, QDomElement& Point, CRoute::pt_t& pos);
 
         bool originator;
 

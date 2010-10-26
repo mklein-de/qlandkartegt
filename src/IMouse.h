@@ -26,6 +26,7 @@
 #include <QPointer>
 
 #include "CTrack.h"
+#include "CRoute.h"
 class QMouseEvent;
 class QMenu;
 class CCanvas;
@@ -90,6 +91,8 @@ class IMouse : public QObject
         void drawSelWpt(QPainter& p);
         /// draw selected track point
         void drawSelTrkPt(QPainter& p);
+        /// draw selected route point
+        void drawSelRtePt(QPainter& p);
         /// draw selected search
         void drawSelSearch(QPainter& p);
 
@@ -97,6 +100,8 @@ class IMouse : public QObject
         void mouseMoveEventWpt(QMouseEvent * e);
         /// choose track point close to cursor
         void mouseMoveEventTrack(QMouseEvent * e);
+        /// choose routek point close to cursor
+        void mouseMoveEventRoute(QMouseEvent * e);
         /// choose overlay under cursor
         void mouseMoveEventOverlay(QMouseEvent * e);
         /// choose waypoint close to cursor
@@ -118,6 +123,8 @@ class IMouse : public QObject
         QPointer<CWpt> selWpt;
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
+        /// current selected routepoint
+        CRoute::pt_t * selRtePt;
         /// current selected overlay
         static QPointer<IOverlay> selOverlay;
 

@@ -253,8 +253,8 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         name.appendChild(_name_);
 
         unsigned cnt = 0;
-        QVector<CRoute::rtept_t>& rtepts = (*route)->getPriRtePoints();
-        QVector<CRoute::rtept_t>::const_iterator rtept = rtepts.begin();
+        QVector<CRoute::pt_t>& rtepts = (*route)->getPriRtePoints();
+        QVector<CRoute::pt_t>::const_iterator rtept = rtepts.begin();
         while(rtept != rtepts.end())
         {
             QDomElement gpxRtept = gpx.createElement("rtept");
@@ -391,7 +391,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     IMap& map = CMapDB::self().getMap();
 
-    p.setRenderHint(QPainter::Antialiasing,false);
+    p.setRenderHint(QPainter::Antialiasing,true);
 
     QMap<QString,CRoute*>::iterator route       = routes.begin();
     QMap<QString,CRoute*>::iterator highlighted = routes.end();
@@ -410,8 +410,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             line.clear();
             points.clear();
-            QVector<CRoute::rtept_t>& rtepts = isPriRoute ? (*route)->getPriRtePoints() : (*route)->getSecRtePoints();
-            QVector<CRoute::rtept_t>::iterator rtept = rtepts.begin();
+            QVector<CRoute::pt_t>& rtepts = isPriRoute ? (*route)->getPriRtePoints() : (*route)->getSecRtePoints();
+            QVector<CRoute::pt_t>::iterator rtept = rtepts.begin();
             while(rtept != rtepts.end())
             {
                 double u = rtept->lon * DEG_TO_RAD;

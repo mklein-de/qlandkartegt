@@ -39,7 +39,7 @@ class CRoute : public IItem
         virtual ~CRoute();
 
         enum type_e {eEnd, eBase, eRtePts, eRteSec};
-        struct rtept_t
+        struct pt_t
         {
             float lon;
             float lat;
@@ -63,8 +63,8 @@ class CRoute : public IItem
         QPolygon& getPoints(){return points;}
 
 
-        QVector<rtept_t>& getPriRtePoints(){return priRoute;}
-        QVector<rtept_t>& getSecRtePoints(){return secRoute;}
+        QVector<pt_t>& getPriRtePoints(){return priRoute;}
+        QVector<pt_t>& getSecRtePoints(){return secRoute;}
 
         QRectF getBoundingRectF();
 
@@ -91,7 +91,7 @@ class CRoute : public IItem
         void calcDistance();
 
         /// primary route, just the basic points like A to B via C
-        QVector<rtept_t> priRoute;
+        QVector<pt_t> priRoute;
         /// the actual route distance
         double dist;
 
@@ -105,7 +105,7 @@ class CRoute : public IItem
         bool firstTime;
 
         /// secondary route with all intermediate points from auto routing
-        QVector<rtept_t> secRoute;
+        QVector<pt_t> secRoute;
 
 
 

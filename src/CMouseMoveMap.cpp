@@ -59,6 +59,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 
     mouseMoveEventWpt(e);
     mouseMoveEventTrack(e);
+    mouseMoveEventRoute(e);
     mouseMoveEventOverlay(e);
     mouseMoveEventSearch(e);
 }
@@ -123,6 +124,7 @@ void CMouseMoveMap::draw(QPainter& p)
     p.setRenderHint(QPainter::Antialiasing,true);
     drawSelWpt(p);
     drawSelTrkPt(p);
+    drawSelRtePt(p);
     drawSelSearch(p);
     p.setRenderHint(QPainter::Antialiasing,false);
 }
