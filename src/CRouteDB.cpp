@@ -393,6 +393,9 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     p.setRenderHint(QPainter::Antialiasing,true);
 
+    // extended vieport rectangle to cut line segments properly
+    QRect extRect = rect.adjusted(-10, -10, 10, 10);
+
     QMap<QString,CRoute*>::iterator route       = routes.begin();
     QMap<QString,CRoute*>::iterator highlighted = routes.end();
 
@@ -447,17 +450,10 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::RoundJoin);
             p.setPen(pen);
-            p.drawPolyline(line);
+            drawLine(line, extRect, p);
             p.setPen(Qt::white);
-            p.drawPolyline(line);
+            drawLine(line, extRect, p);
 
-            // draw bubbles
-            QPoint pt;
-            QPixmap bullet = (*route)->getIcon();
-            foreach(pt,points)
-            {
-                p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
-            }
         }
 
         (*route)->firstTime = false;
@@ -477,9 +473,9 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         p.setPen(pen);
-        p.drawPolyline(line);
+        drawLine(line, extRect, p);
         p.setPen(Qt::white);
-        p.drawPolyline(line);
+        drawLine(line, extRect, p);
 
         // draw bubbles
         QPoint pt;
@@ -492,6 +488,38 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     p.setRenderHint(QPainter::Antialiasing,false);
 }
+
+
+void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
+{
+    QPoint pt, ptt, pt1;
+    int i;
+    const int size = line.size();
+    pt = line[0];
+    for(i = 1; i < size; i++)
+    {
+        pt1 = line[i];
+
+        if(!extViewport.contains(pt1) && !extViewport.contains(pt))
+        {
+            pt = pt1;
+            continue;
+        }
+
+        ptt = pt1 - pt;
+        if(ptt.manhattanLength() < 5)
+        {
+            continue;
+        }
+
+        p.drawLine(pt, pt1);
+
+        pt = pt1;
+
+    }
+
+}
+
 
 QList<CRouteDB::keys_t> CRouteDB::keys()
 {

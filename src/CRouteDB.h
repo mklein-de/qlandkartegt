@@ -90,6 +90,7 @@ class CRouteDB : public IDB
         friend class CMainWindow;
 
         CRouteDB(QTabWidget * tb, QObject * parent);
+        void drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p);
 
         quint32 cnt;
         static CRouteDB * m_self;
