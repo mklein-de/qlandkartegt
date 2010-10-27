@@ -451,7 +451,7 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     QImage  img(file2->fileName());
     QString mapfilename = QDir::temp().filePath("map.jpg");
     QFile   mapfile(mapfilename);
-    QZipWriter zip(&zipfile);
+    QLGT::QZipWriter zip(&zipfile);
     QDomDocument doc;
     QDomElement root    = doc.createElement("kml");
 
