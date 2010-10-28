@@ -231,6 +231,8 @@ void CRouteToolWidget::slotCalcRoute()
         CRoute* route   = CRouteDB::self().getRouteByKey(key);
         if(route == 0) return;
 
+        route->reset();
+
         qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
 
         if(service == eOpenRouteService)
