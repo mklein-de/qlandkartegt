@@ -21,6 +21,7 @@
 #include "WptIcons.h"
 #include "GeoMath.h"
 #include "CRouteDB.h"
+#include "IUnit.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -79,6 +80,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 s1 >> route.timestamp;
                 s1 >> route.name;
                 s1 >> icon;
+                s1 >> route.ttime;
 
                 route.setIcon(icon);
                 route.setKey(key);
@@ -161,6 +163,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     s1 << route.getTimestamp();
     s1 << route.getName();
     s1 << route.getIconString();
+    s1 << route.getTime();
 
     entries << entryBase;
 
@@ -282,6 +285,7 @@ void operator <<(QFile& f, CRoute& route)
 CRoute::CRoute(QObject * parent)
 : IItem(parent)
 , dist(0.0)
+, ttime(0)
 , highlight(false)
 , firstTime(true)
 {
@@ -381,19 +385,78 @@ void CRoute::setIcon(const QString& symname)
 
 QString CRoute::getInfo()
 {
-    QString str = name;
+    QTime time;
+    QString val1, unit1, val2, unit2, str;
+    quint32 days;
 
+    str = name;
+    IUnit::self().meter2distance(dist, val1, unit1);
+    str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
+
+    if(ttime)
+    {
+        days  = ttime / 86400;
+        time = time.addSecs(ttime);
+        if(days)
+        {
+            str += tr("\ntime: %1:").arg(days) + time.toString("HH:mm:ss");
+        }
+        else
+        {
+            str += tr("\ntime: ") + time.toString("HH:mm:ss");
+        }
+    }
     return str;
 }
 
 void CRoute::loadSecondaryRoute(QDomDocument& xml)
 {
-//    qDebug() << xml.toString();
+    qDebug() << xml.toString();
 
     secRoute.clear();
     firstTime = true;
 
     QDomElement root = xml.documentElement();
+
+    QDomNodeList RouteSummaries = root.elementsByTagName("xls:RouteSummary");
+    if(!RouteSummaries.isEmpty())
+    {
+        QString timestr = RouteSummaries.item(0).firstChildElement("xls:TotalTime").toElement().text();
+
+        if(timestr.left(2) == "PT")
+        {
+            ttime = 0;
+            QString val;
+            for(int i = 2; i < timestr.size(); i++)
+            {
+                if(timestr[i].isDigit())
+                {
+                    val += timestr[i];
+                }
+                else if(timestr[i] == 'H')
+                {
+                    ttime += val.toUInt() * 3600;
+                    val.clear();
+                }
+                else if(timestr[i] == 'M')
+                {
+                    ttime += val.toUInt() * 60;
+                    val.clear();
+                }
+                else if(timestr[i] == 'S')
+                {
+                    ttime += val.toUInt();
+                    val.clear();
+                }
+                else
+                {
+                    val.clear();
+                }
+            }
+        }
+    }
+
+
     QDomNodeList instructions = root.elementsByTagName("xls:RouteInstruction");
 
     const qint32 N = instructions.size();

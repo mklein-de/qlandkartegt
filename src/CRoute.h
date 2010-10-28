@@ -80,6 +80,8 @@ class CRoute : public IItem
 
         void reset();
 
+        quint32 getTime(){return ttime;}
+
         signals:
         void sigChanged();
 
@@ -94,6 +96,8 @@ class CRoute : public IItem
         QVector<pt_t> priRoute;
         /// the actual route distance
         double dist;
+
+        quint32 ttime;
 
         bool highlight;
 

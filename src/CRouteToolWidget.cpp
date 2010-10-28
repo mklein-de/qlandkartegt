@@ -89,15 +89,7 @@ void CRouteToolWidget::slotDBChanged()
     {
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
 
-        QString val1, unit1, val2, unit2;
-
-        QString str     = (*route)->getName();
-        double distance = (*route)->getDistance();
-
-        IUnit::self().meter2distance(distance, val1, unit1);
-        str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
-
-        item->setText(str);
+        item->setText((*route)->getInfo());
         item->setData(Qt::UserRole, (*route)->getKey());
         item->setIcon((*route)->getIcon());
 
