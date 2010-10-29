@@ -288,6 +288,7 @@ CRoute::CRoute(QObject * parent)
 , ttime(0)
 , highlight(false)
 , firstTime(true)
+, calcRoutePending(false)
 {
     setName(tr("Route"));
     setIcon("Small City");
@@ -383,6 +384,18 @@ void CRoute::setIcon(const QString& symname)
     emit sigChanged();
 }
 
+QPixmap CRoute::getIcon()
+{
+    if(calcRoutePending)
+    {
+        return QPixmap(":/icons/iconReload16x16.png");
+    }
+    else
+    {
+        return iconPixmap;
+    }
+}
+
 QString CRoute::getInfo()
 {
     QTime time;
@@ -412,6 +425,8 @@ QString CRoute::getInfo()
 void CRoute::loadSecondaryRoute(QDomDocument& xml)
 {
     qDebug() << xml.toString();
+
+    calcRoutePending = false;
 
     secRoute.clear();
     firstTime = true;

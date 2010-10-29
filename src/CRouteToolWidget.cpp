@@ -28,6 +28,8 @@
 #include <QtXml>
 #include <QHttp>
 
+#define N_LINES 3
+
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
@@ -79,7 +81,12 @@ void CRouteToolWidget::slotDBChanged()
 {
     if(originator) return;
 
+    QFontMetrics fm(listRoutes->font());
+    QPixmap icon(16,N_LINES*fm.height());
+    icon.fill(Qt::white);
+
     listRoutes->clear();
+    listRoutes->setIconSize(icon.size());
 
     QListWidgetItem * highlighted = 0;
 
@@ -89,9 +96,15 @@ void CRouteToolWidget::slotDBChanged()
     {
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
 
+        icon.fill(Qt::white);
+        QPainter p;
+        p.begin(&icon);
+        p.drawPixmap(0,0,(*route)->getIcon());
+        p.end();
+
         item->setText((*route)->getInfo());
         item->setData(Qt::UserRole, (*route)->getKey());
-        item->setIcon((*route)->getIcon());
+        item->setIcon(icon);
 
         if((*route)->isHighlighted())
         {
@@ -212,6 +225,7 @@ void CRouteToolWidget::slotSetupLink()
 
 void CRouteToolWidget::slotCalcRoute()
 {
+    originator = true;
     QListWidgetItem * item;
     QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
@@ -226,11 +240,11 @@ void CRouteToolWidget::slotCalcRoute()
 
     foreach(item, items)
     {
-
         QString key     = item->data(Qt::UserRole).toString();
         CRoute* route   = CRouteDB::self().getRouteByKey(key);
         if(route == 0) return;
 
+        route->setCalcPending();
         route->reset();
 
         qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
@@ -240,6 +254,9 @@ void CRouteToolWidget::slotCalcRoute()
             startOpenRouteService(*route);
         }
     }
+
+    originator = false;
+    slotDBChanged();
 }
 
 

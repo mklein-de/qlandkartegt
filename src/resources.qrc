@@ -449,5 +449,6 @@
         <file>icons/iconFolderGreen16x16.png</file>
         <file>icons/iconFolderOrange16x16.png</file>
         <file>icons/iconFolderYellow16x16.png</file>
+        <file>icons/iconInProgress.mng</file>
     </qresource>
 </RCC>

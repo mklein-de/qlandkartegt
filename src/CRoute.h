@@ -76,11 +76,15 @@ class CRoute : public IItem
         /// set the icon defined by a string
         void setIcon(const QString& str);
 
+        QPixmap getIcon();
+
         void loadSecondaryRoute(QDomDocument& xml);
 
         void reset();
 
         quint32 getTime(){return ttime;}
+
+        void setCalcPending(){calcRoutePending = true;}
 
         signals:
         void sigChanged();
@@ -112,6 +116,7 @@ class CRoute : public IItem
         QVector<pt_t> secRoute;
 
 
+        bool calcRoutePending;
 
 };
 

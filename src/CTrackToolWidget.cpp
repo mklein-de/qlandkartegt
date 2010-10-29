@@ -113,6 +113,7 @@ void CTrackToolWidget::slotDBChanged()
     QFontMetrics fm(listTracks->font());
     QPixmap icon(15,N_LINES*fm.height());
     listTracks->clear();
+    listTracks->setIconSize(icon.size());
 
     QListWidgetItem * highlighted = 0;
 
