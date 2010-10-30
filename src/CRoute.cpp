@@ -425,7 +425,7 @@ QString CRoute::getInfo()
 
 void CRoute::loadSecondaryRoute(QDomDocument& xml)
 {
-    qDebug() << xml.toString();
+//    qDebug() << xml.toString();
 
     calcRoutePending = false;
 
@@ -514,7 +514,7 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
 
 void CRoute::reset()
 {
-    secRoute.clear();    
+    secRoute.clear();
     calcDistance();
 
     ttime       = 0;

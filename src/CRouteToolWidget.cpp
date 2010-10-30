@@ -103,7 +103,7 @@ void CRouteToolWidget::slotDBChanged()
     {
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
 
-        icon.fill(Qt::white);
+        icon.fill(Qt::transparent);
         QPainter p;
         p.begin(&icon);
         p.drawPixmap(0,0,(*route)->getIcon());
@@ -112,8 +112,6 @@ void CRouteToolWidget::slotDBChanged()
         item->setText((*route)->getInfo());
         item->setData(Qt::UserRole, (*route)->getKey());
         item->setIcon(icon);
-//        item->setIcon(QIcon(":/icons/iconInProgress.mng"));
-
 
         if((*route)->isHighlighted())
         {
@@ -180,6 +178,7 @@ void CRouteToolWidget::slotContextMenu(const QPoint& pos)
         contextMenu.addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
         contextMenu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
         contextMenu.addSeparator();
+        contextMenu.addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Reset"),this,SLOT(slotResetRoute()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
         contextMenu.exec(p);
@@ -209,11 +208,12 @@ void CRouteToolWidget::slotDelete()
     foreach(item,items)
     {
         keys << item->data(Qt::UserRole).toString();
-        delete listRoutes->takeItem(listRoutes->row(item));
     }
     originator = true;
     CRouteDB::self().delRoutes(keys);
     originator = false;
+
+    slotDBChanged();
 }
 
 
@@ -238,7 +238,7 @@ void CRouteToolWidget::slotSetupLink()
 
 void CRouteToolWidget::slotCalcRoute()
 {
-    originator = true;
+
     QListWidgetItem * item;
     QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
@@ -251,6 +251,7 @@ void CRouteToolWidget::slotCalcRoute()
     cfg.endGroup();
 
 
+    originator = true;
     foreach(item, items)
     {
         QString key     = item->data(Qt::UserRole).toString();
@@ -563,10 +564,17 @@ void CRouteToolWidget::slotToTrack()
 
             qDebug() << pt.lon << pt.lat;
 
+            pt1.u = pt1.u * DEG_TO_RAD;
+            pt1.v = pt1.v * DEG_TO_RAD;
+
             // all other points
             for(int i = 1; i < rtepts.count(); ++i)
             {
                 pt2 = rtepts[i];
+
+                pt2.u = pt2.u * DEG_TO_RAD;
+                pt2.v = pt2.v * DEG_TO_RAD;
+
 
                 // all points from pt1 -> pt2, with 10m steps
                 dist = ::distance(pt1, pt2, a1, a2);
@@ -575,10 +583,7 @@ void CRouteToolWidget::slotToTrack()
                 d = delta;
                 while(d < dist)
                 {
-                    ptx.u = pt1.u * DEG_TO_RAD;
-                    ptx.v = pt1.v * DEG_TO_RAD;
-
-                    ptx = GPS_Math_Wpt_Projection(ptx, d, a1);
+                    ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
                     pt.lon = ptx.u * RAD_TO_DEG;
                     pt.lat = ptx.v * RAD_TO_DEG;
                     *track << pt;
@@ -588,8 +593,8 @@ void CRouteToolWidget::slotToTrack()
                 }
 
                 // and finally the next point
-                pt.lon = pt2.u;
-                pt.lat = pt2.v;
+                pt.lon = pt2.u * RAD_TO_DEG;
+                pt.lat = pt2.v * RAD_TO_DEG;
                 *track << pt;
                 qDebug() << pt.lon << pt.lat;
 
@@ -610,4 +615,25 @@ void CRouteToolWidget::slotToTrack()
     }
     CMegaMenu::self().switchByKeyWord("Tracks");
 
+}
+
+void CRouteToolWidget::slotZoomToFit()
+{
+    QRectF r;
+
+    const QList<QListWidgetItem*>& items = listRoutes->selectedItems();
+    QList<QListWidgetItem*>::const_iterator item = items.begin();
+
+    r = CRouteDB::self().getBoundingRectF((*item)->data(Qt::UserRole).toString());
+
+    while(item != items.end())
+    {
+        r |= CRouteDB::self().getBoundingRectF((*item)->data(Qt::UserRole).toString());
+        ++item;
+    }
+
+    if (!r.isNull ())
+    {
+        CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
+    }
 }

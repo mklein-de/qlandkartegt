@@ -30,6 +30,7 @@
 #include "GeoMath.h"
 #include "IUnit.h"
 #include "CMapDB.h"
+#include "CMegaMenu.h"
 
 #include <QtGui>
 
@@ -53,7 +54,9 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
     actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
+    contextMenu->addSeparator();
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
+    contextMenu->addSeparator();
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
     actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
     actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
@@ -355,6 +358,7 @@ void CWptToolWidget::slotMakeRoute()
     }
 
     CRouteDB::self().addRoute(route, false);
+    CMegaMenu::self().switchByKeyWord("Routes");
 }
 
 void CWptToolWidget::slotPosTextChanged(const QString& text)

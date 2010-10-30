@@ -55,6 +55,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
         void slotToOverlay();
         void slotToTrack();
+        void slotZoomToFit();
 
 
     private:
