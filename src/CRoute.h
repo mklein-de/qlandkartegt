@@ -45,6 +45,14 @@ class CRoute : public IItem
             float lat;
 
             QString action;
+
+            operator const XY ()
+            {
+                XY p;
+                p.u = lon;
+                p.v = lat;
+                return p;
+            }
         };
 
 

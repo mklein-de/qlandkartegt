@@ -23,6 +23,13 @@
 #include "CMapDB.h"
 #include "CDlgEditRoute.h"
 #include "CResources.h"
+#include "COverlayDB.h"
+#include "COverlayDistance.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
+#include "CDlgConvertToTrack.h"
+#include "CMegaMenu.h"
+
 
 #include <QtGui>
 #include <QtXml>
@@ -105,6 +112,8 @@ void CRouteToolWidget::slotDBChanged()
         item->setText((*route)->getInfo());
         item->setData(Qt::UserRole, (*route)->getKey());
         item->setIcon(icon);
+//        item->setIcon(QIcon(":/icons/iconInProgress.mng"));
+
 
         if((*route)->isHighlighted())
         {
@@ -167,6 +176,10 @@ void CRouteToolWidget::slotContextMenu(const QPoint& pos)
         QMenu contextMenu;
         contextMenu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEdit()));
         contextMenu.addAction(QPixmap(":/icons/iconWizzard16x16.png"),tr("Calc. route"),this,SLOT(slotCalcRoute()));
+        contextMenu.addSeparator();
+        contextMenu.addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+        contextMenu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
+        contextMenu.addSeparator();
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Reset"),this,SLOT(slotResetRoute()));
         contextMenu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
         contextMenu.exec(p);
@@ -464,3 +477,137 @@ void CRouteToolWidget::slotSelectionChanged()
     }
 }
 
+void CRouteToolWidget::slotToOverlay()
+{
+
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listRoutes->selectedItems();
+    foreach(item,items)
+    {
+        CRoute * route = CRouteDB::self().getRouteByKey(item->data(Qt::UserRole).toString());
+
+        QList<COverlayDistance::pt_t> pts;
+
+        int idx = 0;
+        CRoute::pt_t rtept;
+        QVector<CRoute::pt_t>& rtepts = route->getSecRtePoints().isEmpty() ? route->getPriRtePoints() : route->getSecRtePoints();
+        foreach(rtept, rtepts)
+        {
+            COverlayDistance::pt_t pt;
+            pt.u = rtept.lon * DEG_TO_RAD;
+            pt.v = rtept.lat * DEG_TO_RAD;
+            pt.idx = idx++;
+
+            pts << pt;
+        }
+
+        COverlayDB::self().addDistance(route->getName(), tr("created from route"), 0.0, pts);
+    }
+
+    CMegaMenu::self().switchByKeyWord("Overlay");
+}
+
+void CRouteToolWidget::slotToTrack()
+{
+
+    QListWidgetItem * item;
+    const QList<QListWidgetItem*>& items = listRoutes->selectedItems();
+    foreach(item,items)
+    {
+        CRoute * route = CRouteDB::self().getRouteByKey(item->data(Qt::UserRole).toString());
+
+        QVector<CRoute::pt_t>& rtepts = route->getSecRtePoints().isEmpty() ? route->getPriRtePoints() : route->getSecRtePoints();
+
+
+        double dist, d, delta = 10.0, a1 , a2;
+        XY pt1, pt2, ptx;
+        CTrack::pt_t pt;
+        CDlgConvertToTrack::EleMode_e eleMode;
+
+        CDlgConvertToTrack dlg(0);
+        if(dlg.exec() == QDialog::Rejected)
+        {
+            return;
+        }
+
+        CTrack * track  = new CTrack(&CTrackDB::self());
+        track->setName(route->getName());
+
+        delta   = dlg.getDelta();
+        eleMode = dlg.getEleMode();
+
+
+        if(delta == -1)
+        {
+
+            for(int i = 0; i < rtepts.count(); ++i)
+            {
+                pt2 = rtepts[i];
+                pt.lon = pt2.u;
+                pt.lat = pt2.v;
+                *track << pt;
+            }
+        }
+        else
+        {
+            if((route->getDistance() / delta) > (MAX_TRACK_SIZE - rtepts.count()))
+            {
+                delta = route->getDistance() / (MAX_TRACK_SIZE - rtepts.count());
+            }
+
+            // 1st point
+            pt1 = rtepts.first();
+            pt.lon = pt1.u;
+            pt.lat = pt1.v;
+            *track << pt;
+
+            qDebug() << pt.lon << pt.lat;
+
+            // all other points
+            for(int i = 1; i < rtepts.count(); ++i)
+            {
+                pt2 = rtepts[i];
+
+                // all points from pt1 -> pt2, with 10m steps
+                dist = ::distance(pt1, pt2, a1, a2);
+                a1 *= DEG_TO_RAD;
+
+                d = delta;
+                while(d < dist)
+                {
+                    ptx.u = pt1.u * DEG_TO_RAD;
+                    ptx.v = pt1.v * DEG_TO_RAD;
+
+                    ptx = GPS_Math_Wpt_Projection(ptx, d, a1);
+                    pt.lon = ptx.u * RAD_TO_DEG;
+                    pt.lat = ptx.v * RAD_TO_DEG;
+                    *track << pt;
+                    qDebug() << pt.lon << pt.lat;
+
+                    d += delta;
+                }
+
+                // and finally the next point
+                pt.lon = pt2.u;
+                pt.lat = pt2.v;
+                *track << pt;
+                qDebug() << pt.lon << pt.lat;
+
+                pt1 = pt2;
+            }
+        }
+
+        if(eleMode == CDlgConvertToTrack::eLocal)
+        {
+            track->replaceElevationByLocal();
+        }
+        else if(eleMode == CDlgConvertToTrack::eRemote)
+        {
+            track->replaceElevationByRemote();
+        }
+
+        CTrackDB::self().addTrack(track, false);
+    }
+    CMegaMenu::self().switchByKeyWord("Tracks");
+
+}

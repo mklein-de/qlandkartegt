@@ -429,7 +429,7 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
 }
 
 
-XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing)
+XY GPS_Math_Wpt_Projection(const XY& pt1, double distance, double bearing)
 {
     XY pt2;
 

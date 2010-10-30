@@ -111,7 +111,7 @@ extern double parallel_distance(const XY& p1, const XY& p2);
 
     @return The function will return the resulting point in [rad]
 */
-extern XY GPS_Math_Wpt_Projection(XY& pt1, double distance, double bearing);
+extern XY GPS_Math_Wpt_Projection(const XY& pt1, double distance, double bearing);
 
 
 extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int threshold, const QPolygon& line1, QPolygon& line2);

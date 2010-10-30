@@ -53,11 +53,14 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
+    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));        
     actRevert       = contextMenu->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
+    contextMenu->addSeparator();
     actDistance     = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
+    contextMenu->addSeparator();
     actHide         = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
     actShowBullets  = contextMenu->addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
+    contextMenu->addSeparator();
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
     actDel          = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
 

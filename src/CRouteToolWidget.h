@@ -53,6 +53,9 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotRequestFinished(int , bool error);
         void slotSelectionChanged();
 
+        void slotToOverlay();
+        void slotToTrack();
+
 
     private:
         void startOpenRouteService(CRoute& rte);
@@ -83,3 +86,4 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
 };
 #endif                           //CROUTETOOLWIDGET_H
+

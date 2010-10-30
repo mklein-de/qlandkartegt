@@ -388,7 +388,8 @@ QPixmap CRoute::getIcon()
 {
     if(calcRoutePending)
     {
-        return QPixmap(":/icons/iconReload16x16.png");
+        //return QPixmap(":/icons/iconReload16x16.png");
+        return QPixmap(":/icons/iconInProgress.mng");
     }
     else
     {
@@ -513,10 +514,11 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
 
 void CRoute::reset()
 {
-    secRoute.clear();
+    secRoute.clear();    
     calcDistance();
 
-    firstTime = true;
+    ttime       = 0;
+    firstTime   = true;
 
     emit sigChanged();
 }

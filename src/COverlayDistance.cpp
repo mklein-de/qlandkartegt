@@ -888,6 +888,7 @@ void COverlayDistance::customMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     menu.addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
+    menu.addSeparator();
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
     menu.addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route"),this,SLOT(slotToRoute()));
 
