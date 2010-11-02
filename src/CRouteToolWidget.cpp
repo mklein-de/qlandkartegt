@@ -60,9 +60,14 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     comboService->addItem("OpenRouteService", eOpenRouteService);
 
-    comboPreference->addItem(tr("fastest"), "Fastest");
-    comboPreference->addItem(tr("shortest"), "Shortest");
-    comboPreference->addItem(tr("pedestrian"), "Pedestrian");
+    comboPreference->addItem(tr("Fastest"), "Fastest");
+    comboPreference->addItem(tr("Shortest"), "Shortest");
+    comboPreference->addItem(tr("Bicycle"), "Bicycle");
+    comboPreference->addItem(tr("Mountain bike"), "BicycleMTB");
+    comboPreference->addItem(tr("Bicycle racer"), "BicycleRacer");
+    comboPreference->addItem(tr("Bicycle safest"), "BicycleSafety");
+    comboPreference->addItem(tr("Bicycle route"), "BicycleRoute");
+    comboPreference->addItem(tr("Pedestrian"), "Pedestrian");
 
     QSettings cfg;
     cfg.beginGroup("routing");
