@@ -1,5 +1,12 @@
 --- 2010.11.02 ---
 
+Bug     #217:
+Forgot to do a commit before the release
+
+
+
+--- 2010.11.02 ---
+
 Request #210:
 Make UI fit for GNOME
 
@@ -960,6 +967,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
