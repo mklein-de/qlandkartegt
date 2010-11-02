@@ -1,3 +1,28 @@
+--- 2010.11.02 ---
+
+Request #210:
+Make UI fit for GNOME
+
+Request #211:
+Add tooltip (optional) for items below cursor on Garmin maps
+
+Request #212:
+Make zoom level and track maxima labels optional
+
+Request #213:
+Prepare route object for autorouting information
+
+Request #214:
+Add autorouting via openroute service
+
+Request #215:
+Use secondary (autorouted) route for gpx export
+
+Request #216:
+Use secondary (autorouted) route for garmin device upload
+
+
+
 --- 2010.09.26 ---
 
 Request #170:
@@ -935,6 +960,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
