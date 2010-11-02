@@ -979,7 +979,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         garrte.ident = codec->fromUnicode(name).data();
 
         unsigned cnt = 0;
-        const QVector<CRoute::pt_t>& rtepts         = (*rte)->getPriRtePoints();
+        const QVector<CRoute::pt_t>& rtepts         = (*rte)->getSecRtePoints().isEmpty() ? (*rte)->getPriRtePoints() : (*rte)->getSecRtePoints();
         QVector<CRoute::pt_t>::const_iterator rtept =  rtepts.begin();
         while(rtept != rtepts.end())
         {

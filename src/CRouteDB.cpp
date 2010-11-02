@@ -254,10 +254,24 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         name.appendChild(_name_);
 
         unsigned cnt = 0;
-        QVector<CRoute::pt_t>& rtepts = (*route)->getPriRtePoints();
+        QVector<CRoute::pt_t> rtepts;
+        if(gpx.getExportFlag() == false)
+        {
+            rtepts = (*route)->getPriRtePoints();
+        }
+        else
+        {
+            rtepts = (*route)->getSecRtePoints().isEmpty() ? (*route)->getPriRtePoints() : (*route)->getSecRtePoints();
+        }
         QVector<CRoute::pt_t>::const_iterator rtept = rtepts.begin();
         while(rtept != rtepts.end())
         {
+            if(gpx.getExportFlag() && rtept->action.isEmpty())
+            {
+                rtept++;
+                continue;
+            }
+
             QDomElement gpxRtept = gpx.createElement("rtept");
             gpxRoute.appendChild(gpxRtept);
 
