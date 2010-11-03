@@ -872,7 +872,7 @@
     <message>
         <location filename="../CCopyright.cpp~" line="35"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Danke für die Übersetzung:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Deutsch)&lt;br/&gt;Fabrice Crohas (Französisch)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Ikonen und Süßwaren für die Augen sind aus dem &lt;b&gt;KDE&lt;/b&gt;, dem &lt;b&gt;Nuvola&lt;/b&gt; und dem &lt;b&gt;Oxygen&lt;/b&gt; Ikonensatz. Siehe &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; und &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt; kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
@@ -3007,7 +3007,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="546"/>
         <source>Save map as image ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Karte als Bild speichern ...</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="560"/>
@@ -4665,7 +4665,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../COverlayDistance.cpp" line="890"/>
         <source>Revert</source>
-        <translation type="unfinished">Umkehren</translation>
+        <translation>Umkehren</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="892"/>
@@ -4795,21 +4795,21 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="../CRoute.cpp" line="408"/>
         <source>
 length: %1 %2</source>
-        <translation type="unfinished">
+        <translation>
 Länge: %1 %2</translation>
     </message>
     <message>
         <location filename="../CRoute.cpp" line="416"/>
         <source>
 time: %1:</source>
-        <translation type="unfinished">
+        <translation>
 Zeit: %1:</translation>
     </message>
     <message>
         <location filename="../CRoute.cpp" line="420"/>
         <source>
 time: </source>
-        <translation type="unfinished">
+        <translation>
 Zeit:  </translation>
     </message>
 </context>
@@ -4842,42 +4842,42 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="63"/>
         <source>Fastest</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnellste</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="64"/>
         <source>Shortest</source>
-        <translation type="unfinished"></translation>
+        <translation>Kürzeste</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="65"/>
         <source>Bicycle</source>
-        <translation type="unfinished"></translation>
+        <translation>Fahrrad</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="66"/>
         <source>Mountain bike</source>
-        <translation type="unfinished"></translation>
+        <translation>Mountainbike</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="67"/>
         <source>Bicycle racer</source>
-        <translation type="unfinished"></translation>
+        <translation>Rennrad</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="68"/>
         <source>Bicycle safest</source>
-        <translation type="unfinished"></translation>
+        <translation>Fahrrad sicherste</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="69"/>
         <source>Bicycle route</source>
-        <translation type="unfinished"></translation>
+        <translation>Fahrradtour</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="70"/>
         <source>Pedestrian</source>
-        <translation type="unfinished"></translation>
+        <translation>Fußgänger</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="180"/>
@@ -4887,27 +4887,27 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="181"/>
         <source>Calc. route</source>
-        <translation type="unfinished"></translation>
+        <translation>Route berechnen</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="183"/>
         <source>Make Overlay</source>
-        <translation type="unfinished">Overlay erstellen</translation>
+        <translation>Overlay erstellen</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="184"/>
         <source>Make Track</source>
-        <translation type="unfinished">Track erzeugen</translation>
+        <translation>Track erzeugen</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="186"/>
         <source>Zoom to fit</source>
-        <translation type="unfinished">Zoom bis es passt</translation>
+        <translation>Zoom bis es passt</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="187"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurücksetzen</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="188"/>
@@ -4918,19 +4918,20 @@ Länge: %1 %2</translation>
         <location filename="../CRouteToolWidget.cpp" line="436"/>
         <location filename="../CRouteToolWidget.cpp" line="454"/>
         <source>Failed...</source>
-        <translation type="unfinished">Fehlgeschlagen...</translation>
+        <translation>Fehlgeschlagen...</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="436"/>
         <location filename="../CRouteToolWidget.cpp" line="454"/>
         <source>Bad response from server:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler vom Server:
+%1</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="510"/>
         <source>created from route</source>
-        <translation type="unfinished"></translation>
+        <translation>von einer Route abgeleitet</translation>
     </message>
 </context>
 <context>
@@ -6364,67 +6365,67 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="102"/>
         <source>Map Canvas</source>
-        <translation type="unfinished"></translation>
+        <translation>Karte</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="108"/>
         <source>The scale bar in the bottom right corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Skala unten rechts</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="111"/>
         <source>Show scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Skala</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="118"/>
         <source>The compass rose in the bottom right corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Kompassrose unten rechts</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="121"/>
         <source>Show north</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompassrose</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="128"/>
         <source>The profile graph for the active track in the bottom left corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Profil des aktiven Tracks in der unteren linken Ecke</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="131"/>
         <source>Show track profile preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Trackprofil</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="138"/>
         <source>Show Hmin, Hmax and Vmax on the active track</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Hmin, Hmax und Vmax im aktiven Track</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="141"/>
         <source>Show track maxima</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Extrempunkte im Track</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="148"/>
         <source>Show information as tooltip for items under cursor in vector maps.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Informationen als Tooltip in Vektorkarten.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="151"/>
         <source>Tooltips (vector maps)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tooltips (Vektorkarten)</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="158"/>
         <source>Show zoom level in the top left corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige den Zoomlevel in der oberen linken Ecke</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="161"/>
         <source>Show zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Zoomlevel</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="171"/>
@@ -7797,22 +7798,22 @@ DEM: %2</translation>
     <message>
         <location filename="../IRouteToolWidget.ui" line="21"/>
         <source>Routes</source>
-        <translation type="unfinished">Routen</translation>
+        <translation>Routen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="50"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="62"/>
         <source>Avoid highways</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermeide Autobahnen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="69"/>
         <source>Avoid tollways</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermeide Mautstraßen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="99"/>
@@ -7829,7 +7830,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
