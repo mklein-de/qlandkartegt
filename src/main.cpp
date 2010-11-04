@@ -245,9 +245,6 @@ int main(int argc, char ** argv)
     if (!qlOpts->nosplash)
     {
         splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
-#if defined(Q_WS_MAC)
-        splash->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::SplashScreen);
-#endif
         splash->show();
     }
     CMainWindow w;
