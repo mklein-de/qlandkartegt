@@ -117,6 +117,7 @@ class CWpt : public IItem
         };
         QList<image_t> images;
 
+        QString desc;
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

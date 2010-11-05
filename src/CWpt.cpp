@@ -92,6 +92,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.ele;
                 s1 >> wpt.prx;
                 s1 >> wpt.link;
+                s1 >> wpt.desc;
 
                 wpt.setIcon(icon);
                 wpt.setKey(key);
@@ -157,6 +158,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     s1 << wpt.ele;
     s1 << wpt.prx;
     s1 << wpt.link;
+    s1 << wpt.desc;
 
     entries << entryBase;
 
@@ -307,6 +309,20 @@ QString CWpt::getInfo()
         QString val, unit;
         IUnit::self().meter2elevation(ele, val, unit);
         str += tr("elevation: %1 %2").arg(val).arg(unit);
+    }
+
+    if(desc.count())
+    {
+        if(str.count()) str += "\n";
+
+        if(desc.count() < 200)
+        {
+            str += desc;
+        }
+        else
+        {
+            str += desc.left(197) + "...";
+        }
     }
 
     if(comment.count())

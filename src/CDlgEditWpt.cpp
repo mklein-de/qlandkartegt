@@ -108,6 +108,7 @@ int CDlgEditWpt::exec()
     }
 
     textComment->setPlainText(wpt.comment);
+    lineDesc->setText(wpt.desc);
 
     slotUpdateBarcode();
     return QDialog::exec();
@@ -133,6 +134,7 @@ void CDlgEditWpt::accept()
     }
     wpt.setIcon(toolIcon->objectName());
     wpt.setName(lineName->text());
+    wpt.desc = lineDesc->text();
     wpt.setComment(textComment->toPlainText());
     wpt.sticky      = checkSticky->isChecked();
 
