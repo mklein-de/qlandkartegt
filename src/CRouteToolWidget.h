@@ -20,6 +20,7 @@
 #define CROUTETOOLWIDGET_H
 
 #include <QWidget>
+#include <QSet>
 #include "CRoute.h"
 #include "ui_IRouteToolWidget.h"
 
@@ -84,6 +85,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static const QString schemaLocation;
 
         QHttp * http;
+
+        QSet<QString> knownLocale;
 
 };
 #endif                           //CROUTETOOLWIDGET_H

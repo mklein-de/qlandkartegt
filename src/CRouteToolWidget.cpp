@@ -80,6 +80,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 
+    knownLocale << "de" << "en" << "bg" << "cz" << "nl" << "hr" << "hu" << "es" << "eo" << "fi" << "fr" << "it" << "pl" << "ro" << "ru" << "sr" << "se" << "tr" << "ca" << "ja" << "no" << "vi" << "nb";
 }
 
 
@@ -304,7 +305,14 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xsi:schemaLocation",schemaLocation);
     root.setAttribute("version","1.1");
-    root.setAttribute("xls:lang",QLocale::system().name().left(2));
+
+    QString locale = QLocale::system().name().left(2);
+    if(!knownLocale.contains(locale))
+    {
+        locale = "en";
+    }
+
+    root.setAttribute("xls:lang", locale);
 
     QDomElement requestHeader = xml.createElement("xls:RequestHeader");
     root.appendChild(requestHeader);
