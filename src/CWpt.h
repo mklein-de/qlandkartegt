@@ -115,9 +115,7 @@ class CWpt : public IItem
             QPixmap pixmap;
             QString filePath;
         };
-        QList<image_t> images;
-
-        QString desc;
+        QList<image_t> images;        
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

@@ -44,6 +44,11 @@ class IItem : public QObject
         /// get the item's long comment
         virtual QString getComment(){return comment;}
 
+        /// set the item's description
+        virtual void setDescription(const QString& str){description = str;}
+        /// get the item's description
+        virtual QString getDescription(){return description;}
+
         /// get a summary of item's data to display on screen or in the toolview
         virtual QString getInfo()= 0;
 
@@ -72,6 +77,7 @@ class IItem : public QObject
 
         QString name;
         QString comment;
+        QString description;
         QPixmap iconPixmap;
         QString iconString;
 

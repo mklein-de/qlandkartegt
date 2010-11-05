@@ -69,7 +69,7 @@ int CDlgEditWpt::exec()
     toolIcon->setIcon(wpt.getIcon());
     toolIcon->setObjectName(wpt.getIconString());
 
-    lineName->setText(wpt.name);
+    lineName->setText(wpt.getName());
 
     checkSticky->setChecked(wpt.sticky);
 
@@ -107,8 +107,8 @@ int CDlgEditWpt::exec()
         labelLink->setText(str);
     }
 
-    textComment->setPlainText(wpt.comment);
-    lineDesc->setText(wpt.desc);
+    textComment->setPlainText(wpt.getComment());
+    lineDesc->setText(wpt.getDescription());
 
     slotUpdateBarcode();
     return QDialog::exec();
@@ -134,7 +134,7 @@ void CDlgEditWpt::accept()
     }
     wpt.setIcon(toolIcon->objectName());
     wpt.setName(lineName->text());
-    wpt.desc = lineDesc->text();
+    wpt.setDescription(lineDesc->text());
     wpt.setComment(textComment->toPlainText());
     wpt.sticky      = checkSticky->isChecked();
 

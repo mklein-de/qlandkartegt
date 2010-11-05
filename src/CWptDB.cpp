@@ -336,7 +336,7 @@ void CWptDB::loadGPX(CGpx& gpx)
         }
         if(waypoint.namedItem("desc").isElement())
         {
-            wpt->desc = waypoint.namedItem("desc").toElement().text();
+            wpt->description = waypoint.namedItem("desc").toElement().text();
         }
         if(waypoint.namedItem("link").isElement())
         {
@@ -484,11 +484,11 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             cmt.appendChild(_cmt_);
         }
 
-        if(!wpt->desc.isEmpty())
+        if(!wpt->description.isEmpty())
         {
             QDomElement desc = gpx.createElement("desc");
             waypoint.appendChild(desc);
-            QDomText _desc_ = gpx.createTextNode(wpt->desc);
+            QDomText _desc_ = gpx.createTextNode(wpt->description);
             desc.appendChild(_desc_);
         }
 
