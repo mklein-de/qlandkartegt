@@ -69,18 +69,54 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     comboPreference->addItem(tr("Bicycle route"), "BicycleRoute");
     comboPreference->addItem(tr("Pedestrian"), "Pedestrian");
 
+    comboLanguage->addItem(tr("English"), "en");
+    comboLanguage->addItem(tr("German"), "de");
+    comboLanguage->addItem(tr("Bulgarian"), "bg");
+    comboLanguage->addItem(tr("Czech"), "cz");
+    comboLanguage->addItem(tr("Dutch"), "nl");
+    comboLanguage->addItem(tr("Croatian"), "hr");
+    comboLanguage->addItem(tr("Hungarian"), "hu");
+    comboLanguage->addItem(tr("Dutch (belgium)"), "nl_BE");
+    comboLanguage->addItem(tr("Spanish"), "es");
+    comboLanguage->addItem(tr("Esperanto"), "eo");
+    comboLanguage->addItem(tr("Finnish"), "fi");
+    comboLanguage->addItem(tr("French"), "fr");
+    comboLanguage->addItem(tr("Italian"), "it");
+    comboLanguage->addItem(tr("Polish"), "pl");
+    comboLanguage->addItem(tr("Portuguese (brazil)"), "pt_BR");
+    comboLanguage->addItem(tr("Romanian"), "ro");
+    comboLanguage->addItem(tr("Russian"), "ru");
+    comboLanguage->addItem(tr("Serbian"), "sr");
+    comboLanguage->addItem(tr("Svenska"), "se");
+    comboLanguage->addItem(tr("Turkish"), "tr");
+    comboLanguage->addItem(tr("Catalan"), "ca");
+    comboLanguage->addItem(tr("Japanese"), "ja");
+    comboLanguage->addItem(tr("Norwegian"), "no");
+    comboLanguage->addItem(tr("Vietnamese"), "vi");
+    comboLanguage->addItem(tr("Norwegian-bokmal"), "nb");
+    comboLanguage->addItem(tr("de - Rhenish"), "de-rheinl");
+    comboLanguage->addItem(tr("de - Op Platt"), "de-opplat");
+    comboLanguage->addItem(tr("de - Berlin dialect"), "de-berlin");
+    comboLanguage->addItem(tr("de - Swabian"), "de-swabia");
+    comboLanguage->addItem(tr("de - Ruhrpott"), "de-ruhrpo");
+    comboLanguage->addItem(tr("de - great Austrian dialect"), "de-at-ooe");
+    comboLanguage->addItem(tr("de - Bavarian"), "de-bay");
+
+    QString locale = QLocale::system().name().left(2);
+    int langIdx = comboLanguage->findData(locale);
+
     QSettings cfg;
     cfg.beginGroup("routing");
     comboService->setCurrentIndex(cfg.value("service", 0).toInt());
     comboPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
     checkAvoidHighways->setChecked(cfg.value("avoidHighways", false).toBool());
     checkAvoidTollways->setChecked(cfg.value("avoidTollways", false).toBool());
+    comboLanguage->setCurrentIndex(cfg.value("language", langIdx).toInt());
     cfg.endGroup();
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 
-    knownLocale << "de" << "en" << "bg" << "cz" << "nl" << "hr" << "hu" << "es" << "eo" << "fi" << "fr" << "it" << "pl" << "ro" << "ru" << "sr" << "se" << "tr" << "ca" << "ja" << "no" << "vi" << "nb";
 }
 
 
@@ -254,6 +290,7 @@ void CRouteToolWidget::slotCalcRoute()
     cfg.setValue("preference", comboPreference->currentIndex());
     cfg.setValue("avoidHighways", checkAvoidHighways->isChecked());
     cfg.setValue("avoidTollways", checkAvoidTollways->isChecked());
+    cfg.setValue("language", comboLanguage->currentIndex());
     cfg.endGroup();
 
 
@@ -305,14 +342,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xsi:schemaLocation",schemaLocation);
     root.setAttribute("version","1.1");
-
-    QString locale = QLocale::system().name().left(2);
-    if(!knownLocale.contains(locale))
-    {
-        locale = "en";
-    }
-
-    root.setAttribute("xls:lang", locale);
+    root.setAttribute("xls:lang", comboLanguage->itemData(comboLanguage->currentIndex()).toString());
 
     QDomElement requestHeader = xml.createElement("xls:RequestHeader");
     root.appendChild(requestHeader);

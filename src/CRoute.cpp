@@ -290,7 +290,6 @@ CRoute::CRoute(QObject * parent)
 , firstTime(true)
 , calcRoutePending(false)
 {
-    setName(tr("Route"));
     setIcon("Small City");
 }
 
@@ -388,8 +387,8 @@ QPixmap CRoute::getIcon()
 {
     if(calcRoutePending)
     {
-        //return QPixmap(":/icons/iconReload16x16.png");
-        return QPixmap(":/icons/iconInProgress.mng");
+        return QPixmap(":/icons/iconReload16x16.png");
+//        return QPixmap(":/icons/iconInProgress.mng");
     }
     else
     {
