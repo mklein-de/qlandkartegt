@@ -568,7 +568,7 @@ void CMapQMAPExport::startGCM()
 
                 QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
                 QRectF selarea(QPointF(u, v), QPointF(u + dU1, v + dV1));
-                QRect  intersect = selarea.intersected(maparea).toRect();
+                QRectF intersect = selarea.intersected(maparea);
 
                 //             qDebug() << maparea << selarea << intersect;
                 if(intersect.isValid())
