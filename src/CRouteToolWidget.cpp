@@ -82,12 +82,11 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     comboLanguage->addItem(tr("Finnish"), "fi");
     comboLanguage->addItem(tr("French"), "fr");
     comboLanguage->addItem(tr("Italian"), "it");
-    comboLanguage->addItem(tr("Polish"), "pl");
     comboLanguage->addItem(tr("Portuguese (brazil)"), "pt_BR");
     comboLanguage->addItem(tr("Romanian"), "ro");
     comboLanguage->addItem(tr("Russian"), "ru");
-    comboLanguage->addItem(tr("Serbian"), "sr");
     comboLanguage->addItem(tr("Svenska"), "se");
+    comboLanguage->addItem(tr("Danish"), "dk");
     comboLanguage->addItem(tr("Turkish"), "tr");
     comboLanguage->addItem(tr("Catalan"), "ca");
     comboLanguage->addItem(tr("Japanese"), "ja");
