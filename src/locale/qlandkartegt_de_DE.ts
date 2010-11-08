@@ -1503,54 +1503,54 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDeviceNMEA</name>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="189"/>
-        <location filename="../CDeviceNMEA.cpp" line="195"/>
-        <location filename="../CDeviceNMEA.cpp" line="201"/>
-        <location filename="../CDeviceNMEA.cpp" line="207"/>
-        <location filename="../CDeviceNMEA.cpp" line="213"/>
-        <location filename="../CDeviceNMEA.cpp" line="219"/>
-        <location filename="../CDeviceNMEA.cpp" line="225"/>
-        <location filename="../CDeviceNMEA.cpp" line="231"/>
+        <location filename="../CDeviceNMEA.cpp" line="197"/>
+        <location filename="../CDeviceNMEA.cpp" line="203"/>
+        <location filename="../CDeviceNMEA.cpp" line="209"/>
+        <location filename="../CDeviceNMEA.cpp" line="215"/>
+        <location filename="../CDeviceNMEA.cpp" line="221"/>
+        <location filename="../CDeviceNMEA.cpp" line="227"/>
+        <location filename="../CDeviceNMEA.cpp" line="233"/>
+        <location filename="../CDeviceNMEA.cpp" line="239"/>
         <source>Error...</source>
         <translation>Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="189"/>
+        <location filename="../CDeviceNMEA.cpp" line="197"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="195"/>
+        <location filename="../CDeviceNMEA.cpp" line="203"/>
         <source>NMEA: Download waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="201"/>
+        <location filename="../CDeviceNMEA.cpp" line="209"/>
         <source>NMEA: Upload tracks is not implemented.</source>
         <translation>NMEA: Tracks auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="207"/>
+        <location filename="../CDeviceNMEA.cpp" line="215"/>
         <source>NMEA: Download tracks is not implemented.</source>
         <translation>NMEA: Tracks vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="213"/>
+        <location filename="../CDeviceNMEA.cpp" line="221"/>
         <source>NMEA: Upload routes is not implemented.</source>
         <translation>NMEA: Routen auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="219"/>
+        <location filename="../CDeviceNMEA.cpp" line="227"/>
         <source>NMEA: Download routes is not implemented.</source>
         <translation>NMEA: Routes vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="225"/>
+        <location filename="../CDeviceNMEA.cpp" line="233"/>
         <source>NMEA: Upload maps is not implemented.</source>
         <translation>NMEA: Karten auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="231"/>
+        <location filename="../CDeviceNMEA.cpp" line="239"/>
         <source>NMEA: Download screenshots is not implemented.</source>
         <translation>NMEA: Bildschirmfoto vom Gerät laden ist nicht implementiert.</translation>
     </message>
@@ -1950,23 +1950,28 @@ erwartet: %1, empfangen %2</translation>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="101"/>
+        <location filename="../CDlgConfig.cpp" line="109"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="104"/>
+        <location filename="../CDlgConfig.cpp" line="112"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="283"/>
-        <location filename="../CDlgConfig.cpp" line="287"/>
+        <location filename="../CDlgConfig.cpp" line="124"/>
+        <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgConfig.cpp" line="299"/>
+        <location filename="../CDlgConfig.cpp" line="303"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>Keine Plugins gefunden. Ich nehme an sie sind in: %1</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="335"/>
+        <location filename="../CDlgConfig.cpp" line="351"/>
         <source>Open Directory</source>
         <translation>Verzeichnis auswählen</translation>
     </message>
@@ -2072,70 +2077,70 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDlgEditWpt</name>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="121"/>
-        <location filename="../CDlgEditWpt.cpp" line="126"/>
+        <location filename="../CDlgEditWpt.cpp" line="122"/>
+        <location filename="../CDlgEditWpt.cpp" line="127"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="121"/>
+        <location filename="../CDlgEditWpt.cpp" line="122"/>
         <source>You must provide a waypoint identifier.</source>
         <translation>Bitte einen Namen für den Wegpunkt eingeben.</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="126"/>
+        <location filename="../CDlgEditWpt.cpp" line="127"/>
         <source>You must provide a waypoint position.</source>
         <translation>Du mußt die Koordinaten für den Wegpunkt angeben.</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="164"/>
+        <location filename="../CDlgEditWpt.cpp" line="166"/>
         <source>(proj.)</source>
         <translation>(proj.)</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="187"/>
+        <location filename="../CDlgEditWpt.cpp" line="189"/>
         <source>Select image file</source>
         <translation>Bilddatei wählen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="195"/>
+        <location filename="../CDlgEditWpt.cpp" line="197"/>
         <source>Add comment ...</source>
         <translation>Kommentar hinzufügen ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="195"/>
+        <location filename="../CDlgEditWpt.cpp" line="197"/>
         <source>comment</source>
         <translation>Kommentar</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="247"/>
+        <location filename="../CDlgEditWpt.cpp" line="249"/>
         <source>no image</source>
         <translation>Kein Bild</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="262"/>
+        <location filename="../CDlgEditWpt.cpp" line="264"/>
         <source>Edit link ...</source>
         <translation>Link bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="262"/>
+        <location filename="../CDlgEditWpt.cpp" line="264"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Link:&apos;http://...&apos;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="266"/>
+        <location filename="../CDlgEditWpt.cpp" line="268"/>
         <source>None</source>
         <translation>Gar nichts</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="284"/>
+        <location filename="../CDlgEditWpt.cpp" line="286"/>
         <source>Select output file</source>
         <translation>Zu speichernde Datei wählen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="301"/>
-        <location filename="../CDlgEditWpt.cpp" line="302"/>
-        <location filename="../CDlgEditWpt.cpp" line="305"/>
+        <location filename="../CDlgEditWpt.cpp" line="303"/>
+        <location filename="../CDlgEditWpt.cpp" line="304"/>
+        <location filename="../CDlgEditWpt.cpp" line="307"/>
         <source>%1
 </source>
         <translation></translation>
@@ -4774,12 +4779,12 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CResources</name>
     <message>
-        <location filename="../CResources.cpp" line="268"/>
+        <location filename="../CResources.cpp" line="269"/>
         <source>No device.</source>
         <translation>Kein Gerät.</translation>
     </message>
     <message>
-        <location filename="../CResources.cpp" line="268"/>
+        <location filename="../CResources.cpp" line="269"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation>Du mußt unter &apos;Einstellungen -&gt; allgemeine Einstellungen -&gt; Gerät &amp;  Datentransfer&apos; eine Gerät auswählen</translation>
     </message>
@@ -4787,26 +4792,25 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CRoute</name>
     <message>
-        <location filename="../CRoute.cpp" line="293"/>
         <source>Route</source>
-        <translation>Route</translation>
+        <translation type="obsolete">Route</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="408"/>
+        <location filename="../CRoute.cpp" line="407"/>
         <source>
 length: %1 %2</source>
         <translation>
 Länge: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="416"/>
+        <location filename="../CRoute.cpp" line="415"/>
         <source>
 time: %1:</source>
         <translation>
 Zeit: %1:</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="420"/>
+        <location filename="../CRoute.cpp" line="419"/>
         <source>
 time: </source>
         <translation>
@@ -4880,56 +4884,211 @@ Länge: %1 %2</translation>
         <translation>Fußgänger</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="180"/>
+        <location filename="../CRouteToolWidget.cpp" line="72"/>
+        <source>English</source>
+        <translation type="unfinished">Englisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="73"/>
+        <source>German</source>
+        <translation type="unfinished">Deutsch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="74"/>
+        <source>Bulgarian</source>
+        <translation type="unfinished">Bulgarisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="75"/>
+        <source>Czech</source>
+        <translation type="unfinished">Tschechisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="76"/>
+        <source>Dutch</source>
+        <translation type="unfinished">Niederländisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="77"/>
+        <source>Croatian</source>
+        <translation type="unfinished">Kroatisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="78"/>
+        <source>Hungarian</source>
+        <translation type="unfinished">Ungarisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="79"/>
+        <source>Dutch (belgium)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="80"/>
+        <source>Spanish</source>
+        <translation type="unfinished">Spanisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="81"/>
+        <source>Esperanto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="82"/>
+        <source>Finnish</source>
+        <translation type="unfinished">Finnisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="83"/>
+        <source>French</source>
+        <translation type="unfinished">Französisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="84"/>
+        <source>Italian</source>
+        <translation type="unfinished">Italienisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="85"/>
+        <source>Portuguese (brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="86"/>
+        <source>Romanian</source>
+        <translation type="unfinished">Romänisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="87"/>
+        <source>Russian</source>
+        <translation type="unfinished">Russisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="88"/>
+        <source>Svenska</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="89"/>
+        <source>Danish</source>
+        <translation type="unfinished">Dänisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="90"/>
+        <source>Turkish</source>
+        <translation type="unfinished">Türkisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="91"/>
+        <source>Catalan</source>
+        <translation type="unfinished">Catalanisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="92"/>
+        <source>Japanese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="93"/>
+        <source>Norwegian</source>
+        <translation type="unfinished">Norwegisch</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="94"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="95"/>
+        <source>Norwegian-bokmal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="96"/>
+        <source>de - Rhenish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="97"/>
+        <source>de - Op Platt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="98"/>
+        <source>de - Berlin dialect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="99"/>
+        <source>de - Swabian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="100"/>
+        <source>de - Ruhrpott</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="101"/>
+        <source>de - great Austrian dialect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="102"/>
+        <source>de - Bavarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="216"/>
         <source>Edit</source>
         <translation>Editieren</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="181"/>
+        <location filename="../CRouteToolWidget.cpp" line="217"/>
         <source>Calc. route</source>
         <translation>Route berechnen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="183"/>
+        <location filename="../CRouteToolWidget.cpp" line="219"/>
         <source>Make Overlay</source>
         <translation>Overlay erstellen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="184"/>
+        <location filename="../CRouteToolWidget.cpp" line="220"/>
         <source>Make Track</source>
         <translation>Track erzeugen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="186"/>
+        <location filename="../CRouteToolWidget.cpp" line="222"/>
         <source>Zoom to fit</source>
         <translation>Zoom bis es passt</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="187"/>
+        <location filename="../CRouteToolWidget.cpp" line="223"/>
         <source>Reset</source>
         <translation>Zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="188"/>
+        <location filename="../CRouteToolWidget.cpp" line="224"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="436"/>
-        <location filename="../CRouteToolWidget.cpp" line="454"/>
+        <location filename="../CRouteToolWidget.cpp" line="473"/>
+        <location filename="../CRouteToolWidget.cpp" line="491"/>
         <source>Failed...</source>
         <translation>Fehlgeschlagen...</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="436"/>
-        <location filename="../CRouteToolWidget.cpp" line="454"/>
+        <location filename="../CRouteToolWidget.cpp" line="473"/>
+        <location filename="../CRouteToolWidget.cpp" line="491"/>
         <source>Bad response from server:
 %1</source>
         <translation>Fehler vom Server:
 %1</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="510"/>
+        <location filename="../CRouteToolWidget.cpp" line="547"/>
         <source>created from route</source>
         <translation>von einer Route abgeleitet</translation>
     </message>
@@ -5373,7 +5532,7 @@ Ende: %1</translation>
 <context>
     <name>CWpt</name>
     <message>
-        <location filename="../CWpt.cpp" line="309"/>
+        <location filename="../CWpt.cpp" line="311"/>
         <source>elevation: %1 %2</source>
         <translation>Höhe: %1 %2</translation>
     </message>
@@ -5391,33 +5550,33 @@ Ende: %1</translation>
         <translation>Permanenten Wegpunkt löschen ...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="789"/>
-        <location filename="../CWptDB.cpp" line="791"/>
+        <location filename="../CWptDB.cpp" line="797"/>
+        <location filename="../CWptDB.cpp" line="799"/>
         <source>Missing libexif</source>
         <translation>Fehlende Bibliothek: libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="789"/>
+        <location filename="../CWptDB.cpp" line="797"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Die Datei libexif-12.dll konnte nicht gefunden werden.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="791"/>
+        <location filename="../CWptDB.cpp" line="799"/>
         <source>Unable to find libexif.so.</source>
         <translation>Die Datei libexif-.so konnte nicht gefunden werden.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="798"/>
+        <location filename="../CWptDB.cpp" line="806"/>
         <source>Select path...</source>
         <translation>Wähle Dateipfad...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="811"/>
+        <location filename="../CWptDB.cpp" line="819"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Extrahiere EXIF Information aus den Bildern.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="811"/>
+        <location filename="../CWptDB.cpp" line="819"/>
         <source>Abort</source>
         <translation>Abbruch</translation>
     </message>
@@ -6328,7 +6487,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="43"/>
         <location filename="../IDlgConfig.ui" line="220"/>
-        <location filename="../IDlgConfig.ui" line="469"/>
+        <location filename="../IDlgConfig.ui" line="489"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -6577,16 +6736,26 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="447"/>
+        <source>Baud rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig.ui" line="457"/>
+        <source>Baud rate for Serial Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig.ui" line="467"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="459"/>
+        <location filename="../IDlgConfig.ui" line="479"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
         <translation>Wähle dein Garmin Gerät aus der Liste aus. Wenn dein Gerät nicht dabei ist, wähle &quot;whatGarmin&quot; und läde Wegpunkte um einen Auszug der verwendeten Protokolle zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="626"/>
+        <location filename="../IDlgConfig.ui" line="646"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -6635,49 +6804,49 @@ p, li { white-space: pre-wrap; }
         <translation>Schriftsatz</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="508"/>
+        <location filename="../IDlgConfig.ui" line="515"/>
         <source>Define custom icons for Garmin Devices.</source>
         <translation>Definiere eigene Ikonen für Garmin Geräte.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="511"/>
+        <location filename="../IDlgConfig.ui" line="518"/>
         <source>Customize Waypoint Icons...</source>
         <translation>Benutzerspezifische Ikonen für Wegpunkte...</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="524"/>
+        <location filename="../IDlgConfig.ui" line="544"/>
         <source>Upload All</source>
         <translation>Alles hochladen</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="530"/>
-        <location filename="../IDlgConfig.ui" line="563"/>
+        <location filename="../IDlgConfig.ui" line="550"/>
+        <location filename="../IDlgConfig.ui" line="583"/>
         <source>Waypoints</source>
         <translation>Wegpunkte</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="537"/>
-        <location filename="../IDlgConfig.ui" line="570"/>
+        <location filename="../IDlgConfig.ui" line="557"/>
+        <location filename="../IDlgConfig.ui" line="590"/>
         <source>Tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="557"/>
+        <location filename="../IDlgConfig.ui" line="577"/>
         <source>Download All</source>
         <translation>Alles herunterladen</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="587"/>
+        <location filename="../IDlgConfig.ui" line="607"/>
         <source>Sound after Transfer</source>
         <translation>Klang nach der Übertragung</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="593"/>
+        <location filename="../IDlgConfig.ui" line="613"/>
         <source>Play</source>
         <translation>Abspielen</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="620"/>
+        <location filename="../IDlgConfig.ui" line="640"/>
         <source>Keys</source>
         <translation>Tasten</translation>
     </message>
@@ -6704,8 +6873,8 @@ p, li { white-space: pre-wrap; }
 &lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="544"/>
-        <location filename="../IDlgConfig.ui" line="577"/>
+        <location filename="../IDlgConfig.ui" line="564"/>
+        <location filename="../IDlgConfig.ui" line="597"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
@@ -7054,6 +7223,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgEditWpt.ui" line="372"/>
         <source>Update</source>
         <translation>Aktualisieren</translation>
+    </message>
+    <message>
+        <location filename="../IDlgEditWpt.ui" line="385"/>
+        <source>Description</source>
+        <translation type="unfinished">Beschreibung</translation>
     </message>
 </context>
 <context>
@@ -7816,21 +7990,24 @@ DEM: %2</translation>
         <translation>Vermeide Mautstraßen</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="99"/>
+        <location filename="../IRouteToolWidget.ui" line="102"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;How to add a route?&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Routes can be created from waypoints ot distance polylines. &lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Routes can be created from waypoints or distance polylines. &lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To create a route from waypoints you have to select at least two waypoints in the waypoint tool view. After you made your selection you summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;. &lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
