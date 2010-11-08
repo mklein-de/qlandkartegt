@@ -168,7 +168,9 @@ int main(int argc, char ** argv)
 #endif
     QApplication theApp(argc,argv);
     processOptions();
+#ifndef WIN32
     qInstallMsgHandler(myMessageOutput);
+#endif
 
 #ifdef ENABLE_TRANSLATION
     {

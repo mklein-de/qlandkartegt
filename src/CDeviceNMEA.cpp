@@ -21,13 +21,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #include <QtGui>
 #include <projects.h>
 
-CDeviceNMEA::CDeviceNMEA(const QString& serialport, QObject * parent)
+CDeviceNMEA::CDeviceNMEA(const QString& serialport,
+                         const QString& baudrate,
+                         QObject * parent)
 : IDevice("NMEA",parent)
 , serialport(serialport)
 , haveSeenData(false)
 , haveSeenGPVTG(false)
 {
-    tty.setBaudRate(BAUD4800);   //BaudRate
+    enum BaudRateType eBaudrate = BAUD4800;
+    if (baudrate.compare("9600")   == 0) { eBaudrate = BAUD9600;   }
+    if (baudrate.compare("19200")  == 0) { eBaudrate = BAUD19200;  }
+    if (baudrate.compare("38400")  == 0) { eBaudrate = BAUD38400;  }
+    if (baudrate.compare("57600")  == 0) { eBaudrate = BAUD57600;  }
+    if (baudrate.compare("115200") == 0) { eBaudrate = BAUD115200; }
+
+    tty.setBaudRate(eBaudrate);   //BaudRate
     tty.setDataBits(DATA_8);     //DataBits
     tty.setParity(PAR_NONE);     //Parity
     tty.setStopBits(STOP_1);     //StopBits
@@ -68,6 +77,7 @@ void CDeviceNMEA::setLiveLog(bool on)
     }
     else
     {
+        watchdog->stop();
         tty.close();
         log.fix = CLiveLog::eOff;
         emit sigLiveLog(log);
@@ -177,10 +187,8 @@ void CDeviceNMEA::slotWatchdog()
         haveSeenData = false;
         return;
     }
-    watchdog->stop();
 
     setLiveLog(false);
-
 }
 
 

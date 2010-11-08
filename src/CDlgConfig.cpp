@@ -97,6 +97,14 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(tr("Garmin"), "Garmin");
     comboDevice->addItem(tr("NMEA"), "NMEA");
+
+    comboDevBaudRate->addItem("4800");
+    comboDevBaudRate->addItem("9600");
+    comboDevBaudRate->addItem("19200");
+    comboDevBaudRate->addItem("38400");
+    comboDevBaudRate->addItem("57600");
+    comboDevBaudRate->addItem("115200");
+    comboDevBaudRate->setCurrentIndex(comboDevBaudRate->findText(resources.m_devBaudRate));
 #ifdef HS_MIKROKOPTER
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
 #endif
@@ -112,6 +120,9 @@ void CDlgConfig::exec()
     lineDevIPAddr->setText(resources.m_devIPAddress);
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
+#ifdef Q_OS_WIN32
+    lineDevSerialPort->setToolTip(tr("Pass something like \"COM1:\" or \"\\\\.\\COM13\" for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank."));
+#endif
 
     checkDownloadTrk->setChecked(IDevice::m_DownloadAllTrk);
     checkDownloadWpt->setChecked(IDevice::m_DownloadAllWpt);
@@ -171,6 +182,7 @@ void CDlgConfig::accept()
     resources.m_devIPAddress    = lineDevIPAddr->text();
     resources.m_devIPPort       = lineDevIPPort->text().toUShort();
     resources.m_devSerialPort   = lineDevSerialPort->text();
+    resources.m_devBaudRate     = comboDevBaudRate->currentText();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
     resources.m_devCharset      = comboDevCharset->itemText(comboDevCharset->currentIndex());
 
@@ -201,6 +213,8 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     labelDevIPPort->setEnabled(false);
     lineDevSerialPort->setEnabled(false);
     labelDevSerialPort->setEnabled(false);
+    comboDevBaudRate->setEnabled(false);
+    labelDevBaudRate->setEnabled(false);
     comboDevType->setEnabled(false);
     labelDevType->setEnabled(false);
     comboDevCharset->setEnabled(false);
@@ -235,6 +249,8 @@ void CDlgConfig::slotCurrentDeviceChanged(int index)
     {
         lineDevSerialPort->setEnabled(true);
         labelDevSerialPort->setEnabled(true);
+        comboDevBaudRate->setEnabled(true);
+        labelDevBaudRate->setEnabled(true);
     }
 }
 

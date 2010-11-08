@@ -124,6 +124,7 @@ class CResources : public QObject
         QString m_devIPAddress;
         quint16 m_devIPPort;
         QString m_devSerialPort;
+        QString m_devBaudRate;
 
         QString m_devType;
         QString m_devCharset;
