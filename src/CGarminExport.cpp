@@ -118,26 +118,34 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
 
             mdrTile.filename = map->mdrfile;
             mdrTile.name     = "MDR file";
-            readTileInfo(mdrTile);
-
-            QMap<QString,gmapsupp_subfile_desc_t>::const_iterator subfile = mdrTile.subfiles.begin();
-            while(subfile != mdrTile.subfiles.end())
+            try
             {
-                const QList<gmapsupp_subfile_part_t>& parts = subfile->parts.values();
-                QList<gmapsupp_subfile_part_t>::const_iterator part = parts.begin();
-                while(part != parts.end())
+                readTileInfo(mdrTile);
+
+                QMap<QString,gmapsupp_subfile_desc_t>::const_iterator subfile = mdrTile.subfiles.begin();
+                while(subfile != mdrTile.subfiles.end())
                 {
-                    total += part->size;
-                    ++part;
+                    const QList<gmapsupp_subfile_part_t>& parts = subfile->parts.values();
+                    QList<gmapsupp_subfile_part_t>::const_iterator part = parts.begin();
+                    while(part != parts.end())
+                    {
+                        total += part->size;
+                        ++part;
+                    }
+                    ++subfile;
                 }
-                ++subfile;
+
+                mdrTile.memsize = total;
+                mdrTile.isMdr   = true;
+                writeStdout(tr("    %1 (%2 MB)").arg(mdrTile.name).arg(double(mdrTile.memsize) / (1024 * 1024), 0, 'f', 2));
+
+                tiles << mdrTile;
+            }
+            catch(const exce_t& e)
+            {
+                //writeStderr(e.msg + tr(" (this is not fatal)"));
             }
 
-            mdrTile.memsize = total;
-            mdrTile.isMdr   = true;
-            writeStdout(tr("    %1 (%2 MB)").arg(mdrTile.name).arg(double(mdrTile.memsize) / (1024 * 1024), 0, 'f', 2));
-
-            tiles << mdrTile;
         }
 
         writeStdout(" ");
@@ -479,7 +487,15 @@ void CGarminExport::slotStart()
         while(tile != tiles.end())
         {
             // read img file
-            readTileInfo(*tile);
+            try
+            {
+                readTileInfo(*tile);
+            }
+            catch(const exce_t& e)
+            {
+                writeStderr(e.msg);
+                return;
+            }
 
             // iterate over all subfiles and their parts to count FAT blocks and blocks
             QMap<QString, gmapsupp_subfile_desc_t>& subfiles          = tile->subfiles;

@@ -552,7 +552,11 @@ void CMapTDB::checkMdrFile()
 {
     if(!mdrfile.isEmpty())
     {
-        return;
+        QFileInfo fi(mdrfile);
+        if(fi.isFile())
+        {
+            return;
+        }
     }
 
     // get list of mdr files
