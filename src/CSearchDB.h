@@ -84,18 +84,28 @@ class CSearchDB : public IDB
 
     private slots:
         void slotSetupLink();
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
+        void slotRequestFinishedGoogle(int , bool error);
+        void slotRequestFinishedOpenRouteService(int , bool error);
 
     private:
         friend class CMainWindow;
 
         void startGoogle(const QString& str);
+        void startOpenRouteService(const QString& str);
 
         CSearchDB(QTabWidget * tb, QObject * parent);
         static CSearchDB * m_self;
+        static const QString xls_ns;
+        static const QString sch_ns;
+        static const QString gml_ns;
+        static const QString xlink_ns;
+        static const QString xsi_ns;
+        static const QString schemaLocation;
+
+
 
         QHttp * google;
+        QHttp * ors;
         CSearch tmpResult;
         QMap<QString,CSearch*> results;
 };
