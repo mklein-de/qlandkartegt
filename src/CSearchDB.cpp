@@ -59,8 +59,25 @@ void CSearchDB::clear()
 }
 
 
-void CSearchDB::search(const QString& str)
+void CSearchDB::search(const QString& str, hosts_t host)
 {
+
+    if(host == eGoogle)
+    {
+        startGoogle(str);
+    }
+    else
+    {
+        emit sigStatus(tr("Unknown host."));
+        emit sigFinished();
+        emit sigChanged();
+    }
+}
+
+
+void CSearchDB::startGoogle(const QString& str)
+{
+
     QUrl url;
 
     if(google == 0) return;
@@ -74,7 +91,6 @@ void CSearchDB::search(const QString& str)
     url.addQueryItem("output","csv");
     url.addQueryItem("key",google_api_key);
     google->get(url.toEncoded( ));
-
 }
 
 

@@ -46,7 +46,10 @@ class CSearchToolWidget : public QWidget, private Ui::ISearchToolWidget
         void slotCopyPosition();
         void slotAdd();
 
+        void slotHostChanged(int idx);
+
     private:
+
         QMenu * contextMenu;
 
 };

@@ -42,10 +42,16 @@ class CSearchDB : public IDB
 
         static CSearchDB& self(){return *m_self;}
 
+        enum hosts_t
+        {
+             eOpenRouteService
+            ,eGoogle
+        };
+
         void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
 
         /// start a query with given string
-        void search(const QString& str);
+        void search(const QString& str, hosts_t host);
         /// get iterator access to track point list
         QMap<QString,CSearch*>::iterator begin(){return results.begin();}
         /// get iterator access to track point list
@@ -70,6 +76,8 @@ class CSearchDB : public IDB
 
         void selSearchByKey(const QString& key);
 
+
+
         signals:
         void sigStatus(const QString& msg);
         void sigFinished();
@@ -81,6 +89,8 @@ class CSearchDB : public IDB
 
     private:
         friend class CMainWindow;
+
+        void startGoogle(const QString& str);
 
         CSearchDB(QTabWidget * tb, QObject * parent);
         static CSearchDB * m_self;

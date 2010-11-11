@@ -51,6 +51,20 @@ CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
 
     connect(listResults,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
+    comboHost->addItem(tr("OpenRouteService"), CSearchDB::eOpenRouteService);
+    comboHost->addItem(tr("Google"), CSearchDB::eGoogle);
+
+    QSettings cfg;
+    cfg.beginGroup("search");
+    int idx = comboHost->findData(cfg.value("host", CSearchDB::eOpenRouteService));
+    if(idx != -1)
+    {
+        comboHost->setCurrentIndex(idx);
+    }
+
+    cfg.endGroup();
+
+    connect(comboHost, SIGNAL(currentIndexChanged(int)), this, SLOT(slotHostChanged(int)));
 }
 
 
@@ -77,8 +91,9 @@ void CSearchToolWidget::slotReturnPressed()
     QString line = lineInput->text().trimmed();
     if(!line.isEmpty())
     {
-        CSearchDB::self().search(line);
         lineInput->setEnabled(false);
+        CSearchDB::self().search(line, (CSearchDB::hosts_t)comboHost->itemData(comboHost->currentIndex()).toInt());
+
     }
 }
 
@@ -185,4 +200,12 @@ void CSearchToolWidget::keyPressEvent(QKeyEvent * e)
     {
         QWidget::keyPressEvent(e);
     }
+}
+
+void CSearchToolWidget::slotHostChanged(int idx)
+{
+    QSettings cfg;
+    cfg.beginGroup("search");
+    cfg.setValue("host", comboHost->itemData(idx).toInt());
+    cfg.endGroup();
 }
