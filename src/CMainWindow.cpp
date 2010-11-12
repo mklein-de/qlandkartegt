@@ -601,6 +601,9 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     menu->setTitle(tr_nomac("&Help"));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://FAQ"),this,SLOT(slotFAQ()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Help"),this,SLOT(slotHelp()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Support"),this,SLOT(slotSupport()));
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr_nomac("About &QLandkarte GT"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
 }
@@ -1365,4 +1368,19 @@ void CMainWindow::slotTabCloseRequest(int i)
     {
         w->deleteLater();
     }
+}
+
+void CMainWindow::slotFAQ()
+{
+    CResources::self().openLink("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=FAQ");
+}
+
+void CMainWindow::slotHelp()
+{
+    CResources::self().openLink("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT");
+}
+
+void CMainWindow::slotSupport()
+{
+    CResources::self().openLink("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19");
 }

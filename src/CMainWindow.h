@@ -97,6 +97,9 @@ class CMainWindow : public QMainWindow
         void slotItemDestroyed(QObject *);
         void slotTabCloseRequest(int i);
 
+        void slotFAQ();
+        void slotHelp();
+        void slotSupport();
     private:
         friend class CDBus;
         CMenus *actionGroupProvider;
