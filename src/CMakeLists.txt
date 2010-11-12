@@ -488,7 +488,7 @@ IF(ENABLE_TRANSLATION)
 ENDIF(ENABLE_TRANSLATION)
 
 if(UNIX)
-    add_definitions(-D_TTY_POSIX_ -Wall -fno-strict-aliasing)
+    add_definitions(-D_TTY_POSIX_ -Wall )
 endif(UNIX)
 
 include_directories(
