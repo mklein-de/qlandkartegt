@@ -488,14 +488,14 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
     if(rectDelSearch.contains(pt))
     {
         QStringList keys;
-        keys << selSearch->query;
+        keys << selSearch->getKey();
         CSearchDB::self().delResults(keys);
         selSearch = 0;
         canvas->update();
     }
     else if(rectConvertSearch.contains(pt))
     {
-        QString key = selSearch->query;
+        QString key = selSearch->getKey();
         float ele = CMapDB::self().getDEM().getElevation(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD);
         CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele);
         if(wpt)

@@ -19,13 +19,21 @@
 #include "CSearch.h"
 
 CSearch::CSearch(QObject * parent)
-: QObject(parent)
+: IItem(parent)
+, lon(0.0)
+, lat(0.0)
 {
-
+    iconPixmap = QPixmap(":/icons/iconBullseye16x16.png");
+    iconString = "Bullseye";
 }
 
 
 CSearch::~CSearch()
 {
 
+}
+
+QString CSearch::getInfo()
+{
+    return name;
 }

@@ -19,19 +19,21 @@
 #ifndef CSEARCH_H
 #define CSEARCH_H
 
-#include <QObject>
+#include "IItem.h"
 
-class CSearch : public QObject
+class CSearch : public IItem
 {
     Q_OBJECT;
     public:
         CSearch(QObject * parent);
         virtual ~CSearch();
 
-        const QString& getKey(){return query;}
+        QString getInfo();
+
+        void setIcon(const QString& str){}
+
 
         qreal   lon;
         qreal   lat;
-        QString query;
 };
 #endif                           //CSEARCH_H

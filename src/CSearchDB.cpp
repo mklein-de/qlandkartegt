@@ -90,7 +90,7 @@ void CSearchDB::startGoogle(const QString& str)
 
     emit sigStatus(tr("start searching..."));
 
-    tmpResult.query = str;
+    tmpResult.setName(str);
 
     url.setPath("/maps/geo");
     url.addQueryItem("q",str);
@@ -163,9 +163,9 @@ void CSearchDB::slotRequestFinishedGoogle(int , bool error)
         CSearch * item = new CSearch(this);
         item->lon   = tmpResult.lon;
         item->lat   = tmpResult.lat;
-        item->query = tmpResult.query;
+        item->setName(tmpResult.getName());
 
-        results[item->query] = item;
+        results[item->getKey()] = item;
 
         theMainWindow->getCanvas()->move(item->lon, item->lat);
 
@@ -223,7 +223,7 @@ void CSearchDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         if(rect.contains(QPoint(u,v)))
         {
             p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16.png"));
-            CCanvas::drawText((*result)->query, p, QPoint(u, v - 10));
+            CCanvas::drawText((*result)->getName(), p, QPoint(u, v - 10));
         }
 
         ++result;
@@ -250,9 +250,9 @@ void CSearchDB::add(const QString& label, double lon, double lat)
     CSearch * item = new CSearch(this);
     item->lon   = lon * RAD_TO_DEG;
     item->lat   = lat * RAD_TO_DEG;
-    item->query = label;
+    item->setName(label);
 
-    results[item->query] = item;
+    results[item->getKey()] = item;
 
     emit sigChanged();
 }
@@ -334,9 +334,15 @@ void CSearchDB::startOpenRouteService(const QString& str)
 
 void CSearchDB::slotRequestFinishedOpenRouteService(int , bool error)
 {
+    QDomDocument xml;
+    QString status = tr("finished");
+
     if(error)
     {
         QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(ors->errorString()), QMessageBox::Abort);
+        emit sigStatus(tr("failed"));
+        emit sigFinished();
+        emit sigChanged();
         return;
     }
 
@@ -346,12 +352,66 @@ void CSearchDB::slotRequestFinishedOpenRouteService(int , bool error)
         return;
     }
 
-    QDomDocument xml;
     xml.setContent(res);
 
     qDebug() << xml.toString();
 
-    emit sigStatus("finished");
+    QDomElement root = xml.documentElement();
+    QDomNodeList Results = root.elementsByTagName("xls:GeocodedAddress");
+    const qint32 N = Results.size();
+
+    if(N)
+    {
+        for(int i = 0; i < N; i++)
+        {
+            QString street, country, municipal, ccode;
+
+            QDomElement Result = Results.item(i).toElement();
+            QDomElement Point = Result.firstChildElement("gml:Point").toElement();
+            QString strpos = Point.firstChildElement("gml:pos").toElement().text();
+
+            QDomElement Address = Result.firstChildElement("xls:Address").toElement();
+            ccode = Address.attribute("countryCode","");
+
+            QDomElement StreetAddress = Address.firstChildElement("xls:StreetAddress").toElement();
+            QDomElement Street = StreetAddress.firstChildElement("xls:Street").toElement();
+            street = Street.attribute("officialName","");
+
+            QDomNodeList places = Result.elementsByTagName("xls:Place");
+            const qint32 M = places.size();
+            for(int j = 0; j < M; j++)
+            {
+                QDomElement place = places.item(j).toElement();
+                QString type = place.attribute("type","");
+
+                if(type == "CountrySubdivision")
+                {
+                    country = place.text();
+                }
+                else if(type == "Municipality")
+                {
+                    municipal = place.text();
+                }
+            }
+
+            CSearch * item = new CSearch(this);
+            item->lon   = strpos.section(" ", 0, 0).toFloat();
+            item->lat   = strpos.section(" ", 1, 1).toFloat();
+            item->setName(street + ", " + municipal + ", " + country + ", " + ccode);
+            results[item->getKey()] = item;
+            theMainWindow->getCanvas()->move(item->lon, item->lat);
+
+
+        }
+    }
+    else
+    {
+        status = tr("no result");
+    }
+
+
+
+    emit sigStatus(status);
     emit sigFinished();
     emit sigChanged();
 
