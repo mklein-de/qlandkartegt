@@ -223,7 +223,7 @@ void CSearchDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         if(rect.contains(QPoint(u,v)))
         {
             p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16.png"));
-            CCanvas::drawText((*result)->getName(), p, QPoint(u, v - 10));
+            CCanvas::drawText((*result)->getInfo(), p, QPoint(u, v - 10));
         }
 
         ++result;
@@ -280,6 +280,8 @@ void CSearchDB::startOpenRouteService(const QString& str)
     if(ors == 0) return;
 
     emit sigStatus(tr("start searching..."));
+
+    tmpResult.setName(str);
 
     QDomDocument xml;
     QDomElement root = xml.createElement("xls:XLS");
@@ -364,18 +366,18 @@ void CSearchDB::slotRequestFinishedOpenRouteService(int , bool error)
     {
         for(int i = 0; i < N; i++)
         {
-            QString street, country, municipal, ccode;
+            CSearch * item = new CSearch(this);
 
             QDomElement Result = Results.item(i).toElement();
             QDomElement Point = Result.firstChildElement("gml:Point").toElement();
             QString strpos = Point.firstChildElement("gml:pos").toElement().text();
 
             QDomElement Address = Result.firstChildElement("xls:Address").toElement();
-            ccode = Address.attribute("countryCode","");
+            item->countryCode = Address.attribute("countryCode","");
 
             QDomElement StreetAddress = Address.firstChildElement("xls:StreetAddress").toElement();
             QDomElement Street = StreetAddress.firstChildElement("xls:Street").toElement();
-            street = Street.attribute("officialName","");
+            item->street = Street.attribute("officialName","");
 
             QDomNodeList places = Result.elementsByTagName("xls:Place");
             const qint32 M = places.size();
@@ -386,22 +388,24 @@ void CSearchDB::slotRequestFinishedOpenRouteService(int , bool error)
 
                 if(type == "CountrySubdivision")
                 {
-                    country = place.text();
+                    item->country = place.text();
                 }
                 else if(type == "Municipality")
                 {
-                    municipal = place.text();
+                    item->municipal = place.text();
                 }
             }
 
-            CSearch * item = new CSearch(this);
+            QDomElement PostalCode = Address.firstChildElement("xls:PostalCode").toElement();
+            item->postalCode = PostalCode.text();
+
+
+
             item->lon   = strpos.section(" ", 0, 0).toFloat();
             item->lat   = strpos.section(" ", 1, 1).toFloat();
-            item->setName(street + ", " + municipal + ", " + country + ", " + ccode);
+            item->setName(tmpResult.getName());
             results[item->getKey()] = item;
             theMainWindow->getCanvas()->move(item->lon, item->lat);
-
-
         }
     }
     else

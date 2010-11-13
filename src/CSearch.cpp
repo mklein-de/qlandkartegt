@@ -35,5 +35,32 @@ CSearch::~CSearch()
 
 QString CSearch::getInfo()
 {
-    return name;
+    QString str;
+
+    if(!street.isEmpty())
+    {
+        str = street;
+    }
+
+    if(!municipal.isEmpty())
+    {
+        if(!str.isEmpty()) str += ", ";
+        if(!postalCode.isEmpty()) str += postalCode + " ";
+
+        str += municipal;
+    }
+
+    if(!country.isEmpty())
+    {
+        if(!str.isEmpty()) str += ", ";
+        str += country;
+    }
+
+    if(!countryCode.isEmpty())
+    {
+        if(!str.isEmpty()) str += ", ";
+        str += "(" + countryCode.toUpper() + ")";
+    }
+
+    return str.isEmpty() ? name : str;
 }

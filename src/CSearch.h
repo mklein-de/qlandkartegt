@@ -35,5 +35,11 @@ class CSearch : public IItem
 
         qreal   lon;
         qreal   lat;
+        QString street;
+        QString postalCode;
+        QString municipal;
+        QString country;
+        QString countryCode;
+
 };
 #endif                           //CSEARCH_H

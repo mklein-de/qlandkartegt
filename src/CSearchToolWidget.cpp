@@ -115,7 +115,7 @@ void CSearchToolWidget::slotDBChanged()
         QListWidgetItem * item = new QListWidgetItem(listResults);
         item->setText((*result)->getInfo());
         item->setData(Qt::UserRole, (*result)->getKey());
-
+        item->setIcon((*result)->getIcon());
         ++result;
     }
 
