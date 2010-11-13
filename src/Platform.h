@@ -271,14 +271,14 @@ __gar_ptr_load_int24_t(const uint8_t *p)
 static inline void
 __gar_ptr_store_int24_t(uint8_t * p, int32_t src)
 {
-    __gar_ptr_store_uint16_t(p, src & 0xfffu);
+    __gar_ptr_store_uint16_t(p, src & 0xffffu);
     p[2] = src >> 16;
 }
 
 static inline void
 __gar_ptr_store_uint24_t(uint8_t * p, uint32_t src)
 {
-    __gar_ptr_store_uint16_t(p, src & 0xfffu);
+    __gar_ptr_store_uint16_t(p, src & 0xffffu);
     p[2] = src >> 16;
 }
 
