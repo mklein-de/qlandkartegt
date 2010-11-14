@@ -369,6 +369,10 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         /// @todo read label information
         lbl_info = offset & 0x3FFFFF;
     }
+    else
+    {
+        lbl_info = 0;
+    }
 
     id = cnt++;
     //     qDebug() << "<<<" << id;

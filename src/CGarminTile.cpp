@@ -1039,7 +1039,10 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
+
             polygons.push_back(p);
+
+
         }
     }
 
