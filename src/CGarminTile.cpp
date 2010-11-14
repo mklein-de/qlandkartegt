@@ -954,7 +954,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd  = pRawData + (opgon ? opgon : subdiv.rgn_end);
         while(pData < pEnd)
         {
-//            CGarminPolygon p;
+            p.labels.clear();
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
 
             // skip points outside our current viewport
@@ -986,7 +986,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
         while(pData < pEnd)
         {
-//            CGarminPolygon p;
+            p.labels.clear();
             pData += p.decode(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
 
             // skip points outside our current viewport
@@ -1025,7 +1025,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd    = pData + subdiv.lengthPolygons2;
         while(pData < pEnd)
         {
-//            CGarminPolygon p;
+            p.labels.clear();
             //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, false, pData, pEnd);
 
@@ -1049,19 +1049,22 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
         pEnd    = pData + subdiv.lengthPolylines2;
         while(pData < pEnd)
         {
-//            CGarminPolygon p;
+            p.labels.clear();
             //             qDebug() << "rgn offset:" << hex << (rgnoff + (pData - pRawData));
             pData += p.decode2(subdiv.iCenterLng, subdiv.iCenterLat, subdiv.shift, true, pData, pEnd);
 
             // skip points outside our current viewport
             if(isCompletlyOutside(p.u, p.v, viewport))
+            {
                 continue;
+            }
 
-            polylines.push_back(p);
             if(strtbl && !p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
+
+            polylines.push_back(p);
         }
     }
 
@@ -1077,14 +1080,16 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
 
             // skip points outside our current viewport
             if(!viewport.contains(p.lon, p.lat))
+            {
                 continue;
+            }
 
-            pois.push_back(p);
             if(strtbl)
             {
                 p.isLbl6 ? strtbl->get(file, p.lbl_ptr, IGarminStrTbl::poi, p.labels)
                     : strtbl->get(file, p.lbl_ptr, IGarminStrTbl::norm, p.labels);
             }
+            pois.push_back(p);
         }
     }
 
