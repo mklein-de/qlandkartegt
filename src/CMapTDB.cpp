@@ -1047,7 +1047,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 tdb_copyrights_t * p = (tdb_copyrights_t*)pRecord;
                 tdb_copyright_t  * c = &p->entry;
-                while((void*)c < (void*)((quint8*)p + gar_load(uint16_t,p->size) + 3))
+                while((void*)c < (void*)((quint8*)p + p->size + 3))
                 {
 
                     if(c->type != 0x07)
