@@ -17,36 +17,25 @@
 
 **********************************************************************************************/
 
-#include "IItem.h"
+#ifndef CTRACKSTATDISTANCEWIDGET_H
+#define CTRACKSTATDISTANCEWIDGET_H
 
-#include <QtGui>
+#include "ITrackStat.h"
 
-quint32 IItem::keycnt = 0;
-
-IItem::IItem(QObject * parent)
-: QObject(parent)
-, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
+class CTrackStatDistanceWidget: public ITrackStat
 {
+    Q_OBJECT;
+    public:
+        CTrackStatDistanceWidget(QWidget * parent);
+        virtual ~CTrackStatDistanceWidget();
 
-}
+    private slots:
+        void slotChanged();
+        void slotSetTrack(CTrack* track);
 
-IItem::~IItem()
-{
+    private:
+        bool needResetZoom;
+};
 
-}
+#endif //CTRACKSTATDISTANCEWIDGET_H
 
-
-QString IItem::getKey()
-{
-    if(key.isEmpty())
-    {
-        genKey();
-    }
-
-    return key;
-}
-
-void IItem::genKey()
-{
-    key = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
-}

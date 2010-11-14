@@ -31,6 +31,7 @@ class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
+class CTrackStatDistanceWidget;
 class QMenu;
 
 #ifdef GPX_EXTENSIONS
@@ -117,6 +118,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<CTrackStatSpeedWidget> trackStatSpeedDist;
         QPointer<CTrackStatProfileWidget> trackStatProfileTime;
         QPointer<CTrackStatSpeedWidget> trackStatSpeedTime;
+        QPointer<CTrackStatDistanceWidget> trackStatDistanceTime;
         QPointer<CTrackStatTraineeWidget> trackStatTrainee;
 
 #ifdef GPX_EXTENSIONS

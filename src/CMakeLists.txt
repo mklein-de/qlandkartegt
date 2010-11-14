@@ -133,6 +133,7 @@ set(qlandkarte_SRCS
     CTrackStatProfileWidget.cpp
     CTrackStatSpeedWidget.cpp
     CTrackStatTraineeWidget.cpp
+    CTrackStatDistanceWidget.cpp
     CRoute.cpp
     CRouteDB.cpp
     CRouteToolWidget.cpp
@@ -279,6 +280,7 @@ set(qlandkarte_HDRS
     CTrackStatProfileWidget.h
     CTrackStatSpeedWidget.h
     CTrackStatTraineeWidget.h
+    CTrackStatDistanceWidget.h
     CRoute.h
     CRouteDB.h
     CRouteToolWidget.h

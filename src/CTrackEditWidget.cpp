@@ -20,6 +20,7 @@
 #include "CTrackEditWidget.h"
 #include "CTrackStatProfileWidget.h"
 #include "CTrackStatSpeedWidget.h"
+#include "CTrackStatDistanceWidget.h"
 #include "CTrackStatTraineeWidget.h"
                                  //Anfgen des Ext. Widgets
 #ifdef GPX_EXTENSIONS
@@ -161,6 +162,10 @@ CTrackEditWidget::~CTrackEditWidget()
     if(!trackStatSpeedTime.isNull())
     {
         delete trackStatSpeedTime;
+    }
+    if(!trackStatDistanceTime.isNull())
+    {
+        delete trackStatDistanceTime;
     }
     if(!trackStatTrainee.isNull())
     {
@@ -858,6 +863,19 @@ void CTrackEditWidget::slotToggleStatTime()
     else
     {
         delete trackStatSpeedTime;
+    }
+
+    if(trackStatDistanceTime.isNull())
+    {
+                                 //TODO: TIME BUTTON
+        trackStatDistanceTime = new CTrackStatDistanceWidget(this);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+                                 //TAB hinzufgen
+        theMainWindow->getCanvasTab()->addTab(trackStatDistanceTime, tr("Dist./Time"));
+    }
+    else
+    {
+        delete trackStatDistanceTime;
     }
 
     if(trackStatProfileTime.isNull())
