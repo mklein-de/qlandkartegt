@@ -1,3 +1,46 @@
+--- 2010.11.15 ---
+
+Request #218:
+Add "description" as additional field to waypoints.
+
+Request #219:
+Make routing language a selection
+
+Bug     #220:
+Fixed: Garmin Custom Maps fail on maps with lon/lat projection
+
+Bug     #221:
+Fixed: Crash when exporting maps with bad or missing mdr file
+
+Request #222:
+Make baudrate selectable for NMEA device.
+
+Request #223:
+Update Spanish translation
+
+Request #224:
+Update italian transaltion
+
+Request #225:
+Update dutch translation
+
+Request #226:
+Add location search via OpenRouteService
+
+Request #227:
+Add most important web links to help menu
+
+Bug     #228:
+Fixed: Add big endian fixes for OS X
+
+Request #229:
+Distance over time graph
+
+Bug     #230:
+Fixed: Strings for 20bit type polylines and polygons are decoded badly
+
+
+
 --- 2010.11.02 ---
 
 Bug     #217:
@@ -967,6 +1010,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
