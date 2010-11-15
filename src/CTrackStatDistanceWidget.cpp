@@ -90,6 +90,28 @@ void CTrackStatDistanceWidget::slotChanged()
         ++trkpt;
     }
 
+    QVector<wpt_t> wpts;
+
+    plot->clear();
+    addWptTags(wpts);
+
+    QVector<wpt_t>::const_iterator wpt = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        if(wpt->d < 400)
+        {
+            CPlotData::point_t tag;
+            tag.point = QPointF((double)wpt->trkpt.timestamp, wpt->trkpt.distance);
+            tag.icon  = wpt->wpt->getIcon();
+            tag.label = wpt->wpt->getName();
+            plot->addTag(tag);
+
+        }
+        ++wpt;
+    }
+
+
+
     plot->newLine(lineDist,focusDist, "dist.");
     plot->newMarks(marksDist);
 
