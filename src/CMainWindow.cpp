@@ -604,6 +604,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://FAQ"),this,SLOT(slotFAQ()));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Help"),this,SLOT(slotHelp()));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Support"),this,SLOT(slotSupport()));
+    menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr_nomac("About &QLandkarte GT"),this,SLOT(slotCopyright()));
     menuBar()->addMenu(menu);
 }
