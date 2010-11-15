@@ -132,20 +132,7 @@ typedef unsigned __int64    uint64_t;
 // big endian platform
 #define gar_endian(t, x)            (__gar_endian_ ## t(x))
 
-#if defined(HAVE_BYTESWAP_H)
-
-// platform has byteswap.h
-#include <byteswap.h>
-#define __gar_endian_int16_t(x)     (int16_t)(bswap_16(x))
-#define __gar_endian_int32_t(x)     (int32_t)(bswap_32(x))
-#define __gar_endian_int64_t(x)     (int64_t)(bswap_64(x))
-#define __gar_endian_uint16_t(x)    (uint16_t)(bswap_16(x))
-#define __gar_endian_uint32_t(x)    (uint32_t)(bswap_32(x))
-#define __gar_endian_uint64_t(x)    (uint64_t)(bswap_64(x))
-
-#else
-
-// generic platform - define swapping
+// define swapping
 static inline uint16_t
 __gar_endian_uint16_t(uint16_t x)
 {
@@ -202,8 +189,6 @@ __gar_endian_int64_t(int64_t x)
             ((x & 0x00000000000000ffull) << 56));
 }
 
-#endif                           // !HAVE_BYTESWAP_H
-
 static inline float
 __gar_endian_float(float x)
 {
@@ -248,15 +233,6 @@ __gar_endian_double(double x)
 #define __gar_ptr_load_double(p)    (*((double *)(p)))
 // special Garmin types - map memory and clear extra bits
 #define __gar_ptr_load_uint24_t(p)  (__gar_ptr_load_uint32_t(p) & 0x00FFFFFFu)
-//static inline int32_t
-//__gar_ptr_load_int24_t(const uint8_t *p)
-//{
-//    int32_t ret = *(int32_t*)p;
-//    if (ret & 0x00800000)
-//        ret |= 0xff000000u; // sign extension
-//    return ret;
-//}
-
 #define __gar_ptr_load_int24_t(p)   (__gar_ptr_load_int32_t(p) & 0x00FFFFFFu)
 
 // store data to pointer - just assign after a proper cast
@@ -326,10 +302,7 @@ __gar_ptr_load_int16_t(const uint8_t *p)
 static inline int32_t
 __gar_ptr_load_int24_t(const uint8_t *p)
 {
-    int32_t ret = p[0] | (p[1] << 8) | (p[2] << 16);
-    if (ret & 0x00800000)
-        ret |= 0xff000000u; // sign extension
-    return ret;
+    return = p[0] | (p[1] << 8) | (p[2] << 16);
 }
 
 static inline int32_t
