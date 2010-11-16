@@ -407,8 +407,6 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     IMap& map = CMapDB::self().getMap();
 
-    p.setRenderHint(QPainter::Antialiasing,true);
-
     // extended vieport rectangle to cut line segments properly
     QRect extRect = rect.adjusted(-10, -10, 10, 10);
 
@@ -502,7 +500,6 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         }
     }
 
-    p.setRenderHint(QPainter::Antialiasing,false);
 }
 
 

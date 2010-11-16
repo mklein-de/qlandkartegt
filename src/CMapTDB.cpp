@@ -1548,12 +1548,10 @@ void CMapTDB::draw(QPainter& p)
         rectInfo.adjust(0,0,4,4);
         rectInfo.moveTopLeft(QPointF(-2,-2));
 
-        p.setRenderHint(QPainter::Antialiasing,true);
         p.setPen(CCanvas::penBorderBlack);
         p.setBrush(CCanvas::brushBackYellow);
         PAINT_ROUNDED_RECT(p,rectInfo);
         info->drawContents(&p);
-        p.setRenderHint(QPainter::Antialiasing,false);
 
         p.restore();
     }
@@ -1618,6 +1616,7 @@ void CMapTDB::draw()
     QFont f = CResources::self().getMapFont();
     fm = QFontMetrics(f);
 
+    USE_ANTI_ALIASING(p,!doFastDraw && CResources::self().useAntiAliasing());
     p.setFont(f);
     p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
@@ -1678,8 +1677,6 @@ void CMapTDB::draw()
     //    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
     //  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
 
-//    p.setRenderHints(QPainter::TextAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing,!doFastDraw);
-    p.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform,!doFastDraw);
 
     if(!isTransparent)
     {
@@ -1704,8 +1701,6 @@ void CMapTDB::draw()
     //    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
     //  fprintf(stderr, "draw complete: %d\n", diff);
 
-//    p.setRenderHint(QPainter::Antialiasing,false);
-    p.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform,false);
 }
 
 

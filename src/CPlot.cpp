@@ -164,7 +164,7 @@ void CPlot::addTag(CPlotData::point_t& tag)
 void CPlot::paintEvent(QPaintEvent * )
 {
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing, true);
+    USE_ANTI_ALIASING(p, true);
     draw(p);
 }
 
@@ -813,7 +813,7 @@ void CPlot::slotSave()
 
     QImage img(size(), QImage::Format_ARGB32);
     QPainter p;
-    p.setRenderHint(QPainter::Antialiasing, true);
+    USE_ANTI_ALIASING(p, true);
 
     p.begin(&img);
     p.fillRect(rect(), QBrush(Qt::white));

@@ -302,7 +302,7 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
     p.translate(BORDER,BORDER);
     p.scale(s,s);
     p.setClipRegion(rect());
-    p.setRenderHint(QPainter::Antialiasing,true);
+    USE_ANTI_ALIASING(p, true);
     p.setFont(CResources::self().getMapFont());
     draw(p);
     p.restore();
@@ -338,6 +338,8 @@ void CCanvas::draw(QPainter& p)
     bool needsRedraw = map.getNeedsRedraw();
 
     // printf("draw canvas %d\n",needsRedraw);
+
+    USE_ANTI_ALIASING(p,!map.getFastDrawFlag() && CResources::self().useAntiAliasing());
 
     CMapDB::self().draw(p,rect(), needsRedraw);
     CTrackDB::self().draw(p, rect(), needsRedraw);

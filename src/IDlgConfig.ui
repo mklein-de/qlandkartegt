@@ -162,6 +162,16 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkAntiAliasing">
+            <property name="toolTip">
+             <string>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</string>
+            </property>
+            <property name="text">
+             <string>Anti-aliasing</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

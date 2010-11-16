@@ -24,6 +24,7 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QPainter>
 
 class IMouse;
 class CMouseMoveMap;
@@ -50,6 +51,12 @@ class CPlot;
 class CTrack;
 
 #define PAINT_ROUNDED_RECT(p,r) p.drawRoundedRect(r,5,5)
+
+
+inline  void USE_ANTI_ALIASING(QPainter& p, bool useAntiAliasing)
+{
+    p.setRenderHints(QPainter::TextAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing, useAntiAliasing);
+}
 
 /// the map canvas area
 class CCanvas : public QWidget

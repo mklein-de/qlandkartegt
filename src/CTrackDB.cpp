@@ -828,8 +828,6 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QVector<QPoint> selected;
     IMap& map = CMapDB::self().getMap();
 
-    /// @todo it would be nice to use antialiasing here, but right now performance is bad
-    p.setRenderHint(QPainter::Antialiasing, !map.getFastDrawFlag());
 
     //     QMap<QString,CTrack*> tracks                = CTrackDB::self().getTracks();
     QMap<QString,CTrack*>::iterator track       = tracks.begin();
@@ -929,7 +927,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             QImage arrow_pic(21,16, QImage::Format_ARGB32);
             arrow_pic.fill( qRgba(0,0,0,0));
             QPainter t_paint(&arrow_pic);
-            t_paint.setRenderHint(QPainter::Antialiasing, true);
+            USE_ANTI_ALIASING(t_paint, true);
             t_paint.setPen(QPen(Qt::white, 1));
             t_paint.setBrush((*track)->getColor());
             t_paint.drawPolygon(arrow, 4);
@@ -1010,7 +1008,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QImage arrow_pic(21,15, QImage::Format_ARGB32);
         arrow_pic.fill( qRgba(0,0,0,0));
         QPainter t_paint(&arrow_pic);
-        t_paint.setRenderHint(QPainter::Antialiasing, true);
+        USE_ANTI_ALIASING(t_paint, true);
         t_paint.setPen(QPen(Qt::white, 2));
         t_paint.setBrush((*track)->getColor());
         t_paint.drawPolygon(arrow, 4);
@@ -1090,8 +1088,6 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             }
         }
     }
-
-    p.setRenderHint(QPainter::Antialiasing, false);
 }
 
 

@@ -789,7 +789,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
     // start 2D painting
     QPainter p;
     p.begin(this);
-    p.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    USE_ANTI_ALIASING(p, true);
 
     drawCompass(p);
     drawElevation(p);

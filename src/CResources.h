@@ -71,6 +71,7 @@ class CResources : public QObject
         bool showTrackMax(){return m_showTrackMax;}
         bool showZoomLevel(){return m_showZoomLevel;}
         bool playSound(){return m_playSound;}
+        bool useAntiAliasing(){return m_useAntiAliasing;}
 
         signals:
         void sigProxyChanged();
@@ -148,6 +149,7 @@ class CResources : public QObject
         bool m_showToolTip;
         bool m_showTrackMax;
         bool m_showZoomLevel;
+        bool m_useAntiAliasing;
 
         /// unit translator object
         QPointer<IUnit> unit;
