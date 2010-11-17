@@ -224,7 +224,7 @@ void CMapQMAPExport::startQLM()
 
             QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
             QRectF selarea(QPointF(p1.u, p1.v), QPointF(p2.u, p2.v));
-            QRect  intersect = selarea.intersected(maparea).toRect();
+            QRectF intersect = selarea.intersected(maparea);
 
             //             qDebug() << maparea << selarea << intersect;
             if(intersect.isValid())
@@ -363,7 +363,7 @@ void CMapQMAPExport::startGE()
 
         QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
         QRectF selarea(QPointF(p1.u, p1.v), QPointF(p2.u, p2.v));
-        QRect  intersect = selarea.intersected(maparea).toRect();
+        QRectF intersect = selarea.intersected(maparea);
 
         //             qDebug() << maparea << selarea << intersect;
         if(intersect.isValid())
