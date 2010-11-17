@@ -836,7 +836,7 @@ void CWptDB::createWaypointsFromImages()
 
         CWpt * wpt      = new CWpt(this);
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
-        wpt->lat        = exifGPS.lat * exifGPS.lon_sign;
+        wpt->lat        = exifGPS.lat * exifGPS.lat_sign;
         wpt->timestamp  = exifGPS.timestamp;
         wpt->setIcon("Flag, Red");
         wpt->name       = file;

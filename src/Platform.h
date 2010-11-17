@@ -302,7 +302,7 @@ __gar_ptr_load_int16_t(const uint8_t *p)
 static inline int32_t
 __gar_ptr_load_int24_t(const uint8_t *p)
 {
-    return = p[0] | (p[1] << 8) | (p[2] << 16);
+    return p[0] | (p[1] << 8) | (p[2] << 16);
 }
 
 static inline int32_t
