@@ -615,6 +615,12 @@ void CTrackDB::delTracks(const QStringList& keys)
 
 void CTrackDB::highlightTrack(const QString& key)
 {
+
+    if(highlightedTrack() && (key == highlightedTrack()->getKey()))
+    {
+        return;
+    }
+
     QMap<QString,CTrack*>::iterator track = tracks.begin();
     while(track != tracks.end())
     {
@@ -759,10 +765,16 @@ void CTrackDB::splitTrack(int idx)
 
 void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
 {
-    QPoint pt, ptt, pt1;
+    QPolygon subline;
+    QList<QPolygon> lines;
+
     int i;
+    QPoint pt, ptt, pt1;    
     const int size = line.size();
+
     pt = line[0];
+    subline << pt;
+
     for(i = 1; i < size; i++)
     {
         pt1 = line[i];
@@ -770,6 +782,12 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
         if(!extViewport.contains(pt1) && !extViewport.contains(pt))
         {
             pt = pt1;
+            if(subline.size() > 1)
+            {
+                lines << subline;
+            }
+            subline.clear();
+            subline << pt;
             continue;
         }
 
@@ -779,10 +797,18 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
             continue;
         }
 
-        p.drawLine(pt, pt1);
-
+        subline << pt1;
         pt = pt1;
+    }
 
+    if(subline.size() > 1)
+    {
+        lines << subline;
+    }
+
+    for(i = 0; i < lines.count(); i++)
+    {
+        p.drawPolyline(lines[i]);
     }
 
 }
@@ -986,11 +1012,13 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QPolygon& line = (*track)->getPolyline();
 
         // draw skunk line
-        QPen pen1(Qt::white,11);
+        QPen pen1(QColor(255,255,255,128),15);
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        QPen pen2((*track)->getColor(),7);
+        QColor color = (*track)->getColor();
+        color.setAlpha(128);
+        QPen pen2(color,11);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
 

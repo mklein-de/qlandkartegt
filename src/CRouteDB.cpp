@@ -460,7 +460,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         else
         {
             // draw normal route
-            QPen pen(Qt::darkMagenta,7);
+            QPen pen(QColor(192,0,192,128),7);
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::RoundJoin);
             p.setPen(pen);
@@ -483,7 +483,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QPolygon& points = (*route)->getPoints();
 
         // draw skunk line
-        QPen pen(Qt::magenta,7);
+        QPen pen(QColor(255,0,255,128),15);
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         p.setPen(pen);
@@ -505,10 +505,16 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
 void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
 {
-    QPoint pt, ptt, pt1;
+    QPolygon subline;
+    QList<QPolygon> lines;
+
     int i;
+    QPoint pt, ptt, pt1;
     const int size = line.size();
+
     pt = line[0];
+    subline << pt;
+
     for(i = 1; i < size; i++)
     {
         pt1 = line[i];
@@ -516,6 +522,12 @@ void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
         if(!extViewport.contains(pt1) && !extViewport.contains(pt))
         {
             pt = pt1;
+            if(subline.size() > 1)
+            {
+                lines << subline;
+            }
+            subline.clear();
+            subline << pt;
             continue;
         }
 
@@ -525,12 +537,19 @@ void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
             continue;
         }
 
-        p.drawLine(pt, pt1);
-
+        subline << pt1;
         pt = pt1;
-
     }
 
+    if(subline.size() > 1)
+    {
+        lines << subline;
+    }
+
+    for(i = 0; i < lines.count(); i++)
+    {
+        p.drawPolyline(lines[i]);
+    }
 }
 
 
