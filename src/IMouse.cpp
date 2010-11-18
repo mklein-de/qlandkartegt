@@ -189,6 +189,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
     IMap& map = CMapDB::self().getMap();
     if(selTrkPt && !selWpt)
     {
+        QString val, unit;
         double u = selTrkPt->lon * DEG_TO_RAD;
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -208,10 +209,14 @@ void IMouse::drawSelTrkPt(QPainter& p)
         if(selTrkPt->ele != WPT_NOFLOAT)
         {
             if(str.count()) str += "\n";
-            QString val, unit;
             IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
             str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
+
+        if(str.count()) str += "\n";
+        IUnit::self().meter2distance(selTrkPt->distance, val, unit);
+        str += tr("dist. from start: %1%2").arg(val).arg(unit);
+
         //-----------------------------------------------------------------------------------------------------------
         //TODO: HOVERTEXT FOR EXTENSIONS
 #ifdef GPX_EXTENSIONS
