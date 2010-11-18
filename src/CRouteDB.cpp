@@ -460,7 +460,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         else
         {
             // draw normal route
-            QPen pen(QColor(192,0,192,128),7);
+            QPen pen(QColor(192,0,192,128),5);
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::RoundJoin);
             p.setPen(pen);
@@ -483,7 +483,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QPolygon& points = (*route)->getPoints();
 
         // draw skunk line
-        QPen pen(QColor(255,0,255,128),15);
+        QPen pen(QColor(255,0,255,128),19);
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         p.setPen(pen);

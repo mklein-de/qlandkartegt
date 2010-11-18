@@ -342,12 +342,12 @@ void CCanvas::draw(QPainter& p)
     USE_ANTI_ALIASING(p,!map.getFastDrawFlag() && CResources::self().useAntiAliasing());
 
     CMapDB::self().draw(p,rect(), needsRedraw);
-    CTrackDB::self().draw(p, rect(), needsRedraw);
     CRouteDB::self().draw(p, rect(), needsRedraw);
+    CTrackDB::self().draw(p, rect(), needsRedraw);
+    COverlayDB::self().draw(p, rect(), needsRedraw);
     CLiveLogDB::self().draw(p, rect(), needsRedraw);
     CWptDB::self().draw(p, rect(), needsRedraw);
     CSearchDB::self().draw(p, rect(), needsRedraw);
-    COverlayDB::self().draw(p, rect(), needsRedraw);
 
     drawRefPoints(p);
     drawScale(p);
