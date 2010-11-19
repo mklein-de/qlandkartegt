@@ -769,7 +769,7 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
     QList<QPolygon> lines;
 
     int i;
-    QPoint pt, ptt, pt1;    
+    QPoint pt, ptt, pt1;
     const int size = line.size();
 
     pt = line[0];
