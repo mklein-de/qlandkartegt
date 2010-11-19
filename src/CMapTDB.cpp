@@ -2474,7 +2474,7 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
                     }
                     else
                     {
-                        dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                        dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[0] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
                 else
@@ -2511,7 +2511,7 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
                     }
                     else
                     {
-                        dict.insert(tr("Point of Interest"), QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                        dict.insert(tr("Point of Interest"),pointProperties[point->type].strings[0] + QString(" (%1)").arg(point->type,2,16,QChar('0')));
                     }
                 }
                 else
@@ -2798,17 +2798,28 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 
             if(c)
             {
-                if(line->labels.isEmpty())
+                if(line->labels.size())
                 {
-
-                    if(selectedLanguage != -1 && polygonProperties[line->type].strings[selectedLanguage].size())
-                    {
-                        dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
-                    }
+                    dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
                 }
                 else
                 {
-                    dict.insert(tr("Area"), line->labels.join(" ").simplified()  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+
+                    if(selectedLanguage != -1)
+                    {
+                        if(polygonProperties[line->type].strings[selectedLanguage].size())
+                        {
+                            dict.insert(tr("Area"), polygonProperties[line->type].strings[selectedLanguage]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+                        }
+                    }
+                    else
+                    {
+                        if(polygonProperties[line->type].strings[0].size())
+                        {
+                            dict.insert(tr("Area"), polygonProperties[line->type].strings[0]  + QString(" (%1)").arg(line->type,2,16,QChar('0')));
+                        }
+                    }
+
                 }
             }
         }
