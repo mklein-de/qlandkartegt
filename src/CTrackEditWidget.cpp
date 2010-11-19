@@ -427,6 +427,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 }
 
 
+
 void CTrackEditWidget::slotUpdate()
 {
     int i;
@@ -815,6 +816,13 @@ void CTrackEditWidget::slotShowProfile()
             theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
         }
 
+        if(trackStatDistanceTime.isNull())
+        {
+            trackStatDistanceTime = new CTrackStatDistanceWidget(this);
+            theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+            theMainWindow->getCanvasTab()->addTab(trackStatDistanceTime, tr("Dist./Time"));
+        }
+
         trackStatProfileDist = new CTrackStatProfileWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
         theMainWindow->getCanvasTab()->addTab(trackStatProfileDist, tr("Profile/Dist."));
@@ -826,6 +834,8 @@ void CTrackEditWidget::slotShowProfile()
 
 void CTrackEditWidget::slotToggleStatDistance()
 {
+
+
     if(trackStatSpeedDist.isNull())
     {
         trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
@@ -835,6 +845,17 @@ void CTrackEditWidget::slotToggleStatDistance()
     else
     {
         delete trackStatSpeedDist;
+    }
+
+    if(trackStatDistanceTime.isNull())
+    {
+        trackStatDistanceTime = new CTrackStatDistanceWidget(this);
+        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
+        theMainWindow->getCanvasTab()->addTab(trackStatDistanceTime, tr("Dist./Time"));
+    }
+    else
+    {
+        delete trackStatDistanceTime;
     }
 
     if(trackStatProfileDist.isNull())
@@ -854,28 +875,13 @@ void CTrackEditWidget::slotToggleStatTime()
 {
     if(trackStatSpeedTime.isNull())
     {
-                                 //TODO: TIME BUTTON
         trackStatSpeedTime = new CTrackStatSpeedWidget(ITrackStat::eOverTime, this);
         theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-                                 //TAB hinzufgen
         theMainWindow->getCanvasTab()->addTab(trackStatSpeedTime, tr("Speed/Time"));
     }
     else
     {
         delete trackStatSpeedTime;
-    }
-
-    if(trackStatDistanceTime.isNull())
-    {
-                                 //TODO: TIME BUTTON
-        trackStatDistanceTime = new CTrackStatDistanceWidget(this);
-        theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-                                 //TAB hinzufgen
-        theMainWindow->getCanvasTab()->addTab(trackStatDistanceTime, tr("Dist./Time"));
-    }
-    else
-    {
-        delete trackStatDistanceTime;
     }
 
     if(trackStatProfileTime.isNull())
