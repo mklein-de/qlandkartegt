@@ -143,7 +143,7 @@ class IMouse : public QObject
 
         QPointer<CSearch> selSearch;
 #ifdef GPX_EXTENSIONS
-        QPointer<CTrack> track;  //TODO: noch ne def
+        //QPointer<CTrack> track;  //TODO: noch ne def
 #endif
 };
 #endif                           //IMOUSE_H

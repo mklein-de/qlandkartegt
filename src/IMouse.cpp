@@ -186,9 +186,12 @@ void IMouse::drawSelSearch(QPainter& p)
 
 void IMouse::drawSelTrkPt(QPainter& p)
 {
-    IMap& map = CMapDB::self().getMap();
+    IMap& map       = CMapDB::self().getMap();
+
     if(selTrkPt && !selWpt)
     {
+        CTrack * track = CTrackDB::self().highlightedTrack();
+
         QString val, unit;
         double u = selTrkPt->lon * DEG_TO_RAD;
         double v = selTrkPt->lat * DEG_TO_RAD;
@@ -215,7 +218,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
 
         if(str.count()) str += "\n";
         IUnit::self().meter2distance(selTrkPt->distance, val, unit);
-        str += tr("dist. from start: %1%2").arg(val).arg(unit);
+        str += tr("dist. from start: %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0);
 
         //-----------------------------------------------------------------------------------------------------------
         //TODO: HOVERTEXT FOR EXTENSIONS
