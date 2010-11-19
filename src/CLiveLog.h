@@ -27,10 +27,10 @@ class CLiveLog
     public:
         CLiveLog() : fix(eOff), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT)
             , timestamp(0xFFFFFFFF), error_horz(WPT_NOFLOAT), error_vert(WPT_NOFLOAT)
-            , heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
+            , error_unit(""), sat_used(-1), heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
         virtual ~CLiveLog();
 
-        enum fix_e {eNoFix, e2DFix, e3DFix, eOff};
+        enum fix_e {eNoFix, e2DFix, e3DFix, eEstimated, eOff};
 
         fix_e fix;
         float lon;
@@ -39,6 +39,8 @@ class CLiveLog
         quint32 timestamp;
         float error_horz;
         float error_vert;
+        QString error_unit;
+        int sat_used;
         float heading;
         float velocity;
 };

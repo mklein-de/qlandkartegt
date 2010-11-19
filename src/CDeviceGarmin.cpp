@@ -637,8 +637,8 @@ void CDeviceGarmin::slotTimeout()
 
         log.heading     = heading;
         log.velocity    = sqrtf( pvt.north * pvt.north + pvt.east * pvt.east );
-        log.error_horz  = pvt.eph;
-        log.error_vert  = pvt.epv;
+        log.error_horz  = pvt.eph/2.0;  //HS: moved division by 2 from CLiveLogDB.cpp
+        log.error_vert  = pvt.epv/2.0;  //HS: moved division by 2 from CLiveLogDB.cpp
     }
 
     emit sigLiveLog(log);
@@ -1143,6 +1143,8 @@ void CDeviceGarmin::setLiveLog(bool on)
 {
     Garmin::IDevice * dev = getDevice();
     if(dev == 0) return;
+
+    log.error_unit = "m";
 
     try
     {

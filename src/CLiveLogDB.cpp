@@ -140,10 +140,21 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
     if(w == 0) return;
 
-    // always update the time
+    // always update the time and used sat
     w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
+    if (log.sat_used != -1)
+    {
+        
+        w->lblSatUsed->setText(tr("%1").arg(log.sat_used));
+    }
+    else
+    {
+        w->lblSatUsed->setText("-");
+    }
 
-    if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
+    //HS: disable the stand-still filter
+    //Or better move it down after update of the text fields?
+    //if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
 
     m_log = log;
 
@@ -151,6 +162,10 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
     float speed_km_h = log.velocity * 3.6;
     float heading = log.heading;
+    //HS: depending on what log.error_horz for the different devices,
+    //we could use it here as well.
+    //If it's HDOP as for NMEA, simply multiply with the speed threshold.
+    //We might consider moving this filter to the devices ...
     if( speed_km_h < 0.3 )
     {
 
@@ -167,24 +182,63 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     QString pos;
     GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
 
-    if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix)
+    if(log.fix == CLiveLog::e2DFix ||
+       log.fix == CLiveLog::e3DFix ||
+       log.fix == CLiveLog::eEstimated)
     {
         QString val, unit;
 
+        if (log.fix == CLiveLog::e2DFix) 
+            w->lblStatus->setText("2D");
+        if (log.fix == CLiveLog::e3DFix) 
+            w->lblStatus->setText("3D");
+        if (log.fix == CLiveLog::eEstimated) 
+            w->lblStatus->setText("DR");
         w->lblPosition->setText(pos);
-        IUnit::self().meter2elevation(log.ele, val,unit);
-        w->lblAltitude->setText(tr("%1 %2").arg(val).arg(unit));
-        w->lblErrorHoriz->setText(tr("\261%1 m").arg(log.error_horz/2,0,'f',0));
-        w->lblErrorVert->setText(tr("\261%1 m").arg(log.error_vert/2,0,'f',0));
-        IUnit::self().meter2speed(speed_km_h / 3.6, val,unit);
-        w->lblSpeed->setText(tr("%1 %2").arg(val).arg(unit));
-        if(isnan(heading))
+        if (log.ele != WPT_NOFLOAT)
         {
-            w->lblHeading->setText(tr("-"));
+            IUnit::self().meter2elevation(log.ele, val,unit);
+            w->lblAltitude->setText(tr("%1 %2").arg(val).arg(unit));
         }
         else
         {
-            w->lblHeading->setText(tr("%1\260 T").arg((int)(heading + 0.5),3,'f',0,'0'));
+            w->lblAltitude->setText("-");
+        }
+        if (log.error_horz != WPT_NOFLOAT)
+        {
+            //HS: removed division by 2: error estimates should be done by device
+            w->lblErrorHoriz->setText(tr("%1 %2").arg(log.error_horz,0,'f',1).arg(log.error_unit));
+        }
+        else
+        {
+            w->lblErrorHoriz->setText("-");
+        }
+        if (log.error_vert != WPT_NOFLOAT)
+        {
+            //HS: removed division by 2: error estimates should be done by device
+            w->lblErrorVert->setText(tr("%1 %2").arg(log.error_vert,0,'f',1).arg(log.error_unit));
+        }
+        else
+        {
+            w->lblErrorVert->setText("-");
+        }
+        if (log.velocity != WPT_NOFLOAT)
+        {
+            IUnit::self().meter2speed(log.velocity, val,unit);
+            w->lblSpeed->setText(tr("%1 %2").arg(val).arg(unit));
+        }
+        else
+        {
+            w->lblSpeed->setText("-");
+        }
+        if(log.heading != WPT_NOFLOAT)
+        {
+            //HS: removed stand-still filtering for displayed values
+            w->lblHeading->setText(tr("%1\260 T").arg((int)(log.heading + 0.5),3,'f',0,'0'));
+        }
+        else
+        {
+            w->lblHeading->setText("-");
         }
 
         simplelog_t slog;
@@ -214,14 +268,22 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     }
     else if(log.fix == CLiveLog::eNoFix)
     {
-        w->lblPosition->setText(tr("GPS signal low"));
-    }
-    else
-    {
-        w->lblPosition->setText(tr("GPS off"));
+        w->lblStatus->setText(tr("GPS signal low"));
+        w->lblPosition->setText("-");
         w->lblAltitude->setText("-");
         w->lblErrorHoriz->setText("-");
         w->lblErrorVert->setText("-");
+        w->lblSpeed->setText("-");
+        w->lblHeading->setText("-");
+    }
+    else
+    {
+        w->lblStatus->setText(tr("GPS off"));
+        w->lblPosition->setText("-");
+        w->lblAltitude->setText("-");
+        w->lblErrorHoriz->setText("-");
+        w->lblErrorVert->setText("-");
+        w->lblSatUsed->setText("-");
         w->lblSpeed->setText("-");
         w->lblHeading->setText("-");
         w->lblTime->setText("-");
@@ -278,7 +340,9 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     p.drawPolyline(polyline);
 
     IMap& map = CMapDB::self().getMap();
-    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix)
+    if( (m_log.fix == CLiveLog::e2DFix) ||
+        (m_log.fix == CLiveLog::e3DFix) ||
+        (m_log.fix == CLiveLog::eEstimated) )
     {
         double u = m_log.lon * DEG_TO_RAD;
         double v = m_log.lat * DEG_TO_RAD;
@@ -305,7 +369,9 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
 void CLiveLogDB::addWpt()
 {
-    if(m_log.fix == CLiveLog::e2DFix || m_log.fix == CLiveLog::e3DFix)
+    if( (m_log.fix == CLiveLog::e2DFix) ||
+        (m_log.fix == CLiveLog::e3DFix) ||
+        (m_log.fix == CLiveLog::eEstimated) )
     {
         CWptDB::self().newWpt(m_log.lon * DEG_TO_RAD, m_log.lat * DEG_TO_RAD, m_log.ele);
     }

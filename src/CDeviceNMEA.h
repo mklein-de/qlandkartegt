@@ -51,6 +51,7 @@ class CDeviceNMEA : public IDevice
         void slotWatchdog();
 
     private:
+        bool isChecksumValid();
         void decode();
 
         QString serialport;
@@ -58,6 +59,9 @@ class CDeviceNMEA : public IDevice
         ManageSerialPort tty;
 
         bool haveSeenData;
+        bool haveSeenGPRMC;
+        bool haveSeenGPGGA;
+        bool haveSeenGPGSA;
         bool haveSeenGPVTG;
 
         QTimer * watchdog;
