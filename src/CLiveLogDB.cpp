@@ -140,11 +140,10 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
     if(w == 0) return;
 
-    // always update the time and used sat
+    //1.) always update the date/time and used sat text fields
     w->lblTime->setText(QDateTime::fromTime_t(log.timestamp).toString());
     if (log.sat_used != -1)
     {
-        
         w->lblSatUsed->setText(tr("%1").arg(log.sat_used));
     }
     else
@@ -156,10 +155,8 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     //Or better move it down after update of the text fields?
     //if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
 
+    //2.) always update m_log which is used to draw the position symbolin the map
     m_log = log;
-
-    *backup << log;
-
     float speed_km_h = log.velocity * 3.6;
     float heading = log.heading;
     //HS: depending on what log.error_horz for the different devices,
@@ -168,7 +165,6 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     //We might consider moving this filter to the devices ...
     if( speed_km_h < 0.3 )
     {
-
         // some pretty arbitrary threshold ...
         // with a horizontal error of +/-5m it never goes above
         // 0.06 km/h while standing still, but you don't always
@@ -176,18 +172,18 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         speed_km_h = 0.0;
         heading = std::numeric_limits<float>::quiet_NaN();
     }
-
     m_log.heading = heading;
 
     QString pos;
     GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
 
+    //3.) only if the position is considered valid
     if(log.fix == CLiveLog::e2DFix ||
        log.fix == CLiveLog::e3DFix ||
        log.fix == CLiveLog::eEstimated)
     {
+        //3.1) update the other text fields
         QString val, unit;
-
         if (log.fix == CLiveLog::e2DFix) 
             w->lblStatus->setText("2D");
         if (log.fix == CLiveLog::e3DFix) 
@@ -241,6 +237,10 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
             w->lblHeading->setText("-");
         }
 
+        //3.2) att point to "backup" which is used to generate a track afterwards
+        *backup << log;
+
+        //3.3) add point to "track" which is needed to re-draw polyline when map is changed
         simplelog_t slog;
         slog.timestamp  = log.timestamp;
         slog.lon        = log.lon;
@@ -248,12 +248,14 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         slog.ele        = log.ele;
         track << slog;
 
+        //3.4) add point to current polyline
         IMap& map = CMapDB::self().getMap();
         double u = slog.lon * DEG_TO_RAD;
         double v = slog.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
         polyline << QPoint(u,v);
 
+        //3.5) move map center if necessary
         if(m_lockToCenter)
         {
             QSize size  = map.getSize();
@@ -266,6 +268,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
             }
         }
     }
+    //4.) when the position is considered valid
     else if(log.fix == CLiveLog::eNoFix)
     {
         w->lblStatus->setText(tr("GPS signal low"));
@@ -276,6 +279,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblSpeed->setText("-");
         w->lblHeading->setText("-");
     }
+    //5.) when logging is off
     else
     {
         w->lblStatus->setText(tr("GPS off"));

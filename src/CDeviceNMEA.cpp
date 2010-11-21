@@ -187,9 +187,12 @@ void CDeviceNMEA::decode()
     //  - in general, each sentence is provided cyclically
     //  - trigger emitting the collected data on a sentence which contains the most important data: lat/lon
     //    -- those are $GPRMC and $GPGGA
-    //  - prefer $GPRMC over $GPGGA since it contains a more complete set of data for land navigation
-    //    -- GPRMC contains heading, speed and date which are not present in GPGGA
-    //    -- GPGGA contains fix status, uset sat, hdop and altitude which are not present in GPRMC
+    //    -- prefer $GPRMC over $GPGGA since it contains a more complete set of data for land navigation
+    //      --- $GPRMC contains heading, speed and date which are not present in $GPGGA
+    //      --- $GPGGA contains fix status, uset sat, hdop and altitude which are not present in $GPRMC
+    //    -- but trigger on $GPGGA if no $GPRMC has been observed in the collection cycle
+    //      --- accepted drawback when both $GPGGA and $GPRMC are provided:
+    //        if $GGGPA is collected first (50/50 chance) the date of the first trackpoint will be wrong
     //  - take as much as possible data from $GPRMC
     //    -- collect the rest from the other sentences
     //    -- cache (i.e. do not reset) "slowly" changing data
@@ -208,10 +211,25 @@ void CDeviceNMEA::decode()
         haveSeenGPGGA = true;
 
         //field 1: time
-        //  there is no date in $GPGGA - take any date far away from now
+        //time can contain an arbitrary number of fractional digits
+        //therefore, the  QDateTime/QTime::fromString() functions do not work here
+        //there is no date in $GPGGA - take any date far away from now
         if (tokens[1] == "") { tokens[1] = "000000"; }
-        QDateTime datetime = QDateTime::fromString(tokens[1] + "311299","hhmmss.zzzddMMyy");
-        datetime.setTimeSpec(Qt::UTC);
+        tok = tokens[1];
+        int hours=0, minutes = 0, seconds = 0, milliseconds=0;
+        if (tok.length() >= 6)
+        {
+            hours   = tok.mid(0,2).toInt();
+            minutes = tok.mid(2,2).toInt();
+            double s, frac;
+            frac = modf(tok.mid(4).toFloat(), &s);
+            seconds = s;
+            milliseconds = floor(frac*1000.0+0.5);
+        }
+        QTime time(hours, minutes, seconds, milliseconds);
+        QDate date = QDate::fromString("311299","ddMMyy");
+        QDateTime datetime(date, time, Qt::UTC);
+        datetime = datetime.addYears(100);
         log.timestamp = datetime.toTime_t();
 
         //fields 2,3: latitude
@@ -310,10 +328,25 @@ void CDeviceNMEA::decode()
         haveSeenGPRMC = true;
 
         //field 1: time, field 9: date
-        if (tokens[1] == "") { tokens[1] = "000000"; }
+        //time can contain an arbitrary number of fractional digits
+        //therefore, the  QDateTime/QTime::fromString() functions do not work here
+        if (tokens[1] == "") { tokens[1] = "000000"; } 
+        tok = tokens[1];
+        int hours=0, minutes = 0, seconds = 0, milliseconds=0;
+        if (tok.length() >= 6)
+        {
+            hours   = tok.mid(0,2).toInt();
+            minutes = tok.mid(2,2).toInt();
+            double s, frac;
+            frac = modf(tok.mid(4).toFloat(), &s);
+            seconds = s;
+            milliseconds = floor(frac*1000.0+0.5);
+        }
+        QTime time(hours, minutes, seconds, milliseconds);
         if (tokens[9] == "") { tokens[9] = "311299"; }
-        QDateTime datetime = QDateTime::fromString(tokens[1] + tokens[9],"hhmmss.zzzddMMyy").addYears(100);
-        datetime.setTimeSpec(Qt::UTC);
+        QDate date = QDate::fromString(tokens[9],"ddMMyy");
+        QDateTime datetime(date, time, Qt::UTC);
+        datetime = datetime.addYears(100);
         log.timestamp = datetime.toTime_t();
 
         //field 2: status
