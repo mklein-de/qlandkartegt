@@ -963,11 +963,11 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
             }
 
 
-            if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast)
+            if(strtbl && !p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
-            else if(strtbl && p.lbl_in_NET && p.lbl_info && !fast)
+            else if(strtbl && p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
@@ -993,11 +993,11 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
                 continue;
             }
 
-            if(strtbl && !p.lbl_in_NET && p.lbl_info)
+            if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
-            else if(strtbl && p.lbl_in_NET && p.lbl_info)
+            else if(strtbl && p.lbl_in_NET && p.lbl_info && !fast)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::net, p.labels);
             }
@@ -1032,7 +1032,7 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
                 continue;
             }
 
-            if(strtbl && !p.lbl_in_NET && p.lbl_info)
+            if(strtbl && !p.lbl_in_NET && p.lbl_info && !fast)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
             }
