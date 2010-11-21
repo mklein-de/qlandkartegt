@@ -113,12 +113,14 @@ Section "QLandkarte GT" QLandkarteGT
   ;Install for all users
   SetShellVarContext all
 
+  ;BEGIN QLandkarte GT Files    
   SetOutPath $INSTDIR
     File Files\qlandkartegt.exe
     File Files\Globe128x128.ico
     File Files\qlandkartegt_*.qm
     File Files\qt_??.qm
-
+  ;END QLandkarte GT Files    
+   
   ;BEGIN Qt Files
 	SetOutPath $INSTDIR
   	File Files\QtCore4.dll
@@ -137,6 +139,12 @@ Section "QLandkarte GT" QLandkarteGT
 
 	SetOutPath "$INSTDIR\sqldrivers\"
     File Files\sqldrivers\qsqlite4.dll
+
+  ;BEGIN additional Files    
+  SetOutPath $INSTDIR
+    File Files\3rdparty.txt
+    File Files\libexif-12.dll
+  ;END additional Files    
     
   ;the last "SetOutPath" will be the default directory
   SetOutPath $INSTDIR    
@@ -150,6 +158,7 @@ Section "QLandkarte GT" QLandkarteGT
   StrCpy $1 "call $\"$0\setfw.bat$\"$\r$\n"
   fileOpen $0 "$INSTDIR\QLandkarteGT.bat" w
   fileWrite $0 $1
+  fileWrite $0 "cd /D $\"$INSTDIR$\"$\r$\n" 
   fileWrite $0 "start qlandkartegt.exe %*"
   fileClose $0
 
