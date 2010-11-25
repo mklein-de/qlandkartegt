@@ -191,6 +191,10 @@ void IMouse::drawSelTrkPt(QPainter& p)
     if(selTrkPt && !selWpt)
     {
         CTrack * track = CTrackDB::self().highlightedTrack();
+        if(track == 0)
+        {
+            return;
+        }
 
         QString val, unit;
         double u = selTrkPt->lon * DEG_TO_RAD;
