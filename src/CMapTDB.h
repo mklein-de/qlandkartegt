@@ -64,6 +64,9 @@ class CMapTDB : public IMap
         void select(IMapSelection& ms, const QRect& rect);
         void getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line);
 
+        QString getCopyright();
+        QString getMapLevelInfo();
+
 #ifdef SQL_SEARCH_GARMIN
         void createSearchIndex(QObject * reveiver, const char * slot);
         CGarminIndex * getSearchIndex(){return index;}

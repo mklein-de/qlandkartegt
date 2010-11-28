@@ -462,6 +462,25 @@ CMapTDB::~CMapTDB()
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
+QString CMapTDB::getCopyright()
+{
+    return copyright;
+}
+
+QString CMapTDB::getMapLevelInfo()
+{
+    QString str;
+    map_level_t level;
+
+//            QVector<map_level_t> maplevels;
+
+    foreach(level, maplevels)
+    {
+        str += tr("Level: %1 Bits: %2 On basmap: %3").arg(level.level).arg(level.bits).arg(level.useBaseMap) + "<br/>";
+    }
+
+    return str;
+}
 
 void CMapTDB::slotToolTip()
 {
@@ -3057,21 +3076,5 @@ void CMapTDB::config()
     CDlgMapTDBConfig dlg(this);
     dlg.exec();
 
-    needsRedraw = true;
-    if(comboLanguages)
-    {
-        delete comboLanguages;
-        comboLanguages  = 0;
-    }
-
-    if(useTyp)
-    {
-        readTYP();
-    }
-    else
-    {
-        setup();
-    }
-    emit sigChanged();
 }
 
