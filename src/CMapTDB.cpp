@@ -507,7 +507,7 @@ QString CMapTDB::createLegendString(const QMap<int,QString>& strings)
 QString CMapTDB::getLegendLines()
 {
     QString filename;
-    QPixmap pixmap(100,20);
+    QPixmap pixmap(100,30);
     quint32 key;
     QList<quint32> keys = polylineProperties.keys();
     qSort(keys);
@@ -543,6 +543,12 @@ QString CMapTDB::getLegendLines()
     {
         const IGarminTyp::polyline_property& prop = polylineProperties[key];
 
+        if(!prop.known)
+        {
+            continue;
+        }
+
+
         str += "<tr>";
         str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
         str += QString("<td align='right' style='padding-right: 5px;'>%1</td>").arg(key,0,16);
@@ -576,7 +582,7 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td><img src='%1'/></td>").arg(filename);
+            str += QString("<td><img src='file://%1'/></td>").arg(filename);
         }
 
         {
@@ -608,7 +614,7 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td style='background-color: black;'><img src='%1'/></td>").arg(filename);
+            str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
         }
 
         str += "</tr>";
@@ -624,7 +630,7 @@ QString CMapTDB::getLegendArea()
     QPixmap pixmap(100,30);
     QString filename;
     quint32 key;
-    QList<quint32> keys = polylineProperties.keys();
+    QList<quint32> keys = polygonProperties.keys();
     qSort(keys);
 
 #ifndef Q_OS_WIN32
@@ -658,6 +664,11 @@ QString CMapTDB::getLegendArea()
     {
         const IGarminTyp::polygon_property& prop = polygonProperties[key];
 
+        if(!prop.known)
+        {
+            continue;
+        }
+
         str += "<tr>";
         str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
         str += QString("<td align='right' style='padding-right: 5px;'>%1</td>").arg(key,0,16);
@@ -672,7 +683,7 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td><img src='%1'/></td>").arg(filename);
+            str += QString("<td><img src='file://%1'/></td>").arg(filename);
         }
 
         {
@@ -685,7 +696,7 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td style='background-color: black;'><img src='%1'/></td>").arg(filename);
+            str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
         }
 
         str += "</tr>";
@@ -697,8 +708,57 @@ QString CMapTDB::getLegendArea()
 
 QString CMapTDB::getLegendPoints()
 {
-    QString str;
+    QString filename;
+    quint32 key;
+    QList<quint32> keys = pointProperties.keys();
+    qSort(keys);
 
+#ifndef Q_OS_WIN32
+    QDir tempDir;
+    const char *envCache = getenv("QLGT_LEGEND");
+
+    if (envCache)
+    {
+        tempDir = envCache;
+    }
+    else
+    {
+        struct passwd * userInfo = getpwuid(getuid());
+        tempDir = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/legend/";
+    }
+#else
+    tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
+#endif
+    tempDir.mkpath(tempDir.path());
+
+    QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
+
+    str += "<tr>";
+    str += QString("<th>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th>%1</th>").arg(tr("Day"));
+    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += "</tr>";
+
+    foreach(key, keys)
+    {
+        const IGarminTyp::point_property& prop = pointProperties[key];
+
+        str += "<tr>";
+        str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
+        str += QString("<td align='right' style='padding-right: 5px;'>%1</td>").arg(key,0,16);
+
+        filename = tempDir.filePath(QString("p%1d.png").arg(key,8,16,QChar('0')));
+        prop.imgDay.save(filename);
+        str += QString("<td width='100px' align='center'><img src='file://%1'/></td>").arg(filename);
+
+        filename = tempDir.filePath(QString("p%1n.png").arg(key,8,16,QChar('0')));
+        prop.imgDay.save(filename);
+        str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+        str += "</tr>";
+    }
+
+    str += "</table>";
     return str;
 }
 
@@ -937,7 +997,7 @@ void CMapTDB::setup()
     polylineProperties[0x09] = IGarminTyp::polyline_property(0x09, "#e88866",   2, Qt::SolidLine );
     polylineProperties[0x0A] = IGarminTyp::polyline_property(0x0A, "#808080",   2, Qt::SolidLine );
     polylineProperties[0x0B] = IGarminTyp::polyline_property(0x0B, "#c46442",   2, Qt::SolidLine );
-    polylineProperties[0x0C] = IGarminTyp::polyline_property(0x0C, "#FFFFFF",   2, Qt::SolidLine );
+    polylineProperties[0x0C] = IGarminTyp::polyline_property(0x0C, "#000000",   2, Qt::SolidLine );
     polylineProperties[0x14] = IGarminTyp::polyline_property(0x14, Qt::white,   2, Qt::DotLine   );
     polylineProperties[0x14].penBorderDay = QPen(Qt::black, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     polylineProperties[0x14].penBorderNight = QPen(Qt::lightGray, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -1052,7 +1112,7 @@ void CMapTDB::setup()
     polygonProperties[0x4e] = IGarminTyp::polygon_property(0x4e, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
     polygonProperties[0x4f] = IGarminTyp::polygon_property(0x4f, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
     polygonProperties[0x50] = IGarminTyp::polygon_property(0x50, Qt::NoPen,     "#b7e999", Qt::SolidPattern);
-    polygonProperties[0x51] = IGarminTyp::polygon_property(0x51, Qt::NoPen,     "#ffffff", Qt::SolidPattern);
+    polygonProperties[0x51] = IGarminTyp::polygon_property(0x51, Qt::NoPen,     "#0000ff", Qt::DiagCrossPattern);
     polygonProperties[0x52] = IGarminTyp::polygon_property(0x52, Qt::NoPen,     "#4aca4a", Qt::SolidPattern);
     polygonProperties[0x53] = IGarminTyp::polygon_property(0x53, Qt::NoPen,     "#bcedfa", Qt::SolidPattern);
     polygonProperties[0x54] = IGarminTyp::polygon_property(0x54, Qt::NoPen,     "#fde8d5", Qt::SolidPattern);

@@ -56,7 +56,8 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     cpytext = cpytext.replace("${legendareas}", map->getLegendArea());
     cpytext = cpytext.replace("${legendpoints}", map->getLegendPoints());
 
-    textEdit->setHtml(cpytext);
+    qDebug() << cpytext;
+    webView->setHtml(cpytext);
 
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
