@@ -533,10 +533,10 @@ QString CMapTDB::getLegendLines()
     QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
 
     str += "<tr>";
-    str += QString("<th>%1</th>").arg(tr("Name"));
-    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
-    str += QString("<th>%1</th>").arg(tr("Day"));
-    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += QString("<th style='width: 450px;'>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
     str += "</tr>";
 
     foreach(key, keys)
@@ -654,10 +654,10 @@ QString CMapTDB::getLegendArea()
     QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
 
     str += "<tr>";
-    str += QString("<th>%1</th>").arg(tr("Name"));
-    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
-    str += QString("<th>%1</th>").arg(tr("Day"));
-    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += QString("<th style='width: 450px;'>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
     str += "</tr>";
 
     foreach(key, keys)
@@ -734,10 +734,10 @@ QString CMapTDB::getLegendPoints()
     QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
 
     str += "<tr>";
-    str += QString("<th>%1</th>").arg(tr("Name"));
-    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
-    str += QString("<th>%1</th>").arg(tr("Day"));
-    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += QString("<th style='width: 450px;'>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
+    str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
     str += "</tr>";
 
     foreach(key, keys)
@@ -753,7 +753,7 @@ QString CMapTDB::getLegendPoints()
         str += QString("<td width='100px' align='center'><img src='file://%1'/></td>").arg(filename);
 
         filename = tempDir.filePath(QString("p%1n.png").arg(key,8,16,QChar('0')));
-        prop.imgDay.save(filename);
+        prop.imgNight.save(filename);
         str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
         str += "</tr>";
     }

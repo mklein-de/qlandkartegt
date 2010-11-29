@@ -27,9 +27,12 @@ static const QString text =  QObject::tr(""
 "<html>"
 "   <head>"
 "       <meta name='qrichtext' content='1' />"
-"       <style type='text/css'>p, li { white-space: pre-wrap; }</style>"
+"       <style type='text/css'>"
+"           p, li { white-space: pre-wrap; }"
+"           td {padding-top: 10px;}"
+"       </style>"
 "   </head>"
-"   <body style=' font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;'>"
+"   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
 "       <p>${copyright}</p>"
 "       <h1>Map Levels</h1>"
 "       <p>${maplevels}</p>"
@@ -56,7 +59,11 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     cpytext = cpytext.replace("${legendareas}", map->getLegendArea());
     cpytext = cpytext.replace("${legendpoints}", map->getLegendPoints());
 
-    qDebug() << cpytext;
+//    QFile tmp("legend.html");
+//    tmp.open(QIODevice::WriteOnly);
+//    tmp.write(cpytext.toLocal8Bit());
+//    tmp.close();
+
     webView->setHtml(cpytext);
 
 
