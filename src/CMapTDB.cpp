@@ -39,6 +39,7 @@
 #include <QtGui>
 #include <QSqlDatabase>
 #include <algorithm>
+#include <pwd.h>
 
 //#include <sys/time.h>
 
@@ -472,8 +473,6 @@ QString CMapTDB::getMapLevelInfo()
     QString str;
     map_level_t level;
 
-//            QVector<map_level_t> maplevels;
-
     foreach(level, maplevels)
     {
         str += tr("Level: %1 Bits: %2 On basmap: %3").arg(level.level).arg(level.bits).arg(level.useBaseMap) + "<br/>";
@@ -481,6 +480,228 @@ QString CMapTDB::getMapLevelInfo()
 
     return str;
 }
+
+QString CMapTDB::createLegendString(const QMap<int,QString>& strings)
+{
+    QString lang;
+    quint8 langid;
+    QList<quint8> langids = languages.keys();
+    qSort(langids);
+
+    foreach(langid, langids)
+    {
+        if(langid == 0 && !strings.contains(langid))
+        {
+            lang += QString("<nobr style='color: red;'>%1: %2</nobr><br/>").arg(languages[langid]).arg(tr("missing"));
+
+        }
+        else if(strings.contains(langid))
+        {
+            lang += QString("<nobr><i>%1</i>: <b>%2</b></nobr><br/>").arg(languages[langid]).arg(strings[langid]);
+        }
+    }
+
+    return lang;
+}
+
+QString CMapTDB::getLegendLines()
+{
+    QString filename;
+    QPixmap pixmap(100,20);
+    quint32 key;
+    QList<quint32> keys = polylineProperties.keys();
+    qSort(keys);
+
+#ifndef Q_OS_WIN32
+    QDir tempDir;
+    const char *envCache = getenv("QLGT_LEGEND");
+
+    if (envCache)
+    {
+        tempDir = envCache;
+    }
+    else
+    {
+        struct passwd * userInfo = getpwuid(getuid());
+        tempDir = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/legend/";
+    }
+#else
+    tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
+#endif
+    tempDir.mkpath(tempDir.path());
+
+    QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
+
+    str += "<tr>";
+    str += QString("<th>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th>%1</th>").arg(tr("Day"));
+    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += "</tr>";
+
+    foreach(key, keys)
+    {
+        const IGarminTyp::polyline_property& prop = polylineProperties[key];
+
+        str += "<tr>";
+        str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
+        str += QString("<td align='right' style='padding-right: 5px;'>%1</td>").arg(key,0,16);
+
+        {
+            pixmap.fill(Qt::white);
+            QPainter p(&pixmap);
+            if(prop.hasPixmap)
+            {
+                int x = 0;
+                while(x < pixmap.width())
+                {
+                    p.drawImage(x,10,prop.imgDay);
+                    x += prop.imgDay.width();
+                }
+
+            }
+            else if(prop.hasBorder)
+            {
+                p.setPen(prop.penBorderDay);
+                p.drawLine(0,10,200,10);
+                p.setPen(prop.penLineDay);
+                p.drawLine(0,10,200,10);
+            }
+            else
+            {
+                p.setPen(prop.penLineDay);
+                p.drawLine(0,10,200,10);
+            }
+
+            filename = tempDir.filePath(QString("l%1d.png").arg(key,8,16,QChar('0')));
+            pixmap.save(filename);
+
+            str += QString("<td><img src='%1'/></td>").arg(filename);
+        }
+
+        {
+            pixmap.fill(Qt::black);
+            QPainter p(&pixmap);
+            if(prop.hasPixmap)
+            {
+                int x = 0;
+                while(x < pixmap.width())
+                {
+                    p.drawImage(x,10,prop.imgNight);
+                    x += prop.imgNight.width();
+                }
+
+            }
+            else if(prop.hasBorder)
+            {
+                p.setPen(prop.penBorderNight);
+                p.drawLine(0,10,200,10);
+                p.setPen(prop.penLineNight);
+                p.drawLine(0,10,200,10);
+            }
+            else
+            {
+                p.setPen(prop.penLineNight);
+                p.drawLine(0,10,200,10);
+            }
+
+            filename = tempDir.filePath(QString("l%1n.png").arg(key,8,16,QChar('0')));
+            pixmap.save(filename);
+
+            str += QString("<td style='background-color: black;'><img src='%1'/></td>").arg(filename);
+        }
+
+        str += "</tr>";
+    }
+
+    str += "</table>";
+
+    return str;
+}
+
+QString CMapTDB::getLegendArea()
+{
+    QPixmap pixmap(100,30);
+    QString filename;
+    quint32 key;
+    QList<quint32> keys = polylineProperties.keys();
+    qSort(keys);
+
+#ifndef Q_OS_WIN32
+    QDir tempDir;
+    const char *envCache = getenv("QLGT_LEGEND");
+
+    if (envCache)
+    {
+        tempDir = envCache;
+    }
+    else
+    {
+        struct passwd * userInfo = getpwuid(getuid());
+        tempDir = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/legend/";
+    }
+#else
+    tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
+#endif
+    tempDir.mkpath(tempDir.path());
+
+    QString str = "<table border='0' cellspacing='0' cellpadding='0'>";
+
+    str += "<tr>";
+    str += QString("<th>%1</th>").arg(tr("Name"));
+    str += QString("<th style='padding-right: 5px;'>%1</th>").arg(tr("Type"));
+    str += QString("<th>%1</th>").arg(tr("Day"));
+    str += QString("<th>%1</th>").arg(tr("Night"));
+    str += "</tr>";
+
+    foreach(key, keys)
+    {
+        const IGarminTyp::polygon_property& prop = polygonProperties[key];
+
+        str += "<tr>";
+        str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
+        str += QString("<td align='right' style='padding-right: 5px;'>%1</td>").arg(key,0,16);
+
+        {
+            pixmap.fill(Qt::white);
+            QPainter p(&pixmap);
+            p.setPen(prop.pen);
+            p.setBrush(prop.brushDay);
+            p.drawRect(pixmap.rect());
+
+            filename = tempDir.filePath(QString("a%1d.png").arg(key,8,16,QChar('0')));
+            pixmap.save(filename);
+
+            str += QString("<td><img src='%1'/></td>").arg(filename);
+        }
+
+        {
+            pixmap.fill(Qt::black);
+            QPainter p(&pixmap);
+            p.setPen(prop.pen);
+            p.setBrush(prop.brushNight);
+            p.drawRect(pixmap.rect());
+
+            filename = tempDir.filePath(QString("a%1n.png").arg(key,8,16,QChar('0')));
+            pixmap.save(filename);
+
+            str += QString("<td style='background-color: black;'><img src='%1'/></td>").arg(filename);
+        }
+
+        str += "</tr>";
+    }
+
+    str += "</table>";
+    return str;
+}
+
+QString CMapTDB::getLegendPoints()
+{
+    QString str;
+
+    return str;
+}
+
 
 void CMapTDB::slotToolTip()
 {
@@ -838,6 +1059,62 @@ void CMapTDB::setup()
     polygonProperties[0x59] = IGarminTyp::polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = IGarminTyp::polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
+
+
+    polygonProperties[0x01].strings[0x00] = tr("Large urban area (&gt;200K)");
+    polygonProperties[0x02].strings[0x00] = tr("Small urban area (&lt;200K)");
+    polygonProperties[0x03].strings[0x00] = tr("Rural housing area");
+    polygonProperties[0x04].strings[0x00] = tr("Military base");
+    polygonProperties[0x05].strings[0x00] = tr("Parking lot");
+    polygonProperties[0x06].strings[0x00] = tr("Parking garage");
+    polygonProperties[0x07].strings[0x00] = tr("Airport");
+    polygonProperties[0x08].strings[0x00] = tr("Shopping center");
+    polygonProperties[0x09].strings[0x00] = tr("Marina");
+    polygonProperties[0x0a].strings[0x00] = tr("University/College");
+    polygonProperties[0x0b].strings[0x00] = tr("Hospital");
+    polygonProperties[0x0c].strings[0x00] = tr("Industrial complex");
+    polygonProperties[0x0d].strings[0x00] = tr("Reservation");
+    polygonProperties[0x0e].strings[0x00] = tr("Airport runway");
+    polygonProperties[0x13].strings[0x00] = tr("Man-made area");
+    polygonProperties[0x19].strings[0x00] = tr("Sports complex");
+    polygonProperties[0x18].strings[0x00] = tr("Golf course");
+    polygonProperties[0x1a].strings[0x00] = tr("Cemetary");
+    polygonProperties[0x14].strings[0x00] = tr("National park");
+    polygonProperties[0x15].strings[0x00] = tr("National park");
+    polygonProperties[0x16].strings[0x00] = tr("National park");
+    polygonProperties[0x17].strings[0x00] = tr("City park");
+    polygonProperties[0x1e].strings[0x00] = tr("State park");
+    polygonProperties[0x1f].strings[0x00] = tr("State park");
+    polygonProperties[0x20].strings[0x00] = tr("State park");
+    polygonProperties[0x50].strings[0x00] = tr("Forest");
+    polygonProperties[0x28].strings[0x00] = tr("Ocean");
+    polygonProperties[0x29].strings[0x00] = tr("Blue (unknown)");
+    polygonProperties[0x32].strings[0x00] = tr("Sea");
+    polygonProperties[0x3b].strings[0x00] = tr("Blue (unknown)");
+    polygonProperties[0x3c].strings[0x00] = tr("Large lake");
+    polygonProperties[0x3d].strings[0x00] = tr("Large lake");
+    polygonProperties[0x3e].strings[0x00] = tr("Medium lake");
+    polygonProperties[0x3f].strings[0x00] = tr("Medium lake");
+    polygonProperties[0x40].strings[0x00] = tr("Small lake");
+    polygonProperties[0x41].strings[0x00] = tr("Small lake");
+    polygonProperties[0x42].strings[0x00] = tr("Major lake");
+    polygonProperties[0x43].strings[0x00] = tr("Major lake");
+    polygonProperties[0x44].strings[0x00] = tr("Large lake");
+    polygonProperties[0x46].strings[0x00] = tr("Blue (unknown)");
+    polygonProperties[0x46].strings[0x00] = tr("Major River");
+    polygonProperties[0x47].strings[0x00] = tr("Large River");
+    polygonProperties[0x48].strings[0x00] = tr("Medium River");
+    polygonProperties[0x49].strings[0x00] = tr("Small River");
+//    polygonProperties[0x4a].strings[0x00] = tr("Definition area");
+//    polygonProperties[0x4b].strings[0x00] = tr("Background");
+    polygonProperties[0x4c].strings[0x00] = tr("Intermittent water");
+    polygonProperties[0x51].strings[0x00] = tr("Wetland/Swamp");
+    polygonProperties[0x4d].strings[0x00] = tr("Glacier");
+    polygonProperties[0x4e].strings[0x00] = tr("Orchard/Plantation");
+    polygonProperties[0x4f].strings[0x00] = tr("Scrub");
+    polygonProperties[0x52].strings[0x00] = tr("Tundra");
+    polygonProperties[0x53].strings[0x00] = tr("Flat");
+    polygonProperties[0x54].strings[0x00] = tr("???");
     polygonDrawOrder.clear();
     for(int i = 0; i < 0x80; i++)
     {
@@ -3073,8 +3350,8 @@ void CMapTDB::highlight(QVector<CGarminPoint>& res)
 void CMapTDB::config()
 {
 
-    CDlgMapTDBConfig dlg(this);
-    dlg.exec();
+    CDlgMapTDBConfig * dlg = new CDlgMapTDBConfig(this);
+    dlg->show();
 
 }
 

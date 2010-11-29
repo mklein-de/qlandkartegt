@@ -33,6 +33,13 @@ static const QString text =  QObject::tr(""
 "       <p>${copyright}</p>"
 "       <h1>Map Levels</h1>"
 "       <p>${maplevels}</p>"
+"       <h1>Legend</h1>"
+"       <h2>Lines</h2>"
+"       <p>${legendlines}</p>"
+"       <h2>Areas</h2>"
+"       <p>${legendareas}</p>"
+"       <h2>Points</h2>"
+"       <p>${legendpoints}</p>"
 "   </body>"
 "</html>"
 "");
@@ -45,15 +52,21 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     QString cpytext = text;
     cpytext = cpytext.replace("${copyright}", map->getCopyright());
     cpytext = cpytext.replace("${maplevels}", map->getMapLevelInfo());
+    cpytext = cpytext.replace("${legendlines}", map->getLegendLines());
+    cpytext = cpytext.replace("${legendareas}", map->getLegendArea());
+    cpytext = cpytext.replace("${legendpoints}", map->getLegendPoints());
 
     textEdit->setHtml(cpytext);
 
+
+    connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
+    connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
 }
 
 
 CDlgMapTDBConfig::~CDlgMapTDBConfig()
 {
-
+    qDebug() << "CDlgMapTDBConfig::~CDlgMapTDBConfig()";
 }
 
 

@@ -66,6 +66,9 @@ class CMapTDB : public IMap
 
         QString getCopyright();
         QString getMapLevelInfo();
+        QString getLegendLines();
+        QString getLegendArea();
+        QString getLegendPoints();
 
 #ifdef SQL_SEARCH_GARMIN
         void createSearchIndex(QObject * reveiver, const char * slot);
@@ -104,7 +107,7 @@ class CMapTDB : public IMap
 
         struct typ_section_t
         {
-            typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){};
+            typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){}
             quint32  dataOffset;
             quint32  dataLength;
             quint32  arrayOffset;
@@ -130,6 +133,8 @@ class CMapTDB : public IMap
 
         void drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font);
         void drawLine(QPainter& p, const CGarminPolygon& l);
+
+        QString createLegendString(const QMap<int,QString>& strings);
 
 #pragma pack(1)
         struct tdb_hdr_t
