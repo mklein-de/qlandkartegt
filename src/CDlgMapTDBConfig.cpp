@@ -26,7 +26,7 @@ static const QString text =  QObject::tr(""
 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
 "<html>"
 "   <head>"
-"       <meta name='qrichtext' content='1' />"
+"       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
 "       <style type='text/css'>"
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"
@@ -59,12 +59,9 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     cpytext = cpytext.replace("${legendareas}", map->getLegendArea());
     cpytext = cpytext.replace("${legendpoints}", map->getLegendPoints());
 
-//    QFile tmp("legend.html");
-//    tmp.open(QIODevice::WriteOnly);
-//    tmp.write(cpytext.toLocal8Bit());
-//    tmp.close();
-
+    webView->page()->settings()->clearMemoryCaches();
     webView->setHtml(cpytext);
+
 
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
