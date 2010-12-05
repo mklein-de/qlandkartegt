@@ -254,6 +254,16 @@ void CCanvas::mouseReleaseEvent(QMouseEvent * e)
     mouse->mouseReleaseEvent(e);
 }
 
+void CCanvas::keyPressEvent(QKeyEvent * e)
+{
+    mouse->keyPressEvent(e);
+}
+
+void CCanvas::keyReleaseEvent(QKeyEvent * e)
+{
+    mouse->keyReleaseEvent(e);
+}
+
 
 void CCanvas::enterEvent(QEvent * )
 {

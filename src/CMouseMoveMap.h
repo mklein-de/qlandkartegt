@@ -35,6 +35,8 @@ class CMouseMoveMap : public IMouse
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
+        void keyPressEvent(QKeyEvent * e);
+        void keyReleaseEvent(QKeyEvent * e);
 
         void draw(QPainter& p);
 
@@ -53,6 +55,8 @@ class CMouseMoveMap : public IMouse
     private:
         /// true if left mouse button is pressed
         bool moveMap;
+        bool leftButtonPressed;
+        bool altKeyPressed;
         /// the initial starting point of the transformation
         QPoint oldPoint;
 

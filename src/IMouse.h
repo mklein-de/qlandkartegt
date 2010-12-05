@@ -28,6 +28,7 @@
 #include "CTrack.h"
 #include "CRoute.h"
 class QMouseEvent;
+class QKeyEvent;
 class QMenu;
 class CCanvas;
 class CWpt;
@@ -54,6 +55,10 @@ class IMouse : public QObject
         virtual void mousePressEvent(QMouseEvent * e) = 0;
         /// the mouse release event as defined by QWidget::mouseReleaseEvent
         virtual void mouseReleaseEvent(QMouseEvent * e) = 0;
+        /// the key press event as defined by QWidget::keyPressEvent
+        virtual void keyPressEvent(QKeyEvent *) {};
+        /// the key release event as defined by QWidget::keyPressEvent
+        virtual void keyReleaseEvent(QKeyEvent *) {};
 
         /// the current mouse cursor
         /**

@@ -34,6 +34,8 @@
 CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 : IMouse(parent)
 , moveMap(false)
+, leftButtonPressed(false)
+, altKeyPressed(false)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
 }
@@ -48,14 +50,13 @@ CMouseMoveMap::~CMouseMoveMap()
 void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
 {
     mousePos = e->pos();
-
     if(moveMap)
     {
         //CMapDB::self().getMap().move(oldPoint, e->pos());
         CUndoStackView::getInstance()->push(new CMapUndoCommandMove(&CMapDB::self().getMap(),oldPoint, e->pos()));
-        oldPoint = e->pos();
         canvas->update();
     }
+    oldPoint = e->pos();
 
     mouseMoveEventWpt(e);
     mouseMoveEventTrack(e);
@@ -88,13 +89,15 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         }
         else
         {
-            CUndoStackView::getInstance()->beginMacro(tr("Move map"));
-            cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
-            QApplication::setOverrideCursor(cursor);
-            moveMap     = true;
-            oldPoint    = e->pos();
-
-            CMapDB::self().getMap().fastDrawOn();
+            leftButtonPressed = true;
+            if (!moveMap)
+            {
+                CUndoStackView::getInstance()->beginMacro(tr("Move map"));
+                cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
+                QApplication::setOverrideCursor(cursor);
+                moveMap     = true;
+                CMapDB::self().getMap().fastDrawOn();
+            }
         }
     }
     else if(e->button() == Qt::RightButton)
@@ -106,18 +109,53 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
 void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 {
-    if(moveMap && (e->button() == Qt::LeftButton))
+    if(e->button() == Qt::LeftButton)
     {
-        CUndoStackView::getInstance()->endMacro();
-        moveMap = false;
-        CMapDB::self().getMap().fastDrawOff();
-
-        cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
-        QApplication::restoreOverrideCursor();
-        canvas->update();
+        leftButtonPressed = false;
+        if(moveMap && (!altKeyPressed))
+        {
+            CUndoStackView::getInstance()->endMacro();
+            moveMap = false;
+            CMapDB::self().getMap().fastDrawOff();
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+            QApplication::restoreOverrideCursor();
+            canvas->update();
+        }
     }
 }
 
+void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
+{
+    if (e->key() == Qt::Key_Alt)
+    {
+        altKeyPressed = true;
+        if (!moveMap)
+        {
+            CUndoStackView::getInstance()->beginMacro(tr("Move map"));
+            cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
+            QApplication::setOverrideCursor(cursor);
+            moveMap     = true;
+            CMapDB::self().getMap().fastDrawOn();
+        }
+    }
+}
+
+void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
+{
+    if (e->key() == Qt::Key_Alt)
+    {
+        altKeyPressed = false;
+        if(moveMap && (!leftButtonPressed))
+        {
+            CUndoStackView::getInstance()->endMacro();
+            moveMap = false;
+            CMapDB::self().getMap().fastDrawOff();
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+            QApplication::restoreOverrideCursor();
+            canvas->update();
+        }
+    }
+}
 
 void CMouseMoveMap::draw(QPainter& p)
 {

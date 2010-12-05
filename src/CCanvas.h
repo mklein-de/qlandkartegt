@@ -143,6 +143,8 @@ class CCanvas : public QWidget
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
         void wheelEvent(QWheelEvent * e);
+        void keyPressEvent(QKeyEvent *);
+        void keyReleaseEvent(QKeyEvent *);
         void showEvent ( QShowEvent * event);
 
         /// set override cursor

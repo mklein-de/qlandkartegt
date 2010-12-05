@@ -2704,7 +2704,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="147"/>
         <source>%1</source>
-        <translation type="unfinished">%1</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="197"/>
@@ -3606,33 +3606,33 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="478"/>
         <source>Level: %1 Bits: %2 On basmap: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ebene: %1 Bits: %2 auf der Basiskarte: %3</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="495"/>
         <source>missing</source>
-        <translation type="unfinished"></translation>
+        <translation>fehlt</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="536"/>
         <location filename="../CMapTDB.cpp" line="657"/>
         <location filename="../CMapTDB.cpp" line="737"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="537"/>
         <location filename="../CMapTDB.cpp" line="658"/>
         <location filename="../CMapTDB.cpp" line="738"/>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="538"/>
         <location filename="../CMapTDB.cpp" line="659"/>
         <location filename="../CMapTDB.cpp" line="739"/>
         <source>Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="937"/>
@@ -3984,213 +3984,213 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1124"/>
         <source>Large urban area (&amp;gt;200K)</source>
-        <translation type="unfinished"></translation>
+        <translation>Großstadtgebiet (&amp;gt;200K)</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1125"/>
         <source>Small urban area (&amp;lt;200K)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleinstadtgebiet (&amp;lt;200K)</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1126"/>
         <source>Rural housing area</source>
-        <translation type="unfinished"></translation>
+        <translation>städtisches Wohngebiet</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1127"/>
         <source>Military base</source>
-        <translation type="unfinished"></translation>
+        <translation>Militärbasis</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1128"/>
         <source>Parking lot</source>
-        <translation type="unfinished"></translation>
+        <translation>Parkplatz</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1129"/>
         <source>Parking garage</source>
-        <translation type="unfinished"></translation>
+        <translation>Parkhaus</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1130"/>
         <source>Airport</source>
-        <translation type="unfinished"></translation>
+        <translation>Flugplatz</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1131"/>
         <source>Shopping center</source>
-        <translation type="unfinished"></translation>
+        <translation>Einkaufszentrum</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1132"/>
         <source>Marina</source>
-        <translation type="unfinished"></translation>
+        <translation>Hafen</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1133"/>
         <source>University/College</source>
-        <translation type="unfinished"></translation>
+        <translation>Universität/Hochschule</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1134"/>
         <source>Hospital</source>
-        <translation type="unfinished"></translation>
+        <translation>Krankenhaus</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1135"/>
         <source>Industrial complex</source>
-        <translation type="unfinished"></translation>
+        <translation>Industriekomplex</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1136"/>
         <source>Reservation</source>
-        <translation type="unfinished"></translation>
+        <translation>Reservat</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1138"/>
         <source>Man-made area</source>
-        <translation type="unfinished"></translation>
+        <translation>Bebauung</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1139"/>
         <source>Sports complex</source>
-        <translation type="unfinished"></translation>
+        <translation>Sportkomplex</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1140"/>
         <source>Golf course</source>
-        <translation type="unfinished"></translation>
+        <translation>Golfplatz</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1141"/>
         <source>Cemetary</source>
-        <translation type="unfinished"></translation>
+        <translation>Friedhof</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1142"/>
         <location filename="../CMapTDB.cpp" line="1143"/>
         <location filename="../CMapTDB.cpp" line="1144"/>
         <source>National park</source>
-        <translation type="unfinished"></translation>
+        <translation>Nationalpark</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1145"/>
         <source>City park</source>
-        <translation type="unfinished"></translation>
+        <translation>Stadtpark</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1146"/>
         <location filename="../CMapTDB.cpp" line="1147"/>
         <location filename="../CMapTDB.cpp" line="1148"/>
         <source>State park</source>
-        <translation type="unfinished"></translation>
+        <translation>Staatspark</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1149"/>
         <source>Forest</source>
-        <translation type="unfinished"></translation>
+        <translation>Forst</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1150"/>
         <source>Ocean</source>
-        <translation type="unfinished"></translation>
+        <translation>Ozean</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1151"/>
         <location filename="../CMapTDB.cpp" line="1153"/>
         <location filename="../CMapTDB.cpp" line="1163"/>
         <source>Blue (unknown)</source>
-        <translation type="unfinished"></translation>
+        <translation>Blau (unbekannt)</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1152"/>
         <source>Sea</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1154"/>
         <location filename="../CMapTDB.cpp" line="1155"/>
         <location filename="../CMapTDB.cpp" line="1162"/>
         <source>Large lake</source>
-        <translation type="unfinished"></translation>
+        <translation>großer See</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1156"/>
         <location filename="../CMapTDB.cpp" line="1157"/>
         <source>Medium lake</source>
-        <translation type="unfinished"></translation>
+        <translation>mittlerer See</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1158"/>
         <location filename="../CMapTDB.cpp" line="1159"/>
         <source>Small lake</source>
-        <translation type="unfinished"></translation>
+        <translation>kleiner See</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1160"/>
         <location filename="../CMapTDB.cpp" line="1161"/>
         <source>Major lake</source>
-        <translation type="unfinished"></translation>
+        <translation>sehr großer See</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1164"/>
         <source>Major River</source>
-        <translation type="unfinished"></translation>
+        <translation>Strom</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1165"/>
         <source>Large River</source>
-        <translation type="unfinished"></translation>
+        <translation>großer Fluss</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1166"/>
         <source>Medium River</source>
-        <translation type="unfinished"></translation>
+        <translation>Fluss</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1167"/>
         <source>Small River</source>
-        <translation type="unfinished"></translation>
+        <translation>kleiner Fluss</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1170"/>
         <source>Intermittent water</source>
-        <translation type="unfinished"></translation>
+        <translation>Wasser</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1171"/>
         <source>Wetland/Swamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Moor/Sumpf</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1172"/>
         <source>Glacier</source>
-        <translation type="unfinished"></translation>
+        <translation>Gletscher</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1173"/>
         <source>Orchard/Plantation</source>
-        <translation type="unfinished"></translation>
+        <translation>Garten/Plantage</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1174"/>
         <source>Scrub</source>
-        <translation type="unfinished"></translation>
+        <translation>Büsche</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1175"/>
         <source>Tundra</source>
-        <translation type="unfinished"></translation>
+        <translation>Tundra</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1176"/>
         <source>Flat</source>
-        <translation type="unfinished"></translation>
+        <translation>Ebene</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1177"/>
         <source>???</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1196"/>
@@ -4315,7 +4315,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapToolWidget.cpp" line="47"/>
         <source>Info/Config</source>
-        <translation type="unfinished"></translation>
+        <translation>Information/Konfiguration</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="48"/>
@@ -5598,7 +5598,7 @@ Ende: %1</translation>
         <location filename="../CTrackEditWidget.cpp" line="823"/>
         <location filename="../CTrackEditWidget.cpp" line="854"/>
         <source>Dist./Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Dist./Zeit</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="828"/>
@@ -5627,12 +5627,12 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrackStatDistanceWidget.cpp" line="33"/>
         <source>time [h]</source>
-        <translation type="unfinished">Zeit [h]</translation>
+        <translation>Zeit [h]</translation>
     </message>
     <message>
         <location filename="../CTrackStatDistanceWidget.cpp" line="34"/>
         <source>distance [m]</source>
-        <translation type="unfinished">Entfernung [m]</translation>
+        <translation>Entfernung [m]</translation>
     </message>
 </context>
 <context>
@@ -6911,12 +6911,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="168"/>
         <source>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Karte mit Antialiasing zu zeichnen wird viel Prozessorleitung benötigt. Am besten schaltet man das bei schwachen Prozessoren aus.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="171"/>
         <source>Anti-aliasing</source>
-        <translation type="unfinished"></translation>
+        <translation>Antialiasing</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="181"/>
@@ -7585,7 +7585,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>use typ (if available)</source>
@@ -7960,7 +7960,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="53"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status:</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="60"/>
@@ -7975,7 +7975,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="81"/>
         <source>Satellites:</source>
-        <translation type="unfinished"></translation>
+        <translation>Satelliten</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="88"/>
@@ -7985,7 +7985,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="102"/>
         <source>GPS off</source>
-        <translation type="unfinished">GPS ausgeschaltet</translation>
+        <translation>GPS ausgeschaltet</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="116"/>
@@ -8262,7 +8262,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMouse.cpp" line="225"/>
         <source>dist. from start: %1%2 (%3%)</source>
-        <translation type="unfinished"></translation>
+        <translation>Dist. zum Anfang: %1%2 (%3%)</translation>
     </message>
     <message>
         <location filename="../IMouse.cpp" line="240"/>
@@ -8818,7 +8818,7 @@ Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
     <message>
         <location filename="../CDlgMapTDBConfig.cpp" line="25"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.0//EN&apos; &apos;http://www.w3.org/TR/REC-html40/strict.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos;&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.0//EN&apos; &apos;http://www.w3.org/TR/REC-html40/strict.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos;&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Kartenebenen&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legende&lt;/h1&gt;       &lt;h2&gt;Linien&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Flächen&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Punkte&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 </TS>
