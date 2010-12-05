@@ -22,6 +22,10 @@
 
 #include <QtGui>
 
+#ifndef WIN32
+#include <pwd.h>
+#endif
+
 static const QString text =  QObject::tr(""
 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
 "<html>"
@@ -52,6 +56,24 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
 {
     setupUi(this);
 
+#ifndef Q_OS_WIN32
+    QDir tempDir;
+    const char *envCache = getenv("QLGT_LEGEND");
+
+    if (envCache)
+    {
+        tempDir = envCache;
+    }
+    else
+    {
+        struct passwd * userInfo = getpwuid(getuid());
+        tempDir = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/legend/";
+    }
+#else
+    tempDir = QDir::tempPath() + "/qlandkarteqt/cache/";
+#endif
+    tempDir.mkpath(tempDir.path());
+
     QString cpytext = text;
     cpytext = cpytext.replace("${copyright}", map->getCopyright());
     cpytext = cpytext.replace("${maplevels}", map->getMapLevelInfo());
@@ -60,9 +82,13 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     cpytext = cpytext.replace("${legendpoints}", map->getLegendPoints());
 
     webView->page()->settings()->clearMemoryCaches();
-    webView->setHtml(cpytext);
 
+    QFile tmp(tempDir.filePath("legend.html"));
+    tmp.open(QIODevice::WriteOnly);
+    tmp.write(cpytext.toLocal8Bit());
+    tmp.close();
 
+    webView->load(QString("file://") + tempDir.filePath("legend.html"));
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));

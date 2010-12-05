@@ -39,7 +39,6 @@
 #include <QtGui>
 #include <QSqlDatabase>
 #include <algorithm>
-#include <pwd.h>
 
 //#include <sys/time.h>
 
@@ -47,6 +46,7 @@
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
 #else //WIN32
 #define CMAPTDB_MIN(x,y) std::min(x,y)
+#include <pwd.h>
 #endif //WIN32
 
 #define MAX_IDX_ZOOM 35
@@ -537,7 +537,7 @@ QString CMapTDB::getLegendLines()
     str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
-    str += "</tr>";
+    str += "</tr>\n";
 
     foreach(key, keys)
     {
@@ -617,7 +617,7 @@ QString CMapTDB::getLegendLines()
             str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
         }
 
-        str += "</tr>";
+        str += "</tr>\n";
     }
 
     str += "</table>";
@@ -658,7 +658,7 @@ QString CMapTDB::getLegendArea()
     str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
-    str += "</tr>";
+    str += "</tr>\n";
 
     foreach(key, keys)
     {
@@ -699,7 +699,7 @@ QString CMapTDB::getLegendArea()
             str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
         }
 
-        str += "</tr>";
+        str += "</tr>\n";
     }
 
     str += "</table>";
@@ -738,7 +738,7 @@ QString CMapTDB::getLegendPoints()
     str += QString("<th style='padding-right: 5px; width: 50px;'>%1</th>").arg(tr("Type"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Day"));
     str += QString("<th style='width: 100px;'>%1</th>").arg(tr("Night"));
-    str += "</tr>";
+    str += "</tr>\n";
 
     foreach(key, keys)
     {
@@ -755,7 +755,7 @@ QString CMapTDB::getLegendPoints()
         filename = tempDir.filePath(QString("p%1n.png").arg(key,8,16,QChar('0')));
         prop.imgNight.save(filename);
         str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
-        str += "</tr>";
+        str += "</tr>\n";
     }
 
     str += "</table>";
