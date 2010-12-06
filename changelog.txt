@@ -1,3 +1,25 @@
+--- 2010.12.06 ---
+
+Request #231:
+Make anti-aliasing an option
+
+Bug     #232:
+Photos in the south eastern hemisphere are referenced badly
+
+Request #233:
+Make tracks and routes semi-transparent
+
+Request #234:
+Add legend for Garmin maps
+
+Request #235:
+Fixes and improvements for NMEA support
+
+Request #236:
+Move map with Alt+mouse move
+
+
+
 --- 2010.11.15 ---
 
 Request #218:
@@ -1010,6 +1032,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
