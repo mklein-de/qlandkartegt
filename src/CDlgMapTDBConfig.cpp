@@ -56,8 +56,8 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
 {
     setupUi(this);
 
-#ifndef Q_OS_WIN32
     QDir tempDir;
+#ifndef Q_OS_WIN32
     const char *envCache = getenv("QLGT_LEGEND");
 
     if (envCache)

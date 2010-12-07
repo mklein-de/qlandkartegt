@@ -512,8 +512,8 @@ QString CMapTDB::getLegendLines()
     QList<quint32> keys = polylineProperties.keys();
     qSort(keys);
 
-#ifndef Q_OS_WIN32
     QDir tempDir;
+#ifndef Q_OS_WIN32
     const char *envCache = getenv("QLGT_LEGEND");
 
     if (envCache)
@@ -633,8 +633,8 @@ QString CMapTDB::getLegendArea()
     QList<quint32> keys = polygonProperties.keys();
     qSort(keys);
 
-#ifndef Q_OS_WIN32
     QDir tempDir;
+#ifndef Q_OS_WIN32
     const char *envCache = getenv("QLGT_LEGEND");
 
     if (envCache)
@@ -713,8 +713,8 @@ QString CMapTDB::getLegendPoints()
     QList<quint32> keys = pointProperties.keys();
     qSort(keys);
 
-#ifndef Q_OS_WIN32
     QDir tempDir;
+#ifndef Q_OS_WIN32
     const char *envCache = getenv("QLGT_LEGEND");
 
     if (envCache)
