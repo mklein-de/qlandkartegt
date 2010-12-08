@@ -35,7 +35,7 @@ class COverlayTextBox : public IOverlay
 
         void draw(QPainter& p);
 
-        static QPolygon makePolyline(const QPoint& anchor, const QRect& r);
+        static QPolygonF makePolyline(const QPoint& anchor, const QRect& r);
 
         bool isCloseEnough(const QPoint& pt);
 
@@ -65,7 +65,7 @@ class COverlayTextBox : public IOverlay
         /// the anchor point [px]
         QPoint pt;
         /// the resulting polylin, normalized to the anchor point
-        QPolygon polyline;
+        QPolygonF polyline;
 
         QRect rectMove;
         QRect rectSize;

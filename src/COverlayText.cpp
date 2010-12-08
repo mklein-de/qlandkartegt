@@ -92,7 +92,7 @@ void COverlayText::draw(QPainter& p)
     else
     {
         p.setBrush(Qt::white);
-        p.setPen(QPen(Qt::black,3));
+        p.setPen(QPen(Qt::darkGray,2));
     }
     PAINT_ROUNDED_RECT(p,rect);
 

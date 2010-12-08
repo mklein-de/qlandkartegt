@@ -65,9 +65,9 @@ COverlayTextBox::~COverlayTextBox()
 }
 
 
-QPolygon COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
+QPolygonF COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 {
-    QPolygon poly1, poly2;
+    QPolygonF poly1, poly2;
     poly1 << r.topLeft() << r.topRight() << r.bottomRight() << r.bottomLeft();
 
     if(!r.contains(anchor))
@@ -83,22 +83,30 @@ QPolygon COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 
         if(anchor.x() < r.left())
         {
-            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
+            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h)) << anchor;
         }
         else if(r.right() < anchor.x())
         {
-            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h));
+            poly2 << anchor << (r.center() + QPoint(0,-h)) << (r.center() + QPoint(0,h)) << anchor;
         }
         else if(anchor.y() < r.top())
         {
-            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
+            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0)) << anchor;
         }
         else if(r.bottom() < anchor.y())
         {
-            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0));
+            poly2 << anchor << (r.center() + QPoint(-w,0)) << (r.center() + QPoint(w,0)) << anchor;
         }
 
-        poly1 = poly1.united(poly2);
+        QPainterPath path1;
+        path1.addRoundedRect(r,5,5);
+        QPainterPath path2;
+        path2.addPolygon(poly2);
+
+        path1 = path1.united(path2);
+
+
+        poly1 = path1.toFillPolygon();
     }
 
     return poly1;
@@ -117,7 +125,7 @@ void COverlayTextBox::draw(QPainter& p)
     if(selected == this)
     {
         p.setBrush(Qt::white);
-        p.setPen(QPen(Qt::red, 2));
+        p.setPen(QPen(Qt::red,3));
         p.drawPolygon(polyline);
 
         p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
@@ -136,7 +144,7 @@ void COverlayTextBox::draw(QPainter& p)
         else
         {
             p.setBrush(Qt::white);
-            p.setPen(Qt::black);
+            p.setPen(QPen(Qt::darkGray,2));
         }
         p.drawPolygon(polyline);
     }
@@ -153,7 +161,7 @@ void COverlayTextBox::draw(QPainter& p)
 
 bool COverlayTextBox::isCloseEnough(const QPoint& pt)
 {
-    QPolygon box = polyline;
+    QPolygonF box = polyline;
 
     double x = lon;
     double y = lat;
@@ -161,7 +169,7 @@ bool COverlayTextBox::isCloseEnough(const QPoint& pt)
     CMapDB::self().getMap().convertRad2Pt(x,y);
     box.translate(x,y);
 
-    QRect r = box.boundingRect();
+    QRectF r = box.boundingRect();
     r.setTopLeft(r.topLeft() - QPoint(8,8));
     r.setBottomRight(r.bottomRight() + QPoint(8,8));
 
