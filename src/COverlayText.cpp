@@ -37,7 +37,7 @@ COverlayText::COverlayText(const QString& text, const QRect& rect, QObject * par
     rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
     rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
 
-    rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+    rectDoc  = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
 
     rectMouse = rect;
     rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
@@ -130,7 +130,7 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
         rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
         rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
 
-        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
         doc->setPageSize(rectDoc.size());
 
         theMainWindow->getCanvas()->update();
@@ -147,7 +147,7 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
         rectMouse.setTopLeft(rectMouse.topLeft() - QPoint(8,8));
         rectMouse.setBottomRight(rectMouse.bottomRight() + QPoint(8,8));
 
-        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
         doc->setPageSize(rectDoc.size());
 
         theMainWindow->getCanvas()->update();

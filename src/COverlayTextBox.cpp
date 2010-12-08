@@ -47,7 +47,7 @@ COverlayTextBox::COverlayTextBox(const QString& text, double lon, double lat, co
     rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
     rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
     rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
-    rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+    rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
     rectAnchor  = QRect(QPoint(-7,-7), QSize(16, 16));
 
     comment = text;
@@ -225,7 +225,7 @@ void COverlayTextBox::mouseMoveEvent(QMouseEvent * e)
         rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
 
-        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
         doc->setPageSize(rectDoc.size());
 
         polyline = makePolyline(QPoint(0,0), rect);
@@ -240,7 +240,7 @@ void COverlayTextBox::mouseMoveEvent(QMouseEvent * e)
         rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
 
-        rectDoc  = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
         doc->setPageSize(rectDoc.size());
 
         polyline = makePolyline(QPoint(0,0), rect);
@@ -254,7 +254,7 @@ void COverlayTextBox::mouseMoveEvent(QMouseEvent * e)
         rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
         rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
-        rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
 
         doc->setPageSize(rectDoc.size());
 
@@ -335,7 +335,7 @@ void COverlayTextBox::mouseReleaseEvent(QMouseEvent * e)
         rectEdit    = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
         rectDel     = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));
         rectSize    = QRect(rect.bottomRight() - QPoint(16,16), QSize(16, 16));
-        rectDoc     = QRect(rect.topLeft()     + QPoint(5,20)  , rect.size() - QSize(10, 40));
+        rectDoc     = QRect(rect.topLeft()     + QPoint(5,5)  , rect.size() - QSize(10, 10));
         rectAnchor  = QRect(QPoint(-9,-9), QSize(16, 16));
 
         lon = e->pos().x();
