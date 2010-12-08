@@ -92,15 +92,15 @@ void COverlayText::draw(QPainter& p)
     else
     {
         p.setBrush(Qt::white);
-        p.setPen(Qt::black);
+        p.setPen(QPen(Qt::black,3));
     }
-    p.drawRect(rect);
+    PAINT_ROUNDED_RECT(p,rect);
 
     if(selected == this)
     {
         p.setBrush(Qt::white);
-        p.setPen(QPen(Qt::red, 2));
-        p.drawRect(rect);
+        p.setPen(QPen(Qt::red, 3));
+        PAINT_ROUNDED_RECT(p,rect);
 
         p.drawPixmap(rectMove, QPixmap(":/icons/iconMoveMap16x16.png"));
         p.drawPixmap(rectSize, QPixmap(":/icons/iconSize16x16.png"));
