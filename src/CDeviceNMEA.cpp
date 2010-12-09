@@ -308,7 +308,7 @@ void CDeviceNMEA::decode()
         }
 
         //field 15: pdop
-        double pdop = tokens[15].toDouble();
+        //double pdop = tokens[15].toDouble(); // currently unused
 
         //field 16: hdop
         double hdop = tokens[16].toDouble();

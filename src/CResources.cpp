@@ -288,6 +288,7 @@ QString CResources::charset()
 void CResources::openLink(const QString& link)
 {
     QString cmd;
+    int retval;
     if(m_eBrowser == eFirefox)
     {
         cmd.sprintf(cmdFirefox.toAscii(),link.toAscii().data());
@@ -305,6 +306,8 @@ void CResources::openLink(const QString& link)
         return;
     }
 
-    system(cmd.toAscii());
+    retval = system(cmd.toAscii());
+    if (retval == -1)
+        qWarning() << "command execution failed: " << cmd;
 
 }
