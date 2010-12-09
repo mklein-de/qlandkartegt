@@ -37,5 +37,6 @@ class CDlgMapTDBConfig : public QDialog, private Ui::IDlgMapTDBConfig
 
     private:
         CMapTDB * map;
+        static const QString text;
 };
 #endif                           //CDLGMAPTDBCONFIG_H

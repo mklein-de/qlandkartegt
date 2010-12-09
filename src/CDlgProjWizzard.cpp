@@ -39,7 +39,7 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
     mitab_entry_t           entry;
     QList<mitab_entry_t>    list;
     int idx                 = 0;
-    const MapInfoDatumInfo * di   = asDatumInfoList;
+    const MapInfoDatumInfo * di   = asDatumInfoListQL;
 
     while(di->nMapInfoDatumID != -1)
     {
@@ -99,7 +99,7 @@ void CDlgProjWizzard::slotChange()
     }
 
     int idx = comboDatum->itemData(comboDatum->currentIndex()).toInt();
-    const MapInfoDatumInfo      di = asDatumInfoList[idx];
+    const MapInfoDatumInfo      di = asDatumInfoListQL[idx];
     if(di.pszOGCDatumName != QString(""))
     {
         const MapInfoSpheroidInfo * si = asSpheroidInfoList;

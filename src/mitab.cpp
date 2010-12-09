@@ -18,7 +18,7 @@
 **********************************************************************************************/
 #include "mitab.h"
 
-const MapInfoDatumInfo asDatumInfoList[] =
+const MapInfoDatumInfo asDatumInfoListQL[] =
 {
 
     {                            // Datum ignore
