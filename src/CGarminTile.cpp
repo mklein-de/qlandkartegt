@@ -365,13 +365,13 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
 
     // read map boundaries from header
     qint32 i32;
-    i32 = gar_ptr_load(int24_t, pTreHdr->northbound);
+    i32 = gar_ptr_load(int24_t, &pTreHdr->northbound);
     subfile.north = GARMIN_RAD(i32);
-    i32 = gar_ptr_load(int24_t, pTreHdr->eastbound);
+    i32 = gar_ptr_load(int24_t, &pTreHdr->eastbound);
     subfile.east = GARMIN_RAD(i32);
-    i32 = gar_ptr_load(int24_t, pTreHdr->southbound);
+    i32 = gar_ptr_load(int24_t, &pTreHdr->southbound);
     subfile.south = GARMIN_RAD(i32);
-    i32 = gar_ptr_load(int24_t, pTreHdr->westbound);
+    i32 = gar_ptr_load(int24_t, &pTreHdr->westbound);
     subfile.west = GARMIN_RAD(i32);
 
     if(subfile.east == subfile.west)
@@ -382,8 +382,8 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
     subfile.area = QRectF(QPointF(subfile.west, subfile.north), QPointF(subfile.east, subfile.south));
 
 #ifdef DEBUG_SHOW_TRE_DATA
-    qDebug() << "bounding area (rad)" << subfile.north << subfile.east << subfile.south << subfile.west;
-    qDebug() << "bounding area (\260)" << subfile.area;
+    qDebug() << "bounding area (\260)" << (subfile.north*RAD_TO_DEG) << (subfile.east*RAD_TO_DEG) << (subfile.south*RAD_TO_DEG) << (subfile.west*RAD_TO_DEG);
+    qDebug() << "bounding area (rad)" << subfile.area;
 #endif                       // DEBUG_SHOW_TRE_DATA
 
     QByteArray maplevel;
@@ -467,7 +467,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         subdiv->n = i;
         subdiv->next         = gar_load(uint16_t, pSubDivN->next);
         subdiv->terminate    = TRE_SUBDIV_TERM(pSubDivN);
-        subdiv->rgn_start    = gar_ptr_load(uint24_t, pSubDivN->rgn_offset);
+        subdiv->rgn_start    = gar_ptr_load(uint24_t, &pSubDivN->rgn_offset);
         subdiv->rgn_start   += rgnoff;
         // skip if this is the first entry
         if(subdiv_prev != subdivs.end())
@@ -490,9 +490,9 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         subdiv->level = TRE_MAP_LEVEL(pMapLevel);
         subdiv->shift = 24 - pMapLevel->bits;
 
-        cx = gar_ptr_load(uint24_t, pSubDivN->center_lng);
+        cx = gar_ptr_load(uint24_t, &pSubDivN->center_lng);
         subdiv->iCenterLng = cx;
-        cy = gar_ptr_load(uint24_t, pSubDivN->center_lat);
+        cy = gar_ptr_load(uint24_t, &pSubDivN->center_lat);
         subdiv->iCenterLat = cy;
         width   = TRE_SUBDIV_WIDTH(pSubDivN) << subdiv->shift;
         height  = gar_load(uint16_t, pSubDivN->height) << subdiv->shift;
@@ -527,7 +527,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         subdiv->n = i;
         subdiv->next         = 0;
         subdiv->terminate    = TRE_SUBDIV_TERM(pSubDivL);
-        subdiv->rgn_start    = gar_ptr_load(uint24_t, pSubDivL->rgn_offset);
+        subdiv->rgn_start    = gar_ptr_load(uint24_t, &pSubDivL->rgn_offset);
         subdiv->rgn_start   += rgnoff;
         subdiv_prev->rgn_end = subdiv->rgn_start;
         subdiv->hasPoints    = pSubDivL->elements & 0x10;
@@ -538,9 +538,9 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         subdiv->level = TRE_MAP_LEVEL(pMapLevel);
         subdiv->shift = 24 - pMapLevel->bits;
 
-        cx = gar_ptr_load(uint24_t, pSubDivL->center_lng);
+        cx = gar_ptr_load(uint24_t, &pSubDivL->center_lng);
         subdiv->iCenterLng = cx;
-        cy = gar_ptr_load(uint24_t, pSubDivL->center_lat);
+        cy = gar_ptr_load(uint24_t, &pSubDivL->center_lat);
         subdiv->iCenterLat = cy;
         width   = TRE_SUBDIV_WIDTH(pSubDivL) << subdiv->shift;
         height  = gar_load(uint16_t, pSubDivL->height) << subdiv->shift;
