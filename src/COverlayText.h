@@ -46,6 +46,8 @@ class COverlayText : public IOverlay
 
         QString getInfo();
 
+        QString getName(){return getInfo();}
+
     private:
         friend class COverlayDB;
         QRect rect;

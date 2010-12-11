@@ -50,6 +50,8 @@ class COverlayTextBox : public IOverlay
 
         QString getInfo();
 
+        QString getName(){return getInfo();}
+
         void makeVisible();
 
         QRectF getBoundingRectF();
