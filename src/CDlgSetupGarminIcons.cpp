@@ -255,7 +255,7 @@ void CDlgSetupGarminIcons::slotSendToDevice()
         {
             gardev->uploadCustomIcons(icons);
         }
-        catch(int e)
+        catch(int)
         {
             QMessageBox::warning(0,tr("Device Link Error"),gardev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
             return;

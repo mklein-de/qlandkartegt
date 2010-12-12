@@ -141,7 +141,7 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
 
                 tiles << mdrTile;
             }
-            catch(const exce_t& e)
+            catch(const exce_t& /*e*/)
             {
                 //writeStderr(e.msg + tr(" (this is not fatal)"));
             }

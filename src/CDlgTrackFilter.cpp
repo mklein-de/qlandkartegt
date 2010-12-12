@@ -301,7 +301,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
             float min_distance = spinDistance->value();
             if(spinDistance->suffix() == "ft")
             {
-                min_distance *= 0.3048;
+                min_distance *= 0.3048f;
             }
             XY p1, p2;
             p1.u = DEG_TO_RAD * trkpt->lon;

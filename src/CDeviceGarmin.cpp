@@ -586,7 +586,7 @@ void CDeviceGarmin::slotTimeout()
     {
         dev->getRealTimePos(pvt);
     }
-    catch(int e)
+    catch(int)
     {
         timer->stop();
         log.fix = CLiveLog::eOff;
@@ -693,7 +693,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -721,7 +721,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -811,7 +811,7 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -839,7 +839,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -909,7 +909,7 @@ void CDeviceGarmin::downloadScreenshot(QImage& image)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -1010,7 +1010,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -1038,7 +1038,7 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
 
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -1129,7 +1129,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
         }
         QApplication::restoreOverrideCursor();
     }
-    catch(int e)
+    catch(int)
     {
         QMessageBox::warning(0,tr("Device Link Error"),dev->getLastError().c_str(),QMessageBox::Ok,QMessageBox::NoButton);
         QApplication::restoreOverrideCursor();
@@ -1150,7 +1150,7 @@ void CDeviceGarmin::setLiveLog(bool on)
     {
         dev->setRealTimeMode(on);
     }
-    catch(int e)
+    catch(int)
     {
         timer->stop();
         log.fix = CLiveLog::eOff;

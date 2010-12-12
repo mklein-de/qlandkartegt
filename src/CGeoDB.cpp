@@ -583,7 +583,7 @@ void CGeoDB::migrateDB(int version)
     }
     query.prepare( "UPDATE versioninfo set version=:version");
     query.bindValue(":version", version - 1);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
 }
 
 
@@ -997,7 +997,7 @@ void CGeoDB::updateFolderById(quint64 id)
     QSqlQuery query(db);
     query.prepare("SELECT icon, name, comment, type FROM folders WHERE id=:id");
     query.bindValue(":id", id);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
     query.next();
 
     foreach(item, items)
@@ -1250,12 +1250,12 @@ void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
     query.prepare("DELETE FROM folder2folder WHERE parent=:parent AND child=:child");
     query.bindValue(":parent", parentId);
     query.bindValue(":child", itemId);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
 
     // next query if the item is used as child in any other relation
     query.prepare("SELECT * FROM folder2folder WHERE child=:id");
     query.bindValue(":id", itemId);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
     // if there is no other relation delete the children, too.
     if(!query.next())
     {
@@ -1267,12 +1267,12 @@ void CGeoDB::delFolder(QTreeWidgetItem * item, bool isTopLevel)
         // remove the child items relations
         query.prepare("DELETE FROM folder2item WHERE parent=:id");
         query.bindValue(":id", itemId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         // and remove the folder
         query.prepare("DELETE FROM folders WHERE id=:id");
         query.bindValue(":id", itemId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
     }
 
     if(isTopLevel)
@@ -1404,7 +1404,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
     QString key = item->data(eCoName, eUrQLKey).toString();
     query.prepare("SELECT id FROM items WHERE key=:key");
     query.bindValue(":key", key);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
 
     if(query.next())
     {
@@ -1474,7 +1474,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
         query.bindValue(":name", qlItem->getName());
         query.bindValue(":comment", qlItem->getInfo());
         query.bindValue(":data", data);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         if(!query.exec("SELECT last_insert_rowid() from items"))
         {
@@ -1496,7 +1496,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
     query.prepare("SELECT id FROM folder2item WHERE parent=:parent AND child=:child");
     query.bindValue(":parent", parentId);
     query.bindValue(":child", childId);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
 
     if(!query.next() && parentId != 0)
     {
@@ -1519,7 +1519,7 @@ void CGeoDB::updateItemById(quint64 id)
     QSqlQuery query(db);
     query.prepare("SELECT icon, name, comment FROM items WHERE id=:id");
     query.bindValue(":id", id);
-    QUERY_EXEC();
+    QUERY_EXEC(;);
     query.next();
 
     foreach(item, items)
@@ -2196,7 +2196,7 @@ void CGeoDB::slotCopyFolder()
         query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId);
         query.bindValue(":child", childId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         if(!query.next())
         {
@@ -2248,7 +2248,7 @@ void CGeoDB::slotMoveFolder()
         query.prepare("SELECT id FROM folder2folder WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId2);
         query.bindValue(":child", childId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         if(!query.next())
         {
@@ -2335,7 +2335,7 @@ void CGeoDB::slotCopyItems()
         query.prepare("SELECT id FROM folder2item WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId);
         query.bindValue(":child", childId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         if(!query.next())
         {
@@ -2394,7 +2394,7 @@ void CGeoDB::slotMoveItems()
         query.prepare("SELECT id FROM folder2item WHERE parent=:parent AND child=:child");
         query.bindValue(":parent", parentId2);
         query.bindValue(":child", childId);
-        QUERY_EXEC();
+        QUERY_EXEC(;);
 
         if(!query.next())
         {

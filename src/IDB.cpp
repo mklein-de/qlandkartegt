@@ -74,8 +74,8 @@ static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
           format += "'";
 
           // calculate the offset
-          unsigned int offsetHours(timetext.mid(i + 1, 2).toUInt());
-          unsigned int offsetMinutes(timetext.mid(i + 4, 2).toUInt());
+          int offsetHours(timetext.mid(i + 1, 2).toUInt());
+          int offsetMinutes(timetext.mid(i + 4, 2).toUInt());
           if (timetext[i] == '-')
           {
                tzoffset = -(60 * offsetHours + offsetMinutes);

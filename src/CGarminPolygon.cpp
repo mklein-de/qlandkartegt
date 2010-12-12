@@ -314,7 +314,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
     //     qDebug() << ">>" << bs_len << bytes_total << (pEnd - pStart);
 
     //     assert((pEnd - pStart) >= bytes_total);
-    if((pEnd - pStart) < bytes_total)
+    if(((quint32)(pEnd - pStart)) < bytes_total)
     {
         return (pEnd - pStart);
     }

@@ -161,7 +161,7 @@ void CGpx::save(const QString& filename)
                 throw tr("bad application");
             }
         }
-        catch(const QString& msg)
+        catch(const QString&)
         {
             int res = QMessageBox::warning(0,tr("File exists ...")
                 ,tr("The file exists and it has not been created by QLandkarte GT. "
