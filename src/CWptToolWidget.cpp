@@ -30,7 +30,7 @@
 #include "GeoMath.h"
 #include "IUnit.h"
 #include "CMapDB.h"
-#include "CMegaMenu.h"
+#include "CDlgWpt2Rte.h"
 
 #include <QtGui>
 
@@ -215,13 +215,11 @@ void CWptToolWidget::slotContextMenu(const QPoint& pos)
         {
             actCopyPos->setEnabled(false);
             actEdit->setEnabled(false);
-            actMakeRte->setEnabled(true);
         }
         else
         {
             actCopyPos->setEnabled(true);
             actEdit->setEnabled(true);
-            actMakeRte->setEnabled(false);
         }
 
         QPoint p = listWpts->mapToGlobal(pos);
@@ -342,23 +340,8 @@ void CWptToolWidget::slotProximity()
 
 void CWptToolWidget::slotMakeRoute()
 {
-    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-    if(items.count() < 2) return;
-
-    CRoute * route = new CRoute(&CRouteDB::self());
-
-    QListWidgetItem * item;
-    foreach(item,items)
-    {
-        CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
-        if(wpt)
-        {
-            route->addPosition(wpt->lon, wpt->lat);
-        }
-    }
-
-    CRouteDB::self().addRoute(route, false);
-    CMegaMenu::self().switchByKeyWord("Routes");
+    CDlgWpt2Rte dlg;
+    dlg.exec();
 }
 
 void CWptToolWidget::slotPosTextChanged(const QString& text)
