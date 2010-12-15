@@ -28,6 +28,7 @@ class CRoute;
 class QDomDocument;
 class QDomElement;
 class QHttp;
+class QTimer;
 
 class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
@@ -58,6 +59,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotToTrack();
         void slotZoomToFit();
 
+        void slotTimeout();
+
 
     private:
         void startOpenRouteService(CRoute& rte);
@@ -87,6 +90,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         QHttp * http;
 
         QSet<QString> knownLocale;
+
+        QTimer * timer;
 
 };
 #endif                           //CROUTETOOLWIDGET_H

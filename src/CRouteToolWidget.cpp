@@ -116,6 +116,10 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(slotTimeout()));
 }
 
 
@@ -412,6 +416,8 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 
     http->post(url.toEncoded(), array);
 
+    timer->start(15000);
+
 }
 
 void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte)
@@ -460,16 +466,17 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRou
     Pos.appendChild(_Pos_);
 }
 
-void CRouteToolWidget::slotRequestStarted(int )
+void CRouteToolWidget::slotRequestStarted(int i)
 {
-
+    qDebug() << "void CRouteToolWidget::slotRequestStarted(" << i << ")";
 }
 
 
-void CRouteToolWidget::slotRequestFinished(int , bool error)
+void CRouteToolWidget::slotRequestFinished(int i, bool error)
 {
     if(error)
     {
+        timer->stop();
         QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(http->errorString()), QMessageBox::Abort);
         return;
     }
@@ -480,8 +487,12 @@ void CRouteToolWidget::slotRequestFinished(int , bool error)
         return;
     }
 
+    timer->stop();
+
     QDomDocument xml;
     xml.setContent(res);
+
+    qDebug() << xml.toString();
 
     QDomElement root     = xml.documentElement();
     QDomElement response = root.firstChildElement("xls:Response");
@@ -678,4 +689,9 @@ void CRouteToolWidget::slotZoomToFit()
     {
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
+}
+
+void CRouteToolWidget::slotTimeout()
+{
+    QMessageBox::warning(0,tr("Failed..."), tr("Route request timed out. Please try again later."), QMessageBox::Abort);
 }
