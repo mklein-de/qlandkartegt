@@ -24,6 +24,7 @@
 
 class CMapJnx : public IMap
 {
+    Q_OBJECT;
     public:
         CMapJnx(const QString& key, const QString& filename, CCanvas * parent);
         virtual ~CMapJnx();
@@ -36,7 +37,47 @@ class CMapJnx : public IMap
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
-        QString getName(){return "JNX Testmap";}
+        QString getName(){return name;}
+
+    private:
+        QString name;
+
+        double lon1;
+        double lat1;
+        double lon2;
+        double lat2;
+
+#pragma pack(1)
+        struct hdr_t
+        {
+            quint32 version;            // byte 00000000..00000003
+            quint32 devid;              // byte 00000004..00000007
+            qint32  iLat1;              // byte 00000008..0000000B
+            qint32  iLon1;              // byte 0000000C..0000000F
+            qint32  iLat2;              // byte 00000010..00000013
+            qint32  iLon2;              // byte 00000014..00000017
+            quint32 details;            // byte 00000018..0000001B
+            quint64 expire;             // byte 0000001C..00000023
+            quint32 crc;                // byte 00000024..00000027
+            quint32 signature;          // byte 00000028..0000002B
+            quint32 signature_offset;   // byte 0000002C..0000002F
+        };
+
+        struct level_t
+        {
+            quint32 nTiles;
+            quint32 offset;
+            quint32 scale;
+        };
+
+#ifdef WIN32
+#pragma pack()
+#else
+#pragma pack(0)
+#endif
+
+        QVector<level_t> levels;
+
 };
 
 #endif //CMAPJNX_H
