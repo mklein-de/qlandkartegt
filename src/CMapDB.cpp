@@ -23,6 +23,7 @@
 #include "CMapTDB.h"
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
+#include "CMapJnx.h"
 #include "CMapDEM.h"
 #include "CMapOSM.h"
 #include "CMainWindow.h"
@@ -228,6 +229,31 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
+#ifdef HAS_JNX
+    else if(ext == "jnx")
+    {
+
+        CMapJnx * mapjnx;
+
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eRaster;
+
+        theMap = mapjnx = new CMapJnx(map.key, filename, &canvas);
+
+        map.description = mapjnx->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+
+        // store current map filename for next session
+        cfg.setValue("maps/visibleMaps",filename);
+        cfg.beginGroup("garmin/maps/alias");
+        cfg.setValue(map.filename, map.description);
+        cfg.endGroup();
+    }
+#endif // HAS_JNX
 #ifdef WMS_CLIENT
     else if(ext == "xml" )
     {
