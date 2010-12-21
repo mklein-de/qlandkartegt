@@ -63,18 +63,36 @@ class CMapJnx : public IMap
             quint32 signature_offset;   // byte 0000002C..0000002F
         };
 
-        struct level_t
-        {
-            quint32 nTiles;
-            quint32 offset;
-            quint32 scale;
-        };
 
 #ifdef WIN32
 #pragma pack()
 #else
 #pragma pack(0)
 #endif
+
+        struct tile_t
+        {
+            double lon1;
+            double lat1;
+            double lon2;
+            double lat2;
+
+            quint16 width;
+            quint16 height;
+            quint32 size;
+            quint32 offset;
+        };
+
+        struct level_t
+        {
+            quint32 nTiles;
+            quint32 offset;
+            quint32 scale;
+
+            QVector<tile_t> tiles;
+        };
+
+
 
         QVector<level_t> levels;
 

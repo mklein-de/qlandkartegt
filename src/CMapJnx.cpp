@@ -68,7 +68,32 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
         qDebug() << i << hex << level.nTiles << level.offset << level.scale;
     }
 
+    for(quint32 i = 0; i < hdr.details; i++)
+    {
 
+        level_t& level = levels[i];
+        const quint32 M = level.nTiles;
+        file.seek(level.offset);
+
+        level.tiles.resize(M);
+
+        for(quint32 m = 0; m < M; m++)
+        {
+            qint32 lat1, lon1, lat2, lon2;
+            tile_t& tile = level.tiles[m];
+
+            stream >> lat1 >> lon1 >> lat2 >> lon2 ;
+            stream >> tile.width >> tile.height >> tile.size >> tile.offset;
+
+            tile.lon1 = lon1 * 180.0 / 0x7FFFFFFF;
+            tile.lat1 = lat1 * 180.0 / 0x7FFFFFFF;
+            tile.lon2 = lon2 * 180.0 / 0x7FFFFFFF;
+            tile.lat2 = lat2 * 180.0 / 0x7FFFFFFF;
+
+            qDebug() << m << tile.lon1 << tile.lat1 << tile.lon2 << tile.lat2;
+            qDebug() << "    " << tile.width << tile.height << tile.size << hex << tile.offset;
+        }
+    }
 }
 
 CMapJnx::~CMapJnx()
