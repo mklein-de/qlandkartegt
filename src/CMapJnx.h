@@ -39,7 +39,11 @@ class CMapJnx : public IMap
 
         QString getName(){return name;}
 
+        void draw(QPainter& p);
+
     private:
+        void draw();
+
         QString name;
 
         double lon1;
@@ -52,10 +56,10 @@ class CMapJnx : public IMap
         {
             quint32 version;            // byte 00000000..00000003
             quint32 devid;              // byte 00000004..00000007
-            qint32  iLat1;              // byte 00000008..0000000B
-            qint32  iLon1;              // byte 0000000C..0000000F
             qint32  iLat2;              // byte 00000010..00000013
             qint32  iLon2;              // byte 00000014..00000017
+            qint32  iLat1;              // byte 00000008..0000000B
+            qint32  iLon1;              // byte 0000000C..0000000F
             quint32 details;            // byte 00000018..0000001B
             quint64 expire;             // byte 0000001C..00000023
             quint32 crc;                // byte 00000024..00000027
@@ -72,11 +76,7 @@ class CMapJnx : public IMap
 
         struct tile_t
         {
-            double lon1;
-            double lat1;
-            double lon2;
-            double lat2;
-
+            QRectF  area;
             quint16 width;
             quint16 height;
             quint32 size;
@@ -95,6 +95,14 @@ class CMapJnx : public IMap
 
 
         QVector<level_t> levels;
+
+        double x;
+        double y;
+
+        double xscale;
+        double yscale;
+
+        double zoomFactor;
 
 };
 

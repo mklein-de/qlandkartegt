@@ -348,6 +348,12 @@ void CMapDB::openMap(const QString& key)
     {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
+#ifdef HAS_JNX
+    else if(ext == "jnx")
+    {
+        theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
+    }
+#endif // HAS_JNX
 #ifdef WMS_CLIENT
     else if(ext == "xml" )
     {
