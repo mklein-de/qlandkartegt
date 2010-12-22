@@ -220,14 +220,23 @@ void CMapJnx::draw()
 
     qDebug() << viewport;
 
-    QVector<tile_t>& tiles = levels[2].tiles;
+    QByteArray SOI(2,0);
+    SOI[0] = 0xFF;
+    SOI[1] = 0xD8;
+
+    int cnt = 0;
+    QImage image;
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QVector<tile_t>& tiles = levels[0].tiles;
     const quint32 M = tiles.size();
     for(quint32 m = 0; m < M; m++)
     {
         tile_t& tile = tiles[m];
         if(viewport.intersects(tile.area))
         {
-            qDebug() << m << tile.area << viewport;
+//            qDebug() << m << tile.area << viewport;
             double u1 = tile.area.left() * DEG_TO_RAD;
             double v1 = tile.area.top() * DEG_TO_RAD;
             double u2 = tile.area.right() * DEG_TO_RAD;
@@ -238,9 +247,18 @@ void CMapJnx::draw()
 
             QRectF r = QRectF(QPointF(u1,v1), QPointF(u2,v2));
 
-            qDebug() << r;
+//            qDebug() << r;
 
-            p.drawRect(r);
+            file.seek(tile.offset);
+            QByteArray data =  SOI + file.read(tile.size);
+
+            image.loadFromData(data);
+
+            p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+            cnt++;
+            if(cnt == 20) break;
         }
     }
 }
+
