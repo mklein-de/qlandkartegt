@@ -24,7 +24,7 @@
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
 , xscale(1.0)
-, yscale(1.0)
+, yscale(-1.0)
 , zoomFactor(10.0)
 {
     hdr_t hdr;
@@ -86,25 +86,38 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
         for(quint32 m = 0; m < M; m++)
         {
-            qint32 lat1, lon1, lat2, lon2;
+            double lat1, lon1, lat2, lon2;
+            qint32 iLat1, iLon1, iLat2, iLon2;
             tile_t& tile = level.tiles[m];
 
-            stream >> lat2 >> lon2 >> lat1 >> lon1 ;
+            stream >> iLat2 >> iLon2 >> iLat1 >> iLon1 ;
             stream >> tile.width >> tile.height >> tile.size >> tile.offset;
 
-            tile.area = QRectF(QPointF(lon1 * 180.0 / 0x7FFFFFFF, lat1 * 180.0 / 0x7FFFFFFF), QPointF(lon2 * 180.0 / 0x7FFFFFFF, lat2* 180.0 / 0x7FFFFFFF));
+            lat1 = iLat1 * 180.0 / 0x7FFFFFFF;
+            lon1 = iLon1 * 180.0 / 0x7FFFFFFF;
+            lat2 = iLat2 * 180.0 / 0x7FFFFFFF;
+            lon2 = iLon2 * 180.0 / 0x7FFFFFFF;
 
-            qDebug() << m << tile.area;
-            qDebug() << "    " << tile.width << tile.height << tile.size << hex << tile.offset;
+            tile.area.setLeft(lon1);
+            tile.area.setRight(lon2);
+            tile.area.setTop(lat2);
+            tile.area.setBottom(lat1);
+
+//            tile.area = tile.area.normalized();
+
+//            qDebug() << m << tile.area << lat1 << lon1 << lat2 << lon2;
+//            qDebug() << "    " << tile.width << tile.height << tile.size << hex << tile.offset;
         }
     }
 
     pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
 
     x = lon1 * DEG_TO_RAD;
-    y = lat1 * DEG_TO_RAD;
+    y = lat2 * DEG_TO_RAD;
 
     pj_transform(pjtar, pjsrc,1,0,&x,&y,0);
+
+    zoomidx = 1;
 }
 
 CMapJnx::~CMapJnx()
@@ -203,22 +216,31 @@ void CMapJnx::draw()
     buffer.fill(Qt::white);
     QPainter p(&buffer);
 
-    double u1 = x;
-    double v1 = y;
-    double u2 = x + size.width() * xscale * zoomFactor;
-    double v2 = y + size.height() * yscale * zoomFactor;
+    p.setBrush(Qt::NoBrush);
 
-    pj_transform(pjsrc, pjtar,1,0,&u1,&v1,0);
-    pj_transform(pjsrc, pjtar,1,0,&u2,&v2,0);
+
+    double u1 = 0;
+    double v1 = size.height();
+    double u2 = size.width();
+    double v2 = 0;
+
+    convertPt2Rad(u1,v1);
+    convertPt2Rad(u2,v2);
 
     u1 *= RAD_TO_DEG;
     v1 *= RAD_TO_DEG;
     u2 *= RAD_TO_DEG;
     v2 *= RAD_TO_DEG;
 
-    QRectF viewport  = QRectF(QPointF(u1,v1), QPointF(u2,v2));
+    viewport.setLeft(u1);
+    viewport.setRight(u2);
+    viewport.setTop(v2);
+    viewport.setBottom(v1);
 
-    qDebug() << viewport;
+//    viewport = viewport.normalized();
+
+    qDebug() << viewport << u1 << v1 << u2 << v2;
+
 
     QByteArray SOI(2,0);
     SOI[0] = 0xFF;
@@ -229,25 +251,29 @@ void CMapJnx::draw()
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
 
-    QVector<tile_t>& tiles = levels[0].tiles;
+    QVector<tile_t>& tiles = levels[2].tiles;
     const quint32 M = tiles.size();
     for(quint32 m = 0; m < M; m++)
     {
         tile_t& tile = tiles[m];
+
+//        qDebug() << viewport << tile.area;
+
         if(viewport.intersects(tile.area))
         {
-//            qDebug() << m << tile.area << viewport;
             double u1 = tile.area.left() * DEG_TO_RAD;
-            double v1 = tile.area.top() * DEG_TO_RAD;
             double u2 = tile.area.right() * DEG_TO_RAD;
-            double v2 = tile.area.bottom() * DEG_TO_RAD;
+            double v2 = tile.area.top() * DEG_TO_RAD;
+            double v1 = tile.area.bottom() * DEG_TO_RAD;
 
             convertRad2Pt(u1,v1);
             convertRad2Pt(u2,v2);
 
-            QRectF r = QRectF(QPointF(u1,v1), QPointF(u2,v2));
-
-//            qDebug() << r;
+            QRectF r;
+            r.setLeft(u1);
+            r.setRight(u2);
+            r.setTop(v2);
+            r.setBottom(v1);
 
             file.seek(tile.offset);
             QByteArray data =  SOI + file.read(tile.size);
@@ -256,9 +282,55 @@ void CMapJnx::draw()
 
             p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-            cnt++;
-            if(cnt == 20) break;
         }
     }
+//    QByteArray SOI(2,0);
+//    SOI[0] = 0xFF;
+//    SOI[1] = 0xD8;
+
+//    int cnt = 0;
+//    QImage image;
+//    QFile file(filename);
+//    file.open(QIODevice::ReadOnly);
+
+//    QVector<tile_t>& tiles = levels[0].tiles;
+//    const quint32 M = tiles.size();
+//    for(quint32 m = 0; m < M; m++)
+//    {
+//        tile_t& tile = tiles[m];
+//        if(viewport.intersects(tile.area))
+//        {
+////            qDebug() << m << tile.area << viewport;
+//            double u1 = tile.area.left() * DEG_TO_RAD;
+//            double v1 = tile.area.top() * DEG_TO_RAD;
+//            double u2 = tile.area.right() * DEG_TO_RAD;
+//            double v2 = tile.area.bottom() * DEG_TO_RAD;
+
+//            convertRad2Pt(u1,v1);
+//            convertRad2Pt(u2,v2);
+
+//            v1 = size.height() + v1;
+
+
+////            qDebug() << u1 << v1 << u2 << v2;
+
+//            QRectF r = QRectF(u1,v1,  u1 - u2, v1 - v2);
+
+////            qDebug() << r;
+
+////            qDebug() << m << tile.area << viewport << r;
+
+//            file.seek(tile.offset);
+//            QByteArray data =  SOI + file.read(tile.size);
+
+//            image.loadFromData(data);
+
+//            p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+//            cnt++;
+////            if(cnt == 20) break;
+//        }
+//    }
 }
+
 

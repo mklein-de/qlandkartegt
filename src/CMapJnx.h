@@ -104,6 +104,9 @@ class CMapJnx : public IMap
 
         double zoomFactor;
 
+
+        QRectF viewport;
+
 };
 
 #endif //CMAPJNX_H
