@@ -41,6 +41,8 @@ class CMapJnx : public IMap
 
         void draw(QPainter& p);
 
+        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
     private:
         void draw();
 
@@ -92,7 +94,16 @@ class CMapJnx : public IMap
             QVector<tile_t> tiles;
         };
 
+        /// scale entry
+        struct scale_t
+        {
+            /// scale name
+            QString label;
+            /// scale factor
+            double scale;
+        };
 
+        static scale_t scales[];
 
         QVector<level_t> levels;
 
