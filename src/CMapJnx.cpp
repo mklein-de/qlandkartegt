@@ -174,8 +174,6 @@ CMapJnx::scale_t CMapJnx::scales[] =
 
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
-//, xscale(0.0000001 * 1.2695)
-//, yscale(-0.00000006365 * 1.2695)
 , xscale(1.0)
 , yscale(-1.0)
 {
@@ -260,20 +258,36 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
 
     pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
-//    pjsrc   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     x = lon1 * DEG_TO_RAD;
     y = lat2 * DEG_TO_RAD;
 
     pj_transform(pjtar, pjsrc,1,0,&x,&y,0);
 
-    zoomidx = 23;
+    QSettings cfg;
+    cfg.beginGroup("birdseye/maps");
+    cfg.beginGroup(name);
+    zoomidx = cfg.value("zoomidx",23).toInt();
+    x       = cfg.value("x",x).toDouble();
+    y       = cfg.value("y",y).toDouble();
+    cfg.endGroup();
+    cfg.endGroup();
+
     zoom(zoomidx);
 }
 
 CMapJnx::~CMapJnx()
 {
     if(pjsrc) pj_free(pjsrc);
+
+    QSettings cfg;
+    cfg.beginGroup("birdseye/maps");
+    cfg.beginGroup(name);
+    cfg.setValue("zoomidx",zoomidx);
+    cfg.setValue("x",x);
+    cfg.setValue("y",y);
+    cfg.endGroup();
+    cfg.endGroup();
 
 }
 
@@ -429,41 +443,11 @@ void CMapJnx::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
-    // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
     {
         ovlMap->draw(size, needsRedraw, p);
     }
 
-//    if(CResources::self().showZoomLevel())
-//    {
-
-//        QString str;
-//        if(zoomFactor < 1.0)
-//        {
-//            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
-//        }
-//        else
-//        {
-//            str = tr("Zoom level x%1").arg(zoomidx);
-//        }
-
-
-//        p.setPen(Qt::white);
-//        p.setFont(QFont("Sans Serif",14,QFont::Black));
-
-//        p.drawText(9  ,23, str);
-//        p.drawText(10 ,23, str);
-//        p.drawText(11 ,23, str);
-//        p.drawText(9  ,24, str);
-//        p.drawText(11 ,24, str);
-//        p.drawText(9  ,25, str);
-//        p.drawText(10 ,25, str);
-//        p.drawText(11 ,25, str);
-
-//        p.setPen(Qt::darkBlue);
-//        p.drawText(10,24,str);
-//    }
     needsRedraw = false;
 }
 
