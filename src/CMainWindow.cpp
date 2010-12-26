@@ -657,7 +657,7 @@ void CMainWindow::slotLoadMapSet()
     #ifdef WMS_CLIENT
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;WMS (*.xml)"
     #else
-        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb)"
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx)"
     #endif
         , &filter
         , FILE_DIALOG_FLAGS

@@ -482,7 +482,7 @@ qint32 CMapJnx::zlevel2idx(quint32 l)
     for(quint32 i=0; i < N; i++)
     {
         level_t& level = levels[i];
-        double s1 = double(level.scale) * 3 / (2*PI*100);
+        double s1 = double(level.scale) * 2.5 / (2*PI*100);
         double s2 = scales[l].scale;
 
         if((fabs(s1-s2) < d) && (fabs(s1-s2) < 40))
