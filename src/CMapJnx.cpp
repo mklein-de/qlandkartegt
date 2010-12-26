@@ -174,8 +174,8 @@ CMapJnx::scale_t CMapJnx::scales[] =
 
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
-//, xscale(0.000001)
-//, yscale(-0.0000005)
+//, xscale(0.0000001 * 1.2695)
+//, yscale(-0.00000006365 * 1.2695)
 , xscale(1.0)
 , yscale(-1.0)
 {
@@ -238,24 +238,26 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
         for(quint32 m = 0; m < M; m++)
         {
-            double lat1, lon1, lat2, lon2;
+            double tLat1, tLon1, tLat2, tLon2;
             qint32 iLat1, iLon1, iLat2, iLon2;
             tile_t& tile = level.tiles[m];
 
             stream >> iLat2 >> iLon2 >> iLat1 >> iLon1 ;
             stream >> tile.width >> tile.height >> tile.size >> tile.offset;
 
-            lat1 = iLat1 * 180.0 / 0x7FFFFFFF;
-            lon1 = iLon1 * 180.0 / 0x7FFFFFFF;
-            lat2 = iLat2 * 180.0 / 0x7FFFFFFF;
-            lon2 = iLon2 * 180.0 / 0x7FFFFFFF;
+            tLat1 = iLat1 * 180.0 / 0x7FFFFFFF;
+            tLon1 = iLon1 * 180.0 / 0x7FFFFFFF;
+            tLat2 = iLat2 * 180.0 / 0x7FFFFFFF;
+            tLon2 = iLon2 * 180.0 / 0x7FFFFFFF;
 
-            tile.area.setLeft(lon1);
-            tile.area.setRight(lon2);
-            tile.area.setTop(lat2);
-            tile.area.setBottom(lat1);
+            tile.area.setLeft(tLon1);
+            tile.area.setRight(tLon2);
+            tile.area.setTop(tLat2);
+            tile.area.setBottom(tLat1);
         }
     }
+
+
 
     pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
 //    pjsrc   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
@@ -419,7 +421,10 @@ void CMapJnx::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
 
-    draw();
+    if(needsRedraw)
+    {
+        draw();
+    }
 
 
     p.drawImage(0,0,buffer);
@@ -427,39 +432,39 @@ void CMapJnx::draw(QPainter& p)
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
     {
-//        qDebug() << size << needsRedraw;
         ovlMap->draw(size, needsRedraw, p);
     }
 
-    if(CResources::self().showZoomLevel())
-    {
+//    if(CResources::self().showZoomLevel())
+//    {
 
-        QString str;
-        if(zoomFactor < 1.0)
-        {
-            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
-        }
-        else
-        {
-            str = tr("Zoom level x%1").arg(zoomidx);
-        }
+//        QString str;
+//        if(zoomFactor < 1.0)
+//        {
+//            str = tr("Overzoom x%1").arg(1/zoomFactor,0,'f',0);
+//        }
+//        else
+//        {
+//            str = tr("Zoom level x%1").arg(zoomidx);
+//        }
 
 
-        p.setPen(Qt::white);
-        p.setFont(QFont("Sans Serif",14,QFont::Black));
+//        p.setPen(Qt::white);
+//        p.setFont(QFont("Sans Serif",14,QFont::Black));
 
-        p.drawText(9  ,23, str);
-        p.drawText(10 ,23, str);
-        p.drawText(11 ,23, str);
-        p.drawText(9  ,24, str);
-        p.drawText(11 ,24, str);
-        p.drawText(9  ,25, str);
-        p.drawText(10 ,25, str);
-        p.drawText(11 ,25, str);
+//        p.drawText(9  ,23, str);
+//        p.drawText(10 ,23, str);
+//        p.drawText(11 ,23, str);
+//        p.drawText(9  ,24, str);
+//        p.drawText(11 ,24, str);
+//        p.drawText(9  ,25, str);
+//        p.drawText(10 ,25, str);
+//        p.drawText(11 ,25, str);
 
-        p.setPen(Qt::darkBlue);
-        p.drawText(10,24,str);
-    }
+//        p.setPen(Qt::darkBlue);
+//        p.drawText(10,24,str);
+//    }
+    needsRedraw = false;
 }
 
 void CMapJnx::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
@@ -483,6 +488,28 @@ void CMapJnx::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     my_yscale   = yscale*zoomFactor;
 }
 
+
+qint32 CMapJnx::zlevel2idx(quint32 l)
+{
+    quint32 index   = -1;
+    double d        = 50;
+
+    const quint32 N = levels.size();
+    for(quint32 i=0; i < N; i++)
+    {
+        level_t& level = levels[i];
+        double s1 = double(level.scale) * 3 / (2*PI*100);
+        double s2 = scales[l].scale;
+
+        if((fabs(s1-s2) < d) && (fabs(s1-s2) < 40))
+        {
+            index = i;
+            d = fabs(s1-s2);
+        }
+
+    }
+    return index;
+}
 
 void CMapJnx::draw()
 {
@@ -512,9 +539,29 @@ void CMapJnx::draw()
     viewport.setTop(v2);
     viewport.setBottom(v1);
 
-//    viewport = viewport.normalized();
 
-//    qDebug() << viewport << u1 << v1 << u2 << v2;
+    qint32 level = zlevel2idx(zoomidx);
+    if(level < 0)
+    {
+        double u1 = lon1 * DEG_TO_RAD;
+        double u2 = lon2 * DEG_TO_RAD;
+        double v2 = lat2 * DEG_TO_RAD;
+        double v1 = lat1 * DEG_TO_RAD;
+
+        convertRad2Pt(u1,v1);
+        convertRad2Pt(u2,v2);
+
+        QRectF r;
+        r.setLeft(u1);
+        r.setRight(u2);
+        r.setTop(v2);
+        r.setBottom(v1);
+
+        p.setPen(QPen(Qt::darkBlue,2));
+        p.setBrush(QBrush(QColor(230,230,255,100) ));
+        p.drawRect(r);
+        return;
+    }
 
 
     QByteArray data(1024*1024*4,0);
@@ -526,13 +573,11 @@ void CMapJnx::draw()
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
 
-    QVector<tile_t>& tiles = levels[levels.size() - 1].tiles;
+    QVector<tile_t>& tiles = levels[level].tiles;
     const quint32 M = tiles.size();
     for(quint32 m = 0; m < M; m++)
     {
         tile_t& tile = tiles[m];
-
-        qDebug() << viewport << tile.area << tile.width << tile.height;
 
         if(viewport.intersects(tile.area))
         {
@@ -540,19 +585,6 @@ void CMapJnx::draw()
             double u2 = tile.area.right() * DEG_TO_RAD;
             double v2 = tile.area.top() * DEG_TO_RAD;
             double v1 = tile.area.bottom() * DEG_TO_RAD;
-
-//            convertRad2M(u1,v1);
-//            convertRad2M(u2,v2);
-
-//            double dx = u2 - u1;
-//            double dy = v2 - v1;
-
-//            qDebug() << (dx/tile.width) << (dy/tile.height);
-
-//            u1 = tile.area.left() * DEG_TO_RAD;
-//            u2 = tile.area.right() * DEG_TO_RAD;
-//            v2 = tile.area.top() * DEG_TO_RAD;
-//            v1 = tile.area.bottom() * DEG_TO_RAD;
 
             convertRad2Pt(u1,v1);
             convertRad2Pt(u2,v2);
@@ -568,13 +600,8 @@ void CMapJnx::draw()
             image.loadFromData(data);
 
             p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-//            p.drawRect(r);
-
         }
     }
 }
-
-
-
 
 

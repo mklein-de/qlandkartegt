@@ -45,6 +45,7 @@ class CMapJnx : public IMap
 
     private:
         void draw();
+        qint32 zlevel2idx(quint32);
 
         QString name;
 
