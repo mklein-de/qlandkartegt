@@ -3212,46 +3212,46 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapDB</name>
     <message>
-        <location filename="../CMapDB.cpp" line="61"/>
+        <location filename="../CMapDB.cpp" line="62"/>
         <source>--- No map ---</source>
         <translation>--- Keine Karte ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="372"/>
-        <location filename="../CMapDB.cpp" line="411"/>
-        <location filename="../CMapDB.cpp" line="615"/>
+        <location filename="../CMapDB.cpp" line="404"/>
+        <location filename="../CMapDB.cpp" line="443"/>
+        <location filename="../CMapDB.cpp" line="647"/>
         <source>Error...</source>
         <translation>Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="372"/>
+        <location filename="../CMapDB.cpp" line="404"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Nur Verktorkarten sind gültige Overlays.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="287"/>
-        <location filename="../CMapDB.cpp" line="358"/>
-        <location filename="../CMapDB.cpp" line="557"/>
+        <location filename="../CMapDB.cpp" line="313"/>
+        <location filename="../CMapDB.cpp" line="390"/>
+        <location filename="../CMapDB.cpp" line="589"/>
         <source>Map 3D...</source>
         <translation>3D-Karte ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="546"/>
+        <location filename="../CMapDB.cpp" line="578"/>
         <source>Edit Map</source>
         <translation>Karte bearbeiten</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="571"/>
+        <location filename="../CMapDB.cpp" line="603"/>
         <source>Search Map</source>
         <translation>In der Karte finden</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="585"/>
+        <location filename="../CMapDB.cpp" line="617"/>
         <source>Sorry...</source>
         <translation>Es tut mir leid...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="585"/>
+        <location filename="../CMapDB.cpp" line="617"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Du kannst keine Ausschnitte aus einer einzelnen Kartendatei wählen. Erzeuge eine Kartensammlung mit F1-&gt;F6.</translation>
     </message>
@@ -3260,7 +3260,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Du kannst keine Ausschnitte aus einer einzelnen Kartendatei wählen.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="66"/>
+        <location filename="../CMapDB.cpp" line="67"/>
         <source>--- OSM ---</source>
         <translation>--- OSM ---</translation>
     </message>
@@ -5295,58 +5295,64 @@ Länge: %1 %2</translation>
         <translation>Bayerisch</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="216"/>
+        <location filename="../CRouteToolWidget.cpp" line="220"/>
         <source>Edit</source>
         <translation>Editieren</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="217"/>
+        <location filename="../CRouteToolWidget.cpp" line="221"/>
         <source>Calc. route</source>
         <translation>Route berechnen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="219"/>
+        <location filename="../CRouteToolWidget.cpp" line="223"/>
         <source>Make Overlay</source>
         <translation>Overlay erstellen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="220"/>
+        <location filename="../CRouteToolWidget.cpp" line="224"/>
         <source>Make Track</source>
         <translation>Track erzeugen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="222"/>
+        <location filename="../CRouteToolWidget.cpp" line="226"/>
         <source>Zoom to fit</source>
         <translation>Zoom bis es passt</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="223"/>
+        <location filename="../CRouteToolWidget.cpp" line="227"/>
         <source>Reset</source>
         <translation>Zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="224"/>
+        <location filename="../CRouteToolWidget.cpp" line="228"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="473"/>
-        <location filename="../CRouteToolWidget.cpp" line="491"/>
+        <location filename="../CRouteToolWidget.cpp" line="480"/>
+        <location filename="../CRouteToolWidget.cpp" line="502"/>
+        <location filename="../CRouteToolWidget.cpp" line="696"/>
         <source>Failed...</source>
         <translation>Fehlgeschlagen...</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="473"/>
-        <location filename="../CRouteToolWidget.cpp" line="491"/>
+        <location filename="../CRouteToolWidget.cpp" line="480"/>
+        <location filename="../CRouteToolWidget.cpp" line="502"/>
         <source>Bad response from server:
 %1</source>
         <translation>Fehler vom Server:
 %1</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="547"/>
+        <location filename="../CRouteToolWidget.cpp" line="558"/>
         <source>created from route</source>
         <translation>von einer Route abgeleitet</translation>
+    </message>
+    <message>
+        <location filename="../CRouteToolWidget.cpp" line="696"/>
+        <source>Route request timed out. Please try again later.</source>
+        <translation>Routenanfrage dauert zu lange. Bitte später nocheinmal versuchen.</translation>
     </message>
 </context>
 <context>
@@ -5952,12 +5958,12 @@ Ende: %1</translation>
         <translation>Abstandswarnung ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="310"/>
+        <location filename="../CWptToolWidget.cpp" line="308"/>
         <source>Distance [%1]</source>
         <translation>Distanz [%1]</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="327"/>
+        <location filename="../CWptToolWidget.cpp" line="325"/>
         <source>Proximity distance ...</source>
         <translation>Abstandswarnung ...</translation>
     </message>
@@ -6978,7 +6984,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;left button		select&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;right button	context menu&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;alt+move mouse	move map&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
@@ -7852,6 +7858,42 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgTrackFilter.ui" line="421"/>
         <source>Split track on &quot;Ok&quot;</source>
         <translation>Bei &quot;Ok&quot; den Track zerteilen.</translation>
+    </message>
+</context>
+<context>
+    <name>IDlgWpt2Rte</name>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="14"/>
+        <source>Route from waypoints...</source>
+        <translation>Route aus Wegpunkten...</translation>
+    </message>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="36"/>
+        <source>Available Waypoints</source>
+        <translation>Vorhandene Wegpunkte</translation>
+    </message>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="54"/>
+        <location filename="../IDlgWpt2Rte.ui" line="61"/>
+        <location filename="../IDlgWpt2Rte.ui" line="93"/>
+        <location filename="../IDlgWpt2Rte.ui" line="103"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="72"/>
+        <source>Selected Waypoints</source>
+        <translation>Ausgewählte Wegpunkte</translation>
+    </message>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="116"/>
+        <source>New Route Name</source>
+        <translation>Neuer Routenname</translation>
+    </message>
+    <message>
+        <location filename="../IDlgWpt2Rte.ui" line="123"/>
+        <source>New Route</source>
+        <translation>Neue Route</translation>
     </message>
 </context>
 <context>
