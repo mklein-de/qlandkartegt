@@ -383,7 +383,7 @@ SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX fil
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
-SET (JNX OFF CACHE BOOL "Enable Garmin JNX Support.")
+SET (JNX on CACHE BOOL "Enable Garmin JNX Support.")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
