@@ -1,3 +1,16 @@
+--- 2010.12.27 ---
+
+Request #237:
+Add timeout to route calculation
+
+Request #238:
+Add order to selected waypoints to create a route
+
+Request #239:
+Add Garmin BirdsEye support (display only)
+
+
+
 --- 2010.12.06 ---
 
 Request #231:
@@ -1032,6 +1045,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
