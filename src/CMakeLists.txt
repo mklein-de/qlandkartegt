@@ -383,7 +383,8 @@ SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX fil
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
-SET (JNX on CACHE BOOL "Enable Garmin JNX Support.")
+SET (JNX ON CACHE BOOL "Enable Garmin JNX Support.")
+SET (JNX_CREATE OFF CACHE BOOL "Enable Garmin JNX Export Support.")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -451,6 +452,13 @@ IF(JNX)
     SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CMapJnx.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS})
 ENDIF(JNX)
+
+IF(JNX_CREATE)
+    add_definitions(-DHAS_JNX_CREATE)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS})
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS})
+    SET(qlandkarte_UIS ${qlandkarte_UIS})
+ENDIF(JNX_CREATE)
 
 IF(MIKROKOPTER)
     add_definitions(-DHAS_MIKROKOPTER)

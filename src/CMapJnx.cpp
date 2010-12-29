@@ -557,6 +557,9 @@ void CMapJnx::draw()
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
 
+    quint32 cnt = 0;
+    double m_px = 0.0;
+    double d_px = 0.0;
     QVector<tile_t>& tiles = levels[level].tiles;
     const quint32 M = tiles.size();
     for(quint32 m = 0; m < M; m++)
@@ -565,6 +568,20 @@ void CMapJnx::draw()
 
         if(viewport.intersects(tile.area))
         {
+            {
+                double u1 = tile.area.left() * DEG_TO_RAD;
+                double u2 = tile.area.right() * DEG_TO_RAD;
+                double v2 = tile.area.top() * DEG_TO_RAD;
+                double v1 = tile.area.bottom() * DEG_TO_RAD;
+
+                convertRad2M(u1,v1);
+                convertRad2M(u2,v2);
+
+                m_px += (u2 - u1) / tile.width;
+                d_px += (tile.area.right() - tile.area.left()) / tile.width;
+                cnt++;
+            }
+
             double u1 = tile.area.left() * DEG_TO_RAD;
             double u2 = tile.area.right() * DEG_TO_RAD;
             double v2 = tile.area.top() * DEG_TO_RAD;
@@ -586,6 +603,9 @@ void CMapJnx::draw()
             p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
     }
+
+    qDebug() << m_px/cnt << "m/px";
+    qDebug() << d_px/cnt << "°/px";
 }
 
 
