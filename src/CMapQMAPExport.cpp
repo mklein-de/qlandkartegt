@@ -29,6 +29,7 @@
 #include <QtGui>
 #include <QtXml/QDomDocument>
 #include <qzipwriter.h>
+#include <gdal_priv.h>
 
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
@@ -602,3 +603,5 @@ void CMapQMAPExport::startGCM()
 
     slotFinishedKMZ1(0,QProcess::NormalExit);
 }
+
+

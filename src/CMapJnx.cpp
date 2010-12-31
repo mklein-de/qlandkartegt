@@ -274,6 +274,8 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     cfg.endGroup();
 
     zoom(zoomidx);
+
+    setAngleNorth();
 }
 
 CMapJnx::~CMapJnx()
@@ -322,6 +324,7 @@ void CMapJnx::move(const QPoint& old, const QPoint& next)
     needsRedraw = true;
     emit sigChanged();
 
+    setAngleNorth();
 }
 
 void CMapJnx::zoom(bool zoomIn, const QPoint& p0)
