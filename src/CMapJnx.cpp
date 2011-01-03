@@ -193,25 +193,25 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
     stream >> hdr.version;            // byte 00000000..00000003
     stream >> hdr.devid;              // byte 00000004..00000007
-    stream >> hdr.iLat2;              // byte 00000008..0000000B
-    stream >> hdr.iLon2;              // byte 0000000C..0000000F
-    stream >> hdr.iLat1;              // byte 00000010..00000013
-    stream >> hdr.iLon1;              // byte 00000014..00000017
+    stream >> hdr.top;              // byte 00000008..0000000B
+    stream >> hdr.right;              // byte 0000000C..0000000F
+    stream >> hdr.bottom;              // byte 00000010..00000013
+    stream >> hdr.left;              // byte 00000014..00000017
     stream >> hdr.details;            // byte 00000018..0000001B
     stream >> hdr.expire;             // byte 0000001C..00000023
     stream >> hdr.crc;                // byte 00000024..00000027
     stream >> hdr.signature;          // byte 00000028..0000002B
     stream >> hdr.signature_offset;   // byte 0000002C..0000002F
 
-    lat1 = hdr.iLat1 * 180.0 / 0x7FFFFFFF;
-    lat2 = hdr.iLat2 * 180.0 / 0x7FFFFFFF;
-    lon1 = hdr.iLon1 * 180.0 / 0x7FFFFFFF;
-    lon2 = hdr.iLon2 * 180.0 / 0x7FFFFFFF;
+    lat1 = hdr.top * 180.0 / 0x7FFFFFFF;
+    lat2 = hdr.bottom * 180.0 / 0x7FFFFFFF;
+    lon1 = hdr.left * 180.0 / 0x7FFFFFFF;
+    lon2 = hdr.right * 180.0 / 0x7FFFFFFF;
 
     qDebug() << filename;
     qDebug() << hex << "Version:" << hdr.version << "DevId" <<  hdr.devid;
     qDebug() << lon1 << lat1 << lon2 << lat2;
-    qDebug() << hex <<  hdr.iLat1 <<  hdr.iLon1 <<  hdr.iLat2 <<  hdr.iLon2;
+    qDebug() << hex <<  hdr.top <<  hdr.right <<  hdr.bottom <<  hdr.left;
     qDebug() << hex << "Details:" <<  hdr.details << "Expire:" <<  hdr.expire << "CRC:" <<  hdr.crc ;
     qDebug() << hex << "Signature:" <<  hdr.signature << "Offset:" <<  hdr.signature_offset;
 
@@ -236,22 +236,17 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
         for(quint32 m = 0; m < M; m++)
         {
-            double tLat1, tLon1, tLat2, tLon2;
-            qint32 iLat1, iLon1, iLat2, iLon2;
+
+            qint32 top, right, bottom, left;
             tile_t& tile = level.tiles[m];
 
-            stream >> iLat2 >> iLon2 >> iLat1 >> iLon1 ;
+            stream >> top >> right >> bottom >> left;
             stream >> tile.width >> tile.height >> tile.size >> tile.offset;
 
-            tLat1 = iLat1 * 180.0 / 0x7FFFFFFF;
-            tLon1 = iLon1 * 180.0 / 0x7FFFFFFF;
-            tLat2 = iLat2 * 180.0 / 0x7FFFFFFF;
-            tLon2 = iLon2 * 180.0 / 0x7FFFFFFF;
-
-            tile.area.setLeft(tLon1);
-            tile.area.setRight(tLon2);
-            tile.area.setTop(tLat2);
-            tile.area.setBottom(tLat1);
+            tile.area.setTop(top * 180.0 / 0x7FFFFFFF);
+            tile.area.setRight(right * 180.0 / 0x7FFFFFFF);
+            tile.area.setBottom(bottom * 180.0 / 0x7FFFFFFF);
+            tile.area.setLeft(left * 180.0 / 0x7FFFFFFF);
         }
     }
 
@@ -521,11 +516,11 @@ void CMapJnx::draw()
     u2 *= RAD_TO_DEG;
     v2 *= RAD_TO_DEG;
 
-    viewport.setLeft(u1);
-    viewport.setRight(u2);
-    viewport.setTop(v2);
-    viewport.setBottom(v1);
 
+    viewport.setTop(v2);
+    viewport.setRight(u2);
+    viewport.setBottom(v1);
+    viewport.setLeft(u1);
 
     qint32 level = zlevel2idx(zoomidx);
     if(level < 0)
@@ -608,7 +603,7 @@ void CMapJnx::draw()
     }
 
     qDebug() << m_px/cnt << "m/px";
-    qDebug() << d_px/cnt << "°/px";
+    qDebug() << d_px/cnt << "\260/px";
 }
 
 
