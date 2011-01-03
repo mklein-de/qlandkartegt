@@ -222,7 +222,10 @@ void IMouse::drawSelTrkPt(QPainter& p)
 
         if(str.count()) str += "\n";
         IUnit::self().meter2distance(selTrkPt->distance, val, unit);
-        str += tr("dist. from start: %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0);
+        str += tr("start %4 %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A4));
+        IUnit::self().meter2distance(track->getTotalDistance() - selTrkPt->distance, val, unit);
+//        if(str.count()) str += "\n";
+        str += tr(" | (%3%) %1%2 %4 end").arg(val).arg(unit).arg((track->getTotalDistance() - selTrkPt->distance) * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A6));
 
         //-----------------------------------------------------------------------------------------------------------
         //TODO: HOVERTEXT FOR EXTENSIONS
