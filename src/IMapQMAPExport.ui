@@ -104,6 +104,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QRadioButton" name="radioJNX">
+       <property name="text">
+        <string>Garmin BirdsEye</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -119,7 +126,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="textBrowser"/>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

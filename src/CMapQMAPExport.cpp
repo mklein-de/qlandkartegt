@@ -62,6 +62,10 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmd3, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd3, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
 
+    connect(&cmd4, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd4, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd4, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished4(int,QProcess::ExitStatus)));
+
     connect(&cmdKMZ1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmdKMZ1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmdKMZ1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ2(int,QProcess::ExitStatus)));
@@ -73,6 +77,13 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
+
+#ifdef MAP2JNX
+    radioJNX->show();
+    radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
+#else
+    radioJNX->hide();
+#endif
 }
 
 
@@ -82,6 +93,7 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
     cfg.setValue("map/export/ge", radioGE->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
+    cfg.setValue("map/export/jnx", radioJNX->isChecked());
 }
 
 
@@ -98,26 +110,46 @@ void CMapQMAPExport::slotOutputPath()
 
 void CMapQMAPExport::slotStderr()
 {
+    QString str;
     textBrowser->setTextColor(Qt::red);
     if(sender() == &cmd1)
     {
-        textBrowser->append(cmd1.readAllStandardError());
+        str = cmd1.readAllStandardError();
     }
     else if(sender() == &cmd2)
     {
-        textBrowser->append(cmd2.readAllStandardError());
+        str = cmd2.readAllStandardError();
     }
     else if(sender() == &cmd3)
     {
-        textBrowser->append(cmd3.readAllStandardError());
+        str = cmd3.readAllStandardError();
     }
+    else if(sender() == &cmd4)
+    {
+        str = cmd4.readAllStandardError();
+    }
+
+    if(str[0] == '\r')
+    {
+        textBrowser->moveCursor( QTextCursor::End, QTextCursor::MoveAnchor );
+        textBrowser->moveCursor( QTextCursor::StartOfLine, QTextCursor::MoveAnchor );
+        textBrowser->moveCursor( QTextCursor::End, QTextCursor::KeepAnchor );
+        textBrowser->textCursor().removeSelectedText();
+
+        str = str.split("\r").last();
+    }
+
+    textBrowser->insertPlainText(str);
+    textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
+
 }
 
 
 void CMapQMAPExport::slotStdout()
 {
-    textBrowser->setTextColor(Qt::blue);
     QString str;
+    textBrowser->setTextColor(Qt::blue);
+
     if(sender() == &cmd1)
     {
         str = cmd1.readAllStandardOutput();
@@ -129,6 +161,20 @@ void CMapQMAPExport::slotStdout()
     else if(sender() == &cmd3)
     {
         str = cmd3.readAllStandardOutput();
+    }
+    else if(sender() == &cmd4)
+    {
+        str = cmd4.readAllStandardOutput();
+    }
+
+    if(str[0] == '\r')
+    {
+        textBrowser->moveCursor( QTextCursor::End, QTextCursor::MoveAnchor );
+        textBrowser->moveCursor( QTextCursor::StartOfLine, QTextCursor::MoveAnchor );
+        textBrowser->moveCursor( QTextCursor::End, QTextCursor::KeepAnchor );
+        textBrowser->textCursor().removeSelectedText();
+
+        str = str.split("\r").last();
     }
 
     textBrowser->insertPlainText(str);
@@ -149,6 +195,11 @@ void CMapQMAPExport::slotStart()
     {
         startGCM();
     }
+    else if(radioJNX->isChecked())
+    {
+        startQLM();
+    }
+
 }
 
 void CMapQMAPExport::startQLM()
@@ -254,6 +305,7 @@ void CMapQMAPExport::startQLM()
         }
     }
 
+    outfiles.clear();
     slotFinished1(0,QProcess::NormalExit);
 }
 
@@ -265,9 +317,26 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
     if(file2){delete file2; file2 = 0;}
     if(jobs.isEmpty())
     {
-        textBrowser->setTextColor(Qt::black);
-        textBrowser->append(tr("--- finished ---\n"));
-        return;
+        if(radioJNX->isChecked())
+        {
+#ifdef MAP2JNX
+            QString prefix = linePrefix->text();
+            QDir tarPath(labelPath->text());
+
+            outfiles << tarPath.filePath(QString("%1.jnx").arg(prefix));
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(MAP2JNX " " +  outfiles.join(" ") + "\n");
+
+            cmd4.start(MAP2JNX, outfiles);
+            return;
+#endif
+        }
+        else
+        {
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(tr("--- finished ---\n"));
+            return;
+        }
     }
 
     file1 = new QTemporaryFile();
@@ -310,6 +379,9 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
 {
     job_t job = jobs.takeFirst();
+
+    outfiles << job.tarFilename;
+
     QStringList args;
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
@@ -322,6 +394,17 @@ void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
     textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
     cmd3.start(GDALTRANSLATE, args);
+}
+
+void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
+{
+    for(int i = 0; i < (outfiles.count() - 1); i++)
+    {
+        QFile::remove(outfiles[i]);
+    }
+
+    textBrowser->setTextColor(Qt::black);
+    textBrowser->append(tr("--- finished ---\n"));
 }
 
 void CMapQMAPExport::startGE()

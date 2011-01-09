@@ -30,6 +30,13 @@ else(GPSBABEL)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGPSBABEL=\\\"gpsbabel\\\"")
 endif(GPSBABEL)
 
+find_program(MAP2JNX map2jnx DOC "full path of the map2jnx application")
+if(MAP2JNX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAP2JNX=\\\"${MAP2JNX}\\\"")
+endif(MAP2JNX)
+
+
+
 include(${QT_USE_FILE})
 
 set(qlandkarte_SRCS

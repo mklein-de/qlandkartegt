@@ -43,6 +43,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished1( int exitCode, QProcess::ExitStatus status);
         void slotFinished2( int exitCode, QProcess::ExitStatus status);
         void slotFinished3( int exitCode, QProcess::ExitStatus status);
+        void slotFinished4( int exitCode, QProcess::ExitStatus status);
 
         void slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status);
         void slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status);
@@ -57,6 +58,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QProcess cmd1;
         QProcess cmd2;
         QProcess cmd3;
+        QProcess cmd4;
 
         QProcess cmdKMZ1;
         QProcess cmdKMZ2;
@@ -81,5 +83,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         };
 
         QList<job_t> jobs;
+
+        QStringList outfiles;
 };
 #endif                           //CMAPQMAPEXPORT_H
