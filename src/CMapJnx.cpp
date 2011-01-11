@@ -21,156 +21,40 @@
 #include "CResources.h"
 #include <QtGui>
 
-#define MAX_IDX_ZOOM 35
+#define MAX_IDX_ZOOM 26
 #define MIN_IDX_ZOOM 0
+
 
 CMapJnx::scale_t CMapJnx::scales[] =
 {
-    {                            //0
-        QString("7000 km"), 70000.0
-    }
-    ,                            //1
-    {
-        QString("5000 km"), 50000.0
-    }
-    ,                            //2
-    {
-        QString("3000 km"), 30000.0
-    }
-    ,                            //3
-    {
-        QString("2000 km"), 20000.0
-    }
-    ,                            //4
-    {
-        QString("1500 km"), 15000.0
-    }
-    ,                            //5
-    {
-        QString("1000 km"), 10000.0
-    }
-    ,                            //6
-    {
-        QString("700 km"), 7000.0
-    }
-    ,                            //7
-    {
-        QString("500 km"), 5000.0
-    }
-    ,                            //8
-    {
-        QString("300 km"), 3000.0
-    }
-    ,                            //9
-    {
-        QString("200 km"), 2000.0
-    }
-    ,                            //10
-    {
-        QString("150 km"), 1500.0
-    }
-    ,                            //11
-    {
-        QString("100 km"), 1000.0
-    }
-    ,                            //12
-    {
-        QString("70 km"), 700.0
-    }
-    ,                            //13
-    {
-        QString("50 km"), 500.0
-    }
-    ,                            //14
-    {
-        QString("30 km"), 300.0
-    }
-    ,                            //15
-    {
-        QString("20 km"), 200.0
-    }
-    ,                            //16
-    {
-        QString("15 km"), 150.0
-    }
-    ,                            //17
-    {
-        QString("10 km"), 100.0
-    }
-    ,                            //18
-    {
-        QString("7 km"), 70.0
-    }
-    ,                            //19
-    {
-        QString("5 km"), 50.0
-    }
-    ,                            //20
-    {
-        QString("3 km"), 30.0
-    }
-    ,                            //21
-    {
-        QString("2 km"), 20.0
-    }
-    ,                            //22
-    {
-        QString("1.5 km"), 15.0
-    }
-    ,                            //23
-    {
-        QString("1 km"), 10.0
-    }
-    ,                            //24
-    {
-        QString("700 m"), 7.0
-    }
-    ,                            //25
-    {
-        QString("500 m"), 5.0
-    }
-    ,                            //26
-    {
-        QString("300 m"), 3.0
-    }
-    ,                            //27
-    {
-        QString("200 m"), 2.0
-    }
-    ,                            //28
-    {
-        QString("150 m"), 1.5
-    }
-    ,                            //29
-    {
-        QString("100 m"), 1.0
-    }
-    ,                            //30
-    {
-        QString("70 m"), 0.7
-    }
-    ,                            //31
-    {
-        QString("50 m"), 0.5
-    }
-    ,                            //32
-    {
-        QString("30 m"), 0.3
-    }
-    ,                            //33
-    {
-        QString("20 m"), 0.2
-    }
-    ,                            //34
-    {
-        QString("15 m"), 0.15
-    }
-    ,                            //35
-    {
-        QString("10 m"), 0.10
-    }
+     {80000,  2083334 }
+    ,{5000,   1302084 }
+    ,{3000,   781250  }
+    ,{2000,   520834  }
+    ,{1200,   312500  }
+    ,{800,    208334  }
+    ,{500,    130209  }
+    ,{300,    78125   }
+    ,{200,    52084   }
+    ,{120,    31250   }
+    ,{80.0,   20834   }
+    ,{50.0,   13021   }
+    ,{30.0,   7813    }
+    ,{20.0,   5209    }
+    ,{12.0,   3125    }
+    ,{8.00,   2084    }
+    ,{5.00,   1303    }
+    ,{3.00,   782     }
+    ,{2.00,   521     }
+    ,{1.20,   313     }
+    ,{0.80,   209     }
+    ,{0.50,   131     }
+    ,{0.30,   79      }
+    ,{0.20,   52      }
+    ,{0.12,   32      }
+    ,{0.08,   21      }
+    ,{0.05,   14      }
 };
-
 
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
@@ -383,7 +267,7 @@ void CMapJnx::zoom(double lon1, double lat1, double lon2, double lat2)
     for(int i = MAX_IDX_ZOOM; i >= MIN_IDX_ZOOM; --i)
     {
 
-        double z    = scales[i].scale;
+        double z    = scales[i].qlgtScale;
         double pxU  = dU / (+1.0 * z);
         double pxV  = dV / (-1.0 * z);
 
@@ -413,9 +297,7 @@ void CMapJnx::zoom(qint32& level)
     zoomidx = level;
     if(zoomidx < MIN_IDX_ZOOM) zoomidx = MIN_IDX_ZOOM;
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
-    zoomFactor = scales[zoomidx].scale;
-
-    qDebug() << zoomidx << zoomFactor << scales[zoomidx].scale << scales[zoomidx].label;
+    zoomFactor = scales[zoomidx].qlgtScale;
 
     emit sigChanged();
 }
@@ -474,22 +356,29 @@ void CMapJnx::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
 qint32 CMapJnx::zlevel2idx(quint32 l)
 {
     quint32 index   = -1;
-    double d        = 50;
+    quint32 scale   = levels[0].scale;
 
-    const quint32 N = levels.size();
-    for(quint32 i=0; i < N; i++)
+    quint32 s1 = scales[l].jnxScale;
+    quint32 s2 = (l == 0) ? 0x7FFFFFFF : scales[l - 1].jnxScale;
+
+    qDebug() << "-----------";
+
+    for(int i = 0; i < levels.size(); i++)
     {
-        level_t& level = levels[i];
-        double s1 = double(level.scale) * 2.5 / (2*PI*100);
-        double s2 = scales[l].scale;
+        scale = levels[i].scale;
+        qDebug() << s1 << scale << s2;
 
-        if((fabs(s1-s2) < d) && (fabs(s1-s2) < 40))
+        if(s1 <= scale && scale < s2)
         {
-            index = i;
-            d = fabs(s1-s2);
+            return i;
         }
-
     }
+
+    if(s1 < scale && s2 < scale)
+    {
+        return levels.size() - 1;
+    }
+
     return index;
 }
 
@@ -523,6 +412,9 @@ void CMapJnx::draw()
     viewport.setLeft(u1);
 
     qint32 level = zlevel2idx(zoomidx);
+
+    qDebug() << "use level" << level;
+
     if(level < 0)
     {
         double u1 = lon1 * DEG_TO_RAD;

@@ -97,10 +97,9 @@ class CMapJnx : public IMap
         /// scale entry
         struct scale_t
         {
-            /// scale name
-            QString label;
             /// scale factor
-            double scale;
+            double  qlgtScale;
+            quint32 jnxScale;
         };
 
         static scale_t scales[];
