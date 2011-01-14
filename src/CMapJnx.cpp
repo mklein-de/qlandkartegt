@@ -353,33 +353,25 @@ void CMapJnx::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
 }
 
 
-qint32 CMapJnx::zlevel2idx(quint32 l)
+qint32 CMapJnx::zlevel2idx(quint32 zl)
 {
-    quint32 index   = -1;
-    quint32 scale   = levels[0].scale;
+    qint32 idxLvl   = -1;
+    quint32 actScale = scales[zl].jnxScale;
 
-    quint32 s1 = scales[l].jnxScale;
-    quint32 s2 = (l == 0) ? 0x7FFFFFFF : scales[l - 1].jnxScale;
-
-    qDebug() << "-----------";
-
+//    qDebug() << "-----------";
     for(int i = 0; i < levels.size(); i++)
     {
-        scale = levels[i].scale;
-        qDebug() << s1 << scale << s2;
+        level_t& level = levels[i];
 
-        if(s1 <= scale && scale < s2)
+//        qDebug() << level.scale << actScale;
+        if(actScale < level.scale)
         {
-            return i;
+            idxLvl = i;
         }
+
     }
 
-    if(s1 < scale && s2 < scale)
-    {
-        return levels.size() - 1;
-    }
-
-    return index;
+    return idxLvl;
 }
 
 void CMapJnx::draw()
