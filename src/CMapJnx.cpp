@@ -364,7 +364,7 @@ qint32 CMapJnx::zlevel2idx(quint32 zl)
         level_t& level = levels[i];
 
 //        qDebug() << level.scale << actScale;
-        if(actScale < level.scale)
+        if(actScale <= level.scale)
         {
             idxLvl = i;
         }
@@ -405,7 +405,7 @@ void CMapJnx::draw()
 
     qint32 level = zlevel2idx(zoomidx);
 
-    qDebug() << "use level" << level;
+    qDebug() << "use level" << level << "zoom level" << zoomidx << scales[zoomidx].qlgtScale;
 
     if(level < 0)
     {
@@ -485,7 +485,6 @@ void CMapJnx::draw()
             p.drawImage(r, image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
     }
-
     qDebug() << m_px/cnt << "m/px";
     qDebug() << d_px/cnt << "\260/px";
 }
