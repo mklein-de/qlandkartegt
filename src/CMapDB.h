@@ -60,6 +60,18 @@ class CMapDB : public IDB
         /// get current DEM map
         IMap& getDEM();
 
+        /// get map selection under position
+        /**
+            Only selections of the current map are evaluated. The current map
+            must be a raster map.
+
+            @param lon  the longitude [rad]
+            @param lon  the latitude [rad]
+
+            @return A pointer to a selection under the given point or 0.
+        */
+        IMapSelection * getSelectedMap(double lon, double lat);
+
 #ifdef PLOT_3D
         CMap3D * getMap3D();
 #endif

@@ -85,6 +85,16 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
             p.drawLine(r.left(), i, r.right(), i);
         }
 
-        CCanvas::drawText(description,p,r);
+        CCanvas::drawText(getDescription(),p,r);
     }
 }
+
+QString CMapSelectionRaster::getDescription()
+{
+    QString pos1, pos2;
+    GPS_Math_Deg_To_Str(lon1 * RAD_TO_DEG, lat1 * RAD_TO_DEG, pos1);
+    GPS_Math_Deg_To_Str(lon2 * RAD_TO_DEG, lat2 * RAD_TO_DEG, pos2);
+
+    return description + "\n" + pos1 + "\n" + pos2;
+}
+

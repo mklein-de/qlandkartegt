@@ -55,8 +55,13 @@ class CMouseMoveMap : public IMouse
     private:
         /// true if left mouse button is pressed
         bool moveMap;
+        bool moveMapSel;
+        bool sizeMapSel;
+
         bool leftButtonPressed;
         bool altKeyPressed;
+
+
         /// the initial starting point of the transformation
         QPoint oldPoint;
 

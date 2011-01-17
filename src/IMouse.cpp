@@ -34,6 +34,7 @@
 #include "GeoMath.h"
 #include "CSearch.h"
 #include "CSearchDB.h"
+#include "IMapSelection.h"
 #include <QtGui>
 
 QPointer<IOverlay> IMouse::selOverlay;
@@ -46,6 +47,7 @@ IMouse::IMouse(CCanvas * canvas)
 , selRtePt(0)
 , doSpecialCursorWpt(false)
 , doSpecialCursorSearch(false)
+, doSpecialCursorMap(false)
 {
     rectDelWpt          = QRect(0,0,16,16);
     rectMoveWpt         = QRect(32,0,16,16);
@@ -56,6 +58,9 @@ IMouse::IMouse(CCanvas * canvas)
     rectDelSearch       = QRect(0,0,16,16);
     rectConvertSearch   = QRect(0,32,16,16);
     rectCopySearch      = QRect(32,32,16,16);
+
+    rectMoveMapSel      = QRect(0,0,64,64);
+    rectSizeMapSel      = QRect(0,0,48,48);
 }
 
 
@@ -309,6 +314,35 @@ void IMouse::drawSelRtePt(QPainter& p)
 }
 
 
+void IMouse::drawSelMap(QPainter& p)
+{
+    if(selMap.isNull())
+    {
+        return;
+    }
+
+
+    IMap& map = CMapDB::self().getMap();
+
+    double u1 = selMap->lon1;
+    double v1 = selMap->lat1;
+    double u2 = selMap->lon2;
+    double v2 = selMap->lat2;
+
+    map.convertRad2Pt(u1, v1);
+    map.convertRad2Pt(u2, v2);
+
+    p.setPen(QPen(Qt::yellow,2));
+    QRect r1(u1, v1, u2 - u1, v2 - v1);
+    p.drawRect(r1);
+
+    rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
+    p.drawPixmap(rectMoveMapSel.topLeft(), QPixmap(":/icons/iconMove64x64.png"));
+
+    rectSizeMapSel.moveTopLeft(r1.bottomRight() - QPoint(48,48));
+    p.drawPixmap(rectSizeMapSel.topLeft(), QPixmap(":/icons/iconSize48x48.png"));
+}
+
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
     QPoint pos      = e->pos();
@@ -538,6 +572,7 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
 }
 
 
+
 void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 {
     CTrack * track = CTrackDB::self().highlightedTrack();
@@ -657,4 +692,54 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
         }
         canvas->update();
     }
+}
+
+void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
+{
+
+    IMapSelection * oldSel = selMap;
+
+    IMap& map = CMapDB::self().getMap();
+    double u = e->pos().x();
+    double v = e->pos().y();
+
+    map.convertPt2Rad(u,v);
+
+    selMap = CMapDB::self().getSelectedMap(u,v);
+
+    // check for cursor-over-function
+    if(selMap)
+    {
+        if(rectMoveMapSel.contains(e->pos()) || rectSizeMapSel.contains(e->pos()))
+        {
+            if(!doSpecialCursorMap)
+            {
+                QApplication::setOverrideCursor(Qt::PointingHandCursor);
+                doSpecialCursorMap = true;
+            }
+        }
+        else
+        {
+            if(doSpecialCursorMap)
+            {
+                QApplication::restoreOverrideCursor();
+                doSpecialCursorMap = false;
+            }
+        }
+    }
+    else
+    {
+        if(doSpecialCursorMap)
+        {
+            QApplication::restoreOverrideCursor();
+            doSpecialCursorMap = false;
+        }
+    }
+
+
+    if(selMap != oldSel)
+    {
+        canvas->update();
+    }
+
 }

@@ -30,7 +30,7 @@ class IMapSelection : public QObject
     public:
         enum type_e {eNone, eRaster, eGarmin};
 
-        IMapSelection(type_e type, QObject * parent) : QObject(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){};
+        IMapSelection(type_e type, QObject * parent) : QObject(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){}
         virtual ~IMapSelection(){}
 
         void operator=(const IMapSelection& ms)
@@ -45,7 +45,7 @@ class IMapSelection : public QObject
             lat2        = ms.lat2;
         }
 
-        virtual void draw(QPainter& p, const QRect& rect){};
+        virtual void draw(QPainter& p, const QRect& rect){}
 
         virtual bool isEmpty(){return false;}
 
@@ -53,12 +53,17 @@ class IMapSelection : public QObject
 
         type_e type;
         QString key;
-        QString mapkey;
-        QString description;
+        QString mapkey;                
 
         double lon1;             ///< top left longitude [rad]
         double lat1;             ///< top left latitude [rad]
         double lon2;             ///< bottom right longitude [rad]
         double lat2;             ///< bottom right latitude [rad]
+
+        virtual QString getDescription(){return description;}
+        virtual void setDescription(const QString& desc){description = desc;}
+
+    protected:
+        QString description;
 };
 #endif                           //IMAPSELECTION_H

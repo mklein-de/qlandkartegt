@@ -34,6 +34,7 @@ class CCanvas;
 class CWpt;
 class IOverlay;
 class CSearch;
+class IMapSelection;
 
 /// Base class to all mouse function objects
 /**
@@ -100,6 +101,8 @@ class IMouse : public QObject
         void drawSelRtePt(QPainter& p);
         /// draw selected search
         void drawSelSearch(QPainter& p);
+        /// draw selected map selection
+        void drawSelMap(QPainter& p);
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
@@ -111,6 +114,8 @@ class IMouse : public QObject
         void mouseMoveEventOverlay(QMouseEvent * e);
         /// choose waypoint close to cursor
         void mouseMoveEventSearch(QMouseEvent * e);
+        ///
+        void mouseMoveEventMapSel(QMouseEvent * e);
 
         /// trigger waypoint function
         void mousePressEventWpt(QMouseEvent * e);
@@ -132,6 +137,10 @@ class IMouse : public QObject
         CRoute::pt_t * selRtePt;
         /// current selected overlay
         static QPointer<IOverlay> selOverlay;
+        /// current selected map area
+        QPointer<IMapSelection>selMap;
+
+        QPointer<CSearch> selSearch;
 
         QRect rectDelWpt;
         QRect rectMoveWpt;
@@ -143,10 +152,16 @@ class IMouse : public QObject
         QRect rectConvertSearch;
         QRect rectCopySearch;
 
+        QRect rectMoveMapSel;
+        QRect rectSizeMapSel;
+
         bool doSpecialCursorWpt;
         bool doSpecialCursorSearch;
+        bool doSpecialCursorMap;
 
-        QPointer<CSearch> selSearch;
+
+        QPoint lastPoint;
+
 #ifdef GPX_EXTENSIONS
         //QPointer<CTrack> track;  //TODO: noch ne def
 #endif

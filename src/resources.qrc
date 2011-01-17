@@ -451,5 +451,7 @@
         <file>icons/iconFolderYellow16x16.png</file>
         <file>icons/iconInProgress.mng</file>
         <file>icons/iconInfo16x16.png</file>
+        <file>icons/iconMove64x64.png</file>
+        <file>icons/iconSize48x48.png</file>
     </qresource>
 </RCC>

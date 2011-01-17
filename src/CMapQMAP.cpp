@@ -650,7 +650,7 @@ void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
     GPS_Math_Deg_To_Str(sel.lon1 * RAD_TO_DEG, sel.lat1 * RAD_TO_DEG, pos1);
     GPS_Math_Deg_To_Str(sel.lon2 * RAD_TO_DEG, sel.lat2 * RAD_TO_DEG, pos2);
 
-    sel.description += "\n" + pos1 + "\n" + pos2;
+//    sel.description += "\n" + pos1 + "\n" + pos2;
 }
 
 quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)

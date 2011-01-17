@@ -34,6 +34,8 @@
 CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 : IMouse(parent)
 , moveMap(false)
+, moveMapSel(false)
+, sizeMapSel(false)
 , leftButtonPressed(false)
 , altKeyPressed(false)
 {
@@ -56,6 +58,36 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
         CUndoStackView::getInstance()->push(new CMapUndoCommandMove(&CMapDB::self().getMap(),oldPoint, e->pos()));
         canvas->update();
     }
+
+    if((moveMapSel || sizeMapSel) && !selMap.isNull())
+    {
+        IMap& map = CMapDB::self().getMap();
+        double u1 = oldPoint.x();
+        double v1 = oldPoint.y();
+        double u2 = mousePos.x();
+        double v2 = mousePos.y();
+
+        map.convertPt2Rad(u1,v1);
+        map.convertPt2Rad(u2,v2);
+
+        if(moveMapSel)
+        {
+            selMap->lon1 += u2 - u1;
+            selMap->lon2 += u2 - u1;
+
+            selMap->lat1 += v2 - v1;
+            selMap->lat2 += v2 - v1;
+        }
+        else if(sizeMapSel)
+        {
+            selMap->lon2 += u2 - u1;
+            selMap->lat2 += v2 - v1;
+        }
+
+        canvas->update();
+    }
+
+
     oldPoint = e->pos();
 
     mouseMoveEventWpt(e);
@@ -63,6 +95,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
     mouseMoveEventRoute(e);
     mouseMoveEventOverlay(e);
     mouseMoveEventSearch(e);
+    mouseMoveEventMapSel(e);
 }
 
 
@@ -70,6 +103,8 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton)
     {
+
+        oldPoint = e->pos();
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
@@ -86,6 +121,17 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         {
             CSearchDB::self().selSearchByKey(selSearch->getKey());
             mousePressEventSearch(e);
+        }
+        else if(doSpecialCursorMap)
+        {
+            if(rectMoveMapSel.contains(e->pos()))
+            {
+                moveMapSel = true;
+            }
+            else if(rectSizeMapSel.contains(e->pos()))
+            {
+                sizeMapSel = true;
+            }
         }
         else
         {
@@ -120,6 +166,13 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
             cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
             QApplication::restoreOverrideCursor();
             canvas->update();
+        }
+
+        if(moveMapSel || sizeMapSel)
+        {
+            moveMapSel = false;
+            sizeMapSel = false;
+            CMapDB::self().emitSigChanged();
         }
     }
 }
@@ -159,10 +212,12 @@ void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
 
 void CMouseMoveMap::draw(QPainter& p)
 {
+    drawSelMap(p);
     drawSelWpt(p);
     drawSelTrkPt(p);
     drawSelRtePt(p);
     drawSelSearch(p);
+
 }
 
 

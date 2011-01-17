@@ -210,7 +210,7 @@ void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
     if(canvas) canvas->deleteLater();
 
     area = ms;
-    labelArea->setText(area.description);
+    labelArea->setText(area.getDescription());
     checkGui();
 }
 

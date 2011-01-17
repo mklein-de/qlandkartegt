@@ -622,7 +622,7 @@ void CMapDB::select(const QRect& rect)
     {
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;
-        ms->description  = knownMaps[mapkey].description;
+        ms->setDescription(knownMaps[mapkey].description);
 
         try
         {
@@ -661,7 +661,7 @@ void CMapDB::select(const QRect& rect)
         }
         ms->key          = "gmapsupp";
         ms->mapkey       = mapkey;
-        ms->description  = "Garmin - gmapsupp.img";
+        ms->setDescription("Garmin - gmapsupp.img");
         theMap->select(*ms, rect);
 
         selectedMaps[ms->key] = ms;
@@ -674,3 +674,38 @@ void CMapDB::select(const QRect& rect)
         emit sigChanged();
     }
 }
+
+
+IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
+{
+    if(theMap->maptype != IMap::eRaster)
+    {
+        return 0;
+    }
+
+    if(tabbar->currentWidget() != toolview)
+    {
+        return 0;
+    }
+
+
+    QString mapkey = theMap->getKey();
+    IMapSelection * mapSel = 0;
+    foreach(mapSel, selectedMaps)
+    {
+        if(mapSel->mapkey != mapkey)
+        {
+            continue;
+        }
+
+        QRectF r(QPointF(mapSel->lon1, mapSel->lat1), QPointF(mapSel->lon2, mapSel->lat2));
+        if(r.contains(lon, lat))
+        {
+            return mapSel;
+        }
+    }
+
+    return 0;
+}
+
+
