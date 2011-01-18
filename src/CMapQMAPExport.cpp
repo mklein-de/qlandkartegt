@@ -36,6 +36,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 , mapsel(mapsel)
 , file1(0)
 , file2(0)
+, has_map2jnx(false)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
@@ -79,11 +80,22 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 
 #ifdef MAP2JNX
-    radioJNX->show();
-    radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
-#else
-    radioJNX->hide();
+    has_map2jnx = true;
+    path_map2jnx = MAP2JNX;
+#elif WIN32
+    path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
+    QFile file_map2jnx(path_map2jnx);
+    has_map2jnx = file_map2jnx.exists();
 #endif
+    if (has_map2jnx)
+    {
+        radioJNX->show();
+        radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
+    }
+    else
+    {
+        radioJNX->hide();
+    }
 }
 
 
@@ -317,19 +329,17 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
     if(file2){delete file2; file2 = 0;}
     if(jobs.isEmpty())
     {
-        if(radioJNX->isChecked())
+        if(has_map2jnx && radioJNX->isChecked())
         {
-#ifdef MAP2JNX
             QString prefix = linePrefix->text();
             QDir tarPath(labelPath->text());
 
             outfiles << tarPath.filePath(QString("%1.jnx").arg(prefix));
             textBrowser->setTextColor(Qt::black);
-            textBrowser->append(MAP2JNX " " +  outfiles.join(" ") + "\n");
+            textBrowser->append(path_map2jnx + " " +  outfiles.join(" ") + "\n");
 
-            cmd4.start(MAP2JNX, outfiles);
+            cmd4.start(path_map2jnx, outfiles);
             return;
-#endif
         }
         else
         {

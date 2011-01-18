@@ -85,5 +85,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QList<job_t> jobs;
 
         QStringList outfiles;
+
+        bool has_map2jnx;
+        QString path_map2jnx;
 };
 #endif                           //CMAPQMAPEXPORT_H
