@@ -678,7 +678,9 @@ void CMapDB::select(const QRect& rect)
 
 IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
 {
-    if(theMap->maptype != IMap::eRaster)
+    IMap& map = getMap();
+
+    if(map.maptype != IMap::eRaster)
     {
         return 0;
     }
@@ -689,7 +691,7 @@ IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
     }
 
 
-    QString mapkey = theMap->getKey();
+    QString mapkey = map.getKey();
     IMapSelection * mapSel = 0;
     foreach(mapSel, selectedMaps)
     {
