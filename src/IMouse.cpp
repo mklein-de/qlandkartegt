@@ -102,10 +102,13 @@ void IMouse::drawSelWpt(QPainter& p)
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
+        QPixmap icon = selWpt->getIcon().scaled(15,15, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(u - 35, v - 35, 70, 70);
-        p.drawPixmap(u-7 , v-7, selWpt->getIcon());
+        p.drawPixmap(u - 7 , v - 7, icon);
 
         p.save();
         p.translate(u - 24, v - 24);

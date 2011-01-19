@@ -644,18 +644,23 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);
             back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));
+
+            int o =  icon.width() >>1;
+
             // draw waypoint icon
-            p.drawPixmap(u-8 , v-8, back);
-            p.drawPixmap(u-8 , v-7, back);
-            p.drawPixmap(u-8 , v-6, back);
-            p.drawPixmap(u-7 , v-8, back);
 
-            p.drawPixmap(u-7 , v-6, back);
-            p.drawPixmap(u-6 , v-8, back);
-            p.drawPixmap(u-6 , v-7, back);
-            p.drawPixmap(u-6 , v-6, back);
+            p.drawPixmap(u - (o + 1) , v - (o + 1), back);
+            p.drawPixmap(u - (o + 1) , v - (o + 0), back);
+            p.drawPixmap(u - (o + 1) , v - (o - 1), back);
 
-            p.drawPixmap(u-7 , v-7, icon);
+            p.drawPixmap(u - (o + 0) , v - (o + 1), back);
+            p.drawPixmap(u - (o + 0) , v - (o - 1), back);
+
+            p.drawPixmap(u - (o - 1) , v - (o + 1), back);
+            p.drawPixmap(u - (o - 1) , v - (o + 0), back);
+            p.drawPixmap(u - (o - 1) , v - (o - 1), back);
+
+            p.drawPixmap(u - o , v - o, icon);
 
             CCanvas::drawText((*wpt)->name,p,QPoint(u,v - 10));
 
