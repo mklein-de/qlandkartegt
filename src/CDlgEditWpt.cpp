@@ -156,15 +156,19 @@ void CDlgEditWpt::accept()
         double distance = lineDistance->text().toDouble();
 
         XY pt1, pt2;
-        pt1.u   = wpt.lon * DEG_TO_RAD;
-        pt1.v   = wpt.lat * DEG_TO_RAD;
-        pt2     = GPS_Math_Wpt_Projection(pt1, distance, bearing);
+        pt1.u       = wpt.lon * DEG_TO_RAD;
+        pt1.v       = wpt.lat * DEG_TO_RAD;
+        pt2         = GPS_Math_Wpt_Projection(pt1, distance, bearing);
 
         CWpt * wpt2 = new CWpt(&CWptDB::self());
-        wpt2->lon           = pt2.u * RAD_TO_DEG;
-        wpt2->lat           = pt2.v * RAD_TO_DEG;
+        wpt2->lon   = pt2.u * RAD_TO_DEG;
+        wpt2->lat   = pt2.v * RAD_TO_DEG;
         wpt2->setName(wpt.name + tr("(proj.)"));
         wpt2->setIcon(wpt.iconString);
+
+        float ele = CMapDB::self().getDEM().getElevation(pt2.u, pt2.v);
+        if(ele != WPT_NOFLOAT) wpt2->ele = ele;
+
 
         CWptDB::self().addWpt(wpt2,false);
     }
