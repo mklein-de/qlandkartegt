@@ -718,6 +718,8 @@ void CPlot::drawTags(QPainter& p)
         {
             rect = fm.boundingRect(tag->label);
             rect.moveCenter(QPoint(ptx, fontHeight / 2));
+            rect.adjust(-1,-1,1,1);
+
             p.setPen(Qt::darkBlue);
             p.drawText(rect, Qt::AlignCenter, tag->label);
 
