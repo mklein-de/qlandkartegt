@@ -295,12 +295,13 @@ void CWpt::setIcon(const QString& str)
 
 QString CWpt::getInfo()
 {
-    QString str;
+    QString str = getName();
     if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
     {
+        if(str.count()) str += "\n";
         QDateTime time = QDateTime::fromTime_t(timestamp);
         time.setTimeSpec(Qt::LocalTime);
-        str = time.toString();
+        str += time.toString();
     }
 
     if(ele != WPT_NOFLOAT)
