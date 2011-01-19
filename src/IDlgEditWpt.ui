@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>583</width>
-    <height>635</height>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -138,11 +138,8 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="inputMask">
-             <string>9999; </string>
-            </property>
             <property name="maxLength">
-             <number>4</number>
+             <number>32767</number>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -174,9 +171,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="inputMask">
-             <string>99999; </string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

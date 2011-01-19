@@ -179,6 +179,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
 {
+#ifdef WIN32
     if (e->key() == Qt::Key_Alt)
     {
         altKeyPressed = true;
@@ -191,10 +192,12 @@ void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
             CMapDB::self().getMap().fastDrawOn();
         }
     }
+#endif
 }
 
 void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
 {
+#ifdef WIN32
     if (e->key() == Qt::Key_Alt)
     {
         altKeyPressed = false;
@@ -208,6 +211,7 @@ void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
             canvas->update();
         }
     }
+#endif
 }
 
 void CMouseMoveMap::draw(QPainter& p)

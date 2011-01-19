@@ -539,7 +539,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
     menu->addAction(QIcon(":/icons/iconFileExport16x16.png"),tr("Export Geo Data"),this,SLOT(slotExportData()), Qt::CTRL + Qt::Key_X);
-    menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()));
+    menu->addAction(QIcon(":/icons/iconFileAdd16x16.png"),tr("Add Geo Data"),this,SLOT(slotAddData()), Qt::CTRL + Qt::Key_A);
     menu->addMenu(menuMostRecent);
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconScreenshot16x16.png"),tr("Device Screenshot ..."),this,SLOT(slotScreenshot()));
