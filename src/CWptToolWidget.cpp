@@ -154,7 +154,7 @@ void CWptToolWidget::slotDBChanged()
         CWpt * wpt = CWptDB::self().getWptByKey(key.key);
 
         QListWidgetItem * item = new QListWidgetItem(listWpts);
-        item->setIcon(wpt->getIcon());
+        item->setIcon(wpt->getIcon().scaled(16,16,Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         item->setData(Qt::UserRole, wpt->getKey());
 
         if(toolSortComment->isChecked())
