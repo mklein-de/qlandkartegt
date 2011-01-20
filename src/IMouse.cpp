@@ -102,7 +102,7 @@ void IMouse::drawSelWpt(QPainter& p)
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-        QPixmap icon = selWpt->getIcon().scaled(15,15, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        QPixmap icon = selWpt->getIcon().scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
 
         p.setPen(CCanvas::penBorderBlue);
