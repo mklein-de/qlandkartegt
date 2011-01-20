@@ -723,7 +723,8 @@ void CPlot::drawTags(QPainter& p)
             p.setPen(Qt::darkBlue);
             p.drawText(rect, Qt::AlignCenter, tag->label);
 
-            p.drawPixmap(ptx - tag->icon.width() / 2, fontHeight, tag->icon);
+            QPixmap icon = tag->icon.scaled(15,15, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            p.drawPixmap(ptx - icon.width() / 2, fontHeight, icon);
 
             p.setPen(QPen(Qt::white, 3));
             if (fontHeight + 16 < pty)
