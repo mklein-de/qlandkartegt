@@ -106,6 +106,7 @@ set(qlandkarte_SRCS
     CDlgConvertToTrack.cpp
     CDlgEditRoute.cpp
     CDlgMapTDBConfig.cpp
+    CDlgMapQMAPConfig.cpp
     CDlgScreenshot.cpp
     CDlgTrackFilter.cpp
     CDlgSetupGarminIcons.cpp
@@ -257,6 +258,7 @@ set(qlandkarte_HDRS
     CDlgConvertToTrack.h
     CDlgEditRoute.h
     CDlgMapTDBConfig.h
+    CDlgMapQMAPConfig.h
     CDlgScreenshot.h
     CDlgTrackFilter.h
     CDlgSetupGarminIcons.h
@@ -358,6 +360,7 @@ SET(qlandkarte_UIS
     IDlgConvertToTrack.ui
     IDlgEditRoute.ui
     IDlgMapTDBConfig.ui
+    IDlgMapQMAPConfig.ui
     IDlgScreenshot.ui
     IDlgTrackFilter.ui
     IDlgSetupGarminIcons.ui

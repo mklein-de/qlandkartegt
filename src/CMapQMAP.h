@@ -66,6 +66,8 @@ class CMapQMAP : public IMap
         void select(IMapSelection& ms, const QRect& rect);
         bool is32BitRgb();
         quint32 scalePixelGrid(quint32 nPixel);
+        void config();
+        QString getMapInfo(){return info;}
     private:
         friend class CExportMapThread;
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
@@ -87,5 +89,7 @@ class CMapQMAP : public IMap
         bool foundMap;
 
         bool quadraticZoom;
+
+        QString info;
 };
 #endif                           //CMAPQMAP_H

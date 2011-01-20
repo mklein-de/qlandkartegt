@@ -25,6 +25,7 @@
 #include "CCanvas.h"
 #include "CMapSelectionRaster.h"
 #include "CResources.h"
+#include "CDlgMapQMAPConfig.h"
 
 #include <QtGui>
 
@@ -50,6 +51,12 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QSettings mapdef(filename,QSettings::IniFormat);
     int nLevels = mapdef.value("main/levels",0).toInt();
 
+    info  = "<h1>" + mapdef.value("description/comment", "").toString() + "</h1>";
+
+    quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
+    info += "<p>" + tr("Quadratic zoom %1").arg(quadraticZoom ? tr("enabled") : tr("disabled")) + "</p>";
+    info += QString("<p><table><tr><th>%1</th><th>%2</th><th width='100%'>%3</th></tr>").arg(tr("Map Level")).arg(tr("Zoom Level")).arg(tr("Files"));
+
     // create map level list
     CMapLevel * maplevel = 0;
     for(int n=1; n <= nLevels; ++n)
@@ -71,10 +78,46 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
             maplevels << maplevel;
         }
 
+        info += QString("<tr><td align='center'>%1</td><td align='center'>%2..%3</td><td>%4</td></tr>").arg(n).arg(min).arg(max).arg(files.join(", "));
+
         mapdef.endGroup();
     }
+    info += "</table></p>";
 
-    quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
+    info += QString("<p><table><tr><th>%1</th><th width='100%'>%2</th></tr>").arg(tr("Parameter")).arg(tr("Value"));
+
+    QString strTopLeft      = mapdef.value("description/topleft").toString();
+    QString strBottomRight  = mapdef.value("description/bottomright").toString();
+
+    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
+    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
+
+    {
+        XY p1, p2;
+        double a1,a2, width, height;
+        float u1 = 0, v1 = 0, u2 = 0, v2 = 0;
+        GPS_Math_Str_To_Deg(strTopLeft.replace("&#176;",""), u1, v1);
+        GPS_Math_Str_To_Deg(strBottomRight.replace("&#176;",""), u2, v2);
+
+        p1.u = u1 * DEG_TO_RAD;
+        p1.v = v1 * DEG_TO_RAD;
+        p2.u = u2 * DEG_TO_RAD;
+        p2.v = v1 * DEG_TO_RAD;
+        width   = distance(p1,p2,a1,a2)/1000;
+        p1.u = u1 * DEG_TO_RAD;
+        p1.v = v1 * DEG_TO_RAD;
+        p2.u = u1 * DEG_TO_RAD;
+        p2.v = v2 * DEG_TO_RAD;
+        height  = distance(p1,p2,a1,a2)/1000;
+
+        info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
+        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg((*maplevels[0]->begin())->strProj);
+    }
+
+
+    info += "</table></p>";
+
+
 
     // If no configuration is stored read values from the map definition's "home" section
     // zoom() has to be called in either case to setup / initialize all other internal parameters
@@ -658,3 +701,12 @@ quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)
 
     return quint32(double(nPixel)/zoomFactor + 0.5);
 }
+
+void CMapQMAP::config()
+{
+
+    CDlgMapQMAPConfig * dlg = new CDlgMapQMAPConfig(this);
+    dlg->show();
+
+}
+
