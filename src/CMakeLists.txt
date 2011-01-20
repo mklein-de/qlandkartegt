@@ -394,9 +394,14 @@ SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
 SET (JNX ON CACHE BOOL "Enable Garmin JNX Support.")
+SET (ALTKEY_MOVES_MAP OFF CACHE BOOL "Move map while pressing ALT key and mousemove.")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
+
+if(ALTKEY_MOVES_MAP)
+    add_definitions(-DALTKEY_MOVES_MAP)
+endif(ALTKEY_MOVES_MAP)
 
 IF(PLOT_3D AND OPENGL_FOUND)
     add_definitions(-DPLOT_3D)

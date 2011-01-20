@@ -179,7 +179,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
 {
-#ifdef WIN32
+#ifdef ALTKEY_MOVES_MAP
     if (e->key() == Qt::Key_Alt)
     {
         altKeyPressed = true;
@@ -197,7 +197,7 @@ void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
 
 void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
 {
-#ifdef WIN32
+#ifdef ALTKEY_MOVES_MAP
     if (e->key() == Qt::Key_Alt)
     {
         altKeyPressed = false;
