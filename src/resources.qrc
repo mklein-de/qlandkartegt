@@ -453,5 +453,6 @@
         <file>icons/iconInfo16x16.png</file>
         <file>icons/iconMove64x64.png</file>
         <file>icons/iconSize48x48.png</file>
+        <file>icons/small_bullet_orange.png</file>
     </qresource>
 </RCC>

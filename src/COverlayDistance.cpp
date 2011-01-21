@@ -649,10 +649,12 @@ void COverlayDistance::draw(QPainter& p)
 
     IMap& map = CMapDB::self().getMap();
 
-    QPixmap icon_blue(":/icons/small_bullet_blue.png");
+    QPixmap icon_blue(":/icons/small_bullet_orange.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     XY pt1, pt2;
+    QPoint pt;
+
 
     int i;
     int start   = 0;
@@ -689,6 +691,10 @@ void COverlayDistance::draw(QPainter& p)
     pt1 = points[start];
     map.convertRad2Pt(pt1.u, pt1.v);
 
+    QPolygon polyline;
+
+    polyline << QPoint(pt1.u, pt1.v);
+
     // draw the lines
     for(i = start + 1; i < stop; i++)
     {
@@ -696,38 +702,57 @@ void COverlayDistance::draw(QPainter& p)
         pt2 = points[i];
         map.convertRad2Pt(pt2.u, pt2.v);
 
+        int d = abs(pt1.u - pt2.u) + abs(pt1.v - pt2.v);
+        if(d < 5)
+        {
+            continue;
+        }
+
         if(i != skip)
         {
-            if(highlight)
-            {
-                p.setPen(QPen(Qt::white, 7));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-                p.setPen(QPen(Qt::blue, 5));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-                p.setPen(QPen(Qt::white, 1));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-            }
-            else
-            {
-                p.setPen(QPen(Qt::white, 5));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-                p.setPen(QPen(Qt::darkBlue, 3));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-                p.setPen(QPen(Qt::white, 1));
-                p.drawLine(pt1.u, pt1.v, pt2.u, pt2.v);
-            }
+            polyline << QPoint(pt2.u, pt2.v);
         }
         pt1 = pt2;
     }
 
-    // draw the points
-    for(i = start; i < stop; i++)
+    if(highlight)
     {
-        pt2 = points[i];
+        QPen pen1(QColor(255,255,255,128),13);
+        pen1.setCapStyle(Qt::RoundCap);
+        pen1.setJoinStyle(Qt::RoundJoin);
 
-        map.convertRad2Pt(pt2.u, pt2.v);
-        p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_blue);
+        QPen pen2(QColor(255,150,0,128),11);
+        pen2.setCapStyle(Qt::RoundCap);
+        pen2.setJoinStyle(Qt::RoundJoin);
+
+        p.setPen(pen1);
+        p.drawPolyline(polyline);
+        p.setPen(pen2);
+        p.drawPolyline(polyline);
     }
+    else
+    {
+        QPen pen1(Qt::white,7);
+        pen1.setCapStyle(Qt::RoundCap);
+        pen1.setJoinStyle(Qt::RoundJoin);
+
+        QPen pen2(QColor(255,100,0,255),5);
+        pen2.setCapStyle(Qt::RoundCap);
+        pen2.setJoinStyle(Qt::RoundJoin);
+
+        p.setPen(pen1);
+        p.drawPolyline(polyline);
+        p.setPen(pen2);
+        p.drawPolyline(polyline);
+    }
+
+
+    // draw the points
+    foreach(pt, polyline)
+    {
+        p.drawPixmap(pt.x() - 4, pt.y() - 4, icon_blue);
+    }
+
 
     // overlay _the_ point with a red bullet
     if(thePoint)
@@ -751,25 +776,12 @@ void COverlayDistance::draw(QPainter& p)
         p.setPen(pen);
         p.drawPolyline(leadline);
 
-        if(highlight)
-        {
-            p.setPen(QPen(Qt::white, 7));
-            p.drawPolyline(subline);
-            p.setPen(QPen(Qt::blue, 5));
-            p.drawPolyline(subline);
-            p.setPen(QPen(Qt::white, 1));
-            p.drawPolyline(subline);
-        }
-        else
-        {
-            p.setPen(QPen(Qt::white, 5));
-            p.drawPolyline(subline);
-            p.setPen(QPen(Qt::darkBlue, 3));
-            p.drawPolyline(subline);
-            p.setPen(QPen(Qt::white, 1));
-            p.drawPolyline(subline);
-        }
-
+        p.setPen(QPen(Qt::white, 7));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::red, 5));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::white, 1));
+        p.drawPolyline(subline);
 
         p.setPen(Qt::black);
         for(i = 1; i < (subline.size() - 1); i++)
