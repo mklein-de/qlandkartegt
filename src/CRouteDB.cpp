@@ -405,6 +405,7 @@ void CRouteDB::clear()
 
 void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
+
     IMap& map = CMapDB::self().getMap();
 
     // extended vieport rectangle to cut line segments properly
@@ -459,6 +460,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         }
         else
         {
+
             // draw normal route
             QPen pen(QColor(192,0,192,128),5);
             pen.setCapStyle(Qt::RoundCap);
@@ -467,6 +469,8 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             drawLine(line, extRect, p);
             p.setPen(Qt::white);
             drawLine(line, extRect, p);
+
+            drawArrows(line, rect, p);
 
         }
 
@@ -498,10 +502,77 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         {
             p.drawPixmap(pt.x() - 8 ,pt.y() - 8, bullet);
         }
+
+        drawArrows(line, rect, p);
     }
 
 }
 
+void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p)
+{
+    QPointF arrow[4] =
+    {
+        QPointF( 20.0, 7.0),     //front
+        QPointF( 0.0, 0.0),      //upper tail
+        QPointF( 5.0, 7.0),      //mid tail
+        QPointF( 0.0, 15.0)      //lower tail
+    };
+
+    QPoint  pt, pt1, ptt;
+
+    // draw direction arrows
+    bool    start = true;
+    double  heading;
+
+    //generate arrow pic
+    QImage arrow_pic(21,16, QImage::Format_ARGB32);
+    arrow_pic.fill( qRgba(0,0,0,0));
+    QPainter t_paint(&arrow_pic);
+    USE_ANTI_ALIASING(t_paint, true);
+    t_paint.setPen(QPen(Qt::white, 1));
+    t_paint.setBrush(QColor(192,0,192,128));
+    t_paint.drawPolygon(arrow, 4);
+    t_paint.end();
+
+
+    foreach(pt,line)
+    {
+        if(start)        // no arrow on  the first loop
+        {
+            start = false;
+        }
+        else
+        {
+            if(!viewport.contains(pt))
+            {
+                continue;
+            }
+            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7)
+            {
+                continue;
+            }
+                         // keep distance
+            if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
+            {
+                if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
+                {
+                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
+
+                    p.save();
+                    // draw arrow between bullets
+                    p.translate((pt.x() + pt1.x())/2,(pt.y() + pt1.y())/2);
+                    p.rotate(heading);
+                    p.drawImage(-11, -7, arrow_pic);
+                    p.restore();
+                         //remember last point
+                    ptt = pt;
+                }
+            }
+        }
+        pt1 = pt;
+    }
+
+}
 
 void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
 {
