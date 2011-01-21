@@ -649,7 +649,7 @@ void COverlayDistance::draw(QPainter& p)
 
     IMap& map = CMapDB::self().getMap();
 
-    QPixmap icon_blue(":/icons/small_bullet_orange.png");
+    QPixmap icon_blue(":/icons/small_bullet_darkgreen.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     XY pt1, pt2;
@@ -721,7 +721,7 @@ void COverlayDistance::draw(QPainter& p)
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        QPen pen2(QColor(255,150,0,128),11);
+        QPen pen2(QColor(0,180,0,128),11);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
 
@@ -736,7 +736,7 @@ void COverlayDistance::draw(QPainter& p)
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        QPen pen2(QColor(255,100,0,255),5);
+        QPen pen2(QColor(0,150,0,255),5);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
 
