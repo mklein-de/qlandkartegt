@@ -642,14 +642,81 @@ void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 
 }
 
+void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p)
+{
+    QPointF arrow[4] =
+    {
+        QPointF( 20.0, 7.0),     //front
+        QPointF( 0.0, 0.0),      //upper tail
+        QPointF( 5.0, 7.0),      //mid tail
+        QPointF( 0.0, 15.0)      //lower tail
+    };
 
-void COverlayDistance::draw(QPainter& p)
+    QPoint  pt, pt1, ptt;
+
+    // draw direction arrows
+    bool    start = true;
+    double  heading;
+
+    //generate arrow pic
+    QImage arrow_pic(21,16, QImage::Format_ARGB32);
+    arrow_pic.fill( qRgba(0,0,0,0));
+    QPainter t_paint(&arrow_pic);
+    USE_ANTI_ALIASING(t_paint, true);
+    t_paint.setPen(QPen(Qt::white, 2));
+    t_paint.setBrush(p.brush());
+    t_paint.drawPolygon(arrow, 4);
+    t_paint.end();
+
+
+    foreach(pt,line)
+    {
+        if(start)        // no arrow on  the first loop
+        {
+            start = false;
+        }
+        else
+        {
+            if(!viewport.contains(pt))
+            {
+                continue;
+            }
+            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7)
+            {
+                continue;
+            }
+                         // keep distance
+            if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
+            {
+                if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
+                {
+                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
+
+                    p.save();
+                    // draw arrow between bullets
+                    p.translate((pt.x() + pt1.x())/2,(pt.y() + pt1.y())/2);
+                    p.rotate(heading);
+                    p.drawImage(-11, -7, arrow_pic);
+                    p.restore();
+                         //remember last point
+                    ptt = pt;
+                }
+            }
+        }
+        pt1 = pt;
+    }
+
+}
+
+
+void COverlayDistance::draw(QPainter& p, const QRect& viewport)
 {
     if(points.isEmpty()) return;
 
     IMap& map = CMapDB::self().getMap();
 
-    QPixmap icon_blue(":/icons/small_bullet_darkgreen.png");
+    QPen pen1, pen2;
+    QPixmap icon_blue(":/icons/small_bullet_black.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     XY pt1, pt2;
@@ -717,34 +784,31 @@ void COverlayDistance::draw(QPainter& p)
 
     if(highlight)
     {
-        QPen pen1(QColor(255,255,255,128),13);
+        pen1 = QPen(QColor(255,200,0,180),13);
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        QPen pen2(QColor(0,180,0,128),11);
+        pen2 = QPen(QColor(0,150,0,128),11);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
-
-        p.setPen(pen1);
-        p.drawPolyline(polyline);
-        p.setPen(pen2);
-        p.drawPolyline(polyline);
+        pen2.setStyle(Qt::DotLine);
     }
     else
     {
-        QPen pen1(Qt::white,7);
+        pen1 = QPen(QColor(255,200,0,180),7);
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        QPen pen2(QColor(0,150,0,255),5);
+        pen2 = QPen(QColor(0,150,0,255),5);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
-
-        p.setPen(pen1);
-        p.drawPolyline(polyline);
-        p.setPen(pen2);
-        p.drawPolyline(polyline);
+        pen2.setStyle(Qt::DotLine);
     }
+
+    p.setPen(pen1);
+    p.drawPolyline(polyline);
+    p.setPen(pen2);
+    p.drawPolyline(polyline);
 
 
     // draw the points
@@ -752,6 +816,9 @@ void COverlayDistance::draw(QPainter& p)
     {
         p.drawPixmap(pt.x() - 4, pt.y() - 4, icon_blue);
     }
+
+    p.setBrush(QColor(0,150,0,255));
+    drawArrows(polyline, viewport, p);
 
 
     // overlay _the_ point with a red bullet

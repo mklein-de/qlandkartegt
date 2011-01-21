@@ -113,7 +113,7 @@ QPolygonF COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 }
 
 
-void COverlayTextBox::draw(QPainter& p)
+void COverlayTextBox::draw(QPainter& p, const QRect& viewport)
 {
     double x = lon;
     double y = lat;

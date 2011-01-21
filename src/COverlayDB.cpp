@@ -75,7 +75,7 @@ void COverlayDB::draw(QPainter& p, const QRect& r, bool& needsRedraw)
     IOverlay * overlay;
     foreach(overlay, overlays)
     {
-        overlay->draw(p);
+        overlay->draw(p, r);
     }
 }
 

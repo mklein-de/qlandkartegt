@@ -33,7 +33,7 @@ class COverlayTextBox : public IOverlay
         COverlayTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, QObject * parent);
         virtual ~COverlayTextBox();
 
-        void draw(QPainter& p);
+        void draw(QPainter& p, const QRect& viewport);
 
         static QPolygonF makePolyline(const QPoint& anchor, const QRect& r);
 

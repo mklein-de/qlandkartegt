@@ -82,7 +82,7 @@ QString COverlayText::getInfo()
 }
 
 
-void COverlayText::draw(QPainter& p)
+void COverlayText::draw(QPainter& p, const QRect& viewport)
 {
     if(highlight)
     {

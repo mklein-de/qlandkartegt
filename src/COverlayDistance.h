@@ -56,7 +56,7 @@ class COverlayDistance : public IOverlay
         bool isCloseEnough(const QPoint& pt);
 
         /// draw the ployline, waypoints and action icons
-        void draw(QPainter& p);
+        void draw(QPainter& p, const QRect& viewport);
 
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
@@ -96,6 +96,7 @@ class COverlayDistance : public IOverlay
         friend class COverlayDistanceEditWidget;
 
         void calcDistance();
+        void drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p);
 
         /// the polyline as list of points [rad]
         QList<pt_t> points;

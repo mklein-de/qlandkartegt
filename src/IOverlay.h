@@ -47,7 +47,7 @@ class IOverlay : public IItem
         enum type_e {eEnd,eBase};
 
         /// draw what ever you want
-        virtual void draw(QPainter& p) = 0;
+        virtual void draw(QPainter& p, const QRect& viewport) = 0;
         /// return a short string to be displayed in a list widget
         virtual QString getInfo(){return tr("No info set");}
 
