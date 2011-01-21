@@ -716,7 +716,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     IMap& map = CMapDB::self().getMap();
 
     QPen pen1, pen2;
-    QPixmap icon_blue(":/icons/small_bullet_black.png");
+    QPixmap icon_blue(":/icons/small_bullet_darkgray.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     XY pt1, pt2;
@@ -770,7 +770,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
         map.convertRad2Pt(pt2.u, pt2.v);
 
         int d = abs(pt1.u - pt2.u) + abs(pt1.v - pt2.v);
-        if(d < 5)
+        if(d < 10)
         {
             continue;
         }
