@@ -69,6 +69,7 @@ int CDlgEditWpt::exec()
     toolIcon->setIcon(wpt.getIcon());
     toolIcon->setObjectName(wpt.getIconString());
 
+
     lineName->setText(wpt.getName());
 
     checkSticky->setChecked(wpt.sticky);

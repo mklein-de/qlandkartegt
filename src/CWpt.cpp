@@ -312,6 +312,27 @@ QString CWpt::getInfo()
         str += tr("elevation: %1 %2").arg(val).arg(unit);
     }
 
+    if(prx != WPT_NOFLOAT)
+    {
+        if(str.count()) str += "\n";
+        QString val, unit;
+        IUnit::self().meter2distance(prx, val, unit);
+        str += tr("proximity: %1 %2").arg(val).arg(unit);
+    }
+
+    if(link.count())
+    {
+        if(str.count()) str += "\n";
+        if(link.count() < 50)
+        {
+            str += "http://" + link;
+        }
+        else
+        {
+            str += "http://" + link.left(47) + "...";
+        }
+    }
+
     if(description.count())
     {
         if(str.count()) str += "\n";
