@@ -150,11 +150,19 @@ void IMouse::drawSelWpt(QPainter& p)
         {
             QRect r = selWpt->images[0].pixmap.rect();
 
+            if(r.width() > 300)
+            {
+                qint32 h = r.height() * 300 / r.width();
+
+                r.setWidth(300);
+                r.setHeight(h);
+            }
+
             p.save();
             p.translate(u - (r.width() + 45), v);
             r.adjust(-1,-1,+1,+1);
 
-            p.drawPixmap(0,0,selWpt->images[0].pixmap);
+            p.drawPixmap(0,0,selWpt->images[0].pixmap.scaled(r.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
             p.setPen(CCanvas::penBorderBlue);
             p.setBrush(Qt::NoBrush);
