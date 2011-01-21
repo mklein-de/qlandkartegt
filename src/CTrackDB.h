@@ -113,6 +113,7 @@ class CTrackDB : public IDB
 
         CTrackDB(QTabWidget * tb, QObject * parent);
         void drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p);
+        void drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p);
 
         quint32 cnt;
 
