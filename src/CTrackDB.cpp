@@ -861,7 +861,7 @@ void CTrackDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
     arrow_pic.fill( qRgba(0,0,0,0));
     QPainter t_paint(&arrow_pic);
     USE_ANTI_ALIASING(t_paint, true);
-    t_paint.setPen(QPen(Qt::white, 1));
+    t_paint.setPen(QPen(Qt::white, 2));
     t_paint.setBrush(p.brush());
     t_paint.drawPolygon(arrow, 4);
     t_paint.end();

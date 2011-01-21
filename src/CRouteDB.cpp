@@ -518,6 +518,7 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
         QPointF( 0.0, 15.0)      //lower tail
     };
 
+
     QPoint  pt, pt1, ptt;
 
     // draw direction arrows
@@ -529,8 +530,8 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
     arrow_pic.fill( qRgba(0,0,0,0));
     QPainter t_paint(&arrow_pic);
     USE_ANTI_ALIASING(t_paint, true);
-    t_paint.setPen(QPen(Qt::white, 1));
-    t_paint.setBrush(QColor(192,0,192,128));
+    t_paint.setPen(QPen(Qt::white, 2));
+    t_paint.setBrush(QColor(192,0,192,255));
     t_paint.drawPolygon(arrow, 4);
     t_paint.end();
 
