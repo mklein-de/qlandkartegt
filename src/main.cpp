@@ -177,13 +177,13 @@ int main(int argc, char ** argv)
         QString resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
         QTranslator *qtTranslator = new QTranslator(0);
         if (qtTranslator->load(QLatin1String("qt_") + locale,resourceDir))
-		{
+        {
             theApp.installTranslator(qtTranslator);
-		}
-		else if (qtTranslator->load(QLatin1String("qt_") + locale,QCoreApplication::applicationDirPath()))
-		{
-			theApp.installTranslator(qtTranslator);
-		}
+        }
+        else if (qtTranslator->load(QLatin1String("qt_") + locale,QCoreApplication::applicationDirPath()))
+        {
+            theApp.installTranslator(qtTranslator);
+        }
 
         QStringList dirList;
 #ifndef Q_WS_MAC
@@ -236,6 +236,7 @@ int main(int argc, char ** argv)
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
     QCoreApplication::setOrganizationDomain("qlandkarte.org");
+    QApplication::setWindowIcon(QIcon(":/icons/qlandkartegt.png"));
 
 #ifdef WIN32
     QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());

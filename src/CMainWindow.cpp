@@ -75,7 +75,7 @@ CMainWindow::CMainWindow()
     setupMenu = 0;
     setObjectName("MainWidget");
     setWindowTitle("QLandkarte GT");
-    setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
+//    setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
     setAcceptDrops(true);
 
     initWptIcons();

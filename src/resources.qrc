@@ -454,5 +454,6 @@
         <file>icons/iconMove64x64.png</file>
         <file>icons/iconSize48x48.png</file>
         <file>icons/small_bullet_orange.png</file>
+        <file>icons/qlandkartegt.png</file>
     </qresource>
 </RCC>
