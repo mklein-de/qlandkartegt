@@ -36,12 +36,22 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
     comboDelta->addItem(tr("500 m"), 500);
     comboDelta->addItem(tr("1 km"), 1000);
 
+    QSettings cfg;
+    comboDelta->setCurrentIndex(cfg.value("overlay/convert/intervall", 0).toInt());
+    radioNoEle->setChecked(cfg.value("overlay/convert/noele", true).toBool());
+    radioEleFromLocal->setChecked(cfg.value("overlay/convert/local", false).toBool());
+    radioEleFromRemote->setChecked(cfg.value("overlay/convert/remote", false).toBool());
+
 }
 
 
 CDlgConvertToTrack::~CDlgConvertToTrack()
 {
-
+    QSettings cfg;
+    cfg.setValue("overlay/convert/intervall", comboDelta->currentIndex());
+    cfg.setValue("overlay/convert/noele", radioNoEle->isChecked());
+    cfg.setValue("overlay/convert/local", radioEleFromLocal->isChecked());
+    cfg.setValue("overlay/convert/remote", radioEleFromRemote->isChecked());
 }
 
 
