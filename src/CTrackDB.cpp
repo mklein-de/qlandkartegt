@@ -67,7 +67,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
     m_self      = this;
 
     QSettings cfg;
-    showBullets = cfg.value("tracks/showBullets", showBullets).toBool();
+    showBullets = cfg.value("track/showBullets", showBullets).toBool();
     toolview    = new CTrackToolWidget(tb);
     undoStack   = CUndoStackModel::getInstance();
 
@@ -77,7 +77,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 CTrackDB::~CTrackDB()
 {
     QSettings cfg;
-    cfg.setValue("tracks/showBullets", showBullets);
+    cfg.setValue("track/showBullets", showBullets);
 }
 
 

@@ -82,6 +82,8 @@ class COverlayDistance : public IOverlay
 
         const QList<pt_t>& getPoints(){return points;}
 
+        static void setShowBullets(bool show){showBullets = show;}
+        static bool getShowBullets(){return showBullets;}
     signals:
         void sigSelectionChanged();
 
@@ -90,6 +92,8 @@ class COverlayDistance : public IOverlay
         void slotToRoute();
         void slotEdit();
         void slotRevert();
+        void slotShow();
+        void slotShowBullets();
 
     private:
         friend class COverlayDB;
@@ -141,6 +145,8 @@ class COverlayDistance : public IOverlay
         QPolygon subline;
 
         bool isEdit;
+
+        static bool showBullets;
 };
 
 #define OVL_NOFLOAT 1e25f

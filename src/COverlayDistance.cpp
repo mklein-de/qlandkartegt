@@ -34,6 +34,8 @@
 
 #include <QtGui>
 
+bool COverlayDistance::showBullets = true;
+
 bool operator==(const XY& p1, const XY& p2)
 {
     return (p1.u == p2.u) && (p1.v == p2.v);
@@ -711,12 +713,12 @@ void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, Q
 
 void COverlayDistance::draw(QPainter& p, const QRect& viewport)
 {
-    if(points.isEmpty()) return;
+    if(points.isEmpty() || !isVisible) return;
 
     IMap& map = CMapDB::self().getMap();
 
     QPen pen1, pen2;
-    QPixmap icon_blue(":/icons/small_bullet_darkgray.png");
+    QPixmap icon(":/icons/small_bullet_darkgray.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     XY pt1, pt2;
@@ -812,9 +814,12 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
 
 
     // draw the points
-    foreach(pt, polyline)
+    if(showBullets)
     {
-        p.drawPixmap(pt.x() - 4, pt.y() - 4, icon_blue);
+        foreach(pt, polyline)
+        {
+            p.drawPixmap(pt.x() - 4, pt.y() - 4, icon);
+        }
     }
 
     p.setBrush(QColor(0,150,0,255));
@@ -970,9 +975,26 @@ void COverlayDistance::customMenu(QMenu& menu)
     menu.addSeparator();
     menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
     menu.addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route"),this,SLOT(slotToRoute()));
-
+    menu.addSeparator();
+    QAction * actShow = menu.addAction(tr("Show"),this,SLOT(slotShow()));
+    actShow->setCheckable(true);
+    actShow->setChecked(isVisible);
+    QAction * actPoints = menu.addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
+    actPoints->setCheckable(true);
+    actPoints->setChecked(showBullets);
 }
 
+void COverlayDistance::slotShow()
+{
+    isVisible = !isVisible;
+    emit sigChanged();
+}
+
+void COverlayDistance::slotShowBullets()
+{
+    showBullets = !showBullets;
+    emit sigChanged();
+}
 
 void COverlayDistance::slotToTrack()
 {

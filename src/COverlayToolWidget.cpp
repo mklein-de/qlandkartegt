@@ -66,10 +66,28 @@ void COverlayToolWidget::slotDBChanged()
         IOverlay * ovl = overlays[key.key];
 
         QListWidgetItem * item = new QListWidgetItem(listOverlays);
-        item->setIcon(ovl->getIcon());
+
         item->setText(ovl->getInfo());
         item->setToolTip(ovl->getComment());
         item->setData(Qt::UserRole, ovl->getKey());
+
+        QPixmap icon(16, 32);
+        icon.fill(QColor(255,255,255,0));
+
+        QPainter p(&icon);
+
+        p.drawPixmap(0,0, ovl->getIcon());
+        if(ovl->visible())
+        {
+            p.drawPixmap(0,16, QPixmap(":/icons/iconOk16x16.png"));
+        }
+        else
+        {
+            p.drawPixmap(0,16, QPixmap(":/icons/iconClear16x16.png"));
+        }
+
+        item->setIcon(icon);
+
 
     }
 

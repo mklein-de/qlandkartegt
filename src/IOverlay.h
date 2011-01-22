@@ -93,6 +93,8 @@ class IOverlay : public IItem
 
         void setIcon(const QString& str);
 
+        bool visible(){return isVisible;}
+
         signals:
         void sigChanged();
 
@@ -103,6 +105,8 @@ class IOverlay : public IItem
 
         /// set true to draw overlay highlighted
         bool highlight;
+
+        bool isVisible;
 
 };
 

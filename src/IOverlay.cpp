@@ -204,6 +204,7 @@ IOverlay::IOverlay(QObject * parent, const QString& type, const QString& iconStr
 : IItem(parent)
 , type(type)
 , highlight(false)
+, isVisible(true)
 {
     setIcon(iconString);
 }

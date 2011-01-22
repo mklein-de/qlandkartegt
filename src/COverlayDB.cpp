@@ -43,13 +43,18 @@ COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
 , addOverlaysAsDuplicate(false)
 {
     m_self      = this;
+
+    QSettings cfg;
+    COverlayDistance::setShowBullets(cfg.value("overlay/showBullets", COverlayDistance::getShowBullets()).toBool());
+
     toolview    = new COverlayToolWidget(tb);
 }
 
 
 COverlayDB::~COverlayDB()
 {
-
+    QSettings cfg;
+    cfg.setValue("overlay/showBullets", COverlayDistance::getShowBullets());
 }
 
 
