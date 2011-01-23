@@ -895,7 +895,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd1.center());
                 p.rotate(-angleNext + 180);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
                 p.restore();
             }
 
@@ -914,7 +914,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
                 p.setRenderHint(QPainter::SmoothPixmapTransform, true);
                 p.translate(rectAdd2.center());
                 p.rotate(-anglePrev + 180);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
                 p.restore();
             }
 

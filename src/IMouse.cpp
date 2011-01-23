@@ -144,7 +144,7 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
-        p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+        p.drawText(r1, Qt::AlignJustify|Qt::AlignTop|Qt::TextWordWrap,str);
 
         if(!selWpt->images.isEmpty())
         {
