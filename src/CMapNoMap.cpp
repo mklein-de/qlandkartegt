@@ -29,7 +29,7 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
 , y(0)
 , zoomFactor(1.0)
 {
-    pjsrc   = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs");
+    pjsrc   = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
 }
 
 
