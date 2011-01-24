@@ -115,7 +115,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         }
         else if(track && selTrkPt)
         {
-            track->setPointOfFocus(selTrkPt->idx, true);
+            track->setPointOfFocus(selTrkPt->idx, true, false);
         }
         else if(!selSearch.isNull())
         {
@@ -338,7 +338,7 @@ void CMouseMoveMap::slotEditTrack()
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track)
     {
-        track->setPointOfFocus(selTrkPt->idx, true);
+        track->setPointOfFocus(selTrkPt->idx, true, false);
     }
 }
 

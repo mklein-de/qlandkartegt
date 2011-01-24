@@ -36,6 +36,7 @@
 #include "CMenus.h"
 #include "CActions.h"
 
+
 #include <QtGui>
 
 bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
@@ -774,7 +775,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
     if(track.isNull()) return;
 
     originator = true;
-    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt(), false);
+    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt(), false, true);
     originator = false;
 }
 

@@ -22,6 +22,8 @@
 #include "CMapDB.h"
 #include "CResources.h"
 #include "IUnit.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -858,7 +860,7 @@ void CTrack::rebuild(bool reindex)
 }
 
 
-void CTrack::setPointOfFocus(int idx, bool eraseSelection)
+void CTrack::setPointOfFocus(int idx, bool eraseSelection, bool moveMap)
 {
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track;
@@ -876,6 +878,12 @@ void CTrack::setPointOfFocus(int idx, bool eraseSelection)
     {
         trkpts[idx].flags |= CTrack::pt_t::eFocus;
         trkpts[idx].flags |= CTrack::pt_t::eSelected;
+
+        if(moveMap)
+        {
+            theMainWindow->getCanvas()->move(trkpts[idx].lon, trkpts[idx].lat);
+        }
+
     }
     emit sigChanged();
 }
