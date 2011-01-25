@@ -360,12 +360,12 @@ void CMapToolWidget::slotExportMap()
         proc1.start(GDALWARP " --version");
         proc1.waitForFinished();
         qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
-        bool haveGDALWarp = proc1.exitCode() == 0;
+        bool haveGDALWarp = proc1.error() == QProcess::UnknownError;
 
         proc1.start(GDALTRANSLATE " --version");
         proc1.waitForFinished();
         qDebug() << proc1.exitCode() << proc1.error() << proc1.errorString();
-        bool haveGDALTranslate = proc1.exitCode() == 0;
+        bool haveGDALTranslate = proc1.error() == QProcess::UnknownError;
 
         bool haveGDAL = haveGDALWarp && haveGDALTranslate;
 

@@ -33,6 +33,8 @@ endif(GPSBABEL)
 find_program(MAP2JNX map2jnx DOC "full path of the map2jnx application")
 if(MAP2JNX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAP2JNX=\\\"${MAP2JNX}\\\"")
+else(MAP2JNX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAP2JNX=\\\"map2jnx\\\"")
 endif(MAP2JNX)
 
 

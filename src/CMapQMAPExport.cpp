@@ -79,13 +79,16 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 
-#ifdef MAP2JNX
-    has_map2jnx = true;
-    path_map2jnx = MAP2JNX;
-#elif WIN32
+#ifdef WIN32
     path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
     QFile file_map2jnx(path_map2jnx);
     has_map2jnx = file_map2jnx.exists();
+#else
+    QProcess proc1;
+    proc1.start(MAP2JNX);
+    proc1.waitForFinished();
+    has_map2jnx = proc1.error() == QProcess::UnknownError;
+    path_map2jnx = MAP2JNX;
 #endif
     if (has_map2jnx)
     {

@@ -698,7 +698,7 @@ void CMainWindow::slotLoadData()
     QProcess proc1;
     proc1.start(GPSBABEL " -V");
     proc1.waitForFinished();
-    bool haveGPSBabel = proc1.exitCode() == 0;
+    bool haveGPSBabel = proc1.error() == QProcess::UnknownError;
 
     QString formats;
     if(haveGPSBabel)
@@ -756,8 +756,8 @@ void CMainWindow::slotAddData()
 {
     QProcess proc1;
     proc1.start(GPSBABEL " -V");
-    proc1.waitForFinished();
-    bool haveGPSBabel = proc1.exitCode() == 0;
+    proc1.waitForFinished();    
+    bool haveGPSBabel = proc1.error() == QProcess::UnknownError;
 
     QString formats;
     if(haveGPSBabel)
@@ -911,7 +911,7 @@ bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, co
     if (!babelProcess->waitForFinished())
         return false;
 
-    return babelProcess->exitCode() ==0;
+    return babelProcess->exitCode() == 0;
 }
 
 
