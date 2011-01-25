@@ -408,6 +408,10 @@ void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
 
 void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
 {
+    QString prefix = linePrefix->text();
+    QDir tarPath(labelPath->text());
+    QFile::remove(tarPath.filePath(QString("%1.qmap").arg(prefix)));
+
     for(int i = 0; i < (outfiles.count() - 1); i++)
     {
         QFile::remove(outfiles[i]);
