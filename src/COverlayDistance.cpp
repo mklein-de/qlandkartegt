@@ -155,9 +155,9 @@ QString COverlayDistance::getInfo()
 
     if(speed > 0)
     {
-        info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " -> ";
+        info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " " + QChar(0x21E8) + " ";
 
-        double ttime = val.toDouble() * 3.6/ (speed * IUnit::self().speedfactor);
+        double ttime = val.toDouble() * 3600/ (speed * IUnit::self().speedfactor);
         quint32 days = ttime / 86400;
 
         QTime time;
