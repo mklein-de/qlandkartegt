@@ -582,7 +582,8 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td><img src='file://%1'/></td>").arg(filename);
+            //str += QString("<td><img src='file://%1'/></td>").arg(filename);
+            str += "<td><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
         }
 
         {
@@ -614,7 +615,8 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+            //str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+            str += "<td style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
         }
 
         str += "</tr>\n";
@@ -683,7 +685,8 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td><img src='file://%1'/></td>").arg(filename);
+            //str += QString("<td><img src='file://%1'/></td>").arg(filename);
+            str += "<td><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
         }
 
         {
@@ -696,7 +699,8 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+            //str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+            str += "<td style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
         }
 
         str += "</tr>\n";
@@ -750,11 +754,13 @@ QString CMapTDB::getLegendPoints()
 
         filename = tempDir.filePath(QString("p%1d.png").arg(key,8,16,QChar('0')));
         prop.imgDay.save(filename);
-        str += QString("<td width='100px' align='center'><img src='file://%1'/></td>").arg(filename);
+        //str += QString("<td width='100px' align='center'><img src='file://%1'/></td>").arg(filename);
+        str += "<td width='100px' align='center'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
 
         filename = tempDir.filePath(QString("p%1n.png").arg(key,8,16,QChar('0')));
         prop.imgNight.save(filename);
-        str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+        //str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
+        str += "<td width='100px' align='center' style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
         str += "</tr>\n";
     }
 

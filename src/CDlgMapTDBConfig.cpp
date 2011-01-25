@@ -88,7 +88,8 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
     tmp.write(cpytext.toLocal8Bit());
     tmp.close();
 
-    webView->load(QString("file://") + tempDir.filePath("legend.html"));
+    //webView->load(QString("file://") + tempDir.filePath("legend.html"));
+    webView->load(QUrl::fromLocalFile(tmp.fileName()));
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
