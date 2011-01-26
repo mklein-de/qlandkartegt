@@ -20,6 +20,7 @@
 #include "CMapJnx.h"
 #include "CResources.h"
 #include "CDlgMapJNXConfig.h"
+#include "GeoMath.h"
 #include <QtGui>
 
 #define MAX_IDX_ZOOM 26
@@ -76,6 +77,8 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     QDataStream stream(&file);
     stream.setByteOrder(QDataStream::LittleEndian);
 
+    info  = "<h1>" + name + "</h1>";
+
     stream >> hdr.version;            // byte 00000000..00000003
     stream >> hdr.devid;              // byte 00000004..00000007
     stream >> hdr.top;              // byte 00000008..0000000B
@@ -100,15 +103,52 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     qDebug() << hex << "Details:" <<  hdr.details << "Expire:" <<  hdr.expire << "CRC:" <<  hdr.crc ;
     qDebug() << hex << "Signature:" <<  hdr.signature << "Offset:" <<  hdr.signature_offset;
 
+
+    QString strTopLeft, strBottomRight;
+    GPS_Math_Deg_To_Str(lon1, lat1, strTopLeft);
+    GPS_Math_Deg_To_Str(lon2, lat2, strBottomRight);
+
+    info += QString("<p><table><tr><th>%1</th><th width='100%'>%2</th></tr>").arg(tr("Parameter")).arg(tr("Value"));
+    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
+    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
+
+    {
+        XY p1, p2;
+        double a1,a2, width, height;
+        float u1 = 0, v1 = 0, u2 = 0, v2 = 0;
+        GPS_Math_Str_To_Deg(strTopLeft.replace("&#176;",""), u1, v1);
+        GPS_Math_Str_To_Deg(strBottomRight.replace("&#176;",""), u2, v2);
+
+        p1.u = u1 * DEG_TO_RAD;
+        p1.v = v1 * DEG_TO_RAD;
+        p2.u = u2 * DEG_TO_RAD;
+        p2.v = v1 * DEG_TO_RAD;
+        width   = distance(p1,p2,a1,a2)/1000;
+        p1.u = u1 * DEG_TO_RAD;
+        p1.v = v1 * DEG_TO_RAD;
+        p2.u = u1 * DEG_TO_RAD;
+        p2.v = v2 * DEG_TO_RAD;
+        height  = distance(p1,p2,a1,a2)/1000;
+
+        info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
+        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
+    }
+
+    info += "</table></p>";
+
     qDebug() << "Levels:";
+    info += QString("<p><table><tr><th>%1</th><th>%2</th><th width='100%'>%3</th></tr>").arg(tr("Level")).arg(tr("#Tiles")).arg(tr("Scale"));
     levels.resize(hdr.details);
     for(quint32 i = 0; i < hdr.details; i++)
     {
         level_t& level = levels[i];
         stream >> level.nTiles >> level.offset >> level.scale;
 
+        info+= QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>").arg(i).arg(level.nTiles).arg(level.scale);
         qDebug() << i << hex << level.nTiles << level.offset << level.scale;
     }
+    info += "</table></p>";
+
 
     for(quint32 i = 0; i < hdr.details; i++)
     {
@@ -134,6 +174,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
             tile.area.setLeft(left * 180.0 / 0x7FFFFFFF);
         }
     }
+
 
 
 
