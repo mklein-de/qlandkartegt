@@ -26,11 +26,13 @@
 #include <pwd.h>
 #endif
 
+
 const QString CDlgMapTDBConfig::text =  QObject::tr(""
 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
 "<html>"
 "   <head>"
 "       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Typ' content='text/html; charset=utf-8'>"
 "       <style type='text/css'>"
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"
