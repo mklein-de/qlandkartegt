@@ -31,6 +31,7 @@ const QString CDlgMapQMAPConfig::text =  QObject::tr(""
 "<html>"
 "   <head>"
 "       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Typ' content='text/html; charset=utf-8'>"
 "       <style type='text/css'>"
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"
@@ -76,7 +77,7 @@ CDlgMapQMAPConfig::CDlgMapQMAPConfig(CMapQMAP * map)
     tmp.write(cpytext.toLocal8Bit());
     tmp.close();
 
-    webView->load(QString("file://") + tempDir.filePath("legend.html"));
+    webView->load(QUrl::fromLocalFile(tmp.fileName()));
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
