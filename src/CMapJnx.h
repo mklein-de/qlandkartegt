@@ -43,6 +43,10 @@ class CMapJnx : public IMap
 
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
 
+        QString getMapInfo(){return info;}
+
+        void config();
+
     private:
         void draw();
         qint32 zlevel2idx(quint32);
@@ -117,6 +121,7 @@ class CMapJnx : public IMap
 
         QRectF viewport;
 
+        QString info;
 };
 
 #endif //CMAPJNX_H

@@ -1083,6 +1083,10 @@ void COverlayDistance::slotToTrack()
 
     CTrackDB::self().addTrack(track, false);
     CMegaMenu::self().switchByKeyWord("Tracks");
+
+    isVisible = false;
+    emit sigChanged();
+
 }
 
 
@@ -1105,8 +1109,10 @@ void COverlayDistance::slotToRoute()
     }
 
     CRouteDB::self().addRoute(route, false);
-
     CMegaMenu::self().switchByKeyWord("Routes");
+
+    isVisible = false;
+    emit sigChanged();
 }
 
 
@@ -1146,6 +1152,9 @@ void COverlayDistance::makeVisible()
         if(pt.v > north) north = pt.v;
     }
     CMapDB::self().getMap().zoom(west, north, east, south);
+
+    isVisible = true;
+    emit sigChanged();
 }
 
 

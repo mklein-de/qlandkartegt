@@ -19,6 +19,7 @@
 
 #include "CMapJnx.h"
 #include "CResources.h"
+#include "CDlgMapJNXConfig.h"
 #include <QtGui>
 
 #define MAX_IDX_ZOOM 26
@@ -490,3 +491,10 @@ void CMapJnx::draw()
 }
 
 
+void CMapJnx::config()
+{
+
+    CDlgMapJNXConfig * dlg = new CDlgMapJNXConfig(this);
+    dlg->show();
+
+}
