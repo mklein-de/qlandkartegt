@@ -1,3 +1,40 @@
+--- 2011.01.26 ---
+
+Request #240:
+Minimize height of waypoint dialog
+
+Request #241:
+Double click point in track edit moves map
+
+Request #242:
+Add distance to start and end to track point information
+
+Request #243:
+Add all other data fields to waypoint information
+
+Request #244:
+Add better support for waypoint icons larger than 15x15
+
+Request #246:
+Add direction arrow to route
+
+Request #247:
+Add direction arrow to distance polyline
+
+Request #248:
+Make distance polyline bullets an option
+
+Request #249:
+Add hide and show to distance polyline
+
+Request #250:
+Add info dialog for map collections (qmap)
+
+Request #251:
+Add resize and move to map area selection (\*.qmap)
+
+
+
 --- 2010.12.27 ---
 
 Request #237:
@@ -1045,6 +1082,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
