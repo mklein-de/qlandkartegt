@@ -707,6 +707,7 @@ void CPlot::drawTags(QPainter& p)
     CPlotAxis& yaxis = m_pData->y();
 
     QFontMetrics fm(p.font());
+    QColor textColor = CResources::self().wptTextColor();
 
     QVector<CPlotData::point_t>::const_iterator tag = m_pData->tags.begin();
     while(tag != m_pData->tags.end())
@@ -720,7 +721,7 @@ void CPlot::drawTags(QPainter& p)
             rect.moveCenter(QPoint(ptx, fontHeight / 2));
             rect.adjust(-1,-1,1,1);
 
-            p.setPen(Qt::darkBlue);
+            p.setPen(textColor);
             p.drawText(rect, Qt::AlignCenter, tag->label);
 
             QPixmap icon = tag->icon.scaled(15,15, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
