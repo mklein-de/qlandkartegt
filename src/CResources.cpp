@@ -70,6 +70,7 @@ CResources::CResources(QObject * parent)
 , m_showTrackMax(true)
 , m_showZoomLevel(true)
 , m_useAntiAliasing(true)
+, m_WptTextColor(Qt::black)
 
 {
     m_self = this;
@@ -145,6 +146,8 @@ CResources::CResources(QObject * parent)
     m_showTrackMax  = cfg.value("environment/showTrackMax",m_showTrackMax).toBool();
     m_showZoomLevel = cfg.value("environment/showZoomLevel",m_showZoomLevel).toBool();
     m_useAntiAliasing = cfg.value("environment/useAntiAliasing",m_useAntiAliasing).toBool();
+
+    m_WptTextColor = QColor(cfg.value("environment/wptTextColor", m_WptTextColor.name()).toString());
 }
 
 
@@ -194,6 +197,8 @@ CResources::~CResources()
     cfg.setValue("environment/showTrackMax",m_showTrackMax);
     cfg.setValue("environment/showZoomLevel",m_showZoomLevel);
     cfg.setValue("environment/useAntiAliasing",m_useAntiAliasing);
+
+    cfg.setValue("environment/wptTextColor", m_WptTextColor.name());
 }
 
 

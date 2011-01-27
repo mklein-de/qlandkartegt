@@ -61,7 +61,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     QSettings cfg;
     showNames = cfg.value("waypoint/showNames", showNames).toBool();
 
-    m_self      = this;       
+    m_self      = this;
     toolview    = new CWptToolWidget(tb);
 
     CQlb qlb(this);
@@ -637,6 +637,7 @@ void CWptDB::selWptByKey(const QString& key)
 void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
     IMap& map = CMapDB::self().getMap();
+    QColor color = CResources::self().wptTextColor();
 
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
@@ -671,7 +672,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             if(showNames)
             {
-                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)));
+                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)), color);
             }
 
         }

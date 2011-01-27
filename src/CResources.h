@@ -23,6 +23,7 @@
 #include <QFont>
 #include <QPointer>
 #include <QDir>
+#include <QColor>
 
 class IDevice;
 class IUnit;
@@ -72,6 +73,8 @@ class CResources : public QObject
         bool showZoomLevel(){return m_showZoomLevel;}
         bool playSound(){return m_playSound;}
         bool useAntiAliasing(){return m_useAntiAliasing;}
+
+        QColor wptTextColor(){return m_WptTextColor;}
 
         signals:
         void sigProxyChanged();
@@ -150,6 +153,8 @@ class CResources : public QObject
         bool m_showTrackMax;
         bool m_showZoomLevel;
         bool m_useAntiAliasing;
+
+        QColor m_WptTextColor;
 
         /// unit translator object
         QPointer<IUnit> unit;

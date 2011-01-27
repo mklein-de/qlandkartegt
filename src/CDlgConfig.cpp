@@ -36,6 +36,7 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 {
     setupUi(this);
     connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
+    connect(toolWptTextColor,SIGNAL(clicked()),this,SLOT(slotSelectWptTextColor()));
     fillTypeCombo();
 
 #ifndef HAS_GEODB
@@ -132,6 +133,11 @@ void CDlgConfig::exec()
     checkUploadWpt->setChecked(IDevice::m_UploadAllWpt);
     checkUploadRte->setChecked(IDevice::m_UploadAllRte);
 
+    QPalette palette = labelWptTextColor->palette();
+    palette.setColor(labelWptTextColor->foregroundRole(), resources.m_WptTextColor);
+    labelWptTextColor->setPalette(palette);
+
+
     QDialog::exec();
 }
 
@@ -202,6 +208,9 @@ void CDlgConfig::accept()
     IDevice::m_UploadAllWpt     = checkUploadWpt->isChecked();
     IDevice::m_UploadAllTrk     = checkUploadTrk->isChecked();
     IDevice::m_UploadAllRte     = checkUploadRte->isChecked();
+
+    QPalette palette = labelWptTextColor->palette();
+    resources.m_WptTextColor = palette.color(labelWptTextColor->foregroundRole());
 
     QDialog::accept();
 }
@@ -355,4 +364,19 @@ void CDlgConfig::slotSelectPathGeoDB()
     {
         labelPathGeoDB->setText(path);
     }
+}
+
+void CDlgConfig::slotSelectWptTextColor()
+{
+    QPalette palette = labelWptTextColor->palette();
+    QColor color = palette.color(labelWptTextColor->foregroundRole());
+
+    color = QColorDialog::getColor(color);
+
+    if(color.isValid())
+    {
+        palette.setColor(labelWptTextColor->foregroundRole(), color);
+        labelWptTextColor->setPalette(palette);
+    }
+
 }
