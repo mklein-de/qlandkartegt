@@ -34,7 +34,8 @@ CDlgWptIcon::CDlgWptIcon(QToolButton& but)
     const wpt_icon_t * icon = getWptIcons();
     while(icon->name != 0)
     {
-        QListWidgetItem * item = new QListWidgetItem(loadIcon(icon->icon), icon->name, listIcons);
+        QPixmap pixmap = loadIcon(icon->icon).scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        QListWidgetItem * item = new QListWidgetItem(pixmap, icon->name, listIcons);
         if(currentIcon == icon->name)
         {
             currentItem = item;
