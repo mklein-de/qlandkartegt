@@ -105,6 +105,8 @@ class CWptDB : public IDB
         static bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
         static bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
 
+        bool getShowNames(){return showNames;}
+        void setShowNames(bool yes){showNames = yes;  emit sigChanged();}
 
 
     private:
@@ -117,6 +119,8 @@ class CWptDB : public IDB
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;
+
+        bool showNames;
 
 };
 #endif                           //CWPTDB_H

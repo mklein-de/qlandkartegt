@@ -63,6 +63,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotMakeRoute();
         void slotZoomToFit();
         void slotPosTextChanged(const QString& text);
+        void slotShowNames();
 
     private:
         QMenu * contextMenu;
@@ -73,6 +74,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actZoomToFit;
         QAction * actDelete;
         QAction * actDeleteBy;
+        QAction * actShowNames;
 
         static sortmode_e sortmode;
         static QString sortpos;

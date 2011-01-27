@@ -56,8 +56,12 @@ static exif_content_get_ifd_t f_exif_content_get_ifd;
 
 CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
+, showNames(true)
 {
-    m_self      = this;
+    QSettings cfg;
+    showNames = cfg.value("waypoint/showNames", showNames).toBool();
+
+    m_self      = this;       
     toolview    = new CWptToolWidget(tb);
 
     CQlb qlb(this);
@@ -86,6 +90,9 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 
 CWptDB::~CWptDB()
 {
+    QSettings cfg;
+    cfg.setValue("waypoint/showNames", showNames);
+
     CQlb qlb(this);
 
     QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
@@ -662,7 +669,10 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             p.drawPixmap(u - o , v - o, icon);
 
-            CCanvas::drawText((*wpt)->name,p,QPoint(u,v - 10));
+            if(showNames)
+            {
+                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)));
+            }
 
         }
         ++wpt;

@@ -53,13 +53,17 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
-    actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
-    contextMenu->addSeparator();
+    actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));    
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
+    contextMenu->addSeparator();
+    actShowNames    = contextMenu->addAction(tr("Show Names"),this,SLOT(slotShowNames()));
     contextMenu->addSeparator();
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
     actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
     actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
+
+    actShowNames->setCheckable(true);
+    actShowNames->setChecked(CWptDB::self().getShowNames());
 
     connect(listWpts,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -350,3 +354,7 @@ void CWptToolWidget::slotPosTextChanged(const QString& text)
     toolSortPosition->setEnabled(GPS_Math_Str_To_Deg(text, lon, lat, true));
 }
 
+void CWptToolWidget::slotShowNames()
+{
+    CWptDB::self().setShowNames(!CWptDB::self().getShowNames());
+}
