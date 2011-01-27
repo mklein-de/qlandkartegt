@@ -698,8 +698,10 @@ void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
 
 quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)
 {
-
-    return quint32(double(nPixel)/zoomFactor + 0.5);
+    CMapLevel * level       = maplevels[0];
+    const CMapFile * file1  = *level->begin();
+    const CMapFile * file2  = *pMaplevel->begin();
+    return quint32((nPixel * file1->xscale)/(zoomFactor * file2->xscale) + 0.5);
 }
 
 void CMapQMAP::config()
