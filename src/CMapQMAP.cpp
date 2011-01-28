@@ -392,9 +392,28 @@ void CMapQMAP::draw()
 
                         if(!err)
                         {
-                            quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
+                            quint8 * pTar   = 0;
                             quint8 * pSrc   = buffer.data();
                             const int size  = buffer.size();
+
+
+                            if(pBand->GetColorInterpretation() == GCI_RedBand)
+                            {
+                                pTar = img.bits();
+                            }
+                            else if(pBand->GetColorInterpretation() == GCI_GreenBand)
+                            {
+                                pTar = img.bits() + 1;
+                            }
+                            else if(pBand->GetColorInterpretation() == GCI_BlueBand)
+                            {
+                                pTar = img.bits() + 2;
+                            }
+                            else
+                            {
+                                pTar = img.bits() + b - 1;
+                            }
+
 
                             for(int i = 0; i < size; ++i)
                             {
