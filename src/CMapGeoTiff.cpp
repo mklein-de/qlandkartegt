@@ -320,15 +320,38 @@ void CMapGeoTiff::draw()
 
                     if(!err)
                     {
-                        quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
+                        quint8 * pTar   = 0;
                         quint8 * pSrc   = buffer.data();
                         const int size  = buffer.size();
 
-                        for(int i = 0; i < size; ++i)
+
+                        qDebug() << pBand->GetColorInterpretation();
+                        if(pBand->GetColorInterpretation() == GCI_RedBand)
                         {
-                            *pTar = *pSrc;
-                            pTar += 4;
-                            pSrc += 1;
+                            pTar = img.bits();
+                        }
+                        else if(pBand->GetColorInterpretation() == GCI_GreenBand)
+                        {
+                            pTar = img.bits() + 1;
+                        }
+                        else if(pBand->GetColorInterpretation() == GCI_BlueBand)
+                        {
+                            pTar = img.bits() + 2;
+                        }
+                        else
+                        {
+                            pTar = img.bits() + b - 1;
+                        }
+
+
+                        if(pTar)
+                        {
+                            for(int i = 0; i < size; ++i)
+                            {
+                                *pTar = *pSrc;
+                                pTar += 4;
+                                pSrc += 1;
+                            }
                         }
                     }
                 }
