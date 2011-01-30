@@ -328,7 +328,7 @@ void CMapGeoTiff::draw()
                         qDebug() << pBand->GetColorInterpretation();
                         if(pBand->GetColorInterpretation() == GCI_RedBand)
                         {
-                            pTar = img.bits();
+                            pTar = img.bits() + 2;
                         }
                         else if(pBand->GetColorInterpretation() == GCI_GreenBand)
                         {
@@ -336,11 +336,11 @@ void CMapGeoTiff::draw()
                         }
                         else if(pBand->GetColorInterpretation() == GCI_BlueBand)
                         {
-                            pTar = img.bits() + 2;
+                            pTar = img.bits() + 0;
                         }
                         else
                         {
-                            pTar = img.bits() + b - 1;
+                            pTar = img.bits() + 3 - b;
                         }
 
 
