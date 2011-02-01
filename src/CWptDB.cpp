@@ -639,6 +639,11 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     IMap& map = CMapDB::self().getMap();
     QColor color = CResources::self().wptTextColor();
 
+    // added by AD
+    QList<QRect> blockAreas;
+    QFontMetrics fm(CResources::self().getMapFont());
+    // end added by AD
+
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
     {
@@ -670,14 +675,89 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             p.drawPixmap(u - o , v - o, icon);
 
-            if(showNames)
-            {
-                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)), color);
-            }
-
+//            if(showNames)
+//            {
+//                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)), color);
+//            }
+            // added by AD
+            blockAreas << QRect(u - o , v - o, icon.width(), icon.height());
         }
         ++wpt;
     }
+
+    // added by AD
+    // draw the labels
+    wpt = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        double u = (*wpt)->lon * DEG_TO_RAD;
+        double v = (*wpt)->lat * DEG_TO_RAD;
+        map.convertRad2Pt(u,v);
+
+        if(rect.contains(QPoint(u,v)))
+        {
+            QPixmap icon = (*wpt)->getIcon();
+
+            if(showNames)
+            {
+                QRect textArea = fm.boundingRect((*wpt)->name);
+                bool intersects;
+
+                // try above
+                textArea.moveCenter(QPoint(u, v - (icon.height() >> 1) - textArea.height()));
+                intersects = false;
+                for (int k = 0; k < blockAreas.size() && !intersects; ++k)
+                {
+                    intersects = textArea.intersects(blockAreas.at(k));
+                }
+
+                if (intersects)
+                {
+                    // try below
+                    textArea.moveCenter(QPoint(u, v + ((icon.height() + textArea.height()) >> 1)));
+                    intersects = false;
+                    for (int k = 0; k < blockAreas.size() && !intersects; ++k)
+                    {
+                        intersects = textArea.intersects(blockAreas.at(k));
+                    }
+
+                    if (intersects)
+                    {
+                        // try right
+                        textArea.moveCenter(QPoint(u + ((icon.height() + textArea.height() + textArea.width()) >> 1),
+                                                   v - (textArea.height() >> 2)));
+                        intersects = false;
+                        for (int k = 0; k < blockAreas.size() && !intersects; ++k)
+                        {
+                            intersects = textArea.intersects(blockAreas.at(k));
+                        }
+
+                        if (intersects)
+                        {
+                            // try left
+                            textArea.moveCenter(QPoint(u - ((icon.height() + (textArea.height() >> 1) + textArea.width()) >> 1),
+                                                       v - (textArea.height() >> 2)));
+                            intersects = false;
+                            for (int k = 0; k < blockAreas.size() && !intersects; ++k)
+                            {
+                                intersects = textArea.intersects(blockAreas.at(k));
+                            }
+                        }
+                    }
+                }
+
+                if (!intersects)
+                {
+                    blockAreas << textArea;
+                    // compensate for drawText magic and plot
+                    textArea.translate(0, textArea.height());
+                    CCanvas::drawText((*wpt)->name, p, textArea.center(), color);
+                }
+            }
+        }
+        ++wpt;
+    }
+    // end added by AD
 
     wpt = wpts.begin();
     while(wpt != wpts.end())
