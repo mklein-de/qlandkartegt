@@ -162,6 +162,8 @@ class CGarminExport : public QDialog, private Ui::IGarminExport
         void initGmapsuppImgHdr(gmapsupp_imghdr_t& hdr, quint32 nBlocks, quint32 dataoffset);
         void initFATBlock(FATblock_t * pFAT);
 
+        quint32 estimateBlockCount(QVector<tile_t>& _tiles, quint8 _e2);
+
         QVector<map_t>  maps;
         QVector<tile_t> tiles;
 

@@ -28,7 +28,7 @@
 CGarminExport::CGarminExport(QWidget * parent)
 : QDialog(parent)
 , e1(9)
-, e2(6)
+, e2(7)
 , blocksize(pow(2.0f, e1 + e2))
 , errors(false)
 , isDialog(true)
@@ -168,6 +168,34 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
         show();
         slotStart();
     }
+}
+
+quint32 CGarminExport::estimateBlockCount(QVector<tile_t>& _tiles, quint8 _e2)
+{
+    tile_t tile;
+    quint32 _blocksize  = pow(2.0f, e1 + _e2);
+    quint32 _mask       = 0xFFFFFFFF >> (32 - e1 - _e2);
+    quint32 _totalSize  = 0;
+    quint32 _totalSize2  = 0;
+    quint32 _nBlocks    = 0;
+
+    foreach(tile, _tiles)
+    {
+        quint32 size = tile.memsize;
+        _totalSize2 += size;
+        if(size & _mask)
+        {
+            size = (size + _blocksize) & ~_mask;
+        }
+
+        _totalSize += size;
+    }
+
+    _nBlocks = _totalSize >> (e1 + _e2);
+
+//    qDebug() << hex << _e2 << _mask << _totalSize << _nBlocks << _totalSize2 << _blocksize;
+
+    return _nBlocks;
 }
 
 
@@ -595,6 +623,17 @@ void CGarminExport::slotStart()
         {
             writeStdout(tr("FAT entries: %1 (of %2) ").arg(totalFATs).arg(maxFATs));
         }
+
+        if(totalBlocks >= 65536)
+        {
+            writeStderr(tr("Block count: %1 (of %2) Failed!").arg(totalBlocks).arg(65536));
+            throw exce_t(errLogic, tr("Too many tiles."));
+        }
+        else
+        {
+            writeStdout(tr("Block count: %1 (of %2)").arg(totalBlocks).arg(65536));
+        }
+
 
         if(filesize > maxFileSize)
         {
