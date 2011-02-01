@@ -91,10 +91,34 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 
 QString CMapSelectionRaster::getDescription()
 {
-    QString pos1, pos2;
+    QString pos1, pos2, str;
     GPS_Math_Deg_To_Str(lon1 * RAD_TO_DEG, lat1 * RAD_TO_DEG, pos1);
     GPS_Math_Deg_To_Str(lon2 * RAD_TO_DEG, lat2 * RAD_TO_DEG, pos2);
 
-    return description + "\n" + pos1 + "\n" + pos2;
+    double a1, a2, d1, d2;
+    XY p1, p2;
+
+    p1.u = lon1;
+    p1.v = lat1;
+
+    p2.u = lon2;
+    p2.v = lat1;
+
+    d1 = distance(p1, p2, a1, a2) / 1000.0;
+
+
+    p1.u = lon1;
+    p1.v = lat1;
+
+    p2.u = lon1;
+    p2.v = lat2;
+
+    d2 = distance(p1, p2, a1, a2) / 1000.0;
+
+    str  = description + "\n" + pos1 + "\n" + pos2;
+    str += "\n" + QString("%1 x %2 km = %3 km%4").arg(d1,0,'f',1).arg(d2,0,'f',1).arg(d1*d2,0,'f',1).arg(QChar(0x00B2));
+
+    return str;
+
 }
 
