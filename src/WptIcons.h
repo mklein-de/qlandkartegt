@@ -23,18 +23,17 @@
 #include <QString>
 #include <QPixmap>
 
-struct wpt_icon_t
-{
-    QString icon;
-    QString name;
-};
+//struct wpt_icon_t
+//{
+//    QString icon;
+//    QString name;
+//};
 
 #define N_CUSTOM_ICONS 24
 
 extern void initWptIcons();
 extern QPixmap loadIcon(const QString& path);
-extern const wpt_icon_t* getWptIcons();
+extern const QMap<QString, QString>& getWptIcons();
 extern QPixmap getWptIconByName(const QString& name, QString * src = 0);
 extern void setWptIconByName(const QString& name, const QString& filename);
-extern QString getWptResourceByName(const QString& name);
 #endif                           //WPTICONS_H

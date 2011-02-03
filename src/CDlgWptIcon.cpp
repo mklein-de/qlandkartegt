@@ -22,6 +22,44 @@
 
 #include <QtGui>
 
+static bool keyLessThanAlpha(const QString&  s1, const QString&  s2)
+{
+    QRegExp re("[0-9]*");
+
+    QString _s1 = s1;
+    QString _s2 = s2;
+
+    _s1.remove(re);
+    _s2.remove(re);
+
+    if(_s1 == _s2)
+    {
+        QRegExp re(".*([0-9]*).*");
+
+        if(re.exactMatch(s1))
+        {
+            _s1 = re.cap(1);
+        }
+        else
+        {
+            _s1 = "0";
+        }
+
+        if(re.exactMatch(s2))
+        {
+            _s2 = re.cap(1);
+        }
+        else
+        {
+            _s2 = "0";
+        }
+
+        return _s1.toInt() < _s2.toInt();
+    }
+    return s1 < s2;
+}
+
+
 CDlgWptIcon::CDlgWptIcon(QToolButton& but)
 : QDialog(&but)
 , button(but)
@@ -31,16 +69,23 @@ CDlgWptIcon::CDlgWptIcon(QToolButton& but)
     QString currentIcon = button.objectName();
     QListWidgetItem * currentItem = 0;
 
-    const wpt_icon_t * icon = getWptIcons();
-    while(icon->name != 0)
+    const QMap<QString, QString>& wptIcons = getWptIcons();
+    QStringList keys = wptIcons.keys();
+    QString key;
+
+    qSort(keys.begin(), keys.end(), keyLessThanAlpha);
+
+    foreach(key, keys)
     {
-        QPixmap pixmap = loadIcon(icon->icon).scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        QListWidgetItem * item = new QListWidgetItem(pixmap, icon->name, listIcons);
-        if(currentIcon == icon->name)
+        const QString& icon = wptIcons[key];
+        QPixmap pixmap      = loadIcon(icon).scaled(20,20, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+        QListWidgetItem * item = new QListWidgetItem(pixmap, key, listIcons);
+        if(currentIcon == key)
         {
             currentItem = item;
         }
-        ++icon;
+
     }
 
     if(currentItem)
