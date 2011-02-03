@@ -87,14 +87,14 @@ void CDBus::setWaypointIcon(const QString& name, const QByteArray& data)
     setWptIconByName(name, icon);
 }
 
-void CDBus::setWaypointIconFile(const QString& name, const QString& filename1)
-{
-    QDir dirIcon(QDir::home().filePath(CONFIGDIR "WaypointIcons"));
+//void CDBus::setWaypointIconFile(const QString& name, const QString& filename1)
+//{
+//    QDir dirIcon(QDir::home().filePath(CONFIGDIR "WaypointIcons"));
 
-    QString filename2 = dirIcon.filePath(name + ".png");
+//    QString filename2 = dirIcon.filePath(name + ".png");
 
-    QPixmap icon(filename1);
-    icon.save(filename2);
+//    QPixmap icon(filename1);
+//    icon.save(filename2);
 
-    setWptIconByName(name, filename2);
-}
+//    setWptIconByName(name, filename2);
+//}
