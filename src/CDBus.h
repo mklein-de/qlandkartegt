@@ -30,6 +30,7 @@ class CDBus : public QDBusAbstractAdaptor
         virtual ~CDBus();
 
     public slots:
+        void addGeoData(const QString& filename);
         void loadGeoData(const QString& filename);
         void zoomToRect(const double lon1, const double lat1, const double lon2, const double lat2);
 

@@ -52,6 +52,12 @@ CDBus::~CDBus()
 
 }
 
+void CDBus::addGeoData(const QString& filename)
+{
+    QString filter;
+    theMainWindow->loadData(filename, filter);
+}
+
 void CDBus::loadGeoData(const QString& filename)
 {
     QString filter;
