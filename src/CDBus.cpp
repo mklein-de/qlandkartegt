@@ -28,6 +28,9 @@
 #include "COverlayDB.h"
 #include "IOverlay.h"
 #include "CMainWindow.h"
+#include "WptIcons.h"
+#include "config.h"
+
 
 
 CDBus::CDBus(QObject * parent)
@@ -77,4 +80,21 @@ void CDBus::zoomToRect(const double lon1, const double lat1, const double lon2, 
     CMapDB::self().getMap().zoom(lon1 * DEG_TO_RAD, lat1 * DEG_TO_RAD, lon2 * DEG_TO_RAD, lat2 * DEG_TO_RAD);
 }
 
+void CDBus::setWaypointIcon(const QString& name, const QByteArray& data)
+{
+    QPixmap icon;
+    icon.loadFromData(data);
+    setWptIconByName(name, icon);
+}
 
+void CDBus::setWaypointIconFile(const QString& name, const QString& filename1)
+{
+    QDir dirIcon(QDir::home().filePath(CONFIGDIR "WaypointIcons"));
+
+    QString filename2 = dirIcon.filePath(name + ".png");
+
+    QPixmap icon(filename1);
+    icon.save(filename2);
+
+    setWptIconByName(name, filename2);
+}

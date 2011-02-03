@@ -139,6 +139,16 @@ void setWptIconByName(const QString& name, const QString& filename)
     wptIcons[name] = filename;
 }
 
+void setWptIconByName(const QString& name, const QPixmap& icon)
+{
+    QDir dirIcon(QDir::home().filePath(CONFIGDIR "WaypointIcons"));
+    QString filename = dirIcon.filePath(name + ".png");
+
+    icon.save(filename);
+    wptIcons[name] = filename;
+}
+
+
 QPixmap getWptIconByName(const QString& name, QString * src)
 {
 
