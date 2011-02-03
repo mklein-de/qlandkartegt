@@ -18,7 +18,9 @@
 **********************************************************************************************/
 
 #include "WptIcons.h"
+#include "config.h"
 #include <QtCore>
+
 
 const char * wptDefault = ":/icons/wpt/flag15x15.png";
 
@@ -97,6 +99,21 @@ void initWptIcons()
     setWptIconByName("Custom 23", cfg.value("garmin/icons/custom23", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 24", cfg.value("garmin/icons/custom24", ":/icons/wpt/custom15x15.bmp").toString());
 
+
+    QDir dirIcon(QDir::home().filePath(CONFIGDIR));
+    dirIcon.mkdir("WaypointIcons");
+    dirIcon.cd("WaypointIcons");
+
+
+    QString filename;
+    QStringList filenames = dirIcon.entryList(QDir::Files);
+
+    foreach(filename, filenames)
+    {
+        QFileInfo fi(filename);
+        QString name = fi.baseName();
+        setWptIconByName(name, dirIcon.filePath(filename));
+    }
 }
 
 QPixmap loadIcon(const QString& path)
