@@ -53,6 +53,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
+
 }
 
 
@@ -112,6 +113,8 @@ int CDlgEditWpt::exec()
     lineDesc->setText(wpt.getDescription());
 
     slotUpdateBarcode();
+
+    webView->setHtml(wpt.getExtInfo());
     return QDialog::exec();
 }
 

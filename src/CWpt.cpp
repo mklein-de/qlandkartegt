@@ -31,6 +31,25 @@
 
 QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
 
+const QString CWpt::html =  QObject::tr(""
+"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
+"<html>"
+"   <head>"
+"       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Typ' content='text/html; charset=utf-8'>"
+"       <style type='text/css'>"
+"           p, li { white-space: pre-wrap; }"
+"           td {padding-top: 10px;}"
+"           th {background-color: lightBlue;}"
+"       </style>"
+"   </head>"
+"   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
+"       <p>${info}</p>"
+"   </body>"
+"</html>"
+"");
+
+
 struct wpt_head_entry_t
 {
     wpt_head_entry_t() : type(CWpt::eEnd), offset(0) {}
@@ -364,9 +383,6 @@ QString CWpt::getInfo()
     return str;
 }
 
-
-
-
 const QString CWpt::filename(const QDir& dir)
 {
     QDateTime ts;
@@ -378,4 +394,24 @@ const QString CWpt::filename(const QDir& dir)
     str += ".wpt";
 
     return dir.filePath(str);
+}
+
+void CWpt::loadGpxExt(const QDomNode& wpt)
+{
+
+}
+
+void CWpt::saveGpxExt(QDomNode& wpt)
+{
+
+}
+
+QString CWpt::getExtInfo()
+{
+    QString info = tr("No additional information.");
+
+    QString cpytext = html;
+    cpytext = cpytext.replace("${info}", info);
+
+    return cpytext;
 }

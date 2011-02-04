@@ -32,6 +32,7 @@
 #define WPT_NOFLOAT 1e25f
 
 class CWptDB;
+class QDomNode;
 
 /// waypoint data object
 /**
@@ -91,6 +92,11 @@ class CWpt : public IItem
         void setIcon(const QString& str);
         QString getInfo();
 
+        QString getExtInfo();
+
+        void loadGpxExt(const QDomNode& wpt);
+        void saveGpxExt(QDomNode& wpt);
+
         // eBase: base information
     private:
         friend QDataStream& operator >>(QDataStream& s, CWpt& wpt);
@@ -100,6 +106,26 @@ class CWpt : public IItem
         friend class CWptDB;
         static QDir path;
 
+
+        struct geocache_t
+        {
+            geocache_t() : hasData(false), available(true), archived(false), difficulty(0), terrain(0){}
+            bool hasData;
+            bool available;
+            bool archived;
+            QString name;
+            QString owner;
+            QString type;
+            QString container;
+            quint8 difficulty;
+            quint8 terrain;
+            QString shortDesc;
+            QString longDesc;
+        };
+
+        geocache_t geocache;
+
+        static const QString html;
     public:
         quint32 sticky;
         float   lat;             ///< [deg]
@@ -115,7 +141,7 @@ class CWpt : public IItem
             QPixmap pixmap;
             QString filePath;
         };
-        QList<image_t> images;        
+        QList<image_t> images;
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

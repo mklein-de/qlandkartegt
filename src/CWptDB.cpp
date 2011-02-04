@@ -418,6 +418,8 @@ void CWptDB::loadGPX(CGpx& gpx)
             continue;
         }
 
+        wpt->loadGpxExt(waypoint);
+
         addWpt(wpt, true);
     }
 
@@ -530,6 +532,8 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 proximity.appendChild(_proximity_);
             }
         }
+
+        wpt->saveGpxExt(waypoint);
 
         ++_key;
     }
