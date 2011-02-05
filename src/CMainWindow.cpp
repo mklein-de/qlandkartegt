@@ -362,11 +362,22 @@ CMainWindow::CMainWindow()
 
     mostRecent = cfg.value("geodata/mostRecent",QStringList()).toStringList();
 
-    foreach(QString arg, qlOpts->arguments)
+    if(!qlOpts->arguments.isEmpty())
     {
-        loadData(arg, QString());
-    }
+        CSearchDB::self().clear();
+        CMapDB::self().clear();
+        CWptDB::self().clear();
+        CTrackDB::self().clear();
+        CDiaryDB::self().clear();
+        COverlayDB::self().clear();
+        CRouteDB::self().clear();
+        clear();
 
+        foreach(QString arg, qlOpts->arguments)
+        {
+            loadData(arg, QString());
+        }
+    }
     modified = false;
     setTitleBar();
 
@@ -756,7 +767,7 @@ void CMainWindow::slotAddData()
 {
     QProcess proc1;
     proc1.start(GPSBABEL " -V");
-    proc1.waitForFinished();    
+    proc1.waitForFinished();
     bool haveGPSBabel = proc1.error() == QProcess::UnknownError;
 
     QString formats;
