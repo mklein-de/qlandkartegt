@@ -43,6 +43,7 @@ class CGpx : public QObject, public QDomDocument
         static const QString gpxwpx_ns;
         static const QString rmc_ns;
         static const QString ql_ns;
+        static const QString gs_ns;
 
         enum gpx_version
         {

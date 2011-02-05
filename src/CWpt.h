@@ -33,6 +33,8 @@
 
 class CWptDB;
 class QDomNode;
+class QDomDocument;
+class QDomElement;
 
 /// waypoint data object
 /**
@@ -106,13 +108,16 @@ class CWpt : public IItem
         friend class CWptDB;
         static QDir path;
 
+        void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
+        QString getEntry(const QString& tag, QDomNode& parent);
 
         struct geocache_t
         {
-            geocache_t() : hasData(false), available(true), archived(false), difficulty(0), terrain(0){}
+            geocache_t() : hasData(false), available(true), archived(false), id(0), difficulty(0), terrain(0){}
             bool hasData;
             bool available;
             bool archived;
+            quint32 id;
             QString name;
             QString owner;
             QString type;

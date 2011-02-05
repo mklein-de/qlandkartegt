@@ -31,6 +31,9 @@ const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExte
 const QString CGpx::gpxwpx_ns = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
 const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
 const QString CGpx::ql_ns = "http://www.qlandkarte.org/xmlschemas/v1.1";
+const QString CGpx::gs_ns = "http://www.groundspeak.com/cache/1/0";
+
+
 
 uint qHash(QColor color)
 {
@@ -102,6 +105,7 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
+    root.setAttribute("xmlns:groundspeak",gs_ns);
     if (!export_flag)
     {
         root.setAttribute("xmlns:ql",ql_ns);

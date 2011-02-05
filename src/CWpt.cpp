@@ -23,6 +23,7 @@
 #include "IUnit.h"
 
 #include <QtCore>
+#include <QtXml>
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
@@ -396,13 +397,76 @@ const QString CWpt::filename(const QDir& dir)
     return dir.filePath(str);
 }
 
+QString CWpt::getEntry(const QString& tag, QDomNode& parent)
+{
+    if(parent.namedItem(tag).isElement())
+    {
+        return parent.namedItem(tag).toElement().text();
+    }
+
+    return "";
+}
+
 void CWpt::loadGpxExt(const QDomNode& wpt)
 {
+    QDomNode gpxCache = wpt.namedItem("cache");
 
+    geocache = geocache_t();
+
+    if(gpxCache.isNull())
+    {
+        return;
+    }
+    const QDomNamedNodeMap& attr = gpxCache.attributes();
+    geocache.id         = attr.namedItem("id").nodeValue().toInt();
+    geocache.archived   = attr.namedItem("archived").nodeValue().toLocal8Bit() == "True";
+    geocache.available  = attr.namedItem("available").nodeValue().toLocal8Bit() == "True";
+
+    geocache.name       = getEntry("name",gpxCache);
+    geocache.owner      = getEntry("placed_by",gpxCache);
+    geocache.type       = getEntry("type",gpxCache);
+    geocache.container  = getEntry("container",gpxCache);
+    geocache.difficulty = getEntry("difficulty",gpxCache).toInt();
+    geocache.terrain    = getEntry("terrain",gpxCache).toInt();
+
+    geocache.hasData = true;
+
+    qDebug() << "xxxxxxxxxx";
+}
+
+void CWpt::setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent)
+{
+    if(!val.isEmpty())
+    {
+        QDomElement element = gpx.createElement(tag);
+        parent.appendChild(element);
+        QDomText text = gpx.createTextNode(val);
+        element.appendChild(text);
+    }
 }
 
 void CWpt::saveGpxExt(QDomNode& wpt)
 {
+    if(!geocache.hasData)
+    {
+        return;
+    }
+    QDomDocument gpx       = wpt.ownerDocument();
+    QDomElement gpxCache   = gpx.createElement("groundspeak:cache");
+
+//    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
+    gpxCache.setAttribute("id", geocache.id);
+    gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
+    gpxCache.setAttribute("available", geocache.available ? "True" : "False");
+
+    setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
+    setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:type", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:container", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:difficulty", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:terrain", geocache.owner, gpx, gpxCache);
+
+    wpt.appendChild(gpxCache);
 
 }
 
