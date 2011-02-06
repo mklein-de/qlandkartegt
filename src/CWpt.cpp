@@ -42,6 +42,9 @@ const QString CWpt::html =  QObject::tr(""
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"
 "           th {background-color: lightBlue;}"
+"           h1 {color: #1E5E8F; font-size: 1.2em;}"
+"           h2 {color: #226AA0; font-size: 1em;}"
+"           body {color: #626262; font-size: 1em;}"
 "       </style>"
 "   </head>"
 "   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
@@ -835,12 +838,15 @@ QString CWpt::getExtInfo()
     if(geocache.hasData)
     {
         info  = "<h1>" + geocache.name + " by " + geocache.owner + "</h1>";
+        info += "<h2>" + geocache.shortDesc + "</h2>";
         info += "<p>";
         info += tr("<b>Type:</b> %1 <b>Container:</b> %2 ").arg(geocache.type).arg(geocache.container);
         info += tr("<b>Difficulty:</b> %1 <b>Terrain:</b> %2 ").arg(geocache.difficulty,0,'f',1).arg(geocache.terrain,0,'f',1);
         info += "</p>";
-        info += geocache.shortDesc;
+
         info += geocache.longDesc;
+
+        info += "<p><div style='background-color: #9BD6FF; font-weight: bold; padding: 3px;'>" + tr("There are %1 logs:").arg(geocache.logs.count()) + "</div></p>";
 
         foreach(const geocachelog_t& log, geocache.logs)
         {
