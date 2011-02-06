@@ -699,64 +699,132 @@ void CWpt::saveGpxExt(QDomNode& wpt)
         return;
     }
 
-//    QString str;
-//    QDomDocument gpx       = wpt.ownerDocument();
-//    QDomElement gpxCache   = gpx.createElement("groundspeak:cache");
 
-//    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
-//    gpxCache.setAttribute("id", geocache.id);
-//    gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
-//    gpxCache.setAttribute("available", geocache.available ? "True" : "False");
+    QDomDocument gpx = wpt.ownerDocument();
 
-//    setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
-//    setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
-//    setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
-//    setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
-//    str.sprintf("%1.1f", geocache.difficulty);
-//    setEntry("groundspeak:difficulty", str, gpx, gpxCache);
-//    str.sprintf("%1.1f", geocache.terrain);
-//    setEntry("groundspeak:terrain", str, gpx, gpxCache);
-//    setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
-//    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
-//    setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
+    if(geocache.service == eGC)
+    {
+        QDomElement gpxCache = gpx.createElement("groundspeak:cache");
+        saveGcExt(gpxCache);
+        wpt.appendChild(gpxCache);
+    }
+    else if(geocache.service == eOC)
+    {
+        QDomElement extensions;
 
-//    if(!geocache.logs.isEmpty())
-//    {
-//        QDomElement gpxLogs = gpx.createElement("groundspeak:logs");
-//        gpxCache.appendChild(gpxLogs);
+        if(wpt.namedItem("extensions").isElement())
+        {
+            extensions = wpt.namedItem("extensions").toElement();
+        }
+        else
+        {
+            extensions = gpx.createElement("extensions");
+        }
 
-//        foreach(const geocachelog_t& log, geocache.logs)
-//        {
-//            QDomElement gpxLog = gpx.createElement("groundspeak:log");
-//            gpxLogs.appendChild(gpxLog);
+        QDomElement gpxCache = gpx.createElement("cache");
+        extensions.appendChild(gpxCache);
+        saveOcExt(gpxCache);
 
-//            gpxLog.setAttribute("id", log.id);
-//            setEntry("date", log.date, gpx, gpxLog);
-//            setEntry("type", log.type, gpx, gpxLog);
-
-//            QDomElement finder = gpx.createElement("groundspeak:finder");
-//            gpxLog.appendChild(finder);
-
-//            QDomText _finder_ = gpx.createCDATASection(log.finder);
-//            finder.appendChild(_finder_);
-//            finder.setAttribute("id", log.finderId);
-
-//            setEntryHtml("text", log.text, gpx, gpxLog);
-//        }
-//    }
-
-//    wpt.appendChild(gpxCache);
-
+        wpt.appendChild(extensions);
+    }
 }
 
-void CWpt::saveGcExt(QDomNode& gpxCache)
+void CWpt::saveGcExt(QDomElement& gpxCache)
 {
+    QString str;
+    QDomDocument gpx       = gpxCache.ownerDocument();
 
+    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
+    gpxCache.setAttribute("id", geocache.id);
+    gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
+    gpxCache.setAttribute("available", geocache.available ? "True" : "False");
+
+    setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
+    setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
+    setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.difficulty);
+    setEntry("groundspeak:difficulty", str, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.terrain);
+    setEntry("groundspeak:terrain", str, gpx, gpxCache);
+    setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
+    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
+    setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
+
+    if(!geocache.logs.isEmpty())
+    {
+        QDomElement gpxLogs = gpx.createElement("groundspeak:logs");
+        gpxCache.appendChild(gpxLogs);
+
+        foreach(const geocachelog_t& log, geocache.logs)
+        {
+            QDomElement gpxLog = gpx.createElement("groundspeak:log");
+            gpxLogs.appendChild(gpxLog);
+
+            gpxLog.setAttribute("id", log.id);
+            setEntry("date", log.date, gpx, gpxLog);
+            setEntry("type", log.type, gpx, gpxLog);
+
+            QDomElement finder = gpx.createElement("groundspeak:finder");
+            gpxLog.appendChild(finder);
+
+            QDomText _finder_ = gpx.createCDATASection(log.finder);
+            finder.appendChild(_finder_);
+            finder.setAttribute("id", log.finderId);
+
+            setEntryHtml("text", log.text, gpx, gpxLog);
+        }
+    }
 }
 
-void CWpt::saveOcExt(QDomNode& gpxCache)
+void CWpt::saveOcExt(QDomElement& gpxCache)
 {
+    QString str;
+    QDomDocument gpx       = gpxCache.ownerDocument();
 
+    gpxCache.setAttribute("id", geocache.id);
+    gpxCache.setAttribute("status", geocache.status);
+    setEntry("name", geocache.name, gpx, gpxCache);
+    setEntry("owner", geocache.owner, gpx, gpxCache);
+    gpxCache.namedItem("owner").toElement().setAttribute("userid", geocache.ownerId);
+    setEntry("locale", geocache.locale, gpx, gpxCache);
+    setEntry("state", geocache.state, gpx, gpxCache);
+    setEntry("country", geocache.country, gpx, gpxCache);
+
+    setEntry("type", geocache.type, gpx, gpxCache);
+    setEntry("container", geocache.container, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.difficulty);
+    setEntry("difficulty", str, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.terrain);
+    setEntry("terrain", str, gpx, gpxCache);
+    setEntryHtml("short_description", geocache.shortDesc, gpx, gpxCache);
+    setEntryHtml("long_description", geocache.longDesc, gpx, gpxCache);
+    setEntry("encoded_hints", geocache.hint, gpx, gpxCache);
+
+    if(!geocache.logs.isEmpty())
+    {
+        QDomElement gpxLogs = gpx.createElement("logs");
+        gpxCache.appendChild(gpxLogs);
+
+        foreach(const geocachelog_t& log, geocache.logs)
+        {
+            QDomElement gpxLog = gpx.createElement("log");
+            gpxLogs.appendChild(gpxLog);
+
+            gpxLog.setAttribute("id", log.id);
+            setEntry("date", log.date, gpx, gpxLog);
+            setEntry("type", log.type, gpx, gpxLog);
+
+            QDomElement finder = gpx.createElement("finder");
+            gpxLog.appendChild(finder);
+
+            QDomText _finder_ = gpx.createCDATASection(log.finder);
+            finder.appendChild(_finder_);
+            finder.setAttribute("id", log.finderId);
+
+            setEntryHtml("text", log.text, gpx, gpxLog);
+        }
+    }
 }
 
 

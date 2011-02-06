@@ -110,8 +110,8 @@ class CWpt : public IItem
 
         void loadGcExt(const QDomNode& gpxCache);
         void loadOcExt(const QDomNode& gpxCache);
-        void saveGcExt(QDomNode& gpxCache);
-        void saveOcExt(QDomNode& gpxCache);
+        void saveGcExt(QDomElement& gpxCache);
+        void saveOcExt(QDomElement& gpxCache);
 
         void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
