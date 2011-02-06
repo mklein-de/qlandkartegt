@@ -154,18 +154,26 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 wpt.geocache = CWpt::geocache_t();
                 CWpt::geocache_t& cache = wpt.geocache;
 
+                s1 >> (quint8&)cache.service;
+                s1 >> cache.hasData;
+                s1 >> cache.id;
                 s1 >> cache.available;
                 s1 >> cache.archived;
-                s1 >> cache.id;
-                s1 >> cache.name;
-                s1 >> cache.owner;
-                s1 >> cache.type;
-                s1 >> cache.container;
                 s1 >> cache.difficulty;
                 s1 >> cache.terrain;
+                s1 >> cache.status;
+                s1 >> cache.name;
+                s1 >> cache.owner;
+                s1 >> cache.ownerId;
+                s1 >> cache.type;
+                s1 >> cache.container;
                 s1 >> cache.shortDesc;
                 s1 >> cache.longDesc;
                 s1 >> cache.hint;
+                s1 >> cache.country;
+                s1 >> cache.state;
+                s1 >> cache.locale;
+
                 s1 >> N;
 
                 for(n = 0; n < N; n++)
@@ -276,18 +284,26 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
         CWpt::geocache_t& cache = wpt.geocache;
 
+        s3 << (quint8)cache.service;
+        s3 << cache.hasData;
+        s3 << cache.id;
         s3 << cache.available;
         s3 << cache.archived;
-        s3 << cache.id;
-        s3 << cache.name;
-        s3 << cache.owner;
-        s3 << cache.type;
-        s3 << cache.container;
         s3 << cache.difficulty;
         s3 << cache.terrain;
+        s3 << cache.status;
+        s3 << cache.name;
+        s3 << cache.owner;
+        s3 << cache.ownerId;
+        s3 << cache.type;
+        s3 << cache.container;
         s3 << cache.shortDesc;
         s3 << cache.longDesc;
         s3 << cache.hint;
+        s3 << cache.country;
+        s3 << cache.state;
+        s3 << cache.locale;
+
         s3 << cache.logs.count();
 
         foreach(const CWpt::geocachelog_t& log, cache.logs)
@@ -495,7 +511,7 @@ QString CWpt::getEntryHtml(const QString& tag, const QDomNode& parent)
         const QDomElement& elem      = node.toElement();
         const QDomNamedNodeMap& attr = elem.attributes();
 
-        if(attr.namedItem("html").nodeValue().toLocal8Bit() == "True")
+        if(attr.namedItem("html").nodeValue().toLocal8Bit().toLower() == "true")
         {
             return elem.text();
         }
@@ -508,18 +524,47 @@ QString CWpt::getEntryHtml(const QString& tag, const QDomNode& parent)
 
 void CWpt::loadGpxExt(const QDomNode& wpt)
 {
-    QDomNode gpxCache = wpt.namedItem("cache");
-
     geocache = geocache_t();
 
+    QDomNode gpxCache = wpt.namedItem("cache");
     if(gpxCache.isNull())
     {
-        return;
+        const QDomNode& extension = wpt.namedItem("extensions");
+
+        gpxCache = extension.namedItem("cache");
+        if(gpxCache.isNull())
+        {
+            return;
+        }
+
+        loadOcExt(gpxCache);
     }
+    else
+    {
+        loadGcExt(gpxCache);
+    }
+}
+
+void CWpt::loadGcExt(const QDomNode& gpxCache)
+{
+    geocache.service = eGC;
     const QDomNamedNodeMap& attr = gpxCache.attributes();
-    geocache.id         = attr.namedItem("id").nodeValue().toInt();
+    geocache.id = attr.namedItem("id").nodeValue().toInt();
+
     geocache.archived   = attr.namedItem("archived").nodeValue().toLocal8Bit() == "True";
     geocache.available  = attr.namedItem("available").nodeValue().toLocal8Bit() == "True";
+    if(geocache.archived)
+    {
+        geocache.status = "Archived";
+    }
+    else if(geocache.available)
+    {
+        geocache.status = "Available";
+    }
+    else
+    {
+        geocache.status = "Not Available";
+    }
 
     geocache.name       = getEntry("name",gpxCache);
     geocache.owner      = getEntry("placed_by",gpxCache);
@@ -530,8 +575,10 @@ void CWpt::loadGpxExt(const QDomNode& wpt)
     geocache.shortDesc  = getEntryHtml("short_description",gpxCache);
     geocache.longDesc   = getEntryHtml("long_description",gpxCache);
     geocache.hint       = getEntry("encoded_hints",gpxCache);
+    geocache.country    = getEntry("country",gpxCache);
+    geocache.state      = getEntry("state",gpxCache);
 
-    const QDomNodeList& logs = wpt.toElement().elementsByTagName("log");
+    const QDomNodeList& logs = gpxCache.toElement().elementsByTagName("log");
     uint N = logs.count();
 
     for(uint n = 0; n < N; ++n)
@@ -557,6 +604,70 @@ void CWpt::loadGpxExt(const QDomNode& wpt)
     }
     geocache.hasData = true;
 }
+
+void CWpt::loadOcExt(const QDomNode& gpxCache)
+{
+    geocache.service = eOC;
+    const QDomNamedNodeMap& attr = gpxCache.attributes();
+    geocache.id = attr.namedItem("id").nodeValue().toInt();
+    geocache.status = attr.namedItem("status").nodeValue();
+    if(geocache.status == "Available")
+    {
+        geocache.available = true;
+        geocache.archived  = false;
+    }
+    else
+    {
+        geocache.available = false;
+        geocache.archived  = true;
+    }
+
+
+    geocache.name       = getEntry("name",gpxCache);
+    geocache.owner      = getEntry("owner",gpxCache);
+    {
+        const QDomNamedNodeMap& attr = gpxCache.namedItem("owner").attributes();
+        geocache.ownerId = attr.namedItem("userid").nodeValue();
+    }
+
+    geocache.type       = getEntry("type",gpxCache);
+    geocache.container  = getEntry("container",gpxCache);
+    geocache.difficulty = getEntry("difficulty",gpxCache).toFloat();
+    geocache.terrain    = getEntry("terrain",gpxCache).toFloat();
+    geocache.shortDesc  = getEntryHtml("short_description",gpxCache);
+    geocache.longDesc   = getEntryHtml("long_description",gpxCache);
+    geocache.hint       = getEntry("encoded_hints",gpxCache);
+    geocache.country    = getEntry("country",gpxCache);
+    geocache.state      = getEntry("state",gpxCache);
+    geocache.locale     = getEntry("locale",gpxCache);
+
+    const QDomNodeList& logs = gpxCache.toElement().elementsByTagName("log");
+    uint N = logs.count();
+
+    for(uint n = 0; n < N; ++n)
+    {
+        const QDomNode& log = logs.item(n);
+        const QDomNamedNodeMap& attr = log.attributes();
+
+        geocachelog_t geocachelog;
+        geocachelog.id      = attr.namedItem("id").nodeValue().toUInt();
+        geocachelog.date    = getEntry("date", log);
+        geocachelog.type    = getEntry("type", log);
+        if(log.namedItem("finder").isElement())
+        {
+            const QDomNamedNodeMap& attr = log.namedItem("finder").attributes();
+            geocachelog.finderId = attr.namedItem("id").nodeValue();
+        }
+
+        geocachelog.finder  = getEntry("finder", log);
+        geocachelog.text    = getEntryHtml("text", log);
+
+        geocache.logs << geocachelog;
+
+    }
+    geocache.hasData = true;
+}
+
 
 void CWpt::setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent)
 {
@@ -588,55 +699,66 @@ void CWpt::saveGpxExt(QDomNode& wpt)
         return;
     }
 
-    QString str;
-    QDomDocument gpx       = wpt.ownerDocument();
-    QDomElement gpxCache   = gpx.createElement("groundspeak:cache");
+//    QString str;
+//    QDomDocument gpx       = wpt.ownerDocument();
+//    QDomElement gpxCache   = gpx.createElement("groundspeak:cache");
 
-    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
-    gpxCache.setAttribute("id", geocache.id);
-    gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
-    gpxCache.setAttribute("available", geocache.available ? "True" : "False");
+//    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
+//    gpxCache.setAttribute("id", geocache.id);
+//    gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
+//    gpxCache.setAttribute("available", geocache.available ? "True" : "False");
 
-    setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
-    setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
-    setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
-    setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
-    str.sprintf("%1.1f", geocache.difficulty);
-    setEntry("groundspeak:difficulty", str, gpx, gpxCache);
-    str.sprintf("%1.1f", geocache.terrain);
-    setEntry("groundspeak:terrain", str, gpx, gpxCache);
-    setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
-    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
-    setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
+//    setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
+//    setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
+//    setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
+//    setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
+//    str.sprintf("%1.1f", geocache.difficulty);
+//    setEntry("groundspeak:difficulty", str, gpx, gpxCache);
+//    str.sprintf("%1.1f", geocache.terrain);
+//    setEntry("groundspeak:terrain", str, gpx, gpxCache);
+//    setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
+//    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
+//    setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
 
-    if(!geocache.logs.isEmpty())
-    {
-        QDomElement gpxLogs = gpx.createElement("groundspeak:logs");
-        gpxCache.appendChild(gpxLogs);
+//    if(!geocache.logs.isEmpty())
+//    {
+//        QDomElement gpxLogs = gpx.createElement("groundspeak:logs");
+//        gpxCache.appendChild(gpxLogs);
 
-        foreach(const geocachelog_t& log, geocache.logs)
-        {
-            QDomElement gpxLog = gpx.createElement("groundspeak:log");
-            gpxLogs.appendChild(gpxLog);
+//        foreach(const geocachelog_t& log, geocache.logs)
+//        {
+//            QDomElement gpxLog = gpx.createElement("groundspeak:log");
+//            gpxLogs.appendChild(gpxLog);
 
-            gpxLog.setAttribute("id", log.id);
-            setEntry("date", log.date, gpx, gpxLog);
-            setEntry("type", log.type, gpx, gpxLog);
+//            gpxLog.setAttribute("id", log.id);
+//            setEntry("date", log.date, gpx, gpxLog);
+//            setEntry("type", log.type, gpx, gpxLog);
 
-            QDomElement finder = gpx.createElement("groundspeak:finder");
-            gpxLog.appendChild(finder);
+//            QDomElement finder = gpx.createElement("groundspeak:finder");
+//            gpxLog.appendChild(finder);
 
-            QDomText _finder_ = gpx.createCDATASection(log.finder);
-            finder.appendChild(_finder_);
-            finder.setAttribute("id", log.finderId);
+//            QDomText _finder_ = gpx.createCDATASection(log.finder);
+//            finder.appendChild(_finder_);
+//            finder.setAttribute("id", log.finderId);
 
-            setEntryHtml("text", log.text, gpx, gpxLog);
-        }
-    }
+//            setEntryHtml("text", log.text, gpx, gpxLog);
+//        }
+//    }
 
-    wpt.appendChild(gpxCache);
+//    wpt.appendChild(gpxCache);
 
 }
+
+void CWpt::saveGcExt(QDomNode& gpxCache)
+{
+
+}
+
+void CWpt::saveOcExt(QDomNode& gpxCache)
+{
+
+}
+
 
 QString CWpt::getExtInfo()
 {

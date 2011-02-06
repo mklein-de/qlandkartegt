@@ -108,6 +108,11 @@ class CWpt : public IItem
         friend class CWptDB;
         static QDir path;
 
+        void loadGcExt(const QDomNode& gpxCache);
+        void loadOcExt(const QDomNode& gpxCache);
+        void saveGcExt(QDomNode& gpxCache);
+        void saveOcExt(QDomNode& gpxCache);
+
         void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         QString getEntry(const QString& tag, const QDomNode& parent);
@@ -124,22 +129,30 @@ class CWpt : public IItem
             QString text;
         };
 
+        enum geocacheservice_e {eGC, eOC, eTC};
+
         struct geocache_t
         {
-            geocache_t() : hasData(false), available(true), archived(false), id(0), difficulty(0), terrain(0){}
+            geocache_t() : service(eOC), hasData(false), id(0), available(true), archived(false), difficulty(0), terrain(0){}
+            geocacheservice_e service;
             bool hasData;
+            quint32 id;
             bool available;
             bool archived;
-            quint32 id;
-            QString name;
-            QString owner;
-            QString type;
-            QString container;
             float difficulty;
             float terrain;
+            QString status;
+            QString name;
+            QString owner;
+            QString ownerId;
+            QString type;
+            QString container;
             QString shortDesc;
             QString longDesc;
             QString hint;
+            QString country;
+            QString state;
+            QString locale;
             QList<geocachelog_t> logs;
         };
 
