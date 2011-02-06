@@ -442,8 +442,9 @@ void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
     {
         QList<QUrl> urls = event->mimeData()->urls();
         QFileInfo fi(urls[0].path());
+        QString ext = fi.suffix().toUpper();
 
-        if(fi.suffix() == "gpx")
+        if ( (ext == "QLB") || (ext == "GPX") || (ext == "TCX") )
         {
             event->acceptProposedAction();
         }

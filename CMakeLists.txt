@@ -47,7 +47,11 @@ include(DefineOptions.cmake)
 include(CPackConfig.cmake)
 
 # config.h generation
+if (NOT WIN32)
 SET (NATIVE_FILE_DIALOG ON CACHE BOOL "Use OS native file dialog")
+else (NOT WIN32)
+SET (NATIVE_FILE_DIALOG OFF CACHE BOOL "Use OS native file dialog")
+endif (NOT WIN32)
 
 if(NATIVE_FILE_DIALOG)
     set(FILEDIALOGFLAGS "0")

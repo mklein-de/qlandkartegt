@@ -473,8 +473,11 @@ void CMapJnx::draw()
 
 
     QByteArray data(1024*1024*4,0);
-    data[0] = 0xFF;
-    data[1] = 0xD8;
+    //(char) typecast needed to avoid MSVC compiler warning
+    //in MSVC, char is a signed type. 
+    //Maybe the QByteArray declaration should be fixed ;-)
+    data[0] = (char) 0xFF; 
+    data[1] = (char) 0xD8; 
     char * pData = data.data() + 2;
 
     QImage image;
