@@ -105,7 +105,7 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
-    root.setAttribute("xmlns:groundspeak",gs_ns);
+//    root.setAttribute("xmlns:groundspeak",gs_ns);
     if (!export_flag)
     {
         root.setAttribute("xmlns:ql",ql_ns);

@@ -105,7 +105,14 @@ int CDlgEditWpt::exec()
     if(!link.isEmpty())
     {
         QString str;
-        str = "<a href='" + link + "'>" + link + "</a>";
+        if(link.count() < 50)
+        {
+            str = "<a href='" + link + "'>" + link + "</a>";
+        }
+        else
+        {
+            str = "<a href='" + link + "'>" + link.left(47) + "...</a>";
+        }
         labelLink->setText(str);
     }
 

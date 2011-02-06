@@ -397,11 +397,30 @@ const QString CWpt::filename(const QDir& dir)
     return dir.filePath(str);
 }
 
-QString CWpt::getEntry(const QString& tag, QDomNode& parent)
+QString CWpt::getEntry(const QString& tag, const QDomNode& parent)
 {
     if(parent.namedItem(tag).isElement())
     {
         return parent.namedItem(tag).toElement().text();
+    }
+
+    return "";
+}
+
+QString CWpt::getEntryHtml(const QString& tag, const QDomNode& parent)
+{
+    const QDomNode node = parent.namedItem(tag);
+    if(node.isElement())
+    {
+        const QDomElement& elem      = node.toElement();
+        const QDomNamedNodeMap& attr = elem.attributes();
+
+        if(attr.namedItem("html").nodeValue().toLocal8Bit() == "True")
+        {
+            return elem.text();
+        }
+
+        return "<p>" + elem.text() + "</p>";
     }
 
     return "";
@@ -426,9 +445,36 @@ void CWpt::loadGpxExt(const QDomNode& wpt)
     geocache.owner      = getEntry("placed_by",gpxCache);
     geocache.type       = getEntry("type",gpxCache);
     geocache.container  = getEntry("container",gpxCache);
-    geocache.difficulty = getEntry("difficulty",gpxCache).toInt();
-    geocache.terrain    = getEntry("terrain",gpxCache).toInt();
+    geocache.difficulty = getEntry("difficulty",gpxCache).toFloat();
+    geocache.terrain    = getEntry("terrain",gpxCache).toFloat();
+    geocache.shortDesc  = getEntryHtml("short_description",gpxCache);
+    geocache.longDesc   = getEntryHtml("long_description",gpxCache);
+    geocache.hint       = getEntry("encoded_hints",gpxCache);
 
+    const QDomNodeList& logs = wpt.toElement().elementsByTagName("log");
+    uint N = logs.count();
+
+    for(uint n = 0; n < N; ++n)
+    {
+        const QDomNode& log = logs.item(n);
+        const QDomNamedNodeMap& attr = log.attributes();
+
+        geocachelog_t geocachelog;
+        geocachelog.id      = attr.namedItem("id").nodeValue().toUInt();
+        geocachelog.date    = getEntry("date", log);
+        geocachelog.type    = getEntry("type", log);
+        if(log.namedItem("finder").isElement())
+        {
+            const QDomNamedNodeMap& attr = log.namedItem("finder").attributes();
+            geocachelog.finderId = attr.namedItem("id").nodeValue();
+        }
+
+        geocachelog.finder  = getEntry("finder", log);
+        geocachelog.text    = getEntryHtml("text", log);
+
+        geocache.logs << geocachelog;
+
+    }
     geocache.hasData = true;
 
     qDebug() << "xxxxxxxxxx";
@@ -445,26 +491,70 @@ void CWpt::setEntry(const QString& tag, const QString& val, QDomDocument& gpx, Q
     }
 }
 
+void CWpt::setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent)
+{
+    if(!val.isEmpty())
+    {
+        QDomElement element = gpx.createElement(tag);
+        parent.appendChild(element);
+        QDomText text = gpx.createCDATASection(val);
+        element.appendChild(text);
+        element.setAttribute("html","True");
+    }
+}
+
 void CWpt::saveGpxExt(QDomNode& wpt)
 {
     if(!geocache.hasData)
     {
         return;
     }
+
+    QString str;
     QDomDocument gpx       = wpt.ownerDocument();
     QDomElement gpxCache   = gpx.createElement("groundspeak:cache");
 
-//    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
+    gpxCache.setAttribute("xmlns:groundspeak", "http://www.groundspeak.com/cache/1/0");
     gpxCache.setAttribute("id", geocache.id);
     gpxCache.setAttribute("archived", geocache.archived ? "True" : "False");
     gpxCache.setAttribute("available", geocache.available ? "True" : "False");
 
     setEntry("groundspeak:name", geocache.name, gpx, gpxCache);
     setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
-    setEntry("groundspeak:type", geocache.owner, gpx, gpxCache);
-    setEntry("groundspeak:container", geocache.owner, gpx, gpxCache);
-    setEntry("groundspeak:difficulty", geocache.owner, gpx, gpxCache);
-    setEntry("groundspeak:terrain", geocache.owner, gpx, gpxCache);
+    setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
+    setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.difficulty);
+    setEntry("groundspeak:difficulty", str, gpx, gpxCache);
+    str.sprintf("%1.1f", geocache.terrain);
+    setEntry("groundspeak:terrain", str, gpx, gpxCache);
+    setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
+    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
+    setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
+
+    if(!geocache.logs.isEmpty())
+    {
+        QDomElement gpxLogs = gpx.createElement("groundspeak:logs");
+        gpxCache.appendChild(gpxLogs);
+
+        foreach(const geocachelog_t& log, geocache.logs)
+        {
+            QDomElement gpxLog = gpx.createElement("groundspeak:log");
+            gpxLogs.appendChild(gpxLog);
+
+            gpxLog.setAttribute("id", log.id);
+            setEntry("date", log.date, gpx, gpxLog);
+            setEntry("type", log.type, gpx, gpxLog);
+
+            QDomElement finder = gpx.createElement("groundspeak:finder");
+            gpxLog.appendChild(finder);
+
+            QDomText _finder_ = gpx.createCDATASection(log.finder);
+            finder.appendChild(_finder_);
+            finder.setAttribute("id", log.finderId);
+
+            setEntryHtml("text", log.text, gpx, gpxLog);
+        }
+    }
 
     wpt.appendChild(gpxCache);
 
@@ -473,6 +563,26 @@ void CWpt::saveGpxExt(QDomNode& wpt)
 QString CWpt::getExtInfo()
 {
     QString info = tr("No additional information.");
+
+    if(geocache.hasData)
+    {
+        info  = "<h1>" + geocache.name + " by " + geocache.owner + "</h1>";
+        info += "<p>";
+        info += tr("<b>Type:</b> %1 <b>Container:</b> %2 ").arg(geocache.type).arg(geocache.container);
+        info += tr("<b>Difficulty:</b> %1 <b>Terrain:</b> %2 ").arg(geocache.difficulty,0,'f',1).arg(geocache.terrain,0,'f',1);
+        info += "</p>";
+        info += geocache.shortDesc;
+        info += geocache.longDesc;
+
+        foreach(const geocachelog_t& log, geocache.logs)
+        {
+            info += "<p>";
+            info += "<p>" + log.date + " " + log.finder + " " + log.type + "<p>";
+            info += log.text;
+            info += "</p>";
+        }
+
+    }
 
     QString cpytext = html;
     cpytext = cpytext.replace("${info}", info);

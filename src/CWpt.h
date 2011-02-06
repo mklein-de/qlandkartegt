@@ -109,7 +109,20 @@ class CWpt : public IItem
         static QDir path;
 
         void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
-        QString getEntry(const QString& tag, QDomNode& parent);
+        void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
+        QString getEntry(const QString& tag, const QDomNode& parent);
+        QString getEntryHtml(const QString& tag, const QDomNode& parent);
+
+        struct geocachelog_t
+        {
+            geocachelog_t() : id(0){}
+            quint32 id;
+            QString date;
+            QString type;
+            QString finderId;
+            QString finder;
+            QString text;
+        };
 
         struct geocache_t
         {
@@ -122,10 +135,12 @@ class CWpt : public IItem
             QString owner;
             QString type;
             QString container;
-            quint8 difficulty;
-            quint8 terrain;
+            float difficulty;
+            float terrain;
             QString shortDesc;
             QString longDesc;
+            QString hint;
+            QList<geocachelog_t> logs;
         };
 
         geocache_t geocache;
