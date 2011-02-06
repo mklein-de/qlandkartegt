@@ -88,7 +88,7 @@ class CWpt : public IItem
         virtual ~CWpt();
 
         const QString filename(const QDir& dir = CWpt::path);
-        enum type_e {eEnd,eBase,eImage};
+        enum type_e {eEnd,eBase,eImage,eGeoCache};
         static QDir& getWptPath(){return path;}
 
         void setIcon(const QString& str);

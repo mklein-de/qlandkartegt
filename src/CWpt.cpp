@@ -146,6 +146,47 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 break;
             }
 
+            case CWpt::eGeoCache:
+            {
+                quint32 N, n;
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+                wpt.geocache = CWpt::geocache_t();
+                CWpt::geocache_t& cache = wpt.geocache;
+
+                s1 >> cache.available;
+                s1 >> cache.archived;
+                s1 >> cache.id;
+                s1 >> cache.name;
+                s1 >> cache.owner;
+                s1 >> cache.type;
+                s1 >> cache.container;
+                s1 >> cache.difficulty;
+                s1 >> cache.terrain;
+                s1 >> cache.shortDesc;
+                s1 >> cache.longDesc;
+                s1 >> cache.hint;
+                s1 >> N;
+
+                for(n = 0; n < N; n++)
+                {
+                    CWpt::geocachelog_t log;
+
+                    s1 >> log.id;
+                    s1 >> log.date;
+                    s1 >> log.type;
+                    s1 >> log.finderId;
+                    s1 >> log.finder;
+                    s1 >> log.text;
+
+                    cache.logs << log;
+                }
+
+                cache.hasData = true;
+
+                break;
+            }
+
             default:;
         }
 
@@ -222,6 +263,45 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
 
     entries << entryImage;
 
+    //---------------------------------------
+    // prepare geocache data
+    //---------------------------------------
+    if(wpt.geocache.hasData)
+    {
+
+        wpt_head_entry_t entryGeoCache;
+        entryGeoCache.type = CWpt::eGeoCache;
+        QDataStream s3(&entryGeoCache.data, QIODevice::WriteOnly);
+        s3.setVersion(QDataStream::Qt_4_5);
+
+        CWpt::geocache_t& cache = wpt.geocache;
+
+        s3 << cache.available;
+        s3 << cache.archived;
+        s3 << cache.id;
+        s3 << cache.name;
+        s3 << cache.owner;
+        s3 << cache.type;
+        s3 << cache.container;
+        s3 << cache.difficulty;
+        s3 << cache.terrain;
+        s3 << cache.shortDesc;
+        s3 << cache.longDesc;
+        s3 << cache.hint;
+        s3 << cache.logs.count();
+
+        foreach(const CWpt::geocachelog_t& log, cache.logs)
+        {
+            s3 << log.id;
+            s3 << log.date;
+            s3 << log.type;
+            s3 << log.finderId;
+            s3 << log.finder;
+            s3 << log.text;
+        }
+
+        entries << entryGeoCache;
+    }
     //---------------------------------------
     // prepare terminator
     //---------------------------------------
@@ -476,8 +556,6 @@ void CWpt::loadGpxExt(const QDomNode& wpt)
 
     }
     geocache.hasData = true;
-
-    qDebug() << "xxxxxxxxxx";
 }
 
 void CWpt::setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent)
