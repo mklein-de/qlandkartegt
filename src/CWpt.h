@@ -96,6 +96,8 @@ class CWpt : public IItem
 
         QString getExtInfo();
 
+        QPixmap getIcon();
+
         void loadGpxExt(const QDomNode& wpt);
         void saveGpxExt(QDomNode& wpt);
 

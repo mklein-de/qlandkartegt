@@ -104,6 +104,10 @@ void initWptIcons()
     dirIcon.mkdir("WaypointIcons");
     dirIcon.cd("WaypointIcons");
 
+    QImage(":/icons/cache/traditional.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Traditional Cache.png"));
+    QImage(":/icons/cache/multi.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Multi-cache.png"));
+    QImage(":/icons/cache/unknown.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Unknown Cache.png"));
+
 
     QString filename;
     QStringList filenames = dirIcon.entryList(QDir::Files);

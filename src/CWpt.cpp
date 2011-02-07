@@ -404,8 +404,6 @@ void operator <<(QFile& f, CWpt& wpt)
 CWpt::CWpt(CWptDB * parent)
 : IItem(parent)
 , sticky(false)
-//, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-//, icon("")
 , lat(1000)
 , lon(1000)
 , ele(WPT_NOFLOAT)
@@ -424,6 +422,16 @@ void CWpt::setIcon(const QString& str)
 {
     iconString = str;
     iconPixmap = getWptIconByName(str);
+}
+
+QPixmap CWpt::getIcon()
+{
+    if(geocache.hasData)
+    {
+        return getWptIconByName(geocache.type);
+    }
+
+    return iconPixmap;
 }
 
 QString CWpt::getInfo()

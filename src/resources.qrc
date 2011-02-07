@@ -464,5 +464,8 @@
         <file>webstuff/frame_right.png</file>
         <file>webstuff/frame_top.png</file>
         <file>webstuff/frame_top_left.png</file>
+        <file>icons/cache/traditional.svg</file>
+        <file>icons/cache/multi.svg</file>
+        <file>icons/cache/unknown.svg</file>
     </qresource>
 </RCC>
