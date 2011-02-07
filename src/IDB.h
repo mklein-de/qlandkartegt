@@ -21,6 +21,7 @@
 #define IDB_H
 
 #include <QObject>
+#include <QDateTime>
 
 class QTabWidget;
 class QWidget;
@@ -70,6 +71,8 @@ class IDB : public QObject
         virtual void draw(QPainter& p, const QRect& rect, bool& needsRedraw){}
 
         virtual void makeVisible(const QStringList& keys){}
+
+        static QDateTime parseTimestamp(const QString &timetext, int& tzoffset);
 
         void emitSigChanged(){emit sigChanged();}
     signals:

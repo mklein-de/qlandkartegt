@@ -54,6 +54,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
 
+    connect(webView, SIGNAL(linkClicked( const QUrl&)), this, SLOT(slotOpenLink(const QUrl&)));
 }
 
 
@@ -122,6 +123,7 @@ int CDlgEditWpt::exec()
     slotUpdateBarcode();
 
     webView->setHtml(wpt.getExtInfo());
+    webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
     return QDialog::exec();
 }
 
@@ -266,6 +268,10 @@ void CDlgEditWpt::showImage(int idx)
     }
 }
 
+void CDlgEditWpt::slotOpenLink(const QUrl& url)
+{
+    CResources::self().openLink(url.toString());
+}
 
 void CDlgEditWpt::slotOpenLink(const QString& link)
 {

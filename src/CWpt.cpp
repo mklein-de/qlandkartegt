@@ -33,7 +33,7 @@
 
 QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
 
-const QString CWpt::html =  QObject::tr(""
+const QString CWpt::html =  ""
 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
 "<html>"
 "   <head>"
@@ -60,8 +60,7 @@ const QString CWpt::html =  QObject::tr(""
 "   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
 "       <p>${info}</p>"
 "   </body>"
-"</html>"
-"");
+"</html>";
 
 const QString CWpt::htmlFrame = ""
 "<div class='t'><div class='b'><div class='l'><div class='r'><div class='bl'><div class='br'><div class='tl'><div class='tr'>"
@@ -862,14 +861,16 @@ QString CWpt::getExtInfo()
 
         info += geocache.longDesc;
 
-        info += "<p><div style='background-color: #9BD6FF; font-weight: bold; padding: 3px;'>" + tr("There are %1 logs:").arg(geocache.logs.count()) + "</div></p>";
-
         foreach(const geocachelog_t& log, geocache.logs)
         {
+            int tzoffset;
             QString tmp;
+            QDateTime date = IDB::parseTimestamp(log.date, tzoffset);
+
             tmp  = "<div style='color: black; font-weight: bold;'>";
-            tmp += log.date + " " + log.finder + " " + log.type + "</div>";
-            tmp += "<br/><br/>" + log.text;
+            tmp += date.date().toString() + " " + log.finder + " " + log.type;
+            tmp += "</div>";
+            tmp += log.text;
 
             info += "<p>" + htmlFrame.arg(tmp) + "</p>";
         }

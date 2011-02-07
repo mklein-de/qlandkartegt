@@ -46,12 +46,12 @@ void IDB::gainFocus()
     }
 }
 
-static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
-                                bool do_msec, quint32 &tstamp_msec)
+QDateTime IDB::parseTimestamp(const QString &timetext, int& tzoffset)
 {
      const QRegExp tzRE("[-+]\\d\\d:\\d\\d$");
-     int tzoffset = 0;
      int i;
+
+     tzoffset = 0;
 
      QString format = "yyyy-MM-dd'T'hh:mm:ss";
      if (timetext.indexOf(".") != -1) format += ".zzz";
@@ -89,22 +89,33 @@ static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
 
      QDateTime datetime = QDateTime::fromString(timetext, format);
 
-     if (!datetime.isValid())
-     {
-          return false;
-     }
+     return datetime;
+}
 
-     datetime.setTimeSpec(Qt::UTC);
 
-     tstamp = datetime.toTime_t();
-     tstamp -= tzoffset;
+static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
+                                bool do_msec, quint32 &tstamp_msec)
+{
 
-     if (do_msec)
-     {
-          tstamp_msec = datetime.time().msec();
-     }
+    int tzoffset;
+    QDateTime datetime = IDB::parseTimestamp(timetext, tzoffset);
 
-     return true;
+    if (!datetime.isValid())
+    {
+      return false;
+    }
+
+    datetime.setTimeSpec(Qt::UTC);
+
+    tstamp = datetime.toTime_t();
+    tstamp -= tzoffset;
+
+    if (do_msec)
+    {
+      tstamp_msec = datetime.time().msec();
+    }
+
+    return true;
 }
 
 bool IDB::parseTimestamp(const QString &time, quint32 &tstamp)
