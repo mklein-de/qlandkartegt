@@ -148,6 +148,20 @@ CResources::CResources(QObject * parent)
     m_useAntiAliasing = cfg.value("environment/useAntiAliasing",m_useAntiAliasing).toBool();
 
     m_WptTextColor = QColor(cfg.value("environment/wptTextColor", m_WptTextColor.name()).toString());
+
+    QDir dirWeb(QDir::home().filePath(CONFIGDIR));
+    dirWeb.mkdir("WebStuff");
+    dirWeb.cd("WebStuff");
+
+    QPixmap(":/webstuff/frame_top.png").save(dirWeb.filePath("frame_top.png"));
+    QPixmap(":/webstuff/frame_bottom.png").save(dirWeb.filePath("frame_bottom.png"));
+    QPixmap(":/webstuff/frame_left.png").save(dirWeb.filePath("frame_left.png"));
+    QPixmap(":/webstuff/frame_right.png").save(dirWeb.filePath("frame_right.png"));
+    QPixmap(":/webstuff/frame_top_left.png").save(dirWeb.filePath("frame_top_left.png"));
+    QPixmap(":/webstuff/frame_top_right.png").save(dirWeb.filePath("frame_top_right.png"));
+    QPixmap(":/webstuff/frame_bottom_left.png").save(dirWeb.filePath("frame_bottom_left.png"));
+    QPixmap(":/webstuff/frame_bottom_right.png").save(dirWeb.filePath("frame_bottom_right.png"));
+
 }
 
 

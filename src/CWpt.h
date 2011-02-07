@@ -159,6 +159,7 @@ class CWpt : public IItem
         geocache_t geocache;
 
         static const QString html;
+        static const QString htmlFrame;
     public:
         quint32 sticky;
         float   lat;             ///< [deg]

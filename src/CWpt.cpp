@@ -21,6 +21,7 @@
 #include "CWptDB.h"
 #include "WptIcons.h"
 #include "IUnit.h"
+#include "config.h"
 
 #include <QtCore>
 #include <QtXml>
@@ -45,6 +46,15 @@ const QString CWpt::html =  QObject::tr(""
 "           h1 {color: #1E5E8F; font-size: 1.2em;}"
 "           h2 {color: #226AA0; font-size: 1em;}"
 "           body {color: #626262; font-size: 1em;}"
+"           .t {background: url(%1/frame_top.png) 0 0 repeat-x; width: 30em;}"
+"           .b {background: url(%1/frame_bottom.png) 0 100% repeat-x}"
+"           .l {background: url(%1/frame_left.png) 0 0 repeat-y}"
+"           .r {background: url(%1/frame_right.png) 100% 0 repeat-y}"
+"           .bl {background: url(%1/frame_bottom_left.png) 0 100% no-repeat}"
+"           .br {background: url(%1/frame_bottom_right.png) 100% 100% no-repeat}"
+"           .tl {background: url(%1/frame_top_left.png) 0 0 no-repeat}"
+"           .tr {background: url(%1/frame_top_right.png) 100% 0 no-repeat; padding:10px}"
+""
 "       </style>"
 "   </head>"
 "   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
@@ -52,6 +62,11 @@ const QString CWpt::html =  QObject::tr(""
 "   </body>"
 "</html>"
 "");
+
+const QString CWpt::htmlFrame = ""
+"<div class='t'><div class='b'><div class='l'><div class='r'><div class='bl'><div class='br'><div class='tl'><div class='tr'>"
+"%1"
+"</div></div></div></div></div></div></div></div>";
 
 
 struct wpt_head_entry_t
@@ -444,11 +459,11 @@ QString CWpt::getInfo()
         if(str.count()) str += "\n";
         if(link.count() < 50)
         {
-            str += "http://" + link;
+            str += link;
         }
         else
         {
-            str += "http://" + link.left(47) + "...";
+            str += link.left(47) + "...";
         }
     }
 
@@ -833,6 +848,7 @@ void CWpt::saveOcExt(QDomElement& gpxCache)
 
 QString CWpt::getExtInfo()
 {
+    QDir dirWeb(QDir::home().filePath(CONFIGDIR  "WebStuff"));
     QString info = tr("No additional information.");
 
     if(geocache.hasData)
@@ -850,15 +866,17 @@ QString CWpt::getExtInfo()
 
         foreach(const geocachelog_t& log, geocache.logs)
         {
-            info += "<p>";
-            info += "<p>" + log.date + " " + log.finder + " " + log.type + "<p>";
-            info += log.text;
-            info += "</p>";
+            QString tmp;
+            tmp  = "<div style='color: black; font-weight: bold;'>";
+            tmp += log.date + " " + log.finder + " " + log.type + "</div>";
+            tmp += "<br/><br/>" + log.text;
+
+            info += "<p>" + htmlFrame.arg(tmp) + "</p>";
         }
 
     }
 
-    QString cpytext = html;
+    QString cpytext = html.arg("file://" + dirWeb.path());
     cpytext = cpytext.replace("${info}", info);
 
     return cpytext;

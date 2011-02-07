@@ -456,5 +456,13 @@
         <file>icons/small_bullet_orange.png</file>
         <file>icons/qlandkartegt.png</file>
         <file>icons/iconAddPointEnd16x16.png</file>
+        <file>webstuff/frame_top_right.png</file>
+        <file>webstuff/frame_bottom.png</file>
+        <file>webstuff/frame_bottom_left.png</file>
+        <file>webstuff/frame_bottom_right.png</file>
+        <file>webstuff/frame_left.png</file>
+        <file>webstuff/frame_right.png</file>
+        <file>webstuff/frame_top.png</file>
+        <file>webstuff/frame_top_left.png</file>
     </qresource>
 </RCC>
