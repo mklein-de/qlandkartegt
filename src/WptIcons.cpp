@@ -107,6 +107,10 @@ void initWptIcons()
     QImage(":/icons/cache/traditional.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Traditional Cache.png"));
     QImage(":/icons/cache/multi.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Multi-cache.png"));
     QImage(":/icons/cache/unknown.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Unknown Cache.png"));
+    QImage(":/icons/cache/wherigo.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Wherigo Cache.png"));
+    QImage(":/icons/cache/event.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Event Cache.png"));
+    QImage(":/icons/cache/earth.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Earthcache.png"));
+    QImage(":/icons/cache/letterbox.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Letterbox Hybrid.png"));
 
 
     QString filename;

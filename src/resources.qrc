@@ -467,5 +467,9 @@
         <file>icons/cache/traditional.svg</file>
         <file>icons/cache/multi.svg</file>
         <file>icons/cache/unknown.svg</file>
+        <file>icons/cache/wherigo.svg</file>
+        <file>icons/cache/event.svg</file>
+        <file>icons/cache/earth.svg</file>
+        <file>icons/cache/letterbox.svg</file>
     </qresource>
 </RCC>
