@@ -412,7 +412,7 @@ void CWptDB::loadGPX(CGpx& gpx)
             }
         }
 
-        if(wpt->lat == 1000 || wpt->lon == 1000 || wpt->name.isEmpty())
+        if(wpt->lat == 1000 || wpt->lon == 1000 || (wpt->name.isEmpty() && wpt->comment.isEmpty()))
         {
             delete wpt;
             continue;
