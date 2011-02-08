@@ -119,6 +119,7 @@ class CWpt : public IItem
         void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         QString getEntry(const QString& tag, const QDomNode& parent);
         QString getEntryHtml(const QString& tag, const QDomNode& parent);
+        QString htmlScale(float val);
 
         struct geocachelog_t
         {

@@ -474,5 +474,6 @@
         <file>icons/cache/Virtual Cache.png</file>
         <file>icons/cache/Webcam Cache.png</file>
         <file>icons/cache/found8x8.png</file>
+        <file>webstuff/scale.png</file>
     </qresource>
 </RCC>

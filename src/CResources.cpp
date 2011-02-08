@@ -161,6 +161,7 @@ CResources::CResources(QObject * parent)
     QPixmap(":/webstuff/frame_top_right.png").save(dirWeb.filePath("frame_top_right.png"));
     QPixmap(":/webstuff/frame_bottom_left.png").save(dirWeb.filePath("frame_bottom_left.png"));
     QPixmap(":/webstuff/frame_bottom_right.png").save(dirWeb.filePath("frame_bottom_right.png"));
+    QPixmap(":/webstuff/scale.png").save(dirWeb.filePath("scale.png"));
 
 }
 

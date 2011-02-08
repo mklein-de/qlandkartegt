@@ -54,7 +54,8 @@ const QString CWpt::html =  ""
 "           .br {background: url(%1/frame_bottom_right.png) 100% 100% no-repeat}"
 "           .tl {background: url(%1/frame_top_left.png) 0 0 no-repeat}"
 "           .tr {background: url(%1/frame_top_right.png) 100% 0 no-repeat; padding:10px}"
-""
+"           .scale1{ display: inline-block; background: url(%1/scale.png) 0 0.20em no-repeat;}"
+"           .scale0{ display: inline-block; }"
 "       </style>"
 "   </head>"
 "   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
@@ -878,9 +879,10 @@ QString CWpt::getExtInfo()
         info  = "<h1>" + geocache.name + " by " + geocache.owner + "</h1>";
         info += "<h2>" + geocache.shortDesc + "</h2>";
         info += "<p>";
-        info += tr("<b>Type:</b> %1 <b>Container:</b> %2 ").arg(geocache.type).arg(geocache.container);
-        info += tr("<b>Difficulty:</b> %1 <b>Terrain:</b> %2 ").arg(geocache.difficulty,0,'f',1).arg(geocache.terrain,0,'f',1);
-        info += "</p>";
+        info += tr("<div><b>Type:</b> %1 <b>Container:</b> %2 ").arg(geocache.type).arg(geocache.container);
+        info += tr("<b>D:</b> %1 <b>T:</b> %2 ").arg(htmlScale(geocache.difficulty)).arg(htmlScale(geocache.terrain));
+        info += "</div></p>";
+
 
         info += geocache.longDesc;
 
@@ -903,5 +905,12 @@ QString CWpt::getExtInfo()
     QString cpytext = html.arg(QUrl::fromLocalFile(dirWeb.path()).toString());
     cpytext = cpytext.replace("${info}", info);
 
+    qDebug() << cpytext;
+
     return cpytext;
+}
+
+QString CWpt::htmlScale(float val)
+{
+    return QString("<div class='scale1' style='width: %1px;'>&nbsp;</div><div class='scale0' style='width: %2px;'>&nbsp;</div>").arg(val*16).arg((5-val)*16);
 }
