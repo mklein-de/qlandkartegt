@@ -885,7 +885,7 @@ QString CWpt::getExtInfo()
 
     }
 
-    QString cpytext = html.arg("file://" + dirWeb.path());
+    QString cpytext = html.arg(QUrl::fromLocalFile(dirWeb.path()).toString());
     cpytext = cpytext.replace("${info}", info);
 
     return cpytext;
