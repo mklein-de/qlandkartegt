@@ -363,6 +363,10 @@ void CWptDB::loadGPX(CGpx& gpx)
         {
             wpt->link = waypoint.namedItem("url").toElement().text();
         }
+        if(waypoint.namedItem("urlname").isElement())
+        {
+            wpt->urlname = waypoint.namedItem("urlname").toElement().text();
+        }
         if(waypoint.namedItem("sym").isElement())
         {
             wpt->setIcon(waypoint.namedItem("sym").toElement().text());
@@ -375,6 +379,10 @@ void CWptDB::loadGPX(CGpx& gpx)
         {
           QString timetext = waypoint.namedItem("time").toElement().text();
           (void)parseTimestamp(timetext, wpt->timestamp);
+        }
+        if(waypoint.namedItem("type").isElement())
+        {
+            wpt->type = waypoint.namedItem("type").toElement().text();
         }
 
         if(waypoint.namedItem("extensions").isElement())
@@ -509,8 +517,8 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             desc.appendChild(_desc_);
         }
 
-        if(!wpt->link.isEmpty())
-        {
+        if(!wpt->link.isEmpty() && wpt->urlname.isEmpty())
+        {            
             QDomElement link = gpx.createElement("link");
             waypoint.appendChild(link);
             link.setAttribute("href",wpt->link);
@@ -520,10 +528,31 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             text.appendChild(_text_);
         }
 
+        if(!wpt->link.isEmpty() && !wpt->urlname.isEmpty())
+        {
+            QDomElement url = gpx.createElement("url");
+            waypoint.appendChild(url);
+            QDomText _url_ = gpx.createTextNode(wpt->link);
+            url.appendChild(_url_);
+
+            QDomElement urlname = gpx.createElement("urlname");
+            waypoint.appendChild(urlname);
+            QDomText _urlname_ = gpx.createTextNode(wpt->urlname);
+            urlname.appendChild(_urlname_);
+        }
+
         QDomElement sym = gpx.createElement("sym");
         waypoint.appendChild(sym);
         QDomText _sym_ = gpx.createTextNode(wpt->iconString);
         sym.appendChild(_sym_);
+
+        if(!wpt->type.isEmpty())
+        {
+            QDomElement type = gpx.createElement("type");
+            waypoint.appendChild(type);
+            QDomText _type_ = gpx.createTextNode(wpt->type);
+            type.appendChild(_type_);
+        }
 
         if(wpt->prx != 1e25f)
         {

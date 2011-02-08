@@ -23,7 +23,7 @@
 #include "IUnit.h"
 #include "config.h"
 
-#include <QtCore>
+#include <QtGui>
 #include <QtXml>
 
 #ifndef _MKSTR_1
@@ -130,6 +130,8 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.prx;
                 s1 >> wpt.link;
                 s1 >> wpt.description;
+                s1 >> wpt.urlname;
+                s1 >> wpt.type;
 
                 wpt.setIcon(icon);
                 wpt.setKey(key);
@@ -245,6 +247,8 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     s1 << wpt.prx;
     s1 << wpt.link;
     s1 << wpt.description;
+    s1 << wpt.urlname;
+    s1 << wpt.type;
 
     entries << entryBase;
 
@@ -428,7 +432,18 @@ QPixmap CWpt::getIcon()
 {
     if(geocache.hasData)
     {
-        return getWptIconByName(geocache.type);
+        if(iconString == "Geocache Found")
+        {
+            QPixmap pixmap = getWptIconByName(geocache.type);
+            QPainter p(&pixmap);
+            p.drawPixmap(pixmap.width() - 12, pixmap.height() - 12,QPixmap(":/icons/cache/found8x8.png"));
+            return pixmap;
+
+        }
+        else
+        {
+            return getWptIconByName(geocache.type);
+        }
     }
 
     return iconPixmap;

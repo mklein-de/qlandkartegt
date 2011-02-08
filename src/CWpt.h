@@ -169,6 +169,8 @@ class CWpt : public IItem
         float   ele;             ///< [m]
         float   prx;             ///< [m]
         QString link;
+        QString urlname;
+        QString type;
 
         struct image_t
         {

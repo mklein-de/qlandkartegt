@@ -55,6 +55,11 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     labelUnitProximity->setText(IUnit::self().baseunit);
 
     connect(webView, SIGNAL(linkClicked( const QUrl&)), this, SLOT(slotOpenLink(const QUrl&)));
+
+    if(wpt.geocache.hasData)
+    {
+        toolIcon->setEnabled(false);
+    }
 }
 
 
@@ -106,13 +111,22 @@ int CDlgEditWpt::exec()
     if(!link.isEmpty())
     {
         QString str;
-        if(link.count() < 50)
+
+        if(wpt.urlname.isEmpty())
         {
-            str = "<a href='" + link + "'>" + link + "</a>";
+
+            if(link.count() < 50)
+            {
+                str = "<a href='" + link + "'>" + link + "</a>";
+            }
+            else
+            {
+                str = "<a href='" + link + "'>" + link.left(47) + "...</a>";
+            }
         }
         else
         {
-            str = "<a href='" + link + "'>" + link.left(47) + "...</a>";
+            str = "<a href='" + link + "'>" + wpt.urlname + "</a>";
         }
         labelLink->setText(str);
     }
