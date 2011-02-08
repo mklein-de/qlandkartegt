@@ -121,6 +121,10 @@ bool CWptDB::keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 
 bool CWptDB::keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
+    if(s1.icon.toLower() == s2.icon.toLower())
+    {
+        return keyLessThanAlpha(s1,s2);
+    }
     return s1.icon.toLower() < s2.icon.toLower();
 }
 
