@@ -99,19 +99,19 @@ void initWptIcons()
     setWptIconByName("Custom 23", cfg.value("garmin/icons/custom23", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 24", cfg.value("garmin/icons/custom24", ":/icons/wpt/custom15x15.bmp").toString());
 
+    setWptIconByName("Traditional Cache", ":/icons/cache/Traditional Cache.png");
+    setWptIconByName("Multi-cache", ":/icons/cache/Multi-cache.png");
+    setWptIconByName("Unknown Cache", ":/icons/cache/Unknown Cache.png");
+    setWptIconByName("Wherigo Cache", ":/icons/cache/Wherigo Cache.png");
+    setWptIconByName("Event Cache", ":/icons/cache/Event Cache.png");
+    setWptIconByName("Earthcache", ":/icons/cache/Earthcache.png");
+    setWptIconByName("Letterbox Hybrid", ":/icons/cache/Letterbox Hybrid.png");
+    setWptIconByName("Virtual Cache", ":/icons/cache/Virtual Cache.png");
+    setWptIconByName("Webcam Cache", ":/icons/cache/Webcam Cache.png");
 
     QDir dirIcon(QDir::home().filePath(CONFIGDIR));
     dirIcon.mkdir("WaypointIcons");
     dirIcon.cd("WaypointIcons");
-
-    QImage(":/icons/cache/traditional.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Traditional Cache.png"));
-    QImage(":/icons/cache/multi.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Multi-cache.png"));
-    QImage(":/icons/cache/unknown.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Unknown Cache.png"));
-    QImage(":/icons/cache/wherigo.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Wherigo Cache.png"));
-    QImage(":/icons/cache/event.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Event Cache.png"));
-    QImage(":/icons/cache/earth.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Earthcache.png"));
-    QImage(":/icons/cache/letterbox.svg").scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation).save(dirIcon.filePath("Letterbox Hybrid.png"));
-
 
     QString filename;
     QStringList filenames = dirIcon.entryList(QDir::Files);

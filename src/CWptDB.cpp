@@ -152,7 +152,15 @@ QList<CWptDB::keys_t> CWptDB::keys()
         k2.key      = k1;
         k2.name     = wpts[k1]->name;
         k2.comment  = wpts[k1]->comment.left(32);
-        k2.icon     = wpts[k1]->iconString;
+
+        if(wpts[k1]->geocache.hasData)
+        {
+            k2.icon     = wpts[k1]->geocache.type;
+        }
+        else
+        {
+            k2.icon     = wpts[k1]->iconString;
+        }
         k2.lon      = wpts[k1]->lon;
         k2.lat      = wpts[k1]->lat;
         k2.d        = 0;
