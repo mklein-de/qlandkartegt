@@ -436,7 +436,7 @@ QPixmap CWpt::getIcon()
         {
             QPixmap pixmap = getWptIconByName(geocache.type);
             QPainter p(&pixmap);
-            p.drawPixmap(pixmap.width() - 12, pixmap.height() - 12,QPixmap(":/icons/cache/found8x8.png"));
+            p.drawPixmap(pixmap.width() - 10, pixmap.height() - 10,QPixmap(":/icons/cache/found8x8.png"));
             return pixmap;
 
         }
