@@ -53,7 +53,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
-    actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));    
+    actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
     contextMenu->addSeparator();
     actShowNames    = contextMenu->addAction(tr("Show Names"),this,SLOT(slotShowNames()));
@@ -169,15 +169,10 @@ void CWptToolWidget::slotDBChanged()
             {
                 name = key.name;
             }
-            else
-            {
-                item->setToolTip(key.name);
-            }
         }
         else
         {
             name = key.name;
-            item->setToolTip(key.comment);
         }
 
         if(wpt->sticky)
@@ -195,6 +190,8 @@ void CWptToolWidget::slotDBChanged()
         {
             item->setText(name);
         }
+
+        item->setToolTip(wpt->getInfo());
     }
 }
 

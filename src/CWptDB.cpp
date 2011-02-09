@@ -155,7 +155,22 @@ QList<CWptDB::keys_t> CWptDB::keys()
 
         k2.key      = k1;
         k2.name     = wpts[k1]->name;
-        k2.comment  = wpts[k1]->comment.left(32);
+
+        // pick comment/descripton, what ever fits
+        if(wpts[k1]->comment.isEmpty())
+        {
+            k2.comment  = wpts[k1]->description;
+        }
+        else
+        {
+            k2.comment  = wpts[k1]->comment;
+        }
+
+        // truncate comment if necessary
+        if(k2.comment.size() > 33)
+        {
+            k2.comment = k2.comment.left(30) + "...";
+        }
 
         if(wpts[k1]->geocache.hasData)
         {
@@ -522,7 +537,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
         if(!wpt->link.isEmpty() && wpt->urlname.isEmpty())
-        {            
+        {
             QDomElement link = gpx.createElement("link");
             waypoint.appendChild(link);
             link.setAttribute("href",wpt->link);
