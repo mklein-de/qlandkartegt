@@ -14,10 +14,13 @@
    height="496.5"
    id="svg5391"
    version="1.1"
-   inkscape:version="0.47pre4 r22446"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="unknown.svg"
    sodipodi:version="0.32"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/oeichler/dateien/cpp/QLandkarteGT/src/icons/cache/Unknown Cache.png"
+   inkscape:export-xdpi="3.6971829"
+   inkscape:export-ydpi="3.6971829">
   <defs
      id="defs5393">
     <linearGradient
@@ -155,10 +158,10 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="948"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-width="2560"
+     inkscape:window-height="1510"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5396">
@@ -168,7 +171,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

@@ -14,8 +14,11 @@
    height="496.5"
    id="svg6509"
    version="1.1"
-   inkscape:version="0.47pre4 r22446"
-   sodipodi:docname="letterbox.svg">
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="letterbox.svg"
+   inkscape:export-filename="/home/oeichler/dateien/cpp/QLandkarteGT/src/icons/cache/Letterbox Hybrid.png"
+   inkscape:export-xdpi="3.5407603"
+   inkscape:export-ydpi="3.5407603">
   <defs
      id="defs6511">
     <inkscape:path-effect
@@ -611,10 +614,10 @@
      inkscape:guide-bbox="true"
      inkscape:snap-global="true"
      inkscape:snap-grids="false"
-     inkscape:window-width="1024"
-     inkscape:window-height="548"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="2560"
+     inkscape:window-height="1510"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
      inkscape:window-maximized="1">
     <sodipodi:guide
        orientation="-0.5,0.8660254"
@@ -657,6 +660,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
