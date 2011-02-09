@@ -115,7 +115,10 @@ void IMouse::drawSelWpt(QPainter& p)
         if(!selWpt->sticky)
         {
             p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
-            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
+            if(!selWpt->isGeoCache())
+            {
+                p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
+            }
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
@@ -501,7 +504,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     {
         CWptDB::self().delWpt(selWpt->getKey(), false, true);
     }
-    else if(rectMoveWpt.contains(pt) && !selWpt->sticky)
+    else if(rectMoveWpt.contains(pt) && !selWpt->sticky && !selWpt->isGeoCache())
     {
         canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 

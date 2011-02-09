@@ -102,7 +102,7 @@ void CMouseMoveWpt::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseMoveWpt::draw(QPainter& p)
 {
-    if(moveWpt && !selWpt.isNull())
+    if(moveWpt && !selWpt.isNull() && !selWpt->isGeoCache())
     {
         double x1, y1, x2, y2;
         XY p1, p2;

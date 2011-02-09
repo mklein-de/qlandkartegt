@@ -101,6 +101,8 @@ class CWpt : public IItem
         void loadGpxExt(const QDomNode& wpt);
         void saveGpxExt(QDomNode& wpt);
 
+        bool isGeoCache(){return geocache.hasData;}
+
         // eBase: base information
     private:
         friend QDataStream& operator >>(QDataStream& s, CWpt& wpt);

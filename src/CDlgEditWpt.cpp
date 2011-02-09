@@ -56,9 +56,11 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
     connect(webView, SIGNAL(linkClicked( const QUrl&)), this, SLOT(slotOpenLink(const QUrl&)));
 
-    if(wpt.geocache.hasData)
+    if(wpt.isGeoCache())
     {
         toolIcon->setEnabled(false);
+        lineName->setEnabled(false);
+        linePosition->setEnabled(false);
     }
 }
 
