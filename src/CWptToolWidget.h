@@ -60,6 +60,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotDeleteBy();
         void slotCopyPosition();
         void slotProximity();
+        void slotIcon();
         void slotMakeRoute();
         void slotZoomToFit();
         void slotPosTextChanged(const QString& text);
@@ -70,6 +71,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actCopyPos;
         QAction * actEdit;
         QAction * actProximity;
+        QAction * actIcon;
         QAction * actMakeRte;
         QAction * actZoomToFit;
         QAction * actDelete;

@@ -31,6 +31,7 @@
 #include "IUnit.h"
 #include "CMapDB.h"
 #include "CDlgWpt2Rte.h"
+#include "CDlgWptIcon.h"
 
 #include <QtGui>
 
@@ -54,6 +55,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
     actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
+    actIcon         = contextMenu->addAction(QPixmap(":/icons/iconWaypoint16x16.png"),tr("Icon ..."),this,SLOT(slotIcon()));
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
     contextMenu->addSeparator();
     actShowNames    = contextMenu->addAction(tr("Show Names"),this,SLOT(slotShowNames()));
@@ -354,4 +356,27 @@ void CWptToolWidget::slotPosTextChanged(const QString& text)
 void CWptToolWidget::slotShowNames()
 {
     CWptDB::self().setShowNames(!CWptDB::self().getShowNames());
+}
+
+void CWptToolWidget::slotIcon()
+{
+
+    QToolButton button(this);
+    button.hide();
+
+    CDlgWptIcon dlg(button);
+    dlg.exec();
+
+    if(!button.objectName().isEmpty())
+    {
+        QStringList keys;
+        QListWidgetItem * item;
+        const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+
+        foreach(item,items)
+        {
+            keys << item->data(Qt::UserRole).toString();
+        }
+        CWptDB::self().setIcon(keys,button.objectName());
+    }
 }

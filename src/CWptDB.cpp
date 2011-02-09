@@ -343,6 +343,24 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
 
 }
 
+void CWptDB::setIcon(const QStringList& keys, const QString& iconName)
+{
+    QString key;
+    foreach(key,keys)
+    {
+        CWpt * wpt = wpts[key];
+
+        // no icon change for geocaches
+        if(!wpt->geocache.hasData)
+        {
+            wpt->setIcon(iconName);
+            emit sigModified(key);
+        }
+    }
+    emit sigChanged();
+    emit sigModified();
+
+}
 
 void CWptDB::loadGPX(CGpx& gpx)
 {

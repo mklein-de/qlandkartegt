@@ -420,7 +420,7 @@ CWpt::CWpt(CWptDB * parent)
 
 CWpt::~CWpt()
 {
-    qDebug() << "CWpt::~CWpt()";
+//    qDebug() << "CWpt::~CWpt()";
 }
 
 void CWpt::setIcon(const QString& str)
