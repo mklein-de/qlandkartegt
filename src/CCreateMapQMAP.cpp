@@ -56,8 +56,8 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
 
-    labelStep1->setPixmap(QPixmap(":/pics/Step1"));
-    labelStep2->setPixmap(QPixmap(":/pics/Step2"));
+    labelStep1->setPixmap(QPixmap(":/pics/Step1.png"));
+    labelStep2->setPixmap(QPixmap(":/pics/Step2.png"));
 
 }
 

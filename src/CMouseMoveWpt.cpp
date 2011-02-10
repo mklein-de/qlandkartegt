@@ -66,7 +66,7 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             newPos = e->pos();
             moveWpt = true;
         }
-        else if(moveWpt && !selWpt.isNull())
+        else if(moveWpt && !selWpt.isNull() && !selWpt->isGeoCache())
         {
             IMap& map = CMapDB::self().getMap();
             double u = e->pos().x();

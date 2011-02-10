@@ -46,9 +46,9 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 {
     m_self = this;
     setupUi(this);
-    labelStep1->setPixmap(QPixmap(":/pics/Step1"));
-    labelStep2->setPixmap(QPixmap(":/pics/Step2"));
-    labelStep3->setPixmap(QPixmap(":/pics/Step3"));
+    labelStep1->setPixmap(QPixmap(":/pics/Step1.png"));
+    labelStep2->setPixmap(QPixmap(":/pics/Step2.png"));
+    labelStep3->setPixmap(QPixmap(":/pics/Step3.png"));
 
     toolReload->setIcon(QPixmap(":/icons/iconReload16x16.png"));
     toolOutFile->setIcon(QPixmap(":/icons/iconFileSave16x16.png"));

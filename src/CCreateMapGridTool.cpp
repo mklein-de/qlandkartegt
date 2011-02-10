@@ -35,10 +35,10 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 {
     setupUi(this);
 
-    labelStep2a->setPixmap(QPixmap(":/pics/Step2a"));
-    labelStep2b->setPixmap(QPixmap(":/pics/Step2b"));
-    labelStep2c->setPixmap(QPixmap(":/pics/Step2c"));
-    labelExample->setPixmap(QPixmap(":/pics/grid_example"));
+    labelStep2a->setPixmap(QPixmap(":/pics/Step2a.png"));
+    labelStep2b->setPixmap(QPixmap(":/pics/Step2b.png"));
+    labelStep2c->setPixmap(QPixmap(":/pics/Step2c.png"));
+    labelExample->setPixmap(QPixmap(":/pics/grid_example.png"));
 
     helpStep2a->setHelp(tr("Place Reference Points"),
         tr("The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.\n\nAltenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size."));
