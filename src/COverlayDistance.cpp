@@ -506,7 +506,10 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             calcDistance();
             theMainWindow->getCanvas()->update();
 
-            emit sigChanged();
+            if(addType == eNone)
+            {
+                emit sigChanged();
+            }
             return;
         }
 
