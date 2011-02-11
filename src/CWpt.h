@@ -28,6 +28,7 @@
 #include <QList>
 #include <QFile>
 #include <QDir>
+#include <QList>
 
 #define WPT_NOFLOAT 1e25f
 
@@ -103,6 +104,9 @@ class CWpt : public IItem
 
         bool isGeoCache(){return geocache.hasData;}
 
+        void showBuddies(bool show);
+        bool hasBuddies();
+
         // eBase: base information
     private:
         friend QDataStream& operator >>(QDataStream& s, CWpt& wpt);
@@ -165,6 +169,7 @@ class CWpt : public IItem
 
         static const QString html;
         static const QString htmlFrame;
+
     public:
         quint32 sticky;
         float   lat;             ///< [deg]
@@ -183,6 +188,15 @@ class CWpt : public IItem
             QString filePath;
         };
         QList<image_t> images;
+
+        struct coord_t
+        {
+            float lon;
+            float lat;
+        };
+
+        QList<coord_t> buddies;
+
 };
 
 QDataStream& operator >>(QDataStream& s, CWpt& wpt);

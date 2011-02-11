@@ -760,6 +760,26 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             // added by AD
             blockAreas << QRect(u - o , v - o, icon.width(), icon.height());
         }
+
+        if(!(*wpt)->buddies.isEmpty())
+        {
+            QPixmap icon(":/icons/iconWaypoint16x16.png");
+            CWpt::coord_t co;
+            QList<CWpt::coord_t>& buddies = (*wpt)->buddies;
+            foreach(co, buddies)
+            {
+                double x = co.lon;
+                double y = co.lat;
+                map.convertRad2Pt(x,y);
+
+                p.setPen(QPen(Qt::white, 5));
+                p.drawLine(u,v,x,y);
+                p.setPen(QPen(Qt::black, 3));
+                p.drawLine(u,v,x,y);
+                p.drawPixmap(x - 8, y - 8, icon);
+            }
+        }
+
         ++wpt;
     }
 

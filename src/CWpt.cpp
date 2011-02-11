@@ -22,6 +22,7 @@
 #include "WptIcons.h"
 #include "IUnit.h"
 #include "config.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -905,7 +906,7 @@ QString CWpt::getExtInfo()
     QString cpytext = html.arg(QUrl::fromLocalFile(dirWeb.path()).toString());
     cpytext = cpytext.replace("${info}", info);
 
-    qDebug() << cpytext;
+//    qDebug() << cpytext;
 
     return cpytext;
 }
@@ -913,4 +914,47 @@ QString CWpt::getExtInfo()
 QString CWpt::htmlScale(float val)
 {
     return QString("<div class='scale1' style='width: %1px;'>&nbsp;</div><div class='scale0' style='width: %2px;'>&nbsp;</div>").arg(val*16).arg((5-val)*16);
+}
+
+void CWpt::showBuddies(bool show)
+{
+    if(show)
+    {
+        int p = 0;
+        QString html = getExtInfo();
+        html.replace("&deg;","\260");
+        QRegExp rx("([N|S]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+\\s*[E|W]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+)");
+        QSet<QString> strings;
+        QString string;
+
+        while ((p = rx.indexIn(html, p)) != -1)
+        {
+            strings << rx.cap(1);
+            p += rx.matchedLength();
+        }
+
+        foreach(string, strings)
+        {
+            coord_t co;
+
+            GPS_Math_Str_To_Deg(string, co.lon, co.lat, true);
+            co.lon *= DEG_TO_RAD;
+            co.lat *= DEG_TO_RAD;
+            buddies << co;
+        }
+    }
+    else
+    {
+        buddies.clear();
+    }
+}
+
+bool CWpt::hasBuddies()
+{
+    int p = 0;
+    QString html = getExtInfo();
+    html.replace("&deg;","\260");
+    QRegExp rx("([N|S]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+\\s*[E|W]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+)");
+
+    return rx.indexIn(html, p) != -1;
 }

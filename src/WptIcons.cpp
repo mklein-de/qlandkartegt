@@ -22,7 +22,7 @@
 #include <QtCore>
 
 
-const char * wptDefault = ":/icons/wpt/iconWaypoint15x15.png";
+const char * wptDefault = ":/icons/iconWaypoint16x16.png";
 
 
 static QMap<QString, QString> wptIcons;

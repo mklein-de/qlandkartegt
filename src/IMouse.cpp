@@ -48,6 +48,7 @@ IMouse::IMouse(CCanvas * canvas)
 , doSpecialCursorWpt(false)
 , doSpecialCursorSearch(false)
 , doSpecialCursorMap(false)
+, doShowWptBuddies(false)
 {
     rectDelWpt          = QRect(0,0,16,16);
     rectMoveWpt         = QRect(32,0,16,16);
@@ -118,6 +119,10 @@ void IMouse::drawSelWpt(QPainter& p)
             if(!selWpt->isGeoCache())
             {
                 p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
+            }
+            else if(selWpt->hasBuddies())
+            {
+                p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWaypoint16x16.png"));
             }
         }
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
@@ -405,6 +410,22 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
                 doSpecialCursorWpt = false;
             }
         }
+
+        if(selWpt->isGeoCache())
+        {
+            if(!doShowWptBuddies && rectMoveWpt.contains((pt)))
+            {
+                selWpt->showBuddies(true);
+                doShowWptBuddies = true;
+                canvas->update();
+            }
+            else if(!rectMoveWpt.contains(pt))
+            {
+                selWpt->showBuddies(false);
+                doShowWptBuddies = false;
+                canvas->update();
+            }
+        }
     }
     else
     {
@@ -412,6 +433,12 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         {
             QApplication::restoreOverrideCursor();
             doSpecialCursorWpt = false;
+        }
+
+        if(oldWpt)
+        {
+            oldWpt->showBuddies(false);
+            doShowWptBuddies = false;
         }
     }
 

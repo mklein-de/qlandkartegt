@@ -73,60 +73,65 @@ void GPS_Math_DegMinSec_To_Deg(bool sign, const int32_t d, const int32_t m, cons
     return;
 }
 
+namespace GeoMath
+{
+QRegExp reCoord1("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
+
+QRegExp reCoord2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
+
+QRegExp reCoord3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
+
+QRegExp reCoord4("^\\s*([N|S]){1}\\s*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*([E|W]){1}\\W*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*\\s*$");
+}
+
+using namespace GeoMath;
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
-    QRegExp re1("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
 
-    QRegExp re2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
-
-    QRegExp re3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
-
-    QRegExp re4("^\\s*([N|S]){1}\\s*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*([E|W]){1}\\W*([0-9]+)\\W*([0-9]+)\\W*([0-9]+)\\W*\\s*$");
-
-    if(re2.exactMatch(str))
+    if(reCoord2.exactMatch(str))
     {
-        bool signLat    = re2.cap(1) == "S";
-        float absLat    = re2.cap(2).toDouble();
+        bool signLat    = reCoord2.cap(1) == "S";
+        float absLat    = reCoord2.cap(2).toDouble();
         lat = signLat ? -absLat : absLat;
 
-        bool signLon    = re2.cap(3) == "W";
-        float absLon    = re2.cap(4).toDouble();
+        bool signLon    = reCoord2.cap(3) == "W";
+        float absLon    = reCoord2.cap(4).toDouble();
         lon = signLon ? -absLon : absLon;
     }
-    else if(re1.exactMatch(str))
+    else if(reCoord1.exactMatch(str))
     {
 
-        bool signLat    = re1.cap(1) == "S";
-        int degLat      = re1.cap(2).toInt();
-        float minLat    = re1.cap(3).toDouble();
+        bool signLat    = reCoord1.cap(1) == "S";
+        int degLat      = reCoord1.cap(2).toInt();
+        float minLat    = reCoord1.cap(3).toDouble();
 
         GPS_Math_DegMin_To_Deg(signLat, degLat, minLat, lat);
 
-        bool signLon    = re1.cap(4) == "W";
-        int degLon      = re1.cap(5).toInt();
-        float minLon    = re1.cap(6).toDouble();
+        bool signLon    = reCoord1.cap(4) == "W";
+        int degLon      = reCoord1.cap(5).toInt();
+        float minLon    = reCoord1.cap(6).toDouble();
 
         GPS_Math_DegMin_To_Deg(signLon, degLon, minLon, lon);
     }
-    else if(re3.exactMatch(str))
+    else if(reCoord3.exactMatch(str))
     {
-        lat             = re3.cap(1).toDouble();
-        lon             = re3.cap(2).toDouble();
+        lat             = reCoord3.cap(1).toDouble();
+        lon             = reCoord3.cap(2).toDouble();
     }
-    else if(re4.exactMatch(str))
+    else if(reCoord4.exactMatch(str))
     {
-        bool signLat    = re4.cap(1) == "S";
-        int degLat    = re4.cap(2).toInt();
-        int minLat    = re4.cap(3).toInt();
-        int secLat    = re4.cap(4).toInt();
+        bool signLat    = reCoord4.cap(1) == "S";
+        int degLat    = reCoord4.cap(2).toInt();
+        int minLat    = reCoord4.cap(3).toInt();
+        int secLat    = reCoord4.cap(4).toInt();
 
         GPS_Math_DegMinSec_To_Deg(signLat, degLat, minLat, secLat, lat);
 
-        bool signLon    = re4.cap(5) == "W";
-        int degLon    = re4.cap(6).toInt();
-        int minLon    = re4.cap(7).toInt();
-        int secLon    = re4.cap(8).toInt();
+        bool signLon    = reCoord4.cap(5) == "W";
+        int degLon    = reCoord4.cap(6).toInt();
+        int minLon    = reCoord4.cap(7).toInt();
+        int secLon    = reCoord4.cap(8).toInt();
 
         GPS_Math_DegMinSec_To_Deg(signLon, degLon, minLon, secLon, lon);
 

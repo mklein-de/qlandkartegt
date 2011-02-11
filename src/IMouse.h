@@ -159,6 +159,7 @@ class IMouse : public QObject
         bool doSpecialCursorSearch;
         bool doSpecialCursorMap;
 
+        bool doShowWptBuddies;
 
         QPoint lastPoint;
 

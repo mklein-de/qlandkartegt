@@ -138,8 +138,10 @@ int CDlgEditWpt::exec()
 
     slotUpdateBarcode();
 
-    webView->setHtml(wpt.getExtInfo());
+    QString html = wpt.getExtInfo();
+    webView->setHtml(html);
     webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
+
     return QDialog::exec();
 }
 

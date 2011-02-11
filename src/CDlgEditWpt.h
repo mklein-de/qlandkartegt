@@ -56,5 +56,6 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         QString link;
         double oldLon;
         double oldLat;
+        QSet<QString> wptBuddies;
 };
 #endif                           //CDLGEDITWPT_H
