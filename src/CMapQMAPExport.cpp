@@ -143,6 +143,14 @@ void CMapQMAPExport::slotStderr()
     {
         str = cmd4.readAllStandardError();
     }
+    else if(sender() == &cmdKMZ1)
+    {
+        str = cmdKMZ1.readAllStandardError();
+    }
+    else if(sender() == &cmdKMZ2)
+    {
+        str = cmdKMZ2.readAllStandardError();
+    }
 
     if(str[0] == '\r')
     {
@@ -180,6 +188,14 @@ void CMapQMAPExport::slotStdout()
     else if(sender() == &cmd4)
     {
         str = cmd4.readAllStandardOutput();
+    }
+    else if(sender() == &cmdKMZ1)
+    {
+        str = cmdKMZ1.readAllStandardOutput();
+    }
+    else if(sender() == &cmdKMZ2)
+    {
+        str = cmdKMZ2.readAllStandardOutput();
     }
 
     if(str[0] == '\r')
@@ -531,7 +547,7 @@ void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status
     QStringList args;
     args << "-t_srs" << "EPSG:3785";
     args << file1->fileName();
-    args << file2->fileName();
+    args << file2->fileName() + ".jpg";
 
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
@@ -549,9 +565,9 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
 
     QString str;
     QFile   zipfile(job.tarFilename);
-    QImage  img(file2->fileName());
-    QString mapfilename = QDir::temp().filePath("map.jpg");
-    QFile   mapfile(mapfilename);
+    //QImage  img(file2->fileName() + ".jpg");
+    //QString mapfilename = QDir::temp().filePath("map.jpg");
+    QFile   mapfile(file2->fileName() + ".jpg");
     QLGT::QZipWriter zip(&zipfile);
     QDomDocument doc;
     QDomElement root    = doc.createElement("kml");
@@ -604,7 +620,7 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     latLonBox.appendChild(rotation);
     rotation.appendChild(doc.createTextNode("0.0"));
 
-    img.save(mapfilename);
+    //img.save(mapfilename);
     mapfile.open(QIODevice::ReadOnly);
 
     zipfile.open(QIODevice::WriteOnly);
@@ -613,6 +629,8 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     zip.addFile("doc.kml",QByteArray("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n") + doc.toByteArray());
 
     zip.close();
+	mapfile.close();
+	mapfile.remove();
 
     slotFinishedKMZ1(0,QProcess::NormalExit);
 }
