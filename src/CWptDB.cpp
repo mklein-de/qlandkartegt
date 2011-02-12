@@ -772,10 +772,10 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                 double y = co.lat;
                 map.convertRad2Pt(x,y);
 
-                p.setPen(QPen(Qt::white, 5));
+                p.setBrush(CCanvas::brushBackWhite);
+                p.setPen(CCanvas::penBorderBlue);
                 p.drawLine(u,v,x,y);
-                p.setPen(QPen(Qt::black, 3));
-                p.drawLine(u,v,x,y);
+                p.drawEllipse(QPoint(x,y),12,12);
                 p.drawPixmap(x - 8, y - 8, icon);
             }
         }

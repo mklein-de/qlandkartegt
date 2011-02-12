@@ -66,7 +66,7 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             newPos = e->pos();
             moveWpt = true;
         }
-        else if(moveWpt && !selWpt.isNull() && !selWpt->isGeoCache())
+        else if(moveWpt && !selWpt.isNull() && selWpt->isMovable())
         {
             IMap& map = CMapDB::self().getMap();
             double u = e->pos().x();
@@ -102,7 +102,7 @@ void CMouseMoveWpt::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseMoveWpt::draw(QPainter& p)
 {
-    if(moveWpt && !selWpt.isNull() && !selWpt->isGeoCache())
+    if(moveWpt && !selWpt.isNull() && selWpt->isMovable())
     {
         double x1, y1, x2, y2;
         XY p1, p2;

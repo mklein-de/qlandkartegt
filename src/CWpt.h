@@ -103,6 +103,8 @@ class CWpt : public IItem
         void saveGpxExt(QDomNode& wpt);
 
         bool isGeoCache(){return geocache.hasData;}
+        bool isMovable(){return !(geocache.hasData|sticky);}
+        bool isDeletable(){return !(sticky);}
 
         void showBuddies(bool show);
         bool hasBuddies();
@@ -191,6 +193,8 @@ class CWpt : public IItem
 
         struct coord_t
         {
+            QString name;
+            QString pos;
             float lon;
             float lat;
         };

@@ -62,12 +62,13 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
         lineName->setEnabled(false);
         linePosition->setEnabled(false);
     }
+
 }
 
 
 CDlgEditWpt::~CDlgEditWpt()
 {
-
+    wpt.showBuddies(false);
 }
 
 
@@ -139,6 +140,30 @@ int CDlgEditWpt::exec()
     slotUpdateBarcode();
 
     QString html = wpt.getExtInfo();
+
+    if(wpt.isGeoCache())
+    {
+        wpt.showBuddies(true);
+
+        if(wpt.buddies.isEmpty())
+        {
+            listBuddies->hide();
+        }
+        else
+        {
+            CWpt::coord_t co;
+            foreach(co, wpt.buddies)
+            {
+                listBuddies->addItem(co.name);
+
+                qDebug() << co.pos << co.name;
+                html.replace(co.pos, QString("%1 (%2)").arg(co.pos).arg(co.name));
+            }
+            listBuddies->show();
+        }
+    }
+
+
     webView->setHtml(html);
     webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
 

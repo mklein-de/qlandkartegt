@@ -113,18 +113,21 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.save();
         p.translate(u - 24, v - 24);
-        if(!selWpt->sticky)
+
+        if(selWpt->isDeletable())
         {
             p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
-            if(!selWpt->isGeoCache())
-            {
-                p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
-            }
-            else if(selWpt->hasBuddies())
-            {
-                p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWaypoint16x16.png"));
-            }
         }
+
+        if(selWpt->isMovable())
+        {
+            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
+        }
+        else if(selWpt->isGeoCache() && selWpt->hasBuddies())
+        {
+            p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconWaypoint16x16.png"));
+        }
+
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
         if(!selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
@@ -132,6 +135,11 @@ void IMouse::drawSelWpt(QPainter& p)
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
         p.restore();
+
+        if(doShowWptBuddies)
+        {
+            return;
+        }
 
         QString         str = selWpt->getInfo();
         QFont           f   = CResources::self().getMapFont();
@@ -531,7 +539,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     {
         CWptDB::self().delWpt(selWpt->getKey(), false, true);
     }
-    else if(rectMoveWpt.contains(pt) && !selWpt->sticky && !selWpt->isGeoCache())
+    else if(rectMoveWpt.contains(pt) && selWpt->isMovable())
     {
         canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 

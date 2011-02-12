@@ -916,14 +916,21 @@ QString CWpt::htmlScale(float val)
     return QString("<div class='scale1' style='width: %1px;'>&nbsp;</div><div class='scale0' style='width: %2px;'>&nbsp;</div>").arg(val*16).arg((5-val)*16);
 }
 
+
+static QRegExp rx("([NS]{1}\\s*[0-9]+\\s*[0-9.,]+[\\s,]*[EWO]{1}\\s*[0-9]+\\s*[0-9.,]+)");
+
 void CWpt::showBuddies(bool show)
 {
     if(show)
     {
         int p = 0;
         QString html = getExtInfo();
-        html.replace("&deg;","\260");
-        QRegExp rx("([N|S]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+\\s*[E|W]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+)");
+        html.replace("&deg;"," ");
+        html.replace("\260"," ");
+        html.replace("'"," ");
+
+//        qDebug() << html;
+
         QSet<QString> strings;
         QString string;
 
@@ -933,13 +940,27 @@ void CWpt::showBuddies(bool show)
             p += rx.matchedLength();
         }
 
+        quint32 cnt = 0;
         foreach(string, strings)
         {
             coord_t co;
 
+            co.name = QString("%1 %2").arg(name).arg(++cnt);
+            co.pos  = string;
+
+            string.replace(",",".");
+            string.replace(". "," ");
+            string.replace("O","E");
+            if(string.endsWith("."))
+            {
+                string = string.left(string.size() - 1);
+            }
+
             GPS_Math_Str_To_Deg(string, co.lon, co.lat, true);
+
             co.lon *= DEG_TO_RAD;
             co.lat *= DEG_TO_RAD;
+
             buddies << co;
         }
     }
@@ -953,8 +974,9 @@ bool CWpt::hasBuddies()
 {
     int p = 0;
     QString html = getExtInfo();
-    html.replace("&deg;","\260");
-    QRegExp rx("([N|S]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+\\s*[E|W]{1}\\s*[0-9]+\\s*\260\\s*[0-9.]+)");
+    html.replace("&deg;"," ");
+    html.replace("\260"," ");
+    html.replace("'"," ");
 
     return rx.indexIn(html, p) != -1;
 }
