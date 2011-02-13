@@ -103,7 +103,7 @@ class CWpt : public IItem
         void saveGpxExt(QDomNode& wpt);
 
         bool isGeoCache(){return geocache.hasData;}
-        bool isMovable(){return !(geocache.hasData|sticky);}
+        bool isMovable(){return !(geocache.hasData||(bool)sticky);}
         bool isDeletable(){return !(sticky);}
 
         void showBuddies(bool show);

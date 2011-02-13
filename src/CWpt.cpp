@@ -958,8 +958,8 @@ void CWpt::showBuddies(bool show)
 
             GPS_Math_Str_To_Deg(string, co.lon, co.lat, true);
 
-            co.lon *= DEG_TO_RAD;
-            co.lat *= DEG_TO_RAD;
+            co.lon *= (float) DEG_TO_RAD;
+            co.lat *= (float) DEG_TO_RAD;
 
             buddies << co;
         }
