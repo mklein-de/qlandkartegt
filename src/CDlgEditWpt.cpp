@@ -154,11 +154,16 @@ int CDlgEditWpt::exec()
             CWpt::coord_t co;
             foreach(co, wpt.buddies)
             {
-                listBuddies->addItem(co.name);
+                QListWidgetItem * item = new QListWidgetItem();
+                item->setText(co.name);
+                item->setToolTip(co.pos);
+                listBuddies->addItem(item);
+
 
                 qDebug() << co.pos << co.name;
-                html.replace(co.pos, QString("%1 (%2)").arg(co.pos).arg(co.name));
+                html.replace(co.pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(co.pos).arg(co.name));
             }
+            listBuddies->sortItems();
             listBuddies->show();
         }
     }

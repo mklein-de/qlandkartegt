@@ -545,7 +545,7 @@ void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status
     job_t job = jobs.first();
 
     QStringList args;
-    args << "-t_srs" << "EPSG:3785";
+    args << "-t_srs" << "EPSG:4326";
     args << file1->fileName();
     args << file2->fileName() + ".jpg";
 
@@ -629,8 +629,8 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     zip.addFile("doc.kml",QByteArray("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n") + doc.toByteArray());
 
     zip.close();
-	mapfile.close();
-	mapfile.remove();
+    mapfile.close();
+    mapfile.remove();
 
     slotFinishedKMZ1(0,QProcess::NormalExit);
 }

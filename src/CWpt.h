@@ -191,6 +191,12 @@ class CWpt : public IItem
         };
         QList<image_t> images;
 
+        struct buddy_t
+        {
+            quint32 cnt;
+            QString str;
+        };
+
         struct coord_t
         {
             QString name;

@@ -905,7 +905,7 @@ QString CWpt::getExtInfo()
 
     QString cpytext = html.arg(QUrl::fromLocalFile(dirWeb.path()).toString());
     cpytext = cpytext.replace("${info}", info);
-
+    cpytext.replace("&deg;","\260");
 //    qDebug() << cpytext;
 
     return cpytext;
@@ -917,7 +917,7 @@ QString CWpt::htmlScale(float val)
 }
 
 
-static QRegExp rx("([NS]{1}\\s*[0-9]+\\s*[0-9.,]+[\\s,]*[EWO]{1}\\s*[0-9]+\\s*[0-9.,]+)");
+static QRegExp rx("([NS]{1}\\s*[0-9]+[\\s\260]*[0-9.,]+[\\s,]*[EWO]{1}\\s*[0-9]+[\\s\260]*[0-9.,]+)");
 
 void CWpt::showBuddies(bool show)
 {
@@ -925,38 +925,50 @@ void CWpt::showBuddies(bool show)
     {
         int p = 0;
         QString html = getExtInfo();
-        html.replace("&deg;"," ");
-        html.replace("\260"," ");
-        html.replace("'"," ");
 
-//        qDebug() << html;
+        QMap<QString,buddy_t> founds;
+        buddy_t buddy;
 
-        QSet<QString> strings;
-        QString string;
-
+        quint32 cnt = 0;
         while ((p = rx.indexIn(html, p)) != -1)
         {
-            strings << rx.cap(1);
+            buddy.str = rx.cap(1);
+
+
+            if(!founds.contains(buddy.str))
+            {
+                buddy.cnt = ++cnt;
+                founds[buddy.str] = buddy;
+            }
             p += rx.matchedLength();
         }
 
-        quint32 cnt = 0;
-        foreach(string, strings)
+
+        foreach(buddy, founds)
         {
             coord_t co;
 
-            co.name = QString("%1 %2").arg(name).arg(++cnt);
-            co.pos  = string;
+            co.name = QString("%1 %2").arg(name).arg(buddy.cnt);
+            co.pos  = buddy.str;
 
-            string.replace(",",".");
-            string.replace(". "," ");
-            string.replace("O","E");
-            if(string.endsWith("."))
+            buddy.str.replace(",",".");
+            buddy.str.replace(". "," ");
+            buddy.str.replace("O","E");
+            if(buddy.str.endsWith("."))
             {
-                string = string.left(string.size() - 1);
+                buddy.str = buddy.str.left(buddy.str.size() - 1);
             }
 
-            GPS_Math_Str_To_Deg(string, co.lon, co.lat, true);
+            co.lon = -1000.0;
+            co.lat = -1000.0;
+
+            GPS_Math_Str_To_Deg(buddy.str, co.lon, co.lat, true);
+
+            if(co.lon == -1000.0|| co.lat == -1000.0)
+            {
+                qDebug() << "failed to convert buddy" << co.name << co.pos;
+                continue;
+            }
 
             co.lon *= (float) DEG_TO_RAD;
             co.lat *= (float) DEG_TO_RAD;
@@ -974,9 +986,6 @@ bool CWpt::hasBuddies()
 {
     int p = 0;
     QString html = getExtInfo();
-    html.replace("&deg;"," ");
-    html.replace("\260"," ");
-    html.replace("'"," ");
 
     return rx.indexIn(html, p) != -1;
 }
