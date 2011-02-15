@@ -143,11 +143,14 @@ int CDlgEditWpt::exec()
 
     if(wpt.isGeoCache())
     {
+        checkExportBuddies->setChecked(wpt.geocache.exportBuddies);
+
         wpt.showBuddies(true);
 
         if(wpt.buddies.isEmpty())
         {
             listBuddies->hide();
+            checkExportBuddies->hide();
         }
         else
         {
@@ -165,6 +168,7 @@ int CDlgEditWpt::exec()
             }
             listBuddies->sortItems();
             listBuddies->show();
+            checkExportBuddies->show();
         }
     }
 
@@ -233,6 +237,8 @@ void CDlgEditWpt::accept()
 
         CWptDB::self().addWpt(wpt2,false);
     }
+
+    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
 
     emit CWptDB::self().sigChanged();
     emit CWptDB::self().sigModified();

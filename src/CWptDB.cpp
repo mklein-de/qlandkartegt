@@ -607,7 +607,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             }
         }
 
-        wpt->saveGpxExt(waypoint);
+        wpt->saveGpxExt(waypoint, gpx.getExportFlag());
 
         ++_key;
     }

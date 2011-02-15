@@ -211,6 +211,8 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                     cache.logs << log;
                 }
 
+                s1 >> cache.exportBuddies;
+
                 cache.hasData = true;
 
                 break;
@@ -338,6 +340,8 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
             s3 << log.finder;
             s3 << log.text;
         }
+
+        s3 << cache.exportBuddies;
 
         entries << entryGeoCache;
     }
@@ -740,7 +744,24 @@ void CWpt::setEntryHtml(const QString& tag, const QString& val, QDomDocument& gp
     }
 }
 
-void CWpt::saveGpxExt(QDomNode& wpt)
+QString CWpt::insertBuddies(const QString& html)
+{
+    QString _html_ = html;
+
+    showBuddies(true);
+
+    coord_t co;
+    foreach(co, buddies)
+    {
+        _html_.replace(co.pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(co.pos).arg(co.name));
+    }
+
+    showBuddies(false);
+
+    return _html_;
+}
+
+void CWpt::saveGpxExt(QDomNode& wpt, bool isExport)
 {
     if(!geocache.hasData)
     {
@@ -753,7 +774,7 @@ void CWpt::saveGpxExt(QDomNode& wpt)
     if(geocache.service == eGC)
     {
         QDomElement gpxCache = gpx.createElement("groundspeak:cache");
-        saveGcExt(gpxCache);
+        saveGcExt(gpxCache, isExport);
         wpt.appendChild(gpxCache);
     }
     else if(geocache.service == eOC)
@@ -771,13 +792,15 @@ void CWpt::saveGpxExt(QDomNode& wpt)
 
         QDomElement gpxCache = gpx.createElement("cache");
         extensions.appendChild(gpxCache);
-        saveOcExt(gpxCache);
+        saveOcExt(gpxCache, isExport);
 
         wpt.appendChild(extensions);
     }
+
+
 }
 
-void CWpt::saveGcExt(QDomElement& gpxCache)
+void CWpt::saveGcExt(QDomElement& gpxCache, bool isExport)
 {
     QString str;
     QDomDocument gpx       = gpxCache.ownerDocument();
@@ -796,7 +819,16 @@ void CWpt::saveGcExt(QDomElement& gpxCache)
     str.sprintf("%1.1f", geocache.terrain);
     setEntry("groundspeak:terrain", str, gpx, gpxCache);
     setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
-    setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
+
+    if(isExport && geocache.exportBuddies)
+    {
+        setEntryHtml("groundspeak:long_description", insertBuddies(geocache.longDesc), gpx, gpxCache);
+    }
+    else
+    {
+        setEntryHtml("groundspeak:long_description", geocache.longDesc, gpx, gpxCache);
+    }
+
     setEntry("groundspeak:encoded_hints", geocache.hint, gpx, gpxCache);
 
     if(!geocache.logs.isEmpty())
@@ -825,7 +857,7 @@ void CWpt::saveGcExt(QDomElement& gpxCache)
     }
 }
 
-void CWpt::saveOcExt(QDomElement& gpxCache)
+void CWpt::saveOcExt(QDomElement& gpxCache, bool isExport)
 {
     QString str;
     QDomDocument gpx       = gpxCache.ownerDocument();
@@ -846,7 +878,16 @@ void CWpt::saveOcExt(QDomElement& gpxCache)
     str.sprintf("%1.1f", geocache.terrain);
     setEntry("terrain", str, gpx, gpxCache);
     setEntryHtml("short_description", geocache.shortDesc, gpx, gpxCache);
-    setEntryHtml("long_description", geocache.longDesc, gpx, gpxCache);
+
+    if(isExport && geocache.exportBuddies)
+    {
+        setEntryHtml("long_description", insertBuddies(geocache.longDesc), gpx, gpxCache);
+    }
+    else
+    {
+        setEntryHtml("long_description", geocache.longDesc, gpx, gpxCache);
+    }
+
     setEntry("encoded_hints", geocache.hint, gpx, gpxCache);
 
     if(!geocache.logs.isEmpty())
@@ -954,7 +995,7 @@ void CWpt::showBuddies(bool show)
         {
             coord_t co;
 
-            co.name = QString("%1 %2").arg(name).arg(buddy.cnt);
+            co.name = QString("%1_%2").arg(name).arg(buddy.cnt,2,10,QChar('0'));
             co.pos  = buddy.str;
 
             buddy.str.replace(",",".");

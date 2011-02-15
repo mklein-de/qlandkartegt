@@ -100,7 +100,7 @@ class CWpt : public IItem
         QPixmap getIcon();
 
         void loadGpxExt(const QDomNode& wpt);
-        void saveGpxExt(QDomNode& wpt);
+        void saveGpxExt(QDomNode& wpt, bool isExport);
 
         bool isGeoCache(){return geocache.hasData;}
         bool isMovable(){return !(geocache.hasData||(bool)sticky);}
@@ -120,14 +120,15 @@ class CWpt : public IItem
 
         void loadGcExt(const QDomNode& gpxCache);
         void loadOcExt(const QDomNode& gpxCache);
-        void saveGcExt(QDomElement& gpxCache);
-        void saveOcExt(QDomElement& gpxCache);
+        void saveGcExt(QDomElement& gpxCache, bool isExport);
+        void saveOcExt(QDomElement& gpxCache, bool isExport);
 
         void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         QString getEntry(const QString& tag, const QDomNode& parent);
         QString getEntryHtml(const QString& tag, const QDomNode& parent);
         QString htmlScale(float val);
+        QString insertBuddies(const QString& html);
 
         struct geocachelog_t
         {
@@ -144,7 +145,7 @@ class CWpt : public IItem
 
         struct geocache_t
         {
-            geocache_t() : service(eOC), hasData(false), id(0), available(true), archived(false), difficulty(0), terrain(0){}
+            geocache_t() : service(eOC), hasData(false), id(0), available(true), archived(false), difficulty(0), terrain(0), exportBuddies(false){}
             geocacheservice_e service;
             bool hasData;
             quint32 id;
@@ -165,6 +166,7 @@ class CWpt : public IItem
             QString state;
             QString locale;
             QList<geocachelog_t> logs;
+            bool exportBuddies;
         };
 
         geocache_t geocache;
