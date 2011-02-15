@@ -454,6 +454,12 @@ QPixmap CWpt::getIcon()
 QString CWpt::getInfo()
 {
     QString str = getName();
+
+    if(geocache.hasData)
+    {
+        str += QString(" (%1, D %2, T %3)").arg(geocache.container).arg(geocache.difficulty, 0,'f',1).arg(geocache.terrain, 0,'f',1);
+    }
+
     if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
     {
         if(str.count()) str += "\n";
