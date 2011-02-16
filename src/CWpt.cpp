@@ -991,7 +991,15 @@ void CWpt::showBuddies(bool show)
             buddy.lon = -1000.0;
             buddy.lat = -1000.0;
 
-            GPS_Math_Str_To_Deg(str, buddy.lon, buddy.lat, true);
+            QString str1 = str;
+            str1.replace(",",".");
+            str1.replace(". "," ");
+            str1.replace("O","E");
+            if(str1.endsWith("."))
+            {
+                str1 = str1.left(str1.size() - 1);
+            }
+            GPS_Math_Str_To_Deg(str1, buddy.lon, buddy.lat, true);
 
             if(buddy.lon == -1000.0 || buddy.lat == -1000.0)
             {
