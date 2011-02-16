@@ -70,6 +70,9 @@ void initWptIcons()
     wptIcons["Block, Red"]          = ":/icons/wpt/box_red15x15.png";
     wptIcons["Block, Blue"]         = ":/icons/wpt/box_blue15x15.png";
     wptIcons["Block, Green"]        = ":/icons/wpt/box_green15x15.png";
+    wptIcons["Blue Diamond"]        = ":/icons/wpt/diamond_blue15x15.png";
+    wptIcons["Green Diamond"]       = ":/icons/wpt/diamond_green15x15.png";
+    wptIcons["Red Diamond"]         = ":/icons/wpt/diamond_red15x15.png";
 
 
     QSettings cfg;

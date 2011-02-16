@@ -609,6 +609,38 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         wpt->saveGpxExt(waypoint, gpx.getExportFlag());
 
+        // export buddy waypoints
+        if(gpx.getExportFlag())
+        {
+            wpt->showBuddies(true);
+
+
+            const QList<CWpt::coord_t>& buddies = wpt->buddies;
+            foreach(const CWpt::coord_t& buddy, buddies)
+            {
+                QDomElement waypoint = gpx.createElement("wpt");
+                root.appendChild(waypoint);
+                str.sprintf("%1.8f", buddy.lat*RAD_TO_DEG);
+                waypoint.setAttribute("lat",str);
+                str.sprintf("%1.8f", buddy.lon*RAD_TO_DEG);
+                waypoint.setAttribute("lon",str);
+
+                QDomElement name = gpx.createElement("name");
+                waypoint.appendChild(name);
+                QDomText _name_ = gpx.createTextNode(buddy.name);
+                name.appendChild(_name_);
+
+                QDomElement sym = gpx.createElement("sym");
+                waypoint.appendChild(sym);
+                QDomText _sym_ = gpx.createTextNode("Blue Diamond");
+                sym.appendChild(_sym_);
+
+            }
+
+            wpt->showBuddies(false);
+        }
+
+
         ++_key;
     }
 }
