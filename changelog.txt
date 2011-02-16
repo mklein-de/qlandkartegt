@@ -1,3 +1,40 @@
+--- 2011.02.16 ---
+
+Request #252:
+Make waypoint text color selectable
+
+Bug     #253:
+Fix color band decoding for multi band raster maps
+
+Request #254:
+Place waypoint labels a bit more intelligent
+
+Request #255:
+Add DBus API for addGeoData()
+
+Request #256:
+Add directory for user defined waypoint icons
+
+Request #257:
+Add DBus API to add waypoint icons from othe applications
+
+Request #258:
+Add special geocache icons
+
+Request #259:
+Read GPX geocache information from oc.de and gc.com
+
+Request #260:
+Get additional waypoints from geocache description
+
+Bug     #261:
+Garmin Custom map export produces empty KML on win32
+
+Request #262:
+Add export of geocache buddy waypoints as option
+
+
+
 --- 2011.01.26 ---
 
 Request #240:
@@ -1082,6 +1119,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
