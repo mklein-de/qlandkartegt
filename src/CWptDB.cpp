@@ -615,8 +615,8 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             wpt->showBuddies(true);
 
 
-            const QList<CWpt::coord_t>& buddies = wpt->buddies;
-            foreach(const CWpt::coord_t& buddy, buddies)
+            const QList<CWpt::buddy_t>& buddies = wpt->buddies;
+            foreach(const CWpt::buddy_t& buddy, buddies)
             {
                 QDomElement waypoint = gpx.createElement("wpt");
                 root.appendChild(waypoint);
@@ -632,7 +632,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
                 QDomElement sym = gpx.createElement("sym");
                 waypoint.appendChild(sym);
-                QDomText _sym_ = gpx.createTextNode("Blue Diamond");
+                QDomText _sym_ = gpx.createTextNode("Civil");
                 sym.appendChild(_sym_);
 
             }
@@ -796,12 +796,12 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         if(!(*wpt)->buddies.isEmpty())
         {
             QPixmap icon(":/icons/iconWaypoint16x16.png");
-            CWpt::coord_t co;
-            QList<CWpt::coord_t>& buddies = (*wpt)->buddies;
-            foreach(co, buddies)
+            CWpt::buddy_t buddy;
+            QList<CWpt::buddy_t>& buddies = (*wpt)->buddies;
+            foreach(buddy, buddies)
             {
-                double x = co.lon;
-                double y = co.lat;
+                double x = buddy.lon;
+                double y = buddy.lat;
                 map.convertRad2Pt(x,y);
 
                 p.setBrush(CCanvas::brushBackWhite);

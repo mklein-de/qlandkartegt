@@ -29,6 +29,7 @@
 #include <QFile>
 #include <QDir>
 #include <QList>
+#include <QSet>
 
 #define WPT_NOFLOAT 1e25f
 
@@ -195,19 +196,13 @@ class CWpt : public IItem
 
         struct buddy_t
         {
-            quint32 cnt;
-            QString str;
-        };
-
-        struct coord_t
-        {
             QString name;
-            QString pos;
+            QSet<QString> pos;
             float lon;
             float lat;
         };
 
-        QList<coord_t> buddies;
+        QList<buddy_t> buddies;
 
 };
 

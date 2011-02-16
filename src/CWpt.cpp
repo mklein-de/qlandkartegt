@@ -750,10 +750,13 @@ QString CWpt::insertBuddies(const QString& html)
 
     showBuddies(true);
 
-    coord_t co;
-    foreach(co, buddies)
+    buddy_t buddy;
+    foreach(buddy, buddies)
     {
-        _html_.replace(co.pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(co.pos).arg(co.name));
+        foreach(const QString& pos, buddy.pos)
+        {
+            _html_.replace(pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(pos).arg(buddy.name));
+        }
     }
 
     showBuddies(false);
@@ -970,57 +973,51 @@ void CWpt::showBuddies(bool show)
 {
     if(show)
     {
-        int p = 0;
-        QString html = getExtInfo();
+        bool isKnown;
 
-        QMap<QString,buddy_t> founds;
-        buddy_t buddy;
 
-        quint32 cnt = 0;
+        int p           = 0;
+        quint32 cnt     = 0;
+        QString html    = getExtInfo();
+
+
         while ((p = rx.indexIn(html, p)) != -1)
         {
-            buddy.str = rx.cap(1);
+            buddy_t buddy;
 
-
-            if(!founds.contains(buddy.str))
-            {
-                buddy.cnt = ++cnt;
-                founds[buddy.str] = buddy;
-            }
+            QString str = rx.cap(1);
             p += rx.matchedLength();
-        }
 
+            buddy.lon = -1000.0;
+            buddy.lat = -1000.0;
 
-        foreach(buddy, founds)
-        {
-            coord_t co;
+            GPS_Math_Str_To_Deg(str, buddy.lon, buddy.lat, true);
 
-            co.name = QString("%1_%2").arg(name).arg(buddy.cnt,2,10,QChar('0'));
-            co.pos  = buddy.str;
-
-            buddy.str.replace(",",".");
-            buddy.str.replace(". "," ");
-            buddy.str.replace("O","E");
-            if(buddy.str.endsWith("."))
+            if(buddy.lon == -1000.0 || buddy.lat == -1000.0)
             {
-                buddy.str = buddy.str.left(buddy.str.size() - 1);
-            }
-
-            co.lon = -1000.0;
-            co.lat = -1000.0;
-
-            GPS_Math_Str_To_Deg(buddy.str, co.lon, co.lat, true);
-
-            if(co.lon == -1000.0|| co.lat == -1000.0)
-            {
-                qDebug() << "failed to convert buddy" << co.name << co.pos;
                 continue;
             }
 
-            co.lon *= (float) DEG_TO_RAD;
-            co.lat *= (float) DEG_TO_RAD;
+            buddy.lon *= (float) DEG_TO_RAD;
+            buddy.lat *= (float) DEG_TO_RAD;
 
-            buddies << co;
+            isKnown = false;
+            for(int i = 0; i < buddies.count(); i++)
+            {
+                buddy_t& b = buddies[i];
+                if(b.lon == buddy.lon && b.lat == buddy.lat)
+                {
+                    isKnown = true;
+                    b.pos << str;
+                }
+            }
+
+            if(!isKnown)
+            {
+                buddy.pos << str;
+                buddy.name = QString("%1_%2").arg(name).arg(++cnt,2,10,QChar('0'));
+                buddies << buddy;
+            }
         }
     }
     else
