@@ -175,6 +175,11 @@ int CDlgEditWpt::exec()
             checkExportBuddies->show();
         }
     }
+    else
+    {
+        listBuddies->hide();
+        checkExportBuddies->hide();
+    }
 
 
     webView->setHtml(html);

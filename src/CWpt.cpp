@@ -967,7 +967,7 @@ QString CWpt::htmlScale(float val)
 }
 
 
-static QRegExp rx("([NS]{1}[\\s:]*[0-9]+[\\s\260]*[0-9.,]+[\\s,/]*[EWO]{1}[\\s:]*[0-9]+[\\s\260]*[0-9.,]+)");
+static QRegExp rx("([NS]{1}[\\s:]*[0-9]+[\\s\260]*[0-9.,]+[\\s,/-]*[EWO]{1}[\\s:]*[0-9]+[\\s\260]*[0-9.,]+)");
 
 void CWpt::showBuddies(bool show)
 {
@@ -995,6 +995,7 @@ void CWpt::showBuddies(bool show)
             str1.replace(",",".");
             str1.replace(". "," ");
             str1.replace("/","");
+            str1.replace("-","");
             str1.replace(":","");
             str1.replace("O","E");
             if(str1.endsWith("."))
