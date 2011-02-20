@@ -27,4 +27,11 @@ QLandkarte GT for Windows (short: QLGT) depends on the following 3rd party softw
 
 5.) Optional at run-time: gpsbabel
   To be able to load geodata from file types other than .gpx, gpsbabel.exe must be available in the search path. 
-  Gpsbabel can be downloaded http://www.gpsbabel.org/.
+  GPSBabel can be downloaded at http://www.gpsbabel.org/.
+  
+6.) Optional at compile time: libdmtx  
+  libdmtx can be downloaded at http://www.libdmtx.org/
+  In the QLGT windows binaries, libdmtx 0.7.2 is statically linked.
+  To create a static .lib, the configuration type of libdmtx in 
+    libdmtx-0.7.2\project\visualc9\libdmtx.vcproj
+  has been changed accordingly (with the VS2008 GUI) from dynamic lib to static lib.
