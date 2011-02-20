@@ -22,6 +22,10 @@
 #include <QDialog>
 
 #include "ui_IDlgEditWpt.h"
+#ifdef HAS_DMTX
+#include <dmtx.h>
+#endif //HAS_DMTX
+
 
 class CWpt;
 
@@ -57,5 +61,8 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         double oldLon;
         double oldLat;
         QSet<QString> wptBuddies;
+#ifdef HAS_DMTX
+        DmtxEncode * enc;
+#endif
 };
 #endif                           //CDLGEDITWPT_H

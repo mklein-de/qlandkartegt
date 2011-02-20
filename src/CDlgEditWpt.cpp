@@ -31,14 +31,12 @@
 #include "config.h"
 
 #include <QtGui>
-#ifdef HAS_DMTX
-#include <dmtx.h>
-#endif                           //HAS_DMTX
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
 , wpt(wpt)
 , idxImg(0)
+, enc(0)
 {
     setupUi(this);
     connect(pushAdd, SIGNAL(clicked()), this, SLOT(slotAddImage()));
@@ -63,12 +61,19 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
         linePosition->setEnabled(false);
     }
 
+#ifdef HAS_DMTX
+    enc = dmtxEncodeCreate();
+#endif
+
 }
 
 
 CDlgEditWpt::~CDlgEditWpt()
 {
     wpt.showBuddies(false);
+#ifdef HAS_DMTX
+    dmtxEncodeDestroy(&enc);
+#endif
 }
 
 
@@ -397,8 +402,6 @@ void CDlgEditWpt::slotUpdateBarcode()
     }
 
 #ifdef HAS_DMTX
-    DmtxEncode * enc = dmtxEncodeCreate();
-
     if(enc)
     {
         dmtxEncodeSetProp( enc, DmtxPropPixelPacking, DmtxPack32bppRGBX );
@@ -415,8 +418,6 @@ void CDlgEditWpt::slotUpdateBarcode()
 
         QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
         labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));
-
-        dmtxEncodeDestroy(&enc);
     }
     else
     {

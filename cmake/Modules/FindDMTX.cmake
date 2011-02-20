@@ -30,19 +30,25 @@ else (DMTX_LIBRARIES AND DMTX_INCLUDE_DIRS)
         /usr/local/include/libdmtx
         /opt/local/include/libdmtx
         /sw/include/libdmtx
+        ../../tools/libdmtx
   )
 
   # debian uses version suffixes
   # add suffix evey new release
   find_library(DMTX_LIBRARIES
     NAMES
+if (WIN32)
+        libdmtx
+else (WIN32)    
         dmtx
+endif (WIN32)        
     PATHS
       /usr/lib64
       /usr/lib
       /usr/local/lib
       /opt/local/lib
       /sw/lib
+      ../../tools/libdmtx
   )
 
   if (DMTX_INCLUDE_DIRS AND DMTX_LIBRARIES)
@@ -64,9 +70,4 @@ else (DMTX_LIBRARIES AND DMTX_INCLUDE_DIRS)
 
 endif (DMTX_LIBRARIES AND DMTX_INCLUDE_DIRS)
 
-if (WIN32)
-set(DMTX_FOUND FALSE)
-set(DMTX_LIBRARIES "")
-set(DMTX_INCLUDE_DIRS "")
-endif (WIN32)
 
