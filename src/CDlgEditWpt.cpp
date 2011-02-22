@@ -36,7 +36,9 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
 , wpt(wpt)
 , idxImg(0)
+#ifdef HAS_DMTX
 , enc(0)
+#endif
 {
     setupUi(this);
     connect(pushAdd, SIGNAL(clicked()), this, SLOT(slotAddImage()));
