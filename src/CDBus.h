@@ -34,7 +34,6 @@ class CDBus : public QDBusAbstractAdaptor
         void loadGeoData(const QString& filename);
         void zoomToRect(const double lon1, const double lat1, const double lon2, const double lat2);
         void setWaypointIcon(const QString& name, const QByteArray& data);
-//        void setWaypointIconFile(const QString& name, const QString& filename);
 
     private:
         friend class CMainWindow;
