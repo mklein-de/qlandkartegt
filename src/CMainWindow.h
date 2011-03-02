@@ -68,6 +68,8 @@ class CMainWindow : public QMainWindow
 
         CMenus *getActionGroupProvider() { return actionGroupProvider;}
 
+        void exportToOcm();
+
     protected:
         void closeEvent(QCloseEvent * e);
         void dragEnterEvent(QDragEnterEvent *event);
@@ -111,6 +113,7 @@ class CMainWindow : public QMainWindow
         bool maybeSave();
         void saveData(QString& filename, const QString& filter, bool exportFlag = false);
         bool convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile);
+
 
         QMenu *setupMenu;
         QMenu *groupProvidedMenu;

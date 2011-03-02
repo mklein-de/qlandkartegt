@@ -119,8 +119,9 @@ QObject(parent), parent(parent)
 
     //
     createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
-    createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
-    createAction(tr("F7"), 0, tr("Create World &Basemap"), "aWorldBasemap", tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
+    createAction(tr("F6"), ":/icons/cache/Traditional-Cache.png", tr("&Export to OCM"), "aOcm", tr("Send current workspace to Open Cache Manager."));
+    //createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
+    //createAction(tr("F7"), 0, tr("Create World &Basemap"), "aWorldBasemap", tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
 
     //
     createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadRoute", tr("Upload routes to device."));
@@ -328,6 +329,10 @@ void CActions::funcDiary()
     CDiaryDB::self().openEditWidget();
 }
 
+void CActions::funcOcm()
+{
+    theMainWindow->exportToOcm();
+}
 
 void CActions::funcColorPicker()
 {

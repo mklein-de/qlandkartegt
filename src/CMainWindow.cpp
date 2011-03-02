@@ -208,7 +208,10 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
-    //    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aWorldBasemap");
+#ifdef HAS_DBUS
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aOcm");
+#endif
+
 
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
@@ -1081,6 +1084,30 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
     fn = filename;
 }
 
+
+void CMainWindow::exportToOcm()
+{
+#ifdef HAS_DBUS
+    QStringList keysWpt, keysTrk, keysRte;
+
+    CDlgExport dlg(0, &keysWpt, &keysTrk, &keysRte);
+
+    if( dlg.exec() == QDialog::Rejected)
+    {
+        return;
+    }
+
+
+    CGpx gpx(this, true);
+    CWptDB::self().saveGPX(gpx, keysWpt);
+    CTrackDB::self().saveGPX(gpx, keysTrk);
+    CRouteDB::self().saveGPX(gpx, keysRte);
+    gpx.makeExtensions();
+    COverlayDB::self().saveGPX(gpx, QStringList());
+
+    //gpx.save(filename);
+#endif
+}
 
 void CMainWindow::slotPrint()
 {

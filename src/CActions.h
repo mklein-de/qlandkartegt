@@ -104,6 +104,7 @@ class CActions : public QObject
         void funcCombineDistOvl();
 
         void funcDiary();
+        void funcOcm();
         void funcColorPicker();
         void funcWorldBasemap();
 
