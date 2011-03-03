@@ -152,7 +152,7 @@ void CGpx::save(const QString& filename)
 {
     QFile file(filename);
 
-    if(file.exists())
+    if(file.exists() && !export_flag)
     {
         CGpx gpx(0);
         try

@@ -1126,22 +1126,25 @@ void CMainWindow::exportToOcm()
         }
 
         ocm.startDetached("ocm-gtk");
-        sleep(1);
+        sleep(3);
         cnt++;
     }
 
     QTemporaryFile file;
     file.open();
-    file.close();
+    //file.close();
     gpx.save(file.fileName());
+
+    msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ShowOCM");
+    msg = dbus.call(msg);
+
+//    qDebug() << msg.errorName()  << msg.errorMessage();
 
     msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ImportGPX");
     msg << file.fileName();
     msg = dbus.call(msg);
 
-    msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ShowOCM");
-    msg = dbus.call(msg);
-
+//    qDebug() << msg.errorName()  << msg.errorMessage();
 #endif
 }
 
