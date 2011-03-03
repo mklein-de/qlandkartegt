@@ -635,6 +635,15 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 QDomText _sym_ = gpx.createTextNode("Civil");
                 sym.appendChild(_sym_);
 
+                //<parent xmlns="http://opencachemanage.sourceforge.net/schema1">GC25DXH</parent>
+
+
+                QDomElement parent = gpx.createElement("parent");
+                parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+                waypoint.appendChild(parent);
+                QDomText _parent_ = gpx.createTextNode(wpt->getName());
+                parent.appendChild(_parent_);
+
             }
 
             wpt->showBuddies(false);
