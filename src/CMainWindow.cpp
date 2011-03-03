@@ -317,17 +317,23 @@ CMainWindow::CMainWindow()
             else
                 showMaximized();
         }
+        else
+        {
+            setGeometry(0,0,800,600);
+        }
     }
 
     // restore last session settings
     QList<int> sizes = mainSplitter->sizes();
-    sizes[0] = (int)(mainSplitter->width() * 0.1);
-    sizes[1] = (int)(mainSplitter->width() * 0.9);
+    sizes[0] = 200;
+    sizes[1] = 600;
+
     mainSplitter->setSizes(sizes);
     sizes = leftSplitter->sizes();
-    sizes[0] = (int)(mainSplitter->height() * 0.3);
-    sizes[1] = (int)(mainSplitter->height() * 0.3);
-    sizes[2] = (int)(mainSplitter->height() * 0.4);
+    sizes[0] = 200;
+    sizes[1] = 200;
+    sizes[2] = 200;
+
     leftSplitter->setSizes(sizes);
 
     if( cfg.contains("mainWidget/mainSplitter") )
@@ -1088,6 +1094,9 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
 void CMainWindow::exportToOcm()
 {
 #ifdef HAS_DBUS
+    int cnt = 0;
+    QProcess ocm;
+    QDBusMessage msg;
     QStringList keysWpt, keysTrk, keysRte;
 
     CDlgExport dlg(0, &keysWpt, &keysTrk, &keysRte);
@@ -1105,7 +1114,34 @@ void CMainWindow::exportToOcm()
     gpx.makeExtensions();
     COverlayDB::self().saveGPX(gpx, QStringList());
 
-    //gpx.save(filename);
+
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    QStringList serviceNames = dbus.interface()->registeredServiceNames();
+    if(!serviceNames.contains("org.ocm.dbus"))
+    {
+        if(cnt > 3)
+        {
+            QMessageBox::warning(0,tr("Failed ..."), tr("Failed to start OCM."), QMessageBox::Abort);
+            return;
+        }
+
+        ocm.startDetached("ocm-gtk");
+        sleep(1);
+        cnt++;
+    }
+
+    QTemporaryFile file;
+    file.open();
+    file.close();
+    gpx.save(file.fileName());
+
+    msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ImportGPX");
+    msg << file.fileName();
+    msg = dbus.call(msg);
+
+    msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ShowOCM");
+    msg = dbus.call(msg);
+
 #endif
 }
 
