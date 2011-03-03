@@ -90,9 +90,11 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                 }
                 else if(type == "Distance")
                 {
+                    IOverlay * ovl;
                     float speed;
                     QString name;
                     QString comment;
+                    QString parentWpt;
                     int size, idx = 0;
                     COverlayDistance::pt_t pt;
                     QList<COverlayDistance::pt_t> points;
@@ -103,8 +105,9 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                         pt.idx = idx++;
                         points << pt;
                     }
-                    s1 >> speed >> key;
-                    db.addDistance(name, comment, speed, points, key);
+                    s1 >> speed >> key >> parentWpt;
+                    ovl = db.addDistance(name, comment, speed, points, key);
+                    ovl->setParentWpt(parentWpt);
                 }
                 break;
             }

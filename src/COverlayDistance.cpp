@@ -101,6 +101,7 @@ void COverlayDistance::save(QDataStream& s)
     }
     s << speed;
     s << getKey();
+    s << getParentWpt();
 }
 
 

@@ -191,6 +191,12 @@ void CRouteDB::loadGPX(CGpx& gpx)
             }
         }
 
+        if(rte.namedItem("parent").isElement())
+        {
+            r->setParentWpt(rte.namedItem("parent").toElement().text());
+        }
+
+
         QDomElement rtept = rte.firstChildElement("rtept");
 
         while (!rtept.isNull())
@@ -252,6 +258,15 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         gpxRoute.appendChild(name);
         QDomText _name_ = gpx.createTextNode((*route)->getName());
         name.appendChild(_name_);
+
+        if(!(*route)->getParentWpt().isEmpty())
+        {
+            QDomElement parent = gpx.createElement("parent");
+            parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+            gpxRoute.appendChild(parent);
+            QDomText _parent_ = gpx.createTextNode((*route)->getParentWpt());
+            parent.appendChild(_parent_);
+        }
 
         unsigned cnt = 0;
         QVector<CRoute::pt_t> rtepts;

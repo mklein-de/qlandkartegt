@@ -90,6 +90,7 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 s1 >> track.name;
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
+                s1 >> track.parentWpt;
 
                 track.setColor(track.colorIdx);
                 track.setKey(key);
@@ -245,6 +246,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     s1 << track.name;
     s1 << track.comment;
     s1 << track.colorIdx;
+    s1 << track.getParentWpt();
 
     entries << entryBase;
 

@@ -81,6 +81,7 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 s1 >> route.name;
                 s1 >> icon;
                 s1 >> route.ttime;
+                s1 >> route.parentWpt;
 
                 route.setIcon(icon);
                 route.setKey(key);
@@ -164,6 +165,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
     s1 << route.getName();
     s1 << route.getIconString();
     s1 << route.getTime();
+    s1 << route.getParentWpt();
 
     entries << entryBase;
 

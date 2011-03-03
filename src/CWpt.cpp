@@ -134,6 +134,7 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.description;
                 s1 >> wpt.urlname;
                 s1 >> wpt.type;
+                s1 >> wpt.parentWpt;
 
                 wpt.setIcon(icon);
                 wpt.setKey(key);
@@ -253,6 +254,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     s1 << wpt.description;
     s1 << wpt.urlname;
     s1 << wpt.type;
+    s1 << wpt.getParentWpt();
 
     entries << entryBase;
 

@@ -191,6 +191,12 @@ void CTrackDB::loadGPX(CGpx& gpx)
             // When the URL is somehow supported, we may need those
         }
 
+        tmpelem = trkmap.value("parent");
+        if(!tmpelem.isNull())
+        {
+            track->setParentWpt(tmpelem.text());
+        }
+
         // For now we are ignoring the following elements:
         // * cmt - GPS comment (string)
         // * src - data source (string)
@@ -440,6 +446,15 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QDomText _name_ = gpx.createTextNode(track->getName());
         name.appendChild(_name_);
 
+        if(!track->getParentWpt().isEmpty())
+        {
+            QDomElement parent = gpx.createElement("parent");
+            parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+            trk.appendChild(parent);
+            QDomText _parent_ = gpx.createTextNode(track->getParentWpt());
+            parent.appendChild(_parent_);
+        }
+
         QDomElement ext = gpx.createElement("extensions");
         trk.appendChild(ext);
 
@@ -452,6 +467,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QString colname = gpx.getTrackColorMap().left(track->getColorIdx());
         QDomText _color_ = gpx.createTextNode(colname);
         color.appendChild(_color_);
+
 
         QDomElement trkseg = gpx.createElement("trkseg");
         trk.appendChild(trkseg);

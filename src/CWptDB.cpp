@@ -422,6 +422,12 @@ void CWptDB::loadGPX(CGpx& gpx)
             wpt->type = waypoint.namedItem("type").toElement().text();
         }
 
+        if(waypoint.namedItem("parent").isElement())
+        {
+            wpt->setParentWpt(waypoint.namedItem("parent").toElement().text());
+        }
+
+
         if(waypoint.namedItem("extensions").isElement())
         {
             QDomElement tmpelem;
@@ -591,6 +597,15 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             type.appendChild(_type_);
         }
 
+        if(!wpt->getParentWpt().isEmpty())
+        {
+            QDomElement parent = gpx.createElement("parent");
+            parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+            waypoint.appendChild(parent);
+            QDomText _parent_ = gpx.createTextNode(wpt->getParentWpt());
+            parent.appendChild(_parent_);
+        }
+
         if(wpt->prx != 1e25f)
         {
             QDomElement extensions = gpx.createElement("extensions");
@@ -610,11 +625,9 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         wpt->saveGpxExt(waypoint, gpx.getExportFlag());
 
         // export buddy waypoints
-        if(gpx.getExportFlag())
+        if(gpx.getExportFlag() && wpt->geocache.exportBuddies)
         {
             wpt->showBuddies(true);
-
-
             const QList<CWpt::buddy_t>& buddies = wpt->buddies;
             foreach(const CWpt::buddy_t& buddy, buddies)
             {
@@ -634,9 +647,6 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 waypoint.appendChild(sym);
                 QDomText _sym_ = gpx.createTextNode("Civil");
                 sym.appendChild(_sym_);
-
-                //<parent xmlns="http://opencachemanage.sourceforge.net/schema1">GC25DXH</parent>
-
 
                 QDomElement parent = gpx.createElement("parent");
                 parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
