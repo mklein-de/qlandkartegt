@@ -116,7 +116,7 @@ QString CMapSelectionRaster::getDescription()
     d2 = distance(p1, p2, a1, a2) / 1000.0;
 
     str  = description + "\n" + pos1 + "\n" + pos2;
-    str += "\n" + QString("%1 x %2 km = %3 km%4").arg(d1,0,'f',1).arg(d2,0,'f',1).arg(d1*d2,0,'f',1).arg(QChar(0x00B2));
+    str += "\n" + QString("%1 x %2 km = %3 km%4").arg(d1,0,'f',2).arg(d2,0,'f',2).arg(d1*d2,0,'f',1).arg(QChar(0x00B2));
 
     return str;
 
