@@ -52,8 +52,15 @@ class CGpx : public QObject, public QDomDocument
             qlVer_1_1,           // file uses new, XSD-compatible extensions
         };
 
+        enum exportMode_e
+        {
+              eQlgtExport
+            , eCleanExport
+            , eOcmExport
+        };
+
     public:
-        CGpx(QObject * parent, bool = false);
+        CGpx(QObject * parent, exportMode_e mode);
         virtual ~CGpx();
 
         void load(const QString& filename);
@@ -65,9 +72,9 @@ class CGpx : public QObject, public QDomDocument
         const Dictionary<QString, QColor>& getColorMap() const;
         const Dictionary<QString, int>& getTrackColorMap() const;
 
-        QDomElement &getExtensions() { return extensions; };
+        QDomElement &getExtensions() { return extensions; }
         gpx_version version() { return file_version; }
-        bool getExportFlag() { return export_flag; }
+        exportMode_e getExportMode() { return exportMode; }
 
     protected:
         void writeMetadata();
@@ -78,6 +85,6 @@ class CGpx : public QObject, public QDomDocument
     private:
         QDomElement extensions;
         gpx_version file_version;
-        bool export_flag;
+        exportMode_e exportMode;
 };
 #endif                           //CGPX_H

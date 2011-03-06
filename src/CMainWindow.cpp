@@ -845,7 +845,7 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
         }
         else if(ext == "GPX")
         {
-            CGpx gpx(this);
+            CGpx gpx(this, CGpx::eQlgtExport);
             gpx.load(filename);
             CMapDB::self().loadGPX(gpx);
             CWptDB::self().loadGPX(gpx);
@@ -897,7 +897,7 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
             }
 
-            CGpx gpx(this);
+            CGpx gpx(this, CGpx::eQlgtExport);
             gpx.load(tmpfile.fileName());
             CMapDB::self().loadGPX(gpx);
             CWptDB::self().loadGPX(gpx);
@@ -1064,7 +1064,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
                 }
             }
 
-            CGpx gpx(this, exportFlag);
+            CGpx gpx(this, exportFlag ? CGpx::eCleanExport : CGpx::eQlgtExport);
             CMapDB::self().saveGPX(gpx, QStringList());
             CWptDB::self().saveGPX(gpx, keysWpt);
             CTrackDB::self().saveGPX(gpx, keysTrk);
@@ -1107,7 +1107,7 @@ void CMainWindow::exportToOcm()
     }
 
 
-    CGpx gpx(this, true);
+    CGpx gpx(this, CGpx::eOcmExport);
     CWptDB::self().saveGPX(gpx, keysWpt);
     CTrackDB::self().saveGPX(gpx, keysTrk);
     CRouteDB::self().saveGPX(gpx, keysRte);

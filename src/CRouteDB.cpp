@@ -270,7 +270,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         unsigned cnt = 0;
         QVector<CRoute::pt_t> rtepts;
-        if(gpx.getExportFlag() == false)
+        if(gpx.getExportMode() == CGpx::eQlgtExport)
         {
             rtepts = (*route)->getPriRtePoints();
         }
@@ -281,7 +281,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QVector<CRoute::pt_t>::const_iterator rtept = rtepts.begin();
         while(rtept != rtepts.end())
         {
-            if(gpx.getExportFlag() && rtept->action.isEmpty())
+            if((gpx.getExportMode() != CGpx::eQlgtExport) && rtept->action.isEmpty())
             {
                 rtept++;
                 continue;
@@ -294,7 +294,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
             gpxRtept.setAttribute("lon",QString::number(rtept->lon,'f',6));
 
             QString str     = QString("%1").arg(++cnt,3,10,QChar('0'));
-            QString cmtstr  = gpx.getExportFlag() ? rtept->action : str;
+            QString cmtstr  = (gpx.getExportMode() != CGpx::eQlgtExport) ? rtept->action : str;
 
             QDomElement name = gpx.createElement("name");
             gpxRtept.appendChild(name);

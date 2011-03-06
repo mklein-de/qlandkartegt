@@ -159,7 +159,7 @@ void CDiaryDB::loadGPX(CGpx& gpx)
 void CDiaryDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
 
-    if (gpx.getExportFlag())
+    if (gpx.getExportMode() != CGpx::eQlgtExport)
     {
         return;
     }

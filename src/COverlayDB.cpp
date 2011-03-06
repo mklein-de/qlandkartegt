@@ -98,9 +98,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
     while(!extensions.isNull())
     {
         QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
-        const QDomElement ovl = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
-            "overlays":
-        (CGpx::ql_ns + ":" + "overlays"));
+        const QDomElement ovl = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0 ? "overlays" : (CGpx::ql_ns + ":" + "overlays"));
         if(!ovl.isNull())
         {
             QDomNodeList ovllist = ovl.childNodes();
@@ -124,9 +122,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                 }
                 const QDomElement element = child.toElement();
 
-                if(type == (gpx.version() == CGpx::qlVer_1_0?
-                    "text":
-                    (CGpx::ql_ns + ":" + "text")))
+                if(type == (gpx.version() == CGpx::qlVer_1_0 ? "text" : (CGpx::ql_ns + ":" + "text")))
                 {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
@@ -140,9 +136,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         addText(text,rect, "", true);
                     }
                 }
-                else if(type == (gpx.version() == CGpx::qlVer_1_0?
-                    "textbox":
-                    (CGpx::ql_ns + ":" + "textbox")))
+                else if(type == (gpx.version() == CGpx::qlVer_1_0 ? "textbox" : (CGpx::ql_ns + ":" + "textbox")))
                 {
                     int top     = element.attribute("top","0").toInt();
                     int left    = element.attribute("left","0").toInt();
@@ -160,9 +154,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         addTextBox(text,lon, lat, QPoint(anchorx, anchory), rect, "", true);
                     }
                 }
-                else if(type == (gpx.version() == CGpx::qlVer_1_0?
-                    "distance":
-                    (CGpx::ql_ns + ":" + "distance")))
+                else if(type == (gpx.version() == CGpx::qlVer_1_0 ? "distance" : (CGpx::ql_ns + ":" + "distance")))
                 {
                     QString name;
                     QString comment;
@@ -220,7 +212,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
 void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
-    if (gpx.getExportFlag())
+    if ((gpx.getExportMode() != CGpx::eQlgtExport))
     {
         return;
     }
@@ -230,7 +222,6 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
     }
 
     QString str;
-    QDomElement root        = gpx.documentElement();
     QDomElement extensions  = gpx.getExtensions();
     QDomElement _overlay_   = gpx.createElement("ql:overlays");
 

@@ -597,14 +597,18 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             type.appendChild(_type_);
         }
 
-        if(!wpt->getParentWpt().isEmpty())
+        if(gpx.getExportMode() == CGpx::eOcmExport)
         {
-            QDomElement parent = gpx.createElement("parent");
-            parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
-            waypoint.appendChild(parent);
-            QDomText _parent_ = gpx.createTextNode(wpt->getParentWpt());
-            parent.appendChild(_parent_);
+            if(!wpt->getParentWpt().isEmpty())
+            {
+                QDomElement parent = gpx.createElement("parent");
+                parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+                waypoint.appendChild(parent);
+                QDomText _parent_ = gpx.createTextNode(wpt->getParentWpt());
+                parent.appendChild(_parent_);
+            }
         }
+
 
         if(wpt->prx != 1e25f)
         {
@@ -622,10 +626,10 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             }
         }
 
-        wpt->saveGpxExt(waypoint, gpx.getExportFlag());
+        wpt->saveGpxExt(waypoint, gpx.getExportMode());
 
         // export buddy waypoints
-        if(gpx.getExportFlag() && wpt->geocache.exportBuddies)
+        if((gpx.getExportMode() != CGpx::eQlgtExport) && wpt->geocache.exportBuddies)
         {
             wpt->showBuddies(true);
             const QList<CWpt::buddy_t>& buddies = wpt->buddies;
@@ -648,12 +652,14 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 QDomText _sym_ = gpx.createTextNode("Civil");
                 sym.appendChild(_sym_);
 
-                QDomElement parent = gpx.createElement("parent");
-                parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
-                waypoint.appendChild(parent);
-                QDomText _parent_ = gpx.createTextNode(wpt->getName());
-                parent.appendChild(_parent_);
-
+                if(gpx.getExportMode() == CGpx::eOcmExport)
+                {
+                    QDomElement parent = gpx.createElement("parent");
+                    parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
+                    waypoint.appendChild(parent);
+                    QDomText _parent_ = gpx.createTextNode(wpt->getName());
+                    parent.appendChild(_parent_);
+                }
             }
 
             wpt->showBuddies(false);

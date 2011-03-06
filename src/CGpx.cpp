@@ -41,11 +41,12 @@ uint qHash(QColor color)
 }
 
 
-CGpx::CGpx(QObject * parent, bool exportFlag)
+CGpx::CGpx(QObject * parent, exportMode_e mode)
 : QObject(parent)
 , QDomDocument()
+, exportMode(mode)
 {
-    export_flag = exportFlag;
+
     writeMetadata();
 
     colorMap.insert("Black",       QColor(Qt::black));
@@ -106,7 +107,8 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
 //    root.setAttribute("xmlns:groundspeak",gs_ns);
-    if (!export_flag)
+
+    if (exportMode == eQlgtExport)
     {
         root.setAttribute("xmlns:ql",ql_ns);
     }
@@ -114,7 +116,8 @@ void CGpx::writeMetadata()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "
         + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "
         + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
-    if (!export_flag)
+
+    if (exportMode == eQlgtExport)
     {
         schemaLocation += " ";
         schemaLocation += ql_ns;
@@ -152,9 +155,9 @@ void CGpx::save(const QString& filename)
 {
     QFile file(filename);
 
-    if(file.exists() && !export_flag)
+    if(file.exists() && (exportMode == eQlgtExport))
     {
-        CGpx gpx(0);
+        CGpx gpx(0,exportMode);
         try
         {
             gpx.load(filename);

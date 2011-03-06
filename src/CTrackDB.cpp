@@ -477,7 +477,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         while(pt != pts.end())
         {
             QDomElement trkpt = gpx.createElement("trkpt");
-            if (gpx.getExportFlag() && (pt->flags.flag() & CTrack::pt_t::eDeleted))
+            if ((gpx.getExportMode() != CGpx::eQlgtExport) && (pt->flags.flag() & CTrack::pt_t::eDeleted))
             {
                 // skip deleted points when exporting
                 ++pt;
@@ -546,19 +546,19 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
             }
 
             // gpx extensions
-            if((!gpx.getExportFlag() && pt->flags.flag() != 0) ||
-                pt->heading != WPT_NOFLOAT ||
-                pt->velocity != WPT_NOFLOAT)
+            if(gpx.getExportMode() == CGpx::eQlgtExport)
             {
+                bool hasExtensions = false;
                 QDomElement extensions = gpx.createElement("extensions");
-                trkpt.appendChild(extensions);
 
-                if(!gpx.getExportFlag() && pt->flags.flag() != 0)
+
+                if(pt->flags.flag() != 0)
                 {
                     QDomElement flags = gpx.createElement("ql:flags");
                     extensions.appendChild(flags);
                     QDomText _flags_ = gpx.createTextNode(QString::number(pt->flags.flag()));
                     flags.appendChild(_flags_);
+                    hasExtensions = true;
                 }
 
                 if(pt->heading != WPT_NOFLOAT)
@@ -567,6 +567,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
                     extensions.appendChild(heading);
                     QDomText _heading_ = gpx.createTextNode(QString::number(pt->heading));
                     heading.appendChild(_heading_);
+                    hasExtensions = true;
                 }
 
                 if(pt->velocity != WPT_NOFLOAT)
@@ -575,6 +576,12 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
                     extensions.appendChild(velocity);
                     QDomText _velocity_ = gpx.createTextNode(QString::number(pt->velocity));
                     velocity.appendChild(_velocity_);
+                    hasExtensions = true;
+                }
+
+                if(hasExtensions)
+                {
+                    trkpt.appendChild(extensions);
                 }
             }
 
