@@ -461,6 +461,14 @@ void CWptDB::loadGPX(CGpx& gpx)
                 }
             }
 
+
+            tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "parent");
+            if(!tmpelem.isNull())
+            {
+                wpt->setParentWpt(tmpelem.text());
+            }
+
+
             // QLandkarteGT backward compatibility
             if (gpx.version() == CGpx::qlVer_1_0)
             {
@@ -610,7 +618,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
 
-        if(wpt->prx != 1e25f)
+        if(wpt->prx != 1e25f || !wpt->getParentWpt().isEmpty())
         {
             QDomElement extensions = gpx.createElement("extensions");
             waypoint.appendChild(extensions);
@@ -624,12 +632,21 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
                 proximity.appendChild(_proximity_);
             }
+
+
+            if(!wpt->getParentWpt().isEmpty() && (gpx.getExportMode() == CGpx::eQlgtExport))
+            {
+                QDomElement parent = gpx.createElement("ql:parent");
+                extensions.appendChild(parent);
+                QDomText _parent_ = gpx.createTextNode(wpt->getParentWpt());
+                parent.appendChild(_parent_);
+            }
         }
 
         wpt->saveGpxExt(waypoint, gpx.getExportMode());
 
         // export buddy waypoints
-        if((gpx.getExportMode() != CGpx::eQlgtExport) && wpt->geocache.exportBuddies)
+        if(wpt->geocache.exportBuddies)
         {
             wpt->showBuddies(true);
             const QList<CWpt::buddy_t>& buddies = wpt->buddies;
@@ -657,6 +674,16 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                     QDomElement parent = gpx.createElement("parent");
                     parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
                     waypoint.appendChild(parent);
+                    QDomText _parent_ = gpx.createTextNode(wpt->getName());
+                    parent.appendChild(_parent_);
+                }
+                else if(gpx.getExportMode() == CGpx::eQlgtExport)
+                {
+                    QDomElement extensions = gpx.createElement("extensions");
+                    waypoint.appendChild(extensions);
+
+                    QDomElement parent = gpx.createElement("ql:parent");
+                    extensions.appendChild(parent);
                     QDomText _parent_ = gpx.createTextNode(wpt->getName());
                     parent.appendChild(_parent_);
                 }

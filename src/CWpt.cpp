@@ -503,6 +503,12 @@ QString CWpt::getInfo()
         }
     }
 
+    if(!parentWpt.isEmpty())
+    {
+        if(str.count()) str += "\n";
+        str += tr("Parent: %1").arg(parentWpt);
+    }
+
     if(description.count())
     {
         if(str.count()) str += "\n";
