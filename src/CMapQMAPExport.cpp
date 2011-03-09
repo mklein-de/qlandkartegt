@@ -544,10 +544,10 @@ void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status
 {
     job_t job = jobs.first();
 
-    QStringList args;
-    args << "-t_srs" << "EPSG:4326";
+    QStringList args;    
+	args << "-of" << "BMP";
     args << file1->fileName();
-    args << file2->fileName() + ".jpg";
+    args << file2->fileName();
 
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
@@ -565,8 +565,10 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
 
     QString str;
     QFile   zipfile(job.tarFilename);
-    //QImage  img(file2->fileName() + ".jpg");
-    //QString mapfilename = QDir::temp().filePath("map.jpg");
+	{
+		QImage  img(file2->fileName(), "BMP");
+		img.save(file2->fileName() + ".jpg", "JPEG");   
+	}
     QFile   mapfile(file2->fileName() + ".jpg");
     QLGT::QZipWriter zip(&zipfile);
     QDomDocument doc;
