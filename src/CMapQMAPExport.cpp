@@ -69,7 +69,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     connect(&cmdKMZ1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmdKMZ1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmdKMZ1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ2(int,QProcess::ExitStatus)));
+    connect(&cmdKMZ1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ3(int,QProcess::ExitStatus)));
 
     connect(&cmdKMZ2, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmdKMZ2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -512,7 +512,7 @@ void CMapQMAPExport::startGE()
 void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status)
 {
     if(file1){delete file1; file1 = 0;}
-    if(file2){delete file2; file2 = 0;}
+//    if(file2){delete file2; file2 = 0;}
     if(jobs.isEmpty())
     {
         textBrowser->setTextColor(Qt::black);
@@ -522,14 +522,15 @@ void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status
 
     file1 = new QTemporaryFile();
     file1->open();
-    file2 = new QTemporaryFile();
-    file2->open();
+//    file2 = new QTemporaryFile();
+//    file2->open();
 
     job_t job = jobs.first();
     QStringList args;
+    args << "-of" << "BMP";
     args << "-srcwin";
     args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.height);
+    args << QString::number(job.width) << QString::number(job.height);    
     args << job.srcFilename;
     args << file1->fileName();
 
@@ -540,20 +541,20 @@ void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status
 
 }
 
-void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status)
-{
-    job_t job = jobs.first();
+//void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status)
+//{
+//    job_t job = jobs.first();
 
-    QStringList args;    
-	args << "-of" << "BMP";
-    args << file1->fileName();
-    args << file2->fileName();
+//    QStringList args;
+//	args << "-of" << "BMP";
+//    args << file1->fileName();
+//    args << file2->fileName();
 
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
+//    textBrowser->setTextColor(Qt::black);
+//    textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
 
-    cmdKMZ2.start(GDALWARP, args);
-}
+//    cmdKMZ2.start(GDALWARP, args);
+//}
 
 
 void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status)
@@ -566,10 +567,10 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     QString str;
     QFile   zipfile(job.tarFilename);
 	{
-		QImage  img(file2->fileName(), "BMP");
-		img.save(file2->fileName() + ".jpg", "JPEG");   
+        QImage  img(file1->fileName(), "BMP");
+        img.save(file1->fileName() + ".jpg", "JPEG");
 	}
-    QFile   mapfile(file2->fileName() + ".jpg");
+    QFile   mapfile(file1->fileName() + ".jpg");
     QLGT::QZipWriter zip(&zipfile);
     QDomDocument doc;
     QDomElement root    = doc.createElement("kml");
