@@ -46,7 +46,6 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished4( int exitCode, QProcess::ExitStatus status);
 
         void slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status);
-//        void slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status);
         void slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status);
 
     private:

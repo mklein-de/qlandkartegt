@@ -512,7 +512,6 @@ void CMapQMAPExport::startGE()
 void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status)
 {
     if(file1){delete file1; file1 = 0;}
-//    if(file2){delete file2; file2 = 0;}
     if(jobs.isEmpty())
     {
         textBrowser->setTextColor(Qt::black);
@@ -522,8 +521,6 @@ void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status
 
     file1 = new QTemporaryFile();
     file1->open();
-//    file2 = new QTemporaryFile();
-//    file2->open();
 
     job_t job = jobs.first();
     QStringList args;
@@ -541,20 +538,6 @@ void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status
 
 }
 
-//void CMapQMAPExport::slotFinishedKMZ2( int exitCode, QProcess::ExitStatus status)
-//{
-//    job_t job = jobs.first();
-
-//    QStringList args;
-//	args << "-of" << "BMP";
-//    args << file1->fileName();
-//    args << file2->fileName();
-
-//    textBrowser->setTextColor(Qt::black);
-//    textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
-
-//    cmdKMZ2.start(GDALWARP, args);
-//}
 
 
 void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status)
