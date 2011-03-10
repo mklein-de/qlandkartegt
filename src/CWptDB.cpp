@@ -182,7 +182,8 @@ QList<CWptDB::keys_t> CWptDB::keys()
         }
         k2.lon      = wpts[k1]->lon;
         k2.lat      = wpts[k1]->lat;
-        k2.d        = 0;
+        k2.d        = 0;        
+        k2.isCache  = wpts[k1]->geocache.hasData;
 
         k << k2;
     }
@@ -1183,5 +1184,22 @@ void CWptDB::makeVisible(const QStringList& keys)
         CMapDB::self().getMap().zoom(r.left() * DEG_TO_RAD, r.top() * DEG_TO_RAD, r.right() * DEG_TO_RAD, r.bottom() * DEG_TO_RAD);
     }
 
+
+}
+
+void CWptDB::getListOfGeoCaches(QStringList& caches)
+{
+    keys_t _key_;
+    QList<CWptDB::keys_t> _keys_ = keys();
+
+    caches.clear();
+
+    foreach(_key_, _keys_)
+    {
+        if(_key_.isCache)
+        {
+            caches << _key_.name;
+        }
+    }
 
 }

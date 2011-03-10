@@ -192,6 +192,31 @@ int CDlgEditWpt::exec()
     webView->setHtml(html);
     webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
 
+
+    QStringList caches;
+    CWptDB::self().getListOfGeoCaches(caches);
+    caches.prepend("");
+    comboParentWpt->addItems(caches);
+
+    if(wpt.parentWpt.isEmpty())
+    {
+        comboParentWpt->setCurrentIndex(0);
+    }
+    else
+    {
+        int idx = comboParentWpt->findText(wpt.parentWpt);
+        if(idx < 0)
+        {
+            comboParentWpt->insertItem(1, wpt.parentWpt);
+            comboParentWpt->setCurrentIndex(1);
+        }
+        else
+        {
+            comboParentWpt->setCurrentIndex(idx);
+        }
+
+    }
+
     return QDialog::exec();
 }
 
@@ -255,6 +280,8 @@ void CDlgEditWpt::accept()
     }
 
     wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
+
+    wpt.parentWpt = comboParentWpt->currentText();
 
     emit CWptDB::self().sigChanged();
     emit CWptDB::self().sigModified();

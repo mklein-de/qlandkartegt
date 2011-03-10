@@ -44,7 +44,7 @@ class CWptDB : public IDB
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
 
-        struct keys_t{QString key; QString name; QString comment; QString icon; qreal lon; qreal lat; qreal d;};
+        struct keys_t{QString key; QString name; QString comment; QString icon; qreal lon; qreal lat; qreal d; bool isCache;};
 
         /// get all keys in the database
         QList<keys_t> keys();
@@ -108,6 +108,8 @@ class CWptDB : public IDB
 
         bool getShowNames(){return showNames;}
         void setShowNames(bool yes){showNames = yes;  emit sigChanged();}
+
+        void getListOfGeoCaches(QStringList& caches);
 
 
     private:

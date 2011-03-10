@@ -1034,7 +1034,7 @@ void CWpt::showBuddies(bool show)
             if(!isKnown)
             {
                 buddy.pos << str;
-                buddy.name = QString("%2%1").arg(name.mid(1)).arg(++cnt,2,10,QChar('0'));
+                buddy.name = QString("%1%2").arg(++cnt,2,10,QChar('0')).arg(name.mid(2));
                 buddies << buddy;
             }
         }

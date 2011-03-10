@@ -7685,7 +7685,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="549"/>
         <source>Export buddies</source>
-        <translation>Exportiere zusätzliche Punkte</translation>
+        <translation type="unfinished">Exportiere Punkte</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="425"/>
