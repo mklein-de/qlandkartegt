@@ -611,7 +611,7 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     mapfile.open(QIODevice::ReadOnly);
 
     zipfile.open(QIODevice::WriteOnly);
-    zip.addDirectory("files");
+    //zip.addDirectory("files");
     zip.addFile("files/map.jpg", &mapfile);
     zip.addFile("doc.kml",QByteArray("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n") + doc.toByteArray());
 
