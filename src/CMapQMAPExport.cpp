@@ -525,9 +525,10 @@ void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status
     job_t job = jobs.first();
     QStringList args;
     args << "-of" << "BMP";
+    args << "-expand" << "rgb";
     args << "-srcwin";
     args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.height);    
+    args << QString::number(job.width) << QString::number(job.height);
     args << job.srcFilename;
     args << file1->fileName();
 
@@ -549,10 +550,10 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
 
     QString str;
     QFile   zipfile(job.tarFilename);
-	{
+    {
         QImage  img(file1->fileName(), "BMP");
         img.save(file1->fileName() + ".jpg", "JPEG");
-	}
+    }
     QFile   mapfile(file1->fileName() + ".jpg");
     QLGT::QZipWriter zip(&zipfile);
     QDomDocument doc;
