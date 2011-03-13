@@ -742,7 +742,7 @@ void CGeoDB::updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keys
 
     PROGRESS_SETUP(tr("Update workspace."), size);
 
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < itemWks->childCount(); i++)
     {
         PROGRESS(i, break);
 
