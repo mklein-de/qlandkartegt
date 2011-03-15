@@ -1,3 +1,19 @@
+--- 2011.03.15 ---
+
+Bug     #263:
+Fix: Garmin Custom Map export broken
+
+Request #264:
+Add export to OpenCacheManager
+
+Request #265:
+Add parent waypoint (geocache) to waypoints
+
+Bug     #266:
+Fix: Crash when deleting items from large workspace
+
+
+
 --- 2011.02.16 ---
 
 Request #252:
@@ -1119,6 +1135,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
