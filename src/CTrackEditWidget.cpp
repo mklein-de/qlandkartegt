@@ -143,6 +143,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     contextMenu->addAction(actions->getAction("aTrackPurgeSelection"));
     actSplit    = contextMenu->addAction(QPixmap(":/icons/iconEditCut16x16.png"),tr("Split"),this,SLOT(slotSplit()));
     connect(treePoints,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
+
+    connect(comboColor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColorChanged(int)));
+    connect(lineName, SIGNAL(textChanged(const QString&)), this, SLOT(slotNameChanged(const QString&)));
 }
 
 
@@ -1132,3 +1135,22 @@ void CTrackEditWidget::slotKillTab(int index)
         theMainWindow->getCanvasTab()->removeTab(index);
     }
 }
+
+void CTrackEditWidget::slotColorChanged(int idx)
+{
+    if(track.isNull()) return;
+    track->setColor(comboColor->currentIndex());
+    track->rebuild(true);
+    emit CTrackDB::self().sigModified();
+    emit CTrackDB::self().sigModified(track->getKey());
+}
+
+void CTrackEditWidget::slotNameChanged(const QString& name)
+{
+    if(track.isNull()) return;
+    track->setName(name);
+    track->rebuild(true);
+    emit CTrackDB::self().sigModified();
+    emit CTrackDB::self().sigModified(track->getKey());
+}
+
