@@ -16,6 +16,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
+#include <QProcess>
 #include "CCopyright.h"
 #include "version.h"
 #include <gdal.h>
@@ -26,6 +27,11 @@
 
 CCopyright::CCopyright()
 {
+#if defined(Q_WS_MAC)
+    this->setParent(qApp->focusWidget());
+    this->setWindowModality(Qt::WindowModal);
+    this->setWindowFlags(Qt::Sheet);
+#endif
     setupUi(this);
     verQLandkarte->setText(VER_STR);
     verQt->setText(qVersion());
@@ -71,6 +77,14 @@ CCopyright::CCopyright()
         "Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit/"
         "/<p>"
         ));
+	
+    QProcess gdalFmts;
+    gdalFmts.start("gdal_translate", QStringList() << "--formats");
+    if (gdalFmts.waitForStarted()) {
+	gdalFmts.waitForFinished();
+	textGdalFmts->setText(gdalFmts.readAll());
+    } else
+	textGdalFmts->setText(tr("running gdal_translate failed!"));
 }
 
 

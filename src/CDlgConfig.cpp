@@ -34,6 +34,11 @@
 CDlgConfig::CDlgConfig(QWidget * parent)
 : QDialog(parent)
 {
+#if defined(Q_WS_MAC)
+    this->setParent(qApp->focusWidget());
+    this->setWindowModality(Qt::WindowModal);
+    this->setWindowFlags(Qt::Sheet);
+#endif
     setupUi(this);
     connect(toolFont,SIGNAL(clicked()),this,SLOT(slotSelectFont()));
     connect(toolWptTextColor,SIGNAL(clicked()),this,SLOT(slotSelectWptTextColor()));
