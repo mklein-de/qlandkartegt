@@ -392,34 +392,29 @@ void CMapQMAP::draw()
 
                         if(!err)
                         {
-                            quint8 * pTar   = 0;
-                            quint8 * pSrc   = buffer.data();
-                            const int size  = buffer.size();
 
-
-                            if(pBand->GetColorInterpretation() == GCI_RedBand)
+                            int offset;
+                            switch(pBand->GetColorInterpretation())
                             {
-                                pTar = img.bits() + 2;
-                            }
-                            else if(pBand->GetColorInterpretation() == GCI_GreenBand)
-                            {
-                                pTar = img.bits() + 1;
-                            }
-                            else if(pBand->GetColorInterpretation() == GCI_BlueBand)
-                            {
-                                pTar = img.bits() + 0;
-                            }
-                            else
-                            {
-                                pTar = img.bits() + 3 - b;
+                                case GCI_RedBand:   offset = 2; break;
+                                case GCI_GreenBand: offset = 1; break;
+                                case GCI_BlueBand:  offset = 0; break;
+                                case GCI_AlphaBand: offset = 3; break;
+                                default:            offset = -1;
                             }
 
-
-                            for(int i = 0; i < size; ++i)
+                            if(offset >= 0 && offset <= 3)
                             {
-                                *pTar = *pSrc;
-                                pTar += 4;
-                                pSrc += 1;
+                                quint8 * pTar   = img.bits() + offset;
+                                quint8 * pSrc   = buffer.data();
+                                const int size  = buffer.size();
+
+                                for(int i = 0; i < size; ++i)
+                                {
+                                    *pTar = *pSrc;
+                                    pTar += 4;
+                                    pSrc += 1;
+                                }
                             }
                         }
                     }

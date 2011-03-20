@@ -1117,14 +1117,15 @@ void CMainWindow::exportToOcm()
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
     QStringList serviceNames = dbus.interface()->registeredServiceNames();
-    if(!serviceNames.contains("org.ocm.dbus"))
+    while(!serviceNames.contains("org.ocm.dbus"))
     {
-        if(cnt > 3)
+        if(cnt > 2)
         {
             QMessageBox::warning(0,tr("Failed ..."), tr("Failed to start OCM."), QMessageBox::Abort);
             return;
         }
 
+//        qDebug() << "start ocm-gtk";
         ocm.startDetached("ocm-gtk");
         sleep(3);
         cnt++;
