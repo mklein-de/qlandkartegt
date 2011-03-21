@@ -690,10 +690,15 @@ void CMapQMAPExport::startGCM()
                     job.width   =  intersect.width()  / mapfile->xscale;
                     job.height  = -intersect.height() / mapfile->yscale;
 
-                    job.p1.u    = u;
-                    job.p1.v    = v;
-                    job.p2.u    = u + dU1;
-                    job.p2.v    = v + dV1;
+                    job.p1.u    = intersect.left();
+                    job.p1.v    = intersect.bottom();
+                    job.p2.u    = intersect.right();
+                    job.p2.v    = intersect.top();
+
+//                    job.p1.u    = u;
+//                    job.p1.v    = v;
+//                    job.p2.u    = u + dU1;
+//                    job.p2.v    = v + dV1;
 
                     pj_transform(mapfile->pj,pjWGS84,1,0,&job.p1.u,&job.p1.v,0);
                     pj_transform(mapfile->pj,pjWGS84,1,0,&job.p2.u,&job.p2.v,0);
