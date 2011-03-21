@@ -24,7 +24,7 @@
 class CDBus : public QDBusAbstractAdaptor
 {
     Q_OBJECT;
-    Q_CLASSINFO("D-Bus Interface", "QLandkarteGT")
+    Q_CLASSINFO("D-Bus Interface", "org.QLandkarteGT.dbus")
 
     public:
         virtual ~CDBus();

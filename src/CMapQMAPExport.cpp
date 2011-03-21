@@ -552,6 +552,7 @@ void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status
     QFile   zipfile(job.tarFilename);
     {
         QImage  img(file1->fileName(), "BMP");
+        img = img.convertToFormat(QImage::Format_RGB32);
         img.save(file1->fileName() + ".jpg", "JPEG");
     }
     QFile   mapfile(file1->fileName() + ".jpg");
