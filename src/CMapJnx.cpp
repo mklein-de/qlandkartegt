@@ -58,6 +58,21 @@ CMapJnx::scale_t CMapJnx::scales[] =
     ,{0.05,   14      }
 };
 
+void readCString(QDataStream& stream, QByteArray& ba)
+{
+    quint8 byte;
+
+    ba.clear();
+
+    stream >> byte;
+    while(byte != 0)
+    {
+        ba += byte;
+        stream >> byte;
+    }
+
+}
+
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
 , xscale(1.0)
@@ -137,17 +152,54 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     info += "</table></p>";
 
     qDebug() << "Levels:";
-    info += QString("<p><table><tr><th>%1</th><th>%2</th><th width='100%'>%3</th></tr>").arg(tr("Level")).arg(tr("#Tiles")).arg(tr("Scale"));
     levels.resize(hdr.details);
     for(quint32 i = 0; i < hdr.details; i++)
     {
         level_t& level = levels[i];
         stream >> level.nTiles >> level.offset >> level.scale;
-
-        info+= QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>").arg(i).arg(level.nTiles).arg(level.scale);
         qDebug() << i << hex << level.nTiles << level.offset << level.scale;
     }
-    info += "</table></p>";
+
+
+
+    quint32 infoBlockVersion;
+    stream >> infoBlockVersion;
+    if(infoBlockVersion == 0x9)
+    {
+        QTextCodec * codec = QTextCodec::codecForName("utf-8");
+        QByteArray ba;
+        quint8 dummy;
+        QString groupId;
+        QString groupName;
+        QString groupTitle;
+
+        readCString(stream, ba);
+        groupId = codec->toUnicode(ba);
+        readCString(stream, ba);
+        groupName = codec->toUnicode(ba);
+
+        stream >> dummy >> dummy >> dummy;
+        readCString(stream, ba);
+        groupTitle = codec->toUnicode(ba);
+        qDebug() << groupId << groupName << groupTitle;
+
+        info += QString("<p><table><tr><th>%1</th><th>%2</th><th>%3</th><th width='100%'>%4</th></tr>").arg(tr("Level")).arg(tr("#Tiles")).arg(tr("Scale")).arg(tr("Info"));
+        for(quint32 i = 0; i < hdr.details; i++)
+        {
+            level_t& level = levels[i];
+
+            stream >> level.level;
+            readCString(stream, ba);
+            level.name1 = codec->toUnicode(ba);
+            readCString(stream, ba);
+            level.name2 = codec->toUnicode(ba);
+            readCString(stream, ba);
+            level.copyright = codec->toUnicode(ba);
+
+            info+= QString("<tr><td>%1(%4)</td><td>%2</td><td>%3</td><td>%5</td></tr>").arg(i).arg(level.nTiles).arg(level.scale).arg(level.level).arg(level.name1 + "<br/>" + level.name2 + "<br/>" + level.copyright);
+        }
+        info += "</table></p>";
+    }
 
 
     for(quint32 i = 0; i < hdr.details; i++)
@@ -174,9 +226,6 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
             tile.area.setLeft(left * 180.0 / 0x7FFFFFFF);
         }
     }
-
-
-
 
     pjsrc   = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
 

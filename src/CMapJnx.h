@@ -95,6 +95,11 @@ class CMapJnx : public IMap
             quint32 offset;
             quint32 scale;
 
+            quint32 level;
+            QString name1;
+            QString name2;
+            QString copyright;
+
             QVector<tile_t> tiles;
         };
 

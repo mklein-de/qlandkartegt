@@ -74,10 +74,11 @@ CDlgMapJNXConfig::CDlgMapJNXConfig(CMapJnx * map)
 
     QFile tmp(tempDir.filePath("legend.html"));
     tmp.open(QIODevice::WriteOnly);
-    tmp.write(cpytext.toLocal8Bit());
+    tmp.write(cpytext.toUtf8());
     tmp.close();
 
-    webView->load(QUrl::fromLocalFile(tmp.fileName()));
+    //webView->load(QUrl::fromLocalFile(tmp.fileName()));
+    webView->setHtml(cpytext);
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
