@@ -64,6 +64,9 @@ QPen CCanvas::penBorderBlack(QColor(0,0,0,200),3);
 QBrush CCanvas::brushBackWhite(QColor(255,255,255,210));
 QBrush CCanvas::brushBackYellow(QColor(0xff, 0xff, 0xcc, 0xE0));
 
+#ifdef WIN32
+#define isnan(x) _isnan(x)
+#endif
 
 CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
