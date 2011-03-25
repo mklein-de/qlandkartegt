@@ -370,7 +370,8 @@ void CMapDEM::draw()
     if(overlay == IMap::eNone)
     {
         old_overlay = overlay;
-        buffer.fill(Qt::transparent);
+        buffer.fill(qRgba(0,0,0,0));
+        //buffer.fill(Qt::transparent);
         return;
     }
 
@@ -397,7 +398,7 @@ void CMapDEM::draw()
     old_my_yscale   = my_yscale;
     old_overlay     = overlay;
 
-    buffer.fill(Qt::transparent);
+    buffer.fill(qRgba(0,0,0,0));
 
     if(pjsrc == 0) return;
 
