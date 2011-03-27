@@ -50,6 +50,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
+    connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
 
     connect(&cmd1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -90,10 +91,18 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     has_map2jnx = proc1.error() == QProcess::UnknownError;
     path_map2jnx = MAP2JNX;
 #endif
+    groupBirdsEye->hide();
+
     if (has_map2jnx)
     {
         radioJNX->show();
         radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
+
+        spinJpegQuality->setValue(cfg.value("map/export/jnx/quality",75).toInt());
+        comboJpegSubsampling->setCurrentIndex(comboJpegSubsampling->findText(cfg.value("map/export/jnx/subsampling","411").toString()));
+        spinProductId->setValue(cfg.value("map/export/jnx/productid",0).toInt());
+        lineProductName->setText(cfg.value("map/export/jnx/productname","BirdsEye").toString());
+        lineCopyright->setText(cfg.value("map/export/jnx/copyright","None").toString());
     }
     else
     {
@@ -109,8 +118,25 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/ge", radioGE->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
+
+    cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
+    cfg.setValue("map/export/jnx/subsampling", comboJpegSubsampling->currentText());
+    cfg.setValue("map/export/jnx/productid", spinProductId->value());
+    cfg.setValue("map/export/jnx/productname",lineProductName->text());
+    cfg.setValue("map/export/jnx/copyright",lineCopyright->text());
 }
 
+void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
+{
+    if(checked)
+    {
+        groupBirdsEye->show();
+    }
+    else
+    {
+        groupBirdsEye->hide();
+    }
+}
 
 void CMapQMAPExport::slotOutputPath()
 {
@@ -353,11 +379,22 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             QString prefix = linePrefix->text();
             QDir tarPath(labelPath->text());
 
-            outfiles << tarPath.filePath(QString("%1.jnx").arg(prefix));
-            textBrowser->setTextColor(Qt::black);
-            textBrowser->append(path_map2jnx + " " +  outfiles.join(" ") + "\n");
+            QStringList args;
 
-            cmd4.start(path_map2jnx, outfiles);
+            args << "-q" << QString::number(spinJpegQuality->value());
+            args << "-s" << comboJpegSubsampling->currentText();
+            args << "-p" << QString::number(spinProductId->value());
+            args << "-m" << lineProductName->text();
+            args << "-n" << lineDescription->text();
+            args << "-c" << lineCopyright->text();
+
+            args += outfiles;
+
+            args << tarPath.filePath(QString("%1.jnx").arg(prefix));
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(path_map2jnx + " " +  args.join(" ") + "\n");
+
+            cmd4.start(path_map2jnx, args);
             return;
         }
         else

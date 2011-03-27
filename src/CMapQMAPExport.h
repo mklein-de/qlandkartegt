@@ -48,6 +48,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status);
         void slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status);
 
+        void slotBirdsEyeToggled(bool checked);
     private:
         void startQLM();
         void startGE();
