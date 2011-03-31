@@ -136,6 +136,19 @@ CMapOSM::~CMapOSM()
     if (cb) delete cb;
 }
 
+void CMapOSM::setServerList(QList<QPair<QString, QString> >& list)
+{
+    tileList = list;
+
+    cb->clear();
+    for(int i = 0; i < tileList.size(); i++)
+    {
+        QPair<QString, QString> p = tileList.at(i);
+        cb->addItem(p.first);
+    }
+
+}
+
 
 void CMapOSM::setNewTileUrl(int index)
 {

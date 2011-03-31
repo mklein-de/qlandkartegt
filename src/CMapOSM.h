@@ -43,6 +43,9 @@ class CMapOSM : public IMap
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void draw(QPainter& p);
 
+        QList<QPair<QString, QString> > getServerList(){return tileList;}
+        void setServerList(QList<QPair<QString, QString> >& list);
+
     public slots:
         void newImageReady(QImage image, bool lastTileLoaded);
         void setNewTileUrl(int index = -1);
