@@ -17,32 +17,16 @@
 
 **********************************************************************************************/
 
-#ifndef CDLGWPT2RTE_H
-#define CDLGWPT2RTE_H
+#include "CDlgMapOSMConfig.h"
 
-
-#include <QDialog>
-#include "ui_IDlgWpt2Rte.h"
-
-
-class CDlgWpt2Rte  : public QDialog, private Ui::IDlgWpt2Rte
+CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM * map)
+    : map(map)
 {
-    Q_OBJECT;
-    public:
-        CDlgWpt2Rte();
-        virtual ~CDlgWpt2Rte();
 
-    public slots:
-        void accept();
+}
 
-    private slots:
-        void slotAdd();
-        void slotDel();
-        void slotUp();
-        void slotDown();
-        void slotItemSelectionChanged();
+CDlgMapOSMConfig::~CDlgMapOSMConfig()
+{
 
-};
-
-#endif //CDLGWPT2RTE_H
+}
 

@@ -118,6 +118,7 @@ set(qlandkarte_SRCS
     CDlgMapTDBConfig.cpp
     CDlgMapQMAPConfig.cpp
     CDlgMapJNXConfig.cpp
+    CDlgMapOSMConfig.cpp
     CDlgScreenshot.cpp
     CDlgTrackFilter.cpp
     CDlgSetupGarminIcons.cpp
@@ -271,6 +272,7 @@ set(qlandkarte_HDRS
     CDlgMapTDBConfig.h
     CDlgMapQMAPConfig.h
     CDlgMapJNXConfig.h
+    CDlgMapOSMConfig.h
     CDlgScreenshot.h
     CDlgTrackFilter.h
     CDlgSetupGarminIcons.h
@@ -374,6 +376,7 @@ SET(qlandkarte_UIS
     IDlgMapTDBConfig.ui
     IDlgMapQMAPConfig.ui
     IDlgMapJNXConfig.ui
+    IDlgMapOSMConfig.ui
     IDlgScreenshot.ui
     IDlgTrackFilter.ui
     IDlgSetupGarminIcons.ui

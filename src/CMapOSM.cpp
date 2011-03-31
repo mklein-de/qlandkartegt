@@ -25,6 +25,7 @@
 #include "CMainWindow.h"
 #include "COsmTilesHash.h"
 #include "CResources.h"
+#include "CDlgMapOSMConfig.h"
 #include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
@@ -420,5 +421,8 @@ void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 
 void CMapOSM::config()
 {
+    CDlgMapOSMConfig * dlg = new CDlgMapOSMConfig(this);
+    dlg->show();
 
 }
+
