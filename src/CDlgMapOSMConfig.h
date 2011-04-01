@@ -27,6 +27,11 @@ class CMapOSM;
 
 class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
 {
+    Q_OBJECT
+
+    public slots:
+        void accept();
+
     public:
         CDlgMapOSMConfig(CMapOSM * map);
         virtual ~CDlgMapOSMConfig();

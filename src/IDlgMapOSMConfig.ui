@@ -22,6 +22,11 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTableWidget" name="mapsTableWidget"/>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -49,8 +54,8 @@
      <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>388</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>

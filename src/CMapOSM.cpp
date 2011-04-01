@@ -41,18 +41,29 @@ CMapOSM::CMapOSM(CCanvas * parent)
 {
     currentTileListIndex = -1;
     osmTiles = 0;
-    // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
-    tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
-    tileList << qMakePair(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
-    //    tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
-    tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
-    tileList << qMakePair(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"));
+
+    QSettings cfg;
+    int size = cfg.beginReadArray("osm/customMaps");
+    if (size>0) {
+        for (int i = 0; i < size; ++i) {
+            cfg.setArrayIndex(i);
+            tileList << qMakePair(QString(cfg.value("mapName").toString()),QString(cfg.value("mapString").toString()));
+        }
+        cfg.endArray();
+    } else {
+        // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
+        tileList << qMakePair(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
+        tileList << qMakePair(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
+        //    tileList << qMakePair(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
+        tileList << qMakePair(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
+        tileList << qMakePair(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"));
 #if PRIVATE
-    tileList << qMakePair(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"));
-    tileList << qMakePair(QString("Outdooractive AU"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"));
-    tileList << qMakePair(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"));
+        tileList << qMakePair(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"));
+        tileList << qMakePair(QString("Outdooractive AU"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"));
+        tileList << qMakePair(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"));
 
 #endif
+    }
 
 
     cb = new QComboBox(theMainWindow->getCanvas());
@@ -66,8 +77,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
 
     theMainWindow->statusBar()->insertPermanentWidget(0,cb);
-
-    QSettings cfg;
 
     int tileListIndex = cfg.value("osm/tileListIndex",0).toInt();
     if (tileListIndex >= tileList.size())
@@ -130,6 +139,14 @@ CMapOSM::~CMapOSM()
     midU = rect.center().x();
     midV = rect.center().y();
     convertPt2Rad(midU, midV);
+
+    cfg.beginWriteArray("osm/customMaps");
+    for (int i = 0; i < tileList.size(); ++i) {
+        cfg.setArrayIndex(i);
+        cfg.setValue("mapName", tileList.at(i).first);
+        cfg.setValue("mapString", tileList.at(i).second);
+    }
+    cfg.endArray();
 
     if(pjsrc) pj_free(pjsrc);
     if (osmTiles) delete osmTiles;

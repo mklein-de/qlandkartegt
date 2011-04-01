@@ -18,15 +18,43 @@
 **********************************************************************************************/
 
 #include "CDlgMapOSMConfig.h"
+#include "CMapOSM.h"
 
 CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM * map)
     : map(map)
 {
+    QList<QPair<QString, QString> > list;
+    list=map->getServerList();
+
+    setupUi(this);
+
+    QList<QString> header;
+    header << tr("Name") << tr("Path");
+
+    mapsTableWidget->setRowCount(list.size());
+    mapsTableWidget->setColumnCount(2);
+    mapsTableWidget->setHorizontalHeaderLabels(header);
+
+    for (int i = 0; i < list.size(); ++i)
+    {
+        mapsTableWidget->setItem(i,0,new QTableWidgetItem(list.at(i).first));
+        mapsTableWidget->setItem(i,1,new QTableWidgetItem(list.at(i).second));
+    }
 
 }
 
 CDlgMapOSMConfig::~CDlgMapOSMConfig()
 {
+}
 
+void CDlgMapOSMConfig::accept()
+{
+    QList<QPair<QString, QString> > list;
+    for (int i=0; i<mapsTableWidget->rowCount(); ++i)
+    {
+        list << qMakePair(QString(mapsTableWidget->item(i, 0)->text()),QString(mapsTableWidget->item(i, 1)->text()));
+    }
+    map->setServerList(list);
+    QDialog::accept();
 }
 
