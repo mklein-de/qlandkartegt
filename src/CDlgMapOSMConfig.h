@@ -38,6 +38,8 @@ class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
 
     private:
         CMapOSM * map;
+        QTreeWidgetItem* topBuiltin;
+        QTreeWidgetItem* topCustom;
 };
 
 #endif //CDLGMAPOSMCONFIG_H

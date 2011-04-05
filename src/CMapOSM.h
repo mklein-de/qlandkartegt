@@ -21,6 +21,8 @@
 #define CMAPOSM_H
 
 #include <IMap.h>
+#include "CMapOSMType.h"
+
 class COsmTilesHash;
 class CCanvas;
 class QComboBox;
@@ -43,8 +45,8 @@ class CMapOSM : public IMap
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void draw(QPainter& p);
 
-        QList<QPair<QString, QString> > getServerList(){return tileList;}
-        void setServerList(QList<QPair<QString, QString> >& list);
+        QList<CMapOSMType*> getServerList(){return tileList;}
+        void setServerList(QList<CMapOSMType*> list);
 
     public slots:
         void newImageReady(QImage image, bool lastTileLoaded);
@@ -53,7 +55,7 @@ class CMapOSM : public IMap
         QComboBox *cb;
         QWidget *parent;
         int currentTileListIndex;
-        QList<QPair<QString, QString> > tileList;
+        QList<CMapOSMType*> tileList;
         QImage image;
         bool lastTileLoaded;
         void draw();

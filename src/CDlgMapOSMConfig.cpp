@@ -19,27 +19,49 @@
 
 #include "CDlgMapOSMConfig.h"
 #include "CMapOSM.h"
+#include "CMapOSMType.h"
+#include <QtGui>
 
 CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM * map)
     : map(map)
 {
-    QList<QPair<QString, QString> > list;
+    QList<CMapOSMType*> list;
     list=map->getServerList();
 
     setupUi(this);
 
     QList<QString> header;
-    header << tr("Name") << tr("Path");
+    header << tr("Name") << tr("Path") << tr("Key");
 
-    mapsTableWidget->setRowCount(list.size());
-    mapsTableWidget->setColumnCount(2);
-    mapsTableWidget->setHorizontalHeaderLabels(header);
+    mapsTreeWidget->setHeaderLabels(header);
 
+    mapsTreeWidget->setColumnCount(3);
+    mapsTreeWidget->header()->setResizeMode(QHeaderView::ResizeToContents);
+
+
+    topBuiltin = new QTreeWidgetItem(mapsTreeWidget);
+    topBuiltin->setText(0, tr("Built-in maps"));
+
+    topCustom = new QTreeWidgetItem(mapsTreeWidget);
+    topCustom->setText(0, tr("Custom maps"));
+
+    CMapOSMType* currentMap;
     for (int i = 0; i < list.size(); ++i)
     {
-        mapsTableWidget->setItem(i,0,new QTableWidgetItem(list.at(i).first));
-        mapsTableWidget->setItem(i,1,new QTableWidgetItem(list.at(i).second));
+        currentMap=list.at(i);
+        QTreeWidgetItem *cm = new QTreeWidgetItem(currentMap->isBuiltin() ? topBuiltin : topCustom);
+        cm->setFlags(cm->flags()|Qt::ItemIsSelectable);
+        cm->setText(0, currentMap->title);
+        cm->setText(1, currentMap->path);
+        if (currentMap->isBuiltin())
+        {
+            cm->setText(2, currentMap->key);
+            cm->setFlags(cm->flags()|Qt::ItemIsEditable);
+        }
     }
+
+    topBuiltin->sortChildren(0,Qt::AscendingOrder);
+    topCustom->sortChildren(0,Qt::AscendingOrder);
 
 }
 
@@ -49,12 +71,30 @@ CDlgMapOSMConfig::~CDlgMapOSMConfig()
 
 void CDlgMapOSMConfig::accept()
 {
-    QList<QPair<QString, QString> > list;
-    for (int i=0; i<mapsTableWidget->rowCount(); ++i)
-    {
-        list << qMakePair(QString(mapsTableWidget->item(i, 0)->text()),QString(mapsTableWidget->item(i, 1)->text()));
-    }
-    map->setServerList(list);
+    QList<CMapOSMType*> list;
+    QSettings cfg;
+
+//    QTreeWidgetItemIterator itAll(mapsTreeWidget,QTreeWidgetItemIterator::NoChildren);
+//    while (*itAll) {
+
+
+//        list << qMakePair(QString((*itAll)->text(0)),QString((*itAll)->text(1)));
+//        ++itAll;
+//    }
+
+//    QTreeWidgetItemIterator itCustom(topCustom,QTreeWidgetItemIterator::NoChildren);
+//    cfg.beginWriteArray("osm/customMaps");
+//    int counter=0;
+//    while (*itCustom) {
+//        cfg.setArrayIndex(counter++);
+//        cfg.setValue("mapName", (*itCustom)->text(0));
+//        cfg.setValue("mapString", (*itCustom)->text(1));
+//        ++itCustom;
+//    }
+//    cfg.endArray();
+
+
+//    map->setServerList(list);
     QDialog::accept();
 }
 
