@@ -457,6 +457,16 @@ QPixmap CWpt::getIcon()
     return iconPixmap;
 }
 
+bool CWpt::hasHiddenInformation()
+{
+    if(isGeoCache())
+    {
+        return !geocache.hint.isEmpty();
+    }
+
+    return false;
+}
+
 QString CWpt::getInfo()
 {
     QString str = getName();
@@ -928,7 +938,7 @@ void CWpt::saveOcExt(QDomElement& gpxCache, bool isExport)
 }
 
 
-QString CWpt::getExtInfo()
+QString CWpt::getExtInfo(bool showHidden)
 {
     QDir dirWeb(QDir::home().filePath(CONFIGDIR  "WebStuff"));
     QString info = tr("No additional information.");
@@ -941,6 +951,11 @@ QString CWpt::getExtInfo()
         info += tr("<div><b>Type:</b> %1 <b>Container:</b> %2 ").arg(geocache.type).arg(geocache.container);
         info += tr("<b>D:</b> %1 <b>T:</b> %2 ").arg(htmlScale(geocache.difficulty)).arg(htmlScale(geocache.terrain));
         info += "</div></p>";
+
+        if(showHidden && !geocache.hint.isEmpty())
+        {
+            info += "<p><b>Hint:</b> " + geocache.hint + "</p>";
+        }
 
 
         info += geocache.longDesc;
@@ -986,7 +1001,7 @@ void CWpt::showBuddies(bool show)
 
         int p           = 0;
         quint32 cnt     = 0;
-        QString html    = getExtInfo();
+        QString html    = getExtInfo(false);
 
 
         while ((p = rx.indexIn(html, p)) != -1)
@@ -1048,7 +1063,7 @@ void CWpt::showBuddies(bool show)
 bool CWpt::hasBuddies()
 {
     int p = 0;
-    QString html = getExtInfo();
+    QString html = getExtInfo(false);
 
     return rx.indexIn(html, p) != -1;
 }

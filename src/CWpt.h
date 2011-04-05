@@ -96,7 +96,7 @@ class CWpt : public IItem
         void setIcon(const QString& str);
         QString getInfo();
 
-        QString getExtInfo();
+        QString getExtInfo(bool showHidden);
 
         QPixmap getIcon();
 
@@ -106,6 +106,7 @@ class CWpt : public IItem
         bool isGeoCache(){return geocache.hasData;}
         bool isMovable(){return !(geocache.hasData||(bool)sticky);}
         bool isDeletable(){return !(sticky);}
+        bool hasHiddenInformation();
 
         void showBuddies(bool show);
         bool hasBuddies();
@@ -168,6 +169,7 @@ class CWpt : public IItem
             QString locale;
             QList<geocachelog_t> logs;
             bool exportBuddies;
+
         };
 
         geocache_t geocache;

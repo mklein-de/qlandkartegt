@@ -50,6 +50,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushUpdateBarcode, SIGNAL(clicked()), this, SLOT(slotUpdateBarcode()));
     connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
+    connect(checkHint, SIGNAL(toggled(bool)), this, SLOT(slotToggleHint(bool)));
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
@@ -146,7 +147,7 @@ int CDlgEditWpt::exec()
 
     slotUpdateBarcode();
 
-    QString html = wpt.getExtInfo();
+    QString html = wpt.getExtInfo(checkHint->isChecked());
 
     if(wpt.isGeoCache())
     {
@@ -191,6 +192,8 @@ int CDlgEditWpt::exec()
 
     webView->setHtml(html);
     webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
+
+    checkHint->setEnabled(wpt.hasHiddenInformation());
 
 
     QStringList caches;
@@ -457,4 +460,27 @@ void CDlgEditWpt::slotUpdateBarcode()
     pushSaveBarcode->setEnabled(false);
 #endif                       //HAS_DMTX
 
+}
+
+void CDlgEditWpt::slotToggleHint(bool show)
+{
+    QString html = wpt.getExtInfo(show);
+
+    if(wpt.isGeoCache())
+    {
+        wpt.showBuddies(true);
+
+        if(!wpt.buddies.isEmpty())
+        {
+            CWpt::buddy_t buddy;
+            foreach(buddy, wpt.buddies)
+            {
+                foreach(const QString& pos, buddy.pos)
+                {
+                    html.replace(pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(pos).arg(buddy.name));
+                }
+            }
+        }
+    }
+    webView->setHtml(html);
 }

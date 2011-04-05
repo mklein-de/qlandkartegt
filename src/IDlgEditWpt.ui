@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
-    <height>421</height>
+    <width>800</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -314,18 +314,19 @@
           <string>More</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_5">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
           <item>
            <widget class="QWebView" name="webView">
             <property name="url">
              <url>
               <string>about:blank</string>
              </url>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkHint">
+            <property name="text">
+             <string>Show hidden information</string>
             </property>
            </widget>
           </item>
