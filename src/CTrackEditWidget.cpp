@@ -1139,18 +1139,31 @@ void CTrackEditWidget::slotKillTab(int index)
 void CTrackEditWidget::slotColorChanged(int idx)
 {
     if(track.isNull()) return;
-    track->setColor(comboColor->currentIndex());
-    track->rebuild(true);
-    emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->getKey());
+
+    int _idx_ = track->getColorIdx();
+    if(_idx_ != comboColor->currentIndex())
+    {
+        track->setColor(comboColor->currentIndex());
+        track->rebuild(true);
+        emit CTrackDB::self().sigModified();
+        emit CTrackDB::self().sigModified(track->getKey());
+        qDebug() << "void CTrackEditWidget::slotColorChanged(const QString& name)";
+    }
 }
 
 void CTrackEditWidget::slotNameChanged(const QString& name)
 {
     if(track.isNull()) return;
-    track->setName(name);
-    track->rebuild(true);
-    emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->getKey());
+
+    QString _name_ = track->getName();
+
+    if(_name_ != name)
+    {
+        track->setName(name);
+        track->rebuild(true);
+        emit CTrackDB::self().sigModified();
+        emit CTrackDB::self().sigModified(track->getKey());
+        qDebug() << "void CTrackEditWidget::slotNameChanged(const QString& name)";
+    }
 }
 
