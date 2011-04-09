@@ -92,6 +92,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
     info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
 
+    if(!maplevels.isEmpty())
     {
         XY p1, p2;
         double a1,a2, width, height;

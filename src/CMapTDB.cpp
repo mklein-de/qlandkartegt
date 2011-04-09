@@ -470,7 +470,8 @@ CMapTDB::~CMapTDB()
 
 QString CMapTDB::getCopyright()
 {
-    return copyright;
+
+    return filename + "<br/>" + copyright;
 }
 
 QString CMapTDB::getMapLevelInfo()
