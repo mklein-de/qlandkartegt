@@ -74,16 +74,20 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     toolSortComment->setIcon(QPixmap(":/icons/iconText16x16.png"));
     toolSortIcon->setIcon(QPixmap(":/icons/iconWaypoint16x16.png"));
     toolSortPosition->setIcon(QPixmap(":/icons/iconLiveLog16x16.png"));
+    toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
 
     connect(toolSortAlpha, SIGNAL(clicked()), SIGNAL(sigChanged()));
     connect(toolSortComment, SIGNAL(clicked()), SIGNAL(sigChanged()));
     connect(toolSortIcon, SIGNAL(clicked()),SIGNAL(sigChanged()));
     connect(toolSortPosition, SIGNAL(clicked()), SIGNAL(sigChanged()));
+    connect(toolSortTime, SIGNAL(clicked()), SIGNAL(sigChanged()));
+
 
     connect(linePosition, SIGNAL(textChanged(const QString&)), this, SLOT(slotPosTextChanged(const QString&)));
 
     QSettings cfg;
     toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
+    toolSortTime->setChecked(cfg.value("waypoint/sortTime", true).toBool());
     toolSortComment->setChecked(cfg.value("waypoint/sortComment", true).toBool());
     toolSortIcon->setChecked(cfg.value("waypoint/sortIcon", false).toBool());
     toolSortPosition->setChecked(cfg.value("waypoint/sortPosition", false).toBool());
@@ -96,6 +100,7 @@ CWptToolWidget::~CWptToolWidget()
 {
     QSettings cfg;
     cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("waypoint/sortTime", toolSortTime->isChecked());
     cfg.setValue("waypoint/sortComment", toolSortComment->isChecked());
     cfg.setValue("waypoint/sortIcon", toolSortIcon->isChecked());
     cfg.setValue("waypoint/sortPosition", toolSortPosition->isChecked());
@@ -134,6 +139,10 @@ void CWptToolWidget::slotDBChanged()
     if(toolSortAlpha->isChecked())
     {
         sortmode = eSortByName;
+    }
+    else if(toolSortTime->isChecked())
+    {
+        sortmode = eSortByTime;
     }
     else if(toolSortComment->isChecked())
     {

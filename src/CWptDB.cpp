@@ -133,6 +133,11 @@ bool CWptDB::keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
     return s1.d < s2.d;
 }
 
+bool CWptDB::keyLessThanTime(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
+{
+    return s1.time < s2.time;
+}
+
 
 void CWptDB::clear()
 {
@@ -155,6 +160,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
 
         k2.key      = k1;
         k2.name     = wpts[k1]->name;
+        k2.time     = wpts[k1]->timestamp;
 
         // pick comment/descripton, what ever fits
         if(wpts[k1]->comment.isEmpty())
@@ -182,7 +188,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
         }
         k2.lon      = wpts[k1]->lon;
         k2.lat      = wpts[k1]->lat;
-        k2.d        = 0;        
+        k2.d        = 0;
         k2.isCache  = wpts[k1]->geocache.hasData;
 
         k << k2;
@@ -195,6 +201,9 @@ QList<CWptDB::keys_t> CWptDB::keys()
     {
         case CWptToolWidget::eSortByName:
             qSort(k.begin(), k.end(), CWptDB::keyLessThanAlpha);
+            break;
+        case CWptToolWidget::eSortByTime:
+            qSort(k.begin(), k.end(), CWptDB::keyLessThanTime);
             break;
         case CWptToolWidget::eSortByComment:
             qSort(k.begin(), k.end(), CWptDB::keyLessThanComment);

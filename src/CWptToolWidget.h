@@ -41,6 +41,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
             ,eSortByComment
             ,eSortByIcon
             ,eSortByDistance
+            ,eSortByTime
         };
 
         static sortmode_e  getSortMode(QString& pos){pos = sortpos; return sortmode;}

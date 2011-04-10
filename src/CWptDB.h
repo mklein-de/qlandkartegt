@@ -44,7 +44,7 @@ class CWptDB : public IDB
         /// get iterator access to track point list
         QMap<QString,CWpt*> ::iterator end(){return wpts.end();}
 
-        struct keys_t{QString key; QString name; QString comment; QString icon; qreal lon; qreal lat; qreal d; bool isCache;};
+        struct keys_t{QString key; QString name; quint32 time; QString comment; QString icon; qreal lon; qreal lat; qreal d; bool isCache;};
 
         /// get all keys in the database
         QList<keys_t> keys();
@@ -105,6 +105,7 @@ class CWptDB : public IDB
         static bool keyLessThanComment(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
         static bool keyLessThanIcon(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
         static bool keyLessThanDistance(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
+        static bool keyLessThanTime(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
 
         bool getShowNames(){return showNames;}
         void setShowNames(bool yes){showNames = yes;  emit sigChanged();}
