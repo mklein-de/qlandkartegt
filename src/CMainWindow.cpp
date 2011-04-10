@@ -724,7 +724,7 @@ void CMainWindow::slotLoadData()
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi (*.plt)";
     }
     else
     {
@@ -889,6 +889,10 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             else if(ext == "KML")
             {
                 loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
+            }
+            else if(ext == "PLT")
+            {
+                loadGPXData = convertData("ozi", filename, "gpx", tmpfile.fileName());
             }
 
 
