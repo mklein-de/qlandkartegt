@@ -682,10 +682,19 @@ void CGeoDB::updateModifyMarker()
 {
     // reset modify marker in text label
     itemWorkspace->setText(eCoName, tr("Workspace"));
+
+    treeWorkspace->setUpdatesEnabled(false);
+    treeWorkspace->blockSignals(true);
+    treeWorkspace->model()->blockSignals(true);
+
     updateModifyMarker(itemWksWpt, keysWptModified, tr("Waypoints"));
     updateModifyMarker(itemWksTrk, keysTrkModified, tr("Tracks"));
     updateModifyMarker(itemWksRte, keysRteModified, tr("Routes"));
     updateModifyMarker(itemWksOvl, keysOvlModified, tr("Overlays"));
+
+    treeWorkspace->setUpdatesEnabled(true);
+    treeWorkspace->blockSignals(false);
+    treeWorkspace->model()->blockSignals(false);
 
 }
 
@@ -725,10 +734,18 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
 
 void CGeoDB::updateDatabaseMarker()
 {
+    treeWorkspace->setUpdatesEnabled(false);
+    treeWorkspace->blockSignals(true);
+    treeWorkspace->model()->blockSignals(true);
+
     updateDatabaseMarker(itemWksWpt, keysWksWpt);
     updateDatabaseMarker(itemWksTrk, keysWksTrk);
     updateDatabaseMarker(itemWksRte, keysWksRte);
     updateDatabaseMarker(itemWksOvl, keysWksOvl);
+
+    treeWorkspace->setUpdatesEnabled(true);
+    treeWorkspace->blockSignals(false);
+    treeWorkspace->model()->blockSignals(false);
 }
 
 void CGeoDB::updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keysWks)
@@ -921,8 +938,17 @@ void CGeoDB::updateLostFound()
 void CGeoDB::updateCheckmarks()
 {
     CGeoDBInternalEditLock lock(this);
+
+    treeDatabase->setUpdatesEnabled(false);
+    treeDatabase->blockSignals(true);
+    treeDatabase->model()->blockSignals(true);
+
     updateCheckmarks(itemDatabase);
     updateCheckmarks(itemLostFound);
+
+    treeDatabase->setUpdatesEnabled(true);
+    treeDatabase->blockSignals(false);
+    treeDatabase->model()->blockSignals(false);
 }
 
 void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
