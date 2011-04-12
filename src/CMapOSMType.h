@@ -5,16 +5,18 @@
 
 class CMapOSMType
 {
-public:
-    CMapOSMType(QString title, QString path);
-    void setBuiltin(QString key);
-    bool isBuiltin();
-    QString title;
-    QString path;
-    QString key;
+    public:
+        CMapOSMType(QString title, QString path);
+        void setBuiltin(QString key);
+        void setEnabled(bool state);
+        bool isBuiltin();
+        bool isEnabled();
+        QString title;
+        QString path;
+        QString key;
 
-private:
-    bool builtin;
+    private:
+        bool builtin;
+        bool enabled;
 };
-
-#endif // CMAPOSMTYPE_H
+#endif                           // CMAPOSMTYPE_H

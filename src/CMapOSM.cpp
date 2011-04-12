@@ -42,63 +42,15 @@ CMapOSM::CMapOSM(CCanvas * parent)
 {
     currentTileListIndex = -1;
     osmTiles = 0;
-    CMapOSMType* map;
-    // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
-    map=new CMapOSMType(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
-    map->setBuiltin(QString("osm"));
-    tileList << map;
-
-    map=new CMapOSMType(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
-    map->setBuiltin(QString("ocm"));
-    tileList << map;
-
-    //    map=new CMapOSMType(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
-    //    map->setBuiltin(QString("geofabrik"));
-    //    tileList << map;
-
-    map=new CMapOSMType(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
-    map->setBuiltin(QString("opm"));
-    tileList << map;
-
-    map=new CMapOSMType(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"));
-    map->setBuiltin(QString("wam"));
-    tileList << map;
-
-#if PRIVATE
-    map=new CMapOSMType(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"));
-    map->setBuiltin(QString("oade"));
-    tileList << map;
-
-    map=new CMapOSMType(QString("Outdooractive AT"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"));
-    map->setBuiltin(QString("oaat"));
-    tileList << map;
-
-    map=new CMapOSMType(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"));
-    map->setBuiltin(QString("oait"));
-    tileList << map;
-#endif
-
-    QSettings cfg;
-    int size = cfg.beginReadArray("osm/customMaps");
-    for (int i = 0; i < size; ++i) {
-        cfg.setArrayIndex(i);
-        map=new CMapOSMType(QString(cfg.value("mapName").toString()),QString(cfg.value("mapString").toString()));
-        tileList << map;
-    }
-    cfg.endArray();
-
 
     cb = new QComboBox(theMainWindow->getCanvas());
-
-    for(int i = 0; i < tileList.size(); i++)
-    {
-        CMapOSMType* p = tileList.at(i);
-        cb->addItem(p->title);
-    }
-
     connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
 
     theMainWindow->statusBar()->insertPermanentWidget(0,cb);
+
+    this->rebuildServerList();
+
+    QSettings cfg;
 
     int tileListIndex = cfg.value("osm/tileListIndex",0).toInt();
     if (tileListIndex >= tileList.size())
@@ -162,30 +114,80 @@ CMapOSM::~CMapOSM()
     midV = rect.center().y();
     convertPt2Rad(midU, midV);
 
-    cfg.beginWriteArray("osm/customMaps");
-    for (int i = 0; i < tileList.size(); ++i) {
-        cfg.setArrayIndex(i);
-        cfg.setValue("mapName", tileList.at(i)->title);
-        cfg.setValue("mapString", tileList.at(i)->path);
-    }
-    cfg.endArray();
-
     if(pjsrc) pj_free(pjsrc);
     if (osmTiles) delete osmTiles;
     if (cb) delete cb;
 }
 
-void CMapOSM::setServerList(QList<CMapOSMType*> list)
+
+void CMapOSM::rebuildServerList()
 {
-    tileList = list;
+    tileList.clear();
+
+    QSettings cfg;
+
+    // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
+
+    CMapOSMType mapOsm(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"));
+    mapOsm.setBuiltin(QString("osm"));
+    mapOsm.setEnabled(cfg.value("osm/builtinMaps/osm", true).toBool());
+    tileList << mapOsm;
+
+    CMapOSMType mapOcm(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"));
+    mapOcm.setBuiltin(QString("ocm"));
+    mapOcm.setEnabled(cfg.value("osm/builtinMaps/ocm", true).toBool());
+    tileList << mapOcm;
+
+    //    CMapOSMType mapGeo(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
+    //    mapGeo.setBuiltin(QString("geofabrik"));
+    //    mapGeo.setEnabled(cfg.value("osm/builtinMaps/geo", true).toBool());
+    //    tileList << mapGeo;
+
+    CMapOSMType mapOpm(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"));
+    mapOpm.setBuiltin(QString("opm"));
+    mapOpm.setEnabled(cfg.value("osm/builtinMaps/opm", true).toBool());
+    tileList << mapOpm;
+
+    CMapOSMType mapWam(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"));
+    mapWam.setBuiltin(QString("wam"));
+    mapWam.setEnabled(cfg.value("osm/builtinMaps/wam", true).toBool());
+    tileList << mapWam;
+
+#if PRIVATE
+    CMapOSMType mapOade(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"));
+    mapOade.setBuiltin(QString("oade"));
+    mapOade.setEnabled(cfg.value("osm/builtinMaps/oade", true).toBool());
+    tileList << mapOade;
+
+    CMapOSMType mapOaat(QString("Outdooractive AT"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"));
+    mapOaat.setBuiltin(QString("oaat"));
+    mapOaat.setEnabled(cfg.value("osm/builtinMaps/oaat", true).toBool());
+    tileList << mapOaat;
+
+    CMapOSMType mapOait(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"));
+    mapOait.setBuiltin(QString("oait"));
+    mapOait.setEnabled(cfg.value("osm/builtinMaps/oait", true).toBool());
+    tileList << mapOait;
+#endif
+
+    int size = cfg.beginReadArray("osm/customMaps");
+    for (int i = 0; i < size; ++i)
+    {
+        cfg.setArrayIndex(i);
+        CMapOSMType map(QString(cfg.value("mapName").toString()),QString(cfg.value("mapString").toString()));
+        tileList << map;
+    }
+    cfg.endArray();
 
     cb->clear();
     for(int i = 0; i < tileList.size(); i++)
     {
-        CMapOSMType* p = tileList.at(i);
-        cb->addItem(p->title);
+        CMapOSMType p = tileList.at(i);
+        if (p.isEnabled())
+        {
+            cb->addItem(p.title);
+        }
     }
-
 }
 
 
@@ -210,9 +212,11 @@ void CMapOSM::setNewTileUrl(int index)
             osmTiles = 0;
         }
         if (cb->currentIndex() != currentTileListIndex)
+        {
             cb->setCurrentIndex(currentTileListIndex);
+        }
 
-        osmTiles = new COsmTilesHash(tileList.at(index)->path);
+        osmTiles = new COsmTilesHash(tileList.at(index).path);
         connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
 
         needsRedraw = true;
@@ -410,8 +414,8 @@ void CMapOSM::draw(QPainter& p)
 
         if(currentTileListIndex < 3)
         {
-            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex)->title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
-            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex)->path).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
+            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).path).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
         }
 
     }
@@ -477,4 +481,3 @@ void CMapOSM::config()
     dlg->show();
 
 }
-

@@ -22,7 +22,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QTreeWidget" name="mapsTreeWidget">
         <column>
@@ -31,6 +31,47 @@
          </property>
         </column>
        </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Placeholders to be used inside &quot;Path&quot; definition: %1 = osm_zoom; %2 = osm_x; %3 = osm_y</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pbAdd">
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbDelete">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -56,8 +97,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
      <x>388</x>
@@ -72,8 +113,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -81,5 +122,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mapsTreeWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>IDlgMapOSMConfig</receiver>
+   <slot>onItemSelectionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>698</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbDelete</sender>
+   <signal>released()</signal>
+   <receiver>IDlgMapOSMConfig</receiver>
+   <slot>onItemDelete()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>777</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>onItemSelectionChanged()</slot>
+  <slot>onItemDelete()</slot>
+ </slots>
 </ui>

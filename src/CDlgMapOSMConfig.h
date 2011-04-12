@@ -31,6 +31,8 @@ class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
 
     public slots:
         void accept();
+        void onItemSelectionChanged();
+        void onItemDelete();
 
     public:
         CDlgMapOSMConfig(CMapOSM * map);
@@ -40,7 +42,8 @@ class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
         CMapOSM * map;
         QTreeWidgetItem* topBuiltin;
         QTreeWidgetItem* topCustom;
+
+    private slots:
+        void on_pbAdd_clicked();
 };
-
-#endif //CDLGMAPOSMCONFIG_H
-
+#endif                           //CDLGMAPOSMCONFIG_H

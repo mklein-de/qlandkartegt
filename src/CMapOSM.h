@@ -45,8 +45,8 @@ class CMapOSM : public IMap
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void draw(QPainter& p);
 
-        QList<CMapOSMType*> getServerList(){return tileList;}
-        void setServerList(QList<CMapOSMType*> list);
+        QList<CMapOSMType> getServerList(){return tileList;}
+        void rebuildServerList();
 
     public slots:
         void newImageReady(QImage image, bool lastTileLoaded);
@@ -55,7 +55,7 @@ class CMapOSM : public IMap
         QComboBox *cb;
         QWidget *parent;
         int currentTileListIndex;
-        QList<CMapOSMType*> tileList;
+        QList<CMapOSMType> tileList;
         QImage image;
         bool lastTileLoaded;
         void draw();
