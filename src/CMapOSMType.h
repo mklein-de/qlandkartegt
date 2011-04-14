@@ -6,6 +6,7 @@
 class CMapOSMType
 {
     public:
+        CMapOSMType();
         CMapOSMType(QString title, QString path);
         void setBuiltin(QString key);
         void setEnabled(bool state);

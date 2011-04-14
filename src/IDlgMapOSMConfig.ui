@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>778</width>
-    <height>381</height>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,6 +30,13 @@
           <string notr="true">1</string>
          </property>
         </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Double click a custom map to edit the values</string>
+        </property>
        </widget>
       </item>
       <item>

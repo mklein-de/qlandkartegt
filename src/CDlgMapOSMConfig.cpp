@@ -155,6 +155,9 @@ void CDlgMapOSMConfig::on_pbAdd_clicked()
     cm->setText(0, "New Map");
     cm->setText(1, "Path");
     cm->setFlags(cm->flags()|Qt::ItemIsSelectable|Qt::ItemIsEditable);
+    cm->setToolTip(0,QString("Double click to edit the name"));
+    cm->setToolTip(1,QString("Double click to edit the path"));
 
+    mapsTreeWidget->editItem(cm);
     topCustom->setExpanded(true);
 }

@@ -2,6 +2,13 @@
 
 #include <QtGui>
 
+CMapOSMType::CMapOSMType()
+{
+    this->title=QString("");
+    this->path=QString("");
+    this->builtin=false;
+}
+
 CMapOSMType::CMapOSMType(QString title, QString path)
 {
     this->title=title;
@@ -33,3 +40,5 @@ bool CMapOSMType::isEnabled()
 {
     return this->builtin ? this->enabled : true;
 }
+
+

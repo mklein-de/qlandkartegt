@@ -122,6 +122,8 @@ CMapOSM::~CMapOSM()
 
 void CMapOSM::rebuildServerList()
 {
+    QString cbOldText=cb->currentText();
+
     tileList.clear();
 
     QSettings cfg;
@@ -179,6 +181,7 @@ void CMapOSM::rebuildServerList()
     }
     cfg.endArray();
 
+
     cb->clear();
     for(int i = 0; i < tileList.size(); i++)
     {
@@ -188,6 +191,8 @@ void CMapOSM::rebuildServerList()
             cb->addItem(p.title);
         }
     }
+
+    cb->setCurrentIndex(cb->findText(cbOldText));
 }
 
 
