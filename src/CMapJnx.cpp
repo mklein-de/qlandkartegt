@@ -152,6 +152,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
         info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
         info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
+        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Z-Order")).arg(hdr.zorder);
     }
 
     info += "</table></p>";

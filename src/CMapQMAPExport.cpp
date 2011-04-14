@@ -387,6 +387,7 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             args << "-m" << lineProductName->text();
             args << "-n" << lineDescription->text();
             args << "-c" << lineCopyright->text();
+            args << "-z" << QString::number(spinZOrder->value());
 
             args += outfiles;
 
