@@ -106,6 +106,11 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     stream >> hdr.signature;          // byte 00000028..0000002B
     stream >> hdr.signature_offset;   // byte 0000002C..0000002F
 
+    if(hdr.version > 3)
+    {
+        stream >> hdr.zorder;
+    }
+
     lat1 = hdr.top * 180.0 / 0x7FFFFFFF;
     lat2 = hdr.bottom * 180.0 / 0x7FFFFFFF;
     lon1 = hdr.left * 180.0 / 0x7FFFFFFF;
@@ -157,6 +162,18 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     {
         level_t& level = levels[i];
         stream >> level.nTiles >> level.offset >> level.scale;
+
+        if(hdr.version > 3)
+        {
+            quint32 dummy;
+            QTextCodec * codec = QTextCodec::codecForName("utf-8");
+            QByteArray ba;
+
+            stream >> dummy;
+            readCString(stream, ba);
+            level.copyright1 = codec->toUnicode(ba);
+
+        }
         qDebug() << i << hex << level.nTiles << level.offset << level.scale;
     }
 
@@ -194,9 +211,9 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
             readCString(stream, ba);
             level.name2 = codec->toUnicode(ba);
             readCString(stream, ba);
-            level.copyright = codec->toUnicode(ba);
+            level.copyright2 = codec->toUnicode(ba);
 
-            info+= QString("<tr><td>%1(%4)</td><td>%2</td><td>%3</td><td>%5</td></tr>").arg(i).arg(level.nTiles).arg(level.scale).arg(level.level).arg(level.name1 + "<br/>" + level.name2 + "<br/>" + level.copyright);
+            info+= QString("<tr><td>%1(%4)</td><td>%2</td><td>%3</td><td>%5</td></tr>").arg(i).arg(level.nTiles).arg(level.scale).arg(level.level).arg(level.name1 + "<br/>" + level.name2 + "<br/>" + level.copyright2);
         }
         info += "</table></p>";
     }

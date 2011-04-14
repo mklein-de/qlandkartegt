@@ -72,6 +72,7 @@ class CMapJnx : public IMap
             quint32 crc;                // byte 00000024..00000027
             quint32 signature;          // byte 00000028..0000002B
             quint32 signature_offset;   // byte 0000002C..0000002F
+            quint32 zorder;             // byte 00000030--00000033
         };
 
 #ifdef WIN32
@@ -94,11 +95,12 @@ class CMapJnx : public IMap
             quint32 nTiles;
             quint32 offset;
             quint32 scale;
+            QString copyright1;
 
             quint32 level;
             QString name1;
             QString name2;
-            QString copyright;
+            QString copyright2;
 
             QVector<tile_t> tiles;
         };
