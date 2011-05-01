@@ -16,13 +16,13 @@ CMapOSMType::CMapOSMType(QString title, QString path)
     this->builtin=false;
 }
 
-
-void CMapOSMType::setBuiltin(QString key)
+CMapOSMType::CMapOSMType(QString title, QString path, QString key)
 {
+    this->title=title;
+    this->path=path;
     this->builtin=true;
     this->key=key;
 }
-
 
 void CMapOSMType::setEnabled(bool state)
 {

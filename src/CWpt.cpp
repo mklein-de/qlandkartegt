@@ -835,9 +835,23 @@ void CWpt::saveGcExt(QDomElement& gpxCache, bool isExport)
     setEntry("groundspeak:placed_by", geocache.owner, gpx, gpxCache);
     setEntry("groundspeak:type", geocache.type, gpx, gpxCache);
     setEntry("groundspeak:container", geocache.container, gpx, gpxCache);
-    str.sprintf("%1.1f", geocache.difficulty);
+    if(geocache.difficulty == int(geocache.difficulty))
+    {
+        str.sprintf("%1.0f", geocache.difficulty);
+    }
+    else
+    {
+        str.sprintf("%1.1f", geocache.difficulty);
+    }
     setEntry("groundspeak:difficulty", str, gpx, gpxCache);
-    str.sprintf("%1.1f", geocache.terrain);
+    if(geocache.terrain == int(geocache.terrain))
+    {
+        str.sprintf("%1.0f", geocache.terrain);
+    }
+    else
+    {
+        str.sprintf("%1.1f", geocache.terrain);
+    }
     setEntry("groundspeak:terrain", str, gpx, gpxCache);
     setEntryHtml("groundspeak:short_description", geocache.shortDesc, gpx, gpxCache);
 

@@ -144,7 +144,9 @@ void CDlgMapOSMConfig::accept()
         cfg.endArray();
     }
 
-    map->rebuildServerList();
+    if (!map->rebuildServerList()) {
+        map->setNewTileUrl(0);
+    }
     QDialog::accept();
 }
 

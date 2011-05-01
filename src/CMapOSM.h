@@ -46,11 +46,11 @@ class CMapOSM : public IMap
         void draw(QPainter& p);
 
         QList<CMapOSMType> getServerList(){return tileList;}
-        void rebuildServerList();
+        bool rebuildServerList();
 
     public slots:
         void newImageReady(QImage image, bool lastTileLoaded);
-        void setNewTileUrl(int index = -1);
+        void setNewTileUrl(int cbIndex = -1);
     private:
         QComboBox *cb;
         QWidget *parent;
@@ -92,5 +92,15 @@ class CMapOSM : public IMap
 
         bool needsRedrawOvl;
 
+        // builtin maps
+        CMapOSMType mapOsm;
+        CMapOSMType mapOcm;
+        CMapOSMType mapOpm;
+        CMapOSMType mapWam;
+#if PRIVATE
+        CMapOSMType mapOade;
+        CMapOSMType mapOaat;
+        CMapOSMType mapOait;
+#endif
 };
 #endif                           //CMAPOSM_H
