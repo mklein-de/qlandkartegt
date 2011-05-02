@@ -73,7 +73,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
 CDlgEditWpt::~CDlgEditWpt()
 {
-    wpt.showBuddies(false);
+    //wpt.showBuddies(false);
 #ifdef HAS_DMTX
     dmtxEncodeDestroy(&enc);
 #endif
