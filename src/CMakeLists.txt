@@ -405,7 +405,7 @@ SET(qlandkarte_RCS
     resources.qrc
 )
 
-SET (PRIVATE OFF CACHE BOOL "Features for private use only")
+
 SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX files.")
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
@@ -463,10 +463,6 @@ else(EXIF_FOUND)
     set(DMTX_INCLUDE_DIRS "")
     set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)
-
-IF(PRIVATE)
-    add_definitions(-DPRIVATE)
-ENDIF(PRIVATE)
 
 IF(GEO_DB)
     add_definitions(-DHAS_GEODB -DDB_VERSION=7)

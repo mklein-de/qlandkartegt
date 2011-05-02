@@ -97,10 +97,5 @@ class CMapOSM : public IMap
         CMapOSMType mapOcm;
         CMapOSMType mapOpm;
         CMapOSMType mapWam;
-#if PRIVATE
-        CMapOSMType mapOade;
-        CMapOSMType mapOaat;
-        CMapOSMType mapOait;
-#endif
 };
 #endif                           //CMAPOSM_H

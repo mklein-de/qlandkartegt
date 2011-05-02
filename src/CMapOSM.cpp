@@ -53,11 +53,6 @@ CMapOSM::CMapOSM(CCanvas * parent)
     mapOcm=CMapOSMType(QString("OpenCycleMap"),QString("andy.sandbox.cloudmade.com/tiles/cycle/%1/%2/%3.png"),QString("ocm"));
     mapOpm=CMapOSMType(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"),QString("opm"));
     mapWam=CMapOSMType(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"),QString("wam"));
-#if PRIVATE
-    mapOade=CMapOSMType(QString("Outdooractive DE"),QString("t0.outdooractive.com/portal/map/%1/%2/%3.png"),QString("oade"));
-    mapOaat=CMapOSMType(QString("Outdooractive AT"),QString("t0.outdooractive.com/austria/map/%1/%2/%3.png"),QString("oaat"));
-    mapOait=CMapOSMType(QString("Outdooractive IT"),QString("t0.outdooractive.com/suedtirol/map/%1/%2/%3.png"),QString("oait"));
-#endif
 
     this->rebuildServerList();
 
@@ -157,17 +152,6 @@ bool CMapOSM::rebuildServerList()
 
     mapWam.setEnabled(cfg.value("osm/builtinMaps/wam", true).toBool());
     tileList << mapWam;
-
-#if PRIVATE
-    mapOade.setEnabled(cfg.value("osm/builtinMaps/oade", true).toBool());
-    tileList << mapOade;
-
-    mapOaat.setEnabled(cfg.value("osm/builtinMaps/oaat", true).toBool());
-    tileList << mapOaat;
-
-    mapOait.setEnabled(cfg.value("osm/builtinMaps/oait", true).toBool());
-    tileList << mapOait;
-#endif
 
     int size = cfg.beginReadArray("osm/customMaps");
     for (int i = 0; i < size; ++i)
