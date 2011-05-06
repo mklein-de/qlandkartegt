@@ -51,6 +51,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
+    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
 
     connect(&cmd1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -76,33 +77,36 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmdKMZ2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmdKMZ2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ3(int,QProcess::ExitStatus)));
 
-    radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
-    radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
-    radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
-
 #ifdef WIN32
     path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
     QFile file_map2jnx(path_map2jnx);
     has_map2jnx = file_map2jnx.exists();
+    path_map2gcm= QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
 #else
     QProcess proc1;
     proc1.start(MAP2JNX);
     proc1.waitForFinished();
     has_map2jnx = proc1.error() == QProcess::UnknownError;
     path_map2jnx = MAP2JNX;
+    path_map2gcm= "map2gcm";
 #endif
     groupBirdsEye->hide();
+    groupJPEG->hide();
+    groupDevice->hide();
+
+    spinJpegQuality->setValue(cfg.value("map/export/jnx/quality",75).toInt());
+    comboJpegSubsampling->setCurrentIndex(comboJpegSubsampling->findText(cfg.value("map/export/jnx/subsampling","411").toString()));
+    spinProductId->setValue(cfg.value("map/export/jnx/productid",0).toInt());
+    lineProductName->setText(cfg.value("map/export/jnx/productname","BirdsEye").toString());
+    lineCopyright->setText(cfg.value("map/export/jnx/copyright","None").toString());
+
+    radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
+    radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
+    radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 
     if (has_map2jnx)
-    {
-        radioJNX->show();
+    {       
         radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
-
-        spinJpegQuality->setValue(cfg.value("map/export/jnx/quality",75).toInt());
-        comboJpegSubsampling->setCurrentIndex(comboJpegSubsampling->findText(cfg.value("map/export/jnx/subsampling","411").toString()));
-        spinProductId->setValue(cfg.value("map/export/jnx/productid",0).toInt());
-        lineProductName->setText(cfg.value("map/export/jnx/productname","BirdsEye").toString());
-        lineCopyright->setText(cfg.value("map/export/jnx/copyright","None").toString());
     }
     else
     {
@@ -131,10 +135,28 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
     if(checked)
     {
         groupBirdsEye->show();
+        groupJPEG->show();
+        groupDevice->show();
     }
     else
     {
         groupBirdsEye->hide();
+        groupJPEG->hide();
+        groupDevice->hide();
+    }
+}
+
+void CMapQMAPExport::slotGCMToggled(bool checked)
+{
+    if(checked)
+    {
+        groupJPEG->show();
+        groupDevice->show();
+    }
+    else
+    {
+        groupJPEG->hide();
+        groupDevice->hide();
     }
 }
 
@@ -250,7 +272,7 @@ void CMapQMAPExport::slotStart()
     }
     else if(radioGCM->isChecked())
     {
-        startGCM();
+        startQLM();
     }
     else if(radioJNX->isChecked())
     {
@@ -396,6 +418,26 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             textBrowser->append(path_map2jnx + " " +  args.join(" ") + "\n");
 
             cmd4.start(path_map2jnx, args);
+            return;
+        }
+        else if(radioGCM->isChecked())
+        {
+            QString prefix = linePrefix->text();
+            QDir tarPath(labelPath->text());
+
+            QStringList args;
+
+            args << "-q" << QString::number(spinJpegQuality->value());
+            args << "-s" << comboJpegSubsampling->currentText();
+            args << "-z" << QString::number(spinZOrder->value());
+
+            args += outfiles;
+
+            args << tarPath.filePath(QString("%1.kmz").arg(prefix));
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(path_map2gcm + " " +  args.join(" ") + "\n");
+
+            cmd4.start(path_map2gcm, args);
             return;
         }
         else

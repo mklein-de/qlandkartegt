@@ -49,6 +49,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status);
 
         void slotBirdsEyeToggled(bool checked);
+        void slotGCMToggled(bool checked);
     private:
         void startQLM();
         void startGE();
@@ -88,5 +89,6 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         bool has_map2jnx;
         QString path_map2jnx;
+        QString path_map2gcm;
 };
 #endif                           //CMAPQMAPEXPORT_H
