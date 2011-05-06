@@ -69,13 +69,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmd4, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd4, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished4(int,QProcess::ExitStatus)));
 
-    connect(&cmdKMZ1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmdKMZ1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmdKMZ1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ3(int,QProcess::ExitStatus)));
-
-    connect(&cmdKMZ2, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmdKMZ2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmdKMZ2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinishedKMZ3(int,QProcess::ExitStatus)));
 
 #ifdef WIN32
     path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
@@ -101,7 +94,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineCopyright->setText(cfg.value("map/export/jnx/copyright","None").toString());
 
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
-    radioGE->setChecked(cfg.value("map/export/ge", false).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 
     if (has_map2jnx)
@@ -119,8 +111,6 @@ CMapQMAPExport::~CMapQMAPExport()
 {
     QSettings cfg;
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
-    cfg.setValue("map/export/ge", radioGE->isChecked());
-    cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
@@ -191,14 +181,6 @@ void CMapQMAPExport::slotStderr()
     {
         str = cmd4.readAllStandardError();
     }
-    else if(sender() == &cmdKMZ1)
-    {
-        str = cmdKMZ1.readAllStandardError();
-    }
-    else if(sender() == &cmdKMZ2)
-    {
-        str = cmdKMZ2.readAllStandardError();
-    }
 
     if(str[0] == '\r')
     {
@@ -237,14 +219,6 @@ void CMapQMAPExport::slotStdout()
     {
         str = cmd4.readAllStandardOutput();
     }
-    else if(sender() == &cmdKMZ1)
-    {
-        str = cmdKMZ1.readAllStandardOutput();
-    }
-    else if(sender() == &cmdKMZ2)
-    {
-        str = cmdKMZ2.readAllStandardOutput();
-    }
 
     if(str[0] == '\r')
     {
@@ -265,10 +239,6 @@ void CMapQMAPExport::slotStart()
     if(radioQLM->isChecked())
     {
         startQLM();
-    }
-    else if(radioGE->isChecked())
-    {
-        startGE();
     }
     else if(radioGCM->isChecked())
     {
@@ -511,7 +481,7 @@ void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
     QDir tarPath(labelPath->text());
     QFile::remove(tarPath.filePath(QString("%1.qmap").arg(prefix)));
 
-    for(int i = 0; i < (outfiles.count() - 1); i++)
+    for(int i = 0; i < outfiles.count(); i++)
     {
         QFile::remove(outfiles[i]);
     }
@@ -519,280 +489,4 @@ void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(tr("--- finished ---\n"));
 }
-
-void CMapQMAPExport::startGE()
-{
-    // get map summary
-    CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
-
-    QString prefix = linePrefix->text();
-
-    QDir srcPath = QFileInfo(map.filename).absolutePath();
-    QDir tarPath(labelPath->text());
-
-    QSettings srcdef(map.filename, QSettings::IniFormat);
-
-    int idx = 0;
-    int level = 1;
-
-    QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
-    QString filename;
-    foreach(filename, filenames)
-    {
-        CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
-        if(!mapfile->ok)
-        {
-            delete mapfile;
-            QMessageBox::critical(0,tr("Error ..."), tr("Failed to read %1").arg(filename), QMessageBox::Abort,  QMessageBox::Abort);
-            return QDialog::reject();
-        }
-
-        PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
-        XY p1,p2;
-        p1.u = mapsel.lon1;
-        p1.v = mapsel.lat1;
-        pj_transform(pjWGS84,mapfile->pj,1,0,&p1.u,&p1.v,0);
-
-        p2.u = mapsel.lon2;
-        p2.v = mapsel.lat2;
-        pj_transform(pjWGS84,mapfile->pj,1,0,&p2.u,&p2.v,0);
-        pj_free(pjWGS84);
-
-        QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
-        QRectF selarea(QPointF(p1.u, p1.v), QPointF(p2.u, p2.v));
-        QRectF intersect = selarea.intersected(maparea);
-
-        //             qDebug() << maparea << selarea << intersect;
-        if(intersect.isValid())
-        {
-            job_t job;
-
-            job.name    = QString("%1 %2").arg(lineDescription->text()).arg(job.idx);
-            job.idx     = idx++;
-            job.srcFilename = mapfile->filename;
-            job.tarFilename = tarPath.filePath(QString("%1_%2.kmz").arg(prefix).arg(job.idx));
-            job.xoff    = (intersect.left()   - mapfile->xref1) / mapfile->xscale;
-            job.yoff    = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
-            job.width   =  intersect.width()  / mapfile->xscale;
-            job.height  = -intersect.height() / mapfile->yscale;
-
-            job.p1.u    = mapsel.lon1;
-            job.p1.v    = mapsel.lat1;
-            job.p2.u    = mapsel.lon2;
-            job.p2.v    = mapsel.lat2;
-
-            jobs        << job;
-        }
-        delete mapfile;
-    }
-
-    slotFinishedKMZ1(0,QProcess::NormalExit);
-}
-
-void CMapQMAPExport::slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status)
-{
-    if(file1){delete file1; file1 = 0;}
-    if(jobs.isEmpty())
-    {
-        textBrowser->setTextColor(Qt::black);
-        textBrowser->append(tr("--- finished ---\n"));
-        return;
-    }
-
-    file1 = new QTemporaryFile();
-    file1->open();
-
-    job_t job = jobs.first();
-    QStringList args;
-    args << "-of" << "BMP";
-    args << "-expand" << "rgb";
-    args << "-srcwin";
-    args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.height);
-    args << job.srcFilename;
-    args << file1->fileName();
-
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
-
-    cmdKMZ1.start(GDALTRANSLATE, args);
-
-}
-
-
-
-void CMapQMAPExport::slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status)
-{
-    job_t job = jobs.takeFirst();
-
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(tr("Compress data to  %1\n").arg(job.tarFilename));
-
-    QString str;
-    QFile   zipfile(job.tarFilename);
-    {
-        QImage  img(file1->fileName(), "BMP");
-        img = img.convertToFormat(QImage::Format_RGB32);
-        img.save(file1->fileName() + ".jpg", "JPEG");
-    }
-    QFile   mapfile(file1->fileName() + ".jpg");
-    QLGT::QZipWriter zip(&zipfile);
-    QDomDocument doc;
-    QDomElement root    = doc.createElement("kml");
-
-    doc.appendChild(root);
-    root.setAttribute("xmlns","http://www.opengis.net/kml/2.2");
-
-    QDomElement overlay = doc.createElement("GroundOverlay");
-    root.appendChild(overlay);
-
-    QDomElement name = doc.createElement("name");
-    overlay.appendChild(name);
-    name.appendChild(doc.createTextNode(job.name));
-
-    QDomElement icon = doc.createElement("Icon");
-    overlay.appendChild(icon);
-
-    QDomElement href = doc.createElement("href");
-    icon.appendChild(href);
-    href.appendChild(doc.createTextNode("files/map.jpg"));
-
-    QDomElement drawOrder = doc.createElement("drawOrder");
-    icon.appendChild(drawOrder);
-    drawOrder.appendChild(doc.createTextNode("50"));
-
-    QDomElement latLonBox = doc.createElement("LatLonBox");
-    overlay.appendChild(latLonBox);
-
-    QDomElement north = doc.createElement("north");
-    latLonBox.appendChild(north);
-    str.sprintf("%1.8f", job.p1.v * RAD_TO_DEG);
-    north.appendChild(doc.createTextNode(str));
-
-    QDomElement south = doc.createElement("south");
-    latLonBox.appendChild(south);
-    str.sprintf("%1.8f", job.p2.v * RAD_TO_DEG);
-    south.appendChild(doc.createTextNode(str));
-
-    QDomElement east = doc.createElement("east");
-    latLonBox.appendChild(east);
-    str.sprintf("%1.8f", job.p2.u * RAD_TO_DEG);
-    east.appendChild(doc.createTextNode(str));
-
-    QDomElement west = doc.createElement("west");
-    latLonBox.appendChild(west);
-    str.sprintf("%1.8f", job.p1.u * RAD_TO_DEG);
-    west.appendChild(doc.createTextNode(str));
-
-    QDomElement rotation = doc.createElement("rotation");
-    latLonBox.appendChild(rotation);
-    rotation.appendChild(doc.createTextNode("0.0"));
-
-    //img.save(mapfilename);
-    mapfile.open(QIODevice::ReadOnly);
-
-    zipfile.open(QIODevice::WriteOnly);
-    //zip.addDirectory("files");
-    zip.addFile("files/map.jpg", &mapfile);
-    zip.addFile("doc.kml",QByteArray("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n") + doc.toByteArray());
-
-    zip.close();
-    mapfile.close();
-    mapfile.remove();
-
-    slotFinishedKMZ1(0,QProcess::NormalExit);
-}
-
-void CMapQMAPExport::startGCM()
-{
-    // get map summary
-    CMapDB::map_t& mapdef = CMapDB::self().knownMaps[mapsel.mapkey];
-    PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
-
-    QString prefix = linePrefix->text();
-
-    QDir srcPath = QFileInfo(mapdef.filename).absolutePath();
-    QDir tarPath(labelPath->text());
-
-    QSettings srcdef(mapdef.filename, QSettings::IniFormat);
-
-    int idx = 0;
-    int level = 1;
-
-    QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
-    QString filename;
-    foreach(filename, filenames)
-    {
-        CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
-        if(!mapfile->ok)
-        {
-            delete mapfile;
-            QMessageBox::critical(0,tr("Error ..."), tr("Failed to read %1").arg(filename), QMessageBox::Abort,  QMessageBox::Abort);
-            return QDialog::reject();
-        }
-
-        XY p1,p2;
-        p1.u = mapsel.lon1;
-        p1.v = mapsel.lat1;
-        pj_transform(pjWGS84,mapfile->pj,1,0,&p1.u,&p1.v,0);
-
-        p2.u = mapsel.lon2;
-        p2.v = mapsel.lat2;
-        pj_transform(pjWGS84,mapfile->pj,1,0,&p2.u,&p2.v,0);
-
-        double dU = 1024 * mapfile->xscale;
-        double dV = 1024 * mapfile->yscale;
-
-        for(double v = p1.v; v >= p2.v; v += dV)
-        {
-            for(double u = p1.u; u < p2.u; u += dU)
-            {
-
-                double dU1 = dU;
-                double dV1 = dV;
-                if(abs(p2.u - u) < abs(dU)) dU1 = (p2.u - u);
-                if(abs(p2.v - v) < abs(dV)) dV1 = (p2.v - v);
-
-                QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
-                QRectF selarea(QPointF(u, v), QPointF(u + dU1, v + dV1));
-                QRectF intersect = selarea.intersected(maparea);
-
-                //             qDebug() << maparea << selarea << intersect;
-                if(intersect.isValid())
-                {
-                    job_t job;
-                    job.name    = QString("%1 %2").arg(lineDescription->text()).arg(job.idx);
-                    job.idx     = idx++;
-                    job.srcFilename = mapfile->filename;
-                    job.tarFilename = tarPath.filePath(QString("%1_%2.kmz").arg(prefix).arg(job.idx));
-                    job.xoff    = (intersect.left()   - mapfile->xref1) / mapfile->xscale;
-                    job.yoff    = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
-                    job.width   =  intersect.width()  / mapfile->xscale;
-                    job.height  = -intersect.height() / mapfile->yscale;
-
-                    job.p1.u    = intersect.left();
-                    job.p1.v    = intersect.bottom();
-                    job.p2.u    = intersect.right();
-                    job.p2.v    = intersect.top();
-
-//                    job.p1.u    = u;
-//                    job.p1.v    = v;
-//                    job.p2.u    = u + dU1;
-//                    job.p2.v    = v + dV1;
-
-                    pj_transform(mapfile->pj,pjWGS84,1,0,&job.p1.u,&job.p1.v,0);
-                    pj_transform(mapfile->pj,pjWGS84,1,0,&job.p2.u,&job.p2.v,0);
-
-                    jobs        << job;
-                }
-            }
-        }
-        delete mapfile;
-    }
-
-    pj_free(pjWGS84);
-
-    slotFinishedKMZ1(0,QProcess::NormalExit);
-}
-
 

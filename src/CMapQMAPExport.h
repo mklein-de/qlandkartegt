@@ -45,14 +45,10 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished3( int exitCode, QProcess::ExitStatus status);
         void slotFinished4( int exitCode, QProcess::ExitStatus status);
 
-        void slotFinishedKMZ1( int exitCode, QProcess::ExitStatus status);
-        void slotFinishedKMZ3( int exitCode, QProcess::ExitStatus status);
-
         void slotBirdsEyeToggled(bool checked);
         void slotGCMToggled(bool checked);
     private:
         void startQLM();
-        void startGE();
         void startGCM();
         const CMapSelectionRaster& mapsel;
 
@@ -61,8 +57,6 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QProcess cmd3;
         QProcess cmd4;
 
-        QProcess cmdKMZ1;
-        QProcess cmdKMZ2;
 
         QTemporaryFile * file1;
         QTemporaryFile * file2;

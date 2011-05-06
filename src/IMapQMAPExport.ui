@@ -90,13 +90,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="radioGE">
-       <property name="text">
-        <string>Google Earth (KMZ)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QRadioButton" name="radioGCM">
        <property name="text">
         <string>Garmin Custom Map</string>
