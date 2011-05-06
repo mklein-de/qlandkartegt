@@ -205,7 +205,7 @@ void CGarminExport::writeStdout(const QString& msg)
     textBrowser->append(msg);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 
-    qApp->processEvents();
+    qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 
@@ -215,7 +215,7 @@ void CGarminExport::writeStderr(const QString& msg)
     textBrowser->append(msg);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 
-    qApp->processEvents();
+    qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 

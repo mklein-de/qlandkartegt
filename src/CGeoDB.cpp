@@ -60,7 +60,7 @@ QProgressDialog progress(lbl, "Abort", 0, max, 0);\
 #define PROGRESS(x, cmd) \
 progress.setValue(x); \
 if (progress.wasCanceled()) cmd; \
-qApp->processEvents();\
+qApp->processEvents(QEventLoop::ExcludeUserInputEvents);\
 
 
 class CGeoDBInternalEditLock

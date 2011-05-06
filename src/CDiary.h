@@ -20,16 +20,16 @@
 #ifndef CDIARY_H
 #define CDIARY_H
 
-#include <QObject>
+
+#include "IItem.h"
 #include <QDataStream>
 #include <QFile>
 
-class CDiary : public QObject
+class CDiary : public IItem
 {
     Q_OBJECT;
     public:
         CDiary(QObject * parent);
-        CDiary(const CDiary& parent);
         virtual ~CDiary();
 
         enum type_e {eEnd,eBase};
@@ -44,6 +44,10 @@ class CDiary : public QObject
             m_text      = d.m_text;
             return *this;
         }
+
+        QString getInfo();
+
+        void setIcon(const QString&){}
 
     private:
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);

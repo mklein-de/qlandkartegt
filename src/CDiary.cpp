@@ -166,7 +166,7 @@ void operator <<(QFile& f, CDiary& diary)
 
 
 CDiary::CDiary(QObject * parent)
-: QObject(parent)
+: IItem(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
 // , m_text("<img src='/tmp/ql.png'/>")
 {
@@ -174,14 +174,17 @@ CDiary::CDiary(QObject * parent)
 }
 
 
-CDiary::CDiary(const CDiary& parent)
-// : m_text("<img src='/tmp/ql.png'/>")
-{
-    *this = parent;
-}
-
-
 CDiary::~CDiary()
 {
 
 }
+
+QString CDiary::getInfo()
+{
+    QString str;
+
+    str += "This is a diary";
+
+    return str;
+}
+
