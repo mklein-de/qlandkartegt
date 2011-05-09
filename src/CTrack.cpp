@@ -735,7 +735,7 @@ void CTrack::rebuild(bool reindex)
         pt1 = track.begin();
     }
 
-    if(!track.isEmpty())
+    if(!track.isEmpty() && (track.first().timestamp != 0))
     {
         timestamp = track.first().timestamp;
     }
