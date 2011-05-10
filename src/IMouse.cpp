@@ -792,3 +792,41 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
     }
 
 }
+
+void IMouse::mousePressEventMapsel(QMouseEvent * e)
+{
+    if(selMap->type != IMapSelection::eRaster)
+    {
+        return;
+    }
+
+    QPointF pt = e->posF();
+    IMap& map = CMapDB::self().getMap();
+
+    double x1 = selMap->lon1;
+    double y1 = selMap->lat1;
+    double x2 = selMap->lon2;
+    double y2 = selMap->lat2;
+
+    map.convertRad2Pt(x1, y1);
+    map.convertRad2Pt(x2, y2);
+
+    int x = -1, y = -1;
+
+    quint32 gridspace = map.scalePixelGrid(TILESIZE);
+
+    if(x1 < pt.x() && pt.x() < x2)
+    {
+        x = floor((pt.x() - x1)/gridspace);
+    }
+
+    if(y1 < pt.y() && pt.y() < y2)
+    {
+        y = floor((pt.y() - y1)/gridspace);
+    }
+
+    if(x != -1 && y != -1)
+    {
+
+    }
+}

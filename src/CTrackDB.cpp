@@ -617,6 +617,7 @@ void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
     undoStack->push(new CTrackUndoCommandDelete(this,key,silent));
+
 }
 
 

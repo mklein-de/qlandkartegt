@@ -21,8 +21,13 @@
 
 #include <QString>
 #include <QObject>
+#include <QMap>
+#include <QPair>
 class QPainter;
 class QRect;
+
+
+#define TILESIZE 1024
 
 class IMapSelection : public QObject
 {
@@ -53,7 +58,7 @@ class IMapSelection : public QObject
 
         type_e type;
         QString key;
-        QString mapkey;                
+        QString mapkey;
 
         double lon1;             ///< top left longitude [rad]
         double lat1;             ///< top left latitude [rad]
@@ -63,6 +68,7 @@ class IMapSelection : public QObject
         virtual QString getDescription(){return description;}
         virtual void setDescription(const QString& desc){description = desc;}
 
+        QMap< QPair<int, int>, bool > selTiles;
     protected:
         QString description;
 };

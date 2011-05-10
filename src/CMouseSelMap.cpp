@@ -23,6 +23,7 @@
 
 #include <QtGui>
 
+
 CMouseSelMap::CMouseSelMap(CCanvas * canvas)
 : IMouse(canvas)
 , selMap(false)
@@ -43,7 +44,7 @@ void CMouseSelMap::draw(QPainter& p)
 
     int i;
     IMap& map = CMapDB::self().getMap();
-    quint32 gridspace = map.scalePixelGrid(1024);
+    quint32 gridspace = map.scalePixelGrid(TILESIZE);
 
     if(gridspace != 0)
     {
@@ -137,7 +138,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 
         // snap grid if parts are too small
         IMap& map = CMapDB::self().getMap();
-        quint32 gridspace = map.scalePixelGrid(1024);
+        quint32 gridspace = map.scalePixelGrid(TILESIZE);
 
         if(gridspace != 0)
         {

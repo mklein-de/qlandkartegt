@@ -121,7 +121,8 @@ class IMouse : public QObject
         void mousePressEventWpt(QMouseEvent * e);
         /// trigger search function
         void mousePressEventSearch(QMouseEvent * e);
-
+        /// trigger tile selection
+        void mousePressEventMapsel(QMouseEvent * e);
         /// the functions mouse icon
         QCursor cursor;
         /// pointer to the parent canvas

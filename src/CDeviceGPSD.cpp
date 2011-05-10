@@ -153,7 +153,8 @@ void CGPSDThread::run()
 #if GPSD_API_MAJOR_VERSION >= 5
     int socket;
 
-    if( gpsdata = new gps_data_t )
+    gpsdata = new gps_data_t();
+    if(gpsdata)
     {
         socket = gps_open( "localhost", DEFAULT_GPSD_PORT, gpsdata );
     }

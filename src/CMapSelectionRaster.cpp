@@ -72,18 +72,21 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     {
         p.drawRect(r);
 
-        int i;
+        int x,y;
         quint32 gridspace = map.scalePixelGrid(1024);
 
-        for(i = r.left(); i < r.right(); i+= gridspace)
+        for(x = r.left(); x < r.right(); x += gridspace)
         {
-            p.drawLine(i, r.top(), i, r.bottom());
+            p.drawLine(x, r.top(), x, r.bottom());
+
+            for(y = r.top(); y < r.bottom(); y += gridspace)
+            {
+                p.drawLine(r.left(), y, r.right(), y);
+            }
         }
 
-        for(i = r.top(); i < r.bottom(); i+= gridspace)
-        {
-            p.drawLine(r.left(), i, r.right(), i);
-        }
+
+
 
         CCanvas::drawText(getDescription(),p,r);
     }

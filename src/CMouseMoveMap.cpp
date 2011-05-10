@@ -108,7 +108,11 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(!selWpt.isNull())
+        if(!selMap.isNull() && !doSpecialCursorMap)
+        {
+            mousePressEventMapsel(e);
+        }
+        else if(!selWpt.isNull())
         {
             CWptDB::self().selWptByKey(selWpt->getKey());
             mousePressEventWpt(e);
