@@ -42,7 +42,6 @@ void CMouseSelMap::draw(QPainter& p)
 {
     if(!selMap) return;
 
-    int i;
     IMap& map = CMapDB::self().getMap();
     quint32 gridspace = map.scalePixelGrid(TILESIZE);
 
@@ -80,23 +79,34 @@ void CMouseSelMap::draw(QPainter& p)
 
         rect.adjust(0,0,w,h);
     }
-    // draw area
-    drawRect(p);
 
     if(gridspace == 0)
     {
         return;
     }
 
-    for(i = rect.left(); i < rect.right(); i+= gridspace)
+    selTiles.clear();
+    int pxx,pxy, x, y;
+
+    p.setBrush(QColor(150,150,255,100));
+    p.setPen(QPen(Qt::darkBlue,2));
+
+    for(pxx = rect.left(), x = 0; pxx < rect.right(); pxx += gridspace, x++)
     {
-        p.drawLine(i, rect.top(), i, rect.bottom());
+        for(pxy = rect.top(), y = 0; pxy < rect.bottom(); pxy += gridspace, y++)
+        {
+            int w = (rect.right() - pxx) > gridspace ? gridspace : (rect.right() - pxx);
+            int h = (rect.bottom() - pxy) > gridspace ? gridspace : (rect.bottom() - pxy);
+            QRect r(pxx,pxy, w, h);
+
+            QPair<int,int> index(x,y);
+            selTiles[index] = false;
+
+            p.drawRect(r);
+        }
     }
 
-    for(i = rect.top(); i < rect.bottom(); i+= gridspace)
-    {
-        p.drawLine(rect.left(), i, rect.right(), i);
-    }
+
 }
 
 
@@ -174,7 +184,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
         }
 
 
-        CMapDB::self().select(rect);
+        CMapDB::self().select(rect, selTiles);
         canvas->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }

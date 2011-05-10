@@ -827,6 +827,8 @@ void IMouse::mousePressEventMapsel(QMouseEvent * e)
 
     if(x != -1 && y != -1)
     {
-
+        QPair<int,int> index(x,y);
+        selMap->selTiles[index] = !selMap->selTiles[index];
+        CMapDB::self().emitSigChanged();
     }
 }

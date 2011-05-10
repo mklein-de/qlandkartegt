@@ -609,7 +609,7 @@ void CMapDB::searchMap()
 }
 
 
-void CMapDB::select(const QRect& rect)
+void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTiles)
 {
     QString mapkey = theMap->getKey();
     if(mapkey.isEmpty())
@@ -622,6 +622,7 @@ void CMapDB::select(const QRect& rect)
     {
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;
+        ms->selTiles     = selTiles;
         ms->setDescription(knownMaps[mapkey].description);
 
         try

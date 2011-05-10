@@ -110,7 +110,7 @@ class CMapDB : public IDB
         /**
             @param rect area within the current viewport
         */
-        void select(const QRect& rect);
+        void select(const QRect& rect,  const QMap< QPair<int,int>, bool>& selTiles);
 
     private:
         friend class CMainWindow;

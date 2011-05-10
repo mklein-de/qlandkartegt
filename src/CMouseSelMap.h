@@ -22,6 +22,8 @@
 
 #include "IMouse.h"
 
+#include <QPair>
+
 /// select a subarea of the map to export
 class CMouseSelMap : public IMouse
 {
@@ -37,6 +39,8 @@ class CMouseSelMap : public IMouse
         void draw(QPainter& p);
     private:
         bool selMap;
+
+        QMap< QPair<int,int>, bool> selTiles;
 
 };
 #endif                           //CMOUSESELMAP_H

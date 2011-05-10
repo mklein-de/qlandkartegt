@@ -52,7 +52,7 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     map.convertRad2Pt(u1, v1);
     map.convertRad2Pt(u2, v2);
 
-    p.setBrush(QColor(150,150,255,100));
+    p.setBrush(Qt::NoBrush);
 
     if(focusedMap == key)
     {
@@ -72,21 +72,37 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     {
         p.drawRect(r);
 
-        int x,y;
+        int pxx,pxy, x, y;
         quint32 gridspace = map.scalePixelGrid(1024);
 
-        for(x = r.left(); x < r.right(); x += gridspace)
+        for(pxx = r.left(), x = 0; pxx < r.right(); pxx += gridspace, x++)
         {
-            p.drawLine(x, r.top(), x, r.bottom());
-
-            for(y = r.top(); y < r.bottom(); y += gridspace)
+            for(pxy = r.top(), y = 0; pxy < r.bottom(); pxy += gridspace, y++)
             {
-                p.drawLine(r.left(), y, r.right(), y);
+                int w = (r.right() - pxx) > gridspace ? gridspace : (r.right() - pxx);
+                int h = (r.bottom() - pxy) > gridspace ? gridspace : (r.bottom() - pxy);
+                QRect rect(pxx,pxy, w, h);
+
+                QPair<int,int> index(x,y);
+
+                if(!selTiles.contains(index))
+                {
+                    selTiles[index] = false;
+                }
+
+                if(selTiles[index])
+                {
+                    p.setBrush(Qt::NoBrush);
+                }
+                else
+                {
+                    p.setBrush(QColor(150,150,255,100));
+                }
+
+                p.drawRect(rect);
+
             }
         }
-
-
-
 
         CCanvas::drawText(getDescription(),p,r);
     }
@@ -118,9 +134,15 @@ QString CMapSelectionRaster::getDescription()
 
     d2 = distance(p1, p2, a1, a2) / 1000.0;
 
+    int tileCount = 0, i;
+    foreach(i, selTiles)
+    {
+        tileCount += i ? 0 : 1;
+    }
+
     str  = description + "\n" + pos1 + "\n" + pos2;
     str += "\n" + QString("%1 x %2 km = %3 km%4").arg(d1,0,'f',2).arg(d2,0,'f',2).arg(d1*d2,0,'f',1).arg(QChar(0x00B2));
-
+    str += "\n" + tr("Selected tiles: %1").arg(tileCount);
     return str;
 
 }
