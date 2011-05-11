@@ -414,9 +414,6 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             QString prefix = linePrefix->text();
             QDir tarPath(labelPath->text());
 
-
-
-
             QStringList args;
 
             args << "-q" << QString::number(spinJpegQuality->value());

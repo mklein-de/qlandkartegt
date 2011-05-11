@@ -69,6 +69,8 @@ class IMapSelection : public QObject
         virtual void setDescription(const QString& desc){description = desc;}
 
         QMap< QPair<int, int>, bool > selTiles;
+
+        QRect rect();
     protected:
         QString description;
 };

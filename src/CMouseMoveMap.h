@@ -51,6 +51,8 @@ class CMouseMoveMap : public IMouse
         void slotCopyPositionTrack();
         void slotEditTrack();
 		void slotOpenGoogleMaps();	//TODO: GOOGLE MAPS
+        void slotMapSelAll();
+        void slotMapSelNone();
 
     private:
         /// true if left mouse button is pressed

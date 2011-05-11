@@ -349,18 +349,8 @@ void IMouse::drawSelMap(QPainter& p)
     }
 
 
-    IMap& map = CMapDB::self().getMap();
-
-    double u1 = selMap->lon1;
-    double v1 = selMap->lat1;
-    double u2 = selMap->lon2;
-    double v2 = selMap->lat2;
-
-    map.convertRad2Pt(u1, v1);
-    map.convertRad2Pt(u2, v2);
-
     p.setPen(QPen(Qt::yellow,2));
-    QRect r1(u1, v1, u2 - u1, v2 - v1);
+    QRect r1 = selMap->rect();//u1, v1, u2 - u1, v2 - v1);
     p.drawRect(r1);
 
     rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
@@ -769,10 +759,10 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
         }
         else
         {
-            if(doSpecialCursorMap)
+            if(!doSpecialCursorMap)
             {
-                QApplication::restoreOverrideCursor();
-                doSpecialCursorMap = false;
+                QApplication::setOverrideCursor(Qt::ArrowCursor);
+                doSpecialCursorMap = true;
             }
         }
     }

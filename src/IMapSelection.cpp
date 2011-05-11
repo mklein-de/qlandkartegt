@@ -18,5 +18,24 @@
 **********************************************************************************************/
 
 #include "IMapSelection.h"
+#include "CMapDB.h"
+#include "IMap.h"
+
+#include <QtCore>
 
 QString IMapSelection::focusedMap;
+
+QRect IMapSelection::rect()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double x1 = lon1;
+    double y1 = lat1;
+    double x2 = lon2;
+    double y2 = lat2;
+
+    map.convertRad2Pt(x1, y1);
+    map.convertRad2Pt(x2, y2);
+
+    return QRect(x1, y1, abs(x1 - x2), abs(y1 - y2));
+}

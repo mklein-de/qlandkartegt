@@ -152,6 +152,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
     }
     else if(e->button() == Qt::RightButton)
     {
+        oldPoint = e->pos();
         canvas->raiseContextMenu(e->pos());
     }
 }
@@ -230,7 +231,7 @@ void CMouseMoveMap::draw(QPainter& p)
 
 
 void CMouseMoveMap::contextMenu(QMenu& menu)
-{
+{    
     if(!selWpt.isNull())
     {
         menu.addSeparator();
@@ -246,6 +247,12 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         {
             menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
+    }
+    else if(!selMap.isNull() && (selMap->type == IMapSelection::eRaster))
+    {
+        menu.addSeparator();
+        menu.addAction(QPixmap(":/icons/iconOk16x16.png"),tr("Select all tiles"),this,SLOT(slotMapSelAll()));
+        menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Select no tiles"),this,SLOT(slotMapSelNone()));
     }
     else
     {
@@ -353,18 +360,39 @@ void CMouseMoveMap::slotEditTrack()
 
 void CMouseMoveMap::slotOpenGoogleMaps()	//TODO: Open Google Maps
 {
-        QString position;
+    QString position;
     GPS_Math_Deg_To_Str(selTrkPt->lon, selTrkPt->lat, position);
 
 
-        QDateTime utime = QDateTime::fromTime_t(selTrkPt->timestamp);
+    QDateTime utime = QDateTime::fromTime_t(selTrkPt->timestamp);
     utime.setTimeSpec(Qt::LocalTime);
     QString time = utime.toString();
 
-/*
-        QMessageBox msgBox;
-        msgBox.setText(position);
-        msgBox.exec();
-*/
-        QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
+}
+
+void CMouseMoveMap::slotMapSelAll()
+{
+    if(!selMap.isNull())
+    {
+        QList< QPair<int, int> > keys = selMap->selTiles.keys();
+        QPair<int,int> key;
+        foreach(key, keys)
+        {
+            selMap->selTiles[key] = false;
+        }
+    }
+}
+
+void CMouseMoveMap::slotMapSelNone()
+{
+    if(!selMap.isNull())
+    {
+        QList< QPair<int, int> > keys = selMap->selTiles.keys();
+        QPair<int,int> key;
+        foreach(key, keys)
+        {
+            selMap->selTiles[key] = true;
+        }
+    }
 }
