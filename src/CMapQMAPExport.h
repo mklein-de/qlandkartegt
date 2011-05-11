@@ -59,7 +59,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
 
         QTemporaryFile * file1;
-        QTemporaryFile * file2;
+        QTemporaryFile * file2;        
 
         struct job_t
         {

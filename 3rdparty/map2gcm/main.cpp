@@ -344,15 +344,21 @@ int main(int argc, char ** argv)
     int subsampling     = -1;
     uint32_t tileCnt    = 0;
     uint32_t zorder     = 50;
+    QList<int> selTiles;
 
     printf("\n****** %s ******\n", WHAT_STR);
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2gcm -q <1..100> -s <411|422|444> <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2gcm -q <1..100> -s <411|422|444> -t <file> <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"  -q The JPEG quality from 1 to 100. Default is 75 \n");
         fprintf(stderr,"  -s The chroma subsampling. Default is 411  \n");
+        fprintf(stderr,"  -t File with list of selected tile index \n");
+        fprintf(stderr,"\n");
+        fprintf(stderr,"\nThe list of selected tiles is a string in a file. The index count starts");
+        fprintf(stderr,"\nwith 0 at the top left corner and is incremented for each element in a row.");
+        fprintf(stderr,"\nA 2x2 tile selection will have the index string '0 1 2 3'.");
         fprintf(stderr,"\n");
         fprintf(stderr,"\nThe projection of the input files must have the same latitude along");
         fprintf(stderr,"\na pixel row. Mecator and Longitude/Latitude projections match ");
@@ -396,6 +402,23 @@ int main(int argc, char ** argv)
             else if (towupper(argv[i][1]) == 'Z')
             {
                 zorder = atol(argv[i+1]);
+                skip_next_arg = 1;
+                continue;
+            }
+            else if (towupper(argv[i][1]) == 'T')
+            {
+                int res;
+                int idx;
+                FILE * fid = fopen(argv[i+1], "r");
+
+                res = fscanf(fid,"%i ", &idx);
+                while(res == 1)
+                {
+                    selTiles << idx;
+                    res = fscanf(fid,"%i ", &idx);
+                }
+
+                fclose(fid);
                 skip_next_arg = 1;
                 continue;
             }
@@ -565,6 +588,7 @@ int main(int argc, char ** argv)
 
     printf("\nStart to extract tiles and to build KMZ.\n");
 
+
     for(int l = 0; l < nLevels; l++)
     {
         level_t& level = levels[l];
@@ -591,9 +615,17 @@ int main(int argc, char ** argv)
 
                 while(xoff < file.width)
                 {
+
                     if(xsize > (file.width - xoff))
                     {
                         xsize = (file.width - xoff);
+                    }
+
+                    if(!selTiles.contains(tileCnt))
+                    {
+                        tileCnt++;
+                        xoff += xsize;
+                        continue;
                     }
 
                     if(!readTile(xoff, yoff, xsize, ysize, file, tileBuf32Bit))

@@ -111,6 +111,7 @@ CMapQMAPExport::~CMapQMAPExport()
 {
     QSettings cfg;
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
+    cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
@@ -127,12 +128,13 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
         groupBirdsEye->show();
         groupJPEG->show();
         groupDevice->show();
+
     }
     else
     {
         groupBirdsEye->hide();
         groupJPEG->hide();
-        groupDevice->hide();
+        groupDevice->hide();        
     }
 }
 
@@ -142,11 +144,14 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
     {
         groupJPEG->show();
         groupDevice->show();
+        labelTileSelection->hide();
+
     }
     else
     {
         groupJPEG->hide();
         groupDevice->hide();
+        labelTileSelection->show();
     }
 }
 
@@ -358,6 +363,20 @@ void CMapQMAPExport::startQLM()
     slotFinished1(0,QProcess::NormalExit);
 }
 
+static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &i2)
+{
+    if(i1.second < i2.second)
+    {
+        return true;
+    }
+    else if (i1.second == i2.second)
+    {
+        return i1.first < i2.first;
+    }
+    else{
+        return false;
+    }
+}
 
 void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 {
@@ -395,11 +414,42 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             QString prefix = linePrefix->text();
             QDir tarPath(labelPath->text());
 
+
+
+
             QStringList args;
 
             args << "-q" << QString::number(spinJpegQuality->value());
             args << "-s" << comboJpegSubsampling->currentText();
             args << "-z" << QString::number(spinZOrder->value());
+
+            QList< QPair<int, int> > keys = mapsel.selTiles.keys();
+            if(keys.count())
+            {
+                QPair<int, int> key;
+                file1 = new QTemporaryFile();
+                file1->open();
+
+                qSort(keys.begin(), keys.end(), tileIndexLessThan);
+                key = keys.last();
+                int xmax = key.first  + 1;
+
+                QString index;
+                foreach(key, keys)
+                {
+                    if(mapsel.selTiles[key] == false)
+                    {
+                        index += QString("%1 ").arg(key.second * xmax + key.first);
+                    }
+                }
+
+                file1->write(index.toLatin1());
+                file1->flush();
+                file1->close();
+
+                args << "-t" << file1->fileName();
+            }
+
 
             args += outfiles;
 
@@ -486,6 +536,7 @@ void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
         QFile::remove(outfiles[i]);
     }
 
+    if(file1){delete file1; file1 = 0;}
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(tr("--- finished ---\n"));
 }
