@@ -759,10 +759,11 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
         }
         else
         {
-            if(!doSpecialCursorMap)
+            if(doSpecialCursorMap)
             {
-                QApplication::setOverrideCursor(Qt::ArrowCursor);
-                doSpecialCursorMap = true;
+                QApplication::restoreOverrideCursor();
+//                QApplication::setOverrideCursor(Qt::ArrowCursor);
+                doSpecialCursorMap = false;
             }
         }
     }
