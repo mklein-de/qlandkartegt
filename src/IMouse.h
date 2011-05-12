@@ -154,7 +154,6 @@ class IMouse : public QObject
         QRect rectCopySearch;
 
         QRect rectMoveMapSel;
-        QRect rectSizeMapSel;
 
         bool doSpecialCursorWpt;
         bool doSpecialCursorSearch;

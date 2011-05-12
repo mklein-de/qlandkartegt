@@ -35,7 +35,6 @@ CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 : IMouse(parent)
 , moveMap(false)
 , moveMapSel(false)
-, sizeMapSel(false)
 , leftButtonPressed(false)
 , altKeyPressed(false)
 {
@@ -59,7 +58,7 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
         canvas->update();
     }
 
-    if((moveMapSel || sizeMapSel) && !selMap.isNull())
+    if(moveMapSel && !selMap.isNull())
     {
         IMap& map = CMapDB::self().getMap();
         double u1 = oldPoint.x();
@@ -70,19 +69,11 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
         map.convertPt2Rad(u1,v1);
         map.convertPt2Rad(u2,v2);
 
-        if(moveMapSel)
-        {
-            selMap->lon1 += u2 - u1;
-            selMap->lon2 += u2 - u1;
+        selMap->lon1 += u2 - u1;
+        selMap->lon2 += u2 - u1;
 
-            selMap->lat1 += v2 - v1;
-            selMap->lat2 += v2 - v1;
-        }
-        else if(sizeMapSel)
-        {
-            selMap->lon2 += u2 - u1;
-            selMap->lat2 += v2 - v1;
-        }
+        selMap->lat1 += v2 - v1;
+        selMap->lat2 += v2 - v1;
 
         canvas->update();
     }
@@ -132,10 +123,6 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
             {
                 moveMapSel = true;
             }
-            else if(rectSizeMapSel.contains(e->pos()))
-            {
-                sizeMapSel = true;
-            }
         }
         else
         {
@@ -173,10 +160,9 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
             canvas->update();
         }
 
-        if(moveMapSel || sizeMapSel)
+        if(moveMapSel)
         {
             moveMapSel = false;
-            sizeMapSel = false;
             CMapDB::self().emitSigChanged();
         }
     }
@@ -381,6 +367,8 @@ void CMouseMoveMap::slotMapSelAll()
         {
             selMap->selTiles[key] = false;
         }
+
+        CMapDB::self().emitSigChanged();
     }
 }
 
@@ -394,5 +382,6 @@ void CMouseMoveMap::slotMapSelNone()
         {
             selMap->selTiles[key] = true;
         }
+        CMapDB::self().emitSigChanged();
     }
 }

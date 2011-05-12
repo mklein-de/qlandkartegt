@@ -58,7 +58,6 @@ class CMouseMoveMap : public IMouse
         /// true if left mouse button is pressed
         bool moveMap;
         bool moveMapSel;
-        bool sizeMapSel;
 
         bool leftButtonPressed;
         bool altKeyPressed;

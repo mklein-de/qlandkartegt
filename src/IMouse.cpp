@@ -61,7 +61,6 @@ IMouse::IMouse(CCanvas * canvas)
     rectCopySearch      = QRect(32,32,16,16);
 
     rectMoveMapSel      = QRect(0,0,64,64);
-    rectSizeMapSel      = QRect(0,0,48,48);
 }
 
 
@@ -355,9 +354,6 @@ void IMouse::drawSelMap(QPainter& p)
 
     rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
     p.drawPixmap(rectMoveMapSel.topLeft(), QPixmap(":/icons/iconMove64x64.png"));
-
-    rectSizeMapSel.moveTopLeft(r1.bottomRight() - QPoint(48,48));
-    p.drawPixmap(rectSizeMapSel.topLeft(), QPixmap(":/icons/iconSize48x48.png"));
 }
 
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
@@ -749,7 +745,7 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
     // check for cursor-over-function
     if(selMap)
     {
-        if(rectMoveMapSel.contains(e->pos()) || rectSizeMapSel.contains(e->pos()))
+        if(rectMoveMapSel.contains(e->pos()))
         {
             if(!doSpecialCursorMap)
             {

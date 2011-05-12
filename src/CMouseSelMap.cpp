@@ -51,31 +51,8 @@ void CMouseSelMap::draw(QPainter& p)
         int w = rect.width() % gridspace;
         int h = rect.height() % gridspace;
 
-        if(w < (gridspace * 0.20))
-        {
-            w = - w;
-        }
-        else if(w > (gridspace * 0.80))
-        {
-            w = gridspace - w;
-        }
-        else
-        {
-            w = 0;
-        }
-
-        if(h < (gridspace * 0.20))
-        {
-            h = - h;
-        }
-        else if(h > (gridspace * 0.80))
-        {
-            h = gridspace - h;
-        }
-        else
-        {
-            h = 0;
-        }
+        if(w) w = gridspace - w;
+        if(h) h = gridspace - h;
 
         rect.adjust(0,0,w,h);
     }
@@ -155,31 +132,9 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
             int w = rect.width() % gridspace;
             int h = rect.height() % gridspace;
 
-            if(w < (gridspace * 0.20))
-            {
-                w = - w;
-            }
-            else if(w > (gridspace * 0.80))
-            {
-                w = gridspace - w;
-            }
-            else
-            {
-                w = 0;
-            }
+            if(w) w = gridspace - w;
+            if(h) h = gridspace - h;
 
-            if(h < (gridspace * 0.20))
-            {
-                h = - h;
-            }
-            else if(h > (gridspace * 0.80))
-            {
-                h = gridspace - h;
-            }
-            else
-            {
-                h = 0;
-            }
             rect.adjust(0,0,w,h);
         }
 

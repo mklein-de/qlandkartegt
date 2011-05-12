@@ -72,38 +72,41 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     {
         p.drawRect(r);
 
-        int pxx,pxy, x, y;
         quint32 gridspace = map.scalePixelGrid(1024);
 
-        for(pxx = r.left(), x = 0; pxx < r.right(); pxx += gridspace, x++)
+
+        if(gridspace != 0)
         {
-            for(pxy = r.top(), y = 0; pxy < r.bottom(); pxy += gridspace, y++)
+            int pxx,pxy, x, y;
+            for(pxx = r.left(), x = 0; pxx < r.right(); pxx += gridspace, x++)
             {
-                int w = (r.right() - pxx) > gridspace ? gridspace : (r.right() - pxx);
-                int h = (r.bottom() - pxy) > gridspace ? gridspace : (r.bottom() - pxy);
-                QRect rect(pxx,pxy, w, h);
-
-                QPair<int,int> index(x,y);
-
-                if(!selTiles.contains(index))
+                for(pxy = r.top(), y = 0; pxy < r.bottom(); pxy += gridspace, y++)
                 {
-                    selTiles[index] = false;
-                }
+                    int w = (r.right() - pxx) > gridspace ? gridspace : (r.right() - pxx);
+                    int h = (r.bottom() - pxy) > gridspace ? gridspace : (r.bottom() - pxy);
+                    QRect rect(pxx,pxy, w, h);
 
-                if(selTiles[index])
-                {
-                    p.setBrush(Qt::NoBrush);
-                }
-                else
-                {
-                    p.setBrush(QColor(150,150,255,100));
-                }
+                    QPair<int,int> index(x,y);
 
-                p.drawRect(rect);
+                    if(!selTiles.contains(index))
+                    {
+                        selTiles[index] = false;
+                    }
 
+                    if(selTiles[index])
+                    {
+                        p.setBrush(Qt::NoBrush);
+                    }
+                    else
+                    {
+                        p.setBrush(QColor(150,150,255,100));
+                    }
+
+                    p.drawRect(rect);
+
+                }
             }
         }
-
         CCanvas::drawText(getDescription(),p,r);
     }
 }
@@ -140,9 +143,8 @@ QString CMapSelectionRaster::getDescription()
         tileCount += i ? 0 : 1;
     }
 
-    str  = description + "\n" + pos1 + "\n" + pos2;
-    str += "\n" + QString("%1 x %2 km = %3 km%4").arg(d1,0,'f',2).arg(d2,0,'f',2).arg(d1*d2,0,'f',1).arg(QChar(0x00B2));
-    str += "\n" + tr("Selected tiles: %1").arg(tileCount);
+    str  = description;
+    str += "\n" + tr("Tiles: #%1").arg(tileCount);
     return str;
 
 }
