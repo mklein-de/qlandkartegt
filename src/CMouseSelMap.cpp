@@ -148,6 +148,10 @@ void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 
         canvas->update();
     }
+    else
+    {
+        moveMapSel = false;
+    }
 
 
     if(selArea)
@@ -234,7 +238,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
             CMapDB::self().select(rect, selTiles);
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
-        else if(selMap->type == IMapSelection::eRaster)
+        else if(selMap->type == IMapSelection::eRaster && !moveMapSel)
         {
             IMap& map = CMapDB::self().getMap();
 
@@ -265,25 +269,6 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
                 }
             }
             CMapDB::self().emitSigChanged();
-
-//            int x = -1, y = -1;
-
-//            if(x1 < pt.x() && pt.x() < x2)
-//            {
-//                x = floor((pt.x() - x1)/gridspace);
-//            }
-
-//            if(y1 < pt.y() && pt.y() < y2)
-//            {
-//                y = floor((pt.y() - y1)/gridspace);
-//            }
-
-//            if(x != -1 && y != -1)
-//            {
-//                QPair<int,int> index(x,y);
-//                selMap->selTiles[index] = !selMap->selTiles[index];
-//                CMapDB::self().emitSigChanged();
-//            }
         }
 
         moveMapSel  = false;
