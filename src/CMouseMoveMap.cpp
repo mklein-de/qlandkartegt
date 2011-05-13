@@ -34,7 +34,6 @@
 CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 : IMouse(parent)
 , moveMap(false)
-, moveMapSel(false)
 , leftButtonPressed(false)
 , altKeyPressed(false)
 {
@@ -58,27 +57,6 @@ void CMouseMoveMap::mouseMoveEvent(QMouseEvent * e)
         canvas->update();
     }
 
-    if(moveMapSel && !selMap.isNull())
-    {
-        IMap& map = CMapDB::self().getMap();
-        double u1 = oldPoint.x();
-        double v1 = oldPoint.y();
-        double u2 = mousePos.x();
-        double v2 = mousePos.y();
-
-        map.convertPt2Rad(u1,v1);
-        map.convertPt2Rad(u2,v2);
-
-        selMap->lon1 += u2 - u1;
-        selMap->lon2 += u2 - u1;
-
-        selMap->lat1 += v2 - v1;
-        selMap->lat2 += v2 - v1;
-
-        canvas->update();
-    }
-
-
     oldPoint = e->pos();
 
     mouseMoveEventWpt(e);
@@ -99,11 +77,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(!selMap.isNull() && !doSpecialCursorMap)
-        {
-            mousePressEventMapsel(e);
-        }
-        else if(!selWpt.isNull())
+        if(!selWpt.isNull())
         {
             CWptDB::self().selWptByKey(selWpt->getKey());
             mousePressEventWpt(e);
@@ -116,13 +90,6 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
         {
             CSearchDB::self().selSearchByKey(selSearch->getKey());
             mousePressEventSearch(e);
-        }
-        else if(doSpecialCursorMap)
-        {
-            if(rectMoveMapSel.contains(e->pos()))
-            {
-                moveMapSel = true;
-            }
         }
         else
         {
@@ -160,11 +127,7 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
             canvas->update();
         }
 
-        if(moveMapSel)
-        {
-            moveMapSel = false;
-            CMapDB::self().emitSigChanged();
-        }
+
     }
 }
 
@@ -207,12 +170,10 @@ void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
 
 void CMouseMoveMap::draw(QPainter& p)
 {
-    drawSelMap(p);
     drawSelWpt(p);
     drawSelTrkPt(p);
     drawSelRtePt(p);
     drawSelSearch(p);
-
 }
 
 
@@ -233,12 +194,6 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         {
             menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete Waypoint"),this,SLOT(slotDeleteWpt()));
         }
-    }
-    else if(!selMap.isNull() && (selMap->type == IMapSelection::eRaster))
-    {
-        menu.addSeparator();
-        menu.addAction(QPixmap(":/icons/iconOk16x16.png"),tr("Select all tiles"),this,SLOT(slotMapSelAll()));
-        menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Select no tiles"),this,SLOT(slotMapSelNone()));
     }
     else
     {
@@ -357,31 +312,3 @@ void CMouseMoveMap::slotOpenGoogleMaps()	//TODO: Open Google Maps
     QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
 }
 
-void CMouseMoveMap::slotMapSelAll()
-{
-    if(!selMap.isNull())
-    {
-        QList< QPair<int, int> > keys = selMap->selTiles.keys();
-        QPair<int,int> key;
-        foreach(key, keys)
-        {
-            selMap->selTiles[key] = false;
-        }
-
-        CMapDB::self().emitSigChanged();
-    }
-}
-
-void CMouseMoveMap::slotMapSelNone()
-{
-    if(!selMap.isNull())
-    {
-        QList< QPair<int, int> > keys = selMap->selTiles.keys();
-        QPair<int,int> key;
-        foreach(key, keys)
-        {
-            selMap->selTiles[key] = true;
-        }
-        CMapDB::self().emitSigChanged();
-    }
-}

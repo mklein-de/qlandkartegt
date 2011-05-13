@@ -51,21 +51,16 @@ class CMouseMoveMap : public IMouse
         void slotCopyPositionTrack();
         void slotEditTrack();
 		void slotOpenGoogleMaps();	//TODO: GOOGLE MAPS
-        void slotMapSelAll();
-        void slotMapSelNone();
 
     private:
         /// true if left mouse button is pressed
         bool moveMap;
-        bool moveMapSel;
 
         bool leftButtonPressed;
         bool altKeyPressed;
 
-
         /// the initial starting point of the transformation
         QPoint oldPoint;
-
         QPoint mousePos;
 
 };

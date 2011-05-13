@@ -101,8 +101,6 @@ class IMouse : public QObject
         void drawSelRtePt(QPainter& p);
         /// draw selected search
         void drawSelSearch(QPainter& p);
-        /// draw selected map selection
-        void drawSelMap(QPainter& p);
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
@@ -121,8 +119,6 @@ class IMouse : public QObject
         void mousePressEventWpt(QMouseEvent * e);
         /// trigger search function
         void mousePressEventSearch(QMouseEvent * e);
-        /// trigger tile selection
-        void mousePressEventMapsel(QMouseEvent * e);
         /// the functions mouse icon
         QCursor cursor;
         /// pointer to the parent canvas
@@ -153,11 +149,8 @@ class IMouse : public QObject
         QRect rectConvertSearch;
         QRect rectCopySearch;
 
-        QRect rectMoveMapSel;
-
         bool doSpecialCursorWpt;
         bool doSpecialCursorSearch;
-        bool doSpecialCursorMap;
 
         bool doShowWptBuddies;
 

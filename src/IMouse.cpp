@@ -47,7 +47,6 @@ IMouse::IMouse(CCanvas * canvas)
 , selRtePt(0)
 , doSpecialCursorWpt(false)
 , doSpecialCursorSearch(false)
-, doSpecialCursorMap(false)
 , doShowWptBuddies(false)
 {
     rectDelWpt          = QRect(0,0,16,16);
@@ -60,7 +59,6 @@ IMouse::IMouse(CCanvas * canvas)
     rectConvertSearch   = QRect(0,32,16,16);
     rectCopySearch      = QRect(32,32,16,16);
 
-    rectMoveMapSel      = QRect(0,0,64,64);
 }
 
 
@@ -340,21 +338,6 @@ void IMouse::drawSelRtePt(QPainter& p)
 }
 
 
-void IMouse::drawSelMap(QPainter& p)
-{
-    if(selMap.isNull())
-    {
-        return;
-    }
-
-
-    p.setPen(QPen(Qt::yellow,2));
-    QRect r1 = selMap->rect();//u1, v1, u2 - u1, v2 - v1);
-    p.drawRect(r1);
-
-    rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
-    p.drawPixmap(rectMoveMapSel.topLeft(), QPixmap(":/icons/iconMove64x64.png"));
-}
 
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
@@ -742,34 +725,13 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 
     selMap = CMapDB::self().getSelectedMap(u,v);
 
-    // check for cursor-over-function
-    if(selMap)
+    if(selMap && !oldSel)
     {
-        if(rectMoveMapSel.contains(e->pos()))
-        {
-            if(!doSpecialCursorMap)
-            {
-                QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                doSpecialCursorMap = true;
-            }
-        }
-        else
-        {
-            if(doSpecialCursorMap)
-            {
-                QApplication::restoreOverrideCursor();
-//                QApplication::setOverrideCursor(Qt::ArrowCursor);
-                doSpecialCursorMap = false;
-            }
-        }
+        theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseSelectArea);
     }
-    else
+    else if(!selMap && oldSel)
     {
-        if(doSpecialCursorMap)
-        {
-            QApplication::restoreOverrideCursor();
-            doSpecialCursorMap = false;
-        }
+        theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     }
 
 
@@ -780,42 +742,3 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 
 }
 
-void IMouse::mousePressEventMapsel(QMouseEvent * e)
-{
-    if(selMap->type != IMapSelection::eRaster)
-    {
-        return;
-    }
-
-    QPointF pt = e->posF();
-    IMap& map = CMapDB::self().getMap();
-
-    double x1 = selMap->lon1;
-    double y1 = selMap->lat1;
-    double x2 = selMap->lon2;
-    double y2 = selMap->lat2;
-
-    map.convertRad2Pt(x1, y1);
-    map.convertRad2Pt(x2, y2);
-
-    int x = -1, y = -1;
-
-    quint32 gridspace = map.scalePixelGrid(TILESIZE);
-
-    if(x1 < pt.x() && pt.x() < x2)
-    {
-        x = floor((pt.x() - x1)/gridspace);
-    }
-
-    if(y1 < pt.y() && pt.y() < y2)
-    {
-        y = floor((pt.y() - y1)/gridspace);
-    }
-
-    if(x != -1 && y != -1)
-    {
-        QPair<int,int> index(x,y);
-        selMap->selTiles[index] = !selMap->selTiles[index];
-        CMapDB::self().emitSigChanged();
-    }
-}

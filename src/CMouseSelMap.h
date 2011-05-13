@@ -37,10 +37,28 @@ class CMouseSelMap : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
         void draw(QPainter& p);
+
+        void contextMenu(QMenu& menu);
+    private slots:
+        void slotMapSelAll();
+        void slotMapSelNone();
+
     private:
-        bool selMap;
+        void drawSelArea(QPainter& p);
+        void drawSelMap(QPainter& p);
+
+        void mousePressEventMapsel(QMouseEvent * e);
+
+        bool selArea;
+        bool moveMapSel;
+
+        QPoint oldPoint;
+
+        QPoint mousePos;
 
         QMap< QPair<int,int>, bool> selTiles;
+
+        QRect rectMoveMapSel;
 
 };
 #endif                           //CMOUSESELMAP_H

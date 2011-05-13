@@ -26,9 +26,11 @@
 
 CMouseSelMap::CMouseSelMap(CCanvas * canvas)
 : IMouse(canvas)
-, selMap(false)
+, selArea(false)
+, moveMapSel(false)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorSelMap.png"),0,0);
+    rectMoveMapSel  = QRect(0,0,64,64);
+    cursor          = QCursor(QPixmap(":/cursors/cursorSelMap.png"),0,0);
 }
 
 
@@ -38,12 +40,49 @@ CMouseSelMap::~CMouseSelMap()
 }
 
 
+
+
 void CMouseSelMap::draw(QPainter& p)
 {
-    if(!selMap) return;
+    drawSelMap(p);
+    drawSelArea(p);
+}
 
+
+void CMouseSelMap::drawSelMap(QPainter& p)
+{
+    if(selMap.isNull())
+    {
+        return;
+    }
+
+
+    p.setPen(QPen(Qt::yellow,2));
+    p.setBrush(Qt::NoBrush);
+    QRect r1 = selMap->rect();//u1, v1, u2 - u1, v2 - v1);
+    p.drawRect(r1);
+
+    rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
+    p.drawPixmap(rectMoveMapSel.topLeft(), QPixmap(":/icons/iconMove64x64.png"));
+}
+
+void CMouseSelMap::drawSelArea(QPainter& p)
+{
+    if(!selArea)
+    {
+        return;
+    }
     IMap& map = CMapDB::self().getMap();
     quint32 gridspace = map.scalePixelGrid(TILESIZE);
+
+    p.setBrush(QColor(150,150,255,100));
+    p.setPen(QPen(Qt::darkBlue,2));
+
+    if(map.maptype != IMap::eRaster)
+    {
+        p.drawRect(rect);
+        return;
+    }
 
     if(gridspace != 0)
     {
@@ -56,8 +95,7 @@ void CMouseSelMap::draw(QPainter& p)
 
         rect.adjust(0,0,w,h);
     }
-
-    if(gridspace == 0)
+    else
     {
         return;
     }
@@ -82,25 +120,112 @@ void CMouseSelMap::draw(QPainter& p)
             p.drawRect(r);
         }
     }
-
-
 }
-
 
 void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 {
-    if(!selMap) return;
-    resizeRect(e->pos());
+    mousePos = e->pos();
+
+    mouseMoveEventMapSel(e);
+
+    if(moveMapSel && !selMap.isNull())
+    {
+        IMap& map = CMapDB::self().getMap();
+        double u1 = oldPoint.x();
+        double v1 = oldPoint.y();
+        double u2 = mousePos.x();
+        double v2 = mousePos.y();
+
+        map.convertPt2Rad(u1,v1);
+        map.convertPt2Rad(u2,v2);
+
+        selMap->lon1 += u2 - u1;
+        selMap->lon2 += u2 - u1;
+
+        selMap->lat1 += v2 - v1;
+        selMap->lat2 += v2 - v1;
+
+        canvas->update();
+    }
+
+
+    if(selArea)
+    {
+        resizeRect(e->pos());
+        canvas->update();
+    }
+
+    oldPoint = e->pos();
 }
 
 
 void CMouseSelMap::mousePressEvent(QMouseEvent * e)
-{
+{        
     if(e->button() == Qt::LeftButton)
     {
-        startRect(e->pos());
-        selMap = true;
+        oldPoint = e->pos();
+
+        if(!selMap.isNull())
+        {
+            if(rectMoveMapSel.contains(e->pos()) && (selMap->type == IMapSelection::eRaster))
+            {
+                moveMapSel = true;
+            }
+            else
+            {
+                mousePressEventMapsel(e);
+            }
+        }
+        else
+        {
+            startRect(e->pos());
+            selArea = true;
+        }
     }
+    else if(e->button() == Qt::RightButton)
+    {
+        oldPoint = e->pos();
+        canvas->raiseContextMenu(e->pos());
+    }
+}
+
+void CMouseSelMap::mousePressEventMapsel(QMouseEvent * e)
+{
+    if(selMap->type == IMapSelection::eRaster)
+    {
+        QPointF pt = e->posF();
+        IMap& map = CMapDB::self().getMap();
+
+        double x1 = selMap->lon1;
+        double y1 = selMap->lat1;
+        double x2 = selMap->lon2;
+        double y2 = selMap->lat2;
+
+        map.convertRad2Pt(x1, y1);
+        map.convertRad2Pt(x2, y2);
+
+        int x = -1, y = -1;
+
+        quint32 gridspace = map.scalePixelGrid(TILESIZE);
+
+        if(x1 < pt.x() && pt.x() < x2)
+        {
+            x = floor((pt.x() - x1)/gridspace);
+        }
+
+        if(y1 < pt.y() && pt.y() < y2)
+        {
+            y = floor((pt.y() - y1)/gridspace);
+        }
+
+        if(x != -1 && y != -1)
+        {
+            QPair<int,int> index(x,y);
+            selMap->selTiles[index] = !selMap->selTiles[index];
+            CMapDB::self().emitSigChanged();
+        }
+    }
+
 }
 
 
@@ -108,38 +233,89 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton)
     {
-        selMap = false;
-        resizeRect(e->pos());
+        oldPoint = e->pos();
 
-        rect = rect.normalized();
-
-        if(rect.width() < 2)
+        if(moveMapSel)
         {
-            rect.setWidth(2);
-        }
-        if(rect.height() < 2)
-        {
-            rect.setHeight(2);
+            moveMapSel = false;
+            CMapDB::self().emitSigChanged();
         }
 
-
-        // snap grid if parts are too small
-        IMap& map = CMapDB::self().getMap();
-        quint32 gridspace = map.scalePixelGrid(TILESIZE);
-
-        if(gridspace != 0)
+        if(selMap.isNull())
         {
-            int w = rect.width() % gridspace;
-            int h = rect.height() % gridspace;
 
-            if(w) w = gridspace - w;
-            if(h) h = gridspace - h;
+            selArea = false;
+            resizeRect(e->pos());
 
-            rect.adjust(0,0,w,h);
+            rect = rect.normalized();
+
+            if(rect.width() < 2)
+            {
+                rect.setWidth(2);
+            }
+            if(rect.height() < 2)
+            {
+                rect.setHeight(2);
+            }
+
+
+            // snap grid if parts are too small
+            IMap& map = CMapDB::self().getMap();
+            quint32 gridspace = map.scalePixelGrid(TILESIZE);
+
+            if(gridspace != 0)
+            {
+                int w = rect.width() % gridspace;
+                int h = rect.height() % gridspace;
+
+                if(w) w = gridspace - w;
+                if(h) h = gridspace - h;
+
+                rect.adjust(0,0,w,h);
+            }
+
+            CMapDB::self().select(rect, selTiles);
+            canvas->setMouseMode(CCanvas::eMouseMoveArea);
+        }
+    }
+}
+
+
+void CMouseSelMap::contextMenu(QMenu& menu)
+{
+    if(!selMap.isNull() && (selMap->type == IMapSelection::eRaster))
+    {
+        menu.addSeparator();
+        menu.addAction(QPixmap(":/icons/iconOk16x16.png"),tr("Select all tiles"),this,SLOT(slotMapSelAll()));
+        menu.addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Select no tiles"),this,SLOT(slotMapSelNone()));
+    }
+}
+
+void CMouseSelMap::slotMapSelAll()
+{
+    if(!selMap.isNull())
+    {
+        QList< QPair<int, int> > keys = selMap->selTiles.keys();
+        QPair<int,int> key;
+        foreach(key, keys)
+        {
+            selMap->selTiles[key] = false;
         }
 
+        CMapDB::self().emitSigChanged();
+    }
+}
 
-        CMapDB::self().select(rect, selTiles);
-        canvas->setMouseMode(CCanvas::eMouseMoveArea);
+void CMouseSelMap::slotMapSelNone()
+{
+    if(!selMap.isNull())
+    {
+        QList< QPair<int, int> > keys = selMap->selTiles.keys();
+        QPair<int,int> key;
+        foreach(key, keys)
+        {
+            selMap->selTiles[key] = true;
+        }
+        CMapDB::self().emitSigChanged();
     }
 }
