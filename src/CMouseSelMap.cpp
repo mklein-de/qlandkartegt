@@ -73,7 +73,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
         return;
     }
     IMap& map = CMapDB::self().getMap();
-    quint32 gridspace = map.scalePixelGrid(TILESIZE);
+    quint32 gridspace = selMap.isNull() ? map.scalePixelGrid(TILESIZE) : 0;
 
     p.setBrush(QColor(150,150,255,100));
     p.setPen(QPen(Qt::darkBlue,2));
@@ -97,6 +97,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
     }
     else
     {
+        p.drawRect(rect);
         return;
     }
 
@@ -191,43 +192,9 @@ void CMouseSelMap::mousePressEvent(QMouseEvent * e)
 
 void CMouseSelMap::mousePressEventMapsel(QMouseEvent * e)
 {
-    if(selMap->type == IMapSelection::eRaster)
-    {
-        QPointF pt = e->posF();
-        IMap& map = CMapDB::self().getMap();
-
-        double x1 = selMap->lon1;
-        double y1 = selMap->lat1;
-        double x2 = selMap->lon2;
-        double y2 = selMap->lat2;
-
-        map.convertRad2Pt(x1, y1);
-        map.convertRad2Pt(x2, y2);
-
-        int x = -1, y = -1;
-
-        quint32 gridspace = map.scalePixelGrid(TILESIZE);
-
-        if(x1 < pt.x() && pt.x() < x2)
-        {
-            x = floor((pt.x() - x1)/gridspace);
-        }
-
-        if(y1 < pt.y() && pt.y() < y2)
-        {
-            y = floor((pt.y() - y1)/gridspace);
-        }
-
-        if(x != -1 && y != -1)
-        {
-            QPair<int,int> index(x,y);
-            selMap->selTiles[index] = !selMap->selTiles[index];
-            CMapDB::self().emitSigChanged();
-        }
-    }
-
+    startRect(e->pos());
+    selArea = true;
 }
-
 
 void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 {
@@ -235,34 +202,24 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
     {
         oldPoint = e->pos();
 
-        if(moveMapSel)
+        resizeRect(e->pos());
+        rect = rect.normalized();
+
+        if(rect.width() < 2)
         {
-            moveMapSel = false;
-            CMapDB::self().emitSigChanged();
+            rect.setWidth(2);
+        }
+        if(rect.height() < 2)
+        {
+            rect.setHeight(2);
         }
 
+        // snap grid if parts are too small
+        IMap& map = CMapDB::self().getMap();
+        quint32 gridspace = map.scalePixelGrid(TILESIZE);
+
         if(selMap.isNull())
-        {
-
-            selArea = false;
-            resizeRect(e->pos());
-
-            rect = rect.normalized();
-
-            if(rect.width() < 2)
-            {
-                rect.setWidth(2);
-            }
-            if(rect.height() < 2)
-            {
-                rect.setHeight(2);
-            }
-
-
-            // snap grid if parts are too small
-            IMap& map = CMapDB::self().getMap();
-            quint32 gridspace = map.scalePixelGrid(TILESIZE);
-
+        {            
             if(gridspace != 0)
             {
                 int w = rect.width() % gridspace;
@@ -277,6 +234,60 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
             CMapDB::self().select(rect, selTiles);
             canvas->setMouseMode(CCanvas::eMouseMoveArea);
         }
+        else if(selMap->type == IMapSelection::eRaster)
+        {
+            IMap& map = CMapDB::self().getMap();
+
+            double x1 = selMap->lon1;
+            double y1 = selMap->lat1;
+            double x2 = selMap->lon2;
+            double y2 = selMap->lat2;
+
+            map.convertRad2Pt(x1, y1);
+            map.convertRad2Pt(x2, y2);
+
+            QRect rectSel(x1,y1, x2 - x1, y2 - y1);
+            int pxx, pxy, x , y;
+            for(pxx = rectSel.left(), x = 0; pxx < rectSel.right(); pxx += gridspace, x++)
+            {
+                for(pxy = rectSel.top(), y = 0; pxy < rectSel.bottom(); pxy += gridspace, y++)
+                {
+                    int w = (rectSel.right() - pxx) > gridspace ? gridspace : (rectSel.right() - pxx);
+                    int h = (rectSel.bottom() - pxy) > gridspace ? gridspace : (rectSel.bottom() - pxy);
+                    QRect r(pxx,pxy, w, h);
+
+                    QPair<int,int> index(x,y);
+
+                    if(rect.intersects(r))
+                    {
+                        selMap->selTiles[index] = !selMap->selTiles[index];
+                    }
+                }
+            }
+            CMapDB::self().emitSigChanged();
+
+//            int x = -1, y = -1;
+
+//            if(x1 < pt.x() && pt.x() < x2)
+//            {
+//                x = floor((pt.x() - x1)/gridspace);
+//            }
+
+//            if(y1 < pt.y() && pt.y() < y2)
+//            {
+//                y = floor((pt.y() - y1)/gridspace);
+//            }
+
+//            if(x != -1 && y != -1)
+//            {
+//                QPair<int,int> index(x,y);
+//                selMap->selTiles[index] = !selMap->selTiles[index];
+//                CMapDB::self().emitSigChanged();
+//            }
+        }
+
+        moveMapSel  = false;
+        selArea     = false;
     }
 }
 
