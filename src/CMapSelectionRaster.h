@@ -27,8 +27,13 @@ class CMapSelectionRaster : public IMapSelection
         CMapSelectionRaster(QObject * parent);
         virtual ~CMapSelectionRaster();
 
+        QDataStream& operator>>(QDataStream&);
+        QDataStream& operator<<(QDataStream&);
+
         void draw(QPainter& p, const QRect& rect);
 
         QString getDescription();
+
+        QMap< QPair<int, int>, bool > selTiles;
 };
 #endif                           //CMAPSELECTIONRASTER_H

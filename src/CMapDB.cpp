@@ -42,6 +42,7 @@
 #ifdef WMS_CLIENT
 #include "CMapWMS.h"
 #endif
+#include "CQlb.h"
 
 #include <QtGui>
 #include <QtXml/QDomDocument>
@@ -513,13 +514,50 @@ void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 }
 
 
+QDataStream& CMapDB::operator<<(QDataStream& s)
+{
+    QIODevice * dev = s.device();
+    qint64      pos = dev->pos();
+
+    char magic[9];
+    s.readRawData(magic,9);
+
+    if(strncmp(magic,"QLMapSel",9))
+    {
+        dev->seek(pos);
+        return s;
+    }
+
+
+
+
+    return s;
+}
+
 void CMapDB::loadQLB(CQlb& qlb, bool newKey)
 {
+//    QDataStream stream(&qlb.mapsels(),QIODevice::ReadOnly);
+//    stream.setVersion(QDataStream::Qt_4_5);
+
+//    while(!stream.atEnd())
+//    {
+//        *this << stream;
+//    }
+//    if(selectedMaps.size())
+//    {
+//        emitSigChanged();
+//    }
 }
 
 
 void CMapDB::saveQLB(CQlb& qlb)
 {
+    QMap<QString, IMapSelection*>::iterator sel = selectedMaps.begin();
+    while(sel != selectedMaps.end())
+    {
+        qlb << *(*sel);
+        ++sel;
+    }
 }
 
 

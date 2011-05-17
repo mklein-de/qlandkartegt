@@ -38,6 +38,15 @@ CMapSelectionGarmin::~CMapSelectionGarmin()
 
 }
 
+QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
+{
+    return s;
+}
+
+QDataStream& CMapSelectionGarmin::operator<<(QDataStream& s)
+{
+    return s;
+}
 
 void CMapSelectionGarmin::draw(QPainter& p, const QRect& rect)
 {

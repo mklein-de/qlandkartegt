@@ -31,6 +31,10 @@ class CMapSelectionGarmin : public IMapSelection
         CMapSelectionGarmin(QObject * parent);
         virtual ~CMapSelectionGarmin();
 
+        QDataStream& operator>>(QDataStream&);
+        QDataStream& operator<<(QDataStream&);
+
+
         void draw(QPainter& p, const QRect& rect);
 
         bool isEmpty(){return tilecnt == 0;}

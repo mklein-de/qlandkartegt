@@ -28,7 +28,7 @@ class CTrack;
 class CRoute;
 class CDiary;
 class IOverlay;
-
+class IMapSelection;
 /// qlandkarte binary to store privat geo data
 /**
     The file will store data like waypoints, tracks, map selections. These elements will
@@ -47,7 +47,7 @@ class CQlb : public QObject
         CQlb(QObject * parent);
         virtual ~CQlb();
 
-        enum type_e {eEnd, eWpt, eTrack, eDiary, eOverlay, eRoute};
+        enum type_e {eEnd, eWpt, eTrack, eDiary, eOverlay, eRoute, eMapSel};
 
         /// collect wapoint data
         /**
@@ -63,6 +63,8 @@ class CQlb : public QObject
 
         CQlb& operator <<(CRoute& rte);
 
+        CQlb& operator <<(IMapSelection& sel);
+
         /// get access to stored waypoint data
         QByteArray& waypoints(){return wpts;}
         /// get access to stored track data
@@ -73,6 +75,8 @@ class CQlb : public QObject
         QByteArray& overlays(){return ovls;}
         /// get access to stored route data
         QByteArray& routes(){return rtes;}
+        /// get access to stored map selection data
+        QByteArray& mapsels(){return sels;}
         /// write collected data to file
         void save(const QString& filename);
         void save(QIODevice *ioDevice);
@@ -91,6 +95,8 @@ class CQlb : public QObject
         QByteArray drys;
         /// byte array to hold overlays
         QByteArray ovls;
+        /// byte array to hold map selections
+        QByteArray sels;
 
 };
 #endif                           //CQLB_H

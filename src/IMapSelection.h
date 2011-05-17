@@ -50,6 +50,9 @@ class IMapSelection : public QObject
             lat2        = ms.lat2;
         }
 
+        virtual QDataStream& operator>>(QDataStream&) = 0;
+        virtual QDataStream& operator<<(QDataStream&) = 0;
+
         virtual void draw(QPainter& p, const QRect& rect){}
 
         virtual bool isEmpty(){return false;}
@@ -68,10 +71,18 @@ class IMapSelection : public QObject
         virtual QString getDescription(){return description;}
         virtual void setDescription(const QString& desc){description = desc;}
 
-        QMap< QPair<int, int>, bool > selTiles;
-
         QRect rect();
     protected:
         QString description;
+
+        enum head_type_e {eHeadEnd,eHeadBase,eHeadRaster,eHeadGarmin};
+        struct sel_head_entry_t
+        {
+            sel_head_entry_t() : type(eHeadEnd), offset(0) {}
+            qint32      type;
+            quint32     offset;
+            QByteArray  data;
+        };
+
 };
 #endif                           //IMAPSELECTION_H

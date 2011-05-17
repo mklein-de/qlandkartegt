@@ -23,6 +23,7 @@
 #include "CRoute.h"
 #include "CDiary.h"
 #include "IOverlay.h"
+#include "IMapSelection.h"
 
 #include <QtCore>
 
@@ -88,6 +89,15 @@ CQlb& CQlb::operator <<(IOverlay& ovl)
     return *this;
 }
 
+CQlb& CQlb::operator <<(IMapSelection& sel)
+{
+    QDataStream stream(&sels, QIODevice::Append);
+    stream.setVersion(QDataStream::Qt_4_5);
+    sel >> stream;
+
+    return *this;
+}
+
 
 void CQlb::load(const QString& filename)
 {
@@ -131,6 +141,10 @@ void CQlb::load(QIODevice* ioDevice)
                 stream >> rtes;
                 break;
 
+            case eMapSel:
+                stream >> sels;
+                break;
+
             default:
                 ioDevice->close();
                 return;
@@ -161,6 +175,7 @@ void CQlb::save(QIODevice* ioDevice)
     stream << (qint32)eRoute << rtes;
     stream << (qint32)eDiary << drys;
     stream << (qint32)eOverlay << ovls;
+    stream << (qint32)eMapSel << sels;
     stream << (qint32)eEnd;
 
     ioDevice->close();

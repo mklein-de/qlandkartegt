@@ -117,6 +117,8 @@ class CMapDB : public IDB
         friend class CMapToolWidget;
         friend class CMapQMAPExport;
 
+        QDataStream& operator<<(QDataStream&);
+
         struct map_t
         {
             QString     filename;

@@ -20,6 +20,7 @@
 #include "CMouseSelMap.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
+#include "CMapSelectionRaster.h"
 
 #include <QtGui>
 
@@ -242,6 +243,8 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
         {
             IMap& map = CMapDB::self().getMap();
 
+            CMapSelectionRaster * selRasterMap = (CMapSelectionRaster*)selMap.data();
+
             double x1 = selMap->lon1;
             double y1 = selMap->lat1;
             double x2 = selMap->lon2;
@@ -264,7 +267,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 
                     if(rect.intersects(r))
                     {
-                        selMap->selTiles[index] = !selMap->selTiles[index];
+                        selRasterMap->selTiles[index] = !selRasterMap->selTiles[index];
                     }
                 }
             }
@@ -291,14 +294,18 @@ void CMouseSelMap::slotMapSelAll()
 {
     if(!selMap.isNull())
     {
-        QList< QPair<int, int> > keys = selMap->selTiles.keys();
-        QPair<int,int> key;
-        foreach(key, keys)
+        CMapSelectionRaster * selRasterMap = dynamic_cast<CMapSelectionRaster*>(selMap.data());
+        if(selRasterMap)
         {
-            selMap->selTiles[key] = false;
-        }
+            QList< QPair<int, int> > keys = selRasterMap->selTiles.keys();
+            QPair<int,int> key;
+            foreach(key, keys)
+            {
+                selRasterMap->selTiles[key] = false;
+            }
 
-        CMapDB::self().emitSigChanged();
+            CMapDB::self().emitSigChanged();
+        }
     }
 }
 
@@ -306,12 +313,17 @@ void CMouseSelMap::slotMapSelNone()
 {
     if(!selMap.isNull())
     {
-        QList< QPair<int, int> > keys = selMap->selTiles.keys();
-        QPair<int,int> key;
-        foreach(key, keys)
+        CMapSelectionRaster * selRasterMap = dynamic_cast<CMapSelectionRaster*>(selMap.data());
+        if(selRasterMap)
         {
-            selMap->selTiles[key] = true;
+
+            QList< QPair<int, int> > keys = selRasterMap->selTiles.keys();
+            QPair<int,int> key;
+            foreach(key, keys)
+            {
+                selRasterMap->selTiles[key] = true;
+            }
+            CMapDB::self().emitSigChanged();
         }
-        CMapDB::self().emitSigChanged();
     }
 }

@@ -27,6 +27,7 @@
 #include "CMapDB.h"
 #include "IMap.h"
 
+
 CMapSelectionRaster::CMapSelectionRaster(QObject * parent)
 : IMapSelection(eRaster, parent)
 {
@@ -39,6 +40,88 @@ CMapSelectionRaster::~CMapSelectionRaster()
 
 }
 
+QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
+{
+    QList<sel_head_entry_t> entries;
+
+    //---------------------------------------
+    // prepare base data
+    //---------------------------------------
+    sel_head_entry_t entryBase;
+    entryBase.type = eHeadBase;
+    QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
+    s1.setVersion(QDataStream::Qt_4_5);
+
+    s1 << type;
+    s1 << key;
+    s1 << mapkey;
+    s1 << description;
+    s1 << lon1;             ///< top left longitude [rad]
+    s1 << lat1;             ///< top left latitude [rad]
+    s1 << lon2;             ///< bottom right longitude [rad]
+    s1 << lat2;             ///< bottom right latitude [rad]
+
+    entries << entryBase;
+    //---------------------------------------
+    // prepare raster specific data
+    //---------------------------------------
+    sel_head_entry_t entryRaster;
+    entryRaster.type = eHeadRaster;
+    QDataStream s2(&entryRaster.data, QIODevice::WriteOnly);
+    s2.setVersion(QDataStream::Qt_4_5);
+
+    s2 << selTiles;
+
+    entries << entryRaster;
+    //---------------------------------------
+    // prepare terminator
+    //---------------------------------------
+    sel_head_entry_t entryEnd;
+    entryEnd.type = eHeadEnd;
+    entries << entryEnd;
+
+    //---------------------------------------
+    //---------------------------------------
+    // now start to actually write data;
+    //---------------------------------------
+    //---------------------------------------
+    // write magic key
+    s.writeRawData("QLMapSel",9);
+
+    // calculate offset table
+    quint32 offset = entries.count() * 8 + 9;
+
+    QList<sel_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end())
+    {
+        entry->offset = offset;
+        offset += entry->data.size() + sizeof(quint32);
+        ++entry;
+    }
+
+    // write offset table
+    entry = entries.begin();
+    while(entry != entries.end())
+    {
+        s << entry->type << entry->offset;
+        ++entry;
+    }
+
+    // write entry data
+    entry = entries.begin();
+    while(entry != entries.end())
+    {
+        s << entry->data;
+        ++entry;
+    }
+
+    return s;
+}
+
+QDataStream& CMapSelectionRaster::operator<<(QDataStream& s)
+{
+    return s;
+}
 
 void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 {
