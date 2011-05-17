@@ -60,7 +60,6 @@ class IMapSelection : public QObject
         }
 
         virtual QDataStream& operator>>(QDataStream&) = 0;
-        virtual QDataStream& operator<<(QDataStream&) = 0;
 
         virtual void draw(QPainter& p, const QRect& rect){}
 

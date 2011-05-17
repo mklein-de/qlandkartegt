@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QRectF>
 
+
 class CMapSelectionGarmin : public IMapSelection
 {
     public:
@@ -32,8 +33,6 @@ class CMapSelectionGarmin : public IMapSelection
         virtual ~CMapSelectionGarmin();
 
         QDataStream& operator>>(QDataStream&);
-        QDataStream& operator<<(QDataStream&);
-
 
         void draw(QPainter& p, const QRect& rect);
 

@@ -118,10 +118,6 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     return s;
 }
 
-QDataStream& CMapSelectionRaster::operator<<(QDataStream& s)
-{
-    return s;
-}
 
 void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 {

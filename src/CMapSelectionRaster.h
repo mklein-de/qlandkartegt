@@ -28,7 +28,6 @@ class CMapSelectionRaster : public IMapSelection
         virtual ~CMapSelectionRaster();
 
         QDataStream& operator>>(QDataStream&);
-        QDataStream& operator<<(QDataStream&);
 
         void draw(QPainter& p, const QRect& rect);
 
