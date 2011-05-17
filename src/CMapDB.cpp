@@ -516,6 +516,16 @@ void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
 QDataStream& CMapDB::operator<<(QDataStream& s)
 {
+    qint32 type;
+    QString key;
+    QString mapkey;
+    QString description;
+
+    double lon1;             ///< top left longitude [rad]
+    double lat1;             ///< top left latitude [rad]
+    double lon2;             ///< bottom right longitude [rad]
+    double lat2;             ///< bottom right latitude [rad]
+
     QIODevice * dev = s.device();
     qint64      pos = dev->pos();
 
@@ -528,25 +538,83 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
         return s;
     }
 
+    QList<IMapSelection::sel_head_entry_t> entries;
+    while(1)
+    {
+        IMapSelection::sel_head_entry_t entry;
+        s >> entry.type >> entry.offset;
+        entries << entry;
+        if(entry.type == CWpt::eEnd) break;
+    }
 
+    QList<IMapSelection::sel_head_entry_t>::iterator entry = entries.begin();
+    while(entry != entries.end())
+    {
+        qint64 o = pos + entry->offset;
+        dev->seek(o);
+        s >> entry->data;
 
+        switch(entry->type)
+        {
+            case IMapSelection::eHeadBase:
+            {
 
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                s1 >> type;
+                s1 >> key;
+                s1 >> mapkey;
+                s1 >> description;
+                s1 >> lon1;             ///< top left longitude [rad]
+                s1 >> lat1;             ///< top left latitude [rad]
+                s1 >> lon2;             ///< bottom right longitude [rad]
+                s1 >> lat2;             ///< bottom right latitude [rad]
+                break;
+            }
+
+            case IMapSelection::eHeadRaster:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                CMapSelectionRaster * ms = new CMapSelectionRaster(this);
+                ms->key = key;
+                ms->mapkey = mapkey;
+                ms->setDescription(description);
+                ms->lon1 = lon1;
+                ms->lat1 = lat1;
+                ms->lon2 = lon2;
+                ms->lat2 = lat2;
+
+                s1 >> ms->selTiles ;
+
+                selectedMaps[ms->key] = ms;
+
+                break;
+            }
+
+            default:;
+        }
+
+        ++entry;
+    }
     return s;
 }
 
 void CMapDB::loadQLB(CQlb& qlb, bool newKey)
 {
-//    QDataStream stream(&qlb.mapsels(),QIODevice::ReadOnly);
-//    stream.setVersion(QDataStream::Qt_4_5);
+    QDataStream stream(&qlb.mapsels(),QIODevice::ReadOnly);
+    stream.setVersion(QDataStream::Qt_4_5);
 
-//    while(!stream.atEnd())
-//    {
-//        *this << stream;
-//    }
-//    if(selectedMaps.size())
-//    {
-//        emitSigChanged();
-//    }
+    while(!stream.atEnd())
+    {
+        *this << stream;
+    }
+    if(selectedMaps.size())
+    {
+        emitSigChanged();
+    }
 }
 
 

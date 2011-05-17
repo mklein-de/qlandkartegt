@@ -33,6 +33,15 @@ class IMapSelection : public QObject
 {
     Q_OBJECT;
     public:
+        enum head_type_e {eHeadEnd,eHeadBase,eHeadRaster,eHeadGarmin};
+        struct sel_head_entry_t
+        {
+            sel_head_entry_t() : type(eHeadEnd), offset(0) {}
+            qint32      type;
+            quint32     offset;
+            QByteArray  data;
+        };
+
         enum type_e {eNone, eRaster, eGarmin};
 
         IMapSelection(type_e type, QObject * parent) : QObject(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){}
@@ -75,14 +84,6 @@ class IMapSelection : public QObject
     protected:
         QString description;
 
-        enum head_type_e {eHeadEnd,eHeadBase,eHeadRaster,eHeadGarmin};
-        struct sel_head_entry_t
-        {
-            sel_head_entry_t() : type(eHeadEnd), offset(0) {}
-            qint32      type;
-            quint32     offset;
-            QByteArray  data;
-        };
 
 };
 #endif                           //IMAPSELECTION_H

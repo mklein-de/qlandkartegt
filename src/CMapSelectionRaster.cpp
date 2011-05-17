@@ -52,7 +52,7 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     QDataStream s1(&entryBase.data, QIODevice::WriteOnly);
     s1.setVersion(QDataStream::Qt_4_5);
 
-    s1 << type;
+    s1 << (qint32)type;
     s1 << key;
     s1 << mapkey;
     s1 << description;
