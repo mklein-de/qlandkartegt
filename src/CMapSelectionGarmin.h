@@ -41,6 +41,9 @@ class CMapSelectionGarmin : public IMapSelection
         quint32 getMemSize();
         void calcArea();
 
+        QString getInfo(){return getDescription();}
+        void setIcon(const QString&){};
+
         struct tile_t
         {
             quint32 id;

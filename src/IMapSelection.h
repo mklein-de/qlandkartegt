@@ -19,6 +19,8 @@
 #ifndef IMAPSELECTION_H
 #define IMAPSELECTION_H
 
+#include "IItem.h"
+
 #include <QString>
 #include <QObject>
 #include <QMap>
@@ -29,7 +31,7 @@ class QRect;
 
 #define TILESIZE 1024
 
-class IMapSelection : public QObject
+class IMapSelection : public IItem
 {
     Q_OBJECT;
     public:
@@ -44,7 +46,7 @@ class IMapSelection : public QObject
 
         enum type_e {eNone, eRaster, eGarmin};
 
-        IMapSelection(type_e type, QObject * parent) : QObject(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){}
+        IMapSelection(type_e type, QObject * parent) : IItem(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){}
         virtual ~IMapSelection(){}
 
         void operator=(const IMapSelection& ms)

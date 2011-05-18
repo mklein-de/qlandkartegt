@@ -33,6 +33,10 @@ class CMapSelectionRaster : public IMapSelection
 
         QString getDescription();
 
+        QString getInfo(){return getDescription();}
+
+        void setIcon(const QString&){};
+
         QMap< QPair<int, int>, bool > selTiles;
 };
 #endif                           //CMAPSELECTIONRASTER_H
