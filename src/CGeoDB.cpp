@@ -118,6 +118,13 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemWksOvl->setFlags(itemWksOvl->flags() & ~Qt::ItemIsDragEnabled);
     itemWksOvl->setHidden(true);
 
+    itemWksMap = new  QTreeWidgetItem(itemWorkspace);
+    itemWksMap->setData(eCoName, eUrType, eFolderT);
+    itemWksMap->setText(eCoName, tr("Map Selections"));
+    itemWksMap->setIcon(eCoName, QIcon(":/icons/iconRaster16x16.png"));
+    itemWksMap->setFlags(itemWksMap->flags() & ~Qt::ItemIsDragEnabled);
+    itemWksMap->setHidden(true);
+
     itemLostFound = new QTreeWidgetItem(treeDatabase);
     itemLostFound->setData(eCoName, eUrType, eFolder0);
     itemLostFound->setText(eCoName, tr("Lost & Found"));
@@ -199,11 +206,13 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotTrkDBChanged()));
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotRteDBChanged()));
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotOvlDBChanged()));
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapDBChanged()));
 
     connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedWpt(const QString&)));
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedTrk(const QString&)));
     connect(&CRouteDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedRte(const QString&)));
     connect(&COverlayDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedOvl(const QString&)));
+    connect(&CMapDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedMap(const QString&)));
 
     connect(qApp, SIGNAL(aboutToQuit ()), this, SLOT(saveWorkspace()));
 
@@ -631,6 +640,7 @@ void CGeoDB::loadWorkspace()
     QByteArray& trks = qlb.tracks();
     QByteArray& rtes = qlb.routes();
     QByteArray& ovls = qlb.overlays();
+    QByteArray& maps = qlb.mapsels();
 
     quint32 progCnt = 0;
     PROGRESS_SETUP(tr("Loading workspace. Please wait."), query.size());
@@ -665,7 +675,13 @@ void CGeoDB::loadWorkspace()
                     keysOvlModified << query.value(2).toString();
                 }
                 break;
-        }
+            case eMap:
+                maps += query.value(3).toByteArray();
+                if(query.value(0).toBool()){
+                    keysMapModified << query.value(2).toString();
+                }
+                break;
+            }
 
     }
 
@@ -673,6 +689,7 @@ void CGeoDB::loadWorkspace()
     CTrackDB::self().loadQLB(qlb, false);
     CRouteDB::self().loadQLB(qlb, false);
     COverlayDB::self().loadQLB(qlb, false);
+    CMapDB::self().loadQLB(qlb, false);
 
     changedWorkspace();
 }
@@ -691,6 +708,7 @@ void CGeoDB::updateModifyMarker()
     updateModifyMarker(itemWksTrk, keysTrkModified, tr("Tracks"));
     updateModifyMarker(itemWksRte, keysRteModified, tr("Routes"));
     updateModifyMarker(itemWksOvl, keysOvlModified, tr("Overlays"));
+    updateModifyMarker(itemWksMap, keysMapModified, tr("Map Selection"));
 
     treeWorkspace->setUpdatesEnabled(true);
     treeWorkspace->blockSignals(false);
@@ -742,6 +760,7 @@ void CGeoDB::updateDatabaseMarker()
     updateDatabaseMarker(itemWksTrk, keysWksTrk);
     updateDatabaseMarker(itemWksRte, keysWksRte);
     updateDatabaseMarker(itemWksOvl, keysWksOvl);
+    updateDatabaseMarker(itemWksMap, keysWksMap);
 
     treeWorkspace->setUpdatesEnabled(true);
     treeWorkspace->blockSignals(false);
@@ -995,6 +1014,10 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
         {
             selected = true;
         }
+        else if(keysWksMap.contains(id))
+        {
+            selected = true;
+        }
         else
         {
             selected    = false;
@@ -1075,6 +1098,9 @@ void CGeoDB::addChildrenToWks(quint64 parentId)
             case eOvl:
                 qlb.overlays() += query.value(0).toByteArray();
                 break;
+            case eMap:
+                qlb.mapsels() += query.value(0).toByteArray();
+                break;
         }
     }
 
@@ -1082,6 +1108,7 @@ void CGeoDB::addChildrenToWks(quint64 parentId)
     CTrackDB::self().loadQLB(qlb, false);
     CRouteDB::self().loadQLB(qlb, false);
     COverlayDB::self().loadQLB(qlb, false);
+    CMapDB::self().loadQLB(qlb, false);
 
 
     query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent=:parent AND t1.child=t2.id AND t2.type=:type");
@@ -1101,6 +1128,7 @@ void CGeoDB::delChildrenFromWks(quint64 parentId)
     QStringList keysTrk;
     QStringList keysRte;
     QStringList keysOvl;
+    QStringList keysMap;
 
     QSqlQuery query(db);
 
@@ -1130,6 +1158,10 @@ void CGeoDB::delChildrenFromWks(quint64 parentId)
                 keysOvl << key;
                 keysOvlModified.remove(key);
                 break;
+            case eMap:
+                keysMap << key;
+                keysMapModified.remove(key);
+                break;
         }
     }
 
@@ -1137,6 +1169,7 @@ void CGeoDB::delChildrenFromWks(quint64 parentId)
     CTrackDB::self().delTracks(keysTrk);
     CRouteDB::self().delRoutes(keysRte);
     COverlayDB::self().delOverlays(keysOvl);
+    CMapDB::self().delSelectedMap(keysMap);
 
     query.prepare("SELECT child FROM folder2folder WHERE parent=:parent");
     query.bindValue(":parent", parentId);
@@ -1484,6 +1517,15 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 keysOvlModified.remove(key);
                 break;
             }
+            case eMap:
+            {
+            /// @todo
+//                IMapSelection * map = CMapDB::self().
+//                stream << *ovl;
+//                qlItem = ovl;
+//                keysOvlModified.remove(key);
+                break;
+            }
         }
 
         QPixmap pixmap = qlItem->getIcon();
@@ -1824,6 +1866,11 @@ void CGeoDB::slotOvlDBChanged()
     }
 }
 
+void CGeoDB::slotMapDBChanged()
+{
+
+}
+
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
     keysWptModified << key;
@@ -1845,6 +1892,12 @@ void CGeoDB::slotModifiedRte(const QString& key)
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
     keysOvlModified << key;
+    updateModifyMarker();
+}
+
+void CGeoDB::slotModifiedMap(const QString& key)
+{
+    keysMapModified << key;
     updateModifyMarker();
 }
 

@@ -50,6 +50,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotRteDBChanged();
         /// this slot is called each time COverlayDB signales a change
         void slotOvlDBChanged();
+        /// this slot is called each time CMapDB signales a change
+        void slotMapDBChanged();
 
         /// this slot is called when a waypoint is modified
         void slotModifiedWpt(const QString&);
@@ -59,6 +61,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotModifiedRte(const QString&);
         /// this slot is called when an overlay is modified
         void slotModifiedOvl(const QString&);
+        /// this slot is called when a map selection is modified
+        void slotModifiedMap(const QString&);
 
         /// query children when folder is expanded
         void slotItemExpanded(QTreeWidgetItem * item);
@@ -158,6 +162,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
             eTrk        = QTreeWidgetItem::UserType + 4,
             eRte        = QTreeWidgetItem::UserType + 5,
             eOvl        = QTreeWidgetItem::UserType + 6,
+            eMap        = QTreeWidgetItem::UserType + 7,
 
             eFolder0    = QTreeWidgetItem::UserType + 100,
             eFolderT    = QTreeWidgetItem::UserType + 101,
@@ -194,16 +199,19 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QTreeWidgetItem * itemWksTrk;
         QTreeWidgetItem * itemWksRte;
         QTreeWidgetItem * itemWksOvl;
+        QTreeWidgetItem * itemWksMap;
 
         QSet<QString> keysWptModified;
         QSet<QString> keysTrkModified;
         QSet<QString> keysRteModified;
         QSet<QString> keysOvlModified;
+        QSet<QString> keysMapModified;
 
         QSet<quint64> keysWksWpt;
         QSet<quint64> keysWksTrk;
         QSet<quint64> keysWksRte;
         QSet<quint64> keysWksOvl;
+        QSet<quint64> keysWksMap;
 
         QMenu * contextMenuFolder;
         QAction * actAddDir;
