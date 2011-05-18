@@ -20,17 +20,13 @@
 #include "CMapDB.h"
 #include "IMap.h"
 
+
 #include <QtGui>
 #include <projects.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
 
-QDataStream& operator<<(QDataStream& s, CMapSelectionGarmin::map_t& map)
-{
-
-    return s;
-}
 
 CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eGarmin, parent)
@@ -74,7 +70,39 @@ QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
     QDataStream s2(&entryGarmin.data, QIODevice::WriteOnly);
     s2.setVersion(QDataStream::Qt_4_5);
 
-    //s2 << maps;
+
+    s2 << maps.count();
+    QString key1;
+    foreach(key1, maps.keys())
+    {
+        map_t& map = maps[key1];
+
+        s2 << key1;
+        s2 << map.unlockKey;
+        s2 << map.name;
+        s2 << map.typfile;
+        s2 << map.mdrfile;
+        s2 << map.fid;
+        s2 << map.pid;
+
+        s2 << map.tiles.count();
+        QString key2;
+        foreach(key2, map.tiles.keys())
+        {
+            tile_t& tile = map.tiles[key2];
+
+            s2 << key2;
+            s2 << tile.id;
+            s2 << tile.name;
+            s2 << tile.filename;
+            s2 << tile.u;
+            s2 << tile.v;
+            s2 << tile.memSize;
+            s2 << tile.area;
+            s2 << tile.fid;
+            s2 << tile.pid;
+        }
+    }
 
     entries << entryGarmin;
     //---------------------------------------

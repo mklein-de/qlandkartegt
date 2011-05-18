@@ -61,10 +61,10 @@ class CMapSelectionGarmin : public IMapSelection
             QString name;
             QString typfile;
             QString mdrfile;
-            QMap<QString, tile_t> tiles;
-
             quint16 fid;
             quint16 pid;
+            QMap<QString, tile_t> tiles;
+
         };
 
         QMap<QString, map_t> maps;

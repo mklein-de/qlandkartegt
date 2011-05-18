@@ -594,6 +594,60 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 break;
             }
 
+            case IMapSelection::eHeadGarmin:
+            {
+                int nMaps, nTiles, m, t;
+
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                CMapSelectionGarmin * ms = new CMapSelectionGarmin(this);
+                ms->key = key;
+                ms->mapkey = mapkey;
+                ms->setDescription(description);
+                ms->lon1 = lon1;
+                ms->lat1 = lat1;
+                ms->lon2 = lon2;
+                ms->lat2 = lat2;
+
+                s1 >> nMaps;
+                for(m = 0; m < nMaps; m++)
+                {
+                    QString key;
+                    s1 >> key;
+                    CMapSelectionGarmin::map_t map;
+                    s1 >> map.unlockKey;
+                    s1 >> map.name;
+                    s1 >> map.typfile;
+                    s1 >> map.mdrfile;
+                    s1 >> map.fid;
+                    s1 >> map.pid;
+
+                    s1 >> nTiles;
+                    for(t = 0; t < nTiles; t++)
+                    {
+                        QString key;
+                        s1 >> key;
+                        CMapSelectionGarmin::tile_t tile;
+                        s1 >> tile.id;
+                        s1 >> tile.name;
+                        s1 >> tile.filename;
+                        s1 >> tile.u;
+                        s1 >> tile.v;
+                        s1 >> tile.memSize;
+                        s1 >> tile.area;
+                        s1 >> tile.fid;
+                        s1 >> tile.pid;
+
+                        map.tiles[key] = tile;
+                    }
+
+                    ms->maps[key] = map;
+                }
+
+                selectedMaps[ms->key] = ms;
+                break;
+            }
             default:;
         }
 
