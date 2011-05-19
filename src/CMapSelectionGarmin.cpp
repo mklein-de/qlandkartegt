@@ -32,6 +32,8 @@ CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eGarmin, parent)
 , tilecnt(0)
 {
+    iconPixmap = QPixmap(":/icons/iconMap16x16.png");
+    setName("Garmin");
 }
 
 
@@ -55,6 +57,9 @@ QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
     s1 << (qint32)type;
     s1 << getKey();
     s1 << mapkey;
+    s1 << timestamp;
+    s1 << name;
+    s1 << comment;
     s1 << description;
     s1 << lon1;             ///< top left longitude [rad]
     s1 << lat1;             ///< top left latitude [rad]

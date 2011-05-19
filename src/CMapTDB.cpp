@@ -3262,7 +3262,7 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
     sel.calcArea();
 
     quint32 memSize = sel.getMemSize();
-    QString desc = sel.getDescription();
+    QString desc = sel.getName();
     desc += QString("\nSize: %1 MB").arg(double(memSize) / (1024 * 1024), 0,'f',2);
     desc += QString("\nTiles: #%1").arg(sel.tilecnt);
     sel.setDescription(desc);

@@ -271,6 +271,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
                     }
                 }
             }
+            CMapDB::self().emitSigModified(selRasterMap->getKey());
             CMapDB::self().emitSigChanged();
         }
 

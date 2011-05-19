@@ -702,13 +702,6 @@ void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
     sel.lat2 = rect.bottom();
     convertPt2Rad(sel.lon2, sel.lat2);
 
-//    sel.key = QString("%1%2%3").arg(sel.mapkey).arg(sel.lon1).arg(sel.lat1);
-
-    QString pos1, pos2;
-    GPS_Math_Deg_To_Str(sel.lon1 * RAD_TO_DEG, sel.lat1 * RAD_TO_DEG, pos1);
-    GPS_Math_Deg_To_Str(sel.lon2 * RAD_TO_DEG, sel.lat2 * RAD_TO_DEG, pos2);
-
-//    sel.description += "\n" + pos1 + "\n" + pos2;
 }
 
 quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)

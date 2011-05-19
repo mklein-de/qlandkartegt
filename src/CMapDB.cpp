@@ -528,9 +528,13 @@ void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 QDataStream& CMapDB::operator<<(QDataStream& s)
 {
     qint32 type;
+    quint32 timestamp;
     QString key;
     QString mapkey;
+    QString name;
+    QString comment;
     QString description;
+
 
     double lon1;             ///< top left longitude [rad]
     double lat1;             ///< top left latitude [rad]
@@ -576,6 +580,9 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 s1 >> type;
                 s1 >> key;
                 s1 >> mapkey;
+                s1 >> timestamp;
+                s1 >> name;
+                s1 >> comment;
                 s1 >> description;
                 s1 >> lon1;             ///< top left longitude [rad]
                 s1 >> lat1;             ///< top left latitude [rad]
@@ -592,6 +599,9 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 CMapSelectionRaster * ms = new CMapSelectionRaster(this);
                 ms->setKey(key);
                 ms->mapkey = mapkey;
+                ms->setTimestamp(timestamp);
+                ms->setName(name);
+                ms->setComment(comment);
                 ms->setDescription(description);
                 ms->lon1 = lon1;
                 ms->lat1 = lat1;
@@ -615,6 +625,9 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 CMapSelectionGarmin * ms = new CMapSelectionGarmin(this);
                 ms->setKey(key);
                 ms->mapkey = mapkey;
+                ms->setTimestamp(timestamp);
+                ms->setName(name);
+                ms->setComment(comment);
                 ms->setDescription(description);
                 ms->lon1 = lon1;
                 ms->lat1 = lat1;
@@ -654,6 +667,16 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                     }
 
                     ms->maps[key] = map;
+                }
+
+                QString key;
+                foreach(key, selectedMaps.keys())
+                {
+                    IMapSelection * mapSel = selectedMaps[key];
+                    if(mapSel->type == IMapSelection::eGarmin)
+                    {
+                        delete selectedMaps.take(key);
+                    }
                 }
 
                 selectedMaps[ms->getKey()] = ms;
@@ -794,7 +817,7 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;
         ms->selTiles     = selTiles;
-        ms->setDescription(knownMaps[mapkey].description);
+        ms->setName(knownMaps[mapkey].description);
 
         try
         {
@@ -822,16 +845,25 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
     }
     else if(theMap->maptype == IMap::eGarmin)
     {
+        bool isEdit = false;
         IMapSelection * ms = 0;
-        if(selectedMaps.contains("gmapsupp"))
+        IMapSelection * mapSel;
+        foreach(mapSel, selectedMaps)
         {
-            ms = selectedMaps["gmapsupp"];
+            if(mapSel->type == IMapSelection::eGarmin)
+            {
+                ms     = mapSel;
+                isEdit = true;
+                break;
+            }
         }
-        else
+
+        if(ms == 0)
         {
             ms = new CMapSelectionGarmin(this);
         }
-        ms->setKey("gmapsupp");
+
+
         ms->mapkey       = mapkey;
         ms->setDescription("Garmin - gmapsupp.img");
         theMap->select(*ms, rect);
@@ -841,8 +873,13 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         if(ms->isEmpty())
         {
             delete selectedMaps.take(ms->getKey());
+            ms = 0;
         }
 
+        if(ms && isEdit)
+        {
+            emit sigModified(ms->getKey());
+        }
         emit sigChanged();
     }
 }

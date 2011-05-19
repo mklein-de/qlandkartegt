@@ -121,7 +121,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     itemWksMap = new  QTreeWidgetItem(itemWorkspace);
     itemWksMap->setData(eCoName, eUrType, eFolderT);
     itemWksMap->setText(eCoName, tr("Map Selections"));
-    itemWksMap->setIcon(eCoName, QIcon(":/icons/iconRaster16x16.png"));
+    itemWksMap->setIcon(eCoName, QIcon(":/icons/iconSelMap16x16.png"));
     itemWksMap->setFlags(itemWksMap->flags() & ~Qt::ItemIsDragEnabled);
     itemWksMap->setHidden(true);
 

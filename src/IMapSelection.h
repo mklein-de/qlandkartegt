@@ -53,7 +53,7 @@ class IMapSelection : public IItem
         {
             setKey(ms.getKey());
             mapkey      = ms.mapkey;
-            description = ms.description;
+            name        = ms.name;
 
             lon1        = ms.lon1;
             lat1        = ms.lat1;
@@ -67,6 +67,8 @@ class IMapSelection : public IItem
 
         virtual bool isEmpty(){return false;}
 
+        void setTimestamp(quint32 t){timestamp = t;}
+
         static QString focusedMap;
 
         type_e type;
@@ -77,12 +79,8 @@ class IMapSelection : public IItem
         double lon2;             ///< bottom right longitude [rad]
         double lat2;             ///< bottom right latitude [rad]
 
-        virtual QString getDescription(){return description;}
-        virtual void setDescription(const QString& desc){description = desc;}
 
         QRect rect();
-    protected:
-        QString description;
 
 
 };

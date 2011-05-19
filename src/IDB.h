@@ -75,6 +75,7 @@ class IDB : public QObject
         static QDateTime parseTimestamp(const QString &timetext, int& tzoffset);
 
         void emitSigChanged(){emit sigChanged();}
+        void emitSigModified(const QString& key){emit sigModified(key);}
     signals:
         void sigChanged();
         void sigModified();

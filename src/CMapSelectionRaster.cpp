@@ -32,6 +32,8 @@ CMapSelectionRaster::CMapSelectionRaster(QObject * parent)
 : IMapSelection(eRaster, parent)
 {
     type = eRaster;
+
+    iconPixmap = QPixmap(":/icons/iconRaster16x16.png");
 }
 
 
@@ -55,6 +57,9 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     s1 << (qint32)type;
     s1 << getKey();
     s1 << mapkey;
+    s1 << timestamp;
+    s1 << name;
+    s1 << comment;
     s1 << description;
     s1 << lon1;             ///< top left longitude [rad]
     s1 << lat1;             ///< top left latitude [rad]
@@ -225,7 +230,7 @@ QString CMapSelectionRaster::getDescription()
         tileCount += i ? 0 : 1;
     }
 
-    str  = description;
+    str  = name;
     str += "\n" + tr("Tiles: #%1").arg(tileCount);
     return str;
 
