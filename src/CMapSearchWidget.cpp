@@ -205,7 +205,7 @@ void CMapSearchWidget::slotMaskSelection(const QPixmap& pixmap)
 }
 
 
-void CMapSearchWidget::setArea(const CMapSelectionRaster& ms)
+void CMapSearchWidget::setArea(CMapSelectionRaster& ms)
 {
     if(canvas) canvas->deleteLater();
 

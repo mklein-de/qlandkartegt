@@ -35,7 +35,7 @@ class CMapSearchThread : public QThread
         CMapSearchThread(QObject * parent);
         virtual ~CMapSearchThread();
 
-        void start(const int threshold, const QImage& mask, const CMapSelectionRaster& mapsel);
+        void start(const int threshold, const QImage& mask, CMapSelectionRaster& mapsel);
 
         const QList<QPointF>& getLastResult(){return symbols;}
 

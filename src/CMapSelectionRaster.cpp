@@ -53,7 +53,7 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << (qint32)type;
-    s1 << key;
+    s1 << getKey();
     s1 << mapkey;
     s1 << description;
     s1 << lon1;             ///< top left longitude [rad]
@@ -133,7 +133,7 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
 
     p.setBrush(Qt::NoBrush);
 
-    if(focusedMap == key)
+    if(focusedMap == getKey())
     {
         p.setPen(QPen(Qt::red,2));
     }

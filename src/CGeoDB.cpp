@@ -1518,12 +1518,11 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 break;
             }
             case eMap:
-            {
-            /// @todo
-//                IMapSelection * map = CMapDB::self().
-//                stream << *ovl;
-//                qlItem = ovl;
-//                keysOvlModified.remove(key);
+            {            
+                IMapSelection * map = CMapDB::self().getMapSelectionByKey(key);
+                *map >> stream;
+                qlItem = map;
+                keysOvlModified.remove(key);
                 break;
             }
         }
@@ -1718,6 +1717,29 @@ void CGeoDB::saveWorkspace()
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
+
+    /// @todo
+    size = itemWksMap->childCount();
+    for(i=0; i<size; i++)
+    {
+        PROGRESS(progCnt++, return);
+
+        item = itemWksMap->child(i);
+        IMapSelection * map = CMapDB::self().getMapSelectionByKey(item->data(eCoName, eUrQLKey).toString());
+
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_5);
+        //stream << *map;
+        *map >> stream;
+
+        query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
+        query.bindValue(":changed", item->text(eCoState) == "*");
+        query.bindValue(":type", eMap);
+        query.bindValue(":key", map->getKey());
+        query.bindValue(":data", data);
+        QUERY_EXEC(continue);
+    }
 }
 
 
@@ -1868,6 +1890,36 @@ void CGeoDB::slotOvlDBChanged()
 
 void CGeoDB::slotMapDBChanged()
 {
+    CMapDB& mapdb = CMapDB::self();
+
+    IMapSelection * map;
+    const QMap<QString,IMapSelection*>& maps = mapdb.getSelectedMaps();
+
+    QList<QTreeWidgetItem*> items;
+    foreach(map, maps)
+    {
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setData(eCoName, eUrType, eMap);
+        item->setData(eCoName, eUrQLKey, map->getKey());
+        item->setIcon(eCoName, map->getIcon());
+        item->setText(eCoName, map->getName());
+        item->setToolTip(eCoName, map->getInfo());
+
+        items << item;
+
+    }
+
+    {
+        CGeoDBInternalEditLock lock(this);
+        qDeleteAll(itemWksMap->takeChildren());
+        itemWksMap->addChildren(items);
+        itemWksMap->setHidden(itemWksMap->childCount() == 0);
+    }
+
+    if(!isInternalEdit)
+    {
+        changedWorkspace();
+    }
 
 }
 
@@ -1960,6 +2012,11 @@ void CGeoDB::slotItemDoubleClickedWks(QTreeWidgetItem * item, int column)
             COverlayDB::self().makeVisible(keys);
             break;
         }
+        case eMap:
+        {
+            CMapDB::self().makeVisible(keys);
+            break;
+        }
     }
 }
 
@@ -2041,6 +2098,10 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                             qlb.overlays() = query.value(0).toByteArray();
                             COverlayDB::self().loadQLB(qlb, false);
                             break;
+                        case eMap:
+                            qlb.mapsels() = query.value(0).toByteArray();
+                            CMapDB::self().loadQLB(qlb, false);
+                            break;
                     }
                 }
             }
@@ -2078,7 +2139,11 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                             COverlayDB::self().delOverlay(key,false);
                             keysOvlModified.remove(key);
                             break;
-                    }
+                        case eMap:
+                            CMapDB::self().delSelectedMap(key,false);
+                            keysMapModified.remove(key);
+                            break;
+                        }
                 }
             }
         }
@@ -2596,6 +2661,7 @@ void CGeoDB::slotAddItems()
     bool addAllTrk  = treeWorkspace->currentItem() == itemWksTrk;
     bool addAllRte  = treeWorkspace->currentItem() == itemWksRte;
     bool addAllOvl  = treeWorkspace->currentItem() == itemWksOvl;
+    bool addAllMap  = treeWorkspace->currentItem() == itemWksMap;
 
     //////////// add waypoints ////////////
     size = itemWksWpt->childCount();
@@ -2654,6 +2720,21 @@ void CGeoDB::slotAddItems()
         addItemToDB(parentId, item);
     }
 
+    //////////// add map selections ////////////
+    size = itemWksMap->childCount();
+    for(i = 0; i < size; i++)
+    {
+        PROGRESS(progCnt++, goto slotAddItems_end);
+
+        item = itemWksMap->child(i);
+        if(!item->isSelected() && !addAll&& !addAllMap)
+        {
+            continue;
+        }
+
+        addItemToDB(parentId, item);
+    }
+
  slotAddItems_end:
     changedWorkspace();
 }
@@ -2670,6 +2751,7 @@ void CGeoDB::slotSaveItems()
     bool saveAllTrk = item == itemWksTrk;
     bool saveAllRte = item == itemWksRte;
     bool saveAllOvl = item == itemWksOvl;
+    bool saveAllMap = item == itemWksMap;
 
 
     QList<QTreeWidgetItem*> items;
@@ -2689,6 +2771,10 @@ void CGeoDB::slotSaveItems()
     for(i = 0; i < itemWksOvl->childCount(); i++)
     {
         items << itemWksOvl->child(i);
+    }
+    for(i = 0; i < itemWksMap->childCount(); i++)
+    {
+        items << itemWksMap->child(i);
     }
 
 
@@ -2718,6 +2804,8 @@ void CGeoDB::slotSaveItems()
                     break;
                 case eOvl:
                     if(!saveAllOvl) continue;
+                case eMap:
+                    if(!saveAllMap) continue;
                     break;
                 default:
                     continue;
@@ -2765,6 +2853,15 @@ void CGeoDB::slotSaveItems()
                 qlItem = ovl;
                 break;
             }
+            case eMap:
+            {
+                keysWksModified = &keysMapModified;
+                IMapSelection * map = CMapDB::self().getMapSelectionByKey(key);
+                //stream << *map;
+                *map >> stream;
+                qlItem = map;
+                break;
+            }
         }
 
         if(!keysWksModified->contains(key))
@@ -2806,6 +2903,7 @@ void CGeoDB::slotHardCopyItem()
     QStringList keysTrk;
     QStringList keysRte;
     QStringList keysOvl;
+    QStringList keysMap;
 
     foreach(item, items)
     {
@@ -2839,6 +2937,13 @@ void CGeoDB::slotHardCopyItem()
                 keysOvl << ovl->getKey();
                 break;
             }
+            case eMap:
+            {
+                IMapSelection * map = CMapDB::self().getMapSelectionByKey(item->data(eCoName,eUrQLKey).toString());
+                qlb     << *map;
+                keysMap << map->getKey();
+                break;
+            }
             default:
                 break;
         }
@@ -2848,11 +2953,13 @@ void CGeoDB::slotHardCopyItem()
     CTrackDB::self().delTracks(keysTrk);
     CRouteDB::self().delRoutes(keysRte);
     COverlayDB::self().delOverlays(keysOvl);
+    CMapDB::self().delSelectedMap(keysOvl);
 
     CWptDB::self().loadQLB(qlb, true);
     CTrackDB::self().loadQLB(qlb, true);
     CRouteDB::self().loadQLB(qlb, true);
     COverlayDB::self().loadQLB(qlb, true);
+    CMapDB::self().loadQLB(qlb, true);
 
 }
 

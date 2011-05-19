@@ -38,7 +38,7 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         CMapSearchWidget(QWidget * parent);
         virtual ~CMapSearchWidget();
 
-        void setArea(const CMapSelectionRaster& ms);
+        void setArea(CMapSelectionRaster& ms);
 
     private slots:
         void slotSelectArea();

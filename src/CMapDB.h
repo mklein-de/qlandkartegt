@@ -72,6 +72,8 @@ class CMapDB : public IDB
         */
         IMapSelection * getSelectedMap(double lon, double lat);
 
+        IMapSelection * getMapSelectionByKey(const QString& key);
+
 #ifdef PLOT_3D
         CMap3D * getMap3D();
 #endif
@@ -80,6 +82,8 @@ class CMapDB : public IDB
         void delKnownMap(const QStringList& keys);
         /// delete selected maps by keys
         void delSelectedMap(const QStringList& keys);
+
+        void delSelectedMap(const QString& key, bool silent);
 
         void selSelectedMap(const QString& key);
 
@@ -112,6 +116,9 @@ class CMapDB : public IDB
         */
         void select(const QRect& rect,  const QMap< QPair<int,int>, bool>& selTiles);
 
+        /// get access to selected map list
+        const QMap<QString,IMapSelection*>& getSelectedMaps(){return selectedMaps;}
+
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;
@@ -131,8 +138,6 @@ class CMapDB : public IDB
 
         /// get access to known map dictionary, CMapToolWidget only
         const QMap<QString,map_t>& getKnownMaps(){return knownMaps;}
-        /// get access to selected map list, CMapToolWidget only
-        const QMap<QString,IMapSelection*>& getSelectedMaps(){return selectedMaps;}
 
         void closeVisibleMaps();
 

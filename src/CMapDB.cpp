@@ -488,12 +488,23 @@ void CMapDB::delSelectedMap(const QStringList& keys)
     QString key;
     foreach(key, keys)
     {
-        delete selectedMaps.take(key);
+        delSelectedMap(key,true);
     }
 
     emit sigChanged();
 }
 
+void CMapDB::delSelectedMap(const QString& key, bool silent)
+{
+    if(selectedMaps.contains(key))
+    {
+        delete selectedMaps.take(key);
+        if(!silent)
+        {
+            emit sigChanged();
+        }
+    }
+}
 
 void CMapDB::selSelectedMap(const QString& key)
 {
@@ -579,7 +590,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 CMapSelectionRaster * ms = new CMapSelectionRaster(this);
-                ms->key = key;
+                ms->setKey(key);
                 ms->mapkey = mapkey;
                 ms->setDescription(description);
                 ms->lon1 = lon1;
@@ -589,7 +600,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
 
                 s1 >> ms->selTiles ;
 
-                selectedMaps[ms->key] = ms;
+                selectedMaps[ms->getKey()] = ms;
 
                 break;
             }
@@ -602,7 +613,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 CMapSelectionGarmin * ms = new CMapSelectionGarmin(this);
-                ms->key = key;
+                ms->setKey(key);
                 ms->mapkey = mapkey;
                 ms->setDescription(description);
                 ms->lon1 = lon1;
@@ -645,7 +656,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                     ms->maps[key] = map;
                 }
 
-                selectedMaps[ms->key] = ms;
+                selectedMaps[ms->getKey()] = ms;
                 break;
             }
             default:;
@@ -789,11 +800,11 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         {
             theMap->select(*ms, rect);
 
-            selectedMaps[ms->key] = ms;
+            selectedMaps[ms->getKey()] = ms;
 
             if(ms->isEmpty())
             {
-                delete selectedMaps.take(ms->key);
+                delete selectedMaps.take(ms->getKey());
             }
             else if(mapsearch)
             {
@@ -820,16 +831,16 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         {
             ms = new CMapSelectionGarmin(this);
         }
-        ms->key          = "gmapsupp";
+        ms->setKey("gmapsupp");
         ms->mapkey       = mapkey;
         ms->setDescription("Garmin - gmapsupp.img");
         theMap->select(*ms, rect);
 
-        selectedMaps[ms->key] = ms;
+        selectedMaps[ms->getKey()] = ms;
 
         if(ms->isEmpty())
         {
-            delete selectedMaps.take(ms->key);
+            delete selectedMaps.take(ms->getKey());
         }
 
         emit sigChanged();
@@ -871,4 +882,12 @@ IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
     return 0;
 }
 
+IMapSelection * CMapDB::getMapSelectionByKey(const QString& key)
+{
+    if(selectedMaps.contains(key))
+    {
+        return selectedMaps[key];
+    }
 
+    return 0;
+}

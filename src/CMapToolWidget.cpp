@@ -169,9 +169,9 @@ void CMapToolWidget::slotDBChanged()
             QListWidgetItem * item = new QListWidgetItem(listSelectedMaps);
 
             item->setText((*map)->getDescription());
-            item->setData(Qt::UserRole, (*map)->key);
+            item->setData(Qt::UserRole, (*map)->getKey());
 
-            if(IMapSelection::focusedMap == (*map)->key) selected = item;
+            if(IMapSelection::focusedMap == (*map)->getKey()) selected = item;
             ++map;
         }
 
