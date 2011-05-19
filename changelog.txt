@@ -1,3 +1,49 @@
+--- 2011.05.19 ---
+
+Bug     #267:
+Fix: Segfault for maps with more bands than RGB
+
+Request #268:
+Show formats supported by GDAL in the about box
+
+Request #269:
+Edit track color and name on the fly
+
+Request #270:
+Add info and config dialog for other maps than Garmin
+
+Bug     #271:
+Alpha channel artifacts on maps for cheap graphic cards
+
+Request #272:
+Add OSM configuration dialog to add new server URLs
+
+Request #273:
+Add hints for geocaches
+
+Request #274:
+Support OZI track files
+
+Request #275:
+Add sort waypoints by time 
+
+Bug     #276:
+Fix: Crash when cancelling new waypoint
+
+Request #277:
+Make tiles selectable for Garmin Custom Maps
+
+Bug     #278:
+Fix: Non unique key when creating tracks from route
+
+Request #279:
+Export tiles for Garmin Custom Map as one kmz
+
+Request #280:
+Add map selections to geodb
+
+
+
 --- 2011.03.15 ---
 
 Bug     #263:
@@ -1135,6 +1181,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
