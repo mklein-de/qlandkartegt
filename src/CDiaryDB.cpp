@@ -29,9 +29,9 @@ CDiaryDB * CDiaryDB::m_self = 0;
 
 CDiaryDB::CDiaryDB(QTabWidget * tb, QObject * parent)
 : IDB(tb, parent)
-, diary(this)
 {
     m_self = this;
+    diary = new CDiary(this);
 }
 
 
@@ -49,13 +49,13 @@ void CDiaryDB::openEditWidget()
 
     if(editWidget.isNull())
     {
-        editWidget = new CDiaryEditWidget(diary.text(), tabbar);
+        editWidget = new CDiaryEditWidget(diary->text(), tabbar);
         tb->addTab(editWidget,tr("Diary"));
 
     }
     else
     {
-        diary.setText(editWidget->textEdit->toHtml());
+        diary->setText(editWidget->textEdit->toHtml());
         delete editWidget;
 
     }
@@ -66,10 +66,10 @@ void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
-    stream >> diary;
+    stream >> *diary;
     if(!editWidget.isNull())
     {
-        editWidget->textEdit->setHtml(diary.text());
+        editWidget->textEdit->setHtml(diary->text());
     }
     if(count())
     {
@@ -82,9 +82,9 @@ void CDiaryDB::saveQLB(CQlb& qlb)
 {
     if(!editWidget.isNull())
     {
-        diary.setText(editWidget->textEdit->toHtml());
+        diary->setText(editWidget->textEdit->toHtml());
     }
-    qlb << diary;
+    qlb << *diary;
 }
 
 
@@ -97,7 +97,8 @@ void CDiaryDB::clear()
     {
         delete editWidget;
     }
-    diary = CDiary(this);
+    delete diary;
+    diary = new CDiary(this);
     emit sigChanged();
 }
 
@@ -106,9 +107,9 @@ const QString CDiaryDB::getDiary()
 {
     if(!editWidget.isNull())
     {
-        diary.setText(editWidget->textEdit->toHtml());
+        diary->setText(editWidget->textEdit->toHtml());
     }
-    return diary.text();
+    return diary->text();
 }
 
 
@@ -116,10 +117,10 @@ int CDiaryDB::count()
 {
     if(!editWidget.isNull())
     {
-        diary.setText(editWidget->textEdit->toHtml());
+        diary->setText(editWidget->textEdit->toHtml());
     }
     QTextBrowser browser;
-    browser.setHtml(diary.text());
+    browser.setHtml(diary->text());
     return !browser.toPlainText().isEmpty();
 }
 
@@ -141,9 +142,9 @@ void CDiaryDB::loadGPX(CGpx& gpx)
         (CGpx::ql_ns + ":" + "diary"));
         if(!dry.isNull())
         {
-            QString tmp = diary.text();
+            QString tmp = diary->text();
             tmp += dry.toElement().text();
-            diary.setText(tmp);
+            diary->setText(tmp);
             break;
         }
         extensions = extensions.nextSiblingElement("extensions");
@@ -165,10 +166,10 @@ void CDiaryDB::saveGPX(CGpx& gpx, const QStringList& keys)
     }
     if(!editWidget.isNull())
     {
-        diary.setText(editWidget->textEdit->toHtml());
+        diary->setText(editWidget->textEdit->toHtml());
     }
 
-    const QString diary_text = diary.text();
+    const QString diary_text = diary->text();
     if (diary_text.length() == 0)
     {
         return;

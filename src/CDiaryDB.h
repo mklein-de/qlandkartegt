@@ -61,6 +61,6 @@ class CDiaryDB : public IDB
 
         QPointer<CDiaryEditWidget> editWidget;
 
-        CDiary diary;
+        CDiary * diary;
 };
 #endif                           //CDIARYDB_H
