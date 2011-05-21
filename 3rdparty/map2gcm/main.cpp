@@ -673,7 +673,7 @@ int main(int argc, char ** argv)
                     tile.size   = writeTile(xsize, ysize, tileBuf32Bit, quality, subsampling);
                     sprintf(str, "files/map%i.jpg", tileCnt);
 
-                    QByteArray buffer((const char*)jpgbuf.data(), tile.size);
+                    QByteArray buffer((const char*)&jpgbuf[0], tile.size);
                     zip.addFile(str, buffer);
                     if(zip.status() != QLGT::QZipWriter::NoError)
                     {
