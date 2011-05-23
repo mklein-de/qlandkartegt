@@ -53,6 +53,12 @@ add_executable( map2gcm
     ${QM_FILES}
 )
 
+if(APPLE)
+set_target_properties( map2gcm PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${MAC_BUNDLE_PATH}/Contents/Resources
+)
+endif(APPLE)
+
 if(WIN32)
 target_link_libraries( map2gcm
     ${GDAL_LIBRARIES}

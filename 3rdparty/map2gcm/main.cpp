@@ -163,7 +163,7 @@ static void prinfFileinfo(const file_t& file)
     if(pj_is_latlong(file.pj))
     {
         printf("\narea (top/left, bottom/right): %f %f, %f %f", file.lat1, file.lon1, file.lat2, file.lon2);
-        printf("\nxscale: %f °/px, yscale: %f °/px", file.xscale, file.yscale);
+        printf("\nxscale: %f deg/px, yscale: %f deg/px", file.xscale, file.yscale);
     }
     else
     {

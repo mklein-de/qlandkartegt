@@ -577,7 +577,8 @@ if (APPLE)
     MACOSX_PACKAGE_LOCATION Resources
   )
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
-  add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}")
+  add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}"
+	COMMAND ${CMAKE_SOURCE_DIR}/MacOSX/map2gcm-libs.sh "${MAC_BUNDLE_PATH}")
 else(APPLE)
   add_executable(${PROGNAME} WIN32 ${qlandkarte_ALLINP})
 endif(APPLE)
