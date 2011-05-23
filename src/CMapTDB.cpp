@@ -1117,8 +1117,10 @@ void CMapTDB::setup()
     polygonProperties[0x47] = IGarminTyp::polygon_property(0x47, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x48] = IGarminTyp::polygon_property(0x48, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x49] = IGarminTyp::polygon_property(0x49, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
-    polygonProperties[0x4a] = IGarminTyp::polygon_property(0x4a, "#000000",     qRgba(255,255,255,0), Qt::SolidPattern);
-    polygonProperties[0x4b] = IGarminTyp::polygon_property(0x4b, "#000000",     qRgba(255,255,255,0), Qt::SolidPattern);
+//    polygonProperties[0x4a] = IGarminTyp::polygon_property(0x4a, "#000000",     qRgba(255,255,255,0), Qt::SolidPattern);
+//    polygonProperties[0x4b] = IGarminTyp::polygon_property(0x4b, "#000000",     qRgba(255,255,255,0), Qt::SolidPattern);
+    polygonProperties[0x4a] = IGarminTyp::polygon_property(0x4a, "#000000",     Qt::transparent, Qt::SolidPattern);
+    polygonProperties[0x4b] = IGarminTyp::polygon_property(0x4b, "#000000",     Qt::transparent, Qt::SolidPattern);
     polygonProperties[0x4c] = IGarminTyp::polygon_property(0x4c, Qt::NoPen,     "#f0e68c", Qt::SolidPattern);
     polygonProperties[0x4d] = IGarminTyp::polygon_property(0x4d, Qt::NoPen,     "#00ffff", Qt::SolidPattern);
     polygonProperties[0x4e] = IGarminTyp::polygon_property(0x4e, Qt::NoPen,     "#d3f5a5", Qt::SolidPattern);
