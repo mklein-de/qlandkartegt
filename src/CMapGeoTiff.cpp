@@ -276,7 +276,7 @@ void CMapGeoTiff::draw()
 
         //         qDebug() << xoff << yoff << pxx << pxy << w << h;
 
-        if(w != 0 && h != 0)
+        if(w > 0 && h > 0)
         {
 
             CPLErr err = CE_Failure;
