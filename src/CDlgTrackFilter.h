@@ -45,8 +45,10 @@ class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
 
         // "Reduce Dataset" tab slots
         void slotRadioDistance();
+        void slotCheckAzimuthDelta();
         void slotRadioTimedelta();
         void slotSpinDistance(int i);
+        void slotSpinAzimuthDelta(int i);
         void slotSpinTimedelta(int i);
         void slotComboMeterFeet(const QString &text);
 
@@ -55,7 +57,7 @@ class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
         void slotSplitChunks(int);
         void slotSplitPoints(int);
 
-    private:
+ private:
         void modifyTimestamp(CTrack * trk);
         void reduceDataset(CTrack * trk);
         void splitTrack(CTrack * trk);

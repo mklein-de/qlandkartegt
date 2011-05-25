@@ -57,6 +57,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         spinDistance->setSuffix("m");
     }
     spinDistance->setValue(cfg.value("trackfilter/distance",10).toInt());
+    spinAzimuthDelta->setValue(cfg.value("trackfilter/azimuthdelta",10).toInt());
 
     if(trkpt->timestamp == 0x000000000 || trkpt->timestamp == 0xFFFFFFFF)
     {
@@ -87,8 +88,10 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
 
     // user-tunable elements on "Reduce Dataset" tab
     connect(radioDistance, SIGNAL(clicked()), this, SLOT(slotRadioDistance()));
+    connect(checkAzimuthDelta, SIGNAL(clicked()), this, SLOT(slotCheckAzimuthDelta()));
     connect(radioTimedelta, SIGNAL(clicked()), this, SLOT(slotRadioTimedelta()));
     connect(spinDistance, SIGNAL(valueChanged(int)), this, SLOT(slotSpinDistance(int)));
+    connect(spinAzimuthDelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinAzimuthDelta(int)));
     connect(spinTimedelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinTimedelta(int)));
     connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
 
@@ -120,8 +123,8 @@ void CDlgTrackFilter::accept()
 
     QSettings cfg;
     cfg.setValue("trackfilter/distance",spinDistance->value());
+    cfg.setValue("trackfilter/azimuthdelta",spinAzimuthDelta->value());
     cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
-
     QDialog::accept();
 }
 
@@ -299,6 +302,10 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
         else if(radioDistance->isChecked())
         {
             float min_distance = spinDistance->value();
+            float minAzimuthDelta = spinAzimuthDelta->value();
+            float lastAzimuth = trkpt->azimuth;
+            float AzimuthDelta = 0;
+
             if(spinDistance->suffix() == "ft")
             {
                 min_distance *= 0.3048f;
@@ -314,13 +321,35 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
             while(trkpt != trkpts.end())
             {
+
+//qDebug() << "LastAzimuth: " << lastAzimuth << "   Azimuth: "<< trkpt->azimuth << " ABS(Azimuth-LastAzimuth): " << abs(trkpt->azimuth - lastAzimuth);
+
+
                 p2.u = DEG_TO_RAD * trkpt->lon;
                 p2.v = DEG_TO_RAD * trkpt->lat;
                 double a1, a2;
 
                 double delta = distance(p1,p2,a1,a2);
+                if(checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked())
+                {
+                    if (abs(trkpt->azimuth) <= 180)
+                    {
+                        if(abs(trkpt->azimuth - lastAzimuth) > 180)
+                        {
+                            AzimuthDelta = 360 - abs(trkpt->azimuth - lastAzimuth);
+                        }
+                        else
+                        {
+                            AzimuthDelta = abs(trkpt->azimuth - lastAzimuth);
+                        }
+                    }
+                    else
+                    {
+                        AzimuthDelta = 0;
+                    }
+                }
 
-                if(delta < min_distance)
+                if(delta < min_distance || (AzimuthDelta < minAzimuthDelta && checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked()))
                 {
                     trkpt->flags |= CTrack::pt_t::eDeleted;
                 }
@@ -329,6 +358,10 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                     p1 = p2;
                     progress.setValue(i);
                     qApp->processEvents(QEventLoop::AllEvents, 100);
+                    if(AzimuthDelta >= minAzimuthDelta)
+                    {
+                        lastAzimuth = trkpt->azimuth;
+                    }
                 }
                 ++trkpt;
                 ++i;
@@ -393,31 +426,53 @@ void CDlgTrackFilter::slotDateTimeChanged(const QDateTime &tn)
 
 void CDlgTrackFilter::slotRadioDistance()
 {
+    checkAzimuthDelta->setEnabled(true);
     checkReduceDataset->setChecked(true);
 }
-
 
 void CDlgTrackFilter::slotSpinDistance(int i)
 {
     radioDistance->setChecked(true);
+    checkAzimuthDelta->setEnabled(true);
     radioTimedelta->setChecked(false);
     checkReduceDataset->setChecked(true);
 }
 
+void CDlgTrackFilter::slotCheckAzimuthDelta()
+{
+    if(checkAzimuthDelta->isEnabled())
+    {
+        spinAzimuthDelta->setEnabled(true);
+    }
+    else
+    {
+        spinAzimuthDelta->setEnabled(false);
+    }
+
+}
+
+void CDlgTrackFilter::slotSpinAzimuthDelta(int i)
+{
+    checkAzimuthDelta->setChecked(true);
+    spinAzimuthDelta->setEnabled(true);
+}
 
 void CDlgTrackFilter::slotRadioTimedelta()
 {
+    checkAzimuthDelta->setChecked(false);
+    checkAzimuthDelta->setEnabled(false);
+    spinAzimuthDelta->setEnabled(false);
     checkReduceDataset->setChecked(true);
 }
-
 
 void CDlgTrackFilter::slotSpinTimedelta(int i)
 {
     radioTimedelta->setChecked(true);
     radioDistance->setChecked(false);
+    checkAzimuthDelta->setChecked(false);
+    checkAzimuthDelta->setEnabled(false);
     checkReduceDataset->setChecked(true);
 }
-
 
 void CDlgTrackFilter::slotComboMeterFeet(const QString &text)
 {
