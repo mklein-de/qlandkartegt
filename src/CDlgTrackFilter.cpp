@@ -58,6 +58,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     }
     spinDistance->setValue(cfg.value("trackfilter/distance",10).toInt());
     spinAzimuthDelta->setValue(cfg.value("trackfilter/azimuthdelta",10).toInt());
+    checkAzimuthDelta->setChecked(cfg.value("trackfilter/useazimuthdelta", false).toBool());
 
     if(trkpt->timestamp == 0x000000000 || trkpt->timestamp == 0xFFFFFFFF)
     {
@@ -125,6 +126,8 @@ void CDlgTrackFilter::accept()
     cfg.setValue("trackfilter/distance",spinDistance->value());
     cfg.setValue("trackfilter/azimuthdelta",spinAzimuthDelta->value());
     cfg.setValue("trackfilter/timedelta",spinTimedelta->value());
+    cfg.setValue("trackfilter/useazimuthdelta",checkAzimuthDelta->isChecked());
+
     QDialog::accept();
 }
 
