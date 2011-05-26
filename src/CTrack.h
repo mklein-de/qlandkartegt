@@ -280,6 +280,8 @@ class CTrack : public IItem
 
         QMap<int,int> id2idx;
 
+        quint32 visiblePointCount;
+
 };
 
 QDataStream& operator >>(QDataStream& s, CTrack& track);

@@ -503,6 +503,7 @@ CTrack::CTrack(QObject * parent)
 , firstTime(true)
 , m_hide(false)
 , geonames(0)
+, visiblePointCount(0)
 {
     ref = 1;
 
@@ -705,12 +706,14 @@ void CTrack::hide(bool ok)
 void CTrack::rebuild(bool reindex)
 {
 
+
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
     QList<pt_t>::iterator pt1 = track.begin();
     QList<pt_t>::iterator pt2 = track.begin();
 
+    visiblePointCount = 0;
     totalTime       = 0;
     totalDistance   = 0;
     totalAscend     = 0;
@@ -770,6 +773,8 @@ void CTrack::rebuild(bool reindex)
     t1              = pt1->timestamp;
     t2              = t1;   //for the case that the track has only 1 point
 
+    ++visiblePointCount;
+
     if(pt1->ele   > maxEle)   {maxEle   = pt1->ele;   ptMaxEle   = *pt1;}
     if(pt1->ele   < minEle)   {minEle   = pt1->ele;   ptMinEle   = *pt1;}
     if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
@@ -790,6 +795,8 @@ void CTrack::rebuild(bool reindex)
             pt1->descend    = 0;
             continue;
         }
+
+        ++visiblePointCount;
 
         int dt = -1;
         if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF)
@@ -933,7 +940,7 @@ QString CTrack::getInfo()
 
     IUnit::self().meter2distance(getTotalDistance(), val1, unit1);
     str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
-    str += tr(", points: %1").arg(getTrackPoints().count());
+    str += tr(", points: %1 (%2)").arg(visiblePointCount).arg(getTrackPoints().count());
 
     quint32 ttime = getTotalTime();
     quint32 days  = ttime / 86400;
