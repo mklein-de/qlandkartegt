@@ -615,7 +615,10 @@ void CTrack::slotRequestFinished(int id, bool error)
         int idx = id2idx[id];
         foreach(val, vals)
         {
-            track[idx++].ele = val.toDouble();
+            if(idx < track.size())
+            {
+                track[idx++].ele = val.toDouble();
+            }
         }
 
         id2idx.remove(id);
