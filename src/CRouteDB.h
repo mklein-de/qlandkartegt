@@ -71,11 +71,12 @@ class CRouteDB : public IDB
 
         QRectF getBoundingRectF(const QString key);
 
-        struct keys_t{QString key; QString name; QPixmap icon;};
+        struct keys_t{QString key; QString name; QPixmap icon; quint32 time;};
         /// get all keys in the database
         QList<keys_t> keys();
 
         static bool keyLessThanAlpha(keys_t&  s1, keys_t&  s2);
+        static bool keyLessThanTime(keys_t&  s1, keys_t&  s2);
 
         void makeVisible(const QStringList& keys);
 

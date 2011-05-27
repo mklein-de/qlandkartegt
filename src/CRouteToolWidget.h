@@ -37,6 +37,14 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         CRouteToolWidget(QTabWidget * parent);
         virtual ~CRouteToolWidget();
 
+        enum sortmode_e
+        {
+             eSortByName
+            ,eSortByTime
+        };
+
+        static sortmode_e  getSortMode(){return sortmode;}
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
@@ -92,6 +100,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         QSet<QString> knownLocale;
 
         QTimer * timer;
+
+        static sortmode_e sortmode;
 
 };
 #endif                           //CROUTETOOLWIDGET_H

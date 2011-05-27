@@ -37,6 +37,8 @@
 
 #define N_LINES 3
 
+CRouteToolWidget::sortmode_e CRouteToolWidget::sortmode = CRouteToolWidget::eSortByName;
+
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
@@ -119,12 +121,25 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     timer = new QTimer(this);
     timer->setSingleShot(true);
 
+    connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+    connect(toolSortTime, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
+
+    toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
+    toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
+
+    toolSortAlpha->setChecked(cfg.value("route/sortAlpha", true).toBool());
+    toolSortTime->setChecked(cfg.value("route/sortTime", true).toBool());
+
+
     connect(timer, SIGNAL(timeout()), this, SLOT(slotTimeout()));
 }
 
 
 CRouteToolWidget::~CRouteToolWidget()
 {
+    QSettings cfg;
+    cfg.setValue("route/sortAlpha", toolSortAlpha->isChecked());
+    cfg.setValue("route/sortTime", toolSortTime->isChecked());
 
 }
 
@@ -132,6 +147,15 @@ CRouteToolWidget::~CRouteToolWidget()
 void CRouteToolWidget::slotDBChanged()
 {
     if(originator) return;
+
+    if(toolSortAlpha->isChecked())
+    {
+        sortmode = eSortByName;
+    }
+    else if(toolSortTime->isChecked())
+    {
+        sortmode = eSortByTime;
+    }
 
     QFontMetrics fm(listRoutes->font());
     QPixmap icon(16,N_LINES*fm.height());
@@ -142,31 +166,32 @@ void CRouteToolWidget::slotDBChanged()
 
     QListWidgetItem * highlighted = 0;
 
-    const QMap<QString,CRoute*>& routes         = CRouteDB::self().getRoutes();
-    QMap<QString,CRoute*>::const_iterator route = routes.begin();
-    while(route != routes.end())
+    CRouteDB::keys_t key;
+    QList<CRouteDB::keys_t> keys = CRouteDB::self().keys();
+
+    foreach(key, keys)
     {
+        CRoute * route = CRouteDB::self().getRouteByKey(key.key);
+
         QListWidgetItem * item = new QListWidgetItem(listRoutes);
 
         icon.fill(Qt::transparent);
         QPainter p;
         p.begin(&icon);
-        p.drawPixmap(0,0,(*route)->getIcon());
+        p.drawPixmap(0,0,route->getIcon());
         p.end();
 
-        item->setText((*route)->getInfo());
-        item->setData(Qt::UserRole, (*route)->getKey());
+        item->setText(route->getInfo());
+        item->setData(Qt::UserRole, route->getKey());
         item->setIcon(icon);
 
-        if((*route)->isHighlighted())
+        if(route->isHighlighted())
         {
             highlighted = item;
         }
 
         ++route;
     }
-
-    listRoutes->sortItems();
 
     if(highlighted)
     {

@@ -31,9 +31,17 @@
 
 CRouteDB * CRouteDB::m_self = 0;
 
-bool CRouteDB::keyLessThanAlpha(CRouteDB::keys_t&  s1, CRouteDB::keys_t&  s2)
+bool CRouteDB::keyLessThanAlpha(keys_t&  s1, keys_t&  s2)
 {
+    qDebug() << s1.name << s2.name;
     return s1.name.toLower() < s2.name.toLower();
+}
+
+
+bool CRouteDB::keyLessThanTime(keys_t&  s1, keys_t&  s2)
+{
+    qDebug() << s1.time << s2.time;
+    return s1.time < s2.time;
 }
 
 
@@ -655,9 +663,24 @@ QList<CRouteDB::keys_t> CRouteDB::keys()
         k2.key      = k1;
         k2.name     = route->name;
         k2.icon     = route->getIcon();
+        k2.time     = route->getTimestamp();
 
         k << k2;
     }
+
+    CRouteToolWidget::sortmode_e sortmode = CRouteToolWidget::getSortMode();
+
+    qDebug() << "--";
+    switch(sortmode)
+    {
+        case CRouteToolWidget::eSortByName:
+            qSort(k.begin(), k.end(), CRouteDB::keyLessThanAlpha);
+            break;
+        case CRouteToolWidget::eSortByTime:
+            qSort(k.begin(), k.end(), CRouteDB::keyLessThanTime);
+            break;
+    }
+
 
     return k;
 }
