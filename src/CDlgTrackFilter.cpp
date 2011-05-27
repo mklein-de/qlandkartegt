@@ -431,6 +431,10 @@ void CDlgTrackFilter::slotRadioDistance()
 {
     checkAzimuthDelta->setEnabled(true);
     checkReduceDataset->setChecked(true);
+    if(checkAzimuthDelta->isChecked() && checkAzimuthDelta->isEnabled())
+    {
+        spinAzimuthDelta->setEnabled(true);
+    }
 }
 
 void CDlgTrackFilter::slotSpinDistance(int i)
@@ -439,11 +443,15 @@ void CDlgTrackFilter::slotSpinDistance(int i)
     checkAzimuthDelta->setEnabled(true);
     radioTimedelta->setChecked(false);
     checkReduceDataset->setChecked(true);
+    if(checkAzimuthDelta->isChecked() && checkAzimuthDelta->isEnabled())
+    {
+        spinAzimuthDelta->setEnabled(true);
+    }
 }
 
 void CDlgTrackFilter::slotCheckAzimuthDelta()
 {
-    if(checkAzimuthDelta->isEnabled())
+    if(checkAzimuthDelta->isChecked())
     {
         spinAzimuthDelta->setEnabled(true);
     }
@@ -451,7 +459,6 @@ void CDlgTrackFilter::slotCheckAzimuthDelta()
     {
         spinAzimuthDelta->setEnabled(false);
     }
-
 }
 
 void CDlgTrackFilter::slotSpinAzimuthDelta(int i)
@@ -462,7 +469,6 @@ void CDlgTrackFilter::slotSpinAzimuthDelta(int i)
 
 void CDlgTrackFilter::slotRadioTimedelta()
 {
-    checkAzimuthDelta->setChecked(false);
     checkAzimuthDelta->setEnabled(false);
     spinAzimuthDelta->setEnabled(false);
     checkReduceDataset->setChecked(true);
@@ -472,7 +478,6 @@ void CDlgTrackFilter::slotSpinTimedelta(int i)
 {
     radioTimedelta->setChecked(true);
     radioDistance->setChecked(false);
-    checkAzimuthDelta->setChecked(false);
     checkAzimuthDelta->setEnabled(false);
     checkReduceDataset->setChecked(true);
 }
