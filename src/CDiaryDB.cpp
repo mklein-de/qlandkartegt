@@ -41,25 +41,25 @@ CDiaryDB::~CDiaryDB()
 }
 
 
-void CDiaryDB::openEditWidget()
-{
+//void CDiaryDB::openEditWidget()
+//{
 
-    CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
-    if(tb == 0) return;
+//    CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
+//    if(tb == 0) return;
 
-    if(editWidget.isNull())
-    {
-        editWidget = new CDiaryEditWidget(diary->text(), tabbar);
-        tb->addTab(editWidget,tr("Diary"));
+//    if(editWidget.isNull())
+//    {
+//        editWidget = new CDiaryEditWidget(diary->text(), tabbar);
+//        tb->addTab(editWidget,tr("Diary"));
 
-    }
-    else
-    {
-        diary->setText(editWidget->textEdit->toHtml());
-        delete editWidget;
+//    }
+//    else
+//    {
+//        diary->setText(editWidget->textEdit->toHtml());
+//        delete editWidget;
 
-    }
-}
+//    }
+//}
 
 
 void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
@@ -103,14 +103,14 @@ void CDiaryDB::clear()
 }
 
 
-const QString CDiaryDB::getDiary()
-{
-    if(!editWidget.isNull())
-    {
-        diary->setText(editWidget->textEdit->toHtml());
-    }
-    return diary->text();
-}
+//const QString CDiaryDB::getDiary()
+//{
+//    if(!editWidget.isNull())
+//    {
+//        diary->setText(editWidget->textEdit->toHtml());
+//    }
+//    return diary->text();
+//}
 
 
 int CDiaryDB::count()

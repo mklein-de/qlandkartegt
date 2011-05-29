@@ -118,7 +118,7 @@ QObject(parent), parent(parent)
     createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
 
     //
-    createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
+//    createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
     createAction(tr("F6"), ":/icons/cache/Traditional-Cache.png", tr("&Export to OCM"), "aOcm", tr("Send current workspace to Open Cache Manager."));
     //createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
     //createAction(tr("F7"), 0, tr("Create World &Basemap"), "aWorldBasemap", tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
@@ -324,10 +324,10 @@ void CActions::funcSwitchToMainMore()
 }
 
 
-void CActions::funcDiary()
-{
-    CDiaryDB::self().openEditWidget();
-}
+//void CActions::funcDiary()
+//{
+//    CDiaryDB::self().openEditWidget();
+//}
 
 void CActions::funcOcm()
 {

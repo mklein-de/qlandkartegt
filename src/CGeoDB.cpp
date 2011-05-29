@@ -174,6 +174,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
     contextMenuFolder   = new QMenu(this);
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
+    actAddDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Add diary"), this, SLOT(slotAddDiary()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
@@ -321,6 +322,20 @@ void CGeoDB::initDB()
         qDebug() << query.lastQuery();
         qDebug() << query.lastError();
     }
+
+    if(!query.exec( "CREATE TABLE diarys ("
+        "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "parent         INTEGER NOT NULL,"
+        "key            TEXT NOT NULL,"
+        "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
+        "data           BLOB NOT NULL,"
+        "FOREIGN KEY(parent) REFERENCES folders(id)"
+    ")"))
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError();
+    }
+
 
 }
 
@@ -588,6 +603,27 @@ void CGeoDB::migrateDB(int version)
 
                 break;
             }
+            case 8:
+            {
+                PROGRESS_SETUP(tr("Mirgrating database from version 7 to 8."), 1);
+
+                if(!query.exec( "CREATE TABLE diarys ("
+                    "id             INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "parent         INTEGER NOT NULL,"
+                    "key            TEXT NOT NULL,"
+                    "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    "data           BLOB NOT NULL,"
+                    "FOREIGN KEY(parent) REFERENCES folders(id)"
+                ")"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
+                PROGRESS(1, return);
+            }
+
         }
     }
     query.prepare( "UPDATE versioninfo set version=:version");
@@ -1518,7 +1554,7 @@ void CGeoDB::addItemToDB(quint64 parentId, QTreeWidgetItem * item)
                 break;
             }
             case eMap:
-            {            
+            {
                 IMapSelection * map = CMapDB::self().getMapSelectionByKey(key);
                 *map >> stream;
                 qlItem = map;
@@ -2183,12 +2219,13 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                 {
                     actMoveDir->setVisible(true);
                     actCopyDir->setVisible(true);
+                    actAddDiary->setVisible(true);
                 }
                 else
                 {
                     actMoveDir->setVisible(false);
                     actCopyDir->setVisible(false);
-
+                    actAddDiary->setVisible(false);
                 }
             }
 
@@ -2963,3 +3000,34 @@ void CGeoDB::slotHardCopyItem()
 
 }
 
+void CGeoDB::slotAddDiary()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * parent = treeDatabase->currentItem();
+    if(parent == 0)
+    {
+        return;
+    }
+
+    if(parent->data(eCoName, eUrType).toInt() != eFolder2)
+    {
+        return;
+    }
+
+    QSqlQuery query(db);
+    quint64 parentId = parent->data(eCoName, eUrDBKey).toULongLong();
+
+    // test if folder already has a diary
+    query.prepare("SELECT key, date, data FROM diarys WHERE parent = :id");
+    query.bindValue(":id", parentId);
+    QUERY_EXEC(return);
+
+    if(query.next())
+    {
+        return;
+    }
+
+
+
+}

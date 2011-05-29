@@ -81,6 +81,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotDelFolder();
         /// edit folder properties
         void slotEditFolder();
+        /// add a diary to a project folder
+        void slotAddDiary();
         /// add a new relation for a folder
         void slotCopyFolder();
         /// delete current relation and add new one
@@ -219,6 +221,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actEditDir;
         QAction * actMoveDir;
         QAction * actCopyDir;
+        QAction * actAddDiary;
 
         QMenu * contextMenuItem;
         QAction * actMoveItem;

@@ -207,7 +207,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
-    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
+//    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
 #ifdef HAS_DBUS
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aOcm");
 #endif
@@ -566,7 +566,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconScreenshot16x16.png"),tr("Device Screenshot ..."),this,SLOT(slotScreenshot()));
     menu->addAction(QIcon(":/icons/iconRaster16x16.png"),tr("Save map as image ..."),this,SLOT(slotSaveImage()));
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
-    menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
+    //menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
@@ -1218,14 +1218,15 @@ void CMainWindow::slotModified()
 }
 
 
+/// @todo move or remove
 void CMainWindow::slotPrintPreview()
 {
-    QTextEdit textEdit(this);
-    textEdit.insertHtml(CDiaryDB::self().getDiary());
-    PrintPreview *preview = new PrintPreview(textEdit.document(), this);
-    preview->setWindowModality(Qt::WindowModal);
-    preview->setAttribute(Qt::WA_DeleteOnClose);
-    preview->show();
+//    QTextEdit textEdit(this);
+//    textEdit.insertHtml(CDiaryDB::self().getDiary());
+//    PrintPreview *preview = new PrintPreview(textEdit.document(), this);
+//    preview->setWindowModality(Qt::WindowModal);
+//    preview->setAttribute(Qt::WA_DeleteOnClose);
+//    preview->show();
 }
 
 
@@ -1304,15 +1305,15 @@ void CMainWindow::slotDataChanged()
         str += tr("no overlays. ");
     }
 
-    c = CDiaryDB::self().count();
-    if(c > 0)
-    {
-        str += tr("A <a href='Diary'>diary</a> is loaded.");
-    }
-    else
-    {
-        str += tr("The diary (<a href='Diary'>new</a>) is empty.");
-    }
+//    c = CDiaryDB::self().count();
+//    if(c > 0)
+//    {
+//        str += tr("A <a href='Diary'>diary</a> is loaded.");
+//    }
+//    else
+//    {
+//        str += tr("The diary (<a href='Diary'>new</a>) is empty.");
+//    }
 
     str += "</p>";
 
@@ -1325,7 +1326,7 @@ void CMainWindow::slotOpenLink(const QString& link)
 {
     if(link == "Diary")
     {
-        CDiaryDB::self().openEditWidget();
+//        CDiaryDB::self().openEditWidget();
     }
     else if(link == "Clear")
     {
