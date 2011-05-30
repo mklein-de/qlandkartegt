@@ -205,8 +205,8 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Filename(url) format is /zoom/x/y.png
     QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
     QString osmFilePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
-    //    qDebug() << osmUrlPart;
-    //    qDebug() << osmFilePath;
+//        qDebug() << osmUrlPart;
+//        qDebug() << osmFilePath;
     bool needHttpAction = true;
     bool outOfDate = false;
     if (tiles.contains(osmUrlPart))
@@ -270,9 +270,11 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
     if (!startPointHash.contains(id))
         return;
 
-    // qDebug() << osmUrlPartHash.value(id) << id << error ;
+    //qDebug() << osmUrlPartHash.value(id) << id << error << tilesConnection->state();
     QImage img1;
-    img1.loadFromData(tilesConnection->readAll());
+
+    QByteArray ba = tilesConnection->readAll();
+    img1.loadFromData(ba);
 
     if(img1.format() == QImage::Format_Invalid)
     {

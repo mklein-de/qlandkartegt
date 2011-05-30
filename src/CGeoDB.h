@@ -69,6 +69,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// make clicked item visible
         void slotItemDoubleClickedWks(QTreeWidgetItem * item, int column);
         void slotItemDoubleClickedDb(QTreeWidgetItem * item, int column);
+        void slotItemClickedDb(QTreeWidgetItem * item, int column);
         /// test for name change on folders or checkstate change
         void slotItemChanged(QTreeWidgetItem * item, int column);
         /// display context menu for current item in the treeWidget
@@ -83,6 +84,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void slotEditFolder();
         /// add a diary to a project folder
         void slotAddDiary();
+        /// hide/show diary for project folder
+        void slotShowDiary();
         /// add a new relation for a folder
         void slotCopyFolder();
         /// delete current relation and add new one
@@ -176,6 +179,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         enum ColumnType_e {
             eCoName     = 0,
             eCoState    = 1,
+            eCoDiary    = 2
         };
         enum UserRoles_e {
             eUrDBKey  = Qt::UserRole,
@@ -222,6 +226,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actMoveDir;
         QAction * actCopyDir;
         QAction * actAddDiary;
+        QAction * actShowDiary;
 
         QMenu * contextMenuItem;
         QAction * actMoveItem;

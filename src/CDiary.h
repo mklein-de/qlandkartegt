@@ -24,6 +24,10 @@
 #include "IItem.h"
 #include <QDataStream>
 #include <QFile>
+#include <QPointer>
+
+class CDiaryEditWidget;
+class CTabWidget;
 
 class CDiary : public IItem
 {
@@ -34,20 +38,28 @@ class CDiary : public IItem
 
         enum type_e {eEnd,eBase};
 
-        QString text(){return m_text;}
-        void setText(const QString& t){m_text = t;}
 
-        CDiary& operator=(const CDiary& d)
-        {
-            setParent(d.parent());
-            timestamp   = d.timestamp;
-            m_text      = d.m_text;
-            return *this;
-        }
+//        QString text(){return m_text;}
+//        void setText(const QString& t){m_text = t;}
+
+//        CDiary& operator=(const CDiary& d)
+//        {
+//            setParent(d.parent());
+//            timestamp   = d.timestamp;
+//            m_text      = d.m_text;
+//            return *this;
+//        }
 
         QString getInfo();
 
         void setIcon(const QString&){}
+
+        void linkToProject(quint64 key);
+
+        void showEditWidget(CTabWidget * tab);
+
+    private slots:
+        void slotEditWidgetDied(QObject*);
 
     private:
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);
@@ -57,6 +69,10 @@ class CDiary : public IItem
         quint32 timestamp;
         /// diary text
         QString m_text;
+
+        quint64 keyProjectGeoDB;
+
+        QPointer<CDiaryEditWidget> editWidget;
 
 };
 

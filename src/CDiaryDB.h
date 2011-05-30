@@ -23,7 +23,7 @@
 #include "IDB.h"
 #include "CDiary.h"
 
-#include <QPointer>
+#include <QMap>
 
 class CDiaryEditWidget;
 
@@ -37,6 +37,12 @@ class CDiaryDB : public IDB
 
 //        void openEditWidget();
 //        const QString getDiary();
+
+        void addDiary(CDiary * diary, bool silent);
+        void delDiary(const QString& key, bool silent);
+        void delDiarys(const QStringList& keys);
+
+        CDiary * getDiaryByKey(const QString& key);
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx, const QStringList& keys);
@@ -59,8 +65,6 @@ class CDiaryDB : public IDB
 
         static CDiaryDB * m_self;
 
-        QPointer<CDiaryEditWidget> editWidget;
-
-        CDiary * diary;
+        QMap<QString,CDiary*> diarys;
 };
 #endif                           //CDIARYDB_H

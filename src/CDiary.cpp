@@ -18,6 +18,9 @@
 **********************************************************************************************/
 
 #include "CDiary.h"
+#include "CDiaryDB.h"
+#include "CDiaryEditWidget.h"
+#include "CTabWidget.h"
 
 #include <QtCore>
 
@@ -168,7 +171,8 @@ void operator <<(QFile& f, CDiary& diary)
 CDiary::CDiary(QObject * parent)
 : IItem(parent)
 , timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
-// , m_text("<img src='/tmp/ql.png'/>")
+, keyProjectGeoDB(0)
+, editWidget(0)
 {
 
 }
@@ -176,7 +180,12 @@ CDiary::CDiary(QObject * parent)
 
 CDiary::~CDiary()
 {
+    if(!editWidget.isNull()) delete editWidget;
+}
 
+void CDiary::slotEditWidgetDied(QObject*)
+{
+    CDiaryDB::self().delDiary(getKey(), false);
 }
 
 QString CDiary::getInfo()
@@ -188,3 +197,18 @@ QString CDiary::getInfo()
     return str;
 }
 
+void CDiary::linkToProject(quint64 key)
+{
+    keyProjectGeoDB = key;
+}
+
+
+void CDiary::showEditWidget(CTabWidget * tab)
+{
+    if(editWidget == 0)
+    {
+        editWidget = new CDiaryEditWidget("", tab);
+        connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
+    }
+    tab->addTab(editWidget, tr("Diary"));
+}

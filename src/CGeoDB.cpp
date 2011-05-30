@@ -31,6 +31,8 @@
 #include "COverlayText.h"
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
+#include "CDiary.h"
+#include "CDiaryDB.h"
 #include "CDlgSelGeoDBFolder.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -175,6 +177,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     contextMenuFolder   = new QMenu(this);
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
     actAddDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Add diary"), this, SLOT(slotAddDiary()));
+    actShowDiary        = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Show/hide diary"), this, SLOT(slotShowDiary()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
@@ -199,6 +202,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(treeDatabase,SIGNAL(itemExpanded(QTreeWidgetItem *)),this,SLOT(slotItemExpanded(QTreeWidgetItem *)));
     connect(treeDatabase,SIGNAL(itemChanged(QTreeWidgetItem *, int)),this,SLOT(slotItemChanged(QTreeWidgetItem *, int)));
     connect(treeDatabase,SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemDoubleClickedDb(QTreeWidgetItem *, int)));
+    connect(treeDatabase,SIGNAL(itemClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemClickedDb(QTreeWidgetItem *, int)));
 
     connect(treeWorkspace,SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),this,SLOT(slotItemDoubleClickedWks(QTreeWidgetItem *, int)));
     connect(treeWorkspace,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuWorkspace(const QPoint&)));
@@ -850,6 +854,7 @@ void CGeoDB::changedWorkspace()
     CGeoDBInternalEditLock lock(this);
     treeDatabase->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setResizeMode(eCoDiary,QHeaderView::ResizeToContents);
 }
 
 void CGeoDB::initTreeWidget()
@@ -899,6 +904,26 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         item->setData(eCoName, eUrType, query2.value(3).toInt());
         item->setData(eCoName, eUrDBKey, childId);
         item->setIcon(eCoName, QIcon(query2.value(0).toString()));
+
+        if(query2.value(3).toInt() == eFolder2)
+        {
+            QSqlQuery query1(db);
+            query1.prepare("SELECT key FROM diarys WHERE parent=:id");
+            query1.bindValue(":id", childId);
+
+            if(!query1.exec())
+            {
+                qDebug() << query1.lastQuery();
+                qDebug() << query1.lastError();
+            }
+
+
+            if(query1.next())
+            {
+                item->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+            }
+        }
+
         item->setText(eCoName, query2.value(1).toString());
         item->setToolTip(eCoName, query2.value(2).toString());
         item->setFlags(item->flags() | Qt::ItemIsEditable);
@@ -949,6 +974,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
     treeDatabase->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setResizeMode(eCoDiary,QHeaderView::ResizeToContents);
 }
 
 void CGeoDB::updateLostFound()
@@ -2072,6 +2098,14 @@ void CGeoDB::slotItemDoubleClickedDb(QTreeWidgetItem * item, int column)
     }
 }
 
+void CGeoDB::slotItemClickedDb(QTreeWidgetItem * item, int column)
+{
+    if(column == eCoDiary)
+    {
+        slotShowDiary();
+    }
+}
+
 void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 {
     if(isInternalEdit != 0)
@@ -2217,15 +2251,33 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
 
                 if(item->data(eCoName, eUrType).toInt() == eFolder2)
                 {
+                    QSqlQuery query(db);
+                    quint64 parentId = item->data(eCoName, eUrDBKey).toULongLong();
+                    // test if folder already has a diary
+                    query.prepare("SELECT key FROM diarys WHERE parent = :id");
+                    query.bindValue(":id", parentId);
+                    QUERY_EXEC(return);
+
+                    if(query.next())
+                    {
+                        actShowDiary->setVisible(true);
+                        actAddDiary->setVisible(false);
+                    }
+                    else
+                    {
+                        actShowDiary->setVisible(false);
+                        actAddDiary->setVisible(true);
+                    }
+
                     actMoveDir->setVisible(true);
-                    actCopyDir->setVisible(true);
-                    actAddDiary->setVisible(true);
+                    actCopyDir->setVisible(true);                    
                 }
                 else
                 {
                     actMoveDir->setVisible(false);
                     actCopyDir->setVisible(false);
                     actAddDiary->setVisible(false);
+                    actShowDiary->setVisible(false);
                 }
             }
 
@@ -3024,7 +3076,7 @@ void CGeoDB::slotAddDiary()
     quint64 parentId = parent->data(eCoName, eUrDBKey).toULongLong();
 
     // test if folder already has a diary
-    query.prepare("SELECT key, date, data FROM diarys WHERE parent = :id");
+    query.prepare("SELECT key FROM diarys WHERE parent = :id");
     query.bindValue(":id", parentId);
     QUERY_EXEC(return);
 
@@ -3033,6 +3085,69 @@ void CGeoDB::slotAddDiary()
         return;
     }
 
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    CDiary *  diary = new CDiary(&CDiaryDB::self());
 
+    stream << *diary;
 
+    query.prepare("INSERT INTO diarys (parent, key, date, data) "
+                  "VALUES (:parent, :key, :date, :data)");
+
+    query.bindValue(":parent", parentId);
+    query.bindValue(":key", diary->getKey());
+    query.bindValue(":date", QDateTime::fromTime_t(diary->getTimestamp()).toString("yyyy-MM-dd hh-mm-ss"));
+    query.bindValue(":data", data);
+    QUERY_EXEC(delete diary; return);
+
+    CDiaryDB::self().addDiary(diary, false);
+    diary->linkToProject(parentId);
+}
+
+void CGeoDB::slotShowDiary()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * parent = treeDatabase->currentItem();
+    if(parent == 0)
+    {
+        return;
+    }
+
+    if(parent->data(eCoName, eUrType).toInt() != eFolder2)
+    {
+        return;
+    }
+
+    QSqlQuery query(db);
+    quint64 parentId = parent->data(eCoName, eUrDBKey).toULongLong();
+
+    // test if folder already has a diary
+    query.prepare("SELECT key, date, data FROM diarys WHERE parent = :id");
+    query.bindValue(":id", parentId);
+    QUERY_EXEC(return);
+
+    if(!query.next())
+    {
+        return;
+    }
+
+    QString key = query.value(0).toString();
+    if(CDiaryDB::self().getDiaryByKey(key))
+    {
+        CDiaryDB::self().delDiary(key, false);
+    }
+    else
+    {
+        CDiary *  diary = new CDiary(&CDiaryDB::self());
+
+        QByteArray data = query.value(2).toByteArray();
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream >> *diary;
+
+        diary->setKey(key);
+
+        CDiaryDB::self().addDiary(diary, false);
+        diary->linkToProject(parentId);
+    }
 }
