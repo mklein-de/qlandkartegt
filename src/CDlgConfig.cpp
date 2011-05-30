@@ -96,9 +96,6 @@ void CDlgConfig::exec()
     checkGeoDBSaveOnExit->setChecked(resources.m_saveGeoDBOnExit);
     labelPathGeoDB->setText(resources.m_pathGeoDB.absolutePath());
 #endif
-    connect(comboBrowser,SIGNAL(currentIndexChanged(int)),this,SLOT(slotBrowserChanged(int)));
-    comboBrowser->setCurrentIndex(resources.m_eBrowser);
-    lineBrowserCmd->setText(resources.cmdOther);
 
     comboDevice->addItem(tr(""),"");
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
@@ -188,8 +185,6 @@ void CDlgConfig::accept()
     resources.m_pathGeoDB       = QDir(labelPathGeoDB->text());
 #endif
 
-    resources.m_eBrowser        = (CResources::browser_e)comboBrowser->currentIndex();
-    resources.cmdOther          = lineBrowserCmd->text();
 
     resources.m_devKey          = comboDevice->itemData(comboDevice->currentIndex()).toString();
     resources.m_devIPAddress    = lineDevIPAddr->text();
@@ -343,17 +338,6 @@ void CDlgConfig::fillCharsetCombo()
 }
 
 
-void CDlgConfig::slotBrowserChanged(int idx)
-{
-    if(idx == CResources::eOther)
-    {
-        lineBrowserCmd->setEnabled(true);
-    }
-    else
-    {
-        lineBrowserCmd->setEnabled(false);
-    }
-}
 
 
 void CDlgConfig::slotSetupGarminIcons()

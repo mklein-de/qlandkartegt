@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>568</height>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -334,49 +334,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Browser</string>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <layout class="QVBoxLayout">
-          <item>
-           <widget class="QComboBox" name="comboBrowser">
-            <item>
-             <property name="text">
-              <string>Firefox</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Konqueror</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>other (needs command line)</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineBrowserCmd">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>my command %s</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>%s will be replaced by URL</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

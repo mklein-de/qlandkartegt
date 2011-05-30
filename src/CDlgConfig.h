@@ -38,7 +38,6 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotCurrentDeviceChanged(int index);
         void slotSelectFont();
         void slotSelectWptTextColor();
-        void slotBrowserChanged(int idx);
         void slotSetupGarminIcons();
         void slotSelectPathGeoDB();
 

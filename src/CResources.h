@@ -53,8 +53,6 @@ class CResources : public QObject
         /// the font used for text on the map
         const QFont& getMapFont(){return m_mapfont;}
 
-        /// open an URL in a webbrowser
-        void openLink(const QString& link);
 
         /// root path of all maps
         QString pathMaps;
@@ -104,14 +102,6 @@ class CResources : public QObject
         /// font used by the map
         QFont m_mapfont;
 
-        /// the installed browser type
-        browser_e m_eBrowser;
-        /// command string to start Firefox
-        QString cmdFirefox;
-        /// command string to start Konqueror
-        QString cmdKonqueror;
-        /// user defined command string
-        QString cmdOther;
 
         /// this offset is needed to correct time in seconds until Dec. 30th, 1989 12:00 to POSIX standard
         quint32 time_offset;

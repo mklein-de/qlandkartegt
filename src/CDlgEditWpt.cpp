@@ -370,12 +370,14 @@ void CDlgEditWpt::showImage(int idx)
 
 void CDlgEditWpt::slotOpenLink(const QUrl& url)
 {
-    CResources::self().openLink(url.toString());
+
+    QDesktopServices::openUrl(url);
 }
 
 void CDlgEditWpt::slotOpenLink(const QString& link)
 {
-    CResources::self().openLink(link);
+
+    QDesktopServices::openUrl(QUrl(link));
 }
 
 

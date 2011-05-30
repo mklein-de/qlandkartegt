@@ -536,7 +536,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     }
     else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
     {
-        CResources::self().openLink("file:///" + selWpt->images[0].filePath);
+        QDesktopServices::openUrl(QUrl("file:///" + selWpt->images[0].filePath));
     }
 }
 

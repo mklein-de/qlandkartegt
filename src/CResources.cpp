@@ -43,13 +43,6 @@ CResources::CResources(QObject * parent)
 , pathMaps("./")
 , m_useHttpProxy(false)
 , m_httpProxyPort(8080)
-, m_eBrowser(eFirefox)
-#ifdef WIN32
-, cmdFirefox("start firefox \"%s\"")
-#else
-, cmdFirefox("firefox \"%s\" &")
-#endif
-, cmdKonqueror("kfmclient exec \"%s\"")
 , time_offset(0)
 , m_device(0)
 , m_devIPPort(4242)
@@ -96,9 +89,6 @@ CResources::CResources(QObject * parent)
     m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
     m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
     m_httpProxyPort   = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
-
-    m_eBrowser        = (browser_e)cfg.value("network/browser",m_eBrowser).toInt();
-    cmdOther          = cfg.value("network/browser/other","my command \"%s\"").toString();
 
     emit sigProxyChanged();
 
@@ -185,8 +175,6 @@ CResources::~CResources()
     cfg.setValue("network/proxy/url",m_httpProxy);
     cfg.setValue("network/proxy/port",m_httpProxyPort);
 
-    cfg.setValue("network/browser",m_eBrowser);
-    cfg.setValue("network/browser/other",cmdOther);
 
     cfg.setValue("device/key",m_devKey);
     cfg.setValue("device/ipAddr",m_devIPAddress);
@@ -305,29 +293,3 @@ QString CResources::charset()
 }
 
 
-void CResources::openLink(const QString& link)
-{
-    QString cmd;
-    int retval;
-    if(m_eBrowser == eFirefox)
-    {
-        cmd.sprintf(cmdFirefox.toAscii(),link.toAscii().data());
-    }
-    else if(m_eBrowser == eKonqueror)
-    {
-        cmd.sprintf(cmdKonqueror.toAscii(),link.toAscii().data());
-    }
-    else if(m_eBrowser == eOther)
-    {
-        cmd.sprintf(cmdOther.toAscii(),link.toAscii().data());
-    }
-    else
-    {
-        return;
-    }
-
-    retval = system(cmd.toAscii());
-    if (retval == -1)
-        qWarning() << "command execution failed: " << cmd;
-
-}

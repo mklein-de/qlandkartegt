@@ -2270,7 +2270,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                     }
 
                     actMoveDir->setVisible(true);
-                    actCopyDir->setVisible(true);                    
+                    actCopyDir->setVisible(true);
                 }
                 else
                 {
@@ -3102,6 +3102,8 @@ void CGeoDB::slotAddDiary()
 
     CDiaryDB::self().addDiary(diary, false);
     diary->linkToProject(parentId);
+
+    parent->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
 }
 
 void CGeoDB::slotShowDiary()

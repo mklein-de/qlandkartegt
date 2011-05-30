@@ -1457,15 +1457,15 @@ void CMainWindow::slotTabCloseRequest(int i)
 
 void CMainWindow::slotFAQ()
 {
-    CResources::self().openLink("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=FAQ");
+    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=FAQ"));
 }
 
 void CMainWindow::slotHelp()
 {
-    CResources::self().openLink("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT");
+    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT"));
 }
 
 void CMainWindow::slotSupport()
 {
-    CResources::self().openLink("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19");
+    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
 }
