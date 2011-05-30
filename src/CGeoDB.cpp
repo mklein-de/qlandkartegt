@@ -2244,6 +2244,11 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
 void CGeoDB::slotContextMenuWorkspace(const QPoint& pos)
 {
     QTreeWidgetItem * item = treeWorkspace->currentItem();
+    if(item == 0)
+    {
+        return;
+    }
+
     if(item->data(eCoName, eUrType).toInt() >= eFolder0)
     {
         actHardCopy->setVisible(false);
