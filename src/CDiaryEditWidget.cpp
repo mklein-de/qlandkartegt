@@ -204,16 +204,20 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
 
     if(!embedded)
     {
-        toolWizard->setIcon(QIcon(":/icons/toolswizard.png"));
-        connect(toolWizard, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
+        toolSave->setIcon(QIcon(":/icons/save.png"));
+        connect(toolSave, SIGNAL(clicked(bool)), this, SLOT(slotSave()));
+
+        toolReload->setIcon(QIcon(":/icons/refresh.png"));
+        connect(toolReload, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
 
         toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
         connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
     }
     else
     {
-        toolWizard->hide();
+        toolReload->hide();
         toolExit->hide();
+        toolSave->hide();
     }
 }
 
@@ -223,6 +227,12 @@ CDiaryEditWidget::~CDiaryEditWidget()
 
 }
 
+void CDiaryEditWidget::setHtml(const QString text)
+{
+    slotDocWizard();
+
+
+}
 
 void CDiaryEditWidget::textBold()
 {

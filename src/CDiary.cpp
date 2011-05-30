@@ -71,8 +71,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> diary.timestamp;
-                QString tmp; s1 >> tmp;
-                diary.m_text += tmp;;
+                s1 >> diary.m_text;
 
                 break;
             }
@@ -82,6 +81,12 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 
         ++entry;
     }
+
+    if(!diary.editWidget.isNull())
+    {
+        diary.editWidget->setHtml(diary.m_text);
+    }
+
     return s;
 }
 
@@ -89,6 +94,11 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 QDataStream& operator <<(QDataStream& s, CDiary& diary)
 {
     QList<diary_head_entry_t> entries;
+
+    if(!diary.editWidget.isNull())
+    {
+        diary.m_text = diary.editWidget->getHtml();
+    }
 
     //---------------------------------------
     // prepare base data
@@ -170,7 +180,6 @@ void operator <<(QFile& f, CDiary& diary)
 
 CDiary::CDiary(QObject * parent)
 : IItem(parent)
-, timestamp(QDateTime::currentDateTime().toUTC().toTime_t ())
 , keyProjectGeoDB(0)
 , editWidget(0)
 {
@@ -184,7 +193,7 @@ CDiary::~CDiary()
 }
 
 void CDiary::slotEditWidgetDied(QObject*)
-{
+{    
     CDiaryDB::self().delDiary(getKey(), false);
 }
 
@@ -208,6 +217,7 @@ void CDiary::showEditWidget(CTabWidget * tab)
     if(editWidget == 0)
     {
         editWidget = new CDiaryEditWidget("", tab);
+        editWidget->setHtml(m_text);
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
     tab->addTab(editWidget, tr("Diary"));

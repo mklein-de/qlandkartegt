@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>IDiaryEditWidget</class>
- <widget class="QWidget" name="IDiaryEditWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="IDiaryEditWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,21 +10,21 @@
     <height>502</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>2</number>
      </property>
      <item>
-      <widget class="QToolButton" name="toolUndo" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolUndo">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -32,11 +33,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolRedo" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolRedo">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -45,11 +46,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolCut" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolCut">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -58,11 +59,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolCopy" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolCopy">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -71,11 +72,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolPaste" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolPaste">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -84,21 +85,21 @@
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line" >
-       <property name="orientation" >
+      <widget class="Line" name="line">
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolWizard" >
-       <property name="toolTip" >
+      <widget class="QToolButton" name="toolReload">
+       <property name="toolTip">
         <string>Create diary skeleton from current data.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -107,11 +108,18 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="toolSave">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -120,8 +128,8 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolExit" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolExit">
+       <property name="text">
         <string>...</string>
        </property>
       </widget>
@@ -129,16 +137,16 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>2</number>
      </property>
      <item>
-      <widget class="QToolButton" name="toolBold" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolBold">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -147,11 +155,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolItalic" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolItalic">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -160,11 +168,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolUnder" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolUnder">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -173,11 +181,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolLeft" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolLeft">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -186,11 +194,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolCenter" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolCenter">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -199,11 +207,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolRight" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolRight">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -212,11 +220,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolBlock" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolBlock">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -225,11 +233,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolColor" >
-       <property name="text" >
+      <widget class="QToolButton" name="toolColor">
+       <property name="text">
         <string>...</string>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>24</width>
          <height>24</height>
@@ -238,20 +246,20 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboStyle" />
+      <widget class="QComboBox" name="comboStyle"/>
      </item>
      <item>
-      <widget class="QFontComboBox" name="comboFont" />
+      <widget class="QFontComboBox" name="comboFont"/>
      </item>
      <item>
-      <widget class="QComboBox" name="comboSize" />
+      <widget class="QComboBox" name="comboSize"/>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -262,7 +270,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit" />
+    <widget class="QTextEdit" name="textEdit"/>
    </item>
   </layout>
  </widget>

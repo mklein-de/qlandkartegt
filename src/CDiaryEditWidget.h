@@ -66,6 +66,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         CDiaryEditWidget(const QString& text, QWidget * parent,  bool embedded = false);
         virtual ~CDiaryEditWidget();
 
+        void setHtml(const QString text);
         QString getHtml(){return textEdit->toHtml();}
 
     private slots:

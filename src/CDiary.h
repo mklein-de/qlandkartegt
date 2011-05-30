@@ -65,8 +65,6 @@ class CDiary : public IItem
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);
         friend QDataStream& operator <<(QDataStream& s, CDiary& diary);
 
-        /// creation timestamp
-        quint32 timestamp;
         /// diary text
         QString m_text;
 
