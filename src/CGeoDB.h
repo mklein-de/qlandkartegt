@@ -27,15 +27,20 @@ class QTabWidget;
 class QTreeWidgetItem;
 class QMenu;
 
+struct db_diary_t;
+
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
     Q_OBJECT;
-    public:
-        CGeoDB(QTabWidget * tb, QWidget * parent);
+    public:        
         virtual ~CGeoDB();
+
+        static CGeoDB& self(){return *m_self;}
 
         /// switch tabbar if project manager gains focus
         void gainFocus();
+
+        bool getProjectData(quint64 id, db_diary_t& data);
 
     private slots:
         void loadWorkspace();
@@ -112,6 +117,9 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         friend class CDlgSelGeoDBFolder;
         friend class CDlgEditFolder;
         friend bool sortItemsLessThan(QTreeWidgetItem * item1, QTreeWidgetItem * item2);
+        friend class CMainWindow;
+
+        CGeoDB(QTabWidget * tb, QWidget * parent);
 
         /// sort all items below an item
         void sortItems(QTreeWidgetItem * item);
@@ -187,6 +195,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
             eUrType   = Qt::UserRole + 2
         };
 
+
+        static CGeoDB * m_self;
 
         /// left hand tool widget tabbar
         QTabWidget * tabbar;

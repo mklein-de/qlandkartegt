@@ -74,11 +74,15 @@ class CGeoDBInternalEditLock
         CGeoDB * db;
 };
 
+CGeoDB * CGeoDB::m_self = 0;
+
 CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     : QWidget(parent)
     , tabbar(tb)
     , isInternalEdit(0)
 {
+    m_self = this;
+
     setupUi(this);
     setObjectName("GeoDB");
 
@@ -3100,8 +3104,9 @@ void CGeoDB::slotAddDiary()
     query.bindValue(":data", data);
     QUERY_EXEC(delete diary; return);
 
-    CDiaryDB::self().addDiary(diary, false);
     diary->linkToProject(parentId);
+    CDiaryDB::self().addDiary(diary, false);
+
 
     parent->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
 }
@@ -3148,8 +3153,76 @@ void CGeoDB::slotShowDiary()
         stream >> *diary;
 
         diary->setKey(key);
-
-        CDiaryDB::self().addDiary(diary, false);
         diary->linkToProject(parentId);
+        CDiaryDB::self().addDiary(diary, false);
+
     }
 }
+
+
+bool CGeoDB::getProjectData(quint64 id, db_diary_t& diary)
+{
+
+    CGeoDBInternalEditLock lock(this);
+
+    QSqlQuery query(db);
+
+    // test if folder already has a diary
+    query.prepare("SELECT name FROM folders WHERE id = :id");
+    query.bindValue(":id", id);
+    QUERY_EXEC(return false);
+
+    if(query.next())
+    {
+        diary.title = query.value(0).toString();
+    }
+    else
+    {
+        return false;
+    }
+
+    //query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
+    query.prepare("SELECT t1.type, t1.data FROM items AS t1, folder2item AS t2 WHERE t2.parent = :id AND t1.id = t2.child");
+    query.bindValue(":id",id);
+
+    QUERY_EXEC(return false);
+    while(query.next())
+    {
+        int type = query.value(0).toInt();
+        switch(type)
+        {
+            case eWpt:
+            {
+                QByteArray data = query.value(1).toByteArray();
+                QDataStream stream(&data, QIODevice::ReadOnly);
+                CWpt * wpt = new CWpt(&CWptDB::self());
+                stream >> *wpt;
+                diary.wpts << wpt;
+                break;
+            }
+            case eRte:
+            {
+                QByteArray data = query.value(1).toByteArray();
+                QDataStream stream(&data, QIODevice::ReadOnly);
+                CRoute * rte = new CRoute(&CRouteDB::self());
+                stream >> *rte;
+                diary.rtes << rte;
+                break;
+            }
+            case eTrk:
+            {
+                QByteArray data = query.value(1).toByteArray();
+                QDataStream stream(&data, QIODevice::ReadOnly);
+                CTrack * trk = new CTrack(&CTrackDB::self());
+                stream >> *trk;
+                trk->rebuild(true);
+                diary.trks << trk;
+                break;
+            }
+        }
+    }
+
+
+    return true;
+}
+

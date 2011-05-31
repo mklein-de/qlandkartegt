@@ -57,17 +57,24 @@
 #define CDIARYEDITWIDGET_H
 
 #include <QWidget>
+#include <QTextCharFormat>
+#include <QTextBlockFormat>
+#include <QPointer>
 #include "ui_IDiaryEditWidget.h"
+
+class CDiary;
 
 class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 {
     Q_OBJECT;
     public:
-        CDiaryEditWidget(const QString& text, QWidget * parent,  bool embedded = false);
+        CDiaryEditWidget(CDiary * diary, QWidget * parent,  bool embedded = false);
         virtual ~CDiaryEditWidget();
 
-        void setHtml(const QString text);
         QString getHtml(){return textEdit->toHtml();}
+
+    public slots:
+        void slotDocWizard();
 
     private slots:
         void textBold();
@@ -84,7 +91,8 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void setWindowModified(bool);
         void clipboardDataChanged();
 
-        void slotDocWizard();
+        void slotSave();
+
 
     private:
         friend class CDiaryDB;
@@ -110,5 +118,18 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
         bool embedded;
 
+        CDiary * diary;
+
+        QTextCharFormat textHeading1;
+        QTextCharFormat textHeading2;
+        QTextCharFormat textStandard;
+
+        QTextBlockFormat blockHeading1;
+        QTextBlockFormat blockHeading2;
+        QTextBlockFormat blockStandard;
+
+        QTextFrameFormat frameStandard;
+
+        QPointer<QTextFrame> diaryFrame;
 };
 #endif                           //CDIARYEDITWIDGET_H

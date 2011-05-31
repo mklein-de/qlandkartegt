@@ -64,16 +64,19 @@
 #include "WptIcons.h"
 #include "GeoMath.h"
 #include "IUnit.h"
+#include "CGeoDB.h"
+#include "CTabWidget.h"
 
 #include <QtGui>
 
-CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool embedded)
+CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedded)
 : QWidget(parent)
 , embedded(embedded)
+, diary(diary)
+, diaryFrame(0)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
-    textEdit->setHtml(text);
 
     actionTextBold = new QAction(QIcon(":/icons/textbold.png"), tr("&Bold"), this);
     actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
@@ -128,7 +131,7 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
     connect(actionTextColor, SIGNAL(triggered()), this, SLOT(textColor()));
     toolColor->setDefaultAction(actionTextColor);
 
-    comboStyle->addItem("Standard");
+    comboStyle->addItem("standard");
     comboStyle->addItem("Bullet List (Disc)");
     comboStyle->addItem("Bullet List (Circle)");
     comboStyle->addItem("Bullet List (Square)");
@@ -219,18 +222,33 @@ CDiaryEditWidget::CDiaryEditWidget(const QString& text, QWidget * parent, bool e
         toolExit->hide();
         toolSave->hide();
     }
+
+    textHeading1.setFont(textEdit->font());
+    textHeading1.setFontWeight(QFont::Black);
+    textHeading1.setFontPointSize(textHeading1.fontPointSize() + 8);
+
+    textHeading2.setFont(textEdit->font());
+    textHeading2.setFontWeight(QFont::Black);
+    textHeading2.setFontPointSize(textHeading2.fontPointSize() + 4);
+
+    textStandard.setFont(textEdit->font());
+
+    blockHeading1.setTopMargin(5);
+    blockHeading1.setBottomMargin(20);
+
+    blockHeading2.setTopMargin(5);
+    blockHeading2.setBottomMargin(10);
+
+    blockStandard.setTopMargin(5);
+    blockStandard.setBottomMargin(5);
+
+    frameStandard.setTopMargin(5);
+    frameStandard.setBottomMargin(5);
 }
 
 
 CDiaryEditWidget::~CDiaryEditWidget()
 {
-
-}
-
-void CDiaryEditWidget::setHtml(const QString text)
-{
-    slotDocWizard();
-
 
 }
 
@@ -441,142 +459,243 @@ void CDiaryEditWidget::clipboardDataChanged()
 }
 
 
+static bool qSortWptLessTime(CWpt * p1, CWpt * p2)
+{
+    return p1->getTimestamp() < p2->getTimestamp();
+}
+
 void CDiaryEditWidget::slotDocWizard()
 {
-    if(!textEdit->toPlainText().isEmpty())
-    {
-        QMessageBox::StandardButton res = QMessageBox::question(0,tr("Diary Wizard"), tr("The wizard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
-        if(res == QMessageBox::Cancel) return;
-    }
+
+    if(diary == 0) return;
 
     QString str;
+    db_diary_t data;
 
-    const QString& file = theMainWindow->getCurrentFilename();
-    if(file.isEmpty())
+    if(!CGeoDB::self().getProjectData(diary->keyProjectGeoDB, data))
     {
-        str += tr("<h1>Default Title</h1>");
-    }
-    else
-    {
-
-        str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
+        return;
     }
 
-    str += tr("<p>This is an automated diary.</p>");
-
-    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
-    if(!wpts.isEmpty())
+    CTabWidget * tab = theMainWindow->getCanvasTab();
+    if(tab)
     {
-        QString pos;
-        CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
-
-        str += "<h2>Waypoints</h2>";
-        str += "<p>";
-        str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
-        str += "<tr bgcolor='#c6e3c0'>";
-        str += tr("<th align='left' style='width: 16px;'></th>");
-        str += tr("<th align='left'>Time</th>");
-        str += tr("<th align='left'>Pos.</th>");
-        str += tr("<th align='left'>Name</th>");
-        str += tr("<th align='left'>Elevation</th>");
-        if(sortmode == CWptToolWidget::eSortByDistance)
-        {
-            str += tr("<th align='left'>Distance</th>");
-        }
-        str += tr("<th align='left'>Comment</th>");
-        str += "</tr>";
-
-
-        CWptDB::keys_t key;
-        QList<CWptDB::keys_t> keys = CWptDB::self().keys();
-
-        foreach(key, keys)
-        {
-            CWpt * wpt = CWptDB::self().getWptByKey(key.key);
-
-            if(wpt->sticky) continue;
-
-            QString pos;
-            GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
-
-            str += "<tr  bgcolor='#ffffff'>";
-            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(wpt->getIconString());
-            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->getTimestamp()).toString());
-            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(pos);
-            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getName());
-
-            if(wpt->ele != WPT_NOFLOAT)
-            {
-                str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
-            }
-            else
-            {
-                str += QString("<td align='left' valign='top'>-</td>");
-            }
-
-            if(sortmode == CWptToolWidget::eSortByDistance)
-            {
-                QString val, unit;
-                IUnit::self().meter2distance(key.d, val, unit);
-
-                str += QString("<td align='left' valign='top'>%1 %2</td>").arg(val).arg(unit);
-            }
-
-            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getComment());
-            str += "</tr>";
-
-        }
-
-        str += "</table>";
-        str += "</p>";
+        int idx = tab->indexOf(this);
+        tab->setTabText(idx, tr("Diary - %1").arg(data.title));
     }
 
-    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
-    if(!tracks.isEmpty())
+    textEdit->clear();
+    QTextCursor cursor = textEdit->textCursor();
+    cursor.setBlockFormat(blockHeading1);
+    cursor.setCharFormat(textHeading1);
+    cursor.insertText(data.title);
+
+    diaryFrame = cursor.insertFrame(frameStandard);
     {
-        str += "<h2>Tracks</h2>";
-        str += "<p>";
-        str += "<table border='0' cellspacing='1' cellpadding='4' bgcolor='#448e35'>";
-        str += "<tr bgcolor='#c6e3c0'>";
-        str += tr("<th align='left' style='width: 20px;'></th>");
-        str += tr("<th align='left'>Start</th>");
-        str += tr("<th align='left'>Stop</th>");
-        str += tr("<th align='left'>Length</th>");
-        str += tr("<th align='left'>Time</th>");
-        str += tr("<th align='left'>Speed</th>");
-        str += tr("<th align='left'>Comment</th>");
-        str += "</tr>";
-
-        CTrackDB::keys_t key;
-        QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
-
-        foreach(key,keys)
-        {
-            CTrack * track = tracks[key.key];
-            str += "<tr bgcolor='#ffffff'>";
-            str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());
-            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getStartTimestamp().toString());
-            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getEndTimestamp().toString());
-
-            double distance = track->getTotalDistance();
-            if(distance > 9999.9)
-            {
-                str += QString("<td align='left' valign='top'>%1 km</td>").arg(distance / 1000.0, 0, 'f', 3);
-            }
-            else
-            {
-                str += QString("<td align='left' valign='top'>%1 m</td>").arg(distance,0 ,'f', 0);
-            }
-
-            QTime time;
-            time = time.addSecs(track->getTotalTime());
-            str += QString("<td align='left' valign='top'>%1</td>").arg(time.toString("HH:mm:ss"));
-            str += QString("<td align='left' valign='top'>%1 km/h</td>").arg(distance * 3.6 / track->getTotalTime(), 0, 'f', 2);
-            str += QString("<td align='left' valign='top'></td>");
-            str += "</tr>";
-        }
-        str += "</table>";
-        str += "</p>";
+        QTextCursor cursor = diaryFrame->firstCursorPosition();
+        cursor.setBlockFormat(blockStandard);
+        cursor.setCharFormat(textStandard);
+        cursor.insertText(tr("Add your own text here..."));
     }
-    textEdit->setHtml(str);
+
+    cursor.insertBlock(blockHeading2, textHeading2);
+    cursor.insertText(tr("Waypoints"));
+
+
+
+//    str = "<h1>" + data.title + "</h1>";
+
+
+//    if(!data.wpts.isEmpty())
+//    {
+//        qSort(data.wpts.begin(), data.wpts.end(), qSortWptLessTime);
+
+//        str += "<h2>Waypoints</h2>";
+//        str += "<p>";
+//        str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
+//        str += "<tr bgcolor='#c6e3c0'>";
+//        str += tr("<th align='left' style='width: 16px;'></th>");
+//        str += tr("<th align='left'>Time</th>");
+//        str += tr("<th align='left'>Pos.</th>");
+//        str += tr("<th align='left'>Name</th>");
+//        str += tr("<th align='left'>Elevation</th>");
+//        str += tr("<th align='left'>Comment</th>");
+//        str += "</tr>";
+
+//        foreach(CWpt * wpt, data.wpts)
+//        {
+//            if(wpt->isGeoCache() || wpt->sticky) continue;
+
+//            QString pos;
+//            GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
+
+//            str += "<tr  bgcolor='#ffffff'>";
+//            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(wpt->getIconString());
+//            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->getTimestamp()).toString());
+//            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(pos);
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getName());
+
+//            if(wpt->ele != WPT_NOFLOAT)
+//            {
+//                str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
+//            }
+//            else
+//            {
+//                str += QString("<td align='left' valign='top'>-</td>");
+//            }
+
+//            str += QString("<td><div id='xyz'>%1</div></td>").arg(wpt->getComment());
+//            str += "</tr>";
+
+//        }
+//        str += "</table>";
+//        str += "</p>";
+//    }
+
+//    textEdit->setHtml(str);
+
+//    if(!textEdit->toPlainText().isEmpty())
+//    {
+//        QMessageBox::textStandardButton res = QMessageBox::question(0,tr("Diary Wizard"), tr("The wizard will replace the current text by it's own. Do you want to proceed?"), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+//        if(res == QMessageBox::Cancel) return;
+//    }
+
+//    QString str;
+
+//    const QString& file = theMainWindow->getCurrentFilename();
+//    if(file.isEmpty())
+//    {
+//        str += tr("<h1>Default Title</h1>");
+//    }
+//    else
+//    {
+
+//        str += tr("<h1>%1</h1>").arg(QFileInfo(file).baseName());
+//    }
+
+//    str += tr("<p>This is an automated diary.</p>");
+
+//    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
+//    if(!wpts.isEmpty())
+//    {
+//        QString pos;
+//        CWptToolWidget::sortmode_e sortmode = CWptToolWidget::getSortMode(pos);
+
+//        str += "<h2>Waypoints</h2>";
+//        str += "<p>";
+//        str += "<table border='0' cellspacing='1' cellpadding='4'  bgcolor='#448e35'>";
+//        str += "<tr bgcolor='#c6e3c0'>";
+//        str += tr("<th align='left' style='width: 16px;'></th>");
+//        str += tr("<th align='left'>Time</th>");
+//        str += tr("<th align='left'>Pos.</th>");
+//        str += tr("<th align='left'>Name</th>");
+//        str += tr("<th align='left'>Elevation</th>");
+//        if(sortmode == CWptToolWidget::eSortByDistance)
+//        {
+//            str += tr("<th align='left'>Distance</th>");
+//        }
+//        str += tr("<th align='left'>Comment</th>");
+//        str += "</tr>";
+
+
+//        CWptDB::keys_t key;
+//        QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+//        foreach(key, keys)
+//        {
+//            CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+
+//            if(wpt->sticky) continue;
+
+//            QString pos;
+//            GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
+
+//            str += "<tr  bgcolor='#ffffff'>";
+//            str += QString("<td align='center' valign='top' style='width: 16px;'><img src='%1'></td>").arg(wpt->getIconString());
+//            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(QDateTime::fromTime_t(wpt->getTimestamp()).toString());
+//            str += QString("<td align='left' valign='top'><nobr>%1</nobr></td>").arg(pos);
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getName());
+
+//            if(wpt->ele != WPT_NOFLOAT)
+//            {
+//                str += QString("<td align='left' valign='top'>%1 m</td>").arg(wpt->ele,0,'f',0);
+//            }
+//            else
+//            {
+//                str += QString("<td align='left' valign='top'>-</td>");
+//            }
+
+//            if(sortmode == CWptToolWidget::eSortByDistance)
+//            {
+//                QString val, unit;
+//                IUnit::self().meter2distance(key.d, val, unit);
+
+//                str += QString("<td align='left' valign='top'>%1 %2</td>").arg(val).arg(unit);
+//            }
+
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(wpt->getComment());
+//            str += "</tr>";
+
+//        }
+
+//        str += "</table>";
+//        str += "</p>";
+//    }
+
+//    const QMap<QString,CTrack*>& tracks = CTrackDB::self().getTracks();
+//    if(!tracks.isEmpty())
+//    {
+//        str += "<h2>Tracks</h2>";
+//        str += "<p>";
+//        str += "<table border='0' cellspacing='1' cellpadding='4' bgcolor='#448e35'>";
+//        str += "<tr bgcolor='#c6e3c0'>";
+//        str += tr("<th align='left' style='width: 20px;'></th>");
+//        str += tr("<th align='left'>Start</th>");
+//        str += tr("<th align='left'>Stop</th>");
+//        str += tr("<th align='left'>Length</th>");
+//        str += tr("<th align='left'>Time</th>");
+//        str += tr("<th align='left'>Speed</th>");
+//        str += tr("<th align='left'>Comment</th>");
+//        str += "</tr>";
+
+//        CTrackDB::keys_t key;
+//        QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
+
+//        foreach(key,keys)
+//        {
+//            CTrack * track = tracks[key.key];
+//            str += "<tr bgcolor='#ffffff'>";
+//            str += QString("<td bgcolor='%1' style='width: 20px;'>&nbsp;&nbsp;</td>").arg(track->getColor().name());
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getStartTimestamp().toString());
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(track->getEndTimestamp().toString());
+
+//            double distance = track->getTotalDistance();
+//            if(distance > 9999.9)
+//            {
+//                str += QString("<td align='left' valign='top'>%1 km</td>").arg(distance / 1000.0, 0, 'f', 3);
+//            }
+//            else
+//            {
+//                str += QString("<td align='left' valign='top'>%1 m</td>").arg(distance,0 ,'f', 0);
+//            }
+
+//            QTime time;
+//            time = time.addSecs(track->getTotalTime());
+//            str += QString("<td align='left' valign='top'>%1</td>").arg(time.toString("HH:mm:ss"));
+//            str += QString("<td align='left' valign='top'>%1 km/h</td>").arg(distance * 3.6 / track->getTotalTime(), 0, 'f', 2);
+//            str += QString("<td align='left' valign='top'></td>");
+//            str += "</tr>";
+//        }
+//        str += "</table>";
+//        str += "</p>";
+//    }
+//    textEdit->setHtml(str);
+}
+
+void CDiaryEditWidget::slotSave()
+{
+    if(!diaryFrame.isNull())
+    {
+        qDebug() << diaryFrame;
+    }
 }

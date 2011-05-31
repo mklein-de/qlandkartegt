@@ -84,7 +84,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 
     if(!diary.editWidget.isNull())
     {
-        diary.editWidget->setHtml(diary.m_text);
+        diary.editWidget->slotDocWizard();
     }
 
     return s;
@@ -216,9 +216,9 @@ void CDiary::showEditWidget(CTabWidget * tab)
 {
     if(editWidget == 0)
     {
-        editWidget = new CDiaryEditWidget("", tab);
-        editWidget->setHtml(m_text);
+        editWidget = new CDiaryEditWidget(this, tab);
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
     tab->addTab(editWidget, tr("Diary"));
+    editWidget->slotDocWizard();
 }

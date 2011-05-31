@@ -29,6 +29,23 @@
 class CDiaryEditWidget;
 class CTabWidget;
 
+class CWpt;
+class CTrack;
+class CRoute;
+
+struct db_diary_t
+{
+    ~db_diary_t()
+    {
+        qDeleteAll(wpts);
+    }
+
+    QString title;
+    QList<CWpt*> wpts;
+    QList<CTrack*> trks;
+    QList<CRoute*> rtes;
+};
+
 class CDiary : public IItem
 {
     Q_OBJECT;
@@ -37,18 +54,6 @@ class CDiary : public IItem
         virtual ~CDiary();
 
         enum type_e {eEnd,eBase};
-
-
-//        QString text(){return m_text;}
-//        void setText(const QString& t){m_text = t;}
-
-//        CDiary& operator=(const CDiary& d)
-//        {
-//            setParent(d.parent());
-//            timestamp   = d.timestamp;
-//            m_text      = d.m_text;
-//            return *this;
-//        }
 
         QString getInfo();
 
@@ -64,6 +69,7 @@ class CDiary : public IItem
     private:
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);
         friend QDataStream& operator <<(QDataStream& s, CDiary& diary);
+        friend class CDiaryEditWidget;
 
         /// diary text
         QString m_text;
