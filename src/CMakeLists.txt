@@ -552,6 +552,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
   ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
+  ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
@@ -606,6 +607,7 @@ target_link_libraries(
       SerialPort
       QMKToolBox
       qzip
+      qtexthtmlexporter
       getopt
   )
 

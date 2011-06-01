@@ -67,7 +67,9 @@
 #include "CGeoDB.h"
 #include "CTabWidget.h"
 
+
 #include <QtGui>
+#include <QTextHtmlExporter.h>
 
 CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedded)
 : QWidget(parent)
@@ -696,6 +698,6 @@ void CDiaryEditWidget::slotSave()
 {
     if(!diaryFrame.isNull())
     {
-        qDebug() << diaryFrame;
+        qDebug() << QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diaryFrame);
     }
 }
