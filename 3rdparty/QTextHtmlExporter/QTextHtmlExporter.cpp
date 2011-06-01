@@ -155,10 +155,11 @@ QString QTextHtmlExporter::toHtml(QTextFrame& frame)
     QTextFrameFormat defaultFmt;
     defaultFmt.setMargin(doc->documentMargin());
 
-    if (rootFmt == defaultFmt)
-        emitFrame(frame.begin());
-    else
-        emitTextFrame(&frame);
+//    if (rootFmt == defaultFmt)
+//        emitFrame(frame.begin());
+//    else
+//        emitTextFrame(&frame);
+    emitFrame(frame.begin());
 
     return html;
 }

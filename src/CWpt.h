@@ -33,7 +33,7 @@
 
 #define WPT_NOFLOAT 1e25f
 
-class CWptDB;
+class IDB;
 class QDomNode;
 class QDomDocument;
 class QDomElement;
@@ -86,7 +86,7 @@ class CWpt : public IItem
 {
     Q_OBJECT;
     public:
-        CWpt(CWptDB * parent);
+        CWpt(QObject * parent);
         virtual ~CWpt();
 
         const QString filename(const QDir& dir = CWpt::path);

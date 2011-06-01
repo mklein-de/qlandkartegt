@@ -413,7 +413,7 @@ void operator <<(QFile& f, CWpt& wpt)
 }
 
 
-CWpt::CWpt(CWptDB * parent)
+CWpt::CWpt(QObject * parent)
 : IItem(parent)
 , sticky(false)
 , lat(1000)

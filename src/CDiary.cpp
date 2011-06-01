@@ -66,13 +66,14 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         {
             case CDiary::eBase:
             {
-
+                QString comment;
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> diary.timestamp;
-                s1 >> diary.m_text;
+                s1 >> comment;
 
+                diary.setComment(comment);
                 break;
             }
 
@@ -84,7 +85,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 
     if(!diary.editWidget.isNull())
     {
-        diary.editWidget->slotDocWizard();
+        //diary.editWidget->slotDocWizard();
     }
 
     return s;
@@ -97,7 +98,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
 
     if(!diary.editWidget.isNull())
     {
-        diary.m_text = diary.editWidget->getHtml();
+        diary.editWidget->slotSave();
     }
 
     //---------------------------------------
@@ -109,7 +110,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     s1.setVersion(QDataStream::Qt_4_5);
 
     s1 << diary.timestamp;
-    s1 << diary.m_text;
+    s1 << diary.getComment();
     entries << entryBase;
 
     //---------------------------------------
@@ -190,6 +191,25 @@ CDiary::CDiary(QObject * parent)
 CDiary::~CDiary()
 {
     if(!editWidget.isNull()) delete editWidget;
+}
+
+void CDiary::clear()
+{
+    name.clear();
+    comment.clear();
+
+    qDeleteAll(wpts);
+    qDeleteAll(trks);
+    qDeleteAll(rtes);
+
+    wpts.clear();
+    wptfrms.clear();
+
+    trks.clear();
+    trkfrms.clear();
+
+    rtes.clear();
+    rtefrms.clear();
 }
 
 void CDiary::slotEditWidgetDied(QObject*)

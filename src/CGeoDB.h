@@ -26,8 +26,7 @@
 class QTabWidget;
 class QTreeWidgetItem;
 class QMenu;
-
-struct db_diary_t;
+class CDiary;
 
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
@@ -40,7 +39,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// switch tabbar if project manager gains focus
         void gainFocus();
 
-        bool getProjectData(quint64 id, db_diary_t& data);
+        bool getProjectDiaryData(quint64 id, CDiary& data);
+        void setProjectDiaryData(quint64 id, CDiary& data);
 
     private slots:
         void loadWorkspace();

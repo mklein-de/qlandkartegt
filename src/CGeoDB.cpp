@@ -32,6 +32,7 @@
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
 #include "CDiary.h"
+#include "CDiaryEditWidget.h"
 #include "CDiaryDB.h"
 #include "CDlgSelGeoDBFolder.h"
 #include "CResources.h"
@@ -3149,7 +3150,7 @@ void CGeoDB::slotShowDiary()
         CDiary *  diary = new CDiary(&CDiaryDB::self());
 
         QByteArray data = query.value(2).toByteArray();
-        QDataStream stream(&data, QIODevice::WriteOnly);
+        QDataStream stream(&data, QIODevice::ReadOnly);
         stream >> *diary;
 
         diary->setKey(key);
@@ -3160,28 +3161,41 @@ void CGeoDB::slotShowDiary()
 }
 
 
-bool CGeoDB::getProjectData(quint64 id, db_diary_t& diary)
+bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
 {
 
-    CGeoDBInternalEditLock lock(this);
-
+    CGeoDBInternalEditLock lock(this);    
     QSqlQuery query(db);
 
-    // test if folder already has a diary
-    query.prepare("SELECT name FROM folders WHERE id = :id");
+    query.prepare("SELECT data FROM diarys WHERE parent = :id");
     query.bindValue(":id", id);
     QUERY_EXEC(return false);
 
     if(query.next())
     {
-        diary.title = query.value(0).toString();
+        QByteArray data = query.value(0).toByteArray();
+        QDataStream stream(&data, QIODevice::ReadOnly);
+        stream >> diary;
     }
     else
     {
         return false;
     }
 
-    //query.prepare("SELECT t1.child FROM folder2folder AS t1, folders AS t2 WHERE t1.parent = :id AND t2.id = t1.child ORDER BY t2.name");
+
+    query.prepare("SELECT name FROM folders WHERE id = :id");
+    query.bindValue(":id", id);
+    QUERY_EXEC(return false);
+
+    if(query.next())
+    {
+        diary.setName(query.value(0).toString());
+    }
+    else
+    {
+        return false;
+    }
+
     query.prepare("SELECT t1.type, t1.data FROM items AS t1, folder2item AS t2 WHERE t2.parent = :id AND t1.id = t2.child");
     query.bindValue(":id",id);
 
@@ -3195,28 +3209,28 @@ bool CGeoDB::getProjectData(quint64 id, db_diary_t& diary)
             {
                 QByteArray data = query.value(1).toByteArray();
                 QDataStream stream(&data, QIODevice::ReadOnly);
-                CWpt * wpt = new CWpt(&CWptDB::self());
+                CWpt * wpt = new CWpt(&diary);
                 stream >> *wpt;
-                diary.wpts << wpt;
+                diary.getWpts() << wpt;
                 break;
             }
             case eRte:
             {
                 QByteArray data = query.value(1).toByteArray();
                 QDataStream stream(&data, QIODevice::ReadOnly);
-                CRoute * rte = new CRoute(&CRouteDB::self());
+                CRoute * rte = new CRoute(&diary);
                 stream >> *rte;
-                diary.rtes << rte;
+                diary.getRtes() << rte;
                 break;
             }
             case eTrk:
             {
                 QByteArray data = query.value(1).toByteArray();
                 QDataStream stream(&data, QIODevice::ReadOnly);
-                CTrack * trk = new CTrack(&CTrackDB::self());
+                CTrack * trk = new CTrack(&diary);
                 stream >> *trk;
                 trk->rebuild(true);
-                diary.trks << trk;
+                diary.getTrks() << trk;
                 break;
             }
         }
@@ -3226,3 +3240,7 @@ bool CGeoDB::getProjectData(quint64 id, db_diary_t& diary)
     return true;
 }
 
+void CGeoDB::setProjectDiaryData(quint64 id, CDiary& data)
+{
+
+}

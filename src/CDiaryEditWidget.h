@@ -75,6 +75,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
     public slots:
         void slotDocWizard();
+        void slotSave();
 
     private slots:
         void textBold();
@@ -89,13 +90,15 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void currentCharFormatChanged(const QTextCharFormat &format);
         void cursorPositionChanged();
         void setWindowModified(bool);
+        void setWindowModified();
         void clipboardDataChanged();
 
-        void slotSave();
+
 
 
     private:
         friend class CDiaryDB;
+        friend class CDiaryInternalEditLock;
         void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
         void fontChanged(const QFont &f);
         void colorChanged(const QColor &c);
@@ -117,12 +120,15 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         QAction * actionPaste;
 
         bool embedded;
+        bool modified;
+        quint32 isInternalEdit;
 
         CDiary * diary;
 
-        QTextCharFormat textHeading1;
-        QTextCharFormat textHeading2;
-        QTextCharFormat textStandard;
+        QTextCharFormat fmtTextHeading1;
+        QTextCharFormat fmtTextHeading2;
+        QTextCharFormat fmtTextStandard;
+        QTextCharFormat fmtTextBold;
 
         QTextBlockFormat blockHeading1;
         QTextBlockFormat blockHeading2;
@@ -130,6 +136,6 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
         QTextFrameFormat frameStandard;
 
-        QPointer<QTextFrame> diaryFrame;
+
 };
 #endif                           //CDIARYEDITWIDGET_H

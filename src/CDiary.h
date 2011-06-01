@@ -32,19 +32,7 @@ class CTabWidget;
 class CWpt;
 class CTrack;
 class CRoute;
-
-struct db_diary_t
-{
-    ~db_diary_t()
-    {
-        qDeleteAll(wpts);
-    }
-
-    QString title;
-    QList<CWpt*> wpts;
-    QList<CTrack*> trks;
-    QList<CRoute*> rtes;
-};
+class QTextFrame;
 
 class CDiary : public IItem
 {
@@ -63,6 +51,12 @@ class CDiary : public IItem
 
         void showEditWidget(CTabWidget * tab);
 
+        void clear();
+
+        QList<CWpt*>& getWpts(){return wpts;}
+        QList<CTrack*>& getTrks(){return trks;}
+        QList<CRoute*>& getRtes(){return rtes;}
+
     private slots:
         void slotEditWidgetDied(QObject*);
 
@@ -71,13 +65,19 @@ class CDiary : public IItem
         friend QDataStream& operator <<(QDataStream& s, CDiary& diary);
         friend class CDiaryEditWidget;
 
-        /// diary text
-        QString m_text;
-
         quint64 keyProjectGeoDB;
 
         QPointer<CDiaryEditWidget> editWidget;
 
+        QList<CWpt*> wpts;
+        QList<CRoute*> rtes;
+        QList<CTrack*> trks;
+
+        QList<QTextFrame*> wptfrms;
+        QList<QTextFrame*> trkfrms;
+        QList<QTextFrame*> rtefrms;
+
+        QPointer<QTextFrame> diaryFrame;
 };
 
 QDataStream& operator >>(QDataStream& s, CDiary& diary);
