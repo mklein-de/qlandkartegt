@@ -143,7 +143,7 @@ QString QTextHtmlExporter::toHtml(const QByteArray &encoding, ExportMode mode)
 }
 
 
-QString QTextHtmlExporter::toHtml(QTextFrame& frame)
+QString QTextHtmlExporter::toHtml(const QTextFrame& frame)
 {
     fragmentMarkers = true;
 
@@ -154,7 +154,7 @@ QString QTextHtmlExporter::toHtml(QTextFrame& frame)
     return html;
 }
 
-QString QTextHtmlExporter::toHtml(QTextTableCell& cell)
+QString QTextHtmlExporter::toHtml(const QTextTableCell& cell)
 {
     fragmentMarkers = true;
 
@@ -563,11 +563,12 @@ void QTextHtmlExporter::emitBlockAttributes(const QTextBlock &block)
 {
     QTextBlockFormat format = block.blockFormat();
     emitAlignment(format.alignment());
-
+#if QT_VERSION >= 0x040700
     // assume default to not bloat the html too much
     // html += QLatin1String(" dir='ltr'");
     if (block.textDirection() == Qt::RightToLeft)
         html += QLatin1String(" dir='rtl'");
+#endif
 
     QLatin1String style(" style=\"");
     html += style;
