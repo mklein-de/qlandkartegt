@@ -58,6 +58,7 @@ namespace QLGT
 
         QString toHtml(const QByteArray &encoding, ExportMode mode = ExportEntireDocument);
         QString toHtml(QTextFrame& frame);
+        QString toHtml(QTextTableCell& cell);
 
     private:
         enum StyleMode { EmitStyleTag, OmitStyleTag };

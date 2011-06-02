@@ -147,21 +147,23 @@ QString QTextHtmlExporter::toHtml(QTextFrame& frame)
 {
     fragmentMarkers = true;
 
-    defaultCharFormat = QTextCharFormat();
+    html.clear();
 
-    QTextFrameFormat rootFmt = frame.frameFormat();
-    rootFmt.clearProperty(QTextFormat::BackgroundBrush);
-
-    QTextFrameFormat defaultFmt;
-    defaultFmt.setMargin(doc->documentMargin());
-
-//    if (rootFmt == defaultFmt)
-//        emitFrame(frame.begin());
-//    else
-//        emitTextFrame(&frame);
     emitFrame(frame.begin());
 
     return html;
+}
+
+QString QTextHtmlExporter::toHtml(QTextTableCell& cell)
+{
+    fragmentMarkers = true;
+
+    html.clear();
+
+    emitFrame(cell.begin());
+
+    return html;
+
 }
 
 void QTextHtmlExporter::emitAttribute(const char *attribute, const QString &value)

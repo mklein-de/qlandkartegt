@@ -31,7 +31,7 @@ class CDiary;
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
     Q_OBJECT;
-    public:        
+    public:
         virtual ~CGeoDB();
 
         static CGeoDB& self(){return *m_self;}
@@ -176,6 +176,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
             eRte        = QTreeWidgetItem::UserType + 5,
             eOvl        = QTreeWidgetItem::UserType + 6,
             eMap        = QTreeWidgetItem::UserType + 7,
+            eDry        = QTreeWidgetItem::UserType + 8,
 
             eFolder0    = QTreeWidgetItem::UserType + 100,
             eFolderT    = QTreeWidgetItem::UserType + 101,

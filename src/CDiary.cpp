@@ -22,6 +22,10 @@
 #include "CDiaryEditWidget.h"
 #include "CTabWidget.h"
 
+#include "CWpt.h"
+#include "CTrack.h"
+#include "CRoute.h"
+
 #include <QtCore>
 
 struct diary_head_entry_t
@@ -83,10 +87,6 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         ++entry;
     }
 
-    if(!diary.editWidget.isNull())
-    {
-        //diary.editWidget->slotDocWizard();
-    }
 
     return s;
 }
@@ -95,11 +95,6 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 QDataStream& operator <<(QDataStream& s, CDiary& diary)
 {
     QList<diary_head_entry_t> entries;
-
-    if(!diary.editWidget.isNull())
-    {
-        diary.editWidget->slotSave();
-    }
 
     //---------------------------------------
     // prepare base data
@@ -203,17 +198,12 @@ void CDiary::clear()
     qDeleteAll(rtes);
 
     wpts.clear();
-    wptfrms.clear();
-
     trks.clear();
-    trkfrms.clear();
-
     rtes.clear();
-    rtefrms.clear();
 }
 
 void CDiary::slotEditWidgetDied(QObject*)
-{    
+{
     CDiaryDB::self().delDiary(getKey(), false);
 }
 

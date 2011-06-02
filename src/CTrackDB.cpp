@@ -1276,7 +1276,15 @@ QList<CTrackDB::keys_t> CTrackDB::keys()
         k2.key      = k1;
         k2.name     = track->name;
         k2.comment  = track->comment.left(32);
-        k2.time     = track->track.first().timestamp;
+        if(track->track.isEmpty())
+        {
+            k2.time     = track->timestamp;
+        }
+        else
+        {
+            k2.time     = track->track.first().timestamp;
+        }
+
 
         icon.fill(track->getColor());
         k2.icon     = icon;

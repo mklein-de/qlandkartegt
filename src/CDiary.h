@@ -33,6 +33,7 @@ class CWpt;
 class CTrack;
 class CRoute;
 class QTextFrame;
+class QTextTable;
 
 class CDiary : public IItem
 {
@@ -73,9 +74,9 @@ class CDiary : public IItem
         QList<CRoute*> rtes;
         QList<CTrack*> trks;
 
-        QList<QTextFrame*> wptfrms;
-        QList<QTextFrame*> trkfrms;
-        QList<QTextFrame*> rtefrms;
+        QPointer<QTextTable> tblWpt;
+        QPointer<QTextTable> tblTrk;
+        QPointer<QTextTable> tblRte;
 
         QPointer<QTextFrame> diaryFrame;
 };

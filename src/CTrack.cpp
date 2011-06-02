@@ -741,10 +741,10 @@ void CTrack::rebuild(bool reindex)
         pt1 = track.begin();
     }
 
-    if(!track.isEmpty() && (track.first().timestamp != 0))
-    {
-        timestamp = track.first().timestamp;
-    }
+//    if(!track.isEmpty() && (track.first().timestamp != 0))
+//    {
+//        timestamp = track.first().timestamp;
+//    }
 
     // skip leading deleted points
     while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted))
@@ -818,7 +818,7 @@ void CTrack::rebuild(bool reindex)
         pt2->distance   = pt1->distance + pt2->delta;
         if ((pt1->ele != WPT_NOFLOAT) && (pt2->ele != WPT_NOFLOAT))
         {
-            slope           = pt2->ele - pt1->ele;
+            slope = pt2->ele - pt1->ele;
         }
         else
         {
@@ -826,7 +826,9 @@ void CTrack::rebuild(bool reindex)
         }
         pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
         if (qAbs(pt2->slope )>100)
+        {
             pt2->slope = pt1->slope;
+        }
         // qDebug() << slope << pt2->delta << pt2->slope;
         if(slope > 0)
         {

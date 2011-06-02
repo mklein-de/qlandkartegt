@@ -3164,7 +3164,7 @@ void CGeoDB::slotShowDiary()
 bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
 {
 
-    CGeoDBInternalEditLock lock(this);    
+    CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
 
     query.prepare("SELECT data FROM diarys WHERE parent = :id");
@@ -3240,7 +3240,33 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
-void CGeoDB::setProjectDiaryData(quint64 id, CDiary& data)
+void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 {
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
 
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << diary;
+
+    query.prepare("UPDATE diarys SET data=:data WHERE parent=:id");
+    query.bindValue(":data", data);
+    query.bindValue(":id", id);
+
+    QUERY_EXEC(return);
+
+    foreach(CWpt * wpt, diary.getWpts())
+    {
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream << *wpt;
+
+        query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
+        query.bindValue(":comment", wpt->getComment());
+        query.bindValue(":data", data);
+        query.bindValue(":type", eWpt);
+        query.bindValue(":key", wpt->getKey());
+
+        QUERY_EXEC(return);
+    }
 }

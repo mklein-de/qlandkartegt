@@ -237,6 +237,8 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
         toolSave->hide();
     }
 
+    QFontMetrics fm(textEdit->font());
+
     fmtTextHeading1.setFont(textEdit->font());
     fmtTextHeading1.setFontWeight(QFont::Black);
     fmtTextHeading1.setFontPointSize(fmtTextHeading1.fontPointSize() + 8);
@@ -260,8 +262,9 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 
     frameStandard.setTopMargin(5);
     frameStandard.setBottomMargin(5);
-    frameStandard.setBorder(1);
-    frameStandard.setBorderBrush(Qt::blue);
+    frameStandard.setWidth( 80 * fm.width("X"));
+//    frameStandard.setBorder(1);
+//    frameStandard.setBorderBrush(Qt::blue);
 }
 
 
@@ -537,7 +540,7 @@ void CDiaryEditWidget::slotDocWizard()
     }
 
     textEdit->clear();
-    QTextCursor cursor = textEdit->textCursor(); 
+    QTextCursor cursor = textEdit->textCursor();
 
     cursor.insertText(diary->getName(), fmtTextHeading1);
 
@@ -570,6 +573,7 @@ void CDiaryEditWidget::slotDocWizard()
         fmtTbl.setBottomMargin(20);
 
         QTextTable * table = cursor.insertTable(wpts.count()+1, 6, fmtTbl);
+        diary->tblWpt = table;
 
         QTextCharFormat fmtHd;
         fmtHd.setBackground(QColor("#c6e3c0"));
@@ -608,6 +612,7 @@ void CDiaryEditWidget::slotDocWizard()
             {
                 table->cellAt(cnt,4).firstCursorPosition().insertText(tr("n/a"));
             }
+
             table->cellAt(cnt,5).firstCursorPosition().insertText(wpt->getComment());
             cnt++;
         }
@@ -636,6 +641,7 @@ void CDiaryEditWidget::slotDocWizard()
         fmtTbl.setBottomMargin(20);
 
         QTextTable * table = cursor.insertTable(trks.count()+1, 3, fmtTbl);
+        diary->tblTrk = table;
 
         QTextCharFormat fmtHd;
         fmtHd.setBackground(QColor("#c6e3c0"));
@@ -662,12 +668,40 @@ void CDiaryEditWidget::slotDocWizard()
 
 }
 
+
+QString toPlainText(const QTextTableCell& cell)
+{
+    QString str;
+    for (QTextFrame::iterator frm = cell.begin(); frm != cell.end(); ++frm)
+    {
+        const QTextBlock& blk = frm.currentBlock();
+        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
+        {
+            str += frgm.fragment().text() + "\n";
+        }
+    }
+
+    return str;
+}
+
 void CDiaryEditWidget::slotSave()
 {
+    quint32 cnt = 1;
     if(!diary->diaryFrame.isNull())
     {
         diary->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary->diaryFrame));
     }
+
+    QList<CWpt*>& wpts = diary->getWpts();
+    foreach(CWpt* wpt, wpts)
+    {
+        wpt->setComment(toPlainText(diary->tblWpt->cellAt(cnt, 5)));
+        cnt++;
+    }
+
+
+
+    CGeoDB::self().setProjectDiaryData(diary->keyProjectGeoDB, *diary);
 
     CTabWidget * tab = theMainWindow->getCanvasTab();
     if(tab)
