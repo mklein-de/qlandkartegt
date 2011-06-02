@@ -265,6 +265,16 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
     frameStandard.setWidth( 80 * fm.width("X"));
 //    frameStandard.setBorder(1);
 //    frameStandard.setBorderBrush(Qt::blue);
+
+    tableStandard.setBorder(1);
+    tableStandard.setBorderBrush(Qt::black);
+    tableStandard.setCellPadding(4);
+    tableStandard.setCellSpacing(0);
+    tableStandard.setHeaderRowCount(1);
+    tableStandard.setTopMargin(10);
+    tableStandard.setBottomMargin(20);
+    tableStandard.setWidth( 80 * fm.width("X"));
+
 }
 
 
@@ -563,16 +573,7 @@ void CDiaryEditWidget::slotDocWizard()
         QList<CWpt*>& wpts = diary->getWpts();
         cursor.insertText(tr("Waypoints"),fmtTextHeading2);
 
-        QTextTableFormat fmtTbl;
-        fmtTbl.setBorder(1);
-        fmtTbl.setBorderBrush(Qt::black);
-        fmtTbl.setCellPadding(4);
-        fmtTbl.setCellSpacing(0);
-        fmtTbl.setHeaderRowCount(1);
-        fmtTbl.setTopMargin(10);
-        fmtTbl.setBottomMargin(20);
-
-        QTextTable * table = cursor.insertTable(wpts.count()+1, 6, fmtTbl);
+        QTextTable * table = cursor.insertTable(wpts.count()+1, 3, tableStandard);
         diary->tblWpt = table;
 
         QTextCharFormat fmtHd;
@@ -580,40 +581,18 @@ void CDiaryEditWidget::slotDocWizard()
         table->cellAt(0,0).setFormat(fmtHd);
         table->cellAt(0,1).setFormat(fmtHd);
         table->cellAt(0,2).setFormat(fmtHd);
-        table->cellAt(0,3).setFormat(fmtHd);
-        table->cellAt(0,4).setFormat(fmtHd);
-        table->cellAt(0,5).setFormat(fmtHd);
 
-        table->cellAt(0,1).firstCursorPosition().insertText(tr("Time"), fmtTextBold);
-        table->cellAt(0,2).firstCursorPosition().insertText(tr("Pos."), fmtTextBold);
-        table->cellAt(0,3).firstCursorPosition().insertText(tr("Name"), fmtTextBold);
-        table->cellAt(0,4).firstCursorPosition().insertText(tr("Elevation"), fmtTextBold);
-        table->cellAt(0,5).firstCursorPosition().insertText(tr("Comment"), fmtTextBold);
+        table->cellAt(0,1).firstCursorPosition().insertText(tr("Info"), fmtTextBold);
+        table->cellAt(0,2).firstCursorPosition().insertText(tr("Comment"), fmtTextBold);
 
         cnt = 1;
         qSort(wpts.begin(), wpts.end(), qSortWptLessTime);
 
         foreach(CWpt * wpt, wpts)
         {
-            QString pos;
-            GPS_Math_Deg_To_Str(wpt->lon, wpt->lat, pos);
-
             table->cellAt(cnt,0).firstCursorPosition().insertImage(wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
-            table->cellAt(cnt,1).firstCursorPosition().insertText(QDateTime::fromTime_t(wpt->getTimestamp()).toString());
-            table->cellAt(cnt,2).firstCursorPosition().insertText(pos);
-            table->cellAt(cnt,3).firstCursorPosition().insertText(wpt->getName());
-            if(wpt->ele != WPT_NOFLOAT)
-            {
-                QString val, unit;
-                IUnit::self().meter2elevation(wpt->ele, val, unit);
-                table->cellAt(cnt,4).firstCursorPosition().insertText(val + unit);
-            }
-            else
-            {
-                table->cellAt(cnt,4).firstCursorPosition().insertText(tr("n/a"));
-            }
-
-            table->cellAt(cnt,5).firstCursorPosition().insertText(wpt->getComment());
+            table->cellAt(cnt,1).firstCursorPosition().insertText(wpt->getInfo());
+            table->cellAt(cnt,2).firstCursorPosition().insertHtml(wpt->getComment());
             cnt++;
         }
 
@@ -631,16 +610,7 @@ void CDiaryEditWidget::slotDocWizard()
         QList<CTrack*>& trks = diary->getTrks();
         cursor.insertText(tr("Tracks"),fmtTextHeading2);
 
-        QTextTableFormat fmtTbl;
-        fmtTbl.setBorder(1);
-        fmtTbl.setBorderBrush(Qt::black);
-        fmtTbl.setCellPadding(4);
-        fmtTbl.setCellSpacing(0);
-        fmtTbl.setHeaderRowCount(1);
-        fmtTbl.setTopMargin(10);
-        fmtTbl.setBottomMargin(20);
-
-        QTextTable * table = cursor.insertTable(trks.count()+1, 3, fmtTbl);
+        QTextTable * table = cursor.insertTable(trks.count()+1, 3, tableStandard);
         diary->tblTrk = table;
 
         QTextCharFormat fmtHd;
@@ -659,7 +629,7 @@ void CDiaryEditWidget::slotDocWizard()
         {
             table->cellAt(cnt,0).firstCursorPosition().insertImage(trk->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,1).firstCursorPosition().insertText(trk->getInfo());
-            table->cellAt(cnt,2).firstCursorPosition().insertText(trk->getComment());
+            table->cellAt(cnt,2).firstCursorPosition().insertHtml(trk->getComment());
             cnt++;
         }
 
@@ -686,19 +656,29 @@ QString toPlainText(const QTextTableCell& cell)
 
 void CDiaryEditWidget::slotSave()
 {
-    quint32 cnt = 1;
+    quint32 cnt;
     if(!diary->diaryFrame.isNull())
     {
         diary->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary->diaryFrame));
     }
 
+    cnt = 1;
     QList<CWpt*>& wpts = diary->getWpts();
     foreach(CWpt* wpt, wpts)
     {
-        wpt->setComment(toPlainText(diary->tblWpt->cellAt(cnt, 5)));
+//        wpt->setComment(toPlainText(diary->tblWpt->cellAt(cnt, 2)));
+        wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary->tblWpt->cellAt(cnt, 2)));
         cnt++;
     }
 
+    cnt = 1;
+    QList<CTrack*>& trks = diary->getTrks();
+    foreach(CTrack* trk, trks)
+    {
+//        trk->setComment(toPlainText(diary->tblTrk->cellAt(cnt, 2)));
+        trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary->tblTrk->cellAt(cnt, 2)));
+        cnt++;
+    }
 
 
     CGeoDB::self().setProjectDiaryData(diary->keyProjectGeoDB, *diary);

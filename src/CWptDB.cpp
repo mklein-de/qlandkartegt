@@ -564,9 +564,12 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         if(!wpt->comment.isEmpty())
         {
+            QString comment = wpt->comment;
+            comment.remove(QRegExp("<[^>]*>"));
+
             QDomElement cmt = gpx.createElement("cmt");
             waypoint.appendChild(cmt);
-            QDomText _cmt_ = gpx.createTextNode(wpt->comment);
+            QDomText _cmt_ = gpx.createTextNode(comment);
             cmt.appendChild(_cmt_);
         }
 

@@ -675,7 +675,10 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         garwpt.alt      = (*wpt)->ele;
         garwpt.dist     = (*wpt)->prx;
         garwpt.ident    = codec->fromUnicode((*wpt)->getName()).data();
-        garwpt.comment  = codec->fromUnicode((*wpt)->getComment()).data();
+
+        QString comment = (*wpt)->getComment();
+        comment.remove(QRegExp("<[^>]*>"));
+        garwpt.comment  = codec->fromUnicode(comment).data();
 
         garwpts.push_back(garwpt);
 

@@ -136,6 +136,8 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
         QTextFrameFormat frameStandard;
 
+        QTextTableFormat tableStandard;
+
 
 };
 #endif                           //CDIARYEDITWIDGET_H

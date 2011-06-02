@@ -533,20 +533,20 @@ QString CWpt::getInfo()
         }
     }
 
-    if(comment.count())
-    {
-        if(str.count()) str += "\n";
+//    if(comment.count())
+//    {
+//        if(str.count()) str += "\n";
 
-        if(comment.count() < 200)
-        {
-            str += comment;
-        }
-        else
-        {
-            str += comment.left(197) + "...";
-        }
+//        if(comment.count() < 200)
+//        {
+//            str += comment;
+//        }
+//        else
+//        {
+//            str += comment.left(197) + "...";
+//        }
 
-    }
+//    }
     return str;
 }
 

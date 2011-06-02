@@ -3269,4 +3269,34 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 
         QUERY_EXEC(return);
     }
+
+    foreach(CRoute * rte, diary.getRtes())
+    {
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream << *rte;
+
+        query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
+        query.bindValue(":comment", rte->getComment());
+        query.bindValue(":data", data);
+        query.bindValue(":type", eRte);
+        query.bindValue(":key", rte->getKey());
+
+        QUERY_EXEC(return);
+    }
+
+    foreach(CTrack * trk, diary.getTrks())
+    {
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream << *trk;
+
+        query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
+        query.bindValue(":comment", trk->getComment());
+        query.bindValue(":data", data);
+        query.bindValue(":type", eTrk);
+        query.bindValue(":key", trk->getKey());
+
+        QUERY_EXEC(return);
+    }
 }
