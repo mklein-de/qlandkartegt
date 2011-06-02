@@ -119,6 +119,8 @@ class CMapDB : public IDB
         /// get access to selected map list
         const QMap<QString,IMapSelection*>& getSelectedMaps(){return selectedMaps;}
 
+        bool contains(const QString& key){return false;}
+
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;

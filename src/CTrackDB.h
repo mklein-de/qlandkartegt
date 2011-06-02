@@ -39,7 +39,7 @@ class CTrackDB : public IDB
         static CTrackDB& self(){return *m_self;}
 
         void loadGPX(CGpx& gpx);
-        void saveGPX(CGpx& gpx, const QStringList& keys);        
+        void saveGPX(CGpx& gpx, const QStringList& keys);
         void loadQLB(CQlb& qlb, bool asDuplicat);
         void saveQLB(CQlb& qlb);
 
@@ -102,6 +102,8 @@ class CTrackDB : public IDB
         static bool keyLessThanTime(keys_t&  s1, keys_t&  s2);
 
         void makeVisible(const QStringList& keys);
+
+        bool contains(const QString& key){return tracks.contains(key);}
 
         signals:
         void sigHighlightTrack(CTrack * track);

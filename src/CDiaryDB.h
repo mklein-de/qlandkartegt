@@ -57,6 +57,8 @@ class CDiaryDB : public IDB
 
         int count();
 
+        bool contains(const QString& key){return diarys.contains(key);}
+
     private:
         friend class CMainWindow;
         friend class CDiaryEditWidget;

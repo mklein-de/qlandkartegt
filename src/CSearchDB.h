@@ -76,7 +76,7 @@ class CSearchDB : public IDB
 
         void selSearchByKey(const QString& key);
 
-
+        bool contains(const QString& key){return results.contains(key);}
 
         signals:
         void sigStatus(const QString& msg);

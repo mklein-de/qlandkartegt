@@ -84,6 +84,7 @@ class CRouteDB : public IDB
 
         void reset(const QString& key);
 
+        bool contains(const QString& key){return routes.contains(key);}
         signals:
         void sigHighlightRoute(CRoute * route);
 

@@ -104,7 +104,9 @@ class COverlayDB : public IDB
         QList<keys_t> keys();
 
 
-        void makeVisible(const QStringList& keys);                
+        void makeVisible(const QStringList& keys);
+
+        bool contains(const QString& key){return overlays.contains(key);}
 
     private slots:
         void slotModified();

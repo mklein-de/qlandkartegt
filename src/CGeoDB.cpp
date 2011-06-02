@@ -3245,6 +3245,12 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
 
+    CQlb qlb(this);
+    QByteArray& wpts = qlb.waypoints();
+    QByteArray& trks = qlb.tracks();
+    QByteArray& rtes = qlb.routes();
+
+
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     stream << diary;
@@ -3261,6 +3267,11 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         QDataStream stream(&data, QIODevice::WriteOnly);
         stream << *wpt;
 
+        if(CWptDB::self().contains(wpt->getKey()))
+        {
+            wpts += data;
+        }
+
         query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
         query.bindValue(":comment", wpt->getComment());
         query.bindValue(":data", data);
@@ -3275,6 +3286,11 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         QByteArray data;
         QDataStream stream(&data, QIODevice::WriteOnly);
         stream << *rte;
+
+        if(CRouteDB::self().contains(rte->getKey()))
+        {
+            rtes += data;
+        }
 
         query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
         query.bindValue(":comment", rte->getComment());
@@ -3291,6 +3307,12 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         QDataStream stream(&data, QIODevice::WriteOnly);
         stream << *trk;
 
+
+        if(CTrackDB::self().contains(trk->getKey()))
+        {
+            trks += data;
+        }
+
         query.prepare("UPDATE items SET comment=:comment, data=:data WHERE type=:type AND key=:key");
         query.bindValue(":comment", trk->getComment());
         query.bindValue(":data", data);
@@ -3299,4 +3321,9 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 
         QUERY_EXEC(return);
     }
+
+    CWptDB::self().loadQLB(qlb, false);
+    CTrackDB::self().loadQLB(qlb, false);
+    CRouteDB::self().loadQLB(qlb, false);
+
 }

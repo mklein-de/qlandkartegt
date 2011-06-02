@@ -112,6 +112,7 @@ class CWptDB : public IDB
 
         void getListOfGeoCaches(QStringList& caches);
 
+        bool contains(const QString& key){return wpts.contains(key);}
 
     private:
         friend class CMainWindow;

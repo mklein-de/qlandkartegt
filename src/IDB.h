@@ -72,6 +72,8 @@ class IDB : public QObject
 
         virtual void makeVisible(const QStringList& keys){}
 
+        virtual bool contains(const QString& key) = 0;
+
         static QDateTime parseTimestamp(const QString &timetext, int& tzoffset);
 
         void emitSigChanged(){emit sigChanged();}

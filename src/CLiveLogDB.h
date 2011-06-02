@@ -66,6 +66,8 @@ class CLiveLogDB : public IDB
 
         void addWpt();
 
+        bool contains(const QString& key){return false;}
+
     private slots:
         void slotLiveLog(const CLiveLog& log);
         void slotMapChanged();
