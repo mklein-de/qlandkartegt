@@ -112,7 +112,10 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         height  = distance(p1,p2,a1,a2)/1000;
 
         info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
-        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg((*maplevels[0]->begin())->strProj);
+        if(maplevels[0]->begin() != maplevels[0]->end())
+        {
+            info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg((*maplevels[0]->begin())->strProj);
+        }
     }
 
 
@@ -588,7 +591,14 @@ void CMapQMAP::zoom(qint32& level)
     }
 
     pMaplevel   = *maplevel;
-    pjsrc       = (*pMaplevel->begin())->pj;
+    if(pMaplevel->begin() != pMaplevel->end())
+    {
+        pjsrc       = (*pMaplevel->begin())->pj;
+    }
+    else
+    {
+        pjsrc = 0;
+    }
     zoomFactor  = level - (*maplevel)->min + 1;
     setFastDrawTimer();
     emit sigChanged();
