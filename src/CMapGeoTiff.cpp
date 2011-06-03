@@ -72,7 +72,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
             return;
         }
 
-        qDebug() << pBand->GetColorInterpretation();
+//        qDebug() << pBand->GetColorInterpretation();
 
         if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex )
         {
@@ -207,7 +207,7 @@ void CMapGeoTiff::draw(QPainter& p)
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
     {
-        qDebug() << size << needsRedraw;
+//        qDebug() << size << needsRedraw;
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -320,7 +320,7 @@ void CMapGeoTiff::draw()
 
                     if(!err)
                     {
-                        qDebug() << pBand->GetColorInterpretation();
+//                        qDebug() << pBand->GetColorInterpretation();
                         int offset;
                         switch(pBand->GetColorInterpretation())
                         {
@@ -559,21 +559,16 @@ GDALDataset * CMapGeoTiff::getDataset()
 
 void CMapGeoTiff::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
+    p1.u = 0;
+    p1.v = 0;
+    convertPt2Rad(p1.u, p1.v);
 
-    p1.u = x;
-    p1.v = y;
-    convertM2Rad(p1.u, p1.v);
-
-    p2.u = x;
-    p2.v = y;
-    convertM2Pt(p2.u, p2.v);
-
-    p2.u += xsize_px;
-    p2.v += ysize_px;
-
+    p2.u = size.width();
+    p2.v = size.height();
     convertPt2Rad(p2.u, p2.v);
-
 
     my_xscale   = xscale*zoomFactor;
     my_yscale   = yscale*zoomFactor;
+
+    qDebug() << p1.u << p1.v << p2.u << p2.v << my_xscale << my_yscale;
 }
