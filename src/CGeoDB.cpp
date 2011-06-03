@@ -3108,8 +3108,7 @@ void CGeoDB::slotAddDiary()
     diary->linkToProject(parentId);
     CDiaryDB::self().addDiary(diary, false);
 
-
-    parent->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+    parent->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
 }
 
 void CGeoDB::slotShowDiary()
@@ -3144,6 +3143,7 @@ void CGeoDB::slotShowDiary()
     if(CDiaryDB::self().getDiaryByKey(key))
     {
         CDiaryDB::self().delDiary(key, false);
+        parent->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
     }
     else
     {
@@ -3156,7 +3156,7 @@ void CGeoDB::slotShowDiary()
         diary->setKey(key);
         diary->linkToProject(parentId);
         CDiaryDB::self().addDiary(diary, false);
-
+        parent->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
     }
 }
 
@@ -3182,6 +3182,8 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
         return false;
     }
 
+    diary.linkToProject(id);
+
 
     query.prepare("SELECT name FROM folders WHERE id = :id");
     query.bindValue(":id", id);
@@ -3200,6 +3202,11 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
     query.bindValue(":id",id);
 
     QUERY_EXEC(return false);
+
+    diary.getWpts().clear();
+    diary.getRtes().clear();
+    diary.getTrks().clear();
+
     while(query.next())
     {
         int type = query.value(0).toInt();

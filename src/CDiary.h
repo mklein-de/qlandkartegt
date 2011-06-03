@@ -42,7 +42,7 @@ class CDiary : public IItem
         CDiary(QObject * parent);
         virtual ~CDiary();
 
-        enum type_e {eEnd,eBase};
+        enum type_e {eEnd,eBase, eWpt, eTrk, eRte};
 
         QString getInfo();
 

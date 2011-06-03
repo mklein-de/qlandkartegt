@@ -81,7 +81,54 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 diary.setComment(comment);
                 break;
             }
+            case CDiary::eWpt:
+            {
+                int cnt;
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
 
+                s1 >> cnt;
+                for(int i; i < cnt; i++)
+                {
+                    CWpt * wpt = new CWpt(&diary);
+                    s1 >> *wpt;
+                    diary.wpts << wpt;
+                }
+                break;
+
+            }
+            case CDiary::eTrk:
+            {
+                int cnt;
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                s1 >> cnt;
+                for(int i; i < cnt; i++)
+                {
+                    CTrack * trk = new CTrack(&diary);
+                    s1 >> *trk;
+                    diary.trks << trk;
+                }
+                break;
+
+            }
+            case CDiary::eRte:
+            {
+                int cnt;
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                s1 >> cnt;
+                for(int i; i < cnt; i++)
+                {
+                    CRoute * rte = new CRoute(&diary);
+                    s1 >> *rte;
+                    diary.rtes << rte;
+                }
+                break;
+
+            }
             default:;
         }
 
@@ -109,6 +156,55 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     s1 << diary.getComment();
     s1 << diary.keyProjectGeoDB;
     entries << entryBase;
+
+    //---------------------------------------
+    // prepare waypoint data
+    //---------------------------------------
+    diary_head_entry_t entryWpt;
+    entryWpt.type = CDiary::eWpt;
+    QDataStream s2(&entryWpt.data, QIODevice::WriteOnly);
+    s2.setVersion(QDataStream::Qt_4_5);
+
+    s2 << diary.wpts.count();
+    foreach(CWpt * wpt, diary.wpts)
+    {
+        s2 << *wpt;
+    }
+
+    entries << entryWpt;
+
+    //---------------------------------------
+    // prepare track data
+    //---------------------------------------
+    diary_head_entry_t entryTrk;
+    entryTrk.type = CDiary::eTrk;
+    QDataStream s3(&entryTrk.data, QIODevice::WriteOnly);
+    s3.setVersion(QDataStream::Qt_4_5);
+
+    s3 << diary.trks.count();
+    foreach(CTrack * trk, diary.trks)
+    {
+        s3 << *trk;
+    }
+
+    entries << entryTrk;
+
+    //---------------------------------------
+    // prepare route data
+    //---------------------------------------
+    diary_head_entry_t entryRte;
+    entryRte.type = CDiary::eRte;
+    QDataStream s4(&entryRte.data, QIODevice::WriteOnly);
+    s4.setVersion(QDataStream::Qt_4_5);
+
+    s4 << diary.rtes.count();
+    foreach(CRoute * rte, diary.rtes)
+    {
+        s4 << *rte;
+    }
+
+    entries << entryRte;
+
 
     //---------------------------------------
     // prepare terminator
