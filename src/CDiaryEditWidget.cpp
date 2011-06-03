@@ -519,21 +519,12 @@ static bool qSortTrkLessTime(CTrack * t1, CTrack * t2)
     return t1->getStartTimestamp() < t2->getStartTimestamp();
 }
 
-void CDiaryEditWidget::slotDocWizard()
+void CDiaryEditWidget::draw()
 {
-
     CDiaryInternalEditLock lock(this);
-
     if(diary == 0) return;
 
-
     int cnt;
-
-    diary->clear();
-    if(!CGeoDB::self().getProjectDiaryData(diary->keyProjectGeoDB, *diary))
-    {
-        return;
-    }
 
     CTabWidget * tab = theMainWindow->getCanvasTab();
     if(tab)
@@ -636,6 +627,21 @@ void CDiaryEditWidget::slotDocWizard()
         cursor.setPosition(table->lastPosition() + 1);
     }
 
+}
+
+void CDiaryEditWidget::slotDocWizard()
+{
+
+    CDiaryInternalEditLock lock(this);
+    if(diary == 0) return;
+
+    diary->clear();
+    if(!CGeoDB::self().getProjectDiaryData(diary->keyProjectGeoDB, *diary))
+    {
+        return;
+    }
+
+    draw();
 }
 
 

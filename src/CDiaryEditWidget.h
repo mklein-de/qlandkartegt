@@ -103,6 +103,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void fontChanged(const QFont &f);
         void colorChanged(const QColor &c);
         void alignmentChanged(Qt::Alignment a);
+        void draw();
 
         QAction * actionTextBold;
         QAction * actionTextUnderline;

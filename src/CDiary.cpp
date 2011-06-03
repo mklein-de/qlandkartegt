@@ -76,6 +76,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
 
                 s1 >> diary.timestamp;
                 s1 >> comment;
+                s1 >> diary.keyProjectGeoDB;
 
                 diary.setComment(comment);
                 break;
@@ -106,6 +107,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
 
     s1 << diary.timestamp;
     s1 << diary.getComment();
+    s1 << diary.keyProjectGeoDB;
     entries << entryBase;
 
     //---------------------------------------
