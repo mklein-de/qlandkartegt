@@ -77,14 +77,18 @@ CCopyright::CCopyright()
         "Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit/"
         "/<p>"
         ));
-	
+
     QProcess gdalFmts;
-    gdalFmts.start("gdal_translate", QStringList() << "--formats");
-    if (gdalFmts.waitForStarted()) {
-	gdalFmts.waitForFinished();
-	textGdalFmts->setText(gdalFmts.readAll());
-    } else
-	textGdalFmts->setText(tr("running gdal_translate failed!"));
+    gdalFmts.start(GDALTRANSLATE, QStringList() << "--formats");
+    if (gdalFmts.waitForStarted())
+    {
+        gdalFmts.waitForFinished();
+        textGdalFmts->setText(gdalFmts.readAll());
+    }
+    else
+    {
+        textGdalFmts->setText(tr("running gdal_translate failed!"));
+    }
 }
 
 
