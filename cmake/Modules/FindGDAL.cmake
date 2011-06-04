@@ -46,6 +46,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         gdal1.5.0
         gdal1.6.0
         gdal1.7.0
+	gdal1.8.0
         gdal
         gdal_i
     PATHS

@@ -20,6 +20,7 @@
 #include "CDlgEditMapLevel.h"
 #include "CCreateMapQMAP.h"
 #include <QtGui>
+#include <gdal.h>
 
 #include "config.h"
 
@@ -77,8 +78,16 @@ void CDlgEditMapLevel::accept()
 
 void CDlgEditMapLevel::slotSelectFiles()
 {
-
-    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff)", 0, FILE_DIALOG_FLAGS);
+    int gdalver = QString(GDALVersionInfo("VERSION_NUM")).toInt();
+    QStringList files;
+    if(gdalver >= 1800)
+    {
+        files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff);;OziMap (*.map)", 0, FILE_DIALOG_FLAGS);
+    }
+    else
+    {
+        files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff)", 0, FILE_DIALOG_FLAGS);
+    }
     if(files.isEmpty()) return;
 
     listFiles->clear();
@@ -113,7 +122,17 @@ void CDlgEditMapLevel::slotListChanged()
 
 void CDlgEditMapLevel::slotAdd()
 {
-    QStringList files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff)", 0, FILE_DIALOG_FLAGS);
+    int gdalver = QString(GDALVersionInfo("VERSION_NUM")).toInt();
+    QStringList files;
+    if(gdalver >= 1800)
+    {
+        files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff);;OziMap (*.map)", 0, FILE_DIALOG_FLAGS);
+    }
+    else
+    {
+        files = QFileDialog::getOpenFileNames(0, tr("Select <b>all</b> files for that level."), mapPath, "All (*.*);;GeoTiff (*.tif *.tiff)", 0, FILE_DIALOG_FLAGS);
+    }
+
     if(files.isEmpty()) return;
 
     QDir dir(mapPath);
