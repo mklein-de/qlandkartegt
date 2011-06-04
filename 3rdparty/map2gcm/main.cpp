@@ -31,6 +31,8 @@
 #include <jpeglib.h>
 
 #include <qzipwriter.h>
+#include <QTemporaryFile>
+#include <QTextStream>
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)         #x
@@ -52,16 +54,16 @@ const char * kmzHead =
 
 const char * kmzOverlay =
      "\n<GroundOverlay>"
-      "<name>%s</name>"
+      "<name>%1</name>"
       "<Icon>"
-       "<href>%s</href>"
-       "<drawOrder>%i</drawOrder>"
+       "<href>%2</href>"
+       "<drawOrder>%3</drawOrder>"
       "</Icon>"
       "<LatLonBox>"
-       "<north>%f</north>"
-       "<south>%f</south>"
-       "<east>%f</east>"
-       "<west>%f</west>"
+       "<north>%4</north>"
+       "<south>%5</south>"
+       "<east>%6</east>"
+       "<west>%7</west>"
        "<rotation>0.0</rotation>"
       "</LatLonBox>"
      "</GroundOverlay>";
@@ -575,10 +577,11 @@ int main(int argc, char ** argv)
     zipfile.open(QIODevice::WriteOnly);
     QLGT::QZipWriter zip(&zipfile);
 
+    QTemporaryFile dockml;
+    dockml.open();
+    QTextStream doc(&dockml);
 
-    FILE * fid      = fopen(KMLFILE,"w");
-    fprintf(fid,kmzHead);
-
+    doc << kmzHead;
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
 
@@ -681,7 +684,7 @@ int main(int argc, char ** argv)
                         exit(-1);
                     }
 
-                    fprintf(fid, kmzOverlay, str, str, zorder, tile.top, tile.bottom, tile.right, tile.left);
+                    doc << QString(kmzOverlay).arg(str).arg(str).arg(zorder).arg(tile.top).arg(tile.bottom).arg(tile.right).arg(tile.left);
 
                     printf("\r    tile %i", tileCnt);
                     fflush(stdout);
@@ -694,19 +697,16 @@ int main(int argc, char ** argv)
         }
     }
 
-    fprintf(fid,kmzFoot);
-    fclose(fid);
 
-    QFile xml(KMLFILE);
-    xml.open(QIODevice::ReadOnly);
-    zip.addFile(KMLFILE, &xml);
+    doc << kmzFoot;
+    dockml.seek(0);
+    zip.addFile(KMLFILE, &dockml);
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
         fprintf(stderr,"\nFailed to add file %s'' to KMZ\n", KMLFILE);
         exit(-1);
     }
-    xml.close();
-    xml.remove();
+    dockml.close();
 
     printf("\n");
 
