@@ -92,6 +92,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void setWindowModified(bool);
         void setWindowModified();
         void clipboardDataChanged();
+        void slotPrintPreview();
 
 
 

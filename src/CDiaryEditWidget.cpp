@@ -66,6 +66,7 @@
 #include "IUnit.h"
 #include "CGeoDB.h"
 #include "CTabWidget.h"
+#include "printpreview.h"
 
 
 #include <QtGui>
@@ -226,6 +227,9 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 
         toolReload->setIcon(QIcon(":/icons/refresh.png"));
         connect(toolReload, SIGNAL(clicked(bool)), this, SLOT(slotDocWizard()));
+
+        toolPrint->setIcon(QIcon(":/icons/iconPrint22x22.png"));
+        connect(toolPrint, SIGNAL(clicked(bool)), this, SLOT(slotPrintPreview()));
 
         toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
         connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
@@ -544,17 +548,24 @@ void CDiaryEditWidget::draw()
     QTextCursor cursor = textEdit->textCursor();
 
     cursor.insertText(diary->getName(), fmtTextHeading1);
+    cursor.setCharFormat(fmtTextStandard);
+    cursor.setBlockFormat(blockStandard);
 
     diary->diaryFrame = cursor.insertFrame(frameStandard);
     {
         QTextCursor cursor1(diary->diaryFrame);
+
+        cursor1.setCharFormat(fmtTextStandard);
+        cursor1.setBlockFormat(blockStandard);
+
         if(diary->getComment().isEmpty())
         {
-            cursor1.insertText(tr("Add your own text here..."), fmtTextStandard);
+            cursor1.insertText(tr("Add your own text here..."));
         }
         else
         {
             cursor1.insertHtml(diary->getComment());
+//            qDebug() << diary->getComment();
         }
         cursor.setPosition(cursor1.position()+1);
     }
@@ -665,7 +676,9 @@ void CDiaryEditWidget::slotSave()
     quint32 cnt;
     if(!diary->diaryFrame.isNull())
     {
-        diary->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary->diaryFrame));
+        QString comment = QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary->diaryFrame);
+        diary->setComment(comment.simplified());
+//        qDebug() << diary->getComment();
     }
 
     cnt = 1;
@@ -701,4 +714,12 @@ void CDiaryEditWidget::slotSave()
         tab->setTabText(idx, tr("Diary - %1").arg(diary->getName()));
     }
     modified = false;
+}
+
+void CDiaryEditWidget::slotPrintPreview()
+{
+    PrintPreview *preview = new PrintPreview(textEdit->document(), this);
+    preview->setWindowModality(Qt::WindowModal);
+    preview->setAttribute(Qt::WA_DeleteOnClose);
+    preview->show();
 }
