@@ -70,15 +70,16 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         {
             case CDiary::eBase:
             {
-                QString comment;
+                QString comment, name;
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> diary.timestamp;
                 s1 >> comment;
-                s1 >> diary.keyProjectGeoDB;
+                s1 >> name;
 
                 diary.setComment(comment);
+                diary.setName(name);
                 break;
             }
             case CDiary::eWpt:
@@ -88,7 +89,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> cnt;
-                for(int i; i < cnt; i++)
+                for(int i=0; i < cnt; i++)
                 {
                     CWpt * wpt = new CWpt(&diary);
                     s1 >> *wpt;
@@ -104,7 +105,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> cnt;
-                for(int i; i < cnt; i++)
+                for(int i=0; i < cnt; i++)
                 {
                     CTrack * trk = new CTrack(&diary);
                     s1 >> *trk;
@@ -120,7 +121,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1.setVersion(QDataStream::Qt_4_5);
 
                 s1 >> cnt;
-                for(int i; i < cnt; i++)
+                for(int i=0; i < cnt; i++)
                 {
                     CRoute * rte = new CRoute(&diary);
                     s1 >> *rte;
@@ -154,7 +155,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
 
     s1 << diary.timestamp;
     s1 << diary.getComment();
-    s1 << diary.keyProjectGeoDB;
+    s1 << diary.getName();
     entries << entryBase;
 
     //---------------------------------------
@@ -288,8 +289,8 @@ CDiary::~CDiary()
 
 void CDiary::clear()
 {
-    name.clear();
-    comment.clear();
+    //name.clear();
+    //comment.clear();
 
     qDeleteAll(wpts);
     qDeleteAll(trks);

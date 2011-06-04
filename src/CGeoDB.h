@@ -40,7 +40,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void gainFocus();
 
         bool getProjectDiaryData(quint64 id, CDiary& data);
-        void setProjectDiaryData(quint64 id, CDiary& data);
+        bool setProjectDiaryData(quint64 id, CDiary& data);
 
     private slots:
         void loadWorkspace();

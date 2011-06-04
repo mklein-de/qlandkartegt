@@ -58,6 +58,9 @@ class CDiary : public IItem
         QList<CTrack*>& getTrks(){return trks;}
         QList<CRoute*>& getRtes(){return rtes;}
 
+    signals:
+        void sigChanged();
+
     private slots:
         void slotEditWidgetDied(QObject*);
 

@@ -3182,8 +3182,7 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
         return false;
     }
 
-    diary.linkToProject(id);
-
+    diary.clear();
 
     query.prepare("SELECT name FROM folders WHERE id = :id");
     query.bindValue(":id", id);
@@ -3202,10 +3201,6 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
     query.bindValue(":id",id);
 
     QUERY_EXEC(return false);
-
-    diary.getWpts().clear();
-    diary.getRtes().clear();
-    diary.getTrks().clear();
 
     while(query.next())
     {
@@ -3247,7 +3242,7 @@ bool CGeoDB::getProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
-void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
+bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 {
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
@@ -3257,6 +3252,13 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     QByteArray& trks = qlb.tracks();
     QByteArray& rtes = qlb.routes();
 
+    query.prepare("SELECT * FROM diarys WHERE parent=:id");
+    query.bindValue(":id", id);
+    QUERY_EXEC(return false);
+    if(!query.next())
+    {
+        return false;
+    }
 
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
@@ -3266,7 +3268,7 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     query.bindValue(":data", data);
     query.bindValue(":id", id);
 
-    QUERY_EXEC(return);
+    QUERY_EXEC(return false);
 
     foreach(CWpt * wpt, diary.getWpts())
     {
@@ -3285,7 +3287,7 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         query.bindValue(":type", eWpt);
         query.bindValue(":key", wpt->getKey());
 
-        QUERY_EXEC(return);
+        QUERY_EXEC(return false);
     }
 
     foreach(CRoute * rte, diary.getRtes())
@@ -3305,7 +3307,7 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         query.bindValue(":type", eRte);
         query.bindValue(":key", rte->getKey());
 
-        QUERY_EXEC(return);
+        QUERY_EXEC(return false);
     }
 
     foreach(CTrack * trk, diary.getTrks())
@@ -3326,11 +3328,12 @@ void CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         query.bindValue(":type", eTrk);
         query.bindValue(":key", trk->getKey());
 
-        QUERY_EXEC(return);
+        QUERY_EXEC(return false);
     }
 
     CWptDB::self().loadQLB(qlb, false);
     CTrackDB::self().loadQLB(qlb, false);
     CRouteDB::self().loadQLB(qlb, false);
 
+    return true;
 }

@@ -34,126 +34,64 @@ CDiaryDB::CDiaryDB(QTabWidget * tb, QObject * parent)
 
 }
 
-
 CDiaryDB::~CDiaryDB()
 {
 
 }
 
-
-//void CDiaryDB::openEditWidget()
-//{
-
-//    CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
-//    if(tb == 0) return;
-
-//    if(editWidget.isNull())
-//    {
-//        editWidget = new CDiaryEditWidget(diary->text(), tabbar);
-//        tb->addTab(editWidget,tr("Diary"));
-
-//    }
-//    else
-//    {
-//        diary->setText(editWidget->textEdit->toHtml());
-//        delete editWidget;
-
-//    }
-//}
-
-
 void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
 {
     QDataStream stream(&qlb.diary(),QIODevice::ReadOnly);
     stream.setVersion(QDataStream::Qt_4_5);
-//    stream >> *diary;
-//    if(!editWidget.isNull())
-//    {
-//        editWidget->textEdit->setHtml(diary->text());
-//    }
-//    if(count())
-//    {
-//        emit sigChanged();
-//    }
+
+    while(!stream.atEnd())
+    {
+        CDiary * diary = new CDiary(this);
+        stream >> *diary;
+
+        if(newKey)
+        {
+            diary->setKey(diary->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
+        }
+
+        addDiary(diary,true);
+    }
+
+    if(qlb.diary().size())
+    {
+        emit sigChanged();
+    }
+
 }
 
 
 void CDiaryDB::saveQLB(CQlb& qlb)
 {
-//    if(!editWidget.isNull())
-//    {
-//        diary->setText(editWidget->textEdit->toHtml());
-//    }
-//    qlb << *diary;
+    foreach(CDiary* diary, diarys)
+    {
+        qlb << *diary;
+    }
 }
 
 
 void CDiaryDB::clear()
 {
-    CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
-    if(tb == 0) return;
-
-//    if(!editWidget.isNull())
-//    {
-//        delete editWidget;
-//    }
-//    delete diary;
-//    diary = new CDiary(this);
+    delDiarys(diarys.keys());
     emit sigChanged();
 }
 
-
-//const QString CDiaryDB::getDiary()
-//{
-//    if(!editWidget.isNull())
-//    {
-//        diary->setText(editWidget->textEdit->toHtml());
-//    }
-//    return diary->text();
-//}
-
-
 int CDiaryDB::count()
 {
-//    if(!editWidget.isNull())
-//    {
-//        diary->setText(editWidget->textEdit->toHtml());
-//    }
-    QTextBrowser browser;
-//    browser.setHtml(diary->text());
-    return !browser.toPlainText().isEmpty();
+    return diarys.count();
 }
 
 
 void CDiaryDB::loadGPX(CGpx& gpx)
 {
     if (gpx.version() == CGpx::qlVer_foreign)
+    {
         return;
-
-//    // QLandkarteGT file format v1.0 had more than one extensions
-//    // tags, so we have to scan all of them.  We can stop once we
-//    // found a diary tag below it.
-//    QDomElement extensions = gpx.firstChildElement("gpx").firstChildElement("extensions");
-//    while(!extensions.isNull())
-//    {
-//        QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(extensions);
-//        const QDomElement dry = extensionsmap.value(gpx.version() == CGpx::qlVer_1_0?
-//            "diary":
-//        (CGpx::ql_ns + ":" + "diary"));
-//        if(!dry.isNull())
-//        {
-//            QString tmp = diary->text();
-//            tmp += dry.toElement().text();
-//            diary->setText(tmp);
-//            break;
-//        }
-//        extensions = extensions.nextSiblingElement("extensions");
-//    }
-
-//    if(count())
-//    {
-//        emit sigChanged();
-//    }
+    }
 }
 
 
@@ -164,25 +102,6 @@ void CDiaryDB::saveGPX(CGpx& gpx, const QStringList& keys)
     {
         return;
     }
-//    if(!editWidget.isNull())
-//    {
-//        diary->setText(editWidget->textEdit->toHtml());
-//    }
-
-//    const QString diary_text = diary->text();
-//    if (diary_text.length() == 0)
-//    {
-//        return;
-//    }
-
-//    QDomElement root        = gpx.documentElement();
-//    QDomElement extensions  = gpx.getExtensions();
-//    QDomElement dry         = gpx.createElement("ql:diary");
-//    QDomText text           = gpx.createTextNode(diary_text);
-
-//    root.appendChild(extensions);
-//    extensions.appendChild(dry);
-//    dry.appendChild(text);
 }
 
 

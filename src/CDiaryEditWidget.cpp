@@ -635,9 +635,9 @@ void CDiaryEditWidget::slotDocWizard()
     CDiaryInternalEditLock lock(this);
     if(diary == 0) return;
 
-    diary->clear();
     if(!CGeoDB::self().getProjectDiaryData(diary->keyProjectGeoDB, *diary))
     {
+        draw();
         return;
     }
 
@@ -687,7 +687,12 @@ void CDiaryEditWidget::slotSave()
     }
 
 
-    CGeoDB::self().setProjectDiaryData(diary->keyProjectGeoDB, *diary);
+    if(!CGeoDB::self().setProjectDiaryData(diary->keyProjectGeoDB, *diary))
+    {
+        QMessageBox::warning(0, tr("Failed..."), tr("Failed to save diary to database. Probably because it was not created from a database project."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
 
     CTabWidget * tab = theMainWindow->getCanvasTab();
     if(tab)
