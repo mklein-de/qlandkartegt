@@ -116,6 +116,7 @@ Section "QLandkarte GT" QLandkarteGT
   ;BEGIN QLandkarte GT Files    
   SetOutPath $INSTDIR
     File Files\qlandkartegt.exe
+    File Files\map2gcm.exe
     File Files\Globe128x128.ico
     File Files\qlandkartegt_*.qm
     File Files\qt_??.qm

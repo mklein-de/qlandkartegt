@@ -31,8 +31,6 @@
 #include <jpeglib.h>
 
 #include <qzipwriter.h>
-#include <QTemporaryFile>
-#include <QTextStream>
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)         #x
@@ -191,7 +189,7 @@ bool readTile(uint32_t xoff, uint32_t yoff, uint32_t xsize, uint32_t ysize, file
             return false;
         }
 
-        for(int i = 0; i < (xsize * ysize); i++)
+        for(unsigned int i = 0; i < (xsize * ysize); i++)
         {
             output[i] = file.colortable[tileBuf8Bit[i]];
         }
@@ -210,7 +208,7 @@ bool readTile(uint32_t xoff, uint32_t yoff, uint32_t xsize, uint32_t ysize, file
                 return false;
             }
 
-            for(int i = 0; i < (xsize * ysize); i++)
+            for(unsigned int i = 0; i < (xsize * ysize); i++)
             {
                 uint32_t pixel = output[i];
 
@@ -577,11 +575,9 @@ int main(int argc, char ** argv)
     zipfile.open(QIODevice::WriteOnly);
     QLGT::QZipWriter zip(&zipfile);
 
-    QTemporaryFile dockml;
-    dockml.open();
-    QTextStream doc(&dockml);
+    QByteArray doc;
 
-    doc << kmzHead;
+    doc.append(kmzHead);
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
 
@@ -684,7 +680,7 @@ int main(int argc, char ** argv)
                         exit(-1);
                     }
 
-                    doc << QString(kmzOverlay).arg(str).arg(str).arg(zorder).arg(tile.top).arg(tile.bottom).arg(tile.right).arg(tile.left);
+                    doc.append(QString(kmzOverlay).arg(str).arg(str).arg(zorder).arg(tile.top).arg(tile.bottom).arg(tile.right).arg(tile.left));
 
                     printf("\r    tile %i", tileCnt);
                     fflush(stdout);
@@ -698,15 +694,13 @@ int main(int argc, char ** argv)
     }
 
 
-    doc << kmzFoot;
-    dockml.seek(0);
-    zip.addFile(KMLFILE, &dockml);
+    doc.append(kmzFoot);
+    zip.addFile(KMLFILE, doc);
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
         fprintf(stderr,"\nFailed to add file %s'' to KMZ\n", KMLFILE);
         exit(-1);
     }
-    dockml.close();
 
     printf("\n");
 

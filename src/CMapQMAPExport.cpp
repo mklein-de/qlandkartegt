@@ -102,7 +102,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
 
     if (has_map2jnx)
-    {       
+    {
         radioJNX->setChecked(cfg.value("map/export/jnx", false).toBool());
     }
     else
@@ -139,7 +139,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
     {
         groupBirdsEye->hide();
         groupJPEG->hide();
-        groupDevice->hide();        
+        groupDevice->hide();
     }
 }
 
@@ -192,6 +192,8 @@ void CMapQMAPExport::slotStderr()
         str = cmd4.readAllStandardError();
     }
 
+
+#ifndef WIN32
     if(str[0] == '\r')
     {
         textBrowser->moveCursor( QTextCursor::End, QTextCursor::MoveAnchor );
@@ -201,6 +203,7 @@ void CMapQMAPExport::slotStderr()
 
         str = str.split("\r").last();
     }
+#endif
 
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
@@ -230,6 +233,7 @@ void CMapQMAPExport::slotStdout()
         str = cmd4.readAllStandardOutput();
     }
 
+#ifndef WIN32
     if(str[0] == '\r')
     {
         textBrowser->moveCursor( QTextCursor::End, QTextCursor::MoveAnchor );
@@ -239,6 +243,7 @@ void CMapQMAPExport::slotStdout()
 
         str = str.split("\r").last();
     }
+#endif
 
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());

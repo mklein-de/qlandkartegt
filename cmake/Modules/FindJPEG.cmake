@@ -13,6 +13,8 @@
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
+# NOTE: For Windows, please adapt the path (currently E:/qlgt/tools/libjpeg/win32)
+#   to your local installation directory
 
 if (JPEG_LIBRARIES AND JPEG_INCLUDE_DIRS)
   # in cache already
@@ -27,22 +29,23 @@ else (JPEG_LIBRARIES AND JPEG_INCLUDE_DIRS)
         /usr/local/include
         /opt/local/include
         /sw/include
-        C:/Programme/FWTools2.4.7/include
-    PATH_SUFFIXES
-        proj4
-
+        E:/qlgt/tools/libjpeg/win32
   )
   mark_as_advanced(JPEG_INCLUDE_DIR)
 
   find_library(LIBJPEG_LIBRARY
     NAMES
+if (WIN32)
+        libjpeg
+else (WIN32)    
         jpeg
+endif (WIN32)    
     PATHS
         /usr/lib
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        C:/Programme/FWTools2.4.7/lib     
+        E:/qlgt/tools/libjpeg/win32
   )
   mark_as_advanced(LIBJPEG_LIBRARY)
 
