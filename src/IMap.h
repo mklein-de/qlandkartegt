@@ -28,6 +28,7 @@
 #include <QPolygonF>
 
 #include <projects.h>
+#include <ogr_spatialref.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -174,6 +175,8 @@ class IMap : public QObject
 
         /// get proj4 compatible projection string
         char * getProjection();
+
+        OGRSpatialReference& getOSrs(){return oSRS;}
 
         /// a DEM overlay has to register itself at the map it overlays
         /**
@@ -326,6 +329,9 @@ class IMap : public QObject
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
         PJ * pjtar;
+
+        /// the source SRS object
+        OGRSpatialReference oSRS;
         /// set true if the content on display has changed (zoom, move)
         bool needsRedraw;
         /// the key used to register the map
@@ -339,6 +345,7 @@ class IMap : public QObject
         QTimer * timerFastDraw;
 
         double angleNorth;
+
 
     private:
         bool fastDrawWithoutTimer;

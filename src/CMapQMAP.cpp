@@ -594,6 +594,7 @@ void CMapQMAP::zoom(qint32& level)
     if(pMaplevel->begin() != pMaplevel->end())
     {
         pjsrc       = (*pMaplevel->begin())->pj;
+        oSRS        = (*pMaplevel->begin())->oSRS;
     }
     else
     {

@@ -24,6 +24,7 @@
 #include <QRgb>
 #include <QVector>
 #include <projects.h>
+#include <ogr_spatialref.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -96,6 +97,8 @@ class CMapFile : public QObject
         int rasterBandCount;
 
         bool is32BitRgb();
+
+        OGRSpatialReference oSRS;
 
 };
 #endif                           //CMAPFILE_H
