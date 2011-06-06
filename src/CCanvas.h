@@ -109,6 +109,7 @@ class CCanvas : public QWidget
         void print(QImage& img);
 
         void print(QPainter& p, const QSize& pagesize);
+        void print(QImage& img, const QSize& pagesize);
 
         /// change the current mouse mode
         void setMouseMode(mouse_mode_e mode);

@@ -91,12 +91,6 @@ void PreviewView::paintEvent(QPaintEvent *)
     p.translate(-horizontalScrollBar()->value(), -verticalScrollBar()->value());
     p.translate(interPageSpacing, interPageSpacing);
 
-    p.save();
-    p.scale(scale, scale);
-    paintMap(&p,0);
-    p.restore();
-    p.translate(0, interPageSpacing + printPreview->paperSize.height() * scale);
-
     const int pages = doc->pageCount();
     for (int i = 0; i < pages; ++i)
     {
@@ -179,8 +173,8 @@ void PreviewView::resizeEvent(QResizeEvent *)
 
     QSize docSize;
     docSize.setWidth(qRound(printPreview->paperSize.width() * scale + 2 * interPageSpacing));
-    const int pageCount = doc->pageCount() + 1;
-    docSize.setHeight(qRound(pageCount * printPreview->paperSize.height() * scale + (pageCount + 1) * interPageSpacing));
+    const int pageCount = doc->pageCount();
+    docSize.setHeight(qRound(pageCount * printPreview->paperSize.height() * scale + (pageCount) * interPageSpacing));
 
     horizontalScrollBar()->setRange(0, docSize.width() - viewportSize.width());
     horizontalScrollBar()->setPageStep(viewportSize.width());
@@ -279,6 +273,12 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     tb->addAction(a);
 
     statusBar()->setSizeGripEnabled(true);
+
+    QSize mapsize = (doc->pageSize().toSize() - QSize(fmt.leftMargin() + fmt.rightMargin(), fmt.topMargin() + fmt.bottomMargin()));
+    QImage img;
+    theMainWindow->getCanvas()->print(img, mapsize);
+
+    doc->rootFrame()->lastCursorPosition().insertImage(img);
 }
 
 
@@ -314,19 +314,15 @@ PrintPreview::~PrintPreview()
 
 void PrintPreview::print()
 {
-    CCanvas * canvas = theMainWindow->getCanvas();
-
     QPrinter printer;
-    printer.setFromTo(1,doc->pageCount() + 1);
+    printer.setFromTo(1,doc->pageCount());
 
     QPrintDialog dialog(&printer, this);
     dialog.setWindowTitle(tr("Print Diary"));
     if (dialog.exec() != QDialog::Accepted)
         return;
 
-    canvas->print(printer);
     doc->print(&printer);
-
 }
 
 

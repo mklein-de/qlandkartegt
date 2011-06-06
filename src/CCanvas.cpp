@@ -315,7 +315,6 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
     p.translate(BORDER,BORDER);
     p.scale(s,s);
     p.setClipRegion(rect());
-    USE_ANTI_ALIASING(p, true);
     p.setFont(CResources::self().getMapFont());
     draw(p);
     p.restore();
@@ -342,6 +341,36 @@ void CCanvas::print(QImage& img)
     draw(p);
     p.end();
 
+}
+
+void CCanvas::print(QImage& img, const QSize& pagesize)
+{
+    bool rotate = false;
+    QImage _img_(size(), QImage::Format_ARGB32);
+    if(pagesize.height() > pagesize.width())
+    {
+        _img_ = QImage(size().height(), size().width(), QImage::Format_ARGB32);
+        rotate = true;
+    }
+
+    _img_.fill(Qt::white);
+
+    QPainter p;
+    p.begin(&_img_);
+    if(rotate)
+    {
+        p.rotate(90.0);
+        p.translate(0,-size().height());
+    }
+    draw(p);
+    p.end();
+
+    qreal s1 = (qreal)(_img_.width())  / (qreal)pagesize.width();
+    qreal s2 = (qreal)(_img_.height()) / (qreal)pagesize.height();
+
+    qreal s = (s1 > s2) ? s2 : s1;
+
+    img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
 }
 
 

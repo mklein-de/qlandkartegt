@@ -67,6 +67,8 @@
 #include "CGeoDB.h"
 #include "CTabWidget.h"
 #include "printpreview.h"
+#include "CResources.h"
+#include "CCanvas.h"
 
 
 #include <QtGui>
@@ -565,7 +567,6 @@ void CDiaryEditWidget::draw()
         else
         {
             cursor1.insertHtml(diary->getComment());
-//            qDebug() << diary->getComment();
         }
         cursor.setPosition(cursor1.position()+1);
     }
@@ -637,7 +638,6 @@ void CDiaryEditWidget::draw()
 
         cursor.setPosition(table->lastPosition() + 1);
     }
-
 }
 
 void CDiaryEditWidget::slotDocWizard()
@@ -678,14 +678,12 @@ void CDiaryEditWidget::slotSave()
     {
         QString comment = QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary->diaryFrame);
         diary->setComment(comment.simplified());
-//        qDebug() << diary->getComment();
     }
 
     cnt = 1;
     QList<CWpt*>& wpts = diary->getWpts();
     foreach(CWpt* wpt, wpts)
     {
-//        wpt->setComment(toPlainText(diary->tblWpt->cellAt(cnt, 2)));
         wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary->tblWpt->cellAt(cnt, 2)));
         cnt++;
     }
@@ -694,7 +692,6 @@ void CDiaryEditWidget::slotSave()
     QList<CTrack*>& trks = diary->getTrks();
     foreach(CTrack* trk, trks)
     {
-//        trk->setComment(toPlainText(diary->tblTrk->cellAt(cnt, 2)));
         trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary->tblTrk->cellAt(cnt, 2)));
         cnt++;
     }
