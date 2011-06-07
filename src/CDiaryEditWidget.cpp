@@ -175,6 +175,12 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 
     textEdit->setFocus();
 
+    QSettings cfg;
+    QFont f = textEdit->font();
+    f.setFamily(cfg.value("textedit/fontfamily", f.family()).toString());
+    f.setPointSize(cfg.value("textedit/fontsize", f.pointSize()).toInt());
+    textEdit->setFont(f);
+
     fontChanged(textEdit->font());
     colorChanged(textEdit->textColor());
     alignmentChanged(textEdit->alignment());
@@ -268,7 +274,7 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 
     frameStandard.setTopMargin(5);
     frameStandard.setBottomMargin(5);
-    frameStandard.setWidth( 120 * fm.width("X"));
+    frameStandard.setWidth( 90 * fm.width("X"));
 
     tableStandard.setBorder(1);
     tableStandard.setBorderBrush(Qt::black);
@@ -277,14 +283,21 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
     tableStandard.setHeaderRowCount(1);
     tableStandard.setTopMargin(10);
     tableStandard.setBottomMargin(20);
-    tableStandard.setWidth( 120 * fm.width("X"));
+    tableStandard.setWidth( 90 * fm.width("X"));
 
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::FixedLength, 32);
+    constraints << QTextLength(QTextLength::VariableLength, 50);
+    constraints << QTextLength(QTextLength::VariableLength, 100);
+    tableStandard.setColumnWidthConstraints(constraints);
 }
 
 
 CDiaryEditWidget::~CDiaryEditWidget()
 {
-
+    QSettings cfg;
+    cfg.setValue("textedit/fontfamily", comboFont->currentText());
+    cfg.setValue("textedit/fontsize", comboSize->currentText().toInt());
 }
 
 void CDiaryEditWidget::textBold()
