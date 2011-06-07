@@ -72,6 +72,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         virtual ~CDiaryEditWidget();
 
         QString getHtml(){return textEdit->toHtml();}
+        void  setHtml(const QString& text){textEdit->clear(); textEdit->insertHtml(text);}
 
     public slots:
         void slotDocWizard();

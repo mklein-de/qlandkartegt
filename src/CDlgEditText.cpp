@@ -36,6 +36,7 @@ CDlgEditText::CDlgEditText(QString& content, QWidget * parent)
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok);
 
     textedit = new CDiaryEditWidget(0,this, true);
+    textedit->setHtml(content);
 
     vboxLayout->addWidget(textedit);
     vboxLayout->addWidget(buttonBox);

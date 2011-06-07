@@ -89,6 +89,46 @@ class CWpt : public IItem
         CWpt(QObject * parent);
         virtual ~CWpt();
 
+        enum geocacheservice_e {eGC, eOC, eTC};
+
+        struct geocachelog_t
+        {
+            geocachelog_t() : id(0){}
+            quint32 id;
+            QString date;
+            QString type;
+            QString finderId;
+            QString finder;
+            QString text;
+        };
+
+        struct geocache_t
+        {
+            geocache_t() : service(eOC), hasData(false), id(0), available(true), archived(false), difficulty(0), terrain(0), exportBuddies(false){}
+            geocacheservice_e service;
+            bool hasData;
+            quint32 id;
+            bool available;
+            bool archived;
+            float difficulty;
+            float terrain;
+            QString status;
+            QString name;
+            QString owner;
+            QString ownerId;
+            QString type;
+            QString container;
+            QString shortDesc;
+            QString longDesc;
+            QString hint;
+            QString country;
+            QString state;
+            QString locale;
+            QList<geocachelog_t> logs;
+            bool exportBuddies;
+
+        };
+
         const QString filename(const QDir& dir = CWpt::path);
         enum type_e {eEnd,eBase,eImage,eGeoCache};
         static QDir& getWptPath(){return path;}
@@ -99,6 +139,8 @@ class CWpt : public IItem
         QString getExtInfo(bool showHidden);
 
         QPixmap getIcon();
+
+        const geocache_t& getGeocacheData(){return geocache;}
 
         void loadGpxExt(const QDomNode& wpt);
         void saveGpxExt(QDomNode& wpt, bool isExport);
@@ -130,47 +172,7 @@ class CWpt : public IItem
         QString getEntry(const QString& tag, const QDomNode& parent);
         QString getEntryHtml(const QString& tag, const QDomNode& parent);
         QString htmlScale(float val);
-        QString insertBuddies(const QString& html);
-
-        struct geocachelog_t
-        {
-            geocachelog_t() : id(0){}
-            quint32 id;
-            QString date;
-            QString type;
-            QString finderId;
-            QString finder;
-            QString text;
-        };
-
-        enum geocacheservice_e {eGC, eOC, eTC};
-
-        struct geocache_t
-        {
-            geocache_t() : service(eOC), hasData(false), id(0), available(true), archived(false), difficulty(0), terrain(0), exportBuddies(false){}
-            geocacheservice_e service;
-            bool hasData;
-            quint32 id;
-            bool available;
-            bool archived;
-            float difficulty;
-            float terrain;
-            QString status;
-            QString name;
-            QString owner;
-            QString ownerId;
-            QString type;
-            QString container;
-            QString shortDesc;
-            QString longDesc;
-            QString hint;
-            QString country;
-            QString state;
-            QString locale;
-            QList<geocachelog_t> logs;
-            bool exportBuddies;
-
-        };
+        QString insertBuddies(const QString& html);        
 
         geocache_t geocache;
 

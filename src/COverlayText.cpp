@@ -195,6 +195,7 @@ void COverlayText::mousePressEvent(QMouseEvent * e)
         COverlayDB::self().delOverlays(keys);
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;
+        theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     }
 }
 

@@ -284,8 +284,8 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
 
 void PrintPreview::setup()
 {
-    QSizeF page = printer.pageRect().size();
-    paperSize = printer.paperRect().size();
+    QSizeF page = printer.pageRect().size() * 2;
+    paperSize = printer.paperRect().size() * 2;
     paperSize.rwidth() *= qreal(view->logicalDpiX()) / printer.logicalDpiX();
     paperSize.rheight() *= qreal(view->logicalDpiY()) / printer.logicalDpiY();
 
@@ -301,7 +301,6 @@ void PrintPreview::setup()
     QTextFrameFormat fmt = doc->rootFrame()->frameFormat();
     fmt.setMargin(margin);
     doc->rootFrame()->setFrameFormat(fmt);
-
     doc->setPageSize(page);
 }
 
@@ -314,9 +313,6 @@ PrintPreview::~PrintPreview()
 
 void PrintPreview::print()
 {
-    QPrinter printer;
-    printer.setFromTo(1,doc->pageCount());
-
     QPrintDialog dialog(&printer, this);
     dialog.setWindowTitle(tr("Print Diary"));
     if (dialog.exec() != QDialog::Accepted)

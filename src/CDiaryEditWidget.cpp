@@ -268,9 +268,7 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 
     frameStandard.setTopMargin(5);
     frameStandard.setBottomMargin(5);
-    frameStandard.setWidth( 80 * fm.width("X"));
-//    frameStandard.setBorder(1);
-//    frameStandard.setBorderBrush(Qt::blue);
+    frameStandard.setWidth( 120 * fm.width("X"));
 
     tableStandard.setBorder(1);
     tableStandard.setBorderBrush(Qt::black);
@@ -279,7 +277,7 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
     tableStandard.setHeaderRowCount(1);
     tableStandard.setTopMargin(10);
     tableStandard.setBottomMargin(20);
-    tableStandard.setWidth( 80 * fm.width("X"));
+    tableStandard.setWidth( 120 * fm.width("X"));
 
 }
 
@@ -488,11 +486,10 @@ void CDiaryEditWidget::setWindowModified(bool yes)
 {
     if(isInternalEdit || !yes) return;
 
-    if(!embedded)
-    {
-        emit CDiaryDB::self().sigModified();
-        emit CDiaryDB::self().sigChanged();
-    }
+    if(embedded) return;
+
+    emit CDiaryDB::self().sigModified();
+    emit CDiaryDB::self().sigChanged();
 
     if(!modified)
     {
@@ -531,6 +528,7 @@ void CDiaryEditWidget::draw()
     if(diary == 0) return;
 
     int cnt;
+    bool hasGeocaches = false;
 
     CTabWidget * tab = theMainWindow->getCanvasTab();
     if(tab)
@@ -593,6 +591,10 @@ void CDiaryEditWidget::draw()
 
         foreach(CWpt * wpt, wpts)
         {
+            if(wpt->isGeoCache())
+            {
+                hasGeocaches = true;
+            }
             table->cellAt(cnt,0).firstCursorPosition().insertImage(wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,1).firstCursorPosition().insertText(wpt->getInfo());
             table->cellAt(cnt,2).firstCursorPosition().insertHtml(wpt->getComment());
@@ -638,6 +640,41 @@ void CDiaryEditWidget::draw()
 
         cursor.setPosition(table->lastPosition() + 1);
     }
+
+    if(hasGeocaches)
+    {
+        QTextFrame * frm = cursor.insertFrame(frameStandard);
+        QTextCursor cursor1 = frm->firstCursorPosition();
+
+        cursor1.insertText(tr("Geocaches"), fmtTextHeading1);
+        cursor1.insertBlock(blockStandard);
+
+        QList<CWpt*>& wpts = diary->getWpts();
+        qSort(wpts.begin(), wpts.end(), qSortWptLessTime);
+
+        foreach(CWpt * wpt, wpts)
+        {
+            if(!wpt->isGeoCache())
+            {
+                continue;
+            }
+            const CWpt::geocache_t& gc = wpt->getGeocacheData();
+
+            cursor1.insertText(gc.name, fmtTextHeading2);
+            cursor1.insertBlock(blockStandard);
+
+            cursor1.insertText(tr("Owner: %1 ").arg(gc.owner), fmtTextStandard);
+            cursor1.insertText(tr("Difficulty: %1 ").arg(gc.difficulty), fmtTextStandard);
+            cursor1.insertText(tr("Terrain: %1 ").arg(gc.terrain), fmtTextStandard);
+            cursor1.insertBlock(blockStandard);
+
+            cursor1.insertHtml(gc.shortDesc);
+            cursor1.insertBlock(blockStandard);
+            cursor1.insertHtml(gc.longDesc);
+        }
+        cursor.setPosition(frm->lastPosition() + 1);
+    }
+
 }
 
 void CDiaryEditWidget::slotDocWizard()

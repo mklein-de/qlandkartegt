@@ -368,9 +368,15 @@ void CCanvas::print(QImage& img, const QSize& pagesize)
     qreal s1 = (qreal)(_img_.width())  / (qreal)pagesize.width();
     qreal s2 = (qreal)(_img_.height()) / (qreal)pagesize.height();
 
-    qreal s = (s1 > s2) ? s2 : s1;
+    if(s1 < s2)
+    {
+        img = _img_.scaledToHeight(pagesize.height(),  Qt::SmoothTransformation);
+    }
+    else
+    {
+        img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
+    }
 
-    img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
 }
 
 
