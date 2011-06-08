@@ -103,6 +103,7 @@ class CMapTDB : public IMap
             QPoint  pt;
             QRect   rect;
             QString str;
+            IGarminTyp::label_type_e type;
         };
 
         struct typ_section_t

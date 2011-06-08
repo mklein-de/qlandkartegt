@@ -71,6 +71,7 @@ class CResources : public QObject
         bool showZoomLevel(){return m_showZoomLevel;}
         bool playSound(){return m_playSound;}
         bool useAntiAliasing(){return m_useAntiAliasing;}
+        bool reducePoiIcons(){return m_reducePoiIcons;}
 
         QColor wptTextColor(){return m_WptTextColor;}
 
@@ -143,6 +144,7 @@ class CResources : public QObject
         bool m_showTrackMax;
         bool m_showZoomLevel;
         bool m_useAntiAliasing;
+        bool m_reducePoiIcons;
 
         QColor m_WptTextColor;
 

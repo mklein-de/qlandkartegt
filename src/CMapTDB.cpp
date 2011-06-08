@@ -2270,8 +2270,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p2              = path.pointAtPercent((curLength + segLength) / totalLength);
                         double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
 
-
-
                         if(p2.x() - p1.x() < 0)
                         {
                             angle += 180;
@@ -2586,14 +2584,6 @@ void CMapTDB::drawText(QPainter& p)
             p.translate(point1);
             p.rotate(angle);
 
-//            if(textAboveLine)
-//            {
-//                p.translate(0, -(textpath->lineWidth + 2));
-//            }
-//            else
-//            {
-//                p.translate(0, fm.descent());
-//            }
             p.translate(0, -(textpath->lineWidth + 2));
 
             QString str = text.mid(i,1);
@@ -2676,6 +2666,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
 
 inline bool isCluttered(QVector<QRect>& rectPois, const QRect& rect)
 {
+    if(!CResources::self().reducePoiIcons()) return false;
     QVector<QRect>::const_iterator rectPoiEnd   = rectPois.end();
     QVector<QRect>::const_iterator rectPoi      = rectPois.begin();
     while(rectPoi != rectPoiEnd)
@@ -2757,6 +2748,9 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
 
 void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 {
+    IGarminTyp::label_type_e labelType = IGarminTyp::eStandard;
+    bool showLabel = true;
+
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end())
     {
@@ -2769,41 +2763,47 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
             continue;
         }
 
-        bool showLabel = true;
+        labelType = IGarminTyp::eStandard;
+        showLabel = true;
         if(pointProperties.contains(pt->type))
         {
             p.drawImage(pt->lon - 4, pt->lat - 4, nightView ? pointProperties[pt->type].imgNight : pointProperties[pt->type].imgDay);
-            showLabel = pointProperties[pt->type].labelType != IGarminTyp::eNone;
+            labelType = pointProperties[pt->type].labelType;
+            showLabel = labelType != IGarminTyp::eNone;
         }
         else
         {
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
         }
 
-        if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || ((pt->type < 0x1600)  && showLabel))
+        if(showLabel)
         {
-
-            // calculate bounding rectangle with a border of 2 px
-            QRect rect = fm.boundingRect(pt->labels.join(" "));
-            rect.adjust(0,0,4,4);
-            rect.moveCenter(QPoint(pt->lon, pt->lat));
-
-            // test rectangle for intersection with existng labels
-            QVector<strlbl_t>::const_iterator label = labels.begin();
-            while(label != labels.end())
+            if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || (pt->type < 0x1600))
             {
-                if(label->rect.intersects(rect)) break;
-                ++label;
-            }
 
-            // if no intersection was found, add label to list
-            if(label == labels.end())
-            {
-                labels.push_back(strlbl_t());
-                strlbl_t& strlbl = labels.last();
-                strlbl.pt   = QPoint(pt->lon, pt->lat);
-                strlbl.str  = pt->labels.join(" ");
-                strlbl.rect = rect;
+                // calculate bounding rectangle with a border of 2 px
+                QRect rect = fm.boundingRect(pt->labels.join(" "));
+                rect.adjust(0,0,4,4);
+                rect.moveCenter(QPoint(pt->lon, pt->lat));
+
+                // test rectangle for intersection with existng labels
+                QVector<strlbl_t>::const_iterator label = labels.begin();
+                while(label != labels.end())
+                {
+                    if(label->rect.intersects(rect)) break;
+                    ++label;
+                }
+
+                // if no intersection was found, add label to list
+                if(label == labels.end())
+                {
+                    labels.push_back(strlbl_t());
+                    strlbl_t& strlbl = labels.last();
+                    strlbl.pt   = QPoint(pt->lon, pt->lat);
+                    strlbl.str  = pt->labels.join(" ");
+                    strlbl.rect = rect;
+                    strlbl.type = labelType;
+                }
             }
         }
         ++pt;
@@ -2813,10 +2813,15 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 
 void CMapTDB::drawLabels(QPainter& p, const QVector<strlbl_t> &lbls)
 {
+    QFont f = CResources::self().getMapFont();
+    QVector<QFont> fonts(5, f);
+    fonts[IGarminTyp::eSmall].setPointSize(f.pointSize() - 2);
+    fonts[IGarminTyp::eLarge].setPointSize(f.pointSize() + 2);
+
     QVector<strlbl_t>::const_iterator lbl = lbls.begin();
     while(lbl != lbls.end())
     {
-        CCanvas::drawText(lbl->str, p, lbl->pt, Qt::black);
+        CCanvas::drawText(lbl->str, p, lbl->pt, Qt::black, fonts[lbl->type]);
         ++lbl;
     }
 }

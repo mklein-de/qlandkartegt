@@ -90,6 +90,7 @@ void CDlgConfig::exec()
     checkShowTrackMax->setChecked(resources.m_showTrackMax);
     checkShowZoomLevel->setChecked(resources.m_showZoomLevel);
     checkAntiAliasing->setChecked(resources.m_useAntiAliasing);
+    checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
 #ifdef HAS_GEODB
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setEnabled(resources.m_useGeoDB);
@@ -178,6 +179,7 @@ void CDlgConfig::accept()
     resources.m_showZoomLevel   = checkShowZoomLevel->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
     resources.m_useAntiAliasing = checkAntiAliasing->isChecked();
+    resources.m_reducePoiIcons  = checkReducePoiIcons->isChecked();
 
 #ifdef HAS_GEODB
     resources.m_useGeoDB        = checkUseGeoDB->isChecked();

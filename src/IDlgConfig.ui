@@ -162,16 +162,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QCheckBox" name="checkTooltip">
-            <property name="toolTip">
-             <string>Show information as tooltip for items under cursor in vector maps.</string>
-            </property>
-            <property name="text">
-             <string>Tooltips (vector maps)</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="3">
            <widget class="QCheckBox" name="checkShowZoomLevel">
             <property name="toolTip">
@@ -182,13 +172,30 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="checkTooltip">
+            <property name="toolTip">
+             <string>Show information as tooltip for items under cursor in vector maps.</string>
+            </property>
+            <property name="text">
+             <string>Tooltips (vector maps)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
            <widget class="QCheckBox" name="checkAntiAliasing">
             <property name="toolTip">
              <string>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</string>
             </property>
             <property name="text">
              <string>Anti-aliasing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkReducePoiIcons">
+            <property name="text">
+             <string>Reduce POI icons (vector maps)</string>
             </property>
            </widget>
           </item>
