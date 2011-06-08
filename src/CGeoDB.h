@@ -58,6 +58,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// this slot is called each time CMapDB signales a change
         void slotMapDBChanged();
 
+        void slotDiaryDBChanged();
+
         /// this slot is called when a waypoint is modified
         void slotModifiedWpt(const QString&);
         /// this slot is called when a track is modified
@@ -147,6 +149,9 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void updateCheckmarks();
         /// update checkmarks according to loaded items
         void updateCheckmarks(QTreeWidgetItem * item);
+        /// set the diary icon to open or closed
+        void updateDiaryIcon();
+        void updateDiaryIcon(QTreeWidgetItem * item);
         /// update all folders with same ID
         void updateFolderById(quint64 id);
         /// load all items attached to given parent id into the workspace
@@ -193,7 +198,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         enum UserRoles_e {
             eUrDBKey  = Qt::UserRole,
             eUrQLKey  = Qt::UserRole + 1,
-            eUrType   = Qt::UserRole + 2
+            eUrType   = Qt::UserRole + 2,
+            eUrDiary  = Qt::UserRole + 3
         };
 
 

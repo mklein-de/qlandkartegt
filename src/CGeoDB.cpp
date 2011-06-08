@@ -217,6 +217,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotRteDBChanged()));
     connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotOvlDBChanged()));
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapDBChanged()));
+    connect(&CDiaryDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDiaryDBChanged()));
 
     connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedWpt(const QString&)));
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotModifiedTrk(const QString&)));
@@ -926,6 +927,12 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
             if(query1.next())
             {
                 item->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+                item->setData(eCoDiary, eUrDiary, true);
+                item->setData(eCoDiary, eUrQLKey, query1.value(0).toString());
+            }
+            else
+            {
+                item->setData(eCoDiary, eUrDiary, false);
             }
         }
 
@@ -1102,6 +1109,63 @@ void CGeoDB::updateCheckmarks(QTreeWidgetItem * parent)
     }
 
 }
+
+void CGeoDB::updateDiaryIcon()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    treeDatabase->setUpdatesEnabled(false);
+    treeDatabase->blockSignals(true);
+    treeDatabase->model()->blockSignals(true);
+
+    updateDiaryIcon(itemDatabase);
+
+    treeDatabase->setUpdatesEnabled(true);
+    treeDatabase->blockSignals(false);
+    treeDatabase->model()->blockSignals(false);
+}
+
+void CGeoDB::updateDiaryIcon(QTreeWidgetItem * parent)
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * item;
+    const int size  = parent->childCount();
+
+    for(int i = 0; i < size; i++)
+    {
+        item = parent->child(i);
+
+
+        if(item->data(eCoName, eUrType).toInt() >= eFolder0)
+        {
+            updateDiaryIcon(item);
+        }
+
+
+        if(item->data(eCoName, eUrType).toInt() != eFolder2)
+        {
+            continue;
+        }
+
+        if(!item->data(eCoDiary, eUrDiary).toBool())
+        {
+            continue;
+        }
+
+
+        if(CDiaryDB::self().contains(item->data(eCoDiary, eUrQLKey).toString()))
+        {
+            item->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
+        }
+        else
+        {
+            item->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+        }
+
+    }
+}
+
 
 void CGeoDB::updateFolderById(quint64 id)
 {
@@ -1988,6 +2052,14 @@ void CGeoDB::slotMapDBChanged()
         changedWorkspace();
     }
 
+}
+
+void CGeoDB::slotDiaryDBChanged()
+{
+    if(!isInternalEdit)
+    {
+        updateDiaryIcon();
+    }
 }
 
 void CGeoDB::slotModifiedWpt(const QString& key)
@@ -3108,7 +3180,8 @@ void CGeoDB::slotAddDiary()
     diary->linkToProject(parentId);
     CDiaryDB::self().addDiary(diary, false);
 
-    parent->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
+    parent->setData(eCoDiary, eUrDiary, true);
+    updateDiaryIcon();
 }
 
 void CGeoDB::slotShowDiary()
@@ -3142,8 +3215,7 @@ void CGeoDB::slotShowDiary()
     QString key = query.value(0).toString();
     if(CDiaryDB::self().getDiaryByKey(key))
     {
-        CDiaryDB::self().delDiary(key, false);
-        parent->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+        CDiaryDB::self().delDiary(key, false);        
     }
     else
     {
@@ -3155,9 +3227,10 @@ void CGeoDB::slotShowDiary()
 
         diary->setKey(key);
         diary->linkToProject(parentId);
-        CDiaryDB::self().addDiary(diary, false);
-        parent->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
+        CDiaryDB::self().addDiary(diary, false);        
     }
+
+    updateDiaryIcon();
 }
 
 
