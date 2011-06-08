@@ -73,7 +73,6 @@
         <location filename="../CActions.cpp" line="108"/>
         <location filename="../CActions.cpp" line="114"/>
         <location filename="../CActions.cpp" line="118"/>
-        <location filename="../CActions.cpp" line="121"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
@@ -586,14 +585,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CActions.cpp" line="121"/>
         <source>&amp;Diary</source>
-        <translation>Дневник</translation>
+        <translation type="obsolete">Дневник</translation>
     </message>
     <message>
-        <location filename="../CActions.cpp" line="121"/>
         <source>Add / edit diary data</source>
-        <translation>Добавить/Редактировать данные Дневника</translation>
+        <translation type="obsolete">Добавить/Редактировать данные Дневника</translation>
     </message>
     <message>
         <source>&amp;Pick Color</source>
@@ -815,7 +812,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="726"/>
+        <location filename="../CCanvas.cpp" line="761"/>
         <source>Copy Position</source>
         <translation>Копировать координаты</translation>
     </message>
@@ -832,7 +829,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CCopyright.cpp" line="87"/>
+        <location filename="../CCopyright.cpp" line="90"/>
         <source>running gdal_translate failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1347,25 +1344,25 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="595"/>
-        <location filename="../CDeviceGarmin.cpp" line="698"/>
-        <location filename="../CDeviceGarmin.cpp" line="726"/>
-        <location filename="../CDeviceGarmin.cpp" line="816"/>
-        <location filename="../CDeviceGarmin.cpp" line="844"/>
-        <location filename="../CDeviceGarmin.cpp" line="914"/>
-        <location filename="../CDeviceGarmin.cpp" line="1015"/>
-        <location filename="../CDeviceGarmin.cpp" line="1043"/>
-        <location filename="../CDeviceGarmin.cpp" line="1134"/>
-        <location filename="../CDeviceGarmin.cpp" line="1159"/>
+        <location filename="../CDeviceGarmin.cpp" line="704"/>
+        <location filename="../CDeviceGarmin.cpp" line="732"/>
+        <location filename="../CDeviceGarmin.cpp" line="822"/>
+        <location filename="../CDeviceGarmin.cpp" line="850"/>
+        <location filename="../CDeviceGarmin.cpp" line="920"/>
+        <location filename="../CDeviceGarmin.cpp" line="1021"/>
+        <location filename="../CDeviceGarmin.cpp" line="1049"/>
+        <location filename="../CDeviceGarmin.cpp" line="1140"/>
+        <location filename="../CDeviceGarmin.cpp" line="1165"/>
         <source>Device Link Error</source>
         <translation>Ошибка соединения с устройством</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1104"/>
+        <location filename="../CDeviceGarmin.cpp" line="1110"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1104"/>
+        <location filename="../CDeviceGarmin.cpp" line="1110"/>
         <source>Failed to create image file.</source>
         <translation>Невозможно создать файл изображения.</translation>
     </message>
@@ -1614,208 +1611,257 @@ Expected %1, received %2.</source>
     </message>
 </context>
 <context>
+    <name>CDiary</name>
+    <message>
+        <location filename="../CDiary.cpp" line="331"/>
+        <source>Diary</source>
+        <translation type="unfinished">Дневник</translation>
+    </message>
+</context>
+<context>
     <name>CDiaryDB</name>
     <message>
-        <location filename="../CDiaryDB.cpp" line="53"/>
         <source>Diary</source>
-        <translation>Дневник</translation>
+        <translation type="obsolete">Дневник</translation>
     </message>
 </context>
 <context>
     <name>CDiaryEditWidget</name>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="78"/>
+        <location filename="../CDiaryEditWidget.cpp" line="97"/>
         <source>&amp;Bold</source>
         <translation>Жирный</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="87"/>
+        <location filename="../CDiaryEditWidget.cpp" line="106"/>
         <source>&amp;Italic</source>
         <translation>Курсив</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="96"/>
+        <location filename="../CDiaryEditWidget.cpp" line="115"/>
         <source>&amp;Underline</source>
         <translation>Подчеркивание</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="108"/>
+        <location filename="../CDiaryEditWidget.cpp" line="127"/>
         <source>&amp;Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="112"/>
+        <location filename="../CDiaryEditWidget.cpp" line="131"/>
         <source>C&amp;enter</source>
         <translation>Центр</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="116"/>
+        <location filename="../CDiaryEditWidget.cpp" line="135"/>
         <source>&amp;Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="120"/>
+        <location filename="../CDiaryEditWidget.cpp" line="139"/>
         <source>&amp;Justify</source>
         <translation>Выровнять</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="127"/>
+        <location filename="../CDiaryEditWidget.cpp" line="146"/>
         <source>&amp;Color...</source>
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="163"/>
+        <location filename="../CDiaryEditWidget.cpp" line="189"/>
         <source>&amp;Undo</source>
         <translation>Вернуть</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="167"/>
+        <location filename="../CDiaryEditWidget.cpp" line="193"/>
         <source>&amp;Redo</source>
         <translation>Повтор</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="171"/>
+        <location filename="../CDiaryEditWidget.cpp" line="197"/>
         <source>Cu&amp;t</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="175"/>
+        <location filename="../CDiaryEditWidget.cpp" line="201"/>
         <source>&amp;Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="179"/>
+        <location filename="../CDiaryEditWidget.cpp" line="205"/>
         <source>&amp;Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="438"/>
+        <location filename="../CDiaryEditWidget.cpp" line="513"/>
+        <location filename="../CDiaryEditWidget.cpp" line="552"/>
+        <source>Diary - %1 *</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="556"/>
+        <location filename="../CDiaryEditWidget.cpp" line="761"/>
+        <source>Diary - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="576"/>
+        <source>Add your own text here...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="588"/>
+        <source>Waypoints</source>
+        <translation type="unfinished">Путевые точки</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="599"/>
+        <location filename="../CDiaryEditWidget.cpp" line="640"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="600"/>
+        <location filename="../CDiaryEditWidget.cpp" line="641"/>
+        <source>Comment</source>
+        <translation type="unfinished">Комментарий</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="629"/>
+        <source>Tracks</source>
+        <translation type="unfinished">Треки</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="662"/>
+        <source>Geocaches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="679"/>
+        <source>Owner: %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="680"/>
+        <source>Difficulty: %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="681"/>
+        <source>Terrain: %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="752"/>
+        <source>Failed...</source>
+        <translation type="unfinished">Невозможно....</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEditWidget.cpp" line="752"/>
+        <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Diary Wizard</source>
-        <translation>Мастер Дневника</translation>
+        <translation type="obsolete">Мастер Дневника</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="438"/>
         <source>The wizard will replace the current text by it&apos;s own. Do you want to proceed?</source>
-        <translation>Мастер самостоятельно заменит существующий текст. Продолжить?</translation>
+        <translation type="obsolete">Мастер самостоятельно заменит существующий текст. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="447"/>
         <source>&lt;h1&gt;Default Title&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Стандартное название&lt;/h1&gt;</translation>
+        <translation type="obsolete">&lt;h1&gt;Стандартное название&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="452"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;%1&lt;/h1&gt;</translation>
+        <translation type="obsolete">&lt;h1&gt;%1&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="455"/>
         <source>&lt;p&gt;This is an automated diary.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Это автоматический дневник.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;Это автоматический дневник.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="467"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="468"/>
-        <location filename="../CDiaryEditWidget.cpp" line="535"/>
         <source>&lt;th align=&apos;left&apos;&gt;Time&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Время&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Время&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="469"/>
-        <source>&lt;th align=&apos;left&apos;&gt;Pos.&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CDiaryEditWidget.cpp" line="470"/>
         <source>&lt;th align=&apos;left&apos;&gt;Name&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Имя&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Имя&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="471"/>
         <source>&lt;th align=&apos;left&apos;&gt;Elevation&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Высота&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Высота&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="474"/>
-        <source>&lt;th align=&apos;left&apos;&gt;Distance&lt;/th&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CDiaryEditWidget.cpp" line="476"/>
-        <location filename="../CDiaryEditWidget.cpp" line="537"/>
         <source>&lt;th align=&apos;left&apos;&gt;Comment&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Комментарий&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Комментарий&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="531"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="532"/>
         <source>&lt;th align=&apos;left&apos;&gt;Start&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Начало&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Начало&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="533"/>
         <source>&lt;th align=&apos;left&apos;&gt;Stop&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Окончание&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Окончание&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="534"/>
         <source>&lt;th align=&apos;left&apos;&gt;Length&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Протяженность&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Протяженность&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="536"/>
         <source>&lt;th align=&apos;left&apos;&gt;Speed&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Скорость&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Скорость&lt;/th&gt;</translation>
     </message>
 </context>
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../CDlgConfig.cpp" line="104"/>
+        <location filename="../CDlgConfig.cpp" line="101"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="105"/>
+        <location filename="../CDlgConfig.cpp" line="102"/>
         <source>Garmin</source>
         <translation>Garmin</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="106"/>
+        <location filename="../CDlgConfig.cpp" line="103"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="116"/>
+        <location filename="../CDlgConfig.cpp" line="113"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="119"/>
+        <location filename="../CDlgConfig.cpp" line="116"/>
         <source>GPSD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="131"/>
+        <location filename="../CDlgConfig.cpp" line="128"/>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="315"/>
-        <location filename="../CDlgConfig.cpp" line="319"/>
+        <location filename="../CDlgConfig.cpp" line="310"/>
+        <location filename="../CDlgConfig.cpp" line="314"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>Нужные плагины не найдены. Возможно они находятся в: %1</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="367"/>
+        <location filename="../CDlgConfig.cpp" line="351"/>
         <source>Open Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1912,8 +1958,10 @@ Expected %1, received %2.</source>
 <context>
     <name>CDlgEditMapLevel</name>
     <message>
-        <location filename="../CDlgEditMapLevel.cpp" line="81"/>
-        <location filename="../CDlgEditMapLevel.cpp" line="116"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="85"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="89"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="129"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="133"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
         <translation>Выбрать &lt;b&gt;все&lt;/b&gt; файлы на этом уровне.</translation>
     </message>
@@ -1962,29 +2010,29 @@ Expected %1, received %2.</source>
         <translation>нет изображения</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="385"/>
+        <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Edit link ...</source>
         <translation>Изменить ссылку...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="385"/>
+        <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Ссылка: &apos;http://...&apos;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="389"/>
+        <location filename="../CDlgEditWpt.cpp" line="391"/>
         <source>None</source>
         <translation>Ничего</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="407"/>
+        <location filename="../CDlgEditWpt.cpp" line="409"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="424"/>
-        <location filename="../CDlgEditWpt.cpp" line="425"/>
-        <location filename="../CDlgEditWpt.cpp" line="428"/>
+        <location filename="../CDlgEditWpt.cpp" line="426"/>
+        <location filename="../CDlgEditWpt.cpp" line="427"/>
+        <location filename="../CDlgEditWpt.cpp" line="430"/>
         <source>%1
 </source>
         <translation>%1
@@ -2274,196 +2322,211 @@ Expected %1, received %2.</source>
 <context>
     <name>CGeoDB</name>
     <message>
-        <location filename="../CGeoDB.cpp" line="84"/>
+        <location filename="../CGeoDB.cpp" line="91"/>
         <source>Manage your Geo Data Base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="88"/>
-        <location filename="../CGeoDB.cpp" line="701"/>
-        <location filename="../CGeoDB.cpp" line="743"/>
+        <location filename="../CGeoDB.cpp" line="95"/>
+        <location filename="../CGeoDB.cpp" line="746"/>
+        <location filename="../CGeoDB.cpp" line="788"/>
         <source>Workspace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="90"/>
+        <location filename="../CGeoDB.cpp" line="97"/>
         <source>All items you see on the map.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="95"/>
-        <location filename="../CGeoDB.cpp" line="707"/>
+        <location filename="../CGeoDB.cpp" line="102"/>
+        <location filename="../CGeoDB.cpp" line="752"/>
         <source>Waypoints</source>
         <translation type="unfinished">Путевые точки</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="102"/>
-        <location filename="../CGeoDB.cpp" line="708"/>
+        <location filename="../CGeoDB.cpp" line="109"/>
+        <location filename="../CGeoDB.cpp" line="753"/>
         <source>Tracks</source>
         <translation type="unfinished">Треки</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="109"/>
-        <location filename="../CGeoDB.cpp" line="709"/>
+        <location filename="../CGeoDB.cpp" line="116"/>
+        <location filename="../CGeoDB.cpp" line="754"/>
         <source>Routes</source>
         <translation type="unfinished">Маршруты</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="116"/>
-        <location filename="../CGeoDB.cpp" line="710"/>
+        <location filename="../CGeoDB.cpp" line="123"/>
+        <location filename="../CGeoDB.cpp" line="755"/>
         <source>Overlays</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="123"/>
+        <location filename="../CGeoDB.cpp" line="130"/>
         <source>Map Selections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="130"/>
-        <location filename="../CGeoDB.cpp" line="950"/>
+        <location filename="../CGeoDB.cpp" line="137"/>
+        <location filename="../CGeoDB.cpp" line="1017"/>
         <source>Lost &amp; Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="133"/>
+        <location filename="../CGeoDB.cpp" line="140"/>
         <source>All items that lost their parent folder as you deleted it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="137"/>
+        <location filename="../CGeoDB.cpp" line="144"/>
         <source>Database</source>
         <translation type="unfinished">База данных</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="141"/>
+        <location filename="../CGeoDB.cpp" line="148"/>
         <source>All your data grouped by folders.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="176"/>
+        <location filename="../CGeoDB.cpp" line="183"/>
         <source>Edit</source>
         <translation type="unfinished">Изменить</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="177"/>
+        <location filename="../CGeoDB.cpp" line="184"/>
+        <source>Add diary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="185"/>
+        <source>Show/hide diary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="186"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="179"/>
-        <location filename="../CGeoDB.cpp" line="183"/>
+        <location filename="../CGeoDB.cpp" line="188"/>
+        <location filename="../CGeoDB.cpp" line="192"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="180"/>
-        <location filename="../CGeoDB.cpp" line="184"/>
-        <location filename="../CGeoDB.cpp" line="188"/>
+        <location filename="../CGeoDB.cpp" line="189"/>
+        <location filename="../CGeoDB.cpp" line="193"/>
+        <location filename="../CGeoDB.cpp" line="197"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="192"/>
+        <location filename="../CGeoDB.cpp" line="201"/>
         <source>Add to database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="193"/>
+        <location filename="../CGeoDB.cpp" line="202"/>
         <source>Save changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="194"/>
+        <location filename="../CGeoDB.cpp" line="203"/>
         <source>Check-out as copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="420"/>
+        <location filename="../CGeoDB.cpp" line="444"/>
         <source>Mirgrating database from version 4 to 5.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="471"/>
+        <location filename="../CGeoDB.cpp" line="495"/>
         <source>Mirgrating database from version 5 to 6.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="528"/>
+        <location filename="../CGeoDB.cpp" line="552"/>
         <source>Mirgrating database from version 6 to 7.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="646"/>
+        <location filename="../CGeoDB.cpp" line="617"/>
+        <source>Mirgrating database from version 7 to 8.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="691"/>
         <source>Loading workspace. Please wait.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="711"/>
+        <location filename="../CGeoDB.cpp" line="756"/>
         <source>Map Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="779"/>
+        <location filename="../CGeoDB.cpp" line="824"/>
         <source>Update workspace.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1079"/>
+        <location filename="../CGeoDB.cpp" line="1146"/>
         <source>Loading items from database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1636"/>
+        <location filename="../CGeoDB.cpp" line="1703"/>
         <source>Saving workspace. Please wait.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2262"/>
+        <location filename="../CGeoDB.cpp" line="2361"/>
         <source>Delete folder...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2421"/>
-        <location filename="../CGeoDB.cpp" line="2615"/>
+        <location filename="../CGeoDB.cpp" line="2520"/>
+        <location filename="../CGeoDB.cpp" line="2714"/>
         <source>Delete items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2465"/>
+        <location filename="../CGeoDB.cpp" line="2564"/>
         <source>Copy items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2520"/>
-        <location filename="../CGeoDB.cpp" line="2579"/>
+        <location filename="../CGeoDB.cpp" line="2619"/>
+        <location filename="../CGeoDB.cpp" line="2678"/>
         <source>Move items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2654"/>
+        <location filename="../CGeoDB.cpp" line="2753"/>
         <source>Add items to database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2782"/>
+        <location filename="../CGeoDB.cpp" line="2881"/>
         <source>Save items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="178"/>
-        <location filename="../CGeoDB.cpp" line="185"/>
-        <location filename="../CGeoDB.cpp" line="189"/>
+        <location filename="../CGeoDB.cpp" line="187"/>
+        <location filename="../CGeoDB.cpp" line="194"/>
+        <location filename="../CGeoDB.cpp" line="198"/>
         <source>Delete</source>
         <translation type="unfinished">Удалить</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2262"/>
+        <location filename="../CGeoDB.cpp" line="2361"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="946"/>
+        <location filename="../CGeoDB.cpp" line="1013"/>
         <source>Lost &amp; Found (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2566,62 +2629,62 @@ line %2, column %3:
 <context>
     <name>CMainWindow</name>
     <message>
-        <location filename="../CMainWindow.cpp" line="101"/>
+        <location filename="../CMainWindow.cpp" line="100"/>
         <source>Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="241"/>
+        <location filename="../CMainWindow.cpp" line="240"/>
         <source>&lt;b&gt;GPS Device:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Устройство GPS:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="496"/>
+        <location filename="../CMainWindow.cpp" line="495"/>
         <source>Clear all...</source>
         <translation>Очистить все...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="496"/>
+        <location filename="../CMainWindow.cpp" line="495"/>
         <source>This will erase all project data like waypoints and tracks.</source>
         <translation>Это действие удалит все данные, как, например, треки и путевые точки.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="547"/>
+        <location filename="../CMainWindow.cpp" line="546"/>
         <source>Load most recent...</source>
         <translation>Загрузить последний использованный...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="557"/>
+        <location filename="../CMainWindow.cpp" line="556"/>
         <source>&amp;File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="558"/>
+        <location filename="../CMainWindow.cpp" line="557"/>
         <source>Load Map</source>
         <translation>Загрузить карту</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="560"/>
+        <location filename="../CMainWindow.cpp" line="559"/>
         <source>Load Geo Data</source>
         <translation>Загрузить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="561"/>
+        <location filename="../CMainWindow.cpp" line="560"/>
         <source>Save Geo Data</source>
         <translation>Сохранить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="562"/>
+        <location filename="../CMainWindow.cpp" line="561"/>
         <source>Export Geo Data</source>
         <translation>Экспортировать GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="563"/>
+        <location filename="../CMainWindow.cpp" line="562"/>
         <source>Add Geo Data</source>
         <translation>Добавить GEO данные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="566"/>
+        <location filename="../CMainWindow.cpp" line="565"/>
         <source>Device Screenshot ...</source>
         <translation>Снимок экрана с устройства ...</translation>
     </message>
@@ -2630,123 +2693,122 @@ line %2, column %3:
         <translation type="obsolete">Сохранить как изображение ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="567"/>
+        <location filename="../CMainWindow.cpp" line="566"/>
         <source>Save map as image ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="568"/>
+        <location filename="../CMainWindow.cpp" line="567"/>
         <source>Print Map ...</source>
         <translation>Печать карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="569"/>
         <source>Print Diary ...</source>
-        <translation>Печать Дневника...</translation>
+        <translation type="obsolete">Печать Дневника...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="576"/>
+        <location filename="../CMainWindow.cpp" line="575"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="581"/>
+        <location filename="../CMainWindow.cpp" line="580"/>
         <source>&amp;Map</source>
         <translation>Карта</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="586"/>
+        <location filename="../CMainWindow.cpp" line="585"/>
         <source>&amp;Waypoint</source>
         <translation>Путевая точка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="591"/>
+        <location filename="../CMainWindow.cpp" line="590"/>
         <source>&amp;Track</source>
         <translation>Трек</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="596"/>
+        <location filename="../CMainWindow.cpp" line="595"/>
         <source>&amp;Route</source>
         <translation>Маршрут</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="601"/>
+        <location filename="../CMainWindow.cpp" line="600"/>
         <source>&amp;Live Log</source>
         <translation>Данные GPS </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="606"/>
+        <location filename="../CMainWindow.cpp" line="605"/>
         <source>&amp;Overlay</source>
         <translation>Наложение...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="611"/>
+        <location filename="../CMainWindow.cpp" line="610"/>
         <source>Mor&amp;e</source>
         <translation>Далее</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="615"/>
+        <location filename="../CMainWindow.cpp" line="614"/>
         <source>&amp;Setup</source>
         <translation>Установки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="619"/>
+        <location filename="../CMainWindow.cpp" line="618"/>
         <source>&amp;General</source>
         <translation>Основные</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="676"/>
+        <location filename="../CMainWindow.cpp" line="675"/>
         <source>Select map...</source>
         <translation>Выбор карты...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="736"/>
-        <location filename="../CMainWindow.cpp" line="797"/>
+        <location filename="../CMainWindow.cpp" line="735"/>
+        <location filename="../CMainWindow.cpp" line="796"/>
         <source>Select input files</source>
         <translation>Выберите файлы для загрузки</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="901"/>
+        <location filename="../CMainWindow.cpp" line="900"/>
         <source>Convert error</source>
         <translation>Ошибка конвертации</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="920"/>
-        <location filename="../CMainWindow.cpp" line="1088"/>
+        <location filename="../CMainWindow.cpp" line="919"/>
+        <location filename="../CMainWindow.cpp" line="1087"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="946"/>
+        <location filename="../CMainWindow.cpp" line="945"/>
         <source>Save geo data?</source>
         <translation>Сохранить GEO данные ?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="947"/>
+        <location filename="../CMainWindow.cpp" line="946"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Загруженные данные изменены.￼
 Вы хотите сохранить эти изменения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="979"/>
-        <location filename="../CMainWindow.cpp" line="996"/>
-        <location filename="../CMainWindow.cpp" line="1178"/>
+        <location filename="../CMainWindow.cpp" line="978"/>
+        <location filename="../CMainWindow.cpp" line="995"/>
+        <location filename="../CMainWindow.cpp" line="1177"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1128"/>
+        <location filename="../CMainWindow.cpp" line="1127"/>
         <source>Failed ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1128"/>
+        <location filename="../CMainWindow.cpp" line="1127"/>
         <source>Failed to start OCM.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1161"/>
+        <location filename="../CMainWindow.cpp" line="1160"/>
         <source>Print Map</source>
         <translation>Печать карты</translation>
     </message>
@@ -2816,14 +2878,12 @@ Do you want to save your changes?</source>
         <translation>нет наложений. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1310"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
-        <translation>A &lt;a href=&apos;Diary&apos;&gt;дневник&lt;/a&gt; уже загружен.</translation>
+        <translation type="obsolete">A &lt;a href=&apos;Diary&apos;&gt;дневник&lt;/a&gt; уже загружен.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1314"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
-        <translation>Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
+        <translation type="obsolete">Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1353"/>
@@ -3053,7 +3113,7 @@ Do you want to save your changes?</source>
         <location filename="../CMapGeoTiff.cpp" line="57"/>
         <location filename="../CMapGeoTiff.cpp" line="71"/>
         <location filename="../CMapGeoTiff.cpp" line="96"/>
-        <location filename="../CMapGeoTiff.cpp" line="124"/>
+        <location filename="../CMapGeoTiff.cpp" line="123"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
@@ -3069,22 +3129,22 @@ Do you want to save your changes?</source>
         <translation>Файл с серой и 8ми битной палитрами индексированы.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="124"/>
+        <location filename="../CMapGeoTiff.cpp" line="123"/>
         <source>No georeference information found.</source>
         <translation>Географическая информация отсутствует.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="170"/>
+        <location filename="../CMapGeoTiff.cpp" line="169"/>
         <source>quadratic zoom</source>
         <translation>квадратичный зум</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="220"/>
+        <location filename="../CMapGeoTiff.cpp" line="219"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="224"/>
+        <location filename="../CMapGeoTiff.cpp" line="223"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
@@ -3228,17 +3288,17 @@ Do you want to save your changes?</source>
         <translation type="unfinished">Площадь</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="115"/>
+        <location filename="../CMapQMAP.cpp" line="117"/>
         <source>Projection</source>
         <translation type="unfinished">Проекция</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="216"/>
+        <location filename="../CMapQMAP.cpp" line="219"/>
         <source>Overzoom x%1</source>
         <translation>Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="220"/>
+        <location filename="../CMapQMAP.cpp" line="223"/>
         <source>Zoom level x%1</source>
         <translation>Уровень масштабирования х%1</translation>
     </message>
@@ -3251,18 +3311,18 @@ Do you want to save your changes?</source>
         <translation>Выбор пути для вывода...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="321"/>
+        <location filename="../CMapQMAPExport.cpp" line="326"/>
         <source>Error ...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="321"/>
+        <location filename="../CMapQMAPExport.cpp" line="326"/>
         <source>Failed to read %1</source>
         <translation>Невозможно прочитать %1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="468"/>
-        <location filename="../CMapQMAPExport.cpp" line="543"/>
+        <location filename="../CMapQMAPExport.cpp" line="473"/>
+        <location filename="../CMapQMAPExport.cpp" line="548"/>
         <source>--- finished ---
 </source>
         <translation>--- закончено ---
@@ -4324,7 +4384,7 @@ Do you want to save your changes?</source>
         <translation>Тайл %1 был загружен %2 дней назад. Перезагрузка...</translation>
     </message>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="283"/>
+        <location filename="../COsmTilesHash.cpp" line="285"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
         <translation>Принятые данные не верны. Может быть это не изображение...</translation>
     </message>
@@ -4465,12 +4525,12 @@ Do you want to save your changes?</source>
 <context>
     <name>CResources</name>
     <message>
-        <location filename="../CResources.cpp" line="292"/>
+        <location filename="../CResources.cpp" line="280"/>
         <source>No device.</source>
         <translation>Нет устройства.</translation>
     </message>
     <message>
-        <location filename="../CResources.cpp" line="292"/>
+        <location filename="../CResources.cpp" line="280"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation>Выберите устройство в меню &quot;Настройки-&gt;Установки-&gt;Устройство&quot;</translation>
     </message>
@@ -5326,43 +5386,43 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="287"/>
+        <location filename="../CWptDB.cpp" line="291"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Вы действительно хотите удалить &quot;приклеенную&quot; путевую точку &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="288"/>
+        <location filename="../CWptDB.cpp" line="292"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Удалить &quot;приклеенную&quot; путевую точку...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1085"/>
-        <location filename="../CWptDB.cpp" line="1087"/>
+        <location filename="../CWptDB.cpp" line="1095"/>
+        <location filename="../CWptDB.cpp" line="1097"/>
         <source>Missing libexif</source>
         <translation>Отсутствует libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1085"/>
+        <location filename="../CWptDB.cpp" line="1095"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Не могу найти libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1087"/>
+        <location filename="../CWptDB.cpp" line="1097"/>
         <source>Unable to find libexif.so.</source>
         <translation>Не могу найти libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1094"/>
+        <location filename="../CWptDB.cpp" line="1104"/>
         <source>Select path...</source>
         <translation>Выберите путь...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1107"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
         <source>Read EXIF tags from pictures.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1107"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
         <source>Abort</source>
         <translation type="unfinished">Прервать</translation>
     </message>
@@ -6068,31 +6128,33 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
 <context>
     <name>IDiaryEditWidget</name>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="13"/>
+        <location filename="../IDiaryEditWidget.ui" line="14"/>
         <source>Form</source>
         <translation>Создание карты на основе OSM</translation>
     </message>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="24"/>
-        <location filename="../IDiaryEditWidget.ui" line="37"/>
-        <location filename="../IDiaryEditWidget.ui" line="50"/>
-        <location filename="../IDiaryEditWidget.ui" line="63"/>
-        <location filename="../IDiaryEditWidget.ui" line="76"/>
-        <location filename="../IDiaryEditWidget.ui" line="99"/>
-        <location filename="../IDiaryEditWidget.ui" line="125"/>
-        <location filename="../IDiaryEditWidget.ui" line="139"/>
-        <location filename="../IDiaryEditWidget.ui" line="152"/>
-        <location filename="../IDiaryEditWidget.ui" line="165"/>
-        <location filename="../IDiaryEditWidget.ui" line="178"/>
-        <location filename="../IDiaryEditWidget.ui" line="191"/>
-        <location filename="../IDiaryEditWidget.ui" line="204"/>
-        <location filename="../IDiaryEditWidget.ui" line="217"/>
-        <location filename="../IDiaryEditWidget.ui" line="230"/>
+        <location filename="../IDiaryEditWidget.ui" line="25"/>
+        <location filename="../IDiaryEditWidget.ui" line="38"/>
+        <location filename="../IDiaryEditWidget.ui" line="51"/>
+        <location filename="../IDiaryEditWidget.ui" line="64"/>
+        <location filename="../IDiaryEditWidget.ui" line="77"/>
+        <location filename="../IDiaryEditWidget.ui" line="100"/>
+        <location filename="../IDiaryEditWidget.ui" line="113"/>
+        <location filename="../IDiaryEditWidget.ui" line="127"/>
+        <location filename="../IDiaryEditWidget.ui" line="147"/>
+        <location filename="../IDiaryEditWidget.ui" line="161"/>
+        <location filename="../IDiaryEditWidget.ui" line="174"/>
+        <location filename="../IDiaryEditWidget.ui" line="187"/>
+        <location filename="../IDiaryEditWidget.ui" line="200"/>
+        <location filename="../IDiaryEditWidget.ui" line="213"/>
+        <location filename="../IDiaryEditWidget.ui" line="226"/>
+        <location filename="../IDiaryEditWidget.ui" line="239"/>
+        <location filename="../IDiaryEditWidget.ui" line="252"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="96"/>
+        <location filename="../IDiaryEditWidget.ui" line="97"/>
         <source>Create diary skeleton from current data.</source>
         <translation>Создать каркас дневника из текущих данных.</translation>
     </message>
@@ -6251,7 +6313,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgConfig.ui" line="43"/>
         <location filename="../IDlgConfig.ui" line="63"/>
         <location filename="../IDlgConfig.ui" line="250"/>
-        <location filename="../IDlgConfig.ui" line="519"/>
+        <location filename="../IDlgConfig.ui" line="487"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -6420,7 +6482,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="317"/>
-        <location filename="../IDlgConfig.ui" line="432"/>
+        <location filename="../IDlgConfig.ui" line="400"/>
         <source>Port</source>
         <translation>Порт</translation>
     </message>
@@ -6435,160 +6497,154 @@ p, li { white-space: pre-wrap; }
         <translation>8080</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="339"/>
         <source>Browser</source>
-        <translation>Браузер</translation>
+        <translation type="obsolete">Браузер</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="346"/>
         <source>Firefox</source>
-        <translation>Firefox</translation>
+        <translation type="obsolete">Firefox</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="351"/>
         <source>Konqueror</source>
-        <translation>Konqueror</translation>
+        <translation type="obsolete">Konqueror</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="356"/>
         <source>other (needs command line)</source>
-        <translation>другой (введите команду)</translation>
+        <translation type="obsolete">другой (введите команду)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="367"/>
         <source>my command %s</source>
-        <translation>команда %s</translation>
+        <translation type="obsolete">команда %s</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="374"/>
         <source>%s will be replaced by URL</source>
-        <translation>%s будет заменен на URL</translation>
+        <translation type="obsolete">%s будет заменен на URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="385"/>
+        <location filename="../IDlgConfig.ui" line="353"/>
         <source>Device &amp;&amp; Xfer</source>
         <translation>GPS устройство </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="391"/>
+        <location filename="../IDlgConfig.ui" line="359"/>
         <source>Select the device you want to setup.</source>
         <translation>Выберите устройство, которое вы хотите установить.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="401"/>
+        <location filename="../IDlgConfig.ui" line="369"/>
         <source>Device</source>
         <translation>Устройство</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="410"/>
+        <location filename="../IDlgConfig.ui" line="378"/>
         <source>IP Address</source>
         <translation>IP адрес</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="422"/>
+        <location filename="../IDlgConfig.ui" line="390"/>
         <source>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</source>
         <translation>Если Ваше устройство поддерживает жестко заданный TCP/IP адрес. &quot;QLandkarte M&quot; оставьте пустым,драйвер запросит устройство посредством широковещательной UDP посылки.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="442"/>
+        <location filename="../IDlgConfig.ui" line="410"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
         <translation>Добавьте TCP/IP порт для устройства Для &quot;QLandkarte M&quot; укажите 0.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="445"/>
+        <location filename="../IDlgConfig.ui" line="413"/>
         <source>4242</source>
         <translation>4242</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="457"/>
+        <location filename="../IDlgConfig.ui" line="425"/>
         <source>Serial Port</source>
         <translation>Последовательный порт</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="467"/>
+        <location filename="../IDlgConfig.ui" line="435"/>
         <source>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Для Garmin или NMEA устройств с последовательным портом укажите  &quot;/dev/ttyS0&quot; или &quot;/dev/rfcomm0&quot;. Для GARMIN устройств с USB портом оставьте пустым.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="477"/>
+        <location filename="../IDlgConfig.ui" line="445"/>
         <source>Baud rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="487"/>
+        <location filename="../IDlgConfig.ui" line="455"/>
         <source>Baud rate for Serial Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="497"/>
+        <location filename="../IDlgConfig.ui" line="465"/>
         <source>Type</source>
         <translation>Модель</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="509"/>
+        <location filename="../IDlgConfig.ui" line="477"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
         <translation>Выберите Ваше устройство GArmin из списка. </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="531"/>
+        <location filename="../IDlgConfig.ui" line="499"/>
         <source>Character Set</source>
         <translation>Кодировка</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="545"/>
+        <location filename="../IDlgConfig.ui" line="513"/>
         <source>Define custom icons for Garmin Devices.</source>
         <translation>Определите собственные иконки для устройств Garmin</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="548"/>
+        <location filename="../IDlgConfig.ui" line="516"/>
         <source>Customize Waypoint Icons...</source>
         <translation>Собственные иконки путевых точек ...</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="574"/>
+        <location filename="../IDlgConfig.ui" line="542"/>
         <source>Upload All</source>
         <translation>Передавать все</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="580"/>
-        <location filename="../IDlgConfig.ui" line="613"/>
+        <location filename="../IDlgConfig.ui" line="548"/>
+        <location filename="../IDlgConfig.ui" line="581"/>
         <source>Waypoints</source>
         <translation>Путевые точки</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="587"/>
-        <location filename="../IDlgConfig.ui" line="620"/>
+        <location filename="../IDlgConfig.ui" line="555"/>
+        <location filename="../IDlgConfig.ui" line="588"/>
         <source>Tracks</source>
         <translation>Треки</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="594"/>
-        <location filename="../IDlgConfig.ui" line="627"/>
+        <location filename="../IDlgConfig.ui" line="562"/>
+        <location filename="../IDlgConfig.ui" line="595"/>
         <source>Routes</source>
         <translation>Маршруты</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="607"/>
+        <location filename="../IDlgConfig.ui" line="575"/>
         <source>Download All</source>
         <translation>Загружать все</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="637"/>
+        <location filename="../IDlgConfig.ui" line="605"/>
         <source>Sound after Transfer</source>
         <translation>Проиграть звук после Передачи</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="643"/>
+        <location filename="../IDlgConfig.ui" line="611"/>
         <source>Play</source>
         <translation>Играть</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="670"/>
+        <location filename="../IDlgConfig.ui" line="638"/>
         <source>Keys</source>
         <translation>Клавиши управления</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="676"/>
+        <location filename="../IDlgConfig.ui" line="644"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -7565,7 +7621,7 @@ p, li { white-space: pre-wrap; }
         <translation>Нет проекции основной карты. Этого не должно получаться.</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="231"/>
+        <location filename="../IMap.cpp" line="236"/>
         <source>DEM projection does not match the projection of the basemap.
 
 Map: %1
@@ -7577,23 +7633,23 @@ DEM: %2</source>
 DEM%%2</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="344"/>
+        <location filename="../IMap.cpp" line="349"/>
         <source>This map does not support this feature.</source>
         <translation>Карта не поддерживает эту особенность.</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="350"/>
-        <location filename="../IMap.cpp" line="356"/>
+        <location filename="../IMap.cpp" line="355"/>
         <location filename="../IMap.cpp" line="361"/>
         <location filename="../IMap.cpp" line="366"/>
+        <location filename="../IMap.cpp" line="371"/>
         <source>Error...</source>
         <translation type="unfinished">Ошибка...</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="350"/>
-        <location filename="../IMap.cpp" line="356"/>
+        <location filename="../IMap.cpp" line="355"/>
         <location filename="../IMap.cpp" line="361"/>
         <location filename="../IMap.cpp" line="366"/>
+        <location filename="../IMap.cpp" line="371"/>
         <source>Changing the offset is not supported by this map.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8282,42 +8338,42 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PrintPreview</name>
     <message>
-        <location filename="../printpreview.cpp" line="228"/>
+        <location filename="../printpreview.cpp" line="222"/>
         <source>Diary - Print Preview</source>
         <translation>Дневник - предпросмотр печати</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="252"/>
+        <location filename="../printpreview.cpp" line="246"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="256"/>
+        <location filename="../printpreview.cpp" line="250"/>
         <source>&amp;Print...</source>
         <translation>Печать...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="261"/>
+        <location filename="../printpreview.cpp" line="255"/>
         <source>Page Setup...</source>
         <translation>Установки страницы...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="267"/>
+        <location filename="../printpreview.cpp" line="261"/>
         <source>Zoom In</source>
         <translation>Приблизить</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="271"/>
+        <location filename="../printpreview.cpp" line="265"/>
         <source>Zoom Out</source>
         <translation>Отдалить</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="277"/>
+        <location filename="../printpreview.cpp" line="271"/>
         <source>&amp;Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="323"/>
+        <location filename="../printpreview.cpp" line="317"/>
         <source>Print Diary</source>
         <translation>Печать Дневника</translation>
     </message>
