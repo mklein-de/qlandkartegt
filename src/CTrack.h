@@ -218,6 +218,8 @@ class CTrack : public IItem
         void setIcon(const QString& str);
 
 
+        void setTimestamp(quint32 ts){timestamp = ts;}
+
         signals:
         void sigChanged();
 

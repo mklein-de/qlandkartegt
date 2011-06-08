@@ -251,6 +251,8 @@ void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
             }
         }
         progress.setValue(npts);
+
+        track.setTimestamp(trkpts.begin()->timestamp);
         track.rebuild(false);
 
         CTrackDB::self().emitSigModified();
