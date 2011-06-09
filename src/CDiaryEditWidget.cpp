@@ -339,17 +339,32 @@ void CDiaryEditWidget::textAlign(QAction *a)
 
 void CDiaryEditWidget::textFamily(const QString &f)
 {
-    QTextCharFormat fmt;
-    fmt.setFontFamily(f);
-    mergeFormatOnWordOrSelection(fmt);
+//    QTextCharFormat fmt;
+//    fmt.setFontFamily(f);
+//    mergeFormatOnWordOrSelection(fmt);
+
+    textEdit->setFontFamily(f);
+
+    QFont _f_ = textEdit->font();
+    _f_.setFamily(f);
+    textEdit->setFont(_f_);
+
+
 }
 
 
 void CDiaryEditWidget::textSize(const QString &p)
 {
-    QTextCharFormat fmt;
-    fmt.setFontPointSize(p.toFloat());
-    mergeFormatOnWordOrSelection(fmt);
+//    QTextCharFormat fmt;
+//    fmt.setFontPointSize(p.toFloat());
+//    mergeFormatOnWordOrSelection(fmt);
+
+    textEdit->setFontPointSize(p.toFloat());
+
+    QFont _f_ = textEdit->font();
+    _f_.setPointSize(p.toInt());
+    textEdit->setFont(_f_);
+
 }
 
 

@@ -858,6 +858,7 @@ void CGeoDB::changedWorkspace()
     updateDatabaseMarker();
     updateModifyMarker();
     updateCheckmarks();
+    updateDiaryIcon();
 
     treeWorkspace->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeWorkspace->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
@@ -931,9 +932,18 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
             if(query1.next())
             {
-                item->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+                QString key = query1.value(0).toString();
+                if(CDiaryDB::self().contains(key))
+                {
+                    item->setIcon(eCoDiary, QIcon(":/icons/iconDiaryOn16x16.png"));
+                }
+                else
+                {
+                    item->setIcon(eCoDiary, QIcon(":/icons/iconDiary16x16.png"));
+                }
+
                 item->setData(eCoDiary, eUrDiary, true);
-                item->setData(eCoDiary, eUrQLKey, query1.value(0).toString());
+                item->setData(eCoDiary, eUrQLKey, key);
             }
             else
             {

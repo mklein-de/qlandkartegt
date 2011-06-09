@@ -70,7 +70,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         {
             case CDiary::eBase:
             {
-                QString comment, name;
+                QString comment, name,key;
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
@@ -78,9 +78,11 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1 >> comment;
                 s1 >> name;
                 s1 >> diary.keyProjectGeoDB;
+                s1 >> key;
 
                 diary.setComment(comment);
                 diary.setName(name);
+                diary.setKey(key);
                 break;
             }
             case CDiary::eWpt:
@@ -163,6 +165,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     s1 << diary.getComment();
     s1 << diary.getName();
     s1 << diary.keyProjectGeoDB;
+    s1 << diary.getKey();
     entries << entryBase;
 
     //---------------------------------------
