@@ -35,11 +35,12 @@
 QDir CWpt::path(_MKSTR(MAPPATH) "/wpt");
 
 const QString CWpt::html =  ""
-"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
+"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
 "<html>"
 "   <head>"
-"       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
-"       <meta http-equiv='Content-Typ' content='text/html; charset=utf-8'>"
+"       <title></title>"
+"       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
 "       <style type='text/css'>"
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"

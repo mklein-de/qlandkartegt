@@ -28,11 +28,12 @@
 
 
 const QString CDlgMapTDBConfig::text =  QObject::tr(""
-"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN' 'http://www.w3.org/TR/REC-html40/strict.dtd'>"
+"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
 "<html>"
 "   <head>"
-"       <META HTTP-EQUIV='CACHE-CONTROL'' CONTENT='NO-CACHE'>"
-"       <meta http-equiv='Content-Typ' content='text/html; charset=UTF-8'>"
+"       <title></title>"
+"       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
 "       <style type='text/css'>"
 "           p, li { white-space: pre-wrap; }"
 "           td {padding-top: 10px;}"
@@ -92,6 +93,8 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
 
     //webView->load(QString("file://") + tempDir.filePath("legend.html"));
     webView->load(QUrl::fromLocalFile(tmp.fileName()));
+    QLocale loc = webView->locale();
+    qDebug() << loc.countryToString(loc.country());
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));

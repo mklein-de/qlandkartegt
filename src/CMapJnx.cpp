@@ -214,7 +214,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
             readCString(stream, ba);
             level.copyright2 = codec->toUnicode(ba);
 
-            info+= QString("<tr><td>%1(%4)</td><td>%2</td><td>%3</td><td>%5</td></tr>").arg(i).arg(level.nTiles).arg(level.scale).arg(level.level).arg(level.name1 + "<br/>" + level.name2 + "<br/>" + level.copyright2);
+            info+= QString("<tr><td>%1(%4)</td><td>%2</td><td>%3</td><td>%5</td></tr>").arg(i).arg(level.nTiles).arg(level.scale).arg(level.level).arg(level.name1 + "<br>" + level.name2 + "<br>" + level.copyright2);
         }
         info += "</table></p>";
     }

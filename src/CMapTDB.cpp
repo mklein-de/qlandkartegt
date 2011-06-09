@@ -471,7 +471,7 @@ CMapTDB::~CMapTDB()
 QString CMapTDB::getCopyright()
 {
 
-    return filename + "<br/>" + copyright;
+    return filename + "<br>" + copyright;
 }
 
 QString CMapTDB::getMapLevelInfo()
@@ -481,7 +481,7 @@ QString CMapTDB::getMapLevelInfo()
 
     foreach(level, maplevels)
     {
-        str += tr("Level: %1 Bits: %2 On basmap: %3").arg(level.level).arg(level.bits).arg(level.useBaseMap) + "<br/>";
+        str += tr("Level: %1 Bits: %2 On basmap: %3").arg(level.level).arg(level.bits).arg(level.useBaseMap) + "<br>";
     }
 
     return str;
@@ -498,12 +498,12 @@ QString CMapTDB::createLegendString(const QMap<int,QString>& strings)
     {
         if(langid == 0 && !strings.contains(langid))
         {
-            lang += QString("<nobr style='color: red;'>%1: %2</nobr><br/>").arg(languages[langid]).arg(tr("missing"));
+            lang += QString("<nobr style='color: red;'>%1: %2</nobr><br>").arg(languages[langid]).arg(tr("missing"));
 
         }
         else if(strings.contains(langid))
         {
-            lang += QString("<nobr><i>%1</i>: <b>%2</b></nobr><br/>").arg(languages[langid]).arg(strings[langid]);
+            lang += QString("<nobr><i>%1</i>: <b>%2</b></nobr><br>").arg(languages[langid]).arg(strings[langid]);
         }
     }
 
@@ -588,8 +588,8 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td><img src='file://%1'/></td>").arg(filename);
-            str += "<td><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+            //str += QString("<td><img alt='' src='file://%1'></td>").arg(filename);
+            str += "<td><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
         {
@@ -621,8 +621,8 @@ QString CMapTDB::getLegendLines()
             filename = tempDir.filePath(QString("l%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
-            str += "<td style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+            //str += QString("<td style='background-color: black;'><img alt='' src='file://%1'></td>").arg(filename);
+            str += "<td style='background-color: black;'><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
         str += "</tr>\n";
@@ -691,8 +691,8 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td><img src='file://%1'/></td>").arg(filename);
-            str += "<td><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+            //str += QString("<td><img alt='' src='file://%1'></td>").arg(filename);
+            str += "<td><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
         {
@@ -705,8 +705,8 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
-            str += "<td style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+            //str += QString("<td style='background-color: black;'><img alt='' src='file://%1'></td>").arg(filename);
+            str += "<td style='background-color: black;'><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
         str += "</tr>\n";
@@ -760,13 +760,13 @@ QString CMapTDB::getLegendPoints()
 
         filename = tempDir.filePath(QString("p%1d.png").arg(key,8,16,QChar('0')));
         prop.imgDay.save(filename);
-        //str += QString("<td width='100px' align='center'><img src='file://%1'/></td>").arg(filename);
-        str += "<td width='100px' align='center'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+        //str += QString("<td width='100px' align='center'><img alt='' src='file://%1'></td>").arg(filename);
+        str += "<td width='100px' align='center'><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
 
         filename = tempDir.filePath(QString("p%1n.png").arg(key,8,16,QChar('0')));
         prop.imgNight.save(filename);
-        //str += QString("<td width='100px' align='center' style='background-color: black;'><img src='file://%1'/></td>").arg(filename);
-        str += "<td width='100px' align='center' style='background-color: black;'><img src='"+QUrl::fromLocalFile(filename).toString()+"'/></td>";
+        //str += QString("<td width='100px' align='center' style='background-color: black;'><img alt='' src='file://%1'></td>").arg(filename);
+        str += "<td width='100px' align='center' style='background-color: black;'><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         str += "</tr>\n";
     }
 
@@ -1261,10 +1261,10 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         infotext.clear();
         foreach(key,keys)
         {
-            infotext += "<b>" + key + ":</b><br/>";
+            infotext += "<b>" + key + ":</b><br>";
             const QStringList& values = dict.values(key).toSet().toList();
-            infotext += values.join("<br/>");
-            infotext += "<br/>";
+            infotext += values.join("<br>");
+            infotext += "<br>";
         }
 
         if(!doFastDraw)
@@ -1422,7 +1422,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                     if(c->type != 0x07)
                     {
-                        out << c->str << "<br/>" << endl;
+                        out << c->str << "<br>" << endl;
                     }
                     c = (tdb_copyright_t*)((quint8*)c + 4 + strlen(c->str) + 1);
                 }
@@ -1462,7 +1462,7 @@ void CMapTDB::readTile(tile_t& tile)
             // help is on the way!!!
             mapkey = QInputDialog::getText(0,tr("However ...")
                 ,tr("<p><b>However ...</b></p>"
-                "<p>as I can read the basemap, and the information from the *tdb file,<br/>"
+                "<p>as I can read the basemap, and the information from the *tdb file,<br>"
                 "I am able to let you select the map tiles for upload. To do this I<br/>"
                 "need the unlock key (25 digits) for this map, as it has to be uploaded<br/>"
                 "to the unit together with the map.</p>"
