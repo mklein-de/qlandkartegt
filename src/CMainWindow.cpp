@@ -567,6 +567,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Map ..."),this,SLOT(slotPrint()), Qt::CTRL + Qt::Key_P);
     //menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconUnknown16x16.png"),tr("Toggle toolview"),this,SLOT(slotToggleToolView()), Qt::CTRL + Qt::Key_T);
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
     menuBar()->addMenu(menu);
 
@@ -1467,4 +1468,17 @@ void CMainWindow::slotHelp()
 void CMainWindow::slotSupport()
 {
     QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
+}
+
+void CMainWindow::slotToggleToolView()
+{
+    qDebug() << "CMainWindow::slotToggleToolView()";
+    if(leftSplitter->isHidden())
+    {
+        leftSplitter->show();
+    }
+    else
+    {
+        leftSplitter->hide();
+    }
 }

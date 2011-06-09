@@ -102,6 +102,8 @@ class CMainWindow : public QMainWindow
         void slotFAQ();
         void slotHelp();
         void slotSupport();
+
+        void slotToggleToolView();
     private:
         friend class CDBus;
         CMenus *actionGroupProvider;
