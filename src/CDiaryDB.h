@@ -35,9 +35,6 @@ class CDiaryDB : public IDB
 
         static CDiaryDB& self(){return *m_self;}
 
-//        void openEditWidget();
-//        const QString getDiary();
-
         void addDiary(CDiary * diary, bool silent);
         void delDiary(const QString& key, bool silent);
         void delDiarys(const QStringList& keys);
@@ -58,6 +55,10 @@ class CDiaryDB : public IDB
         int count();
 
         bool contains(const QString& key){return diarys.contains(key);}
+
+        QMap<QString,CDiary*> ::iterator begin(){return diarys.begin();}
+        QMap<QString,CDiary*> ::iterator end(){return diarys.end();}
+
 
     private:
         friend class CMainWindow;

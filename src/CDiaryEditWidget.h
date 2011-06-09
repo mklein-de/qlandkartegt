@@ -74,6 +74,10 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         QString getHtml(){return textEdit->toHtml();}
         void  setHtml(const QString& text){textEdit->clear(); textEdit->insertHtml(text);}
 
+        void collectData();
+
+        bool isModified(){return modified;}
+
     public slots:
         void slotDocWizard();
         void slotSave();
@@ -106,6 +110,7 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
         void colorChanged(const QColor &c);
         void alignmentChanged(Qt::Alignment a);
         void draw();
+
 
         QAction * actionTextBold;
         QAction * actionTextUnderline;

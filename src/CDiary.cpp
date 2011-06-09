@@ -77,6 +77,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 s1 >> diary.timestamp;
                 s1 >> comment;
                 s1 >> name;
+                s1 >> diary.keyProjectGeoDB;
 
                 diary.setComment(comment);
                 diary.setName(name);
@@ -145,6 +146,11 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
 {
     QList<diary_head_entry_t> entries;
 
+    if(!diary.editWidget.isNull())
+    {
+        diary.editWidget->collectData();
+    }
+
     //---------------------------------------
     // prepare base data
     //---------------------------------------
@@ -156,6 +162,7 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     s1 << diary.timestamp;
     s1 << diary.getComment();
     s1 << diary.getName();
+    s1 << diary.keyProjectGeoDB;
     entries << entryBase;
 
     //---------------------------------------
@@ -301,6 +308,13 @@ void CDiary::clear()
     rtes.clear();
 }
 
+bool CDiary::isModified()
+{
+    if(editWidget.isNull()) return false;
+
+    return editWidget->isModified();
+}
+
 void CDiary::slotEditWidgetDied(QObject*)
 {
     CDiaryDB::self().delDiary(getKey(), false);
@@ -331,3 +345,4 @@ void CDiary::showEditWidget(CTabWidget * tab)
     tab->addTab(editWidget, tr("Diary"));
     editWidget->slotDocWizard();
 }
+

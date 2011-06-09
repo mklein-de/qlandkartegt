@@ -29,7 +29,7 @@ else (JPEG_LIBRARIES AND JPEG_INCLUDE_DIRS)
         /usr/local/include
         /opt/local/include
         /sw/include
-        E:/qlgt/tools/libjpeg/win32
+        ${CMAKE_CURRENT_SOURCE_DIR}/Win32
   )
   mark_as_advanced(JPEG_INCLUDE_DIR)
 
@@ -45,7 +45,7 @@ endif (WIN32)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        E:/qlgt/tools/libjpeg/win32
+        ${CMAKE_CURRENT_SOURCE_DIR}/Win32
   )
   mark_as_advanced(LIBJPEG_LIBRARY)
 

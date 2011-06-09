@@ -296,8 +296,8 @@ CDiaryEditWidget::CDiaryEditWidget(CDiary * diary, QWidget * parent, bool embedd
 CDiaryEditWidget::~CDiaryEditWidget()
 {
     QSettings cfg;
-    cfg.setValue("textedit/fontfamily", comboFont->currentText());
-    cfg.setValue("textedit/fontsize", comboSize->currentText().toInt());
+    cfg.setValue("textedit/fontfamily", textEdit->font().family());
+    cfg.setValue("textedit/fontsize", textEdit->font().pointSize());
 }
 
 void CDiaryEditWidget::textBold()
@@ -721,7 +721,7 @@ QString toPlainText(const QTextTableCell& cell)
     return str;
 }
 
-void CDiaryEditWidget::slotSave()
+void CDiaryEditWidget::collectData()
 {
     quint32 cnt;
     if(!diary->diaryFrame.isNull())
@@ -745,7 +745,11 @@ void CDiaryEditWidget::slotSave()
         trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary->tblTrk->cellAt(cnt, 2)));
         cnt++;
     }
+}
 
+void CDiaryEditWidget::slotSave()
+{
+    collectData();
 
     if(!CGeoDB::self().setProjectDiaryData(diary->keyProjectGeoDB, *diary))
     {

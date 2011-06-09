@@ -687,6 +687,7 @@ void CGeoDB::loadWorkspace()
     QByteArray& rtes = qlb.routes();
     QByteArray& ovls = qlb.overlays();
     QByteArray& maps = qlb.mapsels();
+    QByteArray& drys = qlb.diary();
 
     quint32 progCnt = 0;
     PROGRESS_SETUP(tr("Loading workspace. Please wait."), query.size());
@@ -727,6 +728,9 @@ void CGeoDB::loadWorkspace()
                     keysMapModified << query.value(2).toString();
                 }
                 break;
+            case eDry:
+                drys += query.value(3).toByteArray();
+                break;
             }
 
     }
@@ -736,6 +740,7 @@ void CGeoDB::loadWorkspace()
     CRouteDB::self().loadQLB(qlb, false);
     COverlayDB::self().loadQLB(qlb, false);
     CMapDB::self().loadQLB(qlb, false);
+    CDiaryDB::self().loadQLB(qlb, false);
 
     changedWorkspace();
 }
@@ -1763,7 +1768,7 @@ void CGeoDB::saveWorkspace()
     }
 
     quint32 total, progCnt = 0;
-    total = itemWksWpt->childCount() + itemWksTrk->childCount() + itemWksRte->childCount() + itemWksOvl->childCount();
+    total = itemWksWpt->childCount() + itemWksTrk->childCount() + itemWksRte->childCount() + itemWksOvl->childCount() + CDiaryDB::self().count();
     PROGRESS_SETUP(tr("Saving workspace. Please wait."), total);
 
     size = itemWksWpt->childCount();
@@ -1868,6 +1873,26 @@ void CGeoDB::saveWorkspace()
         query.bindValue(":changed", item->text(eCoState) == "*");
         query.bindValue(":type", eMap);
         query.bindValue(":key", map->getKey());
+        query.bindValue(":data", data);
+        QUERY_EXEC(continue);
+    }
+
+    size = CDiaryDB::self().count();
+    QMap<QString,CDiary*>::iterator dry = CDiaryDB::self().begin();
+    for(i=0; i<size; i++, dry++)
+    {
+        PROGRESS(progCnt++, return);
+
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_5);
+
+        stream << *(*dry);
+
+        query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
+        query.bindValue(":changed", (*dry)->isModified());
+        query.bindValue(":type", eDry);
+        query.bindValue(":key", (*dry)->getKey());
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
     }
@@ -3165,6 +3190,7 @@ void CGeoDB::slotAddDiary()
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     CDiary *  diary = new CDiary(&CDiaryDB::self());
+    diary->linkToProject(parentId);
 
     stream << *diary;
 
@@ -3177,7 +3203,7 @@ void CGeoDB::slotAddDiary()
     query.bindValue(":data", data);
     QUERY_EXEC(delete diary; return);
 
-    diary->linkToProject(parentId);
+
     CDiaryDB::self().addDiary(diary, false);
 
     parent->setData(eCoDiary, eUrDiary, true);
