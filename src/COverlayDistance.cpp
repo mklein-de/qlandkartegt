@@ -1109,7 +1109,7 @@ void COverlayDistance::slotToRoute()
         pt = points[i];
         pt.u = pt.u * RAD_TO_DEG;
         pt.v = pt.v * RAD_TO_DEG;
-        route->addPosition(pt.u, pt.v);
+        route->addPosition(pt.u, pt.v, QString("p%1").arg(i + 1));
     }
 
     CRouteDB::self().addRoute(route, false);

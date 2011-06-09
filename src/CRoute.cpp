@@ -301,11 +301,12 @@ CRoute::~CRoute()
 
 }
 
-void CRoute::addPosition(const double lon, const double lat)
+void CRoute::addPosition(const double lon, const double lat, const QString& action)
 {
     pt_t pt;
     pt.lon = lon;
     pt.lat = lat;
+    pt.action = action;
     priRoute << pt;
 
     secRoute.clear();

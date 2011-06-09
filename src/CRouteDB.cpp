@@ -209,13 +209,20 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
         while (!rtept.isNull())
         {
+            QString name;
             XY pt;
             QDomNamedNodeMap attr = rtept.attributes();
+
+            if(rtept.namedItem("name").isElement())
+            {
+                name = rtept.namedItem("name").toElement().text();
+            }
 
             pt.u = attr.namedItem("lon").nodeValue().toDouble();
             pt.v = attr.namedItem("lat").nodeValue().toDouble();
 
-            r->addPosition(pt.u,pt.v);
+            r->addPosition(pt.u,pt.v, name);
+
 
             if(rtept.namedItem("sym").isElement())
             {

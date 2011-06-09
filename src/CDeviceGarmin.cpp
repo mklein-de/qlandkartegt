@@ -1064,7 +1064,7 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         std::vector<Garmin::RtePt_t>::const_iterator garrtept = garrte->route.begin();
         while(garrtept != garrte->route.end())
         {
-            rte->addPosition(garrtept->lon, garrtept->lat);
+            rte->addPosition(garrtept->lon, garrtept->lat, garrtept->ident.c_str());
             ++garrtept;
         }
 

@@ -65,7 +65,7 @@ class CRoute : public IItem
             @param lon the longitude in degree
             @param lat the latitude in degree
         */
-        void addPosition(const double lon, const double lat);
+        void addPosition(const double lon, const double lat, const QString& action);
 
         QPolygon& getPolyline(){return polyline;}
         QPolygon& getPoints(){return points;}
