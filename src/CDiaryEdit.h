@@ -49,7 +49,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
     private:
         friend class CDiaryEditLock;
 
-        void draw();
+        void draw(QPaintDevice& dev);
         void setTabTitle();
 
         int isInternalEdit;

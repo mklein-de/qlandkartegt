@@ -89,6 +89,7 @@ void CDiaryEdit::slotReload()
         modified = false;
     }
 
+    textEdit->clear();
     draw();
 }
 
@@ -115,11 +116,12 @@ void CDiaryEdit::setTabTitle()
 
 }
 
-void CDiaryEdit::draw()
+void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
 {
     CDiaryEditLock lock(this);
-    textEdit->clear();
-
 
     setTabTitle();
+
+
+
 }
