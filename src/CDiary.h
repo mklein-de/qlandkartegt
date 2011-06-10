@@ -70,7 +70,7 @@ class CDiary : public IItem
     private:
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);
         friend QDataStream& operator <<(QDataStream& s, CDiary& diary);
-        friend class CDiaryEditWidget;
+        friend class CDiaryEdit;
 
         quint64 keyProjectGeoDB;
 

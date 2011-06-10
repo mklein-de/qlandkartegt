@@ -22,13 +22,42 @@
 **********************************************************************************************/
 
 #include "CDiaryEdit.h"
+#include "CGeoDB.h"
+#include "CDiary.h"
+#include "CMainWindow.h"
+#include "CTabWidget.h"
 
 #include <QtGui>
 
-CDiaryEdit::CDiaryEdit(QWidget * parent)
-    : QWidget(parent)
+class CDiaryEditLock
 {
+    public:
+        CDiaryEditLock(CDiaryEdit * d) : d(d){d->isInternalEdit += 1;}
+        ~CDiaryEditLock(){d->isInternalEdit -= 1;}
+    private:
+        CDiaryEdit * d;
+};
 
+
+CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
+: QWidget(parent)
+, isInternalEdit(0)
+, diary(diary)
+, modified(false)
+{
+    setupUi(this);
+
+    toolSave->setIcon(QIcon(":/icons/save.png"));
+    connect(toolSave, SIGNAL(clicked(bool)), this, SLOT(slotSave()));
+
+    toolReload->setIcon(QIcon(":/icons/refresh.png"));
+    connect(toolReload, SIGNAL(clicked(bool)), this, SLOT(slotReload()));
+
+    toolPrint->setIcon(QIcon(":/icons/iconPrint22x22.png"));
+    connect(toolPrint, SIGNAL(clicked(bool)), this, SLOT(slotPrintPreview()));
+
+
+    slotReload();
 }
 
 CDiaryEdit::~CDiaryEdit()
@@ -45,9 +74,52 @@ void CDiaryEdit::collectData()
 bool CDiaryEdit::isModified()
 {
 
+    return false;
 }
 
-void CDiaryEdit::slotDocWizard()
+void CDiaryEdit::slotSave()
 {
 
+}
+
+void CDiaryEdit::slotReload()
+{
+    if(CGeoDB::self().getProjectDiaryData(diary.keyProjectGeoDB, diary))
+    {
+        modified = false;
+    }
+
+    draw();
+}
+
+void CDiaryEdit::slotPrintPreview()
+{
+
+}
+
+void CDiaryEdit::setTabTitle()
+{
+    CTabWidget * tab = theMainWindow->getCanvasTab();
+    if(tab)
+    {
+        int idx = tab->indexOf(this);
+        if(modified)
+        {
+            tab->setTabText(idx, tr("Diary - %1 *").arg(diary.getName()));
+        }
+        else
+        {
+            tab->setTabText(idx, tr("Diary - %1").arg(diary.getName()));
+        }
+    }
+
+}
+
+void CDiaryEdit::draw()
+{
+    CDiaryEditLock lock(this);
+    textEdit->clear();
+
+
+    setTabTitle();
 }

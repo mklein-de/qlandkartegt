@@ -24,26 +24,38 @@
 #define CDIARYEDIT_H
 
 #include <QWidget>
+#include "ui_IDiaryEdit.h"
 
+class CDiary;
 
-class CDiaryEdit : public QWidget
+class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 {
     Q_OBJECT;
     public:
-        CDiaryEdit(QWidget * parent);
+        CDiaryEdit(CDiary& diary, QWidget * parent);
         virtual ~CDiaryEdit();
-
-//        QString getHtml();
-//        void  setHtml(const QString& text);
 
         void collectData();
 
         bool isModified();
 
     public slots:
-        void slotDocWizard();
-//        void slotSave();
+        void slotReload();
 
+    private slots:
+        void slotSave();
+        void slotPrintPreview();
+
+    private:
+        friend class CDiaryEditLock;
+
+        void draw();
+        void setTabTitle();
+
+        int isInternalEdit;
+        CDiary& diary;
+
+        bool modified;
 };
 
 #endif //CDIARYEDIT_H

@@ -342,10 +342,10 @@ void CDiary::showEditWidget(CTabWidget * tab)
 {
     if(editWidget == 0)
     {
-        editWidget = new CDiaryEdit(tab);
+        editWidget = new CDiaryEdit(*this,tab);
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
-    tab->addTab(editWidget, tr("Diary"));
-    editWidget->slotDocWizard();
+    tab->addTab(editWidget, tr("Diary"));    
+    editWidget->slotReload();
 }
 
