@@ -26,7 +26,7 @@
 #include <QFile>
 #include <QPointer>
 
-class CDiaryEditWidget;
+class CDiaryEdit;
 class CTabWidget;
 
 class CWpt;
@@ -34,6 +34,7 @@ class CTrack;
 class CRoute;
 class QTextFrame;
 class QTextTable;
+
 
 class CDiary : public IItem
 {
@@ -73,7 +74,7 @@ class CDiary : public IItem
 
         quint64 keyProjectGeoDB;
 
-        QPointer<CDiaryEditWidget> editWidget;
+        QPointer<CDiaryEdit> editWidget;
 
         QList<CWpt*> wpts;
         QList<CRoute*> rtes;

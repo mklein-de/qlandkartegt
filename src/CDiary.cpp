@@ -19,7 +19,7 @@
 
 #include "CDiary.h"
 #include "CDiaryDB.h"
-#include "CDiaryEditWidget.h"
+#include "CDiaryEdit.h"
 #include "CTabWidget.h"
 
 #include "CWpt.h"
@@ -342,7 +342,7 @@ void CDiary::showEditWidget(CTabWidget * tab)
 {
     if(editWidget == 0)
     {
-        editWidget = new CDiaryEditWidget(this, tab);
+        editWidget = new CDiaryEdit(tab);
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
     tab->addTab(editWidget, tr("Diary"));

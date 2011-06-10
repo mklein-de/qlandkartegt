@@ -18,7 +18,7 @@
 **********************************************************************************************/
 
 #include "CDlgEditText.h"
-#include "CDiaryEditWidget.h"
+#include "CTextEditWidget.h"
 
 #include <QtGui>
 
@@ -35,7 +35,7 @@ CDlgEditText::CDlgEditText(QString& content, QWidget * parent)
     buttonBox->setOrientation(Qt::Horizontal);
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok);
 
-    textedit = new CDiaryEditWidget(0,this, true);
+    textedit = new CTextEditWidget(0,this, true);
     textedit->setHtml(content);
 
     vboxLayout->addWidget(textedit);

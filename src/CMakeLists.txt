@@ -162,7 +162,8 @@ set(qlandkarte_SRCS
     CTabWidget.cpp
     CDiary.cpp
     CDiaryDB.cpp
-    CDiaryEditWidget.cpp
+    CDiaryEdit.cpp
+    CTextEditWidget.cpp
     CPlot.cpp
     CPlotAxis.cpp
     CPlotAxisTime.cpp
@@ -314,7 +315,8 @@ set(qlandkarte_HDRS
     CTabWidget.h
     CDiary.h
     CDiaryDB.h
-    CDiaryEditWidget.h
+    CDiaryEdit.h
+    CTextEditWidget.h
     CPlot.h
     CPlotAxis.h
     CPlotAxisTime.h
@@ -393,12 +395,13 @@ SET(qlandkarte_UIS
     IRouteToolWidget.ui
     IStatusDEM.ui
     IDlgProjWizzard.ui
-    IDiaryEditWidget.ui
+    ITextEditWidget.ui
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IOverlayDistanceEditWidget.ui
     IGarminExport.ui
     IHelpDlg.ui
+    IDiaryEdit.ui
 )
 
 SET(qlandkarte_RCS

@@ -21,7 +21,7 @@
 
 #include <QDialog>
 
-class CDiaryEditWidget;
+class CTextEditWidget;
 class QVBoxLayout;
 class QDialogButtonBox;
 
@@ -36,7 +36,7 @@ class CDlgEditText : public QDialog
 
     private:
         QVBoxLayout * vboxLayout;
-        CDiaryEditWidget * textedit;
+        CTextEditWidget * textedit;
         QDialogButtonBox * buttonBox;
 
         QString& content;

@@ -53,23 +53,23 @@
  ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  **
  ****************************************************************************/
-#ifndef CDIARYEDITWIDGET_H
-#define CDIARYEDITWIDGET_H
+#ifndef CTEXTEDITWIDGET_H
+#define CTEXTEDITWIDGET_H
 
 #include <QWidget>
 #include <QTextCharFormat>
 #include <QTextBlockFormat>
 #include <QPointer>
-#include "ui_IDiaryEditWidget.h"
+#include "ui_ITextEditWidget.h"
 
 class CDiary;
 
-class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
+class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
 {
     Q_OBJECT;
     public:
-        CDiaryEditWidget(CDiary * diary, QWidget * parent,  bool embedded = false);
-        virtual ~CDiaryEditWidget();
+        CTextEditWidget(CDiary * diary, QWidget * parent,  bool embedded = false);
+        virtual ~CTextEditWidget();
 
         QString getHtml(){return textEdit->toHtml();}
         void  setHtml(const QString& text){textEdit->clear(); textEdit->insertHtml(text);}
@@ -129,23 +129,23 @@ class CDiaryEditWidget : public QWidget, private Ui::IDiaryEditWidget
 
         bool embedded;
         bool modified;
-        quint32 isInternalEdit;
+//        quint32 isInternalEdit;
 
-        CDiary * diary;
+//        CDiary * diary;
 
-        QTextCharFormat fmtTextHeading1;
-        QTextCharFormat fmtTextHeading2;
-        QTextCharFormat fmtTextStandard;
-        QTextCharFormat fmtTextBold;
+//        QTextCharFormat fmtTextHeading1;
+//        QTextCharFormat fmtTextHeading2;
+//        QTextCharFormat fmtTextStandard;
+//        QTextCharFormat fmtTextBold;
 
-        QTextBlockFormat blockHeading1;
-        QTextBlockFormat blockHeading2;
-        QTextBlockFormat blockStandard;
+//        QTextBlockFormat blockHeading1;
+//        QTextBlockFormat blockHeading2;
+//        QTextBlockFormat blockStandard;
 
-        QTextFrameFormat frameStandard;
+//        QTextFrameFormat frameStandard;
 
-        QTextTableFormat tableStandard;
+//        QTextTableFormat tableStandard;
 
 
 };
-#endif                           //CDIARYEDITWIDGET_H
+#endif                           //CTEXTEDITWIDGET_H

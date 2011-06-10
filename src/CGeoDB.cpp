@@ -32,7 +32,7 @@
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
 #include "CDiary.h"
-#include "CDiaryEditWidget.h"
+#include "CTextEditWidget.h"
 #include "CDiaryDB.h"
 #include "CDlgSelGeoDBFolder.h"
 #include "CResources.h"
