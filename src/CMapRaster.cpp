@@ -272,17 +272,47 @@ void CMapRaster::draw()
 
             if(!err)
             {
-                quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
-                quint8 * pSrc   = buffer.data();
-                const int size  = buffer.size();
-
-                for(int i = 0; i < size; ++i)
+                int offset;
+                switch(pBand->GetColorInterpretation())
                 {
-                    *pTar = *pSrc;
-                    pTar += 4;
-                    pSrc += 1;
+                    case GCI_RedBand:   offset = 2; break;
+                    case GCI_GreenBand: offset = 1; break;
+                    case GCI_BlueBand:  offset = 0; break;
+                    case GCI_AlphaBand: offset = 3; break;
+                    default:            offset = -1;
+                }
+
+                if(offset >= 0 && offset <= 3)
+                {
+#if Q_BYTE_ORDER == Q_BIG_ENDIAN
+                    offset = 3 - offset;
+#endif
+                    quint8 * pTar   = img.bits() + offset;
+                    quint8 * pSrc   = buffer.data();
+                    const int size  = buffer.size();
+
+                    for(int i = 0; i < size; ++i)
+                    {
+                        *pTar = *pSrc;
+                        pTar += 4;
+                        pSrc += 1;
+                    }
                 }
             }
+
+//            if(!err)
+//            {
+//                quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
+//                quint8 * pSrc   = buffer.data();
+//                const int size  = buffer.size();
+
+//                for(int i = 0; i < size; ++i)
+//                {
+//                    *pTar = *pSrc;
+//                    pTar += 4;
+//                    pSrc += 1;
+//                }
+//            }
         }
 
         if(!err)

@@ -409,6 +409,11 @@ void CMapQMAP::draw()
 
                             if(offset >= 0 && offset <= 3)
                             {
+
+#if Q_BYTE_ORDER == Q_BIG_ENDIAN
+                                offset = 3 - offset;
+#endif
+
                                 quint8 * pTar   = img.bits() + offset;
                                 quint8 * pSrc   = buffer.data();
                                 const int size  = buffer.size();
