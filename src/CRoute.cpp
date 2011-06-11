@@ -102,12 +102,15 @@ QDataStream& operator >>(QDataStream& s, CRoute& route)
                 {
                     CRoute::pt_t rtept;
                     float u, v;
+                    QString action;
 
                     s1 >> u;
                     s1 >> v;
+                    s1 >> action;
 
                     rtept.lon = u;
                     rtept.lat = v;
+                    rtept.action = action;
                     route.priRoute << rtept;
                 }
                 break;
@@ -186,6 +189,7 @@ QDataStream& operator <<(QDataStream& s, CRoute& route)
         {
             s2 << (float)rtept->lon;
             s2 << (float)rtept->lat;
+            s2 << rtept->action;
             ++rtept;
         }
     }

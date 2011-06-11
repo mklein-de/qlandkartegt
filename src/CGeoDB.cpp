@@ -442,7 +442,7 @@ void CGeoDB::migrateDB(int version)
                 }
 
                 quint32 progCnt = 0;
-                PROGRESS_SETUP(tr("Mirgrating database from version 4 to 5."), query.size());
+                PROGRESS_SETUP(tr("Migrating database from version 4 to 5."), query.size());
 
                 while(query.next())
                 {
@@ -493,7 +493,7 @@ void CGeoDB::migrateDB(int version)
                 }
 
                 quint32 progCnt = 0;
-                PROGRESS_SETUP(tr("Mirgrating database from version 5 to 6."), query.size());
+                PROGRESS_SETUP(tr("Migrating database from version 5 to 6."), query.size());
 
                 while(query.next())
                 {
@@ -550,7 +550,7 @@ void CGeoDB::migrateDB(int version)
                 }
 
                 quint32 progCnt = 0;
-                PROGRESS_SETUP(tr("Mirgrating database from version 6 to 7."), query.size());
+                PROGRESS_SETUP(tr("Migrating database from version 6 to 7."), query.size());
 
                 while(query.next())
                 {
@@ -615,7 +615,7 @@ void CGeoDB::migrateDB(int version)
             }
             case 8:
             {
-                PROGRESS_SETUP(tr("Mirgrating database from version 7 to 8."), 1);
+                PROGRESS_SETUP(tr("Migrating database from version 7 to 8."), 1);
 
                 if(!query.exec( "CREATE TABLE diarys ("
                     "id             INTEGER PRIMARY KEY AUTOINCREMENT,"

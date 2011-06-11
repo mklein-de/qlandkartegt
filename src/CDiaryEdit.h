@@ -1,7 +1,7 @@
 /**********************************************************************************************
 
   DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/  
+  http://www.dspsolutions.de/
 
   Author:      Oliver Eichler
   Email:       oliver.eichler@dspsolutions.de
@@ -10,7 +10,7 @@
 
   File:        CDiaryEdit.h
 
-  Module:      
+  Module:
 
   Description:
 
@@ -49,7 +49,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
     private:
         friend class CDiaryEditLock;
 
-        void draw(QPaintDevice& dev);
+        void draw(QPaintDevice& dev, QTextDocument& doc);
         void setTabTitle();
 
         int isInternalEdit;

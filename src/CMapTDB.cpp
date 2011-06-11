@@ -1063,7 +1063,7 @@ void CMapTDB::setup()
     polylineProperties[0x20].strings[0x00] = tr("Minor land contour");
     polylineProperties[0x21].strings[0x00] = tr("Intermediate land contour");
     polylineProperties[0x22].strings[0x00] = tr("Major land contour");
-    polylineProperties[0x23].strings[0x00] = tr("Minor deph contour");
+    polylineProperties[0x23].strings[0x00] = tr("Minor depth contour");
     polylineProperties[0x24].strings[0x00] = tr("Intermediate depth contour");
     polylineProperties[0x25].strings[0x00] = tr("Major depth contour");
     polylineProperties[0x26].strings[0x00] = tr("Intermittent stream");
@@ -1152,7 +1152,7 @@ void CMapTDB::setup()
     polygonProperties[0x13].strings[0x00] = tr("Man-made area");
     polygonProperties[0x19].strings[0x00] = tr("Sports complex");
     polygonProperties[0x18].strings[0x00] = tr("Golf course");
-    polygonProperties[0x1a].strings[0x00] = tr("Cemetary");
+    polygonProperties[0x1a].strings[0x00] = tr("Cemetery");
     polygonProperties[0x14].strings[0x00] = tr("National park");
     polygonProperties[0x15].strings[0x00] = tr("National park");
     polygonProperties[0x16].strings[0x00] = tr("National park");
@@ -2961,7 +2961,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
                 {
                     switch(type)
                     {
-                                 // "Minor depht contour"
+                                 // "Minor depth contour"
                         case 0x23:
                                  // "Minor land contour"
                         case 0x20:

@@ -1,7 +1,7 @@
 /**********************************************************************************************
 
   DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/  
+  http://www.dspsolutions.de/
 
   Author:      Oliver Eichler
   Email:       oliver.eichler@dspsolutions.de
@@ -10,7 +10,7 @@
 
   File:        CDiaryEdit.cpp
 
-  Module:      
+  Module:
 
   Description:
 
@@ -90,7 +90,7 @@ void CDiaryEdit::slotReload()
     }
 
     textEdit->clear();
-    draw();
+//    draw();
 }
 
 void CDiaryEdit::slotPrintPreview()
