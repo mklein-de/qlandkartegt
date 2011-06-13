@@ -262,6 +262,8 @@ void CMapRaster::draw()
         QVector<quint8> buffer(w*h);
 
         img.fill(qRgba(255,255,255,255));
+        QRgb testPix = qRgba(GCI_RedBand, GCI_GreenBand, GCI_BlueBand, GCI_AlphaBand);
+
         for(int b = 1; b <= rasterBandCount; ++b)
         {
 
@@ -272,21 +274,13 @@ void CMapRaster::draw()
 
             if(!err)
             {
-                int offset;
-                switch(pBand->GetColorInterpretation())
-                {
-                    case GCI_RedBand:   offset = 2; break;
-                    case GCI_GreenBand: offset = 1; break;
-                    case GCI_BlueBand:  offset = 0; break;
-                    case GCI_AlphaBand: offset = 3; break;
-                    default:            offset = -1;
-                }
+                int pbandColour = pBand->GetColorInterpretation();
+                unsigned int offset;
 
-                if(offset >= 0 && offset <= 3)
+                for (offset = 0; offset < sizeof(testPix) && *(((quint8 *)&testPix) + offset) != pbandColour; offset++);
+
+                if(offset < sizeof(testPix))
                 {
-#if Q_BYTE_ORDER == Q_BIG_ENDIAN
-                    offset = 3 - offset;
-#endif
                     quint8 * pTar   = img.bits() + offset;
                     quint8 * pSrc   = buffer.data();
                     const int size  = buffer.size();
@@ -294,25 +288,11 @@ void CMapRaster::draw()
                     for(int i = 0; i < size; ++i)
                     {
                         *pTar = *pSrc;
-                        pTar += 4;
+                        pTar += sizeof(testPix);
                         pSrc += 1;
                     }
                 }
             }
-
-//            if(!err)
-//            {
-//                quint8 * pTar   = img.bits() - (pBand->GetColorInterpretation() - 5);
-//                quint8 * pSrc   = buffer.data();
-//                const int size  = buffer.size();
-
-//                for(int i = 0; i < size; ++i)
-//                {
-//                    *pTar = *pSrc;
-//                    pTar += 4;
-//                    pSrc += 1;
-//                }
-//            }
         }
 
         if(!err)
