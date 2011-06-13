@@ -77,6 +77,13 @@ bool CDiaryEdit::isModified()
     return false;
 }
 
+void CDiaryEdit::resizeEvent(QResizeEvent * e)
+{
+    QWidget::resizeEvent(e);
+    textEdit->clear();
+    draw(*this, *textEdit->document());
+}
+
 void CDiaryEdit::slotSave()
 {
 
@@ -90,7 +97,8 @@ void CDiaryEdit::slotReload()
     }
 
     textEdit->clear();
-//    draw();
+    setTabTitle();
+    draw(*this, *textEdit->document());
 }
 
 void CDiaryEdit::slotPrintPreview()
@@ -113,15 +121,63 @@ void CDiaryEdit::setTabTitle()
             tab->setTabText(idx, tr("Diary - %1").arg(diary.getName()));
         }
     }
-
 }
 
 void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
 {
     CDiaryEditLock lock(this);
+    QFontMetrics fm(QFont(font().family(),10));
 
-    setTabTitle();
+    int w = doc.textWidth();
+    int pointSize = ((10 * w) / (100 *  fm.width("X")));
 
+    qDebug() << "pontSize" << pointSize;
 
+    QFont f = textEdit->font();
+    f.setPointSize(pointSize);
+
+    QTextCharFormat fmtCharHeading1;
+    fmtCharHeading1.setFont(f);
+    fmtCharHeading1.setFontWeight(QFont::Black);
+    fmtCharHeading1.setFontPointSize(f.pointSize() + 8);
+
+    QTextCharFormat fmtCharStandard;
+    fmtCharStandard.setFont(f);
+
+    QTextBlockFormat fmtBlockStandard;
+    fmtBlockStandard.setTopMargin(10);
+    fmtBlockStandard.setBottomMargin(10);
+
+    QTextFrameFormat fmtFrameStandard;
+    fmtFrameStandard.setTopMargin(5);
+    fmtFrameStandard.setBottomMargin(5);
+    fmtFrameStandard.setWidth(w);
+    fmtFrameStandard.setBorder(1);
+
+    QTextCursor cursor = doc.find(QRegExp(".*"));
+
+    cursor.insertText(diary.getName(), fmtCharHeading1);
+    cursor.setCharFormat(fmtCharStandard);
+    cursor.setBlockFormat(fmtBlockStandard);
+
+    diary.diaryFrame = cursor.insertFrame(fmtFrameStandard);
+    {
+        QTextCursor cursor1(diary.diaryFrame);
+
+        cursor1.setCharFormat(fmtCharStandard);
+        cursor1.setBlockFormat(fmtBlockStandard);
+
+        if(diary.getComment().isEmpty())
+        {
+            cursor1.insertText(tr("Add your own text here..."));
+        }
+        else
+        {
+            cursor1.insertHtml(diary.getComment());
+        }
+        cursor.setPosition(cursor1.position()+1);
+    }
 
 }
+
+

@@ -46,6 +46,9 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         void slotSave();
         void slotPrintPreview();
 
+    protected:
+        void resizeEvent(QResizeEvent * e);
+
     private:
         friend class CDiaryEditLock;
 
