@@ -142,7 +142,7 @@ int CDlgEditWpt::exec()
         labelLink->setText(str);
     }
 
-    textComment->setHtml(wpt.getComment());
+    textComment->setPlainText(wpt.getComment());
     lineDesc->setText(wpt.getDescription());
 
     slotUpdateBarcode();
@@ -244,7 +244,7 @@ void CDlgEditWpt::accept()
     wpt.setIcon(toolIcon->objectName());
     wpt.setName(lineName->text());
     wpt.setDescription(lineDesc->text());
-    wpt.setComment(textComment->toHtml());
+    wpt.setComment(textComment->toPlainText());
     wpt.sticky      = checkSticky->isChecked();
 
     wpt.ele         = lineAltitude->text().isEmpty() ? WPT_NOFLOAT : IUnit::self().elevation2meter(lineAltitude->text());

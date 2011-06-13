@@ -100,11 +100,11 @@ QString QTextHtmlExporter::toHtml(const QByteArray &encoding, ExportMode mode)
 
         emitFontFamily(defaultCharFormat.fontFamily());
 
-        if (defaultCharFormat.hasProperty(QTextFormat::FontPointSize)) {
-            html += QLatin1String(" font-size:");
-            html += QString::number(defaultCharFormat.fontPointSize());
-            html += QLatin1String("pt;");
-        }
+//        if (defaultCharFormat.hasProperty(QTextFormat::FontPointSize)) {
+//            html += QLatin1String(" font-size:");
+//            html += QString::number(defaultCharFormat.fontPointSize());
+//            html += QLatin1String("pt;");
+//        }
 
         html += QLatin1String(" font-weight:");
         html += QString::number(defaultCharFormat.fontWeight() * 8);
@@ -187,28 +187,29 @@ bool QTextHtmlExporter::emitCharFormatStyle(const QTextCharFormat &format)
         }
     }
 
-    if (format.hasProperty(QTextFormat::FontPointSize)
-        && format.fontPointSize() != defaultCharFormat.fontPointSize()) {
-        html += QLatin1String(" font-size:");
-        html += QString::number(format.fontPointSize());
-        html += QLatin1String("pt;");
-        attributesEmitted = true;
-    } else if (format.hasProperty(QTextFormat::FontSizeAdjustment)) {
-        static const char * const sizeNames[] = {
-            "small", "medium", "large", "x-large", "xx-large"
-        };
-        const char *name = 0;
-        const int idx = format.intProperty(QTextFormat::FontSizeAdjustment) + 1;
-        if (idx >= 0 && idx <= 4) {
-            name = sizeNames[idx];
-        }
-        if (name) {
-            html += QLatin1String(" font-size:");
-            html += QLatin1String(name);
-            html += QLatin1Char(';');
-            attributesEmitted = true;
-        }
-    }
+//    if (format.hasProperty(QTextFormat::FontPointSize)
+//        && format.fontPointSize() != defaultCharFormat.fontPointSize()) {
+//        html += QLatin1String(" font-size:");
+//        html += QString::number(format.fontPointSize());
+//        html += QLatin1String("pt;");
+//        attributesEmitted = true;
+//    } else
+//    if (format.hasProperty(QTextFormat::FontSizeAdjustment)) {
+//        static const char * const sizeNames[] = {
+//            "small", "medium", "large", "x-large", "xx-large"
+//        };
+//        const char *name = 0;
+//        const int idx = format.intProperty(QTextFormat::FontSizeAdjustment) + 1;
+//        if (idx >= 0 && idx <= 4) {
+//            name = sizeNames[idx];
+//        }
+//        if (name) {
+//            html += QLatin1String(" font-size:");
+//            html += QLatin1String(name);
+//            html += QLatin1Char(';');
+//            attributesEmitted = true;
+//        }
+//    }
 
     if (format.hasProperty(QTextFormat::FontWeight)
         && format.fontWeight() != defaultCharFormat.fontWeight()) {
@@ -433,16 +434,16 @@ void QTextHtmlExporter::emitPageBreakPolicy(QTextFormat::PageBreakFlags policy)
 
 void QTextHtmlExporter::emitFontFamily(const QString &family)
 {
-    html += QLatin1String(" font-family:");
+//    html += QLatin1String(" font-family:");
 
-    QLatin1String quote("\'");
-    if (family.contains(QLatin1Char('\'')))
-        quote = QLatin1String("&quot;");
+//    QLatin1String quote("\'");
+//    if (family.contains(QLatin1Char('\'')))
+//        quote = QLatin1String("&quot;");
 
-    html += quote;
-    html += Qt::escape(family);
-    html += quote;
-    html += QLatin1Char(';');
+//    html += quote;
+//    html += Qt::escape(family);
+//    html += quote;
+//    html += QLatin1Char(';');
 }
 
 void QTextHtmlExporter::emitMargins(const QString &top, const QString &bottom, const QString &left, const QString &right)

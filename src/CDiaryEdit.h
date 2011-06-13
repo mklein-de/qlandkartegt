@@ -35,9 +35,9 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         CDiaryEdit(CDiary& diary, QWidget * parent);
         virtual ~CDiaryEdit();
 
-        void collectData();
-
         bool isModified();
+
+        void collectData();
 
     public slots:
         void slotReload();
@@ -54,6 +54,8 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
         void draw(QPaintDevice& dev, QTextDocument& doc);
         void setTabTitle();
+
+        enum eTblCol{eSym, eInfo, eComment, eMax};
 
         int isInternalEdit;
         CDiary& diary;
