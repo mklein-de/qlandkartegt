@@ -270,7 +270,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
         table->cellAt(0,eComment).setFormat(fmtCharHeader);
 
         table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
-        table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Comment"));
+        table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
         cnt = 1;
         qSort(trks.begin(), trks.end(), qSortTrkLessTime);
