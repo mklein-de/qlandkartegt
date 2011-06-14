@@ -1218,16 +1218,6 @@ void CMainWindow::slotModified()
 }
 
 
-/// @todo move or remove
-void CMainWindow::slotPrintPreview()
-{
-//    QTextEdit textEdit(this);
-//    textEdit.insertHtml(CDiaryDB::self().getDiary());
-//    PrintPreview *preview = new PrintPreview(textEdit.document(), this);
-//    preview->setWindowModality(Qt::WindowModal);
-//    preview->setAttribute(Qt::WA_DeleteOnClose);
-//    preview->show();
-}
 
 
 void CMainWindow::slotDataChanged()

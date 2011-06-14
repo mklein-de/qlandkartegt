@@ -68,19 +68,11 @@ class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
 {
     Q_OBJECT;
     public:
-        CTextEditWidget(CDiary * diary, QWidget * parent,  bool embedded = false);
+        CTextEditWidget(QWidget * parent);
         virtual ~CTextEditWidget();
 
         QString getHtml(){return textEdit->toHtml();}
         void  setHtml(const QString& text){textEdit->clear(); textEdit->insertHtml(text);}
-
-        void collectData();
-
-        bool isModified(){return modified;}
-
-    public slots:
-        void slotDocWizard();
-        void slotSave();
 
     private slots:
         void textBold();
@@ -94,13 +86,7 @@ class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
 
         void currentCharFormatChanged(const QTextCharFormat &format);
         void cursorPositionChanged();
-        void setWindowModified(bool);
-        void setWindowModified();
         void clipboardDataChanged();
-        void slotPrintPreview();
-
-
-
 
     private:
         friend class CDiaryDB;
@@ -109,7 +95,7 @@ class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
         void fontChanged(const QFont &f);
         void colorChanged(const QColor &c);
         void alignmentChanged(Qt::Alignment a);
-        void draw();
+
 
 
         QAction * actionTextBold;
@@ -127,25 +113,7 @@ class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
         QAction * actionCopy;
         QAction * actionPaste;
 
-        bool embedded;
         bool modified;
-//        quint32 isInternalEdit;
-
-//        CDiary * diary;
-
-//        QTextCharFormat fmtTextHeading1;
-//        QTextCharFormat fmtTextHeading2;
-//        QTextCharFormat fmtTextStandard;
-//        QTextCharFormat fmtTextBold;
-
-//        QTextBlockFormat blockHeading1;
-//        QTextBlockFormat blockHeading2;
-//        QTextBlockFormat blockStandard;
-
-//        QTextFrameFormat frameStandard;
-
-//        QTextTableFormat tableStandard;
-
 
 };
 #endif                           //CTEXTEDITWIDGET_H

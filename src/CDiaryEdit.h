@@ -45,6 +45,8 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
     private slots:
         void slotSave();
         void slotPrintPreview();
+        void setWindowModified();
+        void setWindowModified(bool yes);
 
     protected:
         void resizeEvent(QResizeEvent * e);
@@ -52,7 +54,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
     private:
         friend class CDiaryEditLock;
 
-        void draw(QPaintDevice& dev, QTextDocument& doc);
+        void draw(QTextDocument& doc);
         void setTabTitle();
 
         enum eTblCol{eSym, eInfo, eComment, eMax};

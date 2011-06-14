@@ -288,13 +288,15 @@ void CCanvas::leaveEvent(QEvent * )
 }
 
 
-#define BORDER  20
+#define BORDER  0
 
 void CCanvas::print(QPainter& p, const QSize& pagesize)
 {
     bool  rotate = false;
     QSize _size_ = pagesize;
     qreal s = 0.0;
+
+    qDebug() << "pagesize" << pagesize;
 
     p.save();
 
@@ -345,37 +347,62 @@ void CCanvas::print(QImage& img)
 
 void CCanvas::print(QImage& img, const QSize& pagesize)
 {
+
     bool rotate = false;
-    QImage _img_(size(), QImage::Format_ARGB32);
-    if(pagesize.height() > pagesize.width())
+    QSize s = pagesize ;
+    if(pagesize.width() < pagesize.height())
     {
-        _img_ = QImage(size().height(), size().width(), QImage::Format_ARGB32);
+        s = QSize(s.height(), s.width());
         rotate = true;
     }
 
-    _img_.fill(Qt::white);
+    img = QImage(s,  QImage::Format_ARGB32);
+    img.fill(Qt::white);
 
-    QPainter p;
-    p.begin(&_img_);
+    {
+        QPainter p(&img);
+        print(p, s);
+    }
+
     if(rotate)
     {
-        p.rotate(90.0);
-        p.translate(0,-size().height());
+        QMatrix matrix;
+        matrix.rotate(90);
+        img = img.transformed(matrix, Qt::SmoothTransformation);
     }
-    draw(p);
-    p.end();
 
-    qreal s1 = (qreal)(_img_.width())  / (qreal)pagesize.width();
-    qreal s2 = (qreal)(_img_.height()) / (qreal)pagesize.height();
 
-    if(s1 < s2)
-    {
-        img = _img_.scaledToHeight(pagesize.height(),  Qt::SmoothTransformation);
-    }
-    else
-    {
-        img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
-    }
+//    bool rotate = false;
+//    QImage _img_(size(), QImage::Format_ARGB32);
+//    if(pagesize.height() > pagesize.width())
+//    {
+//        _img_ = QImage(size().height(), size().width(), QImage::Format_ARGB32);
+//        rotate = true;
+//    }
+
+//    _img_.fill(Qt::white);
+
+//    QPainter p;
+//    p.begin(&_img_);
+//    if(rotate)
+//    {
+//        p.rotate(90.0);
+//        p.translate(0,-size().height());
+//    }
+//    draw(p);
+//    p.end();
+
+//    qreal s1 = (qreal)(_img_.width())  / (qreal)pagesize.width();
+//    qreal s2 = (qreal)(_img_.height()) / (qreal)pagesize.height();
+
+//    if(s1 < s2)
+//    {
+//        img = _img_.scaledToHeight(pagesize.height(),  Qt::SmoothTransformation);
+//    }
+//    else
+//    {
+//        img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
+//    }
 
 }
 

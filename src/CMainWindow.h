@@ -88,7 +88,6 @@ class CMainWindow : public QMainWindow
         void slotExportData();
         void slotSaveImage();
         void slotPrint();
-        void slotPrintPreview();
         void slotModified();
         void slotDataChanged();
         void slotOpenLink(const QString& link);

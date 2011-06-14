@@ -55,7 +55,6 @@ set(qlandkarte_SRCS
     tcxreader.cpp
     CActions.cpp
     CMenus.cpp
-    printpreview.cpp
     GeoMath.cpp
     WptIcons.cpp
     CResources.cpp
@@ -212,7 +211,6 @@ set(qlandkarte_HDRS
     tcxreader.h
     CActions.h
     CMenus.h
-    printpreview.h
     GeoMath.h
     WptIcons.h
     CResources.h

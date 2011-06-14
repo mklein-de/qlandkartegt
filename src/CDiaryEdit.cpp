@@ -24,12 +24,16 @@
 #include "CDiaryEdit.h"
 #include "CGeoDB.h"
 #include "CDiary.h"
+#include "CDiaryDB.h"
 #include "CMainWindow.h"
 #include "CTabWidget.h"
 #include "CWpt.h"
 #include "CWptDB.h"
 #include "CTrack.h"
 #include "CTrackDB.h"
+#include "QTextHtmlExporter.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -49,6 +53,7 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 , diary(diary)
 , modified(false)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
 
     toolSave->setIcon(QIcon(":/icons/save.png"));
@@ -60,8 +65,12 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
     toolPrint->setIcon(QIcon(":/icons/iconPrint22x22.png"));
     connect(toolPrint, SIGNAL(clicked(bool)), this, SLOT(slotPrintPreview()));
 
+    connect(textEdit, SIGNAL(textChanged()), this, SLOT(setWindowModified()));
+    connect(textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
 
-    slotReload();
+    toolExit->setIcon(QIcon(":/icons/iconExit16x16.png"));
+    connect(toolExit, SIGNAL(clicked(bool)), this, SLOT(close()));
+
 }
 
 CDiaryEdit::~CDiaryEdit()
@@ -73,14 +82,36 @@ CDiaryEdit::~CDiaryEdit()
 bool CDiaryEdit::isModified()
 {
 
-    return false;
+    return modified;
 }
 
 void CDiaryEdit::resizeEvent(QResizeEvent * e)
-{
+{        
     QWidget::resizeEvent(e);
+
+    CDiaryEditLock lock(this);
     textEdit->clear();
-    draw(*this, *textEdit->document());
+    draw(*textEdit->document());
+}
+
+void CDiaryEdit::setWindowModified()
+{
+    setWindowModified(true);
+}
+
+void CDiaryEdit::setWindowModified(bool yes)
+{
+    if(isInternalEdit || !yes) return;
+
+    emit CDiaryDB::self().emitSigModified(diary.getKey());
+    emit CDiaryDB::self().emitSigChanged();
+
+    if(!modified)
+    {
+        modified = yes;
+        setTabTitle();
+    }
+
 }
 
 void CDiaryEdit::slotSave()
@@ -100,23 +131,47 @@ void CDiaryEdit::slotSave()
 
 void CDiaryEdit::slotReload()
 {
+    CDiaryEditLock lock(this);
     if(CGeoDB::self().getProjectDiaryData(diary.keyProjectGeoDB, diary))
     {
         modified = false;
     }
 
-    textEdit->clear();
     setTabTitle();
-    draw(*this, *textEdit->document());
+
+    textEdit->clear();    
+    draw(*textEdit->document());
 }
 
 void CDiaryEdit::slotPrintPreview()
 {
+    CDiaryEditLock lock(this);
+    collectData();
 
+    QPrinter printer;
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print Diary"));
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+    QTextDocument doc;
+    QSizeF pageSize = printer.pageRect(QPrinter::DevicePixel).size();
+    doc.setPageSize(pageSize);
+    draw(doc);
+
+    QImage img;
+    theMainWindow->getCanvas()->print(img, pageSize.toSize() - QSize(10,10));
+
+    doc.rootFrame()->lastCursorPosition().insertImage(img);
+    doc.print(&printer);
+
+    textEdit->clear();
+    draw(*textEdit->document());
 }
 
 void CDiaryEdit::setTabTitle()
 {
+    CDiaryEditLock lock(this);
     CTabWidget * tab = theMainWindow->getCanvasTab();
     if(tab)
     {
@@ -144,7 +199,7 @@ static bool qSortTrkLessTime(CTrack * t1, CTrack * t2)
 
 #define CHAR_PER_LINE 100
 
-void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
+void CDiaryEdit::draw(QTextDocument& doc)
 {
     CDiaryEditLock lock(this);
     QFontMetrics fm(QFont(font().family(),10));
@@ -157,6 +212,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
 
     QFont f = textEdit->font();
     f.setPointSize(pointSize);
+    textEdit->setFont(f);
 
     QTextCharFormat fmtCharHeading1;
     fmtCharHeading1.setFont(f);
@@ -185,7 +241,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
     fmtFrameStandard.setBottomMargin(5);
     fmtFrameStandard.setRightMargin(20);
     fmtFrameStandard.setWidth(w);
-    fmtFrameStandard.setBorder(1);
+//    fmtFrameStandard.setBorder(1);
 
     QTextTableFormat fmtTableStandard;
     fmtTableStandard.setBorder(1);
@@ -204,8 +260,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
     constraints << QTextLength(QTextLength::VariableLength, 100);
     fmtTableStandard.setColumnWidthConstraints(constraints);
 
-
-    QTextCursor cursor = doc.find(QRegExp(".*"));
+    QTextCursor cursor = doc.rootFrame()->firstCursorPosition();
 
     cursor.insertText(diary.getName(), fmtCharHeading1);
     cursor.setCharFormat(fmtCharStandard);
@@ -224,7 +279,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
         }
         else
         {
-            cursor1.insertText(diary.getComment());
+            cursor1.insertHtml(diary.getComment());
         }
         cursor.setPosition(cursor1.position()+1);
     }
@@ -251,7 +306,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
         {
             table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt->getInfo(), fmtCharStandard);
-            table->cellAt(cnt,eComment).firstCursorPosition().insertText(wpt->getComment(), fmtCharStandard);
+            table->cellAt(cnt,eComment).firstCursorPosition().insertHtml(wpt->getComment());
             cnt++;
         }
 
@@ -279,7 +334,7 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
         {
             table->cellAt(cnt,eSym).firstCursorPosition().insertImage(trk->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,eInfo).firstCursorPosition().insertText(trk->getInfo(), fmtCharStandard);
-            table->cellAt(cnt,eComment).firstCursorPosition().insertText(trk->getComment(), fmtCharStandard);
+            table->cellAt(cnt,eComment).firstCursorPosition().insertHtml(trk->getComment());
             cnt++;
         }
 
@@ -288,41 +343,57 @@ void CDiaryEdit::draw(QPaintDevice& dev, QTextDocument& doc)
 
 }
 
-static QString toPlainText(const QTextTableCell& cell)
-{
-    QString str;
-    for (QTextFrame::iterator frm = cell.begin(); frm != cell.end(); ++frm)
-    {
-        const QTextBlock& blk = frm.currentBlock();
-        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
-        {
-            str += frgm.fragment().text() + "\n";
-        }
-    }
+//static QString toPlainText(const QTextTableCell& cell)
+//{
+//    QString str;
+//    for (QTextFrame::iterator frm = cell.begin(); frm != cell.end(); ++frm)
+//    {
+//        const QTextBlock& blk = frm.currentBlock();
+//        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
+//        {
+//            str += frgm.fragment().text() + "\n";
+//        }
+//    }
 
-    return str;
-}
+//    return str;
+//}
 
-static QString toPlainText(const QTextFrame& frame)
-{
-    QString str;
-    for (QTextFrame::iterator frm = frame.begin(); frm != frame.end(); ++frm)
-    {
-        const QTextBlock& blk = frm.currentBlock();
-        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
-        {
-            str += frgm.fragment().text() + "\n";
-        }
-    }
+//static QString toPlainText(const QTextFrame& frame)
+//{
+//    QString str;
+//    for (QTextFrame::iterator frm = frame.begin(); frm != frame.end(); ++frm)
+//    {
+//        const QTextBlock& blk = frm.currentBlock();
+//        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
+//        {
+//            str += frgm.fragment().text() + "\n";
+//        }
+//    }
 
-    return str;
-}
+//    return str;
+//}
 
 void CDiaryEdit::collectData()
 {
+    int cnt;
     if(!diary.diaryFrame.isNull())
     {
-        QString comment = toPlainText(*diary.diaryFrame);
+        QString comment = QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary.diaryFrame);
         diary.setComment(comment.trimmed());
+    }
+    cnt = 1;
+    QList<CWpt*>& wpts = diary.getWpts();
+    foreach(CWpt* wpt, wpts)
+    {
+        wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
+        cnt++;
+    }
+
+    cnt = 1;
+    QList<CTrack*>& trks = diary.getTrks();
+    foreach(CTrack* trk, trks)
+    {
+        trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
+        cnt++;
     }
 }
