@@ -51,7 +51,7 @@ class CDiary : public IItem
 
         void linkToProject(quint64 key);
 
-        void showEditWidget(CTabWidget * tab);
+        void showEditWidget(CTabWidget * tab, bool fromDB);
 
         void clear();
 
@@ -59,7 +59,9 @@ class CDiary : public IItem
         QList<CTrack*>& getTrks(){return trks;}
         QList<CRoute*>& getRtes(){return rtes;}
 
-        bool isModified();
+        bool isModified();       
+
+        void setModified();
 
     signals:
         void sigChanged();
@@ -71,6 +73,7 @@ class CDiary : public IItem
         friend QDataStream& operator >>(QDataStream& s, CDiary& diary);
         friend QDataStream& operator <<(QDataStream& s, CDiary& diary);
         friend class CDiaryEdit;
+        friend class CDiaryDB;
 
         quint64 keyProjectGeoDB;
 
@@ -85,6 +88,8 @@ class CDiary : public IItem
         QPointer<QTextTable> tblRte;
 
         QPointer<QTextFrame> diaryFrame;
+
+        bool modified;
 };
 
 QDataStream& operator >>(QDataStream& s, CDiary& diary);

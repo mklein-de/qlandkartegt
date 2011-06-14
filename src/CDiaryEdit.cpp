@@ -51,7 +51,6 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 : QWidget(parent)
 , isInternalEdit(0)
 , diary(diary)
-, modified(false)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
@@ -165,15 +164,10 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 
 CDiaryEdit::~CDiaryEdit()
 {
-
+    collectData();
 }
 
 
-bool CDiaryEdit::isModified()
-{
-
-    return modified;
-}
 
 void CDiaryEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
@@ -215,9 +209,9 @@ void CDiaryEdit::setWindowModified(bool yes)
     emit CDiaryDB::self().emitSigModified(diary.getKey());
     emit CDiaryDB::self().emitSigChanged();
 
-    if(!modified)
+    if(!diary.modified)
     {
-        modified = yes;
+        diary.modified = yes;
         setTabTitle();
     }
 
@@ -233,17 +227,25 @@ void CDiaryEdit::slotSave()
         return;
     }
 
-    modified = false;
+    diary.modified = false;
 
     setTabTitle();
 }
 
 void CDiaryEdit::slotReload()
 {
+    slotReload(true);
+}
+
+void CDiaryEdit::slotReload(bool fromDB)
+{
     CDiaryEditLock lock(this);
-    if(CGeoDB::self().getProjectDiaryData(diary.keyProjectGeoDB, diary))
+    if(fromDB)
     {
-        modified = false;
+        if(CGeoDB::self().getProjectDiaryData(diary.keyProjectGeoDB, diary))
+        {
+            diary.modified = false;
+        }
     }
 
     setTabTitle();
@@ -401,7 +403,52 @@ void CDiaryEdit::colorChanged(const QColor &c)
 
 void CDiaryEdit::slotCursorPositionChanged()
 {
-//    alignmentChanged(textEdit->alignment());
+    if(isInternalEdit) return;
+
+    QTextCursor cursor = textEdit->textCursor();
+
+    if(!diary.diaryFrame.isNull())
+    {
+        if(diary.diaryFrame->firstCursorPosition() <= cursor && cursor <= diary.diaryFrame->lastCursorPosition())
+        {
+            return;
+        }
+    }
+
+    for(int i = 1; i <= diary.wpts.count(); i++)
+    {
+        if(diary.tblWpt->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= diary.tblWpt->cellAt(i, eComment).lastCursorPosition())
+        {
+            return;
+        }
+
+        if(diary.tblWpt->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= diary.tblWpt->cellAt(i, eInfo).lastCursorPosition())
+        {
+            textEdit->setTextCursor(diary.tblWpt->cellAt(i, eComment).lastCursorPosition());
+            return;
+        }
+    }
+
+    for(int i = 1; i <= diary.trks.count(); i++)
+    {
+        if(diary.tblTrk->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= diary.tblTrk->cellAt(i, eComment).lastCursorPosition())
+        {
+            return;
+        }
+
+        if(diary.tblTrk->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= diary.tblTrk->cellAt(i, eInfo).lastCursorPosition())
+        {
+            textEdit->setTextCursor(diary.tblTrk->cellAt(i, eComment).lastCursorPosition());
+            return;
+        }
+    }
+
+
+    if(!diary.diaryFrame.isNull())
+    {
+        textEdit->setTextCursor(diary.diaryFrame->lastCursorPosition());
+    }
+
 }
 
 
@@ -412,7 +459,7 @@ void CDiaryEdit::setTabTitle()
     if(tab)
     {
         int idx = tab->indexOf(this);
-        if(modified)
+        if(diary.modified)
         {
             tab->setTabText(idx, tr("Diary - %1 *").arg(diary.getName()));
         }
@@ -444,8 +491,6 @@ void CDiaryEdit::draw(QTextDocument& doc)
     int cnt;
     int w = doc.textWidth();
     int pointSize = ((10 * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
-
-    qDebug() << "pontSize" << pointSize;
 
     if(pointSize == 0) return;
 
@@ -597,6 +642,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
         cursor.setPosition(table->lastPosition() + 1);
     }
 
+    doc.clearUndoRedoStacks();
 }
 
 //static QString toPlainText(const QTextTableCell& cell)

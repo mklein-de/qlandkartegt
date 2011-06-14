@@ -54,7 +54,7 @@ void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
             diary->setKey(diary->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
         }
 
-        addDiary(diary,true);
+        addDiary(diary,true, false);
     }
 
     if(qlb.diary().size())
@@ -105,7 +105,7 @@ void CDiaryDB::saveGPX(CGpx& gpx, const QStringList& keys)
 }
 
 
-void CDiaryDB::addDiary(CDiary * diary, bool silent)
+void CDiaryDB::addDiary(CDiary * diary, bool silent, bool fromDB)
 {
     CTabWidget * tb = dynamic_cast<CTabWidget*>(tabbar);
     if(tb == 0) return;
@@ -113,7 +113,7 @@ void CDiaryDB::addDiary(CDiary * diary, bool silent)
     delDiary(diary->getKey(), silent);
     diarys[diary->getKey()] = diary;
 
-    diary->showEditWidget(tb);
+    diary->showEditWidget(tb,fromDB);
 
     connect(diary,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     if(!silent)
@@ -152,4 +152,15 @@ CDiary * CDiaryDB::getDiaryByKey(const QString& key)
     if(!diarys.contains(key)) return 0;
 
     return diarys[key];
+}
+
+void CDiaryDB::setModified(const QStringList& keys)
+{
+    foreach(QString key, keys)
+    {
+        if(diarys.contains(key))
+        {
+            diarys[key]->setModified();
+        }
+    }
 }

@@ -183,6 +183,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
     actAddDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Add diary"), this, SLOT(slotAddDiary()));
     actShowDiary        = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Show/hide diary"), this, SLOT(slotShowDiary()));
+    actDelDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiaryDel16x16.png"), tr("Delete diary"), this, SLOT(slotDelDiary()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
@@ -692,6 +693,8 @@ void CGeoDB::loadWorkspace()
     quint32 progCnt = 0;
     PROGRESS_SETUP(tr("Loading workspace. Please wait."), query.size());
 
+    QStringList keysDryModified;
+
     while(query.next())
     {
         PROGRESS(progCnt++, return);
@@ -700,36 +703,45 @@ void CGeoDB::loadWorkspace()
         {
             case eWpt:
                 wpts += query.value(3).toByteArray();
-                if(query.value(0).toBool()){
+                if(query.value(0).toBool())
+                {
                     keysWptModified << query.value(2).toString();
                 }
                 break;
             case eTrk:
                 trks += query.value(3).toByteArray();
-                if(query.value(0).toBool()){
+                if(query.value(0).toBool())
+                {
                     keysTrkModified << query.value(2).toString();
                 }
                 break;
             case eRte:
                 rtes += query.value(3).toByteArray();
-                if(query.value(0).toBool()){
+                if(query.value(0).toBool())
+                {
                     keysRteModified << query.value(2).toString();
                 }
                 break;
             case eOvl:
                 ovls += query.value(3).toByteArray();
-                if(query.value(0).toBool()){
+                if(query.value(0).toBool())
+                {
                     keysOvlModified << query.value(2).toString();
                 }
                 break;
             case eMap:
                 maps += query.value(3).toByteArray();
-                if(query.value(0).toBool()){
+                if(query.value(0).toBool())
+                {
                     keysMapModified << query.value(2).toString();
                 }
                 break;
             case eDry:
                 drys += query.value(3).toByteArray();
+                if(query.value(0).toBool())
+                {
+                    keysDryModified << query.value(2).toString();
+                }
                 break;
             }
 
@@ -741,6 +753,8 @@ void CGeoDB::loadWorkspace()
     COverlayDB::self().loadQLB(qlb, false);
     CMapDB::self().loadQLB(qlb, false);
     CDiaryDB::self().loadQLB(qlb, false);
+
+    CDiaryDB::self().setModified(keysDryModified);
 
     changedWorkspace();
 }
@@ -2373,11 +2387,13 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                     if(query.next())
                     {
                         actShowDiary->setVisible(true);
+                        actDelDiary->setVisible(true);
                         actAddDiary->setVisible(false);
                     }
                     else
                     {
                         actShowDiary->setVisible(false);
+                        actDelDiary->setVisible(false);
                         actAddDiary->setVisible(true);
                     }
 
@@ -2390,6 +2406,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                     actCopyDir->setVisible(false);
                     actAddDiary->setVisible(false);
                     actShowDiary->setVisible(false);
+                    actDelDiary->setVisible(false);
                 }
             }
 
@@ -3204,8 +3221,7 @@ void CGeoDB::slotAddDiary()
 
     stream << *diary;
 
-    query.prepare("INSERT INTO diarys (parent, key, date, data) "
-                  "VALUES (:parent, :key, :date, :data)");
+    query.prepare("INSERT INTO diarys (parent, key, date, data) VALUES (:parent, :key, :date, :data)");
 
     query.bindValue(":parent", parentId);
     query.bindValue(":key", diary->getKey());
@@ -3214,9 +3230,10 @@ void CGeoDB::slotAddDiary()
     QUERY_EXEC(delete diary; return);
 
 
-    CDiaryDB::self().addDiary(diary, false);
+    CDiaryDB::self().addDiary(diary, false, true);
 
     parent->setData(eCoDiary, eUrDiary, true);
+    parent->setData(eCoDiary, eUrQLKey, diary->getKey());
     updateDiaryIcon();
 }
 
@@ -3263,10 +3280,37 @@ void CGeoDB::slotShowDiary()
 
         diary->setKey(key);
         diary->linkToProject(parentId);
-        CDiaryDB::self().addDiary(diary, false);        
+        CDiaryDB::self().addDiary(diary, false, true);
     }
 
     updateDiaryIcon();
+}
+
+void CGeoDB::slotDelDiary()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * parent = treeDatabase->currentItem();
+    if(parent == 0)
+    {
+        return;
+    }
+
+    if(parent->data(eCoName, eUrType).toInt() != eFolder2)
+    {
+        return;
+    }
+
+    QSqlQuery query(db);
+    quint64 parentId = parent->data(eCoName, eUrDBKey).toULongLong();
+    QString key = parent->data(eCoDiary, eUrQLKey).toString();
+
+    query.prepare("DELETE FROM diarys WHERE parent = :id");
+    query.bindValue(":id", parentId);
+    QUERY_EXEC(return);
+
+    CDiaryDB::self().delDiary(key, false);
+    parent->setIcon(eCoDiary, QIcon());
 }
 
 
@@ -3446,3 +3490,4 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 
     return true;
 }
+

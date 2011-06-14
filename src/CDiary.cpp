@@ -287,6 +287,7 @@ CDiary::CDiary(QObject * parent)
 : IItem(parent)
 , keyProjectGeoDB(0)
 , editWidget(0)
+, modified(false)
 {
 
 }
@@ -313,13 +314,20 @@ void CDiary::clear()
 
 bool CDiary::isModified()
 {
-    if(editWidget.isNull()) return false;
+    return modified;
+}
 
-    return editWidget->isModified();
+void CDiary::setModified()
+{
+    modified = true;
+    if(!editWidget.isNull())
+    {
+        editWidget->setTabTitle();
+    }
 }
 
 void CDiary::slotEditWidgetDied(QObject*)
-{
+{    
     CDiaryDB::self().delDiary(getKey(), false);
 }
 
@@ -338,7 +346,7 @@ void CDiary::linkToProject(quint64 key)
 }
 
 
-void CDiary::showEditWidget(CTabWidget * tab)
+void CDiary::showEditWidget(CTabWidget * tab, bool fromDB)
 {
     if(editWidget == 0)
     {
@@ -346,6 +354,6 @@ void CDiary::showEditWidget(CTabWidget * tab)
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
     tab->addTab(editWidget, tr("Diary"));    
-    editWidget->slotReload();
+    editWidget->slotReload(fromDB);
 }
 

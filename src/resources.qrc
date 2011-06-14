@@ -478,5 +478,6 @@
         <file>icons/refresh.png</file>
         <file>icons/save.png</file>
         <file>icons/iconDiaryOn16x16.png</file>
+        <file>icons/iconDiaryDel16x16.png</file>
     </qresource>
 </RCC>

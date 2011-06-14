@@ -35,12 +35,12 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         CDiaryEdit(CDiary& diary, QWidget * parent);
         virtual ~CDiaryEdit();
 
-        bool isModified();
-
         void collectData();
+        void setTabTitle();
 
     public slots:
         void slotReload();
+        void slotReload(bool fromDB);
 
     private slots:
         void slotSave();
@@ -65,7 +65,6 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         friend class CDiaryEditLock;
 
         void draw(QTextDocument& doc);
-        void setTabTitle();
         void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
         void fontChanged(const QFont &f);
         void colorChanged(const QColor &c);
@@ -76,7 +75,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
         CDiary& diary;
 
-        bool modified;
+
 
         QAction * actionUndo;
         QAction * actionRedo;

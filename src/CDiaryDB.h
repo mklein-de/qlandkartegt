@@ -35,7 +35,7 @@ class CDiaryDB : public IDB
 
         static CDiaryDB& self(){return *m_self;}
 
-        void addDiary(CDiary * diary, bool silent);
+        void addDiary(CDiary * diary, bool silent, bool fromDB);
         void delDiary(const QString& key, bool silent);
         void delDiarys(const QStringList& keys);
 
@@ -58,6 +58,8 @@ class CDiaryDB : public IDB
 
         QMap<QString,CDiary*> ::iterator begin(){return diarys.begin();}
         QMap<QString,CDiary*> ::iterator end(){return diarys.end();}
+
+        void setModified(const QStringList& keys);
 
 
     private:
