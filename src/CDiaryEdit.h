@@ -57,6 +57,8 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         void slotCurrentCharFormatChanged(const QTextCharFormat &format);
         void slotCursorPositionChanged();
 
+        void slotGeoCaches();
+
 
     protected:
         void resizeEvent(QResizeEvent * e);

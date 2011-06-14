@@ -160,11 +160,18 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 
     textEdit->setFocus();
     colorChanged(textEdit->textColor());
+
+    QSettings cfg;
+    checkGeoCache->setChecked(cfg.value("diary/showGeoCaches", false).toBool());
+    connect(checkGeoCache, SIGNAL(clicked()), this, SLOT(slotGeoCaches()));
 }
 
 CDiaryEdit::~CDiaryEdit()
 {
     collectData();
+
+    QSettings cfg;
+    cfg.setValue("diary/showGeoCaches", checkGeoCache->isChecked());
 }
 
 
@@ -393,6 +400,11 @@ void CDiaryEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format)
     colorChanged(format.foreground().color());
 }
 
+void CDiaryEdit::slotGeoCaches()
+{
+    slotReload(false);
+}
+
 void CDiaryEdit::colorChanged(const QColor &c)
 {
     QPixmap pix(16, 16);
@@ -488,6 +500,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
     CDiaryEditLock lock(this);
     QFontMetrics fm(QFont(font().family(),10));
 
+    bool hasGeoCaches = false;
     int cnt;
     int w = doc.textWidth();
     int pointSize = ((10 * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
@@ -603,6 +616,10 @@ void CDiaryEdit::draw(QTextDocument& doc)
             c.setBlockFormat(fmtBlockStandard);
             c.insertHtml(wpt->getComment());
 
+            if(wpt->isGeoCache())
+            {
+                hasGeoCaches = true;
+            }
             cnt++;
         }
 
@@ -642,6 +659,30 @@ void CDiaryEdit::draw(QTextDocument& doc)
         cursor.setPosition(table->lastPosition() + 1);
     }
 
+    if(hasGeoCaches && checkGeoCache->isChecked())
+    {
+        QList<CWpt*>& wpts = diary.getWpts();
+        foreach(CWpt * wpt, wpts)
+        {
+            if(!wpt->isGeoCache())
+            {
+                continue;
+            }
+
+            const CWpt::geocache_t& gc = wpt->getGeocacheData();
+
+            cursor.insertText(gc.name, fmtCharHeading2);
+            cursor.setCharFormat(fmtCharStandard);
+            cursor.insertBlock(fmtBlockStandard);
+            cursor.insertHtml(tr("<b>Owner:</b> %1 <b>Size:</b> %2 <b>Difficulty:</b> %3 <b>Terrain:</b> %4").arg(gc.owner).arg(gc.container).arg(gc.difficulty).arg(gc.terrain));
+
+            cursor.insertBlock(fmtBlockStandard);
+            cursor.insertHtml(gc.shortDesc);
+            cursor.insertBlock(fmtBlockStandard);
+            cursor.insertHtml(gc.longDesc);
+
+        }
+    }
     doc.clearUndoRedoStacks();
 }
 
