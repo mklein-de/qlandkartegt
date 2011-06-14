@@ -86,7 +86,7 @@ class CTrack : public IItem
 
             pt_t() : idx(-1), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT), timestamp(0), timestamp_msec(0),
                 speed(WPT_NOFLOAT), avgspeed(0), delta(WPT_NOFLOAT), azimuth(WPT_NOFLOAT), distance(WPT_NOFLOAT),
-                ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0),
+                ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), timeSinceStart(0),
                 fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
                 vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
                 flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL){}
@@ -125,6 +125,8 @@ class CTrack : public IItem
             int cadenceRpm;
             /// secondary data: slope in %
             float slope;
+
+            quint32 timeSinceStart;
 
             // extended data 1
             QString fix;
@@ -183,7 +185,7 @@ class CTrack : public IItem
         /// get the total distance of the track in [m]
         double getTotalDistance(){return totalDistance;}
         /// get the total time covered by the track in seconds
-        int getTotalTime(){return totalTime;}
+        quint32 getTotalTime(){return totalTime;}
         /// select tarckpoint by index
         void setPointOfFocus(int idx, bool eraseSelection, bool moveMap);
         ///

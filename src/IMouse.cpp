@@ -240,7 +240,26 @@ void IMouse::drawSelTrkPt(QPainter& p)
             QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
+
+            if(track->getTotalTime())
+            {
+                quint32 t1 = selTrkPt->timeSinceStart;
+                quint32 t2 = track->getTotalTime() - selTrkPt->timeSinceStart;
+
+                quint32 t11 = (t1 - (t1/3600) * 3600)/60;
+                quint32 t21 = (t2 - (t2/3600) * 3600)/60;
+
+                str += tr(" %5 %4 %3 %1h:%2").arg(t1/3600).arg(t11, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(QChar(0x231A));
+                str += tr(" | %1h:%2 %3 %4").arg(t2/3600).arg(t21, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691));
+            }
+
         }
+
+        if(str.count()) str += "\n";
+        IUnit::self().meter2distance(selTrkPt->distance, val, unit);
+        str += tr("%5 %4 %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A4)).arg(QChar(0x2690));
+        IUnit::self().meter2distance(track->getTotalDistance() - selTrkPt->distance, val, unit);
+        str += tr(" | (%3%) %1%2 %4 %5").arg(val).arg(unit).arg((track->getTotalDistance() - selTrkPt->distance) * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A6)).arg(QChar(0x2691));
 
         if(selTrkPt->ele != WPT_NOFLOAT)
         {
@@ -249,12 +268,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
             str += tr("elevation: %1 %2").arg(val).arg(unit);
         }
 
-        if(str.count()) str += "\n";
-        IUnit::self().meter2distance(selTrkPt->distance, val, unit);
-        str += tr("start %4 %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A4));
-        IUnit::self().meter2distance(track->getTotalDistance() - selTrkPt->distance, val, unit);
-//        if(str.count()) str += "\n";
-        str += tr(" | (%3%) %1%2 %4 end").arg(val).arg(unit).arg((track->getTotalDistance() - selTrkPt->distance) * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A6));
+
 
         //-----------------------------------------------------------------------------------------------------------
         //TODO: HOVERTEXT FOR EXTENSIONS
