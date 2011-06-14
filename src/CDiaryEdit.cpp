@@ -195,10 +195,12 @@ void CDiaryEdit::fontChanged(const QFont &f)
 }
 
 void CDiaryEdit::resizeEvent(QResizeEvent * e)
-{        
+{
     QWidget::resizeEvent(e);
 
     CDiaryEditLock lock(this);
+
+    collectData();
     textEdit->clear();
     textEdit->document()->setTextWidth(textEdit->size().width() - 20);
     draw(*textEdit->document());
@@ -509,7 +511,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
 
     QFont f = textEdit->font();
     f.setPointSize(pointSize);
-    textEdit->setFont(f);    
+    textEdit->setFont(f);
 
     QTextCharFormat fmtCharHeading1;
     fmtCharHeading1.setFont(f);
@@ -680,6 +682,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
             cursor.insertHtml(gc.shortDesc);
             cursor.insertBlock(fmtBlockStandard);
             cursor.insertHtml(gc.longDesc);
+            cursor.insertBlock(fmtBlockStandard);
 
         }
     }
@@ -724,20 +727,27 @@ void CDiaryEdit::collectData()
         QString comment = QLGT::QTextHtmlExporter(textEdit->document()).toHtml(*diary.diaryFrame);
         diary.setComment(comment.trimmed());
     }
-    cnt = 1;
-    QList<CWpt*>& wpts = diary.getWpts();
-    foreach(CWpt* wpt, wpts)
+
+    if(!diary.tblWpt.isNull())
     {
-        wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
-        cnt++;
+        cnt = 1;
+        QList<CWpt*>& wpts = diary.getWpts();
+        foreach(CWpt* wpt, wpts)
+        {
+            wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
+            cnt++;
+        }
     }
 
-    cnt = 1;
-    QList<CTrack*>& trks = diary.getTrks();
-    foreach(CTrack* trk, trks)
+    if(!diary.tblTrk.isNull())
     {
-        trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
-        cnt++;
+        cnt = 1;
+        QList<CTrack*>& trks = diary.getTrks();
+        foreach(CTrack* trk, trks)
+        {
+            trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
+            cnt++;
+        }
     }
 }
 
