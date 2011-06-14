@@ -47,6 +47,16 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         void slotPrintPreview();
         void setWindowModified();
         void setWindowModified(bool yes);
+        void slotClipboardDataChanged();
+        void slotTextBold();
+        void slotTextUnderline();
+        void slotTextItalic();
+        void slotTextColor();
+        void slotTextStyle(int styleIndex);
+
+        void slotCurrentCharFormatChanged(const QTextCharFormat &format);
+        void slotCursorPositionChanged();
+
 
     protected:
         void resizeEvent(QResizeEvent * e);
@@ -56,13 +66,30 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
         void draw(QTextDocument& doc);
         void setTabTitle();
+        void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+        void fontChanged(const QFont &f);
+        void colorChanged(const QColor &c);
 
         enum eTblCol{eSym, eInfo, eComment, eMax};
 
         int isInternalEdit;
+
         CDiary& diary;
 
         bool modified;
+
+        QAction * actionUndo;
+        QAction * actionRedo;
+        QAction * actionCut;
+        QAction * actionCopy;
+        QAction * actionPaste;
+
+        QAction * actionTextBold;
+        QAction * actionTextUnderline;
+        QAction * actionTextItalic;
+        QAction * actionTextColor;
+
+
 };
 
 #endif //CDIARYEDIT_H

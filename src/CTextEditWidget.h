@@ -96,8 +96,6 @@ class CTextEditWidget : public QWidget, private Ui::ITextEditWidget
         void colorChanged(const QColor &c);
         void alignmentChanged(Qt::Alignment a);
 
-
-
         QAction * actionTextBold;
         QAction * actionTextUnderline;
         QAction * actionTextItalic;
