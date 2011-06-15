@@ -146,7 +146,7 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
 
     foreach(file, files)
     {
-        CMapFile map(QDir(mapPath).filePath(file).toUtf8(),this);
+        CMapFile map(QDir(mapPath).filePath(file),this);
         if(!map.ok)
         {
             QMessageBox::critical(this,tr("Error..."), tr("Failed to load file %1.").arg(file), QMessageBox::Ok, QMessageBox::Ok);
