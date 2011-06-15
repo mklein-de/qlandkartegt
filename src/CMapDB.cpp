@@ -70,6 +70,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     m.type              = IMap::eTile;
     knownMaps[m.key]    = m;
 
+    theMap = defaultMap;
+
     QSettings cfg;
     QString map;
     QStringList maps = cfg.value("maps/knownMaps","").toString().split("|",QString::SkipEmptyParts);
@@ -310,8 +312,8 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     if(!fileDEM.isEmpty()) openDEM(fileDEM);
 
 #ifdef PLOT_3D_NEW
-    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
-    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+//    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+//    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
 #endif
 
     emit sigChanged();
@@ -387,8 +389,8 @@ void CMapDB::openMap(const QString& key)
     }
 
 #ifdef PLOT_3D_NEW
-    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
-    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+//    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+//    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
 #endif
 
     emit sigChanged();
@@ -779,8 +781,11 @@ void CMapDB::show3DMap(bool show)
 {
     if(map3D.isNull() && show)
     {
-        map3D = new CMap3D(theMap, theMainWindow->getCanvas());
-        theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+        if(!theMap.isNull())
+        {
+            map3D = new CMap3D(theMap, theMainWindow->getCanvas());
+            theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
+        }
     }
     else if(!map3D.isNull() && !show)
     {
