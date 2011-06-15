@@ -1,3 +1,46 @@
+--- 2011.06.15 ---
+
+Bug     #281:
+Fix: Crash for maps with bad dimensions 
+
+Request #282:
+Trackfilter by azimuth
+
+Request #283:
+Show number of visible and total track points
+
+Request #284:
+Sort routes by name and time
+
+Request #285:
+Open URLs via desktop service, drop the qlgt internal browser configuration
+
+Bug     #286:
+Fix: Crash if map files are missing
+
+Request #287:
+Improve projection compare for DEM
+
+Request #288:
+Make icon decluttering an option
+
+Request #289:
+Bad export to gpx of new route.
+
+Request #290:
+Add toggle to show/hide toolview (crtl+t)
+
+Request #291:
+Add expired / remaining time to track point info
+
+Bug     #292:
+Fix: Crash with 3D map if no map is selected
+
+Request #293:
+Change diary function completely 
+
+
+
 --- 2011.05.19 ---
 
 Bug     #267:
@@ -1181,6 +1224,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
