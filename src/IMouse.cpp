@@ -241,16 +241,25 @@ void IMouse::drawSelTrkPt(QPainter& p)
             time.setTimeSpec(Qt::LocalTime);
             str = time.toString();
 
-            if(track->getTotalTime())
+            quint32 total = track->getTotalTime();
+            if(total)
             {
-                quint32 t1 = selTrkPt->timeSinceStart;
-                quint32 t2 = track->getTotalTime() - selTrkPt->timeSinceStart;
+                quint32 t1s = selTrkPt->timeSinceStart;
+                quint32 t2s = total - selTrkPt->timeSinceStart;
 
-                quint32 t11 = (t1 - (t1/3600) * 3600)/60;
-                quint32 t21 = (t2 - (t2/3600) * 3600)/60;
+                quint32 t1h = qreal(t1s)/3600;
+                quint32 t2h = qreal(t2s)/3600;
 
-                str += tr(" %5 %4 %3 %1h:%2").arg(t1/3600).arg(t11, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(QChar(0x231A));
-                str += tr(" | %1h:%2 %3 %4").arg(t2/3600).arg(t21, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691));
+                quint32 t1m = qreal(t1s - t1h * 3600)/60;
+                quint32 t2m = qreal(t2s - t2h * 3600)/60;
+
+                quint32 t1p = qreal(100 * t1s) / total;
+                quint32 t2p = 100 - t1p;
+
+
+                str += "\n";
+                str += tr("%4 %3 %1:%2h (%5%)").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(t1p);
+                str += tr(" | (%5%) %1:%2h %3 %4").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691)).arg(t2p);
             }
 
         }
