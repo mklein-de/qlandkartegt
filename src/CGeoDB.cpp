@@ -1179,6 +1179,7 @@ void CGeoDB::updateDiaryIcon(QTreeWidgetItem * parent)
 
         if(!item->data(eCoDiary, eUrDiary).toBool())
         {
+            item->setIcon(eCoDiary, QIcon());
             continue;
         }
 
@@ -3311,6 +3312,8 @@ void CGeoDB::slotDelDiary()
 
     CDiaryDB::self().delDiary(key, false);
     parent->setIcon(eCoDiary, QIcon());
+
+    updateDiaryIcon();
 }
 
 

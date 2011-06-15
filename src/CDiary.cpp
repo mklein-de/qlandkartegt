@@ -112,6 +112,7 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
                 {
                     CTrack * trk = new CTrack(&diary);
                     s1 >> *trk;
+                    trk->rebuild(true);
                     diary.trks << trk;
                 }
                 break;

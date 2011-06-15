@@ -431,28 +431,31 @@ void CDiaryEdit::slotCursorPositionChanged()
 
     for(int i = 1; i <= diary.wpts.count(); i++)
     {
-        if(diary.tblWpt->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= diary.tblWpt->cellAt(i, eComment).lastCursorPosition())
+        QTextTable * tbl = diary.tblWpt;
+        if(tbl->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eComment).lastCursorPosition())
         {
             return;
         }
 
-        if(diary.tblWpt->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= diary.tblWpt->cellAt(i, eInfo).lastCursorPosition())
+        if(tbl->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eInfo).lastCursorPosition())
         {
-            textEdit->setTextCursor(diary.tblWpt->cellAt(i, eComment).lastCursorPosition());
+            textEdit->setTextCursor(tbl->cellAt(i, eComment).lastCursorPosition());
             return;
         }
     }
 
     for(int i = 1; i <= diary.trks.count(); i++)
     {
-        if(diary.tblTrk->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= diary.tblTrk->cellAt(i, eComment).lastCursorPosition())
+
+        QTextTable * tbl = diary.tblTrk;
+        if(tbl->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eComment).lastCursorPosition())
         {
             return;
         }
 
-        if(diary.tblTrk->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= diary.tblTrk->cellAt(i, eInfo).lastCursorPosition())
+        if(tbl->cellAt(i, eSym).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eInfo).lastCursorPosition())
         {
-            textEdit->setTextCursor(diary.tblTrk->cellAt(i, eComment).lastCursorPosition());
+            textEdit->setTextCursor(tbl->cellAt(i, eComment).lastCursorPosition());
             return;
         }
     }
