@@ -707,7 +707,6 @@ void CTrack::hide(bool ok)
 void CTrack::rebuild(bool reindex)
 {
 
-    quint32 timeStart = 0;
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
@@ -773,7 +772,6 @@ void CTrack::rebuild(bool reindex)
     pt1->slope      = 0.0;
     t1              = pt1->timestamp;
     t2              = t1;   //for the case that the track has only 1 point
-    timeStart       = t1;
 
     ++visiblePointCount;
 
@@ -823,12 +821,13 @@ void CTrack::rebuild(bool reindex)
         {
             slope = 0.;
         }
+
         pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
         if (qAbs(pt2->slope )>100)
         {
             pt2->slope = pt1->slope;
         }
-        // qDebug() << slope << pt2->delta << pt2->slope;
+
         if(slope > 0)
         {
             totalAscend  += slope;
@@ -842,7 +841,6 @@ void CTrack::rebuild(bool reindex)
         if(ext1Data && pt2->velocity != WPT_NOFLOAT)
         {
             pt2->speed  =  pt2->velocity;
-            //             pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
         }
         else
         {
@@ -862,7 +860,7 @@ void CTrack::rebuild(bool reindex)
         if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
         if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
 
-        pt2->timeSinceStart = pt2->timestamp - timeStart;
+        pt2->timeSinceStart = t2 - t1;
 
         pt1 = pt2;
     }

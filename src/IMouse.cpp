@@ -250,10 +250,10 @@ void IMouse::drawSelTrkPt(QPainter& p)
                 quint32 t1h = qreal(t1s)/3600;
                 quint32 t2h = qreal(t2s)/3600;
 
-                quint32 t1m = qreal(t1s - t1h * 3600)/60;
-                quint32 t2m = qreal(t2s - t2h * 3600)/60;
+                quint32 t1m = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
+                quint32 t2m = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
 
-                quint32 t1p = qreal(100 * t1s) / total;
+                quint32 t1p = quint32(qreal(100 * t1s) / total + 0.5);
                 quint32 t2p = 100 - t1p;
 
 
@@ -723,7 +723,7 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
 
     if(oldOverlay != selOverlay)
     {
-        if(selOverlay)
+        if(selOverlay && selOverlay->visible())
         {
             canvas->setMouseMode(CCanvas::eMouseOverlay);
         }
