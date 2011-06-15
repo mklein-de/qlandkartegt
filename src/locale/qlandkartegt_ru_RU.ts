@@ -812,7 +812,7 @@
         <translation>Нажмите для редактирования трека и просмотра профиля</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="761"/>
+        <location filename="../CCanvas.cpp" line="788"/>
         <source>Copy Position</source>
         <translation>Копировать координаты</translation>
     </message>
@@ -1613,7 +1613,7 @@ Expected %1, received %2.</source>
 <context>
     <name>CDiary</name>
     <message>
-        <location filename="../CDiary.cpp" line="348"/>
+        <location filename="../CDiary.cpp" line="357"/>
         <source>Diary</source>
         <translation>Дневник</translation>
     </message>
@@ -1626,140 +1626,211 @@ Expected %1, received %2.</source>
     </message>
 </context>
 <context>
+    <name>CDiaryEdit</name>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="76"/>
+        <source>&amp;Bold</source>
+        <translation type="unfinished">Жирный</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="85"/>
+        <source>&amp;Italic</source>
+        <translation type="unfinished">Курсив</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="94"/>
+        <source>&amp;Underline</source>
+        <translation type="unfinished">Подчеркивание</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="105"/>
+        <source>&amp;Color...</source>
+        <translation type="unfinished">Цвет...</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="119"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="123"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished">Повтор</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="127"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished">Вырезать</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="131"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished">Копировать</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="135"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished">Вставить</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="235"/>
+        <source>Failed...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="235"/>
+        <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
+        <translation type="unfinished">Не удалось сохранить дневник в базу данных. Вероятно потому, что он не был создан в базе данных проекта.</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="274"/>
+        <source>Print Diary</source>
+        <translation type="unfinished">Печать Дневника</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="481"/>
+        <source>Diary - %1 *</source>
+        <translation type="unfinished">Дневник - %1 *</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="485"/>
+        <source>Diary - %1</source>
+        <translation type="unfinished">Дневник - %1</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="585"/>
+        <source>Add your own text here...</source>
+        <translation type="unfinished">Добавить свой текст здесь...</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="598"/>
+        <source>Waypoints</source>
+        <translation type="unfinished">Путевые точки</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="606"/>
+        <location filename="../CDiaryEdit.cpp" line="645"/>
+        <source>Info</source>
+        <translation type="unfinished">Инфо</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="607"/>
+        <location filename="../CDiaryEdit.cpp" line="646"/>
+        <source>Comment</source>
+        <translation type="unfinished">Комментарий</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="637"/>
+        <source>Tracks</source>
+        <translation type="unfinished">Треки</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="682"/>
+        <source>&lt;b&gt;Owner:&lt;/b&gt; %1 &lt;b&gt;Size:&lt;/b&gt; %2 &lt;b&gt;Difficulty:&lt;/b&gt; %3 &lt;b&gt;Terrain:&lt;/b&gt; %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CDiaryEditWidget</name>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="97"/>
         <source>&amp;Bold</source>
-        <translation>Жирный</translation>
+        <translation type="obsolete">Жирный</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="106"/>
         <source>&amp;Italic</source>
-        <translation>Курсив</translation>
+        <translation type="obsolete">Курсив</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="115"/>
         <source>&amp;Underline</source>
-        <translation>Подчеркивание</translation>
+        <translation type="obsolete">Подчеркивание</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="127"/>
         <source>&amp;Left</source>
-        <translation>Влево</translation>
+        <translation type="obsolete">Влево</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="131"/>
         <source>C&amp;enter</source>
-        <translation>Центр</translation>
+        <translation type="obsolete">Центр</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="135"/>
         <source>&amp;Right</source>
-        <translation>Вправо</translation>
+        <translation type="obsolete">Вправо</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="139"/>
         <source>&amp;Justify</source>
-        <translation>Выровнять</translation>
+        <translation type="obsolete">Выровнять</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="146"/>
         <source>&amp;Color...</source>
-        <translation>Цвет...</translation>
+        <translation type="obsolete">Цвет...</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="189"/>
         <source>&amp;Undo</source>
-        <translation>Вернуть</translation>
+        <translation type="obsolete">Вернуть</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="193"/>
         <source>&amp;Redo</source>
-        <translation>Повтор</translation>
+        <translation type="obsolete">Повтор</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="197"/>
         <source>Cu&amp;t</source>
-        <translation>Вырезать</translation>
+        <translation type="obsolete">Вырезать</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="201"/>
         <source>&amp;Copy</source>
-        <translation>Копировать</translation>
+        <translation type="obsolete">Копировать</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="205"/>
         <source>&amp;Paste</source>
-        <translation>Вставить</translation>
+        <translation type="obsolete">Вставить</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="528"/>
-        <location filename="../CDiaryEditWidget.cpp" line="567"/>
         <source>Diary - %1 *</source>
-        <translation>Дневник - %1 *</translation>
+        <translation type="obsolete">Дневник - %1 *</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="571"/>
-        <location filename="../CDiaryEditWidget.cpp" line="780"/>
         <source>Diary - %1</source>
-        <translation>Дневник - %1</translation>
+        <translation type="obsolete">Дневник - %1</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="591"/>
         <source>Add your own text here...</source>
-        <translation>Добавить свой текст здесь...</translation>
+        <translation type="obsolete">Добавить свой текст здесь...</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="603"/>
         <source>Waypoints</source>
-        <translation>Путевые точки</translation>
+        <translation type="obsolete">Путевые точки</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="614"/>
-        <location filename="../CDiaryEditWidget.cpp" line="655"/>
         <source>Info</source>
-        <translation>Инфо</translation>
+        <translation type="obsolete">Инфо</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="615"/>
-        <location filename="../CDiaryEditWidget.cpp" line="656"/>
         <source>Comment</source>
-        <translation>Комментарий</translation>
+        <translation type="obsolete">Комментарий</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="644"/>
         <source>Tracks</source>
-        <translation>Треки</translation>
+        <translation type="obsolete">Треки</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="677"/>
-        <source>Geocaches</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../CDiaryEditWidget.cpp" line="694"/>
         <source>Owner: %1 </source>
-        <translation>Владелец: %1 </translation>
+        <translation type="obsolete">Владелец: %1 </translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="695"/>
         <source>Difficulty: %1 </source>
-        <translation>Сложность: %1 </translation>
+        <translation type="obsolete">Сложность: %1 </translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="696"/>
         <source>Terrain: %1 </source>
-        <translation>Местность: %1 </translation>
+        <translation type="obsolete">Местность: %1 </translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="771"/>
         <source>Failed...</source>
-        <translation>Не удалось....</translation>
+        <translation type="obsolete">Не удалось....</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="771"/>
         <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
-        <translation>Не удалось сохранить дневник в базу данных. Вероятно потому, что он не был создан в базе данных проекта.</translation>
+        <translation type="obsolete">Не удалось сохранить дневник в базу данных. Вероятно потому, что он не был создан в базе данных проекта.</translation>
     </message>
     <message>
         <source>Diary Wizard</source>
@@ -2328,8 +2399,8 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="95"/>
-        <location filename="../CGeoDB.cpp" line="752"/>
-        <location filename="../CGeoDB.cpp" line="794"/>
+        <location filename="../CGeoDB.cpp" line="766"/>
+        <location filename="../CGeoDB.cpp" line="808"/>
         <source>Workspace</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2340,25 +2411,25 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="102"/>
-        <location filename="../CGeoDB.cpp" line="758"/>
+        <location filename="../CGeoDB.cpp" line="772"/>
         <source>Waypoints</source>
         <translation>Путевые точки</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="109"/>
-        <location filename="../CGeoDB.cpp" line="759"/>
+        <location filename="../CGeoDB.cpp" line="773"/>
         <source>Tracks</source>
         <translation>Треки</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="116"/>
-        <location filename="../CGeoDB.cpp" line="760"/>
+        <location filename="../CGeoDB.cpp" line="774"/>
         <source>Routes</source>
         <translation>Маршруты</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="123"/>
-        <location filename="../CGeoDB.cpp" line="761"/>
+        <location filename="../CGeoDB.cpp" line="775"/>
         <source>Overlays</source>
         <translation>Наложения</translation>
     </message>
@@ -2369,7 +2440,7 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="137"/>
-        <location filename="../CGeoDB.cpp" line="1039"/>
+        <location filename="../CGeoDB.cpp" line="1053"/>
         <source>Lost &amp; Found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2405,128 +2476,133 @@ Expected %1, received %2.</source>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="186"/>
-        <source>New</source>
-        <translation>Новый</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="188"/>
-        <location filename="../CGeoDB.cpp" line="192"/>
-        <source>Copy</source>
-        <translation>Копировать</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="189"/>
-        <location filename="../CGeoDB.cpp" line="193"/>
-        <location filename="../CGeoDB.cpp" line="197"/>
-        <source>Move</source>
-        <translation>Переместить</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="201"/>
-        <source>Add to database</source>
-        <translation>Добавить в базу данных</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="202"/>
-        <source>Save changes</source>
-        <translation>Сохранить изменения</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="203"/>
-        <source>Check-out as copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="693"/>
-        <source>Loading workspace. Please wait.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="762"/>
-        <source>Map Selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="830"/>
-        <source>Update workspace.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="1225"/>
-        <source>Loading items from database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="1782"/>
-        <source>Saving workspace. Please wait.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2468"/>
-        <source>Delete folder...</source>
-        <translation>Удалить папку...</translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2627"/>
-        <location filename="../CGeoDB.cpp" line="2821"/>
-        <source>Delete items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2671"/>
-        <source>Copy items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2726"/>
-        <location filename="../CGeoDB.cpp" line="2785"/>
-        <source>Move items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2860"/>
-        <source>Add items to database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CGeoDB.cpp" line="2988"/>
-        <source>Save items.</source>
+        <source>Delete diary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="187"/>
+        <source>New</source>
+        <translation>Новый</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="189"/>
+        <location filename="../CGeoDB.cpp" line="193"/>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="190"/>
         <location filename="../CGeoDB.cpp" line="194"/>
         <location filename="../CGeoDB.cpp" line="198"/>
+        <source>Move</source>
+        <translation>Переместить</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="202"/>
+        <source>Add to database</source>
+        <translation>Добавить в базу данных</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="203"/>
+        <source>Save changes</source>
+        <translation>Сохранить изменения</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="204"/>
+        <source>Check-out as copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="694"/>
+        <source>Loading workspace. Please wait.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="776"/>
+        <source>Map Selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="844"/>
+        <source>Update workspace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="1240"/>
+        <source>Loading items from database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="1797"/>
+        <source>Saving workspace. Please wait.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2486"/>
+        <source>Delete folder...</source>
+        <translation>Удалить папку...</translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2645"/>
+        <location filename="../CGeoDB.cpp" line="2839"/>
+        <source>Delete items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2689"/>
+        <source>Copy items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2744"/>
+        <location filename="../CGeoDB.cpp" line="2803"/>
+        <source>Move items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2878"/>
+        <source>Add items to database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="3006"/>
+        <source>Save items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="188"/>
+        <location filename="../CGeoDB.cpp" line="195"/>
+        <location filename="../CGeoDB.cpp" line="199"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="445"/>
+        <location filename="../CGeoDB.cpp" line="446"/>
         <source>Migrating database from version 4 to 5.</source>
         <translation>Миграция базы данных с версии 4 до 5.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="496"/>
+        <location filename="../CGeoDB.cpp" line="497"/>
         <source>Migrating database from version 5 to 6.</source>
         <translation>Миграция базы данных с версии 5 до 6.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="553"/>
+        <location filename="../CGeoDB.cpp" line="554"/>
         <source>Migrating database from version 6 to 7.</source>
         <translation>Миграция базы данных с версии 6 до 7.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="618"/>
+        <location filename="../CGeoDB.cpp" line="619"/>
         <source>Migrating database from version 7 to 8.</source>
         <translation>Миграция базы данных с версии 7 до 8.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2468"/>
+        <location filename="../CGeoDB.cpp" line="2486"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1035"/>
+        <location filename="../CGeoDB.cpp" line="1049"/>
         <source>Lost &amp; Found (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2818,67 +2894,67 @@ Do you want to save your changes?</source>
         <translation>Печать карты</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1237"/>
+        <location filename="../CMainWindow.cpp" line="1227"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Аннотация к проекту (&lt;a href=&apos;Clear&apos;&gt;очистить&lt;/a&gt; проект):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1245"/>
+        <location filename="../CMainWindow.cpp" line="1235"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>В настоящее время существует %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1249"/>
+        <location filename="../CMainWindow.cpp" line="1239"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>В настоящее время есть %1 &lt;a href=&apos;Waypoints&apos;&gt;путевых точек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1254"/>
+        <location filename="../CMainWindow.cpp" line="1244"/>
         <source>There are no waypoints, </source>
         <translation>Нет путевых точек, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1262"/>
+        <location filename="../CMainWindow.cpp" line="1252"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;трек&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1266"/>
+        <location filename="../CMainWindow.cpp" line="1256"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;треки&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1271"/>
+        <location filename="../CMainWindow.cpp" line="1261"/>
         <source>no tracks, </source>
         <translation>нет треков, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1279"/>
+        <location filename="../CMainWindow.cpp" line="1269"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрут&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1283"/>
+        <location filename="../CMainWindow.cpp" line="1273"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;маршрутов&lt;/a&gt; и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1288"/>
+        <location filename="../CMainWindow.cpp" line="1278"/>
         <source>no routes and </source>
         <translation>нет маршрутов и </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1296"/>
+        <location filename="../CMainWindow.cpp" line="1286"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложение&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1300"/>
+        <location filename="../CMainWindow.cpp" line="1290"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;наложения&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1305"/>
+        <location filename="../CMainWindow.cpp" line="1295"/>
         <source>no overlays. </source>
         <translation>нет наложений. </translation>
     </message>
@@ -2891,22 +2967,22 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Дневник (&lt;a href=&apos;Diary&apos;&gt;новый&lt;/a&gt;) пуст.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1354"/>
+        <location filename="../CMainWindow.cpp" line="1344"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1356"/>
+        <location filename="../CMainWindow.cpp" line="1346"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1358"/>
+        <location filename="../CMainWindow.cpp" line="1348"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1361"/>
+        <location filename="../CMainWindow.cpp" line="1351"/>
         <source>GPSD</source>
         <translation></translation>
     </message>
@@ -3030,41 +3106,39 @@ Do you want to save your changes?</source>
         <translation>--- OSM ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="314"/>
-        <location filename="../CMapDB.cpp" line="391"/>
-        <location filename="../CMapDB.cpp" line="783"/>
+        <location filename="../CMapDB.cpp" line="787"/>
         <source>Map 3D...</source>
         <translation>3D Карта...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="405"/>
-        <location filename="../CMapDB.cpp" line="444"/>
-        <location filename="../CMapDB.cpp" line="842"/>
+        <location filename="../CMapDB.cpp" line="407"/>
+        <location filename="../CMapDB.cpp" line="446"/>
+        <location filename="../CMapDB.cpp" line="847"/>
         <source>Error...</source>
         <translation>Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="405"/>
+        <location filename="../CMapDB.cpp" line="407"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Только векторные карты допустимы для наложения.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="772"/>
+        <location filename="../CMapDB.cpp" line="774"/>
         <source>Edit Map</source>
         <translation>Редактировать карту</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="797"/>
+        <location filename="../CMapDB.cpp" line="802"/>
         <source>Search Map</source>
         <translation>Искать карту</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="811"/>
+        <location filename="../CMapDB.cpp" line="816"/>
         <source>Sorry...</source>
         <translation>Извините...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="811"/>
+        <location filename="../CMapDB.cpp" line="816"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Вы не можете выбрать субзоны из одного файла карт. Создайте коллекцию с помощью F1-&gt;F6.</translation>
     </message>
@@ -4555,21 +4629,21 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Маршрут</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="410"/>
+        <location filename="../CRoute.cpp" line="414"/>
         <source>
 length: %1 %2</source>
         <translation>
 длина: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="418"/>
+        <location filename="../CRoute.cpp" line="422"/>
         <source>
 time: %1:</source>
         <translation>
 ￼время: %1:</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="422"/>
+        <location filename="../CRoute.cpp" line="426"/>
         <source>
 time: </source>
         <translation>
@@ -4968,9 +5042,77 @@ length: %1 %2</source>
     </message>
 </context>
 <context>
+    <name>CTextEditWidget</name>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="84"/>
+        <source>&amp;Bold</source>
+        <translation type="unfinished">Жирный</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="93"/>
+        <source>&amp;Italic</source>
+        <translation type="unfinished">Курсив</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="102"/>
+        <source>&amp;Underline</source>
+        <translation type="unfinished">Подчеркивание</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="114"/>
+        <source>&amp;Left</source>
+        <translation type="unfinished">Влево</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="118"/>
+        <source>C&amp;enter</source>
+        <translation type="unfinished">Центр</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="122"/>
+        <source>&amp;Right</source>
+        <translation type="unfinished">Вправо</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="126"/>
+        <source>&amp;Justify</source>
+        <translation type="unfinished">Выровнять</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="133"/>
+        <source>&amp;Color...</source>
+        <translation type="unfinished">Цвет...</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="168"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="172"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished">Повтор</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="176"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished">Вырезать</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="180"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished">Копировать</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="184"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished">Вставить</translation>
+    </message>
+</context>
+<context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="945"/>
+        <location filename="../CTrack.cpp" line="947"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -4981,51 +5123,51 @@ length: %1 %2</source>
         <translation type="obsolete">,точек: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="946"/>
+        <location filename="../CTrack.cpp" line="948"/>
         <source>, points: %1 (%2)</source>
         <translation>, точки: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="955"/>
+        <location filename="../CTrack.cpp" line="957"/>
         <source>
 time: %1:</source>
         <translation>
 ￼время: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="959"/>
+        <location filename="../CTrack.cpp" line="961"/>
         <source>
 time: </source>
         <translation>
 время:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="963"/>
+        <location filename="../CTrack.cpp" line="965"/>
         <source>, speed: %1 %2</source>
         <translation>, скорость: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="965"/>
+        <location filename="../CTrack.cpp" line="967"/>
         <source>
 start: %1</source>
         <translation>
 старт: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="965"/>
-        <location filename="../CTrack.cpp" line="966"/>
+        <location filename="../CTrack.cpp" line="967"/>
+        <location filename="../CTrack.cpp" line="968"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="966"/>
+        <location filename="../CTrack.cpp" line="968"/>
         <source>
 end: %1</source>
         <translation>
 ￼конец: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="971"/>
+        <location filename="../CTrack.cpp" line="973"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
@@ -5633,7 +5775,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapFineTune.ui" line="20"/>
@@ -5679,7 +5821,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="20"/>
@@ -5814,7 +5956,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
     <message>
         <location filename="../ICreateMapGridTool.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapGridTool.ui" line="29"/>
@@ -5881,7 +6023,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼
     <message>
         <location filename="../ICreateMapOSM.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapOSM.ui" line="25"/>
@@ -5963,7 +6105,7 @@ bottom/right</source>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="20"/>
@@ -6074,7 +6216,7 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
     <message>
         <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="21"/>
@@ -6141,37 +6283,40 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
     </message>
 </context>
 <context>
-    <name>IDiaryEditWidget</name>
+    <name>IDiaryEdit</name>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="14"/>
+        <location filename="../IDiaryEdit.ui" line="14"/>
         <source>Form</source>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="25"/>
+        <location filename="../IDiaryEdit.ui" line="39"/>
+        <location filename="../IDiaryEdit.ui" line="46"/>
+        <location filename="../IDiaryEdit.ui" line="53"/>
+        <location filename="../IDiaryEdit.ui" line="60"/>
+        <location filename="../IDiaryEdit.ui" line="67"/>
+        <location filename="../IDiaryEdit.ui" line="81"/>
+        <location filename="../IDiaryEdit.ui" line="88"/>
+        <location filename="../IDiaryEdit.ui" line="95"/>
+        <location filename="../IDiaryEdit.ui" line="102"/>
+        <location filename="../IDiaryEdit.ui" line="126"/>
+        <location filename="../IDiaryEdit.ui" line="133"/>
+        <location filename="../IDiaryEdit.ui" line="140"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="119"/>
+        <source>show geocaches</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>IDiaryEditWidget</name>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="25"/>
-        <location filename="../IDiaryEditWidget.ui" line="38"/>
-        <location filename="../IDiaryEditWidget.ui" line="51"/>
-        <location filename="../IDiaryEditWidget.ui" line="64"/>
-        <location filename="../IDiaryEditWidget.ui" line="77"/>
-        <location filename="../IDiaryEditWidget.ui" line="100"/>
-        <location filename="../IDiaryEditWidget.ui" line="113"/>
-        <location filename="../IDiaryEditWidget.ui" line="127"/>
-        <location filename="../IDiaryEditWidget.ui" line="147"/>
-        <location filename="../IDiaryEditWidget.ui" line="161"/>
-        <location filename="../IDiaryEditWidget.ui" line="174"/>
-        <location filename="../IDiaryEditWidget.ui" line="187"/>
-        <location filename="../IDiaryEditWidget.ui" line="200"/>
-        <location filename="../IDiaryEditWidget.ui" line="213"/>
-        <location filename="../IDiaryEditWidget.ui" line="226"/>
-        <location filename="../IDiaryEditWidget.ui" line="239"/>
-        <location filename="../IDiaryEditWidget.ui" line="252"/>
-        <source>...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IDiaryEditWidget.ui" line="97"/>
         <source>Create diary skeleton from current data.</source>
-        <translation>Создать каркас дневника из текущих данных.</translation>
+        <translation type="obsolete">Создать каркас дневника из текущих данных.</translation>
     </message>
 </context>
 <context>
@@ -7547,7 +7692,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IGeoToolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
 </context>
 <context>
@@ -7568,7 +7713,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="25"/>
@@ -7679,7 +7824,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapEditWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IMapEditWidget.ui" line="34"/>
@@ -7824,7 +7969,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapSearchWidget.ui" line="25"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IMapSearchWidget.ui" line="35"/>
@@ -7907,7 +8052,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="29"/>
@@ -7951,22 +8096,40 @@ DEM: %2</translation>
 <context>
     <name>IMouse</name>
     <message>
-        <location filename="../IMouse.cpp" line="249"/>
+        <location filename="../IMouse.cpp" line="261"/>
+        <source>%4 %3 %1:%2h (%5%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="262"/>
+        <source> | (%5%) %1:%2h %3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="269"/>
+        <source>%5 %4 %1%2 (%3%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="271"/>
+        <source> | (%3%) %1%2 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="277"/>
         <source>elevation: %1 %2</source>
         <translation>высота: %1 %2</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="254"/>
         <source>start %4 %1%2 (%3%)</source>
-        <translation>начало %4 %1%2 (%3%)</translation>
+        <translation type="obsolete">начало %4 %1%2 (%3%)</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="257"/>
         <source> | (%3%) %1%2 %4 end</source>
-        <translation> | (%3%) %1%2 %4 конец</translation>
+        <translation type="obsolete"> | (%3%) %1%2 %4 конец</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="272"/>
+        <location filename="../IMouse.cpp" line="295"/>
         <source>
  %1: %2 </source>
         <translation></translation>
@@ -7985,7 +8148,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IOverlayDistanceEditWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IOverlayDistanceEditWidget.ui" line="26"/>
@@ -8018,7 +8181,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IOverlayToolWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
 </context>
 <context>
@@ -8097,7 +8260,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IStatusDEM.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IStatusDEM.ui" line="31"/>
@@ -8116,11 +8279,36 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ITextEditWidget</name>
+    <message>
+        <location filename="../ITextEditWidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
+    </message>
+    <message>
+        <location filename="../ITextEditWidget.ui" line="25"/>
+        <location filename="../ITextEditWidget.ui" line="38"/>
+        <location filename="../ITextEditWidget.ui" line="51"/>
+        <location filename="../ITextEditWidget.ui" line="64"/>
+        <location filename="../ITextEditWidget.ui" line="77"/>
+        <location filename="../ITextEditWidget.ui" line="117"/>
+        <location filename="../ITextEditWidget.ui" line="130"/>
+        <location filename="../ITextEditWidget.ui" line="143"/>
+        <location filename="../ITextEditWidget.ui" line="156"/>
+        <location filename="../ITextEditWidget.ui" line="169"/>
+        <location filename="../ITextEditWidget.ui" line="182"/>
+        <location filename="../ITextEditWidget.ui" line="195"/>
+        <location filename="../ITextEditWidget.ui" line="208"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+</context>
+<context>
     <name>ITrackEditWidget</name>
     <message>
         <location filename="../ITrackEditWidget.ui" line="38"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="46"/>
@@ -8281,7 +8469,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackStatWidget.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
 </context>
 <context>
@@ -8289,7 +8477,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackToolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../ITrackToolWidget.ui" line="22"/>
@@ -8313,7 +8501,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создание карты на основе OSM</translation>
     </message>
     <message>
         <location filename="../IWptToolWidget.ui" line="25"/>
@@ -8358,44 +8546,36 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PrintPreview</name>
     <message>
-        <location filename="../printpreview.cpp" line="222"/>
         <source>Diary - Print Preview</source>
-        <translation>Дневник - предпросмотр печати</translation>
+        <translation type="obsolete">Дневник - предпросмотр печати</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="246"/>
         <source>Print</source>
-        <translation>Печать</translation>
+        <translation type="obsolete">Печать</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="250"/>
         <source>&amp;Print...</source>
-        <translation>Печать...</translation>
+        <translation type="obsolete">Печать...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="255"/>
         <source>Page Setup...</source>
-        <translation>Установки страницы...</translation>
+        <translation type="obsolete">Установки страницы...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="261"/>
         <source>Zoom In</source>
-        <translation>Приблизить</translation>
+        <translation type="obsolete">Приблизить</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="265"/>
         <source>Zoom Out</source>
-        <translation>Отдалить</translation>
+        <translation type="obsolete">Отдалить</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="271"/>
         <source>&amp;Close</source>
-        <translation>Закрыть</translation>
+        <translation type="obsolete">Закрыть</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="317"/>
         <source>Print Diary</source>
-        <translation>Печать Дневника</translation>
+        <translation type="obsolete">Печать Дневника</translation>
     </message>
 </context>
 <context>
