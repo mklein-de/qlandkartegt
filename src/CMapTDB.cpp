@@ -233,6 +233,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     //     QString str = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0";
     QString str = QString("+proj=merc +lat_ts=%1 +ellps=WGS84").arg(int((south + (north - south) / 2) * RAD_TO_DEG));
     pjsrc       = pj_init_plus(str.toLatin1());
+    oSRS.importFromProj4(getProjection());
 
     if(pjsrc == NULL)
     {
@@ -371,6 +372,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     }
 
     pjsrc = pj_init_plus(ptr);
+    oSRS.importFromProj4(getProjection());
 
     qDebug() << "TDB:" << ptr;
     //     if(ptr) free(ptr);
@@ -1226,6 +1228,7 @@ void CMapTDB::registerDEM(CMapDEM& dem)
     }
     pj_free(pjsrc);
     pjsrc = pj_init_plus(ptr);
+    oSRS.importFromProj4(getProjection());
     //     if(ptr) free(ptr);
 }
 

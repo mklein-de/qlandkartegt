@@ -64,6 +64,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     setNewTileUrl(tileListIndex);
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
+    oSRS.importFromProj4(getProjection());
 
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "OSM:" << ptr;
