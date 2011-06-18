@@ -28,7 +28,11 @@
 #include <gdal_priv.h>
 #include <projects.h>
 #include <ogr_spatialref.h>
-#include <jpeglib.h>
+
+extern "C"
+{
+    #include <jpeglib.h>
+}
 
 #include <qzipwriter.h>
 

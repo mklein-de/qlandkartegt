@@ -3,9 +3,9 @@
 
 #include "CGetOpt.h"
 
-#include <qapplication.h>
-#include <qfileinfo.h>
-#include <qstack.h>
+#include <QApplication>
+#include <QFileInfo>
+#include <QStack>
 #include <stdlib.h>
 
 #include <assert.h>
