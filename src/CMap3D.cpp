@@ -605,8 +605,8 @@ void CMap3D::setTrackObject()
     glScalef(1.0, 1.0, zoomFactorZ);
     glTranslated(0.0, 0.0, -minEle);
 
-    glLineWidth(2.0);
-    glPointSize(5.0);
+    glLineWidth(5.0);
+    glPointSize(10.0);
     double ele1, ele2;
     IMap& dem = CMapDB::self().getDEM();
 
@@ -615,6 +615,9 @@ void CMap3D::setTrackObject()
     if (track != 0)
     {
         XY pt1, pt2;
+
+        glLineWidth(5.0);
+        highBorderColor = track->getColor();
 
         QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
@@ -648,11 +651,11 @@ void CMap3D::setTrackObject()
             pt2.v = trkpt->lat * DEG_TO_RAD;
             if (actTrackOnMap->isChecked())
             {
-                ele2 = dem.getElevation(pt2.u, pt2.v) + 1;
+                ele2 = dem.getElevation(pt2.u, pt2.v) + 2;
             }
             else
             {
-                ele2 = trkpt->ele +1;
+                ele2 = trkpt->ele + 2;
             }
 
             if(ele2 == WPT_NOFLOAT)
@@ -669,7 +672,7 @@ void CMap3D::setTrackObject()
             if (trkpt->flags & CTrack::pt_t::eSelected)
             {
                 glBegin(GL_LINES);
-                glColor3f(1.0, 0.0, 0.0);
+                glColor3f(0.8, 0, 0);
                 glVertex3d(pt1.u, pt1.v, ele1);
                 glVertex3d(pt1.u, pt1.v, minEle);
                 glEnd();
