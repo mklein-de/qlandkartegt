@@ -512,6 +512,8 @@ void CDiaryEdit::draw(QTextDocument& doc)
 
     if(pointSize == 0) return;
 
+    doc.setUndoRedoEnabled(false);
+
     QFont f = textEdit->font();
     f.setPointSize(pointSize);
     textEdit->setFont(f);
@@ -689,7 +691,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
 
         }
     }
-    doc.clearUndoRedoStacks();
+    doc.setUndoRedoEnabled(true);
 }
 
 //static QString toPlainText(const QTextTableCell& cell)
