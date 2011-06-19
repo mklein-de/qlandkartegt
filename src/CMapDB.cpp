@@ -443,11 +443,15 @@ void CMapDB::openDEM(const QString& filename)
     catch(const QString& msg)
     {
         cfg.setValue(QString("map/dem/%1").arg(theMap->getKey()), "");
-        QMessageBox:: critical(0,tr("Error..."), msg, QMessageBox::Abort, QMessageBox::Abort);
+        cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(theMap->getKey()), false);
         return;
     }
 
     cfg.setValue(QString("map/dem/%1").arg(theMap->getKey()), filename);
+    if(filename.isEmpty())
+    {
+        cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(theMap->getKey()), false);
+    }
 
     emit sigChanged();
 }

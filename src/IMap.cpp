@@ -225,12 +225,23 @@ void IMap::registerDEM(CMapDEM& dem)
     //     if(ptr1) free(ptr1);
     //     if(ptr2) free(ptr2);
 
+    QSettings cfg;
+    bool ignoreWarning = cfg.value(QString("map/dem/%1/ignoreWarning").arg(getKey()), false).toBool();
+
     if(proj1 != proj2)
     {
-        if(!OSRIsSame(&oSRS, &dem.getOSrs()))
+        if(!OSRIsSame(&oSRS, &dem.getOSrs()) && !ignoreWarning)
         {
-            dem.deleteLater();
-            throw tr("DEM projection does not match the projection of the basemap.\n\nMap: %1\n\nDEM: %2").arg(proj1).arg(proj2);
+            QString msg = tr("DEM projection does not match the projection of the basemap.\n\nMap: %1\n\nDEM: %2\n\nIn my point of view this is bad. But if you think I am wrong just go on with 'Apply'. Else abort operation.").arg(proj1).arg(proj2);
+            QMessageBox::StandardButton res = QMessageBox:: critical(0,tr("Error..."), msg, QMessageBox::Abort|QMessageBox::Apply, QMessageBox::Abort);
+
+            if(res == QMessageBox::Abort)
+            {
+                dem.deleteLater();
+                throw tr("DEM projection does not match the projection of the basemap.\n\nMap: %1\n\nDEM: %2").arg(proj1).arg(proj2);
+            }
+            cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(getKey()), true);
+
         }
     }
 }

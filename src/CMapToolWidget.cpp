@@ -411,6 +411,7 @@ void CMapToolWidget::slotDelDEM()
     {
         QSettings cfg;
         cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
+        cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(CMapDB::self().getMap().getKey()), false);
         dem.deleteLater();
     }
 }
