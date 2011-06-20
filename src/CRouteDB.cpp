@@ -309,7 +309,6 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
             gpxRtept.setAttribute("lon",QString::number(rtept->lon,'f',6));
 
             QString str     = QString("%1").arg(++cnt,3,10,QChar('0'));
-            QString cmtstr  = (gpx.getExportMode() != CGpx::eQlgtExport) ? rtept->action : str;
 
             QDomElement name = gpx.createElement("name");
             gpxRtept.appendChild(name);
@@ -318,12 +317,12 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
             QDomElement cmt = gpx.createElement("cmt");
             gpxRtept.appendChild(cmt);
-            QDomText _cmt_ = gpx.createTextNode(cmtstr);
+            QDomText _cmt_ = gpx.createTextNode(rtept->action);
             cmt.appendChild(_cmt_);
 
             QDomElement desc = gpx.createElement("desc");
             gpxRtept.appendChild(desc);
-            QDomText _desc_ = gpx.createTextNode(cmtstr);
+            QDomText _desc_ = gpx.createTextNode(rtept->action);
             desc.appendChild(_desc_);
 
             QDomElement sym = gpx.createElement("sym");

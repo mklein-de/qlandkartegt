@@ -73,7 +73,22 @@ void CDlgWpt2Rte::accept()
         CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
         if(wpt)
         {
-            route->addPosition(wpt->lon, wpt->lat, wpt->getName());
+            QString action;
+            if(!wpt->getDescription().isEmpty())
+            {
+                action = wpt->getDescription();
+            }
+            else if(!wpt->getComment().isEmpty())
+            {
+                action = wpt->getComment();
+            }
+            else if(!wpt->getName().isEmpty())
+            {
+                action = wpt->getName();
+            }
+
+
+            route->addPosition(wpt->lon, wpt->lat, action);
         }
     }
 
