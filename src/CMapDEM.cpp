@@ -109,7 +109,8 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 
     for(i = 128; i < 255; ++i)
     {
-        graytable1 << qRgba(255,255,255,(i - 128)/* << 1*/);
+        //graytable1 << qRgba(255,255,255,(i - 128)/* << 1*/);
+        graytable1 << qRgba(255,255,255, 1);
     }
 
     status = new CStatusDEM(theMainWindow->getCanvas());
