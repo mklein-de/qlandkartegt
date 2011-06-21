@@ -43,7 +43,9 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
     if(dataset == 0)
     {
-        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        QMessageBox::warning(0, tr("Error..."), 
+            tr("Failed to load file: %1\n\n").arg(filename).append(tr(CPLGetLastErrorMsg())));
+        status = 0;
         return;
     }
 
@@ -52,7 +54,9 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     if(pBand == 0)
     {
         delete dataset; dataset = 0;
-        QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
+        QMessageBox::warning(0, tr("Error..."),
+            tr("Failed to load file: %1").arg(filename).append(tr(CPLGetLastErrorMsg())));
+        status = 0;
         return;
     }
     pBand->GetBlockSize(&tileWidth,&tileHeight);
@@ -118,12 +122,16 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 
 }
 
+bool CMapDEM::loaded()
+{
+    return (dataset != 0) && (status != 0);
+}
 
 CMapDEM::~CMapDEM()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
-    delete status;
+    if(status) delete status;
 }
 
 

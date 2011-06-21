@@ -53,6 +53,7 @@ class CMapDEM : public IMap
         bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& w, int& h);
 
         bool is32BitRgb(){return false;}
+        bool loaded();
 
     private:
         void shading(QImage& img, qint16 * data, float xscale, float yscale);

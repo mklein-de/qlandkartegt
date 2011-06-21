@@ -437,8 +437,11 @@ void CMapDB::openDEM(const QString& filename)
     try
     {
         CMapDEM * dem;
-        demMap = dem = new CMapDEM(filename, theMainWindow->getCanvas());
-        theMap->registerDEM(*dem);
+        dem = new CMapDEM(filename, theMainWindow->getCanvas());
+        if (dem->loaded())
+            demMap = dem, theMap->registerDEM(*dem);
+        else
+            delete dem;
     }
     catch(const QString& msg)
     {
