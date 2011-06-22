@@ -724,7 +724,7 @@ void CMainWindow::slotLoadData()
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi (*.plt)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
     }
     else
     {
@@ -783,7 +783,7 @@ void CMainWindow::slotAddData()
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
     }
     else
     {
@@ -890,7 +890,7 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             {
                 loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
             }
-            else if(ext == "PLT")
+            else if(ext == "PLT" || ext == "WPT" || ext == "RTE")
             {
                 loadGPXData = convertData("ozi", filename, "gpx", tmpfile.fileName());
             }
