@@ -1,3 +1,16 @@
+--- 2011.06.23 ---
+
+Bug     #294:
+Fix: Projection compare (map/dem) still fails
+
+Request #295:
+Take over waypoint description for routepoint
+
+Bug     #296:
+Fix: Crash on Garmin maps with POI labels
+
+
+
 --- 2011.06.15 ---
 
 Bug     #281:
@@ -1224,6 +1237,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
