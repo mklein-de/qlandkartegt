@@ -100,6 +100,8 @@ class CMapTDB : public IMap
 
         struct strlbl_t
         {
+            strlbl_t() : type(IGarminTyp::eStandard){}
+
             QPoint  pt;
             QRect   rect;
             QString str;

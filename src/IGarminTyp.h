@@ -155,6 +155,7 @@ class IGarminTyp : public QObject
 
         struct point_property
         {
+            point_property() : labelType(eStandard){}
             QImage imgDay;
             QImage imgNight;
 
