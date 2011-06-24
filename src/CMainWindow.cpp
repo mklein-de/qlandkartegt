@@ -712,24 +712,9 @@ void CMainWindow::slotConfig()
     dlg.exec();
 }
 
-
 void CMainWindow::slotLoadData()
 {
-
-    QProcess proc1;
-    proc1.start(GPSBABEL " -V");
-    proc1.waitForFinished();
-    bool haveGPSBabel = proc1.error() == QProcess::UnknownError;
-
-    QString formats;
-    if(haveGPSBabel)
-    {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
-    }
-    else
-    {
-        formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
-    }
+    QString formats = getGeoDataFormats();
 
     QSettings cfg;
     QString filter   = cfg.value("geodata/filter","").toString();
@@ -775,20 +760,7 @@ void CMainWindow::slotLoadData()
 
 void CMainWindow::slotAddData()
 {
-    QProcess proc1;
-    proc1.start(GPSBABEL " -V");
-    proc1.waitForFinished();
-    bool haveGPSBabel = proc1.error() == QProcess::UnknownError;
-
-    QString formats;
-    if(haveGPSBabel)
-    {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
-    }
-    else
-    {
-        formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
-    }
+    QString formats = getGeoDataFormats();
 
     QSettings cfg;
     int i;
@@ -993,33 +965,63 @@ void CMainWindow::slotSaveData()
 
 void CMainWindow::slotExportData()
 {
+    QSettings cfg;
+
+    bool haveGPSBabel = isGPSBabel();
+
+    QString formats;
+    if(haveGPSBabel)
+    {
+        //formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
+        formats = "All supported files (*.gpx *.plt *.rte *.wpt);;GPS Exchange (*.gpx);;OziExplorer (*.plt *.rte *.wpt)";
+    }
+    else
+    {
+        formats = "All supported files (*.gpx);;GPS Exchange (*.gpx)";
+    }
+
+    QString filter = cfg.value("geodata/filter","").toString();
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
-        ,"GPS Exchange (*.gpx)"
-        ,0
+        ,formats
+        ,&filter
         , FILE_DIALOG_FLAGS
         );
 
     if(filename.isEmpty()) return;
 
-    saveData(filename, "GPS Exchange (*.gpx)", true);
+    cfg.setValue("geodata/filter",filter);
+
+    saveData(filename, filter, true);
     addRecent(filename);
 }
 
 
 void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
 {
+    QTemporaryFile tmpfile;
+    tmpfile.open();
     QString filename = fn;
     QString ext = filename.right(4);
-
-    if(exportFlag || filter == "GPS Exchange (*.gpx)")
+    //QString ext = "OZI";
+    if(exportFlag || (filter == "GPS Exchange (*.gpx)") || (filter == "OziExplorer (*.plt *.rte *.wpt)"))
     {
-        if(ext != ".gpx") filename += ".gpx";
-        ext = "GPX";
+        if (filter == "OziExplorer (*.plt *.rte *.wpt)") {
+            if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
+            {
+                filename = filename.left(filename.length()-4);
+            }
+            ext = "OZI";
+        }
+        else {
+            if(ext != ".gpx") filename += ".gpx";
+            ext = "GPX";
+        }
     }
     else if(filter == "QLandkarte (*.qlb)")
     {
-        if(ext != ".qlb") filename += ".qlb";
+        if(ext != ".qlb")
+            filename += ".qlb";
         ext = "QLB";
     }
     else
@@ -1028,9 +1030,13 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
         {
             ext = "GPX";
         }
-        else if (ext == ".qlb")
+        if (ext == ".qlb")
         {
             ext = "QLB";
+        }
+        if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
+        {
+            ext = "OZI";
         }
         else
         {
@@ -1054,7 +1060,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             COverlayDB::self().saveQLB(qlb);
             qlb.save(filename);
         }
-        else if(ext == "GPX")
+        if(ext == "GPX" || ext == "OZI")
         {
             QStringList keysWpt, keysTrk, keysRte;
 
@@ -1076,7 +1082,14 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             gpx.makeExtensions();
             CDiaryDB::self().saveGPX(gpx, QStringList());
             COverlayDB::self().saveGPX(gpx, QStringList());
-            gpx.save(filename);
+            if (ext == "OZI")
+                gpx.save(tmpfile.fileName());
+            else
+                gpx.save(filename);
+        }
+        if (ext == "OZI" )
+        {
+            convertData("gpx", tmpfile.fileName(),"ozi",filename);
         }
 
         wksFile  = filename;
@@ -1471,4 +1484,30 @@ void CMainWindow::slotToggleToolView()
     {
         leftSplitter->hide();
     }
+}
+
+bool CMainWindow::isGPSBabel()
+{
+    bool haveGPSBabel = false;
+    QProcess proc1;
+    proc1.start(GPSBABEL " -V");
+    proc1.waitForFinished();
+    haveGPSBabel = proc1.error() == QProcess::UnknownError;
+    return haveGPSBabel;
+}
+
+QString CMainWindow::getGeoDataFormats() {
+
+    bool haveGPSBabel = isGPSBabel();
+
+    QString formats;
+    if(haveGPSBabel)
+    {
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
+    }
+    else
+    {
+        formats = "All supported files (*.qlb *.gpx *.tcx);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx)";
+    }
+    return formats;
 }

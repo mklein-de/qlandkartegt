@@ -103,6 +103,7 @@ class CMainWindow : public QMainWindow
         void slotSupport();
 
         void slotToggleToolView();
+
     private:
         friend class CDBus;
         CMenus *actionGroupProvider;
@@ -114,7 +115,8 @@ class CMainWindow : public QMainWindow
         bool maybeSave();
         void saveData(QString& filename, const QString& filter, bool exportFlag = false);
         bool convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile);
-
+        bool isGPSBabel();
+        QString getGeoDataFormats();
 
         QMenu *setupMenu;
         QMenu *groupProvidedMenu;
