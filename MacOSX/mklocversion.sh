@@ -16,7 +16,7 @@ fi
 BUNDLE=$1
 shift
 for n in "$@" ; do
-  loc=$(echo "$n" | sed -e 's/.*_\(..\)_...qm/\1/')
+  loc=$(echo "$n" | sed -e 's/^.*qlandkartegt_\(..\).*$/\1/')
   echo "Mac locale $loc..."
   rm -rf "$BUNDLE/Contents/Resources/$loc.lproj"
   mkdir -p "$BUNDLE/Contents/Resources/$loc.lproj"

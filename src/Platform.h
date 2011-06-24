@@ -32,9 +32,9 @@
 
     The `configure' script in the top-level folder tries to detect if your machine is a
     little endian (like Intel or ARM) or a big endian (like PowerPC or Sparc).  In the latter
-    case, it defines the macro WORDS_BIGENDIAN.  In an other test, it checks if your machine
+    case, it defines the macro HAVE_BIGENDIAN.  In an other test, it checks if your machine
     supports accessing unaligned memory (like Intel or PowerPC) or if such accesses would fail
-    (as an ARM or Sparc).  If unaligned accesses are supported, the macro CAN_UNALIGNED will
+    (as on ARM or Sparc).  If unaligned accesses are supported, the macro CAN_UNALIGNED will
     be defined.  Of course, the file config.h from the top-level folder has to be included.
 
     2. How to access data
@@ -92,7 +92,7 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
-// include platform setup (WORDS_BIGENDIAN, CAN_UNALIGNED)
+// include platform setup (HAVE_BIGENDIAN, CAN_UNALIGNED)
 #include "config.h"
 
 // need integer type definitions with fixed width
@@ -192,18 +192,30 @@ __gar_endian_int64_t(int64_t x)
 static inline float
 __gar_endian_float(float x)
 {
-    uint32_t __uv = gar_endian(uint32_t, *(uint32_t *)&x);
-    return *(float *) &__uv;
+    union {
+        uint32_t _u;
+        float _f;
+    } _v;
+    
+    _v._f = x;
+    _v._u = gar_endian(uint32_t, _v._u);
+    return _v._f;
 }
 
 
 static inline double
 __gar_endian_double(double x)
 {
-    uint64_t __uv = gar_endian(uint64_t, *(uint64_t *)&x);
-    return *(double *) &__uv;
+    union {
+        uint64_t _u;
+        double _d;
+    } _v;
+    
+    _v._d = x;
+    _v._u = gar_endian(uint64_t, _v._u);
+    return _v._d;
 }
-#endif                           // WORDS_BIGENDIAN
+#endif                           // HAVE_BIGENDIAN
 
 // --------------------------------------------------------------------------------------------
 // macros to deal with pointers or unaligned arguments
@@ -268,22 +280,45 @@ __gar_ptr_store_uint24_t(uint8_t * p, uint32_t src)
 #define gar_store(t, dst, src)      gar_ptr_store(t, (uint8_t *)&(dst), src)
 
 // load from pointer - read'n'shift bytes
+// use Byte-Reverse operations for PowerPC
 static inline uint16_t
 __gar_ptr_load_uint16_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register uint16_t temp;
+
+    asm __volatile__ ("lhbrx %0,0,%1" : "=r" (temp) : "b" (p), "m" (*p));
+    return temp;
+#else
     return (uint16_t)(p[0] | (p[1] << 8));
+#endif
 }
 
 static inline uint32_t
 __gar_ptr_load_uint24_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register uint32_t temp;
+
+    asm __volatile__ ("lwbrx %0,0,%1"       : "=r" (temp) : "b" (p), "m" (*p));
+    asm __volatile__ ("rlwinm %0,%1,0,8,31" : "=r" (temp) : "r" (temp));
+    return temp;
+#else
     return (uint32_t)(p[0] | (p[1] << 8) | (p[2] << 16));
+#endif
 }
 
 static inline uint32_t
 __gar_ptr_load_uint32_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register uint32_t temp;
+
+    asm __volatile__ ("lwbrx %0,0,%1" : "=r" (temp) : "b" (p), "m" (*p));
+    return temp;
+#else
     return (uint32_t)(p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24));
+#endif
 }
 
 static inline uint64_t
@@ -296,19 +331,41 @@ __gar_ptr_load_uint64_t(const uint8_t *p)
 static inline int16_t
 __gar_ptr_load_int16_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register int16_t temp;
+
+    asm __volatile__ ("lhbrx %0,0,%1" : "=r" (temp) : "b" (p), "m" (*p));
+    return temp;
+#else
     return (int16_t)(p[0] | (p[1] << 8));
+#endif
 }
 
 static inline int32_t
 __gar_ptr_load_int24_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register int32_t temp;
+
+    asm __volatile__ ("lwbrx %0,0,%1"       : "=r" (temp) : "b" (p), "m" (*p));
+    asm __volatile__ ("rlwinm %0,%1,0,8,31" : "=r" (temp) : "r" (temp));
+    return temp;
+#else
     return p[0] | (p[1] << 8) | (p[2] << 16);
+#endif
 }
 
 static inline int32_t
 __gar_ptr_load_int32_t(const uint8_t *p)
 {
+#ifdef __powerpc__
+    register int32_t temp;
+
+    asm __volatile__ ("lwbrx %0,0,%1" : "=r" (temp) : "b" (p), "m" (*p));
+    return temp;
+#else
     return (int32_t)(p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24));
+#endif
 }
 
 static inline int64_t
@@ -321,16 +378,26 @@ __gar_ptr_load_int64_t(const uint8_t *p)
 static inline float
 __gar_ptr_load_float(const uint8_t * p)
 {
-    uint32_t __uv = gar_ptr_load(uint32_t, p);
-    return *(float *) &__uv;
+    union {
+        uint32_t _u;
+        float _f;
+    } _v;
+
+    _v._u = gar_ptr_load(uint32_t, p);
+    return _v._f;
 }
 
 
 static inline double
-__gar_ptr_load_double(uint8_t * p)
+__gar_ptr_load_double(const uint8_t * p)
 {
-    uint64_t __uv = gar_ptr_load(uint64_t, p);
-    return *(double *) &__uv;
+    union {
+        uint64_t _u;
+        double _d;
+    } _v;
+
+    _v._u = gar_ptr_load(uint64_t, p);
+    return _v._d;
 }
 
 
