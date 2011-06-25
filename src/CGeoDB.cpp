@@ -2351,6 +2351,8 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
 void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
 {
     QTreeWidgetItem * item = treeDatabase->currentItem();
+    if(item == 0) return;
+
     QTreeWidgetItem * top  = item->parent();
     while(top && top->parent()) top = top->parent();
     if(top == 0) top = item;
@@ -3269,7 +3271,7 @@ void CGeoDB::slotShowDiary()
     QString key = query.value(0).toString();
     if(CDiaryDB::self().getDiaryByKey(key))
     {
-        CDiaryDB::self().delDiary(key, false);        
+        CDiaryDB::self().delDiary(key, false);
     }
     else
     {
