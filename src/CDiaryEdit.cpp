@@ -793,6 +793,8 @@ void CDiaryEdit::collectData()
     {
         cnt = 1;
         QList<CWpt*>& wpts = diary.getWpts();
+        qSort(wpts.begin(), wpts.end(), qSortWptLessTime);
+
         foreach(CWpt* wpt, wpts)
         {
             wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
@@ -804,6 +806,8 @@ void CDiaryEdit::collectData()
     {
         cnt = 1;
         QList<CTrack*>& trks = diary.getTrks();
+        qSort(trks.begin(), trks.end(), qSortTrkLessTime);
+
         foreach(CTrack* trk, trks)
         {
             trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
