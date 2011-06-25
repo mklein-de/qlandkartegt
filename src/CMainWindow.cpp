@@ -866,6 +866,10 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             {
                 loadGPXData = convertData("ozi", filename, "gpx", tmpfile.fileName());
             }
+            else if(ext == "TK1")
+            {
+                loadGPXData = convertData("wbt-tk1", filename, "gpx", tmpfile.fileName());
+            }
 
 
             if (!loadGPXData)
@@ -898,7 +902,7 @@ bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, co
 {
     QString program = GPSBABEL;
     QStringList arguments;
-    arguments << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+    arguments << "-t" << "-w" << "-r" << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
 
     QProcess *babelProcess = new QProcess(this);
     babelProcess->start(program, arguments);
@@ -1513,7 +1517,7 @@ QString CMainWindow::getGeoDataFormats() {
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt *.tk1);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt);;Wintec WBT201/1000 (*.tk1)";
     }
     else
     {
