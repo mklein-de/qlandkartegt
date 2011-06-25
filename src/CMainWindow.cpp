@@ -1014,14 +1014,19 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             ext = "OZI";
         }
         else {
-            if(ext != ".gpx") filename += ".gpx";
+            if(ext != ".gpx")
+            {
+                filename += ".gpx";
+            }
             ext = "GPX";
         }
     }
     else if(filter == "QLandkarte (*.qlb)")
     {
         if(ext != ".qlb")
+        {
             filename += ".qlb";
+        }
         ext = "QLB";
     }
     else
@@ -1084,9 +1089,13 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             CDiaryDB::self().saveGPX(gpx, QStringList());
             COverlayDB::self().saveGPX(gpx, QStringList());
             if (ext == "OZI")
+            {
                 gpx.save(tmpfile.fileName());
+            }
             else
+            {
                 gpx.save(filename);
+            }
         }
         if (ext == "OZI" )
         {

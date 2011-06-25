@@ -34,6 +34,8 @@
 #include "QTextHtmlExporter.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CPlot.h"
+#include "IUnit.h"
 
 #include <QtGui>
 
@@ -163,7 +165,11 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 
     QSettings cfg;
     checkGeoCache->setChecked(cfg.value("diary/showGeoCaches", false).toBool());
-    connect(checkGeoCache, SIGNAL(clicked()), this, SLOT(slotGeoCaches()));
+    connect(checkGeoCache, SIGNAL(clicked()), this, SLOT(slotIntReload()));
+
+    checkProfile->setChecked(cfg.value("diary/showProfiles", true).toBool());
+    connect(checkProfile, SIGNAL(clicked()), this, SLOT(slotIntReload()));
+
 }
 
 CDiaryEdit::~CDiaryEdit()
@@ -172,6 +178,7 @@ CDiaryEdit::~CDiaryEdit()
 
     QSettings cfg;
     cfg.setValue("diary/showGeoCaches", checkGeoCache->isChecked());
+    cfg.setValue("diary/showProfiles", checkProfile->isChecked());
 }
 
 
@@ -402,7 +409,7 @@ void CDiaryEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format)
     colorChanged(format.foreground().color());
 }
 
-void CDiaryEdit::slotGeoCaches()
+void CDiaryEdit::slotIntReload()
 {
     slotReload(false);
 }
@@ -650,10 +657,18 @@ void CDiaryEdit::draw(QTextDocument& doc)
         cnt = 1;
         qSort(trks.begin(), trks.end(), qSortTrkLessTime);
 
+        QFontMetrics fm(f);
         foreach(CTrack * trk, trks)
         {
             table->cellAt(cnt,eSym).firstCursorPosition().insertImage(trk->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,eInfo).firstCursorPosition().insertText(trk->getInfo(), fmtCharStandard);
+            if(checkProfile->isChecked())
+            {
+                QImage profile(fm.width("X") * 30,fm.height()*7,QImage::Format_ARGB32);
+                getTrackProfile(trk, profile);
+                table->cellAt(cnt,eInfo).lastCursorPosition().insertBlock(fmtBlockStandard);
+                table->cellAt(cnt,eInfo).lastCursorPosition().insertImage(profile);
+            }
 
             QTextCursor c = table->cellAt(cnt,eComment).firstCursorPosition();
             c.setCharFormat(fmtCharStandard);
@@ -692,6 +707,47 @@ void CDiaryEdit::draw(QTextDocument& doc)
         }
     }
     doc.setUndoRedoEnabled(true);
+}
+
+
+void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
+{
+    CPlot plot(CPlotData::eLinear, CPlot::eNormal, 0);
+    plot.hide();
+    plot.resize(image.size());
+    plot.clear();
+
+
+    QPolygonF lineElev;
+    QPointF   focusElev;
+    float basefactor = IUnit::self().basefactor;
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(trkpt->ele != WPT_NOFLOAT)
+        {
+            lineElev << QPointF(trkpt->distance, trkpt->ele * basefactor);
+        }
+
+        trkpt++;
+    }
+
+    plot.newLine(lineElev,focusElev, "GPS");
+    //profile->setXLabel(track->getName());
+    plot.setLimits();
+    plot.resetZoom();
+
+    QPainter p(&image);
+    USE_ANTI_ALIASING(p,true);
+    plot.draw(p);
+
 }
 
 //static QString toPlainText(const QTextTableCell& cell)

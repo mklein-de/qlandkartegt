@@ -50,6 +50,8 @@ class CPlot : public QWidget
 
         double getXValByPixel(int px);
 
+        void draw(QPainter& p);
+
         signals:
         void activePointSignal(double dist);
         void sigClicked();
@@ -69,7 +71,6 @@ class CPlot : public QWidget
         void enterEvent(QEvent * event);
 
         /// draw the actual plot
-        void draw(QPainter& p);
         void drawLabels(QPainter& p);
         void drawXScale(QPainter& p);
         void drawYScale(QPainter& p);

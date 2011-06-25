@@ -27,6 +27,7 @@
 #include "ui_IDiaryEdit.h"
 
 class CDiary;
+class CTrack;
 
 class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 {
@@ -57,7 +58,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         void slotCurrentCharFormatChanged(const QTextCharFormat &format);
         void slotCursorPositionChanged();
 
-        void slotGeoCaches();
+        void slotIntReload();
 
 
     protected:
@@ -70,6 +71,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
         void fontChanged(const QFont &f);
         void colorChanged(const QColor &c);
+        void getTrackProfile(CTrack * trk, QImage& image);
 
         enum eTblCol{eSym, eInfo, eComment, eMax};
 
