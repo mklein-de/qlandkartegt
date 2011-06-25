@@ -1003,10 +1003,10 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
     tmpfile.open();
     QString filename = fn;
     QString ext = filename.right(4);
-    //QString ext = "OZI";
+
     if(exportFlag || (filter == "GPS Exchange (*.gpx)") || (filter == "OziExplorer (*.plt *.rte *.wpt)"))
     {
-        if (filter == "OziExplorer (*.plt *.rte *.wpt)") {
+        if (filter == "OziExplorer (*.plt *.rte *.wpt)" || (ext == ".plt") || (ext == ".rte") || (ext == ".wpt")) {
             if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
             {
                 filename = filename.left(filename.length()-4);
@@ -1036,6 +1036,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
         }
         if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
         {
+            filename = filename.left(filename.length()-4);
             ext = "OZI";
         }
         else
