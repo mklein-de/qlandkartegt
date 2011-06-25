@@ -1900,7 +1900,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="699"/>
         <source>&lt;b&gt;Owner:&lt;/b&gt; %1 &lt;b&gt;Size:&lt;/b&gt; %2 &lt;b&gt;Difficulty:&lt;/b&gt; %3 &lt;b&gt;Terrain:&lt;/b&gt; %4</source>
-        <translation>&lt;b&gt;Besitzer:&lt;/b&gt; %1 &lt;b&gt;Größ:&lt;/b&gt; %2 &lt;b&gt;Schwierigkeit:&lt;/b&gt; %3 &lt;b&gt;Gelände:&lt;/b&gt; %4</translation>
+        <translation type="unfinished">&lt;b&gt;Besitzer:&lt;/b&gt; %1 &lt;b&gt;Größe:&lt;/b&gt; %2 &lt;b&gt;Schwierigkeit:&lt;/b&gt; %3 &lt;b&gt;Gelände:&lt;/b&gt; %4</translation>
     </message>
 </context>
 <context>
