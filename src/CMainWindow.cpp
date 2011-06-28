@@ -1006,56 +1006,57 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
     QTemporaryFile tmpfile;
     tmpfile.open();
     QString filename = fn;
-    QString ext = filename.right(4);
+    QFileInfo fileInfo(filename);
+    QString ext = fileInfo.suffix().toUpper();
 
-    if(exportFlag || (filter == "GPS Exchange (*.gpx)") || (filter == "OziExplorer (*.plt *.rte *.wpt)"))
+    if(!exportFlag)
     {
-        if (filter == "OziExplorer (*.plt *.rte *.wpt)" || (ext == ".plt") || (ext == ".rte") || (ext == ".wpt")) {
-            if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
+        if ((filter == "GPS Exchange (*.gpx)") || (ext == "GPX"))
+        {
+            if (ext!="GPX")
+            {
+                filename += ".gpx";
+                ext = "GPX";
+            }
+        }
+        else
+        {
+            if(ext != "QLB")
+            {
+                filename += ".qlb";
+            }
+        ext = "QLB";
+        }
+    }
+    else
+    {
+        if ((ext == "GPX") || (filter == "GPS Exchange (*.gpx)"))
+        {
+            if(ext != "GPX")
+            {
+                filename += ".gpx";
+            }
+            //ext = "GPX";
+        }
+        else if ((ext == "PLT") || (ext == "RTE") || (ext == "WPT") || (filter == "OziExplorer (*.plt *.rte *.wpt)"))
+        {
+            if ((ext == "PLT") || (ext == "RTE") || (ext == "WPT"))
             {
                 filename = filename.left(filename.length()-4);
             }
             ext = "OZI";
         }
-        else {
-            if(ext != ".gpx")
-            {
-                filename += ".gpx";
-            }
-            ext = "GPX";
-        }
-    }
-    else if(filter == "QLandkarte (*.qlb)")
-    {
-        if(ext != ".qlb")
-        {
-            filename += ".qlb";
-        }
-        ext = "QLB";
-    }
-    else
-    {
-        if (ext == ".gpx")
-        {
-            ext = "GPX";
-        }
-        if (ext == ".qlb")
-        {
-            ext = "QLB";
-        }
-        if ((ext == ".plt") || (ext == ".rte") || (ext == ".wpt"))
-        {
-            filename = filename.left(filename.length()-4);
-            ext = "OZI";
-        }
         else
         {
-            filename += ".qlb";
+            if(ext != "QLB")
+            {
+                filename += ".qlb";
+            }
             ext = "QLB";
         }
     }
 
-    pathData = QFileInfo(filename).absolutePath();
+    pathData = fileInfo.absolutePath();
 
     try
     {
