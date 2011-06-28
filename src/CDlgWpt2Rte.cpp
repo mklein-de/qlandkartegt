@@ -73,14 +73,25 @@ void CDlgWpt2Rte::accept()
         CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
         if(wpt)
         {
+            QString description = wpt->getDescription();
+            QString comment     = wpt->getComment();
             QString action;
-            if(!wpt->getDescription().isEmpty())
+
+            description.remove(QRegExp("<head.*[^>]*><\\/head>"));
+            description.remove(QRegExp("<[^>]*>"));
+            description = description.simplified();
+
+            comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
+            comment.remove(QRegExp("<[^>]*>"));
+            comment = description.simplified();
+
+            if(!description.isEmpty())
             {
-                action = wpt->getDescription();
+                action = description;
             }
-            else if(!wpt->getComment().isEmpty())
+            else if(!comment.isEmpty())
             {
-                action = wpt->getComment();
+                action = comment;
             }
             else if(!wpt->getName().isEmpty())
             {
