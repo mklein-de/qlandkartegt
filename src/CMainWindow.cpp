@@ -1056,6 +1056,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
         }
     }
 
+    fileInfo.setFile(filename);
     pathData = fileInfo.absolutePath();
 
     try
