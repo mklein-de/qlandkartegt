@@ -55,12 +55,16 @@ CDlgProjWizzard::CDlgProjWizzard(QLineEdit& line, QWidget * parent)
         comboDatum->addItem(entry.name, entry.idx);
     }
 
+    comboHemisphere->addItem(tr("north"), "");
+    comboHemisphere->addItem(tr("south"), "+south");
+
     connect(radioLonLat, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioMercator, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioWorldMercator, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioUTM, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(radioUserDef, SIGNAL(clicked()), this, SLOT(slotChange()));
     connect(comboDatum, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChange()));
+    connect(comboHemisphere, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChange()));
     connect(lineUserDef, SIGNAL(textChanged(const QString&)), this, SLOT(slotChange()));
     connect(spinUTMZone, SIGNAL(valueChanged(int)), this, SLOT(slotChange()));
 }
@@ -91,7 +95,8 @@ void CDlgProjWizzard::slotChange()
     }
     else if(radioUTM->isChecked())
     {
-        str += QString("+proj=utm +zone=%1 ").arg(spinUTMZone->value());
+        str += QString("+proj=utm +zone=%1 %2").arg(spinUTMZone->value()).arg(comboHemisphere->itemData(comboHemisphere->currentIndex()).toString());
+
     }
     else if(radioUserDef->isChecked())
     {

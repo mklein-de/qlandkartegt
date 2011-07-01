@@ -57,6 +57,9 @@
          </widget>
         </item>
         <item>
+         <widget class="QComboBox" name="comboHemisphere"/>
+        </item>
+        <item>
          <spacer>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
