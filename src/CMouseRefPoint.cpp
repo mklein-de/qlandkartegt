@@ -28,6 +28,7 @@ CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 , moveMap(false)
 , moveRef(false)
 , selRefPt(0)
+, pos1(-1,-1)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
 }
@@ -145,6 +146,7 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
     }
     else if(e->button() == Qt::RightButton)
     {
+        mousePos = e->pos();
         canvas->raiseContextMenu(e->pos());
     }
 
@@ -188,8 +190,66 @@ void CMouseRefPoint::contextMenu(QMenu& menu)
     double v = mousePos.y();
     map.convertPt2Pixel(u,v);
 
-    QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
-    QAction * a = menu.addAction(posPixel);
-    a->setEnabled(false);
+    if(u >= 0 && v >= 0)
+    {
+        QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
+        menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixel, this, SLOT(slotCopyPosPixel()));
 
+        if(pos1.x() >= 0 && pos1.y() >= 0)
+        {
+            double u1 = pos1.x();
+            double v1 = pos1.y();
+
+            QString posPixelSize = tr("Pos1 -> Pos %1x%2 w:%3 h:%4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u - u1,0,'f',0).arg(v - v1, 0,'f',0);
+            menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixelSize, this, SLOT(slotCopyPosPixelSize()));
+        }
+
+        menu.addAction(QIcon(":/icons/wpt/flag_pin_red15x15.png"), tr("Set as Pos1"), this, SLOT(slotSetPos1()));
+
+    }
+
+}
+
+void CMouseRefPoint::slotCopyPosPixel()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = mousePos.x();
+    double v = mousePos.y();
+
+    map.convertPt2Pixel(u,v);
+    QString position = QString("%1 %2").arg(u, 0,'f',0).arg(v,0,'f',0);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
+
+}
+
+void CMouseRefPoint::slotCopyPosPixelSize()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u1 = pos1.x();
+    double v1 = pos1.y();
+    double u2 = mousePos.x();
+    double v2 = mousePos.y();
+
+    map.convertPt2Pixel(u2,v2);
+    QString position = QString("%1 %2 %3 %4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u2 - u1, 0,'f',0).arg(v2 - v1,0,'f',0);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
+
+}
+
+void CMouseRefPoint::slotSetPos1()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = mousePos.x();
+    double v = mousePos.y();
+
+    map.convertPt2Pixel(u,v);
+
+    pos1 = QPoint(u,v);
 }

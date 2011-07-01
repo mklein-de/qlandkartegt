@@ -39,10 +39,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 , yref1(0)
 , xref2(0)
 , yref2(0)
-//, lon1(0)
-//, lat1(0)
-//, lon2(0)
-//, lat2(0)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
@@ -149,14 +145,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
-
-//    lon1 = xref1;
-//    lat1 = yref1;
-//    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
-//
-//    lon2 = xref2;
-//    lat2 = yref2;
-//    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
     x = xref1 + (xref2 - xref1) / 2;
     y = yref1 - (yref1 - yref2) / 2;
@@ -372,6 +360,19 @@ void CMapGeoTiff::convertPt2Pixel(double& u, double& v)
 
     u = (u - xref1) / xscale;
     v = (v - yref1) / yscale;
+
+    if(u < 0 || u > xsize_px)
+    {
+        u = -1;
+        v = -1;
+        return;
+    }
+    if(v < 0 || v > ysize_px)
+    {
+        u = -1;
+        v = -1;
+        return;
+    }
 
 }
 

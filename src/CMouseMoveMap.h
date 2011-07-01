@@ -42,6 +42,7 @@ class CMouseMoveMap : public IMouse
 
         void contextMenu(QMenu& menu);
 
+
     private slots:
         void slotEditWpt();
         void slotCopyPositionWpt();
@@ -51,6 +52,12 @@ class CMouseMoveMap : public IMouse
         void slotCopyPositionTrack();
         void slotEditTrack();
 		void slotOpenGoogleMaps();	//TODO: GOOGLE MAPS
+
+        void slotCopyPosDegree();
+        void slotCopyPosMeter();
+        void slotCopyPosPixel();
+        void slotCopyPosPixelSize();
+        void slotSetPos1();
 
     private:
         /// true if left mouse button is pressed
@@ -62,6 +69,7 @@ class CMouseMoveMap : public IMouse
         /// the initial starting point of the transformation
         QPoint oldPoint;
         QPoint mousePos;
+        QPoint pos1;
 
 };
 #endif                           //CMOUSEMOVEMAP_H

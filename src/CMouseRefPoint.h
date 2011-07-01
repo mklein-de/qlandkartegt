@@ -36,6 +36,12 @@ class CMouseRefPoint :  public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
         void contextMenu(QMenu& menu);
+
+    private slots:
+        void slotCopyPosPixel();
+        void slotCopyPosPixelSize();
+        void slotSetPos1();
+
     private:
         /// true if left mouse button is pressed
         bool moveMap;
@@ -46,5 +52,6 @@ class CMouseRefPoint :  public IMouse
         CCreateMapGeoTiff::refpt_t * selRefPt;
 
         QPoint mousePos;
+        QPoint pos1;
 };
 #endif                           //CMOUSEREFPOINT_H

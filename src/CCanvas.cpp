@@ -785,7 +785,7 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
         }
         menu.addSeparator();
     }
-    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
+//    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 
     QPoint p = mapToGlobal(pos);

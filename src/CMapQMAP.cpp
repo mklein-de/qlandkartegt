@@ -464,12 +464,34 @@ void CMapQMAP::convertM2Pt(double& u, double& v)
 
 void CMapQMAP::convertPt2Pixel(double& u, double& v)
 {
-    const CMapFile * map = *pMaplevel->begin();
+    QVector<CMapFile*>::const_iterator it = pMaplevel->begin();
+    while(it != pMaplevel->end())
+    {
+        const CMapFile * map = *it;
 
-    convertPt2M(u,v);
+        double u1 = u;
+        double v1 = v;
 
-    u = (u - map->xref1) / map->xscale;
-    v = (v - map->yref1) / map->yscale;
+        convertPt2M(u1,v1);
+
+        u1 = (u1 - map->xref1) / map->xscale;
+        v1 = (v1 - map->yref1) / map->yscale;
+
+        if(u1 >= 0 && u1 < map->xsize_px)
+        {
+            if(v1 >= 0 && v1 < map->ysize_px)
+            {
+                u = u1;
+                v = v1;
+                return;
+            }
+        }
+
+        it++;
+    }
+
+    u = -1;
+    v = -1;
 
 }
 

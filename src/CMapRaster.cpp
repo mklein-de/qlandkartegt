@@ -126,6 +126,19 @@ void CMapRaster::convertM2Pt(double& u, double& v)
 void CMapRaster::convertPt2Pixel(double& u, double& v)
 {
     convertPt2M(u,v);
+    if(u < 0 || u > maparea.width())
+    {
+        u = -1;
+        v = -1;
+        return;
+    }
+    if(v < 0 || v > maparea.height())
+    {
+        u = -1;
+        v = -1;
+        return;
+    }
+
 }
 
 
