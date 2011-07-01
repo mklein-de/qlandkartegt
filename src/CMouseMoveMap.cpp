@@ -180,7 +180,7 @@ void CMouseMoveMap::draw(QPainter& p)
 
 
 void CMouseMoveMap::contextMenu(QMenu& menu)
-{    
+{
     if(!selWpt.isNull())
     {
         menu.addSeparator();
@@ -239,7 +239,10 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
 
     if(u >= 0 && v >= 0)
     {
-        QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
+        QString fn = QFileInfo(map.getFilename(mousePos.x(), mousePos.y())).fileName();
+
+
+        QString posPixel = tr("Pixel %1x%2 (%3)").arg(u, 0,'f',0).arg(v,0,'f',0).arg(fn);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixel, this, SLOT(slotCopyPosPixel()));
 
         if(pos1.x() >= 0 && pos1.y() >= 0)

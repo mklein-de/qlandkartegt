@@ -173,6 +173,39 @@ CMapQMAP::~CMapQMAP()
 }
 
 
+const QString& CMapQMAP::getFilename(int u, int v)
+{
+    if(pMaplevel.isNull()) return filename;
+
+
+    QVector<CMapFile*>::const_iterator it = pMaplevel->begin();
+    while(it != pMaplevel->end())
+    {
+        const CMapFile * map = *it;
+
+        double u1 = u;
+        double v1 = v;
+
+        convertPt2M(u1,v1);
+
+        u1 = (u1 - map->xref1) / map->xscale;
+        v1 = (v1 - map->yref1) / map->yscale;
+
+        if(u1 >= 0 && u1 < map->xsize_px)
+        {
+            if(v1 >= 0 && v1 < map->ysize_px)
+            {
+
+                return map->filename;
+            }
+        }
+
+        it++;
+    }
+
+    return filename;
+}
+
 bool CMapQMAP::is32BitRgb()
 {
     return pMaplevel.isNull() ? true : pMaplevel->is32BitRgb();

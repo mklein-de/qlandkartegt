@@ -173,6 +173,8 @@ class IMap : public QObject
 
         /// get the map's filename
         virtual const QString& getFilename(){return filename;}
+        /// get filename for point on screen
+        virtual const QString& getFilename(int , int ){return filename;}
 
         /// get size of viewport in [px]
         virtual const QSize& getSize(){return size;}
