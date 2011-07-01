@@ -35,6 +35,7 @@ class CMouseRefPoint :  public IMouse
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
 
+        void contextMenu(QMenu& menu);
     private:
         /// true if left mouse button is pressed
         bool moveMap;
@@ -43,5 +44,7 @@ class CMouseRefPoint :  public IMouse
         QPoint oldPoint;
 
         CCreateMapGeoTiff::refpt_t * selRefPt;
+
+        QPoint mousePos;
 };
 #endif                           //CMOUSEREFPOINT_H

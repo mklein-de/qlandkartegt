@@ -36,6 +36,7 @@ class CMapRaster  : public IMap
         void draw();
         void convertPt2M(double& u, double& v);
         void convertM2Pt(double& u, double& v);
+        void convertPt2Pixel(double& u, double& v);
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
         void zoom(double lon1, double lat1, double lon2, double lat2);

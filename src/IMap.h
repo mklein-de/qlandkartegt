@@ -108,6 +108,18 @@ class IMap : public QObject
             @param v latitude (y) value
         */
         virtual void convertRad2Pt(double& u, double& v);
+
+        /// convert point on screen to pixel in map file
+        /**
+            The conversion will be done in place. If the map does not
+            support the value u and v will be set to -1;
+
+            @param u longitude (x) value
+            @param v latitude (y) value
+
+        */
+        virtual void convertPt2Pixel(double& u, double& v){u = -1; v = -1;}
+
         /// move the map [px]
         /**
             @param old the (old) starting point
@@ -281,6 +293,7 @@ class IMap : public QObject
 
         static double midU;
         static double midV;
+
 
         signals:
         void sigChanged();

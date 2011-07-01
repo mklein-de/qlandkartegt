@@ -366,6 +366,15 @@ void CMapGeoTiff::convertM2Pt(double& u, double& v)
     v = (v - y) / (yscale * zoomFactor);
 }
 
+void CMapGeoTiff::convertPt2Pixel(double& u, double& v)
+{
+    convertPt2M(u,v);
+
+    u = (u - xref1) / xscale;
+    v = (v - yref1) / yscale;
+
+}
+
 
 void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
 {

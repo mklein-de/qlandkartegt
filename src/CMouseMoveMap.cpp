@@ -208,6 +208,39 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
                 menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
     }
+    menu.addSeparator();
+
+
+    QAction * a;
+    IMap& map = CMapDB::self().getMap();
+    double u = mousePos.x();
+    double v = mousePos.y();
+
+    if(!map.isLonLat())
+    {
+        map.convertPt2M(u,v);
+        QString posMeter = tr("N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+        a = menu.addAction(posMeter);
+        a->setEnabled(false);
+    }
+
+    map.convertM2Rad(u,v);
+    u *= RAD_TO_DEG;
+    v *= RAD_TO_DEG;
+    QString posDeg;
+    GPS_Math_Deg_To_Str(u, v, posDeg);
+    a = menu.addAction(posDeg);
+    a->setEnabled(false);
+
+
+    u = mousePos.x();
+    v = mousePos.y();
+    map.convertPt2Pixel(u,v);
+
+    QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
+    a = menu.addAction(posPixel);
+    a->setEnabled(false);
+
 }
 
 

@@ -123,6 +123,11 @@ void CMapRaster::convertM2Pt(double& u, double& v)
     v = (v - y) / zoomfactor;
 }
 
+void CMapRaster::convertPt2Pixel(double& u, double& v)
+{
+    convertPt2M(u,v);
+}
+
 
 void CMapRaster::move(const QPoint& old, const QPoint& next)
 {

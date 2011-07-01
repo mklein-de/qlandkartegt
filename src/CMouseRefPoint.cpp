@@ -59,6 +59,8 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
 
+    mousePos = e->pos();
+
     if(moveMap)
     {
         map.move(oldPoint, e->pos());
@@ -141,6 +143,10 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
             oldPoint    = e->pos();
         }
     }
+    else if(e->button() == Qt::RightButton)
+    {
+        canvas->raiseContextMenu(e->pos());
+    }
 
     canvas->update();
 }
@@ -172,4 +178,18 @@ void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
             canvas->update();
         }
     }
+}
+
+void CMouseRefPoint::contextMenu(QMenu& menu)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u = mousePos.x();
+    double v = mousePos.y();
+    map.convertPt2Pixel(u,v);
+
+    QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
+    QAction * a = menu.addAction(posPixel);
+    a->setEnabled(false);
+
 }

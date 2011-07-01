@@ -462,6 +462,16 @@ void CMapQMAP::convertM2Pt(double& u, double& v)
     v = (v - pt.v) / (map->yscale * zoomFactor);
 }
 
+void CMapQMAP::convertPt2Pixel(double& u, double& v)
+{
+    const CMapFile * map = *pMaplevel->begin();
+
+    convertPt2M(u,v);
+
+    u = (u - map->xref1) / map->xscale;
+    v = (v - map->yref1) / map->yscale;
+
+}
 
 void CMapQMAP::move(const QPoint& old, const QPoint& next)
 {
