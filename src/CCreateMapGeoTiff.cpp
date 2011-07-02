@@ -83,6 +83,11 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     QSettings cfg;
     lineMapProjection->setText(cfg.value("create/mapproj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
     lineGCPProjection->setText(cfg.value("create/gcpproj","+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs").toString());
+    check2x->setChecked(cfg.value("create/overview/2", false).toBool());
+    check4x->setChecked(cfg.value("create/overview/4", false).toBool());
+    check8x->setChecked(cfg.value("create/overview/8", false).toBool());
+    check16x->setChecked(cfg.value("create/overview/16", false).toBool());
+    check32x->setChecked(cfg.value("create/overview/32", false).toBool());
 
     comboMode->addItem(tr("square pixels (2 Ref. Pts.)"), eSquare);
     comboMode->addItem(tr("linear (3 Ref. Pts.)"), eLinear);
@@ -94,6 +99,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     toolGCPProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
+    theMainWindow->getCanvas()->installEventFilter(this);
 }
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
@@ -101,8 +107,68 @@ CCreateMapGeoTiff::~CCreateMapGeoTiff()
     if(closemap) CMapDB::self().closeMap();
     if(theMainWindow->getCanvas()) theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     m_self = 0;
+
+    QSettings cfg;
+    cfg.setValue("create/overview/2", check2x->isChecked());
+    cfg.setValue("create/overview/4", check4x->isChecked());
+    cfg.setValue("create/overview/8", check8x->isChecked());
+    cfg.setValue("create/overview/16", check16x->isChecked());
+    cfg.setValue("create/overview/32", check32x->isChecked());
+
 }
 
+bool CCreateMapGeoTiff::eventFilter(QObject * watched, QEvent * event)
+{
+    if(watched == theMainWindow->getCanvas())
+    {
+        if(event->type() == QEvent::KeyPress)
+        {
+            int idx;
+            QTreeWidgetItem * item;
+            QKeyEvent * e = (QKeyEvent*)event;
+
+            if(e->key() != Qt::Key_N && e->key() != Qt::Key_B)
+            {
+                return QWidget::eventFilter(watched, event);
+            }
+
+            item = treeWidget->currentItem();
+            idx = treeWidget->indexOfTopLevelItem(item);
+            if(idx < 0)
+            {
+                return QWidget::eventFilter(watched, event);
+            }
+
+            if(e->key() == Qt::Key_N)
+            {
+                idx++;
+            }
+            else
+            {
+                idx--;
+            }
+
+
+            if(idx < 0)
+            {
+                return QWidget::eventFilter(watched, event);
+            }
+
+            if(idx >= treeWidget->topLevelItemCount())
+            {
+                return QWidget::eventFilter(watched, event);
+            }
+
+            item = treeWidget->topLevelItem(idx);
+            treeWidget->setCurrentItem(item);
+            treeWidget->scrollToItem(item);
+            slotItemDoubleClicked(item);
+
+        }
+    }
+
+    return QWidget::eventFilter(watched, event);
+}
 
 void CCreateMapGeoTiff::selRefPointByKey(const quint32 key)
 {

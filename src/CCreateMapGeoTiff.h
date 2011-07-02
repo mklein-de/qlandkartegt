@@ -72,6 +72,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void selRefPointByKey(const quint32 key);
 
+        bool eventFilter(QObject * watched, QEvent * event);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
