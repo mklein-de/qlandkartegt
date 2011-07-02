@@ -6732,7 +6732,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="371"/>
         <source>Use the n and b key to step between reference points while fine tuning the points on the map.</source>
-        <translation>Beütze die n und b Taste um zwischen den Referenzpunkten umzuschalten während Du Punkte auf der Karte genau positionierst.</translation>
+        <translation type="unfinished">Benütze die n und b Taste um zwischen den Referenzpunkten umzuschalten, während Du Punkte auf der Karte genau positionierst.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="405"/>
