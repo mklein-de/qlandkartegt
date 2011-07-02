@@ -124,7 +124,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QProcess cmd;
 
-        enum state_e {eNone, eTranslate, eWarp, eTile};
+        enum state_e {eNone, eTranslate, eWarp, eTile, eOverview};
         state_e state;
 
         QPointer<QTemporaryFile> tmpfile1;

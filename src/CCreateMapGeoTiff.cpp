@@ -925,6 +925,47 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         cmd.start(GDALTRANSLATE, args);
         return;
     }
+    if(state == eTile)
+    {
+        state = eOverview;
+
+        QStringList args;
+        args << "-r" << "cubic";
+        args << "--config" << "COMPRESS_OVERVIEW" << "JPEG";
+        args << labelOutputFile->text();
+
+        if(check2x->isChecked())
+        {
+            args << "2";
+        }
+        if(check4x->isChecked())
+        {
+            args << "4";
+        }
+        if(check8x->isChecked())
+        {
+            args << "8";
+        }
+        if(check16x->isChecked())
+        {
+            args << "16";
+        }
+        if(check32x->isChecked())
+        {
+            args << "32";
+        }
+
+        if(args.count() > 6)
+        {
+
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(GDALADDO " " +  args.join(" ") + "\n");
+
+            cmd.start(GDALADDO, args);
+            return;
+        }
+
+    }
     cleanupTmpFiles();
 
     textBrowser->setTextColor(Qt::black);
