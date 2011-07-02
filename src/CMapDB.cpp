@@ -47,6 +47,8 @@
 #include <QtGui>
 #include <QtXml/QDomDocument>
 
+#include <gdal_priv.h>
+
 CMapDB * CMapDB::m_self = 0;
 
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
@@ -138,6 +140,8 @@ CMapDB::~CMapDB()
         maps += map.filename + "|";
     }
     cfg.setValue("maps/knownMaps",maps);
+
+    GDALDestroyDriverManager();
 }
 
 
