@@ -42,7 +42,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotStdout();
         void slotFinished1( int exitCode, QProcess::ExitStatus status);
         void slotFinished2( int exitCode, QProcess::ExitStatus status);
-        void slotFinished3( int exitCode, QProcess::ExitStatus status);
+//        void slotFinished3( int exitCode, QProcess::ExitStatus status);
         void slotFinished4( int exitCode, QProcess::ExitStatus status);
 
         void slotBirdsEyeToggled(bool checked);

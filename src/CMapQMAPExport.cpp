@@ -59,11 +59,11 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     connect(&cmd2, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished3(int,QProcess::ExitStatus)));
+    connect(&cmd2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
 
-    connect(&cmd3, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd3, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd3, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
+//    connect(&cmd3, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+//    connect(&cmd3, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+//    connect(&cmd3, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
 
     connect(&cmd4, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd4, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -183,10 +183,10 @@ void CMapQMAPExport::slotStderr()
     {
         str = cmd2.readAllStandardError();
     }
-    else if(sender() == &cmd3)
-    {
-        str = cmd3.readAllStandardError();
-    }
+//    else if(sender() == &cmd3)
+//    {
+//        str = cmd3.readAllStandardError();
+//    }
     else if(sender() == &cmd4)
     {
         str = cmd4.readAllStandardError();
@@ -224,10 +224,10 @@ void CMapQMAPExport::slotStdout()
     {
         str = cmd2.readAllStandardOutput();
     }
-    else if(sender() == &cmd3)
-    {
-        str = cmd3.readAllStandardOutput();
-    }
+//    else if(sender() == &cmd3)
+//    {
+//        str = cmd3.readAllStandardOutput();
+//    }
     else if(sender() == &cmd4)
     {
         str = cmd4.readAllStandardOutput();
@@ -352,14 +352,19 @@ void CMapQMAPExport::startQLM()
                 job.xoff   = (intersect.left()   - mapfile->xref1) / mapfile->xscale;
                 job.yoff   = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
                 job.width  =  intersect.width()  / mapfile->xscale;
+                if(job.width==0)
+                    job.width=1;
                 job.height = -intersect.height() / mapfile->yscale;
+                if (job.height==0)
+                    job.height=1;
 
-                //                 qDebug() << "xoff: 0 <" << job.xoff;
-                //                 qDebug() << "yoff: 0 <" << job.yoff;
-                //                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
-                //                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
+//                                 qDebug() << "xoff: 0 <" << job.xoff;
+//                                 qDebug() << "yoff: 0 <" << job.yoff;
+//                                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
+//                                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
 
                 jobs        << job;
+
                 outfiles    << tarPath.relativeFilePath(job.tarFilename);
             }
             tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
@@ -390,7 +395,7 @@ static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &
 
 void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 {
-    //     qDebug() << exitCode << status;
+    //qDebug() << exitCode << status;
     if(file1){delete file1; file1 = 0;}
     if(file2){delete file2; file2 = 0;}
     if(jobs.isEmpty())
@@ -498,13 +503,25 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 
 void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 {
-    job_t job = jobs.first();
+    job_t job = jobs.takeFirst();
     QStringList args;
+    QTemporaryFile * tmpFile = new QTemporaryFile();
+    tmpFile->setFileName(job.tarFilename);
+    if (tmpFile->exists())
+    {
+        tmpFile->remove();
+    }
+    outfiles << job.tarFilename;
+
     args << "-t_srs" << "EPSG:4326";
     args << "-ts"    << QString::number(job.width) << QString::number(job.height);
+    args << "-co" << "tiled=yes";
+    args << "-co" << "blockxsize=256";
+    args << "-co" << "blockysize=256";
+    args << "-co" << "compress=LZW";
     args << file1->fileName();
-    args << file2->fileName();
-
+    //args << file2->fileName();
+    args << job.tarFilename;
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
 
@@ -512,25 +529,25 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 }
 
 
-void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
-{
-    job_t job = jobs.takeFirst();
+//void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
+//{
+//    job_t job = jobs.takeFirst();
 
-    outfiles << job.tarFilename;
+//    outfiles << job.tarFilename;
 
-    QStringList args;
-    args << "-co" << "tiled=yes";
-    args << "-co" << "blockxsize=256";
-    args << "-co" << "blockysize=256";
-    args << "-co" << "compress=LZW";
-    args << file2->fileName();
-    args << job.tarFilename;
+//    QStringList args;
+//    args << "-co" << "tiled=yes";
+//    args << "-co" << "blockxsize=256";
+//    args << "-co" << "blockysize=256";
+//    args << "-co" << "compress=LZW";
+//    args << file2->fileName();
+//    args << job.tarFilename;
 
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
+//    textBrowser->setTextColor(Qt::black);
+//    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
 
-    cmd3.start(GDALTRANSLATE, args);
-}
+//    cmd3.start(GDALTRANSLATE, args);
+//}
 
 void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
 {
