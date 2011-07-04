@@ -88,6 +88,9 @@ class IMouse : public QObject
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif
 
+    protected slots:
+        void slotSetPos1();
+
     protected:
         /// for internal use to start a semi-transparent capture rectangle
         void startRect(const QPoint& p);
@@ -159,6 +162,8 @@ class IMouse : public QObject
         bool doShowWptBuddies;
 
         QPoint lastPoint;
+        QPoint mousePos;
+
 
         static QPointF pos1Pixel;
         static QPointF pos1LonLat;

@@ -57,7 +57,6 @@ class CMouseMoveMap : public IMouse
         void slotCopyPosMeter();
         void slotCopyPosPixel();
         void slotCopyPosPixelSize();
-        void slotSetPos1();
 
     private:
         /// true if left mouse button is pressed
@@ -68,7 +67,7 @@ class CMouseMoveMap : public IMouse
 
         /// the initial starting point of the transformation
         QPoint oldPoint;
-        QPoint mousePos;
+
 
 };
 #endif                           //CMOUSEMOVEMAP_H

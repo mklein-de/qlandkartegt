@@ -40,7 +40,6 @@ class CMouseRefPoint :  public IMouse
     private slots:
         void slotCopyPosPixel();
         void slotCopyPosPixelSize();
-        void slotSetPos1();
 
     private:
         /// true if left mouse button is pressed
@@ -51,7 +50,5 @@ class CMouseRefPoint :  public IMouse
 
         CCreateMapGeoTiff::refpt_t * selRefPt;
 
-        QPoint mousePos;
-        QPoint pos1;
 };
 #endif                           //CMOUSEREFPOINT_H

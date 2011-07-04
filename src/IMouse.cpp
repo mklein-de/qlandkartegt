@@ -796,3 +796,18 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 
 }
 
+void IMouse::slotSetPos1()
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double u,v;
+    u = mousePos.x();
+    v = mousePos.y();
+    map.convertPt2Pixel(u,v);
+    pos1Pixel = QPointF(u,v);
+
+    u = mousePos.x();
+    v = mousePos.y();
+    map.convertPt2Rad(u,v);
+    pos1LonLat = QPointF(u,v);
+}

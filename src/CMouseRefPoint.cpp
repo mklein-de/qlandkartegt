@@ -28,7 +28,6 @@ CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 , moveMap(false)
 , moveRef(false)
 , selRefPt(0)
-, pos1(-1,-1)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
 }
@@ -195,10 +194,10 @@ void CMouseRefPoint::contextMenu(QMenu& menu)
         QString posPixel = tr("Pixel %1x%2").arg(u, 0,'f',0).arg(v,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixel, this, SLOT(slotCopyPosPixel()));
 
-        if(pos1.x() >= 0 && pos1.y() >= 0)
+        if(pos1Pixel.x() >= 0 && pos1Pixel.y() >= 0)
         {
-            double u1 = pos1.x();
-            double v1 = pos1.y();
+            double u1 = pos1Pixel.x();
+            double v1 = pos1Pixel.y();
 
             QString posPixelSize = tr("Pos1 -> Pos %1x%2 w:%3 h:%4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u - u1,0,'f',0).arg(v - v1, 0,'f',0);
             menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixelSize, this, SLOT(slotCopyPosPixelSize()));
@@ -229,8 +228,8 @@ void CMouseRefPoint::slotCopyPosPixelSize()
 {
     IMap& map = CMapDB::self().getMap();
 
-    double u1 = pos1.x();
-    double v1 = pos1.y();
+    double u1 = pos1Pixel.x();
+    double v1 = pos1Pixel.y();
     double u2 = mousePos.x();
     double v2 = mousePos.y();
 
@@ -242,14 +241,3 @@ void CMouseRefPoint::slotCopyPosPixelSize()
 
 }
 
-void CMouseRefPoint::slotSetPos1()
-{
-    IMap& map = CMapDB::self().getMap();
-
-    double u = mousePos.x();
-    double v = mousePos.y();
-
-    map.convertPt2Pixel(u,v);
-
-    pos1 = QPoint(u,v);
-}

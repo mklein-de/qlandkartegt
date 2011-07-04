@@ -54,8 +54,6 @@ class CMouseSelMap : public IMouse
 
         QPoint oldPoint;
 
-        QPoint mousePos;
-
         QMap< QPair<int,int>, bool> selTiles;
 
         QRect rectMoveMapSel;
