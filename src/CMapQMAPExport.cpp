@@ -100,6 +100,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
+    radioLOW->setChecked(cfg.value("map/export/low", false).toBool());
 
     if (has_map2jnx)
     {
@@ -118,6 +119,7 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
+    cfg.setValue("map/export/low", radioLOW->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
     cfg.setValue("map/export/jnx/subsampling", comboJpegSubsampling->currentText());
@@ -263,6 +265,10 @@ void CMapQMAPExport::slotStart()
     {
         startQLM();
     }
+    else if(radioLOW->isChecked())
+    {
+        startQLM();
+    }
 
 }
 
@@ -357,19 +363,60 @@ void CMapQMAPExport::startQLM()
                 job.height = -intersect.height() / mapfile->yscale;
                 if (job.height==0)
                     job.height=1;
-
+                unsigned int div = ((job.width*job.height)/(1024*1024))*24;
 //                                 qDebug() << "xoff: 0 <" << job.xoff;
 //                                 qDebug() << "yoff: 0 <" << job.yoff;
 //                                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
 //                                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
+                if (radioLOW->isChecked() && (div > MAXENDURA))
+                {
+                    job_t tmpJob = job;
 
-                jobs        << job;
+                    div = (int)sqrt(div/(MAXENDURA));
+                    div += 1;
 
-                outfiles    << tarPath.relativeFilePath(job.tarFilename);
+                    int tilesX = job.width/div;
+                    int tilesY = job.height/div;
+                    for (unsigned int divY=1; divY<div; divY++)
+                    {
+                        for (unsigned int divX=1; divX<div; divX++)
+                        {
+
+                            job.tarFilename = job.tarFilename.left(job.tarFilename.length()-4);
+                            job.tarFilename = job.tarFilename+"_"+QString::number(divX*tilesX)+"_"+QString::number(divY*tilesY)+".tif";
+                            job.xoff=tmpJob.xoff+divX*tilesX;
+                            job.yoff=tmpJob.yoff+divY*tilesY;
+
+                            if (divY == div-1)
+                                job.height = tmpJob.height-divY*tilesY;
+                            else
+                                job.height=tilesY;
+
+                            if (divX == div-1)
+                                job.width = tmpJob.width-divX*tilesX;
+                            else
+                                job.width=tilesX;
+
+                            jobs        << job;
+                            outfiles    << tarPath.relativeFilePath(job.tarFilename);
+
+                            tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
+                            tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
+                            tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
+                            job.tarFilename=tmpJob.tarFilename;
+                        }
+                    }
+
+                }
+                else
+                {
+                    jobs        << job;
+                    outfiles    << tarPath.relativeFilePath(job.tarFilename);
+                    tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
+                    tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
+                    tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
+                }
             }
-            tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
-            tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
-            tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
             delete mapfile;
         }
     }
@@ -487,7 +534,14 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 
     job_t job = jobs.first();
     QStringList args;
+    if(radioLOW->isChecked())
+    {
+        //qDebug() << "Make Lowrance 24bit";
+        args << "-expand" << "rgb";
+        args << "-co" << "compress=NONE";
+    }
     args << "-srcwin";
+
     args << QString::number(job.xoff) << QString::number(job.yoff);
     args << QString::number(job.width) << QString::number(job.height);
     args << job.srcFilename;
@@ -518,7 +572,14 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
     args << "-co" << "blockysize=256";
-    args << "-co" << "compress=LZW";
+    if(radioLOW->isChecked())
+    {
+        args << "-co" << "compress=NONE";
+    }
+    else
+    {
+         args << "-co" << "compress=LZW";
+    }
     args << file1->fileName();
     //args << file2->fileName();
     args << job.tarFilename;
@@ -565,3 +626,9 @@ void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
     textBrowser->append(tr("--- finished ---\n"));
 }
 
+//bool CMapQMAPExport::isEnduraMap(job_t job)
+//{
+//    if (job.height*job.width*24 > 512*1024*1024)
+//        return false;
+//    return true;
+//}

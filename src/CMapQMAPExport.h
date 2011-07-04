@@ -24,6 +24,8 @@
 #include "ui_IMapQMAPExport.h"
 #include <projects.h>
 
+#define MAXENDURA 512*8
+
 class CMapSelectionRaster;
 class QTemporaryFile;
 
@@ -52,6 +54,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void startGCM();
         const CMapSelectionRaster& mapsel;
 
+
         QProcess cmd1;
         QProcess cmd2;
         QProcess cmd3;
@@ -76,7 +79,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
             int idx;
         };
-
+        //bool isEnduraMap(job_t job);
         QList<job_t> jobs;
 
         QStringList outfiles;

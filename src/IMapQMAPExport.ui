@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>991</width>
     <height>500</height>
    </rect>
   </property>
@@ -100,6 +100,13 @@
       <widget class="QRadioButton" name="radioJNX">
        <property name="text">
         <string>Garmin BirdsEye</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioLOW">
+       <property name="text">
+        <string>Lowrance</string>
        </property>
       </widget>
      </item>
