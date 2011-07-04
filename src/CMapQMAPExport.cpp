@@ -359,10 +359,15 @@ void CMapQMAPExport::startQLM()
                 job.yoff   = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
                 job.width  =  intersect.width()  / mapfile->xscale;
                 if(job.width==0)
+                {
                     job.width=1;
+                }
                 job.height = -intersect.height() / mapfile->yscale;
                 if (job.height==0)
+                {
                     job.height=1;
+                }
+
                 unsigned int div = ((job.width*job.height)/(1024*1024))*24;
 //                                 qDebug() << "xoff: 0 <" << job.xoff;
 //                                 qDebug() << "yoff: 0 <" << job.yoff;
@@ -388,14 +393,22 @@ void CMapQMAPExport::startQLM()
                             job.yoff=tmpJob.yoff+divY*tilesY;
 
                             if (divY == div-1)
+                            {
                                 job.height = tmpJob.height-divY*tilesY;
+                            }
                             else
+                            {
                                 job.height=tilesY;
+                            }
 
                             if (divX == div-1)
+                            {
                                 job.width = tmpJob.width-divX*tilesX;
+                            }
                             else
+                            {
                                 job.width=tilesX;
+                            }
 
                             jobs        << job;
                             outfiles    << tarPath.relativeFilePath(job.tarFilename);
