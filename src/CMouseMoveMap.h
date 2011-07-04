@@ -69,7 +69,6 @@ class CMouseMoveMap : public IMouse
         /// the initial starting point of the transformation
         QPoint oldPoint;
         QPoint mousePos;
-        QPoint pos1;
 
 };
 #endif                           //CMOUSEMOVEMAP_H

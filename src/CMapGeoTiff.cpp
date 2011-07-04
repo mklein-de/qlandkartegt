@@ -149,6 +149,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
     x = xref1 + (xref2 - xref1) / 2;
     y = yref1 - (yref1 - yref2) / 2;
 
+    qDebug() << "xscale" << xscale << "yscale" << yscale;
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     zoomidx = 1;

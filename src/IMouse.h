@@ -82,6 +82,8 @@ class IMouse : public QObject
         /// called by CCanvas right befor a new mouse handler is selected.
         virtual void looseFocus(){}
 
+        static void resetPos1(){pos1Pixel = pos1LonLat = QPointF(-1,-1);}
+
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif
@@ -101,6 +103,8 @@ class IMouse : public QObject
         void drawSelRtePt(QPainter& p);
         /// draw selected search
         void drawSelSearch(QPainter& p);
+
+        void drawPos1(QPainter& p);
 
         /// choose waypoint close to cursor
         void mouseMoveEventWpt(QMouseEvent * e);
@@ -155,6 +159,9 @@ class IMouse : public QObject
         bool doShowWptBuddies;
 
         QPoint lastPoint;
+
+        static QPointF pos1Pixel;
+        static QPointF pos1LonLat;
 
 #ifdef GPX_EXTENSIONS
         //QPointer<CTrack> track;  //TODO: noch ne def

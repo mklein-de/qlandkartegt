@@ -82,6 +82,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
     xref2   = xref1 + xsize_px * xscale;
     yref2   = yref1 + ysize_px * yscale;
 
+    qDebug() << "xscale" << xscale << "yscale" << yscale;
     qDebug() << xref1 << yref1 << xref2 << yref2;
 
     rasterBandCount = dataset->GetRasterCount();

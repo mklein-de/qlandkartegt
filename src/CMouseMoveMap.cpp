@@ -36,7 +36,6 @@ CMouseMoveMap::CMouseMoveMap(CCanvas * parent)
 , moveMap(false)
 , leftButtonPressed(false)
 , altKeyPressed(false)
-, pos1(-1,-1)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
 }
@@ -172,6 +171,7 @@ void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)
 
 void CMouseMoveMap::draw(QPainter& p)
 {
+    drawPos1(p);
     drawSelWpt(p);
     drawSelTrkPt(p);
     drawSelRtePt(p);
@@ -245,10 +245,10 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         QString posPixel = tr("Pixel %1x%2 (%3)").arg(u, 0,'f',0).arg(v,0,'f',0).arg(fn);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixel, this, SLOT(slotCopyPosPixel()));
 
-        if(pos1.x() >= 0 && pos1.y() >= 0)
+        if(pos1Pixel.x() >= 0 && pos1Pixel.y() >= 0)
         {
-            double u1 = pos1.x();
-            double v1 = pos1.y();
+            double u1 = pos1Pixel.x();
+            double v1 = pos1Pixel.y();
 
             QString posPixelSize = tr("Pos1 -> Pos %1x%2 w:%3 h:%4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u - u1,0,'f',0).arg(v - v1, 0,'f',0);
             menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixelSize, this, SLOT(slotCopyPosPixelSize()));
@@ -264,12 +264,16 @@ void CMouseMoveMap::slotSetPos1()
 {
     IMap& map = CMapDB::self().getMap();
 
-    double u = mousePos.x();
-    double v = mousePos.y();
-
+    double u,v;
+    u = mousePos.x();
+    v = mousePos.y();
     map.convertPt2Pixel(u,v);
+    pos1Pixel = QPointF(u,v);
 
-    pos1 = QPoint(u,v);
+    u = mousePos.x();
+    v = mousePos.y();
+    map.convertPt2Rad(u,v);
+    pos1LonLat = QPointF(u,v);
 }
 
 void CMouseMoveMap::slotCopyPosDegree()
@@ -321,8 +325,8 @@ void CMouseMoveMap::slotCopyPosPixelSize()
 {
     IMap& map = CMapDB::self().getMap();
 
-    double u1 = pos1.x();
-    double v1 = pos1.y();
+    double u1 = pos1Pixel.x();
+    double v1 = pos1Pixel.y();
     double u2 = mousePos.x();
     double v2 = mousePos.y();
 

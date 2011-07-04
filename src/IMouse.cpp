@@ -39,6 +39,9 @@
 
 QPointer<IOverlay> IMouse::selOverlay;
 
+QPointF IMouse::pos1Pixel(-1,-1);
+QPointF IMouse::pos1LonLat(-1,-1);
+
 IMouse::IMouse(CCanvas * canvas)
 : QObject(canvas)
 , cursor(QPixmap(":/cursor/Arrow"))
@@ -90,6 +93,34 @@ void IMouse::drawRect(QPainter& p)
     p.drawRect(rect);
 }
 
+
+#define LENGTH 100
+void IMouse::drawPos1(QPainter& p)
+{
+    if(pos1Pixel.x() == -1 || pos1Pixel.y() == -1)
+    {
+        return;
+    }
+
+    IMap& map = CMapDB::self().getMap();
+    double u = pos1LonLat.x();
+    double v = pos1LonLat.y();
+    map.convertRad2Pt(u,v);
+
+    p.setPen(QPen(Qt::white, 5));
+    p.drawLine(u - 10, v, u + LENGTH, v);
+    p.drawLine(u, v - 10, u, v + LENGTH);
+
+    p.setPen(QPen(Qt::blue, 3));
+    p.drawLine(u - 10, v, u + LENGTH, v);
+    p.drawLine(u, v - 10, u, v + LENGTH);
+
+    CCanvas::drawText("Pos. 1",p, QRect(u,v, LENGTH, - 20));
+
+    QString fn = map.getFilename(u, v);
+    QFileInfo fi(fn);
+    CCanvas::drawText(fi.fileName(), p, QRect(u,v, LENGTH, 20));
+}
 
 void IMouse::drawSelWpt(QPainter& p)
 {

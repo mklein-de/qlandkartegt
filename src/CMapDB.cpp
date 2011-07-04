@@ -43,6 +43,7 @@
 #include "CMapWMS.h"
 #endif
 #include "CQlb.h"
+#include "IMouse.h"
 
 #include <QtGui>
 #include <QtXml/QDomDocument>
@@ -177,6 +178,8 @@ void CMapDB::closeVisibleMaps()
     if(!demMap.isNull()) delete demMap;
 
     theMap = defaultMap;
+
+    IMouse::resetPos1();
 }
 
 
