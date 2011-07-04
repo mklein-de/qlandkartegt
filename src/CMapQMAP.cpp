@@ -26,6 +26,7 @@
 #include "CMapSelectionRaster.h"
 #include "CResources.h"
 #include "CDlgMapQMAPConfig.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 
@@ -43,6 +44,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 , zoomFactor(1)
 , foundMap(false)
 , quadraticZoom(false)
+, checkQuadZoom(0)
 {
     filename = fn;
 
@@ -121,8 +123,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 
     info += "</table></p>";
 
-
-
     // If no configuration is stored read values from the map definition's "home" section
     // zoom() has to be called in either case to setup / initialize all other internal parameters
     mapdef.beginGroup(QString("home"));
@@ -147,6 +147,11 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         resize(parent->size());
     }
 
+    checkQuadZoom = new QCheckBox(theMainWindow->getCanvas());
+    checkQuadZoom->setText(tr("quadratic zoom"));
+    checkQuadZoom->setChecked(quadraticZoom);
+    theMainWindow->statusBar()->insertPermanentWidget(0,checkQuadZoom);
+
     qDebug() << "done";
 }
 
@@ -170,6 +175,11 @@ CMapQMAP::~CMapQMAP()
     midU = rect.center().x();
     midV = rect.center().y();
     convertPt2Rad(midU, midV);
+
+    if(checkQuadZoom)
+    {
+        delete checkQuadZoom;
+    }
 }
 
 
@@ -561,6 +571,8 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
+    quadraticZoom = checkQuadZoom->isChecked();
+
     if(quadraticZoom)
     {
 
@@ -677,6 +689,8 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
         return;
     }
 
+    quadraticZoom = checkQuadZoom->isChecked();
+
     double u[3];
     double v[3];
     double dU, dV;
@@ -710,7 +724,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
 
-                zoomidx = pMaplevel->min + z - 1;
+                zoomidx = pMaplevel->min + z - 1;                
                 if(quadraticZoom)
                 {
                     zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));

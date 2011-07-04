@@ -34,6 +34,7 @@ class CMapDEM;
 class CMapLevel;
 class CExportMapThread;
 class CCanvas;
+class QCheckBox;
 
 /// Render object for a GeoTiff raster map set
 /**
@@ -93,6 +94,8 @@ class CMapQMAP : public IMap
         bool quadraticZoom;
 
         QString info;
+
+        QCheckBox * checkQuadZoom;
 
 
 };
