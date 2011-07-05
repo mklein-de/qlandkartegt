@@ -24,7 +24,7 @@
 #include "ui_IMapQMAPExport.h"
 #include <projects.h>
 
-#define MAXENDURA 512*8
+#define MAXENDURA 512
 
 class CMapSelectionRaster;
 class QTemporaryFile;

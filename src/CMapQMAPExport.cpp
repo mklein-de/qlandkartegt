@@ -320,7 +320,7 @@ void CMapQMAPExport::startQLM()
 
     for(int level = 1; level <= levels; ++level)
     {
-        QStringList outfiles;
+        QStringList tmpOutFiles;
         QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
         QString filename;
         foreach(filename, filenames)
@@ -368,7 +368,7 @@ void CMapQMAPExport::startQLM()
                     job.height=1;
                 }
 
-                unsigned int div = ((job.width*job.height)/(1024*1024))*24;
+                quint64 div = (((job.width*job.height)/(1024*1024))*3);
 //                                 qDebug() << "xoff: 0 <" << job.xoff;
 //                                 qDebug() << "yoff: 0 <" << job.yoff;
 //                                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
@@ -377,14 +377,14 @@ void CMapQMAPExport::startQLM()
                 {
                     job_t tmpJob = job;
 
-                    div = (int)sqrt(div/(MAXENDURA));
+                    div = (quint64)sqrt(div/(MAXENDURA));
                     div += 1;
 
                     int tilesX = job.width/div;
                     int tilesY = job.height/div;
-                    for (unsigned int divY=1; divY<div; divY++)
+                    for (unsigned int divY=0; divY<div; divY++)
                     {
-                        for (unsigned int divX=1; divX<div; divX++)
+                        for (unsigned int divX=0; divX<div; divX++)
                         {
 
                             job.tarFilename = job.tarFilename.left(job.tarFilename.length()-4);
@@ -411,9 +411,9 @@ void CMapQMAPExport::startQLM()
                             }
 
                             jobs        << job;
-                            outfiles    << tarPath.relativeFilePath(job.tarFilename);
+                            tmpOutFiles    << tarPath.relativeFilePath(job.tarFilename);
 
-                            tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
+                            tardef.setValue(QString("level%1/files").arg(level), tmpOutFiles.join("|"));
                             tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
                             tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
                             job.tarFilename=tmpJob.tarFilename;
@@ -424,8 +424,8 @@ void CMapQMAPExport::startQLM()
                 else
                 {
                     jobs        << job;
-                    outfiles    << tarPath.relativeFilePath(job.tarFilename);
-                    tardef.setValue(QString("level%1/files").arg(level), outfiles.join("|"));
+                    tmpOutFiles    << tarPath.relativeFilePath(job.tarFilename);
+                    tardef.setValue(QString("level%1/files").arg(level), tmpOutFiles.join("|"));
                     tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
                     tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
                 }
@@ -551,7 +551,7 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
     {
         //qDebug() << "Make Lowrance 24bit";
         args << "-expand" << "rgb";
-        args << "-co" << "compress=NONE";
+        //args << "-co" << "compress=NONE";
     }
     args << "-srcwin";
 

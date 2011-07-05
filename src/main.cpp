@@ -265,8 +265,6 @@ int main(int argc, char ** argv)
 
     int res  = theApp.exec();
 
-//    GDALDestroyDriverManager();
-
     delete qlOpts;
 
     return res;
