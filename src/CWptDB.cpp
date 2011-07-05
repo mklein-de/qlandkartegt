@@ -857,10 +857,6 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             p.drawPixmap(u - o , v - o, icon);
 
-//            if(showNames)
-//            {
-//                CCanvas::drawText((*wpt)->name,p,QPoint(u,v - (icon.height()>>1)), color);
-//            }
             // added by AD
             blockAreas << QRect(u - o , v - o, icon.width(), icon.height());
         }
@@ -902,7 +898,18 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
             if(showNames)
             {
-                QRect textArea = fm.boundingRect((*wpt)->name);
+                QString name;
+
+                if((*wpt)->isGeoCache())
+                {
+                    name = (*wpt)->getGeocacheData().name + " (" + (*wpt)->getName() + ")";
+                }
+                else
+                {
+                    name = (*wpt)->getName();
+                }
+
+                QRect textArea = fm.boundingRect(name);
                 bool intersects;
 
                 // try above
@@ -953,7 +960,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                     blockAreas << textArea;
                     // compensate for drawText magic and plot
                     textArea.translate(0, textArea.height());
-                    CCanvas::drawText((*wpt)->name, p, textArea.center(), color);
+                    CCanvas::drawText(name, p, textArea.center(), color);
                 }
             }
         }

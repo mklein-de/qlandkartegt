@@ -358,7 +358,6 @@ void CWptToolWidget::slotMakeRoute()
 
 void CWptToolWidget::slotPosTextChanged(const QString& text)
 {
-    qDebug() << "slotPosTextChanged";
     float lon   = 0, lat = 0;
     bool ok     = GPS_Math_Str_To_Deg(text, lon, lat, true);
     toolSortPosition->setEnabled(ok);

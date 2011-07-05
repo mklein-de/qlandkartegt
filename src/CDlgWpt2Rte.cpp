@@ -41,15 +41,18 @@ CDlgWpt2Rte::CDlgWpt2Rte()
 
     connect(listSelWaypoints, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 
-    QMap<QString, CWpt*>::iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end())
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+    foreach(key, keys)
     {
+        QString name;
+        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
 
         QListWidgetItem * item = new QListWidgetItem(listWaypoints);
-        item->setText((*wpt)->getName());
-        item->setData(Qt::UserRole, (*wpt)->getKey());
+        item->setText(wpt->getName());
+        item->setData(Qt::UserRole, wpt->getKey());
 
-        wpt++;
     }
 
 }
