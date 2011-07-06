@@ -53,7 +53,17 @@ CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
             CWpt * wpt = CWptDB::self().getWptByKey(key.key);
 
             QListWidgetItem * item = new QListWidgetItem(listWaypoints);
-            item->setText(wpt->getName());
+
+            if(wpt->isGeoCache())
+            {
+                item->setText(wpt->getGeocacheData().name + " (" + wpt->getName() + ")");
+            }
+            else
+            {
+                item->setText(wpt->getName());
+            }
+
+
             item->setData(Qt::UserRole, wpt->getKey());
         }
     }
@@ -61,8 +71,16 @@ CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
     {
         foreach(CWpt * wpt, selWpt)
         {
-            QListWidgetItem * item = new QListWidgetItem(listWaypoints);
-            item->setText(wpt->getName());
+            QListWidgetItem * item = new QListWidgetItem(listSelWaypoints);
+            if(wpt->isGeoCache())
+            {
+                item->setText(wpt->getGeocacheData().name + " (" + wpt->getName() + ")");
+            }
+            else
+            {
+                item->setText(wpt->getName());
+            }
+
             item->setData(Qt::UserRole, wpt->getKey());
         }
     }
