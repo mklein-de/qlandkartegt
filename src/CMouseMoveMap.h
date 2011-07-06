@@ -35,6 +35,7 @@ class CMouseMoveMap : public IMouse
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
+        void mouseDoubleClickEvent(QMouseEvent * e);
         void keyPressEvent(QKeyEvent * e);
         void keyReleaseEvent(QKeyEvent * e);
 

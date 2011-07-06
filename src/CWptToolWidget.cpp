@@ -47,20 +47,23 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Waypoints"));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
-    connect(listWpts,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(listWpts,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
+    connect(listWpts,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(slotItemClicked(QListWidgetItem*)));
 
     listWpts->setSortingEnabled(false);
 
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
     actCopyPos      = contextMenu->addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()),Qt::CTRL + Qt::Key_C);
+    contextMenu->addSeparator();
     actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
     actIcon         = contextMenu->addAction(QPixmap(":/icons/iconWaypoint16x16.png"),tr("Icon ..."),this,SLOT(slotIcon()));
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
+    actResetSel     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Reset selection"),this,SLOT(slotResetSel()));
     contextMenu->addSeparator();
     actShowNames    = contextMenu->addAction(tr("Show Names"),this,SLOT(slotShowNames()));
     contextMenu->addSeparator();
-    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
+    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));    
     actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
     actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
@@ -107,6 +110,21 @@ CWptToolWidget::~CWptToolWidget()
     cfg.setValue("waypoint/position", linePosition->text());
 }
 
+void CWptToolWidget::collectSelectedWaypoints(QList<CWpt*>& selWpts)
+{
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+    foreach(key, keys)
+    {
+        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+
+        if(wpt->selected)
+        {
+            selWpts << wpt;
+        }
+    }
+}
 
 void CWptToolWidget::keyPressEvent(QKeyEvent * e)
 {
@@ -203,16 +221,26 @@ void CWptToolWidget::slotDBChanged()
         }
 
         item->setToolTip(wpt->getInfo());
+        item->setCheckState(wpt->selected ? Qt::Checked : Qt::Unchecked);
     }
 }
 
+
+void CWptToolWidget::slotItemDoubleClicked(QListWidgetItem* item)
+{    
+    CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
+    if(wpt)
+    {
+        theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
+    }
+}
 
 void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 {
     CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
     if(wpt)
     {
-        theMainWindow->getCanvas()->move(wpt->lon, wpt->lat);
+        wpt->selected = item->checkState() == Qt::Checked;
     }
 }
 
@@ -308,7 +336,13 @@ void CWptToolWidget::selWptByKey(const QString& key)
         QListWidgetItem * item = listWpts->item(i);
         if(item && item->data(Qt::UserRole) == key)
         {
-            listWpts->setCurrentItem(item);
+            CWpt * wpt = CWptDB::self().getWptByKey(key);
+            if(wpt)
+            {
+                item->setCheckState(wpt->selected ? Qt::Checked : Qt::Unchecked);
+            }
+
+            listWpts->setCurrentItem(item);            
         }
     }
 }
@@ -341,20 +375,73 @@ void CWptToolWidget::slotProximity()
         dist = IUnit::self().str2distance(str);
 
         QStringList keys;
-        foreach(item,items)
+        QList<CWpt*> selWpts;
+        collectSelectedWaypoints(selWpts);
+
+        if(selWpts.count())
         {
-            keys << item->data(Qt::UserRole).toString();
+            foreach(CWpt* wpt, selWpts)
+            {
+                keys << wpt->getKey();
+            }
+        }
+        else
+        {
+            foreach(item,items)
+            {
+                keys << item->data(Qt::UserRole).toString();
+            }
         }
         CWptDB::self().setProxyDistance(keys,(dist == 0 ? WPT_NOFLOAT : dist));
     }
 }
 
 
+void CWptToolWidget::slotIcon()
+{
+    QToolButton button(this);
+    button.hide();
+
+    CDlgWptIcon dlg(button);
+    dlg.exec();
+
+    if(!button.objectName().isEmpty())
+    {
+        QStringList keys;
+        QList<CWpt*> selWpts;
+        collectSelectedWaypoints(selWpts);
+
+        if(selWpts.count())
+        {
+            foreach(CWpt* wpt, selWpts)
+            {
+                keys << wpt->getKey();
+            }
+        }
+        else
+        {
+            QListWidgetItem * item;
+            const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+
+            foreach(item,items)
+            {
+                keys << item->data(Qt::UserRole).toString();
+            }
+        }
+        CWptDB::self().setIcon(keys,button.objectName());
+    }
+}
+
+
 void CWptToolWidget::slotMakeRoute()
 {
-    CDlgWpt2Rte dlg;
+    QList<CWpt*> selWpts;
+    collectSelectedWaypoints(selWpts);
+
+    CDlgWpt2Rte dlg(selWpts);
     dlg.exec();
 }
+
 
 void CWptToolWidget::slotPosTextChanged(const QString& text)
 {
@@ -372,25 +459,17 @@ void CWptToolWidget::slotShowNames()
     CWptDB::self().setShowNames(!CWptDB::self().getShowNames());
 }
 
-void CWptToolWidget::slotIcon()
+
+void CWptToolWidget::slotResetSel()
 {
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
 
-    QToolButton button(this);
-    button.hide();
-
-    CDlgWptIcon dlg(button);
-    dlg.exec();
-
-    if(!button.objectName().isEmpty())
+    foreach(key, keys)
     {
-        QStringList keys;
-        QListWidgetItem * item;
-        const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-
-        foreach(item,items)
-        {
-            keys << item->data(Qt::UserRole).toString();
-        }
-        CWptDB::self().setIcon(keys,button.objectName());
+        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+        wpt->selected = false;
     }
+
+    slotDBChanged();
 }

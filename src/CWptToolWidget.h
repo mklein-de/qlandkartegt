@@ -25,6 +25,7 @@
 class QToolBox;
 class QMenu;
 class QAction;
+class CWpt;
 
 /// waypoint tool view
 class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
@@ -49,11 +50,15 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
     signals:
         void sigChanged();
 
+
+
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
     private slots:
         void slotDBChanged();
+        void slotItemDoubleClicked(QListWidgetItem* item);
         void slotItemClicked(QListWidgetItem* item);
         void slotContextMenu(const QPoint& pos);
         void slotEdit();
@@ -66,8 +71,11 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotZoomToFit();
         void slotPosTextChanged(const QString& text);
         void slotShowNames();
+        void slotResetSel();
 
     private:
+        void collectSelectedWaypoints(QList<CWpt*>& selWpts);
+
         QMenu * contextMenu;
         QAction * actCopyPos;
         QAction * actEdit;
@@ -78,6 +86,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actDelete;
         QAction * actDeleteBy;
         QAction * actShowNames;
+        QAction * actResetSel;
 
         static sortmode_e sortmode;
         static QString sortpos;

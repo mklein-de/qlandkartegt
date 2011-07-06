@@ -79,7 +79,7 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         if(!selWpt.isNull())
         {
-            CWptDB::self().selWptByKey(selWpt->getKey());
+            CWptDB::self().selWptByKey(selWpt->getKey(), false);
             mousePressEventWpt(e);
         }
         else if(track && selTrkPt)
@@ -128,7 +128,6 @@ void CMouseMoveMap::mouseReleaseEvent(QMouseEvent * e)
             canvas->update();
         }
 
-
     }
 }
 
@@ -148,6 +147,15 @@ void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
         }
     }
 #endif
+}
+
+void CMouseMoveMap::mouseDoubleClickEvent(QMouseEvent * e)
+{
+    if(!selWpt.isNull())
+    {
+        CWptDB::self().selWptByKey(selWpt->getKey(), true);
+        canvas->update();
+    }
 }
 
 void CMouseMoveMap::keyReleaseEvent(QKeyEvent * e)

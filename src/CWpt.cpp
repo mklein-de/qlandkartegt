@@ -416,6 +416,7 @@ void operator <<(QFile& f, CWpt& wpt)
 
 CWpt::CWpt(QObject * parent)
 : IItem(parent)
+, selected(false)
 , sticky(false)
 , lat(1000)
 , lon(1000)

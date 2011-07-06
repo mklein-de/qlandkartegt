@@ -52,10 +52,11 @@ IMouse::IMouse(CCanvas * canvas)
 , doSpecialCursorSearch(false)
 , doShowWptBuddies(false)
 {
-    rectDelWpt          = QRect(0,0,16,16);
-    rectMoveWpt         = QRect(32,0,16,16);
-    rectEditWpt         = QRect(0,32,16,16);
-    rectCopyWpt         = QRect(32,32,16,16);
+    rectMarkWpt         = QRect(16,-8,16,16);
+    rectDelWpt          = QRect(-5, 3,16,16);
+    rectMoveWpt         = QRect(37, 3,16,16);
+    rectEditWpt         = QRect(-5,29,16,16);
+    rectCopyWpt         = QRect(37,29,16,16);
     rectViewWpt         = QRect(16,40,16,16);
 
     rectDelSearch       = QRect(0,0,16,16);
@@ -162,6 +163,12 @@ void IMouse::drawSelWpt(QPainter& p)
         {
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
+
+        if(selWpt->selected)
+        {
+            p.drawPixmap(rectMarkWpt, QPixmap(":/icons/iconCheckbox16x16.png"));
+        }
+
         p.restore();
 
         if(doShowWptBuddies)
@@ -592,6 +599,11 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     {
         QDesktopServices::openUrl(QUrl("file:///" + selWpt->images[0].filePath));
     }
+    else if(rectMarkWpt.contains(pt))
+    {
+        CWptDB::self().selWptByKey(selWpt->getKey(), true);
+        canvas->update();
+    }
 }
 
 
@@ -811,3 +823,4 @@ void IMouse::slotSetPos1()
     map.convertPt2Rad(u,v);
     pos1LonLat = QPointF(u,v);
 }
+

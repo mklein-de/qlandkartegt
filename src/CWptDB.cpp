@@ -805,15 +805,30 @@ void CWptDB::download()
 }
 
 
-void CWptDB::selWptByKey(const QString& key)
+void CWptDB::selWptByKey(const QString& key, bool selectMode)
 {
     CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
     if(t)
     {
+        if(selectMode && wpts.contains(key))
+        {
+            wpts[key]->selected =! wpts[key]->selected;
+        }
+
         t->selWptByKey(key);
         gainFocus();
     }
 }
+
+//void CWptDB::updateToolview()
+//{
+//    CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
+//    if(t)
+//    {
+//        t->slotDBChanged();
+//        gainFocus();
+//    }
+//}
 
 
 void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)

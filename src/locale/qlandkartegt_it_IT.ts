@@ -1256,21 +1256,21 @@ Una volta creata una collezione puoi aggiungere dei dati DEM attraverso il menù
         <translation>Tutte le mappe in un livello devono avere la stessa proiezione.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="226"/>
+        <location filename="../CCreateMapQMAP.cpp" line="221"/>
         <source>Top/left corner:	%1
 </source>
         <translation>Angolo alto/sinistra:	%1
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="228"/>
+        <location filename="../CCreateMapQMAP.cpp" line="223"/>
         <source>Bottom/right corner:	%1
 </source>
         <translation>Angolo basso/destra:	%1
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="242"/>
+        <location filename="../CCreateMapQMAP.cpp" line="237"/>
         <source>Width x Height [m] x [m]:	 %1 x %2</source>
         <translation>Larghezza x Altezza [m] x [m]:	%1 x %2</translation>
     </message>
@@ -3261,48 +3261,48 @@ Vuoi salvare le modifiche?</translation>
 <context>
     <name>CMapDB</name>
     <message>
-        <location filename="../CMapDB.cpp" line="63"/>
+        <location filename="../CMapDB.cpp" line="66"/>
         <source>--- No map ---</source>
         <translation>--- Nessuna mappa ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="68"/>
+        <location filename="../CMapDB.cpp" line="71"/>
         <source>--- OSM ---</source>
         <translation>--- OSM ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="407"/>
-        <location filename="../CMapDB.cpp" line="854"/>
+        <location filename="../CMapDB.cpp" line="414"/>
+        <location filename="../CMapDB.cpp" line="861"/>
         <source>Error...</source>
         <translation>Errore...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="407"/>
+        <location filename="../CMapDB.cpp" line="414"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Solo le mappe vettoriali sono overlay validi.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="794"/>
+        <location filename="../CMapDB.cpp" line="801"/>
         <source>Map 3D...</source>
         <translation>Mappa 3D...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="781"/>
+        <location filename="../CMapDB.cpp" line="788"/>
         <source>Edit Map</source>
         <translation>Modifica Mappa</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="809"/>
+        <location filename="../CMapDB.cpp" line="816"/>
         <source>Search Map</source>
         <translation>Cercap MappaRicerca Mappa</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="823"/>
+        <location filename="../CMapDB.cpp" line="830"/>
         <source>Sorry...</source>
         <translation>Mi dispiace...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="823"/>
+        <location filename="../CMapDB.cpp" line="830"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Non puoi selezionare sotto aree da mappe singole. Crea una collezzione con F1 -&gt; F6.</translation>
     </message>
@@ -3387,17 +3387,17 @@ Vuoi salvare le modifiche?</translation>
         <translation>Nessuna informazione geo trovata.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="207"/>
+        <location filename="../CMapGeoTiff.cpp" line="208"/>
         <source>Overzoom x%1</source>
         <translation>Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="211"/>
+        <location filename="../CMapGeoTiff.cpp" line="212"/>
         <source>Zoom level x%1</source>
         <translation>Livello di zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="157"/>
+        <location filename="../CMapGeoTiff.cpp" line="158"/>
         <source>quadratic zoom</source>
         <translation>zoom quadratico</translation>
     </message>
@@ -3490,72 +3490,77 @@ Vuoi salvare le modifiche?</translation>
 <context>
     <name>CMapQMAP</name>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>Quadratic zoom %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Map Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Zoom Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="87"/>
+        <location filename="../CMapQMAP.cpp" line="89"/>
         <source>Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="87"/>
+        <location filename="../CMapQMAP.cpp" line="89"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="92"/>
+        <location filename="../CMapQMAP.cpp" line="94"/>
         <source>Top/Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="93"/>
+        <location filename="../CMapQMAP.cpp" line="95"/>
         <source>Bottom/Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="114"/>
+        <location filename="../CMapQMAP.cpp" line="116"/>
         <source>Area</source>
         <translation type="unfinished">Area</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="117"/>
+        <location filename="../CMapQMAP.cpp" line="119"/>
         <source>Projection</source>
         <translation type="unfinished">Proiezione</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="252"/>
+        <location filename="../CMapQMAP.cpp" line="151"/>
+        <source>quadratic zoom</source>
+        <translation type="unfinished">zoom quadratico</translation>
+    </message>
+    <message>
+        <location filename="../CMapQMAP.cpp" line="262"/>
         <source>Overzoom x%1</source>
         <translation>Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="256"/>
+        <location filename="../CMapQMAP.cpp" line="266"/>
         <source>Zoom level x%1</source>
         <translation>Livello di zoom x%1</translation>
     </message>
@@ -3563,23 +3568,23 @@ Vuoi salvare le modifiche?</translation>
 <context>
     <name>CMapQMAPExport</name>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="165"/>
+        <location filename="../CMapQMAPExport.cpp" line="167"/>
         <source>Select ouput path...</source>
         <translation>Seleziona path di output...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="326"/>
+        <location filename="../CMapQMAPExport.cpp" line="332"/>
         <source>Error ...</source>
         <translation>Errore ...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="326"/>
+        <location filename="../CMapQMAPExport.cpp" line="332"/>
         <source>Failed to read %1</source>
         <translation>Impossibile leggere %1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="478"/>
-        <location filename="../CMapQMAPExport.cpp" line="565"/>
+        <location filename="../CMapQMAPExport.cpp" line="538"/>
+        <location filename="../CMapQMAPExport.cpp" line="639"/>
         <source>--- finished ---
 </source>
         <translation>--- finito ---
@@ -4991,69 +4996,69 @@ Vuoi salvare le modifiche?</translation>
 <context>
     <name>CMouseMoveMap</name>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="100"/>
-        <location filename="../CMouseMoveMap.cpp" line="144"/>
+        <location filename="../CMouseMoveMap.cpp" line="99"/>
+        <location filename="../CMouseMoveMap.cpp" line="142"/>
         <source>Move map</source>
         <translation>Sposta mappa</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="187"/>
+        <location filename="../CMouseMoveMap.cpp" line="195"/>
         <source>Copy Pos. Waypoint</source>
         <translation>Copia Pos. Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="188"/>
+        <location filename="../CMouseMoveMap.cpp" line="196"/>
         <source>Edit Waypoint ...</source>
         <translation>Modifica Waypoint ...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="192"/>
+        <location filename="../CMouseMoveMap.cpp" line="200"/>
         <source>Move Waypoint</source>
         <translation>Sposta Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="197"/>
+        <location filename="../CMouseMoveMap.cpp" line="205"/>
         <source>Delete Waypoint</source>
         <translation>Elimina Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="203"/>
+        <location filename="../CMouseMoveMap.cpp" line="211"/>
         <source>Add Waypoint ...</source>
         <translation>Aggiungi Waypoint ...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="209"/>
+        <location filename="../CMouseMoveMap.cpp" line="217"/>
         <source>Open Pos. with Google Maps</source>
         <translation>Apri posizione in Google Maps</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="210"/>
+        <location filename="../CMouseMoveMap.cpp" line="218"/>
         <source>Copy Pos. Trackpoint</source>
         <translation>Copia Pos. Punto della Traccia</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="211"/>
+        <location filename="../CMouseMoveMap.cpp" line="219"/>
         <source>Edit Track ...</source>
         <translation>Modifica Traccia ...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="224"/>
-        <location filename="../CMouseMoveMap.cpp" line="299"/>
+        <location filename="../CMouseMoveMap.cpp" line="232"/>
+        <location filename="../CMouseMoveMap.cpp" line="296"/>
         <source>N %1m E %2m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="245"/>
+        <location filename="../CMouseMoveMap.cpp" line="253"/>
         <source>Pixel %1x%2 (%3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="253"/>
+        <location filename="../CMouseMoveMap.cpp" line="261"/>
         <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="257"/>
+        <location filename="../CMouseMoveMap.cpp" line="265"/>
         <source>Set as Pos1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5061,27 +5066,27 @@ Vuoi salvare le modifiche?</translation>
 <context>
     <name>CMouseRefPoint</name>
     <message>
+        <location filename="../CMouseRefPoint.cpp" line="81"/>
         <location filename="../CMouseRefPoint.cpp" line="82"/>
-        <location filename="../CMouseRefPoint.cpp" line="83"/>
+        <location filename="../CMouseRefPoint.cpp" line="127"/>
         <location filename="../CMouseRefPoint.cpp" line="128"/>
-        <location filename="../CMouseRefPoint.cpp" line="129"/>
+        <location filename="../CMouseRefPoint.cpp" line="175"/>
         <location filename="../CMouseRefPoint.cpp" line="176"/>
-        <location filename="../CMouseRefPoint.cpp" line="177"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../CMouseRefPoint.cpp" line="195"/>
+        <location filename="../CMouseRefPoint.cpp" line="194"/>
         <source>Pixel %1x%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMouseRefPoint.cpp" line="203"/>
+        <location filename="../CMouseRefPoint.cpp" line="202"/>
         <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMouseRefPoint.cpp" line="207"/>
+        <location filename="../CMouseRefPoint.cpp" line="206"/>
         <source>Set as Pos1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6158,32 +6163,32 @@ fine: %1</translation>
 <context>
     <name>CWpt</name>
     <message>
-        <location filename="../CWpt.cpp" line="493"/>
+        <location filename="../CWpt.cpp" line="494"/>
         <source>elevation: %1 %2</source>
         <translation>elevazione: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="501"/>
+        <location filename="../CWpt.cpp" line="502"/>
         <source>proximity: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="520"/>
+        <location filename="../CWpt.cpp" line="521"/>
         <source>Parent: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="959"/>
+        <location filename="../CWpt.cpp" line="960"/>
         <source>No additional information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="966"/>
+        <location filename="../CWpt.cpp" line="967"/>
         <source>&lt;div&gt;&lt;b&gt;Type:&lt;/b&gt; %1 &lt;b&gt;Container:&lt;/b&gt; %2 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="967"/>
+        <location filename="../CWpt.cpp" line="968"/>
         <source>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6201,33 +6206,33 @@ fine: %1</translation>
         <translation>Elimina waypoint fisso ...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1095"/>
-        <location filename="../CWptDB.cpp" line="1097"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
+        <location filename="../CWptDB.cpp" line="1119"/>
         <source>Missing libexif</source>
         <translation>libexif mancance</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1095"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Impossibile trovare libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1097"/>
+        <location filename="../CWptDB.cpp" line="1119"/>
         <source>Unable to find libexif.so.</source>
         <translation>Impossibile trovare libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1104"/>
+        <location filename="../CWptDB.cpp" line="1126"/>
         <source>Select path...</source>
         <translation>Seleziona cartella ...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1117"/>
+        <location filename="../CWptDB.cpp" line="1139"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Leggi tag EXIF dalle foto.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1117"/>
+        <location filename="../CWptDB.cpp" line="1139"/>
         <source>Abort</source>
         <translation>Interrompi</translation>
     </message>
@@ -6240,67 +6245,72 @@ fine: %1</translation>
         <translation>Waypoint</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="56"/>
+        <location filename="../CWptToolWidget.cpp" line="57"/>
         <source>Copy Position</source>
         <translation>Copia Posizione</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="55"/>
+        <location filename="../CWptToolWidget.cpp" line="56"/>
         <source>Edit...</source>
         <translation>Modifica...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="58"/>
+        <location filename="../CWptToolWidget.cpp" line="60"/>
         <source>Icon ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="61"/>
+        <location filename="../CWptToolWidget.cpp" line="62"/>
+        <source>Reset selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CWptToolWidget.cpp" line="64"/>
         <source>Show Names</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="63"/>
+        <location filename="../CWptToolWidget.cpp" line="66"/>
         <source>Zoom to fit</source>
         <translation>Zoom della vista</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="64"/>
+        <location filename="../CWptToolWidget.cpp" line="67"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="65"/>
+        <location filename="../CWptToolWidget.cpp" line="68"/>
         <source>Delete by ...</source>
         <translation>Elimina per ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="94"/>
+        <location filename="../CWptToolWidget.cpp" line="97"/>
         <source>enter valid position</source>
         <translation>inserisci una posizione valida</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="191"/>
+        <location filename="../CWptToolWidget.cpp" line="209"/>
         <source> (sticky)</source>
         <translation>(fisso)</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="57"/>
+        <location filename="../CWptToolWidget.cpp" line="59"/>
         <source>Proximity ...</source>
         <translation>Prossimità ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="320"/>
+        <location filename="../CWptToolWidget.cpp" line="354"/>
         <source>Distance [%1]</source>
         <translation>Distanza [%1]</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="337"/>
+        <location filename="../CWptToolWidget.cpp" line="371"/>
         <source>Proximity distance ...</source>
         <translation>Distanza prossimità ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="59"/>
+        <location filename="../CWptToolWidget.cpp" line="61"/>
         <source>Make Route ...</source>
         <translation>Crea Rotta ...</translation>
     </message>
@@ -6910,7 +6920,7 @@ p, li { white-space: pre-wrap; }
         <translation>sù</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="280"/>
+        <location filename="../ICreateMapQMAP.ui" line="274"/>
         <source>down</source>
         <translation>giù</translation>
     </message>
@@ -6919,12 +6929,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Puoi sovrapporre mappe con dettagli diversi in livelli. Per ogni livello di dettaglio puoi definire un numero di livelli di zoom. Più file di mappe possono essere raggruppati in un livello di dettaglio. Tutti i file delle mappe in un livello devono avere la stessa proiezione e scala. Necessiti almeno di un livello con un file.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="351"/>
+        <location filename="../ICreateMapQMAP.ui" line="345"/>
         <source>Summary</source>
         <translation>Sommario</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="379"/>
+        <location filename="../ICreateMapQMAP.ui" line="373"/>
         <source>Save</source>
         <translation>Salva</translation>
     </message>
@@ -7949,22 +7959,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditMapLevel</name>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="13"/>
+        <location filename="../IDlgEditMapLevel.ui" line="14"/>
         <source>Edit map level ...</source>
         <translation>Modifica livello mappa ...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="21"/>
+        <location filename="../IDlgEditMapLevel.ui" line="22"/>
         <source>zoom levels</source>
         <translation>livello zoom</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="55"/>
+        <location filename="../IDlgEditMapLevel.ui" line="56"/>
         <source>files</source>
         <translation>file</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="72"/>
+        <location filename="../IDlgEditMapLevel.ui" line="73"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7975,16 +7985,16 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleziona file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="78"/>
-        <location filename="../IDlgEditMapLevel.ui" line="91"/>
-        <location filename="../IDlgEditMapLevel.ui" line="107"/>
-        <location filename="../IDlgEditMapLevel.ui" line="123"/>
-        <location filename="../IDlgEditMapLevel.ui" line="139"/>
+        <location filename="../IDlgEditMapLevel.ui" line="79"/>
+        <location filename="../IDlgEditMapLevel.ui" line="92"/>
+        <location filename="../IDlgEditMapLevel.ui" line="108"/>
+        <location filename="../IDlgEditMapLevel.ui" line="124"/>
+        <location filename="../IDlgEditMapLevel.ui" line="140"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="85"/>
+        <location filename="../IDlgEditMapLevel.ui" line="86"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7995,7 +8005,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Aggiungi file alla lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="101"/>
+        <location filename="../IDlgEditMapLevel.ui" line="102"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -8006,7 +8016,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Elimina file dalla lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="117"/>
+        <location filename="../IDlgEditMapLevel.ui" line="118"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -8017,7 +8027,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sposta file in su nella lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="133"/>
+        <location filename="../IDlgEditMapLevel.ui" line="134"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -8869,72 +8879,77 @@ DEM: %2</translation>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="124"/>
-        <source>Tile selection is only supported by Garmin Custom Map. All other formats will export the whole area as is.</source>
+        <location filename="../IMapQMAPExport.ui" line="109"/>
+        <source>Lowrance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="131"/>
+        <source>Tile selection is only supported by Garmin Custom Map. All other formats will export the whole area as is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMapQMAPExport.ui" line="138"/>
         <source>BirdsEye</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="139"/>
+        <location filename="../IMapQMAPExport.ui" line="146"/>
         <source>Product name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="153"/>
+        <location filename="../IMapQMAPExport.ui" line="160"/>
         <source>Copyright notice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="160"/>
+        <location filename="../IMapQMAPExport.ui" line="167"/>
         <source>None</source>
         <translation type="unfinished">Nessuno</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="169"/>
+        <location filename="../IMapQMAPExport.ui" line="176"/>
         <source>Product ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="188"/>
+        <location filename="../IMapQMAPExport.ui" line="195"/>
         <source>JPEG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="196"/>
+        <location filename="../IMapQMAPExport.ui" line="203"/>
         <source>Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="216"/>
+        <location filename="../IMapQMAPExport.ui" line="223"/>
         <source>Chroma subsampling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="224"/>
+        <location filename="../IMapQMAPExport.ui" line="231"/>
         <source>411</source>
         <translation type="unfinished">411</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="229"/>
+        <location filename="../IMapQMAPExport.ui" line="236"/>
         <source>422</source>
         <translation type="unfinished">422</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="234"/>
+        <location filename="../IMapQMAPExport.ui" line="241"/>
         <source>444</source>
         <translation type="unfinished">444</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="247"/>
+        <location filename="../IMapQMAPExport.ui" line="254"/>
         <source>Device</source>
         <translation type="unfinished">Dispositivo</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="255"/>
+        <location filename="../IMapQMAPExport.ui" line="262"/>
         <source>Z-Order</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9089,32 +9104,32 @@ DEM: %2</translation>
 <context>
     <name>IMouse</name>
     <message>
-        <location filename="../IMouse.cpp" line="261"/>
+        <location filename="../IMouse.cpp" line="299"/>
         <source>%4 %3 %1:%2h (%5%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="262"/>
+        <location filename="../IMouse.cpp" line="300"/>
         <source> | (%5%) %1:%2h %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="269"/>
+        <location filename="../IMouse.cpp" line="307"/>
         <source>%5 %4 %1%2 (%3%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="271"/>
+        <location filename="../IMouse.cpp" line="309"/>
         <source> | (%3%) %1%2 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="277"/>
+        <location filename="../IMouse.cpp" line="315"/>
         <source>elevation: %1 %2</source>
         <translation>elevazione: %1 %2</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="295"/>
+        <location filename="../IMouse.cpp" line="333"/>
         <source>
  %1: %2 </source>
         <translation>

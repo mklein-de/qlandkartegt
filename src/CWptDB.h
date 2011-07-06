@@ -80,10 +80,11 @@ class CWptDB : public IDB
         void upload(const QStringList& keys);
         void download();
         void clear();
-        void selWptByKey(const QString& key);
+        void selWptByKey(const QString& key, bool selectMode);
         void makeVisible(const QStringList& keys);
 
         int count(){return wpts.count();}
+
 
 #ifdef HAS_EXIF
         void createWaypointsFromImages();

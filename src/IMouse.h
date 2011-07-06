@@ -56,6 +56,9 @@ class IMouse : public QObject
         virtual void mousePressEvent(QMouseEvent * e) = 0;
         /// the mouse release event as defined by QWidget::mouseReleaseEvent
         virtual void mouseReleaseEvent(QMouseEvent * e) = 0;
+        /// the mouse double click event as defined by QWidget::mouseDoubleClickEvent
+        virtual void mouseDoubleClickEvent(QMouseEvent * e){};
+
         /// the key press event as defined by QWidget::keyPressEvent
         virtual void keyPressEvent(QKeyEvent *) {};
         /// the key release event as defined by QWidget::keyPressEvent
@@ -146,6 +149,7 @@ class IMouse : public QObject
 
         QPointer<CSearch> selSearch;
 
+        QRect rectMarkWpt;
         QRect rectDelWpt;
         QRect rectMoveWpt;
         QRect rectEditWpt;

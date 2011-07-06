@@ -22,14 +22,16 @@
 
 
 #include <QDialog>
+#include <QList>
 #include "ui_IDlgWpt2Rte.h"
 
+class CWpt;
 
 class CDlgWpt2Rte  : public QDialog, private Ui::IDlgWpt2Rte
 {
     Q_OBJECT;
     public:
-        CDlgWpt2Rte();
+        CDlgWpt2Rte(QList<CWpt*>& selWpt);
         virtual ~CDlgWpt2Rte();
 
     public slots:
@@ -42,6 +44,8 @@ class CDlgWpt2Rte  : public QDialog, private Ui::IDlgWpt2Rte
         void slotDown();
         void slotItemSelectionChanged();
 
+    private:
+        QList<CWpt*>& selWpt;
 };
 
 #endif //CDLGWPT2RTE_H

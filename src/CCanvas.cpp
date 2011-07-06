@@ -257,6 +257,12 @@ void CCanvas::mouseReleaseEvent(QMouseEvent * e)
     mouse->mouseReleaseEvent(e);
 }
 
+void CCanvas::mouseDoubleClickEvent(QMouseEvent * e)
+{
+    posMouse = e->pos();
+    mouse->mouseDoubleClickEvent(e);
+}
+
 void CCanvas::keyPressEvent(QKeyEvent * e)
 {
     mouse->keyPressEvent(e);

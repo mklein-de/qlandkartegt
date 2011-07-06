@@ -97,7 +97,6 @@
         <location filename="../CActions.cpp" line="108"/>
         <location filename="../CActions.cpp" line="114"/>
         <location filename="../CActions.cpp" line="118"/>
-        <location filename="../CActions.cpp" line="121"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
@@ -655,14 +654,12 @@
         <translation>&amp;Polilínea de Distancia</translation>
     </message>
     <message>
-        <location filename="../CActions.cpp" line="121"/>
         <source>&amp;Diary</source>
-        <translation>&amp;Diario</translation>
+        <translation type="obsolete">&amp;Diario</translation>
     </message>
     <message>
-        <location filename="../CActions.cpp" line="121"/>
         <source>Add / edit diary data</source>
-        <translation>Añadir / Editar datos del diario</translation>
+        <translation type="obsolete">Añadir / Editar datos del diario</translation>
     </message>
     <message>
         <source>&amp;Pick Color</source>
@@ -884,9 +881,8 @@
         <translation>Pulse para editar el track y ver el perfil grande</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="726"/>
         <source>Copy Position</source>
-        <translation>Copiar Posición</translation>
+        <translation type="obsolete">Copiar Posición</translation>
     </message>
 </context>
 <context>
@@ -909,11 +905,11 @@
     </message>
     <message>
         <location filename="../CCopyright.cpp" line="41"/>
-        <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br/&gt;Sarah Neumann (German)&lt;br/&gt;Fabrice Crohas (French)&lt;br/&gt;Alessandro Briosi (Italian)&lt;br/&gt;Mike Markov (Russian)&lt;br/&gt;Oscar A. (Spanish)&lt;br/&gt;Harrie Klomp (Dutch)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache icons are taken from the OpenCacheManager project. See &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
+        <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br&gt;Sarah Neumann (German)&lt;br&gt;Fabrice Crohas (French)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache icons are taken from the OpenCacheManager project. See &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CCopyright.cpp" line="87"/>
+        <location filename="../CCopyright.cpp" line="90"/>
         <source>running gdal_translate failed!</source>
         <translation>¡la ejecución de gdal_translate falló!</translation>
     </message>
@@ -973,27 +969,27 @@ formato de las coordenadas:
         <translation>Ahora QLandKarte GT creará referencias para su archivo con la ayuda de las herraminentas GDAL. Vea el progreso en el navegador.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="87"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="92"/>
         <source>square pixels (2 Ref. Pts.)</source>
         <translation>píxeles cuadrados (2 puntos de referencia)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="88"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="93"/>
         <source>linear (3 Ref. Pts.)</source>
         <translation>lineal (3 puntos de referencia)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="89"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="94"/>
         <source>quadratic (6 Ref. Pts.)</source>
         <translation>cuadrático (6 puntos de referencia)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="90"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="95"/>
         <source>thin plate (4 Ref. Pts.)</source>
         <translation>thin plate (4 puntos de referencia)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="171"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="237"/>
         <source>Open map file...</source>
         <translation>Abrir archivo de mapa...</translation>
     </message>
@@ -1002,7 +998,7 @@ formato de las coordenadas:
         <translation type="obsolete">Mapa de bits en bruto (*.tif *.png *.gif)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="215"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="281"/>
         <source>Save result as...</source>
         <translation>Guardar el resultado como...</translation>
     </message>
@@ -1040,72 +1036,72 @@ formatos de coordenadas:
 • &quot;285000 5162000&quot;</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="171"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="237"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
         <translation>Mapas de bit en bruto (*.tif *.tiff *.png *.gif)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="215"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="281"/>
         <source>GeoTiff (*.tif *.tiff)</source>
         <translation>GeoTiff (*.tif *.tiff)</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="274"/>
-        <location filename="../CCreateMapGeoTiff.cpp" line="303"/>
-        <location filename="../CCreateMapGeoTiff.cpp" line="409"/>
-        <location filename="../CCreateMapGeoTiff.cpp" line="449"/>
-        <location filename="../CCreateMapGeoTiff.cpp" line="521"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="340"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="369"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="475"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="515"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="587"/>
         <source>Ref %1</source>
         <translation>Ref %1</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="275"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="341"/>
         <source>&lt;enter coord&gt;</source>
         <translation>&lt;introduzca las coordenadas&gt;</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="358"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="424"/>
         <source>Load reference points...</source>
         <translation>Cargar puntos de referencia...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="547"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="613"/>
         <source>Save reference points...</source>
         <translation>Guardar los puntos de referencia...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="621"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="687"/>
         <source>Sorry...</source>
         <translation>Lo siento...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="621"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="687"/>
         <source>No Mapinfo TAB file support yet.</source>
         <translation>Aún no hay soporte para archivos Mapinfo TAB.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="628"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="694"/>
         <source>Grid Tool</source>
         <translation>Herramienta de Rejilla</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="743"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="809"/>
         <source>Error ...</source>
         <translation>Error ...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="743"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="809"/>
         <source>Reference points are too close.</source>
         <translation>Los puntos de referencia están demasiado cerca.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="802"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="868"/>
         <source>Failed!
 </source>
         <translation>¡Falló!</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="865"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="972"/>
         <source>--- finished ---
 </source>
         <translation>--- finalizado ---
@@ -1308,21 +1304,21 @@ Una vez haya creado un conjunto de mapas, podrá asociar datos DEM mediante el m
         <translation>Todos los mapas en un mismo nivel deben de tener la misma proyección.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="226"/>
+        <location filename="../CCreateMapQMAP.cpp" line="221"/>
         <source>Top/left corner:	%1
 </source>
         <translation>Esquina superior/izquierda:	%1
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="228"/>
+        <location filename="../CCreateMapQMAP.cpp" line="223"/>
         <source>Bottom/right corner:	%1
 </source>
         <translation>Esquina inferior/derecha: 	%1
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapQMAP.cpp" line="242"/>
+        <location filename="../CCreateMapQMAP.cpp" line="237"/>
         <source>Width x Height [m] x [m]:	 %1 x %2</source>
         <translation>Ancho x Alto [m] x [m]:	 %1 x %2</translation>
     </message>
@@ -1463,25 +1459,25 @@ Se esperaba %1, se recibió %2.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="595"/>
-        <location filename="../CDeviceGarmin.cpp" line="698"/>
-        <location filename="../CDeviceGarmin.cpp" line="726"/>
-        <location filename="../CDeviceGarmin.cpp" line="816"/>
-        <location filename="../CDeviceGarmin.cpp" line="844"/>
-        <location filename="../CDeviceGarmin.cpp" line="914"/>
-        <location filename="../CDeviceGarmin.cpp" line="1015"/>
-        <location filename="../CDeviceGarmin.cpp" line="1043"/>
-        <location filename="../CDeviceGarmin.cpp" line="1134"/>
-        <location filename="../CDeviceGarmin.cpp" line="1159"/>
+        <location filename="../CDeviceGarmin.cpp" line="704"/>
+        <location filename="../CDeviceGarmin.cpp" line="732"/>
+        <location filename="../CDeviceGarmin.cpp" line="822"/>
+        <location filename="../CDeviceGarmin.cpp" line="850"/>
+        <location filename="../CDeviceGarmin.cpp" line="920"/>
+        <location filename="../CDeviceGarmin.cpp" line="1021"/>
+        <location filename="../CDeviceGarmin.cpp" line="1049"/>
+        <location filename="../CDeviceGarmin.cpp" line="1140"/>
+        <location filename="../CDeviceGarmin.cpp" line="1165"/>
         <source>Device Link Error</source>
         <translation>Error al enlazar con el dispositivo</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1104"/>
+        <location filename="../CDeviceGarmin.cpp" line="1110"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1104"/>
+        <location filename="../CDeviceGarmin.cpp" line="1110"/>
         <source>Failed to create image file.</source>
         <translation>Fallo al crear el archivo de imagen.</translation>
     </message>
@@ -1759,208 +1755,288 @@ Se esperaba %1, se recibió %2.</translation>
     </message>
 </context>
 <context>
+    <name>CDiary</name>
+    <message>
+        <location filename="../CDiary.cpp" line="357"/>
+        <source>Diary</source>
+        <translation type="unfinished">Diario</translation>
+    </message>
+</context>
+<context>
     <name>CDiaryDB</name>
     <message>
-        <location filename="../CDiaryDB.cpp" line="53"/>
         <source>Diary</source>
-        <translation>Diario</translation>
+        <translation type="obsolete">Diario</translation>
+    </message>
+</context>
+<context>
+    <name>CDiaryEdit</name>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="78"/>
+        <source>&amp;Bold</source>
+        <translation type="unfinished">&amp;Negrita</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="87"/>
+        <source>&amp;Italic</source>
+        <translation type="unfinished">&amp;Cursiva</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="96"/>
+        <source>&amp;Underline</source>
+        <translation type="unfinished">&amp;Subrayado</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="107"/>
+        <source>&amp;Color...</source>
+        <translation type="unfinished">&amp;Color...</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="121"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished">&amp;Deshacer</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="125"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished">&amp;Rehacer</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="129"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished">Cor&amp;tar</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="133"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished">&amp;Copiar</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="137"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished">&amp;Pegar</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="242"/>
+        <source>Failed...</source>
+        <translation type="unfinished">Falló...</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="242"/>
+        <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="281"/>
+        <source>Print Diary</source>
+        <translation type="unfinished">Imprimir el Diario</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="488"/>
+        <source>Diary - %1 *</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="492"/>
+        <source>Diary - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="594"/>
+        <source>Add your own text here...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="607"/>
+        <source>Waypoints</source>
+        <translation type="unfinished">Waypoints</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="615"/>
+        <location filename="../CDiaryEdit.cpp" line="654"/>
+        <source>Info</source>
+        <translation type="unfinished">Info</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="616"/>
+        <location filename="../CDiaryEdit.cpp" line="655"/>
+        <source>Comment</source>
+        <translation type="unfinished">Comentario</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="646"/>
+        <source>Tracks</source>
+        <translation type="unfinished">Tracks</translation>
+    </message>
+    <message>
+        <location filename="../CDiaryEdit.cpp" line="699"/>
+        <source>&lt;b&gt;Owner:&lt;/b&gt; %1 &lt;b&gt;Size:&lt;/b&gt; %2 &lt;b&gt;Difficulty:&lt;/b&gt; %3 &lt;b&gt;Terrain:&lt;/b&gt; %4</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CDiaryEditWidget</name>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="78"/>
         <source>&amp;Bold</source>
-        <translation>&amp;Negrita</translation>
+        <translation type="obsolete">&amp;Negrita</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="87"/>
         <source>&amp;Italic</source>
-        <translation>&amp;Cursiva</translation>
+        <translation type="obsolete">&amp;Cursiva</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="96"/>
         <source>&amp;Underline</source>
-        <translation>&amp;Subrayado</translation>
+        <translation type="obsolete">&amp;Subrayado</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="108"/>
         <source>&amp;Left</source>
-        <translation>&amp;Izquierda</translation>
+        <translation type="obsolete">&amp;Izquierda</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="112"/>
         <source>C&amp;enter</source>
-        <translation>C&amp;entrar</translation>
+        <translation type="obsolete">C&amp;entrar</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="116"/>
         <source>&amp;Right</source>
-        <translation>&amp;Derecha</translation>
+        <translation type="obsolete">&amp;Derecha</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="120"/>
         <source>&amp;Justify</source>
-        <translation>&amp;Justificar</translation>
+        <translation type="obsolete">&amp;Justificar</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="127"/>
         <source>&amp;Color...</source>
-        <translation>&amp;Color...</translation>
+        <translation type="obsolete">&amp;Color...</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="163"/>
         <source>&amp;Undo</source>
-        <translation>&amp;Deshacer</translation>
+        <translation type="obsolete">&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="167"/>
         <source>&amp;Redo</source>
-        <translation>&amp;Rehacer</translation>
+        <translation type="obsolete">&amp;Rehacer</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="171"/>
         <source>Cu&amp;t</source>
-        <translation>Cor&amp;tar</translation>
+        <translation type="obsolete">Cor&amp;tar</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="175"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Copiar</translation>
+        <translation type="obsolete">&amp;Copiar</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="179"/>
         <source>&amp;Paste</source>
-        <translation>&amp;Pegar</translation>
+        <translation type="obsolete">&amp;Pegar</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="447"/>
         <source>&lt;h1&gt;Default Title&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Titulo Predeterminado&lt;/h1&gt;</translation>
+        <translation type="obsolete">&lt;h1&gt;Titulo Predeterminado&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="452"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;%1&lt;/h1&gt;</translation>
+        <translation type="obsolete">&lt;h1&gt;%1&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="455"/>
         <source>&lt;p&gt;This is an automated diary.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Esto es un diario automático.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;Esto es un diario automático.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="467"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos; style=&apos;width: 16px;&apos;&gt;&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="468"/>
-        <location filename="../CDiaryEditWidget.cpp" line="535"/>
         <source>&lt;th align=&apos;left&apos;&gt;Time&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Hora&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Hora&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="469"/>
         <source>&lt;th align=&apos;left&apos;&gt;Pos.&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Pos.&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Pos.&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="470"/>
         <source>&lt;th align=&apos;left&apos;&gt;Name&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Nombre&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Nombre&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="471"/>
         <source>&lt;th align=&apos;left&apos;&gt;Elevation&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Altitud&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Altitud&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="474"/>
         <source>&lt;th align=&apos;left&apos;&gt;Distance&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Distancia&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Distancia&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="476"/>
-        <location filename="../CDiaryEditWidget.cpp" line="537"/>
         <source>&lt;th align=&apos;left&apos;&gt;Comment&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Comentario&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Comentario&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="531"/>
         <source>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos; style=&apos;width: 20px;&apos;&gt;&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="532"/>
         <source>&lt;th align=&apos;left&apos;&gt;Start&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Comenzar&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Comenzar&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="533"/>
         <source>&lt;th align=&apos;left&apos;&gt;Stop&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Detener&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Detener&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="534"/>
         <source>&lt;th align=&apos;left&apos;&gt;Length&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Longitud&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Longitud&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="536"/>
         <source>&lt;th align=&apos;left&apos;&gt;Speed&lt;/th&gt;</source>
-        <translation>&lt;th align=&apos;left&apos;&gt;Velocidad&lt;/th&gt;</translation>
+        <translation type="obsolete">&lt;th align=&apos;left&apos;&gt;Velocidad&lt;/th&gt;</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="438"/>
         <source>Diary Wizard</source>
-        <translation>Asistente para el diario</translation>
+        <translation type="obsolete">Asistente para el diario</translation>
     </message>
     <message>
-        <location filename="../CDiaryEditWidget.cpp" line="438"/>
         <source>The wizard will replace the current text by it&apos;s own. Do you want to proceed?</source>
-        <translation>El asistente sustituirá el texto actual por el suyo. ¿Desea continuar?</translation>
+        <translation type="obsolete">El asistente sustituirá el texto actual por el suyo. ¿Desea continuar?</translation>
     </message>
 </context>
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../CDlgConfig.cpp" line="104"/>
+        <location filename="../CDlgConfig.cpp" line="102"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="105"/>
+        <location filename="../CDlgConfig.cpp" line="103"/>
         <source>Garmin</source>
         <translation>Garmin</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="106"/>
+        <location filename="../CDlgConfig.cpp" line="104"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="116"/>
+        <location filename="../CDlgConfig.cpp" line="114"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="119"/>
+        <location filename="../CDlgConfig.cpp" line="117"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="131"/>
+        <location filename="../CDlgConfig.cpp" line="129"/>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Introduzca algo del estilo de &quot;COM1:&quot; o &quot;\\.\COM13&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="315"/>
-        <location filename="../CDlgConfig.cpp" line="319"/>
+        <location filename="../CDlgConfig.cpp" line="312"/>
+        <location filename="../CDlgConfig.cpp" line="316"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>No se encontraron pluings. Los esperaba encontrar en: %1</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="367"/>
+        <location filename="../CDlgConfig.cpp" line="353"/>
         <source>Open Directory</source>
         <translation>Abrir Directorio</translation>
     </message>
@@ -2062,8 +2138,10 @@ Se esperaba %1, se recibió %2.</translation>
 <context>
     <name>CDlgEditMapLevel</name>
     <message>
-        <location filename="../CDlgEditMapLevel.cpp" line="81"/>
-        <location filename="../CDlgEditMapLevel.cpp" line="116"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="85"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="89"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="129"/>
+        <location filename="../CDlgEditMapLevel.cpp" line="133"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
         <translation>Seleccionar &lt;b&gt;todos&lt;/b&gt; los archivos para este nivel.</translation>
     </message>
@@ -2107,29 +2185,29 @@ Se esperaba %1, se recibió %2.</translation>
         <translation>sin imagen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="385"/>
+        <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Edit link ...</source>
         <translation>Editar enlace ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="385"/>
+        <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Enlace: &apos;http://...&apos;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="389"/>
+        <location filename="../CDlgEditWpt.cpp" line="391"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="407"/>
+        <location filename="../CDlgEditWpt.cpp" line="409"/>
         <source>Select output file</source>
         <translation>Seleccionar archivo de salida</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="424"/>
-        <location filename="../CDlgEditWpt.cpp" line="425"/>
-        <location filename="../CDlgEditWpt.cpp" line="428"/>
+        <location filename="../CDlgEditWpt.cpp" line="426"/>
+        <location filename="../CDlgEditWpt.cpp" line="427"/>
+        <location filename="../CDlgEditWpt.cpp" line="430"/>
         <source>%1
 </source>
         <translation>%1
@@ -2188,6 +2266,19 @@ Se esperaba %1, se recibió %2.</translation>
     </message>
 </context>
 <context>
+    <name>CDlgProjWizzard</name>
+    <message>
+        <location filename="../CDlgProjWizzard.cpp" line="58"/>
+        <source>north</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgProjWizzard.cpp" line="59"/>
+        <source>south</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CDlgScreenshot</name>
     <message>
         <location filename="../CDlgScreenshot.cpp" line="63"/>
@@ -2233,14 +2324,14 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CDlgTrackFilter.cpp" line="143"/>
         <location filename="../CDlgTrackFilter.cpp" line="212"/>
-        <location filename="../CDlgTrackFilter.cpp" line="269"/>
+        <location filename="../CDlgTrackFilter.cpp" line="271"/>
         <source>Filter track...</source>
         <translation>Filtrar track ...</translation>
     </message>
     <message>
         <location filename="../CDlgTrackFilter.cpp" line="143"/>
         <location filename="../CDlgTrackFilter.cpp" line="212"/>
-        <location filename="../CDlgTrackFilter.cpp" line="269"/>
+        <location filename="../CDlgTrackFilter.cpp" line="271"/>
         <source>Abort filter</source>
         <translation>Abortar filtrado</translation>
     </message>
@@ -2428,196 +2519,228 @@ Se esperaba %1, se recibió %2.</translation>
 <context>
     <name>CGeoDB</name>
     <message>
-        <location filename="../CGeoDB.cpp" line="84"/>
+        <location filename="../CGeoDB.cpp" line="91"/>
         <source>Manage your Geo Data Base</source>
         <translation>Gestione su Base de Geo Datos</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="88"/>
-        <location filename="../CGeoDB.cpp" line="701"/>
-        <location filename="../CGeoDB.cpp" line="743"/>
+        <location filename="../CGeoDB.cpp" line="95"/>
+        <location filename="../CGeoDB.cpp" line="766"/>
+        <location filename="../CGeoDB.cpp" line="808"/>
         <source>Workspace</source>
         <translation>Espacio de trabajo</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="90"/>
+        <location filename="../CGeoDB.cpp" line="97"/>
         <source>All items you see on the map.</source>
         <translation>Todos los elementos que ve en el mapa.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="95"/>
-        <location filename="../CGeoDB.cpp" line="707"/>
+        <location filename="../CGeoDB.cpp" line="102"/>
+        <location filename="../CGeoDB.cpp" line="772"/>
         <source>Waypoints</source>
         <translation>Waypoints</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="102"/>
-        <location filename="../CGeoDB.cpp" line="708"/>
+        <location filename="../CGeoDB.cpp" line="109"/>
+        <location filename="../CGeoDB.cpp" line="773"/>
         <source>Tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="109"/>
-        <location filename="../CGeoDB.cpp" line="709"/>
+        <location filename="../CGeoDB.cpp" line="116"/>
+        <location filename="../CGeoDB.cpp" line="774"/>
         <source>Routes</source>
         <translation>Rutas</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="116"/>
-        <location filename="../CGeoDB.cpp" line="710"/>
+        <location filename="../CGeoDB.cpp" line="123"/>
+        <location filename="../CGeoDB.cpp" line="775"/>
         <source>Overlays</source>
         <translation>Superposiciones</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="123"/>
+        <location filename="../CGeoDB.cpp" line="130"/>
         <source>Map Selections</source>
         <translation>Selecciones de Mapas</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="130"/>
-        <location filename="../CGeoDB.cpp" line="950"/>
+        <location filename="../CGeoDB.cpp" line="137"/>
+        <location filename="../CGeoDB.cpp" line="1053"/>
         <source>Lost &amp; Found</source>
         <translation>Objetos perdidos</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="133"/>
+        <location filename="../CGeoDB.cpp" line="140"/>
         <source>All items that lost their parent folder as you deleted it.</source>
         <translation>Todos los elementos sin carpeta padre por haberla borrado.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="137"/>
+        <location filename="../CGeoDB.cpp" line="144"/>
         <source>Database</source>
         <translation>Base de datos</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="141"/>
+        <location filename="../CGeoDB.cpp" line="148"/>
         <source>All your data grouped by folders.</source>
         <translation>Todos sus datos agrupados por carpetas.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="176"/>
+        <location filename="../CGeoDB.cpp" line="183"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="177"/>
+        <location filename="../CGeoDB.cpp" line="184"/>
+        <source>Add diary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="185"/>
+        <source>Show/hide diary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="186"/>
+        <source>Delete diary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="187"/>
         <source>New</source>
         <translation>Nuevo</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="179"/>
-        <location filename="../CGeoDB.cpp" line="183"/>
+        <location filename="../CGeoDB.cpp" line="189"/>
+        <location filename="../CGeoDB.cpp" line="193"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="180"/>
-        <location filename="../CGeoDB.cpp" line="184"/>
-        <location filename="../CGeoDB.cpp" line="188"/>
+        <location filename="../CGeoDB.cpp" line="190"/>
+        <location filename="../CGeoDB.cpp" line="194"/>
+        <location filename="../CGeoDB.cpp" line="198"/>
         <source>Move</source>
         <translation>Mover</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="192"/>
+        <location filename="../CGeoDB.cpp" line="202"/>
         <source>Add to database</source>
         <translation>Añadir a la base de datos</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="193"/>
+        <location filename="../CGeoDB.cpp" line="203"/>
         <source>Save changes</source>
         <translation>Guardar cambios</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="194"/>
+        <location filename="../CGeoDB.cpp" line="204"/>
         <source>Check-out as copy</source>
         <translation>Guardar como copia</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="420"/>
         <source>Mirgrating database from version 4 to 5.</source>
-        <translation>Migrando la base de datos de la versión 4 a la 5.</translation>
+        <translation type="obsolete">Migrando la base de datos de la versión 4 a la 5.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="471"/>
         <source>Mirgrating database from version 5 to 6.</source>
-        <translation>Migrando la base de datos de la versión 5 a la 6.</translation>
+        <translation type="obsolete">Migrando la base de datos de la versión 5 a la 6.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="528"/>
         <source>Mirgrating database from version 6 to 7.</source>
-        <translation>Migrando la base de datos de la versión 6 a la 7.</translation>
+        <translation type="obsolete">Migrando la base de datos de la versión 6 a la 7.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="646"/>
+        <location filename="../CGeoDB.cpp" line="694"/>
         <source>Loading workspace. Please wait.</source>
         <translation>Cargando espacio de trabajo. Por favor espere.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="711"/>
+        <location filename="../CGeoDB.cpp" line="776"/>
         <source>Map Selection</source>
         <translation>Selección de Mapa</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="779"/>
+        <location filename="../CGeoDB.cpp" line="844"/>
         <source>Update workspace.</source>
         <translation>Actualizar espacio de trabajo.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1079"/>
+        <location filename="../CGeoDB.cpp" line="1240"/>
         <source>Loading items from database.</source>
         <translation>Cargando elementos desde la base de datos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1636"/>
+        <location filename="../CGeoDB.cpp" line="1797"/>
         <source>Saving workspace. Please wait.</source>
         <translation>Guardando espacio de trabajo. Por favor espere.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2262"/>
+        <location filename="../CGeoDB.cpp" line="2488"/>
         <source>Delete folder...</source>
         <translation>Borrar carpeta...</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2421"/>
-        <location filename="../CGeoDB.cpp" line="2615"/>
+        <location filename="../CGeoDB.cpp" line="2647"/>
+        <location filename="../CGeoDB.cpp" line="2841"/>
         <source>Delete items.</source>
         <translation>Borrar elementos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2465"/>
+        <location filename="../CGeoDB.cpp" line="2691"/>
         <source>Copy items.</source>
         <translation>Copiar elementos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2520"/>
-        <location filename="../CGeoDB.cpp" line="2579"/>
+        <location filename="../CGeoDB.cpp" line="2746"/>
+        <location filename="../CGeoDB.cpp" line="2805"/>
         <source>Move items.</source>
         <translation>Mover elementos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2654"/>
+        <location filename="../CGeoDB.cpp" line="2880"/>
         <source>Add items to database.</source>
         <translation>Añadir elementos a la base de datos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2782"/>
+        <location filename="../CGeoDB.cpp" line="3008"/>
         <source>Save items.</source>
         <translation>Guardar elementos.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="178"/>
-        <location filename="../CGeoDB.cpp" line="185"/>
-        <location filename="../CGeoDB.cpp" line="189"/>
+        <location filename="../CGeoDB.cpp" line="188"/>
+        <location filename="../CGeoDB.cpp" line="195"/>
+        <location filename="../CGeoDB.cpp" line="199"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2262"/>
+        <location filename="../CGeoDB.cpp" line="446"/>
+        <source>Migrating database from version 4 to 5.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="497"/>
+        <source>Migrating database from version 5 to 6.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="554"/>
+        <source>Migrating database from version 6 to 7.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="619"/>
+        <source>Migrating database from version 7 to 8.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CGeoDB.cpp" line="2488"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
         <translation>¿Seguro que quiere borrar &apos;%1&apos; y todos los ítems siguientes?</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="946"/>
+        <location filename="../CGeoDB.cpp" line="1049"/>
         <source>Lost &amp; Found (%1)</source>
         <translation>Objetos perdidos (%1)</translation>
     </message>
@@ -2720,62 +2843,62 @@ linea %2, columna %3:
 <context>
     <name>CMainWindow</name>
     <message>
-        <location filename="../CMainWindow.cpp" line="101"/>
+        <location filename="../CMainWindow.cpp" line="100"/>
         <source>Map</source>
         <translation>Mapa</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="241"/>
+        <location filename="../CMainWindow.cpp" line="240"/>
         <source>&lt;b&gt;GPS Device:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Dispositivo GPS:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="496"/>
+        <location filename="../CMainWindow.cpp" line="495"/>
         <source>Clear all...</source>
         <translation>Eliminar todo...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="496"/>
+        <location filename="../CMainWindow.cpp" line="495"/>
         <source>This will erase all project data like waypoints and tracks.</source>
         <translation>Esto eliminara todos los datos del proyecto, tales como waypoints y tracks.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="547"/>
+        <location filename="../CMainWindow.cpp" line="546"/>
         <source>Load most recent...</source>
         <translation>Abrir archivos recientes...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="557"/>
+        <location filename="../CMainWindow.cpp" line="556"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="558"/>
+        <location filename="../CMainWindow.cpp" line="557"/>
         <source>Load Map</source>
         <translation>Cargar Mapa</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="560"/>
+        <location filename="../CMainWindow.cpp" line="559"/>
         <source>Load Geo Data</source>
         <translation>Cargar Datos Geográficos</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="561"/>
+        <location filename="../CMainWindow.cpp" line="560"/>
         <source>Save Geo Data</source>
         <translation>Guardar Datos Geográficos</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="562"/>
+        <location filename="../CMainWindow.cpp" line="561"/>
         <source>Export Geo Data</source>
         <translation>Exportar Datos Geográficos</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="563"/>
+        <location filename="../CMainWindow.cpp" line="562"/>
         <source>Add Geo Data</source>
         <translation>Añadir Datos Geográficos</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="566"/>
+        <location filename="../CMainWindow.cpp" line="565"/>
         <source>Device Screenshot ...</source>
         <translation>Capturar pantalla del dispositivo ...</translation>
     </message>
@@ -2784,14 +2907,13 @@ linea %2, columna %3:
         <translation type="obsolete">Guardar imagen como ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="568"/>
+        <location filename="../CMainWindow.cpp" line="567"/>
         <source>Print Map ...</source>
         <translation>Imprimir Mapa ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="569"/>
         <source>Print Diary ...</source>
-        <translation>Imprimir Diario ...</translation>
+        <translation type="obsolete">Imprimir Diario ...</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -2821,12 +2943,12 @@ linea %2, columna %3:
         <translation>Seleccionar mapa...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1355"/>
+        <location filename="../CMainWindow.cpp" line="1375"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1357"/>
+        <location filename="../CMainWindow.cpp" line="1377"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
@@ -2835,114 +2957,117 @@ linea %2, columna %3:
         <translation type="obsolete">Seleccionar archivo de entrada</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="901"/>
+        <location filename="../CMainWindow.cpp" line="877"/>
         <source>Convert error</source>
         <translation>Error de conversión</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="920"/>
-        <location filename="../CMainWindow.cpp" line="1088"/>
+        <location filename="../CMainWindow.cpp" line="896"/>
+        <location filename="../CMainWindow.cpp" line="1117"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="946"/>
+        <location filename="../CMainWindow.cpp" line="922"/>
         <source>Save geo data?</source>
         <translation>¿Guardar datos geográficos?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="947"/>
+        <location filename="../CMainWindow.cpp" line="923"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Se han modificado los datos cargados.
 ¿Desea guardar los cambios ?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="979"/>
-        <location filename="../CMainWindow.cpp" line="996"/>
-        <location filename="../CMainWindow.cpp" line="1178"/>
+        <location filename="../CMainWindow.cpp" line="955"/>
+        <location filename="../CMainWindow.cpp" line="988"/>
+        <location filename="../CMainWindow.cpp" line="1207"/>
         <source>Select output file</source>
         <translation>Seleccionar archivo de salida</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1128"/>
+        <location filename="../CMainWindow.cpp" line="1157"/>
         <source>Failed ...</source>
         <translation>Falló...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1128"/>
+        <location filename="../CMainWindow.cpp" line="1157"/>
         <source>Failed to start OCM.</source>
         <translation>Fallo al inicial OCM.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1161"/>
+        <location filename="../CMainWindow.cpp" line="1190"/>
         <source>Print Map</source>
         <translation>Imprimir Mapa</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1236"/>
+        <location filename="../CMainWindow.cpp" line="1256"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Resumen del proyecto (&lt;a href=&apos;Clear&apos;&gt;limpiar&lt;/a&gt; el proyecto):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1244"/>
+        <location filename="../CMainWindow.cpp" line="1264"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>Actualmente hay %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1248"/>
+        <location filename="../CMainWindow.cpp" line="1268"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>Actualmente hay %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1253"/>
+        <location filename="../CMainWindow.cpp" line="1273"/>
         <source>There are no waypoints, </source>
         <translation>No hay waypoints, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1295"/>
+        <location filename="../CMainWindow.cpp" line="1315"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation>%1 &lt;a href=&apos;Overlay&apos;&gt;superposición&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1299"/>
+        <location filename="../CMainWindow.cpp" line="1319"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation>%1 &lt;a href=&apos;Overlay&apos;&gt;superposiciones&lt;/a&gt;. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1304"/>
+        <location filename="../CMainWindow.cpp" line="1324"/>
         <source>no overlays. </source>
         <translation>sin superposiciones. </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1310"/>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
-        <translation>Un &lt;a href=&apos;Diary&apos;&gt;diario&lt;/a&gt; está cargado.</translation>
+        <translation type="obsolete">Un &lt;a href=&apos;Diary&apos;&gt;diario&lt;/a&gt; está cargado.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1314"/>
         <source>The diary (&lt;a href=&apos;Diary&apos;&gt;new&lt;/a&gt;) is empty.</source>
-        <translation>El (&lt;a href=&apos;Diary&apos;&gt;nuevo&lt;/a&gt;) diario está vacío.</translation>
+        <translation type="obsolete">El (&lt;a href=&apos;Diary&apos;&gt;nuevo&lt;/a&gt;) diario está vacío.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1353"/>
+        <location filename="../CMainWindow.cpp" line="1373"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1360"/>
+        <location filename="../CMainWindow.cpp" line="1380"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1261"/>
+        <location filename="../CMainWindow.cpp" line="1281"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="567"/>
+        <location filename="../CMainWindow.cpp" line="566"/>
         <source>Save map as image ...</source>
         <translation>Guardar mapa como imagen ...</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="570"/>
+        <source>Toggle toolview</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="576"/>
@@ -2955,33 +3080,33 @@ Do you want to save your changes?</source>
         <translation>&amp;Más</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="736"/>
-        <location filename="../CMainWindow.cpp" line="797"/>
+        <location filename="../CMainWindow.cpp" line="721"/>
+        <location filename="../CMainWindow.cpp" line="769"/>
         <source>Select input files</source>
         <translation>Seleccionar archivos de entrada</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1265"/>
+        <location filename="../CMainWindow.cpp" line="1285"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1270"/>
+        <location filename="../CMainWindow.cpp" line="1290"/>
         <source>no tracks, </source>
         <translation>sin tracks,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1278"/>
+        <location filename="../CMainWindow.cpp" line="1298"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation>%1 &lt;a href=&apos;Routes&apos;&gt;ruta&lt;/a&gt; y </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1282"/>
+        <location filename="../CMainWindow.cpp" line="1302"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation>%1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; y </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1287"/>
+        <location filename="../CMainWindow.cpp" line="1307"/>
         <source>no routes and </source>
         <translation>sin rutas y </translation>
     </message>
@@ -3063,7 +3188,7 @@ Do you want to save your changes?</source>
         <translation>:/skybox/%1.bmp</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="1756"/>
+        <location filename="../CMap3D.cpp" line="1759"/>
         <source>Config</source>
         <translation>Configuración</translation>
     </message>
@@ -3134,51 +3259,48 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapDB</name>
     <message>
-        <location filename="../CMapDB.cpp" line="63"/>
+        <location filename="../CMapDB.cpp" line="66"/>
         <source>--- No map ---</source>
         <translation>--- Sin mapa ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="68"/>
+        <location filename="../CMapDB.cpp" line="71"/>
         <source>--- OSM ---</source>
         <translation>--- OSM ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="405"/>
-        <location filename="../CMapDB.cpp" line="444"/>
-        <location filename="../CMapDB.cpp" line="842"/>
+        <location filename="../CMapDB.cpp" line="414"/>
+        <location filename="../CMapDB.cpp" line="861"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="405"/>
+        <location filename="../CMapDB.cpp" line="414"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Solamente los mapas vectoriales son capas validas.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="314"/>
-        <location filename="../CMapDB.cpp" line="391"/>
-        <location filename="../CMapDB.cpp" line="783"/>
+        <location filename="../CMapDB.cpp" line="801"/>
         <source>Map 3D...</source>
         <translation>Mapa 3D ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="772"/>
+        <location filename="../CMapDB.cpp" line="788"/>
         <source>Edit Map</source>
         <translation>Editar Mapa</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="797"/>
+        <location filename="../CMapDB.cpp" line="816"/>
         <source>Search Map</source>
         <translation>Buscar Mapa</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="811"/>
+        <location filename="../CMapDB.cpp" line="830"/>
         <source>Sorry...</source>
         <translation>Lo siento...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="811"/>
+        <location filename="../CMapDB.cpp" line="830"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>No puede seleccionar áreas de un solo archivo de mapas. Cree una colección con F1-&gt;F6.</translation>
     </message>
@@ -3191,13 +3313,19 @@ Do you want to save your changes?</source>
     <name>CMapDEM</name>
     <message>
         <location filename="../CMapDEM.cpp" line="46"/>
-        <location filename="../CMapDEM.cpp" line="55"/>
+        <location filename="../CMapDEM.cpp" line="57"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CMapDEM.cpp" line="46"/>
-        <location filename="../CMapDEM.cpp" line="55"/>
+        <location filename="../CMapDEM.cpp" line="47"/>
+        <source>Failed to load file: %1
+
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapDEM.cpp" line="58"/>
         <source>Failed to load file: %1</source>
         <translation>No se pudo cargar el archivo: %1</translation>
     </message>
@@ -3238,41 +3366,41 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapGeoTiff</name>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="57"/>
-        <location filename="../CMapGeoTiff.cpp" line="71"/>
-        <location filename="../CMapGeoTiff.cpp" line="96"/>
-        <location filename="../CMapGeoTiff.cpp" line="124"/>
+        <location filename="../CMapGeoTiff.cpp" line="53"/>
+        <location filename="../CMapGeoTiff.cpp" line="67"/>
+        <location filename="../CMapGeoTiff.cpp" line="92"/>
+        <location filename="../CMapGeoTiff.cpp" line="119"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="57"/>
-        <location filename="../CMapGeoTiff.cpp" line="71"/>
+        <location filename="../CMapGeoTiff.cpp" line="53"/>
+        <location filename="../CMapGeoTiff.cpp" line="67"/>
         <source>Failed to load file: %1</source>
         <translation>Falló la carga del archivo: %1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="96"/>
+        <location filename="../CMapGeoTiff.cpp" line="92"/>
         <source>File must be 8 bit palette or gray indexed.</source>
         <translation>El archivo debe tener una paleta de color de 8 bits o ser en escala de grises indexada.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="124"/>
+        <location filename="../CMapGeoTiff.cpp" line="119"/>
         <source>No georeference information found.</source>
         <translation>No se encontró información de georreferenciación.</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="220"/>
+        <location filename="../CMapGeoTiff.cpp" line="208"/>
         <source>Overzoom x%1</source>
         <translation>Súper zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="224"/>
+        <location filename="../CMapGeoTiff.cpp" line="212"/>
         <source>Zoom level x%1</source>
         <translation>Nivel de zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapGeoTiff.cpp" line="170"/>
+        <location filename="../CMapGeoTiff.cpp" line="158"/>
         <source>quadratic zoom</source>
         <translation>Zoom exponencial</translation>
     </message>
@@ -3338,22 +3466,22 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapOSM</name>
     <message>
-        <location filename="../CMapOSM.cpp" line="389"/>
+        <location filename="../CMapOSM.cpp" line="390"/>
         <source>Overzoom x%1</source>
         <translation>Súper zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="393"/>
+        <location filename="../CMapOSM.cpp" line="394"/>
         <source>Zoom level x%1</source>
         <translation>Nivel de zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="415"/>
+        <location filename="../CMapOSM.cpp" line="416"/>
         <source>Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license</source>
         <translation>El mapa lo ha creado %1 bajo una licencia Creative Commons Attribution-ShareAlike 2.0</translation>
     </message>
     <message>
-        <location filename="../CMapOSM.cpp" line="416"/>
+        <location filename="../CMapOSM.cpp" line="417"/>
         <source>and has been downloaded from: %1</source>
         <translation>y se ha descargado desde: %1</translation>
     </message>
@@ -3361,72 +3489,77 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapQMAP</name>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>Quadratic zoom %1</source>
         <translation>Zoom exponencial %1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>enabled</source>
         <translation>activado</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="57"/>
+        <location filename="../CMapQMAP.cpp" line="59"/>
         <source>disabled</source>
         <translation>desactivado</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Map Level</source>
         <translation>Nivel de Mapa</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Zoom Level</source>
         <translation>Nivel de Zoom</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="58"/>
+        <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Files</source>
         <translation>Archivos</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="87"/>
+        <location filename="../CMapQMAP.cpp" line="89"/>
         <source>Parameter</source>
         <translation>Parámetro</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="87"/>
+        <location filename="../CMapQMAP.cpp" line="89"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="92"/>
+        <location filename="../CMapQMAP.cpp" line="94"/>
         <source>Top/Left</source>
         <translation>Superior/Izquierda</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="93"/>
+        <location filename="../CMapQMAP.cpp" line="95"/>
         <source>Bottom/Right</source>
         <translation>Inferior/Derecha</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="114"/>
+        <location filename="../CMapQMAP.cpp" line="116"/>
         <source>Area</source>
         <translation>Área</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="115"/>
+        <location filename="../CMapQMAP.cpp" line="119"/>
         <source>Projection</source>
         <translation>Proyección</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="216"/>
+        <location filename="../CMapQMAP.cpp" line="151"/>
+        <source>quadratic zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapQMAP.cpp" line="262"/>
         <source>Overzoom x%1</source>
         <translation>Súper zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAP.cpp" line="220"/>
+        <location filename="../CMapQMAP.cpp" line="266"/>
         <source>Zoom level x%1</source>
         <translation>Nivel de zoom x%1</translation>
     </message>
@@ -3434,23 +3567,23 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapQMAPExport</name>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="165"/>
+        <location filename="../CMapQMAPExport.cpp" line="167"/>
         <source>Select ouput path...</source>
         <translation>Seleccionar el directorio de salida...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="321"/>
+        <location filename="../CMapQMAPExport.cpp" line="332"/>
         <source>Error ...</source>
         <translation>Error ...</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="321"/>
+        <location filename="../CMapQMAPExport.cpp" line="332"/>
         <source>Failed to read %1</source>
         <translation>Fallo al leer %1</translation>
     </message>
     <message>
-        <location filename="../CMapQMAPExport.cpp" line="468"/>
-        <location filename="../CMapQMAPExport.cpp" line="543"/>
+        <location filename="../CMapQMAPExport.cpp" line="538"/>
+        <location filename="../CMapQMAPExport.cpp" line="639"/>
         <source>--- finished ---
 </source>
         <translation>--- finalizado ---
@@ -3486,12 +3619,12 @@ Do you want to save your changes?</source>
         <translation>El archivo debe tener una paleta de color de 8 bits o ser en escala de grises indexada.</translation>
     </message>
     <message>
-        <location filename="../CMapRaster.cpp" line="194"/>
+        <location filename="../CMapRaster.cpp" line="212"/>
         <source>Overzoom x%1</source>
         <translation>Súper zoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapRaster.cpp" line="198"/>
+        <location filename="../CMapRaster.cpp" line="216"/>
         <source>Zoom level x%1</source>
         <translation>Nivel de zoom x%1</translation>
     </message>
@@ -3581,674 +3714,687 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapTDB</name>
     <message>
-        <location filename="../CMapTDB.cpp" line="298"/>
+        <location filename="../CMapTDB.cpp" line="299"/>
         <source>POI labels</source>
         <translation>Etiquetas de puntos de interés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="304"/>
-        <location filename="../CMapTDB.cpp" line="545"/>
-        <location filename="../CMapTDB.cpp" line="668"/>
-        <location filename="../CMapTDB.cpp" line="750"/>
+        <location filename="../CMapTDB.cpp" line="305"/>
+        <location filename="../CMapTDB.cpp" line="547"/>
+        <location filename="../CMapTDB.cpp" line="670"/>
+        <location filename="../CMapTDB.cpp" line="752"/>
         <source>Night</source>
         <translation>Noche</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="310"/>
+        <location filename="../CMapTDB.cpp" line="311"/>
         <source>Detail  5</source>
         <translation>Detalles  5</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="311"/>
+        <location filename="../CMapTDB.cpp" line="312"/>
         <source>Detail  4</source>
         <translation>Detalles  4</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="312"/>
+        <location filename="../CMapTDB.cpp" line="313"/>
         <source>Detail  3</source>
         <translation>Detalles  3</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="313"/>
+        <location filename="../CMapTDB.cpp" line="314"/>
         <source>Detail  2</source>
         <translation>Detalles  2</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="314"/>
+        <location filename="../CMapTDB.cpp" line="315"/>
         <source>Detail  1</source>
         <translation>Detalles  1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="315"/>
+        <location filename="../CMapTDB.cpp" line="316"/>
         <source>Detail  0</source>
         <translation>Detalles  0</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="316"/>
+        <location filename="../CMapTDB.cpp" line="317"/>
         <source>Detail -1</source>
         <translation>Detalles -1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="317"/>
+        <location filename="../CMapTDB.cpp" line="318"/>
         <source>Detail -2</source>
         <translation>Detalles -2</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="318"/>
+        <location filename="../CMapTDB.cpp" line="319"/>
         <source>Detail -3</source>
         <translation>Detalles -3</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="319"/>
+        <location filename="../CMapTDB.cpp" line="320"/>
         <source>Detail -4</source>
         <translation>Detalles -4</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="320"/>
+        <location filename="../CMapTDB.cpp" line="321"/>
         <source>Detail -5</source>
         <translation>Detalles -5</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="484"/>
+        <location filename="../CMapTDB.cpp" line="486"/>
         <source>Level: %1 Bits: %2 On basmap: %3</source>
         <translation>Nivel: %1 Bits: %2 En mapa base: %3</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="501"/>
+        <location filename="../CMapTDB.cpp" line="503"/>
         <source>missing</source>
         <translation>falta</translation>
-    </message>
-    <message>
-        <location filename="../CMapTDB.cpp" line="542"/>
-        <location filename="../CMapTDB.cpp" line="665"/>
-        <location filename="../CMapTDB.cpp" line="747"/>
-        <source>Name</source>
-        <translation>Nombre</translation>
-    </message>
-    <message>
-        <location filename="../CMapTDB.cpp" line="543"/>
-        <location filename="../CMapTDB.cpp" line="666"/>
-        <location filename="../CMapTDB.cpp" line="748"/>
-        <source>Type</source>
-        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="544"/>
         <location filename="../CMapTDB.cpp" line="667"/>
         <location filename="../CMapTDB.cpp" line="749"/>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="545"/>
+        <location filename="../CMapTDB.cpp" line="668"/>
+        <location filename="../CMapTDB.cpp" line="750"/>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="546"/>
+        <location filename="../CMapTDB.cpp" line="669"/>
+        <location filename="../CMapTDB.cpp" line="751"/>
         <source>Day</source>
         <translation>Día</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="949"/>
+        <location filename="../CMapTDB.cpp" line="951"/>
         <source>Unspecified</source>
         <translation>No especificado</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="950"/>
+        <location filename="../CMapTDB.cpp" line="952"/>
         <source>French</source>
         <translation>Francés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="951"/>
+        <location filename="../CMapTDB.cpp" line="953"/>
         <source>German</source>
         <translation>Alemán</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="952"/>
+        <location filename="../CMapTDB.cpp" line="954"/>
         <source>Dutch</source>
         <translation>Holandés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="953"/>
+        <location filename="../CMapTDB.cpp" line="955"/>
         <source>English</source>
         <translation>Inglés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="954"/>
+        <location filename="../CMapTDB.cpp" line="956"/>
         <source>Italian</source>
         <translation>Italiano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="955"/>
+        <location filename="../CMapTDB.cpp" line="957"/>
         <source>Finnish</source>
         <translation>Finlandés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="956"/>
+        <location filename="../CMapTDB.cpp" line="958"/>
         <source>Swedish</source>
         <translation>Sueco</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="957"/>
+        <location filename="../CMapTDB.cpp" line="959"/>
         <source>Spanish</source>
         <translation>Español</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="958"/>
+        <location filename="../CMapTDB.cpp" line="960"/>
         <source>Basque</source>
         <translation>Euskera</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="959"/>
+        <location filename="../CMapTDB.cpp" line="961"/>
         <source>Catalan</source>
         <translation>Catalán</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="960"/>
+        <location filename="../CMapTDB.cpp" line="962"/>
         <source>Galician</source>
         <translation>Gallego</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="961"/>
+        <location filename="../CMapTDB.cpp" line="963"/>
         <source>Welsh</source>
         <translation>Galés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="962"/>
+        <location filename="../CMapTDB.cpp" line="964"/>
         <source>Gaelic</source>
         <translation>Gaélico</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="963"/>
+        <location filename="../CMapTDB.cpp" line="965"/>
         <source>Danish</source>
         <translation>Danés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="964"/>
+        <location filename="../CMapTDB.cpp" line="966"/>
         <source>Norwegian</source>
         <translation>Noruego</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="965"/>
+        <location filename="../CMapTDB.cpp" line="967"/>
         <source>Portuguese</source>
         <translation>Portugués</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="966"/>
+        <location filename="../CMapTDB.cpp" line="968"/>
         <source>Slovak</source>
         <translation>Eslovaco</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="967"/>
+        <location filename="../CMapTDB.cpp" line="969"/>
         <source>Czech</source>
         <translation>Checo</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="968"/>
+        <location filename="../CMapTDB.cpp" line="970"/>
         <source>Croatian</source>
         <translation>Croata</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="969"/>
+        <location filename="../CMapTDB.cpp" line="971"/>
         <source>Hungarian</source>
         <translation>Húngaro</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="970"/>
+        <location filename="../CMapTDB.cpp" line="972"/>
         <source>Polish</source>
         <translation>Polaco</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="971"/>
+        <location filename="../CMapTDB.cpp" line="973"/>
         <source>Turkish</source>
         <translation>Turco</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="972"/>
+        <location filename="../CMapTDB.cpp" line="974"/>
         <source>Greek</source>
         <translation>Griego</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="973"/>
+        <location filename="../CMapTDB.cpp" line="975"/>
         <source>Slovenian</source>
         <translation>Esloveno</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="974"/>
+        <location filename="../CMapTDB.cpp" line="976"/>
         <source>Russian</source>
         <translation>Ruso</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="975"/>
+        <location filename="../CMapTDB.cpp" line="977"/>
         <source>Estonian</source>
         <translation>Estonio</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="976"/>
+        <location filename="../CMapTDB.cpp" line="978"/>
         <source>Latvian</source>
         <translation>Letón</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="977"/>
+        <location filename="../CMapTDB.cpp" line="979"/>
         <source>Romanian</source>
         <translation>Rumano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="978"/>
+        <location filename="../CMapTDB.cpp" line="980"/>
         <source>Albanian</source>
         <translation>Albanés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="979"/>
+        <location filename="../CMapTDB.cpp" line="981"/>
         <source>Bosnian</source>
         <translation>Bosnio</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="980"/>
+        <location filename="../CMapTDB.cpp" line="982"/>
         <source>Lithuanian</source>
         <translation>Lituano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="981"/>
+        <location filename="../CMapTDB.cpp" line="983"/>
         <source>Serbian</source>
         <translation>Serbio</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="982"/>
+        <location filename="../CMapTDB.cpp" line="984"/>
         <source>Macedonian</source>
         <translation>Macedonio</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="983"/>
+        <location filename="../CMapTDB.cpp" line="985"/>
         <source>Bulgarian</source>
         <translation>Búlgaro</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1040"/>
+        <location filename="../CMapTDB.cpp" line="1042"/>
         <source>Major highway</source>
         <translation>Autopista/Autovía </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1041"/>
+        <location filename="../CMapTDB.cpp" line="1043"/>
         <source>Principal highway</source>
         <translation>Carretera Nacional </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1042"/>
+        <location filename="../CMapTDB.cpp" line="1044"/>
         <source>Other highway</source>
         <translation>Carretera autonómica de 1º orden </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1043"/>
+        <location filename="../CMapTDB.cpp" line="1045"/>
         <source>Arterial road</source>
         <translation>Carretera autonómica 2º orden </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1044"/>
+        <location filename="../CMapTDB.cpp" line="1046"/>
         <source>Collector road</source>
         <translation>Carretera </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1045"/>
+        <location filename="../CMapTDB.cpp" line="1047"/>
         <source>Residential street</source>
         <translation>Calle residencial </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1046"/>
+        <location filename="../CMapTDB.cpp" line="1048"/>
         <source>Alley/Private road</source>
         <translation>Callejón/Camino Privado</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1047"/>
+        <location filename="../CMapTDB.cpp" line="1049"/>
         <source>Highway ramp, low speed</source>
         <translation>Salida autopista </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1048"/>
+        <location filename="../CMapTDB.cpp" line="1050"/>
         <source>Highway ramp, high speed</source>
         <translation>Acceso autopista</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1049"/>
+        <location filename="../CMapTDB.cpp" line="1051"/>
         <source>Unpaved road</source>
         <translation>Pista sin asfaltar </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1050"/>
+        <location filename="../CMapTDB.cpp" line="1052"/>
         <source>Major highway connector</source>
         <translation>Intersección carretera nacional </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1051"/>
+        <location filename="../CMapTDB.cpp" line="1053"/>
         <source>Roundabout</source>
         <translation>Rotonda</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1052"/>
+        <location filename="../CMapTDB.cpp" line="1054"/>
         <source>Railroad</source>
         <translation>Ferrocarril </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1053"/>
+        <location filename="../CMapTDB.cpp" line="1055"/>
         <source>Shoreline</source>
         <translation>Costa</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1054"/>
+        <location filename="../CMapTDB.cpp" line="1056"/>
         <source>Trail</source>
         <translation>Sendero </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1055"/>
+        <location filename="../CMapTDB.cpp" line="1057"/>
         <source>Stream</source>
         <translation>Arroyo</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1056"/>
+        <location filename="../CMapTDB.cpp" line="1058"/>
         <source>Time zone</source>
         <translation>Zona horaria </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1057"/>
-        <location filename="../CMapTDB.cpp" line="1058"/>
+        <location filename="../CMapTDB.cpp" line="1059"/>
+        <location filename="../CMapTDB.cpp" line="1060"/>
         <source>Ferry</source>
         <translation>Ferry </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1059"/>
+        <location filename="../CMapTDB.cpp" line="1061"/>
         <source>State/province border</source>
         <translation>Limite Comunidad/Provincia</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1060"/>
+        <location filename="../CMapTDB.cpp" line="1062"/>
         <source>County/parish border</source>
         <translation>Limite comarca/parroquia</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1061"/>
+        <location filename="../CMapTDB.cpp" line="1063"/>
         <source>International border</source>
         <translation>Frontera internacional</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1062"/>
+        <location filename="../CMapTDB.cpp" line="1064"/>
         <source>River</source>
         <translation>Rio </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1063"/>
+        <location filename="../CMapTDB.cpp" line="1065"/>
         <source>Minor land contour</source>
         <translation>Curva de nivel menor</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1064"/>
+        <location filename="../CMapTDB.cpp" line="1066"/>
         <source>Intermediate land contour</source>
         <translation>Curva de nivel intermedia</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1065"/>
+        <location filename="../CMapTDB.cpp" line="1067"/>
         <source>Major land contour</source>
         <translation>Curva de nivel maestra</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1066"/>
-        <source>Minor deph contour</source>
-        <translation>Curva batimétrica menor</translation>
+        <location filename="../CMapTDB.cpp" line="1068"/>
+        <source>Minor depth contour</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1067"/>
+        <location filename="../CMapTDB.cpp" line="1157"/>
+        <source>Cemetery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minor deph contour</source>
+        <translation type="obsolete">Curva batimétrica menor</translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="1069"/>
         <source>Intermediate depth contour</source>
         <translation>Curva batimétrica intermedia</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1068"/>
+        <location filename="../CMapTDB.cpp" line="1070"/>
         <source>Major depth contour</source>
         <translation>Curva batimétrica maestra</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1069"/>
+        <location filename="../CMapTDB.cpp" line="1071"/>
         <source>Intermittent stream</source>
         <translation>Corriente no permanente</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1070"/>
-        <location filename="../CMapTDB.cpp" line="1151"/>
+        <location filename="../CMapTDB.cpp" line="1072"/>
+        <location filename="../CMapTDB.cpp" line="1153"/>
         <source>Airport runway</source>
         <translation>Pista de aterrizaje </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1071"/>
+        <location filename="../CMapTDB.cpp" line="1073"/>
         <source>Pipeline</source>
         <translation>Tubería</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1072"/>
+        <location filename="../CMapTDB.cpp" line="1074"/>
         <source>Powerline</source>
         <translation>Linea eléctrica </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1073"/>
+        <location filename="../CMapTDB.cpp" line="1075"/>
         <source>Marine boundary</source>
         <translation>Linea de costa</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1074"/>
+        <location filename="../CMapTDB.cpp" line="1076"/>
         <source>Hazard boundary</source>
         <translation>Limite de peligro</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1138"/>
+        <location filename="../CMapTDB.cpp" line="1140"/>
         <source>Large urban area (&amp;gt;200K)</source>
         <translation>Población grande (&amp;gt;200K)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1139"/>
+        <location filename="../CMapTDB.cpp" line="1141"/>
         <source>Small urban area (&amp;lt;200K)</source>
         <translation>Población pequeña (&amp;lt;200K)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1140"/>
+        <location filename="../CMapTDB.cpp" line="1142"/>
         <source>Rural housing area</source>
         <translation>Área rural habitada</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1141"/>
+        <location filename="../CMapTDB.cpp" line="1143"/>
         <source>Military base</source>
         <translation>Base militar</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1142"/>
+        <location filename="../CMapTDB.cpp" line="1144"/>
         <source>Parking lot</source>
         <translation>Aparcamiento (en superficie)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1143"/>
+        <location filename="../CMapTDB.cpp" line="1145"/>
         <source>Parking garage</source>
         <translation>Aparcamiento (bajo techo)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1144"/>
+        <location filename="../CMapTDB.cpp" line="1146"/>
         <source>Airport</source>
         <translation>Aeropuerto</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1145"/>
+        <location filename="../CMapTDB.cpp" line="1147"/>
         <source>Shopping center</source>
         <translation>Centro de compras</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1146"/>
+        <location filename="../CMapTDB.cpp" line="1148"/>
         <source>Marina</source>
         <translation>Puerto deportivo</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1147"/>
+        <location filename="../CMapTDB.cpp" line="1149"/>
         <source>University/College</source>
         <translation>Universidad</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1148"/>
+        <location filename="../CMapTDB.cpp" line="1150"/>
         <source>Hospital</source>
         <translation>Hospital</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1149"/>
+        <location filename="../CMapTDB.cpp" line="1151"/>
         <source>Industrial complex</source>
         <translation>Complejo industrial</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1150"/>
+        <location filename="../CMapTDB.cpp" line="1152"/>
         <source>Reservation</source>
         <translation>Reserva natural</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1152"/>
+        <location filename="../CMapTDB.cpp" line="1154"/>
         <source>Man-made area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1153"/>
+        <location filename="../CMapTDB.cpp" line="1155"/>
         <source>Sports complex</source>
         <translation>Complejo deportivo</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1154"/>
+        <location filename="../CMapTDB.cpp" line="1156"/>
         <source>Golf course</source>
         <translation>Campo de golf</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1155"/>
         <source>Cemetary</source>
-        <translation>Cementerio</translation>
+        <translation type="obsolete">Cementerio</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1156"/>
-        <location filename="../CMapTDB.cpp" line="1157"/>
         <location filename="../CMapTDB.cpp" line="1158"/>
+        <location filename="../CMapTDB.cpp" line="1159"/>
+        <location filename="../CMapTDB.cpp" line="1160"/>
         <source>National park</source>
         <translation>Parque nacional</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1159"/>
+        <location filename="../CMapTDB.cpp" line="1161"/>
         <source>City park</source>
         <translation>Parque urbano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1160"/>
-        <location filename="../CMapTDB.cpp" line="1161"/>
         <location filename="../CMapTDB.cpp" line="1162"/>
+        <location filename="../CMapTDB.cpp" line="1163"/>
+        <location filename="../CMapTDB.cpp" line="1164"/>
         <source>State park</source>
         <translation>Parque estatal</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1163"/>
+        <location filename="../CMapTDB.cpp" line="1165"/>
         <source>Forest</source>
         <translation>Bosque</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1164"/>
+        <location filename="../CMapTDB.cpp" line="1166"/>
         <source>Ocean</source>
         <translation>Océano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1165"/>
         <location filename="../CMapTDB.cpp" line="1167"/>
-        <location filename="../CMapTDB.cpp" line="1177"/>
+        <location filename="../CMapTDB.cpp" line="1169"/>
+        <location filename="../CMapTDB.cpp" line="1179"/>
         <source>Blue (unknown)</source>
         <translation>Azul (desconocido)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1166"/>
+        <location filename="../CMapTDB.cpp" line="1168"/>
         <source>Sea</source>
         <translation>Mar</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1168"/>
-        <location filename="../CMapTDB.cpp" line="1169"/>
-        <location filename="../CMapTDB.cpp" line="1176"/>
+        <location filename="../CMapTDB.cpp" line="1170"/>
+        <location filename="../CMapTDB.cpp" line="1171"/>
+        <location filename="../CMapTDB.cpp" line="1178"/>
         <source>Large lake</source>
         <translation>Lago grande</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1170"/>
-        <location filename="../CMapTDB.cpp" line="1171"/>
+        <location filename="../CMapTDB.cpp" line="1172"/>
+        <location filename="../CMapTDB.cpp" line="1173"/>
         <source>Medium lake</source>
         <translation>Lago mediano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1172"/>
-        <location filename="../CMapTDB.cpp" line="1173"/>
+        <location filename="../CMapTDB.cpp" line="1174"/>
+        <location filename="../CMapTDB.cpp" line="1175"/>
         <source>Small lake</source>
         <translation>Lago pequeño</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1174"/>
-        <location filename="../CMapTDB.cpp" line="1175"/>
+        <location filename="../CMapTDB.cpp" line="1176"/>
+        <location filename="../CMapTDB.cpp" line="1177"/>
         <source>Major lake</source>
         <translation>Lago principal</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1178"/>
+        <location filename="../CMapTDB.cpp" line="1180"/>
         <source>Major River</source>
         <translation>Río principal</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1179"/>
+        <location filename="../CMapTDB.cpp" line="1181"/>
         <source>Large River</source>
         <translation>Rio grande</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1180"/>
+        <location filename="../CMapTDB.cpp" line="1182"/>
         <source>Medium River</source>
         <translation>Río Mediano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1181"/>
+        <location filename="../CMapTDB.cpp" line="1183"/>
         <source>Small River</source>
         <translation>Río Pequeño</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1184"/>
+        <location filename="../CMapTDB.cpp" line="1186"/>
         <source>Intermittent water</source>
         <translation>Curso intermitente de agua</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1185"/>
+        <location filename="../CMapTDB.cpp" line="1187"/>
         <source>Wetland/Swamp</source>
         <translation>Humedales/Pantano</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1186"/>
+        <location filename="../CMapTDB.cpp" line="1188"/>
         <source>Glacier</source>
         <translation>Glaciar</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1187"/>
+        <location filename="../CMapTDB.cpp" line="1189"/>
         <source>Orchard/Plantation</source>
         <translation>Huerto/Plantación</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1188"/>
+        <location filename="../CMapTDB.cpp" line="1190"/>
         <source>Scrub</source>
         <translation>Matorral</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1189"/>
+        <location filename="../CMapTDB.cpp" line="1191"/>
         <source>Tundra</source>
         <translation>Tundra</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1190"/>
+        <location filename="../CMapTDB.cpp" line="1192"/>
         <source>Flat</source>
         <translation>Llanura</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1191"/>
+        <location filename="../CMapTDB.cpp" line="1193"/>
         <source>???</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1210"/>
+        <location filename="../CMapTDB.cpp" line="1212"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation>No hay proyección para el mapa base. Eso no debería ocurrir.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1490"/>
+        <location filename="../CMapTDB.cpp" line="1467"/>
+        <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapTDB.cpp" line="1493"/>
         <source>&lt;p&gt;Failed to load file:&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;However, if the basemap is still old format I am able to let you select the map tiles for upload&lt;/p&gt;</source>
         <translation>&lt;p&gt;Fallo al leer el archivo:&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;Sin embargo, si el mapa base todavía tiene un formato antiguo puedo dejarle seleccionar las teselas del mapa que cargar&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3279"/>
+        <location filename="../CMapTDB.cpp" line="3287"/>
         <source>none</source>
         <translation>ninguno</translation>
     </message>
@@ -4261,27 +4407,26 @@ Do you want to save your changes?</source>
         <translation type="obsolete">La importaciónde archivos *TDB no ha sido portada a las arquitecturas big endian, todavia.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1341"/>
+        <location filename="../CMapTDB.cpp" line="1344"/>
         <source>Select Base Map for </source>
         <translation>Seleccionar el mapa base para </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1461"/>
-        <location filename="../CMapTDB.cpp" line="1489"/>
-        <location filename="../CMapTDB.cpp" line="1504"/>
-        <location filename="../CMapTDB.cpp" line="1524"/>
+        <location filename="../CMapTDB.cpp" line="1464"/>
+        <location filename="../CMapTDB.cpp" line="1492"/>
+        <location filename="../CMapTDB.cpp" line="1507"/>
+        <location filename="../CMapTDB.cpp" line="1527"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1463"/>
+        <location filename="../CMapTDB.cpp" line="1466"/>
         <source>However ...</source>
         <translation>Sin embargo ...</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1464"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br/&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Sin embargo ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;como puedo leer el mapa principal y el archivo de información *.tdb,&lt;br/&gt;puedo dejarle seleccionar las teselas del mapa para cargar. Para hacer esto&lt;br/&gt;necesito el codigo de desbloqueo (25 digitos) para este mapa, puesto que se tiene que cargar&lt;br/&gt;en la unidad junto con el mapa.&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;&lt;b&gt;Sin embargo ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;como puedo leer el mapa principal y el archivo de información *.tdb,&lt;br/&gt;puedo dejarle seleccionar las teselas del mapa para cargar. Para hacer esto&lt;br/&gt;necesito el codigo de desbloqueo (25 digitos) para este mapa, puesto que se tiene que cargar&lt;br/&gt;en la unidad junto con el mapa.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>details %1</source>
@@ -4292,26 +4437,26 @@ Do you want to save your changes?</source>
         <translation type="obsolete">detalles +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2835"/>
         <location filename="../CMapTDB.cpp" line="2843"/>
-        <location filename="../CMapTDB.cpp" line="2847"/>
-        <location filename="../CMapTDB.cpp" line="2852"/>
-        <location filename="../CMapTDB.cpp" line="2872"/>
+        <location filename="../CMapTDB.cpp" line="2851"/>
+        <location filename="../CMapTDB.cpp" line="2855"/>
+        <location filename="../CMapTDB.cpp" line="2860"/>
         <location filename="../CMapTDB.cpp" line="2880"/>
-        <location filename="../CMapTDB.cpp" line="2884"/>
-        <location filename="../CMapTDB.cpp" line="2889"/>
+        <location filename="../CMapTDB.cpp" line="2888"/>
+        <location filename="../CMapTDB.cpp" line="2892"/>
+        <location filename="../CMapTDB.cpp" line="2897"/>
         <source>Point of Interest</source>
         <translation>Punto de interés</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3015"/>
+        <location filename="../CMapTDB.cpp" line="3023"/>
         <source>Unknown</source>
         <translation>Desconocido</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3173"/>
-        <location filename="../CMapTDB.cpp" line="3182"/>
-        <location filename="../CMapTDB.cpp" line="3189"/>
+        <location filename="../CMapTDB.cpp" line="3181"/>
+        <location filename="../CMapTDB.cpp" line="3190"/>
+        <location filename="../CMapTDB.cpp" line="3197"/>
         <source>Area</source>
         <translation>Área</translation>
     </message>
@@ -4499,57 +4644,93 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
         <translation>Mover Mapa</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="185"/>
+        <location filename="../CMouseMoveMap.cpp" line="195"/>
         <source>Copy Pos. Waypoint</source>
         <translation>Copiar Pos. Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="186"/>
+        <location filename="../CMouseMoveMap.cpp" line="196"/>
         <source>Edit Waypoint ...</source>
         <translation>Editar Waypoint...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="190"/>
+        <location filename="../CMouseMoveMap.cpp" line="200"/>
         <source>Move Waypoint</source>
         <translation>Desplazar Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="195"/>
+        <location filename="../CMouseMoveMap.cpp" line="205"/>
         <source>Delete Waypoint</source>
         <translation>Eliminar Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="201"/>
+        <location filename="../CMouseMoveMap.cpp" line="211"/>
         <source>Add Waypoint ...</source>
         <translation>Añadir Waypoint ...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="207"/>
+        <location filename="../CMouseMoveMap.cpp" line="217"/>
         <source>Open Pos. with Google Maps</source>
         <translation>Abrir Posición en Google Maps</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="208"/>
+        <location filename="../CMouseMoveMap.cpp" line="218"/>
         <source>Copy Pos. Trackpoint</source>
         <translation>Copiar Posición del punto del track</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="209"/>
+        <location filename="../CMouseMoveMap.cpp" line="219"/>
         <source>Edit Track ...</source>
         <translation>Editar track...</translation>
+    </message>
+    <message>
+        <location filename="../CMouseMoveMap.cpp" line="232"/>
+        <location filename="../CMouseMoveMap.cpp" line="296"/>
+        <source>N %1m E %2m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMouseMoveMap.cpp" line="253"/>
+        <source>Pixel %1x%2 (%3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMouseMoveMap.cpp" line="261"/>
+        <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMouseMoveMap.cpp" line="265"/>
+        <source>Set as Pos1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CMouseRefPoint</name>
     <message>
-        <location filename="../CMouseRefPoint.cpp" line="79"/>
-        <location filename="../CMouseRefPoint.cpp" line="80"/>
-        <location filename="../CMouseRefPoint.cpp" line="125"/>
-        <location filename="../CMouseRefPoint.cpp" line="126"/>
-        <location filename="../CMouseRefPoint.cpp" line="168"/>
-        <location filename="../CMouseRefPoint.cpp" line="169"/>
+        <location filename="../CMouseRefPoint.cpp" line="81"/>
+        <location filename="../CMouseRefPoint.cpp" line="82"/>
+        <location filename="../CMouseRefPoint.cpp" line="127"/>
+        <location filename="../CMouseRefPoint.cpp" line="128"/>
+        <location filename="../CMouseRefPoint.cpp" line="175"/>
+        <location filename="../CMouseRefPoint.cpp" line="176"/>
         <source>%1</source>
         <translation>%1</translation>
+    </message>
+    <message>
+        <location filename="../CMouseRefPoint.cpp" line="194"/>
+        <source>Pixel %1x%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMouseRefPoint.cpp" line="202"/>
+        <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMouseRefPoint.cpp" line="206"/>
+        <source>Set as Pos1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4574,7 +4755,7 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
         <translation>La tesela %1 fue descargada de %2 dias antiguedad del archivo. Recargando ...</translation>
     </message>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="283"/>
+        <location filename="../COsmTilesHash.cpp" line="285"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
         <translation>Los datos recibidos no son una imagen valida. Tal vez no sea una imagen ...</translation>
     </message>
@@ -4727,12 +4908,12 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
 <context>
     <name>CResources</name>
     <message>
-        <location filename="../CResources.cpp" line="292"/>
+        <location filename="../CResources.cpp" line="283"/>
         <source>No device.</source>
         <translation>Dispositivo no encontrado.</translation>
     </message>
     <message>
-        <location filename="../CResources.cpp" line="292"/>
+        <location filename="../CResources.cpp" line="283"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation>Debe seleccionar un dispositivo en:
 Preferencias-&gt;General-&gt;Dispositivo &amp; Transferencia</translation>
@@ -4745,21 +4926,21 @@ Preferencias-&gt;General-&gt;Dispositivo &amp; Transferencia</translation>
         <translation type="obsolete">Ruta</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="409"/>
+        <location filename="../CRoute.cpp" line="414"/>
         <source>
 length: %1 %2</source>
         <translation>
 longitud: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="417"/>
+        <location filename="../CRoute.cpp" line="422"/>
         <source>
 time: %1:</source>
         <translation>
 hora: %1:</translation>
     </message>
     <message>
-        <location filename="../CRoute.cpp" line="421"/>
+        <location filename="../CRoute.cpp" line="426"/>
         <source>
 time: </source>
         <translation>
@@ -5155,6 +5336,74 @@ longitud: %1 %2</translation>
         <location filename="../CSearchToolWidget.cpp" line="55"/>
         <source>Google</source>
         <translation>Google</translation>
+    </message>
+</context>
+<context>
+    <name>CTextEditWidget</name>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="84"/>
+        <source>&amp;Bold</source>
+        <translation type="unfinished">&amp;Negrita</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="93"/>
+        <source>&amp;Italic</source>
+        <translation type="unfinished">&amp;Cursiva</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="102"/>
+        <source>&amp;Underline</source>
+        <translation type="unfinished">&amp;Subrayado</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="114"/>
+        <source>&amp;Left</source>
+        <translation type="unfinished">&amp;Izquierda</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="118"/>
+        <source>C&amp;enter</source>
+        <translation type="unfinished">C&amp;entrar</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="122"/>
+        <source>&amp;Right</source>
+        <translation type="unfinished">&amp;Derecha</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="126"/>
+        <source>&amp;Justify</source>
+        <translation type="unfinished">&amp;Justificar</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="133"/>
+        <source>&amp;Color...</source>
+        <translation type="unfinished">&amp;Color...</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="168"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished">&amp;Deshacer</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="172"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished">&amp;Rehacer</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="176"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished">Cor&amp;tar</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="180"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished">&amp;Copiar</translation>
+    </message>
+    <message>
+        <location filename="../CTextEditWidget.cpp" line="184"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished">&amp;Pegar</translation>
     </message>
 </context>
 <context>
@@ -5559,32 +5808,32 @@ final: %1</translation>
 <context>
     <name>CWpt</name>
     <message>
-        <location filename="../CWpt.cpp" line="492"/>
+        <location filename="../CWpt.cpp" line="494"/>
         <source>elevation: %1 %2</source>
         <translation>altura: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="500"/>
+        <location filename="../CWpt.cpp" line="502"/>
         <source>proximity: %1 %2</source>
         <translation>proximidad: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="519"/>
+        <location filename="../CWpt.cpp" line="521"/>
         <source>Parent: %1</source>
         <translation>Padre: %1</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="958"/>
+        <location filename="../CWpt.cpp" line="960"/>
         <source>No additional information.</source>
         <translation>Sin información adicional.</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="965"/>
+        <location filename="../CWpt.cpp" line="967"/>
         <source>&lt;div&gt;&lt;b&gt;Type:&lt;/b&gt; %1 &lt;b&gt;Container:&lt;/b&gt; %2 </source>
         <translation>&lt;div&gt;&lt;b&gt;Tipo:&lt;/b&gt; %1 &lt;b&gt;Contenedor:&lt;/b&gt; %2 </translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="966"/>
+        <location filename="../CWpt.cpp" line="968"/>
         <source>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </source>
         <translation>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </translation>
     </message>
@@ -5592,43 +5841,43 @@ final: %1</translation>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="287"/>
+        <location filename="../CWptDB.cpp" line="291"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Realmente desea borrar el waypoint pegado &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="288"/>
+        <location filename="../CWptDB.cpp" line="292"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Borrar waypoint pegado ...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1094"/>
+        <location filename="../CWptDB.cpp" line="1126"/>
         <source>Select path...</source>
         <translation>Seleccionar directorio...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1107"/>
+        <location filename="../CWptDB.cpp" line="1139"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Leer datos EXIF de las imágenes.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1107"/>
+        <location filename="../CWptDB.cpp" line="1139"/>
         <source>Abort</source>
         <translation>Abortar</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1085"/>
-        <location filename="../CWptDB.cpp" line="1087"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
+        <location filename="../CWptDB.cpp" line="1119"/>
         <source>Missing libexif</source>
         <translation>Falta la librería libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1085"/>
+        <location filename="../CWptDB.cpp" line="1117"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>No se pudo encontrar libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1087"/>
+        <location filename="../CWptDB.cpp" line="1119"/>
         <source>Unable to find libexif.so.</source>
         <translation>No se pudo encontrar libexif.so.</translation>
     </message>
@@ -5641,67 +5890,72 @@ final: %1</translation>
         <translation>Waypoints</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="56"/>
+        <location filename="../CWptToolWidget.cpp" line="57"/>
         <source>Copy Position</source>
         <translation>Copiar Posición</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="55"/>
+        <location filename="../CWptToolWidget.cpp" line="56"/>
         <source>Edit...</source>
         <translation>Editar...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="58"/>
+        <location filename="../CWptToolWidget.cpp" line="60"/>
         <source>Icon ...</source>
         <translation>Icono ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="61"/>
+        <location filename="../CWptToolWidget.cpp" line="62"/>
+        <source>Reset selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CWptToolWidget.cpp" line="64"/>
         <source>Show Names</source>
         <translation>Mostrar Nombres</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="63"/>
+        <location filename="../CWptToolWidget.cpp" line="66"/>
         <source>Zoom to fit</source>
         <translation>Ajustar zoom</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="64"/>
+        <location filename="../CWptToolWidget.cpp" line="67"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="65"/>
+        <location filename="../CWptToolWidget.cpp" line="68"/>
         <source>Delete by ...</source>
         <translation>Borrar por ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="94"/>
+        <location filename="../CWptToolWidget.cpp" line="97"/>
         <source>enter valid position</source>
         <translation>introducir posición valida</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="191"/>
+        <location filename="../CWptToolWidget.cpp" line="209"/>
         <source> (sticky)</source>
         <translation> (pegado)</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="57"/>
+        <location filename="../CWptToolWidget.cpp" line="59"/>
         <source>Proximity ...</source>
         <translation>Proximidad ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="320"/>
+        <location filename="../CWptToolWidget.cpp" line="354"/>
         <source>Distance [%1]</source>
         <translation>Distancia [%1]</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="337"/>
+        <location filename="../CWptToolWidget.cpp" line="371"/>
         <source>Proximity distance ...</source>
         <translation>Distancia de proximidad ...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="59"/>
+        <location filename="../CWptToolWidget.cpp" line="61"/>
         <source>Make Route ...</source>
         <translation>Crear Ruta ...</translation>
     </message>
@@ -5874,8 +6128,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="20"/>
-        <location filename="../ICreateMapGeoTiff.ui" line="254"/>
-        <location filename="../ICreateMapGeoTiff.ui" line="422"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="326"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="501"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
@@ -5896,7 +6150,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ICreateMapGeoTiff.ui" line="65"/>
         <location filename="../ICreateMapGeoTiff.ui" line="99"/>
         <location filename="../ICreateMapGeoTiff.ui" line="126"/>
-        <location filename="../ICreateMapGeoTiff.ui" line="163"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="160"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -5911,7 +6165,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="120"/>
-        <location filename="../ICreateMapGeoTiff.ui" line="157"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="154"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -5927,7 +6181,7 @@ p, li { white-space: pre-wrap; }
         <translation>Modo</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="191"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="263"/>
         <source>Open File</source>
         <translation>Abrir archivo</translation>
     </message>
@@ -5940,42 +6194,42 @@ p, li { white-space: pre-wrap; }
 </translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="276"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="348"/>
         <source>label</source>
         <translation>etiqueta</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="281"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="353"/>
         <source>Coord.</source>
         <translation>Coord.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="286"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="358"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="291"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="363"/>
         <source>y</source>
         <translation>y</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="306"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="385"/>
         <source>Add Ref.</source>
         <translation>Añadir Ref.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="336"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="415"/>
         <source>Delete Ref.</source>
         <translation>Borrar Ref.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="369"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="448"/>
         <source>Go on!</source>
         <translation>¡Seguir!</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="316"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="395"/>
         <source>Load Ref.</source>
         <translation>Cargar Ref.</translation>
     </message>
@@ -5985,17 +6239,52 @@ p, li { white-space: pre-wrap; }
         <translation>Proyección del Mapa</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="145"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="142"/>
         <source>Ref. projection</source>
         <translation>Ref. de proyección</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="326"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="187"/>
+        <source>Overviews</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="194"/>
+        <source>2x</source>
+        <translation type="unfinished">2x</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="201"/>
+        <source>4x</source>
+        <translation type="unfinished">4x</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="208"/>
+        <source>8x</source>
+        <translation type="unfinished">8x</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="215"/>
+        <source>16x</source>
+        <translation type="unfinished">16x</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="222"/>
+        <source>32x</source>
+        <translation type="unfinished">32x</translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="371"/>
+        <source>Use the n and b key to step between reference points while fine tuning the points on the map.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ICreateMapGeoTiff.ui" line="405"/>
         <source>Save Ref.</source>
         <translation>Guardar Ref.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="346"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="425"/>
         <source>Grid Tool</source>
         <translation>Herramienta de Rejilla</translation>
     </message>
@@ -6012,7 +6301,7 @@ formato de las coordenadas: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.1931
         <translation type="obsolete">Ahora QLandKarte GT creará referencias para su archivo con ayuda de las herraminentas GDAL. Vea el resultado en el navegador.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapGeoTiff.ui" line="513"/>
+        <location filename="../ICreateMapGeoTiff.ui" line="592"/>
         <source>Clear All</source>
         <translation>Eliminar todo</translation>
     </message>
@@ -6273,7 +6562,7 @@ p, li { white-space: pre-wrap; }
         <translation>subir</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="280"/>
+        <location filename="../ICreateMapQMAP.ui" line="274"/>
         <source>down</source>
         <translation>bajar</translation>
     </message>
@@ -6282,12 +6571,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Puede añadir mapas con distinto detalle como capas. Para cada capa de detalle puede definir el número de niveles de zoom. Varios ficheros pueden agruparse en una capa de detalle. Todos los mapas en una capa deben tener la misma proyección y escala. Usted necesita al menos una capa con un archivo.</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="351"/>
+        <location filename="../ICreateMapQMAP.ui" line="345"/>
         <source>Summary</source>
         <translation>Resumen</translation>
     </message>
     <message>
-        <location filename="../ICreateMapQMAP.ui" line="379"/>
+        <location filename="../ICreateMapQMAP.ui" line="373"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
@@ -6375,35 +6664,49 @@ Una vez halla creado un mapa, usted puede adjuntar datos de altitud mediante un 
     </message>
 </context>
 <context>
+    <name>IDiaryEdit</name>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Formulario</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="25"/>
+        <location filename="../IDiaryEdit.ui" line="39"/>
+        <location filename="../IDiaryEdit.ui" line="46"/>
+        <location filename="../IDiaryEdit.ui" line="53"/>
+        <location filename="../IDiaryEdit.ui" line="60"/>
+        <location filename="../IDiaryEdit.ui" line="67"/>
+        <location filename="../IDiaryEdit.ui" line="81"/>
+        <location filename="../IDiaryEdit.ui" line="88"/>
+        <location filename="../IDiaryEdit.ui" line="95"/>
+        <location filename="../IDiaryEdit.ui" line="102"/>
+        <location filename="../IDiaryEdit.ui" line="119"/>
+        <location filename="../IDiaryEdit.ui" line="126"/>
+        <location filename="../IDiaryEdit.ui" line="133"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="164"/>
+        <source>show profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="171"/>
+        <source>show geocaches</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IDiaryEditWidget</name>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="13"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IDiaryEditWidget.ui" line="24"/>
-        <location filename="../IDiaryEditWidget.ui" line="37"/>
-        <location filename="../IDiaryEditWidget.ui" line="50"/>
-        <location filename="../IDiaryEditWidget.ui" line="63"/>
-        <location filename="../IDiaryEditWidget.ui" line="76"/>
-        <location filename="../IDiaryEditWidget.ui" line="99"/>
-        <location filename="../IDiaryEditWidget.ui" line="125"/>
-        <location filename="../IDiaryEditWidget.ui" line="139"/>
-        <location filename="../IDiaryEditWidget.ui" line="152"/>
-        <location filename="../IDiaryEditWidget.ui" line="165"/>
-        <location filename="../IDiaryEditWidget.ui" line="178"/>
-        <location filename="../IDiaryEditWidget.ui" line="191"/>
-        <location filename="../IDiaryEditWidget.ui" line="204"/>
-        <location filename="../IDiaryEditWidget.ui" line="217"/>
-        <location filename="../IDiaryEditWidget.ui" line="230"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="../IDiaryEditWidget.ui" line="96"/>
         <source>Create diary skeleton from current data.</source>
-        <translation>Crear una estructura de Diario a partir de los datos actuales.</translation>
+        <translation type="obsolete">Crear una estructura de Diario a partir de los datos actuales.</translation>
     </message>
 </context>
 <context>
@@ -6601,8 +6904,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="43"/>
         <location filename="../IDlgConfig.ui" line="63"/>
-        <location filename="../IDlgConfig.ui" line="250"/>
-        <location filename="../IDlgConfig.ui" line="519"/>
+        <location filename="../IDlgConfig.ui" line="257"/>
+        <location filename="../IDlgConfig.ui" line="494"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -6687,22 +6990,22 @@ p, li { white-space: pre-wrap; }
         <translation>Mostrar máximos del track</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="168"/>
+        <location filename="../IDlgConfig.ui" line="178"/>
         <source>Show information as tooltip for items under cursor in vector maps.</source>
         <translation>Muestra información en forma de tooltip para los elementos bajo el cursor en mapas vectoriales</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="171"/>
+        <location filename="../IDlgConfig.ui" line="181"/>
         <source>Tooltips (vector maps)</source>
         <translation>Tooltips (mapas vectoriales)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="178"/>
+        <location filename="../IDlgConfig.ui" line="168"/>
         <source>Show zoom level in the top left corner</source>
         <translation>Muestra el nivel de zoom en la esquina superior izquierda</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="181"/>
+        <location filename="../IDlgConfig.ui" line="171"/>
         <source>Show zoom level</source>
         <translation>Mostrar el nivel de zoom</translation>
     </message>
@@ -6717,32 +7020,32 @@ p, li { white-space: pre-wrap; }
         <translation>Anti-aliasing</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="201"/>
+        <location filename="../IDlgConfig.ui" line="208"/>
         <source>Geo Database</source>
         <translation>Archivo de Geodatos</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="209"/>
+        <location filename="../IDlgConfig.ui" line="216"/>
         <source>Use database</source>
         <translation>Usar base de datos</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="219"/>
+        <location filename="../IDlgConfig.ui" line="226"/>
         <source>Save workspace on exit</source>
         <translation>Guardar espacio de trabajo al salir</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="286"/>
+        <location filename="../IDlgConfig.ui" line="293"/>
         <source>Network</source>
         <translation>Red</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="292"/>
+        <location filename="../IDlgConfig.ui" line="299"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="676"/>
+        <location filename="../IDlgConfig.ui" line="651"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -6796,113 +7099,107 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="317"/>
-        <location filename="../IDlgConfig.ui" line="432"/>
+        <location filename="../IDlgConfig.ui" line="324"/>
+        <location filename="../IDlgConfig.ui" line="407"/>
         <source>Port</source>
         <translation>Puerto</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="324"/>
+        <location filename="../IDlgConfig.ui" line="331"/>
         <source>00000; </source>
         <translation>00000;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="327"/>
+        <location filename="../IDlgConfig.ui" line="334"/>
         <source>8080</source>
         <translation>8080</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="339"/>
         <source>Browser</source>
-        <translation>Navegador</translation>
+        <translation type="obsolete">Navegador</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="346"/>
         <source>Firefox</source>
-        <translation>Firefox</translation>
+        <translation type="obsolete">Firefox</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="351"/>
         <source>Konqueror</source>
-        <translation>Konqueror</translation>
+        <translation type="obsolete">Konqueror</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="356"/>
         <source>other (needs command line)</source>
-        <translation>otros (necesaria la linea de comandos)</translation>
+        <translation type="obsolete">otros (necesaria la linea de comandos)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="367"/>
         <source>my command %s</source>
-        <translation type="unfinished">my comando %s</translation>
+        <translation type="obsolete">my comando %s</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="374"/>
         <source>%s will be replaced by URL</source>
-        <translation>%s se sustituirá por la URL</translation>
+        <translation type="obsolete">%s se sustituirá por la URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="385"/>
+        <location filename="../IDlgConfig.ui" line="360"/>
         <source>Device &amp;&amp; Xfer</source>
         <translation>Dispositivo &amp;&amp; Transferencia</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="391"/>
+        <location filename="../IDlgConfig.ui" line="366"/>
         <source>Select the device you want to setup.</source>
         <translation>Seleccione el dispositivo que desee configurar.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="401"/>
+        <location filename="../IDlgConfig.ui" line="376"/>
         <source>Device</source>
         <translation>Dispositivo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="410"/>
+        <location filename="../IDlgConfig.ui" line="385"/>
         <source>IP Address</source>
         <translation>Dirección IP</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="422"/>
+        <location filename="../IDlgConfig.ui" line="397"/>
         <source>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</source>
         <translation>Si se accede a su dispositivo por TCP/IP,  podrá indicar una dirección fija. Deje el espacio en blanco para &quot;QLandkarte M&quot; pues el controlador consultará el dispositivo mediante difusiones UDP.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="442"/>
+        <location filename="../IDlgConfig.ui" line="417"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
         <translation>Añada el puerto TCP/IP para el dispositivo. Póngalo a 0 para &quot;QLandkarte M&quot;.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="445"/>
+        <location filename="../IDlgConfig.ui" line="420"/>
         <source>4242</source>
         <translation>4242</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="457"/>
+        <location filename="../IDlgConfig.ui" line="432"/>
         <source>Serial Port</source>
         <translation>Puerto Serie</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="467"/>
+        <location filename="../IDlgConfig.ui" line="442"/>
         <source>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Es algo como &quot; /dev/ttyS0&quot; o &quot; /dev/rfcomm0&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="477"/>
+        <location filename="../IDlgConfig.ui" line="452"/>
         <source>Baud rate</source>
         <translation>Velocidad en baudios</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="487"/>
+        <location filename="../IDlgConfig.ui" line="462"/>
         <source>Baud rate for Serial Port</source>
         <translation>Velocidad en baudios del Puerto Serie</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="497"/>
+        <location filename="../IDlgConfig.ui" line="472"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="509"/>
+        <location filename="../IDlgConfig.ui" line="484"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
         <translation>Seleccione su dispositivo Garmin en la lista. Si su dispositivo no esta soportado utilice &quot;whatGarmin&quot; y descargue waypoints para crear una consulta de protocolo.</translation>
     </message>
@@ -6981,74 +7278,79 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;reducir&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="531"/>
+        <location filename="../IDlgConfig.ui" line="506"/>
         <source>Character Set</source>
         <translation>Conjunto de Caracteres</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="236"/>
+        <location filename="../IDlgConfig.ui" line="243"/>
         <source>Database path:</source>
         <translation>Ruta de la base de datos:</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="259"/>
+        <location filename="../IDlgConfig.ui" line="198"/>
+        <source>Reduce POI icons (vector maps)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig.ui" line="266"/>
         <source>You have to restart QLandkarte GT to make the database changes taking effect.</source>
         <translation>Debe reiniciar QLandkarte GT para que los cambios en la base de datos tengan efecto.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="298"/>
+        <location filename="../IDlgConfig.ui" line="305"/>
         <source>manual configuration</source>
         <translation>configuración manual</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="307"/>
+        <location filename="../IDlgConfig.ui" line="314"/>
         <source>Host</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="545"/>
+        <location filename="../IDlgConfig.ui" line="520"/>
         <source>Define custom icons for Garmin Devices.</source>
         <translation>Seleccione iconos personalizados para los dispositivos Garmin.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="548"/>
+        <location filename="../IDlgConfig.ui" line="523"/>
         <source>Customize Waypoint Icons...</source>
         <translation>Personalizar los iconos de los waypoints...</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="574"/>
+        <location filename="../IDlgConfig.ui" line="549"/>
         <source>Upload All</source>
         <translation>Cargar todo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="580"/>
-        <location filename="../IDlgConfig.ui" line="613"/>
+        <location filename="../IDlgConfig.ui" line="555"/>
+        <location filename="../IDlgConfig.ui" line="588"/>
         <source>Waypoints</source>
         <translation>Waypoints</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="587"/>
-        <location filename="../IDlgConfig.ui" line="620"/>
+        <location filename="../IDlgConfig.ui" line="562"/>
+        <location filename="../IDlgConfig.ui" line="595"/>
         <source>Tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="607"/>
+        <location filename="../IDlgConfig.ui" line="582"/>
         <source>Download All</source>
         <translation>Descargar todo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="637"/>
+        <location filename="../IDlgConfig.ui" line="612"/>
         <source>Sound after Transfer</source>
         <translation>Sonido después de la transferencia</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="643"/>
+        <location filename="../IDlgConfig.ui" line="618"/>
         <source>Play</source>
         <translation>Reproducir</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="670"/>
+        <location filename="../IDlgConfig.ui" line="645"/>
         <source>Keys</source>
         <translation>Combinaciones de teclado</translation>
     </message>
@@ -7092,8 +7394,8 @@ p, li { white-space: pre-wrap; }
 &lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="594"/>
-        <location filename="../IDlgConfig.ui" line="627"/>
+        <location filename="../IDlgConfig.ui" line="569"/>
+        <location filename="../IDlgConfig.ui" line="602"/>
         <source>Routes</source>
         <translation>Rutas</translation>
     </message>
@@ -7233,22 +7535,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgEditMapLevel</name>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="13"/>
+        <location filename="../IDlgEditMapLevel.ui" line="14"/>
         <source>Edit map level ...</source>
         <translation>Editar nivel del mapa ...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="21"/>
+        <location filename="../IDlgEditMapLevel.ui" line="22"/>
         <source>zoom levels</source>
         <translation>niveles de zoom</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="55"/>
+        <location filename="../IDlgEditMapLevel.ui" line="56"/>
         <source>files</source>
         <translation>archivos</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="72"/>
+        <location filename="../IDlgEditMapLevel.ui" line="73"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7259,16 +7561,16 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccionar archvos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="78"/>
-        <location filename="../IDlgEditMapLevel.ui" line="91"/>
-        <location filename="../IDlgEditMapLevel.ui" line="107"/>
-        <location filename="../IDlgEditMapLevel.ui" line="123"/>
-        <location filename="../IDlgEditMapLevel.ui" line="139"/>
+        <location filename="../IDlgEditMapLevel.ui" line="79"/>
+        <location filename="../IDlgEditMapLevel.ui" line="92"/>
+        <location filename="../IDlgEditMapLevel.ui" line="108"/>
+        <location filename="../IDlgEditMapLevel.ui" line="124"/>
+        <location filename="../IDlgEditMapLevel.ui" line="140"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="85"/>
+        <location filename="../IDlgEditMapLevel.ui" line="86"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7279,7 +7581,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Añadir archivos a la lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="101"/>
+        <location filename="../IDlgEditMapLevel.ui" line="102"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7290,7 +7592,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Borrar archivo de la lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="117"/>
+        <location filename="../IDlgEditMapLevel.ui" line="118"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7301,7 +7603,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mover el archivo hacia arriba en la lista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgEditMapLevel.ui" line="133"/>
+        <location filename="../IDlgEditMapLevel.ui" line="134"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
@@ -7594,12 +7896,12 @@ p, li { white-space: pre-wrap; }
         <translation>Asistente Proj4</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="135"/>
+        <location filename="../IDlgProjWizzard.ui" line="138"/>
         <source>Lon/Lat</source>
         <translation>Lon/Lat</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="142"/>
+        <location filename="../IDlgProjWizzard.ui" line="145"/>
         <source>Projection</source>
         <translation>Proyección</translation>
     </message>
@@ -7619,22 +7921,22 @@ p, li { white-space: pre-wrap; }
         <translation>zona</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="79"/>
+        <location filename="../IDlgProjWizzard.ui" line="82"/>
         <source>user defined</source>
         <translation>Definido por el usuario</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="91"/>
+        <location filename="../IDlgProjWizzard.ui" line="94"/>
         <source>Datum</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="114"/>
+        <location filename="../IDlgProjWizzard.ui" line="117"/>
         <source>Result:</source>
         <translation>Resultado:</translation>
     </message>
     <message>
-        <location filename="../IDlgProjWizzard.ui" line="128"/>
+        <location filename="../IDlgProjWizzard.ui" line="131"/>
         <source>World Mercator (OSM)</source>
         <translation>World Mercator (OSM)</translation>
     </message>
@@ -8030,7 +8332,18 @@ p, li { white-space: pre-wrap; }
         <translation>El mapa base no tiene proyección. Esto no debería pasar.</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="231"/>
+        <location filename="../IMap.cpp" line="235"/>
+        <source>DEM projection does not match the projection of the basemap.
+
+Map: %1
+
+DEM: %2
+
+In my point of view this is bad. But if you think I am wrong just go on with &apos;Apply&apos;. Else abort operation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMap.cpp" line="241"/>
         <source>DEM projection does not match the projection of the basemap.
 
 Map: %1
@@ -8043,23 +8356,24 @@ Mapa: %1
 DEM: %2</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="344"/>
+        <location filename="../IMap.cpp" line="358"/>
         <source>This map does not support this feature.</source>
         <translation>Este mapa no soporta esta caracteristica.</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="350"/>
-        <location filename="../IMap.cpp" line="356"/>
-        <location filename="../IMap.cpp" line="361"/>
-        <location filename="../IMap.cpp" line="366"/>
+        <location filename="../IMap.cpp" line="236"/>
+        <location filename="../IMap.cpp" line="364"/>
+        <location filename="../IMap.cpp" line="370"/>
+        <location filename="../IMap.cpp" line="375"/>
+        <location filename="../IMap.cpp" line="380"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../IMap.cpp" line="350"/>
-        <location filename="../IMap.cpp" line="356"/>
-        <location filename="../IMap.cpp" line="361"/>
-        <location filename="../IMap.cpp" line="366"/>
+        <location filename="../IMap.cpp" line="364"/>
+        <location filename="../IMap.cpp" line="370"/>
+        <location filename="../IMap.cpp" line="375"/>
+        <location filename="../IMap.cpp" line="380"/>
         <source>Changing the offset is not supported by this map.</source>
         <translation>Este mapa no soporta cambiar la compensación.</translation>
     </message>
@@ -8129,74 +8443,79 @@ DEM: %2</translation>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="124"/>
+        <location filename="../IMapQMAPExport.ui" line="109"/>
+        <source>Lowrance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMapQMAPExport.ui" line="131"/>
         <source>Tile selection is only supported by Garmin Custom Map. All other formats will export the whole area as is.</source>
         <translation>La selección de teselas sólo está soportada en Mapas Garmin Personalizados. Para el resto de formatos de mapas se exportará todo el área tal cual.</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="131"/>
+        <location filename="../IMapQMAPExport.ui" line="138"/>
         <source>BirdsEye</source>
         <translation>BirdsEye</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="139"/>
+        <location filename="../IMapQMAPExport.ui" line="146"/>
         <source>Product name</source>
         <translation type="unfinished">Product name</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="153"/>
+        <location filename="../IMapQMAPExport.ui" line="160"/>
         <source>Copyright notice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="160"/>
+        <location filename="../IMapQMAPExport.ui" line="167"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="169"/>
+        <location filename="../IMapQMAPExport.ui" line="176"/>
         <source>Product ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="188"/>
+        <location filename="../IMapQMAPExport.ui" line="195"/>
         <source>JPEG</source>
         <translation>JPEG</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="196"/>
+        <location filename="../IMapQMAPExport.ui" line="203"/>
         <source>Quality</source>
         <translation>Calidad</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="216"/>
+        <location filename="../IMapQMAPExport.ui" line="223"/>
         <source>Chroma subsampling</source>
         <translation>Submuestreo croma</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="224"/>
+        <location filename="../IMapQMAPExport.ui" line="231"/>
         <source>411</source>
         <translation>411</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="229"/>
+        <location filename="../IMapQMAPExport.ui" line="236"/>
         <source>422</source>
         <translation>422</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="234"/>
+        <location filename="../IMapQMAPExport.ui" line="241"/>
         <source>444</source>
         <translation>444</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="247"/>
+        <location filename="../IMapQMAPExport.ui" line="254"/>
         <source>Device</source>
         <translation>Dispositivo</translation>
     </message>
     <message>
-        <location filename="../IMapQMAPExport.ui" line="255"/>
+        <location filename="../IMapQMAPExport.ui" line="262"/>
         <source>Z-Order</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Z-Order</translation>
     </message>
     <message>
         <source>Google Earth (KMZ)</source>
@@ -8349,22 +8668,40 @@ DEM: %2</translation>
 <context>
     <name>IMouse</name>
     <message>
-        <location filename="../IMouse.cpp" line="249"/>
+        <location filename="../IMouse.cpp" line="299"/>
+        <source>%4 %3 %1:%2h (%5%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="300"/>
+        <source> | (%5%) %1:%2h %3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="307"/>
+        <source>%5 %4 %1%2 (%3%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="309"/>
+        <source> | (%3%) %1%2 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="315"/>
         <source>elevation: %1 %2</source>
         <translation>altura: %1 %2</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="254"/>
         <source>start %4 %1%2 (%3%)</source>
-        <translation>inicio %4 %1%2 (%3%)</translation>
+        <translation type="obsolete">inicio %4 %1%2 (%3%)</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="257"/>
         <source> | (%3%) %1%2 %4 end</source>
-        <translation> | (%3%) %1%2 %4 final</translation>
+        <translation type="obsolete"> | (%3%) %1%2 %4 final</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="272"/>
+        <location filename="../IMouse.cpp" line="333"/>
         <source>
  %1: %2 </source>
         <translation>
@@ -8567,6 +8904,31 @@ p, li { white-space: pre-wrap; }
         <location filename="../IStatusDEM.ui" line="48"/>
         <source>contour</source>
         <translation>perfil</translation>
+    </message>
+</context>
+<context>
+    <name>ITextEditWidget</name>
+    <message>
+        <location filename="../ITextEditWidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished">Formulario</translation>
+    </message>
+    <message>
+        <location filename="../ITextEditWidget.ui" line="25"/>
+        <location filename="../ITextEditWidget.ui" line="38"/>
+        <location filename="../ITextEditWidget.ui" line="51"/>
+        <location filename="../ITextEditWidget.ui" line="64"/>
+        <location filename="../ITextEditWidget.ui" line="77"/>
+        <location filename="../ITextEditWidget.ui" line="117"/>
+        <location filename="../ITextEditWidget.ui" line="130"/>
+        <location filename="../ITextEditWidget.ui" line="143"/>
+        <location filename="../ITextEditWidget.ui" line="156"/>
+        <location filename="../ITextEditWidget.ui" line="169"/>
+        <location filename="../ITextEditWidget.ui" line="182"/>
+        <location filename="../ITextEditWidget.ui" line="195"/>
+        <location filename="../ITextEditWidget.ui" line="208"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
     </message>
 </context>
 <context>
@@ -8813,44 +9175,36 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PrintPreview</name>
     <message>
-        <location filename="../printpreview.cpp" line="228"/>
         <source>Diary - Print Preview</source>
-        <translation>Diario - Previsualizar</translation>
+        <translation type="obsolete">Diario - Previsualizar</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="252"/>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation type="obsolete">Imprimir</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="256"/>
         <source>&amp;Print...</source>
-        <translation>Im&amp;primir...</translation>
+        <translation type="obsolete">Im&amp;primir...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="261"/>
         <source>Page Setup...</source>
-        <translation>Ajustes de página...</translation>
+        <translation type="obsolete">Ajustes de página...</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="267"/>
         <source>Zoom In</source>
-        <translation>Acercar</translation>
+        <translation type="obsolete">Acercar</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="271"/>
         <source>Zoom Out</source>
-        <translation>Alejar</translation>
+        <translation type="obsolete">Alejar</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="277"/>
         <source>&amp;Close</source>
-        <translation>&amp;Cerrar</translation>
+        <translation type="obsolete">&amp;Cerrar</translation>
     </message>
     <message>
-        <location filename="../printpreview.cpp" line="323"/>
         <source>Print Diary</source>
-        <translation>Imprimir el Diario</translation>
+        <translation type="obsolete">Imprimir el Diario</translation>
     </message>
 </context>
 <context>
@@ -8986,12 +9340,12 @@ Finalización estimada: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../CDlgMapJNXConfig.cpp" line="29"/>
         <location filename="../CDlgMapQMAPConfig.cpp" line="29"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.0//EN&apos; &apos;http://www.w3.org/TR/REC-html40/strict.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos;&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Typ&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: lightBlue;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: lightBlue;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CDlgMapTDBConfig.cpp" line="30"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.0//EN&apos; &apos;http://www.w3.org/TR/REC-html40/strict.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos;&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Typ&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

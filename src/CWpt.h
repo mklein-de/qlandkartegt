@@ -180,6 +180,7 @@ class CWpt : public IItem
         static const QString htmlFrame;
 
     public:
+        bool selected;
         quint32 sticky;
         float   lat;             ///< [deg]
         float   lon;             ///< [deg]

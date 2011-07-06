@@ -25,7 +25,8 @@
 #include "CMegaMenu.h"
 #include <QtGui>
 
-CDlgWpt2Rte::CDlgWpt2Rte()
+CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
+    : selWpt(selWpt)
 {
     setupUi(this);
 
@@ -41,20 +42,30 @@ CDlgWpt2Rte::CDlgWpt2Rte()
 
     connect(listSelWaypoints, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 
-    CWptDB::keys_t key;
-    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
-
-    foreach(key, keys)
+    if(selWpt.count() < 2)
     {
-        QString name;
-        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+        CWptDB::keys_t key;
+        QList<CWptDB::keys_t> keys = CWptDB::self().keys();
 
-        QListWidgetItem * item = new QListWidgetItem(listWaypoints);
-        item->setText(wpt->getName());
-        item->setData(Qt::UserRole, wpt->getKey());
+        foreach(key, keys)
+        {
+            QString name;
+            CWpt * wpt = CWptDB::self().getWptByKey(key.key);
 
+            QListWidgetItem * item = new QListWidgetItem(listWaypoints);
+            item->setText(wpt->getName());
+            item->setData(Qt::UserRole, wpt->getKey());
+        }
     }
-
+    else
+    {
+        foreach(CWpt * wpt, selWpt)
+        {
+            QListWidgetItem * item = new QListWidgetItem(listWaypoints);
+            item->setText(wpt->getName());
+            item->setData(Qt::UserRole, wpt->getKey());
+        }
+    }
 }
 
 CDlgWpt2Rte::~CDlgWpt2Rte()
