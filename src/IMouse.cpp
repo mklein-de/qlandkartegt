@@ -630,7 +630,7 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
     {
         QString key = selSearch->getKey();
         float ele = CMapDB::self().getDEM().getElevation(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD);
-        CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele);
+        CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele, selSearch->getName());
         if(wpt)
         {
             selWpt = wpt;

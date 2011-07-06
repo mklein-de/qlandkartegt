@@ -181,7 +181,7 @@ void CSearchToolWidget::slotAdd()
     if(result == 0) return;
 
     float ele = CMapDB::self().getDEM().getElevation(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD);
-    CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele);
+    CWptDB::self().newWpt(result->lon * DEG_TO_RAD, result->lat * DEG_TO_RAD, ele, result->getName());
 }
 
 

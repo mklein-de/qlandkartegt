@@ -184,11 +184,11 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     {
         //3.1) update the other text fields
         QString val, unit;
-        if (log.fix == CLiveLog::e2DFix) 
+        if (log.fix == CLiveLog::e2DFix)
             w->lblStatus->setText("2D");
-        if (log.fix == CLiveLog::e3DFix) 
+        if (log.fix == CLiveLog::e3DFix)
             w->lblStatus->setText("3D");
-        if (log.fix == CLiveLog::eEstimated) 
+        if (log.fix == CLiveLog::eEstimated)
             w->lblStatus->setText("DR");
         w->lblPosition->setText(pos);
         if (log.ele != WPT_NOFLOAT)
@@ -377,6 +377,6 @@ void CLiveLogDB::addWpt()
         (m_log.fix == CLiveLog::e3DFix) ||
         (m_log.fix == CLiveLog::eEstimated) )
     {
-        CWptDB::self().newWpt(m_log.lon * DEG_TO_RAD, m_log.lat * DEG_TO_RAD, m_log.ele);
+        CWptDB::self().newWpt(m_log.lon * DEG_TO_RAD, m_log.lat * DEG_TO_RAD, m_log.ele, "");
     }
 }

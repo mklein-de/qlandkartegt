@@ -243,12 +243,13 @@ QList<CWptDB::keys_t> CWptDB::keys()
 }
 
 
-CWpt * CWptDB::newWpt(float lon, float lat, float ele)
+CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
 {
-    CWpt * wpt = new CWpt(this);
-    wpt->lon = lon * RAD_TO_DEG;
-    wpt->lat = lat * RAD_TO_DEG;
-    wpt->ele = ele;
+    CWpt * wpt  = new CWpt(this);
+    wpt->lon    = lon * RAD_TO_DEG;
+    wpt->lat    = lat * RAD_TO_DEG;
+    wpt->ele    = ele;
+    wpt->name   = name;
 
     QSettings cfg;
     wpt->setIcon(cfg.value("waypoint/lastSymbol","").toString());

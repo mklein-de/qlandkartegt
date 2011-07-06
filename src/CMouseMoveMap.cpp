@@ -388,7 +388,7 @@ void CMouseMoveMap::slotAddWpt()
     double v = mousePos.y();
     map.convertPt2Rad(u,v);
     float ele = dem.getElevation(u,v);
-    CWptDB::self().newWpt(u, v, ele);
+    CWptDB::self().newWpt(u, v, ele,"");
 
 }
 
