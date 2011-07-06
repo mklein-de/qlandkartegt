@@ -87,6 +87,8 @@ class IMouse : public QObject
 
         static void resetPos1(){pos1Pixel = pos1LonLat = QPointF(-1,-1);}
 
+        void setSelTrackPt(CTrack::pt_t * pt);
+
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif

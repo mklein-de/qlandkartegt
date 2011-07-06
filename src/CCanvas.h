@@ -136,6 +136,7 @@ class CCanvas : public QWidget
         void slotCopyPosition();
         void slotHighlightTrack(CTrack * track);
         void slotTrackChanged();
+        void slotActiveTrackPoint(double dist);
 
     protected:
         void paintEvent(QPaintEvent * e);

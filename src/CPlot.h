@@ -56,6 +56,7 @@ class CPlot : public QWidget
         void activePointSignal(double dist);
         void sigClicked();
 
+
     protected slots:
         void slotSave();
 

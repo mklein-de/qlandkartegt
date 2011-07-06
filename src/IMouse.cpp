@@ -824,3 +824,9 @@ void IMouse::slotSetPos1()
     pos1LonLat = QPointF(u,v);
 }
 
+
+void IMouse::setSelTrackPt(CTrack::pt_t * pt)
+{
+    selTrkPt = pt;
+    canvas->update();
+}

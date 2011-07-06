@@ -23,6 +23,8 @@
 #include "CCanvas.h"
 
 #include "config.h"
+#include "CTrackDB.h"
+#include "CTrack.h"
 
 #include <QtGui>
 
@@ -44,6 +46,10 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 , thinLine(false)
 , cursorFocus(false)
 {
+    if(mode == eIcon)
+    {
+        setMouseTracking(true);
+    }
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
     if(mode == eIcon)
@@ -855,15 +861,29 @@ void CPlot::wheelEvent ( QWheelEvent * e )
 
 void CPlot::mouseMoveEvent(QMouseEvent * e)
 {
-    checkClick = false;
+    if(mode == eIcon)
+    {
+        CTrack * trk = CTrackDB::self().highlightedTrack();
+        if(trk == 0)
+        {
+            return;
+        }
 
-    CPlotAxis &xaxis = m_pData->x();
-    xaxis.move(startMovePos.x() - e->pos().x());
+        QPoint pos = e->pos();
+        double dist = getXValByPixel(pos.x());
+        emit activePointSignal(dist);
+    }
+    else{
+        checkClick = false;
 
-    CPlotAxis &yaxis = m_pData->y();
-    yaxis.move(e->pos().y() - startMovePos.y());
+        CPlotAxis &xaxis = m_pData->x();
+        xaxis.move(startMovePos.x() - e->pos().x());
 
-    startMovePos = e->pos();
+        CPlotAxis &yaxis = m_pData->y();
+        yaxis.move(e->pos().y() - startMovePos.y());
+
+        startMovePos = e->pos();
+    }
     update();
 }
 

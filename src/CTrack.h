@@ -188,6 +188,8 @@ class CTrack : public IItem
         quint32 getTotalTime(){return totalTime;}
         /// select tarckpoint by index
         void setPointOfFocus(int idx, bool eraseSelection, bool moveMap);
+        /// set point of focus to a point with a given distance from start
+        pt_t * getPointOfFocus(double dist);
         ///
         QDateTime getStartTimestamp();
         QDateTime getEndTimestamp();

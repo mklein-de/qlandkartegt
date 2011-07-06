@@ -96,8 +96,9 @@ CCanvas::CCanvas(QWidget * parent)
     profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
     profile->resize(300,120);
     profile->hide();
-    profile->setToolTip(tr("Click to edit track and to see large profile"));
+//    profile->setToolTip(tr("Click to edit track and to see large profile"));
 
+    connect(profile, SIGNAL(activePointSignal(double)), this, SLOT(slotActiveTrackPoint(double)));
 }
 
 
@@ -238,7 +239,6 @@ void CCanvas::paintEvent(QPaintEvent * e)
 void CCanvas::mouseMoveEvent(QMouseEvent * e)
 {
     posMouse = e->pos();
-
     mouseMoveEventCoord(e);
     mouse->mouseMoveEvent(e);
 }
@@ -809,6 +809,22 @@ void CCanvas::slotTrackChanged()
 {
     CTrack * trk = CTrackDB::self().highlightedTrack();
     slotHighlightTrack(trk);
+}
+
+void CCanvas::slotActiveTrackPoint(double dist)
+{
+    CTrack * trk = CTrackDB::self().highlightedTrack();
+    if(trk == 0)
+    {
+        return;
+    }
+    CTrack::pt_t * pt = trk->getPointOfFocus(dist);
+    if(pt == 0)
+    {
+        return;
+    }
+
+    mouseMoveMap->setSelTrackPt(pt);
 }
 
 void CCanvas::slotHighlightTrack(CTrack * track)

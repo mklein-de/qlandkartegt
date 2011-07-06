@@ -900,6 +900,28 @@ void CTrack::setPointOfFocus(int idx, bool eraseSelection, bool moveMap)
     emit sigChanged();
 }
 
+CTrack::pt_t * CTrack::getPointOfFocus(double dist)
+{
+    QList<CTrack::pt_t>::const_iterator trkpt = track.begin();
+    quint32 idx = 0;
+    while(trkpt != track.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(dist < trkpt->distance)
+        {
+            return &track[idx];
+        }
+        idx = trkpt->idx;
+        ++trkpt;
+    }
+
+    return 0;
+}
+
 
 QDateTime CTrack::getStartTimestamp()
 {
