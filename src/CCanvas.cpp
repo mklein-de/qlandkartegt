@@ -99,6 +99,7 @@ CCanvas::CCanvas(QWidget * parent)
 //    profile->setToolTip(tr("Click to edit track and to see large profile"));
 
     connect(profile, SIGNAL(activePointSignal(double)), this, SLOT(slotActiveTrackPoint(double)));
+    connect(mouseMoveMap, SIGNAL(sigTrkPt(CTrack::pt_t*)), profile, SLOT(slotTrkPt(CTrack::pt_t*)));
 }
 
 

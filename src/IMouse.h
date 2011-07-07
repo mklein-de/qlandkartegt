@@ -93,6 +93,9 @@ class IMouse : public QObject
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif
 
+    signals:
+        void sigTrkPt(CTrack::pt_t *  pt);
+
     protected slots:
         void slotSetPos1();
 

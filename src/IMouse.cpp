@@ -687,8 +687,9 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     }
 
     if(oldTrackPt != selTrkPt)
-    {
+    {        
         canvas->update();
+        emit sigTrkPt(selTrkPt);
     }
 
 }

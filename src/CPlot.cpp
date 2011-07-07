@@ -45,6 +45,7 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 , showScale(true)
 , thinLine(false)
 , cursorFocus(false)
+, posMouse(-1,-1)
 {
     if(mode == eIcon)
     {
@@ -361,6 +362,17 @@ void CPlot::draw(QPainter& p)
     drawTags(p);
 
     drawLegend(p);
+
+    if(mode == eIcon)
+    {
+        int x = posMouse.x();
+        if(x != -1)
+        {
+            p.setPen(QPen(Qt::red,2));
+            p.drawLine(x, rectGraphArea.top(), x, rectGraphArea.bottom());
+        }
+
+    }
 
 }
 
@@ -863,6 +875,7 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 {
     if(mode == eIcon)
     {
+        posMouse = QPoint(-1,-1);
         CTrack * trk = CTrackDB::self().highlightedTrack();
         if(trk == 0)
         {
@@ -871,7 +884,17 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
         QPoint pos = e->pos();
         double dist = getXValByPixel(pos.x());
+
+        if(dist < 0 || dist > trk->getTotalDistance())
+        {
+            return;
+        }
+
+        posMouse = e->pos();
+
         emit activePointSignal(dist);
+
+
     }
     else{
         checkClick = false;
@@ -927,6 +950,7 @@ void CPlot::mousePressEvent(QMouseEvent * e)
 void CPlot::leaveEvent(QEvent * event)
 {
     cursorFocus = false;
+    posMouse = QPoint(-1, -1);
     QApplication::restoreOverrideCursor();
     update();
 }
@@ -938,3 +962,15 @@ void CPlot::enterEvent(QEvent * event)
     update();
 }
 
+void CPlot::slotTrkPt(CTrack::pt_t * pt)
+{
+    if(pt == 0)
+    {
+        posMouse = QPoint(-1,-1);
+        return;
+    }
+    int x = m_pData->x().val2pt(pt->distance);
+    int y = m_pData->y().val2pt(pt->altitude);
+    posMouse = QPoint(x, y);
+    update();
+}

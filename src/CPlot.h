@@ -23,6 +23,7 @@
 #include <QWidget>
 
 #include "CPlotData.h"
+#include "CTrack.h"
 
 class CPlot : public QWidget
 {
@@ -52,9 +53,12 @@ class CPlot : public QWidget
 
         void draw(QPainter& p);
 
-        signals:
+    signals:
         void activePointSignal(double dist);
         void sigClicked();
+
+    public slots:
+        void slotTrkPt(CTrack::pt_t * pt);
 
 
     protected slots:
@@ -134,6 +138,9 @@ class CPlot : public QWidget
         bool thinLine;
 
         bool cursorFocus;
+
+        QPoint posMouse;
+
     public slots:
         void resetZoom();
 };
