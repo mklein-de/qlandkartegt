@@ -377,7 +377,7 @@ void CMapQMAPExport::startQLM()
                 {
                     job_t tmpJob = job;
 
-                    div = (quint64)sqrt(div/(MAXENDURA));
+                    div = (quint64)sqrt((float)div/(MAXENDURA));
                     div += 1;
 
                     int tilesX = job.width/div;
