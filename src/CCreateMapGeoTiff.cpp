@@ -890,6 +890,7 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         {
             args << "-r" << "cubic";
         }
+
         args << "-dstnodata" << "\"255\"";
         args << tmpfile1->fileName();
 
@@ -915,7 +916,6 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
         args << "-co" << "blockxsize=256";
         args << "-co" << "blockysize=256";
         args << "-co" << "compress=deflate";
-        args << "-co" << "predictor=1";
         args << tmpfile2->fileName();
         args << labelOutputFile->text();
 
@@ -927,10 +927,18 @@ void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
     }
     if(state == eTile)
     {
+        IMap& map = CMapDB::self().getMap();
         state = eOverview;
 
         QStringList args;
-        args << "-r" << "cubic";
+        if(map.is32BitRgb())
+        {
+            args << "-r" << "cubic";
+        }
+        else
+        {
+            args << "-r" << "average";
+        }
         args << "--config" << "COMPRESS_OVERVIEW" << "JPEG";
         args << labelOutputFile->text();
 
