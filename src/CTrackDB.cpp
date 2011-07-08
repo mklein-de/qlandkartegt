@@ -424,6 +424,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
     QDomElement root = gpx.documentElement();
     QMap<QString,CTrack*>::iterator track = tracks.begin();
 
+    quint32 dummyTimestamp = 0;
 
     QList<keys_t> _keys = this->keys();
     QList<keys_t>::const_iterator _key = _keys.begin();
@@ -499,13 +500,20 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
             if(pt->timestamp != 0x000000000 && pt->timestamp != 0xFFFFFFFF)
             {
-                QDateTime t = QDateTime::fromTime_t(pt->timestamp).toUTC();
-                t = t.addMSecs(pt->timestamp_msec);
-                QDomElement time = gpx.createElement("time");
-                trkpt.appendChild(time);
-                QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss.zzz'Z'"));
-                time.appendChild(_time_);
+                dummyTimestamp = pt->timestamp;
             }
+            else
+            {
+                dummyTimestamp++;
+            }
+
+            QDateTime t = QDateTime::fromTime_t(dummyTimestamp).toUTC();
+            t = t.addMSecs(pt->timestamp_msec);
+            QDomElement time = gpx.createElement("time");
+            trkpt.appendChild(time);
+            QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss.zzz'Z'"));
+            time.appendChild(_time_);
+
 
             if(pt->hdop != WPT_NOFLOAT)
             {
