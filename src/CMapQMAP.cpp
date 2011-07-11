@@ -147,11 +147,13 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         resize(parent->size());
     }
 
-    checkQuadZoom = new QCheckBox(theMainWindow->getCanvas());
-    checkQuadZoom->setText(tr("quadratic zoom"));
-    checkQuadZoom->setChecked(quadraticZoom);
-    theMainWindow->statusBar()->insertPermanentWidget(0,checkQuadZoom);
-
+    if(!key.isEmpty())
+    {
+        checkQuadZoom = new QCheckBox(theMainWindow->getCanvas());
+        checkQuadZoom->setText(tr("quadratic zoom"));
+        checkQuadZoom->setChecked(quadraticZoom);
+        theMainWindow->statusBar()->insertPermanentWidget(0,checkQuadZoom);
+    }
     qDebug() << "done";
 }
 

@@ -1,7 +1,7 @@
 project(qlandkarteqt-binary)
 
 option(WITH_OPENGL "BUILD OPENGL" ON)
-option(WIH_EXIF "BUILD EXIF" ON)
+option(WITH_EXIF "BUILD EXIF" ON)
 option(WITH_DMTX "BUILD DMTX" ON)
 option(WITH_GPSD "BUILD_GPSD" ON)
 

@@ -6392,7 +6392,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="68"/>
         <source>Delete non-selected</source>
-        <translation>Lösche nicht ausgewählte</translation>
+        <translation type="unfinished">Lösche nicht ausgewählte</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="69"/>
