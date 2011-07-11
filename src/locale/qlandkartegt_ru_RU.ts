@@ -807,9 +807,8 @@
 <context>
     <name>CCanvas</name>
     <message>
-        <location filename="../CCanvas.cpp" line="99"/>
         <source>Click to edit track and to see large profile</source>
-        <translation>Нажмите для редактирования трека и просмотра профиля</translation>
+        <translation type="obsolete">Нажмите для редактирования трека и просмотра профиля</translation>
     </message>
     <message>
         <source>Copy Position</source>
@@ -998,7 +997,7 @@ coordinate formats:
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="972"/>
+        <location filename="../CCreateMapGeoTiff.cpp" line="980"/>
         <source>--- finished ---
 </source>
         <translation>--- закончено ---
@@ -4642,27 +4641,27 @@ Do you want to save your changes?</source>
 <context>
     <name>CPlot</name>
     <message>
-        <location filename="../CPlot.cpp" line="334"/>
+        <location filename="../CPlot.cpp" line="341"/>
         <source>No or bad data.</source>
         <translation>Нет или плохие данные.</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="770"/>
+        <location filename="../CPlot.cpp" line="788"/>
         <source>Vertical zoom</source>
         <translation>Вертикальное масштабирование</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="774"/>
+        <location filename="../CPlot.cpp" line="792"/>
         <source>Reset zoom</source>
         <translation>Сбросить масштабирование</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="777"/>
+        <location filename="../CPlot.cpp" line="795"/>
         <source>Save...</source>
         <translation>Сохранить ...</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="803"/>
+        <location filename="../CPlot.cpp" line="821"/>
         <source>Select output file</source>
         <translation>Выбрать файл для сохранения</translation>
     </message>
@@ -5170,7 +5169,7 @@ length: %1 %2</source>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="945"/>
+        <location filename="../CTrack.cpp" line="967"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -5181,51 +5180,51 @@ length: %1 %2</source>
         <translation type="obsolete">,точек: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="946"/>
+        <location filename="../CTrack.cpp" line="968"/>
         <source>, points: %1 (%2)</source>
         <translation>, точки: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="955"/>
+        <location filename="../CTrack.cpp" line="977"/>
         <source>
 time: %1:</source>
         <translation>
 ￼время: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="959"/>
+        <location filename="../CTrack.cpp" line="981"/>
         <source>
 time: </source>
         <translation>
 время:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="963"/>
+        <location filename="../CTrack.cpp" line="985"/>
         <source>, speed: %1 %2</source>
         <translation>, скорость: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="965"/>
+        <location filename="../CTrack.cpp" line="987"/>
         <source>
 start: %1</source>
         <translation>
 старт: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="965"/>
-        <location filename="../CTrack.cpp" line="966"/>
+        <location filename="../CTrack.cpp" line="987"/>
+        <location filename="../CTrack.cpp" line="988"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="966"/>
+        <location filename="../CTrack.cpp" line="988"/>
         <source>
 end: %1</source>
         <translation>
 ￼конец: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="971"/>
+        <location filename="../CTrack.cpp" line="993"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
@@ -5235,37 +5234,37 @@ end: %1</source>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="601"/>
+        <location filename="../CTrackDB.cpp" line="609"/>
         <source>Track%1</source>
         <translation>Трек %1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1105"/>
+        <location filename="../CTrackDB.cpp" line="1113"/>
         <source>Hmax=%1%2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1110"/>
+        <location filename="../CTrackDB.cpp" line="1118"/>
         <source>Hmin=%1%2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1115"/>
+        <location filename="../CTrackDB.cpp" line="1123"/>
         <source>Vmax=%1%2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1136"/>
+        <location filename="../CTrackDB.cpp" line="1144"/>
         <source>Failed...</source>
         <translation>Невозможно....</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1136"/>
+        <location filename="../CTrackDB.cpp" line="1144"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Невозможно скопировать трек. Вы должны выбрать трек или точку на треке.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1246"/>
+        <location filename="../CTrackDB.cpp" line="1254"/>
         <source>_rev</source>
         <translation></translation>
     </message>
@@ -5568,32 +5567,32 @@ end: %1</source>
 <context>
     <name>CWpt</name>
     <message>
-        <location filename="../CWpt.cpp" line="494"/>
+        <location filename="../CWpt.cpp" line="496"/>
         <source>elevation: %1 %2</source>
         <translation>высота: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="502"/>
+        <location filename="../CWpt.cpp" line="504"/>
         <source>proximity: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="521"/>
+        <location filename="../CWpt.cpp" line="523"/>
         <source>Parent: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="960"/>
+        <location filename="../CWpt.cpp" line="962"/>
         <source>No additional information.</source>
         <translation>Нет дополнительной информации.</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="967"/>
+        <location filename="../CWpt.cpp" line="969"/>
         <source>&lt;div&gt;&lt;b&gt;Type:&lt;/b&gt; %1 &lt;b&gt;Container:&lt;/b&gt; %2 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="968"/>
+        <location filename="../CWpt.cpp" line="970"/>
         <source>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </source>
         <translation></translation>
     </message>
@@ -5601,43 +5600,43 @@ end: %1</source>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="291"/>
+        <location filename="../CWptDB.cpp" line="292"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Вы действительно хотите удалить &quot;приклеенную&quot; путевую точку &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="292"/>
+        <location filename="../CWptDB.cpp" line="293"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Удалить &quot;приклеенную&quot; путевую точку...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1117"/>
-        <location filename="../CWptDB.cpp" line="1119"/>
+        <location filename="../CWptDB.cpp" line="1128"/>
+        <location filename="../CWptDB.cpp" line="1130"/>
         <source>Missing libexif</source>
         <translation>Отсутствует libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1117"/>
+        <location filename="../CWptDB.cpp" line="1128"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Не могу найти libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1119"/>
+        <location filename="../CWptDB.cpp" line="1130"/>
         <source>Unable to find libexif.so.</source>
         <translation>Не могу найти libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1126"/>
+        <location filename="../CWptDB.cpp" line="1137"/>
         <source>Select path...</source>
         <translation>Выберите путь...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1139"/>
+        <location filename="../CWptDB.cpp" line="1150"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Чтение EXIF тегов из картинок.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1139"/>
+        <location filename="../CWptDB.cpp" line="1150"/>
         <source>Abort</source>
         <translation>Отменить</translation>
     </message>
@@ -5696,26 +5695,31 @@ end: %1</source>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="68"/>
+        <source>Delete non-selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CWptToolWidget.cpp" line="69"/>
         <source>Delete by ...</source>
         <translation>Удалить по...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="97"/>
+        <location filename="../CWptToolWidget.cpp" line="98"/>
         <source>enter valid position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="209"/>
+        <location filename="../CWptToolWidget.cpp" line="210"/>
         <source> (sticky)</source>
         <translation>(приклеено)</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="354"/>
+        <location filename="../CWptToolWidget.cpp" line="390"/>
         <source>Distance [%1]</source>
         <translation>Расстояние [%1]</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="371"/>
+        <location filename="../CWptToolWidget.cpp" line="407"/>
         <source>Proximity distance ...</source>
         <translation>Приблизительное расстояние</translation>
     </message>
