@@ -1,5 +1,9 @@
 --- 2011.07.11 ---
 
+
+
+--- 2011.07.11 ---
+
 Request #297:
 Add import/export for OZI data.
 
@@ -1280,6 +1284,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
