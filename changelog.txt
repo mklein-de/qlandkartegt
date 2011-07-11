@@ -1,3 +1,46 @@
+--- 2011.07.11 ---
+
+Request #297:
+Add import/export for OZI data.
+
+Request #298:
+Add track profiles to diary
+
+Request #299:
+Add import of WBT201 data
+
+Bug     #300:
+Diary: comments do not match their items
+
+Request #301:
+Add option for southern hemisphere in projection wizzard
+
+Request #302:
+Enhance coordinate / pixel query on canvas
+
+Request #303:
+Iterate over reference points with n and b key for finetunig
+
+Request #304:
+Add overview levels to reference process
+
+Request #305:
+Add on-the-fly quadratic zoom option to qmap
+
+Request #306:
+Add cachename to geocaches on the map
+
+Request #307:
+Add selection of multiple waypoints via checkboxes
+
+Request #308:
+Enhance delete, icon and proximity funtions for new waypoint selection
+
+Request #309:
+Show track point under cursor in profile preview and vice versa
+
+
+
 --- 2011.06.23 ---
 
 Bug     #294:
@@ -1237,6 +1280,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
