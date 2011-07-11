@@ -879,7 +879,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             {
                 p.setPen(Qt::NoPen);
                 p.setBrush(Qt::white);
-                p.drawEllipse(u, v, 10, 10);
+                p.drawEllipse(u - 2, v - 2, 14, 14);
                 p.drawPixmap(u, v, pixOk);
             }
 
