@@ -837,6 +837,8 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     IMap& map = CMapDB::self().getMap();
     QColor color = CResources::self().wptTextColor();
 
+    QPixmap pixOk(":/icons/iconOk10x10.png");
+
     // added by AD
     QList<QRect> blockAreas;
     QFontMetrics fm(CResources::self().getMapFont());
@@ -872,6 +874,14 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawPixmap(u - (o - 1) , v - (o - 1), back);
 
             p.drawPixmap(u - o , v - o, icon);
+
+            if((*wpt)->selected)
+            {
+                p.setPen(Qt::NoPen);
+                p.setBrush(Qt::white);
+                p.drawEllipse(u, v, 10, 10);
+                p.drawPixmap(u, v, pixOk);
+            }
 
             // added by AD
             blockAreas << QRect(u - o , v - o, icon.width(), icon.height());

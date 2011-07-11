@@ -65,6 +65,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu->addSeparator();
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));    
     actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
+    actDeleteNonSel = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete non-selected"),this,SLOT(slotDeleteNonSel()));
     actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
 
     actShowNames->setCheckable(true);
@@ -247,8 +248,11 @@ void CWptToolWidget::slotItemClicked(QListWidgetItem* item)
 
 void CWptToolWidget::slotContextMenu(const QPoint& pos)
 {
-    int cnt = listWpts->selectedItems().count();
+    QList<CWpt*> selWpts;
+    collectSelectedWaypoints(selWpts);
+    actDeleteNonSel->setEnabled(!selWpts.isEmpty());
 
+    int cnt = listWpts->selectedItems().count();
     if(cnt > 0)
     {
         if(cnt > 1)
@@ -282,15 +286,47 @@ void CWptToolWidget::slotEdit()
 void CWptToolWidget::slotDelete()
 {
     QStringList keys;
-    QListWidgetItem * item;
-    const QList<QListWidgetItem*>& items = listWpts->selectedItems();
-    foreach(item,items)
+    QList<CWpt*> selWpts;
+    collectSelectedWaypoints(selWpts);
+
+    if(selWpts.isEmpty())
     {
-        keys << item->data(Qt::UserRole).toString();
+
+        QListWidgetItem * item;
+        const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+        foreach(item,items)
+        {
+            keys << item->data(Qt::UserRole).toString();
+        }
+    }
+    else
+    {
+        foreach(CWpt* wpt, selWpts)
+        {
+            keys << wpt->getKey();
+        }
     }
     CWptDB::self().delWpt(keys, false);
 }
 
+void CWptToolWidget::slotDeleteNonSel()
+{
+    QStringList nonSelWpts;
+    CWptDB::keys_t key;
+    QList<CWptDB::keys_t> keys = CWptDB::self().keys();
+
+    foreach(key, keys)
+    {
+        CWpt * wpt = CWptDB::self().getWptByKey(key.key);
+
+        if(!wpt->selected)
+        {
+            nonSelWpts << wpt->getKey();
+        }
+    }
+
+    CWptDB::self().delWpt(nonSelWpts);
+}
 
 void CWptToolWidget::slotDeleteBy()
 {
@@ -472,4 +508,5 @@ void CWptToolWidget::slotResetSel()
     }
 
     slotDBChanged();
+    theMainWindow->getCanvas()->update();
 }

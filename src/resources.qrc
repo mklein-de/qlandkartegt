@@ -480,5 +480,6 @@
         <file>icons/iconDiaryOn16x16.png</file>
         <file>icons/iconDiaryDel16x16.png</file>
         <file>icons/iconCheckbox16x16.png</file>
+        <file>icons/iconOk10x10.png</file>
     </qresource>
 </RCC>

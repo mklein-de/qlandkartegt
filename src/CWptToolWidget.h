@@ -63,6 +63,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotContextMenu(const QPoint& pos);
         void slotEdit();
         void slotDelete();
+        void slotDeleteNonSel();
         void slotDeleteBy();
         void slotCopyPosition();
         void slotProximity();
@@ -84,6 +85,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actMakeRte;
         QAction * actZoomToFit;
         QAction * actDelete;
+        QAction * actDeleteNonSel;
         QAction * actDeleteBy;
         QAction * actShowNames;
         QAction * actResetSel;
