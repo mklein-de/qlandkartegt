@@ -870,6 +870,10 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             {
                 loadGPXData = convertData("wbt-tk1", filename, "gpx", tmpfile.fileName());
             }
+            else if(ext =="CSV")
+            {
+                loadGPXData = convertData("unicsv", filename, "gpx", tmpfile.fileName());
+            }
 
 
             if (!loadGPXData)
@@ -902,15 +906,27 @@ bool CMainWindow::convertData(const QString& inFormat, const QString& inFile, co
 {
     QString program = GPSBABEL;
     QStringList arguments;
-    arguments << "-t" << "-w" << "-r" << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+
+    if(inFormat == "unicsv")
+    {
+        arguments /* << "-t" */ << "-w" << "-r" << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+    }
+    else
+    {
+        arguments << "-t"  << "-w" << "-r" << "-i" << inFormat << "-f" << inFile << "-o" << outFormat << "-F" << outFile;
+    }
 
     QProcess *babelProcess = new QProcess(this);
     babelProcess->start(program, arguments);
     if (!babelProcess->waitForStarted())
+    {
         return false;
+    }
 
     if (!babelProcess->waitForFinished())
+    {
         return false;
+    }
 
     return babelProcess->exitCode() == 0;
 }
@@ -1519,7 +1535,7 @@ QString CMainWindow::getGeoDataFormats() {
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt *.tk1);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt);;Wintec WBT201/1000 (*.tk1)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt *.tk1);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt);;Wintec WBT201/1000 (*.tk1);;Universal CSV (*.csv)";
     }
     else
     {
