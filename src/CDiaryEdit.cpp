@@ -494,8 +494,23 @@ void CDiaryEdit::setTabTitle()
     }
 }
 
+static bool qSortWptLessName(CWpt * p1, CWpt * p2)
+{
+
+    QString name1 = p1->isGeoCache() ? p1->getGeocacheData().name : p1->getName();
+    QString name2 = p2->isGeoCache() ? p2->getGeocacheData().name : p2->getName();
+
+    return name1.toUpper() < name2.toUpper();
+}
+
+
 static bool qSortWptLessTime(CWpt * p1, CWpt * p2)
 {
+    if(p1->getTimestamp() == p2->getTimestamp())
+    {
+        return qSortWptLessName(p1,p2);
+    }
+
     return p1->getTimestamp() < p2->getTimestamp();
 }
 

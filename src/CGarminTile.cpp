@@ -565,7 +565,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
     subdivs.last().rgn_end = gar_load(uint32_t, pRgnHdr->hdr_rgn_t::offset) + gar_load(uint32_t, pRgnHdr->hdr_rgn_t::length);
 
     // read extended NT elements
-    if((gar_load(uint16_t, pTreHdr->hdr_subfile_part_t::length) >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint32_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t)))
+    if((gar_load(uint16_t, pTreHdr->hdr_subfile_part_t::length) >= 0x9A) && pTreHdr->tre7_size && (gar_load(uint16_t, pTreHdr->tre7_rec_size) >= sizeof(tre_subdiv2_t)))
     {
 
         rgnoff = subfile.parts["RGN"].offset;
@@ -578,7 +578,7 @@ void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
         //        const quint32 entries2 = subdivs.size();
 
         bool skipPois = true;
-        if(gar_load(uint32_t, pTreHdr->tre7_rec_size) == sizeof(tre_subdiv2_t)) skipPois = false;
+        if(gar_load(uint16_t, pTreHdr->tre7_rec_size) == sizeof(tre_subdiv2_t)) skipPois = false;
 
         //         for(int i = 0; i < pTreHdr->tre7_rec_size; ++i){
         //             if(i%4 == 0) fprintf(stderr,"\n");

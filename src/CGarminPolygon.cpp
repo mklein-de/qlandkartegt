@@ -364,7 +364,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     if(hasV2Label)
     {
-        quint32 offset = *(quint32*)(pData + bs_len);
+        quint32 offset = gar_ptr_load(uint24_t, pData + bs_len);
         bytes_total += 3;
         /// @todo read label information
         lbl_info = offset & 0x3FFFFF;
