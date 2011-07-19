@@ -447,6 +447,11 @@ void CMapQMAP::draw()
 
                             for (offset = 0; offset < sizeof(testPix) && *(((quint8 *)&testPix) + offset) != pbandColour; offset++);
 
+/// @todo this has to be removed with GDAL 1.8.0
+#ifdef WIN32
+                            offset = 3 - b;
+#endif // WIN32
+
                             if(offset < sizeof(testPix))
                             {
                                 quint8 * pTar   = img.bits() + offset;
