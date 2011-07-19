@@ -226,9 +226,9 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     double u = mousePos.x();
     double v = mousePos.y();
 
+    map.convertPt2M(u,v);
     if(!map.isLonLat())
-    {
-        map.convertPt2M(u,v);
+    {        
         QString posMeter = tr("N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosMeter()));
     }
