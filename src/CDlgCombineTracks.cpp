@@ -115,6 +115,8 @@ void CDlgCombineTracks::accept()
 
     CTrack * newtrack = new CTrack(&CTrackDB::self());
     newtrack->setName(lineTrackName->text());
+    //the color is the same as first selected track
+    newtrack->setColor(tracks[0]->getColorIdx());
 
     foreach(track, tracks)
     {

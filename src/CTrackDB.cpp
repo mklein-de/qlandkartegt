@@ -1254,6 +1254,7 @@ void CTrackDB::revertTrack(const QString& key)
     CTrack *tnew = new CTrack(this);
 
     tnew->name = torg->name + tr("_rev");
+    tnew->setColor(torg->getColorIdx());
 
     QList<CTrack::pt_t> track = torg->track;
     while(track.size())
