@@ -73,6 +73,9 @@ class CMapGeoTiff : public IMap
         /// scale [px/m]
         double yscale;
 
+        double xrot;
+        double yrot;
+
         /// reference point [m] (left hand side of map)
         double xref1;
         /// reference point [m] (top of map)

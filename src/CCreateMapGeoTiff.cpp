@@ -100,6 +100,10 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
     theMainWindow->getCanvas()->installEventFilter(this);
+
+    toolBox->setItemEnabled(1, false);
+    toolBox->setItemEnabled(2, false);
+    toolBox->setCurrentIndex(0);
 }
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
@@ -206,6 +210,7 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
 
 void CCreateMapGeoTiff::enableStep2()
 {
+    toolBox->setItemEnabled(1, true);
     toolOutFile->setEnabled(true);
     toolReload->setEnabled(true);
     labelStep2->setEnabled(true);
@@ -220,6 +225,7 @@ void CCreateMapGeoTiff::enableStep2()
 
 void CCreateMapGeoTiff::enableStep3()
 {
+    toolBox->setItemEnabled(2, true);
     labelStep3->setEnabled(true);
     textBrowser->setEnabled(true);
     helpStep3->setEnabled(true);
@@ -840,6 +846,7 @@ void CCreateMapGeoTiff::slotGoOn()
     cmd.start(GDALTRANSLATE, args);
 
     enableStep3();
+    toolBox->setCurrentIndex(2);
 }
 
 

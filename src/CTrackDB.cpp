@@ -775,6 +775,7 @@ void CTrackDB::splitTrack(int idx)
 
     CTrack * track1 = new CTrack(this);
     track1->setName(theTrack->getName() + "_1");
+    track1->setColor(theTrack->getColorIdx());
     for(i = 0; (i <= idx) && (trkpt != track.end()); ++i)
     {
         *track1 << *trkpt++;
@@ -782,6 +783,7 @@ void CTrackDB::splitTrack(int idx)
 
     CTrack * track2 = new CTrack(this);
     track2->setName(theTrack->getName() + "_2");
+    track2->setColor(theTrack->getColorIdx());
     for( ;(trkpt != track.end()); ++i)
     {
         *track2 << *trkpt++;
