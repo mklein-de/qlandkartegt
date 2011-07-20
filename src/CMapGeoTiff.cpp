@@ -35,8 +35,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 , ysize_px(0)
 , xscale(1.0)
 , yscale(1.0)
-, xrot(0.0)
-, yrot(0.0)
 , xref1(0)
 , yref1(0)
 , xref2(0)
@@ -143,9 +141,6 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 
         xref1   = adfGeoTransform[0];
         yref1   = adfGeoTransform[3];
-
-        xrot    = adfGeoTransform[2];
-        yrot    = adfGeoTransform[4];
     }
 
     xref2   = xref1 + xsize_px * xscale;
