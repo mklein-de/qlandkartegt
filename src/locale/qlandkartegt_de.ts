@@ -6606,7 +6606,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="37"/>
         <source>Input file:</source>
-        <translation>Zu landende Datei:</translation>
+        <translation>Zu ladende Datei:</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="59"/>
@@ -6706,7 +6706,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="108"/>
         <source>Map projection</source>
-        <translation>Karteprojektion</translation>
+        <translation>Kartenprojektion</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="142"/>

@@ -46,9 +46,6 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 {
     m_self = this;
     setupUi(this);
-    labelStep1->setPixmap(QPixmap(":/pics/Step1.png"));
-    labelStep2->setPixmap(QPixmap(":/pics/Step2.png"));
-    labelStep3->setPixmap(QPixmap(":/pics/Step3.png"));
 
     toolReload->setIcon(QPixmap(":/icons/iconReload16x16.png"));
     toolOutFile->setIcon(QPixmap(":/icons/iconFileSave16x16.png"));
@@ -97,9 +94,14 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
 
     toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
     toolGCPProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
+    pushOpenFile->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
 
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
     theMainWindow->getCanvas()->installEventFilter(this);
+
+    toolBox->setItemEnabled(1, false);
+    toolBox->setItemEnabled(2, false);
+    toolBox->setCurrentIndex(0);
 }
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
@@ -206,9 +208,9 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
 
 void CCreateMapGeoTiff::enableStep2()
 {
+    toolBox->setItemEnabled(1, true);
     toolOutFile->setEnabled(true);
     toolReload->setEnabled(true);
-    labelStep2->setEnabled(true);
     treeWidget->setEnabled(true);
     helpStep2->setEnabled(true);
     pushAddRef->setEnabled(true);
@@ -218,11 +220,13 @@ void CCreateMapGeoTiff::enableStep2()
 }
 
 
-void CCreateMapGeoTiff::enableStep3()
+void CCreateMapGeoTiff::enableStep3(bool doEnable)
 {
-    labelStep3->setEnabled(true);
-    textBrowser->setEnabled(true);
-    helpStep3->setEnabled(true);
+    toolBox->setItemEnabled(2, doEnable);
+    helpStep3->setEnabled(doEnable);
+    pushGoOn->setEnabled(doEnable);
+    textBrowser->setEnabled(doEnable);
+    helpStep3->setEnabled(doEnable);
 }
 
 
@@ -319,8 +323,7 @@ void CCreateMapGeoTiff::slotReload()
 
 void CCreateMapGeoTiff::slotModeChanged(int)
 {
-    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    enableStep3(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
 }
 
 
@@ -350,8 +353,7 @@ void CCreateMapGeoTiff::slotAddRef()
         treeWidget->resizeColumnToContents(i);
     }
 
-    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    enableStep3(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -380,8 +382,7 @@ void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
         treeWidget->resizeColumnToContents(i);
     }
 
-    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    enableStep3(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 }
 
@@ -410,8 +411,7 @@ void CCreateMapGeoTiff::slotDelRef()
         refpts.remove(item->data(eLabel,Qt::UserRole).toUInt());
         delete item;
     }
-    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    enableStep3(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -440,8 +440,7 @@ void CCreateMapGeoTiff::slotLoadRef()
         treeWidget->resizeColumnToContents(i);
     }
 
-    helpStep3->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
-    pushGoOn->setEnabled(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
+    enableStep3(treeWidget->topLevelItemCount() >= getNumberOfGCPs());
     pushSaveRef->setEnabled(treeWidget->topLevelItemCount() > 0);
 
     theMainWindow->getCanvas()->update();
@@ -839,7 +838,8 @@ void CCreateMapGeoTiff::slotGoOn()
     state = eTranslate;
     cmd.start(GDALTRANSLATE, args);
 
-    enableStep3();
+    enableStep3(true);
+    toolBox->setCurrentIndex(2);
 }
 
 
@@ -1006,7 +1006,6 @@ void CCreateMapGeoTiff::slotClearAll()
 
     toolOutFile->setEnabled(false);
     toolReload->setEnabled(false);
-    labelStep2->setEnabled(false);
     treeWidget->setEnabled(false);
     helpStep2->setEnabled(false);
     pushAddRef->setEnabled(false);
@@ -1016,12 +1015,13 @@ void CCreateMapGeoTiff::slotClearAll()
     pushDelRef->setEnabled(false);
     pushGoOn->setEnabled(false);
 
-    labelStep3->setEnabled(false);
     textBrowser->setEnabled(false);
     helpStep3->setEnabled(false);
+    toolBox->setItemEnabled(1, false);
+    enableStep3(false);
+    toolBox->setCurrentIndex(0);
 
     theMainWindow->getCanvas()->update();
-
 }
 
 

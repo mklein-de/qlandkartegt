@@ -55,10 +55,8 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
-
-    labelStep1->setPixmap(QPixmap(":/pics/Step1.png"));
-    labelStep2->setPixmap(QPixmap(":/pics/Step2.png"));
-
+    
+    toolBox->setItemEnabled(1, false);
 }
 
 
@@ -100,7 +98,7 @@ void CCreateMapQMAP::slotNewMap()
 
     pushAdd->setEnabled(true);
     helpStep2->setEnabled(true);
-    labelStep2->setEnabled(true);
+    toolBox->setItemEnabled(1, true);
 }
 
 
@@ -270,7 +268,7 @@ void CCreateMapQMAP::readqmap(const QString& filename)
     pushAdd->setEnabled(true);
     pushSave->setEnabled(treeLevels->topLevelItemCount());
     helpStep2->setEnabled(true);
-    labelStep2->setEnabled(true);
+    toolBox->setItemEnabled(1, true);
 }
 
 

@@ -35,9 +35,6 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 {
     setupUi(this);
 
-    labelStep2a->setPixmap(QPixmap(":/pics/Step2a.png"));
-    labelStep2b->setPixmap(QPixmap(":/pics/Step2b.png"));
-    labelStep2c->setPixmap(QPixmap(":/pics/Step2c.png"));
     labelExample->setPixmap(QPixmap(":/pics/grid_example.png"));
 
     helpStep2a->setHelp(tr("Place Reference Points"),
@@ -157,14 +154,13 @@ void CCreateMapGridTool::place4GCPs()
 void CCreateMapGridTool::slotCheck()
 {
     pushOk->setEnabled(false);
-    labelStep2c->setEnabled(false);
+    toolBox->setItemEnabled(2, false);
     if(lineLongitude->isEnabled() && lineLongitude->text().isEmpty()) return;
     if(lineLatitude->isEnabled() && lineLatitude->text().isEmpty()) return;
     if(lineXSpacing->text().isEmpty()) return;
     if(lineYSpacing->text().isEmpty()) return;
     pushOk->setEnabled(true);
-    labelStep2c->setEnabled(true);
-
+    toolBox->setItemEnabled(2, true);
 }
 
 

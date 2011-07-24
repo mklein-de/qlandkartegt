@@ -103,7 +103,7 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
         static CCreateMapGeoTiff * m_self;
 
         void enableStep2();
-        void enableStep3();
+        void enableStep3(bool doEnable);
         void cleanupTmpFiles();
         int getNumberOfGCPs();
 
