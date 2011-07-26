@@ -2366,6 +2366,10 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
     {
         if(item->data(eCoName, eUrType).toInt() >= eFolder0)
         {
+            actAddDiary->setVisible(false);
+            actShowDiary->setVisible(false);
+            actDelDiary->setVisible(false);
+
             if(item == itemDatabase)
             {
                 actDelDir->setVisible(false);
@@ -2407,9 +2411,6 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                 {
                     actMoveDir->setVisible(false);
                     actCopyDir->setVisible(false);
-                    actAddDiary->setVisible(false);
-                    actShowDiary->setVisible(false);
-                    actDelDiary->setVisible(false);
                 }
             }
 
