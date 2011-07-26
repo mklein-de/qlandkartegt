@@ -1052,7 +1052,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             {
                 filename += ".gpx";
             }
-            //ext = "GPX";
+            ext = "GPX";
         }
         else if ((ext == "PLT") || (ext == "RTE") || (ext == "WPT") || (filter == "OziExplorer (*.plt *.rte *.wpt)"))
         {
