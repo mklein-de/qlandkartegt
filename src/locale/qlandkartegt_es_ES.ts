@@ -421,7 +421,7 @@
     <message>
         <location filename="../CActions.cpp" line="94"/>
         <source>From &amp;Images...</source>
-        <translation type="unfinished">A partir de &amp;Imágenes...</translation>
+        <translation>A partir de &amp;Imágenes...</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="94"/>
@@ -2759,7 +2759,7 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CGpx.cpp" line="174"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
-        <translation>El archivo existe y no lo ha creado QLandkarte GT. Si pulsa &apos;si&apos; todos los datos de este fichero se perderán. Incluso si este archivo contiene datos GPX, QLandkarte GT podría no cargar y guardar todos los elementos de este archivo. Esos elementos se perderán. Se recomienda usar otro archivo &lt;b&gt;¿Seguro que desea sobreescribir el archivo?&lt;/b&gt;</translation>
+        <translation>El archivo existe y no lo ha creado QLandkarte GT. Si pulsa &apos;Sí&apos; todos los datos de este fichero se perderán. Incluso si este archivo contiene datos GPX, QLandkarte GT podría no cargar y guardar todos los elementos de este archivo. Esos elementos se perderán. Se recomienda usar otro archivo &lt;b&gt;¿Seguro que desea sobreescribir el archivo?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="190"/>
@@ -4696,7 +4696,7 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
     <message>
         <location filename="../CMouseMoveMap.cpp" line="261"/>
         <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pos1 -&gt; Pos %1x%2 anchura:%3 altura:%4</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="265"/>
@@ -4724,7 +4724,7 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
     <message>
         <location filename="../CMouseRefPoint.cpp" line="202"/>
         <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pos1 -&gt; Pos %1x%2 anchura:%3 altura:%4</translation>
     </message>
     <message>
         <location filename="../CMouseRefPoint.cpp" line="206"/>
@@ -5528,7 +5528,7 @@ final: %1</translation>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="706"/>
         <source>You are about to remove purged track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
-        <translation>Está a punto de eliminar permanentemente los puntos borrados del track. Si pulsa &apos;Si&apos; toda la información se perderá.</translation>
+        <translation>Está a punto de eliminar permanentemente los puntos borrados del track. Si pulsa &apos;Sí&apos; toda la información se perderá.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="911"/>
@@ -6135,7 +6135,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ICreateMapGeoTiff.ui" line="326"/>
         <location filename="../ICreateMapGeoTiff.ui" line="501"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>EtiquetaTexto</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="37"/>

@@ -162,6 +162,7 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
 
     CTrack * track1 = new CTrack(&CTrackDB::self());
     track1->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+    track1->setColor(trk->getColorIdx());
 
     while(trkpt != trkpts.end())
     {
@@ -180,6 +181,7 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
             trkptCnt = 0;
             track1 = new CTrack(&CTrackDB::self());
             track1->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+            track1->setColor(trk->getColorIdx());
         }
 
         trkpt++;
