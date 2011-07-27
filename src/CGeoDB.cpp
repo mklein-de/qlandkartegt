@@ -235,7 +235,15 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     initTreeWidget();
     itemDatabase->setExpanded(true);
 
-    saveOnExit = CResources::self().saveGeoDBOnExit();
+    saveOnExit      = CResources::self().saveGeoDBOnExit();
+    saveOnMinutes   = CResources::self().saveGeoDBMinutes();
+
+    qDebug() << "saveOnMinutes" << saveOnMinutes;
+
+    if(saveOnMinutes)
+    {
+        QTimer::singleShot(saveOnMinutes * 60000, this, SLOT(saveWorkspace()));
+    }
 }
 
 CGeoDB::~CGeoDB()
@@ -1792,6 +1800,8 @@ void CGeoDB::saveWorkspace()
         return;
     }
 
+    qDebug() << "saveWorkspace()";
+
     quint32 total, progCnt = 0;
     total = itemWksWpt->childCount() + itemWksTrk->childCount() + itemWksRte->childCount() + itemWksOvl->childCount() + CDiaryDB::self().count();
     PROGRESS_SETUP(tr("Saving workspace. Please wait."), total);
@@ -1920,6 +1930,11 @@ void CGeoDB::saveWorkspace()
         query.bindValue(":key", (*dry)->getKey());
         query.bindValue(":data", data);
         QUERY_EXEC(continue);
+    }
+
+    if(saveOnMinutes)
+    {
+        QTimer::singleShot(saveOnMinutes * 60000, this, SLOT(saveWorkspace()));
     }
 }
 

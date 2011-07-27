@@ -213,6 +213,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         quint32 isInternalEdit;
         /// a copy from CResources::saveOnExit;
         bool saveOnExit;
+
+        quint32 saveOnMinutes;
         /// the database object
         QSqlDatabase db;
 

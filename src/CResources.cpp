@@ -50,6 +50,7 @@ CResources::CResources(QObject * parent)
 #ifdef HAS_GEODB
 , m_useGeoDB(true)
 , m_saveGeoDBOnExit(false)
+, m_saveGeoDBMinutes(5)
 #ifndef Q_WS_MAC
 , m_pathGeoDB(QDir::homePath())
 #else
@@ -71,39 +72,40 @@ CResources::CResources(QObject * parent)
 
     QSettings cfg;
 
-    QString family  = cfg.value("environment/mapfont/family","Arial").toString();
-    int size        = cfg.value("environment/mapfont/size",8).toInt();
-    bool bold       = cfg.value("environment/mapfont/bold",false).toBool();
-    bool italic     = cfg.value("environment/mapfont/italic",false).toBool();
+    QString family      = cfg.value("environment/mapfont/family","Arial").toString();
+    int size            = cfg.value("environment/mapfont/size",8).toInt();
+    bool bold           = cfg.value("environment/mapfont/bold",false).toBool();
+    bool italic         = cfg.value("environment/mapfont/italic",false).toBool();
     m_mapfont = QFont(family,size);
     m_mapfont.setBold(bold);
     m_mapfont.setItalic(italic);
 
     //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
-    m_flipMouseWheel  = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
+    m_flipMouseWheel    = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
 #ifdef HAS_GEODB
-    m_useGeoDB  = cfg.value("environment/GeoDB",m_useGeoDB).toBool();
-    m_saveGeoDBOnExit  = cfg.value("environment/saveGeoDBOnExit",m_saveGeoDBOnExit).toBool();
-    m_pathGeoDB = QDir(cfg.value("environment/pathGeoDB", m_pathGeoDB.absolutePath()).toString());
+    m_useGeoDB          = cfg.value("environment/GeoDB",m_useGeoDB).toBool();
+    m_saveGeoDBOnExit   = cfg.value("environment/saveGeoDBOnExit",m_saveGeoDBOnExit).toBool();
+    m_saveGeoDBMinutes  = cfg.value("environment/saveGeoDBMinutes",m_saveGeoDBMinutes).toUInt();
+    m_pathGeoDB         = QDir(cfg.value("environment/pathGeoDB", m_pathGeoDB.absolutePath()).toString());
 #endif
 
-    m_useHttpProxy    = cfg.value("network/useProxy",m_useHttpProxy).toBool();
-    m_httpProxy       = cfg.value("network/proxy/url",m_httpProxy).toString();
-    m_httpProxyPort   = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
+    m_useHttpProxy      = cfg.value("network/useProxy",m_useHttpProxy).toBool();
+    m_httpProxy         = cfg.value("network/proxy/url",m_httpProxy).toString();
+    m_httpProxyPort     = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
 
     emit sigProxyChanged();
 
-    m_devKey          = cfg.value("device/key",m_devKey).toString();
-    m_devIPAddress    = cfg.value("device/ipAddr",m_devIPAddress).toString();
-    m_devIPPort       = cfg.value("device/ipPort",m_devIPPort).toUInt();
-    m_devSerialPort   = cfg.value("device/serialPort",m_devSerialPort).toString();
-    m_devBaudRate     = cfg.value("device/baudRate",m_devBaudRate).toString();
-    m_devType         = cfg.value("device/type",m_devType).toString();
-    m_devCharset      = cfg.value("device/charset",m_devCharset).toString();
+    m_devKey            = cfg.value("device/key",m_devKey).toString();
+    m_devIPAddress      = cfg.value("device/ipAddr",m_devIPAddress).toString();
+    m_devIPPort         = cfg.value("device/ipPort",m_devIPPort).toUInt();
+    m_devSerialPort     = cfg.value("device/serialPort",m_devSerialPort).toString();
+    m_devBaudRate       = cfg.value("device/baudRate",m_devBaudRate).toString();
+    m_devType           = cfg.value("device/type",m_devType).toString();
+    m_devCharset        = cfg.value("device/charset",m_devCharset).toString();
 
     emit sigDeviceChanged();
 
-    m_playSound       = cfg.value("device/playSound",m_playSound).toBool();
+    m_playSound         = cfg.value("device/playSound",m_playSound).toBool();
     IDevice::m_DownloadAllTrk   = cfg.value("device/dnlTrk",IDevice::m_DownloadAllTrk).toBool();
     IDevice::m_DownloadAllWpt   = cfg.value("device/dnlWpt",IDevice::m_DownloadAllWpt).toBool();
     IDevice::m_DownloadAllRte   = cfg.value("device/dnlRte",IDevice::m_DownloadAllRte).toBool();
@@ -171,6 +173,7 @@ CResources::~CResources()
 #ifdef HAS_GEODB
     cfg.setValue("environment/GeoDB",m_useGeoDB);
     cfg.setValue("environment/saveGeoDBOnExit",m_saveGeoDBOnExit);
+    cfg.setValue("environment/saveGeoDBMinutes",m_saveGeoDBMinutes);
     cfg.setValue("environment/pathGeoDB",m_pathGeoDB.absolutePath());
 #endif
     cfg.setValue("network/useProxy",m_useHttpProxy);

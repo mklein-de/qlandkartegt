@@ -60,6 +60,7 @@ class CResources : public QObject
 #ifdef HAS_GEODB
         bool useGeoDB(){return m_useGeoDB;}
         bool saveGeoDBOnExit(){return m_saveGeoDBOnExit;}
+        quint32 saveGeoDBMinutes(){return m_saveGeoDBMinutes;}
         QDir pathGeoDB(){return m_pathGeoDB;}
 #endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
@@ -133,6 +134,7 @@ class CResources : public QObject
 #ifdef HAS_GEODB
         bool m_useGeoDB;
         bool m_saveGeoDBOnExit;
+        quint32 m_saveGeoDBMinutes;
         QDir m_pathGeoDB;
 #endif
 

@@ -49,7 +49,7 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 #endif
 
     connect(toolPathGeoDB, SIGNAL(clicked()),this,SLOT(slotSelectPathGeoDB()));
-    connect(checkUseGeoDB, SIGNAL(clicked(bool)), checkGeoDBSaveOnExit, SLOT(setEnabled(bool)));
+    connect(checkUseGeoDB, SIGNAL(clicked(bool)), groupSaveWks, SLOT(setEnabled(bool)));
 }
 
 
@@ -93,10 +93,12 @@ void CDlgConfig::exec()
     checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
 #ifdef HAS_GEODB
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
-    checkGeoDBSaveOnExit->setEnabled(resources.m_useGeoDB);
+    groupSaveWks->setEnabled(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setChecked(resources.m_saveGeoDBOnExit);
+    spinGeoDBMinutes->setValue(resources.m_saveGeoDBMinutes);
     labelPathGeoDB->setText(resources.m_pathGeoDB.absolutePath());
 #endif
+
 
     comboDevice->addItem(tr(""),"");
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
@@ -184,6 +186,7 @@ void CDlgConfig::accept()
 #ifdef HAS_GEODB
     resources.m_useGeoDB        = checkUseGeoDB->isChecked();
     resources.m_saveGeoDBOnExit = checkGeoDBSaveOnExit->isChecked();
+    resources.m_saveGeoDBMinutes = spinGeoDBMinutes->value();
     resources.m_pathGeoDB       = QDir(labelPathGeoDB->text());
 #endif
 
