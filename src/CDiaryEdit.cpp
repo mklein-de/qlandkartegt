@@ -213,6 +213,22 @@ void CDiaryEdit::resizeEvent(QResizeEvent * e)
     draw(*textEdit->document());
 }
 
+void CDiaryEdit::closeEvent(QCloseEvent * e)
+{
+    if(diary.isModified())
+    {
+        QMessageBox::Button res = QMessageBox::warning(this, tr("Diary modified..."), tr("The diary is modified. Do you want to save it?"), QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes);
+
+        if(res == QMessageBox::Yes)
+        {
+            slotSave();
+        }
+    }
+
+
+    QWidget::closeEvent(e);
+}
+
 void CDiaryEdit::setWindowModified()
 {
     setWindowModified(true);

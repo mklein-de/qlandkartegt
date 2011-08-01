@@ -299,6 +299,16 @@ CDiary::~CDiary()
     if(!editWidget.isNull()) delete editWidget;
 }
 
+void CDiary::close()
+{
+    if(!editWidget.isNull())
+    {
+        editWidget->close();
+    }
+//    deleteLater();
+}
+
+
 void CDiary::clear()
 {
     //name.clear();
@@ -328,7 +338,7 @@ void CDiary::setModified()
 }
 
 void CDiary::slotEditWidgetDied(QObject*)
-{    
+{
     CDiaryDB::self().delDiary(getKey(), false);
 }
 
@@ -354,7 +364,7 @@ void CDiary::showEditWidget(CTabWidget * tab, bool fromDB)
         editWidget = new CDiaryEdit(*this,tab);
         connect(editWidget.data(), SIGNAL(destroyed(QObject*)), this, SLOT(slotEditWidgetDied(QObject*)));
     }
-    tab->addTab(editWidget, tr("Diary"));    
+    tab->addTab(editWidget, tr("Diary"));
     editWidget->slotReload(fromDB);
 }
 

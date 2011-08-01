@@ -59,9 +59,11 @@ class CDiary : public IItem
         QList<CTrack*>& getTrks(){return trks;}
         QList<CRoute*>& getRtes(){return rtes;}
 
-        bool isModified();       
+        bool isModified();
 
         void setModified();
+
+        void close();
 
     signals:
         void sigChanged();

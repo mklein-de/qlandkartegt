@@ -126,7 +126,7 @@ void CDiaryDB::addDiary(CDiary * diary, bool silent, bool fromDB)
 void CDiaryDB::delDiary(const QString& key, bool silent)
 {
     if(!diarys.contains(key)) return;
-    diarys.take(key)->deleteLater();
+    diarys.take(key)->close();
     if(!silent)
     {
         emit sigChanged();

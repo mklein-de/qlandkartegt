@@ -63,6 +63,7 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
     protected:
         void resizeEvent(QResizeEvent * e);
+        void closeEvent(QCloseEvent * event);
 
     private:
         friend class CDiaryEditLock;
