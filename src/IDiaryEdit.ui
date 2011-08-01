@@ -185,6 +185,13 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QCheckBox" name="checkAddMap">
+       <property name="text">
+        <string>add map view  when printing</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

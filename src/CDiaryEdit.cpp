@@ -170,6 +170,8 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
     checkProfile->setChecked(cfg.value("diary/showProfiles", true).toBool());
     connect(checkProfile, SIGNAL(clicked()), this, SLOT(slotIntReload()));
 
+    checkAddMap->setChecked(cfg.value("diary/addMapView", true).toBool());
+
 }
 
 CDiaryEdit::~CDiaryEdit()
@@ -179,6 +181,7 @@ CDiaryEdit::~CDiaryEdit()
     QSettings cfg;
     cfg.setValue("diary/showGeoCaches", checkGeoCache->isChecked());
     cfg.setValue("diary/showProfiles", checkProfile->isChecked());
+    cfg.setValue("diary/addMapView", checkAddMap->isChecked());
 }
 
 
@@ -303,10 +306,12 @@ void CDiaryEdit::slotPrintPreview()
     doc.setPageSize(pageSize);
     draw(doc);
 
-    QImage img;
-    theMainWindow->getCanvas()->print(img, pageSize.toSize() - QSize(10,10));
-
-    doc.rootFrame()->lastCursorPosition().insertImage(img);
+    if(checkAddMap->isChecked())
+    {
+        QImage img;
+        theMainWindow->getCanvas()->print(img, pageSize.toSize() - QSize(10,10));
+        doc.rootFrame()->lastCursorPosition().insertImage(img);
+    }
     doc.print(&printer);
 
     textEdit->clear();
