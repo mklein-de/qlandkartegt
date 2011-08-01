@@ -141,7 +141,11 @@
       <widget class="QComboBox" name="comboColor"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineName"/>
+      <widget class="QLineEdit" name="lineName">
+       <property name="toolTip">
+        <string>Use 'return' key to change name permanently.</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox">
@@ -705,8 +709,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>18</width>
-                 <height>18</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

@@ -90,7 +90,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotContextMenu(const QPoint& pos);
         void slotSplit();
         void slotColorChanged(int idx);
-        void slotNameChanged(const QString&);
+        void slotNameChanged();
+        void slotNameChanged(const QString& name);
 
     protected:
         void keyPressEvent(QKeyEvent * e);

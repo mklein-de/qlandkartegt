@@ -145,7 +145,8 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(treePoints,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     connect(comboColor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColorChanged(int)));
-    connect(lineName, SIGNAL(textChanged(const QString&)), this, SLOT(slotNameChanged(const QString&)));
+    connect(lineName, SIGNAL(returnPressed()), this, SLOT(slotNameChanged()));
+    connect(lineName, SIGNAL(textChanged(QString)), this, SLOT(slotNameChanged(QString)));
 }
 
 
@@ -1154,8 +1155,27 @@ void CTrackEditWidget::slotColorChanged(int idx)
 void CTrackEditWidget::slotNameChanged(const QString& name)
 {
     if(track.isNull()) return;
-
     QString _name_ = track->getName();
+    QPalette palette = lineName->palette();
+    if(_name_ != name)
+    {
+        palette.setColor(QPalette::Base, QColor(255, 128, 128));
+    }
+    else
+    {
+        palette.setColor(QPalette::Base, QColor(255, 255, 255));
+    }
+    lineName->setPalette(palette);
+}
+
+void CTrackEditWidget::slotNameChanged()
+{
+    if(track.isNull()) return;
+
+    QString  name  = lineName->text();
+    QString _name_ = track->getName();
+
+    QPalette palette = lineName->palette();
 
     if(_name_ != name)
     {
@@ -1164,6 +1184,11 @@ void CTrackEditWidget::slotNameChanged(const QString& name)
         emit CTrackDB::self().sigModified();
         emit CTrackDB::self().sigModified(track->getKey());
         qDebug() << "void CTrackEditWidget::slotNameChanged(const QString& name)";
+
+        palette.setColor(QPalette::Base, QColor(128, 255, 128));
     }
+
+
+    lineName->setPalette(palette);
 }
 
