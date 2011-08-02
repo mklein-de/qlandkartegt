@@ -700,7 +700,9 @@ void CDiaryEdit::draw(QTextDocument& doc)
             table->cellAt(cnt,eInfo).firstCursorPosition().insertText(trk->getInfo(), fmtCharStandard);
             if(checkProfile->isChecked())
             {
-                QImage profile(fm.width("X") * 30,fm.height()*7,QImage::Format_ARGB32);
+                quint32 w =  doc.textWidth();
+                //QImage profile(fm.width("X") * 30,fm.height()*7,QImage::Format_ARGB32);
+                QImage profile(w/2.5,(w * 6)/(16 * 2.5),QImage::Format_ARGB32);
                 getTrackProfile(trk, profile);
                 table->cellAt(cnt,eInfo).lastCursorPosition().insertBlock(fmtBlockStandard);
                 table->cellAt(cnt,eInfo).lastCursorPosition().insertImage(profile);
