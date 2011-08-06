@@ -116,6 +116,10 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                     s1 >> trkpt.timestamp;
                     s1 >> trkpt.flags;
 
+                    trkpt._lon = trkpt.lon;
+                    trkpt._lat = trkpt.lat;
+                    trkpt._ele = trkpt.ele;
+
                     track << trkpt;
                 }
                 break;
@@ -161,31 +165,20 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
                 while (pt1 != track.track.end())
                 {
-                                 ///< [m]
-                    s1 >> pt1->altitude;
-                                 ///< [m]
-                    s1 >> pt1->height;
-                                 ///< [m/s]
-                    s1 >> pt1->velocity;
-                                 ///< []
-                    s1 >> pt1->heading;
-                                 ///< []
-                    s1 >> pt1->magnetic;
-                                 ///<
+                    s1 >> pt1->altitude;    ///< [m]
+                    s1 >> pt1->height;      ///< [m]
+                    s1 >> pt1->velocity;    ///< [m/s]
+                    s1 >> pt1->heading;     ///< [deg]
+                    s1 >> pt1->magnetic;    ///< [deg]
                     s1 >> pt1->vdop;
-                                 ///<
                     s1 >> pt1->hdop;
-                                 ///<
                     s1 >> pt1->pdop;
-                    s1 >> pt1->x;///< [m] cartesian gps coordinate
-                    s1 >> pt1->y;///< [m] cartesian gps coordinate
-                    s1 >> pt1->z;///< [m] cartesian gps coordinate
-                                 ///< [m/s] velocity
-                    s1 >> pt1->vx;
-                                 ///< [m/s] velocity
-                    s1 >> pt1->vy;
-                                 ///< [m/s] velocity
-                    s1 >> pt1->vz;
+                    s1 >> pt1->x;           ///< [m] cartesian gps coordinate
+                    s1 >> pt1->y;           ///< [m] cartesian gps coordinate
+                    s1 >> pt1->z;           ///< [m] cartesian gps coordinate
+                    s1 >> pt1->vx;          ///< [m/s] velocity
+                    s1 >> pt1->vy;          ///< [m/s] velocity
+                    s1 >> pt1->vz;          ///< [m/s] velocity
                     pt1++;
                 }
 
@@ -219,6 +212,31 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 break;
             }
 #endif
+            case CTrack::eTrkShdw:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+                quint32 n;
+
+                quint32 nTrkPts1 = 0;
+
+                s1 >> nTrkPts1;
+                if(nTrkPts1 != nTrkPts)
+                {
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of shadow data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    break;
+                }
+
+                for(n = 0; n < nTrkPts; ++n)
+                {
+                    CTrack::pt_t& trkpt = track.track[n];
+                    s1 >> trkpt._lon;
+                    s1 >> trkpt._lat;
+                    s1 >> trkpt._ele;
+                }
+                break;
+            }
+
             default:;
         }
 
@@ -311,25 +329,20 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         s4 << (quint32)trkpts.size();
         while(trkpt != trkpts.end())
         {
-                                 ///< [m]
-            s4 << trkpt->altitude;
-            s4 << trkpt->height; ///< [m]
-
-                                 ///< [m/s]
-            s4 << trkpt->velocity;
-            s4 << trkpt->heading;///< [deg]
-
-                                 ///< [deg]
-            s4 << trkpt->magnetic;
-            s4 << trkpt->vdop;   ///<
-            s4 << trkpt->hdop;   ///<
-            s4 << trkpt->pdop;   ///<
-            s4 << trkpt->x;      ///< [m] cartesian gps coordinate
-            s4 << trkpt->y;      ///< [m] cartesian gps coordinate
-            s4 << trkpt->z;      ///< [m] cartesian gps coordinate
-            s4 << trkpt->vx;     ///< [m/s] velocity
-            s4 << trkpt->vy;     ///< [m/s] velocity
-            s4 << trkpt->vz;     ///< [m/s] velocity
+            s4 << trkpt->altitude;  ///< [m]
+            s4 << trkpt->height;    ///< [m]
+            s4 << trkpt->velocity;  ///< [m/s]
+            s4 << trkpt->heading;   ///< [deg]
+            s4 << trkpt->magnetic;  ///< [deg]
+            s4 << trkpt->vdop;      ///<
+            s4 << trkpt->hdop;      ///<
+            s4 << trkpt->pdop;      ///<
+            s4 << trkpt->x;         ///< [m] cartesian gps coordinate
+            s4 << trkpt->y;         ///< [m] cartesian gps coordinate
+            s4 << trkpt->z;         ///< [m] cartesian gps coordinate
+            s4 << trkpt->vx;        ///< [m/s] velocity
+            s4 << trkpt->vy;        ///< [m/s] velocity
+            s4 << trkpt->vz;        ///< [m/s] velocity
             ++trkpt;
         }
 
@@ -361,6 +374,28 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
         entries << entryTrkGpxExt;
     }
 #endif
+
+    //---------------------------------------
+    // prepare track shadow data
+    //---------------------------------------
+    trk_head_entry_t entryShdwPts;
+    entryShdwPts.type = CTrack::eTrkShdw;
+    QDataStream s6(&entryShdwPts.data, QIODevice::WriteOnly);
+    s6.setVersion(QDataStream::Qt_4_5);
+
+    trkpt = trkpts.begin();
+
+    s6 << (quint32)trkpts.size();
+    while(trkpt != trkpts.end())
+    {
+        s6 << trkpt->_lon;
+        s6 << trkpt->_lat;
+        s6 << trkpt->_ele;
+        ++trkpt;
+    }
+
+    entries << entryShdwPts;
+
     //---------------------------------------
     // prepare terminator
     //---------------------------------------
@@ -1021,4 +1056,5 @@ QDataStream& operator <<(QDataStream& s, CFlags& flag)
     s << flag.flag();
     return s;
 }
+
 

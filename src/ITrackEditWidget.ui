@@ -163,7 +163,7 @@
         <item>
          <widget class="QCheckBox" name="checkResetDelTrkPt">
           <property name="text">
-           <string>show all hidden track points</string>
+           <string>reset all changes (hide/filter)</string>
           </property>
          </widget>
         </item>
@@ -709,8 +709,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>100</width>
-                 <height>30</height>
+                 <width>28</width>
+                 <height>16</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

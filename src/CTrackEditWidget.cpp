@@ -695,8 +695,13 @@ void CTrackEditWidget::slotApply()
         while(trkpt != trkpts.end())
         {
             trkpt->flags &= ~CTrack::pt_t::eDeleted;
+            trkpt->lon = trkpt->_lon;
+            trkpt->lat = trkpt->_lat;
+            trkpt->ele = trkpt->_ele;
+
             ++trkpt;
         }
+
         checkResetDelTrkPt->setChecked(false);
         originator = false;
     }

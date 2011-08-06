@@ -68,7 +68,7 @@ class CTrack : public IItem
 
         virtual ~CTrack();
         int ref;
-        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw};
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
@@ -89,6 +89,7 @@ class CTrack : public IItem
                 ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), timeSinceStart(0),
                 fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
                 vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
+                _lon(WPT_NOFLOAT),_lat(WPT_NOFLOAT),_ele(WPT_NOFLOAT),
                 flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL){}
 
             bool operator==(const pt_t& pt){return pt.idx == idx;}
@@ -149,6 +150,15 @@ class CTrack : public IItem
 #ifdef GPX_EXTENSIONS
             CGpxExtPt gpx_exts;  //TODO: CGpxExtPt -> gpx_exts
 #endif
+
+            // track shadow data (copy of original data)
+            /// longitude [deg]
+            float   _lon;
+            /// latitude [deg]
+            float   _lat;
+            /// elevation [m]
+            float   _ele;
+
 
             /// display flags
             CFlags flags;
@@ -237,6 +247,8 @@ class CTrack : public IItem
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
+
+        void medianFilter();
 
         static QDir path;
 

@@ -52,7 +52,7 @@ CMapOSM::CMapOSM(CCanvas * parent)
     mapOsm=CMapOSMType(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"),QString("osm"));
     mapOcm=CMapOSMType(QString("OpenCycleMap"),QString("b.tile.opencyclemap.org/cycle/%1/%2/%3.png"),QString("ocm"));
     mapOpm=CMapOSMType(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"),QString("opm"));
-    mapWam=CMapOSMType(QString("WanderatlasMap"),QString("maps.ich-geh-wandern.de/contours/%1/%2/%3.png"),QString("wam"));
+    mapWam=CMapOSMType(QString("WanderatlasMap"),QString("qlgt.wanderatlas-verlag.de/tiles/igwmap/%1/%2/%3.png"),QString("wam"));
 
     this->rebuildServerList();
 

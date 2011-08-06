@@ -95,6 +95,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     connect(spinAzimuthDelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinAzimuthDelta(int)));
     connect(spinTimedelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinTimedelta(int)));
     connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
+    connect(radioMedian, SIGNAL(clicked()), this, SLOT(slotRadioMedian()));
 
     connect(radioSplitChunks, SIGNAL(clicked()), this, SLOT(slotRadioSplitChunks()));
     connect(radioSplitPoints, SIGNAL(clicked()), this, SLOT(slotRadioSplitPoints()));
@@ -373,9 +374,39 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                 ++trkpt;
                 ++i;
                 if (progress.wasCanceled())
+                {
                     break;
+                }
             }
 
+            QApplication::restoreOverrideCursor();
+        }
+        else if(radioMedian->isChecked())
+        {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+            QList<float> window;
+            window << 0.0 << 0.0 << 0.0 << 0.0 << 0.0;
+
+
+            for(int i = 2; i < trkpts.size()-2; i++)
+            {
+                // apply median filter over all trackpoints
+                window[0] = trkpts[i - 2]._ele;
+                window[1] = trkpts[i - 1]._ele;
+                window[2] = trkpts[i]._ele;
+                window[3] = trkpts[i + 1]._ele;
+                window[4] = trkpts[i + 2]._ele;
+
+                qSort(window);
+                trkpts[i].ele = window[2];
+
+                progress.setValue(i);
+                qApp->processEvents(QEventLoop::AllEvents, 100);
+                if (progress.wasCanceled())
+                {
+                    break;
+                }
+            }
             QApplication::restoreOverrideCursor();
         }
         progress.setValue(npts);
@@ -439,6 +470,11 @@ void CDlgTrackFilter::slotRadioDistance()
     {
         spinAzimuthDelta->setEnabled(true);
     }
+}
+
+void CDlgTrackFilter::slotRadioMedian()
+{
+    checkReduceDataset->setChecked(true);
 }
 
 void CDlgTrackFilter::slotSpinDistance(int i)
