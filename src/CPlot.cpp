@@ -320,7 +320,7 @@ void CPlot::draw(QPainter& p)
     {
         QRect r = rect();
         r.adjust(2,2,-2,-2);
-        if(cursorFocus)
+        if(cursorFocus || posMouse.x() != -1)
         {
             p.setPen(CCanvas::penBorderBlue);
             p.setBrush(QColor(255,255,255,255));
