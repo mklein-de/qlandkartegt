@@ -971,6 +971,6 @@ void CPlot::slotTrkPt(CTrack::pt_t * pt)
     }
     int x = m_pData->x().val2pt(pt->distance);
     int y = m_pData->y().val2pt(pt->altitude);
-    posMouse = QPoint(x, y);
+    posMouse = QPoint(x + left, y);
     update();
 }
