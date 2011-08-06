@@ -750,6 +750,7 @@ void CTrack::rebuild(bool reindex)
 
     visiblePointCount = 0;
     totalTime       = 0;
+    totalTimeMoving = 0;
     totalDistance   = 0;
     totalAscend     = 0;
     totalDescend    = 0;
@@ -897,10 +898,17 @@ void CTrack::rebuild(bool reindex)
 
         pt2->timeSinceStart = t2 - t1;
 
+        if(dt > 0 && (pt2->delta/dt > 0.2))
+        {
+            totalTimeMoving += dt;
+
+        }
+
         pt1 = pt2;
     }
 
     totalTime = t2 - t1;
+
 
     emit sigChanged();
 
@@ -998,10 +1006,12 @@ QString CTrack::getInfo()
     QString str     = getName();
     double distance = getTotalDistance();
 
+    // ---------------------------
     IUnit::self().meter2distance(getTotalDistance(), val1, unit1);
     str += tr("\nlength: %1 %2").arg(val1).arg(unit1);
     str += tr(", points: %1 (%2)").arg(visiblePointCount).arg(getTrackPoints().count());
 
+    // ---------------------------
     quint32 ttime = getTotalTime();
     quint32 days  = ttime / 86400;
 
@@ -1019,6 +1029,25 @@ QString CTrack::getInfo()
     IUnit::self().meter2speed(distance / ttime, val1, unit1);
     str += tr(", speed: %1 %2").arg(val1).arg(unit1);
 
+    // ---------------------------
+    ttime = getTotalTimeMoving();
+    days  = ttime / 86400;
+
+    time = QTime();
+    time = time.addSecs(ttime);
+    if(days)
+    {
+        str += tr("\nmoving: %1:").arg(days) + time.toString("HH:mm:ss");
+    }
+    else
+    {
+        str += tr("\nmoving: ") + time.toString("HH:mm:ss");
+    }
+
+    IUnit::self().meter2speed(distance / ttime, val1, unit1);
+    str += tr(", speed: %1 %2").arg(val1).arg(unit1);
+
+    // ---------------------------
     str += tr("\nstart: %1").arg(getStartTimestamp().isNull() ? tr("-") : getStartTimestamp().toString());
     str += tr("\nend: %1").arg(getEndTimestamp().isNull() ? tr("-") : getEndTimestamp().toString());
 

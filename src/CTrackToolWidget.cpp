@@ -32,7 +32,7 @@
 
 #include <QtGui>
 
-#define N_LINES 6
+#define N_LINES 7
 
 CTrackToolWidget::sortmode_e CTrackToolWidget::sortmode = eSortByName;
 
@@ -53,7 +53,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));        
+    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
     actRevert       = contextMenu->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
     contextMenu->addSeparator();
     actDistance     = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));

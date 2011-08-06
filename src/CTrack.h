@@ -196,6 +196,8 @@ class CTrack : public IItem
         double getTotalDistance(){return totalDistance;}
         /// get the total time covered by the track in seconds
         quint32 getTotalTime(){return totalTime;}
+        /// get the total time while moving around
+        quint32 getTotalTimeMoving(){return totalTimeMoving;}
         /// select tarckpoint by index
         void setPointOfFocus(int idx, bool eraseSelection, bool moveMap);
         /// set point of focus to a point with a given distance from start
@@ -268,6 +270,8 @@ class CTrack : public IItem
 
         /// total time covered by all track points
         quint32 totalTime;
+        /// total time moving
+        quint32 totalTimeMoving;
         /// total distance of track [m]
         double  totalDistance;
 
