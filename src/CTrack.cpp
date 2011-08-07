@@ -580,7 +580,8 @@ void CTrack::replaceElevationByLocal()
     const int size = track.size();
     for(int i = 0; i<size; i++)
     {
-        track[i].ele = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
+        track[i].ele    = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
+        track[i]._ele   = track[i].ele;
     }
     rebuild(false);
     emit sigChanged();
@@ -650,7 +651,8 @@ void CTrack::slotRequestFinished(int id, bool error)
         {
             if(idx < track.size())
             {
-                track[idx++].ele = val.toDouble();
+                track[idx++].ele    = val.toDouble();
+                track[idx++]._ele   = val.toDouble();
             }
         }
 

@@ -624,6 +624,8 @@ void CRouteToolWidget::slotToTrack()
                 pt2 = rtepts[i];
                 pt.lon = pt2.u;
                 pt.lat = pt2.v;
+                pt._lon = pt.lon;
+                pt._lat = pt.lat;
                 *track << pt;
             }
         }
@@ -638,6 +640,8 @@ void CRouteToolWidget::slotToTrack()
             pt1 = rtepts.first();
             pt.lon = pt1.u;
             pt.lat = pt1.v;
+            pt._lon = pt.lon;
+            pt._lat = pt.lat;
             *track << pt;
 
             qDebug() << pt.lon << pt.lat;
@@ -664,6 +668,9 @@ void CRouteToolWidget::slotToTrack()
                     ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
                     pt.lon = ptx.u * RAD_TO_DEG;
                     pt.lat = ptx.v * RAD_TO_DEG;
+                    pt._lon = pt.lon;
+                    pt._lat = pt.lat;
+
                     *track << pt;
                     qDebug() << pt.lon << pt.lat;
 
@@ -673,6 +680,9 @@ void CRouteToolWidget::slotToTrack()
                 // and finally the next point
                 pt.lon = pt2.u * RAD_TO_DEG;
                 pt.lat = pt2.v * RAD_TO_DEG;
+                pt._lon = pt.lon;
+                pt._lat = pt.lat;
+
                 *track << pt;
                 qDebug() << pt.lon << pt.lat;
 

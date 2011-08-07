@@ -1031,6 +1031,8 @@ void COverlayDistance::slotToTrack()
             pt2 = points[i];
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
+            pt._lon = pt.lon;
+            pt._lat = pt.lat;
             *track << pt;
         }
     }
@@ -1045,6 +1047,8 @@ void COverlayDistance::slotToTrack()
         pt1 = points.first();
         pt.lon = pt1.u * RAD_TO_DEG;
         pt.lat = pt1.v * RAD_TO_DEG;
+        pt._lon = pt.lon;
+        pt._lat = pt.lat;
         *track << pt;
 
         // all other points
@@ -1062,6 +1066,9 @@ void COverlayDistance::slotToTrack()
                 ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
                 pt.lon = ptx.u * RAD_TO_DEG;
                 pt.lat = ptx.v * RAD_TO_DEG;
+                pt._lon = pt.lon;
+                pt._lat = pt.lat;
+
                 *track << pt;
 
                 d += delta;
@@ -1070,6 +1077,8 @@ void COverlayDistance::slotToTrack()
             // and finally the next point
             pt.lon = pt2.u * RAD_TO_DEG;
             pt.lat = pt2.v * RAD_TO_DEG;
+            pt._lon = pt.lon;
+            pt._lat = pt.lat;
             *track << pt;
 
             pt1 = pt2;
