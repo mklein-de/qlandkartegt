@@ -160,7 +160,7 @@
            <item row="7" column="0">
             <widget class="QRadioButton" name="radioMedian">
              <property name="text">
-              <string>Smooth profile</string>
+              <string>Smooth profile (Median filter, 5 tabs)</string>
              </property>
             </widget>
            </item>
