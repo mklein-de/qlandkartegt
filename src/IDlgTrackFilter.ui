@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>440</height>
+    <height>457</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,7 +48,7 @@
               <string>Distance to previous point less than</string>
              </property>
              <attribute name="buttonGroup">
-              <string>buttonGroupDataset</string>
+              <string>buttonGroup</string>
              </attribute>
             </widget>
            </item>
@@ -98,7 +98,7 @@
               <string>Time from previous point less than</string>
              </property>
              <attribute name="buttonGroup">
-              <string>buttonGroupDataset</string>
+              <string>buttonGroup</string>
              </attribute>
             </widget>
            </item>
@@ -157,17 +157,17 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="0">
-            <widget class="QRadioButton" name="radioMedian">
-             <property name="text">
-              <string>Smooth profile (Median filter, 5 tabs)</string>
-             </property>
-            </widget>
-           </item>
            <item row="5" column="0" colspan="3">
             <widget class="Line" name="line_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QCheckBox" name="checkMedian">
+             <property name="text">
+              <string>Smooth profile (Median filter, 5 tabs)</string>
              </property>
             </widget>
            </item>
@@ -575,8 +575,8 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupDataset"/>
   <buttongroup name="buttonGroupTDelta"/>
+  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroupTZ"/>
  </buttongroups>
 </ui>

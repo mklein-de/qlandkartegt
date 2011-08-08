@@ -95,7 +95,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     connect(spinAzimuthDelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinAzimuthDelta(int)));
     connect(spinTimedelta, SIGNAL(valueChanged(int)), this, SLOT(slotSpinTimedelta(int)));
     connect(comboMeterFeet, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
-    connect(radioMedian, SIGNAL(clicked()), this, SLOT(slotRadioMedian()));
+    connect(checkMedian, SIGNAL(clicked()), this, SLOT(slotCheckMedian()));
 
     connect(radioSplitChunks, SIGNAL(clicked()), this, SLOT(slotRadioSplitChunks()));
     connect(radioSplitPoints, SIGNAL(clicked()), this, SLOT(slotRadioSplitPoints()));
@@ -381,7 +381,9 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
             QApplication::restoreOverrideCursor();
         }
-        else if(radioMedian->isChecked())
+
+        // can be done in parallel to othe reductions
+        if(checkMedian->isChecked())
         {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             QList<float> window;
@@ -472,7 +474,7 @@ void CDlgTrackFilter::slotRadioDistance()
     }
 }
 
-void CDlgTrackFilter::slotRadioMedian()
+void CDlgTrackFilter::slotCheckMedian()
 {
     checkReduceDataset->setChecked(true);
 }

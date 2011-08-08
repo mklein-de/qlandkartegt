@@ -21,6 +21,7 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "IUnit.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -59,7 +60,7 @@ void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
 
 }
 
-
+#define MEDIAN_FLT_LEN 15
 void CTrackStatSpeedWidget::slotChanged()
 {
     track = CTrackDB::self().highlightedTrack();
@@ -89,31 +90,60 @@ void CTrackStatSpeedWidget::slotChanged()
     float speedfactor = IUnit::self().speedfactor;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    while(trkpt != trkpts.end())
-    {
-        if(trkpt->flags & CTrack::pt_t::eDeleted)
+    QList<CTrack::pt_t>::const_iterator trkpt0   = trkpts.begin();
+    QList<CTrack::pt_t>::const_iterator trkpt1  = trkpts.begin() + 1;
+    QList<float> speed;
+
+    while(trkpt1 != trkpts.end())
+    {      
+        float medSpeed;
+        double a2, a1;
+        XY p1,p2;
+        p1.u     = DEG_TO_RAD * trkpt0->lon;
+        p1.v     = DEG_TO_RAD * trkpt0->lat;
+        p2.u     = DEG_TO_RAD * trkpt1->lon;
+        p2.v     = DEG_TO_RAD * trkpt1->lat;
+        double d = distance(p1,p2,a1,a2);
+        int dt   = trkpt1->timestamp -  trkpt0->timestamp;
+
+        speed << (dt ? d/dt : 0.0);
+        if(speed.size() == MEDIAN_FLT_LEN)
         {
-            ++trkpt; continue;
+            QList<float> tmp = speed;
+            qSort(tmp);
+            medSpeed = tmp[MEDIAN_FLT_LEN>>1];
+
+            speed.pop_front();
         }
-        lineSpeed       << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
-        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->avgspeed * speedfactor);
-        //         lineAvgSpeed    << QPointF(trkpt->distance, trkpt->velocity * speedfactor);
-        if(trkpt->flags & CTrack::pt_t::eSelected)
+        else
         {
-            marksSpeed << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
+            medSpeed = 0;
         }
 
-        if(trkpt->flags & CTrack::pt_t::eFocus)
+
+        if(trkpt0->flags & CTrack::pt_t::eDeleted)
         {
-            focusSpeed = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->speed * speedfactor);
+            ++trkpt0; ++trkpt1; continue;
         }
 
-        ++trkpt;
+        lineSpeed       << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
+        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, medSpeed * speedfactor);
+
+        if(trkpt0->flags & CTrack::pt_t::eSelected)
+        {
+            marksSpeed << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
+        }
+
+        if(trkpt0->flags & CTrack::pt_t::eFocus)
+        {
+            focusSpeed = QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
+        }
+
+        ++trkpt0; ++trkpt1;
     }
 
     plot->newLine(lineSpeed,focusSpeed, "speed");
-    plot->addLine(lineAvgSpeed, "avg. speed");
+    plot->addLine(lineAvgSpeed, "med. speed");
     plot->newMarks(marksSpeed);
 
     plot->setLimits();
