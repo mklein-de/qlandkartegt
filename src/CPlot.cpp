@@ -45,12 +45,13 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 , showScale(true)
 , thinLine(false)
 , cursorFocus(false)
+, needsRedraw(true)
+, mouseMoveMode(false)
+, checkClick(false)
 , posMouse(-1,-1)
+, selTrkPt(0)
 {
-    if(mode == eIcon)
-    {
-        setMouseTracking(true);
-    }
+    setMouseTracking(true);
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
     if(mode == eIcon)
@@ -129,6 +130,8 @@ void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& 
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
+
+    needsRedraw = true;
     update();
 
 }
@@ -152,6 +155,8 @@ void CPlot::addLine(const QPolygonF& line, const QString& label)
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
+
+    needsRedraw = true;
     update();
 }
 
@@ -170,19 +175,21 @@ void CPlot::addTag(CPlotData::point_t& tag)
 
 void CPlot::paintEvent(QPaintEvent * )
 {
-    QPainter p(this);
-    USE_ANTI_ALIASING(p, true);
+    QPainter p(this);    
     draw(p);
 }
 
 
-void CPlot::resizeEvent(QResizeEvent * )
+void CPlot::resizeEvent(QResizeEvent * e)
 {
     setSizes();
 
     initialYMin = m_pData->y().min();
     initialYMax = m_pData->y().max();
 
+    buffer = QImage(e->size(), QImage::Format_ARGB32);
+
+    needsRedraw = true;
     update();
 }
 
@@ -309,9 +316,68 @@ void CPlot::setSizeDrawArea()
     m_pData->y().setScale( rectGraphArea.height() );
 }
 
-
 void CPlot::draw(QPainter& p)
 {
+
+    if(needsRedraw)
+    {
+        draw();
+        needsRedraw = false;
+    }
+
+    p.drawImage(0,0,buffer);
+
+    int x = posMouse.x();
+    if(x != -1)
+    {
+        p.setPen(QPen(Qt::red,2));
+        p.drawLine(x, rectGraphArea.top(), x, rectGraphArea.bottom());
+
+        CTrack * track = CTrackDB::self().highlightedTrack();
+        if(selTrkPt && track)
+        {
+            QString str = track->getTrkPtInfo(*selTrkPt);
+
+            if(!str.isEmpty())
+            {
+                QFont           f = CResources::self().getMapFont();
+                QFontMetrics    fm(f);
+                QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+
+                if((r1.width() + 45 + x) > right)
+                {
+                    r1.moveTopLeft(QPoint(x - 45 - r1.width(), posMouse.y()));
+                }
+                else
+                {
+                    r1.moveTopLeft(QPoint(x +45 , posMouse.y()));
+                }
+
+                QRect           r2 = r1;
+                r2.setWidth(r1.width() + 20);
+                r2.moveLeft(r1.left() - 10);
+                r2.setHeight(r1.height() + 20);
+                r2.moveTop(r1.top() - 10);
+
+
+                p.setPen(QPen(CCanvas::penBorderBlue));
+                p.setBrush(CCanvas::brushBackWhite);
+                PAINT_ROUNDED_RECT(p,r2);
+
+                p.setFont(CResources::self().getMapFont());
+                p.setPen(Qt::darkBlue);
+                p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+            }
+        }
+    }
+}
+
+void CPlot::draw()
+{
+    buffer.fill(Qt::transparent);
+    QPainter p(&buffer);
+    USE_ANTI_ALIASING(p, true);
+
     if(mode == eNormal)
     {
         p.fillRect(rect(),Qt::white);
@@ -362,18 +428,6 @@ void CPlot::draw(QPainter& p)
     drawTags(p);
 
     drawLegend(p);
-
-    if(mode == eIcon)
-    {
-        int x = posMouse.x();
-        if(x != -1)
-        {
-            p.setPen(QPen(Qt::red,2));
-            p.drawLine(x, rectGraphArea.top(), x, rectGraphArea.bottom());
-        }
-
-    }
-
 }
 
 
@@ -806,6 +860,7 @@ void CPlot::resetZoom()
     initialYMin = m_pData->y().min();
     initialYMax = m_pData->y().max();
 
+    needsRedraw = true;
     update();
 }
 
@@ -835,8 +890,6 @@ void CPlot::slotSave()
 
     QImage img(size(), QImage::Format_ARGB32);
     QPainter p;
-    USE_ANTI_ALIASING(p, true);
-
     p.begin(&img);
     p.fillRect(rect(), QBrush(Qt::white));
     draw(p);
@@ -857,6 +910,8 @@ void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
+
+    needsRedraw = true;
     update();
 }
 
@@ -864,18 +919,44 @@ void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 void CPlot::wheelEvent ( QWheelEvent * e )
 {
     bool in = CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0);
+
+    needsRedraw = true;
+
     if (hZoomAct->isChecked())
+    {
         zoom(m_pData->x(), in, e->pos().x() - left);
+    }
     if (vZoomAct->isChecked())
+    {
         zoom(m_pData->y(), in, - e->pos().y() + bottom);
+    }
 }
 
 
 void CPlot::mouseMoveEvent(QMouseEvent * e)
 {
-    if(mode == eIcon)
+    posMouse = QPoint(-1,-1);
+
+    if(checkClick)
     {
-        posMouse = QPoint(-1,-1);
+        checkClick      = false;
+        mouseMoveMode   = true;
+    }
+
+    if(mouseMoveMode)
+    {
+        needsRedraw = true;
+
+        CPlotAxis &xaxis = m_pData->x();
+        xaxis.move(startMovePos.x() - e->pos().x());
+
+        CPlotAxis &yaxis = m_pData->y();
+        yaxis.move(e->pos().y() - startMovePos.y());
+
+        startMovePos = e->pos();
+    }
+    else
+    {        
         CTrack * trk = CTrackDB::self().highlightedTrack();
         if(trk == 0)
         {
@@ -890,22 +971,9 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
             return;
         }
 
-        posMouse = e->pos();
+        posMouse = e->pos();        
 
-        emit activePointSignal(dist);
-
-
-    }
-    else{
-        checkClick = false;
-
-        CPlotAxis &xaxis = m_pData->x();
-        xaxis.move(startMovePos.x() - e->pos().x());
-
-        CPlotAxis &yaxis = m_pData->y();
-        yaxis.move(e->pos().y() - startMovePos.y());
-
-        startMovePos = e->pos();
+        emit sigFocusPoint(dist);
     }
     update();
 }
@@ -913,23 +981,31 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
 void CPlot::mouseReleaseEvent(QMouseEvent * e)
 {
+    needsRedraw = true;
+
     if(mode == eNormal)
     {
         if (e->button() == Qt::LeftButton)
         {
             QApplication::restoreOverrideCursor();
         }
-        if (checkClick && e->button() == Qt::LeftButton)
+        if (checkClick && e->button() == Qt::LeftButton && !mouseMoveMode)
         {
+            checkClick = false;
+
             QPoint pos = e->pos();
             double dist = getXValByPixel(pos.x());
-            emit activePointSignal(dist);
+            emit sigActivePoint(dist);
+
+            update();
         }
     }
     else
     {
         emit sigClicked();
     }
+
+    mouseMoveMode = false;
 }
 
 
@@ -950,14 +1026,17 @@ void CPlot::mousePressEvent(QMouseEvent * e)
 void CPlot::leaveEvent(QEvent * event)
 {
     cursorFocus = false;
-    posMouse = QPoint(-1, -1);
+    needsRedraw = true;
+    posMouse    = QPoint(-1, -1);
     QApplication::restoreOverrideCursor();
+
     update();
 }
 
 void CPlot::enterEvent(QEvent * event)
 {
     cursorFocus = true;
+    needsRedraw = true;
     QApplication::setOverrideCursor(Qt::PointingHandCursor);
     update();
 }
@@ -969,8 +1048,10 @@ void CPlot::slotTrkPt(CTrack::pt_t * pt)
         posMouse = QPoint(-1,-1);
         return;
     }
-    int x = m_pData->x().val2pt(pt->distance);
-    int y = m_pData->y().val2pt(pt->altitude);
-    posMouse = QPoint(x + left, y);
+    int x       = m_pData->x().val2pt(pt->distance);
+    int y       = m_pData->y().val2pt(pt->altitude);
+    posMouse    = QPoint(x + left, y);
+    needsRedraw = true;
     update();
 }
+

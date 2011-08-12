@@ -21,6 +21,7 @@
 #define CPLOT_H
 
 #include <QWidget>
+#include <QPointer>
 
 #include "CPlotData.h"
 #include "CTrack.h"
@@ -41,6 +42,8 @@ class CPlot : public QWidget
         void setYLabel(const QString& str);
         void setXLabel(const QString& str);
 
+        void setSelTrackPoint(CTrack::pt_t * pt){selTrkPt = pt;}
+
         void newLine(const QPolygonF& line, const QPointF& focus, const QString& label);
         void addLine(const QPolygonF& line, const QString& label);
         void newMarks(const QPolygonF& line);
@@ -54,7 +57,8 @@ class CPlot : public QWidget
         void draw(QPainter& p);
 
     signals:
-        void activePointSignal(double dist);
+        void sigActivePoint(double dist);
+        void sigFocusPoint(double dist);
         void sigClicked();
 
     public slots:
@@ -65,6 +69,7 @@ class CPlot : public QWidget
         void slotSave();
 
     protected:
+        void draw();
         void contextMenuEvent(QContextMenuEvent *event);
         void mousePressEvent(QMouseEvent * e);
         void mouseMoveEvent(QMouseEvent * e);
@@ -128,7 +133,7 @@ class CPlot : public QWidget
         QFontMetrics fm;
 
         QPoint startMovePos;
-        int checkClick;
+
 
         double initialYMax;
         double initialYMin;
@@ -136,11 +141,14 @@ class CPlot : public QWidget
         mode_e mode;
         bool showScale;
         bool thinLine;
-
         bool cursorFocus;
+        bool needsRedraw;
+        bool mouseMoveMode;
+        bool checkClick;
 
         QPoint posMouse;
-
+        QImage buffer;
+        CTrack::pt_t * selTrkPt;
     public slots:
         void resetZoom();
 };

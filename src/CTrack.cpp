@@ -1093,6 +1093,77 @@ void CTrack::setIcon(const QString& str)
 }
 
 
+QString CTrack::getTrkPtInfo(pt_t& trkpt)
+{
+    QString str, val, unit;
+
+    if(trkpt.timestamp != 0x00000000 && trkpt.timestamp != 0xFFFFFFFF)
+    {
+        QDateTime time = QDateTime::fromTime_t(trkpt.timestamp);
+        time.setTimeSpec(Qt::LocalTime);
+        str = time.toString();
+
+        quint32 total = getTotalTime();
+        if(total)
+        {
+            quint32 t1s = trkpt.timeSinceStart;
+            quint32 t2s = total - trkpt.timeSinceStart;
+
+            quint32 t1h = qreal(t1s)/3600;
+            quint32 t2h = qreal(t2s)/3600;
+
+            quint32 t1m = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
+            quint32 t2m = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
+
+            quint32 t1p = quint32(qreal(100 * t1s) / total + 0.5);
+            quint32 t2p = 100 - t1p;
+
+
+            str += "\n";
+            str += tr("%4 %3 %1:%2h (%5%)").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(t1p);
+            str += tr(" | (%5%) %1:%2h %3 %4").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691)).arg(t2p);
+        }
+
+    }
+
+    if(str.count()) str += "\n";
+    IUnit::self().meter2distance(trkpt.distance, val, unit);
+    str += tr("%5 %4 %1%2 (%3%)").arg(val).arg(unit).arg(trkpt.distance * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A4)).arg(QChar(0x2690));
+    IUnit::self().meter2distance(getTotalDistance() - trkpt.distance, val, unit);
+    str += tr(" | (%3%) %1%2 %4 %5").arg(val).arg(unit).arg((getTotalDistance() - trkpt.distance) * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A6)).arg(QChar(0x2691));
+
+    if(trkpt.ele != WPT_NOFLOAT)
+    {
+        if(str.count()) str += "\n";
+        IUnit::self().meter2elevation(trkpt.ele, val, unit);
+        str += tr("elevation: %1 %2").arg(val).arg(unit);
+    }
+
+
+
+    //-----------------------------------------------------------------------------------------------------------
+    //TODO: HOVERTEXT FOR EXTENSIONS
+#ifdef GPX_EXTENSIONS
+    if (!trkpt.gpx_exts.values.empty())
+    {
+        QList<QString> ext_list = trkpt.gpx_exts.values.keys();
+        QString ex_name, ex_val;
+
+        for(int i=0; i < trkpt.gpx_exts.values.size(); ++i)
+        {
+            ex_name = ext_list.value(i);
+            ex_val = trkpt.gpx_exts.getValue(ex_name);
+
+            if (ex_val != "") {str += tr("\n %1: %2 ").arg(ex_name).arg(ex_val);}
+
+        }
+
+    }
+#endif
+
+
+    return str;
+}
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)
 {

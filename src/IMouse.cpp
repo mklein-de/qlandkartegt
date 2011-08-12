@@ -272,70 +272,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
 
-        QString str;
-        if(selTrkPt->timestamp != 0x00000000 && selTrkPt->timestamp != 0xFFFFFFFF)
-        {
-            QDateTime time = QDateTime::fromTime_t(selTrkPt->timestamp);
-            time.setTimeSpec(Qt::LocalTime);
-            str = time.toString();
-
-            quint32 total = track->getTotalTime();
-            if(total)
-            {
-                quint32 t1s = selTrkPt->timeSinceStart;
-                quint32 t2s = total - selTrkPt->timeSinceStart;
-
-                quint32 t1h = qreal(t1s)/3600;
-                quint32 t2h = qreal(t2s)/3600;
-
-                quint32 t1m = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
-                quint32 t2m = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
-
-                quint32 t1p = quint32(qreal(100 * t1s) / total + 0.5);
-                quint32 t2p = 100 - t1p;
-
-
-                str += "\n";
-                str += tr("%4 %3 %1:%2h (%5%)").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(t1p);
-                str += tr(" | (%5%) %1:%2h %3 %4").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691)).arg(t2p);
-            }
-
-        }
-
-        if(str.count()) str += "\n";
-        IUnit::self().meter2distance(selTrkPt->distance, val, unit);
-        str += tr("%5 %4 %1%2 (%3%)").arg(val).arg(unit).arg(selTrkPt->distance * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A4)).arg(QChar(0x2690));
-        IUnit::self().meter2distance(track->getTotalDistance() - selTrkPt->distance, val, unit);
-        str += tr(" | (%3%) %1%2 %4 %5").arg(val).arg(unit).arg((track->getTotalDistance() - selTrkPt->distance) * 100.0 / track->getTotalDistance(),0,'f',0).arg(QChar(0x21A6)).arg(QChar(0x2691));
-
-        if(selTrkPt->ele != WPT_NOFLOAT)
-        {
-            if(str.count()) str += "\n";
-            IUnit::self().meter2elevation(selTrkPt->ele, val, unit);
-            str += tr("elevation: %1 %2").arg(val).arg(unit);
-        }
-
-
-
-        //-----------------------------------------------------------------------------------------------------------
-        //TODO: HOVERTEXT FOR EXTENSIONS
-#ifdef GPX_EXTENSIONS
-        if (!selTrkPt->gpx_exts.values.empty())
-        {
-            QList<QString> ext_list = selTrkPt->gpx_exts.values.keys();
-            QString ex_name, ex_val;
-
-            for(int i=0; i < selTrkPt->gpx_exts.values.size(); ++i)
-            {
-                ex_name = ext_list.value(i);
-                ex_val = selTrkPt->gpx_exts.getValue(ex_name);
-
-                if (ex_val != "") {str += tr("\n %1: %2 ").arg(ex_name).arg(ex_val);}
-
-            }
-
-        }
-#endif
+        QString str = track-> getTrkPtInfo(*selTrkPt);
         //-----------------------------------------------------------------------------------------------------------
         if (str != "")
         {

@@ -783,7 +783,6 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
     plot.resetZoom();
 
     QPainter p(&image);
-    USE_ANTI_ALIASING(p,true);
     plot.draw(p);
 
 }

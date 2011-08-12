@@ -47,7 +47,8 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
         plot = new CPlot(CPlotData::eTime, CPlot::eNormal, this);
     }
     layout()->addWidget(plot);
-    QObject::connect(plot, SIGNAL(activePointSignal(double)), this, SLOT(activePointEvent(double)));
+    QObject::connect(plot, SIGNAL(sigActivePoint(double)), this, SLOT(slotActivePoint(double)));
+    QObject::connect(plot, SIGNAL(sigFocusPoint(double)), this, SLOT(slotFocusPoint(double)));
 
 }
 
@@ -58,9 +59,8 @@ ITrackStat::~ITrackStat()
 }
 
 
-void ITrackStat::activePointEvent(double dist)
+void ITrackStat::slotActivePoint(double dist)
 {
-    qDebug() << "ITrackStat::activePointEvent" << endl;
     if(track.isNull()) return;
     if(plot == 0) return;
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -89,6 +89,39 @@ void ITrackStat::activePointEvent(double dist)
     }
 }
 
+void ITrackStat::slotFocusPoint(double dist)
+{
+    if(plot == 0) return;
+    plot->setSelTrackPoint(0);
+
+    if(track.isNull()) return;    
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    quint32 idx = 0;
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(type == eOverDistance && dist < trkpt->distance)
+        {
+            plot->setSelTrackPoint(&(*trkpt));
+            emit sigFocus(idx);
+            break;
+        }
+        if(type == eOverTime && dist < trkpt->timestamp)
+        {
+            plot->setSelTrackPoint(&(*trkpt));
+            emit sigFocus(idx);
+            break;
+        }
+        idx = trkpt->idx;
+
+        ++trkpt;
+    }
+}
 
 void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
 {

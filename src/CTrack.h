@@ -204,11 +204,14 @@ class CTrack : public IItem
         pt_t * getPointOfFocus(double dist);
         ///
         QDateTime getStartTimestamp();
+        ///
         QDateTime getEndTimestamp();
         /// get the ascend in [m]
         double getAscend(){return totalAscend;}
         /// get the descend in [m]
         double getDescend(){return totalDescend;}
+
+        QString getTrkPtInfo(pt_t& trkpt);
 
         QRectF getBoundingRectF();
         void sortByTimestamp();

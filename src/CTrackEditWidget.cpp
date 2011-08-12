@@ -850,7 +850,7 @@ void CTrackEditWidget::slotToggleStatDistance()
     {
         trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-        theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));        
     }
     else
     {

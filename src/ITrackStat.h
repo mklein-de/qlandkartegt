@@ -37,6 +37,9 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         ITrackStat(type_e type, QWidget * paren);
         virtual ~ITrackStat();
 
+    signals:
+        void sigFocus(quint32 idx);
+
     protected:
         struct wpt_t
         {
@@ -54,6 +57,7 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         CPlot * plot;
         QPointer<CTrack> track;
     protected slots:
-        void activePointEvent(double x);
+        void slotActivePoint(double x);
+        void slotFocusPoint(double x);
 };
 #endif                           //ITRACKSTAT_H
