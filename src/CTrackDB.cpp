@@ -259,9 +259,12 @@ void CTrackDB::loadGPX(CGpx& gpx)
 
                 pt.lon = trkpt.attribute("lon").toDouble();
                 pt.lat = trkpt.attribute("lat").toDouble();
+                pt._lon = pt.lon;
+                pt._lat = pt.lat;
 
                 tmpelem = trkptmap.value("ele");
                 if(!tmpelem.isNull()) pt.ele = tmpelem.text().toDouble();
+                pt._ele = pt.ele;
 
                 tmpelem = trkptmap.value("time");
                 if(!tmpelem.isNull())
