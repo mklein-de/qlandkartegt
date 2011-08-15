@@ -53,6 +53,7 @@ class CPlot : public QWidget
         void clear();
 
         double getXValByPixel(int px);
+        double getYValByPixel(int px);
 
         void draw(QPainter& p);
 

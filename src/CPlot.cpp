@@ -86,6 +86,28 @@ double CPlot::getXValByPixel(int px)
     return m_pData->x().pt2val(px - left);
 }
 
+double CPlot::getYValByPixel(int px)
+{
+    if(m_pData->lines.isEmpty())
+    {
+        return 0;
+    }
+
+    double xx = getXValByPixel(px);
+
+    const QPolygonF& line = m_pData->lines[0].points;
+    foreach(const QPointF& pt, line)
+    {
+        if(xx <= pt.x())
+        {
+            return pt.y();
+        }
+
+    }
+
+    return 0;
+}
+
 
 void CPlot::setYLabel(const QString& str)
 {
@@ -339,22 +361,40 @@ void CPlot::draw(QPainter& p)
         {
             QString str = track->getTrkPtInfo(*selTrkPt);
 
+            double y = getYValByPixel(x);
+            y = m_pData->y().val2pt(y);
+            y = bottom - y;
+
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
+            p.drawEllipse(QRect(x - 5,  y - 5, 11, 11));
+
+
             if(!str.isEmpty())
             {
                 QFont           f = CResources::self().getMapFont();
                 QFontMetrics    fm(f);
                 QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
 
+
                 if((r1.width() + 45 + x) > right)
                 {
-                    r1.moveTopLeft(QPoint(x - 45 - r1.width(), posMouse.y()));
+                    x = x - 45 - r1.width();
                 }
                 else
                 {
-                    r1.moveTopLeft(QPoint(x +45 , posMouse.y()));
+                    x = x + 45;
                 }
 
-                QRect           r2 = r1;
+                if(r1.height() + y > bottom)
+                {
+                    y = y - r1.height();
+                }
+
+
+                r1.moveTopLeft(QPoint(x,y));
+
+                QRect r2 = r1;
                 r2.setWidth(r1.width() + 20);
                 r2.moveLeft(r1.left() - 10);
                 r2.setHeight(r1.height() + 20);
@@ -362,7 +402,7 @@ void CPlot::draw(QPainter& p)
 
 
                 p.setPen(QPen(CCanvas::penBorderBlue));
-                p.setBrush(Qt::white);
+                p.setBrush(CCanvas::brushBackWhite);
                 PAINT_ROUNDED_RECT(p,r2);
 
                 p.setFont(CResources::self().getMapFont());
@@ -691,7 +731,7 @@ void CPlot::drawData(QPainter& p)
             if(ptx >= left && ptx <= right)
             {
                 background << QPointF(ptx,pty);
-                foreground << QPointF(ptx, pty);
+                foreground << QPointF(ptx,pty);
             }
             ++point;
         }
