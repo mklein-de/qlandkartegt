@@ -25,6 +25,7 @@ CPlotData::CPlotData(axis_type_e type, QObject * parent)
 : QObject(parent)
 , grid(true)
 , badData(true)
+, axisType(type)
 {
     if(type == eLinear)
     {

@@ -77,6 +77,8 @@ class CPlotData : public QObject
 
         bool badData;
 
+        axis_type_e axisType;
+
     protected:
         CPlotAxis * xaxis;
         CPlotAxis * yaxis;

@@ -175,7 +175,7 @@ void CPlot::addTag(CPlotData::point_t& tag)
 
 void CPlot::paintEvent(QPaintEvent * )
 {
-    QPainter p(this);    
+    QPainter p(this);
     draw(p);
 }
 
@@ -330,6 +330,7 @@ void CPlot::draw(QPainter& p)
     int x = posMouse.x();
     if(x != -1)
     {
+        USE_ANTI_ALIASING(p, true);
         p.setPen(QPen(Qt::red,2));
         p.drawLine(x, rectGraphArea.top(), x, rectGraphArea.bottom());
 
@@ -361,7 +362,7 @@ void CPlot::draw(QPainter& p)
 
 
                 p.setPen(QPen(CCanvas::penBorderBlue));
-                p.setBrush(CCanvas::brushBackWhite);
+                p.setBrush(Qt::white);
                 PAINT_ROUNDED_RECT(p,r2);
 
                 p.setFont(CResources::self().getMapFont());
@@ -956,7 +957,7 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
         startMovePos = e->pos();
     }
     else
-    {        
+    {
         CTrack * trk = CTrackDB::self().highlightedTrack();
         if(trk == 0)
         {
@@ -964,16 +965,29 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
         }
 
         QPoint pos = e->pos();
-        double dist = getXValByPixel(pos.x());
 
-        if(dist < 0 || dist > trk->getTotalDistance())
+        double min,max;
+        if(m_pData->axisType == CPlotData::eLinear)
+        {
+            min = 0;
+            max = trk->getTotalDistance();
+        }
+        else
+        {
+            min = trk->getStartTimestamp().toTime_t();
+            max = trk->getEndTimestamp().toTime_t();
+        }
+
+        double x = getXValByPixel(pos.x());
+
+        if(x < min || x > max)
         {
             return;
         }
 
-        posMouse = e->pos();        
+        posMouse = e->pos();
 
-        emit sigFocusPoint(dist);
+        emit sigFocusPoint(x);
     }
     update();
 }
