@@ -327,6 +327,8 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
             int i = 1;
 
+            double lastEle = trkpt->ele;
+
             while(trkpt != trkpts.end())
             {
 
@@ -338,6 +340,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                 double a1, a2;
 
                 double delta = distance(p1,p2,a1,a2);
+
                 if(checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked())
                 {
                     if (abs(trkpt->azimuth) <= 180)
@@ -357,9 +360,15 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                     }
                 }
 
-                if(delta < min_distance || (AzimuthDelta < minAzimuthDelta && checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked()))
+                double deltaEle = abs(lastEle - trkpt->ele);
+
+                if( delta < min_distance || (AzimuthDelta < minAzimuthDelta && checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked()))
                 {
-                    trkpt->flags |= CTrack::pt_t::eDeleted;
+                    if(deltaEle < 3)
+                    {
+                        trkpt->flags |= CTrack::pt_t::eDeleted;
+                    }
+
                 }
                 else
                 {
@@ -370,6 +379,8 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                     {
                         lastAzimuth = trkpt->azimuth;
                     }
+
+                    lastEle = trkpt->ele;
                 }
                 ++trkpt;
                 ++i;

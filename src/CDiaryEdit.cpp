@@ -752,7 +752,6 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
 {
     CPlot plot(CPlotData::eLinear, CPlot::eNormal, 0);
     plot.hide();
-    plot.resize(image.size());
     plot.clear();
 
 
@@ -783,7 +782,7 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
     plot.resetZoom();
 
     QPainter p(&image);
-    plot.draw(p);
+    plot.draw(p,image.size());
 
 }
 

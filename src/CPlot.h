@@ -56,6 +56,7 @@ class CPlot : public QWidget
         double getYValByPixel(int px);
 
         void draw(QPainter& p);
+        void draw(QPainter& p, const QSize& s);
 
     signals:
         void sigActivePoint(double dist);

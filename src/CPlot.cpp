@@ -338,6 +338,15 @@ void CPlot::setSizeDrawArea()
     m_pData->y().setScale( rectGraphArea.height() );
 }
 
+void CPlot::draw(QPainter& p, const QSize& s)
+{
+    resize(s);
+    QResizeEvent e(s,s);
+    resizeEvent(&e);
+
+    draw(p);
+}
+
 void CPlot::draw(QPainter& p)
 {
 
