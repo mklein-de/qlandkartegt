@@ -31,6 +31,7 @@
 #include "CWptDB.h"
 #include "WptIcons.h"
 
+#include <GL/glu.h>
 #include <QtGui>
 #include <math.h>
 
