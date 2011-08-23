@@ -1515,54 +1515,54 @@ erwartet: %1, empfangen %2</translation>
 <context>
     <name>CDeviceNMEA</name>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="429"/>
-        <location filename="../CDeviceNMEA.cpp" line="435"/>
-        <location filename="../CDeviceNMEA.cpp" line="441"/>
-        <location filename="../CDeviceNMEA.cpp" line="447"/>
-        <location filename="../CDeviceNMEA.cpp" line="453"/>
         <location filename="../CDeviceNMEA.cpp" line="459"/>
         <location filename="../CDeviceNMEA.cpp" line="465"/>
         <location filename="../CDeviceNMEA.cpp" line="471"/>
+        <location filename="../CDeviceNMEA.cpp" line="477"/>
+        <location filename="../CDeviceNMEA.cpp" line="483"/>
+        <location filename="../CDeviceNMEA.cpp" line="489"/>
+        <location filename="../CDeviceNMEA.cpp" line="495"/>
+        <location filename="../CDeviceNMEA.cpp" line="501"/>
         <source>Error...</source>
         <translation>Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="429"/>
+        <location filename="../CDeviceNMEA.cpp" line="459"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="435"/>
+        <location filename="../CDeviceNMEA.cpp" line="465"/>
         <source>NMEA: Download waypoints is not implemented.</source>
         <translation>NMEA: Wegpunkte vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="441"/>
+        <location filename="../CDeviceNMEA.cpp" line="471"/>
         <source>NMEA: Upload tracks is not implemented.</source>
         <translation>NMEA: Tracks auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="447"/>
+        <location filename="../CDeviceNMEA.cpp" line="477"/>
         <source>NMEA: Download tracks is not implemented.</source>
         <translation>NMEA: Tracks vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="453"/>
+        <location filename="../CDeviceNMEA.cpp" line="483"/>
         <source>NMEA: Upload routes is not implemented.</source>
         <translation>NMEA: Routen auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="459"/>
+        <location filename="../CDeviceNMEA.cpp" line="489"/>
         <source>NMEA: Download routes is not implemented.</source>
         <translation>NMEA: Routes vom Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="465"/>
+        <location filename="../CDeviceNMEA.cpp" line="495"/>
         <source>NMEA: Upload maps is not implemented.</source>
         <translation>NMEA: Karten auf das Gerät laden ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceNMEA.cpp" line="471"/>
+        <location filename="../CDeviceNMEA.cpp" line="501"/>
         <source>NMEA: Download screenshots is not implemented.</source>
         <translation>NMEA: Bildschirmfoto vom Gerät laden ist nicht implementiert.</translation>
     </message>
@@ -2063,8 +2063,12 @@ erwartet: %1, empfangen %2</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="132"/>
+        <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; or &quot;\\.\com13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
-        <translation>Hier wird so etwas wie &quot;COM1:&quot; oder &quot;\\.\COM13&quot; für serielle Geräte von Garmin oder NMEA Geräte. Für Garmin USB Geräte wird das Feld einfach frei gelassen.</translation>
+        <translation type="obsolete">Hier wird so etwas wie &quot;COM1:&quot; oder &quot;\\.\COM13&quot; für serielle Geräte von Garmin oder NMEA Geräte. Für Garmin USB Geräte wird das Feld einfach frei gelassen.</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="316"/>
@@ -2905,12 +2909,47 @@ Zeile %2, Spalte %3:
         <translation>%1</translation>
     </message>
     <message>
+        <location filename="../CLiveLogDB.cpp" line="188"/>
+        <source>2D (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="190"/>
+        <source>3D (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="192"/>
+        <source>DR (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../CLiveLogDB.cpp" line="197"/>
         <location filename="../CLiveLogDB.cpp" line="206"/>
         <location filename="../CLiveLogDB.cpp" line="215"/>
         <location filename="../CLiveLogDB.cpp" line="224"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="274"/>
+        <source>GPS signal low (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="287"/>
+        <source>GPS connection failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="291"/>
+        <source>GPS connection established</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CLiveLogDB.cpp" line="295"/>
+        <source>GPS connection receiving %1 bytes</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>±%1 m</source>
@@ -2926,12 +2965,11 @@ Zeile %2, Spalte %3:
         <translation>%1° T</translation>
     </message>
     <message>
-        <location filename="../CLiveLogDB.cpp" line="274"/>
         <source>GPS signal low</source>
-        <translation>schwaches GPS Signal</translation>
+        <translation type="obsolete">schwaches GPS Signal</translation>
     </message>
     <message>
-        <location filename="../CLiveLogDB.cpp" line="285"/>
+        <location filename="../CLiveLogDB.cpp" line="299"/>
         <source>GPS off</source>
         <translation>GPS ausgeschaltet</translation>
     </message>
@@ -3260,42 +3298,42 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMap3D</name>
     <message>
-        <location filename="../CMap3D.cpp" line="139"/>
+        <location filename="../CMap3D.cpp" line="140"/>
         <source>3D / 2D</source>
         <translation>3D / 2D</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="144"/>
+        <location filename="../CMap3D.cpp" line="145"/>
         <source>FPV / Rot.</source>
         <translation>FPV / Rot.</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="149"/>
+        <location filename="../CMap3D.cpp" line="150"/>
         <source>Reset Light</source>
         <translation>Licht zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="152"/>
+        <location filename="../CMap3D.cpp" line="153"/>
         <source>Track on map</source>
         <translation>Track an Karte anpassen</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="157"/>
+        <location filename="../CMap3D.cpp" line="158"/>
         <source>POV on track</source>
         <translation>Blickwinkel auf Track</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="174"/>
+        <location filename="../CMap3D.cpp" line="175"/>
         <source>Help 3d</source>
         <translation>Hilfe 3D</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="433"/>
+        <location filename="../CMap3D.cpp" line="434"/>
         <source>:/skybox/%1.bmp</source>
         <translation>:/skybox/%1.bmp</translation>
     </message>
     <message>
-        <location filename="../CMap3D.cpp" line="1759"/>
+        <location filename="../CMap3D.cpp" line="1760"/>
         <source>Config</source>
         <translation>Konfiguration</translation>
     </message>
@@ -5294,7 +5332,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>Zeige Punkte</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1127"/>
+        <location filename="../COverlayDistance.cpp" line="1136"/>
         <source>Overlay</source>
         <translation>Overlay</translation>
     </message>
@@ -5357,27 +5395,27 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Zoom zurückstellen</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="341"/>
+        <location filename="../CPlot.cpp" line="457"/>
         <source>No or bad data.</source>
         <translation>Keine oder schlechte Daten.</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="788"/>
+        <location filename="../CPlot.cpp" line="892"/>
         <source>Vertical zoom</source>
         <translation>Vertikale Vergrößerung</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="792"/>
+        <location filename="../CPlot.cpp" line="896"/>
         <source>Reset zoom</source>
         <translation>Vergrößerung zurück setzen</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="795"/>
+        <location filename="../CPlot.cpp" line="899"/>
         <source>Save...</source>
         <translation>Speichern ...</translation>
     </message>
     <message>
-        <location filename="../CPlot.cpp" line="821"/>
+        <location filename="../CPlot.cpp" line="926"/>
         <source>Select output file</source>
         <translation>Zu speichernde Datei wählen</translation>
     </message>
@@ -5682,7 +5720,7 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="505"/>
         <location filename="../CRouteToolWidget.cpp" line="527"/>
-        <location filename="../CRouteToolWidget.cpp" line="721"/>
+        <location filename="../CRouteToolWidget.cpp" line="731"/>
         <source>Failed...</source>
         <translation>Fehlgeschlagen...</translation>
     </message>
@@ -5700,7 +5738,7 @@ Länge: %1 %2</translation>
         <translation>von einer Route abgeleitet</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="721"/>
+        <location filename="../CRouteToolWidget.cpp" line="731"/>
         <source>Route request timed out. Please try again later.</source>
         <translation>Routenanfrage dauert zu lange. Bitte später nocheinmal versuchen.</translation>
     </message>
@@ -5885,7 +5923,7 @@ Länge: %1 %2</translation>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="1011"/>
+        <location filename="../CTrack.cpp" line="1035"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -5896,106 +5934,137 @@ Länge: %1 %2</translation>
         <translation type="obsolete">, Punkte: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1012"/>
+        <location filename="../CTrack.cpp" line="1036"/>
         <source>, points: %1 (%2)</source>
         <translation>, Punkte: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1022"/>
+        <location filename="../CTrack.cpp" line="1046"/>
         <source>
 time: %1:</source>
         <translation>
 Zeit: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1026"/>
+        <location filename="../CTrack.cpp" line="1050"/>
         <source>
 time: </source>
         <translation>
 Zeit:  </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1030"/>
-        <location filename="../CTrack.cpp" line="1048"/>
+        <location filename="../CTrack.cpp" line="1054"/>
+        <location filename="../CTrack.cpp" line="1072"/>
         <source>, speed: %1 %2</source>
         <translation>, Geschw.: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1040"/>
+        <location filename="../CTrack.cpp" line="1064"/>
         <source>
 moving: %1:</source>
         <translation>
 Bewegung: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1044"/>
+        <location filename="../CTrack.cpp" line="1068"/>
         <source>
 moving: </source>
         <translation>
 Bewegung: </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1051"/>
+        <location filename="../CTrack.cpp" line="1075"/>
         <source>
 start: %1</source>
         <translation>
 Beginn: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1051"/>
-        <location filename="../CTrack.cpp" line="1052"/>
+        <location filename="../CTrack.cpp" line="1075"/>
+        <location filename="../CTrack.cpp" line="1076"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1052"/>
+        <location filename="../CTrack.cpp" line="1076"/>
         <source>
 end: %1</source>
         <translation>
 Ende: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1057"/>
+        <location filename="../CTrack.cpp" line="1081"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1123"/>
+        <source>%4 %3 %1:%2h (%5%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1124"/>
+        <source> | (%5%) %1:%2h %3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1131"/>
+        <source>%5 %4 %1%2 (%3%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1133"/>
+        <source> | (%3%) %1%2 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1139"/>
+        <source>elevation: %1 %2</source>
+        <translation type="unfinished">Höhe: %1 %2</translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1157"/>
+        <source>
+ %1: %2 </source>
+        <translation type="unfinished"> %1: %2 </translation>
+    </message>
 </context>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="609"/>
+        <location filename="../CTrackDB.cpp" line="612"/>
         <source>Track%1</source>
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1115"/>
+        <location filename="../CTrackDB.cpp" line="1118"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1120"/>
+        <location filename="../CTrackDB.cpp" line="1123"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1125"/>
+        <location filename="../CTrackDB.cpp" line="1128"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1146"/>
+        <location filename="../CTrackDB.cpp" line="1149"/>
         <source>Failed...</source>
         <translation>Fehlgeschlagen...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1146"/>
+        <location filename="../CTrackDB.cpp" line="1149"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Konnte nichts kopieren. Du musst einen Track oder Trackpunkte vorher auswählen.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1256"/>
+        <location filename="../CTrackDB.cpp" line="1259"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>
@@ -6119,28 +6188,28 @@ Ende: %1</translation>
 <context>
     <name>CTrackStatSpeedWidget</name>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="33"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="34"/>
         <source>distance [m]</source>
         <translation>Entfernung [m]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="39"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="40"/>
         <source>speed [km/h]</source>
         <translation>Geschwindigkeit [km/h]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="74"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="75"/>
         <source>distance [%1]</source>
         <translation>Entfernung[%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="81"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="82"/>
         <source>speed [%1]</source>
         <translation>Geschwindigkeit[%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="37"/>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="78"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="38"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="79"/>
         <source>time [h]</source>
         <translation>Zeit [h]</translation>
     </message>
@@ -7208,33 +7277,53 @@ Once you created a map set you can attach DEM data to it via the context menu in
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="25"/>
-        <location filename="../IDiaryEdit.ui" line="39"/>
-        <location filename="../IDiaryEdit.ui" line="46"/>
-        <location filename="../IDiaryEdit.ui" line="53"/>
-        <location filename="../IDiaryEdit.ui" line="60"/>
-        <location filename="../IDiaryEdit.ui" line="67"/>
-        <location filename="../IDiaryEdit.ui" line="81"/>
-        <location filename="../IDiaryEdit.ui" line="88"/>
-        <location filename="../IDiaryEdit.ui" line="95"/>
-        <location filename="../IDiaryEdit.ui" line="102"/>
-        <location filename="../IDiaryEdit.ui" line="119"/>
-        <location filename="../IDiaryEdit.ui" line="126"/>
-        <location filename="../IDiaryEdit.ui" line="133"/>
+        <source>Exit</source>
+        <translation type="unfinished">Beenden</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="31"/>
+        <location filename="../IDiaryEdit.ui" line="45"/>
+        <location filename="../IDiaryEdit.ui" line="52"/>
+        <location filename="../IDiaryEdit.ui" line="59"/>
+        <location filename="../IDiaryEdit.ui" line="66"/>
+        <location filename="../IDiaryEdit.ui" line="73"/>
+        <location filename="../IDiaryEdit.ui" line="87"/>
+        <location filename="../IDiaryEdit.ui" line="94"/>
+        <location filename="../IDiaryEdit.ui" line="101"/>
+        <location filename="../IDiaryEdit.ui" line="108"/>
+        <location filename="../IDiaryEdit.ui" line="128"/>
+        <location filename="../IDiaryEdit.ui" line="138"/>
+        <location filename="../IDiaryEdit.ui" line="151"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDiaryEdit.ui" line="164"/>
+        <location filename="../IDiaryEdit.ui" line="125"/>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="135"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="145"/>
+        <source>Print</source>
+        <translation type="unfinished">Drucken</translation>
+    </message>
+    <message>
+        <location filename="../IDiaryEdit.ui" line="182"/>
         <source>show profiles</source>
         <translation>Zeige Profile</translation>
     </message>
     <message>
-        <location filename="../IDiaryEdit.ui" line="171"/>
+        <location filename="../IDiaryEdit.ui" line="189"/>
         <source>show geocaches</source>
         <translation>Zeige Geocaches</translation>
     </message>
     <message>
-        <location filename="../IDiaryEdit.ui" line="191"/>
+        <location filename="../IDiaryEdit.ui" line="209"/>
         <source>add map view  when printing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8475,12 +8564,6 @@ p, li { white-space: pre-wrap; }
         <translation>Distanz zum vorherigen Punkt weniger als</translation>
     </message>
     <message>
-        <location filename="../IDlgTrackFilter.ui" line="51"/>
-        <location filename="../IDlgTrackFilter.ui" line="101"/>
-        <source>buttonGroupDataset</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../IDlgTrackFilter.ui" line="98"/>
         <source>Time from previous point less than</source>
         <translation>Zeit zum vorherigen Punkt weniger als</translation>
@@ -8501,8 +8584,14 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgTrackFilter.ui" line="163"/>
-        <source>Smooth profile</source>
+        <location filename="../IDlgTrackFilter.ui" line="51"/>
+        <location filename="../IDlgTrackFilter.ui" line="101"/>
+        <source>buttonGroup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgTrackFilter.ui" line="170"/>
+        <source>Smooth profile (Median filter, 5 tabs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -9141,29 +9230,8 @@ DEM: %2</translation>
 <context>
     <name>IMouse</name>
     <message>
-        <location filename="../IMouse.cpp" line="299"/>
-        <source>%4 %3 %1:%2h (%5%)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IMouse.cpp" line="300"/>
-        <source> | (%5%) %1:%2h %3 %4</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IMouse.cpp" line="307"/>
-        <source>%5 %4 %1%2 (%3%)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IMouse.cpp" line="309"/>
-        <source> | (%3%) %1%2 %4 %5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../IMouse.cpp" line="315"/>
         <source>elevation: %1 %2</source>
-        <translation>Höhe: %1 %2</translation>
+        <translation type="obsolete">Höhe: %1 %2</translation>
     </message>
     <message>
         <source>start %4 %1%2 (%3%)</source>
@@ -9178,10 +9246,9 @@ DEM: %2</translation>
         <translation type="obsolete">Dist. zum Anfang: %1%2 (%3%)</translation>
     </message>
     <message>
-        <location filename="../IMouse.cpp" line="333"/>
         <source>
  %1: %2 </source>
-        <translation> %1: %2 </translation>
+        <translation type="obsolete"> %1: %2 </translation>
     </message>
 </context>
 <context>
@@ -9241,36 +9308,46 @@ DEM: %2</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="19"/>
-        <location filename="../IRouteToolWidget.ui" line="32"/>
+        <source>Sort by name</source>
+        <translation type="unfinished">Nach Namen sortieren</translation>
+    </message>
+    <message>
+        <location filename="../IRouteToolWidget.ui" line="22"/>
+        <location filename="../IRouteToolWidget.ui" line="38"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="64"/>
+        <location filename="../IRouteToolWidget.ui" line="35"/>
+        <source>Sort by time</source>
+        <translation type="unfinished">Nach der Zeit sortieren</translation>
+    </message>
+    <message>
+        <location filename="../IRouteToolWidget.ui" line="70"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="93"/>
+        <location filename="../IRouteToolWidget.ui" line="99"/>
         <source>Setup</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="105"/>
+        <location filename="../IRouteToolWidget.ui" line="111"/>
         <source>Avoid highways</source>
         <translation>Vermeide Autobahnen</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="112"/>
+        <location filename="../IRouteToolWidget.ui" line="118"/>
         <source>Avoid tollways</source>
         <translation>Vermeide Mautstraßen</translation>
     </message>
     <message>
-        <location filename="../IRouteToolWidget.ui" line="145"/>
+        <location filename="../IRouteToolWidget.ui" line="151"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
@@ -9283,7 +9360,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
