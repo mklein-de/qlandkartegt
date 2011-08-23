@@ -79,7 +79,20 @@ void CDeviceNMEA::setLiveLog(bool on)
 
         if(tty.open())
         {
-            tty.receiveData();
+            uchar recv_ok = tty.receiveData();
+            if (recv_ok == 1)
+            {
+                log.fix = CLiveLog::eConnectionEstablished;
+            }
+            else
+            {
+                log.fix = CLiveLog::eConnectionFailed;
+            }
+            
+        }
+        else
+        {
+            log.fix = CLiveLog::eConnectionFailed;
         }
         watchdog->start(10000);
         haveSeenData    = false;
@@ -93,8 +106,9 @@ void CDeviceNMEA::setLiveLog(bool on)
         watchdog->stop();
         tty.close();
         log.fix = CLiveLog::eOff;
-        emit sigLiveLog(log);
     }
+    //always update the status display;
+    emit sigLiveLog(log);
 }
 
 
@@ -108,6 +122,13 @@ void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
 {
     int i;
 
+    if (log.fix == CLiveLog::eConnectionEstablished)
+    {
+        log.fix = CLiveLog::eConnectionReceiving;
+    }
+
+    log.count_bytes += dataReceived.size();
+
     for(i = 0; i < dataReceived.size(); ++i)
     {
 
@@ -116,6 +137,7 @@ void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
             line = line.trimmed();
             if (isChecksumValid())
             {
+                log.count_nmea++;
                 decode();
             }
             else
@@ -127,6 +149,12 @@ void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
         {
             line += dataReceived[i];
         }
+    }
+
+    //update bytes received statistics while we are in state eConnectionReceiving
+    if (log.fix == CLiveLog::eConnectionReceiving)
+    {
+        emit sigLiveLog(log);
     }
 }
 
@@ -276,6 +304,7 @@ void CDeviceNMEA::decode()
 
         if(!haveSeenGPRMC)
         {
+            log.count_fix++;
             emit sigLiveLog(log);
         }
     }
@@ -386,6 +415,7 @@ void CDeviceNMEA::decode()
         }
 
         //always!
+        log.count_fix++;
         emit sigLiveLog(log);
     }
     else if((tokens[0] == "$GPVTG"))

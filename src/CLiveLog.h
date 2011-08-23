@@ -27,10 +27,24 @@ class CLiveLog
     public:
         CLiveLog() : fix(eOff), lon(WPT_NOFLOAT), lat(WPT_NOFLOAT), ele(WPT_NOFLOAT)
             , timestamp(0xFFFFFFFF), error_horz(WPT_NOFLOAT), error_vert(WPT_NOFLOAT)
-            , error_unit(""), sat_used(-1), heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT){};
+            , error_unit(""), sat_used(-1), heading(WPT_NOFLOAT), velocity(WPT_NOFLOAT)
+            , count_bytes(0), count_nmea(0), count_fix(0)
+            {};
         virtual ~CLiveLog();
 
-        enum fix_e {eNoFix, e2DFix, e3DFix, eEstimated, eOff};
+        enum fix_e {
+          //fix states determined from protocol data
+          eNoFix,
+          e2DFix,
+          e3DFix,
+          eEstimated,
+          //off means: we do not even try to receive live log data
+          eOff,
+          //additional states for improved conection establisment diagnostics
+          eConnectionFailed,
+          eConnectionEstablished,
+          eConnectionReceiving
+        };
 
         fix_e fix;
         float lon;
@@ -43,6 +57,11 @@ class CLiveLog
         int sat_used;
         float heading;
         float velocity;
+        //the following fields are for NMEA statistics
+        //They may not be useful for other types of devices
+        int count_bytes; //number of bytes received
+        int count_nmea;  //number of valid nmea sentences received
+        int count_fix;   //number fixes/updates received
 };
 
 extern void operator <<(QDataStream& s, const CLiveLog& log);

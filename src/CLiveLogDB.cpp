@@ -185,11 +185,11 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         //3.1) update the other text fields
         QString val, unit;
         if (log.fix == CLiveLog::e2DFix)
-            w->lblStatus->setText("2D");
+            w->lblStatus->setText((log.count_fix==0)?"2D":tr("2D (%1)").arg(log.count_fix));
         if (log.fix == CLiveLog::e3DFix)
-            w->lblStatus->setText("3D");
+            w->lblStatus->setText((log.count_fix==0)?"3D":tr("3D (%1)").arg(log.count_fix));
         if (log.fix == CLiveLog::eEstimated)
-            w->lblStatus->setText("DR");
+            w->lblStatus->setText((log.count_fix==0)?"DR":tr("DR (%1)").arg(log.count_fix));
         w->lblPosition->setText(pos);
         if (log.ele != WPT_NOFLOAT)
         {
@@ -268,10 +268,10 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
             }
         }
     }
-    //4.) when the position is considered valid
+    //4.) when the position is considered invalid
     else if(log.fix == CLiveLog::eNoFix)
     {
-        w->lblStatus->setText(tr("GPS signal low"));
+        w->lblStatus->setText((log.count_fix==0)?"GPS signal low":tr("GPS signal low (%1)").arg(log.count_fix));
         w->lblPosition->setText("-");
         w->lblAltitude->setText("-");
         w->lblErrorHoriz->setText("-");
@@ -282,7 +282,22 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     //5.) when logging is off
     else
     {
-        w->lblStatus->setText(tr("GPS off"));
+        if(log.fix == CLiveLog::eConnectionFailed)
+        {
+            w->lblStatus->setText(tr("GPS connection failed"));
+        }
+        else if(log.fix == CLiveLog::eConnectionEstablished)
+        {
+            w->lblStatus->setText(tr("GPS connection established"));
+        }
+        else if(log.fix == CLiveLog::eConnectionReceiving)
+        {
+            w->lblStatus->setText(tr("GPS connection receiving %1 bytes").arg(log.count_bytes));
+        }
+        else
+        {
+            w->lblStatus->setText(tr("GPS off"));
+        }
         w->lblPosition->setText("-");
         w->lblAltitude->setText("-");
         w->lblErrorHoriz->setText("-");
