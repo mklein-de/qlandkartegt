@@ -159,8 +159,8 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::WptMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::WptMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::WptMenu, "aNewWpt");
-    actionGroupProvider->addAction(CMenus::WptMenu, "aEditWpt");
-    actionGroupProvider->addAction(CMenus::WptMenu, "aMoveWpt");
+//    actionGroupProvider->addAction(CMenus::WptMenu, "aEditWpt");      ///< @todo remove later
+//    actionGroupProvider->addAction(CMenus::WptMenu, "aMoveWpt");      ///< @todo remove later
 #ifdef HAS_EXIF
     actionGroupProvider->addAction(CMenus::WptMenu, "aImageWpt");
 #endif
@@ -172,7 +172,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCombineTrack");
-    actionGroupProvider->addAction(CMenus::TrackMenu, "aEditTrack");
+//    actionGroupProvider->addAction(CMenus::TrackMenu, "aEditTrack");  ///< @todo remove later
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCutTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aSelTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aUploadTrack");
