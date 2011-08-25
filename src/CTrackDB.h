@@ -91,6 +91,8 @@ class CTrackDB : public IDB
         void emitSigModified();
         void setShowBullets(bool on){showBullets = on; emit sigChanged();}
         bool getShowBullets(){return showBullets;}
+        void setShowMinMax(bool on){showMinMax = on; emit sigChanged();}
+        bool getShowMinMax(){return showMinMax;}
 
         struct keys_t{QString key; QString name; QString comment; QPixmap icon; quint32 time;};
         /// get all keys in the database
@@ -125,5 +127,6 @@ class CTrackDB : public IDB
         QUndoStack *undoStack;
 
         bool showBullets;
+        bool showMinMax;
 };
 #endif                           //CTRACKDB_H

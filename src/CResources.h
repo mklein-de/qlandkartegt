@@ -68,7 +68,6 @@ class CResources : public QObject
         bool showNorthIndicator(){return m_showNorth;}
         bool showScale(){return m_showScale;}
         bool showToolTip(){return m_showToolTip;}
-        bool showTrackMax(){return m_showTrackMax;}
         bool showZoomLevel(){return m_showZoomLevel;}
         bool playSound(){return m_playSound;}
         bool useAntiAliasing(){return m_useAntiAliasing;}
@@ -143,7 +142,6 @@ class CResources : public QObject
         bool m_showNorth;
         bool m_showScale;
         bool m_showToolTip;
-        bool m_showTrackMax;
         bool m_showZoomLevel;
         bool m_useAntiAliasing;
         bool m_reducePoiIcons;

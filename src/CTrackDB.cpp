@@ -63,11 +63,13 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , cnt(0)
 , showBullets(true)
+, showMinMax(true)
 {
     m_self      = this;
 
     QSettings cfg;
     showBullets = cfg.value("track/showBullets", showBullets).toBool();
+    showMinMax = cfg.value("track/showMinMax", showMinMax).toBool();
     toolview    = new CTrackToolWidget(tb);
     undoStack   = CUndoStackModel::getInstance();
 
@@ -78,6 +80,7 @@ CTrackDB::~CTrackDB()
 {
     QSettings cfg;
     cfg.setValue("track/showBullets", showBullets);
+    cfg.setValue("track/showMinMax", showMinMax);
 }
 
 
@@ -1110,7 +1113,7 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         QString val, unit;
 
-        if(CResources::self().showTrackMax())
+        if(showMinMax)
         {
             if((*track)->ptMaxEle.ele != WPT_NOFLOAT)
             {

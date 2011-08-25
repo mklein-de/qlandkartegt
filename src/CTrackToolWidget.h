@@ -65,6 +65,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotZoomToFit();
         void slotRevert();
         void slotShowBullets();
+        void slotShowMinMax();
 
     private:
         bool originator;
@@ -81,6 +82,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QAction * actDel;
         QAction * actRevert;
         QAction * actShowBullets;
+        QAction * actShowMinMax;
 
         static sortmode_e sortmode;
 

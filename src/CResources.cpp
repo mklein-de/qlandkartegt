@@ -61,7 +61,6 @@ CResources::CResources(QObject * parent)
 , m_showNorth(true)
 , m_showScale(true)
 , m_showToolTip(true)
-, m_showTrackMax(true)
 , m_showZoomLevel(true)
 , m_useAntiAliasing(true)
 , m_reducePoiIcons(true)
@@ -136,7 +135,6 @@ CResources::CResources(QObject * parent)
     m_showNorth     = cfg.value("environment/showNorth",m_showNorth).toBool();
     m_showScale     = cfg.value("environment/showScale",m_showScale).toBool();
     m_showToolTip   = cfg.value("environment/showToolTip",m_showToolTip).toBool();
-    m_showTrackMax  = cfg.value("environment/showTrackMax",m_showTrackMax).toBool();
     m_showZoomLevel = cfg.value("environment/showZoomLevel",m_showZoomLevel).toBool();
     m_useAntiAliasing = cfg.value("environment/useAntiAliasing",m_useAntiAliasing).toBool();
     m_reducePoiIcons = cfg.value("environment/reducePoiIcons",m_reducePoiIcons).toBool();
@@ -202,7 +200,6 @@ CResources::~CResources()
     cfg.setValue("environment/showNorth",m_showNorth);
     cfg.setValue("environment/showScale",m_showScale);
     cfg.setValue("environment/showToolTip",m_showToolTip);
-    cfg.setValue("environment/showTrackMax",m_showTrackMax);
     cfg.setValue("environment/showZoomLevel",m_showZoomLevel);
     cfg.setValue("environment/useAntiAliasing",m_useAntiAliasing);
     cfg.setValue("environment/reducePoiIcons",m_reducePoiIcons);

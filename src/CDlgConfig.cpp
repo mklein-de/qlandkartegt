@@ -88,7 +88,6 @@ void CDlgConfig::exec()
     checkShowNorth->setChecked(resources.m_showNorth);
     checkShowScale->setChecked(resources.m_showScale);
     checkTooltip->setChecked(resources.m_showToolTip);
-    checkShowTrackMax->setChecked(resources.m_showTrackMax);
     checkShowZoomLevel->setChecked(resources.m_showZoomLevel);
     checkAntiAliasing->setChecked(resources.m_useAntiAliasing);
     checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
@@ -178,7 +177,6 @@ void CDlgConfig::accept()
     resources.m_showNorth       = checkShowNorth->isChecked();
     resources.m_showScale       = checkShowScale->isChecked();
     resources.m_showToolTip     = checkTooltip->isChecked();
-    resources.m_showTrackMax    = checkShowTrackMax->isChecked();
     resources.m_showZoomLevel   = checkShowZoomLevel->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
     resources.m_useAntiAliasing = checkAntiAliasing->isChecked();

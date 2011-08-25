@@ -60,6 +60,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     contextMenu->addSeparator();
     actHide         = contextMenu->addAction(tr("Show"),this,SLOT(slotShow()));
     actShowBullets  = contextMenu->addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
+    actShowMinMax   = contextMenu->addAction(tr("Show Min/Max"),this,SLOT(slotShowMinMax()));
     contextMenu->addSeparator();
     actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
     actDel          = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()));
@@ -67,6 +68,8 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     actHide->setCheckable(true);
     actShowBullets->setCheckable(true);
     actShowBullets->setChecked(CTrackDB::self().getShowBullets());
+    actShowMinMax->setCheckable(true);
+    actShowMinMax->setChecked(CTrackDB::self().getShowMinMax());
 
     connect(listTracks,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
@@ -412,9 +415,12 @@ void CTrackToolWidget::slotRevert()
 
 void CTrackToolWidget::slotShowBullets()
 {
-
     CTrackDB::self().setShowBullets(!CTrackDB::self().getShowBullets());
+}
 
+void CTrackToolWidget::slotShowMinMax()
+{
+    CTrackDB::self().setShowMinMax(!CTrackDB::self().getShowMinMax());
 }
 
 bool CTrackToolWidget::eventFilter(QObject *obj, QEvent *event)
