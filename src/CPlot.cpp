@@ -1109,11 +1109,13 @@ void CPlot::slotTrkPt(CTrack::pt_t * pt)
     if(pt == 0)
     {
         posMouse = QPoint(-1,-1);
-        return;
     }
-    int x       = m_pData->x().val2pt(pt->distance);
-    int y       = m_pData->y().val2pt(pt->altitude);
-    posMouse    = QPoint(x + left, y);
+    else
+    {
+        int x       = m_pData->x().val2pt(pt->distance);
+        int y       = m_pData->y().val2pt(pt->altitude);
+        posMouse    = QPoint(x + left, y);
+    }
     needsRedraw = true;
     update();
 }
