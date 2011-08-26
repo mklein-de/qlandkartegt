@@ -89,45 +89,25 @@ void CTrackStatSpeedWidget::slotChanged()
 
     float speedfactor = IUnit::self().speedfactor;
 
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QList<CTrack::pt_t>::const_iterator trkpt0   = trkpts.begin();
-    QList<CTrack::pt_t>::const_iterator trkpt1  = trkpts.begin() + 1;
-    QList<float> speed;
+    QList<CTrack::pt_t>& trkpts                 = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt0  = trkpts.begin();
 
-    while(trkpt1 != trkpts.end())
+    QVector<float> speed;
+
+    while(trkpt0 != trkpts.end())
     {      
-        float medSpeed;
-        double a2, a1;
-        XY p1,p2;
-        p1.u     = DEG_TO_RAD * trkpt0->lon;
-        p1.v     = DEG_TO_RAD * trkpt0->lat;
-        p2.u     = DEG_TO_RAD * trkpt1->lon;
-        p2.v     = DEG_TO_RAD * trkpt1->lat;
-        double d = distance(p1,p2,a1,a2);
-        int dt   = trkpt1->timestamp -  trkpt0->timestamp;
-
-        speed << (dt ? d/dt : 0.0);
-        if(speed.size() == MEDIAN_FLT_LEN)
-        {
-            QList<float> tmp = speed;
-            qSort(tmp);
-            medSpeed = tmp[MEDIAN_FLT_LEN>>1];
-
-            speed.pop_front();
-        }
-        else
-        {
-            medSpeed = 0;
-        }
 
 
         if(trkpt0->flags & CTrack::pt_t::eDeleted)
         {
-            ++trkpt0; ++trkpt1; continue;
+            ++trkpt0;
+            continue;
         }
 
+        speed << trkpt0->speed;
+
         lineSpeed       << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
-        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, medSpeed * speedfactor);
+//        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->avgspeed * speedfactor);
 
         if(trkpt0->flags & CTrack::pt_t::eSelected)
         {
@@ -139,7 +119,30 @@ void CTrackStatSpeedWidget::slotChanged()
             focusSpeed = QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
         }
 
-        ++trkpt0; ++trkpt1;
+        ++trkpt0;
+    }
+
+    lineAvgSpeed = lineSpeed;
+    if(speed.size() > MEDIAN_FLT_LEN)
+    {
+        QList<float> list;
+        lineAvgSpeed = lineSpeed;
+
+        for(int i = 0; i < MEDIAN_FLT_LEN; i++)
+        {
+            list << 0;
+        }
+
+        for(int i = (MEDIAN_FLT_LEN/2); i < speed.size() - (MEDIAN_FLT_LEN/2); i++)
+        {
+            for(int n=0; n < MEDIAN_FLT_LEN; n++)
+            {
+                list[n] = speed[i - (MEDIAN_FLT_LEN/2) + n];
+            }
+            qSort(list);
+
+            lineAvgSpeed[i].setY(list[(MEDIAN_FLT_LEN/2)] * speedfactor);
+        }
     }
 
     plot->newLine(lineSpeed,focusSpeed, "speed");

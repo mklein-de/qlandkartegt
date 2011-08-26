@@ -740,7 +740,7 @@ void CTrack::hide(bool ok)
 
 
 #define A 0.22140
-#define MEDIAN_FLT_LEN 13
+
 
 void CTrack::rebuild(bool reindex)
 {
@@ -764,12 +764,6 @@ void CTrack::rebuild(bool reindex)
     float maxSpeed  = -WPT_NOFLOAT;
     float minSpeed  =  WPT_NOFLOAT;
 
-    QList<float>    median;
-
-    for(int i=0; i<MEDIAN_FLT_LEN; i++)
-    {
-        median << 0;
-    }
 
     // reindex track if desired
     if(reindex)
@@ -783,11 +777,6 @@ void CTrack::rebuild(bool reindex)
         }
         pt1 = track.begin();
     }
-
-//    if(!track.isEmpty() && (track.first().timestamp != 0))
-//    {
-//        timestamp = track.first().timestamp;
-//    }
 
     // skip leading deleted points
     while((pt1 != track.end()) && (pt1->flags & pt_t::eDeleted))
@@ -901,19 +890,6 @@ void CTrack::rebuild(bool reindex)
         avgspeed1       = avgspeed0;
         pt2->avgspeed   = avgspeed0;
 
-//        if(pt2->idx >= MEDIAN_FLT_LEN)
-//        {
-//            for(int i=0; i < MEDIAN_FLT_LEN; i++)
-//            {
-//                median[i] = (pt2 - MEDIAN_FLT_LEN + i)->speed;
-//            }
-//            qSort(median);
-//            pt2->avgspeed = median[(MEDIAN_FLT_LEN>>1)];
-//        }
-//        else
-//        {
-//            pt2->avgspeed = pt2->speed;
-//        }
 
         if(pt2->ele   > maxEle)   {maxEle   = pt2->ele;   ptMaxEle   = *pt2;}
         if(pt2->ele   < minEle)   {minEle   = pt2->ele;   ptMinEle   = *pt2;}
@@ -932,10 +908,7 @@ void CTrack::rebuild(bool reindex)
     }
 
     totalTime = t2 - t1;
-
-
     emit sigChanged();
-
 }
 
 
