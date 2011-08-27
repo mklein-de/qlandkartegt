@@ -833,7 +833,10 @@ void CDiaryEdit::collectData()
 
         foreach(CWpt* wpt, wpts)
         {
-            wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
+            if(cnt < diary.tblWpt->columns())
+            {
+                wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
+            }
             cnt++;
         }
     }
@@ -846,7 +849,10 @@ void CDiaryEdit::collectData()
 
         foreach(CTrack* trk, trks)
         {
-            trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
+            if(cnt < diary.tblTrk->columns())
+            {
+                trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
+            }
             cnt++;
         }
     }
