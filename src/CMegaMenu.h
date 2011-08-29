@@ -32,6 +32,8 @@ class QVBoxLayout;
 class QScrollArea;
 class QStyleOptionMenuItem;
 
+#define SIZE_OF_MEGAMENU 11
+
 /// the left hand context sensitive menu
 class CMegaMenu : public QLabel
 {
