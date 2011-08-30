@@ -1,3 +1,40 @@
+--- 2011.08.30 ---
+
+Request #310:
+Preserve track color on split operations
+
+Request #311:
+Optimize map creation dialogs for small screens.
+
+Request #312:
+Add option to save workspace every X seconds
+
+Request #313:
+Change edit mode for track name (edit and return will take over the change)
+
+Request #314:
+Ask before closing edited diary.
+
+Request #315:
+Make map an option in diary printout
+
+Request #316:
+Add elevation median filter to track filter dialog.
+
+Request #317:
+Add time on the move to track info.
+
+Request #318:
+Change average speed in graph from linear averaging filter to median filter.
+
+Request #319:
+Show trackpoint information on large profile plots, too.
+
+Request #320:
+Remove some abundant entries from waypoint and track menu.
+
+
+
 --- 2011.07.11 ---
 
 
@@ -1284,6 +1321,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
