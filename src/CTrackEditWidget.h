@@ -39,15 +39,19 @@ class QMenu;
 class CTrackStatExtensionWidget;
 #endif
 
-class CTrackTreeWidgetItem : public QTreeWidgetItem
+class CTrackTreeWidgetItem : public QTreeWidgetItem, public QObject
 {
 
     public:
-        CTrackTreeWidgetItem(QTreeWidget *tree) : QTreeWidgetItem(tree)
+        CTrackTreeWidgetItem(QTreeWidget *tree)
+            : QTreeWidgetItem(tree)
+            , QObject(tree)
         {
         }
 
-        CTrackTreeWidgetItem ( QTreeWidget * parent, const QStringList & strings) : QTreeWidgetItem (parent,strings)
+        CTrackTreeWidgetItem ( QTreeWidget * parent, const QStringList & strings)
+            : QTreeWidgetItem (parent,strings)
+            , QObject(parent)
         {
         }
 
@@ -63,9 +67,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
     public slots:
         void slotSetTrack(CTrack * t);
-        void slotCheckReset(bool checked);
-        void slotCheckRemove(bool checked);
-        void slotApply();
         void slotPointSelectionChanged();
         void slotPointSelection(QTreeWidgetItem * item);
         void slotPurge();
@@ -75,6 +76,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleTrainee();
         void slotShowProfile();
         void slotFilter();
+        void slotReset();
+        void slotDelete();
 
 #ifdef GPX_EXTENSIONS
         //TODO: Deklaration der Methode fr die Extensions Graphen

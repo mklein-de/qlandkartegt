@@ -27,6 +27,7 @@
 #include <QDateTime>
 #include <QMap>
 #include <QList>
+#include <QPointer>
 #include "CWpt.h"
 #include "IItem.h"
 
@@ -169,7 +170,7 @@ class CTrack : public IItem
             float  dem;
 
             /// QTreeWidgetItem
-            QObject * editItem;
+            QPointer<QObject> editItem;
         };
 
         /// set color by id

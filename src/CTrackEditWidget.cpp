@@ -99,6 +99,12 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     toolFilter->setIcon(QIcon(":/icons/iconFilter16x16.png"));
     connect(toolFilter, SIGNAL(clicked()), this, SLOT(slotFilter()));
 
+    toolReset->setIcon(QIcon(":/icons/editundo.png"));
+    connect(toolReset, SIGNAL(clicked()), this, SLOT(slotReset()));
+
+    toolDelete->setIcon(QIcon(":/icons/iconDelete16x16.png"));
+    connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
+
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i)
     {
@@ -106,9 +112,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
         comboColor->addItem(icon,"",QVariant(i));
     }
 
-    connect(checkRemoveDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckRemove(bool)));
-    connect(checkResetDelTrkPt,SIGNAL(clicked(bool)),this,SLOT(slotCheckReset(bool)));
-    connect(buttonBox,SIGNAL(clicked (QAbstractButton*)),this,SLOT(slotApply()));
     connect(treePoints,SIGNAL(itemSelectionChanged()),this,SLOT(slotPointSelectionChanged()));
     connect(treePoints,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(slotPointSelection(QTreeWidgetItem*)));
 
@@ -247,20 +250,22 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 {
     if(originator) return;
 
+    treePoints->clear();
+
     if(track)
     {
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
-        // clean view
-        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end())
-        {
-            trkpt->editItem = 0;
-            ++trkpt;
-        }
-        treePoints->clear();     // this also delete the items
+//        // clean view
+//        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+//        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+//        while(trkpt != trkpts.end())
+//        {
+//            trkpt->editItem = 0;
+//            ++trkpt;
+//        }
+//        treePoints->clear();     // this also delete the items
 
 #ifdef GPX_EXTENSIONS
         //delete all extension tabs and reset tab status
@@ -486,7 +491,7 @@ void CTrackEditWidget::slotUpdate()
         if ( !trkpt->editItem )
         {
             trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
-            item = (CTrackTreeWidgetItem *)trkpt->editItem;
+            item = (CTrackTreeWidgetItem *)trkpt->editItem.data();
             item->setTextAlignment(eNum,Qt::AlignLeft);
             item->setTextAlignment(eAltitude,Qt::AlignRight);
             item->setTextAlignment(eDelta,Qt::AlignRight);
@@ -505,7 +510,7 @@ void CTrackEditWidget::slotUpdate()
             continue;
         }
 
-        item = (CTrackTreeWidgetItem *)trkpt->editItem;
+        item = (CTrackTreeWidgetItem *)trkpt->editItem.data();
         item->setData(0, Qt::UserRole, trkpt->idx);
 
         // gray shade deleted items
@@ -665,89 +670,6 @@ void CTrackEditWidget::slotUpdate()
     }
     treePoints->setSelectionMode(QAbstractItemView::ExtendedSelection);
     treePoints->setUpdatesEnabled(true);
-}
-
-
-void CTrackEditWidget::slotCheckReset(bool checked)
-{
-    if(checked)
-    {
-        checkRemoveDelTrkPt->setChecked(false);
-    }
-}
-
-
-void CTrackEditWidget::slotCheckRemove(bool checked)
-{
-    if(checked)
-    {
-        checkResetDelTrkPt->setChecked(false);
-    }
-}
-
-
-void CTrackEditWidget::slotApply()
-{
-    if(track.isNull()) return;
-
-    originator = true;
-
-    if(checkResetDelTrkPt->isChecked())
-    {
-        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end())
-        {
-            trkpt->flags &= ~CTrack::pt_t::eDeleted;
-            trkpt->lon = trkpt->_lon;
-            trkpt->lat = trkpt->_lat;
-            trkpt->ele = trkpt->_ele;
-
-            ++trkpt;
-        }
-
-        checkResetDelTrkPt->setChecked(false);
-        originator = false;
-    }
-
-    if(checkRemoveDelTrkPt->isChecked())
-    {
-        QMessageBox::warning(0,tr("Remove track points ...")
-            ,tr("You are about to remove purged track points permanently. If you press 'yes', all information will be lost.")
-            ,QMessageBox::Yes|QMessageBox::No);
-        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-        while(trkpt != trkpts.end())
-        {
-
-            if(trkpt->flags & CTrack::pt_t::eDeleted)
-            {
-                if ( trkpt->editItem )
-                {
-                    int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem);
-                    if ( idx != -1 )
-                        treePoints->takeTopLevelItem(idx);
-                    delete (CTrackTreeWidgetItem *)trkpt->editItem;
-                    trkpt->editItem = 0;
-                }
-                trkpt = trkpts.erase(trkpt);
-            }
-            else
-            {
-                ++trkpt;
-            }
-        }
-        checkRemoveDelTrkPt->setChecked(false);
-        originator = false;
-    }
-
-    track->setName(lineName->text());
-    track->setColor(comboColor->currentIndex());
-    track->rebuild(true);
-    originator = false;
-
-    emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->getKey());
 }
 
 
@@ -1208,3 +1130,71 @@ void CTrackEditWidget::slotFilter()
     CDlgTrackFilter dlg(*track, this);
     dlg.exec();
 }
+
+
+void CTrackEditWidget::slotReset()
+{
+    if(track.isNull()) return;
+    originator = true;
+
+    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        trkpt->flags &= ~CTrack::pt_t::eDeleted;
+        trkpt->lon = trkpt->_lon;
+        trkpt->lat = trkpt->_lat;
+        trkpt->ele = trkpt->_ele;
+
+        ++trkpt;
+    }
+
+    originator = false;
+
+    track->rebuild(true);
+    emit CTrackDB::self().sigModified();
+    emit CTrackDB::self().sigModified(track->getKey());
+}
+
+void CTrackEditWidget::slotDelete()
+{
+    if(track.isNull()) return;
+    originator = true;
+
+    if(QMessageBox::warning(0,tr("Remove track points ...")
+        ,tr("You are about to remove hidden track points permanently. If you press 'yes', all information will be lost.")
+        ,QMessageBox::Yes|QMessageBox::No) == QMessageBox::No)
+    {
+        return;
+    }
+
+    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            if ( trkpt->editItem )
+            {
+                int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem.data());
+                if ( idx != -1 )
+                {
+                    treePoints->takeTopLevelItem(idx);
+                }
+                delete (CTrackTreeWidgetItem *)trkpt->editItem.data();
+            }
+            trkpt = trkpts.erase(trkpt);
+        }
+        else
+        {
+            ++trkpt;
+        }
+    }
+    originator = false;
+
+    track->rebuild(true);
+    emit CTrackDB::self().sigModified();
+    emit CTrackDB::self().sigModified(track->getKey());
+}
+
