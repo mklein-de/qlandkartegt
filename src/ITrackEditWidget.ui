@@ -150,7 +150,7 @@
      <item>
       <widget class="QToolButton" name="toolDelete">
        <property name="toolTip">
-        <string>Remove hidden track points</string>
+        <string>Remove hidden track points permanently.</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -700,8 +700,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>431</width>
-                 <height>275</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>
