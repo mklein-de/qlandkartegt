@@ -257,15 +257,6 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
-//        // clean view
-//        QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-//        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-//        while(trkpt != trkpts.end())
-//        {
-//            trkpt->editItem = 0;
-//            ++trkpt;
-//        }
-//        treePoints->clear();     // this also delete the items
 
 #ifdef GPX_EXTENSIONS
         //delete all extension tabs and reset tab status
@@ -490,8 +481,7 @@ void CTrackEditWidget::slotUpdate()
         CTrackTreeWidgetItem * item;
         if ( !trkpt->editItem )
         {
-            trkpt->editItem = (QObject*)new CTrackTreeWidgetItem(treePoints);
-            item = (CTrackTreeWidgetItem *)trkpt->editItem.data();
+            item = new CTrackTreeWidgetItem(treePoints);
             item->setTextAlignment(eNum,Qt::AlignLeft);
             item->setTextAlignment(eAltitude,Qt::AlignRight);
             item->setTextAlignment(eDelta,Qt::AlignRight);
@@ -501,6 +491,7 @@ void CTrackEditWidget::slotUpdate()
             item->setTextAlignment(eDescend,Qt::AlignRight);
             item->setTextAlignment(eSpeed,Qt::AlignRight);
 
+            trkpt->editItem = item;
             trkpt->flags.setChanged(true);
         }
 
